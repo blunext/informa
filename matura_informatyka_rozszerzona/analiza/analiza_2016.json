@@ -1,0 +1,437 @@
+{
+  "rok": 2016,
+  "formula": "2015",
+  "struktura": {
+    "czesc_1": {
+      "czas_minuty": 60,
+      "punkty": 15
+    },
+    "czesc_2": {
+      "czas_minuty": 120,
+      "punkty": 35
+    },
+    "total_czas_minuty": 180,
+    "total_punkty": 50
+  },
+  "zadania": [
+    {
+      "numer": 1,
+      "czesc": 1,
+      "tytul": "Liczby skojarzone",
+      "punkty": 5,
+      "podzadania": [
+        {
+          "id": "1.1",
+          "punkty": 1,
+          "opis": "Zbadaj które pary liczb (20,21) i (75,48) są liczbami skojarzonymi"
+        },
+        {
+          "id": "1.2",
+          "punkty": 4,
+          "opis": "Zaprojektuj algorytm znajdowania liczby b skojarzonej z daną liczbą a (optymalizacja: złożoność O(√n))"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "teoria_liczb",
+          "dzielniki",
+          "optymalizacja_algorytmow"
+        ],
+        "algorytmiczny": [
+          "znajdowanie_dzielnikow",
+          "suma_dzielnikow",
+          "optymalizacja_sqrt_n"
+        ],
+        "implementacyjny": [
+          "petla_do_sqrt_n",
+          "operacje_mod_div",
+          "optymalizacja_liczby_operacji"
+        ],
+        "punktowy": {
+          "trudnosc": "srednia_do_trudnej",
+          "typ": "teoria+algorytm_zoptymalizowany",
+          "punkty_na_czas": "sredni"
+        },
+        "czasowy_min": 25,
+        "pulapki": [
+          "suma dzielników (bez samej liczby)",
+          "optymalizacja: iteracja tylko do √n",
+          "przy i² = n dodaj tylko i (nie i i n/i)",
+          "zliczanie operacji arytmetycznych",
+          "weryfikacja czy b jest skojarzona z a"
+        ]
+      },
+      "odpowiedzi": {
+        "1.1": "(20,21): NIE (suma_dzielnikow(20)=22, suma_dzielnikow(21)=11), (75,48): TAK (suma_dzielnikow(75)=49, suma_dzielnikow(48)=76)",
+        "1.2": "Algorytm: oblicz suma_a = suma_dzielnikow(a), b = suma_a - 1, suma_b = suma_dzielnikow(b), jeśli suma_b - 1 = a to wypisz b, inaczej NIE"
+      }
+    },
+    {
+      "numer": 2,
+      "czesc": 1,
+      "tytul": "Przestawienia w tablicy (partycjonowanie wg klucza)",
+      "punkty": 6,
+      "podzadania": [
+        {
+          "id": "2.1",
+          "punkty": 2,
+          "opis": "Podaj kolejność elementów w tablicy [4,6,3,5,2,1] po wykonaniu przestaw(A)"
+        },
+        {
+          "id": "2.2",
+          "punkty": 1,
+          "opis": "Podaj przykład 7-elementowej tablicy, dla której przestaw wykona dokładnie 5 zamian"
+        },
+        {
+          "id": "2.3",
+          "punkty": 3,
+          "opis": "Dla specjalnej 100-elementowej tablicy podaj wartość w oraz A[1], A[2], A[3] po wykonaniu przestaw"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "algorytmy_sortowania",
+          "partycjonowanie",
+          "quicksort_partition"
+        ],
+        "algorytmiczny": [
+          "partycjonowanie_tablicy",
+          "sledzenie_algorytmu",
+          "analiza_liczby_operacji"
+        ],
+        "implementacyjny": [
+          "petla_for",
+          "zamien_elementy",
+          "indeksowanie_tablicy"
+        ],
+        "punktowy": {
+          "trudnosc": "srednia",
+          "typ": "teoria_analiza_algorytmu",
+          "punkty_na_czas": "wysoki"
+        },
+        "czasowy_min": 20,
+        "pulapki": [
+          "zrozumienie działania funkcji przestaw (partition)",
+          "klucz = pierwszy element",
+          "w pokazuje pozycję za ostatnim elementem < klucza",
+          "zamiana odbywa się przed inkrementacją w",
+          "konstrukcja kontrprzykładu dla 2.2"
+        ]
+      },
+      "odpowiedzi": {
+        "2.1": "[3,2,1,5,6,4]",
+        "2.2": "[8,1,2,3,4,5,9] lub inna 7-elem tablica z 5 elementami < pierwszego",
+        "2.3": "w=10, A[1]=9, A[2]=8, A[3]=7"
+      }
+    },
+    {
+      "numer": 3,
+      "czesc": 1,
+      "tytul": "Test - pytania wielokrotnego wyboru (P/F)",
+      "punkty": 4,
+      "podzadania": [
+        {
+          "id": "3.1",
+          "punkty": 1,
+          "opis": "Awaria DNS i serwery SMTP/poczty - diagnozowanie problemów sieciowych"
+        },
+        {
+          "id": "3.2",
+          "punkty": 1,
+          "opis": "Wartości funkcji rekurencyjnej f(n) = 1/(1-f(n-1)), f(1)=4"
+        },
+        {
+          "id": "3.3",
+          "punkty": 1,
+          "opis": "Operacje arytmetyczne w systemie binarnym: 1111₂ i 101₂"
+        },
+        {
+          "id": "3.4",
+          "punkty": 1,
+          "opis": "System operacyjny: funkcje, przydział pamięci, instalacja"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "sieci_komputerowe",
+          "rekurencja",
+          "systemy_liczbowe",
+          "systemy_operacyjne"
+        ],
+        "algorytmiczny": [
+          "diagnostyka_sieci",
+          "sledzenie_rekurencji",
+          "arytmetyka_binarna"
+        ],
+        "implementacyjny": [
+          "DNS_SMTP",
+          "funkcje_rekurencyjne",
+          "operacje_binarne"
+        ],
+        "punktowy": {
+          "trudnosc": "latwa_do_sredniej",
+          "typ": "teoria_quick_win",
+          "punkty_na_czas": "bardzo_wysoki"
+        },
+        "czasowy_min": 10,
+        "pulapki": [
+          "różnica między DNS a SMTP",
+          "cykliczność funkcji rekurencyjnej",
+          "dodawanie/odejmowanie binarne z przenoszeniem",
+          "system operacyjny może być na ROM ale nie musi"
+        ]
+      },
+      "odpowiedzi": {
+        "3.1": "F, F, P, F",
+        "3.2": "F, P, P, F (f(8)=1/3, f(9)=3/4, f(10)=4, f(100)=-1/3)",
+        "3.3": "F, P, F, P",
+        "3.4": "P, P, F, F"
+      }
+    },
+    {
+      "numer": 4,
+      "czesc": 2,
+      "tytul": "Zadanie praktyczne - arkusz kalkulacyjny (Metoda Monte Carlo - obliczanie π)",
+      "punkty": 11,
+      "podzadania": [
+        {
+          "id": "4.1",
+          "punkty": 3,
+          "opis": "Znajdź współrzędne punktów na okręgu i liczbę punktów wewnątrz koła"
+        },
+        {
+          "id": "4.2",
+          "punkty": 3,
+          "opis": "Oblicz przybliżoną wartość π dla N=500, 1000, 1700"
+        },
+        {
+          "id": "4.3",
+          "punkty": 5,
+          "opis": "Oblicz błąd bezwzględny dla N=1000 i 1700, narysuj wykres błędu w funkcji N"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "arkusz_kalkulacyjny",
+          "metoda_Monte_Carlo",
+          "symulacje",
+          "geometria",
+          "aproksymacja_pi"
+        ],
+        "algorytmiczny": [
+          "losowanie_punktow",
+          "sprawdzanie_przynaleznosci_do_kola",
+          "obliczanie_bledu"
+        ],
+        "implementacyjny": [
+          "formuly_Excel",
+          "COUNTIF",
+          "obliczenia_na_wspolrzednych",
+          "wykresy_liniowe"
+        ],
+        "punktowy": {
+          "trudnosc": "srednia",
+          "typ": "praktyka_arkusz",
+          "punkty_na_czas": "sredni"
+        },
+        "czasowy_min": 40,
+        "pulapki": [
+          "warunek punktu na okręgu: x² + y² = R²",
+          "warunek punktu w kole: x² + y² ≤ R² (uwaga na brzeg!)",
+          "π ≈ 4 * (punkty_w_kole / wszystkie_punkty)",
+          "błąd bezwzględny: |π_obliczone - π|",
+          "dokładność zaokrągleń (4 miejsca po przecinku)"
+        ]
+      },
+      "odpowiedzi": {
+        "4.1": "Punkty okręgu: (256,8), (200,400); Liczba punktów w kole: 7852",
+        "4.2": "π₅₀₀ ≈ 3,2280, π₁₀₀₀ ≈ 3,1656, π₁₇₀₀ ≈ 3,1416",
+        "4.3": "ε₁₀₀₀ = 0,0864, ε₁₇₀₀ = 0,0184 + wykres malejącego błędu"
+      }
+    },
+    {
+      "numer": 5,
+      "czesc": 2,
+      "tytul": "Zadanie praktyczne - bazy danych SQL (Uniwersytet - studenci, pokoje, książki)",
+      "punkty": 12,
+      "podzadania": [
+        {
+          "id": "5.1",
+          "punkty": 2,
+          "opis": "Znajdź autora książek z najdłuższymi tytułami (imię, nazwisko, tytuły)"
+        },
+        {
+          "id": "5.2",
+          "punkty": 2,
+          "opis": "Oblicz średnią liczbę studentów na pokój (zaokrąglona do 4 miejsc)"
+        },
+        {
+          "id": "5.3",
+          "punkty": 2,
+          "opis": "Liczba studentek i studentów mieszkających w akademiku"
+        },
+        {
+          "id": "5.4",
+          "punkty": 3,
+          "opis": "Studenci, którzy nie wypożyczyli jeszcze żadnej książki (nazwisko, imię)"
+        },
+        {
+          "id": "5.5",
+          "punkty": 3,
+          "opis": "Liczba studentów, którzy wypożyczyli więcej niż 3 książki"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "bazy_danych",
+          "SQL",
+          "JOIN",
+          "agregacja",
+          "podzapytania"
+        ],
+        "algorytmiczny": [
+          "JOIN_wiele_tabel",
+          "MAX_LENGTH",
+          "AVG",
+          "COUNT_GROUP_BY",
+          "LEFT_JOIN_NOT_IN"
+        ],
+        "implementacyjny": [
+          "SQL_SELECT",
+          "INNER_JOIN",
+          "LEFT_JOIN",
+          "ROUND",
+          "HAVING",
+          "LENGTH/LEN"
+        ],
+        "punktowy": {
+          "trudnosc": "srednia",
+          "typ": "praktyka_SQL",
+          "punkty_na_czas": "wysoki"
+        },
+        "czasowy_min": 40,
+        "pulapki": [
+          "LENGTH vs LEN (różne DBMS)",
+          "zaokrąglenie do 4 miejsc po przecinku",
+          "zliczanie studentów vs zliczanie pokoi",
+          "LEFT JOIN dla studentów bez wypożyczeń",
+          "HAVING vs WHERE",
+          "COUNT(DISTINCT) gdy potrzebne"
+        ]
+      },
+      "odpowiedzi": {
+        "5.1": "KRZYSZTOF LEWANDOWSKI + 4 tytuły książek",
+        "5.2": "4,7101",
+        "5.3": "Kobiety: 138, Mężczyźni: 192",
+        "5.4": "5 studentów: DYLAG JACEK, NAJDA PIOTR, PIETRASZEWSKI STEFAN, SIECZKOWSKI MACIEJ, ZALESKA JULIA",
+        "5.5": "316 studentów"
+      }
+    },
+    {
+      "numer": 6,
+      "czesc": 2,
+      "tytul": "Zadanie praktyczne - programowanie (Szyfr Cezara z przesunięciem zmiennym)",
+      "punkty": 12,
+      "podzadania": [
+        {
+          "id": "6.1",
+          "punkty": 3,
+          "opis": "Zaszyfruj tekst wg klucza (z zawinięciem cyklicznym alfabetu)"
+        },
+        {
+          "id": "6.2",
+          "punkty": 4,
+          "opis": "Odszyfruj tekst znając klucz"
+        },
+        {
+          "id": "6.3",
+          "punkty": 5,
+          "opis": "Znajdź wszystkie nazwiska zaszyfrowane błędnie (bez zawijania cyklicznego)"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "kryptografia",
+          "szyfr_Cezara",
+          "operacje_na_stringach",
+          "przetwarzanie_plikow"
+        ],
+        "algorytmiczny": [
+          "szyfrowanie_podstawieniowe",
+          "zawijanie_cykliczne",
+          "odszyfrowywanie",
+          "wykrywanie_bledow"
+        ],
+        "implementacyjny": [
+          "operacje_na_znakach",
+          "modulo_dla_zawijania",
+          "czytanie_plikow",
+          "ASCII_operacje"
+        ],
+        "punktowy": {
+          "trudnosc": "srednia_do_trudnej",
+          "typ": "praktyka_programowanie",
+          "punkty_na_czas": "sredni"
+        },
+        "czasowy_min": 50,
+        "pulapki": [
+          "zawijanie cykliczne: (kod + przesunięcie) % 26",
+          "polski alfabet: 26 liter z ĄĆĘŁŃÓŚŹŻ",
+          "klucz: przesunięcie zależy od indeksu litery w kluczu",
+          "błędne szyfrowanie: gdy (kod + przesunięcie) > 'Z' to znak specjalny zamiast zawinięcia",
+          "rozróżnienie błędów zawinięcia od prawidłowego kodowania"
+        ]
+      },
+      "odpowiedzi": {
+        "6.1": "4 ostatnie wiersze zaszyfrowane poprawnie",
+        "6.2": "700 wierszy odszyfrowanych (z wykryciem błędów zawijania)",
+        "6.3": "Lista nazwisk z błędami: SMIGIELSKI, JANEK, JANUSZEWSKI, WOLAK, GAJEK, MROCZKOWSKI, SZCZESNIAK, CIESLINSKI"
+      }
+    }
+  ],
+  "podsumowanie_wymiarow": {
+    "tematy": {
+      "teoria_liczb": 1,
+      "algorytmy_na_tablicach": 1,
+      "sieci_rekurencja_SO": 1,
+      "metoda_Monte_Carlo": 1,
+      "bazy_danych_SQL": 1,
+      "kryptografia": 1
+    },
+    "algorytmy_kluczowe": [
+      "dzielniki liczby (optymalizacja √n)",
+      "partycjonowanie tablicy (quicksort partition)",
+      "rekurencja",
+      "metoda Monte Carlo",
+      "SQL JOIN + agregacja",
+      "szyfr Cezara",
+      "wykrywanie błędów kodowania"
+    ],
+    "wzorce_implementacyjne": [
+      "optymalizacja pętli do √n",
+      "partycjonowanie in-place",
+      "śledzenie wartości rekurencyjnych",
+      "symulacje Monte Carlo w Excel",
+      "złożone zapytania SQL z JOIN",
+      "operacje na kodach ASCII",
+      "modulo dla zawijania cyklicznego"
+    ],
+    "rozkład_punktowy": {
+      "czesc_1_teoria": 15,
+      "czesc_2_praktyka": 35,
+      "total": 50,
+      "latwe_quick_win": 4,
+      "srednie": 25,
+      "trudne": 21
+    }
+  },
+  "notatki": [
+    "Formuła 2015 - czas części I zmniejszony do 60 minut",
+    "Liczby skojarzone - nowa definicja oparta na sumie dzielników",
+    "Partycjonowanie tablicy - część algorytmu Quicksort",
+    "Metoda Monte Carlo - praktyczne zastosowanie w arkuszu",
+    "Szyfr Cezara z przesunięciem zmiennym - trudne zadanie kryptograficzne",
+    "Wykrywanie błędów kodowania - analiza szczególnych przypadków",
+    "Optymalizacja algorytmów - nacisk na złożoność obliczeniową"
+  ]
+}

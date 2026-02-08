@@ -1,0 +1,449 @@
+{
+  "rok": 2015,
+  "formula": "2015",
+  "struktura": {
+    "czesc_1": {
+      "czas_minuty": 60,
+      "punkty": 15
+    },
+    "czesc_2": {
+      "czas_minuty": 120,
+      "punkty": 35
+    },
+    "total_czas_minuty": 180,
+    "total_punkty": 50
+  },
+  "zadania": [
+    {
+      "numer": 1,
+      "czesc": 1,
+      "tytul": "Problem telewidza (Activity Selection Problem)",
+      "punkty": 5,
+      "podzadania": [
+        {
+          "id": "1.1",
+          "punkty": 2,
+          "opis": "Dla 3 strategii (B, C, D) podaj wyniki wykonywania algorytmu wyboru filmów"
+        },
+        {
+          "id": "1.2",
+          "punkty": 3,
+          "opis": "Udowodnij że strategie A, B, C nie są optymalne - podaj kontrprzykłady z 4 filmami w 2 stacjach"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "algorytmy_zachlanne",
+          "optymalizacja",
+          "problemy_decyzyjne",
+          "activity_selection"
+        ],
+        "algorytmiczny": [
+          "greedy_algorithms",
+          "interval_scheduling",
+          "analiza_strategii",
+          "kontrprzyklad"
+        ],
+        "implementacyjny": [
+          "sledzenie_algorytmu",
+          "analiza_przypadkow",
+          "konstrukcja_kontrprzykladow"
+        ],
+        "punktowy": {
+          "trudnosc": "trudna",
+          "typ": "teoria+analiza_algorytmow",
+          "punkty_na_czas": "sredni"
+        },
+        "czasowy_min": 30,
+        "pulapki": [
+          "strategia D jest optymalna (earliest finish time)",
+          "konstrukcja kontrprzykładów wymaga przemyślenia",
+          "konflikty czasowe filmów muszą być dobrze dobrane",
+          "zrozumienie różnicy między strategiami"
+        ]
+      },
+      "odpowiedzi": {
+        "1.1": "B: {film 5, film 2}, C: {film 1, film 4, film 2}, D: {film 1, film 4, film 2}",
+        "1.2": "Kontrprzykłady dla A, B, C pokazujące że dają 2 filmy gdy można 3"
+      }
+    },
+    {
+      "numer": 2,
+      "czesc": 1,
+      "tytul": "Test - pytania wielokrotnego wyboru (P/F)",
+      "punkty": 5,
+      "podzadania": [
+        {
+          "id": "2.1",
+          "punkty": 1,
+          "opis": "Konwersja systemów liczbowych: 1032₄ × 131₄"
+        },
+        {
+          "id": "2.2",
+          "punkty": 1,
+          "opis": "Kompresja stratna w grafice (BMP, JPG)"
+        },
+        {
+          "id": "2.3",
+          "punkty": 1,
+          "opis": "Filtrowanie tabeli w bazie danych"
+        },
+        {
+          "id": "2.4",
+          "punkty": 1,
+          "opis": "Licencja ADWARE"
+        },
+        {
+          "id": "2.5",
+          "punkty": 1,
+          "opis": "Kopiowanie formuł w arkuszu kalkulacyjnym z odniesieniami względnymi i bezwzględnymi"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "systemy_liczbowe",
+          "grafika_komputerowa",
+          "bazy_danych",
+          "licencje_oprogramowania",
+          "arkusze_kalkulacyjne"
+        ],
+        "algorytmiczny": [
+          "konwersja_systemow",
+          "kompresja_danych",
+          "filtrowanie_SQL",
+          "odniesienia_komorkowe"
+        ],
+        "implementacyjny": [
+          "arytmetyka_systemow",
+          "formaty_plikow",
+          "kwerendy_bazodanowe",
+          "formuly_Excel"
+        ],
+        "punktowy": {
+          "trudnosc": "latwa",
+          "typ": "teoria_quick_win",
+          "punkty_na_czas": "bardzo_wysoki"
+        },
+        "czasowy_min": 10,
+        "pulapki": [
+          "mnożenie w systemie czwórkowym",
+          "różnica BMP vs JPG (bezstratna vs stratna)",
+          "filtrowanie to wybór wierszy, nie kolumn",
+          "A$2 - $ blokuje wiersz, nie kolumnę",
+          "ADWARE = darmowe z reklamami"
+        ]
+      },
+      "odpowiedzi": {
+        "2.1": "F, P, P, F (78₁₀, 8D6₁₆, 4326₈, 10011010110₂)",
+        "2.2": "F, P, F, F",
+        "2.3": "P, F, F, P",
+        "2.4": "P, F, F, F",
+        "2.5": "F, P, P, F"
+      }
+    },
+    {
+      "numer": 3,
+      "czesc": 1,
+      "tytul": "Rozszerzony algorytm Euklidesa",
+      "punkty": 5,
+      "podzadania": [
+        {
+          "id": "3.1",
+          "punkty": 2,
+          "opis": "Uzupełnij tabelę ilustrującą wykonanie funkcji RozszerzonyEuklides(188, 12)"
+        },
+        {
+          "id": "3.2",
+          "punkty": 3,
+          "opis": "Uzupełnij rekurencyjną funkcję obliczania pary (x, y) dla NWD(a,b) = a·x + b·y"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "algorytmy_numeryczne",
+          "teoria_liczb",
+          "NWD",
+          "rekurencja"
+        ],
+        "algorytmiczny": [
+          "algorytm_Euklidesa",
+          "rozszerzony_Euklides",
+          "rekurencja",
+          "backtracking_wartosci"
+        ],
+        "implementacyjny": [
+          "sledzenie_rekurencji",
+          "operacje_mod_div",
+          "zwracanie_par_wartosci",
+          "kombinacja_liniowa"
+        ],
+        "punktowy": {
+          "trudnosc": "srednia_do_trudnej",
+          "typ": "teoria+algorytm",
+          "punkty_na_czas": "sredni"
+        },
+        "czasowy_min": 20,
+        "pulapki": [
+          "zrozumienie powrotu z rekurencji",
+          "obliczanie x i y na podstawie x' i y'",
+          "wzór: y = x' - (a div b) · y'",
+          "kolejność wywołań rekurencyjnych",
+          "warunek bazowy: (1, 0) gdy b=0"
+        ]
+      },
+      "odpowiedzi": {
+        "3.1": "Tabela: wywołanie 1: a=188, b=12, x=-1, y=16 | wywołanie 2: a=12, b=8, x=1, y=-1 | wywołanie 3: a=8, b=4, x=0, y=1 | wywołanie 4: a=4, b=0, x=1, y=0",
+        "3.2": "Krok 3: (b, r), Krok 4: (y, x - (a div b) · y)"
+      }
+    },
+    {
+      "numer": 4,
+      "czesc": 2,
+      "tytul": "Zadanie praktyczne - programowanie (Liczby)",
+      "punkty": 12,
+      "podzadania": [
+        {
+          "id": "4.1",
+          "punkty": 3,
+          "opis": "Ile liczb w pliku liczby.txt ma ostatnią cyfrę równą pierwszej cyfrze?"
+        },
+        {
+          "id": "4.2",
+          "punkty": 3,
+          "opis": "Ile liczb jest podzielnych przez 2 i ile przez 8?"
+        },
+        {
+          "id": "4.3",
+          "punkty": 6,
+          "opis": "Podaj numery wierszy zawierających minimalną i maksymalną liczbę w pliku"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "przetwarzanie_plikow",
+          "operacje_na_liczbach",
+          "analiza_cyfr",
+          "podzielnosc"
+        ],
+        "algorytmiczny": [
+          "czytanie_pliku",
+          "operacje_na_cyfrach",
+          "zliczanie",
+          "wyszukiwanie_min_max"
+        ],
+        "implementacyjny": [
+          "ifstream",
+          "operacje_mod_10_div_10",
+          "petla_while",
+          "warunki_if"
+        ],
+        "punktowy": {
+          "trudnosc": "srednia",
+          "typ": "praktyka_programowanie",
+          "punkty_na_czas": "sredni"
+        },
+        "czasowy_min": 40,
+        "pulapki": [
+          "wydzielanie pierwszej i ostatniej cyfry",
+          "podzielność przez 8 (nie tylko ostatnia cyfra)",
+          "numeracja wierszy od 1",
+          "obsługa liczb wielocyfrowych",
+          "plik ma 1000 wierszy (nie tylko 250 przykładowych)"
+        ]
+      },
+      "odpowiedzi": {
+        "4.1": "422",
+        "4.2": "500 liczb podzielnych przez 2, 123 liczb podzielnych przez 8",
+        "4.3": "wiersz 859 (minimum), wiersz 925 (maksimum)"
+      }
+    },
+    {
+      "numer": 5,
+      "czesc": 2,
+      "tytul": "Zadanie praktyczne - arkusz kalkulacyjny (Demografia)",
+      "punkty": 13,
+      "podzadania": [
+        {
+          "id": "5.1",
+          "punkty": 5,
+          "opis": "Oblicz liczbę mieszkańców w regionach A, B, C, D w 2013 roku i przedstaw na wykresie kolumnowym"
+        },
+        {
+          "id": "5.2",
+          "punkty": 2,
+          "opis": "Ile województw w całym kraju i w każdym z regionów?"
+        },
+        {
+          "id": "5.3",
+          "punkty": 6,
+          "opis": "Oblicz liczbę mieszkańców w 2025, najliczniejsze województwo w 2025, liczbę województw z przeludnieniem"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "arkusz_kalkulacyjny",
+          "analiza_danych",
+          "agregacja",
+          "wizualizacja",
+          "prognozy"
+        ],
+        "algorytmiczny": [
+          "sumowanie_warunkowe",
+          "zliczanie",
+          "grupowanie",
+          "prognozowanie",
+          "wykres"
+        ],
+        "implementacyjny": [
+          "SUMIF",
+          "COUNTIF",
+          "wykres_kolumnowy",
+          "formuly_Excel",
+          "odniesienia_bezwzgledne"
+        ],
+        "punktowy": {
+          "trudnosc": "srednia",
+          "typ": "praktyka_arkusz",
+          "punkty_na_czas": "wysoki"
+        },
+        "czasowy_min": 45,
+        "pulapki": [
+          "sumowanie po regionach (grouping)",
+          "wykres z odpowiednimi etykietami",
+          "prognoza wzrostu ludności (wzór dla 2025)",
+          "przeludnienie = ludność > powierzchnia",
+          "liczenie województw z COUNTIF"
+        ]
+      },
+      "odpowiedzi": {
+        "5.1": "A: 33 929 579, B: 41 736 619, C: 57 649 017, D: 36 530 387 + wykres kolumnowy",
+        "5.2": "19 województw w całym kraju (A: 3, B: 4, C: 8, D: 4)",
+        "5.3": "125 930 205 mieszkańców w 2025, w12C najliczniejsze, 18 województw z przeludnieniem"
+      }
+    },
+    {
+      "numer": 6,
+      "czesc": 2,
+      "tytul": "Zadanie praktyczne - bazy danych (Formuła 1)",
+      "punkty": 10,
+      "podzadania": [
+        {
+          "id": "6.1",
+          "punkty": 2,
+          "opis": "Podaj nazwę GrandPrix i sezon, w którym wyścig odbył się najwcześniej w historii"
+        },
+        {
+          "id": "6.2",
+          "punkty": 2,
+          "opis": "Podaj nazwę miejsca, w którym nie odbyło się ani jedno GrandPrix"
+        },
+        {
+          "id": "6.3",
+          "punkty": 3,
+          "opis": "Dla sezonów 2000, 2006, 2012 podaj imię, nazwisko mistrza i sumę punktów"
+        },
+        {
+          "id": "6.4",
+          "punkty": 3,
+          "opis": "Podaj liczbę zawodników z poszczególnych krajów"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "bazy_danych",
+          "SQL",
+          "JOIN",
+          "agregacja",
+          "GROUP_BY"
+        ],
+        "algorytmiczny": [
+          "SELECT_WHERE",
+          "JOIN",
+          "LEFT_JOIN",
+          "MIN_MAX",
+          "GROUP_BY",
+          "COUNT"
+        ],
+        "implementacyjny": [
+          "SQL_SELECT",
+          "INNER_JOIN",
+          "LEFT_JOIN",
+          "WHERE",
+          "GROUP_BY",
+          "ORDER_BY",
+          "agregaty"
+        ],
+        "punktowy": {
+          "trudnosc": "srednia",
+          "typ": "praktyka_SQL",
+          "punkty_na_czas": "wysoki"
+        },
+        "czasowy_min": 35,
+        "pulapki": [
+          "znajdowanie najwcześniejszego wyścigu (MIN data)",
+          "LEFT JOIN dla miejsc bez wyścigów",
+          "GROUP BY z agregacją SUM",
+          "wielokrotne JOIN-y",
+          "grupowanie po kraju wymaga JOIN przez GrandPrix"
+        ]
+      },
+      "odpowiedzi": {
+        "6.1": "Australia 2010",
+        "6.2": "Indie",
+        "6.3": "2000: Michael Schumacher 108, 2006: Fernando Alonso 134, 2012: Sebastian Vettel 281",
+        "6.4": "Australia: 2, Brazylia: 2, Finlandia: 1, Francja: 2, Hiszpania: 1, Japonia: 1, Meksyk: 1, Niemcy: 4, Wenezuela: 1, Wielka Brytania: 3"
+      }
+    }
+  ],
+  "podsumowanie_wymiarow": {
+    "tematy": {
+      "algorytmy_zachlanne": 1,
+      "teoria_liczb": 1,
+      "systemy_liczbowe": 1,
+      "grafika_kompresja": 1,
+      "bazy_danych": 1,
+      "licencje": 1,
+      "arkusz_kalkulacyjny": 1,
+      "programowanie_plikow": 1
+    },
+    "algorytmy_kluczowe": [
+      "greedy_algorithm (Activity Selection)",
+      "rozszerzony_algorytm_Euklidesa",
+      "rekurencja",
+      "operacje_na_cyfrach",
+      "podzielnosc",
+      "min/max",
+      "agregacja_SQL",
+      "JOIN",
+      "GROUP_BY"
+    ],
+    "wzorce_implementacyjne": [
+      "analiza strategii zachłannych",
+      "sledzenie rekurencji",
+      "operacje mod/div",
+      "czytanie plików",
+      "operacje na cyfrach liczby",
+      "SUMIF/COUNTIF w Excel",
+      "SQL JOIN + agregacja",
+      "GROUP BY"
+    ],
+    "rozkład_punktowy": {
+      "czesc_1_teoria": 15,
+      "czesc_2_praktyka": 35,
+      "total": 50,
+      "latwe_quick_win": 5,
+      "srednie": 25,
+      "trudne": 20
+    }
+  },
+  "notatki": [
+    "Formuła 2015 - zmiana czasu egzaminu (część I: 60 min zamiast 90 min)",
+    "Problem telewidza to klasyczny Activity Selection Problem",
+    "Strategia D (earliest finish time) jest optymalna",
+    "Rozszerzony Euklides - NWD(a,b) = a·x + b·y",
+    "Zadanie programistyczne: operacje na cyfrach liczb",
+    "Arkusz: prognozy demograficzne z wzrostem ludności",
+    "SQL: złożone zapytania z wieloma JOIN-ami",
+    "Kontrprzykłady dla nieptymalnych strategii zachłannych"
+  ]
+}

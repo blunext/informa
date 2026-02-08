@@ -1,0 +1,211 @@
+{
+  "rok": 2017,
+  "formula": "2015",
+  "struktura": {
+    "czesc_1": {
+      "czas_minuty": 60,
+      "punkty": 15
+    },
+    "czesc_2": {
+      "czas_minuty": 120,
+      "punkty": 35
+    },
+    "total_czas_minuty": 180,
+    "total_punkty": 50
+  },
+  "zadania": [
+    {
+      "numer": 1,
+      "czesc": 1,
+      "tytul": "Prostokąt - największe pole niepodzielne przez p",
+      "punkty": 6,
+      "podzadania": [
+        {"id": "1.1", "punkty": 2, "opis": "Oblicz największe pole prostokąta niepodzielne przez p dla 3 zestawów danych"},
+        {"id": "1.2", "punkty": 4, "opis": "Zaprojektuj algorytm optymalizowany - złożoność O(n) dla tablicy A"}
+      ],
+      "wymiary": {
+        "tematyczny": ["optymalizacja", "podzielnosc", "algorytmy_zachlanne"],
+        "algorytmiczny": ["znajdowanie_dwoch_najwiekszych", "podzielnosc_przez_p", "optymalizacja_liniowa"],
+        "implementacyjny": ["petla_for", "operacje_mod", "max_elements"],
+        "punktowy": {"trudnosc": "srednia", "typ": "teoria+algorytm_optymalizowany", "punkty_na_czas": "sredni"},
+        "czasowy_min": 25,
+        "pulapki": ["optymalizacja do O(n)", "nie może być kwadrat (a≠b)", "pole % p ≠ 0", "znaleźć 2 największe niepodzielne przez p"]
+      },
+      "odpowiedzi": {
+        "1.1": "72 (12*6), 216 (18*12), 0",
+        "1.2": "Algorytm O(n): znajdź max1 i max2 niepodzielne przez p w jednym przejściu"
+      }
+    },
+    {
+      "numer": 2,
+      "czesc": 1,
+      "tytul": "Rekurencja - analiza funkcji licz(x)",
+      "punkty": 6,
+      "podzadania": [
+        {"id": "2.1", "punkty": 2, "opis": "Oblicz licz(x) dla x=13,21,32"},
+        {"id": "2.2", "punkty": 2, "opis": "Najmniejsze x dla k wywołań funkcji: x=2^(k-1)"},
+        {"id": "2.3", "punkty": 2, "opis": "Najmniejsze x>100 dla licz(x)=0"}
+      ],
+      "wymiary": {
+        "tematyczny": ["rekurencja", "analiza_algorytmow", "reprezentacja_binarna"],
+        "algorytmiczny": ["sledzenie_rekurencji", "zlozonosc_wywolan", "warunki_brzegowe"],
+        "implementacyjny": ["operacje_div_mod", "rekurencja", "analiza_przypadkow"],
+        "punktowy": {"trudnosc": "srednia", "typ": "teoria_rekurencja", "punkty_na_czas": "wysoki"},
+        "czasowy_min": 20,
+        "pulapki": ["śledzenie zagnieżdżonej rekurencji", "liczba wywołań = głębokość rekurencji", "warunek licz(x)=0"]
+      },
+      "odpowiedzi": {
+        "2.1": "licz(13)=2, licz(21)=1, licz(32)=-4",
+        "2.2": "x = 2^(k-1)",
+        "2.3": "135"
+      }
+    },
+    {
+      "numer": 3,
+      "czesc": 1,
+      "tytul": "Test P/F - SQL, kryptografia, sieci",
+      "punkty": 3,
+      "podzadania": [
+        {"id": "3.1", "punkty": 1, "opis": "SQL ORDER BY - sortowanie wyników"},
+        {"id": "3.2", "punkty": 1, "opis": "SQL z WHERE, GROUP BY, HAVING - analiza zapytania"},
+        {"id": "3.3", "punkty": 1, "opis": "Kryptografia - klucz publiczny, podpis cyfrowy, spoofing"}
+      ],
+      "wymiary": {
+        "tematyczny": ["SQL", "kryptografia", "bezpieczenstwo"],
+        "algorytmiczny": ["ORDER_BY", "GROUP_BY_HAVING", "klucz_publiczny"],
+        "implementacyjny": ["SQL_queries", "RSA", "digital_signature"],
+        "punktowy": {"trudnosc": "latwa", "typ": "teoria_quick_win", "punkty_na_czas": "bardzo_wysoki"},
+        "czasowy_min": 10,
+        "pulapki": ["ORDER BY kolejność", "HAVING vs WHERE", "klucz publiczny ≠ podpis cyfrowy"]
+      },
+      "odpowiedzi": {
+        "3.1": "F, P, F, P",
+        "3.2": "F, P, P, F",
+        "3.3": "P, F, F, P"
+      }
+    },
+    {
+      "numer": 4,
+      "czesc": 2,
+      "tytul": "Arkusz kalkulacyjny - transakcje i rabaty cukru",
+      "punkty": 13,
+      "podzadania": [
+        {"id": "4.1", "punkty": 1, "opis": "Suma cyfr telefonu - SUMA dla cyfr"},
+        {"id": "4.2", "punkty": 2, "opis": "Całkowity przychód z wszystkich lat"},
+        {"id": "4.3", "punkty": 3, "opis": "Wykres sprzedaży cukru w latach 2005-2014"},
+        {"id": "4.4", "punkty": 3, "opis": "Wartość należności z rabatem progresywnym"},
+        {"id": "4.5", "punkty": 4, "opis": "Liczba zakupów uzupełniających magazyn"}
+      ],
+      "wymiary": {
+        "tematyczny": ["arkusz_kalkulacyjny", "agregacja", "rabaty_progresywne", "zarządzanie_magazynem"],
+        "algorytmiczny": ["suma_cyfr", "sumowanie", "rabaty_schodkowe", "warunki_if"],
+        "implementacyjny": ["MID_VALUE", "SUMIF", "IF_wielokrotne", "wykresy"],
+        "punktowy": {"trudnosc": "srednia_do_trudnej", "typ": "praktyka_arkusz", "punkty_na_czas": "sredni"},
+        "czasowy_min": 50,
+        "pulapki": ["suma cyfr telefonu", "rabat progresywny (różne progi)", "rabat od przyszłych transakcji", "stan magazynu >=5000 i uzupełnienie >=4000 kg"]
+      },
+      "odpowiedzi": {
+        "4.1": "3 telefony z sumami cyfr: 26955, 26451, 27505",
+        "4.2": "643 267,07 zł",
+        "4.3": "Wykres liniowy sprzedaży cukru",
+        "4.4": "38126,35 zł",
+        "4.5": "14"
+      }
+    },
+    {
+      "numer": 5,
+      "czesc": 2,
+      "tytul": "Baza danych SQL - piłka ręczna",
+      "punkty": 11,
+      "podzadania": [
+        {"id": "5.1", "punkty": 3, "opis": "Liczba meczy T/L/P i rok z najwięcej meczy z drużynami z tego miasta"},
+        {"id": "5.2", "punkty": 2, "opis": "Drużyny grające najwięcej i najmniej meczy domowych"},
+        {"id": "5.3", "punkty": 3, "opis": "Bilans W/D/L meczy wyjazdowych w latach 2005-2008"},
+        {"id": "5.4", "punkty": 3, "opis": "Liczba sędziów (w tym tych bez meczy)"}
+      ],
+      "wymiary": {
+        "tematyczny": ["bazy_danych", "SQL", "JOIN", "agregacja", "COUNT"],
+        "algorytmiczny": ["SELECT_WHERE", "JOIN", "GROUP_BY", "LEFT_JOIN", "HAVING"],
+        "implementacyjny": ["CASE_WHEN", "COUNT_DISTINCT", "LEFT_JOIN_NULL", "agregacje"],
+        "punktowy": {"trudnosc": "srednia", "typ": "praktyka_SQL", "punkty_na_czas": "wysoki"},
+        "czasowy_min": 40,
+        "pulapki": ["mecze domowe vs wyjazdowe", "LEFT JOIN dla sędziów bez meczy", "rok z MAX", "filtrowanie lat"]
+      },
+      "odpowiedzi": {
+        "5.1": "T:6, L:113, P:25; Rok 2007, 21 meczy",
+        "5.2": "Zwinne Mewy, Nocne Pumy",
+        "5.3": "Przegrane: 452, Zremisowane: 170, Wygrane: 579",
+        "5.4": "22"
+      }
+    },
+    {
+      "numer": 6,
+      "czesc": 2,
+      "tytul": "Programowanie - obraz rastrowy i piksele",
+      "punkty": 11,
+      "podzadania": [
+        {"id": "6.1", "punkty": 2, "opis": "Najjaśniejszy i najciemniejszy piksel"},
+        {"id": "6.2", "punkty": 2, "opis": "Średnia wartość pikseli"},
+        {"id": "6.3", "punkty": 3, "opis": "Liczba pikseli kontrastujących z sąsiadami (|diff|>=128)"},
+        {"id": "6.4", "punkty": 4, "opis": "Liczba połączonych obszarów kontrastujących pikseli"}
+      ],
+      "wymiary": {
+        "tematyczny": ["przetwarzanie_obrazow", "grafika_rastrowa", "analiza_pikseli", "DFS_BFS"],
+        "algorytmiczny": ["min_max", "srednia", "sasiedztwo_4kierunkowe", "connected_components"],
+        "implementacyjny": ["tablice_2D", "iteracja_po_pikselach", "abs_diff", "DFS_flood_fill"],
+        "punktowy": {"trudnosc": "srednia_do_trudnej", "typ": "praktyka_programowanie", "punkty_na_czas": "sredni"},
+        "czasowy_min": 50,
+        "pulapki": ["brzeg obrazu", "sąsiedztwo 4-kierunkowe", "|diff|>=128", "connected components - DFS/BFS", "visited array"]
+      },
+      "odpowiedzi": {
+        "6.1": "221, 7",
+        "6.2": "149",
+        "6.3": "753",
+        "6.4": "5"
+      }
+    }
+  ],
+  "podsumowanie_wymiarow": {
+    "tematy": {
+      "optymalizacja_algorytmow": 1,
+      "rekurencja": 1,
+      "SQL": 2,
+      "arkusz_kalkulacyjny": 1,
+      "przetwarzanie_obrazow": 1
+    },
+    "algorytmy_kluczowe": [
+      "optymalizacja O(n)",
+      "znajdowanie max1 i max2",
+      "rekurencja z div/mod",
+      "SQL JOIN + GROUP BY + HAVING",
+      "rabaty progresywne",
+      "connected components (DFS/BFS)",
+      "analiza pikseli obrazu"
+    ],
+    "wzorce_implementacyjne": [
+      "pętla O(n) dla max",
+      "śledzenie rekurencji",
+      "LEFT JOIN dla NULL",
+      "IF wielokrotne z progami",
+      "tablice 2D",
+      "DFS/BFS flood fill"
+    ],
+    "rozkład_punktowy": {
+      "czesc_1_teoria": 15,
+      "czesc_2_praktyka": 35,
+      "total": 50,
+      "latwe_quick_win": 3,
+      "srednie": 26,
+      "trudne": 21
+    }
+  },
+  "notatki": [
+    "Optymalizacja algorytmów - nacisk na złożoność O(n)",
+    "Rekurencja z reprezentacją binarną",
+    "SQL - LEFT JOIN dla danych z NULL",
+    "Arkusz - rabaty progresywne (złożone IF)",
+    "Przetwarzanie obrazów - connected components",
+    "DFS/BFS dla flood fill",
+    "Analiza sąsiedztwa pikseli (4-kierunkowe)"
+  ]
+}

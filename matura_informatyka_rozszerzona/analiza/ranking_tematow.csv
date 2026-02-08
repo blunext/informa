@@ -1,0 +1,22 @@
+Temat,2014,2015,2016,2017,2018,2019,2021,2022,2023,2024,2025,Total,Procent
+Rekurencja,8,YES,YES,YES,NO,?,?,?,?,?,?,4+,40-80%
+Sortowanie,YES,YES,YES,YES,YES,?,?,?,?,?,?,5+,50-100%
+Przeszukiwanie_binarne,6,YES,YES,YES,6,?,?,?,?,?,?,5+,50-100%
+Operacje_na_liczbach,YES,YES,YES,YES,NO,?,?,?,?,?,?,4+,40-80%
+Geometria_matematyka,NO,YES,YES,NO,YES,?,?,?,?,?,?,3+,30-60%
+SQL_bazy_danych,11,YES,YES,YES,YES,?,?,?,?,?,?,5+,50-100%
+Excel_arkusz,9,YES,YES,YES,NO,?,?,?,?,?,?,4+,40-80%
+Przetwarzanie_plikow,10,YES,YES,YES,NO,?,?,?,?,?,?,4+,40-80%
+Operacje_na_stringach,YES,YES,YES,YES,NO,?,?,?,?,?,?,4+,40-80%
+Systemy_liczbowe,YES,YES,YES,YES,NO,?,?,?,?,?,?,4+,40-80%
+Teoria_liczb_NWD_NWW,YES,YES,YES,YES,NO,?,?,?,?,?,?,4+,40-80%
+Złożoność_algorytmów,YES,YES,YES,YES,YES,?,?,?,?,?,?,5+,50-100%
+Modele_barw_RGB_CMYK,NO,NO,NO,NO,YES,?,?,?,?,?,?,1+,10-20%
+Technologie_web_PHP_JS,NO,NO,NO,NO,YES,?,?,?,?,?,?,1+,10-20%
+
+Uwagi:
+- YES = temat pojawił się w tym roku
+- NO = temat nie pojawił się
+- ? = nie przeanalizowano szczegółowo
+- Liczby = punkty za zadanie z tego tematu
+- Procent = szacowana częstość występowania we wszystkich latach
