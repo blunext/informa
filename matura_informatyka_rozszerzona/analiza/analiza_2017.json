@@ -20,8 +20,8 @@
       "tytul": "Prostokąt - największe pole niepodzielne przez p",
       "punkty": 6,
       "podzadania": [
-        {"id": "1.1", "punkty": 2, "opis": "Oblicz największe pole prostokąta niepodzielne przez p dla 3 zestawów danych"},
-        {"id": "1.2", "punkty": 4, "opis": "Zaprojektuj algorytm optymalizowany - złożoność O(n) dla tablicy A"}
+        {"id": "1.1", "punkty": 2, "opis": "Oblicz największe pole prostokąta niepodzielne przez p dla 3 zestawów danych", "typ_zadania": "sledzenie_algorytmu"},
+        {"id": "1.2", "punkty": 4, "opis": "Zaprojektuj algorytm optymalizowany - złożoność O(n) dla tablicy A", "typ_zadania": "projektowanie_algorytmu"}
       ],
       "wymiary": {
         "tematyczny": ["optymalizacja", "podzielnosc", "algorytmy_zachlanne"],
@@ -42,9 +42,9 @@
       "tytul": "Rekurencja - analiza funkcji licz(x)",
       "punkty": 6,
       "podzadania": [
-        {"id": "2.1", "punkty": 2, "opis": "Oblicz licz(x) dla x=13,21,32"},
-        {"id": "2.2", "punkty": 2, "opis": "Najmniejsze x dla k wywołań funkcji: x=2^(k-1)"},
-        {"id": "2.3", "punkty": 2, "opis": "Najmniejsze x>100 dla licz(x)=0"}
+        {"id": "2.1", "punkty": 2, "opis": "Oblicz licz(x) dla x=13,21,32", "typ_zadania": "sledzenie_algorytmu"},
+        {"id": "2.2", "punkty": 2, "opis": "Najmniejsze x dla k wywołań funkcji: x=2^(k-1)", "typ_zadania": "analiza_algorytmu"},
+        {"id": "2.3", "punkty": 2, "opis": "Najmniejsze x>100 dla licz(x)=0", "typ_zadania": "analiza_algorytmu"}
       ],
       "wymiary": {
         "tematyczny": ["rekurencja", "analiza_algorytmow", "reprezentacja_binarna"],
@@ -66,9 +66,9 @@
       "tytul": "Test P/F - SQL, kryptografia, sieci",
       "punkty": 3,
       "podzadania": [
-        {"id": "3.1", "punkty": 1, "opis": "SQL ORDER BY - sortowanie wyników"},
-        {"id": "3.2", "punkty": 1, "opis": "SQL z WHERE, GROUP BY, HAVING - analiza zapytania"},
-        {"id": "3.3", "punkty": 1, "opis": "Kryptografia - klucz publiczny, podpis cyfrowy, spoofing"}
+        {"id": "3.1", "punkty": 1, "opis": "SQL ORDER BY - sortowanie wyników", "typ_zadania": "test_prawda_falsz"},
+        {"id": "3.2", "punkty": 1, "opis": "SQL z WHERE, GROUP BY, HAVING - analiza zapytania", "typ_zadania": "test_prawda_falsz"},
+        {"id": "3.3", "punkty": 1, "opis": "Kryptografia - klucz publiczny, podpis cyfrowy, spoofing", "typ_zadania": "test_prawda_falsz"}
       ],
       "wymiary": {
         "tematyczny": ["SQL", "kryptografia", "bezpieczenstwo"],
@@ -90,11 +90,11 @@
       "tytul": "Arkusz kalkulacyjny - transakcje i rabaty cukru",
       "punkty": 13,
       "podzadania": [
-        {"id": "4.1", "punkty": 1, "opis": "Suma cyfr telefonu - SUMA dla cyfr"},
-        {"id": "4.2", "punkty": 2, "opis": "Całkowity przychód z wszystkich lat"},
-        {"id": "4.3", "punkty": 3, "opis": "Wykres sprzedaży cukru w latach 2005-2014"},
-        {"id": "4.4", "punkty": 3, "opis": "Wartość należności z rabatem progresywnym"},
-        {"id": "4.5", "punkty": 4, "opis": "Liczba zakupów uzupełniających magazyn"}
+        {"id": "4.1", "punkty": 1, "opis": "Suma cyfr telefonu - SUMA dla cyfr", "typ_zadania": "arkusz_transformacja"},
+        {"id": "4.2", "punkty": 2, "opis": "Całkowity przychód z wszystkich lat", "typ_zadania": "arkusz_agregacja_podstawowa"},
+        {"id": "4.3", "punkty": 3, "opis": "Wykres sprzedaży cukru w latach 2005-2014", "typ_zadania": "arkusz_wykres"},
+        {"id": "4.4", "punkty": 3, "opis": "Wartość należności z rabatem progresywnym", "typ_zadania": "arkusz_symulacja"},
+        {"id": "4.5", "punkty": 4, "opis": "Liczba zakupów uzupełniających magazyn", "typ_zadania": "arkusz_symulacja"}
       ],
       "wymiary": {
         "tematyczny": ["arkusz_kalkulacyjny", "agregacja", "rabaty_progresywne", "zarządzanie_magazynem"],
@@ -118,10 +118,10 @@
       "tytul": "Baza danych SQL - piłka ręczna",
       "punkty": 11,
       "podzadania": [
-        {"id": "5.1", "punkty": 3, "opis": "Liczba meczy T/L/P i rok z najwięcej meczy z drużynami z tego miasta"},
-        {"id": "5.2", "punkty": 2, "opis": "Drużyny grające najwięcej i najmniej meczy domowych"},
-        {"id": "5.3", "punkty": 3, "opis": "Bilans W/D/L meczy wyjazdowych w latach 2005-2008"},
-        {"id": "5.4", "punkty": 3, "opis": "Liczba sędziów (w tym tych bez meczy)"}
+        {"id": "5.1", "punkty": 3, "opis": "Liczba meczy T/L/P i rok z najwięcej meczy z drużynami z tego miasta", "typ_zadania": "sql_group_by"},
+        {"id": "5.2", "punkty": 2, "opis": "Drużyny grające najwięcej i najmniej meczy domowych", "typ_zadania": "sql_group_by"},
+        {"id": "5.3", "punkty": 3, "opis": "Bilans W/D/L meczy wyjazdowych w latach 2005-2008", "typ_zadania": "sql_group_by"},
+        {"id": "5.4", "punkty": 3, "opis": "Liczba sędziów (w tym tych bez meczy)", "typ_zadania": "sql_podzapytania"}
       ],
       "wymiary": {
         "tematyczny": ["bazy_danych", "SQL", "JOIN", "agregacja", "COUNT"],
@@ -144,10 +144,10 @@
       "tytul": "Programowanie - obraz rastrowy i piksele",
       "punkty": 11,
       "podzadania": [
-        {"id": "6.1", "punkty": 2, "opis": "Najjaśniejszy i najciemniejszy piksel"},
-        {"id": "6.2", "punkty": 2, "opis": "Średnia wartość pikseli"},
-        {"id": "6.3", "punkty": 3, "opis": "Liczba pikseli kontrastujących z sąsiadami (|diff|>=128)"},
-        {"id": "6.4", "punkty": 4, "opis": "Liczba połączonych obszarów kontrastujących pikseli"}
+        {"id": "6.1", "punkty": 2, "opis": "Najjaśniejszy i najciemniejszy piksel", "typ_zadania": "przetwarzanie_minmax"},
+        {"id": "6.2", "punkty": 2, "opis": "Średnia wartość pikseli", "typ_zadania": "przetwarzanie_zliczanie"},
+        {"id": "6.3", "punkty": 3, "opis": "Liczba pikseli kontrastujących z sąsiadami (|diff|>=128)", "typ_zadania": "przetwarzanie_obrazy_2D"},
+        {"id": "6.4", "punkty": 4, "opis": "Liczba połączonych obszarów kontrastujących pikseli", "typ_zadania": "przetwarzanie_obrazy_2D"}
       ],
       "wymiary": {
         "tematyczny": ["przetwarzanie_obrazow", "grafika_rastrowa", "analiza_pikseli", "DFS_BFS"],

@@ -1,22 +1,39 @@
-Temat,2014,2015,2016,2017,2018,2019,2021,2022,2023,2024,2025,Total,Procent
-Rekurencja,8,YES,YES,YES,NO,?,?,?,?,?,?,4+,40-80%
-Sortowanie,YES,YES,YES,YES,YES,?,?,?,?,?,?,5+,50-100%
-Przeszukiwanie_binarne,6,YES,YES,YES,6,?,?,?,?,?,?,5+,50-100%
-Operacje_na_liczbach,YES,YES,YES,YES,NO,?,?,?,?,?,?,4+,40-80%
-Geometria_matematyka,NO,YES,YES,NO,YES,?,?,?,?,?,?,3+,30-60%
-SQL_bazy_danych,11,YES,YES,YES,YES,?,?,?,?,?,?,5+,50-100%
-Excel_arkusz,9,YES,YES,YES,NO,?,?,?,?,?,?,4+,40-80%
-Przetwarzanie_plikow,10,YES,YES,YES,NO,?,?,?,?,?,?,4+,40-80%
-Operacje_na_stringach,YES,YES,YES,YES,NO,?,?,?,?,?,?,4+,40-80%
-Systemy_liczbowe,YES,YES,YES,YES,NO,?,?,?,?,?,?,4+,40-80%
-Teoria_liczb_NWD_NWW,YES,YES,YES,YES,NO,?,?,?,?,?,?,4+,40-80%
-Złożoność_algorytmów,YES,YES,YES,YES,YES,?,?,?,?,?,?,5+,50-100%
-Modele_barw_RGB_CMYK,NO,NO,NO,NO,YES,?,?,?,?,?,?,1+,10-20%
-Technologie_web_PHP_JS,NO,NO,NO,NO,YES,?,?,?,?,?,?,1+,10-20%
+Temat,2014,2015,2016,2017,2018*,2019,2021,2022,2023,2024,2025,Wystapienia,Procent
+SQL_bazy_danych,YES,YES,YES,YES,YES,YES,YES,YES,YES,YES,YES,11/11,100%
+Operacje_na_liczbach_cyfrach,YES,YES,YES,YES,?,YES,YES,YES,YES,YES,YES,10/10,100%
+Przetwarzanie_plikow,YES,YES,YES,YES,?,YES,YES,YES,YES,YES,YES,10/10,100%
+Arkusz_kalkulacyjny,YES,YES,YES,YES,?,YES,YES,YES,YES,YES,YES,10/10,100%
+Systemy_liczbowe,YES,YES,YES,NO,NO,YES,YES,YES,YES,YES,YES,9/11,82%
+Rekurencja,YES,YES,YES,YES,NO,YES,YES,NO,YES,NO,YES,8/11,73%
+Sortowanie_wyszukiwanie,YES,YES,YES,YES,YES,NO,YES,YES,NO,YES,NO,8/11,73%
+Teoria_liczb_NWD_dzielniki,YES,YES,YES,YES,NO,YES,NO,YES,NO,YES,YES,8/11,73%
+Zlozonosc_algorytmow,NO,NO,YES,YES,YES,YES,YES,YES,NO,NO,YES,7/11,64%
+Operacje_na_stringach,YES,NO,YES,NO,?,NO,YES,YES,YES,NO,YES,6/10,60%
+Kryptografia_bezpieczenstwo,NO,NO,YES,YES,NO,NO,NO,NO,YES,NO,YES,4/11,36%
+Sieci_komputerowe,NO,NO,YES,NO,NO,YES,NO,NO,NO,YES,NO,3/11,27%
+Przeszukiwanie_binarne,YES,NO,NO,NO,YES,YES,NO,NO,NO,NO,NO,3/11,27%
+Geometria_matematyka,NO,NO,YES,NO,YES,NO,NO,NO,NO,NO,YES,3/11,27%
+Struktury_danych_kopiec_BST,NO,NO,NO,NO,NO,NO,YES,NO,YES,NO,NO,2/11,18%
+Programowanie_dynamiczne,NO,NO,NO,NO,NO,NO,NO,NO,NO,YES,NO,1/11,9%
+Algorytmy_zachlanne,NO,YES,NO,NO,NO,NO,NO,NO,NO,NO,NO,1/11,9%
+DFS_BFS_connected_components,NO,NO,NO,YES,NO,NO,NO,NO,NO,NO,NO,1/11,9%
+Operacje_bitowe_XOR,NO,NO,NO,NO,NO,NO,NO,NO,YES,NO,NO,1/11,9%
+Modele_barw_RGB_CMYK,NO,NO,NO,NO,YES,NO,NO,NO,NO,NO,NO,1/11,9%
+Technologie_web_PHP_JS,NO,NO,NO,NO,YES,NO,NO,NO,NO,NO,NO,1/11,9%
 
 Uwagi:
-- YES = temat pojawił się w tym roku
-- NO = temat nie pojawił się
-- ? = nie przeanalizowano szczegółowo
-- Liczby = punkty za zadanie z tego tematu
-- Procent = szacowana częstość występowania we wszystkich latach
+- Posortowano malejaco wg czestosci wystepowania
+- YES = temat pojawil sie w danym roku
+- NO = temat nie pojawil sie
+- ? = brak danych (2018 - przeanalizowano tylko Czesc I)
+- * 2018 = analiza czesciowa (tylko Czesc I / 15 pkt z 50)
+- Procent obliczony na podstawie znanych lat (pomijajac ?)
+- Dane z pelnych analiz JSON wszystkich 11 lat (2014-2019, 2021-2025)
+- 2020 nie odbyl sie (COVID-19)
+
+TOP 5 tematow (100% lub blisko):
+1. SQL/bazy danych - 100% (w KAZDYM egzaminie)
+2. Operacje na liczbach/cyfrach - 100% (znane lata)
+3. Przetwarzanie plikow - 100% (znane lata)
+4. Arkusz kalkulacyjny - 100% (znane lata)
+5. Systemy liczbowe - 82%

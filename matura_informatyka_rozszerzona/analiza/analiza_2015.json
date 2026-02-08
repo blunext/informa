@@ -23,12 +23,14 @@
         {
           "id": "1.1",
           "punkty": 2,
-          "opis": "Dla 3 strategii (B, C, D) podaj wyniki wykonywania algorytmu wyboru filmów"
+          "opis": "Dla 3 strategii (B, C, D) podaj wyniki wykonywania algorytmu wyboru filmów",
+          "typ_zadania": "sledzenie_algorytmu"
         },
         {
           "id": "1.2",
           "punkty": 3,
-          "opis": "Udowodnij że strategie A, B, C nie są optymalne - podaj kontrprzykłady z 4 filmami w 2 stacjach"
+          "opis": "Udowodnij że strategie A, B, C nie są optymalne - podaj kontrprzykłady z 4 filmami w 2 stacjach",
+          "typ_zadania": "analiza_algorytmu"
         }
       ],
       "wymiary": {
@@ -76,27 +78,32 @@
         {
           "id": "2.1",
           "punkty": 1,
-          "opis": "Konwersja systemów liczbowych: 1032₄ × 131₄"
+          "opis": "Konwersja systemów liczbowych: 1032₄ × 131₄",
+          "typ_zadania": "konwersja_systemow_liczbowych"
         },
         {
           "id": "2.2",
           "punkty": 1,
-          "opis": "Kompresja stratna w grafice (BMP, JPG)"
+          "opis": "Kompresja stratna w grafice (BMP, JPG)",
+          "typ_zadania": "test_prawda_falsz"
         },
         {
           "id": "2.3",
           "punkty": 1,
-          "opis": "Filtrowanie tabeli w bazie danych"
+          "opis": "Filtrowanie tabeli w bazie danych",
+          "typ_zadania": "test_prawda_falsz"
         },
         {
           "id": "2.4",
           "punkty": 1,
-          "opis": "Licencja ADWARE"
+          "opis": "Licencja ADWARE",
+          "typ_zadania": "test_prawda_falsz"
         },
         {
           "id": "2.5",
           "punkty": 1,
-          "opis": "Kopiowanie formuł w arkuszu kalkulacyjnym z odniesieniami względnymi i bezwzględnymi"
+          "opis": "Kopiowanie formuł w arkuszu kalkulacyjnym z odniesieniami względnymi i bezwzględnymi",
+          "typ_zadania": "test_prawda_falsz"
         }
       ],
       "wymiary": {
@@ -150,12 +157,14 @@
         {
           "id": "3.1",
           "punkty": 2,
-          "opis": "Uzupełnij tabelę ilustrującą wykonanie funkcji RozszerzonyEuklides(188, 12)"
+          "opis": "Uzupełnij tabelę ilustrującą wykonanie funkcji RozszerzonyEuklides(188, 12)",
+          "typ_zadania": "sledzenie_algorytmu"
         },
         {
           "id": "3.2",
           "punkty": 3,
-          "opis": "Uzupełnij rekurencyjną funkcję obliczania pary (x, y) dla NWD(a,b) = a·x + b·y"
+          "opis": "Uzupełnij rekurencyjną funkcję obliczania pary (x, y) dla NWD(a,b) = a·x + b·y",
+          "typ_zadania": "projektowanie_algorytmu"
         }
       ],
       "wymiary": {
@@ -205,17 +214,20 @@
         {
           "id": "4.1",
           "punkty": 3,
-          "opis": "Ile liczb w pliku liczby.txt ma ostatnią cyfrę równą pierwszej cyfrze?"
+          "opis": "Ile liczb w pliku liczby.txt ma ostatnią cyfrę równą pierwszej cyfrze?",
+          "typ_zadania": "przetwarzanie_cyfry_liczby"
         },
         {
           "id": "4.2",
           "punkty": 3,
-          "opis": "Ile liczb jest podzielnych przez 2 i ile przez 8?"
+          "opis": "Ile liczb jest podzielnych przez 2 i ile przez 8?",
+          "typ_zadania": "przetwarzanie_cyfry_liczby"
         },
         {
           "id": "4.3",
           "punkty": 6,
-          "opis": "Podaj numery wierszy zawierających minimalną i maksymalną liczbę w pliku"
+          "opis": "Podaj numery wierszy zawierających minimalną i maksymalną liczbę w pliku",
+          "typ_zadania": "przetwarzanie_minmax"
         }
       ],
       "wymiary": {
@@ -266,17 +278,20 @@
         {
           "id": "5.1",
           "punkty": 5,
-          "opis": "Oblicz liczbę mieszkańców w regionach A, B, C, D w 2013 roku i przedstaw na wykresie kolumnowym"
+          "opis": "Oblicz liczbę mieszkańców w regionach A, B, C, D w 2013 roku i przedstaw na wykresie kolumnowym",
+          "typ_zadania": "arkusz_agregacja_podstawowa"
         },
         {
           "id": "5.2",
           "punkty": 2,
-          "opis": "Ile województw w całym kraju i w każdym z regionów?"
+          "opis": "Ile województw w całym kraju i w każdym z regionów?",
+          "typ_zadania": "arkusz_agregacja_warunkowa"
         },
         {
           "id": "5.3",
           "punkty": 6,
-          "opis": "Oblicz liczbę mieszkańców w 2025, najliczniejsze województwo w 2025, liczbę województw z przeludnieniem"
+          "opis": "Oblicz liczbę mieszkańców w 2025, najliczniejsze województwo w 2025, liczbę województw z przeludnieniem",
+          "typ_zadania": "arkusz_symulacja"
         }
       ],
       "wymiary": {
@@ -330,22 +345,26 @@
         {
           "id": "6.1",
           "punkty": 2,
-          "opis": "Podaj nazwę GrandPrix i sezon, w którym wyścig odbył się najwcześniej w historii"
+          "opis": "Podaj nazwę GrandPrix i sezon, w którym wyścig odbył się najwcześniej w historii",
+          "typ_zadania": "sql_select_where"
         },
         {
           "id": "6.2",
           "punkty": 2,
-          "opis": "Podaj nazwę miejsca, w którym nie odbyło się ani jedno GrandPrix"
+          "opis": "Podaj nazwę miejsca, w którym nie odbyło się ani jedno GrandPrix",
+          "typ_zadania": "sql_podzapytania"
         },
         {
           "id": "6.3",
           "punkty": 3,
-          "opis": "Dla sezonów 2000, 2006, 2012 podaj imię, nazwisko mistrza i sumę punktów"
+          "opis": "Dla sezonów 2000, 2006, 2012 podaj imię, nazwisko mistrza i sumę punktów",
+          "typ_zadania": "sql_join"
         },
         {
           "id": "6.4",
           "punkty": 3,
-          "opis": "Podaj liczbę zawodników z poszczególnych krajów"
+          "opis": "Podaj liczbę zawodników z poszczególnych krajów",
+          "typ_zadania": "sql_group_by"
         }
       ],
       "wymiary": {

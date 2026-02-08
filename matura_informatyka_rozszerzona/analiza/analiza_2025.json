@@ -1,0 +1,354 @@
+{
+  "rok": 2025,
+  "formula": "2023",
+  "total_punkty": 50,
+  "czas_minuty": 210,
+  "liczba_zadan": 7,
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Funkcja rekurencyjna",
+      "punkty": 9,
+      "podzadania": [
+        {
+          "numer": "1.1",
+          "punkty": 3,
+          "opis": "Uzupelnij tabele -- wpisz wynik funkcji przestaw(n) dla podanych wartosci argumentu n oraz liczbe wywolan funkcji przestaw lacznie z pierwszym wywolaniem. Dane wejsciowe: 43657688, 154005710, 998877665544321. Funkcja przestaw przetwarza liczbe parami cyfr (mod 100, div 100), zamieniajac w kazdej parze cyfre dziesiatek i jednosci, a nastepnie rekurencyjnie sklada wynik.",
+          "typ": "teoria",
+          "typ_zadania": "sledzenie_algorytmu",
+          "odpowiedz": {
+            "43657688": {"wynik": "34566788", "wywolania": 4},
+            "154005710": {"wynik": "145007501", "wywolania": 5},
+            "998877665544321": {"wynik": "989786756453412", "wywolania": 8}
+          }
+        },
+        {
+          "numer": "1.2",
+          "punkty": 2,
+          "opis": "Ocen prawdziwosc czterech zdan dotyczacych liczby wywolan funkcji przestaw w zaleznosci od liczby cyfr k argumentu n. Zdania: (1) k/2, (2) (k+1) div 2, (3) k/2 gdy k parzyste, (k+1)/2 gdy k nieparzyste, (4) (k+1)/2.",
+          "typ": "teoria",
+          "typ_zadania": "test_prawda_falsz",
+          "odpowiedz": "F P P F"
+        },
+        {
+          "numer": "1.3",
+          "punkty": 4,
+          "opis": "Napisz nierekurencyjna funkcje przestaw2, ktora dla danej nieujemnej liczby calkowitej n da taka sama wartosc jak przestaw(n). Algorytm moze uzywac wylacznie zmiennych przechowujacych liczby calkowite i operowac wylacznie na liczbach calkowitych. Zabronione jest uzywanie funkcji wbudowanych i operatorow innych niz arytmetyczne.",
+          "typ": "teoria",
+          "typ_zadania": "projektowanie_algorytmu"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["rekurencja", "analiza algorytmu", "operacje na cyfrach liczby"],
+        "algorytmiczny": ["rekurencja", "iteracja", "dzielenie calkowite", "reszta z dzielenia", "zamiana rekurencji na iteracje"],
+        "implementacyjny": ["petla while", "operatory mod/div", "akumulator wyniku", "sledzenie potegi 100"],
+        "punktowy": "sredni",
+        "czasowy_min": 35,
+        "pulapki": [
+          "Przypadek liczby o nieparzystej liczbie cyfr -- ostatnia pojedyncza cyfra wymaga osobnego warunku",
+          "Pominiecie wiodacych zer w wyniku (np. 154005710 -> 145007501 -- zero w srodku)",
+          "Bledne sledzenie zmiennej p (potegi 100) w wersji iteracyjnej",
+          "Bledne okreslenie liczby wywolan dla duzych liczb (15-cyfrowa liczba = 8 wywolan)",
+          "Pomylenie warunku n > 0 z n > 9 przy budowaniu wyniku iteracyjnie"
+        ]
+      }
+    },
+    {
+      "numer": 2,
+      "tytul": "Zapis symboliczny",
+      "punkty": 11,
+      "podzadania": [
+        {
+          "numer": "2.1",
+          "punkty": 2,
+          "opis": "Podaj wszystkie napisy z pliku symbole.txt (2000 napisow po 12 znakow sposrod o, +, *), ktore sa palindromami. Wypisz je po jednym w wierszu, w kolejnosci takiej jak w pliku.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_napisy",
+          "odpowiedz": [
+            "++o+o++o+o++",
+            "+*+**++**+*+",
+            "*+o+**++o+*",
+            "*oo*o**o*oo*",
+            "+*++*oo*++*+",
+            "+o++oooo++o+"
+          ]
+        },
+        {
+          "numer": "2.2",
+          "punkty": 4,
+          "opis": "Szukamy kwadratow 3x3 zlozonych z dziewieciu sasiednich identycznych symboli w pliku symbole.txt (traktowanym jako siatka 2000x12). Podaj ile takich kwadratow wystepuje oraz numer wiersza i numer pozycji w wierszu (liczone od 1) srodkowego pola kazdego z nich.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_obrazy_2D",
+          "odpowiedz": "3 kwadraty o srodkach: (399, 5), (546, 2), (630, 11)"
+        },
+        {
+          "numer": "2.3",
+          "punkty": 2,
+          "opis": "Kazdy napis traktujemy jako liczbe w systemie trojkowym (o=0, +=1, *=2). Podaj najwieksza liczbe sposrod liczb zapisanych w pliku symbole.txt w zapisie dziesietnym oraz napis jej odpowiadajacy.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_minmax",
+          "odpowiedz": "531246 *******o+*+o"
+        },
+        {
+          "numer": "2.4",
+          "punkty": 3,
+          "opis": "Oblicz sume wszystkich liczb z pliku symbole.txt (interpretowanych jako trojkowe). Podaj jej wartosc w zapisie dziesietnym oraz w zapisie trojkowym z uzyciem symboli o, +, *.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_zlozone",
+          "odpowiedz": "527865439 ++oo*+oo*++ooo*o*++"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["przetwarzanie tekstow", "systemy liczbowe", "palindromy", "wzorce w danych 2D"],
+        "algorytmiczny": ["porownywanie napisow", "konwersja systemow liczbowych", "wyszukiwanie wzorcow w macierzy 2D", "sumowanie duzych liczb"],
+        "implementacyjny": ["odczyt pliku tekstowego", "operacje na stringach", "petla iteracyjna", "tablica 2D", "konwersja baza 3 na 10 i odwrotnie"],
+        "punktowy": "sredni",
+        "czasowy_min": 40,
+        "pulapki": [
+          "Bledne traktowanie siatki 2D -- kwadraty 3x3 wymagaja sprawdzenia trzech kolejnych wierszy",
+          "Krawedzie siatki -- kwadraty moga dotykac brzegu (pozycje 1, 2, 11, 12)",
+          "Przepelnienie przy sumowaniu 2000 liczb 12-cyfrowych w systemie trojkowym (max ~531441 * 2000 ~ 10^9)",
+          "Konwersja sumy z powrotem na system trojkowy z uzyciem symboli o/+/* zamiast 0/1/2",
+          "Pomylenie kolejnosci cyfr przy konwersji trojkowej (MSB vs LSB)"
+        ]
+      }
+    },
+    {
+      "numer": 3,
+      "tytul": "Dron",
+      "punkty": 6,
+      "podzadania": [
+        {
+          "numer": "3.1",
+          "punkty": 2,
+          "opis": "Dla kazdego przesuniecia [A, B] z pliku dron.txt (100 wierszy par liczb calkowitych) oblicz NWD wartosci bezwzglednych A i B. Podaj liczbe par, dla ktorych NWD(|A|, |B|) > 1. Przyjmujemy NWD(A, 0) = A.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "odpowiedz": 40
+        },
+        {
+          "numer": "3.2",
+          "punkty": 4,
+          "opis": "Rozważ wszystkie punkty, w ktorych dron znalazl sie po wykonaniu kolejnych przesuniec (100 punktow). (a) Podaj ile z nich znajduje sie wewnatrz kwadratu (0,0)-(5000,5000), nie liczac krawedzi. (b) Znajdz trojke roznych punktow, takich ze jeden jest srodkiem odcinka o koncach w pozostalych dwoch. Jest jedna taka trojka.",
+          "typ": "implementacja",
+          "typ_zadania": "obliczenia_geometryczne",
+          "odpowiedz": {
+            "a": 24,
+            "b": "(5832, 1801), (7410, 1990), (8988, 2179)"
+          }
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["geometria obliczeniowa", "teoria liczb", "przetwarzanie danych"],
+        "algorytmiczny": ["algorytm Euklidesa (NWD)", "sumy prefiksowe (kumulacja wspolrzednych)", "wyszukiwanie trojek punktow wspoliniowych", "wartosc bezwzgledna"],
+        "implementacyjny": ["odczyt par liczb z pliku", "petla iteracyjna", "warunek przynaleznosci do kwadratu", "porownywanie par punktow O(n^2) lub O(n^3)"],
+        "punktowy": "trudny",
+        "czasowy_min": 35,
+        "pulapki": [
+          "Obsluga NWD z zerem -- NWD(A, 0) = A, ale NWD(0, 0) jest nieokreslone (tu nie wystepuje)",
+          "Wartosc bezwzgledna B moze byc ujemna -- trzeba uzyc |B|",
+          "Punkty na krawedziach kwadratu nie sa liczone (ostry warunek <, nie <=)",
+          "Trojka punktow wspoliniowych -- srodek odcinka musi miec calkowite wspolrzedne, wiec sumy wspolrzednych musza byc parzyste",
+          "Zlozonosc O(n^3) dla 100 punktow jest akceptowalna, ale trzeba poprawnie sprawdzic warunek srodka"
+        ]
+      }
+    },
+    {
+      "numer": 4,
+      "tytul": "Keylogger",
+      "punkty": 1,
+      "podzadania": [
+        {
+          "numer": "4",
+          "punkty": 1,
+          "opis": "Dokoncz zdanie: Program typu keylogger sluzy do... Wybor sposrod A (szyfrowanie), B (przechowywanie hasel), C (generowanie kodu bankowego), D (przechwytywanie nacisnienc klawiszy).",
+          "typ": "teoria",
+          "typ_zadania": "teoria_bezpieczenstwa",
+          "odpowiedz": "D"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["bezpieczenstwo informatyczne", "malware", "zagrozenia sieciowe"],
+        "algorytmiczny": [],
+        "implementacyjny": [],
+        "punktowy": "latwy",
+        "czasowy_min": 1,
+        "pulapki": [
+          "Mylenie keyloggera z menedzerem hasel (B) lub programem szyfrujacym (A)"
+        ]
+      }
+    },
+    {
+      "numer": 5,
+      "tytul": "Dodawanie binarne",
+      "punkty": 2,
+      "podzadania": [
+        {
+          "numer": "5",
+          "punkty": 2,
+          "opis": "Uzupelnij brakujace cyfry w pisemnym dodawaniu dwoch liczb binarnych. Dane czesciowe: 11_0101101 + _1100_10111 = 1_01100_1_10 (podkreslenia oznaczaja brakujace cyfry). Nalezy wstawic poprawne cyfry binarne, aby dzialanie bylo poprawne.",
+          "typ": "teoria",
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "odpowiedz": "11001011011 + 1100110111 = 100110010010 (brakujace cyfry: 0, 1, 0, 0, 0)"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["systemy liczbowe", "arytmetyka binarna"],
+        "algorytmiczny": ["dodawanie pisemne w systemie dwojkowym", "przeniesienie (carry)"],
+        "implementacyjny": [],
+        "punktowy": "latwy",
+        "czasowy_min": 5,
+        "pulapki": [
+          "Bledne sledzenie przeniesien (carry) pomiedzy pozycjami",
+          "Pomylenie kolumn przy recznym dodawaniu",
+          "Wynik moze miec o jedna cyfre wiecej niz dluzszy skladnik"
+        ]
+      }
+    },
+    {
+      "numer": 6,
+      "tytul": "Martianeum",
+      "punkty": 11,
+      "podzadania": [
+        {
+          "numer": "6.1",
+          "punkty": 2,
+          "opis": "Podaj laczna mase ladunkow drona oraz laczna mase martianeum wydobytego przez stacje. Stacja wydobywa martianeum tylko gdy zawartosc w ladunku wynosi co najmniej 1%.",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "odpowiedz": "Laczna masa ladunkow: 41498,2 kg; Laczna masa martianeum: 3092,2943 kg"
+        },
+        {
+          "numer": "6.2",
+          "punkty": 1,
+          "opis": "Podaj nazwe obszaru, dla ktorego srednia masa przywiezionych ladunkow jest najmniejsza.",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "odpowiedz": "Thaumasia"
+        },
+        {
+          "numer": "6.3",
+          "punkty": 2,
+          "opis": "Podziel czas pracy stacji na 7-dniowe okresy (pierwszy: 03.03.2033-09.03.2033). Podaj najwieksza laczna mase ladunkow przywiezionych w ciagu jednego okresu oraz date poczatku tego okresu.",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_transformacja",
+          "odpowiedz": "174,5 kg, poczatek okresu: 13.12.2035"
+        },
+        {
+          "numer": "6.4",
+          "punkty": 3,
+          "opis": "Wykonaj zestawienie: dla kazdego z 30 obszarow podaj ile razy dron przewozil ladunek w poszczegolnych latach (2033-2038). Na podstawie zestawienia utworz wykres skumulowany kolumnowy z opisem osi X (nazwy obszarow), osi Y (liczba przewozow ladunku), tytulem i legenda z latami.",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_wykres",
+          "odpowiedz": "Tabela 30 obszarow x 6 lat + wykres skumulowany kolumnowy"
+        },
+        {
+          "numer": "6.5",
+          "punkty": 3,
+          "opis": "Symulacja dzialania stacji: wydobycie martianeum z ladunkow o zawartosci >= 1%, a gdy stan magazynu >= 100 kg, transporter zabiera 100 kg na orbite. Podaj: ile razy stacja wyslala ladunek na orbite, date pierwszego i ostatniego transportu.",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_symulacja",
+          "odpowiedz": "30 razy, pierwszy transport: 29.05.2033, ostatni transport: 01.09.2038"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["przetwarzanie danych tabelarycznych", "arkusz kalkulacyjny", "symulacja procesu", "wizualizacja danych"],
+        "algorytmiczny": ["sumowanie warunkowe", "srednia grupowa", "podzial na okresy czasowe", "symulacja krokowa z akumulatorem"],
+        "implementacyjny": ["funkcje arkusza kalkulacyjnego (SUMIFS, AVERAGEIF, COUNTIFS)", "tabela przestawna", "wykres skumulowany kolumnowy", "logika warunkowa (IF)"],
+        "punktowy": "sredni",
+        "czasowy_min": 50,
+        "pulapki": [
+          "Zawartosc martianeum >= 1% -- warunek progowy, nie > 1%",
+          "Wydobycie calego mineralu z ladunku (masa * zawartosc/100), nie tylko nadwyzki powyzej progu",
+          "Transporter zabiera dokladnie 100 kg -- nadmiar zostaje, a jesli jest np. 250 kg, zabiera tylko raz 100 kg (nie 200 kg)",
+          "Okresy 7-dniowe liczone od 03.03.2033, nie od poczatku miesiaca",
+          "Srednia masa ladunkow -- dzielenie przez liczbe ladunkow z danego obszaru, nie przez liczbe dni",
+          "Wykres musi byc skumulowany (stacked), nie zgrupowany (grouped)",
+          "Separator dziesietny -- dane uzywaja przecinka (format polski)"
+        ]
+      }
+    },
+    {
+      "numer": 7,
+      "tytul": "Poszukiwanie wody na Marsie",
+      "punkty": 10,
+      "podzadania": [
+        {
+          "numer": "7.1",
+          "punkty": 2,
+          "opis": "Podaj nazwe obszaru, na ktorym znaleziono lacznie we wszystkich pomiarach najwiecej m3 wody na glebokosci do 100 metrow wlacznie. Jest jeden taki obszar. Dane w trzech plikach: laziki.txt, obszary.txt, pomiary.txt.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_zlozone",
+          "odpowiedz": "Mare Boreum"
+        },
+        {
+          "numer": "7.2",
+          "punkty": 2,
+          "opis": "Podaj nazwe lazika, ktory wykonywal pomiary w najdluzszym okresie (od pierwszego do ostatniego pomiaru). Podaj date pierwszego i ostatniego pomiaru.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_zlozone",
+          "odpowiedz": "Spirit 14, pierwszy pomiar: 29.08.2066, ostatni pomiar: 25.07.2076"
+        },
+        {
+          "numer": "7.3",
+          "punkty": 2,
+          "opis": "Podaj nazwy obszarow na Marsie, na ktorych zaden z lazikow nie wykonal ani jednego pomiaru w tym samym roku, w ktorym zostal wyslany z Ziemi.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_zlozone",
+          "odpowiedz": [
+            "Aeolis",
+            "Amazonis",
+            "Arabia",
+            "Elysium",
+            "Eridania",
+            "Mare Tyrrhenum",
+            "Sinus Sabaeus",
+            "Syrtis Major"
+          ]
+        },
+        {
+          "numer": "7.4",
+          "punkty": 2,
+          "opis": "Podaj nazwy lazikow, ktore wyladowaly na polkuli poludniowej (S w wsp_ladowania), ale wykonywaly pomiary na obu polkulach: polnocnej (N) i poludniowej (S).",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_zlozone",
+          "odpowiedz": [
+            "Mariner 14",
+            "Mariner 15",
+            "Mariner 20",
+            "Viking 17",
+            "Spirit 7",
+            "Spirit 12",
+            "Rosetta 1",
+            "Rosetta 8",
+            "Phoenix 3",
+            "Phoenix 13"
+          ]
+        },
+        {
+          "numer": "7.5",
+          "punkty": 2,
+          "opis": "Napisz zapytanie SQL: lista nazw producentow (bez powtorzen), ktorych laziki badaly obszar Arcadia w roku 2060. Tabele: Producent (kod_producenta, nazwa, kraj), Laziki (nr_lazika, nazwa_lazika, rok_wyslania, wsp_ladowania, kod_producenta), Pomiary (nr_lazika, data_pomiaru, kod_obszaru, wspolrzedne, glebokosc, ilosc), Obszary (kod_obszaru, nazwa_obszaru).",
+          "typ": "SQL",
+          "typ_zadania": "sql_join"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["bazy danych", "zapytania SQL", "przetwarzanie danych relacyjnych", "laczenie tabel"],
+        "algorytmiczny": ["filtrowanie warunkowe", "agregacja (SUM, MIN, MAX)", "laczenie tabel (JOIN)", "grupowanie", "parsowanie wspolrzednych geograficznych"],
+        "implementacyjny": ["SQL JOIN (INNER JOIN wielokrotny)", "SELECT DISTINCT", "WHERE z warunkami na rok i nazwe", "YEAR() na datach", "import danych TSV do bazy", "operacje na stringach (wyciaganie N/S z wspolrzednych)"],
+        "punktowy": "sredni",
+        "czasowy_min": 40,
+        "pulapki": [
+          "Glebkosc do 100 metrow WLACZNIE (<=, nie <)",
+          "Najdluzszy okres mierzony od pierwszego do ostatniego pomiaru, nie liczba pomiarow",
+          "Zad. 7.3 -- pytanie o obszary gdzie ZADEN lazik NIE wykonal pomiaru w roku wyslania (negacja warunku)",
+          "Zad. 7.4 -- laziki wyladowaly na polkuli poludniowej (S w wspolrzednych ladowania), ale pomiary na obu polkulach (N i S w wspolrzednych pomiarow)",
+          "Rozroznienie miedzy wspolrzednymi ladowania a wspolrzednymi pomiarow",
+          "SQL: wymagane DISTINCT aby nazwy producentow sie nie powtarzaly",
+          "SQL: laczenie 4 tabel (Producent-Laziki-Pomiary-Obszary)"
+        ]
+      }
+    }
+  ]
+}

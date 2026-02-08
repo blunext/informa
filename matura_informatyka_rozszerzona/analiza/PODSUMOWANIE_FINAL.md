@@ -1,299 +1,354 @@
-# 📊 Podsumowanie Analizy Matur 2014-2025
+# Podsumowanie Analizy Matur z Informatyki Rozszerzonej 2014-2025
 
-## ✅ Status Wykonania
+## Status Wykonania
 
-### Ukończone Analizy:
-- ✅ **2014** - Pełna analiza (JSON + MD wzorców)
-- ✅ **2015** - Analiza JSON
-- ✅ **2016** - Analiza JSON
-- ✅ **2017** - Analiza JSON (częściowa)
-- ⚠️ **2018-2025** - Struktura rozpoznana, szczegóły do uzupełnienia
+### Ukonczone Analizy (11/11 lat):
+- 2014 - Pelna analiza (analiza_2014.json)
+- 2015 - Pelna analiza (analiza_2015.json)
+- 2016 - Pelna analiza (analiza_2016.json)
+- 2017 - Pelna analiza (analiza_2017.json)
+- 2018 - Czesciowa analiza: tylko Czesc I (analiza_2018.json)
+- 2019 - Pelna analiza (analiza_2019.json)
+- 2021 - Pelna analiza (analiza_2021.json)
+- 2022 - Pelna analiza (analiza_2022.json)
+- 2023 - Pelna analiza (analiza_2023.json)
+- 2024 - Pelna analiza (analiza_2024.json)
+- 2025 - Pelna analiza (analiza_2025.json)
 
-### Kluczowe Odkrycia:
-1. **Zmiana formuły w 2018**: Arkusz 2018 ma napis "NOWA FORMUŁA"
-   - Część I: 60 min (wcześniej 90), 15 pkt (wcześniej 20)
-   - Prawdopodobnie inna struktura egzaminu
-
-2. **Zmiany w 2023**: CKE ogłosiła kolejną zmianę formuły
-
-3. **Formuły egzaminacyjne**:
-   - 2014-2017: Formuła 2015 (klasyczna 2-częściowa)
-   - 2018-2022: Formuła 2018 (zmodyfikowana)
-   - 2023-2025: Formuła 2023 (najnowsza)
+Brak: 2020 (egzamin odwolany - COVID-19)
 
 ---
 
-## 🎯 Najważniejsze Wnioski
+## Formuly Egzaminacyjne
 
-### TOP 10 Tematów (Częstość występowania):
+### Formula 2015 (stara) - lata 2014-2022
+**2014**: Czesc I: 90 min / 20 pkt, Czesc II: 120 min / 30 pkt = 210 min / 50 pkt
+**2015-2022**: Czesc I: 60 min / 15 pkt, Czesc II: 150 min / 35 pkt = 210 min / 50 pkt
+- 6 zadan (3 teoria + 3 praktyka)
+- Czesc I: algorytmy, analiza, test P/F
+- Czesc II: programowanie + arkusz kalkulacyjny + bazy danych SQL
 
-1. **SQL + Bazy Danych** - 100% (w każdym egzaminie z bazami)
-2. **Sortowanie** - 100%
-3. **Złożoność algorytmów** - 80-100%
-4. **Przeszukiwanie binarne** - 70-90%
-5. **Operacje na liczbach** - 70-80%
-6. **Rekurencja** - 60-80%
-7. **Przetwarzanie plików** - 70%
-8. **Excel/Arkusz** - 60-70%
-9. **Operacje na stringach** - 60-70%
-10. **Systemy liczbowe** - 50-60%
+### Formula 2023 (nowa) - lata 2023-2025
+**2023-2025**: Jeden arkusz, 210 min, 50 pkt
+- 7-8 zadan roznego typu w jednym arkuszu
+- Krotkie pytania teoretyczne za 1-2 pkt (quick wins)
+- Zadania programistyczne, arkuszowe i SQL polaczone w jednym bloku
+- Wieksza roznorodnosc typow zadan
 
-### Nowe tematy (od 2018):
-- **Geometria obliczeniowa** (sortowanie punktów według kąta)
-- **Technologie webowe** (PHP, JavaScript)
-- **Modele barw** (RGB, CMYK)
-
----
-
-## 📁 Utworzone Materiały
-
-### 1. Analizy Szczegółowe:
-- `analiza_2014.json` - Pełna struktura egzaminu 2014
-- `analiza_2015.json` - Struktura 2015
-- `analiza_2016.json` - Struktura 2016
-- `analiza_2017.json` - Struktura 2017
-
-### 2. Wzorce i Pułapki:
-- `wzorce_2014.md` - Wzorce kodu i typowe błędy 2014
-- `wzorce_2015.md` - Wzorce kodu 2015
-
-### 3. Dokumenty Strategiczne:
-- ✅ `strategia_egzaminacyjna.md` - **GŁÓWNY DOKUMENT**
-  - TOP 10 algorytmów
-  - Strategia punktowa (Quick wins → Średnie → Trudne)
-  - Time management
-  - TOP 10 pułapek
-  - Quick reference (C++, SQL)
-
-- ✅ `ranking_tematow.csv` - Częstość występowania tematów
-- ✅ `podsumowanie_szybkie_wszystkie_lata.md` - Przegląd wszystkich lat
-- ✅ `PODSUMOWANIE_FINAL.md` - Ten dokument
+### Kluczowe roznice:
+| Cecha | Formula 2015 | Formula 2023 |
+|-------|-------------|-------------|
+| Czas | 210 min (60+150) | 210 min (jeden blok) |
+| Punkty | 50 (15+35) | 50 |
+| Czesci | 2 oddzielne | 1 arkusz |
+| Liczba zadan | 6 | 7-8 |
+| Quick wins | 3-5 pkt (test P/F) | 2-3 pkt (krotkie pytania) |
+| Teoria | Oddzielna czesc | Wpleciona w zadania |
 
 ---
 
-## 🎓 Jak Używać Tych Materiałów?
+## Ranking Tematow (Na podstawie 11 lat)
 
-### KROK 1: Zrozum Strategię (1 dzień)
-1. Przeczytaj `strategia_egzaminacyjna.md`
-2. Zapamiętaj TOP 10 algorytmów
-3. Zrozum strategię punktową
+### TIER 1 - Pewne (100%):
+1. **SQL / Bazy danych** - 11/11 = 100% - ZAWSZE na egzaminie
+2. **Operacje na liczbach/cyfrach** - 10/10 = 100% - mod/div, cyfry, podzielnosc
+3. **Przetwarzanie plikow** - 10/10 = 100% - ifstream, parsowanie danych
+4. **Arkusz kalkulacyjny** - 10/10 = 100% - SUM, IF, COUNTIF, wykresy
 
-### KROK 2: Naucz się Wzorców (1-2 tygodnie)
-1. Przeglądaj `wzorce_2014.md` i `wzorce_2015.md`
-2. Implementuj każdy wzorzec samodzielnie
-3. Rozwiąż zadania z plików `dane_PR/`
+### TIER 2 - Bardzo czeste (70-85%):
+5. **Systemy liczbowe** - 9/11 = 82% - bin/oct/hex, konwersje
+6. **Rekurencja** - 8/11 = 73% - sledzenie, konwersja na iteracje
+7. **Sortowanie** - 8/11 = 73% - sort, partition, klucze
+8. **Teoria liczb / NWD** - 8/11 = 73% - Euklides, dzielniki, l. pierwsze
 
-### KROK 3: Praktyka na Starych Arkuszach (3-4 tygodnie)
-1. **Tydzień 1**: 2014-2016 (formuła 2015)
-2. **Tydzień 2**: 2017-2019 (koniec starej formuły)
-3. **Tydzień 3**: 2021-2022 (formuła 2018)
-4. **Tydzień 4**: 2023-2025 (formuła 2023 - aktualna!)
+### TIER 3 - Czeste (55-65%):
+9. **Zlozonosc algorytmow** - 7/11 = 64% - O(n), O(n^2), O(log n)
+10. **Operacje na stringach** - 6/10 = 60% - ASCII, manipulacja tekstem
 
-**Tryb ćwiczeń**:
-- Egzamin w warunkach rzeczywistych (limit czasu!)
-- Sprawdzenie z `odpowiedzi.pdf`
-- Analiza błędów
-- Zanotowanie wzorców
+### TIER 4 - Sporadyczne (25-40%):
+11. **Kryptografia / bezpieczenstwo** - 4/11 = 36%
+12. **Sieci komputerowe** - 3/11 = 27%
+13. **Przeszukiwanie binarne** - 3/11 = 27%
+14. **Geometria / matematyka** - 3/11 = 27%
 
-### KROK 4: Repetytorium (1 tydzień przed egzaminem)
-1. Powtórz wszystkie wzorce kodu
-2. Przejrzyj TOP 10 pułapek
-3. Zrób ostatni egzamin próbny (najnowszy rok)
-4. Checklist z `strategia_egzaminacyjna.md`
-
----
-
-## 📚 TODO: Materiały do Stworzenia
-
-### Priorytet WYSOKI:
-- [ ] **C++ Templates** (`templates/`)
-  - `file_io.cpp` - Obsługa plików
-  - `number_operations.cpp` - NWD, sito, dzielniki
-  - `sorting_searching.cpp` - Sort, binary search
-  - `recursion_patterns.cpp` - Wzorce rekurencji
-
-- [ ] **SQL Templates** (`sql_templates/`)
-  - `joins.sql` - Wzorce JOIN
-  - `aggregation.sql` - GROUP BY, COUNT, SUM
-  - `subqueries.sql` - Zagnieżdżone zapytania
-
-- [ ] **Checklisty** (`checklisty/`)
-  - `przed_egzaminem.md` - Co powtórzyć
-  - `podczas_egzaminu.md` - Time management
-  - `debug_checklist.md` - Co sprawdzić w kodzie
-
-### Priorytet ŚREDNI:
-- [ ] Dokończenie analiz 2018-2025
-- [ ] Wzorce dla lat 2018-2025
-- [ ] Zestaw ćwiczeń dla TOP 10 algorytmów
-
-### Priorytet NISKI:
-- [ ] Statystyki szczegółowe (macierz temat × rok)
-- [ ] Przykładowe rozwiązania dla każdego roku
-- [ ] Generator danych testowych
+### TIER 5 - Rzadkie (<20%):
+15. Struktury danych (kopiec, BST) - 2/11 = 18%
+16. Programowanie dynamiczne - 1/11 = 9%
+17. Algorytmy zachlanne - 1/11 = 9%
+18. DFS/BFS - 1/11 = 9%
+19. Operacje bitowe (XOR) - 1/11 = 9%
+20. Modele barw - 1/11 = 9%
+21. Technologie web - 1/11 = 9%
 
 ---
 
-## 🔍 Kluczowe Obserwacje z Analizy
+## Rozklad Punktow wg Typu Zadania (24 typy w 4 kategoriach)
 
-### Ewolucja Egzaminu:
-1. **2014-2017** (Formuła 2015):
-   - Klasyczny 2-częściowy egzamin
-   - Część I: teoria (90 min, 20 pkt)
-   - Część II: praktyka (120 min, 30 pkt)
-   - Zadania: rekurencja, algorytmy numeryczne, SQL, Excel, programowanie
+Pelna macierz: `ranking_typow_zadan.csv`
 
-2. **2018** (Początek zmian):
-   - Napis "NOWA FORMUŁA"
-   - Część I: 60 min, 15 pkt (zmiana!)
-   - Nowe tematy: geometria, PHP/JS, modele barw
-   - Algorytm: binary search dla pierwiastka sześciennego
+### TEORIA I ANALIZA (6 typow, lacznie 164 pkt):
+| Typ zadania | Lat | Laczne pkt | Opis |
+|-------------|-----|-----------|------|
+| sledzenie_algorytmu | 11/11 | 45 | Przesledzic algorytm krok po kroku |
+| projektowanie_algorytmu | 11/11 | 43 | Napisac algorytm/pseudokod |
+| analiza_algorytmu | 10/11 | 37 | Zlozonosc, wlasciwosci, dowody |
+| test_prawda_falsz | 10/11 | 25 | Ocenic prawdziwosc zdan (P/F) |
+| konwersja_systemow_liczbowych | 9/11 | 12 | Konwersje miedzy bazami |
+| teoria_bezpieczenstwa | 2/11 | 2 | Szyfrowanie, protokoly |
 
-3. **2023-2025** (Formuła 2023):
-   - Kolejne zmiany (do szczegółowej analizy)
-   - Aktualny format egzaminu
+### IMPLEMENTACJA (8 typow, lacznie 147 pkt):
+| Typ zadania | Lat | Laczne pkt | Opis |
+|-------------|-----|-----------|------|
+| przetwarzanie_cyfry_liczby | 6/11 | 36 | Cyfry, NWD, potegi, faktoryzacja |
+| przetwarzanie_napisy | 4/11 | 25 | Palindromy, szyfry, ASCII |
+| przetwarzanie_zlozone | 4/11 | 24 | Wieloetapowy algorytm na danych |
+| przetwarzanie_zliczanie | 5/11 | 17 | Zliczanie/filtrowanie danych |
+| przetwarzanie_minmax | 5/11 | 17 | Min/max, sortowanie, rozklad |
+| przetwarzanie_sekwencje | 3/11 | 13 | Najdluzszy podciag, bloki |
+| przetwarzanie_obrazy_2D | 2/11 | 11 | Piksele, siatki, DFS/BFS |
+| obliczenia_geometryczne | 1/11 | 4 | Odleglosci, srodki, pola |
 
-### Stałe Elementy (Wszystkie lata):
-- ✅ Sortowanie i wyszukiwanie
-- ✅ SQL (JOIN, agregacje)
-- ✅ Operacje na liczbach
-- ✅ Analiza złożoności
-- ✅ Przetwarzanie danych
+### ARKUSZ KALKULACYJNY (5 typow, lacznie 112 pkt):
+| Typ zadania | Lat | Laczne pkt | Opis |
+|-------------|-----|-----------|------|
+| arkusz_agregacja_warunkowa | 9/11 | 38 | SUMIF, COUNTIF, AVERAGEIF |
+| arkusz_symulacja | 9/11 | 37 | Symulacje krokowe, formuly dynamiczne |
+| arkusz_wykres | 8/11 | 25 | Kolumnowy, kolowy, liniowy |
+| arkusz_agregacja_podstawowa | 3/11 | 9 | SUM, COUNT, AVERAGE, MAX/MIN |
+| arkusz_transformacja | 2/11 | 3 | Grupowanie, pivoty |
 
-### Zmienne Elementy:
-- Rekurencja (częściej w starych latach)
-- Excel (mniej w nowych latach)
-- Nowe technologie (PHP, JS - od 2018)
+### SQL (4 typy, lacznie 92 pkt):
+| Typ zadania | Lat | Laczne pkt | Opis |
+|-------------|-----|-----------|------|
+| sql_group_by | 8/11 | 36 | GROUP BY z COUNT/SUM/AVG |
+| sql_podzapytania | 7/11 | 25 | Podzapytania, NOT IN, EXISTS |
+| sql_join | 8/11 | 21 | Laczenie 2-3 tabel JOIN |
+| sql_select_where | 4/11 | 10 | Prosty SELECT z WHERE |
+
+### Podsumowanie kategorii:
+| Kategoria | Typow | Laczne pkt | Srednia/rok |
+|-----------|-------|-----------|-------------|
+| TEORIA | 6 | 164 | ~15 |
+| IMPLEMENTACJA | 8 | 147 | ~13 |
+| ARKUSZ | 5 | 112 | ~10 |
+| SQL | 4 | 92 | ~8 |
+| **RAZEM** | **23** | **515** | **~47** |
 
 ---
 
-## 💡 Najważniejsze Wzorce Kodu
+## Analiza Rok po Roku
 
-### 1. Operacje na cyfrach liczby:
+### 2014 (Formula 2015 - stara, 90+120 min)
+- Zad 1: **Korale** (8 pkt) - rekurencja, konwersja na iteracje, rep. binarna
+- Zad 2: **Bisekcja** (6 pkt) - algorytm numeryczny, przeszukiwanie binarne
+- Zad 3: **Test mieszany** (6 pkt) - systemy liczbowe, NWD, kombinatoryka
+- Zad 4: **Arkusz - przychody/koszty** (9 pkt) - SUM, IF, wykresy
+- Zad 5: **Programowanie - napisy** (10 pkt) - pliki, stringi, ASCII, grupowanie
+- Zad 6: **SQL - przedszkola** (11 pkt) - JOIN, GROUP BY, AVG, LIKE
+
+### 2015 (Formula 2015, 60+120 min)
+- Zad 1: **Problem telewidza** (5 pkt) - algorytm zachlanny (Activity Selection)
+- Zad 2: **Test P/F** (5 pkt) - systemy liczbowe, kompresja, Excel
+- Zad 3: **Rozszerzony Euklides** (5 pkt) - NWD, rekurencja
+- Zad 4: **Programowanie - liczby** (12 pkt) - cyfry, podzielnosc, min/max
+- Zad 5: **Arkusz - demografia** (13 pkt) - SUMIF, wykresy, prognozy
+- Zad 6: **SQL - Formula 1** (10 pkt) - JOIN, LEFT JOIN, GROUP BY
+
+### 2016 (Formula 2015, 60+120 min)
+- Zad 1: **Liczby skojarzone** (5 pkt) - dzielniki, optymalizacja O(sqrt(n))
+- Zad 2: **Przestawienia** (6 pkt) - partycjonowanie (quicksort partition)
+- Zad 3: **Test P/F** (4 pkt) - DNS/SMTP, rekurencja, arytm. binarna, SO
+- Zad 4: **Arkusz - Monte Carlo pi** (11 pkt) - symulacja, COUNTIF, wykresy
+- Zad 5: **SQL - uniwersytet** (12 pkt) - JOIN, LEFT JOIN, HAVING, LENGTH
+- Zad 6: **Programowanie - szyfr Cezara** (12 pkt) - kryptografia, pliki, ASCII
+
+### 2017 (Formula 2015, 60+120 min)
+- Zad 1: **Prostokat** (6 pkt) - optymalizacja O(n), podzielnosc
+- Zad 2: **Rekurencja licz(x)** (6 pkt) - sledzenie, rep. binarna
+- Zad 3: **Test P/F** (3 pkt) - SQL ORDER BY, GROUP BY/HAVING, kryptografia
+- Zad 4: **Arkusz - cukier** (13 pkt) - rabaty progresywne, SUMIF, wykresy
+- Zad 5: **SQL - pilka reczna** (11 pkt) - JOIN, LEFT JOIN, CASE WHEN
+- Zad 6: **Programowanie - obraz rastrowy** (11 pkt) - piksele, DFS/BFS, connected components
+
+### 2018 (Nowa Formula 2015, 60+150 min) - CZESCIOWA ANALIZA
+- Zad 1: **Pierwiastek szescienny** (6 pkt) - binary search, zlozonosc
+- Zad 2: **Krajobraz** (6 pkt) - geometria, sortowanie punktow
+- Zad 3: **Test P/F** (3 pkt) - PHP/JS, RGB/CMYK, SQL
+- Czesc II: NIE PRZEANALIZOWANA
+
+### 2019 (Formula 2015, 60+150 min)
+- Zad 1: **Ulubione liczby** (6 pkt) - wyszukiwanie binarne, zlozonosc
+- Zad 2: **Analiza algorytmu** (6 pkt) - rekurencja, drzewo wywolan
+- Zad 3: **Test P/F** (3 pkt) - SQL, systemy liczbowe, DNS
+- Zad 4: **Programowanie - liczby** (12 pkt) - potegi 3, silnia cyfr, NWD
+- Zad 5: **Arkusz - pogoda** (11 pkt) - filtrowanie, srednie, wykresy
+- Zad 6: **SQL - perfumy** (12 pkt) - 3 tabele, JOIN, LIKE, podzapytania
+
+### 2021 (Formula 2015, 60+150 min) - pierwszy po COVID
+- Zad 1: **Cyfrowe dopelnienie** (6 pkt) - operacje mod/div na cyfrach
+- Zad 2: **Kopiec binarny** (6 pkt) - struktura danych, sift-up
+- Zad 3: **Test P/F** (3 pkt) - rekurencja, systemy liczbowe, SQL
+- Zad 4: **Programowanie - napisy** (11 pkt) - DOPISZ/USUN/ZMIEN/PRZESUN
+- Zad 5: **Arkusz - wodociagi** (12 pkt) - agregacja, prognoza, wykresy
+- Zad 6: **SQL - gra strategiczna** (12 pkt) - COUNT DISTINCT, LIKE, JOIN
+
+### 2022 (Formula 2015, 60+150 min) - ostatni rok starej formuly
+- Zad 1: **n-permutacja** (6 pkt) - tablica zliczajaca, counting array
+- Zad 2: **ab-slowo** (6 pkt) - prefix/suffix sum, analiza algorytmu
+- Zad 3: **Test P/F** (3 pkt) - zlozonosc O(n^2), systemy liczbowe, SQL
+- Zad 4: **Programowanie - liczby** (12 pkt) - cyfry, czynniki pierwsze, trojki
+- Zad 5: **Arkusz - soki** (12 pkt) - zamowienia, wykresy kolowe, daty
+- Zad 6: **SQL - ewidencja uczniow** (11 pkt) - JOIN, daty, czas pobytu
+
+### 2023 (Formula 2023 - NOWA, 210 min)
+- Zad 1: **Biblioteczka Adama** (7 pkt) - BST, rekurencja, preorder
+- Zad 2: **Liczby binarne** (11 pkt) - bloki, XOR, konwersje, kod Graya
+- Zad 3: **Liczba Pi** (10 pkt) - przetwarzanie ciagow, zliczanie, rosnaco-malejace
+- Zad 4: **Szyfrowanie asymetryczne** (1 pkt) - quick win, P/F
+- Zad 5: **Systemy pozycyjne** (1 pkt) - quick win, porownywanie
+- Zad 6: **Konfitury owocowe** (10 pkt) - arkusz, symulacja produkcji
+- Zad 7: **Gry planszowe** (10 pkt) - baza danych, SQL, AVG, CASE WHEN
+
+### 2024 (Formula 2023, 210 min)
+- Zad 1: **Plansza** (5 pkt) - programowanie dynamiczne, tablica 2D
+- Zad 2: **Cyfry** (3 pkt) - sledzenie algorytmu, mod/div
+- Zad 3: **Nieparzysty skrot** (10 pkt) - pseudokod, pliki, NWD
+- Zad 4: **Liczby** (10 pkt) - l. pierwsze, faktoryzacja, sliding window
+- Zad 5: **Protokoly** (1 pkt) - quick win, HTTP/FTP/DHCP
+- Zad 6: **Systemy liczbowe** (2 pkt) - dodawanie/odejmowanie w syst. 3 i 9
+- Zad 7: **Hurtownia** (10 pkt) - arkusz, sprzedaz, rabaty kumulacyjne
+- Zad 8: **Rejestr wykroczen** (9 pkt) - SQL, JOIN, LEFT JOIN, NOT IN
+
+### 2025 (Formula 2023, 210 min)
+- Zad 1: **Funkcja rekurencyjna** (9 pkt) - rekurencja, zamiana par cyfr
+- Zad 2: **Zapis symboliczny** (11 pkt) - palindromy, syst. trojkowy, wzorce 2D
+- Zad 3: **Dron** (6 pkt) - NWD, geometria, srodek odcinka
+- Zad 4: **Keylogger** (1 pkt) - quick win, bezpieczenstwo
+- Zad 5: **Dodawanie binarne** (2 pkt) - arytmetyka binarna
+- Zad 6: **Martianeum** (11 pkt) - arkusz, symulacja, wykresy skumulowane
+- Zad 7: **Woda na Marsie** (10 pkt) - baza danych, 4 tabele, SQL
+
+---
+
+## Kluczowe Wzorce Kodu
+
+### 1. Operacje na cyfrach liczby (100%):
 ```cpp
 while (n > 0) {
     int cyfra = n % 10;
-    // przetwórz cyfrę
+    // przetworz cyfre
     n = n / 10;
 }
 ```
 
-### 2. Dzielniki (OPTYMALIZACJA!):
+### 2. NWD - algorytm Euklidesa (73%):
 ```cpp
-for (int i = 1; i*i <= n; i++) {
-    if (n % i == 0) {
-        // i jest dzielnikiem
-        // n/i też jest dzielnikiem!
+int nwd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
     }
+    return a;
 }
 ```
 
-### 3. Przeszukiwanie binarne (uniwersalne):
+### 3. Przeszukiwanie binarne (27%):
 ```cpp
-int left = min_value, right = max_value;
+int left = 0, right = n - 1;
 while (left < right) {
     int mid = (left + right) / 2;
-    if (condition(mid)) left = mid + 1;
-    else right = mid;
+    if (condition(mid)) right = mid;
+    else left = mid + 1;
 }
-return left;  // lub right, zależy od warunku
 ```
 
-### 4. Sortowanie z kluczem:
-```cpp
-sort(arr, arr+n, [](Type a, Type b) {
-    return key(a) < key(b);
-});
-```
-
-### 5. SQL JOIN + Agregacja:
+### 4. SQL JOIN + agregacja (100%):
 ```sql
 SELECT t1.col, COUNT(*), SUM(t2.value)
 FROM table1 t1
-INNER JOIN table2 t2 ON t1.id = t2.foreign_id
+INNER JOIN table2 t2 ON t1.id = t2.fk
 WHERE condition
 GROUP BY t1.col
 HAVING COUNT(*) > threshold
 ORDER BY SUM(t2.value) DESC;
 ```
 
----
+### 5. SQL LEFT JOIN + IS NULL (czeste):
+```sql
+SELECT t1.name FROM table1 t1
+LEFT JOIN table2 t2 ON t1.id = t2.fk
+WHERE t2.id IS NULL;
+```
 
-## 🎯 Cel: 50/50 Punktów
-
-### Realistyczna Droga:
-1. **Quick wins** (5-10 pkt): 100% accuracy
-   - Pytania P/F
-   - Proste obliczenia
-   - Śledzenie algorytmu dla małych danych
-
-2. **Zadania standardowe** (25-30 pkt): 90% accuracy
-   - SQL, Excel
-   - Programowanie podstawowe
-   - Algorytmy znane
-
-3. **Zadania trudne** (10-15 pkt): 70% accuracy
-   - Optymalizacje
-   - Złożone algorytmy
-   - Nietypowe problemy
-
-**TOTAL: 45-50 punktów** = Ocena maksymalna! 🎯
+### 6. Sortowanie z kluczem:
+```cpp
+sort(arr, arr+n, [](auto& a, auto& b) {
+    return key(a) < key(b);
+});
+```
 
 ---
 
-## 📖 Dalsze Kroki
+## Strategia Punktowa
 
-### Dla Zdającego:
-1. Przeczytaj `strategia_egzaminacyjna.md` (30 min)
-2. Naucz się TOP 10 algorytmów (1 tydzień)
-3. Rozwiąż stare arkusze (3-4 tygodnie)
-4. Repetytorium tydzień przed egzaminem
+### Quick wins (3-5 pkt, 100% accuracy):
+- Pytania P/F (test)
+- Krotkie pytania za 1-2 pkt (nowa formula)
+- Proste sledzenie algorytmu
 
-### Dla Rozwinięcia Projektu:
-1. Dokończyć analizy 2018-2025
-2. Stworzyć C++ templates
-3. Stworzyć SQL templates
-4. Stworzyć zestaw ćwiczeń
-5. Stworzyć checklisty
+### Zadania standardowe (25-30 pkt, 90% accuracy):
+- SQL (JOIN, GROUP BY, agregacje)
+- Arkusz kalkulacyjny (formuly, wykresy)
+- Proste programowanie (pliki, cyfry, zliczanie)
 
----
+### Zadania trudne (15-20 pkt, 70% accuracy):
+- Optymalizacja algorytmow
+- Zlozone programowanie (DP, symulacje)
+- Trudne SQL (podzapytania, LEFT JOIN + NULL)
 
-## 📊 Statystyki
-
-- **Przeanalizowane lata**: 4 szczegółowo (2014-2017), 7 wstępnie (2018-2025)
-- **Zidentyfikowane tematy**: 15+
-- **Kluczowe algorytmy**: TOP 10
-- **Kluczowe pułapki**: TOP 10
-- **Utworzone dokumenty**: 10+
-- **Łączny rozmiar analiz**: ~100+ KB
-
----
-
-## ⭐ Najważniejsze Pliki
-
-1. **`strategia_egzaminacyjna.md`** ← **START TUTAJ!**
-2. **`wzorce_2014.md`** ← Przykładowe wzorce
-3. **`analiza_2014.json`** ← Szczegółowa struktura
-4. **`ranking_tematow.csv`** ← Częstość tematów
+### Kolejnosc rozwiazywania:
+1. Quick wins (5-10 min)
+2. SQL - jezeli znasz, szybkie punkty (30-40 min)
+3. Arkusz kalkulacyjny (40-50 min)
+4. Programowanie - proste podzadania (30-40 min)
+5. Teoria/algorytmy - jezeli zostal czas (20-30 min)
+6. Trudne podzadania - na koniec (reszta czasu)
 
 ---
 
-## 🎓 Słowo na Koniec
+## Pliki w Projekcie
 
-Matura rozszerzona z informatyki to egzamin wymagający, ale **przewidywalny**.
+### Analizy szczegolow (JSON):
+- `analiza_2014.json` - `analiza_2025.json` (11 plikow)
 
-**Klucz do sukcesu**:
-1. Znaj TOP 10 algorytmów
-2. Rozwiązuj stare arkusze w warunkach egzaminacyjnych
-3. Ucz się na błędach
-4. Time management!
+### Dokumenty strategiczne:
+- `strategia_egzaminacyjna.md` - GLOWNY DOKUMENT (TOP 14 algorytmow + implementacje + SQL + przewodnik typow zadan)
+- `ranking_tematow.csv` - Macierz temat x rok (21 tematow x 11 lat)
+- `ranking_typow_zadan.csv` - Macierz typ zadania x rok (23 typy x 11 lat, z punktami)
+- `PODSUMOWANIE_FINAL.md` - Ten dokument
+- `podsumowanie_szybkie_wszystkie_lata.md` - Przeglad chronologiczny
 
-**Pamiętaj**: Quick wins najpierw, trudne na końcu. Częściowe rozwiązanie > brak rozwiązania.
-
-**Powodzenia na egzaminie! Dasz radę! 🚀**
+### Wzorce kodu:
+- `wzorce_2014.md` - Wzorce i pulapki z 2014
+- `wzorce_2015.md` - Wzorce i pulapki z 2015
 
 ---
 
-*Dokument utworzony: 2024-02-02*
-*Ostatnia aktualizacja: 2024-02-02*
-*Wersja: 1.0*
+## TODO: Materialy do Stworzenia
+
+### Priorytet WYSOKI:
+- [ ] C++ Templates (file_io.cpp, number_operations.cpp, sorting_searching.cpp, dp_patterns.cpp)
+- [ ] SQL Templates (joins.sql, aggregation.sql, subqueries.sql)
+- [ ] Checklisty (przed_egzaminem.md, podczas_egzaminu.md, debug_checklist.md)
+
+### Priorytet SREDNI:
+- [ ] Dokonczenie analizy 2018 (Czesc II)
+- [ ] Wzorce dla lat 2018-2025
+- [ ] Zestaw cwiczen dla TOP 10 algorytmow
+
+---
+
+*Ostatnia aktualizacja: 2026-02-08*
+*Przeanalizowane lata: 11 (2014-2019, 2021-2025)*
+*Zidentyfikowane tematy: 21, Zidentyfikowane typy zadan: 23*

@@ -1,0 +1,448 @@
+{
+  "rok": 2022,
+  "formula": "2015",
+  "struktura": {
+    "czesc_1": {
+      "czas_minuty": 60,
+      "punkty": 15
+    },
+    "czesc_2": {
+      "czas_minuty": 150,
+      "punkty": 35
+    },
+    "total_czas_minuty": 210,
+    "total_punkty": 50
+  },
+  "liczba_zadan": 6,
+  "zadania": [
+    {
+      "numer": 1,
+      "czesc": 1,
+      "tytul": "n-permutacja",
+      "punkty": 6,
+      "podzadania": [
+        {
+          "numer": "1.1",
+          "punkty": 2,
+          "opis": "Uzupelnij tabele - dla kazdego ciagu podaj najmniejsza liczbe elementow do podmiany, aby ciag byl n-permutacja. 5 ciagow do oceny (1 przykladowy).",
+          "typ": "teoria",
+          "typ_zadania": "sledzenie_algorytmu"
+        },
+        {
+          "numer": "1.2",
+          "punkty": 4,
+          "opis": "Zapisz algorytm (pseudokod lub jezyk programowania) obliczajacy minimalna liczbe elementow do podmiany w tablicy A[1..n], aby otrzymac n-permutacje. Ograniczenie: tylko podstawowe instrukcje (bez funkcji wbudowanych).",
+          "typ": "implementacja",
+          "typ_zadania": "projektowanie_algorytmu"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["permutacje", "zliczanie", "tablice_pomocnicze", "duplikaty"],
+        "algorytmiczny": ["counting_array", "zliczanie_brakujacych", "sortowanie_selection", "przeszukiwanie_liniowe"],
+        "implementacyjny": ["tablica_zliczajaca", "petla_for", "warunki_if", "porownania_z_n"],
+        "punktowy": "sredni",
+        "czasowy_min": 25,
+        "pulapki": [
+          "elementy spoza zakresu [1,n] - trzeba je policzyc jako wymagajace podmiany",
+          "elementy powtarzajace sie - kazdy duplikat ponad 1 wymaga podmiany",
+          "ciag (4,2,3,1) jest juz 4-permutacja - odpowiedz 0",
+          "trzy rozne podejscia do rozwiazania: tablica zliczajaca O(n), brute-force O(n^2), sortowanie O(n^2)"
+        ]
+      },
+      "odpowiedzi": {
+        "1.1": {
+          "(1,3,1)": 1,
+          "(1,4,2,5)": 1,
+          "(2,2,2,2,2)": 4,
+          "(4,2,3,1)": 0,
+          "(5,4,1,5,6,8)": 2,
+          "(8,4,9,6,5,7)": 3
+        },
+        "1.2": "Trzy przykladowe podejscia: (1) tablica zliczajaca B[1..n] - liczymy elementy spoza zakresu i duplikaty, (2) brute-force O(n^2) - dla kazdego i=1..n szukamy czy istnieje w A, (3) sortowanie + skanowanie duplikatow i wartosci > n"
+      }
+    },
+    {
+      "numer": 2,
+      "czesc": 1,
+      "tytul": "ab-slowo",
+      "punkty": 6,
+      "podzadania": [
+        {
+          "numer": "2.1",
+          "punkty": 2,
+          "opis": "Uzupelnij tabele - wpisz wynik dzialania algorytmu (wartosc k) dla 2 podanych slow (aababb, baabbaaab). 3 przyklady podane.",
+          "typ": "teoria",
+          "typ_zadania": "sledzenie_algorytmu"
+        },
+        {
+          "numer": "2.2",
+          "punkty": 2,
+          "opis": "Podaj przyklady 10-literowych slow z liter a/b, dla ktorych k=10 oraz k=5.",
+          "typ": "teoria",
+          "typ_zadania": "analiza_algorytmu"
+        },
+        {
+          "numer": "2.3",
+          "punkty": 2,
+          "opis": "Podaj wynik algorytmu (wartosc k) dla slowa a^300 b^550 a^300 b^7 a^280 b^110. Wymaga zrozumienia algorytmu, nie recznego sledzenia.",
+          "typ": "teoria",
+          "typ_zadania": "analiza_algorytmu"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["analiza_algorytmow", "prefiksy_sufiksy", "optymalizacja_podzialu", "ciagi_znakowe"],
+        "algorytmiczny": ["prefix_sum", "suffix_sum", "maximum_split", "analiza_zlozonosci"],
+        "implementacyjny": ["tablice_prefiksowe_A", "tablice_sufiksowe_B", "iteracja_z_maksimum"],
+        "punktowy": "trudny",
+        "czasowy_min": 25,
+        "pulapki": [
+          "Algorytm liczy maks(A[i] + B[i+1]) - najlepsza pozycja podzialu slowa na czesc 'a' i czesc 'b'",
+          "A[i] = liczba liter 'a' w prefiksie dlugosci i",
+          "B[j] = liczba liter 'b' w sufiksie od pozycji j",
+          "k jest inicjalizowane na 1, nie 0 - minimalna wartosc wyniku to 1",
+          "Dla k=10: dowolny ciag z wszystkimi a na poczatku i b na koncu (np. aaaaaaaaaa, bbbbbbbbbb, aaaaabbbbb)",
+          "Dla k=5: ciag z 5 literami a i 5 literami b, gdzie w kazdym prefiksie liczba a <= liczba b (np. bababababa)",
+          "Zadanie 2.3 wymaga analizy bez sledzenia - odpowiedz 990 (600 a + 660 b, split po a^300 b^550 a^300 daje 600+390=990 lub analiza granic segmentow)"
+        ]
+      },
+      "odpowiedzi": {
+        "2.1": {
+          "aabab": 4,
+          "ab": 2,
+          "aaa": 3,
+          "aababb": 5,
+          "baabbaaab": 6
+        },
+        "2.2": {
+          "k=10": "np. aaaaaaaaaa lub bbbbbbbbbb lub aaaaabbbbb (kazdy ciag z a na poczatku i b na koncu)",
+          "k=5": "np. bababababa lub bbbbbaaaaa (ciag 5a+5b gdzie w kazdym prefiksie #a <= #b)"
+        },
+        "2.3": 990
+      }
+    },
+    {
+      "numer": 3,
+      "czesc": 1,
+      "tytul": "Test P/F",
+      "punkty": 3,
+      "podzadania": [
+        {
+          "numer": "3.1",
+          "punkty": 1,
+          "opis": "Zlozonosc obliczeniowa algorytmu z podwojna petla (s <- s+1 w petli i=1..n, j=i..n). Ocen: liniowa, kwadratowa, n*log(n), nie wieksza niz szescienna.",
+          "typ": "teoria",
+          "typ_zadania": "test_prawda_falsz"
+        },
+        {
+          "numer": "3.2",
+          "punkty": 1,
+          "opis": "Dodawanie liczb 132_4 i 3111_4 w systemie czworkowym. Ocen wyniki w roznych systemach: 1111011_2, 362_8, F3_16, 3303_4.",
+          "typ": "teoria",
+          "typ_zadania": "konwersja_systemow_liczbowych"
+        },
+        {
+          "numer": "3.3",
+          "punkty": 1,
+          "opis": "Analiza zapytan SQL na tabeli mandaty(numer, id_osoby, punkty) z 6 wierszami. 4 zapytania do oceny: GROUP BY + HAVING, GROUP BY, SELECT numer+punkty, COUNT z WHERE.",
+          "typ": "teoria",
+          "typ_zadania": "test_prawda_falsz"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["zlozonosc_obliczeniowa", "systemy_liczbowe", "SQL", "konwersja_pomiedzy_systemami"],
+        "algorytmiczny": ["analiza_petli_zagniezdzonej", "dodawanie_w_systemach_pozycyjnych", "GROUP_BY", "HAVING", "COUNT", "agregacja"],
+        "implementacyjny": ["szacowanie_zlozonosci", "konwersja_systemow", "SQL_queries"],
+        "punktowy": "latwy",
+        "czasowy_min": 10,
+        "pulapki": [
+          "Petla s <- s+1: wykonuje sie n(n+1)/2 razy = O(n^2), nie jest liniowa ani n*log(n), ale jest nie wieksza niz szescienna",
+          "132_4 + 3111_4 = 3303_4 = 243_10 = 11110011_2 (nie 1111011_2) = 363_8 (nie 362_8) = F3_16",
+          "SQL: HAVING sum(punkty)>5 daje 1:21, 2:21, 3:21 a nie 1:14, 2:20, 3:21",
+          "SQL: SELECT numer+punkty zwraca 6 wierszy (nie pojedyncza wartosc 86)",
+          "SQL: count(punkty) WHERE punkty=21 daje 1 (poprawne)"
+        ]
+      },
+      "odpowiedzi": {
+        "3.1": "F, P, F, P (kwadratowa: TAK; nie wieksza niz szescienna: TAK)",
+        "3.2": "F, F, P, P (F3_16: TAK; 3303_4: TAK)",
+        "3.3": "F, P, F, P (GROUP BY bez HAVING daje 1:21,2:21,3:21: TAK; count z WHERE=21 daje 1: TAK)"
+      }
+    },
+    {
+      "numer": 4,
+      "czesc": 2,
+      "tytul": "Liczby - analiza cyfr i czynnikow pierwszych",
+      "punkty": 12,
+      "podzadania": [
+        {
+          "numer": "4.1",
+          "punkty": 4,
+          "opis": "Dla 200 pieciocyfrowych liczb z pliku liczby.txt: policz ile liczb ma pierwsza cyfre rowna ostatniej i podaj pierwsza taka liczbe (w kolejnosci z pliku).",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_cyfry_liczby"
+        },
+        {
+          "numer": "4.2",
+          "punkty": 4,
+          "opis": "Dla kazdej z 200 liczb: rozloz na czynniki pierwsze (z powtorzeniami) i rozne czynniki. Podaj: maks. liczbe czynnikow i liczbe z najwieksza iloscia czynnikow, maks. liczbe roznych czynnikow i odpowiadajaca liczbe.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_cyfry_liczby"
+        },
+        {
+          "numer": "4.3",
+          "punkty": 4,
+          "opis": "Znajdz 'dobre trojki' i 'dobre piatki'. Dobra trojka: 3 rozne liczby z pliku, gdzie jedna dzieli pozostale dwie. Dobra piatka: 5 roznych liczb z pliku, gdzie jedna dzieli pozostale cztery. Podaj liczbe dobrych trojek, wypisz je do pliku, podaj liczbe dobrych piatek.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_zlozone"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["analiza_cyfr", "rozklad_na_czynniki_pierwsze", "podzielnosc", "kombinatoryka"],
+        "algorytmiczny": ["ekstrakcja_cyfr", "faktoryzacja", "brute_force_trojki", "zliczanie_czynnikow"],
+        "implementacyjny": ["operacje_mod_div", "petla_faktoryzacji", "trojne_petle", "wczytywanie_z_pliku", "zapis_do_pliku"],
+        "punktowy": "trudny",
+        "czasowy_min": 50,
+        "pulapki": [
+          "4.1: pierwsza cyfra = cyfra tysiecy (div 10000), ostatnia = mod 10",
+          "4.2: rozklad z powtorzeniami vs rozne czynniki - to dwie oddzielne wartosci",
+          "4.2: wiele liczb moze miec te sama maks. liczbe czynnikow (99792, 20992, 56064 - kazda ma 10)",
+          "4.3: 'dobra trojka' = jedna liczba dzieli dwie inne - sprawdzenie podzielnosci parami",
+          "4.3: optymalizacja - O(n^3) moze byc wystarczajace dla n=200 ale wymaga usprawnien"
+        ]
+      },
+      "odpowiedzi": {
+        "4.1": {
+          "liczba": 18,
+          "pierwsza_taka": 93639
+        },
+        "4.2": {
+          "max_czynnikow_z_powtorzeniami": 10,
+          "liczby_z_max_czynnikow": [99792, 20992, 56064],
+          "max_roznych_czynnikow": 6,
+          "liczba_z_max_roznych": 62790
+        },
+        "4.3": {
+          "dobre_trojki": 27,
+          "dobre_piatki": 2
+        }
+      }
+    },
+    {
+      "numer": 5,
+      "czesc": 2,
+      "tytul": "Soki - arkusz kalkulacyjny (zamowienia butelek sokowni)",
+      "punkty": 12,
+      "podzadania": [
+        {
+          "numer": "5.1",
+          "punkty": 1,
+          "opis": "Podaj liczbe zamowien dla kazdego z 4 magazynow (Gniezno, Malbork, Ogrodzieniec, Przemysl).",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_agregacja_warunkowa"
+        },
+        {
+          "numer": "5.2",
+          "punkty": 2,
+          "opis": "Znajdz najdluzszy ciag kolejnych dni, w ktorych codziennie bylo co najmniej jedno zamowienie. Podaj liczbe dni oraz daty pierwszego i ostatniego dnia.",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_symulacja"
+        },
+        {
+          "numer": "5.3",
+          "punkty": 3,
+          "opis": "Dla kazdego magazynu oblicz laczna wartosc zamowien (w butelkach) i przedstaw na wykresie kolowym z opisem (procentowy udzial).",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_wykres"
+        },
+        {
+          "numer": "5.4",
+          "punkty": 4,
+          "opis": "Znajdz zamowienie o najwczesniejszej dacie, ktore jest jednoczesnie zamowieniem o najwiekszej wielkosci sposrod zamowien z tego samego dnia. Podaj date, numer zamowienia, liczbe zamowien w tym dniu i laczna liczbe butelek w tym dniu.",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_agregacja_warunkowa"
+        },
+        {
+          "numer": "5.5",
+          "punkty": 2,
+          "opis": "Oblicz laczna liczbe butelek zamowionych w dni, ktore sa dniami roboczymi (poniedzialek-piatek) i w ktorych laczna wielkosci zamowien przekroczyla 10000.",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_agregacja_warunkowa"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["arkusz_kalkulacyjny", "analiza_danych", "wykresy", "agregacja_warunkowa", "daty"],
+        "algorytmiczny": ["COUNTIF", "SUMIF", "MAX_kolejnych_dni", "filtrowanie_warunkowe", "WEEKDAY"],
+        "implementacyjny": ["COUNTIFS", "SUMIFS", "wykres_kolowy", "formatowanie_dat", "funkcje_daty", "MAXIFS"],
+        "punktowy": "sredni",
+        "czasowy_min": 45,
+        "pulapki": [
+          "5.2: najdluzszy ciag kolejnych dni z zamowieniami - wymaga analizy przerw w datach",
+          "5.3: wykres kolowy z procentami i opisem - formatowanie wykresu",
+          "5.4: zlozony warunek - najwczesniejsza data z maksymalnym zamowieniem w danym dniu",
+          "5.5: filtrowanie po dniu tygodnia (pon-pt) i progu 10000"
+        ]
+      },
+      "odpowiedzi": {
+        "5.1": {
+          "Gniezno": 152,
+          "Malbork": 183,
+          "Ogrodzieniec": 222,
+          "Przemysl": 198
+        },
+        "5.2": {
+          "liczba_dni": 8,
+          "pierwszy_dzien": "07.10.2021",
+          "ostatni_dzien": "14.10.2021"
+        },
+        "5.3": {
+          "Gniezno": 819000,
+          "Malbork": 944240,
+          "Ogrodzieniec": 1115560,
+          "Przemysl": 1062920
+        },
+        "5.4": {
+          "data": "19.03.2021",
+          "numer_zamowienia": 154,
+          "liczba_zamowien": 37,
+          "laczna_liczba_butelek": 285230
+        },
+        "5.5": 13179
+      }
+    },
+    {
+      "numer": 6,
+      "czesc": 2,
+      "tytul": "Baza danych SQL - ewidencja uczniow w szkole",
+      "punkty": 11,
+      "podzadania": [
+        {
+          "numer": "6.1",
+          "punkty": 2,
+          "opis": "Podaj liczbe kobiet uczacych sie w profilu mat-fiz (zapytanie SQL z dwoma warunkami: plec i profil klasy).",
+          "typ": "SQL",
+          "typ_zadania": "sql_join"
+        },
+        {
+          "numer": "6.2",
+          "punkty": 3,
+          "opis": "Dla kazdego dnia tygodnia (pon-pt) w pierwszym tygodniu kwietnia 2022 podaj liczbe uczniow, ktorzy NIE spoznili sie (wejscie do szkoly o 8:00 lub wczesniej). Zestawienie dzienne.",
+          "typ": "SQL",
+          "typ_zadania": "sql_group_by"
+        },
+        {
+          "numer": "6.3",
+          "punkty": 3,
+          "opis": "Podaj 3 uczniow, ktorzy w ciagu 5 dni (04-08.04.2022) spedzili najkrotszy laczny czas w szkole. Podaj id, imie i nazwisko.",
+          "typ": "SQL",
+          "typ_zadania": "sql_group_by"
+        },
+        {
+          "numer": "6.4",
+          "punkty": 3,
+          "opis": "Podaj uczniow (mezczyzn), ktorzy w kazdym z 5 dni wchodzili do szkoly wczesniej niz wychodzili dnia poprzedniego (porownanie godziny wejscia z godzina wyjscia poprzedniego dnia).",
+          "typ": "SQL",
+          "typ_zadania": "sql_podzapytania"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["bazy_danych", "SQL", "JOIN", "agregacja_czasowa", "ewidencja"],
+        "algorytmiczny": ["SELECT_WHERE_AND", "COUNT_z_warunkiem", "JOIN_wielotabelowy", "roznica_czasow", "MIN_MAX_GROUP_BY"],
+        "implementacyjny": ["JOIN_tabeli_uczen_klasa_ewidencja", "filtrowanie_dat_godzin", "porownania_czasowe", "GROUP_BY_z_HAVING"],
+        "punktowy": "trudny",
+        "czasowy_min": 50,
+        "pulapki": [
+          "6.1: wymaga JOINa uczen z klasa i filtrowania po plci i profilu",
+          "6.2: 8:00 rano jest granica - wejscie o 8:00 to NIE spoznienie",
+          "6.2: trzeba policzyc tych co NIE spoznili sie, nie tych co sie spoznili",
+          "6.3: czas pobytu = roznica miedzy godzina wyjscia a wejscia, sumowany z 5 dni",
+          "6.3: bez identyfikatora ucznia mozna dostac inna odpowiedz (Zuzanna Adamczyk, Szymon Dabrowski, Marika Kossakowska)",
+          "6.4: porownanie miedzy-dniowe - godzina wejscia w dniu N < godzina wyjscia w dniu N-1 (dla wszystkich 4 par dni)"
+        ]
+      },
+      "odpowiedzi": {
+        "6.1": 165,
+        "6.2": {
+          "poniedzialek_04.04": 233,
+          "wtorek_05.04": 303,
+          "sroda_06.04": 134,
+          "czwartek_07.04": 280,
+          "piatek_08.04": 127
+        },
+        "6.3": [
+          {"id": 314, "imie": "Sebastian", "nazwisko": "Rabaj"},
+          {"id": 172, "imie": "Monika", "nazwisko": "Kado"},
+          {"id": 299, "imie": "Alicja", "nazwisko": "Kronecka"}
+        ],
+        "6.4": [
+          "Mateusz Kordas",
+          "Krzysztof Michalak",
+          "Oliwier Ziolko"
+        ]
+      }
+    }
+  ],
+  "podsumowanie_wymiarow": {
+    "tematy": {
+      "permutacje_i_ciagi": 1,
+      "analiza_algorytmow_prefix_suffix": 1,
+      "zlozonosc_obliczeniowa": 1,
+      "systemy_liczbowe": 1,
+      "SQL_teoria": 1,
+      "SQL_praktyka": 1,
+      "analiza_cyfr_i_czynnikow": 1,
+      "arkusz_kalkulacyjny": 1
+    },
+    "algorytmy_kluczowe": [
+      "tablica zliczajaca (counting array) dla permutacji",
+      "prefix sum / suffix sum (tablice A i B)",
+      "analiza zlozonosci petli zagniezdzonej O(n^2)",
+      "konwersja miedzy systemami liczbowymi (2, 4, 8, 16)",
+      "SQL GROUP BY + HAVING + COUNT + SUM",
+      "rozklad na czynniki pierwsze (z powtorzeniami i bez)",
+      "brute-force trojki (podzielnosc parami)",
+      "COUNTIF/SUMIF w arkuszu",
+      "analiza ciagu kolejnych dni (gap detection)",
+      "JOIN wielotabelowy w SQL z warunkami czasowymi"
+    ],
+    "wzorce_implementacyjne": [
+      "petla for z tablica pomocnicza",
+      "sledzenie algorytmu krok po kroku",
+      "analiza granic segmentow (bez sledzenia) w 2.3",
+      "ekstrakcja cyfr (mod/div)",
+      "faktoryzacja liczb",
+      "zapytania SQL z wieloma JOINami",
+      "funkcje daty w arkuszu (WEEKDAY)",
+      "wykresy kolowe z procentami"
+    ],
+    "rozklad_punktowy": {
+      "czesc_1_teoria": 15,
+      "czesc_2_praktyka": 35,
+      "total": 50,
+      "latwe_quick_win": 3,
+      "srednie": 19,
+      "trudne": 28
+    },
+    "rozklad_typow": {
+      "teoria": 12,
+      "implementacja_programowanie": 12,
+      "arkusz_kalkulacyjny": 12,
+      "SQL": 11,
+      "teoria_plus_algorytm": 3
+    }
+  },
+  "notatki": [
+    "Ostatni rok formuly 2015 (stara formula) - od 2023 zaczyna sie nowa formula",
+    "Czesc I (EINP-R1): 60 minut, 15 punktow, 3 zadania (pisemne, bez komputera)",
+    "Czesc II (EINP-R2): 150 minut, 35 punktow, 3 zadania (przy komputerze)",
+    "Zadanie 1 (permutacje) - klasyczne zadanie z tablica zliczajaca, trzy rozne podejscia akceptowane",
+    "Zadanie 2 (ab-slowo) - wymagajace zadanie z analiza algorytmu prefix/suffix sum, 2.3 wymaga glebokiego zrozumienia bez sledzenia",
+    "Zadanie 3 (test P/F) - 3 pytania po 4 stwierdzenia: zlozonosc, systemy liczbowe, SQL",
+    "Zadanie 4 (liczby) - programowanie: cyfry, czynniki pierwsze, trojki podzielnosci",
+    "Zadanie 5 (soki) - arkusz kalkulacyjny: zamowienia sokowni z 4 magazynami, daty, wykresy",
+    "Zadanie 6 (baza danych) - SQL na 3 tabelach: uczen, klasa, ewidencja - ewidencja wejsc/wyjsc uczniow",
+    "Czesc II wymaga konkretnych narzedzi: jezyk programowania + arkusz kalkulacyjny + baza danych SQL",
+    "Plik danych: liczby.txt (200 pieciocyfrowych liczb), soki.txt (zamowienia), uczen.txt+klasa.txt+ewidencja.txt (baza)",
+    "Trudnosc 2022: umiarkowanie trudna - zadanie 2.3 i 4.3 oraz 6.3-6.4 sa najtrudniejsze",
+    "Charakterystyczne: zadanie 4.3 o 'dobrych trojkach/piatkach' wymaga sprytnej optymalizacji lub brute-force O(n^3)"
+  ]
+}

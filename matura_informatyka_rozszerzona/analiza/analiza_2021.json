@@ -1,0 +1,539 @@
+{
+  "rok": 2021,
+  "formula": "2015",
+  "kontekst_historyczny": "Pierwszy egzamin maturalny z informatyki po pandemii COVID-19 (egzamin w 2020 nie odbyl sie). Przeprowadzony na podstawie specjalnych wymagan egzaminacyjnych 2021 (rozporzadzenie MEN z 20.03.2020). Termin glowny: 19 maja 2021 (czesc I) i 14 maja 2021 (czesc II - wg odpowiedzi).",
+  "struktura": {
+    "czesc_1": {
+      "czas_minuty": 60,
+      "punkty": 15,
+      "data": "19 maja 2021",
+      "kod_arkusza": "EINP-R1-100-2105",
+      "opis": "Czesc pisemna - zadania teoretyczne, algorytmiczne, test P/F"
+    },
+    "czesc_2": {
+      "czas_minuty": 150,
+      "punkty": 35,
+      "data": "19 maja 2021",
+      "kod_arkusza": "EINP-R2-100-2105",
+      "opis": "Czesc praktyczna - programowanie, arkusz kalkulacyjny, bazy danych"
+    },
+    "total_czas_minuty": 210,
+    "total_punkty": 50
+  },
+  "total_punkty": 50,
+  "czas_minuty": 210,
+  "liczba_zadan": 6,
+  "zadania": [
+    {
+      "numer": 1,
+      "czesc": 1,
+      "tytul": "Cyfrowe dopelnienie",
+      "punkty": 6,
+      "podzadania": [
+        {
+          "numer": "1.1",
+          "punkty": 2,
+          "opis": "Podaj czterocyfrowa liczbe n taka, ze wartosc bezwzgledna roznicy n i jej cyfrowego dopelnienia d jest: a) najmniejsza, b) najwieksza. Cyfrowe dopelnienie to zamiana kazdej cyfry na jej uzupelnienie do 9 (np. 2021 -> 7978).",
+          "typ": "teoria",
+          "typ_zadania": "analiza_algorytmu",
+          "odpowiedz": "a) 5000 (lub 4999), b) 8999 (lub 1000)"
+        },
+        {
+          "numer": "1.2",
+          "punkty": 4,
+          "opis": "Napisz algorytm (pseudokod lub jezyk programowania) obliczajacy cyfrowe dopelnienie d dla dodatniej liczby calkowitej n. Ograniczenia: tylko zmienne calkowite, tylko operatory arytmetyczne (+ - * / div mod), brak funkcji wbudowanych, brak konwersji typ<->string.",
+          "typ": "implementacja",
+          "typ_zadania": "projektowanie_algorytmu",
+          "odpowiedz": "Wersja I: iteracja po cyfrach (mod 10, div 10) z budowaniem wyniku przez potegi 10. Wersja II: zliczanie cyfr, budowanie liczby z samych dziewiatek, d = dziewiatki - n."
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "arytmetyka_cyfrowa",
+          "operacje_na_cyfrach_liczby",
+          "systemy_liczbowe_dziesietny"
+        ],
+        "algorytmiczny": [
+          "ekstrakcja_cyfr_mod_div",
+          "budowanie_liczby_z_cyfr",
+          "uzupelnienie_do_9",
+          "optymalizacja_minimalizacja_maksymalizacja"
+        ],
+        "implementacyjny": [
+          "petla_while_n_gt_0",
+          "mod_10_div_10",
+          "akumulator_z_potegami_10",
+          "ograniczenie_do_operacji_calkowitych"
+        ],
+        "punktowy": "sredni",
+        "czasowy_min": 20,
+        "pulapki": [
+          "Ograniczenie: najwyzsza cyfra musi byc 1-8 (nie 0, nie 9)",
+          "W zad 1.1: minimalna roznica to |n - d| = |n - (9999-n)| = |2n - 9999|, min dla n=5000 lub 4999",
+          "W zad 1.1: maksymalna roznica dla n=8999 (d=1000, roznica=7999) lub n=1000 (d=8999)",
+          "W zad 1.2: zakaz uzycia konwersji na stringi - trzeba operowac czysto arytmetycznie",
+          "Budowanie wyniku wymaga sledzenia pozycji (potegi 10)",
+          "Alternatywna metoda: 999...9 - n dziala ale wymaga obliczenia liczby cyfr"
+        ]
+      }
+    },
+    {
+      "numer": 2,
+      "czesc": 1,
+      "tytul": "Analiza algorytmu (kopiec binarny - wstawianie)",
+      "punkty": 6,
+      "podzadania": [
+        {
+          "numer": "2.1",
+          "punkty": 2,
+          "opis": "Uzupelnij tabele - podaj zawartosc tablicy T po wykonaniu d(x) dla dwoch przypadkow: T=[36,15,17,3] z x=-5 oraz T=[27,6,13,4,-3,-2,-3] z x=30. Funkcja d(x) dodaje element na koniec tablicy i przesuwa go w gore kopca (sift-up).",
+          "typ": "teoria",
+          "typ_zadania": "sledzenie_algorytmu",
+          "odpowiedz": "Wiersz 1: 36, 15, 17, 3, -5. Wiersz 2: 30, 27, 13, 6, -3, -2, -3, 4"
+        },
+        {
+          "numer": "2.2",
+          "punkty": 2,
+          "opis": "Podaj zawartosc tablicy T po wstawieniu kolejno: 6, -4, 12, 27, 26, 8 do poczatkowo pustej tablicy (budowanie kopca max).",
+          "typ": "teoria",
+          "typ_zadania": "sledzenie_algorytmu",
+          "odpowiedz": "27, 26, 8, -4, 12, 6"
+        },
+        {
+          "numer": "2.3",
+          "punkty": 2,
+          "opis": "Ile razy sprawdzany jest warunek petli 'dopoki' podczas d(k), gdy wczesniej wstawiono 1 do k-1? Podaj dla k=16 i k=1025. (Dla k=4 podano: 3 razy).",
+          "typ": "teoria",
+          "typ_zadania": "analiza_algorytmu",
+          "odpowiedz": "k=16: 5 razy, k=1025: 11 razy. Wzor: floor(log2(k)) + 1 razy (bo k jest najwiekszym elementem, przesuwa sie az do korzenia, plus 1 sprawdzenie konczace petle)."
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "struktury_danych",
+          "kopiec_binarny_max",
+          "operacja_sift_up",
+          "drzewa_binarne"
+        ],
+        "algorytmiczny": [
+          "wstawianie_do_kopca",
+          "sift_up_heapify",
+          "sledzenie_algorytmu",
+          "analiza_zlozonosci_logarytmicznej"
+        ],
+        "implementacyjny": [
+          "tablica_jako_kopiec",
+          "indeksowanie_parent_s_div_2",
+          "petla_while_z_warunkiem_zlozonym",
+          "swap_elementow"
+        ],
+        "punktowy": "sredni",
+        "czasowy_min": 25,
+        "pulapki": [
+          "Rozpoznanie algorytmu: to wstawianie do kopca max (heap insert / sift-up)",
+          "Leniwa ewaluacja: jesli (s div 2) >= 1 jest FALSE, drugi warunek nie jest sprawdzany",
+          "Dla x=-5 i T=[36,15,17,3]: -5 < 3 wiec brak zamiany - T po prostu sie wydluza",
+          "Dla x=30 i T=[27,6,13,4,-3,-2,-3]: 30 przesuwa sie az na szczyt (do T[1])",
+          "W 2.3: wstawianie 1..k-1 buduje kopiec rosnacy, k jest nowym max i idzie na sam szczyt",
+          "Liczba sprawdzen = floor(log2(n)) + 1 (n=k po wstawieniu), bo warunek jest sprawdzany raz wiecej niz zamian",
+          "k=16: n=16, floor(log2(16))+1 = 4+1 = 5",
+          "k=1025: n=1025, floor(log2(1025))+1 = 10+1 = 11"
+        ]
+      }
+    },
+    {
+      "numer": 3,
+      "czesc": 1,
+      "tytul": "Test (P/F)",
+      "punkty": 3,
+      "podzadania": [
+        {
+          "numer": "3.1",
+          "punkty": 1,
+          "opis": "Analiza funkcji rekurencyjnej f(n): jezeli n>0: wypisz n, f(n-2), wypisz n. Ocen prawdziwosc 4 zdan o wynikach f(5), f(6), f(7), f(8).",
+          "typ": "teoria",
+          "typ_zadania": "test_prawda_falsz",
+          "odpowiedz": "F, P, P, F. f(5)=5,3,1,1,3,5 (nie 5,5,5,5,5,5). f(6)=6,4,2,2,4,6 (TAK). f(7)=7,5,3,1,1,3,5,7 (TAK). f(8)=8,6,4,2,2,4,6,8 (nie 8,6,4,2,0,0,2,4,6,8 bo f(0) nic nie wypisuje)."
+        },
+        {
+          "numer": "3.2",
+          "punkty": 1,
+          "opis": "Porownanie wartosci liczb w roznych systemach liczbowych: binarny, czworkowy, osemkowy, szesnastkowy. 4 zdania P/F.",
+          "typ": "teoria",
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "odpowiedz": "F, F, P, P. (10000000)_2=128 vs (A9)_16=169: F. (1111)_4=85 vs (1111111)_2=127: F. (3003)_4=195 vs (C2)_16=194: P. (333)_8=219 vs (10100101)_2=165: P."
+        },
+        {
+          "numer": "3.3",
+          "punkty": 1,
+          "opis": "Zapytania SQL na tabeli produkty(id_produktu, produkt, sztuk, cena) z 8 wierszami. 4 zdania P/F dotyczace wynikow SELECT z WHERE, AVG, SUM, COUNT, BETWEEN, IN, OR.",
+          "typ": "teoria",
+          "typ_zadania": "test_prawda_falsz",
+          "odpowiedz": "F, P, P, F. Zap1: cena=2 OR cena=4 daje zeszyt I cyrkiel (nie samo cyrkiel): F. Zap2: AVG(cena) WHERE sztuk IN(125,160) = (2+8)/2 = 5: P. Zap3: SUM(sztuk) WHERE cena=1 OR cena=2 = 250+160+250 = 660: P. Zap4: COUNT(cena) WHERE cena BETWEEN 2 AND 4 = 3 (zeszyt, okladka, cyrkiel), nie 2: F."
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "rekurencja",
+          "systemy_liczbowe",
+          "SQL_podstawy",
+          "konwersja_miedzy_systemami"
+        ],
+        "algorytmiczny": [
+          "sledzenie_rekurencji",
+          "konwersja_bin_oct_hex_dec",
+          "analiza_zapytan_SQL"
+        ],
+        "implementacyjny": [
+          "rekurencja_z_wypisywaniem",
+          "przeliczanie_systemow_pozycyjnych",
+          "SQL_WHERE_AVG_SUM_COUNT_BETWEEN_IN"
+        ],
+        "punktowy": "latwy",
+        "czasowy_min": 15,
+        "pulapki": [
+          "f(n): warunek n>0 oznacza ze f(0) i f(-1) nic nie wypisuja (brak bloku else)",
+          "f(8): rekurencja konczy sie na f(0) ktore nic nie drukuje, wiec NIE drukuje '0 0'",
+          "f(5): f(5)->5,f(3)->3,f(1)->1,f(-1)->nic,1,3,5 daje 5,3,1,1,3,5 (nie same piatki)",
+          "BETWEEN 2 AND 4 jest inkluzywne (zawiera 2, 3 i 4) - okladka ma cena=3",
+          "Zap1 daje 2 wyniki (zeszyt i cyrkiel), nie 1",
+          "Konwersje: trzeba dokladnie policzyc kazda wartosc"
+        ]
+      }
+    },
+    {
+      "numer": 4,
+      "czesc": 2,
+      "tytul": "Operacje na napisach (instrukcje DOPISZ, USUN, ZMIEN, PRZESUN)",
+      "punkty": 11,
+      "podzadania": [
+        {
+          "numer": "4.1",
+          "punkty": 2,
+          "opis": "Policz instrukcje w pliku instrukcje.txt: ile jest lacznej liczby instrukcji DOPISZ i USUN (lub samych DOPISZ = 563). Plik zawiera instrukcje manipulujace napisem.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_zliczanie",
+          "odpowiedz": "517 (lacznie DOPISZ - USUN, czyli netto, lub calkowita liczba obu typow instrukcji). Za samo 563 (DOPISZ) przyznawany 1 pkt."
+        },
+        {
+          "numer": "4.2",
+          "punkty": 2,
+          "opis": "Znajdz instrukcje ZMIEN o najdluzszym ciagu znakow (nazwa polecenia i dlugosc ciagu).",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_napisy",
+          "odpowiedz": "ZMIEN 7"
+        },
+        {
+          "numer": "4.3",
+          "punkty": 3,
+          "opis": "Znajdz litere i pozycje zwiazana z konkretnym warunkiem w operacjach na napisie.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_napisy",
+          "odpowiedz": "Z 37. Za podanie 36 lub 38 zamiast 37 przyznawany 1 pkt (zamiast 2) za liczbe."
+        },
+        {
+          "numer": "4.4",
+          "punkty": 4,
+          "opis": "Wykonaj wszystkie instrukcje z pliku (DOPISZ, USUN, ZMIEN, PRZESUN) na poczatkowo pustym napisie i podaj wynik koncowy. Wynik to poczatek opowiadania 'Wiedzmin' A. Sapkowskiego (tylko male litery, bez spacji i polskich znakow).",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_zlozone",
+          "odpowiedz": "POZNIEJMOWIONOZECZLOWIEKTENNADSZEDLODPOLNOCYODBRAMYPOWROZNIC... (poczatek 'Wiedzmina' Sapkowskiego bez spacji, malymi literami)"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "algorytmy_na_tekstach",
+          "operacje_na_napisach",
+          "przetwarzanie_plikow",
+          "symulacja_instrukcji"
+        ],
+        "algorytmiczny": [
+          "parsowanie_instrukcji",
+          "symulacja_operacji_na_stringu",
+          "DOPISZ_USUN_ZMIEN_PRZESUN",
+          "zliczanie_instrukcji"
+        ],
+        "implementacyjny": [
+          "odczyt_pliku_tekstowego",
+          "manipulacja_stringow",
+          "wstawianie_usuwanie_z_napisu",
+          "petla_po_instrukcjach"
+        ],
+        "punktowy": "sredni",
+        "czasowy_min": 40,
+        "pulapki": [
+          "Kazda instrukcja zmienia stan napisu - trzeba je wykonac sekwencyjnie",
+          "PRZESUN przesuwa PIERWSZE wystapienie litery (nie wszystkie)",
+          "W 4.4: za przesuwanie WSZYSTKICH wystapien zamiast pierwszego: 3 pkt zamiast 4",
+          "USUN zmniejsza dlugosc napisu - trzeba uwzglednic przy indeksowaniu",
+          "ZMIEN zamienia ciag znakow - dlugosc moze sie zmienic",
+          "Napis wynikowy to tekst literacki (Wiedzmin) - mozna uzyc do weryfikacji"
+        ]
+      }
+    },
+    {
+      "numer": 5,
+      "czesc": 2,
+      "tytul": "Wodociagi warszawskie (arkusz kalkulacyjny)",
+      "punkty": 12,
+      "podzadania": [
+        {
+          "numer": "5.1",
+          "punkty": 3,
+          "opis": "Zestawienie 10 klientow o najwyzszym srednim rocznym zuzyciu wody na osobe, posortowane malejaco. Numery klientow 5-cyfrowe, srednia zaokraglona do 2 miejsc po przecinku.",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "odpowiedz": "07935: 41.33, 05080: 40.00, 00645: 39.75, 08090: 39.50, 05738: 39.33, 08349: 39.20, 08850: 39.00, 02202: 38.25, 09468: 37.75, 06866: 36.75"
+        },
+        {
+          "numer": "5.2",
+          "punkty": 2,
+          "opis": "Zestawienie sum zuzycia wody w poszczegolnych dzielnicach Warszawy (17 dzielnic z 3-literowymi kodami).",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "odpowiedz": "BEM:54080, BIA:61614, BIE:56368, MOK:55889, OCH:59273, PRA:57241, REM:58971, SRO:58124, TAR:60234, URU:59597, URY:50116, WAW:57674, WES:60372, WIL:55476, WLO:66372, WOL:60523, ZOL:62312"
+        },
+        {
+          "numer": "5.3",
+          "punkty": 2,
+          "opis": "Zestawienie maksymalnego miesiecznego zuzycia wody w kazdej dzielnicy.",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "odpowiedz": "BEM:8108, BIA:9274, BIE:8475, ..., WLO:9966 (max), URY:7519 (min)"
+        },
+        {
+          "numer": "5.4",
+          "punkty": 4,
+          "opis": "Prognoza zuzycia wody do 2030 roku (wzrost 1% rocznie). Podaj miesiac i rok gdy po raz pierwszy zabraknie wody (limit 160000 m3). Zestawienie prognozowanego zuzycia i wykres dla 2030.",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_symulacja",
+          "odpowiedz": "Lipiec 2026 roku. Tabela z prognoza 2020-2030 oraz wykres zuzycia wody w 2030 roku z opisem osi."
+        },
+        {
+          "numer": "5.5",
+          "punkty": 1,
+          "opis": "Podaj miesiac i rok, kiedy zabraknie wody przy wyzszym limicie (prawdopodobnie 165000 m3).",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_symulacja",
+          "odpowiedz": "Lipiec 2035"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "arkusz_kalkulacyjny",
+          "analiza_danych",
+          "prognozowanie",
+          "dane_miejskie_wodociagi"
+        ],
+        "algorytmiczny": [
+          "agregacja_danych",
+          "sortowanie_malejace",
+          "prognoza_wzrostu_procentowego",
+          "wyszukiwanie_progu"
+        ],
+        "implementacyjny": [
+          "SUMIFS_AVERAGEIFS",
+          "LARGE_INDEX_MATCH",
+          "sortowanie_w_arkuszu",
+          "prognozowanie_z_procentem_wzrostu",
+          "wykresy_z_opisem_osi",
+          "zaokraglanie_ROUND"
+        ],
+        "punktowy": "sredni",
+        "czasowy_min": 50,
+        "pulapki": [
+          "Numer klienta 5-cyfrowy (z wiodacymi zerami) - trzeba zachowac format tekstu",
+          "Srednie zuzycie NA OSOBE (nie calkowite) - trzeba dzielic przez liczbe osob",
+          "17 dzielnic Warszawy - trzeba poprawnie zagregowac po kodzie dzielnicy",
+          "Prognoza 1% rocznie - procentowy wzrost kazdego miesiaca",
+          "Wykres musi miec poprawny opis osi i tytul (1 pkt za opis)",
+          "Limit 160000 m3 - lipiec to miesiac z najwyzszym zuzyciem",
+          "Zaokraglenie do 2 miejsc po przecinku w 5.1"
+        ]
+      }
+    },
+    {
+      "numer": 6,
+      "czesc": 2,
+      "tytul": "Gra strategiczna (baza danych - SQL)",
+      "punkty": 12,
+      "podzadania": [
+        {
+          "numer": "6.1",
+          "punkty": 2,
+          "opis": "Zestawienie 5 panstw z najwieksza liczba graczy, ktorzy dolaczyli w okreslonym roku. Wymagane: panstwo i liczba graczy.",
+          "typ": "SQL",
+          "typ_zadania": "sql_group_by",
+          "odpowiedz": "Polska: 11, Stany Zjednoczone: 8, Francja: 7, Rosja: 6, Niemcy: 6. Bez warunku roku: Polska 26, Niemcy 23, USA 18, Rosja 17, Francja 15 (za 1 pkt)."
+        },
+        {
+          "numer": "6.2",
+          "punkty": 2,
+          "opis": "Znajdz wszystkie klasy jednostek zawierajace 'elf' w nazwie i podaj sume wartosci pola 'strzal' dla kazdej z nich.",
+          "typ": "SQL",
+          "typ_zadania": "sql_join",
+          "odpowiedz": "ciemny elf: 555, elfi czarodziej: 435, lesny elf: 1815, wysoki elf-gwardzista: 870"
+        },
+        {
+          "numer": "6.3",
+          "punkty": 2,
+          "opis": "Znajdz numery graczy spelniajacych okreslony warunek, posortowane rosnaco.",
+          "typ": "SQL",
+          "typ_zadania": "sql_select_where",
+          "odpowiedz": "22, 24, 29, 35, 36, 37, 38, 47, 54, 61, 64, 72, 110, 114, 115, 122, 123, 138, 141, 167 (20 numerow posortowanych rosnaco)"
+        },
+        {
+          "numer": "6.4",
+          "punkty": 2,
+          "opis": "Zestawienie 23 nazw klas jednostek z liczbami jednostek spelniajacych okreslony warunek.",
+          "typ": "SQL",
+          "typ_zadania": "sql_group_by",
+          "odpowiedz": "23 klasy jednostek: lekki jezdziec(19), kawalerzysta(7), piechur(7), pikinier(5), robotnik(5), topornik(5), artylerzysta(4), konny lucznik(4), zwiadowca(4), drwal(3), mag powietrza(3), balista(2), goniec(2), kaplan(2), mag wody(2), architekt(1), ciemny elf(1), elfi czarodziej(1), ifryt(1), kusznik(1), lucznik(1), paladyn(1), wysoki elf-gwardzista(1)"
+        },
+        {
+          "numer": "6.5",
+          "punkty": 4,
+          "opis": "Oblicz calkowita liczbe bitew oraz liczbe bitew z udzialem Polakow. Wymaga zlaczenia wielu tabel i uwzglednienia unikalnosci bitew (ta sama lokalizacja moze miec wiecej niz jedna jednostke jednej osoby).",
+          "typ": "SQL",
+          "typ_zadania": "sql_podzapytania",
+          "odpowiedz": "1061 bitew, w tym 245 z udzialem Polakow. Czesciowe punkty za: 1067/246 (bez unikalnosci), 1061/19 (tylko bitwy wylacznie Polakow), 1061/264 (podwojne liczenie)."
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "bazy_danych_relacyjne",
+          "SQL_zaawansowany",
+          "gra_strategiczna_tematyka"
+        ],
+        "algorytmiczny": [
+          "JOIN_wielu_tabel",
+          "GROUP_BY_HAVING",
+          "COUNT_DISTINCT",
+          "LIKE_filtrowanie",
+          "sortowanie_ORDER_BY",
+          "podzapytania_zlaczone"
+        ],
+        "implementacyjny": [
+          "INNER_JOIN_NATURAL_JOIN",
+          "WHERE_LIKE_procent_elf_procent",
+          "SUM_z_GROUP_BY",
+          "COUNT_DISTINCT_na_zlaczeniu",
+          "ORDER_BY_ASC_DESC",
+          "TOP_N_LIMIT"
+        ],
+        "punktowy": "trudny",
+        "czasowy_min": 50,
+        "pulapki": [
+          "6.1: trzeba uwzglednic rok dolaczenia gracza (bez tego: tylko 1 pkt)",
+          "6.2: LIKE '%elf%' musi znalezc tez 'elfi czarodziej' (elf na poczatku slowa)",
+          "6.3: sortowanie rosnace po numerze gracza",
+          "6.4: 23 rozne klasy - trzeba wymieniac wszystkie",
+          "6.5: NAJTRUDNIEJSZE - bitwy z udzialem Polakow wymagaja DISTINCT",
+          "6.5: ta sama bitwa moze miec wielu graczy z Polski - nie liczyc podwojnie",
+          "6.5: roznica miedzy bitwami Z udzialem Polakow a bitwami WYLACZNIE Polakow",
+          "Pliki danych: gracze.txt, jednostki.txt, klasy.txt - trzeba zaimportowac i polaczyc"
+        ]
+      }
+    }
+  ],
+  "podsumowanie_wymiarow": {
+    "tematy": {
+      "arytmetyka_cyfrowa": 1,
+      "struktury_danych_kopiec": 1,
+      "rekurencja": 1,
+      "systemy_liczbowe": 1,
+      "SQL_podstawy": 1,
+      "operacje_na_napisach": 1,
+      "arkusz_kalkulacyjny_wodociagi": 1,
+      "SQL_zaawansowany_gra": 1
+    },
+    "algorytmy_kluczowe": [
+      "ekstrakcja i manipulacja cyfr liczby (mod/div)",
+      "kopiec binarny max - operacja sift-up (insert)",
+      "rekurencja z podwojnym wypisywaniem",
+      "konwersja miedzy systemami liczbowymi",
+      "parsowanie i wykonywanie instrukcji na napisach",
+      "agregacja danych w arkuszu kalkulacyjnym",
+      "prognozowanie wzrostu procentowego",
+      "zlozone zapytania SQL z JOIN, GROUP BY, COUNT DISTINCT"
+    ],
+    "wzorce_implementacyjne": [
+      "petla while z mod 10 / div 10",
+      "budowanie liczby z cyfr (akumulator * potega)",
+      "sledzenie kopca binarnego w tablicy",
+      "analiza warunkow zakonczenia rekurencji",
+      "symulacja operacji DOPISZ/USUN/ZMIEN/PRZESUN na stringu",
+      "SUMIFS/AVERAGEIFS w arkuszu",
+      "prognoza z procentem wzrostu (1.01^n)",
+      "SQL LIKE z wildcardami, JOIN + GROUP BY + HAVING"
+    ],
+    "rozklad_punktowy": {
+      "czesc_1_teoria": 15,
+      "czesc_2_praktyka": 35,
+      "total": 50,
+      "latwe_quick_win": 3,
+      "srednie": 30,
+      "trudne": 17,
+      "rozklad_wg_typu": {
+        "teoria_algorytm": 15,
+        "programowanie_implementacja": 11,
+        "arkusz_kalkulacyjny": 12,
+        "bazy_danych_SQL": 12
+      }
+    }
+  },
+  "dane_egzaminacyjne": {
+    "pliki_danych": [
+      {
+        "nazwa": "instrukcje.txt",
+        "rozmiar_bytes": 19867,
+        "uzyte_w_zadaniu": 4,
+        "opis": "Instrukcje DOPISZ, USUN, ZMIEN, PRZESUN do manipulacji na napisie"
+      },
+      {
+        "nazwa": "przyklad.txt",
+        "rozmiar_bytes": 198,
+        "uzyte_w_zadaniu": 4,
+        "opis": "Przykladowe instrukcje do testowania (mniejszy zbiór)"
+      },
+      {
+        "nazwa": "wodociagi.txt",
+        "rozmiar_bytes": 396948,
+        "uzyte_w_zadaniu": 5,
+        "opis": "Dane o zuzyciu wody w dzielnicach Warszawy (numer klienta, dzielnica, osoby, zuzycie miesieczne)"
+      },
+      {
+        "nazwa": "gracze.txt",
+        "rozmiar_bytes": 5003,
+        "uzyte_w_zadaniu": 6,
+        "opis": "Dane o graczach gry strategicznej (numer, panstwo, rok dolaczenia)"
+      },
+      {
+        "nazwa": "jednostki.txt",
+        "rozmiar_bytes": 258264,
+        "uzyte_w_zadaniu": 6,
+        "opis": "Dane o jednostkach w grze (numer gracza, klasa, statystyki)"
+      },
+      {
+        "nazwa": "klasy.txt",
+        "rozmiar_bytes": 655,
+        "uzyte_w_zadaniu": 6,
+        "opis": "Slownik klas jednostek (nazwa klasy, statystyki bazowe)"
+      }
+    ]
+  },
+  "notatki": [
+    "Formula 2015 (stara formula) - ostatnie lata stosowania (2021-2022 przed zmiana na formule 2023)",
+    "Pierwszy egzamin po przerwie covidowej (2020 nie odbyl sie) - specjalne wymagania egzaminacyjne 2021",
+    "Czesc I: 60 minut, 15 punktow, 3 zadania (algorytm, analiza kopca, test P/F)",
+    "Czesc II: 150 minut, 35 punktow, 3 zadania (napisy, arkusz, SQL)",
+    "Kopiec binarny (zad. 2) - klasyczna struktura danych, rzadko spotykana na maturze",
+    "Zadanie 4.4 odtwarza poczatek 'Wiedzmina' A. Sapkowskiego - ciekawy easter egg kulturowy",
+    "Dane wodociagi.txt (zad. 5) - realistyczny zbiór danych miejskich (prawie 400KB)",
+    "Zadanie 6 (SQL) - gra strategiczna z 3 polaczonymi tabelami (gracze, jednostki, klasy)",
+    "Zad. 6.5 (4 pkt) najtrudniejsze - wymaga COUNT DISTINCT na zlaczeniu wielu tabel",
+    "Progresja trudnosci w SQL: od prostego COUNT (6.1) po zlozony DISTINCT na zlaczeniu (6.5)",
+    "Arkusz (zad. 5) laczy statystyke, prognozowanie i wizualizacje - kompleksowe zadanie",
+    "Zad. 1.2 z zakazem uzycia konwersji string<->int to klasyczny wzorzec maturalny"
+  ]
+}

@@ -306,6 +306,433 @@
 
 ---
 
+### 11. Programowanie Dynamiczne (DP)
+**Definicja**: Technika rozwiązywania problemów przez podział na **nakładające się podproblemy** i zapamiętywanie ich wyników, aby uniknąć wielokrotnych obliczeń.
+
+**Różnica rekurencja vs DP**:
+- Rekurencja: rozwiązuje te same podproblemy wielokrotnie → wolne O(2ⁿ)
+- DP: zapamiętuje wyniki podproblemów w tablicy → szybkie O(n) lub O(n²)
+
+**Główne zastosowania**:
+- Najdłuższy wspólny podciąg (LCS)
+- Problem plecakowy (knapsack)
+- Ścieżki na planszy/siatce (2024 - Plansza!)
+- Najdłuższy rosnący podciąg (LIS)
+- Fibonacci (klasyczny przykład)
+- Podział zbioru na podzbiory
+
+**Dwa podejścia**:
+1. **Top-down (memoizacja)**: rekurencja + tablica cache
+2. **Bottom-up (tabulacja)**: wypełnianie tablicy od najmniejszych podproblemów
+
+**Kluczowe właściwości**:
+- Wymaga **optymalnej podstruktury** (optymalne rozwiązanie składa się z optymalnych podrozwiązań)
+- Wymaga **nakładających się podproblemów**
+- Złożoność zależy od rozmiaru tablicy DP: O(n), O(n²), O(n×m)
+
+**Kiedy używać**:
+- Gdy widzisz słowa: "najdłuższy", "minimalny koszt", "liczba sposobów", "czy jest możliwe"
+- Gdy rekurencja jest za wolna (drzewo wywołań rośnie eksponencjalnie)
+- Gdy problem można rozłożyć na podproblemy z powtórzeniami
+
+**Przykład maturalny**: Matura 2024 zad. 1 - sprawdzanie istnienia ścieżki na planszy (DP 2D)
+
+---
+
+### 12. Algorytmy Zachłanne (Greedy)
+**Definicja**: Algorytm, który w każdym kroku wybiera **lokalnie najlepszą opcję**, licząc na to, że prowadzi do globalnie optymalnego rozwiązania.
+
+**Główne zastosowania**:
+- Problem doboru aktywności (activity selection) - matura 2015!
+- Problem wydawania reszty (monety)
+- Algorytm Kruskala/Prima (minimalne drzewo rozpinające)
+- Kompresja Huffmana
+- Scheduling (planowanie zadań)
+- Problemy z deadline'ami
+
+**Kluczowe właściwości**:
+- Prosty w implementacji (zazwyczaj: posortuj + iteruj)
+- **NIE ZAWSZE daje optymalne rozwiązanie** - trzeba udowodnić poprawność
+- Złożoność: często O(n log n) ze względu na sortowanie
+- Wymaga **właściwości zachłannej**: lokalny wybór prowadzi do globalnego optimum
+
+**Schemat algorytmu zachłannego**:
+1. Posortuj dane według odpowiedniego kryterium
+2. Iteruj przez posortowane dane
+3. Na każdym kroku podejmij zachłanną decyzję (weź lub pomiń)
+
+**Kiedy używać**:
+- Gdy problem ma strukturę wyboru: "weź lub pomiń"
+- Gdy po posortowaniu widać naturalną strategię
+- Gdy trzeba znaleźć minimum/maksimum i problem ma podstruktury zachłanne
+
+**Przykład maturalny**: Matura 2015 zad. 1 - problem doboru aktywności (sortowanie po czasie zakończenia)
+
+---
+
+### 13. Systemy Liczbowe
+**Definicja**: Sposoby reprezentacji liczb w różnych bazach (dziesiętny, binarny, ósemkowy, szesnastkowy, dowolny).
+
+**Główne systemy**:
+- **Binarny (base 2)**: 0, 1 → używany w komputerach
+- **Ósemkowy (base 8)**: 0-7
+- **Dziesiętny (base 10)**: 0-9 → codziennego użytku
+- **Szesnastkowy (base 16)**: 0-9, A-F → adresy pamięci, kolory
+
+**Główne operacje**:
+- **Konwersja base 10 → base k**: dzielenie z resztą
+- **Konwersja base k → base 10**: sumowanie cyfra × pozycja (schemat Hornera)
+- **Dodawanie/odejmowanie w systemie k**: jak dziesiętne, ale przeniesienie przy k
+- **Relacje**: 1 cyfra hex = 4 bity, 1 cyfra oct = 3 bity
+
+**Schemat Hornera** (szybka konwersja base k → base 10):
+- Zamiast: d₃×k³ + d₂×k² + d₁×k + d₀
+- Oblicz: ((d₃×k + d₂)×k + d₁)×k + d₀
+
+**Kluczowe właściwości**:
+- Liczba cyfr w systemie k: ⌊log_k(n)⌋ + 1
+- Konwersja bin→hex: grupuj po 4 bity od prawej
+- Konwersja bin→oct: grupuj po 3 bity od prawej
+
+**Kiedy używać**: Pojawia się na maturze regularnie, zarówno w zadaniach P/F jak i implementacyjnych.
+
+**Przykład maturalny**: Matura 2023 zad. 6 - dodawanie/odejmowanie w systemach 3 i 9
+
+---
+
+## Przewodnik po Typach Zadan
+
+Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
+Pelna macierz punktow: `ranking_typow_zadan.csv`
+
+---
+
+### KATEGORIA: TEORIA I ANALIZA
+
+#### 1. sledzenie_algorytmu
+**Co to jest**: Przesledzic algorytm krok po kroku dla podanych danych, podac wynik.
+**Czestotliwosc**: 11/11 lat, 45 pkt lacznie — PEWNE na egzaminie!
+**Jak podejsc**:
+1. Zrob tabele zmiennych (kolumny = zmienne, wiersze = kroki)
+2. Wykonuj instrukcje linia po linii, zapisujac wartosci
+3. Uwazaj na kolejnosc operacji w rekurencji (odwrotna!)
+4. Sprawdz wynik dla danych przykladowych
+**Typowe pulapki**:
+- Pomylenie kolejnosci w rekurencji (akcje przed vs po wywolaniu)
+- Pominiecien kroku w petli (off-by-one)
+- Bledne sledzenie warunkow if/else
+**Przyklad**: 2014/1a (Korale), 2015/1.1 (strategie), 2023/1.1 (BST)
+
+#### 2. projektowanie_algorytmu
+**Co to jest**: Napisac algorytm/pseudokod rozwiazujacy problem. Czesto ograniczenia: tylko int, brak builtinow.
+**Czestotliwosc**: 11/11 lat, 43 pkt lacznie — PEWNE na egzaminie!
+**Jak podejsc**:
+1. Zrozum dokladnie co algorytm ma robic (wejscie/wyjscie)
+2. Pomysl o przypadkach brzegowych
+3. Napisz pseudokod lub C++ (to co umiesz lepiej)
+4. Przetestuj mentalnie na danych przykladowych
+**Typowe pulapki**:
+- Uzycie niedozwolonych operacji (np. float gdy dozwolone tylko int)
+- Brak warunku stopu w petli/rekurencji
+- Niepoprawna konwersja rekurencja <-> iteracja
+**Ograniczenia**: Czesto "uzyj tylko zmiennych calkowitych", "nie uzywaj funkcji wbudowanych"
+**Przyklad**: 2014/1c (KoraleBis), 2015/3.2 (Rozszerzony Euklides), 2024/3 (pseudokod)
+
+#### 3. analiza_algorytmu
+**Co to jest**: Okresl zlozonosc, udowodnij wlasciwosci, podaj min/max, znajdz kontrprzyklad.
+**Czestotliwosc**: 10/11 lat, 37 pkt lacznie
+**Jak podejsc**:
+1. Zidentyfikuj petle zagniezdzenie — to daje zlozonosc
+2. Dla dowodow: uzyj kontrprzykadow (udowodnij ze NIE dziala)
+3. Dla min/max: pomysl o najgorszym/najlepszym przypadku
+4. Sprawdz warunki brzegowe (n=0, n=1, dane posortowane)
+**Typowe pulapki**:
+- Mylenie O(n) z O(n^2) gdy petla wewnetrzna zalezy od i
+- Zapomnienie o koszcie sortowania w zlozonosci
+- Bledne kontrprzyklady (nie spelniajace warunkow zadania)
+**Przyklad**: 2014/1b (ile koralikow), 2015/1.2 (kontrprzyklady), 2022/2 (ab-slowo)
+
+#### 4. test_prawda_falsz
+**Co to jest**: Ocen prawdziwosc 4 zdan (P/F). Tematy: algorytmy, SQL, sieci, grafika.
+**Czestotliwosc**: 10/11 lat, 25 pkt lacznie
+**Jak podejsc**:
+1. Czytaj DOKLADNIE — jedno slowo moze zmienic odpowiedz
+2. Jezeli nie jestes pewien, szukaj kontrprzykladu
+3. Czesto 2P + 2F (ale nie zawsze!)
+4. Tematy: SQL, systemy liczbowe, sieci, formaty plikow
+**Typowe pulapki**:
+- Pospiesz = bledy (kazdy punkt sie liczy)
+- Mylenie "zawsze" z "czasami"
+- Nieznajmosc terminologii (ADWARE, BMP vs JPG, LEFT JOIN)
+**Przyklad**: 2014/3b-e (test mieszany), 2016/3 (DNS, rekurencja), 2019/3
+
+#### 5. konwersja_systemow_liczbowych
+**Co to jest**: Konwersje miedzy bazami (bin/oct/hex/dec), arytmetyka w roznych systemach.
+**Czestotliwosc**: 9/11 lat, 12 pkt lacznie
+**Jak podejsc**:
+1. bin->hex: grupuj po 4 bity od prawej
+2. bin->oct: grupuj po 3 bity od prawej
+3. base k -> dec: schemat Hornera
+4. dec -> base k: dzielenie z reszta
+**Typowe pulapki**:
+- Grupowanie bitow od LEWEJ strony zamiast prawej
+- Bledy w arytmetyce (przeniesienie/pozyczka w systemie k)
+- Zapomnienie o dopelnieniu zerami przy grupowaniu
+**Przyklad**: 2014/3c (bin->hex), 2015/2.1 (mnozenie w syst. 4), 2025/5 (dodawanie bin)
+
+#### 6. teoria_bezpieczenstwa
+**Co to jest**: Szyfrowanie, protokoly sieciowe, bezpieczenstwo (quick wins za 1 pkt).
+**Czestotliwosc**: 2/11 lat, 2 pkt lacznie — pojawia sie od 2023
+**Jak podejsc**:
+1. Znaj roznice: szyfrowanie symetryczne vs asymetryczne
+2. Znaj podstawowe protokoly (HTTP, HTTPS, FTP, DHCP)
+3. Znaj typy zagrozne (keylogger, phishing, malware)
+**Przyklad**: 2023/4 (szyfrowanie asymetryczne), 2025/4 (keylogger)
+
+---
+
+### KATEGORIA: IMPLEMENTACJA
+
+#### 7. przetwarzanie_cyfry_liczby
+**Co to jest**: Analiza cyfr (mod/div), NWD, potegi, faktoryzacja, podzielnosc.
+**Czestotliwosc**: 6/11 lat, 36 pkt lacznie
+**Jak podejsc**:
+1. Wzorzec: `while(n>0) { cyfra = n%10; n /= 10; }`
+2. NWD: algorytm Euklidesa (while b!=0)
+3. Pierwszosc: sprawdzaj dzielniki do sqrt(n)
+4. Faktoryzacja: dziel przez kolejne liczby od 2
+**Typowe pulapki**:
+- Pierwsza cyfra wymaga petli (nie n%10 ale n po wielokrotnym /10)
+- Overflow przy mnozeniu duzych liczb (uzyj long long)
+- NWD(0, x) = x (nie 0!)
+**Przyklad**: 2015/4.1-4.2 (cyfry, podzielnosc), 2019/4 (potegi 3, NWD), 2024/4 (l. pierwsze)
+
+#### 8. przetwarzanie_napisy
+**Co to jest**: Palindromy, szyfry, ASCII, manipulacja tekstem.
+**Czestotliwosc**: 4/11 lat, 25 pkt lacznie
+**Jak podejsc**:
+1. Kody ASCII: A=65, a=97, 0=48, roznica a-A=32
+2. Palindrom: porownaj s[i] z s[n-1-i]
+3. Szyfr Cezara: (kod - 'A' + przesuniecie) % 26 + 'A'
+4. Suma kodow: for(char c : s) sum += (int)c;
+**Typowe pulapki**:
+- Zawijanie cykliczne: ((x % n) + n) % n dla ujemnych
+- Sortowanie leksykograficzne vs numeryczne
+- Wielkosc liter (A vs a)
+**Przyklad**: 2014/5 (napisy ASCII), 2016/6 (szyfr Cezara), 2021/4 (DOPISZ/USUN)
+
+#### 9. przetwarzanie_zlozone
+**Co to jest**: Wieloetapowy algorytm na danych z pliku — wymaga kilku krokow logiki.
+**Czestotliwosc**: 4/11 lat, 24 pkt lacznie
+**Jak podejsc**:
+1. Rozbij problem na etapy (wczytaj -> przetworz -> wypisz)
+2. Kazdy etap testuj osobno
+3. Czesto wymaga map/set do grupowania
+4. Uzyj struktur (struct) dla zlozonych danych
+**Typowe pulapki**:
+- Proba zrobienia wszystkiego w jednej petli
+- Brak testowania na danych przykladowych
+- Bledne parsowanie pliku
+**Przyklad**: 2021/4 (operacje na napisach), 2022/4.3 (trojki czynnikow), 2025/2 (wzorce 2D)
+
+#### 10. przetwarzanie_zliczanie
+**Co to jest**: Zlicz elementy spelniajace warunek, filtruj dane z pliku.
+**Czestotliwosc**: 5/11 lat, 17 pkt lacznie
+**Jak podejsc**:
+1. Wzorzec: `int count=0; for(auto x : data) if(warunek(x)) count++;`
+2. Wczytaj dane z pliku do tablicy/vectora
+3. Zastosuj warunek filtrowania
+4. Wypisz wynik
+**Typowe pulapki**:
+- Off-by-one w warunkach (< vs <=)
+- Bledy w czytaniu pliku (pominiety ostatni element)
+- Liczenie od 0 vs od 1
+**Przyklad**: 2014/5a (napisy dl. 6), 2023/3.1-3.2 (cyfry pi), 2024/3.2 (nieparzysty skrot)
+
+#### 11. przetwarzanie_minmax
+**Co to jest**: Znajdz min/max, posortuj, analizuj rozklad danych.
+**Czestotliwosc**: 5/11 lat, 17 pkt lacznie
+**Jak podejsc**:
+1. Inicjalizuj min = INT_MAX, max = INT_MIN (lub pierwszym elementem)
+2. Iteruj i aktualizuj
+3. Zapamietaj INDEKS min/max jezeli potrzebny
+4. Dla kilku min/max: uzyj vectora
+**Typowe pulapki**:
+- Zla inicjalizacja (min=0 gdy dane moga byc ujemne)
+- Zapomnienie o zapisaniu indeksu
+- Wielu elementow o tej samej wartosci min/max
+**Przyklad**: 2015/4.3 (wiersz min/max), 2023/3.3 (sekwencje rosnaco-malejace), 2024/4.2 (max czynnik)
+
+#### 12. przetwarzanie_sekwencje
+**Co to jest**: Najdluzszy podciag, bloki, wzorce w ciagach.
+**Czestotliwosc**: 3/11 lat, 13 pkt lacznie
+**Jak podejsc**:
+1. Uzyj zmiennych: current_len, max_len
+2. Iteruj i sprawdzaj warunek kontynuacji sekwencji
+3. Jezeli warunek zlamany: porownaj current z max, resetuj
+4. Na koncu: jeszcze raz porownaj (sekwencja moze konczyc sie na ostatnim elemencie)
+**Typowe pulapki**:
+- Zapomnienie o ostatnim porownaniu po petli
+- Bledna definicja "kontynuacji" sekwencji
+- Puste dane / dane jednoelementowe
+**Przyklad**: 2019/4.3 (najdluzszy ciag o NWD>1), 2023/3.3-3.4 (rosnaco-malejace)
+
+#### 13. przetwarzanie_obrazy_2D
+**Co to jest**: Piksele, siatki 2D, connected components (DFS/BFS).
+**Czestotliwosc**: 2/11 lat, 11 pkt lacznie
+**Jak podejsc**:
+1. Wczytaj dane do tablicy 2D
+2. DFS/BFS do przeszukiwania sasiadow
+3. 4-sasiedztwo: gora, dol, lewo, prawo
+4. Liczenie spojnych skladowych: iteruj po pikselach, DFS nieodwiedzonych
+**Typowe pulapki**:
+- Wyjscie poza granice tablicy (sprawdzaj x>=0, x<N, y>=0, y<M)
+- Zapomnienie o oznaczeniu jako odwiedzone (visited)
+- Stack overflow przy duzych obszarach (uzyj BFS zamiast rekurencyjnego DFS)
+**Przyklad**: 2017/6 (obraz rastrowy, connected components), 2025/2.4 (wzorce 2D)
+
+#### 14. obliczenia_geometryczne
+**Co to jest**: Odleglosci, srodki odcinkow, pola, Monte Carlo.
+**Czestotliwosc**: 1/11 lat, 4 pkt lacznie
+**Jak podejsc**:
+1. Odleglosc: sqrt((x2-x1)^2 + (y2-y1)^2)
+2. Srodek: ((x1+x2)/2, (y1+y2)/2)
+3. Pole trojkata: |x1(y2-y3) + x2(y3-y1) + x3(y1-y2)| / 2
+**Typowe pulapki**:
+- Dzielenie calkowite zamiast zmiennoprzecinkowego
+- Precision issues z double
+**Przyklad**: 2025/3 (Dron - NWD + srodek odcinka)
+
+---
+
+### KATEGORIA: ARKUSZ KALKULACYJNY
+
+#### 15. arkusz_agregacja_warunkowa
+**Co to jest**: SUMIF, COUNTIF, AVERAGEIF, SUMIFS — agregacja z warunkami.
+**Czestotliwosc**: 9/11 lat, 38 pkt lacznie
+**Jak podejsc**:
+1. Zidentyfikuj ZAKRES danych, KRYTERIUM, i ZAKRES_SUMOWANIA
+2. SUMIF(zakres_kryt, kryterium, zakres_sum)
+3. Dla wielu warunkow: SUMIFS (warunki w parach zakres+kryterium)
+4. Kopiowanie: uzyj $ do zablokowania odniesien
+**Typowe pulapki**:
+- Pomylenie SUMIF z SUMIFS (kolejnosc argumentow!)
+- Brak $ w odniesieniach bezwzglednych
+- Kryterium tekstowe bez cudzyslowow
+**Przyklad**: 2014/4a (max przychod wieczorem), 2019/5 (pogoda), 2021/5 (wodociagi)
+
+#### 16. arkusz_symulacja
+**Co to jest**: Symulacje krokowe, formuly dynamiczne, prognozy.
+**Czestotliwosc**: 9/11 lat, 37 pkt lacznie
+**Jak podejsc**:
+1. Zrozum model (wzor przyrostu, rabat progresywny, etc.)
+2. Utworz kolumny pomocnicze dla kolejnych krokow
+3. Pierwsza komorka = recznie, potem kopiuj formule w dol
+4. Testuj na danych przykladowych
+**Typowe pulapki**:
+- Blad w pierwszym wierszu propaguje sie do wszystkich
+- Zle odniesienia przy kopiowaniu (brak $)
+- Zaokraglenia w symulacjach finansowych
+**Przyklad**: 2015/5.3 (prognoza ludnosci 2025), 2017/4 (rabaty cukier), 2023/6 (konfitury)
+
+#### 17. arkusz_wykres
+**Co to jest**: Tworzenie wykresow: kolumnowy, kolowy, liniowy.
+**Czestotliwosc**: 8/11 lat, 25 pkt lacznie
+**Jak podejsc**:
+1. Zaznacz dane RAZEM z etykietami
+2. Wstaw wykres odpowiedniego typu
+3. Dodaj tytul, etykiety osi, legende
+4. Sprawdz czy dane sa poprawnie przypisane do serii
+**Typowe pulapki**:
+- Zly typ wykresu (kolowy dla wartosci ujemnych)
+- Brak etykiet lub tytulu
+- Zaznaczenie zlego zakresu danych
+**Przyklad**: 2014/4d (slupkowy), 2015/5.1 (kolumnowy), 2025/6 (skumulowany)
+
+#### 18. arkusz_agregacja_podstawowa
+**Co to jest**: SUM, COUNT, AVERAGE, MAX/MIN — proste agregacje bez warunkow.
+**Czestotliwosc**: 3/11 lat, 9 pkt lacznie
+**Jak podejsc**:
+1. SUM(zakres), AVERAGE(zakres), COUNT(zakres)
+2. MAX(zakres), MIN(zakres)
+3. Zakres moze byc kolumna lub wiersz
+**Typowe pulapki**:
+- COUNT liczy niepuste komorki (uzyj COUNTA dla tekstu)
+- Puste komorki pomijane w AVERAGE
+**Przyklad**: 2014/4b (laczna wartosc przychodow), 2015/5.1 (mieszkancy regionow)
+
+#### 19. arkusz_transformacja
+**Co to jest**: Grupowanie, pivoty, restrukturyzacja danych.
+**Czestotliwosc**: 2/11 lat, 3 pkt lacznie
+**Jak podejsc**:
+1. Zrozum strukture wejsciowa i docelowa
+2. Uzyj SUMIF/COUNTIF do przeorganizowania danych
+3. Tabele przestawne (pivot tables) jezeli dostepne
+**Przyklad**: 2017/4.1 (grupowanie cukru), 2025/6 (transformacja danych)
+
+---
+
+### KATEGORIA: SQL
+
+#### 20. sql_group_by
+**Co to jest**: GROUP BY z COUNT/SUM/AVG/MAX/MIN, czesto z HAVING.
+**Czestotliwosc**: 8/11 lat, 36 pkt lacznie
+**Jak podejsc**:
+1. SELECT kolumna_grupujaca, funkcja_agregujaca(kolumna)
+2. FROM tabela
+3. GROUP BY kolumna_grupujaca
+4. HAVING warunek_na_grupe (filtrowanie PO agregacji)
+5. ORDER BY do posortowania wyniku
+**Typowe pulapki**:
+- Brak GROUP BY przy agregacji
+- WHERE zamiast HAVING (WHERE = przed, HAVING = po agregacji)
+- Brak wszystkich nieagregowanych kolumn w GROUP BY
+**Przyklad**: 2014/6d (srednia chetnch), 2016/5.3 (liczba studentow), 2022/6 (czas pobytu)
+
+#### 21. sql_podzapytania
+**Co to jest**: Podzapytania zagniezdzone, NOT IN, EXISTS, IN.
+**Czestotliwosc**: 7/11 lat, 25 pkt lacznie
+**Jak podejsc**:
+1. Napisz najpierw podzapytanie (wewnetrzne)
+2. Przetestuj podzapytanie osobno
+3. Uzyj IN/NOT IN/EXISTS w zapytaniu zewnetrznym
+4. Alternatywa: LEFT JOIN + IS NULL (zamiast NOT IN)
+**Typowe pulapki**:
+- NULL w NOT IN (daje puste wyniki!)
+- Podzapytanie zwracajace wiecej niz 1 kolumne
+- Korelacja bledna (alias z zewnetrznego zapytania)
+**Przyklad**: 2015/6.2 (miejsce bez GrandPrix), 2016/5.4-5.5 (NOT IN), 2024/8 (NOT IN)
+
+#### 22. sql_join
+**Co to jest**: Laczenie 2-3 tabel przez INNER JOIN lub LEFT JOIN.
+**Czestotliwosc**: 8/11 lat, 21 pkt lacznie
+**Jak podejsc**:
+1. Zidentyfikuj tabele i klucze laczenia
+2. INNER JOIN: tylko pasujace rekordy
+3. LEFT JOIN: wszystkie z lewej + pasujace z prawej (NULL jezeli brak)
+4. Lacz po kluczach: t1.id = t2.id_foreign
+**Typowe pulapki**:
+- INNER zamiast LEFT (tracisz rekordy bez dopasowania)
+- Bledny warunek ON (zle klucze)
+- Duplikaty przy JOIN many-to-many
+**Przyklad**: 2014/6c (przedszkola), 2015/6.3 (mistrzowie F1), 2019/6 (perfumy 3 tabele)
+
+#### 23. sql_select_where
+**Co to jest**: Prosty SELECT z WHERE na 1 tabeli — najlatwiejszy typ SQL.
+**Czestotliwosc**: 4/11 lat, 10 pkt lacznie
+**Jak podejsc**:
+1. SELECT kolumny FROM tabela WHERE warunek
+2. Operatory: =, <>, <, >, LIKE, BETWEEN, IN
+3. LIKE: % = dowolny ciag, _ = jeden znak
+4. ORDER BY do posortowania, LIMIT do ograniczenia
+**Typowe pulapki**:
+- Brak cudzyslowow dla tekstu w WHERE
+- LIKE case-sensitive (zalezy od bazy)
+- Zapomnienie o ORDER BY gdy wymagane
+**Przyklad**: 2014/6a (dziewczynki z Pragi), 2015/6.1 (najwczesniejsze GP)
+
+---
+
 ## 📊 TOP 10 Najważniejszych Algorytmów (Wg częstości 2014-2025)
 
 ### 1. **Sortowanie** (100% egzaminów)
@@ -605,6 +1032,173 @@ int newton(int n, int k) {
 
 ---
 
+### 11. **Programowanie Dynamiczne** (40%+ egzaminów - rośnie!)
+**Dlaczego**: Od 2023 pojawia się coraz częściej (Plansza 2024!)
+**Co umieć**:
+```cpp
+// DP 1D - Fibonacci (wzorzec podstawowy)
+int dp[MAX];
+dp[0] = 0; dp[1] = 1;
+for (int i = 2; i <= n; i++)
+    dp[i] = dp[i-1] + dp[i-2];
+
+// DP 2D - ścieżki na planszy (matura 2024!)
+bool dp[N][M];
+dp[0][0] = true;
+for (int i = 0; i < N; i++)
+    for (int j = 0; j < M; j++) {
+        if (plansza[i][j] == blokada) { dp[i][j] = false; continue; }
+        if (i > 0 && dp[i-1][j]) dp[i][j] = true;  // z góry
+        if (j > 0 && dp[i][j-1]) dp[i][j] = true;  // z lewej
+    }
+// Odpowiedź: dp[N-1][M-1]
+
+// DP - najdłuższy rosnący podciąg (LIS)
+int lis[MAX];
+fill(lis, lis+n, 1);
+for (int i = 1; i < n; i++)
+    for (int j = 0; j < i; j++)
+        if (arr[j] < arr[i])
+            lis[i] = max(lis[i], lis[j] + 1);
+int ans = *max_element(lis, lis+n);
+
+// DP - problem plecakowy 0/1
+int dp[MAX_W+1] = {0};
+for (int i = 0; i < n; i++)
+    for (int w = W; w >= weight[i]; w--)
+        dp[w] = max(dp[w], dp[w - weight[i]] + value[i]);
+```
+**Typowe zastosowania**: Ścieżki na planszy, problem plecakowy, ciągi
+
+---
+
+### 12. **Algorytmy Zachłanne** (30%+ egzaminów)
+**Dlaczego**: Eleganckie i szybkie rozwiązania
+**Co umieć**:
+```cpp
+// Problem doboru aktywności (matura 2015!)
+// Posortuj aktywności po czasie zakończenia
+sort(activities.begin(), activities.end(),
+    [](Activity a, Activity b) { return a.end < b.end; });
+
+int count = 1;
+int last_end = activities[0].end;
+for (int i = 1; i < n; i++) {
+    if (activities[i].start >= last_end) {
+        count++;
+        last_end = activities[i].end;
+    }
+}
+
+// Problem wydawania reszty (zachłanny - monety od największej)
+vector<int> coins = {200, 100, 50, 20, 10, 5, 2, 1};
+int reszta = kwota;
+for (int coin : coins) {
+    int ile = reszta / coin;
+    reszta -= ile * coin;
+    // ile monet o nominale coin
+}
+```
+**Typowe zastosowania**: Scheduling, reszta, pokrycie zbioru
+
+---
+
+### 13. **Systemy Liczbowe** (50%+ egzaminów)
+**Dlaczego**: Stały element matury - pytania P/F i implementacja
+**Co umieć**:
+```cpp
+// Konwersja base 10 → base k
+string toBase(int n, int k) {
+    if (n == 0) return "0";
+    string result = "";
+    while (n > 0) {
+        int reszta = n % k;
+        if (reszta < 10) result = char('0' + reszta) + result;
+        else result = char('A' + reszta - 10) + result;
+        n /= k;
+    }
+    return result;
+}
+
+// Konwersja base k → base 10 (Schemat Hornera)
+int fromBase(string s, int k) {
+    int result = 0;
+    for (char c : s) {
+        int digit;
+        if (c >= '0' && c <= '9') digit = c - '0';
+        else digit = c - 'A' + 10;
+        result = result * k + digit;  // Horner!
+    }
+    return result;
+}
+
+// Dodawanie w systemie k
+string addBase(string a, string b, int k) {
+    string result = "";
+    int carry = 0;
+    int i = a.size()-1, j = b.size()-1;
+    while (i >= 0 || j >= 0 || carry) {
+        int sum = carry;
+        if (i >= 0) sum += a[i--] - '0';
+        if (j >= 0) sum += b[j--] - '0';
+        result = char('0' + sum % k) + result;
+        carry = sum / k;
+    }
+    return result;
+}
+```
+**Typowe zastosowania**: Konwersje, dodawanie/odejmowanie w dowolnym systemie, bin↔hex
+
+---
+
+### 14. **BFS/DFS (Przeszukiwanie Grafów)** (30%+ egzaminów)
+**Dlaczego**: Pojawia się w zadaniach z obrazami, planszami, grafami
+**Co umieć**:
+```cpp
+// BFS - przeszukiwanie wszerz (najkrótsza ścieżka, connected components)
+void bfs(int start, vector<vector<int>>& adj, vector<bool>& visited) {
+    queue<int> q;
+    q.push(start);
+    visited[start] = true;
+    while (!q.empty()) {
+        int v = q.front(); q.pop();
+        for (int u : adj[v]) {
+            if (!visited[u]) {
+                visited[u] = true;
+                q.push(u);
+            }
+        }
+    }
+}
+
+// DFS - przeszukiwanie w głąb (connected components, flood fill)
+void dfs(int x, int y, vector<vector<int>>& grid, vector<vector<bool>>& vis) {
+    if (x < 0 || x >= N || y < 0 || y >= M) return;
+    if (vis[x][y] || grid[x][y] == 0) return;
+    vis[x][y] = true;
+    dfs(x+1, y, grid, vis);  // dół
+    dfs(x-1, y, grid, vis);  // góra
+    dfs(x, y+1, grid, vis);  // prawo
+    dfs(x, y-1, grid, vis);  // lewo
+}
+
+// Liczenie connected components (matura 2017!)
+int count_components(vector<vector<int>>& grid) {
+    vector<vector<bool>> vis(N, vector<bool>(M, false));
+    int count = 0;
+    for (int i = 0; i < N; i++)
+        for (int j = 0; j < M; j++)
+            if (!vis[i][j] && grid[i][j] == 1) {
+                dfs(i, j, grid, vis);
+                count++;
+            }
+    return count;
+}
+```
+**Typowe zastosowania**: Connected components (2017), flood fill, najkrótsza ścieżka, drzewa BST (2023)
+
+---
+
 ## 🎯 Strategia Punktowa
 
 ### ETAP 1: Quick Wins (5-10 pkt, 10-15 min) ⚡
@@ -620,6 +1214,21 @@ int newton(int n, int k) {
 2. Zaznacz zadania P/F i proste obliczenia
 3. Zrób je WSZYSTKIE najpierw (10 min)
 4. **Cel**: 5-10 punktów w 15 minut
+
+**Dlaczego zaczynac od Quick Wins?**
+
+1. **Psychologia egzaminu** — Zdobycie 5-10 pkt w pierwszych 15 min buduje pewnosc siebie i redukuje stres. Unikasz sytuacji, gdzie utkniesz na trudnym zadaniu na starcie i tracisz czas + motywacje.
+
+2. **Gwarancja punktow** — Zadania P/F i proste sledzenie algorytmu maja najwyzszy stosunek punktow do czasu. Nawet jesli zabraknie czasu na koncu, te punkty juz masz zabezpieczone.
+
+3. **Dane z analizy 11 lat matur potwierdzaja to**:
+   - `sledzenie_algorytmu` — 45 pkt lacznie, 11/11 lat, a pierwsze podzadania sa zwykle proste
+   - `test_prawda_falsz` — 25 pkt lacznie, 10/11 lat, wymaga tylko wiedzy (zero programowania)
+   - `konwersja_systemow` — 12 pkt, 9/11 lat, czysto mechaniczne obliczenia
+
+4. **Rozpoznanie arkusza** — Przegladajac caly arkusz w 2 min na starcie, wiesz co Cie czeka i mozesz zaplanowac czas na reszte.
+
+5. **Matematyka ryzyka** — Jesli zaczniesz od trudnego zadania za 5 pkt i poswiecisz 40 min bez rozwiazania, straciles czas, ktory mogl dac Ci 10 pkt latwych. Quick wins to ~1-2 min/punkt, trudne zadania to ~5-8 min/punkt.
 
 ---
 
@@ -675,8 +1284,34 @@ int newton(int n, int k) {
   - Trudne: 40-50 min → 10-15 pkt
   - Bufor: 10 min
 
-### Podział czasu (Formuła 2018+, jednoczęściowa?):
-- Do ustalenia po pełnej analizie
+### Podział czasu (Formuła 2023 - AKTUALNA!):
+**1 arkusz, 210 minut, 50 punktów, 7 zadań**
+
+Typowa struktura (na podstawie analizy 2023):
+
+| Zad | Typ | Pkt | Szacowany czas | Priorytet |
+|---|---|---|---|---|
+| 4-5 | Quick-win P/F + systemy liczbowe | 2 | 5-10 min | ETAP 1 |
+| 1.1 | Śledzenie algorytmu (teoria) | 2 | 10 min | ETAP 1 |
+| 7.1 | Prosty SQL (SELECT + JOIN) | 1 | 5 min | ETAP 1 |
+| 1.2-1.3 | Analiza algorytmu (teoria) | 5 | 15-20 min | ETAP 2 |
+| 2.1 | Algorytm (pseudokod) | 3 | 15 min | ETAP 2 |
+| 2.2-2.3 | Programowanie: pliki (proste) | 4 | 15-20 min | ETAP 2 |
+| 3.1-3.2 | Programowanie: pliki (srednie) | 5 | 20-25 min | ETAP 2 |
+| 6.1-6.2 | Arkusz: zestawienie + wykres | 4 | 15-20 min | ETAP 2 |
+| 7.2-7.3 | SQL sredni (JOIN + GROUP BY) | 4 | 15-20 min | ETAP 2 |
+| 2.4-2.5 | XOR + programowanie binarne | 4 | 20 min | ETAP 3 |
+| 3.3-3.4 | Programowanie: ciagi rosnaco-malejace | 5 | 25-30 min | ETAP 3 |
+| 6.3-6.4 | Arkusz/Prog: symulacja produkcji | 6 | 25-30 min | ETAP 3 |
+| 7.4-7.5 | SQL trudny (kategorie wiekowe, SUM) | 5 | 15-20 min | ETAP 3 |
+
+**Sugerowana kolejnosc**:
+1. **0-15 min**: Zad 4, 5, 1.1, 7.1 → ~5 pkt
+2. **15-90 min**: Zad 1.2-1.3, 2.1-2.3, 3.1-3.2, 6.1-6.2, 7.2-7.3 → ~25 pkt
+3. **90-200 min**: Zad 2.4-2.5, 3.3-3.4, 6.3-6.4, 7.4-7.5 → ~20 pkt
+4. **200-210 min**: Sprawdzenie, poprawki → bufor
+
+**TOTAL**: ~50 pkt w 210 min
 
 ---
 

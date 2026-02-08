@@ -23,17 +23,20 @@
         {
           "id": "1a",
           "punkty": 2,
-          "opis": "Uzupełnij tabelę - wynik działania rekurencyjnego algorytmu Korale(n) dla n=1,2,3,4,7,8,15,16"
+          "opis": "Uzupełnij tabelę - wynik działania rekurencyjnego algorytmu Korale(n) dla n=1,2,3,4,7,8,15,16",
+          "typ_zadania": "sledzenie_algorytmu"
         },
         {
           "id": "1b",
           "punkty": 3,
-          "opis": "Ile koralików zostanie nawleczonych dla danej liczby n? Odpowiedź uzasadnij"
+          "opis": "Ile koralików zostanie nawleczonych dla danej liczby n? Odpowiedź uzasadnij",
+          "typ_zadania": "analiza_algorytmu"
         },
         {
           "id": "1c",
           "punkty": 3,
-          "opis": "Zaprojektuj nierekurencyjną procedurę KoraleBis(n) dającą ten sam efekt"
+          "opis": "Zaprojektuj nierekurencyjną procedurę KoraleBis(n) dającą ten sam efekt",
+          "typ_zadania": "projektowanie_algorytmu"
         }
       ],
       "wymiary": {
@@ -79,17 +82,20 @@
         {
           "id": "2a",
           "punkty": 1,
-          "opis": "Wykonaj 3 pierwsze kroki algorytmu bisekcji dla f(x)=x³-x-2, przedział <0,2>"
+          "opis": "Wykonaj 3 pierwsze kroki algorytmu bisekcji dla f(x)=x³-x-2, przedział <0,2>",
+          "typ_zadania": "sledzenie_algorytmu"
         },
         {
           "id": "2b",
           "punkty": 2,
-          "opis": "W którym kroku długość przedziału będzie po raz pierwszy < 0.1?"
+          "opis": "W którym kroku długość przedziału będzie po raz pierwszy < 0.1?",
+          "typ_zadania": "analiza_algorytmu"
         },
         {
           "id": "2c",
           "punkty": 3,
-          "opis": "Zapisz algorytm bisekcji dla zadanej funkcji i dokładności"
+          "opis": "Zapisz algorytm bisekcji dla zadanej funkcji i dokładności",
+          "typ_zadania": "projektowanie_algorytmu"
         }
       ],
       "wymiary": {
@@ -135,27 +141,32 @@
         {
           "id": "3a",
           "punkty": 2,
-          "opis": "Podaj wartość zmiennej suma po zakończeniu algorytmu dla n=4 i n=6"
+          "opis": "Podaj wartość zmiennej suma po zakończeniu algorytmu dla n=4 i n=6",
+          "typ_zadania": "sledzenie_algorytmu"
         },
         {
           "id": "3b",
           "punkty": 1,
-          "opis": "Wynikiem algorytmu jest... (P/F dla 4 wzorów)"
+          "opis": "Wynikiem algorytmu jest... (P/F dla 4 wzorów)",
+          "typ_zadania": "test_prawda_falsz"
         },
         {
           "id": "3c",
           "punkty": 1,
-          "opis": "Liczba binarna 101011111100 w systemie szesnastkowym (P/F dla 4 opcji)"
+          "opis": "Liczba binarna 101011111100 w systemie szesnastkowym (P/F dla 4 opcji)",
+          "typ_zadania": "konwersja_systemow_liczbowych"
         },
         {
           "id": "3d",
           "punkty": 1,
-          "opis": "Liczba 262 to... (P/F dla 4 stwierdzeń)"
+          "opis": "Liczba 262 to... (P/F dla 4 stwierdzeń)",
+          "typ_zadania": "test_prawda_falsz"
         },
         {
           "id": "3e",
           "punkty": 1,
-          "opis": "Ile uścisków dłoni przy witaniu n osób? (P/F dla 4 wzorów)"
+          "opis": "Ile uścisków dłoni przy witaniu n osób? (P/F dla 4 wzorów)",
+          "typ_zadania": "test_prawda_falsz"
         }
       ],
       "wymiary": {
@@ -204,22 +215,26 @@
         {
           "id": "4a",
           "punkty": 2,
-          "opis": "Którego dnia po zmroku/wieczorem przychód był największy?"
+          "opis": "Którego dnia po zmroku/wieczorem przychód był największy?",
+          "typ_zadania": "arkusz_agregacja_warunkowa"
         },
         {
           "id": "4b",
           "punkty": 2,
-          "opis": "Jaka była łączna wartość wszystkich przychodów?"
+          "opis": "Jaka była łączna wartość wszystkich przychodów?",
+          "typ_zadania": "arkusz_agregacja_podstawowa"
         },
         {
           "id": "4c",
           "punkty": 3,
-          "opis": "Po którym dniu i jaka była maksymalna różnica między sumą przychodów a sumą kosztów?"
+          "opis": "Po którym dniu i jaka była maksymalna różnica między sumą przychodów a sumą kosztów?",
+          "typ_zadania": "arkusz_agregacja_warunkowa"
         },
         {
           "id": "4d",
           "punkty": 2,
-          "opis": "Wykres przychodów i kosztów"
+          "opis": "Wykres przychodów i kosztów",
+          "typ_zadania": "arkusz_wykres"
         }
       ],
       "wymiary": {
@@ -269,17 +284,20 @@
         {
           "id": "5a",
           "punkty": 4,
-          "opis": "Ile napisów w pliku ma długość równą 6?"
+          "opis": "Ile napisów w pliku ma długość równą 6?",
+          "typ_zadania": "przetwarzanie_zliczanie"
         },
         {
           "id": "5b",
           "punkty": 4,
-          "opis": "Które napisy są pierwsze w porządku alfabetycznym w grupach o tej samej sumie kodów ASCII?"
+          "opis": "Które napisy są pierwsze w porządku alfabetycznym w grupach o tej samej sumie kodów ASCII?",
+          "typ_zadania": "przetwarzanie_napisy"
         },
         {
           "id": "5c",
           "punkty": 2,
-          "opis": "Które napisy mają największą różnicę między kodem max a min znaku?"
+          "opis": "Które napisy mają największą różnicę między kodem max a min znaku?",
+          "typ_zadania": "przetwarzanie_napisy"
         }
       ],
       "wymiary": {
@@ -331,22 +349,26 @@
         {
           "id": "6a",
           "punkty": 2,
-          "opis": "Nazwiska dziewczynek z dzielnicy Praga"
+          "opis": "Nazwiska dziewczynek z dzielnicy Praga",
+          "typ_zadania": "sql_select_where"
         },
         {
           "id": "6b",
           "punkty": 3,
-          "opis": "Imiona i nazwiska dzieci rozpoczynające się na 'A', urodzonych w 2010"
+          "opis": "Imiona i nazwiska dzieci rozpoczynające się na 'A', urodzonych w 2010",
+          "typ_zadania": "sql_select_where"
         },
         {
           "id": "6c",
           "punkty": 2,
-          "opis": "Nazwa przedszkola z największą liczbą chętnych z pierwszej preferencji"
+          "opis": "Nazwa przedszkola z największą liczbą chętnych z pierwszej preferencji",
+          "typ_zadania": "sql_join"
         },
         {
           "id": "6d",
           "punkty": 4,
-          "opis": "3 przedszkola o najmniejszej średniej liczbie chętnych na miejsce"
+          "opis": "3 przedszkola o najmniejszej średniej liczbie chętnych na miejsce",
+          "typ_zadania": "sql_group_by"
         }
       ],
       "wymiary": {

@@ -1,0 +1,536 @@
+{
+  "rok": 2023,
+  "formula": "2023",
+  "total_punkty": 50,
+  "czas_minuty": 210,
+  "liczba_zadan": 7,
+  "data_egzaminu": "2023-05-22",
+  "godzina_rozpoczecia": "9:00",
+  "symbol_arkusza": "MINP-R0-100-2305",
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Biblioteczka Adama",
+      "punkty": 7,
+      "opis_ogolny": "Zadanie dotyczace rekurencyjnej struktury danych - biblioteczki z polkami ponumerowanymi 0, 1, 2, ... gdzie polka i ma 2^i przegrodek. Ksiazki wstawiane sa rekurencyjnie wedlug regul porownania numerow (mniejszy - lewo B[i+1, 2j-1], wiekszy - prawo B[i+1, 2j]). Struktura odpowiada binarnemu drzewu poszukiwan (BST).",
+      "podzadania": [
+        {
+          "numer": "1.1",
+          "punkty": 2,
+          "opis": "Podaj zawartosc biblioteczki po wstawieniu kolejno ksiazek o numerach: 14, 18, 12, 9, 20, 15, 17. Nalezy recznie prosledzic algorytm wstawiania i wpisac numery ksiazek we wlasciwe przegrodki schematu.",
+          "typ": "teoria",
+          "typ_zadania": "sledzenie_algorytmu",
+          "odpowiedz": "Polka 0: B[0,1]=14; Polka 1: B[1,1]=12, B[1,2]=18; Polka 2: B[2,1]=9, B[2,3]=15, B[2,4]=20; Polka 3: B[3,6]=17",
+          "zasady_oceniania": "2 pkt - odpowiedz poprawna; 1 pkt - odpowiedz z jednym numerem ksiazki w nieodpowiednim miejscu; 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        },
+        {
+          "numer": "1.2",
+          "punkty": 3,
+          "opis": "Uzupelnij tabelke - wpisz ile minimalnie a ile maksymalnie musi byc polek w biblioteczce, zeby mozna bylo umiescic n ksiazek i zeby na ostatniej polce znalazla sie co najmniej jedna ksiazka. Dotyczy wierszy: n=7, n=16 (maks), n=31, n=32, n=2^k-1.",
+          "typ": "teoria",
+          "typ_zadania": "analiza_algorytmu",
+          "odpowiedz": "n=7: min=3, max=7; n=16: max=16; n=31: min=5, max=31; n=32: min=6, max=32; n=2^k-1: min=k, max=2^k-1",
+          "zasady_oceniania": "3 pkt - odpowiedz w calosci poprawna; 2 pkt - odpowiedz poprawna w przynajmniej 4 wierszach; 1 pkt - odpowiedz poprawna w jednej kolumnie albo w przynajmniej 3 wierszach; 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        },
+        {
+          "numer": "1.3",
+          "punkty": 2,
+          "opis": "Podaj ciagi liczb wypisane przez rekurencyjny algorytm A (przechodzenie drzewa preorder) dla dwoch podanych zawartosci biblioteczki. Algorytm: wypisz numer z B[i,j], potem rekurencyjnie lewe dziecko B[i+1,2j-1], potem prawe dziecko B[i+1,2j].",
+          "typ": "teoria",
+          "typ_zadania": "sledzenie_algorytmu",
+          "odpowiedz": "a) 9, 2, 12, 10, 14, 13, 15; b) 10, 8, 4, 6, 15, 12, 13",
+          "zasady_oceniania": "2 pkt - odpowiedz poprawna; 1 pkt - odpowiedz poprawna dla jednego podpunktu; 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "drzewa binarne",
+          "binarne drzewo poszukiwan (BST)",
+          "struktury danych",
+          "rekurencja"
+        ],
+        "algorytmiczny": [
+          "wstawianie do BST",
+          "przechodzenie drzewa preorder",
+          "analiza zlozonosci struktury (min/max glebokosci)",
+          "rekurencja"
+        ],
+        "implementacyjny": [
+          "sledzenie algorytmu krok po kroku",
+          "analiza przypadkow skrajnych",
+          "rozumienie poteg dwojki i struktury drzewa"
+        ],
+        "punktowy": "sredni",
+        "czasowy_min": 25,
+        "pulapki": [
+          "Pomylenie kierunku: mniejszy idzie do B[i+1, 2j-1] (lewo), wiekszy do B[i+1, 2j] (prawo)",
+          "W zadaniu 1.2 trudnosc z uogolnieniem na 2^k-1 - wymaga zrozumienia ze minimalna liczba polek to ceil(log2(n+1))",
+          "W zadaniu 1.3 pominiecie galezi rekurencji lub niepoprawna kolejnosc (preorder: korzen-lewy-prawy)",
+          "Struktura jest BST ale w nietypowej notacji tablicowej - latwiej pomylic indeksy przegrodek"
+        ]
+      }
+    },
+    {
+      "numer": 2,
+      "tytul": "Liczby binarne",
+      "punkty": 11,
+      "opis_ogolny": "Zadanie dotyczace binarnej reprezentacji liczb calkowitych dodatnich. Blok to maksymalny ciag kolejnych takich samych cyfr w zapisie binarnym. Czesc teoretyczna (algorytm, XOR), czesc praktyczna (przetwarzanie pliku bin.txt ze 100 liczbami binarnymi o max 20 cyfrach).",
+      "podzadania": [
+        {
+          "numer": "2.1",
+          "punkty": 3,
+          "opis": "Zapisz w pseudokodzie lub w wybranym jezyku programowania algorytm, ktory dla danej dodatniej calkowitej liczby n obliczy liczbe blokow w jej zapisie binarnym. Zabronione sa funkcje wbudowane i konwersje miedzy systemami. Dozwolone: operatory arytmetyczne, logiczne, porownania, instrukcje sterujace.",
+          "typ": "teoria",
+          "typ_zadania": "projektowanie_algorytmu",
+          "odpowiedz": "b <- 1; poprzednia <- n mod 2; n <- n div 2; dopoki (n > 0): cyfra <- n mod 2; jesli cyfra != poprzednia: b <- b+1; poprzednia <- cyfra; n <- n div 2",
+          "zasady_oceniania": "3 pkt - poprawny algorytm (1 pkt za poprawna petle, 1 pkt za poprawne porownywanie kolejnych cyfr binarnych, 1 pkt za poprawne zliczenie bloków wlacznie z rozpoznawaniem konca/poczatku bloku i ustawieniami poczatkowymi); 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        },
+        {
+          "numer": "2.2",
+          "punkty": 2,
+          "opis": "Podaj ile liczb w pliku bin.txt sklada sie z co najwyzej dwoch blokow. Wymaga napisania programu przetwarzajacego plik z liczbami binarnymi.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_zliczanie",
+          "odpowiedz": "10",
+          "zasady_oceniania": "2 pkt - odpowiedz poprawna; 1 pkt - za zliczenie liczb z jednego bloku ALBO za zliczenie liczb z dokladnie dwoch blokow; 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        },
+        {
+          "numer": "2.3",
+          "punkty": 2,
+          "opis": "Wypisz najwieksza z liczb zapisanych w pliku bin.txt. Porownanie liczb binarnych o roznej dlugosci zapisu.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_minmax",
+          "odpowiedz": "1110100011100011100",
+          "zasady_oceniania": "2 pkt - odpowiedz poprawna; 1 pkt - za podanie drugiej liczby w kolejnosci od najwiekszej (1101111001101111111); 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        },
+        {
+          "numer": "2.4",
+          "punkty": 1,
+          "opis": "Oblicz (123_10 XOR 101101_2) XOR 2D_16. Wynik podaj w systemie dziesietnym. Wymaga konwersji miedzy systemami liczbowymi (dziesietny, binarny, szesnastkowy) i zastosowania operacji XOR.",
+          "typ": "teoria",
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "odpowiedz": "123",
+          "zasady_oceniania": "1 pkt - odpowiedz poprawna; 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        },
+        {
+          "numer": "2.5",
+          "punkty": 3,
+          "opis": "Napisz program, ktory dla kazdej binarnej liczby p z pliku bin.txt obliczy p XOR (p div 2), gdzie div to dzielenie calkowite. Wyniki podaj w systemie binarnym, zapisz do pliku wyniki2_5.txt.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "odpowiedz": "Plik wyniki2_5.txt z 100 wierszami wynikow binarnych (kod Graya)",
+          "zasady_oceniania": "3 pkt - poprawne wyniki w systemie binarnym; 2 pkt - poprawne wyniki ale w systemie dziesietnym; 1 pkt - poprawne wyniki tylko dla nieparzystych ALBO tylko dla parzystych; 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "systemy liczbowe",
+          "reprezentacja binarna",
+          "operacje bitowe (XOR)",
+          "konwersja miedzy systemami (dziesietny, binarny, szesnastkowy)",
+          "przetwarzanie plikow"
+        ],
+        "algorytmiczny": [
+          "dzielenie calkowite i reszta z dzielenia (ekstrakcja cyfr binarnych)",
+          "zliczanie blokow w ciagu",
+          "znajdowanie maksimum",
+          "operacja XOR na liczbach binarnych",
+          "kod Graya (p XOR p/2)"
+        ],
+        "implementacyjny": [
+          "przetwarzanie stringow binarnych z pliku",
+          "porownywanie liczb binarnych o roznej dlugosci",
+          "operacje bitowe lub symulacja XOR na stringach",
+          "zapis wynikow do pliku",
+          "pseudokod z ograniczeniami (brak funkcji wbudowanych)"
+        ],
+        "punktowy": "sredni",
+        "czasowy_min": 40,
+        "pulapki": [
+          "W 2.1 - uzycie zabronionych funkcji wbudowanych (bin(), int(), str()) dyskwalifikuje rozwiazanie",
+          "W 2.3 - porownywanie liczb binarnych jako stringi wymaga uwzglednienia roznej dlugosci (dluzsza jest wieksza jesli zaczyna sie od 1)",
+          "W 2.4 - pomylka przy konwersji 2D_16 = 45_10 = 101101_2, co daje 123 XOR 45 XOR 45 = 123 (wlasnosc XOR: a XOR b XOR b = a)",
+          "W 2.5 - wyniki musza byc w systemie binarnym (nie dziesietnym) - czesty blad za 2 zamiast 3 pkt",
+          "W 2.5 - dzielenie p div 2 dla liczby binarnej to przesuniecie w prawo o 1 bit"
+        ]
+      }
+    },
+    {
+      "numer": 3,
+      "tytul": "Liczba Pi",
+      "punkty": 10,
+      "opis_ogolny": "Zadanie dotyczace analizy cyfr rozwieniecia dziesietnego liczby pi (10000 cyfr po przecinku w pliku pi.txt, kazda cyfra w osobnym wierszu). Fragmenty 2-cyfrowe, zliczanie, wyszukiwanie ciagow rosnaco-malejacych.",
+      "podzadania": [
+        {
+          "numer": "3.1",
+          "punkty": 2,
+          "opis": "Znajdz liczbe wszystkich fragmentow 2-cyfrowych (pary kolejnych cyfr), ktore sa zapisami dziesietnym liczb o wartosciach wiekszych od 90. Fragmentow 2-cyfrowych jest 9999 (ostatni zaczyna sie w wierszu 9999).",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_zliczanie",
+          "odpowiedz": "902",
+          "zasady_oceniania": "2 pkt - odpowiedz poprawna (902); 1 pkt - odpowiedz 1014 (wiekszych badz rownych 90); 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        },
+        {
+          "numer": "3.2",
+          "punkty": 3,
+          "opis": "Znajdz fragmenty 2-cyfrowe ktorych liczba wystapien jest najmniejsza i najwieksza. Podaj fragmenty i liczby ich wystapien. Jesli kilka fragmentow ma ta sama liczbe wystapien, wypisz ten o mniejszej wartosci liczbowej.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_minmax",
+          "odpowiedz": "88 80 (minimum: fragment 88, 80 wystapien); 65 124 (maksimum: fragment 65, 124 wystapienia)",
+          "zasady_oceniania": "3 pkt - odpowiedz poprawna (1 pkt za fragment 88, 1 pkt za fragment 65, 1 pkt za liczby wystapien obu); 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        },
+        {
+          "numer": "3.3",
+          "punkty": 3,
+          "opis": "Podaj ile jest wszystkich ciagow rosnaco-malejacych zlozonych z dokladnie szesciu kolejnych cyfr z pliku pi.txt. Ciag rosnaco-malejacy (min 4 elementy): istnieje k (2<=k<=n-2) takie ze a1<a2<...<ak oraz a(k+1)>a(k+2)>...>an. Np. (5,9,9,4,1) tez jest rosnaco-malejacy.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_sekwencje",
+          "odpowiedz": "214",
+          "zasady_oceniania": "3 pkt - odpowiedz poprawna (214); 2 pkt - brak jednego przypadku np. typu 123454 (monotoniczny z rownoscia na granicy); 1 pkt - odpowiedz 215, 216 lub 217 (wlaczono kilka niepoprawnych ciagow); 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        },
+        {
+          "numer": "3.4",
+          "punkty": 2,
+          "opis": "Znajdz najdluzszy ciag kolejnych cyfr z pliku pi.txt ktory jest rosnaco-malejacy oraz pozycje na ktorej sie rozpoczyna. W pliku jest tylko jeden taki ciag o najwiekszej dlugosci.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_sekwencje",
+          "odpowiedz": "Pozycja: 2781, ciag: 014576540 (dlugosc 9)",
+          "zasady_oceniania": "2 pkt - odpowiedz poprawna (1 pkt za pozycje, 1 pkt za ciag); 1 pkt - podano pozycje i dlugosc ciagu (9) zamiast samego ciagu; 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "przetwarzanie ciagow liczbowych",
+          "analiza statystyczna danych",
+          "wyszukiwanie podciagow o okreslonych wlasnosciach",
+          "liczba pi"
+        ],
+        "algorytmiczny": [
+          "zliczanie warunkowe",
+          "histogram (zliczanie wystapien fragmentow)",
+          "znajdowanie minimum i maksimum",
+          "rozpoznawanie ciagow rosnaco-malejacych",
+          "znajdowanie najdluzszego podciagu o danej wlasnosci"
+        ],
+        "implementacyjny": [
+          "wczytywanie danych z pliku (cyfra na wiersz)",
+          "operacje na parach kolejnych elementow",
+          "tablica zliczen 100-elementowa",
+          "logika warunkowa z wieloma stanami (rosnacy -> malejacy)",
+          "zapis wynikow do pliku"
+        ],
+        "punktowy": "sredni",
+        "czasowy_min": 45,
+        "pulapki": [
+          "W 3.1 - warunek 'wiekszych od 90' (nie wiekszych badz rownych) - pomylka daje 1014 zamiast 902",
+          "W 3.2 - przy remisach nalezy wybrac fragment o mniejszej wartosci liczbowej",
+          "W 3.3 - definicja rosnaco-malejacego dopuszcza rownosc na granicy (np. 5,9,9,4,1 jest poprawny bo czesc rosnaca to 5,9 a malejaca 9,4,1); takze ciagi typu 1,2,3,4,5,4 sa poprawne",
+          "W 3.3 - warunek k w {2,...,n-2} wymaga co najmniej 2 elementow w czesci rosnacej i 2 w czesci malejacej",
+          "W 3.4 - ciag musi byc 'dokladnie' rosnaco-malejacy, nie mozna rozszerzyc go w zadna strone"
+        ]
+      }
+    },
+    {
+      "numer": 4,
+      "tytul": "Szyfrowanie asymetryczne",
+      "punkty": 1,
+      "opis_ogolny": "Zadanie typu prawda/falsz dotyczace zastosowania klucza prywatnego w szyfrowaniu asymetrycznym.",
+      "podzadania": [
+        {
+          "numer": "4.1",
+          "punkty": 1,
+          "opis": "Ocen prawdziwosc dwoch zdan o zastosowaniu klucza prywatnego osoby A w komunikacji A-B: (1) odszyfrowania wiadomosci wyslanej do osoby A przez osobe B; (2) uwierzytelnienia osoby B przez osobe A.",
+          "typ": "teoria",
+          "typ_zadania": "teoria_bezpieczenstwa",
+          "odpowiedz": "1. Prawda (P) - klucz prywatny A sluzy do odszyfrowywania wiadomosci zaszyfrowanych kluczem publicznym A; 2. Falsz (F) - do uwierzytelnienia osoby B uzywa sie klucza publicznego B, nie prywatnego A",
+          "zasady_oceniania": "1 pkt - odpowiedz poprawna (PF); 0 pkt - odpowiedz niepoprawna, niepelna albo brak odpowiedzi"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "kryptografia asymetryczna",
+          "klucz prywatny i publiczny",
+          "uwierzytelnianie",
+          "bezpieczenstwo informatyczne"
+        ],
+        "algorytmiczny": [
+          "rozumienie schematu szyfrowania asymetrycznego (RSA-like)"
+        ],
+        "implementacyjny": [],
+        "punktowy": "latwy",
+        "czasowy_min": 3,
+        "pulapki": [
+          "Mylenie roli klucza prywatnego (deszyfrowanie) z kluczem publicznym (szyfrowanie)",
+          "Mylenie uwierzytelniania (weryfikacja tozsamosci nadawcy) z odszyfrowywaniem"
+        ]
+      }
+    },
+    {
+      "numer": 5,
+      "tytul": "Systemy pozycyjne",
+      "punkty": 1,
+      "opis_ogolny": "Porownywanie liczb zapisanych w roznych systemach pozycyjnych (o podstawach 3, 5 i 6).",
+      "podzadania": [
+        {
+          "numer": "5.1",
+          "punkty": 1,
+          "opis": "Wstaw odpowiedni znak (<, >, =) miedzy pary liczb: (134)_5 vs (134)_6 oraz (2222)_3 vs (1111)_6. Dane: (2011)_3 = (134)_6.",
+          "typ": "teoria",
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "odpowiedz": "(134)_5 < (134)_6; (2222)_3 < (1111)_6. Obliczenia: (134)_5 = 1*25+3*5+4 = 44; (134)_6 = 1*36+3*6+4 = 58; (2222)_3 = 2*27+2*9+2*3+2 = 80; (1111)_6 = 1*216+1*36+1*6+1 = 259.",
+          "zasady_oceniania": "1 pkt - odpowiedz poprawna; 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "systemy pozycyjne",
+          "konwersja miedzy systemami liczbowymi",
+          "porownywanie wartosci"
+        ],
+        "algorytmiczny": [
+          "zamiana z systemu o podstawie p na dziesietny: sum(c_i * p^i)"
+        ],
+        "implementacyjny": [],
+        "punktowy": "latwy",
+        "czasowy_min": 5,
+        "pulapki": [
+          "Bledne obliczenie poteg podstawy systemu",
+          "Fakt ze ta sama sekwencja cyfr (np. 134) w systemie o wyzszej podstawie daje wieksza wartosc nie jest oczywisty dla wszystkich",
+          "Pokusa by zakladac ze porownanie jest oczywiste bez obliczen (co moze byc prawda ale ryzykowne)"
+        ]
+      }
+    },
+    {
+      "numer": 6,
+      "tytul": "Konfitury owocowe",
+      "punkty": 10,
+      "opis_ogolny": "Zadanie arkuszowe (Excel/Calc) - analiza danych o dostawach owocow (maliny, truskawki, porzeczki) do przetworni w okresie 01.05.2020-30.09.2020 z pliku owoce.txt. Obejmuje zestawienia, wykresy, filtrowanie, symulacje procesu produkcji konfitur.",
+      "podzadania": [
+        {
+          "numer": "6.1",
+          "punkty": 3,
+          "opis": "Dla kazdego miesiaca (maj-wrzesien) wykonaj zestawienie dostarczonych kg malin, truskawek i porzeczek. Utworz wykres kolumnowy z tytulem, legenda, opisami osi (X: nazwy miesiecy, Y: liczba kilogramow).",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_wykres",
+          "odpowiedz": "maj: 9238/9287/3309; czerwiec: 9485/8916/5081; lipiec: 11592/11339/10567; sierpien: 11045/11386/11078; wrzesien: 6532/7476/6355 + wykres kolumnowy",
+          "zasady_oceniania": "3 pkt - odpowiedz poprawna (1 pkt za zestawienie, 2 pkt za wykres: 1 pkt typ i dobor danych, 1 pkt opis); 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        },
+        {
+          "numer": "6.2",
+          "punkty": 1,
+          "opis": "Podaj liczbe dni, w ktorych dostarczono najwiecej porzeczek (sposrod trzech rodzajow owocow w danym dniu).",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "odpowiedz": "19",
+          "zasady_oceniania": "1 pkt - odpowiedz poprawna (19); 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        },
+        {
+          "numer": "6.3",
+          "punkty": 3,
+          "opis": "Symulacja produkcji konfitur: codziennie produkuje sie jeden rodzaj konfitur z dwoch owocow ktorych jest najwiecej (proporcja 1:1, maks ilosc). Owoce niewykorzystane przechodza na nastepny dzien. Podaj ile razy produkowano kazdy rodzaj konfitur.",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_symulacja",
+          "odpowiedz": "malinowo-porzeczkowe: 41; malinowo-truskawkowe: 72; truskawkowo-porzeczkowe: 40",
+          "zasady_oceniania": "3 pkt - odpowiedz poprawna (po 1 pkt za kazdy rodzaj konfitur); 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        },
+        {
+          "numer": "6.4",
+          "punkty": 3,
+          "opis": "Na wyprodukowanie 1 kg konfitur potrzeba po 1 kg kazdego owocu. Podaj ile kilogramow konfitur kazdego rodzaju wyprodukowano w calym okresie.",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_symulacja",
+          "odpowiedz": "malinowo-porzeczkowe: 18008 kg; malinowo-truskawkowe: 29732 kg; truskawkowo-porzeczkowe: 18382 kg (lacznie 66122 kg)",
+          "zasady_oceniania": "3 pkt - odpowiedz poprawna (po 1 pkt za kazdy rodzaj); 2 pkt - podano liczby dwa razy wieksze niz poprawne (po 2 kg owocow na 1 kg konfitur); 1 pkt - tylko laczna suma 66122; 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "przetwarzanie danych tabelarycznych",
+          "analiza czasowa (daty, miesiace)",
+          "symulacja procesu produkcji",
+          "wizualizacja danych (wykres kolumnowy)"
+        ],
+        "algorytmiczny": [
+          "sumowanie warunkowe (SUMIF/SUMPRODUCT)",
+          "filtrowanie danych wg kryteriow",
+          "symulacja krokowa z pamiecia stanu (zapasy z poprzedniego dnia)",
+          "znajdowanie maksimum z trzech wartosci"
+        ],
+        "implementacyjny": [
+          "formuly arkusza kalkulacyjnego (SUMIF, MAX, IF, OR)",
+          "tworzenie wykresow kolumnowych z opisami",
+          "formuly iteracyjne z odwolaniami do wczesniejszych wierszy (symulacja dzen po dniu)",
+          "import danych z pliku TSV",
+          "formatowanie dat i wyodrebnianie miesiecy"
+        ],
+        "punktowy": "trudny",
+        "czasowy_min": 50,
+        "pulapki": [
+          "W 6.1 - brak opisu wykresu (tytul, legenda, opisy osi) kosztuje 1 punkt",
+          "W 6.3/6.4 - symulacja wymaga uwzglednienia zapasow z poprzedniego dnia - kazdy blad kumuluje sie na kolejne dni",
+          "W 6.4 - 1 kg konfitur = 1 kg owocu A + 1 kg owocu B (nie 0.5+0.5) - wynik to minimum z dwoch najwiekszych ilosci",
+          "W 6.3 - dwa owoce z najwieksza iloscia ida do produkcji, trzeci do chlodni - trzeba poprawnie wybierac pare",
+          "Brak przypadku rownych ilosci owocow w danych (uproszczenie) ale trzeba pamietac o logice min(a,b) dla produkcji"
+        ]
+      }
+    },
+    {
+      "numer": 7,
+      "tytul": "Gry planszowe",
+      "punkty": 10,
+      "opis_ogolny": "Zadanie bazodanowe - relacyjna baza danych o grach planszowych. Trzy tabele: gry.txt (id_gry, nazwa, kategoria), gracze.txt (id_gracza, imie, nazwisko, wiek), oceny.txt (id_gry, id_gracza, stan, ocena). Zadania 7.1-7.4 to kwerendy/analizy, 7.5 to zapytanie SQL z dodatkowa tabela sklep.",
+      "podzadania": [
+        {
+          "numer": "7.1",
+          "punkty": 1,
+          "opis": "Podaj tytul gry, ktora otrzymala najwiecej ocen.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_zliczanie",
+          "odpowiedz": "K2",
+          "zasady_oceniania": "1 pkt - odpowiedz poprawna (K2); 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        },
+        {
+          "numer": "7.2",
+          "punkty": 2,
+          "opis": "Dla kazdej gry z kategorii 'imprezowa' podaj srednia jej ocen z dokladnoscia do dwoch miejsc po przecinku.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_zliczanie",
+          "odpowiedz": "5 sekund: 8.16; Avalone: 8.25; Colt Express: 7.54; Jenga: 8.16; Koncept: 8.37; Mamy szpiega: 8.22; Przebiegle wielblady: 7.73; Sushi Go: 8.07; Swiatowy Konflikt: 7.80; Szeryf z Nottingham: 7.88",
+          "zasady_oceniania": "2 pkt - odpowiedz poprawna (1 pkt za poprawne wyniki, 1 pkt za dokladnosc do dwoch miejsc po przecinku); 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        },
+        {
+          "numer": "7.3",
+          "punkty": 2,
+          "opis": "Podaj liczbe graczy, ktorzy nie posiadaja zadnej z ocenianych przez siebie gier (nie maja zadnej gry ze stanem 'posiada'), a wystawili co najmniej jedna ocene.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_zlozone",
+          "odpowiedz": "334",
+          "zasady_oceniania": "2 pkt - odpowiedz poprawna (334); 1 pkt - odpowiedz 351 uwzgledniajaca graczy bez ocen; 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        },
+        {
+          "numer": "7.4",
+          "punkty": 3,
+          "opis": "Podzial graczy na kategorie wiekowe: juniorzy (do 19 lat), seniorzy (20-49 lat), weterani (od 50 lat). Dla kazdej kategorii podaj najwieksza liczbe ocen wystawionych jednej grze przez uzytkownikow z tej kategorii oraz nazwy tych gier.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_zlozone",
+          "odpowiedz": "juniorzy: Terraformacja Marsa (6) i K2 (6); seniorzy: K2 (24); weterani: Robinson Crusoe (28)",
+          "zasady_oceniania": "3 pkt - odpowiedz poprawna (po 1 pkt za kazda kategorie wiekowa); 2 pkt - poprawne wyniki ale id_gry zamiast tytulu; 0 pkt - odpowiedz niepoprawna albo brak odpowiedzi"
+        },
+        {
+          "numer": "7.5",
+          "punkty": 2,
+          "opis": "Zapisz zapytanie SQL: ile nalezy zaplacic za zakup po jednej sztuce wszystkich gier logicznych (kategoria 'logiczna') dostepnych w cenach promocyjnych. Nowa tabela sklep (id_gry, cena, promocja). Relacja gry-sklep: jeden do wielu.",
+          "typ": "SQL",
+          "typ_zadania": "sql_join",
+          "odpowiedz": "SELECT Sum(cena) FROM Gry INNER JOIN Sklep ON Gry.id_gry = Sklep.id_gry WHERE Gry.kategoria = 'logiczna' AND Sklep.promocja = true;",
+          "zasady_oceniania": "2 pkt - poprawne zapytanie SQL; 1 pkt - odpowiedz z jednym bledem (np. brak jednego warunku albo blad przy JOIN); 0 pkt - odpowiedz niepoprawna albo brak rozwiazania"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "relacyjne bazy danych",
+          "zapytania SQL",
+          "laczenie tabel (JOIN)",
+          "agregacja danych (COUNT, AVG, SUM)",
+          "grupowanie i filtrowanie"
+        ],
+        "algorytmiczny": [
+          "zlaczanie tabel po kluczach",
+          "grupowanie z agregacja (GROUP BY + COUNT/AVG)",
+          "filtrowanie z podzapytaniami (NOT IN / NOT EXISTS)",
+          "klasyfikacja wiekowa (CASE WHEN)",
+          "znajdowanie maksimum w grupach"
+        ],
+        "implementacyjny": [
+          "SQL: SELECT, FROM, JOIN, WHERE, GROUP BY, HAVING",
+          "SQL: funkcje agregujace (SUM, AVG, COUNT, MAX)",
+          "SQL: INNER JOIN z warunkami WHERE",
+          "import danych TSV do bazy lub arkusza",
+          "zaokraglanie do 2 miejsc po przecinku (ROUND)"
+        ],
+        "punktowy": "trudny",
+        "czasowy_min": 40,
+        "pulapki": [
+          "W 7.2 - zaokraglenie do 2 miejsc po przecinku (nie obciecie) - roznica miedzy ROUND a TRUNCATE",
+          "W 7.3 - warunek 'wystawili co najmniej jedna ocene' wyklucza graczy bez zadnych ocen (351 vs 334)",
+          "W 7.4 - juniorzy maja dwie gry z ta sama maksymalna liczba ocen (Terraformacja Marsa i K2, po 6)",
+          "W 7.4 - podanie id_gry zamiast nazwy kosztuje 1 punkt",
+          "W 7.5 - gra moze wystepowac w tabeli sklep dwa razy (cena promocyjna i normalna) - trzeba filtrowac po promocja=true",
+          "W 7.5 - tabela sklep nie musi zawierac wszystkich gier z tabeli gry - INNER JOIN jest wlasciwym zlaczeniem"
+        ]
+      }
+    }
+  ],
+  "podsumowanie": {
+    "rozklad_punktow_wg_typu": {
+      "teoria": 13,
+      "implementacja": 17,
+      "arkusz": 10,
+      "SQL": 2,
+      "razem": 50,
+      "uwaga": "Zadania 7.1-7.4 (8 pkt) moga byc rozwiazane programem, arkuszem lub SQL - tu sklasyfikowane jako implementacja"
+    },
+    "rozklad_punktow_wg_zadania": {
+      "zadanie_1": 7,
+      "zadanie_2": 11,
+      "zadanie_3": 10,
+      "zadanie_4": 1,
+      "zadanie_5": 1,
+      "zadanie_6": 10,
+      "zadanie_7": 10
+    },
+    "rozklad_trudnosci": {
+      "latwe": {
+        "punkty": 2,
+        "zadania": ["4", "5"]
+      },
+      "srednie": {
+        "punkty": 28,
+        "zadania": ["1", "2", "3"]
+      },
+      "trudne": {
+        "punkty": 20,
+        "zadania": ["6", "7"]
+      }
+    },
+    "tematyka_glowna": [
+      "Drzewa binarne (BST) i rekurencja",
+      "Systemy liczbowe i operacje bitowe (XOR, konwersje)",
+      "Przetwarzanie ciagow liczbowych (cyfry pi)",
+      "Kryptografia asymetryczna",
+      "Arkusz kalkulacyjny z symulacja",
+      "Relacyjne bazy danych i SQL"
+    ],
+    "wymagane_narzedzia": [
+      "Srodowisko programistyczne (Python/C++/Java/Pascal)",
+      "Arkusz kalkulacyjny (Excel/LibreOffice Calc)",
+      "System zarzadzania baza danych lub arkusz (MySQL/MariaDB/Access)"
+    ],
+    "pliki_danych": [
+      "bin.txt - 100 wierszy, kazdy wiersz to binarna liczba dodatnia (max 20 cyfr)",
+      "bin_przyklad.txt - dane przykladowe do zadan 2.2-2.3",
+      "odp_bin_przyklad.txt - odpowiedzi przykladowe do zadania 2.5",
+      "pi.txt - 10000 wierszy, kazdy wiersz to jedna cyfra rozwieniecia pi",
+      "pi_przyklad.txt - 100 pierwszych wierszy pliku pi.txt",
+      "owoce.txt - dane o dostawach owocow (01.05.2020-30.09.2020), kolumny: data, maliny, truskawki, porzeczki (TSV)",
+      "gry.txt - informacje o grach planszowych: id_gry, nazwa, kategoria (TSV)",
+      "gracze.txt - informacje o graczach: id_gracza, imie, nazwisko, wiek (TSV)",
+      "oceny.txt - oceny gier: id_gry, id_gracza, stan, ocena (TSV)"
+    ],
+    "pliki_wynikowe": [
+      "wyniki2.txt - odpowiedzi do zadan 2.2 i 2.3",
+      "wyniki2_5.txt - wyniki zadania 2.5 (p XOR p/2 w binarnym)",
+      "wyniki3.txt - odpowiedzi do zadan 3.1-3.4",
+      "wyniki6.txt - odpowiedzi do zadan 6.1-6.4 + plik wykresu",
+      "wyniki7.txt - odpowiedzi do zadan 7.1-7.4"
+    ],
+    "roznice_vs_stara_formula": [
+      "Nowa formula 2023 ma 50 punktow (stara miala 80 pkt w niektorych rocznikach)",
+      "Czas 210 minut (3.5 godziny) - ten sam co w starej formule",
+      "7 zadan glownych z podzadaniami",
+      "Wieksza roznorodnosc typow zadan w jednym arkuszu (teoria, pseudokod, programowanie, arkusz, SQL)",
+      "Zadania 4 i 5 to krotkie zadania teoretyczne za 1 punkt - nowe w formule 2023",
+      "Zintegrowane podejscie - zadanie moze laczyc teorie z implementacja (np. zadanie 2)"
+    ]
+  }
+}

@@ -23,12 +23,14 @@
         {
           "id": "1.1",
           "punkty": 1,
-          "opis": "Zbadaj które pary liczb (20,21) i (75,48) są liczbami skojarzonymi"
+          "opis": "Zbadaj które pary liczb (20,21) i (75,48) są liczbami skojarzonymi",
+          "typ_zadania": "sledzenie_algorytmu"
         },
         {
           "id": "1.2",
           "punkty": 4,
-          "opis": "Zaprojektuj algorytm znajdowania liczby b skojarzonej z daną liczbą a (optymalizacja: złożoność O(√n))"
+          "opis": "Zaprojektuj algorytm znajdowania liczby b skojarzonej z daną liczbą a (optymalizacja: złożoność O(√n))",
+          "typ_zadania": "projektowanie_algorytmu"
         }
       ],
       "wymiary": {
@@ -75,17 +77,20 @@
         {
           "id": "2.1",
           "punkty": 2,
-          "opis": "Podaj kolejność elementów w tablicy [4,6,3,5,2,1] po wykonaniu przestaw(A)"
+          "opis": "Podaj kolejność elementów w tablicy [4,6,3,5,2,1] po wykonaniu przestaw(A)",
+          "typ_zadania": "sledzenie_algorytmu"
         },
         {
           "id": "2.2",
           "punkty": 1,
-          "opis": "Podaj przykład 7-elementowej tablicy, dla której przestaw wykona dokładnie 5 zamian"
+          "opis": "Podaj przykład 7-elementowej tablicy, dla której przestaw wykona dokładnie 5 zamian",
+          "typ_zadania": "analiza_algorytmu"
         },
         {
           "id": "2.3",
           "punkty": 3,
-          "opis": "Dla specjalnej 100-elementowej tablicy podaj wartość w oraz A[1], A[2], A[3] po wykonaniu przestaw"
+          "opis": "Dla specjalnej 100-elementowej tablicy podaj wartość w oraz A[1], A[2], A[3] po wykonaniu przestaw",
+          "typ_zadania": "analiza_algorytmu"
         }
       ],
       "wymiary": {
@@ -133,22 +138,26 @@
         {
           "id": "3.1",
           "punkty": 1,
-          "opis": "Awaria DNS i serwery SMTP/poczty - diagnozowanie problemów sieciowych"
+          "opis": "Awaria DNS i serwery SMTP/poczty - diagnozowanie problemów sieciowych",
+          "typ_zadania": "test_prawda_falsz"
         },
         {
           "id": "3.2",
           "punkty": 1,
-          "opis": "Wartości funkcji rekurencyjnej f(n) = 1/(1-f(n-1)), f(1)=4"
+          "opis": "Wartości funkcji rekurencyjnej f(n) = 1/(1-f(n-1)), f(1)=4",
+          "typ_zadania": "test_prawda_falsz"
         },
         {
           "id": "3.3",
           "punkty": 1,
-          "opis": "Operacje arytmetyczne w systemie binarnym: 1111₂ i 101₂"
+          "opis": "Operacje arytmetyczne w systemie binarnym: 1111₂ i 101₂",
+          "typ_zadania": "konwersja_systemow_liczbowych"
         },
         {
           "id": "3.4",
           "punkty": 1,
-          "opis": "System operacyjny: funkcje, przydział pamięci, instalacja"
+          "opis": "System operacyjny: funkcje, przydział pamięci, instalacja",
+          "typ_zadania": "test_prawda_falsz"
         }
       ],
       "wymiary": {
@@ -197,17 +206,20 @@
         {
           "id": "4.1",
           "punkty": 3,
-          "opis": "Znajdź współrzędne punktów na okręgu i liczbę punktów wewnątrz koła"
+          "opis": "Znajdź współrzędne punktów na okręgu i liczbę punktów wewnątrz koła",
+          "typ_zadania": "arkusz_agregacja_warunkowa"
         },
         {
           "id": "4.2",
           "punkty": 3,
-          "opis": "Oblicz przybliżoną wartość π dla N=500, 1000, 1700"
+          "opis": "Oblicz przybliżoną wartość π dla N=500, 1000, 1700",
+          "typ_zadania": "arkusz_symulacja"
         },
         {
           "id": "4.3",
           "punkty": 5,
-          "opis": "Oblicz błąd bezwzględny dla N=1000 i 1700, narysuj wykres błędu w funkcji N"
+          "opis": "Oblicz błąd bezwzględny dla N=1000 i 1700, narysuj wykres błędu w funkcji N",
+          "typ_zadania": "arkusz_wykres"
         }
       ],
       "wymiary": {
@@ -258,27 +270,32 @@
         {
           "id": "5.1",
           "punkty": 2,
-          "opis": "Znajdź autora książek z najdłuższymi tytułami (imię, nazwisko, tytuły)"
+          "opis": "Znajdź autora książek z najdłuższymi tytułami (imię, nazwisko, tytuły)",
+          "typ_zadania": "sql_join"
         },
         {
           "id": "5.2",
           "punkty": 2,
-          "opis": "Oblicz średnią liczbę studentów na pokój (zaokrąglona do 4 miejsc)"
+          "opis": "Oblicz średnią liczbę studentów na pokój (zaokrąglona do 4 miejsc)",
+          "typ_zadania": "sql_group_by"
         },
         {
           "id": "5.3",
           "punkty": 2,
-          "opis": "Liczba studentek i studentów mieszkających w akademiku"
+          "opis": "Liczba studentek i studentów mieszkających w akademiku",
+          "typ_zadania": "sql_group_by"
         },
         {
           "id": "5.4",
           "punkty": 3,
-          "opis": "Studenci, którzy nie wypożyczyli jeszcze żadnej książki (nazwisko, imię)"
+          "opis": "Studenci, którzy nie wypożyczyli jeszcze żadnej książki (nazwisko, imię)",
+          "typ_zadania": "sql_podzapytania"
         },
         {
           "id": "5.5",
           "punkty": 3,
-          "opis": "Liczba studentów, którzy wypożyczyli więcej niż 3 książki"
+          "opis": "Liczba studentów, którzy wypożyczyli więcej niż 3 książki",
+          "typ_zadania": "sql_podzapytania"
         }
       ],
       "wymiary": {
@@ -336,17 +353,20 @@
         {
           "id": "6.1",
           "punkty": 3,
-          "opis": "Zaszyfruj tekst wg klucza (z zawinięciem cyklicznym alfabetu)"
+          "opis": "Zaszyfruj tekst wg klucza (z zawinięciem cyklicznym alfabetu)",
+          "typ_zadania": "przetwarzanie_napisy"
         },
         {
           "id": "6.2",
           "punkty": 4,
-          "opis": "Odszyfruj tekst znając klucz"
+          "opis": "Odszyfruj tekst znając klucz",
+          "typ_zadania": "przetwarzanie_napisy"
         },
         {
           "id": "6.3",
           "punkty": 5,
-          "opis": "Znajdź wszystkie nazwiska zaszyfrowane błędnie (bez zawijania cyklicznego)"
+          "opis": "Znajdź wszystkie nazwiska zaszyfrowane błędnie (bez zawijania cyklicznego)",
+          "typ_zadania": "przetwarzanie_napisy"
         }
       ],
       "wymiary": {

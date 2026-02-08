@@ -1,0 +1,101 @@
+{
+  "rok": 2018,
+  "formula": "2015_nowa",
+  "uwaga": "NOWA FORMULA - zmiana czasu i punktow w Czesci I. Analiza czesciowa: tylko Czesc I (15 pkt). Czesc II nie zostala przeanalizowana.",
+  "struktura": {
+    "czesc_1": {
+      "czas_minuty": 60,
+      "punkty": 15
+    },
+    "czesc_2": {
+      "czas_minuty": 150,
+      "punkty": 35,
+      "status": "NIE PRZEANALIZOWANA"
+    },
+    "total_czas_minuty": 210,
+    "total_punkty": 50
+  },
+  "zadania": [
+    {
+      "numer": 1,
+      "czesc": 1,
+      "tytul": "Analiza algorytmu - pierwiastek szescienny (binary search)",
+      "punkty": 6,
+      "podzadania": [
+        {"id": "1.1", "punkty": 2, "opis": "Podaj wynik algorytmu dla n=28, n=64, n=80", "typ_zadania": "sledzenie_algorytmu"},
+        {"id": "1.2", "punkty": 2, "opis": "Podaj minimalne i maksymalne n dla p=10", "typ_zadania": "analiza_algorytmu"},
+        {"id": "1.3", "punkty": 2, "opis": "Okresl zlozonosc algorytmu (test)", "typ_zadania": "analiza_algorytmu"}
+      ],
+      "wymiary": {
+        "tematyczny": ["algorytmy_numeryczne", "przeszukiwanie_binarne", "zlozonosc"],
+        "algorytmiczny": ["binary_search", "obliczanie_pierwiastka", "analiza_zlozonosci"],
+        "implementacyjny": ["sledzenie_algorytmu", "warunki_petli", "podzial_przedzialu"],
+        "punktowy": {"trudnosc": "srednia", "typ": "teoria+analiza", "punkty_na_czas": "wysoki"},
+        "czasowy_min": 20,
+        "pulapki": ["warunek zakonczenia petli", "obliczenie p^3 vs n", "zlozonosc logarytmiczna"]
+      }
+    },
+    {
+      "numer": 2,
+      "czesc": 1,
+      "tytul": "Krajobraz - geometria, sortowanie punktow",
+      "punkty": 6,
+      "podzadania": [
+        {"id": "2.1", "punkty": 3, "opis": "Skrajnie lewy szczyt", "typ_zadania": "sledzenie_algorytmu"},
+        {"id": "2.2", "punkty": 3, "opis": "Sortowanie szczytow (O(n^2))", "typ_zadania": "projektowanie_algorytmu"}
+      ],
+      "wymiary": {
+        "tematyczny": ["geometria_obliczeniowa", "sortowanie"],
+        "algorytmiczny": ["sortowanie_punktow", "sortowanie_selection_O_n2"],
+        "implementacyjny": ["sortowanie_wg_klucza", "porownywanie_wspolrzednych"],
+        "punktowy": {"trudnosc": "srednia_do_trudnej", "typ": "teoria+algorytm", "punkty_na_czas": "sredni"},
+        "czasowy_min": 25,
+        "pulapki": ["sortowanie po x/y", "przypadki graniczne (punkty na tej samej wysokosci)"]
+      }
+    },
+    {
+      "numer": 3,
+      "czesc": 1,
+      "tytul": "Test P/F - PHP/JavaScript, RGB/CMYK, SQL",
+      "punkty": 3,
+      "podzadania": [
+        {"id": "3.1", "punkty": 1, "opis": "PHP/JavaScript - technologie webowe", "typ_zadania": "test_prawda_falsz"},
+        {"id": "3.2", "punkty": 1, "opis": "RGB/CMYK - modele barw", "typ_zadania": "test_prawda_falsz"},
+        {"id": "3.3", "punkty": 1, "opis": "SQL - zapytania bazodanowe", "typ_zadania": "test_prawda_falsz"}
+      ],
+      "wymiary": {
+        "tematyczny": ["technologie_web", "modele_barw", "SQL"],
+        "algorytmiczny": ["analiza_kodu_PHP_JS", "konwersja_barw", "analiza_zapytan_SQL"],
+        "implementacyjny": [],
+        "punktowy": {"trudnosc": "latwa", "typ": "teoria_quick_win", "punkty_na_czas": "bardzo_wysoki"},
+        "czasowy_min": 10,
+        "pulapki": ["roznice PHP vs JS", "RGB (addytywny) vs CMYK (subtraktywny)", "SQL syntax"]
+      }
+    }
+  ],
+  "podsumowanie_wymiarow": {
+    "tematy_potwierdzone_czesc_I": {
+      "przeszukiwanie_binarne": 1,
+      "zlozonosc_algorytmow": 1,
+      "geometria_sortowanie": 1,
+      "technologie_web": 1,
+      "modele_barw": 1,
+      "SQL": 1
+    },
+    "tematy_nieznane_czesc_II": [
+      "programowanie (typ zadan nieznany)",
+      "arkusz kalkulacyjny (prawdopodobnie obecny)",
+      "przetwarzanie plikow (prawdopodobnie obecny)",
+      "operacje na liczbach (prawdopodobnie obecny)"
+    ]
+  },
+  "notatki": [
+    "NOWA FORMULA - arkusz 2018 ma napis NOWA FORMULA",
+    "Czesc I: 60 min, 15 pkt (zmiana z 90min/20pkt w 2014)",
+    "Czesc II: 150 min, 35 pkt (nie przeanalizowana)",
+    "Nowe tematy pojawiajace sie po raz pierwszy: PHP/JS, RGB/CMYK",
+    "Binary search w kontekscie obliczania pierwiastka szesciennego",
+    "Geometria obliczeniowa - sortowanie punktow wedlug wspolrzednych",
+    "Analiza czesciowa - brakuje Czesci II (35 punktow)"
+  ]
+}

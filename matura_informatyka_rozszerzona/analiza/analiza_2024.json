@@ -1,0 +1,430 @@
+{
+  "rok": 2024,
+  "formula": "2023",
+  "total_punkty": 50,
+  "czas_minuty": 210,
+  "liczba_zadan": 8,
+  "data_egzaminu": "2024-05-22",
+  "symbol_arkusza": "MINP-R0-100-2405",
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Plansza",
+      "punkty": 5,
+      "opis_ogolny": "Analiza algorytmu na prostokatnej planszy n x m z polami bialymi i czarnymi. Algorytm wykorzystuje programowanie dynamiczne z tablica pomocnicza P do sprawdzenia, czy istnieje sciezka z lewego gornego do prawego dolnego rogu planszy poruszajac sie tylko w prawo lub w dol po bialych polach.",
+      "podzadania": [
+        {
+          "numer": "1.1",
+          "punkty": 2,
+          "opis": "Podaj wynik dzialania algorytmu (PRAWDA/FALSZ) dla trzech podanych plansz: a) 3x3, b) 5x3, c) 5x5. Wymaga recznego prosledzenia algorytmu programowania dynamicznego na tablicy P.",
+          "typ": "teoria",
+          "typ_zadania": "sledzenie_algorytmu",
+          "odpowiedz": "a) PRAWDA, b) FALSZ, c) PRAWDA",
+          "zasady_oceniania": "2 pkt za 3 poprawne, 1 pkt za 2 poprawne, 0 pkt za 1 lub 0 poprawnych"
+        },
+        {
+          "numer": "1.2",
+          "punkty": 2,
+          "opis": "Podaj przyklad planszy: a) 5x5 z co najwyzej 2 czarnymi polami, dla ktorej wynik to FALSZ; b) 4x4 z co najmniej 9 czarnymi polami, dla ktorej wynik to PRAWDA. Wymaga zrozumienia, ze algorytm sprawdza istnienie sciezki prawo/dol po bialych polach.",
+          "typ": "teoria",
+          "typ_zadania": "analiza_algorytmu",
+          "odpowiedz": "a) Np. czarne pola blokujace wszystkie sciezki prawo/dol; b) Np. biala sciezka po przekatnej z reszta czarna (musi istniec sciezka prawo/dol po bialych polach)",
+          "zasady_oceniania": "1 pkt za poprawny rysunek w a), 1 pkt za poprawny rysunek w b)"
+        },
+        {
+          "numer": "1.3",
+          "punkty": 1,
+          "opis": "Dla kwadratowej planszy n x n podaj najwieksza mozliwa liczbe czarnych pol, dla ktorych wynik algorytmu jest PRAWDA. Wymaga znalezienia wzoru ogolnego.",
+          "typ": "teoria",
+          "typ_zadania": "analiza_algorytmu",
+          "odpowiedz": "(n-1)^2",
+          "zasady_oceniania": "1 pkt za poprawna odpowiedz, 0 pkt za bledna"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["programowanie dynamiczne", "tablice dwuwymiarowe", "sciezki w siatce", "logika"],
+        "algorytmiczny": ["programowanie dynamiczne", "przeszukiwanie tablicy 2D", "analiza osiagalnosci"],
+        "implementacyjny": ["sledzenie algorytmu reczne", "rozumienie tablic logicznych", "konstruowanie kontrprzykladow"],
+        "punktowy": "sredni",
+        "czasowy_min": 25,
+        "pulapki": [
+          "Pomylenie kierunkow ruchu (algorytm sprawdza sciezki prawo/dol, nie dowolne)",
+          "Niepoprawne prosledzenie operacji OR na wartosciach logicznych",
+          "W 1.2b - trudnosc znalezienia planszy z 9 czarnymi polami i istniejaca sciezka",
+          "W 1.3 - nieuwzglednienie, ze sciezka minimalna zajmuje 2n-1 pol bialych"
+        ]
+      }
+    },
+    {
+      "numer": 2,
+      "tytul": "Cyfry",
+      "punkty": 3,
+      "opis_ogolny": "Analiza algorytmu przetwarzajacego cyfry liczby. Algorytm przetwarza cyfry od prawej do lewej: jesli cyfra jest parzysta, dodaje do wyniku c wartosc b*(cyfra/2); jesli nieparzysta, dodaje b do c. Zmienna b rosnie 10-krotnie w kazdej iteracji. W efekcie algorytm zamienia kazda cyfra parzysta na jej polowe, a kazda nieparzysta na 1.",
+      "podzadania": [
+        {
+          "numer": "2.1",
+          "punkty": 2,
+          "opis": "Uzupelnij tabele: dla n=542102 i n=87654321012345678 podaj wartosc c po wykonaniu algorytmu oraz liczbe wykonan instrukcji c <- c + b (tj. ile cyfr jest nieparzystych).",
+          "typ": "teoria",
+          "typ_zadania": "sledzenie_algorytmu",
+          "odpowiedz": "n=542102: c=121101, wykonania c<-c+b=2; n=87654321012345678: c=41312111011121314, wykonania c<-c+b=8",
+          "zasady_oceniania": "2 pkt za 2 poprawne odpowiedzi w obu wierszach, 1 pkt za 2 poprawne w jednym wierszu lub jednej kolumnie"
+        },
+        {
+          "numer": "2.2",
+          "punkty": 1,
+          "opis": "Podaj wartosc c dla 18-cyfrowej liczby: 333333666666999999. Wymaga zrozumienia wzorca dzialania algorytmu dla duzych liczb ze powtarzajacymi sie cyframi.",
+          "typ": "teoria",
+          "typ_zadania": "sledzenie_algorytmu",
+          "odpowiedz": "111111333333111111",
+          "zasady_oceniania": "1 pkt za poprawna odpowiedz"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["arytmetyka modularna", "przetwarzanie cyfr", "systemy liczbowe"],
+        "algorytmiczny": ["iteracja po cyfrach liczby", "operacje mod i div", "akumulacja wyniku"],
+        "implementacyjny": ["sledzenie algorytmu krok po kroku", "rozumienie mod/div", "duze liczby"],
+        "punktowy": "sredni",
+        "czasowy_min": 20,
+        "pulapki": [
+          "Pomylka w kolejnosci przetwarzania cyfr (od prawej do lewej)",
+          "Blad w obliczeniach dla bardzo duzej 18-cyfrowej liczby",
+          "Nierozpoznanie wzorca: parzyste cyfry -> polowa, nieparzyste -> 1",
+          "Pomylenie galezi if/else (parzyste vs nieparzyste)"
+        ]
+      }
+    },
+    {
+      "numer": 3,
+      "tytul": "Nieparzysty skrot",
+      "punkty": 10,
+      "opis_ogolny": "Nieparzysty skrot liczby n to liczba powstala przez usuniecie cyfr parzystych z zapisu dziesietnego n. Zadanie laczy pisanie algorytmu w pseudokodzie z programowaniem w pliku: zliczanie liczb bez skrotu, znajdowanie NWD liczby i jej skrotu.",
+      "podzadania": [
+        {
+          "numer": "3.1",
+          "punkty": 3,
+          "opis": "Napisz w pseudokodzie lub wybranym jezyku programowania funkcje wyznaczajaca nieparzysty skrot liczby n. Ograniczenie: tylko zmienne calkowitoliczbowe, tylko operacje arytmetyczne (bez funkcji wbudowanych, bez operacji na stringach).",
+          "typ": "teoria",
+          "typ_zadania": "projektowanie_algorytmu",
+          "odpowiedz": "Algorytm: m=0, p=1, dopoki n>0: cyfra=n mod 10, jesli cyfra mod 2 != 0: m=m+cyfra*p, p=p*10, n=n div 10",
+          "zasady_oceniania": "1 pkt za petla po cyfrach, 1 pkt za pobieranie cyfry i sprawdzanie nieparzystosci, 1 pkt za poprawne budowanie wyniku m"
+        },
+        {
+          "numer": "3.2",
+          "punkty": 3,
+          "opis": "Plik skrot.txt: 200 liczb < 30000. Wyznacz ile liczb nie ma nieparzystego skrotu (same cyfry parzyste) oraz podaj najwieksza taka liczbe. Wynik do wyniki3_2.txt.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "odpowiedz": "18 liczb, najwieksza: 28422",
+          "zasady_oceniania": "1 pkt za liczbe liczb bez skrotu, 2 pkt za najwieksza (1 pkt jesli podano minimum 46 zamiast max)"
+        },
+        {
+          "numer": "3.3",
+          "punkty": 4,
+          "opis": "Plik skrot2.txt: 200 liczb < 30000, kazda ma nieparzysty skrot. Wypisz liczby, dla ktorych NWD(liczba, jej nieparzysty skrot) = 7. Wynik do wyniki3_3.txt.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "odpowiedz": "784, 14196, 2247, 24087, 3871, 10192",
+          "zasady_oceniania": "4 pkt za pelna odpowiedz, 3 pkt za 5 poprawnych i 0 blednych, 2 pkt za >=1 poprawna i 0 blednych, 1 pkt za wszystkie poprawne i <=2 bledne"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["teoria liczb", "przetwarzanie cyfr", "NWD", "operacje na liczbach"],
+        "algorytmiczny": ["ekstrakcja cyfr (mod/div)", "budowanie liczby z cyfr", "algorytm Euklidesa (NWD)", "filtrowanie danych"],
+        "implementacyjny": ["pseudokod/programowanie", "wejscie/wyjscie plikowe", "ograniczenie do operacji calkowitoliczbowych", "laczenie wielu algorytmow"],
+        "punktowy": "trudny",
+        "czasowy_min": 35,
+        "pulapki": [
+          "W 3.1: uzycie stringow zamiast operacji arytmetycznych (zabronione)",
+          "W 3.1: odwrocona kolejnosc cyfr w wyniku (trzeba budowac od prawej)",
+          "W 3.2: pomylenie minimum z maksimum",
+          "W 3.3: bledna implementacja NWD lub nieparzystego skrotu",
+          "W 3.3: nie uwzglednienie warunku rownosci NWD dokladnie 7 (nie wielokrotnosci)"
+        ]
+      }
+    },
+    {
+      "numer": 4,
+      "tytul": "Liczby",
+      "punkty": 10,
+      "opis_ogolny": "Plik liczby.txt: wiersz 1 zawiera 3000 liczb pierwszych z [2,2000], wiersz 2 zawiera 20 liczb calkowitych z [2, 1000000000]. Cztery podzadania o roznej trudnosci wymagajace programowania.",
+      "podzadania": [
+        {
+          "numer": "4.1",
+          "punkty": 2,
+          "opis": "Podaj ile liczb z pierwszego wiersza jest dzielnikiem jakiejkolwiek liczby z drugiego wiersza.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_zliczanie",
+          "odpowiedz": "212",
+          "zasady_oceniania": "2 pkt za poprawna odpowiedz, 1 pkt za 2788 (liczby NIE bedace dzielnikami)"
+        },
+        {
+          "numer": "4.2",
+          "punkty": 2,
+          "opis": "Sposrod liczb z pierwszego wiersza podaj 101-sza liczbe w kolejnosci od najwiekszej (po uporzadkowaniu).",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_minmax",
+          "odpowiedz": "1933",
+          "zasady_oceniania": "2 pkt za poprawna odpowiedz, 1 pkt za 31 (101-sza od najmniejszej)"
+        },
+        {
+          "numer": "4.3",
+          "punkty": 3,
+          "opis": "Dla kazdej z 20 liczb z drugiego wiersza rozstrzygnij, czy da sie ja przedstawic jako iloczyn jedynie liczb z pierwszego wiersza (z ograniczeniem na liczbe wystapien kazdego czynnika). Wypisz te, ktore sie da.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "odpowiedz": "547839600, 2954285, 573219169, 573549984, 212444924",
+          "zasady_oceniania": "3 pkt za pelna odpowiedz, 2 pkt za >=3 poprawne i 0 blednych, 1 pkt za >=1 poprawna i 0 blednych"
+        },
+        {
+          "numer": "4.4",
+          "punkty": 3,
+          "opis": "Znajdz w ciagu liczb z wiersza 1 spojny fragment o co najmniej 50 elementach z najwieksza srednia arytmetyczna. Podaj srednia, liczbe elementow i pierwszy element.",
+          "typ": "implementacja",
+          "typ_zadania": "przetwarzanie_sekwencje",
+          "odpowiedz": "Srednia: 1200.704918032787, Liczba elementow: 61, Poczatek: 1847 (pozycja 2797)",
+          "zasady_oceniania": "1 pkt za srednia, 1 pkt za liczbe elementow, 1 pkt za poczatek ciagu"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["liczby pierwsze", "dzielniki", "rozklad na czynniki", "optymalizacja", "sortowanie", "srednia arytmetyczna"],
+        "algorytmiczny": ["sprawdzanie podzielnosci", "sortowanie", "rozklad na czynniki pierwsze z ograniczeniem krotnosci", "przeszukiwanie okna przesuwnego (sliding window)", "sumy prefiksowe"],
+        "implementacyjny": ["wejscie/wyjscie plikowe", "parsowanie danych z pliku", "zliczanie z uzyciem mapy/slownika", "efektywne algorytmy dla duzych danych"],
+        "punktowy": "trudny",
+        "czasowy_min": 45,
+        "pulapki": [
+          "W 4.1: policzenie liczb NIE bedacych dzielnikami zamiast bedacych",
+          "W 4.2: sortowanie od najmniejszej zamiast od najwiekszej",
+          "W 4.3: nieuwzglednienie ograniczenia krotnosci czynnikow z wiersza 1",
+          "W 4.3: duze liczby (do 10^9) wymagaja efektywnego rozkladu",
+          "W 4.4: nieuwzglednienie warunku minimum 50 elementow",
+          "W 4.4: przy remisie - nalezy wybrac pierwszy wystepujacy fragment"
+        ]
+      }
+    },
+    {
+      "numer": 5,
+      "tytul": "Protokoly sieciowe",
+      "punkty": 1,
+      "opis_ogolny": "Zadanie teoretyczne: ocena prawdziwosci trzech zdan dotyczacych protokolow sieciowych HTTP, FTP i DHCP.",
+      "podzadania": [
+        {
+          "numer": "5",
+          "punkty": 1,
+          "opis": "Ocen prawdziwosc zdan: 1) HTTP to protokol poczty elektronicznej (F - HTTP to protokol przesylania stron WWW), 2) FTP to protokol zamiany nazw domenowych na adresy IP (F - FTP to protokol transferu plikow, DNS zamienia nazwy na IP), 3) DHCP umozliwia hostom uzyskanie danych konfiguracyjnych jak adres IP, brama, DNS (P).",
+          "typ": "teoria",
+          "typ_zadania": "test_prawda_falsz",
+          "odpowiedz": "F, F, P",
+          "zasady_oceniania": "1 pkt za wszystkie 3 poprawne, 0 pkt za blad w ktorymkolwiek"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["sieci komputerowe", "protokoly sieciowe", "HTTP", "FTP", "DHCP"],
+        "algorytmiczny": [],
+        "implementacyjny": [],
+        "punktowy": "latwy",
+        "czasowy_min": 3,
+        "pulapki": [
+          "Pomylenie HTTP z SMTP (oba dotycza internetu, ale HTTP to WWW, SMTP to poczta)",
+          "Pomylenie FTP z DNS (FTP to transfer plikow, DNS to nazwy domenowe)"
+        ]
+      }
+    },
+    {
+      "numer": 6,
+      "tytul": "Systemy liczbowe",
+      "punkty": 2,
+      "opis_ogolny": "Wykonanie dzialan arytmetycznych na liczbach w roznych systemach liczbowych: dodawanie i odejmowanie liczby w systemie trojkowym i liczby w systemie dziewiontkowym, wynik w systemie trojkowym.",
+      "podzadania": [
+        {
+          "numer": "6",
+          "punkty": 2,
+          "opis": "Oblicz: 101112(3) + 121(9) = ? (w systemie trojkowym) oraz 101112(3) - 121(9) = ? (w systemie trojkowym). Wymaga konwersji 121(9) na system trojkowy lub dziesietny, a nastepnie wykonania operacji.",
+          "typ": "teoria",
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "odpowiedz": "101112(3) + 121(9) = 1120020(3); 101112(3) - 121(9) = 202011(3) [Uwaga: w odpowiedziach CKE podano 1120203 i 202113]",
+          "zasady_oceniania": "1 pkt za kazde poprawne dzialanie, lacznie 2 pkt"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["systemy liczbowe", "system trojkowy", "system dziewiontkowy", "arytmetyka pozycyjna"],
+        "algorytmiczny": ["konwersja miedzy systemami liczbowymi", "dodawanie/odejmowanie w systemach pozycyjnych"],
+        "implementacyjny": [],
+        "punktowy": "sredni",
+        "czasowy_min": 10,
+        "pulapki": [
+          "Bledna konwersja z systemu 9 na system 3 (kazda cyfra systemu 9 to 2 cyfry systemu 3)",
+          "Bledy przeniesien przy dodawaniu/odejmowaniu w systemie trojkowym",
+          "Zapomnienie, ze 9=3^2, wiec konwersja jest bezposrednia"
+        ]
+      }
+    },
+    {
+      "numer": 7,
+      "tytul": "Hurtownia",
+      "punkty": 10,
+      "opis_ogolny": "Analiza danych sprzedazy jablek w hurtowni (plik jablka.txt: 2500 transakcji z 2022 roku, plik cennik.txt z cenami odmian). Zadania wymagaja uzycia arkusza kalkulacyjnego lub programowania do analizy danych sprzedazowych.",
+      "podzadania": [
+        {
+          "numer": "7.1",
+          "punkty": 2,
+          "opis": "Dla kazdego klienta policz lacznie kupione kg jablek odmian zimowych (Z). Podaj NIP trzech klientow, ktorzy kupili najwiecej jablek zimowych, wraz z liczbami kg.",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "odpowiedz": "164-61-25-530: 12185 kg, 159-34-45-151: 12047 kg, 091-99-74-175: 11769 kg",
+          "zasady_oceniania": "2 pkt za pelna odpowiedz, 1 pkt jesli nie uwzgledniono filtra na odmiany zimowe lub podano tylko NIPy"
+        },
+        {
+          "numer": "7.2",
+          "punkty": 2,
+          "opis": "Oblicz calkowity przychod hurtowni (cena za kg * liczba kg dla kazdej transakcji, zsumowane). Podaj nazwe odmiany o najwiekszym przychodzie.",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "odpowiedz": "Calkowity przychod: 2 422 669,40 zl; Odmiana: Reneta",
+          "zasady_oceniania": "1 pkt za calkowity przychod, 1 pkt za nazwe odmiany"
+        },
+        {
+          "numer": "7.3",
+          "punkty": 3,
+          "opis": "Zestawienie: dla kazdego miesiaca 2022 podaj najpopularniejsza odmiane (najwiecej sprzedanych kg). Utworz wykres kolumnowy z opisami osi (X: miesiac-odmiana, Y: liczba kg, tytul).",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_wykres",
+          "odpowiedz": "styczen-Gala 14017, luty-Gala 14969, marzec-Jonagored 15079, kwiecien-Gala 19404, maj-Gala 17382, czerwiec-Reneta 18661, lipiec-Melba 21216, sierpien-Reneta 19054, wrzesien-Reneta 20881, pazdziernik-Reneta 17065, listopad-Reneta 19755, grudzien-Jonagored 13425",
+          "zasady_oceniania": "1 pkt za poprawne zestawienie, 1 pkt za typ wykresu i dane, 1 pkt za opisy osi i tytul"
+        },
+        {
+          "numer": "7.4",
+          "punkty": 3,
+          "opis": "System rabatowy: klient dostaje rabat za kg w transakcji w zaleznosci od lacznej ilosci dotychczasowych zakupow (wliczajac biezaca transakcje): 5 gr/kg jesli 15000-19999 kg lacznie, 10 gr/kg jesli >=20000 kg. Podaj liczbe transakcji z rabatem i laczna wartosc rabatow.",
+          "typ": "arkusz",
+          "typ_zadania": "arkusz_symulacja",
+          "odpowiedz": "180 transakcji, 3 089,10 zl laczna wartosc rabatow",
+          "zasady_oceniania": "1 pkt za liczbe transakcji z rabatem, 2 pkt za laczna wartosc rabatow"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["analiza danych", "arkusz kalkulacyjny", "dane sprzedazowe", "agregacja danych", "wizualizacja"],
+        "algorytmiczny": ["sumowanie warunkowe", "grupowanie danych", "laczenie tabel (VLOOKUP/INDEX-MATCH)", "obliczenia kumulacyjne", "filtrowanie"],
+        "implementacyjny": ["SUMIFS/SUMPRODUCT", "tabele przestawne", "wykresy kolumnowe", "VLOOKUP/INDEX-MATCH", "obliczenia narastajace dla rabatow"],
+        "punktowy": "trudny",
+        "czasowy_min": 40,
+        "pulapki": [
+          "W 7.1: nieuwzglednienie filtra na odmiany zimowe (Z)",
+          "W 7.2: bledy w laczeniu danych z cennika z transakcjami",
+          "W 7.3: brak opisow osi lub nieprawidlowy format etykiet na osi X",
+          "W 7.4: bledne obliczenie progu kumulacyjnego (rabat zalezy od sumy PO transakcji)",
+          "W 7.4: pomylenie progow rabatowych (5 gr vs 10 gr)",
+          "W 7.4: kolejnosc transakcji ma znaczenie dla obliczen kumulacyjnych"
+        ]
+      }
+    },
+    {
+      "numer": 8,
+      "tytul": "Rejestr wykroczen",
+      "punkty": 9,
+      "opis_ogolny": "Baza danych rejestru wykroczen drogowych (przekroczenia predkosci) z trzema plikami: kierowcy.txt (1000 osob), taryfikator.txt (6 rodzajow wykroczen), rejestr.txt (5000 zdarzen). Zadania wymagaja SQL i analizy bazy danych.",
+      "podzadania": [
+        {
+          "numer": "8.1",
+          "punkty": 2,
+          "opis": "Podaj imie i nazwisko kierowcy z najwieksza suma kwot za mandaty oraz te sume. Jest tylko jeden taki kierowca.",
+          "typ": "SQL",
+          "typ_zadania": "sql_group_by",
+          "odpowiedz": "Rafael Blake, suma mandatow: 3700",
+          "zasady_oceniania": "1 pkt za imie i nazwisko, 1 pkt za sume kwot"
+        },
+        {
+          "numer": "8.2",
+          "punkty": 2,
+          "opis": "W ktorym miesiacu kierowcy otrzymali najmniej punktow karnych (lacznie) za wykroczenia przekroczenia predkosci o >20 km/h (IdWykroczenia 3-6)? Podaj miesiac i laczna liczbe punktow.",
+          "typ": "SQL",
+          "typ_zadania": "sql_group_by",
+          "odpowiedz": "Miesiac: listopad, Liczba punktow karnych: 1766",
+          "zasady_oceniania": "1 pkt za miesiac, 1 pkt za liczbe punktow. 1 pkt jesli podano wrzesien/2074 (max zamiast min)"
+        },
+        {
+          "numer": "8.3",
+          "punkty": 3,
+          "opis": "Zestawienie numerow rejestracyjnych samochodow z imionami i nazwiskami wlascicieli, ktorzy NIE figuruja w rejestrze wykroczen. Posortuj alfabetycznie wg numerow rejestracyjnych.",
+          "typ": "SQL",
+          "typ_zadania": "sql_podzapytania",
+          "odpowiedz": "8 kierowcow: Sandra Wheeler BHW4028, Quynn Travis CJX1859, Jasper Santos KNM7950, Honorato Roth NIP6570, Ivy Bowen QFR8936, Helen White SRU9727, Quentin Tyler XHK9060, Kevin Wright YYS1077",
+          "zasady_oceniania": "1 pkt za numery rejestracyjne, 1 pkt za imiona i nazwiska, 1 pkt za sortowanie"
+        },
+        {
+          "numer": "8.4",
+          "punkty": 2,
+          "opis": "Nowa tabela Fotoradar (IdFotoradaru, Miejscowosc, DozwolonaPredkosc) i nowe pole IdFotoradaru w tabeli Rejestr. Napisz zapytanie SQL zwracajace identyfikatory fotoradarow, ktore nie zarejestrowaly zadnych wykroczen.",
+          "typ": "SQL",
+          "typ_zadania": "sql_podzapytania",
+          "odpowiedz": "SELECT Fotoradar.IdFotoradaru FROM Fotoradar LEFT JOIN Rejestr ON Fotoradar.IdFotoradaru = Rejestr.IdFotoradaru WHERE Rejestr.IdFotoradaru IS NULL; lub SELECT IdFotoradaru FROM Fotoradar WHERE IdFotoradaru NOT IN (SELECT IdFotoradaru FROM Rejestr)",
+          "zasady_oceniania": "2 pkt za poprawne zapytanie, 1 pkt za zapytanie z jednym bledem (np. bledny JOIN lub warunek WHERE)"
+        }
+      ],
+      "wymiary": {
+        "tematyczny": ["bazy danych", "SQL", "relacje miedzy tabelami", "agregacja", "laczenie tabel"],
+        "algorytmiczny": ["JOIN (INNER, LEFT)", "GROUP BY z agregacja (SUM, COUNT)", "NOT IN / NOT EXISTS / LEFT JOIN + IS NULL", "ORDER BY", "filtrowanie WHERE z warunkami"],
+        "implementacyjny": ["importowanie danych CSV/TXT do bazy", "tworzenie relacji", "zapytania SQL wielotabelowe", "podzapytania"],
+        "punktowy": "sredni",
+        "czasowy_min": 30,
+        "pulapki": [
+          "W 8.1: blad w JOINie miedzy tabelami kierowcy-rejestr-taryfikator",
+          "W 8.2: szukanie maksimum zamiast minimum punktow",
+          "W 8.2: nieuwzglednienie filtra na IdWykroczenia 3-6",
+          "W 8.3: uzycie INNER JOIN zamiast LEFT JOIN + IS NULL lub NOT IN",
+          "W 8.4: uzycie INNER JOIN zamiast LEFT JOIN (nie pokaze fotoradarow bez wykroczen)",
+          "W 8.4: zapomnienie warunku WHERE IS NULL przy LEFT JOIN"
+        ]
+      }
+    }
+  ],
+  "podsumowanie": {
+    "rozklad_punktow": {
+      "teoria_reczna": 11,
+      "implementacja_programowanie": 19,
+      "arkusz_kalkulacyjny": 10,
+      "SQL_bazy_danych": 9,
+      "wiedza_ogolna": 1
+    },
+    "rozklad_trudnosci": {
+      "latwy": {
+        "zadania": ["5"],
+        "punkty": 1
+      },
+      "sredni": {
+        "zadania": ["1", "2", "6", "8"],
+        "punkty": 19
+      },
+      "trudny": {
+        "zadania": ["3", "4", "7"],
+        "punkty": 30
+      }
+    },
+    "glowne_tematy": [
+      "Programowanie dynamiczne (tablica 2D, sciezki w siatce)",
+      "Przetwarzanie cyfr liczb (mod/div)",
+      "Teoria liczb (NWD, liczby pierwsze, rozklad na czynniki)",
+      "Optymalizacja (najlepszy spojny podciag z ograniczeniem dlugosci)",
+      "Systemy liczbowe (trojkowy, dziewiontkowy)",
+      "Sieci komputerowe (protokoly HTTP, FTP, DHCP)",
+      "Analiza danych w arkuszu kalkulacyjnym (sprzedaz, agregacja, wykresy)",
+      "Bazy danych SQL (JOIN, GROUP BY, podzapytania, NOT IN/LEFT JOIN)"
+    ],
+    "wymagane_narzedzia": [
+      "Jezyk programowania (Python/C++/Java)",
+      "Arkusz kalkulacyjny (Excel/LibreOffice Calc)",
+      "System baz danych (MySQL/MariaDB/Access)"
+    ],
+    "szacowany_czas_rozwiazywania_min": {
+      "zadanie_1": 25,
+      "zadanie_2": 20,
+      "zadanie_3": 35,
+      "zadanie_4": 45,
+      "zadanie_5": 3,
+      "zadanie_6": 10,
+      "zadanie_7": 40,
+      "zadanie_8": 30,
+      "suma": 208
+    }
+  }
+}
