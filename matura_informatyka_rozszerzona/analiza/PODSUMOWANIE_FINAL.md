@@ -341,11 +341,25 @@ sort(arr, arr+n, [](auto& a, auto& b) {
 - [ ] C++ Templates (file_io.cpp, number_operations.cpp, sorting_searching.cpp, dp_patterns.cpp)
 - [ ] SQL Templates (joins.sql, aggregation.sql, subqueries.sql)
 - [ ] Checklisty (przed_egzaminem.md, podczas_egzaminu.md, debug_checklist.md)
+- [ ] Arkusz kalkulacyjny templates (`arkusz_formuly.md` — SUMIF/SUMIFS, COUNTIF, odniesienia $, wykresy)
+- [ ] Wzorce pseudokodu CKE (`pseudokod_wzorce.md` — konwencja CKE: bloki, petle, zmienne)
+- [ ] Cwiczenia ze sledzenia algorytmow (`cwiczenia_sledzenie.md` — tabelki krok-po-kroku)
+- [x] Schemat decyzyjny / drzewko rozwiazywania (`drzewo_decyzyjne.md` — "widzisz X w zadaniu → uzyj algorytmu Y", szybkie rozpoznawanie typu)
+- [ ] Wzorce wczytywania plikow (`wzorce_file_io.md` — typowe formaty danych CKE: spacje, CSV, linia-po-linii, wiele plikow)
 
 ### Priorytet SREDNI:
 - [ ] Dokonczenie analizy 2018 (Czesc II)
 - [ ] Wzorce dla lat 2018-2025
 - [ ] Zestaw cwiczen dla TOP 10 algorytmow
+- [ ] Probny egzamin w nowej formule 2023+ (`probny_egzamin.md` — 210 min / 50 pkt / 7 zadan)
+- [ ] Karta bledow z odpowiedzi CKE (`typowe_bledy_cke.md` — za co traca punkty)
+- [ ] Zadania treningowe wg 23 typow zadan (`cwiczenia_wg_typu/` — po 5 zadan na typ)
+- [ ] Rozwiazania wzorcowe z komentarzami (`rozwiazania_wzorcowe/` — 2-3 rozwiazane przyklady na najczestszy typ zadania)
+- [ ] Fiszki / active recall (`fiszki/` — pytanie-odpowiedz: zlozonosci, wzorce, SQL, formuly arkuszowe)
+
+### Priorytet NISKI:
+- [ ] Karta szybkiego dostepu / cheat sheet (`cheat_sheet.md` — 1-2 strony do wydruku)
+- [ ] Plan nauki z harmonogramem (`plan_nauki.md` — rozklad tygodniowy wg priorytetow TIER 1-5)
 
 ---
 
