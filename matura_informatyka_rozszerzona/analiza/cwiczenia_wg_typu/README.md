@@ -31,11 +31,23 @@ Rozklad w kazdym pliku: 2 latwe + 2 srednie + 1 trudne.
 | 05 | [05_konwersja_systemow_liczbowych.md](05_konwersja_systemow_liczbowych.md) | konwersja_systemow | 5 | 12 pkt | 9/11 lat |
 | 06 | [06_teoria_bezpieczenstwa.md](06_teoria_bezpieczenstwa.md) | teoria_bezpieczenstwa | 5 | 2 pkt | 2/11 lat |
 
-## Etapy 2-4 (w przygotowaniu)
+## Etap 2: IMPLEMENTACJA (8 typow, 40 cwiczen)
+
+| Nr | Plik | Typ zadania | Cwiczen | Punkty na maturach | Czestotliwosc |
+|----|------|-------------|---------|---------------------|---------------|
+| 07 | [07_cyfry_liczby.md](07_cyfry_liczby.md) | cyfry_liczby | 5 | 36 pkt | 6/11 lat |
+| 08 | [08_napisy.md](08_napisy.md) | napisy | 5 | 25 pkt | 4/11 lat |
+| 09 | [09_zlozone.md](09_zlozone.md) | zlozone | 5 | 24 pkt | 4/11 lat |
+| 10 | [10_zliczanie.md](10_zliczanie.md) | zliczanie | 5 | 17 pkt | 5/11 lat |
+| 11 | [11_minmax.md](11_minmax.md) | minmax | 5 | 17 pkt | 5/11 lat |
+| 12 | [12_sekwencje.md](12_sekwencje.md) | sekwencje | 5 | 13 pkt | 3/11 lat |
+| 13 | [13_obrazy_2D.md](13_obrazy_2D.md) | obrazy_2D | 5 | 11 pkt | 2/11 lat |
+| 14 | [14_geometryczne.md](14_geometryczne.md) | geometryczne | 5 | 4 pkt | 1/11 lat |
+
+## Etapy 3-4 (w przygotowaniu)
 
 | Etap | Kategoria | Typow | Cwiczen | Status |
 |------|-----------|-------|---------|--------|
-| 2 | IMPLEMENTACJA | 8 | 40 | - |
 | 3 | ARKUSZ | 5 | 25 | - |
 | 4 | SQL | 4 | 20 | - |
 
@@ -49,3 +61,11 @@ Rozklad w kazdym pliku: 2 latwe + 2 srednie + 1 trudne.
 | 04 | test_prawda_falsz | TEORIA |
 | 05 | konwersja_systemow_liczbowych | TEORIA |
 | 06 | teoria_bezpieczenstwa | TEORIA |
+| 07 | cyfry_liczby | IMPLEMENTACJA |
+| 08 | napisy | IMPLEMENTACJA |
+| 09 | zlozone | IMPLEMENTACJA |
+| 10 | zliczanie | IMPLEMENTACJA |
+| 11 | minmax | IMPLEMENTACJA |
+| 12 | sekwencje | IMPLEMENTACJA |
+| 13 | obrazy_2D | IMPLEMENTACJA |
+| 14 | geometryczne | IMPLEMENTACJA |

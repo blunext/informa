@@ -356,7 +356,7 @@ sort(arr, arr+n, [](auto& a, auto& b) {
 - [ ] Karta bledow z odpowiedzi CKE (`typowe_bledy_cke.md` — za co traca punkty)
 - [ ] Zadania treningowe wg 23 typow zadan (`cwiczenia_wg_typu/` — po 5 zadan na typ, 115 lacznie)
   - [x] Etap 1: TEORIA (6 typow, 30 cwiczen) — pliki 01-06
-  - [ ] Etap 2: IMPLEMENTACJA (8 typow, 40 cwiczen) — pliki 07-14
+  - [x] Etap 2: IMPLEMENTACJA (8 typow, 40 cwiczen) — pliki 07-14
   - [ ] Etap 3: ARKUSZ (5 typow, 25 cwiczen) — pliki 15-19
   - [ ] Etap 4: SQL (4 typy, 20 cwiczen) — pliki 20-23
 - [ ] Rozwiazania wzorcowe z komentarzami (`rozwiazania_wzorcowe/` — 2-3 rozwiazane przyklady na najczestszy typ zadania)
