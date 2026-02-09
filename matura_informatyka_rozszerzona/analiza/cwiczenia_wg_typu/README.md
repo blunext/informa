@@ -56,11 +56,16 @@ Rozwiazania to formuly Excel/Calc, dane jako tabele markdown, weryfikacja przez 
 | 18 | [18_agregacja_podstawowa.md](18_agregacja_podstawowa.md) | agregacja_podstawowa | 5 | 9 pkt | 3/11 lat |
 | 19 | [19_transformacja.md](19_transformacja.md) | transformacja | 5 | 3 pkt | 2/11 lat |
 
-## Etap 4 (w przygotowaniu)
+## Etap 4: SQL (4 typy, 20 cwiczen)
 
-| Etap | Kategoria | Typow | Cwiczen | Status |
-|------|-----------|-------|---------|--------|
-| 4 | SQL | 4 | 20 | - |
+Rozwiazania to zapytania SQL, dane jako tabele markdown, weryfikacja przez reczne sledzenie wynikow.
+
+| Nr | Plik | Typ zadania | Cwiczen | Punkty na maturach | Czestotliwosc |
+|----|------|-------------|---------|---------------------|---------------|
+| 20 | [20_sql_group_by.md](20_sql_group_by.md) | sql_group_by | 5 | 36 pkt | 8/11 lat |
+| 21 | [21_sql_podzapytania.md](21_sql_podzapytania.md) | sql_podzapytania | 5 | 25 pkt | 7/11 lat |
+| 22 | [22_sql_join.md](22_sql_join.md) | sql_join | 5 | 21 pkt | 8/11 lat |
+| 23 | [23_sql_select_where.md](23_sql_select_where.md) | sql_select_where | 5 | 10 pkt | 4/11 lat |
 
 ## Mapowanie typ -> numer pliku
 
@@ -85,3 +90,7 @@ Rozwiazania to formuly Excel/Calc, dane jako tabele markdown, weryfikacja przez 
 | 17 | wykres | ARKUSZ |
 | 18 | agregacja_podstawowa | ARKUSZ |
 | 19 | transformacja | ARKUSZ |
+| 20 | sql_group_by | SQL |
+| 21 | sql_podzapytania | SQL |
+| 22 | sql_join | SQL |
+| 23 | sql_select_where | SQL |
