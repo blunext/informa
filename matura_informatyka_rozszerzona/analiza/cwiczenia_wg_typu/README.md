@@ -44,11 +44,22 @@ Rozklad w kazdym pliku: 2 latwe + 2 srednie + 1 trudne.
 | 13 | [13_obrazy_2D.md](13_obrazy_2D.md) | obrazy_2D | 5 | 11 pkt | 2/11 lat |
 | 14 | [14_geometryczne.md](14_geometryczne.md) | geometryczne | 5 | 4 pkt | 1/11 lat |
 
-## Etapy 3-4 (w przygotowaniu)
+## Etap 3: ARKUSZ (5 typow, 25 cwiczen)
+
+Rozwiazania to formuly Excel/Calc, dane jako tabele markdown, weryfikacja przez rozwijanie formul z konkretnymi wartosciami.
+
+| Nr | Plik | Typ zadania | Cwiczen | Punkty na maturach | Czestotliwosc |
+|----|------|-------------|---------|---------------------|---------------|
+| 15 | [15_agregacja_warunkowa.md](15_agregacja_warunkowa.md) | agregacja_warunkowa | 5 | 38 pkt | 9/11 lat |
+| 16 | [16_symulacja.md](16_symulacja.md) | symulacja | 5 | 37 pkt | 9/11 lat |
+| 17 | [17_wykres.md](17_wykres.md) | wykres | 5 | 25 pkt | 8/11 lat |
+| 18 | [18_agregacja_podstawowa.md](18_agregacja_podstawowa.md) | agregacja_podstawowa | 5 | 9 pkt | 3/11 lat |
+| 19 | [19_transformacja.md](19_transformacja.md) | transformacja | 5 | 3 pkt | 2/11 lat |
+
+## Etap 4 (w przygotowaniu)
 
 | Etap | Kategoria | Typow | Cwiczen | Status |
 |------|-----------|-------|---------|--------|
-| 3 | ARKUSZ | 5 | 25 | - |
 | 4 | SQL | 4 | 20 | - |
 
 ## Mapowanie typ -> numer pliku
@@ -69,3 +80,8 @@ Rozklad w kazdym pliku: 2 latwe + 2 srednie + 1 trudne.
 | 12 | sekwencje | IMPLEMENTACJA |
 | 13 | obrazy_2D | IMPLEMENTACJA |
 | 14 | geometryczne | IMPLEMENTACJA |
+| 15 | agregacja_warunkowa | ARKUSZ |
+| 16 | symulacja | ARKUSZ |
+| 17 | wykres | ARKUSZ |
+| 18 | agregacja_podstawowa | ARKUSZ |
+| 19 | transformacja | ARKUSZ |
