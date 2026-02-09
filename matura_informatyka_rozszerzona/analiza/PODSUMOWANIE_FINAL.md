@@ -331,6 +331,7 @@ sort(arr, arr+n, [](auto& a, auto& b) {
 - `podsumowanie_szybkie_wszystkie_lata.md` - Przeglad chronologiczny
 
 ### Wzorce kodu:
+- `cpp_szablony.md` - **Samowystarczalna sciagawka C++** (wczytywanie plikow CKE, algorytmy, pulapki)
 - `wzorce_2014.md` - Wzorce i pulapki z 2014
 - `wzorce_2015.md` - Wzorce i pulapki z 2015
 
@@ -339,14 +340,14 @@ sort(arr, arr+n, [](auto& a, auto& b) {
 ## TODO: Materialy do Stworzenia
 
 ### Priorytet WYSOKI:
-- [ ] C++ Templates (file_io.cpp, number_operations.cpp, sorting_searching.cpp, dp_patterns.cpp)
-- [ ] SQL Templates (joins.sql, aggregation.sql, subqueries.sql)
+- [x] C++ Templates — `cpp_szablony.md` (samowystarczalna sciagawka: wczytywanie plikow CKE, cyfry/liczby, napisy, zliczanie, sortowanie, DP, BFS/DFS, systemy liczbowe, pulapki)
+- [x] SQL Templates — `sql_szablony.md` (samowystarczalna sciagawka: kolejnosc klauzul, SELECT/WHERE, JOIN 2-4 tabel, LEFT JOIN, GROUP BY + agregacje, podzapytania, CASE WHEN, daty, schematy baz CKE, 10 pulapek)
 - [ ] Checklisty (przed_egzaminem.md, podczas_egzaminu.md, debug_checklist.md)
-- [ ] Arkusz kalkulacyjny templates (`arkusz_formuly.md` — SUMIF/SUMIFS, COUNTIF, odniesienia $, wykresy)
+- [x] Arkusz kalkulacyjny templates (`arkusz_formuly.md` — SUMIF/SUMIFS, COUNTIF, odniesienia $, wykresy, symulacje, VLOOKUP, pulapki)
 - [ ] Wzorce pseudokodu CKE (`pseudokod_wzorce.md` — konwencja CKE: bloki, petle, zmienne)
 - [ ] Cwiczenia ze sledzenia algorytmow (`cwiczenia_sledzenie.md` — tabelki krok-po-kroku)
 - [x] Schemat decyzyjny / drzewko rozwiazywania (`drzewo_decyzyjne.md` — "widzisz X w zadaniu → uzyj algorytmu Y", szybkie rozpoznawanie typu)
-- [ ] Wzorce wczytywania plikow (`wzorce_file_io.md` — typowe formaty danych CKE: spacje, CSV, linia-po-linii, wiele plikow)
+- [x] Wzorce wczytywania plikow — wlaczone w `cpp_szablony.md` sekcja 1 (8 szablonow: spacje, linia-po-linii, CSV srednik, TSV tab, pary/trojki, wiele plikow, przecinek europejski, siatka 2D)
 
 ### Priorytet SREDNI:
 - [ ] Dokonczenie analizy 2018 (Czesc II)
