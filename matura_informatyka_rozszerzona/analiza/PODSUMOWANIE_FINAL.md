@@ -332,6 +332,7 @@ sort(arr, arr+n, [](auto& a, auto& b) {
 
 ### Wzorce kodu:
 - `cpp_szablony.md` - **Samowystarczalna sciagawka C++** (wczytywanie plikow CKE, algorytmy, pulapki)
+- `pseudokod_wzorce.md` - **Sciagawka pseudokodu CKE** (slowniczek, 7 archetypow, tabelki sledzenia, pulapki)
 - `wzorce_2014.md` - Wzorce i pulapki z 2014
 - `wzorce_2015.md` - Wzorce i pulapki z 2015
 
@@ -344,13 +345,12 @@ sort(arr, arr+n, [](auto& a, auto& b) {
 - [x] SQL Templates — `sql_szablony.md` (samowystarczalna sciagawka: kolejnosc klauzul, SELECT/WHERE, JOIN 2-4 tabel, LEFT JOIN, GROUP BY + agregacje, podzapytania, CASE WHEN, daty, schematy baz CKE, 10 pulapek)
 - [ ] Checklisty (przed_egzaminem.md, podczas_egzaminu.md, debug_checklist.md)
 - [x] Arkusz kalkulacyjny templates (`arkusz_formuly.md` — SUMIF/SUMIFS, COUNTIF, odniesienia $, wykresy, symulacje, VLOOKUP, pulapki)
-- [ ] Wzorce pseudokodu CKE (`pseudokod_wzorce.md` — konwencja CKE: bloki, petle, zmienne)
+- [x] Wzorce pseudokodu CKE (`pseudokod_wzorce.md` — slowniczek CKE, 7 archetypow z tabelkami sledzenia, struktury danych, ograniczenia, pulapki)
 - [ ] Cwiczenia ze sledzenia algorytmow (`cwiczenia_sledzenie.md` — tabelki krok-po-kroku)
 - [x] Schemat decyzyjny / drzewko rozwiazywania (`drzewo_decyzyjne.md` — "widzisz X w zadaniu → uzyj algorytmu Y", szybkie rozpoznawanie typu)
 - [x] Wzorce wczytywania plikow — wlaczone w `cpp_szablony.md` sekcja 1 (8 szablonow: spacje, linia-po-linii, CSV srednik, TSV tab, pary/trojki, wiele plikow, przecinek europejski, siatka 2D)
 
 ### Priorytet SREDNI:
-- [ ] Dokonczenie analizy 2018 (Czesc II)
 - [ ] Wzorce dla lat 2018-2025
 - [ ] Zestaw cwiczen dla TOP 10 algorytmow
 - [ ] Probny egzamin w nowej formule 2023+ (`probny_egzamin.md` — 210 min / 50 pkt / 7 zadan)
