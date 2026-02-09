@@ -41,6 +41,7 @@ Brak: 2020 (egzamin odwolany - COVID-19)
 | Czas | 210 min (60+150) | 210 min (jeden blok) |
 | Punkty | 50 (15+35) | 50 |
 | Czesci | 2 oddzielne | 1 arkusz |
+
 | Liczba zadan | 6 | 7-8 |
 | Quick wins | 3-5 pkt (test P/F) | 2-3 pkt (krotkie pytania) |
 | Teoria | Oddzielna czesc | Wpleciona w zadania |
@@ -353,7 +354,11 @@ sort(arr, arr+n, [](auto& a, auto& b) {
 - [ ] Zestaw cwiczen dla TOP 10 algorytmow
 - [ ] Probny egzamin w nowej formule 2023+ (`probny_egzamin.md` — 210 min / 50 pkt / 7 zadan)
 - [ ] Karta bledow z odpowiedzi CKE (`typowe_bledy_cke.md` — za co traca punkty)
-- [ ] Zadania treningowe wg 23 typow zadan (`cwiczenia_wg_typu/` — po 5 zadan na typ)
+- [ ] Zadania treningowe wg 23 typow zadan (`cwiczenia_wg_typu/` — po 5 zadan na typ, 115 lacznie)
+  - [x] Etap 1: TEORIA (6 typow, 30 cwiczen) — pliki 01-06
+  - [ ] Etap 2: IMPLEMENTACJA (8 typow, 40 cwiczen) — pliki 07-14
+  - [ ] Etap 3: ARKUSZ (5 typow, 25 cwiczen) — pliki 15-19
+  - [ ] Etap 4: SQL (4 typy, 20 cwiczen) — pliki 20-23
 - [ ] Rozwiazania wzorcowe z komentarzami (`rozwiazania_wzorcowe/` — 2-3 rozwiazane przyklady na najczestszy typ zadania)
 - [ ] Fiszki / active recall (`fiszki/` — pytanie-odpowiedz: zlozonosci, wzorce, SQL, formuly arkuszowe)
 
@@ -363,6 +368,6 @@ sort(arr, arr+n, [](auto& a, auto& b) {
 
 ---
 
-*Ostatnia aktualizacja: 2026-02-08*
+*Ostatnia aktualizacja: 2026-02-09*
 *Przeanalizowane lata: 11 (2014-2019, 2021-2025)*
 *Zidentyfikowane tematy: 21, Zidentyfikowane typy zadan: 23*
