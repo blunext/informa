@@ -364,11 +364,15 @@ sort(arr, arr+n, [](auto& a, auto& b) {
 - [ ] Fiszki / active recall (`fiszki/` — pytanie-odpowiedz: zlozonosci, wzorce, SQL, formuly arkuszowe)
 
 ### Priorytet NISKI:
-- [ ] Karta szybkiego dostepu / cheat sheet (`cheat_sheet.md` — 1-2 strony do wydruku)
+- [x] Karty szybkiego dostepu / cheat sheets (4 pliki po ~1-2 strony A4):
+  - [x] `cheatsheet_teoria.md` — pseudokod CKE, 7 archetypow, zlozonosci, pulapki sledzenia
+  - [x] `cheatsheet_cpp.md` — wczytywanie plikow, cyfry, NWD/sito, napisy, sortowanie, STL
+  - [x] `cheatsheet_arkusz.md` — odniesienia $, SUMIF/SUMIFS, symulacja, wykresy, pulapki
+  - [x] `cheatsheet_sql.md` — kolejnosc klauzul, JOIN, GROUP BY, podzapytania, 10 pulapek
 - [ ] Plan nauki z harmonogramem (`plan_nauki.md` — rozklad tygodniowy wg priorytetow TIER 1-5)
 
 ---
 
-*Ostatnia aktualizacja: 2026-02-09*
+*Ostatnia aktualizacja: 2026-02-10*
 *Przeanalizowane lata: 11 (2014-2019, 2021-2025)*
 *Zidentyfikowane tematy: 21, Zidentyfikowane typy zadan: 23*
