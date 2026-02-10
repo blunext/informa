@@ -3,17 +3,17 @@
 ## Status Wykonania
 
 ### Ukonczone Analizy (11/11 lat):
-- 2014 - Pelna analiza (analiza_2014.json)
-- 2015 - Pelna analiza (analiza_2015.json)
-- 2016 - Pelna analiza (analiza_2016.json)
-- 2017 - Pelna analiza (analiza_2017.json)
-- 2018 - Czesciowa analiza: tylko Czesc I (analiza_2018.json)
-- 2019 - Pelna analiza (analiza_2019.json)
-- 2021 - Pelna analiza (analiza_2021.json)
-- 2022 - Pelna analiza (analiza_2022.json)
-- 2023 - Pelna analiza (analiza_2023.json)
-- 2024 - Pelna analiza (analiza_2024.json)
-- 2025 - Pelna analiza (analiza_2025.json)
+- 2014 - Pelna analiza
+- 2015 - Pelna analiza
+- 2016 - Pelna analiza
+- 2017 - Pelna analiza
+- 2018 - Czesciowa analiza: tylko Czesc I
+- 2019 - Pelna analiza
+- 2021 - Pelna analiza
+- 2022 - Pelna analiza
+- 2023 - Pelna analiza
+- 2024 - Pelna analiza
+- 2025 - Pelna analiza
 
 Brak: 2020 (egzamin odwolany - COVID-19)
 
@@ -84,8 +84,6 @@ Brak: 2020 (egzamin odwolany - COVID-19)
 ---
 
 ## Rozklad Punktow wg Typu Zadania (24 typy w 4 kategoriach)
-
-Pelna macierz: `ranking_typow_zadan.csv`
 
 ### TEORIA I ANALIZA (6 typow, lacznie 164 pkt):
 | Typ zadania | Lat | Laczne pkt | Opis |
@@ -320,13 +318,8 @@ sort(arr, arr+n, [](auto& a, auto& b) {
 
 ## Pliki w Projekcie
 
-### Analizy szczegolow (JSON):
-- `analiza_2014.json` - `analiza_2025.json` (11 plikow)
-
 ### Dokumenty strategiczne:
 - `strategia_egzaminacyjna.md` - GLOWNY DOKUMENT (TOP 14 algorytmow + implementacje + SQL + przewodnik typow zadan)
-- `ranking_tematow.csv` - Macierz temat x rok (21 tematow x 11 lat)
-- `ranking_typow_zadan.csv` - Macierz typ zadania x rok (23 typy x 11 lat, z punktami)
 - `PODSUMOWANIE_FINAL.md` - Ten dokument
 - `podsumowanie_szybkie_wszystkie_lata.md` - Przeglad chronologiczny
 

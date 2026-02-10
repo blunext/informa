@@ -283,4 +283,4 @@ Etap 7: TRUDNE PODZADANIA (reszta czasu)
 ---
 
 *Ostatnia aktualizacja: 2026-02-08*
-*Zrodlo danych: analiza 11 lat matur (2014-2025), ranking_typow_zadan.csv*
+*Zrodlo danych: analiza 11 lat matur (2014-2025)*

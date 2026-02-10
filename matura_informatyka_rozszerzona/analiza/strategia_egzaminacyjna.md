@@ -403,8 +403,6 @@
 ## Przewodnik po Typach Zadan
 
 Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
-Pelna macierz punktow: `ranking_typow_zadan.csv`
-
 ---
 
 ### KATEGORIA: TEORIA I ANALIZA

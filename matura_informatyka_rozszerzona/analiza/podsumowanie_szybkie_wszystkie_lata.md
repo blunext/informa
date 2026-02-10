@@ -97,8 +97,6 @@ Rekurencja przestaw (9p), Zapis symboliczny (11p), Dron NWD+geometria (6p), Keyl
 
 ## Czestotliwosc Typow Zadan (posortowane malejaco wg lacznych pkt)
 
-Pelna macierz: `ranking_typow_zadan.csv`
-
 ### TEORIA I ANALIZA:
 | # | Typ zadania | Lat | Laczne pkt |
 |---|-------------|-----|-----------|
