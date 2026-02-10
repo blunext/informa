@@ -346,7 +346,7 @@ sort(arr, arr+n, [](auto& a, auto& b) {
 - [ ] Checklisty (przed_egzaminem.md, podczas_egzaminu.md, debug_checklist.md)
 - [x] Arkusz kalkulacyjny templates (`arkusz_formuly.md` — SUMIF/SUMIFS, COUNTIF, odniesienia $, wykresy, symulacje, VLOOKUP, pulapki)
 - [x] Wzorce pseudokodu CKE (`pseudokod_wzorce.md` — slowniczek CKE, 7 archetypow z tabelkami sledzenia, struktury danych, ograniczenia, pulapki)
-- [ ] Cwiczenia ze sledzenia algorytmow (`cwiczenia_sledzenie.md` — tabelki krok-po-kroku)
+- [x] Cwiczenia ze sledzenia algorytmow (`cwiczenia_sledzenie.md` — tabelki krok-po-kroku)
 - [x] Schemat decyzyjny / drzewko rozwiazywania (`drzewo_decyzyjne.md` — "widzisz X w zadaniu → uzyj algorytmu Y", szybkie rozpoznawanie typu)
 - [x] Wzorce wczytywania plikow — wlaczone w `cpp_szablony.md` sekcja 1 (8 szablonow: spacje, linia-po-linii, CSV srednik, TSV tab, pary/trojki, wiele plikow, przecinek europejski, siatka 2D)
 
