@@ -343,7 +343,7 @@ sort(arr, arr+n, [](auto& a, auto& b) {
 ### Priorytet WYSOKI:
 - [x] C++ Templates — `cpp_szablony.md` (samowystarczalna sciagawka: wczytywanie plikow CKE, cyfry/liczby, napisy, zliczanie, sortowanie, DP, BFS/DFS, systemy liczbowe, pulapki)
 - [x] SQL Templates — `sql_szablony.md` (samowystarczalna sciagawka: kolejnosc klauzul, SELECT/WHERE, JOIN 2-4 tabel, LEFT JOIN, GROUP BY + agregacje, podzapytania, CASE WHEN, daty, schematy baz CKE, 10 pulapek)
-- [ ] Checklisty (przed_egzaminem.md, podczas_egzaminu.md, debug_checklist.md)
+- [x] Checklisty (`cheatsheets/przed_egzaminem.md`, `cheatsheets/podczas_egzaminu.md`, `cheatsheets/debug_checklist.md`)
 - [x] Arkusz kalkulacyjny templates (`arkusz_formuly.md` — SUMIF/SUMIFS, COUNTIF, odniesienia $, wykresy, symulacje, VLOOKUP, pulapki)
 - [x] Wzorce pseudokodu CKE (`pseudokod_wzorce.md` — slowniczek CKE, 7 archetypow z tabelkami sledzenia, struktury danych, ograniczenia, pulapki)
 - [x] Cwiczenia ze sledzenia algorytmow (`cwiczenia_sledzenie.md` — tabelki krok-po-kroku)
