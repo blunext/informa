@@ -360,7 +360,7 @@ sort(arr, arr+n, [](auto& a, auto& b) {
   - [x] Etap 2: IMPLEMENTACJA (8 typow, 40 cwiczen) — pliki 07-14
   - [x] Etap 3: ARKUSZ (5 typow, 25 cwiczen) — pliki 15-19
   - [x] Etap 4: SQL (4 typy, 20 cwiczen) — pliki 20-23
-- [ ] Rozwiazania wzorcowe z komentarzami (`rozwiazania_wzorcowe/` — 2-3 rozwiazane przyklady na najczestszy typ zadania)
+- [x] Rozwiazania wzorcowe z komentarzami (`rozwiazania_wzorcowe/` — 10 rozwiazanych zadan: 3 implementacja C++, 2 SQL, 3 teoria/algorytmy, 2 arkusz)
 - [ ] Fiszki / active recall (`fiszki/` — pytanie-odpowiedz: zlozonosci, wzorce, SQL, formuly arkuszowe)
 
 ### Priorytet NISKI:
