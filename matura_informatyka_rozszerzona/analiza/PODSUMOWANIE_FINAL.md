@@ -348,11 +348,11 @@ sort(arr, arr+n, [](auto& a, auto& b) {
 - [ ] Zestaw cwiczen dla TOP 10 algorytmow
 - [ ] Probny egzamin w nowej formule 2023+ (`probny_egzamin.md` — 210 min / 50 pkt / 7 zadan)
 - [ ] Karta bledow z odpowiedzi CKE (`typowe_bledy_cke.md` — za co traca punkty)
-- [ ] Zadania treningowe wg 23 typow zadan (`cwiczenia_wg_typu/` — po 5 zadan na typ, 115 lacznie)
-  - [x] Etap 1: TEORIA (6 typow, 30 cwiczen) — pliki 01-06
-  - [x] Etap 2: IMPLEMENTACJA (8 typow, 40 cwiczen) — pliki 07-14
-  - [x] Etap 3: ARKUSZ (5 typow, 25 cwiczen) — pliki 15-19
-  - [x] Etap 4: SQL (4 typy, 20 cwiczen) — pliki 20-23
+- [x] Zadania treningowe wg 23 typow zadan (`cwiczenia_wg_typu/` — po 10 zadan na typ, 230 lacznie, z tagami umiejetnosci, wskazowkami, typowymi bledami i samoocena)
+  - [x] Etap 1: TEORIA (6 typow, 60 cwiczen) — pliki 01-06
+  - [x] Etap 2: IMPLEMENTACJA (8 typow, 80 cwiczen) — pliki 07-14
+  - [x] Etap 3: ARKUSZ (5 typow, 50 cwiczen) — pliki 15-19
+  - [x] Etap 4: SQL (4 typy, 40 cwiczen) — pliki 20-23
 - [x] Rozwiazania wzorcowe z komentarzami (`rozwiazania_wzorcowe/` — 10 rozwiazanych zadan: 3 implementacja C++, 2 SQL, 3 teoria/algorytmy, 2 arkusz)
 - [ ] Fiszki / active recall (`fiszki/` — pytanie-odpowiedz: zlozonosci, wzorce, SQL, formuly arkuszowe)
 
