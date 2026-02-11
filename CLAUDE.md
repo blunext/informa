@@ -26,7 +26,21 @@ matura_informatyka_rozszerzona/
 
 - **arkusz.pdf** - The main examination paper containing all problems
 - **odpowiedzi.pdf** - Official answer key with scoring criteria ("zasady oceniania")
-- **Data folders** - Named variably (dane_PR, Dane_NOWA, DANE_XXXX, Dane-NF-XXXX) containing text files with input data for computational problems
+- **Data folders** - Named differently each year (see table below), containing text files with input data for computational problems
+
+### Data Folder Names by Year
+
+| Year | Folder name |
+|------|-------------|
+| 2014 | `dane_PR/` |
+| 2015 | `Dane_PR/` |
+| 2016 | `Dane_NOWA/` |
+| 2017-2019 | `Dane_PR/` |
+| 2021 | `DANE_2105/` |
+| 2022 | `Dane_2205/` |
+| 2023 | `Dane_2305/` |
+| 2024 | `Dane-NF-2405/` |
+| 2025 | `dane maj 23/` (space in name — quote the path!) |
 - **zalaczniki.zip** - Original compressed archive of attachments (kept for reference)
 
 ### Data File Characteristics
@@ -37,13 +51,65 @@ Data files in the attachment folders are typically:
 - Include example files (e.g., `liczby_przyklad.txt`) and full datasets (e.g., `liczby.txt`)
 - Used for programming tasks requiring file I/O, data processing, and algorithm implementation
 
+## Analysis and Study Materials (`analiza/`)
+
+The `analiza/` directory contains a comprehensive study system built on analysis of all 11 exam years:
+
+```
+analiza/
+├── PODSUMOWANIE_FINAL.md          # Year-by-year breakdown, topic/task type rankings
+├── PRZEWODNIK_UCZNIA.md           # Student guide (study plan, self-assessment)
+├── strategia_egzaminacyjna.md     # Main strategy: TOP 14 algorithms, C++ code, SQL, task types
+├── drzewo_decyzyjne.md            # Decision tree: "see X → use algorithm Y"
+├── podsumowanie_szybkie_wszystkie_lata.md  # Quick summary of all years
+│
+├── json/                          # Machine-readable analysis data
+│   ├── analiza_YYYY.json          # 11 files, per-year detailed analysis (each subtask has typ_zadania)
+│   ├── ranking_tematow.csv        # Topic frequency matrix: 21 topics × 11 years
+│   └── ranking_typow_zadan.csv    # Task type frequency: 23 types × 11 years + total points
+│
+├── cheatsheets/                   # Quick reference cards (7 files)
+│   ├── cheatsheet_{cpp,sql,teoria,arkusz}.md  # 4 topic cheatsheets
+│   ├── debug_checklist.md         # Error diagnosis by category (C++, SQL, spreadsheet)
+│   ├── podczas_egzaminu.md        # Exam-day time strategy (phases + time allocation)
+│   └── przed_egzaminem.md         # Pre-exam checklist (tools, algorithms, mindset)
+│
+├── szablony/                      # Full templates and patterns (6 files, ~97 KB total)
+│   ├── cpp_szablony.md            # C++ templates: file I/O, digits, sort, GCD, binary search (27 KB)
+│   ├── sql_szablony.md            # SQL: JOINs, GROUP BY, subqueries, advanced patterns (19 KB)
+│   ├── arkusz_formuly.md          # Spreadsheet: $ addressing, SUMIFS, VLOOKUP, simulation (18 KB)
+│   ├── pseudokod_wzorce.md        # CKE pseudocode → C++ mapping, 7 archetypes (15 KB)
+│   ├── wzorce_2014.md             # Year-specific patterns: recursion, bisection (8.5 KB)
+│   └── wzorce_2015.md             # Year-specific: greedy, extended Euclidean (9.1 KB)
+│
+├── cwiczenia/                     # Training exercises
+│   ├── cwiczenia_sledzenie.md     # 24 algorithm-tracing exercises (7 archetypes + bonus)
+│   └── wg_typu/                   # 23 files × 10 exercises = 230 total
+│       ├── README.md              # Index with difficulty levels and self-assessment
+│       ├── 01_sledzenie_algorytmu.md ... 23_sql_select_where.md
+│       └── (each has: skill tags, 3-level hints, full answer, common CKE mistakes)
+│
+└── rozwiazania_wzorcowe/          # Model solutions for real past exam problems
+    ├── implementacja_cpp.md       # C++ implementations (e.g., 2024 Zad.3)
+    ├── sql_zapytania.md           # SQL queries (e.g., 2023 Zad.7)
+    ├── teoria_algorytmy.md        # Theory/tracing (e.g., 2025 Zad.1)
+    └── arkusz_kalkulacyjny.md     # Spreadsheet (e.g., 2023 Zad.6)
+```
+
+### Key Analysis Data
+
+- **23 task types** in 4 categories: TEORIA (6), IMPLEMENTACJA (8), ARKUSZ (5), SQL (4)
+- **Topic frequency tiers**: TIER 1 (100%): SQL, number ops, file processing, spreadsheet; TIER 2 (73-82%): number systems, recursion, sorting, GCD
+- **Known gap**: `analiza_2018.json` only has Part I data (Part II was never analyzed)
+- **No code files** exist in the year directories — the repo is documentation and reference material only
+
 ## Important Context
 
 ### Exam Format Changes
 
-- **Formula 2015** (stara formuła): Used for exams 2014-2022
-- **Formula 2023** (nowa formuła): New exam format starting from 2023
-- The 2023 format change represents a significant shift in exam structure and expectations
+- **2014**: Part I 90 min / 20 pts + Part II 120 min / 30 pts (unique to this year)
+- **2015-2022** (stara formuła): Part I 60 min / 15 pts + Part II 150 min / 35 pts (6 tasks)
+- **2023-2025** (nowa formuła): Single paper 210 min / 50 pts, 7-8 tasks
 
 ### Missing Year
 
