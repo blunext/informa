@@ -34,6 +34,7 @@ Nie generuj cwiczen on-the-fly. Korzystaj WYLACZNIE z istniejacych cwiczen w pli
 | CHEATSHEETS | `{BASE}/cheatsheets` |
 | SZABLONY | `{BASE}/szablony` |
 | PROGRESS | `{BASE}/matura_progress.json` |
+| RANKING_CSV | `{BASE}/json/ranking_typow_zadan.csv` |
 
 ### 23 typy zadan
 
@@ -300,6 +301,62 @@ W trakcie sesji uczen moze wpisac poniższe komendy ale też rozmawiać naturaln
 | `powtorka` | Pokaz zaleglosci powtorkowe (tagi z `nastepna_powtorka <= dzis`) |
 | `status` | Pelny raport: ranga, XP (z progresem do nastepnej rangi), daily streak, per blok (poziomy, zrobione/wszystkie), tagi opanowane/problematyczne, osiagniecia odblokowane |
 | `osiagniecia` | Lista wszystkich 20 osiagniec: odblokowane (z data) + zablokowane (z warunkiem) |
+| `radiografia` | Analiza statystyczna: ROI typow zadan, mocne/slabe strony vs czestotliwosc CKE |
+
+## H2. Komenda "radiografia" — analiza statystyczna i rekomendacje
+
+### Wyzwalanie
+
+Komenda `radiografia` (lub `statystyki`, `analiza`). Bez argumentow = pelna analiza. Opcjonalnie: `radiografia IMPLEMENTACJA` — tylko dany blok.
+
+### Zrodla danych
+
+1. **`{RANKING_CSV}`** (~1.5KB) — macierz czestotliwosci: 23 typy × 11 lat + laczne punkty. Czytaj w calosci (maly plik).
+2. **`{PROGRESS}`** — postep ucznia: `typy[typ].poziom_trudnosci`, `typy[typ].zrobione`, `historia`.
+
+### Algorytm
+
+1. Przeczytaj `{RANKING_CSV}` i `{PROGRESS}`
+2. Dla kazdego z 23 typow oblicz:
+   - **Waga CKE** = `Laczne_pkt` z CSV (ile punktow laczne za typ na 11 egzaminach)
+   - **Poziom ucznia** = `typy[typ].poziom_trudnosci` z progressu (`latwe`=1, `srednie`=2, `srednie-trudne`=3, `trudne`=4; brak wpisu=0)
+   - **Zrobione** = dlugosc `typy[typ].zrobione`
+   - **ROI** = `Waga_CKE * (4 - Poziom_ucznia)` — im wiecej punktow CKE i im nizszy poziom ucznia, tym wyzsze ROI
+3. Posortuj typy po ROI malejaco
+
+### Wyswietlanie
+
+```
+=== RADIOGRAFIA EGZAMINACYJNA ===
+
+TOP 5 — najwiekszy zwrot z nauki:
+ 1. sql_group_by       | CKE: 36 pkt (8/11 lat) | Twoj poziom: latwe    | ROI: ████████░░ 108
+ 2. arkusz_symulacja   | CKE: 37 pkt (9/11 lat) | Twoj poziom: srednie  | ROI: ██████░░░░  74
+ ...
+
+Per kategoria:
+  TEORIA (164 pkt na CKE):
+    sledzenie_algorytmu    — Twoj: srednie (3 zrobione) ██░░
+    projektowanie_algorytmu — Twoj: latwe (0 zrobione) █░░░
+    ...
+  IMPLEMENTACJA (147 pkt na CKE):
+    ...
+  ARKUSZ (112 pkt na CKE):
+    ...
+  SQL (92 pkt na CKE):
+    ...
+
+Rekomendacja: Skup sie na sql_group_by i arkusz_symulacja — lacznie 73 pkt na CKE, a Twoj poziom jest niski.
+```
+
+Pasek postępu: `█` za kazdy osiagniety poziom (max 4), `░` za brakujace.
+
+### Rekomendacja
+
+Na koniec wygeneruj 1-2 zdania rekomendacji:
+- Znajdz 2-3 typy z najwyzszym ROI
+- Jesli uczen ma typ na `trudne` a typ ma malo punktow CKE — pochwal ale zasugeruj przesuniecie uwagi
+- Jesli uczen nie ruszyl typow z TIER 1 (>30 pkt lacznie) — ostrzez priorytetowo
 
 ## I. Zarzadzanie kontekstem
 
@@ -310,7 +367,8 @@ Zasady minimalizacji zuzycia kontekstu:
 3. **Szablony** (15-27KB): NIGDY w calosci — Grep po naglowku sekcji, potem Read max 50 linii
 4. **strategia_egzaminacyjna.md** (46KB): NIGDY — uzywaj `podczas_egzaminu.md` (~4KB)
 5. **Progress**: czytaj na starcie sesji, zapisuj po kazdym cwiczeniu
-6. **Zasada ogolna**: max 1 JSON cwiczen + 1 cheatsheet + progress w kontekscie jednoczesnie
+6. **Ranking CSV** (~1.5KB): mozna czytac w calosci (maly plik), uzywany przez `radiografia`
+7. **Zasada ogolna**: max 1 JSON cwiczen + 1 cheatsheet + progress w kontekscie jednoczesnie
 
 ## J. System grywalizacji
 
