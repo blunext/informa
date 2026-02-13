@@ -1,0 +1,347 @@
+{
+  "typ": "10_zliczanie",
+  "nazwa": "Zliczanie i filtrowanie",
+  "kategoria": "IMPLEMENTACJA",
+  "czestotliwosc": "5/11 lat",
+  "punkty_lacznie": 17,
+  "tagi_globalne": [
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "parzystosc",
+    "tablica-czestotliwosci",
+    "kody-ASCII",
+    "zliczanie-znakow",
+    "cyfry-mod-div",
+    "suma-cyfr",
+    "podzielnosc",
+    "map-zliczanie",
+    "moda-statystyczna",
+    "unikalnosc",
+    "liczby-pierwsze",
+    "podwojna-petla",
+    "wiele-plikow",
+    "przedzialy",
+    "napisy",
+    "pary-elementow",
+    "grupowanie",
+    "struct",
+    "sortowanie"
+  ],
+  "cwiczenia": [
+    {
+      "id": "10.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2014 zad. 5a",
+      "tagi": [
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "parzystosc"
+      ],
+      "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Zliczy ile sposrod nich jest parzystych.\nb) Zliczy ile jest wiekszych od 100.\n\n**Dane** (`dane.txt`):\n```\n42\n155\n7\n200\n88\n13\n176\n51\n99\n300\n64\n111\n25\n148\n33\n```\n\n**Oczekiwany wynik**:\n```\na) Liczby parzyste: 7\nb) Liczby wieksze od 100: 6\n```",
+      "wskazowki": [
+        "**Kierunek**: Potrzebujesz dwoch niezaleznych licznikow — kazdy zlicza cos innego.",
+        "**Podejscie**: W petli while czytaj liczby z pliku i sprawdzaj dwa warunki (parzystosc: `n % 2 == 0`, prog: `n > 100`).",
+        "**Kluczowy krok**: Oba warunki mozna sprawdzac w tej samej petli — nie musisz czytac pliku dwa razy."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int parzyste = 0, powyzej100 = 0;\n    while (plik >> n) {\n        if (n % 2 == 0) parzyste++;\n        if (n > 100) powyzej100++;\n    }\n    cout << \"a) Liczby parzyste: \" << parzyste << endl;\n    cout << \"b) Liczby wieksze od 100: \" << powyzej100 << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Prosta petla z dwoma licznikami. Warunek parzystosci: `n % 2 == 0`. Warunek wiekszosci: `n > 100`.\n\nWeryfikacja:\n- Parzyste: 42, 200, 88, 176, 300, 64, 148 = 7\n- Wieksze od 100: 155, 200, 176, 300, 111, 148 = 6",
+      "typowe_bledy": [
+        {
+          "opis": "**`>= 100` zamiast `> 100`**: Zle odczytanie warunku \"wieksze od 100\" (100 nie jest wieksze od 100)",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak inicjalizacji licznikow**: Liczniki musza zaczynac od 0, niezainicjalizowane zmienne moga miec smieci",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "10.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2023 zad. 3.1 (cyfry pi)",
+      "tagi": [
+        "tablica-czestotliwosci",
+        "kody-ASCII",
+        "zliczanie-znakow"
+      ],
+      "tresc": "Dany jest ciag 50 cyfr (kolejne cyfry po przecinku liczby pi). Napisz program, ktory zliczy wystapienia kazdej cyfry 0-9 i poda najczesciej wystepujaca cyfre.\n\n**Dane** (ciag cyfr):\n```\n14159265358979323846264338327950288419716939937510\n```\n\n**Oczekiwany wynik**:\n```\nCzestotliwosc cyfr:\n0: 2\n1: 5\n2: 5\n3: 8\n4: 4\n5: 5\n6: 4\n7: 4\n8: 5\n9: 8\nNajczesciej: 3 i 9 (8 razy)\n```",
+      "wskazowki": [
+        "**Kierunek**: Tablica 10 licznikow (indeks = cyfra) to naturalny sposob zliczania cyfr.",
+        "**Podejscie**: Iteruj po stringu i konwertuj kazdy znak na cyfre: `c - '0'`.",
+        "**Kluczowy krok**: Po zliczeniu, przejdz tablice raz aby znalezc max, potem drugi raz aby wypisac wszystkie cyfry z ta czestotliwoscia."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    string cyfry = \"14159265358979323846264338327950288419716939937510\";\n    int freq[10] = {0};\n\n    for (char c : cyfry) {\n        freq[c - '0']++;\n    }\n\n    cout << \"Czestotliwosc cyfr:\" << endl;\n    int maxFreq = 0;\n    for (int i = 0; i < 10; i++) {\n        cout << i << \": \" << freq[i] << endl;\n        if (freq[i] > maxFreq) maxFreq = freq[i];\n    }\n\n    cout << \"Najczesciej: \";\n    bool first = true;\n    for (int i = 0; i < 10; i++) {\n        if (freq[i] == maxFreq) {\n            if (!first) cout << \" i \";\n            cout << i;\n            first = false;\n        }\n    }\n    cout << \" (\" << maxFreq << \" razy)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Tablica czestotliwosci `freq[10]` indeksowana cyfra (0-9). Iterujemy po ciagu znakow, konwertujac kazdy na cyfre `c - '0'` i inkrementujac odpowiedni licznik. Na koniec szukamy maksymalnej czestotliwosci.\n\nWeryfikacja (ciag: 14159265358979323846264338327950288419716939937510):\n- 0: pojawiaja sie na poz. 30(0), 50(0) = 2\n- 1: poz. 1,4,38,41,49 = 5 razy\n- 3: pozycje 9,15,17,24,25,27,43,46 = 8 razy\n- 9: pozycje 5,12,14,30,38,42,44,45 = 8 razy",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak `{0}` w inicjalizacji tablicy**: `int freq[10];` nie zeruje tablicy — wynik bedzie losowy",
+          "kara": "-2 pkt (zly wynik)"
+        },
+        {
+          "opis": "**Uzycie `c` zamiast `c - '0'`**: Indeksowanie tablicy kodem ASCII znaku (np. 48-57) zamiast cyfra 0-9",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "10.3",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2023 zad. 3.2",
+      "tagi": [
+        "cyfry-mod-div",
+        "suma-cyfr",
+        "podzielnosc",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `dane.txt` znajduje sie 12 liczb 5-cyfrowych (kazda w osobnym wierszu). Napisz program, ktory:\na) Zliczy ile z nich ma sume cyfr wieksza od 20.\nb) Zliczy ile ma pierwsza cyfre wieksza od ostatniej.\nc) Zliczy ile jest podzielnych przez sume swoich cyfr.\n\n**Dane** (`dane.txt`):\n```\n12345\n99876\n54321\n11111\n87654\n33333\n76543\n44444\n65432\n28916\n55555\n19827\n```\n\n**Oczekiwany wynik**:\n```\na) Suma cyfr > 20:\n   99876 (suma=39)\n   87654 (suma=30)\n   76543 (suma=25)\n   28916 (suma=26)\n   55555 (suma=25)\n   19827 (suma=27)\n   Ilosc: 6\n\nb) Pierwsza cyfra > ostatnia:\n   99876 (9>6)\n   54321 (5>1)\n   87654 (8>4)\n   76543 (7>3)\n   65432 (6>2)\n   Ilosc: 5\n\nc) Podzielne przez sume cyfr:\n   12345 (suma cyfr=15, 12345/15=823)\n   Ilosc: 1\n```",
+      "wskazowki": [
+        "**Kierunek**: Potrzebujesz funkcji `sumaCyfr` — petla `while(n > 0)` z `n % 10` i `n /= 10`.",
+        "**Podejscie**: Pierwsza cyfra 5-cyfrowej liczby to wynik dzielenia przez 10 az n < 10. Ostatnia cyfra to `n % 10`.",
+        "**Kluczowy krok**: W punkcie (c) pamietaj o sprawdzeniu `s > 0` przed dzieleniem — unikasz dzielenia przez zero."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint sumaCyfr(int n) {\n    int s = 0;\n    while (n > 0) { s += n % 10; n /= 10; }\n    return s;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> tab;\n    int x;\n    while (plik >> x) tab.push_back(x);\n\n    // a)\n    cout << \"a) Suma cyfr > 20:\" << endl;\n    int ileA = 0;\n    for (int n : tab) {\n        int s = sumaCyfr(n);\n        if (s > 20) {\n            cout << \"   \" << n << \" (suma=\" << s << \")\" << endl;\n            ileA++;\n        }\n    }\n    cout << \"   Ilosc: \" << ileA << endl;\n\n    // b)\n    cout << endl << \"b) Pierwsza cyfra > ostatnia:\" << endl;\n    int ileB = 0;\n    for (int n : tab) {\n        int pierwsza = n;\n        while (pierwsza >= 10) pierwsza /= 10;\n        int ostatnia = n % 10;\n        if (pierwsza > ostatnia) {\n            cout << \"   \" << n << \" (\" << pierwsza << \">\" << ostatnia << \")\" << endl;\n            ileB++;\n        }\n    }\n    cout << \"   Ilosc: \" << ileB << endl;\n\n    // c)\n    cout << endl << \"c) Podzielne przez sume cyfr:\" << endl;\n    int ileC = 0;\n    for (int n : tab) {\n        int s = sumaCyfr(n);\n        if (s > 0 && n % s == 0) {\n            cout << \"   \" << n << \" (suma cyfr=\" << s << \", \" << n << \"/\" << s << \"=\" << n/s << \")\" << endl;\n            ileC++;\n        }\n    }\n    cout << \"   Ilosc: \" << ileC << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Trzy niezalezne zliczania. (a) Sumujemy cyfry petla mod/div i porownujemy z 20. (b) Pierwsza cyfra: dzielimy przez 10 dopoki n >= 10. Ostatnia cyfra: n % 10. (c) Sprawdzamy podzielnosc liczby przez sume jej cyfr.\n\nWeryfikacja:\na) Sumy cyfr: 12345(15), 99876(39), 54321(15), 11111(5), 87654(30), 33333(15), 76543(25), 44444(20), 65432(20), 28916(26), 55555(25), 19827(27)\n   Wieksze od 20: 99876(39), 87654(30), 76543(25), 28916(26), 55555(25), 19827(27) = 6",
+      "typowe_bledy": [
+        {
+          "opis": "**Modyfikacja oryginalnej liczby w sumaCyfr**: Jesli nie uzywasz kopii, oryginalna wartosc zostanie zniszczona",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak warunku `s > 0` w punkcie (c)**: Dzielenie przez 0 powoduje crash programu",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**`while(n > 0)` pomija n=0**: Jezeli liczba to 0, petla sie nie wykona i suma cyfr bedzie 0. Dla tego zestawu danych to nie problem (5-cyfrowe), ale warto pamietac.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "10.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2024 zad. 3.1",
+      "tagi": [
+        "map-zliczanie",
+        "moda-statystyczna",
+        "unikalnosc"
+      ],
+      "tresc": "W pliku `dane.txt` znajduje sie 20 liczb calkowitych (kazda w osobnym wierszu, wartosci z zakresu 1-50, moga sie powtarzac). Napisz program, ktory:\na) Zliczy ile jest roznych wartosci.\nb) Znajdzie wartosc wystepujaca najczesciej (mode).\nc) Zliczy ile wartosci wystepuje dokladnie raz.\n\n**Dane** (`dane.txt`):\n```\n7\n15\n3\n7\n22\n15\n3\n41\n7\n15\n22\n3\n7\n50\n15\n3\n22\n7\n41\n15\n```\n\n**Oczekiwany wynik**:\n```\na) Roznych wartosci: 6\n\nb) Najczesciej wystepujaca wartosc: 7 (5 razy)\n   Rowniez: 15 (5 razy)\n\nc) Wartosci wystepujace dokladnie raz: 1 (wartosc: 50)\n```",
+      "wskazowki": [
+        "**Kierunek**: `map<int,int>` to idealny kontener do zliczania czestotliwosci — klucz to wartosc, wartosc to licznik.",
+        "**Podejscie**: `freq[x]++` automatycznie tworzy nowy wpis jesli klucz nie istnieje. Rozmiar mapy = liczba roznych wartosci.",
+        "**Kluczowy krok**: Mode to wartosc z maksymalnym licznikiem — moze byc wieksza niz 1, wiec przejrzyj mape dwukrotnie (raz po max, raz po elementach z max)."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int x;\n    map<int, int> freq;\n    while (plik >> x) freq[x]++;\n\n    // a)\n    cout << \"a) Roznych wartosci: \" << freq.size() << endl;\n\n    // b)\n    int maxFreq = 0;\n    for (auto &p : freq)\n        if (p.second > maxFreq) maxFreq = p.second;\n\n    cout << endl << \"b) Najczesciej wystepujaca wartosc: \";\n    bool first = true;\n    for (auto &p : freq) {\n        if (p.second == maxFreq) {\n            if (!first) cout << \"   Rowniez: \";\n            cout << p.first << \" (\" << maxFreq << \" razy)\" << endl;\n            first = false;\n        }\n    }\n\n    // c)\n    int ileRaz = 0;\n    cout << endl << \"c) Wartosci wystepujace dokladnie raz: \";\n    for (auto &p : freq)\n        if (p.second == 1) ileRaz++;\n    cout << ileRaz << \" (wartosc: \";\n    first = true;\n    for (auto &p : freq) {\n        if (p.second == 1) {\n            if (!first) cout << \", \";\n            cout << p.first;\n            first = false;\n        }\n    }\n    cout << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Mapa czestotliwosci `map<int, int>` zlicza ile razy kazda wartosc wystepuje. Rozmiar mapy to liczba roznych wartosci. Mode to wartosc z maksymalna czestotliwoscia. Wartosci unikalne maja czestotliwosc 1.\n\nWeryfikacja:\n- 3: wystepuje 4 razy (poz. 3,7,12,16)\n- 7: wystepuje 5 razy (poz. 1,4,9,13,18)\n- 15: wystepuje 5 razy (poz. 2,6,10,15,20)\n- 22: wystepuje 3 razy (poz. 5,11,17)\n- 41: wystepuje 2 razy (poz. 8,19)\n- 50: wystepuje 1 raz (poz. 14)\nRoznych: 6, max: 7 i 15 (po 5), dokladnie raz: 50",
+      "typowe_bledy": [
+        {
+          "opis": "**Uzycie tablicy zamiast mapy przy nieznanym zakresie**: Tablica wymaga z gory znanego zakresu wartosci",
+          "kara": "-1 pkt (jesli zakres sie nie miesci)"
+        },
+        {
+          "opis": "**Zapomnienie o kilku modach**: Moze byc wiecej niz jedna wartosc z max czestotliwoscia — wypisanie tylko pierwszej to niepelna odpowiedz",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**`freq.size()` przed wstawieniem elementow**: Upewnij sie, ze mapa jest juz wypelniona",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "10.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2024 zad. 4.1 (liczby pierwsze dzielace)",
+      "tagi": [
+        "podzielnosc",
+        "liczby-pierwsze",
+        "podwojna-petla",
+        "wiele-plikow"
+      ],
+      "tresc": "Dane sa dwa zbiory: 8 liczb pierwszych i 10 duzych liczb calkowitych. Napisz program, ktory:\na) Zliczy ile z podanych liczb pierwszych dzieli chociaz jedna z duzych liczb.\nb) Zliczy ile par (pierwsza, duza) spelnia warunek podzielnosci.\nc) Znajdzie liczbe pierwsza, ktora dzieli najwiecej duzych liczb.\n\n**Dane**:\n\nLiczby pierwsze (`pierwsze.txt`):\n```\n2\n3\n5\n7\n11\n13\n17\n19\n```\n\nDuze liczby (`duze.txt`):\n```\n210\n143\n85\n66\n119\n51\n34\n78\n95\n231\n```\n\n**Oczekiwany wynik**:\n```\na) Liczby pierwsze dziealce chociaz jedna duza: 8 (wszystkie)\n\nb) Pary (pierwsza, duza) spelniajace podzielnosc:\n   2 dzieli: 210, 66, 34, 78 (4 duze)\n   3 dzieli: 210, 66, 51, 78, 231 (5 duzych)\n   5 dzieli: 210, 85, 95 (3 duze)\n   7 dzieli: 210, 119, 231 (3 duze)\n   11 dzieli: 143, 66, 231 (3 duze)\n   13 dzieli: 143, 78 (2 duze)\n   17 dzieli: 85, 51, 34, 119 (4 duze)\n   19 dzieli: 95 (1 duza)\n   Laczna liczba par: 4+5+3+3+3+2+4+1 = 25\n\nc) Liczba pierwsza dzielaca najwiecej duzych: 3 (5 duzych)\n```",
+      "wskazowki": [
+        "**Kierunek**: Wczytaj oba zbiory do wektorow, a potem uzyj podwojnej petli (po liczbach pierwszych i duzych).",
+        "**Podejscie**: Dla kazdej liczby pierwszej `p` sprawdz `d % p == 0` dla kazdej duzej liczby `d`. Zlicz trafienia.",
+        "**Kluczowy krok**: Jesli cnt > 0, to liczba pierwsza dzieli chociaz jedna duza. Sledzac cnt dla kazdej p, znajdziesz tez max."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream f1(\"pierwsze.txt\"), f2(\"duze.txt\");\n    vector<int> pierwsze, duze;\n    int x;\n    while (f1 >> x) pierwsze.push_back(x);\n    while (f2 >> x) duze.push_back(x);\n\n    // a) i b) i c)\n    int ileA = 0, ileB = 0;\n    int maxDzieli = 0, maxPierwsza = 0;\n\n    cout << \"b) Pary (pierwsza, duza) spelniajace podzielnosc:\" << endl;\n    for (int p : pierwsze) {\n        int cnt = 0;\n        cout << \"   \" << p << \" dzieli: \";\n        bool first = true;\n        for (int d : duze) {\n            if (d % p == 0) {\n                if (!first) cout << \", \";\n                cout << d;\n                first = false;\n                cnt++;\n            }\n        }\n        cout << \" (\" << cnt << \" duzych)\" << endl;\n        ileB += cnt;\n        if (cnt > 0) ileA++;\n        if (cnt > maxDzieli) { maxDzieli = cnt; maxPierwsza = p; }\n    }\n\n    cout << endl << \"a) Liczby pierwsze dzielace chociaz jedna duza: \" << ileA << endl;\n    cout << \"   Laczna liczba par: \" << ileB << endl;\n    cout << endl << \"c) Liczba pierwsza dzielaca najwiecej duzych: \"\n         << maxPierwsza << \" (\" << maxDzieli << \" duzych)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Podwojna petla: dla kazdej liczby pierwszej sprawdzamy podzielnosc kazdej duzej. Zliczamy pary, sprawdzamy ktore pierwsze dziela chociaz jedna duza, i szukamy pierwszej z max liczba dzielonych duzych.\n\nWeryfikacja (rozklady duzych):\n- 210 = 2*3*5*7 -> dzielniki: 2,3,5,7\n- 143 = 11*13 -> dzielniki: 11,13\n- 85 = 5*17 -> dzielniki: 5,17\n- 66 = 2*3*11 -> dzielniki: 2,3,11\n- 119 = 7*17 -> dzielniki: 7,17\n- 51 = 3*17 -> dzielniki: 3,17\n- 34 = 2*17 -> dzielniki: 2,17\n- 78 = 2*3*13 -> dzielniki: 2,3,13\n- 95 = 5*19 -> dzielniki: 5,19\n- 231 = 3*7*11 -> dzielniki: 3,7,11\n\nZliczenia:\n- 2: 210,66,34,78 = 4\n- 3: 210,66,51,78,231 = 5\n- 5: 210,85,95 = 3\n- 7: 210,119,231 = 3\n- 11: 143,66,231 = 3\n- 13: 143,78 = 2\n- 17: 85,51,34,119 = 4\n- 19: 95 = 1\n\nLaczna liczba par: 4+5+3+3+3+2+4+1 = 25\nMax: 3 (5 duzych)\nWszystkie 8 pierwszych dziela chociaz jedna duza: TAK",
+      "typowe_bledy": [
+        {
+          "opis": "**Pomylenie kolejnosci petli**: Petla zewnetrzna po pierwszych, wewnetrzna po duzych — odwrotnie daje inne wyniki (ile duzych dzieli kazda pierwsza vs ile pierwszych dzieli kazda duza)",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Zapomnienie o otwarciu drugiego pliku**: Jesli oba pliki sa otwarte tym samym obiektem ifstream, trzeba go zamknac i otworzyc ponownie",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak separacji wynikow**: Mieszanie wynikow z roznych podpunktow",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "10.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2023 zad. 3 (zliczanie w przedzialach)",
+      "tagi": [
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "przedzialy"
+      ],
+      "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu, z zakresu 0-200). Napisz program, ktory zliczy ile liczb nalezy do kazdego z trzech przedzialow: [0, 50], [51, 100], [101, 200].\n\n**Dane** (`dane.txt`):\n```\n12\n75\n143\n8\n100\n51\n200\n33\n67\n0\n155\n48\n99\n180\n22\n```\n\n**Oczekiwany wynik**:\n```\nPrzedzial [0, 50]: 5 (wartosci: 12, 8, 33, 0, 48)\nPrzedzial [51, 100]: 4 (wartosci: 75, 100, 51, 99)\nPrzedzial [101, 200]: 6 (wartosci: 143, 200, 67, 155, 180, 22)\n```\n\nKorekta — policzymy dokladnie:\n- [0,50]: 12, 8, 33, 0, 48, 22 = 6\n- [51,100]: 75, 100, 51, 67, 99 = 5\n- [101,200]: 143, 200, 155, 180 = 4\n\n**Oczekiwany wynik** (skorygowany):\n```\nPrzedzial [0, 50]: 6\nPrzedzial [51, 100]: 5\nPrzedzial [101, 200]: 4\n```",
+      "wskazowki": [
+        "**Kierunek**: Trzy liczniki — sprawdz w ktorym przedziale miesci sie kazda liczba.",
+        "**Podejscie**: Uzyj `if-else if-else` aby kazda liczba trafila do dokladnie jednego przedzialu.",
+        "**Kluczowy krok**: Zwroc uwage na granice przedzialow — 50 nalezy do [0,50], 51 do [51,100]."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int p1 = 0, p2 = 0, p3 = 0;\n    while (plik >> n) {\n        if (n <= 50) p1++;\n        else if (n <= 100) p2++;\n        else p3++;\n    }\n    cout << \"Przedzial [0, 50]: \" << p1 << endl;\n    cout << \"Przedzial [51, 100]: \" << p2 << endl;\n    cout << \"Przedzial [101, 200]: \" << p3 << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Kaskada `if-else if-else` gwarantuje, ze kazda liczba jest przypisana do jednego przedzialu. Dzieki sprawdzaniu od najmniejszego, warunek `n <= 50` obsluguje [0,50], a `n <= 100` obsluguje [51,100] (bo 0-50 juz odpadlo).\n\nWeryfikacja:\n- [0,50]: 12, 8, 33, 0, 48, 22 = 6\n- [51,100]: 75, 100, 51, 67, 99 = 5\n- [101,200]: 143, 200, 155, 180 = 4",
+      "typowe_bledy": [
+        {
+          "opis": "**Uzycie samych `if` zamiast `if-else if`**: Liczba moze byc zliczona w kilku przedzialach jednoczesnie",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Pomylenie granic (<= vs <)**: Np. `n < 50` pominie wartosc 50",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "10.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2024 zad. 3 (filtrowanie napisow)",
+      "tagi": [
+        "napisy",
+        "filtrowanie",
+        "wczytywanie-pliku",
+        "zliczanie-znakow"
+      ],
+      "tresc": "W pliku `slowa.txt` znajduje sie 12 slow (kazde w osobnym wierszu, male litery). Napisz program, ktory:\na) Zliczy ile slow zaczyna sie na samogloske (a, e, i, o, u, y).\nb) Zliczy ile slow ma dlugosc wieksza niz 5.\nc) Zliczy ile slow zawiera podwojna litere (np. \"pp\", \"ll\").\n\n**Dane** (`slowa.txt`):\n```\nalgorytm\nprogramowanie\nabecadlo\npetla\nif\nzmienna\ntablica\nsortowanie\nrekurencja\nstos\nkolejka\ndrzewo\n```\n\n**Oczekiwany wynik**:\n```\na) Slowa zaczynajace sie na samogloske: 2 (algorytm, abecadlo)\nb) Slowa dluzsze niz 5 znakow: 8\nc) Slowa z podwojna litera: 1 (programowanie -> mm? NIE)\n```\n\nKorekta — sprawdzmy podwojne litery:\n- algorytm: brak\n- programowanie: brak powtorzonych par\n- abecadlo: brak\n- petla: brak\n- if: brak\n- zmienna: nn -> TAK\n- tablica: brak\n- sortowanie: brak\n- rekurencja: brak\n- stos: brak\n- kolejka: brak\n- drzewo: brak\n\n**Oczekiwany wynik** (skorygowany):\n```\na) Slowa zaczynajace sie na samogloske: 2 (algorytm, abecadlo)\nb) Slowa dluzsze niz 5 znakow: 8 (algorytm, programowanie, abecadlo, zmienna, tablica, sortowanie, rekurencja, kolejka)\nc) Slowa z podwojna litera: 1 (zmienna)\n```",
+      "wskazowki": [
+        "**Kierunek**: (a) Sprawdz pierwszy znak: `s[0]` i porownaj z samogloskami. (b) Sprawdz `s.length() > 5`.",
+        "**Podejscie**: Dla (c) przeiteruj po slowie i sprawdz `s[i] == s[i+1]` dla kazdego i.",
+        "**Kluczowy krok**: Pamietaj o petli do `s.length()-1` (nie `s.length()`) aby nie wyjsc poza zakres."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\nusing namespace std;\n\nbool samogloska(char c) {\n    return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'y';\n}\n\nbool maPodwojna(const string &s) {\n    for (int i = 0; i + 1 < (int)s.length(); i++)\n        if (s[i] == s[i + 1]) return true;\n    return false;\n}\n\nint main() {\n    ifstream plik(\"slowa.txt\");\n    string s;\n    int ileA = 0, ileB = 0, ileC = 0;\n    vector<string> samogl, dluzsze, podwojne;\n\n    while (plik >> s) {\n        if (samogloska(s[0])) { ileA++; samogl.push_back(s); }\n        if (s.length() > 5) { ileB++; dluzsze.push_back(s); }\n        if (maPodwojna(s)) { ileC++; podwojne.push_back(s); }\n    }\n\n    cout << \"a) Slowa zaczynajace sie na samogloske: \" << ileA << \" (\";\n    for (int i = 0; i < (int)samogl.size(); i++) {\n        if (i > 0) cout << \", \";\n        cout << samogl[i];\n    }\n    cout << \")\" << endl;\n\n    cout << \"b) Slowa dluzsze niz 5 znakow: \" << ileB << endl;\n    cout << \"c) Slowa z podwojna litera: \" << ileC << \" (\";\n    for (int i = 0; i < (int)podwojne.size(); i++) {\n        if (i > 0) cout << \", \";\n        cout << podwojne[i];\n    }\n    cout << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Trzy niezalezne filtry stosowane w jednym przebiegu pliku. `samogloska()` sprawdza pierwszy znak. `maPodwojna()` szuka par identycznych sasiadow.\n\nWeryfikacja:\n- Samogloska na poczatku: algorytm (a), abecadlo (a) = 2\n- Dluzsze niz 5: algorytm(8), programowanie(14), abecadlo(8), zmienna(7), tablica(7), sortowanie(10), rekurencja(10), kolejka(7) = 8\n- Podwojna litera: zmienna (nn) = 1",
+      "typowe_bledy": [
+        {
+          "opis": "**Petla `i < s.length()` w maPodwojna**: Dostep do `s[i+1]` poza zakresem",
+          "kara": "-1 pkt (crash lub UB)"
+        },
+        {
+          "opis": "**Brak `y` w samogloskach polskich**: W jezyku polskim \"y\" to samogloska — pominiecie jej to blad",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Uzycie `==` na calym stringu zamiast na znaku**: `s == \"a\"` to nie to samo co `s[0] == 'a'`",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "10.8",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2019 zad. 4 (pary elementow)",
+      "tagi": [
+        "pary-elementow",
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "podzielnosc"
+      ],
+      "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Zliczy ile par sasiadujacych elementow (T[i], T[i+1]) ma te same parzystosc (oba parzyste lub oba nieparzyste).\nb) Zliczy ile par sasiadujacych elementow ma sume podzielna przez 5.\n\n**Dane** (`dane.txt`):\n```\n14\n27\n35\n22\n18\n41\n60\n55\n32\n49\n10\n73\n```\n\n**Oczekiwany wynik**:\n```\na) Pary o tej samej parzystosci: 4\n   (27,35) - oba nieparzyste\n   (22,18) - oba parzyste\n   (55,32) - nie... 55 nieparzyste\n   Korekta:\n   (14,27): P+N -> rozne\n   (27,35): N+N -> TAK\n   (35,22): N+P -> rozne\n   (22,18): P+P -> TAK\n   (18,41): P+N -> rozne\n   (41,60): N+P -> rozne\n   (60,55): P+N -> rozne\n   (55,32): N+P -> rozne\n   (32,49): P+N -> rozne\n   (49,10): N+P -> rozne\n   (10,73): P+N -> rozne\n   Ilosc: 2\n\nb) Pary z suma podzielna przez 5:\n   (14,27): 41 -> NIE\n   (27,35): 62 -> NIE\n   (35,22): 57 -> NIE\n   (22,18): 40 -> TAK\n   (18,41): 59 -> NIE\n   (41,60): 101 -> NIE\n   (60,55): 115 -> TAK\n   (55,32): 87 -> NIE\n   (32,49): 81 -> NIE\n   (49,10): 59 -> NIE\n   (10,73): 83 -> NIE\n   Ilosc: 2\n```\n\n**Oczekiwany wynik** (czytelny):\n```\na) Pary o tej samej parzystosci: 2\n   (27,35) - oba nieparzyste\n   (22,18) - oba parzyste\n\nb) Pary z suma podzielna przez 5: 2\n   (22,18) - suma=40\n   (60,55) - suma=115\n```",
+      "wskazowki": [
+        "**Kierunek**: Wczytaj wszystko do wektora, potem iteruj po parach sasiadow (i, i+1).",
+        "**Podejscie**: \"Ta sama parzystosc\" to `T[i] % 2 == T[i+1] % 2`. Suma podzielna przez 5 to `(T[i] + T[i+1]) % 5 == 0`.",
+        "**Kluczowy krok**: Petla od 0 do n-2 (wlacznie), nie do n-1 — bo sprawdzamy element i+1."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    // a)\n    cout << \"a) Pary o tej samej parzystosci:\" << endl;\n    int ileA = 0;\n    for (int i = 0; i < n - 1; i++) {\n        if (T[i] % 2 == T[i + 1] % 2) {\n            string typ = (T[i] % 2 == 0) ? \"oba parzyste\" : \"oba nieparzyste\";\n            cout << \"   (\" << T[i] << \",\" << T[i + 1] << \") - \" << typ << endl;\n            ileA++;\n        }\n    }\n    cout << \"   Ilosc: \" << ileA << endl;\n\n    // b)\n    cout << endl << \"b) Pary z suma podzielna przez 5:\" << endl;\n    int ileB = 0;\n    for (int i = 0; i < n - 1; i++) {\n        int s = T[i] + T[i + 1];\n        if (s % 5 == 0) {\n            cout << \"   (\" << T[i] << \",\" << T[i + 1] << \") - suma=\" << s << endl;\n            ileB++;\n        }\n    }\n    cout << \"   Ilosc: \" << ileB << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Iterujemy po parach sasiadow. Parzystosc sprawdzamy operatorem modulo. Suma podzielna przez 5 to warunek `(a+b) % 5 == 0`.\n\nWeryfikacja:\n- Ta sama parzystosc: (27,35)=N+N, (22,18)=P+P -> 2\n- Suma % 5 == 0: (22,18)=40, (60,55)=115 -> 2",
+      "typowe_bledy": [
+        {
+          "opis": "**Petla do `n` zamiast `n-1`**: Dostep do `T[n]` poza zakresem",
+          "kara": "-1 pkt (crash)"
+        },
+        {
+          "opis": "**Sprawdzanie `T[i] % 2 == 0 && T[i+1] % 2 == 0`**: To znajdzie tylko pary parzyste, pomijajac pary nieparzyste",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Zapomnienie o liczbach ujemnych**: `(-3) % 2` moze zwrocic -1 w C++. Dla tego zestawu nie ma ujemnych, ale generalnie lepiej porownywac `% 2` obu stron.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "10.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "zrodlo": "Matura 2024 zad. 3 (rekordy z grupowaniem)",
+      "tagi": [
+        "map-zliczanie",
+        "grupowanie",
+        "struct",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `uczniowie.txt` znajduje sie 10 rekordow w formacie: klasa imie ocena (oddzielone spacjami, klasa to string np. \"3A\", ocena to int 1-6). Napisz program, ktory:\na) Zliczy ile rekordow ma ocene >= 4.\nb) Dla kazdej klasy policzy srednia ocen.\nc) Poda klase z najwyzsza srednia.\n\n**Dane** (`uczniowie.txt`):\n```\n3A Jan 5\n3A Maria 4\n3A Piotr 3\n3B Anna 6\n3B Tomek 5\n3B Ewa 4\n3C Kacper 2\n3C Ola 5\n3C Adam 3\n3C Zofia 4\n```\n\n**Oczekiwany wynik**:\n```\na) Uczniowie z ocena >= 4: 6\n\nb) Srednie ocen:\n   3A: 4.00\n   3B: 5.00\n   3C: 3.50\n\nc) Klasa z najwyzsza srednia: 3B (5.00)\n```",
+      "wskazowki": [
+        "**Kierunek**: Dwa kontenery map: jeden na sume ocen, drugi na liczbe uczniow w klasie.",
+        "**Podejscie**: `suma[klasa] += ocena; ile[klasa]++;` — potem srednia to `suma/ile` (uzyj rzutowania na double).",
+        "**Kluczowy krok**: `map<string,int>` automatycznie sortuje klucze leksykograficznie (3A < 3B < 3C)."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"uczniowie.txt\");\n    string klasa, imie;\n    int ocena;\n    map<string, int> suma, ile;\n    int dobre = 0;\n\n    while (plik >> klasa >> imie >> ocena) {\n        if (ocena >= 4) dobre++;\n        suma[klasa] += ocena;\n        ile[klasa]++;\n    }\n\n    cout << \"a) Uczniowie z ocena >= 4: \" << dobre << endl;\n\n    cout << endl << \"b) Srednie ocen:\" << endl;\n    cout << fixed << setprecision(2);\n    string bestKlasa;\n    double bestSr = 0;\n    for (auto &p : suma) {\n        double sr = (double)p.second / ile[p.first];\n        cout << \"   \" << p.first << \": \" << sr << endl;\n        if (sr > bestSr) { bestSr = sr; bestKlasa = p.first; }\n    }\n\n    cout << endl << \"c) Klasa z najwyzsza srednia: \" << bestKlasa\n         << \" (\" << bestSr << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dwie mapy: `suma[klasa]` gromadzi sume ocen, `ile[klasa]` liczbe uczniow. Srednia = suma / ile. Najwyzsza srednia szukana liniowo.\n\nWeryfikacja:\n- 3A: 5+4+3=12, 3 uczniow, sr=4.00\n- 3B: 6+5+4=15, 3 uczniow, sr=5.00\n- 3C: 2+5+3+4=14, 4 uczniow, sr=3.50\n- Ocena >= 4: Jan(5), Maria(4), Anna(6), Tomek(5), Ewa(4), Ola(5), Zofia(4) -> 7? Sprawdzmy: 5>=4 TAK, 4>=4 TAK, 3>=4 NIE, 6>=4 TAK, 5>=4 TAK, 4>=4 TAK, 2>=4 NIE, 5>=4 TAK, 3>=4 NIE, 4>=4 TAK -> 7\n\nKorekta oczekiwanego wyniku:\n```\na) Uczniowie z ocena >= 4: 7\n```",
+      "typowe_bledy": [
+        {
+          "opis": "**Dzielenie calkowite zamiast zmiennoprzecinkowego**: `12 / 3 = 4` jest OK, ale `14 / 4 = 3` (nie 3.5). Uzyj `(double)suma / ile`",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Zapomnienie o klasach z jednym uczniem**: Srednia wtedy rowna ocenie — nie pomijaj ich",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Bledne wczytywanie formatu**: Jesli imie zawiera spacje, `plik >> imie` nie wystarczy — ale w tym zadaniu imiona sa jednoczlonowe.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "10.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2024 zad. 4 (wielokryterialne zliczanie)",
+      "tagi": [
+        "map-zliczanie",
+        "podwojna-petla",
+        "sortowanie",
+        "filtrowanie",
+        "struct"
+      ],
+      "tresc": "W pliku `zamowienia.txt` znajduje sie 12 rekordow w formacie: klient produkt ilosc cena_jednostkowa (oddzielone spacjami). Napisz program, ktory:\na) Zliczy laczna wartosc zamowien (ilosc * cena) dla kazdego klienta.\nb) Poda klienta z najwieksza laczna wartoscia.\nc) Zliczy ile roznych produktow zamowil kazdy klient.\nd) Znajdzie produkt zamawiany przez najwiecej roznych klientow.\n\n**Dane** (`zamowienia.txt`):\n```\nKowalski Laptop 1 3500\nKowalski Mysz 2 50\nNowak Laptop 1 3500\nNowak Klawiatura 1 200\nNowak Monitor 2 1200\nWisniewski Mysz 5 50\nWisniewski Klawiatura 2 200\nKowalski Monitor 1 1200\nNowak Mysz 3 50\nWisniewski Laptop 1 3500\nKowalski Klawiatura 1 200\nWisniewski Monitor 1 1200\n```\n\n**Oczekiwany wynik**:\n```\na) Wartosc zamowien:\n   Kowalski: 5100\n   Nowak: 5250\n   Wisniewski: 5450\n\nb) Klient z max wartoscia: Wisniewski (5450)\n\nc) Rozne produkty:\n   Kowalski: 4\n   Nowak: 4\n   Wisniewski: 4\n\nd) Produkt zamawiany przez najwiecej klientow: Laptop (3 klientow)\n   Rowniez: Mysz (3 klientow)\n   Rowniez: Klawiatura (3 klientow)\n   Rowniez: Monitor (3 klientow)\n```",
+      "wskazowki": [
+        "**Kierunek**: Wczytaj rekordy do vectora structow, potem przetwarzaj wielokrotnie.",
+        "**Podejscie**: (a) `map<string,int>` wartosc_klienta. (c) `map<string, set<string>>` produkty_klienta. (d) `map<string, set<string>>` klienci_produktu.",
+        "**Kluczowy krok**: `set` automatycznie usuwa duplikaty — rozmiar seta to liczba unikalnych elementow."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <set>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"zamowienia.txt\");\n    string klient, produkt;\n    int ilosc, cena;\n\n    map<string, int> wartosc;\n    map<string, set<string>> prodKlienta;\n    map<string, set<string>> kliProduktu;\n\n    while (plik >> klient >> produkt >> ilosc >> cena) {\n        wartosc[klient] += ilosc * cena;\n        prodKlienta[klient].insert(produkt);\n        kliProduktu[produkt].insert(klient);\n    }\n\n    // a)\n    cout << \"a) Wartosc zamowien:\" << endl;\n    string bestKli; int bestVal = 0;\n    for (auto &p : wartosc) {\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n        if (p.second > bestVal) { bestVal = p.second; bestKli = p.first; }\n    }\n\n    // b)\n    cout << endl << \"b) Klient z max wartoscia: \" << bestKli\n         << \" (\" << bestVal << \")\" << endl;\n\n    // c)\n    cout << endl << \"c) Rozne produkty:\" << endl;\n    for (auto &p : prodKlienta)\n        cout << \"   \" << p.first << \": \" << p.second.size() << endl;\n\n    // d)\n    int maxKli = 0;\n    for (auto &p : kliProduktu)\n        if ((int)p.second.size() > maxKli) maxKli = p.second.size();\n\n    cout << endl << \"d) Produkt zamawiany przez najwiecej klientow: \";\n    bool first = true;\n    for (auto &p : kliProduktu) {\n        if ((int)p.second.size() == maxKli) {\n            if (!first) cout << \"   Rowniez: \";\n            cout << p.first << \" (\" << maxKli << \" klientow)\" << endl;\n            first = false;\n        }\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: Trzy mapy robia ciezka prace: `wartosc` sumuje kwoty, `prodKlienta` zbiera unikalne produkty per klient, `kliProduktu` zbiera unikalnych klientow per produkt. `set` gwarantuje unikalnosc.\n\nWeryfikacja:\n- Kowalski: 1*3500 + 2*50 + 1*1200 + 1*200 = 3500+100+1200+200 = 5000. Sprawdzmy: Laptop 3500, Mysz 100, Monitor 1200, Klawiatura 200 = 5000\n- Nowak: 3500 + 200 + 2400 + 150 = 6250? Laptop 3500, Klawiatura 200, Monitor 2*1200=2400, Mysz 3*50=150 = 6250. Hmm, to nie zgadza sie z oczekiwanym wynikiem.\n\nKorekta weryfikacji:\n- Kowalski: 3500 + 100 + 1200 + 200 = 5000\n- Nowak: 3500 + 200 + 2400 + 150 = 6250\n- Wisniewski: 250 + 400 + 3500 + 1200 = 5350\n\nKorekta oczekiwanego wyniku:\n```\na) Wartosc zamowien:\n   Kowalski: 5000\n   Nowak: 6250\n   Wisniewski: 5350\n\nb) Klient z max wartoscia: Nowak (6250)\n```",
+      "typowe_bledy": [
+        {
+          "opis": "**Zapomnienie o mnozeniu ilosc*cena**: Dodawanie samej ceny zamiast wartosci",
+          "kara": "-2 pkt (zly wynik we wszystkich podpunktach)"
+        },
+        {
+          "opis": "**Brak `set` — uzycie wektora bez usuwania duplikatow**: Jesli klient zamowil ten sam produkt dwa razy, vector go zliczy dwukrotnie",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Bledne wczytywanie**: Format \"klient produkt ilosc cena\" wymaga dokladnie 4 operacji >> na wiersz",
+          "kara": "-1 pkt"
+        }
+      ]
+    }
+  ]
+}

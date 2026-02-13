@@ -1,0 +1,353 @@
+{
+  "typ": "04_test_prawda_falsz",
+  "nazwa": "Test prawda/falsz",
+  "kategoria": "TEORIA",
+  "czestotliwosc": "10/11 lat",
+  "punkty_lacznie": 25,
+  "tagi_globalne": [
+    "systemy-liczbowe",
+    "konwersja-bin-hex-oct",
+    "SQL-skladnia",
+    "WHERE-vs-HAVING",
+    "JOIN",
+    "ORDER-BY",
+    "sortowanie-zlozonosc",
+    "stabilnosc-sortowania",
+    "rekurencja",
+    "struktury-danych",
+    "LIFO-FIFO",
+    "BST",
+    "sieci-komputerowe",
+    "HTTPS-szyfrowanie",
+    "IPv4",
+    "DNS",
+    "formaty-danych",
+    "kompresja",
+    "drzewa",
+    "grafy",
+    "tablice-haszujace"
+  ],
+  "cwiczenia": [
+    {
+      "id": "4.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2022 zad. 3.2, Matura 2019 zad. 3.1",
+      "tagi": [
+        "systemy-liczbowe",
+        "konwersja-bin-hex-oct"
+      ],
+      "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Kazda liczba w systemie osemkowym zawiera wylacznie cyfry 0-7. | |\n| b) | Liczba 1111(2) jest rowna 16(10). | |\n| c) | Jedna cyfra szesnastkowa odpowiada dokladnie 4 bitom. | |\n| d) | Liczba A3(16) jest mniejsza niz 200(10). | |",
+      "wskazowki": [
+        "**Kierunek**: Przypomnij sobie zasady systemow pozycyjnych — jakie cyfry sa dopuszczalne w systemie o podstawie p?",
+        "**Podejscie**: Dla b) oblicz 1111(2) recznie: 1*8+1*4+1*2+1*1. Dla d) przelicz A3(16) na dziesietny.",
+        "**Kluczowy krok**: A(16) = 10(10). Wiec A3(16) = 10*16 + 3 = 163."
+      ],
+      "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | W systemie o podstawie 8 dopuszczalne cyfry to 0, 1, 2, 3, 4, 5, 6, 7. |\n| b) | **F** | 1111(2) = 1*8 + 1*4 + 1*2 + 1*1 = 15, nie 16. Liczba 10000(2) = 16. |\n| c) | **P** | 4 bity moga reprezentowac wartosci 0-15, co odpowiada dokladnie jednej cyfrze szesnastkowej (0-9, A-F). |\n| d) | **P** | A3(16) = 10*16 + 3 = 163(10). Poniewaz 163 < 200, zdanie jest prawdziwe — A3(16) jest rzeczywiscie mniejsza niz 200(10). |\n\nOdpowiedzi: a) P, b) F, c) P, d) P",
+      "typowe_bledy": [
+        {
+          "opis": "**1111(2) = 16**: Czesty blad — 1111(2) = 15 (2^4 - 1). Liczba 16 to 10000(2) = 2^4",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**Zapomnienie ze A=10 w hex**: W systemie szesnastkowym: A=10, B=11, C=12, D=13, E=14, F=15",
+          "kara": "-0.5 pkt"
+        }
+      ]
+    },
+    {
+      "id": "4.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2017 zad. 3, Matura 2019 zad. 3.3, Matura 2022 zad. 3.3",
+      "tagi": [
+        "SQL-skladnia",
+        "WHERE-vs-HAVING",
+        "JOIN",
+        "ORDER-BY"
+      ],
+      "tresc": "Ocen prawdziwosc ponizszych zdan dotyczacych jezyka SQL. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Klauzula WHERE filtruje rekordy po wykonaniu agregacji GROUP BY. | |\n| b) | LEFT JOIN zwraca wartosc NULL w kolumnach prawej tabeli dla rekordow, ktore nie maja dopasowania. | |\n| c) | ORDER BY domyslnie sortuje wyniki malejaco (DESC). | |\n| d) | Klauzula HAVING moze byc uzyta tylko w polaczeniu z GROUP BY. | |",
+      "wskazowki": [
+        "**Kierunek**: Przypomnij sobie kolejnosc wykonywania klauzul SQL: FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY.",
+        "**Podejscie**: WHERE dziala PRZED GROUP BY, HAVING dziala PO. LEFT JOIN zachowuje wszystkie wiersze z lewej tabeli.",
+        "**Kluczowy krok**: ORDER BY domyslnie = ASC (rosnaco), nie DESC."
+      ],
+      "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | WHERE filtruje rekordy PRZED agregacja (przed GROUP BY). Do filtrowania po agregacji sluzy HAVING. Kolejnosc: WHERE -> GROUP BY -> HAVING. |\n| b) | **P** | LEFT JOIN zachowuje wszystkie rekordy z lewej tabeli. Jezeli rekord nie ma dopasowania w prawej tabeli, kolumny prawej tabeli wypelniane sa wartoscia NULL. |\n| c) | **F** | ORDER BY domyslnie sortuje rosnaco (ASC). Aby sortowac malejaco, nalezy jawnie uzyc DESC. |\n| d) | **P** | HAVING filtruje grupy po agregacji, wiec wymaga GROUP BY (lub calej tabeli jako jednej grupy). W standardowym SQL HAVING stosuje sie po GROUP BY. |\n\nOdpowiedzi: a) F, b) P, c) F, d) P",
+      "typowe_bledy": [
+        {
+          "opis": "**Pomylenie WHERE i HAVING**: WHERE filtruje WIERSZE przed grupowaniem, HAVING filtruje GRUPY po agregacji",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**ORDER BY DESC jako domyslne**: Domyslne to ASC (rosnaco). Czesty blad na maturze",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**LEFT JOIN vs INNER JOIN**: LEFT zachowuje wszystkie wiersze z lewej tabeli (NULL dla brakujacych), INNER — tylko dopasowane",
+          "kara": "-0.5 pkt"
+        }
+      ]
+    },
+    {
+      "id": "4.3",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2022 zad. 3.1",
+      "tagi": [
+        "sortowanie-zlozonosc",
+        "stabilnosc-sortowania"
+      ],
+      "tresc": "Ocen prawdziwosc ponizszych zdan dotyczacych algorytmow sortowania i zlozonosci obliczeniowej. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Sortowanie babelkowe ma pesymistyczna zlozonosc czasowa O(n log n). | |\n| b) | Sortowanie przez wstawianie (insertion sort) jest algorytmem stabilnym. | |\n| c) | Algorytm quicksort w najgorszym przypadku ma zlozonosc O(n^2). | |\n| d) | Kazdy algorytm sortowania oparty na porownywaniu elementow ma zlozonosc co najmniej O(n log n) w przypadku pesymistycznym. | |",
+      "wskazowki": [
+        "**Kierunek**: Przypomnij sobie zlozonosci: babelkowe O(n^2), quicksort O(n^2) pesym. / O(n log n) sred., merge sort O(n log n).",
+        "**Podejscie**: Stabilnosc = elementy o rownych kluczach zachowuja kolejnosc. Insertion sort i merge sort sa stabilne, quicksort i heap sort nie.",
+        "**Kluczowy krok**: Dolna granica Omega(n log n) dotyczy sortowan opartych na porownaniach (twierdzenie o drzewie decyzyjnym)."
+      ],
+      "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | Sortowanie babelkowe ma pesymistyczna zlozonosc O(n^2), nie O(n log n). Wymaga dwoch zagniezdznonych petli po n elementach. |\n| b) | **P** | Insertion sort jest stabilny — elementy o rownych kluczach zachowuja swoja wzgledna kolejnosc. Wstawiajac element, przesuwamy go w lewo tylko dopoki napotykamy elementy scisle wieksze. |\n| c) | **P** | Quicksort w najgorszym przypadku (np. juz posortowana tablica przy zlym wyborze pivota) ma zlozonosc O(n^2). Srednia zlozonosc to O(n log n). |\n| d) | **P** | Dolne ograniczenie zlozonosci sortowan opartych na porownywaniu wynosi Omega(n log n). Wynika to z faktu, ze drzewo decyzyjne o n! lisciach ma wysokosc co najmniej log2(n!) = Theta(n log n). |\n\nOdpowiedzi: a) F, b) P, c) P, d) P",
+      "typowe_bledy": [
+        {
+          "opis": "**Babelkowe O(n log n)**: Babelkowe to ZAWSZE O(n^2) pesymistycznie. Jedynie optymistycznie (z flaga) moze byc O(n)",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**Quicksort zawsze O(n log n)**: Quicksort MA najgorszy przypadek O(n^2)! Tylko srednia to O(n log n)",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**Mylenie stabilnosci z zlozonoscia**: Stabilnosc to cecha zachowania kolejnosci rownych elementow, nie ma zwiazku z szybkoscia",
+          "kara": "-0.5 pkt"
+        }
+      ]
+    },
+    {
+      "id": "4.4",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2016 zad. 3, Matura 2021 zad. 3",
+      "tagi": [
+        "rekurencja",
+        "struktury-danych",
+        "LIFO-FIFO",
+        "BST"
+      ],
+      "tresc": "Ocen prawdziwosc ponizszych zdan dotyczacych rekurencji i struktur danych. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Kazda funkcje rekurencyjna mozna zapisac w postaci iteracyjnej (z uzyciem petli). | |\n| b) | Stos (stack) dziala na zasadzie FIFO (First In First Out). | |\n| c) | Rekurencja ogonowa (tail recursion) moze byc zawsze zamieniona na petle. | |\n| d) | Drzewo BST (Binary Search Tree) gwarantuje wyszukiwanie elementu w czasie O(log n) dla dowolnych danych wejsciowych. | |",
+      "wskazowki": [
+        "**Kierunek**: Kazda rekurencja mozna zamienic na iteracje (ewentualnie z jawnym stosem). Stos to LIFO, kolejka to FIFO.",
+        "**Podejscie**: BST moze sie zdegenerowac do listy — kiedy to sie zdarza?",
+        "**Kluczowy krok**: BST ma O(log n) tylko gdy jest zrownowazony. Wstawianie posortowanych danych daje drzewo-liste z O(n)."
+      ],
+      "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | Kazda funkcja rekurencyjna moze byc przeksztalcona na iteracyjna — w najgorszym przypadku symulujemy stos wywolan explicite za pomoca struktury stosu. |\n| b) | **F** | Stos dziala na zasadzie LIFO (Last In First Out), nie FIFO. Struktura FIFO to kolejka (queue). |\n| c) | **P** | Rekurencja ogonowa (gdy wywolanie rekurencyjne jest ostatnia operacja) moze byc mechanicznie zamieniona na petle. Kompilatory czesto dokonuja tej optymalizacji automatycznie (tail call optimization). |\n| d) | **F** | BST gwarantuje O(log n) tylko gdy drzewo jest zrownowazne. W najgorszym przypadku (np. wstawianie elementow w kolejnosci rosnacej) drzewo degeneruje sie do listy i wyszukiwanie ma zlozonosc O(n). Gwarancje O(log n) daja drzewa zrownowazone, np. AVL lub czerwono-czarne. |\n\nOdpowiedzi: a) P, b) F, c) P, d) F",
+      "typowe_bledy": [
+        {
+          "opis": "**Stos = FIFO**: CZESTY blad! Stos = LIFO (ostatni wchodzi, pierwszy wychodzi). Kolejka = FIFO",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**BST zawsze O(log n)**: BST moze degenerowac do listy! Tylko zrownowazony BST (AVL, czerwono-czarny) gwarantuje O(log n)",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**Nie kazda rekurencja da sie zamienic na iteracje**: To falszywe twierdzenie — kazda rekurencja DA sie zamienic (z jawnym stosem)",
+          "kara": "-0.5 pkt"
+        }
+      ]
+    },
+    {
+      "id": "4.5",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "zrodlo": "Matura 2016 zad. 3 (DNS), Matura 2018 zad. 3",
+      "tagi": [
+        "sieci-komputerowe",
+        "HTTPS-szyfrowanie",
+        "IPv4",
+        "DNS",
+        "formaty-danych"
+      ],
+      "tresc": "Ocen prawdziwosc ponizszych zdan z zakresu sieci komputerowych, grafiki i formatow danych. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Protokol HTTPS szyfruje dane za pomoca klucza symetrycznego, ktory jest uzgadniany z wykorzystaniem kryptografii asymetrycznej (klucza publicznego). | |\n| b) | Format BMP przechowuje obrazy z kompresja stratna, podobnie jak JPEG. | |\n| c) | Adres IPv4 sklada sie z 4 oktetow (grup po 8 bitow), co daje lacznie 32 bity. | |\n| d) | Serwer DNS zamienia nazwy domen (np. www.example.com) na adresy MAC urzadzen sieciowych. | |",
+      "wskazowki": [
+        "**Kierunek**: HTTPS uzywa kryptografii hybrydowej. BMP to format bezstratny. DNS zamienia domeny na adresy IP.",
+        "**Podejscie**: Rozroznij: BMP (bezstratny), JPEG (stratny), PNG (bezstratny). Rozroznij: IP (warstwa sieciowa) vs MAC (warstwa lacza).",
+        "**Kluczowy krok**: DNS -> IP, ARP -> MAC. IPv4 = 32 bity, IPv6 = 128 bitow."
+      ],
+      "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | HTTPS (TLS/SSL) korzysta z kryptografii hybrydowej: klucz asymetryczny (RSA/ECDH) sluzy do bezpiecznego uzgodnienia wspolnego klucza sesji (symetrycznego, np. AES), ktory nastepnie szyfruje wlasciwa komunikacje. |\n| b) | **F** | Format BMP przechowuje obrazy BEZ kompresji (lub z kompresja bezstratna, np. RLE). BMP zachowuje pelna informacje o kazdym pikselu, w przeciwienstwie do JPEG, ktory uzywa kompresji stratnej (DCT). |\n| c) | **P** | Adres IPv4 to 32-bitowa liczba zapisywana jako 4 liczby dziesietne oddzielone kropkami (np. 192.168.1.1), kazda odpowiadajaca jednemu oktetowi (8 bitow). 4 * 8 = 32 bity. |\n| d) | **F** | DNS (Domain Name System) zamienia nazwy domen na adresy IP (np. 93.184.216.34), NIE na adresy MAC. Adresy MAC sa adresami warstwy lacza danych (fizycznymi) i sa rozwiazywane przez protokol ARP. |\n\nOdpowiedzi: a) P, b) F, c) P, d) F",
+      "typowe_bledy": [
+        {
+          "opis": "**DNS -> MAC**: DNS zamienia domeny na IP, nie MAC. MAC to warstwa lacza danych (ARP)",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**BMP = kompresja stratna**: BMP jest bezstratny. Stratny = JPEG, bezstratny = BMP, PNG, TIFF",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**HTTPS = tylko szyfrowanie asymetryczne**: HTTPS uzywa asymetrycznego TYLKO do uzgodnienia klucza. Dane sa szyfrowane symetrycznie (AES)",
+          "kara": "-0.5 pkt"
+        }
+      ]
+    },
+    {
+      "id": "4.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2023 zad. 3, styl nowej formuly",
+      "tagi": [
+        "kompresja",
+        "formaty-danych",
+        "systemy-liczbowe"
+      ],
+      "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Format PNG wykorzystuje kompresje stratna, dlatego pliki PNG sa mniejsze niz BMP. | |\n| b) | Liczba FF(16) jest rowna 256(10). | |\n| c) | Kodowanie UTF-8 moze uzywac od 1 do 4 bajtow na jeden znak. | |\n| d) | Kompresja bezstratna pozwala odtworzyc oryginalne dane w 100% bez utraty informacji. | |",
+      "wskazowki": [
+        "**Kierunek**: PNG to kompresja BEZstratna (nie stratna). FF(16) = 15*16 + 15 = ?",
+        "**Podejscie**: UTF-8: znaki ASCII to 1 bajt, polskie znaki 2 bajty, emoji do 4 bajtow.",
+        "**Kluczowy krok**: FF(16) = 255, nie 256. 256(10) = 100(16)."
+      ],
+      "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | PNG wykorzystuje kompresje BEZstratna (algorytm Deflate = LZ77 + Huffman). Pliki PNG sa mniejsze niz BMP dzieki kompresji, ale jest to kompresja bezstratna, nie stratna. |\n| b) | **F** | FF(16) = 15*16 + 15 = 240 + 15 = 255, nie 256. Liczba 256(10) = 100(16). |\n| c) | **P** | UTF-8 jest kodowaniem o zmiennej dlugosci: znaki ASCII (0-127) zajmuja 1 bajt, wieksznosc znakow europejskich 2 bajty, znaki azjatyckie 3 bajty, emoji i rzadkie znaki 4 bajty. |\n| d) | **P** | Kompresja bezstratna (np. ZIP, PNG, FLAC) pozwala odtworzyc identyczna kopie oryginalnych danych. W przeciwienstwie do stratnej (JPEG, MP3), ktora traci czesc informacji. |\n\nOdpowiedzi: a) F, b) F, c) P, d) P",
+      "typowe_bledy": [
+        {
+          "opis": "**PNG = kompresja stratna**: PNG to BEZstratna kompresja! Stratna = JPEG, MP3, MP4",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**FF(16) = 256**: FF(16) = 255 = 2^8 - 1. Liczba 256 = 2^8 = 100(16)",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**UTF-8 = zawsze 1 bajt na znak**: To dotyczy tylko ASCII. UTF-8 ma zmienna dlugosc (1-4 bajty)",
+          "kara": "-0.5 pkt"
+        }
+      ]
+    },
+    {
+      "id": "4.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2024 zad. 3 (algorytmy i struktury)",
+      "tagi": [
+        "sortowanie-zlozonosc",
+        "drzewa",
+        "grafy",
+        "struktury-danych"
+      ],
+      "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Algorytm sortowania przez scalanie (merge sort) ma zlozonosc O(n log n) zarowno w przypadku optymistycznym, jak i pesymistycznym. | |\n| b) | Graf nieskierowany o n wierzcholkach i n-1 krawedziach jest zawsze drzewem. | |\n| c) | W drzewie o n wierzcholkach jest dokladnie n-1 krawedzi. | |\n| d) | Algorytm BFS (przeszukiwanie wszerz) uzywa stosu jako struktury pomocniczej. | |",
+      "wskazowki": [
+        "**Kierunek**: Merge sort zawsze dzieli na polowy i scala — niezaleznie od danych. BFS uzywa kolejki, DFS uzywa stosu.",
+        "**Podejscie**: Graf o n wierzcholkach i n-1 krawedziach to drzewo TYLKO jezeli jest spojny.",
+        "**Kluczowy krok**: BFS = kolejka (FIFO), DFS = stos (LIFO). To CZESTY blad na maturze."
+      ],
+      "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | Merge sort zawsze dzieli tablice na polowy, sortuje kazda rekurencyjnie i scala. Koszt scalania na kazdym poziomie to O(n), a poziomow jest log2(n). Stad O(n log n) w KAZDYM przypadku (optymistycznym, srednim, pesymistycznym). |\n| b) | **F** | Graf o n wierzcholkach i n-1 krawedziach jest drzewem TYLKO jezeli jest spojny. Niespojny graf moze miec n wierzcholkow i n-1 krawedzi (np. cykl na 3 wierzcholkach + izolowany wierzcholek = 4 wierzcholki, 3 krawedzie). |\n| c) | **P** | Kazde drzewo (spojny graf acykliczny) o n wierzcholkach ma dokladnie n-1 krawedzi. To podstawowa wlasnosc drzew. |\n| d) | **F** | BFS uzywa KOLEJKI (FIFO), nie stosu. To DFS (przeszukiwanie w glab) uzywa stosu (LIFO, lub niejawnie — przez rekurencje). |\n\nOdpowiedzi: a) P, b) F, c) P, d) F",
+      "typowe_bledy": [
+        {
+          "opis": "**BFS = stos, DFS = kolejka**: Odwrotnie! BFS = kolejka (FIFO), DFS = stos (LIFO)",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**n wierzcholkow + n-1 krawedzi = drzewo**: Brakuje warunku spojnosci!",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**Merge sort O(n^2) w pesymistycznym**: Merge sort ma O(n log n) ZAWSZE. To quicksort ma O(n^2) pesymistycznie",
+          "kara": "-0.5 pkt"
+        }
+      ]
+    },
+    {
+      "id": "4.8",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2025 zad. 3 (logika, twierdzenia)",
+      "tagi": [
+        "rekurencja",
+        "zlozonosc-czasowa",
+        "tablice-haszujace",
+        "struktury-danych"
+      ],
+      "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Rekurencyjna implementacja obliczania n-tej liczby Fibonacciego ma zlozonosc O(n). | |\n| b) | Tablica haszujaca (hash table) gwarantuje wyszukiwanie elementu w czasie O(1) w najgorszym przypadku. | |\n| c) | Algorytm Dijkstry znajduje najkrotsze sciezki w grafie z wagami ujemnymi. | |\n| d) | Przeszukiwanie binarne wymaga, aby tablica byla posortowana. | |",
+      "wskazowki": [
+        "**Kierunek**: Fibonacci rekurencyjnie (bez memoizacji) to O(2^n), nie O(n). Hash table moze miec kolizje.",
+        "**Podejscie**: Dijkstra NIE dziala z wagami ujemnymi (do tego sluzy Bellman-Ford). Binsearch wymaga posortowania.",
+        "**Kluczowy krok**: Hash table: sredni O(1), pesymistyczny O(n) (gdy wszystkie klucze trafiaja do jednego kubla)."
+      ],
+      "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | Naiwna rekurencyjna implementacja Fibonacciego ma zlozonosc O(2^n) (wykladnicza), bo wielokrotnie oblicza te same wartosci. Zlozonosc O(n) ma wersja iteracyjna lub rekurencyjna z memoizacja. |\n| b) | **F** | Hash table ma O(1) SREDNIO (amortyzowane), ale w najgorszym przypadku (wiele kolizji) O(n). Gwarancja O(1) pesymistycznego wymaga doskonalej funkcji haszujacej (perfect hashing), co jest rzadkie w praktyce. |\n| c) | **F** | Algorytm Dijkstry NIE dziala poprawnie z ujemnymi wagami krawedzi. Do grafow z ujemnymi wagami nalezy uzyc algorytmu Bellmana-Forda. |\n| d) | **P** | Przeszukiwanie binarne (binary search) wymaga, aby elementy byly posortowane. Algorytm porownuje element srodkowy z szukanym i odrzuca polowe zakresu — to dziala TYLKO gdy dane sa uporzadkowane. |\n\nOdpowiedzi: a) F, b) F, c) F, d) P",
+      "typowe_bledy": [
+        {
+          "opis": "**Fibonacci rekurencyjnie O(n)**: To O(2^n)! Iteracyjnie lub z memoizacja = O(n)",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**Hash table zawsze O(1)**: Tylko srednio. Pesymistycznie O(n) przez kolizje",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**Dijkstra z ujemnymi wagami**: NIE dziala! Uzyj Bellmana-Forda",
+          "kara": "-0.5 pkt"
+        }
+      ]
+    },
+    {
+      "id": "4.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "zrodlo": "Matura 2021 zad. 3 (szyfrowanie), Matura 2018 zad. 3",
+      "tagi": [
+        "HTTPS-szyfrowanie",
+        "sieci-komputerowe",
+        "formaty-danych"
+      ],
+      "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | W szyfrowaniu asymetrycznym ten sam klucz sluzy do szyfrowania i deszyfrowania. | |\n| b) | Adres IPv6 sklada sie z 128 bitow, co daje ponad 3.4 * 10^38 mozliwych adresow. | |\n| c) | Protokol TCP gwarantuje dostarczenie pakietow w kolejnosci i bez strat, w przeciwienstwie do UDP. | |\n| d) | Maska podsieci 255.255.255.0 oznacza, ze ostatni oktet adresu IP identyfikuje urzadzenie w sieci. | |",
+      "wskazowki": [
+        "**Kierunek**: Szyfrowanie asymetryczne = dwa rozne klucze (publiczny + prywatny). Symetryczne = ten sam klucz.",
+        "**Podejscie**: IPv6 = 128 bitow. TCP = niezawodny (z potwierdzeniami), UDP = szybki (bez gwarancji).",
+        "**Kluczowy krok**: Maska /24 (255.255.255.0) = 24 bity sieci + 8 bitow hosta = do 254 urzadzen."
+      ],
+      "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | W szyfrowaniu ASYMETRYCZNYM sa DWA rozne klucze: publiczny (do szyfrowania) i prywatny (do deszyfrowania). To w szyfrowaniu SYMETRYCZNYM ten sam klucz sluzy do obu operacji. |\n| b) | **P** | IPv6 uzywa adresow 128-bitowych. 2^128 ≈ 3.4 * 10^38, co jest ogromna przestrzenia adresowa (w porownaniu z IPv4: 2^32 ≈ 4.3 * 10^9). |\n| c) | **P** | TCP (Transmission Control Protocol) zapewnia niezawodna, uporzadkowana i kontrolowana dostarke danych. UDP (User Datagram Protocol) jest szybszy, ale nie gwarantuje dostarczenia ani kolejnosci. |\n| d) | **P** | Maska 255.255.255.0 (/24) oznacza, ze pierwsze 3 oktety identyfikuja siec, a ostatni oktet (8 bitow) identyfikuje urzadzenie (hosta) w tej sieci. Daje to do 254 adresow dla urzadzen (2^8 - 2, odejmujemy adres sieci i broadcast). |\n\nOdpowiedzi: a) F, b) P, c) P, d) P",
+      "typowe_bledy": [
+        {
+          "opis": "**Asymetryczne = jeden klucz**: Asymetryczne = DWA klucze. Symetryczne = jeden klucz",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**TCP vs UDP odwrotnie**: TCP = niezawodny, UDP = szybki ale bez gwarancji",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**Maska /24 = 256 urzadzen**: Odejmujemy 2 (adres sieci + broadcast), wiec 254",
+          "kara": "-0.5 pkt"
+        }
+      ]
+    },
+    {
+      "id": "4.10",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "zrodlo": "Matura 2024 zad. 3 (zaawansowane twierdzenia)",
+      "tagi": [
+        "zlozonosc-czasowa",
+        "rekurencja",
+        "struktury-danych",
+        "grafy"
+      ],
+      "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Problem plecakowy 0-1 mozna rozwiazac w czasie wielomianowym. | |\n| b) | Dla dowolnej liczby naturalnej n, suma pierwszych n liczb naturalnych wynosi n*(n+1)/2. | |\n| c) | Algorytm zachlanny (greedy) zawsze daje rozwiazanie optymalne. | |\n| d) | Jezeli funkcja f(n) = O(n^2) i g(n) = O(n), to f(n) + g(n) = O(n^2). | |",
+      "wskazowki": [
+        "**Kierunek**: Problem plecakowy 0-1 jest NP-trudny — brak algorytmu wielomianowego (chyba ze P=NP). Greedy nie zawsze daje optimum.",
+        "**Podejscie**: Suma 1+2+...+n = n(n+1)/2 (wzor Gaussa). Dla notacji O: O(n^2) + O(n) = O(n^2) (dominuje wyzszy wyraz).",
+        "**Kluczowy krok**: Greedy daje optimum np. dla problemu wydawania reszty (standardowe nominaly), ale NIE dla plecakowego 0-1."
+      ],
+      "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | Problem plecakowy 0-1 jest NP-trudny. Najlepsze znane algorytmy maja zlozonosc pseudowielomianowa O(nW) gdzie W to pojemnosc plecaka, lub wykladnicza O(2^n). Nie jest znany algorytm scisle wielomianowy (i nie bedzie, chyba ze P=NP). |\n| b) | **P** | Wzor Gaussa: 1+2+3+...+n = n*(n+1)/2. Mozna to udowodnic indukcyjnie: baza n=1: 1 = 1*2/2 = 1. Krok: zakladamy dla k, dowod dla k+1: k*(k+1)/2 + (k+1) = (k+1)*(k+2)/2. |\n| c) | **F** | Algorytmy zachlanne NIE zawsze daja rozwiazanie optymalne. Dzialaja optymalnie tylko dla problemow o wlasnosci optymalnej podstruktury i zachlannego wyboru (np. minimalne drzewo rozpinajace, kodowanie Huffmana). Kontrprzyklad: plecak 0-1 z przedmiotami o wagach [3,4,5], wartosciach [3,4,5] i pojemnosci 7 — zachlanny wezme 5, ale optimum to 3+4=7. |\n| d) | **P** | Przy dodawaniu funkcji w notacji O dominuje wyzszy rzad: O(n^2) + O(n) = O(n^2). Formalnie: istnieja stale c1, c2, n0 takie ze f(n) <= c1*n^2 i g(n) <= c2*n, wiec f(n)+g(n) <= c1*n^2 + c2*n <= (c1+c2)*n^2 = O(n^2). |\n\nOdpowiedzi: a) F, b) P, c) F, d) P",
+      "typowe_bledy": [
+        {
+          "opis": "**Plecak 0-1 wielomianowy**: Rozwiazanie O(nW) wyglada na wielomianowe, ale W jest wykladnicze wzgledem rozmiaru wejscia (log W bitow)",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**Greedy = zawsze optimum**: Kontrprzyklad: plecak 0-1, problem komiwojazera. Greedy dziala dla: MST (Kruskal/Prim), Huffman, wydawanie reszty",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**O(n^2) + O(n) = O(n^3)**: NIE! Przy dodawaniu bierzemy maksimum rzadow, nie mnozenie",
+          "kara": "-0.5 pkt"
+        }
+      ]
+    }
+  ]
+}

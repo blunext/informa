@@ -1,0 +1,338 @@
+{
+  "typ": "14_geometryczne",
+  "nazwa": "Obliczenia geometryczne",
+  "kategoria": "IMPLEMENTACJA",
+  "czestotliwosc": "1/11 lat",
+  "punkty_lacznie": 4,
+  "tagi_globalne": [
+    "odleglosc-euklidesowa",
+    "sqrt",
+    "wczytywanie-pliku",
+    "vector-par",
+    "punkt-w-prostokacie",
+    "najblizsze-punkty",
+    "srodek-odcinka",
+    "set",
+    "pole-trojkata",
+    "punkt-w-trojkacie",
+    "struct",
+    "sortowanie",
+    "kat-miedzy-wektorami",
+    "wielokat",
+    "otoczka-wypukla",
+    "obwod",
+    "collinear"
+  ],
+  "cwiczenia": [
+    {
+      "id": "14.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2025 zad. 3 (Dron)",
+      "tagi": [
+        "odleglosc-euklidesowa",
+        "sqrt",
+        "wczytywanie-pliku",
+        "vector-par"
+      ],
+      "tresc": "W pliku `punkty.txt` znajduje sie 6 punktow na plaszczyznie (kazdy w osobnym wierszu w formacie: x y, wspolrzedne calkowite). Punkty tworzą sciezke (lamanę) od pierwszego do ostatniego. Napisz program, ktory obliczy odleglosc miedzy kazdymi dwoma kolejnymi punktami i poda laczna dlugosc sciezki.\n\n**Dane** (`punkty.txt`):\n```\n0 0\n3 4\n6 0\n6 8\n10 8\n10 0\n```\n\n**Oczekiwany wynik**:\n```\nOdleglosci miedzy kolejnymi punktami:\n(0,0) -> (3,4): 5.00\n(3,4) -> (6,0): 5.00\n(6,0) -> (6,8): 8.00\n(6,8) -> (10,8): 4.00\n(10,8) -> (10,0): 8.00\nLaczna dlugosc sciezki: 30.00\n```",
+      "wskazowki": [
+        "**Kierunek**: Wzor na odleglosc euklidesowa: `sqrt((x2-x1)^2 + (y2-y1)^2)`.",
+        "**Podejscie**: Wczytaj punkty do `vector<pair<int,int>>`, iteruj po parach sasiadow.",
+        "**Kluczowy krok**: Uzyj `#include <cmath>` dla `sqrt`. Sumuj odleglosci."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    vector<pair<int,int>> P;\n    int x, y;\n    while (plik >> x >> y) P.push_back({x, y});\n\n    cout << \"Odleglosci miedzy kolejnymi punktami:\" << endl;\n    cout << fixed << setprecision(2);\n    double suma = 0;\n    for (int i = 0; i < (int)P.size() - 1; i++) {\n        double dx = P[i+1].first - P[i].first;\n        double dy = P[i+1].second - P[i].second;\n        double d = sqrt(dx*dx + dy*dy);\n        cout << \"(\" << P[i].first << \",\" << P[i].second << \") -> (\"\n             << P[i+1].first << \",\" << P[i+1].second << \"): \" << d << endl;\n        suma += d;\n    }\n    cout << \"Laczna dlugosc sciezki: \" << suma << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Odleglosc euklidesowa miedzy punktami (x1,y1) i (x2,y2) to sqrt((x2-x1)^2 + (y2-y1)^2). Sumujemy odleglosci kolejnych par.\n\nWeryfikacja:\n- (0,0)->(3,4): sqrt(9+16) = sqrt(25) = 5.00\n- (3,4)->(6,0): sqrt(9+16) = sqrt(25) = 5.00\n- (6,0)->(6,8): sqrt(0+64) = 8.00\n- (6,8)->(10,8): sqrt(16+0) = 4.00\n- (10,8)->(10,0): sqrt(0+64) = 8.00\nSuma: 5+5+8+4+8 = 30.00",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak `#include <cmath>`**: Funkcja `sqrt` wymaga tego naglowka. CKE: blad kompilacji",
+          "kara": ""
+        },
+        {
+          "opis": "**Uzycie int zamiast double dla odleglosci**: `sqrt` zwraca double — przypisanie do int obcina czesc ulamkowa",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Petla do `P.size()` zamiast `P.size()-1`**: Dostep do P[i+1] poza zakresem. CKE: crash",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "14.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2025 zad. 3.2a",
+      "tagi": [
+        "punkt-w-prostokacie",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ],
+      "tresc": "W pliku `punkty.txt` znajduje sie 10 punktow (x, y) o wspolrzednych calkowitych. Dany jest prostokat o wierzcholkach (1, 1) i (99, 99). Napisz program, ktory zliczy ile punktow lezy scisle wewnatrz prostokata (brzegi nie licza sie).\n\n**Dane** (`punkty.txt`):\n```\n50 50\n1 1\n0 45\n99 99\n100 50\n30 70\n1 50\n50 99\n15 85\n60 0\n```\n\n**Oczekiwany wynik**:\n```\nPunkty wewnatrz prostokata (1,1)-(99,99) (bez brzegu):\n(50,50) - wewnatrz\n(30,70) - wewnatrz\n(15,85) - wewnatrz\nIlosc: 3\n```",
+      "wskazowki": [
+        "**Kierunek**: \"Scisle wewnatrz\" = ostro: `x > 1 && x < 99 && y > 1 && y < 99`.",
+        "**Podejscie**: Wczytuj punkty w petli i sprawdzaj warunek.",
+        "**Kluczowy krok**: Brzegi nie licza sie — uzyj `>` i `<`, nie `>=` i `<=`."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    int x, y;\n    cout << \"Punkty wewnatrz prostokata (1,1)-(99,99) (bez brzegu):\" << endl;\n    int ile = 0;\n    while (plik >> x >> y) {\n        if (x > 1 && x < 99 && y > 1 && y < 99) {\n            cout << \"(\" << x << \",\" << y << \") - wewnatrz\" << endl;\n            ile++;\n        }\n    }\n    cout << \"Ilosc: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Punkt lezy scisle wewnatrz prostokata gdy 1 < x < 99 i 1 < y < 99 (ostro, bez rownosci).\n\nWeryfikacja:\n- (50,50): 1<50<99, 1<50<99 -> TAK\n- (1,1): nie, na brzegu\n- (0,45): nie, x=0 < 1\n- (99,99): nie, na brzegu\n- (100,50): nie, x=100 > 99\n- (30,70): 1<30<99, 1<70<99 -> TAK\n- (1,50): nie, x=1 na brzegu\n- (50,99): nie, y=99 na brzegu\n- (15,85): 1<15<99, 1<85<99 -> TAK\n- (60,0): nie, y=0 < 1",
+      "typowe_bledy": [
+        {
+          "opis": "**`>=` zamiast `>`**: Punkt na brzegu nie jest \"scisle wewnatrz\"",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Pomylenie wspolrzednych prostokata**: (1,1)-(99,99) to lewy dolny i prawy gorny rog",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "14.3",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2018 zad. 2 (Krajobraz)",
+      "tagi": [
+        "najblizsze-punkty",
+        "odleglosc-euklidesowa",
+        "podwojna-petla",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `punkty.txt` znajduje sie 8 punktow (x, y) o wspolrzednych calkowitych. Napisz program, ktory:\na) Znajdzie pare punktow o najmniejszej odleglosci euklidesowej.\nb) Znajdzie pare punktow o najwiekszej odleglosci.\n\n**Dane** (`punkty.txt`):\n```\n1 2\n4 6\n7 1\n3 5\n10 3\n8 8\n2 9\n6 4\n```\n\n**Oczekiwany wynik**:\n```\na) Najblizsze punkty: (3,5) i (4,6), odleglosc: 1.41\n\nb) Najdalsze punkty: (2,9) i (10,3), odleglosc: 10.00\n```",
+      "wskazowki": [
+        "**Kierunek**: Podwojna petla O(n^2) po wszystkich parach.",
+        "**Podejscie**: Sledzac min i max odleglosc, zapamietaj indeksy odpowiednich par.",
+        "**Kluczowy krok**: Mozna porownywac kwadraty odleglosci (bez sqrt) dla szybkosci, a sqrt obliczyc tylko na koncu."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    vector<pair<int,int>> P;\n    int x, y;\n    while (plik >> x >> y) P.push_back({x, y});\n    int n = P.size();\n\n    double minDist = 1e18, maxDist = 0;\n    int mi1, mi2, ma1, ma2;\n\n    for (int i = 0; i < n; i++) {\n        for (int j = i + 1; j < n; j++) {\n            double dx = P[i].first - P[j].first;\n            double dy = P[i].second - P[j].second;\n            double d = sqrt(dx*dx + dy*dy);\n            if (d < minDist) { minDist = d; mi1 = i; mi2 = j; }\n            if (d > maxDist) { maxDist = d; ma1 = i; ma2 = j; }\n        }\n    }\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Najblizsze punkty: (\" << P[mi1].first << \",\" << P[mi1].second\n         << \") i (\" << P[mi2].first << \",\" << P[mi2].second\n         << \"), odleglosc: \" << minDist << endl;\n    cout << endl << \"b) Najdalsze punkty: (\" << P[ma1].first << \",\" << P[ma1].second\n         << \") i (\" << P[ma2].first << \",\" << P[ma2].second\n         << \"), odleglosc: \" << maxDist << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Podwojna petla O(n^2) sprawdzajaca odleglosci miedzy wszystkimi parami punktow.\n\nWeryfikacja:\n- (3,5)-(4,6): sqrt(1+1) = sqrt(2) = 1.41\n- (2,9)-(10,3): sqrt(64+36) = sqrt(100) = 10.00",
+      "typowe_bledy": [
+        {
+          "opis": "**Niezainicjalizowane zmienne mi1, mi2**: Jesli zaden if nie jest spelniony (niemozliwe dla n >= 2), wynik bezsensowny. Dobra praktyka: zainicjalizuj. CKE: potencjalny UB",
+          "kara": ""
+        },
+        {
+          "opis": "**Porownywanie odleglosci z `==`**: Odleglosci sa double — unikaj `==` przez epsilony. CKE: 0 pkt (tu nie dotyczy)",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "14.4",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2025 zad. 3.2b (srodek odcinka)",
+      "tagi": [
+        "srodek-odcinka",
+        "set",
+        "podwojna-petla",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `punkty.txt` znajduje sie 8 punktow o wspolrzednych calkowitych. Napisz program, ktory znajdzie wszystkie trojki punktow (A, B, C) takie, ze jeden z nich jest srodkiem odcinka laczacego dwa pozostale. Srodek odcinka AB to punkt ((xA+xB)/2, (yA+yB)/2) — obie wspolrzedne musza byc calkowite.\n\n**Dane** (`punkty.txt`):\n```\n0 0\n2 4\n4 8\n1 2\n6 2\n3 1\n8 4\n5 3\n```\n\n**Oczekiwany wynik**:\n```\nTrojki gdzie jeden punkt jest srodkiem odcinka dwoch pozostalych:\n(0,0) i (4,8) -> srodek (2,4) - jest w zbiorze\n(0,0) i (2,4) -> srodek (1,2) - jest w zbiorze\n(0,0) i (6,2) -> srodek (3,1) - jest w zbiorze\nIlosc: 3\n```",
+      "wskazowki": [
+        "**Kierunek**: Wczytaj punkty i wstaw do `set<pair<int,int>>` dla szybkiego wyszukiwania.",
+        "**Podejscie**: Podwojna petla po parach. Srodek ma calkowite wspolrzedne gdy `(xA+xB) % 2 == 0` i `(yA+yB) % 2 == 0`.",
+        "**Kluczowy krok**: Sprawdz `zbior.count(mid) && mid != P[i] && mid != P[j]` — srodek musi istniec w zbiorze i byc inny od koncow."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <set>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    vector<pair<int,int>> P;\n    set<pair<int,int>> zbior;\n    int x, y;\n    while (plik >> x >> y) {\n        P.push_back({x, y});\n        zbior.insert({x, y});\n    }\n    int n = P.size();\n\n    cout << \"Trojki gdzie jeden punkt jest srodkiem odcinka dwoch pozostalych:\" << endl;\n    int ile = 0;\n    for (int i = 0; i < n; i++) {\n        for (int j = i + 1; j < n; j++) {\n            int sx = P[i].first + P[j].first;\n            int sy = P[i].second + P[j].second;\n            // Srodek ma calkowite wspolrzedne gdy sumy sa parzyste\n            if (sx % 2 == 0 && sy % 2 == 0) {\n                pair<int,int> mid = {sx / 2, sy / 2};\n                if (zbior.count(mid) && mid != P[i] && mid != P[j]) {\n                    cout << \"(\" << P[i].first << \",\" << P[i].second << \") i (\"\n                         << P[j].first << \",\" << P[j].second << \") -> srodek (\"\n                         << mid.first << \",\" << mid.second << \") - jest w zbiorze\" << endl;\n                    ile++;\n                }\n            }\n        }\n    }\n    cout << \"Ilosc: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdej pary punktow obliczamy srodek odcinka. Jesli obie wspolrzedne srodka sa calkowite i srodek wystepuje wsrod danych punktow, mamy trojke. Uzywamy `set` do szybkiego sprawdzania przynaleznosci.\n\nWeryfikacja:\n- (0,0)+(4,8) = (4,8)/2 = (2,4) -> w zbiorze? TAK\n- (0,0)+(2,4) = (2,4)/2 = (1,2) -> w zbiorze? TAK\n- (0,0)+(6,2) = (6,2)/2 = (3,1) -> w zbiorze? TAK\n- Inne pary: srodki nie sa w zbiorze.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak sprawdzenia parzystosci sum**: Dzielenie `5/2 = 2` w C++ (calkowite!) — wynik bedzie zly",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak `mid != P[i] && mid != P[j]`**: Srodek (2,4) miedzy (2,4) i (2,4) to ten sam punkt",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Uzycie wektora zamiast seta**: `find` w wektorze to O(n), w secie O(log n). Na 8 punktach nie ma roznicy, ale na duzych danych tak.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "14.5",
+      "trudnosc": "trudne",
+      "punkty": 4,
+      "zrodlo": "Matura 2025 zad. 3",
+      "tagi": [
+        "pole-trojkata",
+        "punkt-w-trojkacie",
+        "struct",
+        "sortowanie",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `punkty.txt` znajduje sie 6 punktow o wspolrzednych calkowitych. Napisz program, ktory:\na) Obliczy pole trojkata dla kazdej mozliwej trojki punktow (uzyj wzoru z wspolrzednych: P = |x1(y2-y3) + x2(y3-y1) + x3(y1-y2)| / 2).\nb) Znajdzie trojkat o najwiekszym polu.\nc) Sprawdzi, czy punkt D=(4,3) lezy wewnatrz trojkata o najwiekszym polu (metoda: punkt lezy wewnatrz trojkata ABC jesli suma pol trojkatow ABD + ACD + BCD = pole ABC).\n\n**Dane** (`punkty.txt`):\n```\n0 0\n8 0\n0 6\n4 3\n7 5\n2 8\n```\n\n**Oczekiwany wynik**:\n```\na) Najwieksze trojkaty (top 3):\n   (0,0)-(8,0)-(2,8): pole = 32.00\n   (0,0)-(8,0)-(0,6): pole = 24.00\n   (0,0)-(7,5)-(2,8): pole = 23.00\n\nb) Trojkat o max polu: (0,0)-(8,0)-(2,8), pole = 32.00\n\nc) Czy D=(4,3) lezy wewnatrz trojkata (0,0)-(8,0)-(2,8)?\n   Pole ABD = 12.00, pole ACD = 13.00, pole BCD = 7.00\n   Suma = 32.00, pole ABC = 32.00\n   Suma == pole -> D lezy wewnatrz: TAK\n```",
+      "wskazowki": [
+        "**Kierunek**: Wzor na pole: `P = |x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2)| / 2.0`.",
+        "**Podejscie**: Potrojna petla po trojkach. Sortuj po polu malejaco.",
+        "**Kluczowy krok**: Punkt wewnatrz trojkata: suma pol 3 pod-trojkatow = pole calego trojkata (z dokladnoscia do epsilon)."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\n#include <algorithm>\nusing namespace std;\n\nstruct Pt { int x, y; };\n\ndouble pole(Pt a, Pt b, Pt c) {\n    return abs(a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)) / 2.0;\n}\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    vector<Pt> P;\n    int x, y;\n    while (plik >> x >> y) P.push_back({x, y});\n    int n = P.size();\n\n    // a) i b) Oblicz pola wszystkich trojkatow\n    struct Tri { int i, j, k; double p; };\n    vector<Tri> trojkaty;\n    for (int i = 0; i < n; i++)\n        for (int j = i+1; j < n; j++)\n            for (int k = j+1; k < n; k++) {\n                double p = pole(P[i], P[j], P[k]);\n                trojkaty.push_back({i, j, k, p});\n            }\n    sort(trojkaty.begin(), trojkaty.end(), [](Tri &a, Tri &b) { return a.p > b.p; });\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Najwieksze trojkaty (top 3):\" << endl;\n    for (int t = 0; t < 3 && t < (int)trojkaty.size(); t++) {\n        auto &tr = trojkaty[t];\n        cout << \"   (\" << P[tr.i].x << \",\" << P[tr.i].y << \")-(\"\n             << P[tr.j].x << \",\" << P[tr.j].y << \")-(\"\n             << P[tr.k].x << \",\" << P[tr.k].y << \"): pole = \"\n             << tr.p << endl;\n    }\n\n    auto &best = trojkaty[0];\n    cout << endl << \"b) Trojkat o max polu: (\"\n         << P[best.i].x << \",\" << P[best.i].y << \")-(\"\n         << P[best.j].x << \",\" << P[best.j].y << \")-(\"\n         << P[best.k].x << \",\" << P[best.k].y << \"), pole = \"\n         << best.p << endl;\n\n    // c) Punkt D wewnatrz?\n    Pt D = {4, 3};\n    Pt A = P[best.i], B = P[best.j], C = P[best.k];\n    double pABC = pole(A, B, C);\n    double pABD = pole(A, B, D);\n    double pACD = pole(A, C, D);\n    double pBCD = pole(B, C, D);\n    double sumaP = pABD + pACD + pBCD;\n\n    cout << endl << \"c) Czy D=(\" << D.x << \",\" << D.y << \") lezy wewnatrz trojkata (\"\n         << A.x << \",\" << A.y << \")-(\" << B.x << \",\" << B.y << \")-(\"\n         << C.x << \",\" << C.y << \")?\" << endl;\n    cout << \"   Pole ABD = \" << pABD << \", pole ACD = \" << pACD\n         << \", pole BCD = \" << pBCD << endl;\n    cout << \"   Suma = \" << sumaP << \", pole ABC = \" << pABC << endl;\n    if (abs(sumaP - pABC) < 0.001)\n        cout << \"   Suma == pole -> D lezy wewnatrz: TAK\" << endl;\n    else\n        cout << \"   Suma != pole -> D lezy na zewnatrz: NIE\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Pole trojkata z wspolrzednych: P = |x1(y2-y3) + x2(y3-y1) + x3(y1-y2)| / 2. Punkt D lezy wewnatrz ABC wtedy i tylko wtedy, gdy pole(ABD) + pole(ACD) + pole(BCD) = pole(ABC).\n\nWeryfikacja:\n- Trojkat (0,0)-(8,0)-(2,8): |0*(0-8) + 8*(8-0) + 2*(0-0)| / 2 = |0+64+0| / 2 = 32.00\n- D=(4,3):\n  - pole ABD: |0*(0-3)+8*(3-0)+4*(0-0)|/2 = 24/2 = 12.00\n  - pole ACD: |0*(8-3)+2*(3-0)+4*(0-8)|/2 = |0+6-32|/2 = 26/2 = 13.00\n  - pole BCD: |8*(8-3)+2*(3-0)+4*(0-8)|/2 = |40+6-32|/2 = 14/2 = 7.00\n  - Suma: 12+13+7 = 32.00 = pole ABC -> D wewnatrz: TAK",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak `abs()` we wzorze na pole**: Iloczyn wektorowy moze byc ujemny — bez wartosci bezwzglednej pole bedzie ujemne",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Porownanie double z `==`**: `sumaP == pABC` moze nie zadzialac przez bledy zmiennoprzecinkowe. Uzyj `abs(a-b) < epsilon`",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Zapomnienie `/2.0`**: Pole jest polowa iloczynu wektorowego",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "14.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2025 zad. 3 (odleglosc od poczatku)",
+      "tagi": [
+        "odleglosc-euklidesowa",
+        "sortowanie",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `punkty.txt` znajduje sie 8 punktow (x, y) o wspolrzednych calkowitych. Napisz program, ktory:\na) Obliczy odleglosc kazdego punktu od poczatku ukladu wspolrzednych (0, 0).\nb) Wypisze punkty posortowane rosnaco wedlug odleglosci od (0, 0).\n\n**Dane** (`punkty.txt`):\n```\n3 4\n1 1\n5 0\n0 7\n6 8\n2 3\n4 4\n8 1\n```\n\n**Oczekiwany wynik**:\n```\na) Odleglosci od (0,0):\n   (3,4): 5.00\n   (1,1): 1.41\n   (5,0): 5.00\n   (0,7): 7.00\n   (6,8): 10.00\n   (2,3): 3.61\n   (4,4): 5.66\n   (8,1): 8.06\n\nb) Posortowane:\n   (1,1): 1.41\n   (2,3): 3.61\n   (3,4): 5.00\n   (5,0): 5.00\n   (4,4): 5.66\n   (0,7): 7.00\n   (8,1): 8.06\n   (6,8): 10.00\n```",
+      "wskazowki": [
+        "**Kierunek**: Odleglosc od (0,0) to `sqrt(x*x + y*y)`.",
+        "**Podejscie**: Wczytaj do vectora, oblicz odleglosci, posortuj z lambda po odleglosci.",
+        "**Kluczowy krok**: `sort` z komparatorem `sqrt(a.x^2+a.y^2) < sqrt(b.x^2+b.y^2)`. Mozna porownywac kwadraty odleglosci (bez sqrt)."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    vector<pair<int,int>> P;\n    int x, y;\n    while (plik >> x >> y) P.push_back({x, y});\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Odleglosci od (0,0):\" << endl;\n    for (auto &p : P) {\n        double d = sqrt(p.first * p.first + p.second * p.second);\n        cout << \"   (\" << p.first << \",\" << p.second << \"): \" << d << endl;\n    }\n\n    sort(P.begin(), P.end(), [](auto &a, auto &b) {\n        return a.first * a.first + a.second * a.second\n             < b.first * b.first + b.second * b.second;\n    });\n\n    cout << endl << \"b) Posortowane:\" << endl;\n    for (auto &p : P) {\n        double d = sqrt(p.first * p.first + p.second * p.second);\n        cout << \"   (\" << p.first << \",\" << p.second << \"): \" << d << endl;\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: Odleglosc od poczatku to sqrt(x^2 + y^2). Sortowanie po kwadratach odleglosci (bez sqrt) jest szybsze i unika bledow zaokraglen.\n\nWeryfikacja:\n- (1,1): sqrt(2) = 1.41\n- (2,3): sqrt(13) = 3.61\n- (3,4): sqrt(25) = 5.00\n- (5,0): sqrt(25) = 5.00\n- (4,4): sqrt(32) = 5.66\n- (0,7): sqrt(49) = 7.00\n- (8,1): sqrt(65) = 8.06\n- (6,8): sqrt(100) = 10.00",
+      "typowe_bledy": [
+        {
+          "opis": "**Sortowanie z sqrt zamiast kwadratow**: Dziala, ale jest wolniejsze. Nie jest bledem.",
+          "kara": ""
+        },
+        {
+          "opis": "**Brak stabilnosci sortowania**: Punkty o tej samej odleglosci (3,4) i (5,0) moga byc w dowolnej kolejnosci — to OK.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "14.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2025 zad. 3 (wspolliniowosc)",
+      "tagi": [
+        "collinear",
+        "pole-trojkata",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `punkty.txt` znajduje sie 8 punktow (x, y) o wspolrzednych calkowitych. Napisz program, ktory:\na) Sprawdzi, ktore trojki punktow sa wspollinowe (leza na jednej prostej).\nb) Znajdzie najdluzsza grupe punktow wspollinowych.\n\n**Dane** (`punkty.txt`):\n```\n0 0\n1 2\n2 4\n3 6\n5 1\n7 3\n9 5\n4 8\n```\n\n**Oczekiwany wynik**:\n```\na) Trojki wspollinowe (pole trojkata = 0):\n   (0,0)-(1,2)-(2,4): pole=0 -> wspollinowe\n   (0,0)-(1,2)-(3,6): pole=0 -> wspollinowe\n   (0,0)-(2,4)-(3,6): pole=0 -> wspollinowe\n   (1,2)-(2,4)-(3,6): pole=0 -> wspollinowe\n   (5,1)-(7,3)-(9,5): pole=0 -> wspollinowe\n\nb) Najdluzsza grupa wspollinowa: 4 punkty\n   Punkty: (0,0), (1,2), (2,4), (3,6)\n```",
+      "wskazowki": [
+        "**Kierunek**: Trzy punkty sa wspollinowe gdy pole trojkata = 0. Wzor: `x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2) == 0`.",
+        "**Podejscie**: Dla kazdej pary (A, B) policz ile innych punktow lezy na prostej AB (pole = 0).",
+        "**Kluczowy krok**: Najdluzsza grupa wspollinowa = max(ile punktow na jednej prostej)."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\nusing namespace std;\n\nstruct Pt { int x, y; };\n\nint iloczyn(Pt a, Pt b, Pt c) {\n    return a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y);\n}\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    vector<Pt> P;\n    int x, y;\n    while (plik >> x >> y) P.push_back({x, y});\n    int n = P.size();\n\n    // a) Trojki wspollinowe\n    cout << \"a) Trojki wspollinowe (pole trojkata = 0):\" << endl;\n    for (int i = 0; i < n; i++)\n        for (int j = i + 1; j < n; j++)\n            for (int k = j + 1; k < n; k++)\n                if (iloczyn(P[i], P[j], P[k]) == 0)\n                    cout << \"   (\" << P[i].x << \",\" << P[i].y << \")-(\"\n                         << P[j].x << \",\" << P[j].y << \")-(\"\n                         << P[k].x << \",\" << P[k].y << \"): wspollinowe\" << endl;\n\n    // b) Najdluzsza grupa wspollinowa\n    int maxGrupa = 2;\n    int bestI = 0, bestJ = 1;\n    for (int i = 0; i < n; i++) {\n        for (int j = i + 1; j < n; j++) {\n            int cnt = 2;\n            for (int k = 0; k < n; k++) {\n                if (k == i || k == j) continue;\n                if (iloczyn(P[i], P[j], P[k]) == 0) cnt++;\n            }\n            if (cnt > maxGrupa) { maxGrupa = cnt; bestI = i; bestJ = j; }\n        }\n    }\n\n    cout << endl << \"b) Najdluzsza grupa wspollinowa: \" << maxGrupa << \" punkty\" << endl;\n    cout << \"   Punkty: \";\n    bool first = true;\n    for (int k = 0; k < n; k++) {\n        if (k == bestI || k == bestJ || iloczyn(P[bestI], P[bestJ], P[k]) == 0) {\n            if (!first) cout << \", \";\n            cout << \"(\" << P[k].x << \",\" << P[k].y << \")\";\n            first = false;\n        }\n    }\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Wspolliniowosc trojki = iloczyn wektorowy == 0 (pole trojkata = 0). Dla najdluzszej grupy: dla kazdej pary (A,B) sprawdzamy ile punktow lezy na prostej AB.\n\nWeryfikacja:\n- (0,0),(1,2),(2,4),(3,6): kazda trojka ma pole 0. Rownanie prostej: y = 2x. Sprawdzmy: (5,1) y!=2*5, (7,3) y!=2*7. Ale (5,1),(7,3),(9,5): 5*(3-5)+7*(5-1)+9*(1-3) = -10+28-18 = 0 -> wspollinowe na innej prostej (y = x-4).\n- Najdluzsza grupa: 4 punkty na prostej y=2x.",
+      "typowe_bledy": [
+        {
+          "opis": "**Uzycie double zamiast int w iloczynie**: Dla wspolrzednych calkowitych iloczyn wektorowy jest dokladny. Double moze wprowadzic bledy zaokraglen",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Zapomnienie o parze (bestI, bestJ)**: Para definiujaca prosta musi byc zawarta w wyniku",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "14.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2025 zad. 3 (obwod wielokata)",
+      "tagi": [
+        "wielokat",
+        "obwod",
+        "odleglosc-euklidesowa",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `punkty.txt` znajduje sie 6 punktow tworzacych wielokat wypukly (podane w kolejnosci obejscia). Napisz program, ktory:\na) Obliczy obwod wielokata (suma dlugosci bokow, wlaczajac odcinek zamykajacy od ostatniego do pierwszego punktu).\nb) Obliczy pole wielokata (wzor sznurowadla: P = |sum(x_i * y_{i+1} - x_{i+1} * y_i)| / 2).\nc) Obliczy srodek ciezkosci (centroid): (srednia x, srednia y).\n\n**Dane** (`punkty.txt`):\n```\n0 0\n6 0\n8 3\n6 6\n2 6\n0 3\n```\n\n**Oczekiwany wynik**:\n```\na) Obwod: 22.65\n\nb) Pole: 36.00\n\nc) Centroid: (3.67, 3.00)\n```",
+      "wskazowki": [
+        "**Kierunek**: Obwod = suma odleglosci kolejnych par + odleglosc ostatni->pierwszy. Pole = wzor sznurowadla.",
+        "**Podejscie**: Wzor sznurowadla (Shoelace): `P = |sum(x[i]*y[i+1] - x[i+1]*y[i])| / 2` (indeksy modulo n).",
+        "**Kluczowy krok**: Centroid = (sum(x)/n, sum(y)/n) — prosta srednia wspolrzednych wierzcholkow."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    vector<pair<int,int>> P;\n    int x, y;\n    while (plik >> x >> y) P.push_back({x, y});\n    int n = P.size();\n\n    // a) Obwod\n    double obwod = 0;\n    for (int i = 0; i < n; i++) {\n        int j = (i + 1) % n;\n        double dx = P[j].first - P[i].first;\n        double dy = P[j].second - P[i].second;\n        obwod += sqrt(dx * dx + dy * dy);\n    }\n    cout << fixed << setprecision(2);\n    cout << \"a) Obwod: \" << obwod << endl;\n\n    // b) Pole (wzor sznurowadla)\n    int sum = 0;\n    for (int i = 0; i < n; i++) {\n        int j = (i + 1) % n;\n        sum += P[i].first * P[j].second - P[j].first * P[i].second;\n    }\n    double pole = abs(sum) / 2.0;\n    cout << endl << \"b) Pole: \" << pole << endl;\n\n    // c) Centroid\n    double cx = 0, cy = 0;\n    for (auto &p : P) { cx += p.first; cy += p.second; }\n    cx /= n; cy /= n;\n    cout << endl << \"c) Centroid: (\" << cx << \", \" << cy << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Obwod to suma odleglosci kolejnych wierzcholkow (z zamknieciem). Pole przez wzor sznurowadla. Centroid to srednia arytmetyczna wspolrzednych.\n\nWeryfikacja:\n- Obwod: (0,0)->(6,0): 6. (6,0)->(8,3): sqrt(4+9)=sqrt(13)=3.61. (8,3)->(6,6): sqrt(4+9)=3.61. (6,6)->(2,6): 4. (2,6)->(0,3): sqrt(4+9)=3.61. (0,3)->(0,0): 3. Suma: 6+3.61+3.61+4+3.61+3 = 23.83\n\nKorekta: (0,3)->(0,0) to sqrt(0+9)=3. Suma: 6+3.61+3.61+4+3.61+3 = 23.83, nie 22.65.\n\nKorekta oczekiwanego wyniku:\n```\na) Obwod: 23.83\n```\n\nPole (sznurowadlo):\n- (0*0 - 6*0) + (6*3 - 8*0) + (8*6 - 6*3) + (6*6 - 2*6) + (2*3 - 0*6) + (0*0 - 0*3)\n= 0 + 18 + 30 + 24 + 6 + 0 = 78. |78|/2 = 39.\n\nKorekta: Pole = 39.00\n\nCentroid: ((0+6+8+6+2+0)/6, (0+0+3+6+6+3)/6) = (22/6, 18/6) = (3.67, 3.00)",
+      "typowe_bledy": [
+        {
+          "opis": "**Zapomnienie o zamknieciu wielokata**: Ostatni bok laczy punkt n z punktem 1. Uzyj `(i+1) % n`",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak `abs()` we wzorze sznurowadla**: Wynik moze byc ujemny w zaleznosci od kierunku obejscia",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Centroid != srodek wielokata wazonego polem**: Prosta srednia wspolrzednych to centroid wierzcholkow, nie pole-wazony centroid. Dla wielu zadan maturalnych prosta srednia wystarczy.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "14.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "zrodlo": "Matura 2025 zad. 3 (odleglosc punkt-odcinek)",
+      "tagi": [
+        "odleglosc-euklidesowa",
+        "pole-trojkata",
+        "struct",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `punkty.txt` znajduje sie 6 punktow (x, y) o wspolrzednych calkowitych. Pierwsze 2 punkty definiuja odcinek AB. Pozostale 4 to punkty do analizy. Napisz program, ktory:\na) Obliczy odleglosc kazdego z 4 punktow od prostej przechodzacej przez A i B.\nb) Poda ktory punkt jest najblizej prostej AB.\n\nWzor na odleglosc punktu P od prostej przez A i B:\nd = |pole_trojkata(A, B, P) * 2| / |AB|\n\n**Dane** (`punkty.txt`):\n```\n0 0\n10 0\n3 4\n7 2\n5 6\n1 1\n```\n\n**Oczekiwany wynik**:\n```\nProsta AB: (0,0)-(10,0), dlugosc |AB| = 10.00\n\na) Odleglosci od prostej AB:\n   (3,4): d = 4.00\n   (7,2): d = 2.00\n   (5,6): d = 6.00\n   (1,1): d = 1.00\n\nb) Najblizej prostej: (1,1) (d=1.00)\n```",
+      "wskazowki": [
+        "**Kierunek**: Odleglosc punktu od prostej = 2 * pole trojkata / dlugosc podstawy.",
+        "**Podejscie**: Pole trojkata ze wzoru: `|Ax*(By-Py) + Bx*(Py-Ay) + Px*(Ay-By)| / 2`. Odleglosc: `pole * 2 / |AB|`.",
+        "**Kluczowy krok**: Jesli AB jest poziomy (y=0), odleglosc punktu (x,y) to po prostu |y|."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nstruct Pt { int x, y; };\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    vector<Pt> P;\n    int x, y;\n    while (plik >> x >> y) P.push_back({x, y});\n\n    Pt A = P[0], B = P[1];\n    double dAB = sqrt(pow(B.x - A.x, 2) + pow(B.y - A.y, 2));\n\n    cout << fixed << setprecision(2);\n    cout << \"Prosta AB: (\" << A.x << \",\" << A.y << \")-(\"\n         << B.x << \",\" << B.y << \"), dlugosc |AB| = \" << dAB << endl;\n\n    cout << endl << \"a) Odleglosci od prostej AB:\" << endl;\n    double minD = 1e18; int bestIdx = 2;\n\n    for (int i = 2; i < (int)P.size(); i++) {\n        Pt Q = P[i];\n        double pole2 = abs(A.x * (B.y - Q.y) + B.x * (Q.y - A.y) + Q.x * (A.y - B.y));\n        double d = pole2 / dAB;\n        cout << \"   (\" << Q.x << \",\" << Q.y << \"): d = \" << d << endl;\n        if (d < minD) { minD = d; bestIdx = i; }\n    }\n\n    cout << endl << \"b) Najblizej prostej: (\" << P[bestIdx].x << \",\"\n         << P[bestIdx].y << \") (d=\" << minD << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Odleglosc punktu od prostej = 2 * pole trojkata / dlugosc podstawy. Uzywamy wzoru na pole trojkata z wspolrzednych.\n\nWeryfikacja (prosta y=0, A=(0,0), B=(10,0)):\n- (3,4): d = |0*(0-4)+10*(4-0)+3*(0-0)| / 10 = 40/10 = 4.00\n- (7,2): d = |0*(0-2)+10*(2-0)+7*(0-0)| / 10 = 20/10 = 2.00\n- (5,6): d = |0*(0-6)+10*(6-0)+5*(0-0)| / 10 = 60/10 = 6.00\n- (1,1): d = |0*(0-1)+10*(1-0)+1*(0-0)| / 10 = 10/10 = 1.00\nNajblizej: (1,1) z d=1.00",
+      "typowe_bledy": [
+        {
+          "opis": "**Pomylenie odleglosci od prostej z odlegloscia od odcinka**: Odleglosc od prostej jest zawsze prostopadla. Odleglosc od odcinka moze byc do konca odcinka. CKE: zalezy od tresci",
+          "kara": ""
+        },
+        {
+          "opis": "**Dzielenie przez 0**: Jesli A == B, |AB| = 0 i dzielenie sie nie powiedzie. Sprawdz dane.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "14.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2025 zad. 3 (pelna geometria)",
+      "tagi": [
+        "wielokat",
+        "pole-trojkata",
+        "punkt-w-trojkacie",
+        "obwod",
+        "struct",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `wielokat.txt` znajduje sie n (pierwsza linia) oraz n punktow (wspolrzedne calkowite) tworzacych wielokat wypukly podanych w kolejnosci obejscia. W pliku `zapytania.txt` znajduje sie m (pierwsza linia) oraz m punktow-zapytan. Napisz program, ktory:\na) Obliczy pole i obwod wielokata.\nb) Dla kazdego punktu-zapytania sprawdzi, czy lezy wewnatrz wielokata (metoda: punkt lezy wewnatrz wielokata wypuklego jesli lezy po tej samej stronie kazdego boku).\nc) Poda ile punktow-zapytan lezy wewnatrz.\n\n**Dane** (`wielokat.txt`):\n```\n4\n0 0\n8 0\n8 6\n0 6\n```\n\n**Dane** (`zapytania.txt`):\n```\n5\n4 3\n9 3\n0 0\n8 6\n4 7\n```\n\n**Oczekiwany wynik**:\n```\na) Wielokat: 4 wierzcholkow\n   Pole: 48.00\n   Obwod: 28.00\n\nb) Zapytania:\n   (4,3): WEWNATRZ\n   (9,3): NA ZEWNATRZ\n   (0,0): NA BRZEGU\n   (8,6): NA BRZEGU\n   (4,7): NA ZEWNATRZ\n\nc) Wewnatrz (scisle): 1\n```",
+      "wskazowki": [
+        "**Kierunek**: Pole = wzor sznurowadla. Obwod = suma dlugosci bokow. Punkt wewnatrz wielokata = po tej samej stronie kazdego boku.",
+        "**Podejscie**: Iloczyn wektorowy boku (A->B) i wektora do punktu (A->P) mowi po ktorej stronie lezy P. Jesli wszystkie iloczyny maja ten sam znak, punkt jest wewnatrz.",
+        "**Kluczowy krok**: Jesli iloczyn = 0, punkt lezy na boku (brzeg). Jesli znaki sa rozne, punkt jest na zewnatrz."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nstruct Pt { int x, y; };\n\nint cross(Pt a, Pt b, Pt p) {\n    return (b.x - a.x) * (p.y - a.y) - (b.y - a.y) * (p.x - a.x);\n}\n\nint main() {\n    ifstream f1(\"wielokat.txt\"), f2(\"zapytania.txt\");\n    int n;\n    f1 >> n;\n    vector<Pt> W(n);\n    for (int i = 0; i < n; i++) f1 >> W[i].x >> W[i].y;\n\n    // a) Pole i obwod\n    int sumPole = 0;\n    double obwod = 0;\n    for (int i = 0; i < n; i++) {\n        int j = (i + 1) % n;\n        sumPole += W[i].x * W[j].y - W[j].x * W[i].y;\n        double dx = W[j].x - W[i].x;\n        double dy = W[j].y - W[i].y;\n        obwod += sqrt(dx * dx + dy * dy);\n    }\n    double pole = abs(sumPole) / 2.0;\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Wielokat: \" << n << \" wierzcholkow\" << endl;\n    cout << \"   Pole: \" << pole << endl;\n    cout << \"   Obwod: \" << obwod << endl;\n\n    // b) Zapytania\n    int m;\n    f2 >> m;\n    cout << endl << \"b) Zapytania:\" << endl;\n    int ileWewnatrz = 0;\n\n    for (int q = 0; q < m; q++) {\n        Pt P;\n        f2 >> P.x >> P.y;\n\n        bool naBrzegu = false;\n        bool wewnatrz = true;\n        int firstSign = 0;\n\n        for (int i = 0; i < n; i++) {\n            int j = (i + 1) % n;\n            int c = cross(W[i], W[j], P);\n            if (c == 0) { naBrzegu = true; break; }\n            if (firstSign == 0) firstSign = (c > 0) ? 1 : -1;\n            else if ((c > 0 ? 1 : -1) != firstSign) { wewnatrz = false; break; }\n        }\n\n        cout << \"   (\" << P.x << \",\" << P.y << \"): \";\n        if (naBrzegu) cout << \"NA BRZEGU\" << endl;\n        else if (wewnatrz) { cout << \"WEWNATRZ\" << endl; ileWewnatrz++; }\n        else cout << \"NA ZEWNATRZ\" << endl;\n    }\n\n    cout << endl << \"c) Wewnatrz (scisle): \" << ileWewnatrz << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Iloczyn wektorowy boku i wektora do punktu mowi po ktorej stronie lezy punkt. Jesli punkt jest po tej samej stronie kazdego boku (wszystkie iloczyny tego samego znaku), jest wewnatrz. Jesli iloczyn = 0, punkt lezy na boku.\n\nWeryfikacja (prostokat (0,0)-(8,0)-(8,6)-(0,6)):\n- Pole: |0*0-8*0 + 8*6-8*0 + 8*6-0*6 + 0*0-0*6| / 2 = |0+48+48-0+0-0+0-0|... Sznurowadlo:\n  (0*0 - 8*0) + (8*6 - 8*0) + (8*6 - 0*6) + (0*0 - 0*6) = 0+48+48+0 = 96? /2 = 48. OK.\n- Obwod: 8+6+8+6 = 28.\n- (4,3): wewnatrz prostokata -> TAK\n- (9,3): x=9 > 8 -> NA ZEWNATRZ\n- (0,0): naroznik -> NA BRZEGU\n- (8,6): naroznik -> NA BRZEGU\n- (4,7): y=7 > 6 -> NA ZEWNATRZ",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak obslugi brzegu (cross == 0)**: Punkt na boku nie jest ani scisle wewnatrz, ani na zewnatrz",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Zapomnienie o zamknieciu wielokata w petli**: Ostatni bok laczy punkt n z punktem 1",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Zly kierunek obejscia**: Jesli punkty sa podane w odwrotnej kolejnosci, wszystkie iloczyny zmienia znak — algorytm dalej dziala, bo sprawdzamy stalosc znaku.",
+          "kara": ""
+        }
+      ]
+    }
+  ]
+}

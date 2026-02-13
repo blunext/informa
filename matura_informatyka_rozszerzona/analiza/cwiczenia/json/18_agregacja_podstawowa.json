@@ -1,0 +1,351 @@
+{
+  "typ": "18_agregacja_podstawowa",
+  "nazwa": "Agregacja podstawowa w arkuszu kalkulacyjnym",
+  "kategoria": "ARKUSZ",
+  "czestotliwosc": "3/11 lat",
+  "punkty_lacznie": 9,
+  "tagi_globalne": [
+    "SUM",
+    "AVERAGE",
+    "MAX",
+    "MIN",
+    "COUNT",
+    "COUNTA",
+    "COUNTBLANK",
+    "RANK",
+    "mnozenie-komorek",
+    "zaokraglanie",
+    "ROUND",
+    "MEDIAN",
+    "procent",
+    "rozstep",
+    "ABS",
+    "odchylenie-od-sredniej"
+  ],
+  "cwiczenia": [
+    {
+      "id": "18.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "ogolna",
+      "tagi": [
+        "AVERAGE",
+        "MAX",
+        "MIN",
+        "rozstep"
+      ],
+      "tresc": "Uczniowie pisali test z 20 pytan. Wyniki (liczba poprawnych odpowiedzi):\n\n| | A | B |\n|---|---|---|\n| 1 | **Uczen** | **Wynik** |\n| 2 | Anna | 16 |\n| 3 | Bartek | 12 |\n| 4 | Celina | 19 |\n| 5 | Dawid | 8 |\n| 6 | Ewa | 14 |\n| 7 | Filip | 11 |\n| 8 | Gosia | 17 |\n| 9 | Hubert | 13 |\n\n**Polecenie**: Napisz formuly obliczajace:\n1. Srednia wynikow\n2. Najwyzszy wynik\n3. Najnizszy wynik\n4. Rozstep (roznica miedzy max a min)",
+      "wskazowki": [
+        "**Kierunek**: Potrzebujesz czterech podstawowych funkcji agregujacych: AVERAGE, MAX, MIN.",
+        "**Podejscie**: Wszystkie operuja na tym samym zakresie B2:B9.",
+        "**Kluczowy krok**: Rozstep nie ma dedykowanej funkcji — oblicz jako MAX(...) - MIN(...)."
+      ],
+      "odpowiedz": "**Formuly:**\n```\nSrednia:     =AVERAGE(B2:B9)\nNajwyzszy:   =MAX(B2:B9)\nNajnizszy:   =MIN(B2:B9)\nRozstep:     =MAX(B2:B9)-MIN(B2:B9)\n```\n\n**Weryfikacja:**\n- Wartosci: 16, 12, 19, 8, 14, 11, 17, 13\n- Srednia: (16+12+19+8+14+11+17+13)/8 = 110/8 = **13.75**\n- Max: **19** (Celina)\n- Min: **8** (Dawid)\n- Rozstep: 19 - 8 = **11**\n\n**Wyjasnienie**: AVERAGE, MAX i MIN to podstawowe funkcje agregujace. Przyjmuja zakres komorek i zwracaja odpowiednio srednia arytmetyczna, wartosc najwieksza i najmniejsza. Rozstep nie ma dedykowanej funkcji — obliczamy go jako roznice MAX - MIN.",
+      "typowe_bledy": [
+        {
+          "opis": "**Zly zakres**: =AVERAGE(B1:B9) wlacza naglowek \"Wynik\" — spowoduje blad lub zly wynik",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Uzycie SUM zamiast AVERAGE**: =SUM(B2:B9)/8 tez da poprawna srednia, ale jest mniej eleganckie i latwiej o blad (jesli zmieni sie liczba uczniow). CKE: akceptowane",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "18.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2014 (Przychody)",
+      "tagi": [
+        "mnozenie-komorek",
+        "SUM"
+      ],
+      "tresc": "Sklep internetowy realizuje zamowienie:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Produkt** | **Cena jedn.** | **Ilosc** | **Wartosc** |\n| 2 | Zeszyt | 3.50 | 10 | ? |\n| 3 | Dlugopis | 2.80 | 5 | ? |\n| 4 | Linijka | 4.20 | 3 | ? |\n| 5 | Gumka | 1.50 | 8 | ? |\n| 6 | Olowek | 1.90 | 6 | ? |\n| 7 | | | **RAZEM:** | ? |\n\n**Polecenie**:\n1. Napisz formule w D2 obliczajaca wartosc pozycji (cena × ilosc).\n2. Napisz formule w D7 obliczajaca laczna wartosc zamowienia.",
+      "wskazowki": [
+        "**Kierunek**: Wartosc pozycji = cena jednostkowa × ilosc. Laczna wartosc = suma wszystkich pozycji.",
+        "**Podejscie**: D2 to mnozenie dwoch komorek. D7 to SUM zakresu D2:D6.",
+        "**Kluczowy krok**: Formula D2 jest kopiowana w dol do D6 — dzieki adresowaniu wzglednemu automatycznie dostosuje numery wierszy."
+      ],
+      "odpowiedz": "**Formuly:**\n```\nD2: =B2*C2        (kopiowana w dol do D6)\nD7: =SUM(D2:D6)\n```\n\n**Wypelniona tabela:**\n\n| Produkt | Cena | Ilosc | Wartosc |\n|---------|------|-------|---------|\n| Zeszyt | 3.50 | 10 | 35.00 |\n| Dlugopis | 2.80 | 5 | 14.00 |\n| Linijka | 4.20 | 3 | 12.60 |\n| Gumka | 1.50 | 8 | 12.00 |\n| Olowek | 1.90 | 6 | 11.40 |\n| | | **RAZEM:** | **85.00** |\n\n**Weryfikacja:**\n- D2: 3.50 × 10 = 35.00\n- D3: 2.80 × 5 = 14.00\n- D4: 4.20 × 3 = 12.60\n- D5: 1.50 × 8 = 12.00\n- D6: 1.90 × 6 = 11.40\n- D7: 35.00 + 14.00 + 12.60 + 12.00 + 11.40 = 85.00\n\n**Wyjasnienie**: Mnozenie komorek (B2*C2) to najprostsza operacja w arkuszu. SUM sumuje caly zakres. Na maturze czesto trzeba najpierw obliczyc wartosci posrednie (kolumna D), a dopiero potem je zagregowac.",
+      "typowe_bledy": [
+        {
+          "opis": "**Wpisanie wartosci zamiast formuly**: D2: =3.50*10 zamiast =B2*C2 — strata elastycznosci, formula nie zaktualizuje sie przy zmianie danych",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**SUM na zlym zakresie**: =SUM(D2:D7) wlacza komorke RAZEM do sumy (odwolanie cykliczne)",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "18.3",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "ogolna",
+      "tagi": [
+        "COUNTA",
+        "COUNTBLANK",
+        "COUNT",
+        "procent"
+      ],
+      "tresc": "Przeprowadzono ankiete wsrod 10 osob. Kazda osoba mogla udzielic odpowiedzi lub zostawic puste pole:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Osoba** | **Pyt. 1** | **Pyt. 2** | **Pyt. 3** |\n| 2 | O1 | Tak | Nie | Tak |\n| 3 | O2 | Tak | | Nie |\n| 4 | O3 | | Tak | Tak |\n| 5 | O4 | Nie | Nie | |\n| 6 | O5 | Tak | Tak | Tak |\n| 7 | O6 | | | Nie |\n| 8 | O7 | Tak | Nie | Tak |\n| 9 | O8 | Nie | Tak | |\n| 10 | O9 | Tak | | Tak |\n| 11 | O10 | Tak | Tak | Nie |\n\n**Polecenie**: Dla pytania 1 (kolumna B) napisz formuly obliczajace:\n1. Ile osob odpowiedzialo (komorki niepuste)?\n2. Ile osob nie odpowiedzialo (komorki puste)?\n3. Procent wypelnienia (ile odpowiedzialo / ile osob ogolnie × 100%).\n4. Ile osob odpowiedzialo \"Tak\" na pytanie 1?",
+      "wskazowki": [
+        "**Kierunek**: COUNTA zlicza niepuste komorki, COUNTBLANK — puste. Roznica miedzy COUNT (tylko liczby) a COUNTA (tekst i liczby) jest kluczowa.",
+        "**Podejscie**: Procent = niepuste / calkowita liczba osob × 100. Zliczenie \"Tak\" wymaga COUNTIF.",
+        "**Kluczowy krok**: Calkowita liczba osob mozna uzyskac z COUNTA kolumny A (imiona) lub wpisac recznie (10)."
+      ],
+      "odpowiedz": "**Formuly:**\n```\nOdpowiedzialo:         =COUNTA(B2:B11)\nNie odpowiedzialo:     =COUNTBLANK(B2:B11)\nProcent wypelnienia:   =COUNTA(B2:B11)/COUNTA(A2:A11)*100\n   lub prosciej:       =COUNTA(B2:B11)/10*100\nOdpowiedzi \"Tak\":     =COUNTIF(B2:B11;\"Tak\")\n```\n\n**Weryfikacja (kolumna B — Pytanie 1):**\n\nWartosci w B2:B11: Tak, Tak, (puste), Nie, Tak, (puste), Tak, Nie, Tak, Tak\n- Niepuste (COUNTA): Tak, Tak, Nie, Tak, Tak, Nie, Tak, Tak = **8**\n- Puste (COUNTBLANK): O3, O6 = **2**\n- Procent: 8/10 × 100 = **80%**\n- \"Tak\": O1, O2, O5, O7, O9, O10 = **6**\n\n**Wyjasnienie**:\n- `COUNTA` zlicza komorki niepuste (zarowno tekst, jak i liczby).\n- `COUNTBLANK` zlicza komorki puste.\n- `COUNTIF` zlicza komorki spelniajace podane kryterium.\n- Roznica: COUNT zlicza tylko komorki z liczbami, COUNTA zlicza wszystkie niepuste (wlacznie z tekstem).",
+      "typowe_bledy": [
+        {
+          "opis": "**COUNT zamiast COUNTA**: COUNT zlicza tylko LICZBY — dla komorek z tekstem (\"Tak\", \"Nie\") zwroci 0",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Pomieszanie COUNTBLANK z COUNTA**: COUNTBLANK zlicza puste, COUNTA — niepuste. Sa komplementarne",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak mnozenia razy 100 w procencie**: 8/10 = 0.8, a nie 80%",
+          "kara": "-1 pkt (chyba ze komorka jest sformatowana jako procent)"
+        }
+      ]
+    },
+    {
+      "id": "18.4",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "ogolna",
+      "tagi": [
+        "SUM",
+        "RANK",
+        "zakres-bezwzgledny"
+      ],
+      "tresc": "W zawodach sportowych 6 zawodnikow rywalizowalo w 4 konkurencjach. Punkty za kazda konkurencje:\n\n| | A | B | C | D | E | F | G |\n|---|---|---|---|---|---|---|---|\n| 1 | **Zawodnik** | **K1** | **K2** | **K3** | **K4** | **Suma** | **Ranking** |\n| 2 | Adam | 8 | 6 | 9 | 7 | ? | ? |\n| 3 | Beata | 9 | 8 | 7 | 9 | ? | ? |\n| 4 | Czarek | 6 | 9 | 8 | 5 | ? | ? |\n| 5 | Diana | 7 | 7 | 10 | 8 | ? | ? |\n| 6 | Emil | 10 | 5 | 6 | 10 | ? | ? |\n| 7 | Fiona | 5 | 10 | 9 | 6 | ? | ? |\n\n**Polecenie**:\n1. Napisz formule w F2 obliczajaca sume punktow zawodnika.\n2. Napisz formule w G2 obliczajaca pozycje w rankingu (1 = najwyzszy wynik).\n3. Podaj najwyzsza sume i srednia sume.",
+      "wskazowki": [
+        "**Kierunek**: SUM sumuje wiersz (B2:E2). RANK zwraca pozycje wartosci w rankingu.",
+        "**Podejscie**: RANK(wartosc; zakres; kolejnosc) — zakres musi byc bezwzgledny ($F$2:$F$7), bo formula bedzie kopiowana.",
+        "**Kluczowy krok**: Trzeci argument RANK: 0 = malejaco (najwieksza = pozycja 1)."
+      ],
+      "odpowiedz": "**Formuly (wiersz 2, kopiowane w dol):**\n```\nF2: =SUM(B2:E2)\nG2: =RANK(F2;$F$2:$F$7;0)\n```\n\n**Wypelniona tabela:**\n\n| Zawodnik | K1 | K2 | K3 | K4 | Suma | Ranking |\n|----------|----|----|----|-----|------|---------|\n| Adam | 8 | 6 | 9 | 7 | 30 | 4 |\n| Beata | 9 | 8 | 7 | 9 | 33 | 1 |\n| Czarek | 6 | 9 | 8 | 5 | 28 | 6 |\n| Diana | 7 | 7 | 10 | 8 | 32 | 2 |\n| Emil | 10 | 5 | 6 | 10 | 31 | 3 |\n| Fiona | 5 | 10 | 9 | 6 | 30 | 4 |\n\n**Weryfikacja:**\n- Adam: 8+6+9+7 = 30\n- Beata: 9+8+7+9 = 33\n- Czarek: 6+9+8+5 = 28\n- Diana: 7+7+10+8 = 32\n- Emil: 10+5+6+10 = 31\n- Fiona: 5+10+9+6 = 30\n\nRanking (malejaco): 33 (1.), 32 (2.), 31 (3.), 30 (4.), 30 (4.), 28 (6.)\n- Uwaga: Adam i Fiona maja taki sam wynik (30), wiec obie maja ranking 4. Czarek z 28 ma ranking 6 (nie 5!). Tak dziala RANK — przy remisach pomija kolejne pozycje.\n\n- Najwyzsza suma: =MAX(F2:F7) = **33** (Beata)\n- Srednia suma: =AVERAGE(F2:F7) = (30+33+28+32+31+30)/6 = 184/6 = **30.67**\n\n**Wyjasnienie**: RANK(wartosc; zakres; kolejnosc) zwraca pozycje wartosci w rankingu. Trzeci argument: 0 = malejaco (najwieksza = 1), 1 = rosnaco. Zakres `$F$2:$F$7` musi byc bezwzgledny (z $), aby po skopiowaniu formuly zawsze odwolywal sie do calej kolumny sum.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak $ w zakresie RANK**: =RANK(F2;F2:F7;0) — po skopiowaniu do wiersza 3 zakres przesunie sie na F3:F8, dajac bledne wyniki",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Trzeci argument = 1 zamiast 0**: RANK(...;1) daje ranking rosnacy (najnizsza wartosc = 1)",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Oczekiwanie rang 1-6 bez przerw**: Przy remisach RANK pomija pozycje (4, 4, 6 zamiast 4, 5, 6). To jest poprawne zachowanie.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "18.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "ogolna",
+      "tagi": [
+        "AVERAGE",
+        "ABS",
+        "odchylenie-od-sredniej",
+        "AVERAGEIF",
+        "zakres-bezwzgledny"
+      ],
+      "tresc": "Firma ma 10 pracownikow w 3 dzialach. Dane o pensjach:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Pracownik** | **Dzial** | **Pensja** |\n| 2 | P1 | IT | 8500 |\n| 3 | P2 | HR | 6200 |\n| 4 | P3 | IT | 9200 |\n| 5 | P4 | Sprzedaz | 7100 |\n| 6 | P5 | HR | 5800 |\n| 7 | P6 | IT | 10500 |\n| 8 | P7 | Sprzedaz | 6800 |\n| 9 | P8 | HR | 6500 |\n| 10 | P9 | Sprzedaz | 7500 |\n| 11 | P10 | IT | 8800 |\n\n**Polecenie**:\n1. Oblicz laczna pensje wszystkich pracownikow.\n2. Oblicz srednia pensje w calej firmie.\n3. W kolumnie D oblicz odchylenie kazdego pracownika od sredniej firmy (pensja - srednia).\n4. W kolumnie E oblicz wartosc bezwzgledna odchylenia (ABS).\n5. Oblicz srednia pensje osobno dla kazdego dzialu (IT, HR, Sprzedaz).",
+      "wskazowki": [
+        "**Kierunek**: Oblicz srednia w komorce pomocniczej, a potem uzyj jej z adresem bezwzglednym w kolumnie D.",
+        "**Podejscie**: ABS usuwa znak minus — dzieki temu mozna uśrednić odchylenia (bo suma odchylen od sredniej = 0).",
+        "**Kluczowy krok**: AVERAGEIF oblicza srednia warunkowo — uzyj go do srednich na dzial."
+      ],
+      "odpowiedz": "**Formuly:**\n```\nLaczna pensja:    =SUM(C2:C11)\nSrednia firmy:    =AVERAGE(C2:C11)     (wynik w komorce G1)\n\nD2: =C2-$G$1                           (kopiowana w dol)\nE2: =ABS(D2)                           (kopiowana w dol)\n\nSrednia IT:       =AVERAGEIF(B2:B11;\"IT\";C2:C11)\nSrednia HR:       =AVERAGEIF(B2:B11;\"HR\";C2:C11)\nSrednia Sprzedaz: =AVERAGEIF(B2:B11;\"Sprzedaz\";C2:C11)\n```\n\n**Obliczenia:**\n\nLaczna pensja: 8500+6200+9200+7100+5800+10500+6800+6500+7500+8800 = **76900**\nSrednia firmy: 76900/10 = **7690.00**\n\n| Pracownik | Dzial | Pensja | Odchylenie (D) | |Odchylenie| (E) |\n|-----------|-------|--------|----------------|-------------------|\n| P1 | IT | 8500 | +810.00 | 810.00 |\n| P2 | HR | 6200 | -1490.00 | 1490.00 |\n| P3 | IT | 9200 | +1510.00 | 1510.00 |\n| P4 | Sprzedaz | 7100 | -590.00 | 590.00 |\n| P5 | HR | 5800 | -1890.00 | 1890.00 |\n| P6 | IT | 10500 | +2810.00 | 2810.00 |\n| P7 | Sprzedaz | 6800 | -890.00 | 890.00 |\n| P8 | HR | 6500 | -1190.00 | 1190.00 |\n| P9 | Sprzedaz | 7500 | -190.00 | 190.00 |\n| P10 | IT | 8800 | +1110.00 | 1110.00 |\n\n**Srednie na dzial:**\n- IT: (8500+9200+10500+8800)/4 = 37000/4 = **9250.00**\n- HR: (6200+5800+6500)/3 = 18500/3 = **6166.67**\n- Sprzedaz: (7100+6800+7500)/3 = 21400/3 = **7133.33**\n\n**Weryfikacja kontrolna:**\n- Suma odchylen: 810+(-1490)+1510+(-590)+(-1890)+2810+(-890)+(-1190)+(-190)+1110 = 0 ✓ (suma odchylen od sredniej zawsze = 0)\n- Srednia |odchylen|: (810+1490+1510+590+1890+2810+890+1190+190+1110)/10 = 12480/10 = 1248.00\n\n**Wyjasnienie**: Odchylenie od sredniej to miara rozproszenia — pokazuje, jak daleko dana wartosc jest od sredniej. ABS (wartosc bezwzgledna) usuwa znak, dzieki czemu mozna uśrednić odchylenia (inaczej suma odchylen = 0). AVERAGEIF laczy agregacje ze srednia warunkowa — przydatne do porownywania dzialow. Odwolanie `$G$1` jest bezwzgledne, bo srednia jest jedna dla calej firmy.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak $ w odwolaniu do sredniej**: =C2-G1 po skopiowaniu do wiersza 3 stanie sie =C3-G2, co jest bledem",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Zapomnienie o ABS**: Bez ABS srednia odchylen wyniesie 0, co jest bezuzyteczne",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Pomieszanie AVERAGE z AVERAGEIF**: AVERAGE(C2:C11) to srednia wszystkich, AVERAGEIF filtruje po dziale",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "18.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "ogolna",
+      "tagi": [
+        "SUM",
+        "AVERAGE",
+        "procent"
+      ],
+      "tresc": "Wyniki sprzedazy w 5 oddzialach firmy:\n\n| | A | B |\n|---|---|---|\n| 1 | **Oddzial** | **Sprzedaz (tys. zl)** |\n| 2 | Warszawa | 450 |\n| 3 | Kraków | 320 |\n| 4 | Wrocław | 280 |\n| 5 | Gdańsk | 190 |\n| 6 | Poznań | 260 |\n\n**Polecenie**:\n1. Oblicz laczna sprzedaz wszystkich oddzialow.\n2. Oblicz srednia sprzedaz na oddzial.\n3. W kolumnie C oblicz udzial procentowy kazdego oddzialu w calkowitej sprzedazy.",
+      "wskazowki": [
+        "**Kierunek**: SUM i AVERAGE na kolumnie B. Udzial = sprzedaz oddzialu / suma × 100%.",
+        "**Podejscie**: W kolumnie C formula odwoluje sie do komorki z suma (bezwzglednie z $).",
+        "**Kluczowy krok**: Sprawdz, czy suma udzialow = 100%."
+      ],
+      "odpowiedz": "**Formuly:**\n```\nSuma (np. B8):    =SUM(B2:B6)\nSrednia (np. B9): =AVERAGE(B2:B6)\nC2:              =B2/$B$8*100      (kopiowana w dol do C6)\n```\n\n**Obliczenia:**\n- Suma: 450+320+280+190+260 = **1500 tys. zl**\n- Srednia: 1500/5 = **300 tys. zl**\n\n| Oddzial | Sprzedaz | Udzial (%) |\n|---------|----------|------------|\n| Warszawa | 450 | 30.0% |\n| Kraków | 320 | 21.3% |\n| Wrocław | 280 | 18.7% |\n| Gdańsk | 190 | 12.7% |\n| Poznań | 260 | 17.3% |\n\nWeryfikacja: 30.0+21.3+18.7+12.7+17.3 = 100.0% ✓\n\n**Wyjasnienie**: Udzial procentowy = czesc/calosc × 100. Odwolanie $B$8 jest bezwzgledne, aby po skopiowaniu formuly zawsze odwolywac sie do komorki z suma calkowita.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak $ w odwolaniu do sumy**: =B2/B8*100 po skopiowaniu do C3 stanie sie =B3/B9*100 (B9 jest pusta!)",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak mnozenia razy 100**: =B2/$B$8 da 0.30 zamiast 30.0%",
+          "kara": "-1 pkt (chyba ze format komorki to %)"
+        }
+      ]
+    },
+    {
+      "id": "18.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2016 (Lotniska)",
+      "tagi": [
+        "ROUND",
+        "zaokraglanie",
+        "AVERAGE",
+        "MAX",
+        "MIN"
+      ],
+      "tresc": "Pomiary temperatury w 7 dniach (z dokladnoscia do 0.1°C):\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Dzien** | **Temp. rano** | **Temp. popoludniu** |\n| 2 | Pon | 5.37 | 14.82 |\n| 3 | Wt | 3.91 | 12.45 |\n| 4 | Sr | 6.14 | 16.73 |\n| 5 | Czw | 4.58 | 13.29 |\n| 6 | Pt | 7.23 | 18.51 |\n| 7 | Sob | 8.06 | 20.14 |\n| 8 | Ndz | 6.72 | 17.38 |\n\n**Polecenie**:\n1. W kolumnie D oblicz srednia temperature dnia (srednia z rana i popoludnia).\n2. W kolumnie E zaokraglij srednia do 1 miejsca po przecinku (ROUND).\n3. Oblicz najwyzsza i najnizsza srednia temperature w tygodniu.\n4. Oblicz srednia tygodniowa temperature (ze srednich dziennych zaokraglonych).",
+      "wskazowki": [
+        "**Kierunek**: AVERAGE z dwoch komorek da srednia dnia. ROUND(wartosc; liczba_miejsc) zaokragla.",
+        "**Podejscie**: Kolejnosc: D2=AVERAGE, E2=ROUND(D2;1), potem MAX/MIN/AVERAGE na kolumnie E.",
+        "**Kluczowy krok**: ROUND(wartosc; 1) zaokragla do 1 miejsca po przecinku. ROUND(wartosc; 0) do liczby calkowitej."
+      ],
+      "odpowiedz": "**Formuly:**\n```\nD2: =AVERAGE(B2:C2)          (kopiowana w dol)\nE2: =ROUND(D2;1)             (kopiowana w dol)\n\nNajwyzsza srednia: =MAX(E2:E8)\nNajnizsza srednia: =MIN(E2:E8)\nSrednia tygodniowa: =AVERAGE(E2:E8)\n```\n\n**Obliczenia:**\n\n| Dzien | Rano | Popolud. | D: Srednia | E: Zaokr. |\n|-------|------|----------|-----------|-----------|\n| Pon | 5.37 | 14.82 | 10.095 | 10.1 |\n| Wt | 3.91 | 12.45 | 8.180 | 8.2 |\n| Sr | 6.14 | 16.73 | 11.435 | 11.4 |\n| Czw | 4.58 | 13.29 | 8.935 | 8.9 |\n| Pt | 7.23 | 18.51 | 12.870 | 12.9 |\n| Sob | 8.06 | 20.14 | 14.100 | 14.1 |\n| Ndz | 6.72 | 17.38 | 12.050 | 12.1 |\n\n- Najwyzsza: **14.1** (Sob)\n- Najnizsza: **8.2** (Wt)\n- Srednia tygodniowa: (10.1+8.2+11.4+8.9+12.9+14.1+12.1)/7 = 77.7/7 = **11.1**\n\n**Wyjasnienie**: ROUND(wartosc; n) zaokragla do n miejsc po przecinku. Dla n=0 zaokragla do calkowitej, n=1 do jednego miejsca itd. Na maturze czesto trzeba zaokraglic wyniki posrednie przed dalszymi obliczeniami.",
+      "typowe_bledy": [
+        {
+          "opis": "**INT zamiast ROUND**: INT(10.095) = 10 (ucinanie), ROUND(10.095;1) = 10.1 (zaokraglanie)",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Zaokraglenie do zlej liczby miejsc**: ROUND(D2;2) daje 10.10 zamiast 10.1",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Obliczanie sredniej tygodniowej z niezaokraglonych wartosci**: Jesli polecenie mowi \"ze srednich zaokraglonych\", nalezy uzywac kolumny E, nie D",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "18.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "ogolna",
+      "tagi": [
+        "MEDIAN",
+        "AVERAGE",
+        "MAX",
+        "MIN",
+        "COUNT",
+        "procent"
+      ],
+      "tresc": "Wynagrodzenia 12 pracownikow firmy (w tys. zl):\n\n| | A | B |\n|---|---|---|\n| 1 | **Pracownik** | **Wynagrodzenie** |\n| 2 | P1 | 4.2 |\n| 3 | P2 | 5.1 |\n| 4 | P3 | 4.8 |\n| 5 | P4 | 12.5 |\n| 6 | P5 | 5.3 |\n| 7 | P6 | 4.5 |\n| 8 | P7 | 5.0 |\n| 9 | P8 | 4.9 |\n| 10 | P9 | 5.5 |\n| 11 | P10 | 4.7 |\n| 12 | P11 | 5.2 |\n| 13 | P12 | 4.6 |\n\n**Polecenie**:\n1. Oblicz srednia, mediane, minimum i maximum wynagrodzen.\n2. Ktora miara (srednia czy mediana) lepiej opisuje \"typowe\" wynagrodzenie? Uzasadnij.\n3. Ile osob zarabia powyzej sredniej? Jaki to procent?",
+      "wskazowki": [
+        "**Kierunek**: MEDIAN zwraca wartosc srodkowa — jest odporniejsza na wartosci odstajace niz AVERAGE.",
+        "**Podejscie**: Porownaj srednia z mediana. Jesli roznica jest duza, w danych sa wartosci odstajace (tu: P4 = 12.5).",
+        "**Kluczowy krok**: Uzyj COUNTIF z kryterium \">\"&srednia, aby policzyc osoby powyzej sredniej."
+      ],
+      "odpowiedz": "**Formuly:**\n```\nSrednia:   =AVERAGE(B2:B13)\nMediana:   =MEDIAN(B2:B13)\nMinimum:   =MIN(B2:B13)\nMaximum:   =MAX(B2:B13)\n\nPowyzej sredniej: =COUNTIF(B2:B13;\">\"&AVERAGE(B2:B13))\nProcent:          =COUNTIF(B2:B13;\">\"&AVERAGE(B2:B13))/COUNT(B2:B13)*100\n```\n\n**Obliczenia:**\n- Suma: 4.2+5.1+4.8+12.5+5.3+4.5+5.0+4.9+5.5+4.7+5.2+4.6 = 66.3\n- Srednia: 66.3/12 = **5.525 tys. zl**\n- Posortowane: 4.2, 4.5, 4.6, 4.7, 4.8, 4.9, 5.0, 5.1, 5.2, 5.3, 5.5, 12.5\n- Mediana (srednia z 6. i 7. wartosci): (4.9+5.0)/2 = **4.95 tys. zl**\n- Min: **4.2** (P1)\n- Max: **12.5** (P4)\n\nPowyzej sredniej (>5.525): P4 (12.5) i P9 (5.5) — nie, 5.5 < 5.525... Sprawdzmy:\n- P4: 12.5 > 5.525 ✓\n- P9: 5.5 < 5.525 ✗\n- Wiec tylko **1 osoba** (P4)\n- Procent: 1/12 × 100 = **8.33%**\n\n**2. Ktora miara lepsza?**\n**Mediana** (4.95) lepiej opisuje typowe wynagrodzenie. Srednia (5.525) jest zawyzona przez jedna wartosc odstajaca (P4 = 12.5 tys. zl). Tylko 1 z 12 osob zarabia powyzej sredniej, co potwierdza, ze srednia jest niereprezentatywna.\n\n**Wyjasnienie**: Mediana jest odporniejsza na wartosci skrajne (outliers). Jesli rozklad jest skosniony (jak tu — jedna bardzo wysoka pensja), mediana lepiej reprezentuje \"typowa\" wartosc. Na maturze czesto pytaja o interpretacje roznic miedzy srednia a mediana.",
+      "typowe_bledy": [
+        {
+          "opis": "**Pomieszanie MEDIAN z AVERAGE**: Mediana to wartosc srodkowa posortowanego zbioru, nie srednia arytmetyczna",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Bledne obliczenie mediany dla parzystej liczby elementow**: Dla 12 elementow mediana = srednia z 6. i 7. elementu (po posortowaniu)",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak uzasadnienia**: \"Mediana jest lepsza\" bez wyjaśnienia dlaczego",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "18.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "zrodlo": "Matura 2019 (Pogoda)",
+      "tagi": [
+        "AVERAGE",
+        "MAX",
+        "MIN",
+        "mnozenie-komorek",
+        "ROUND",
+        "procent"
+      ],
+      "tresc": "Sklep sprzedaje produkty w 3 kategoriach. Dane za tydzien:\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Dzien** | **Elektronika** | **Odzież** | **Żywność** | **Razem** |\n| 2 | Pon | 2500 | 1800 | 3200 | ? |\n| 3 | Wt | 1900 | 2100 | 2800 | ? |\n| 4 | Sr | 3100 | 1500 | 3500 | ? |\n| 5 | Czw | 2200 | 1900 | 2600 | ? |\n| 6 | Pt | 4500 | 2800 | 4100 | ? |\n| 7 | Sob | 5200 | 3500 | 4800 | ? |\n| 8 | Ndz | 800 | 900 | 1200 | ? |\n\n**Polecenie**:\n1. W kolumnie E oblicz laczna sprzedaz dnia (suma trzech kategorii).\n2. Oblicz srednia, najwyzsza i najnizsza dzienna sprzedaz (z kolumny E).\n3. W kolumnie F oblicz udzial elektroniki w sprzedazy dnia (B/E × 100), zaokraglony do 1 miejsca.\n4. W ktorym dniu udzial elektroniki byl najwyzszy?",
+      "wskazowki": [
+        "**Kierunek**: E = SUM trzech kolumn, F = B/E × 100 zaokraglone ROUND.",
+        "**Podejscie**: Oblicz E, potem F korzysta z E. Na koniec MAX/MIN/AVERAGE na E, oraz analiza F.",
+        "**Kluczowy krok**: Udzial = ROUND(B2/E2*100;1). Sprawdz, ktory dzien ma najwyzszy F."
+      ],
+      "odpowiedz": "**Formuly:**\n```\nE2: =SUM(B2:D2)                    (kopiowana w dol)\nF2: =ROUND(B2/E2*100;1)            (kopiowana w dol)\n\nSrednia dzienna: =AVERAGE(E2:E8)\nNajwyzsza:       =MAX(E2:E8)\nNajnizsza:       =MIN(E2:E8)\n```\n\n**Obliczenia:**\n\n| Dzien | Elek. | Odzież | Żywn. | E: Razem | F: % Elek. |\n|-------|-------|--------|-------|----------|------------|\n| Pon | 2500 | 1800 | 3200 | 7500 | 33.3 |\n| Wt | 1900 | 2100 | 2800 | 6800 | 27.9 |\n| Sr | 3100 | 1500 | 3500 | 8100 | 38.3 |\n| Czw | 2200 | 1900 | 2600 | 6700 | 32.8 |\n| Pt | 4500 | 2800 | 4100 | 11400 | 39.5 |\n| Sob | 5200 | 3500 | 4800 | 13500 | 38.5 |\n| Ndz | 800 | 900 | 1200 | 2900 | 27.6 |\n\n- Srednia: (7500+6800+8100+6700+11400+13500+2900)/7 = 56900/7 = **8128.57**\n- Najwyzsza: **13500** (Sob)\n- Najnizsza: **2900** (Ndz)\n- Najwyzszy udzial elektroniki: **39.5%** (Piatek)\n\n**Wyjasnienie**: Udzial procentowy pozwala porownac proporcje niezaleznie od calkowitej sprzedazy. Piatek ma najwyzszy udzial elektroniki (39.5%), mimo ze sobota ma wyzsza bezwzgledna sprzedaz elektroniki (5200 vs 4500). To pokazuje roznice miedzy wartoscia bezwzgledna a wzgledna (procentowa).",
+      "typowe_bledy": [
+        {
+          "opis": "**Dzielenie przez B+C+D zamiast E**: =B2/(B2+C2+D2)*100 zadziala, ale lepiej uzyc E2 (unika duplikacji obliczen). CKE: akceptowane",
+          "kara": ""
+        },
+        {
+          "opis": "**Zapomnienie o ROUND**: Bez zaokraglenia wyniki beda mialy wiele miejsc po przecinku (np. 33.333...)",
+          "kara": "-1 pkt jesli polecenie wymaga zaokraglenia"
+        },
+        {
+          "opis": "**Pomieszanie najwyzszej sprzedazy z najwyzszym udzialem**: Sob ma najwyzsza sprzedaz (13500), ale Pt ma najwyzszy udzial elektroniki (39.5%)",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "18.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2025 (Martianeum)",
+      "tagi": [
+        "AVERAGE",
+        "MAX",
+        "MIN",
+        "RANK",
+        "ROUND",
+        "odchylenie-od-sredniej",
+        "ABS",
+        "zakres-bezwzgledny"
+      ],
+      "tresc": "Uczniowie brali udzial w 5 konkursach przedmiotowych. Punkty (0-100):\n\n| | A | B | C | D | E | F |\n|---|---|---|---|---|---|---|\n| 1 | **Uczen** | **Mat** | **Fiz** | **Inf** | **Bio** | **Chem** |\n| 2 | Alicja | 78 | 65 | 92 | 54 | 71 |\n| 3 | Borys | 85 | 72 | 88 | 61 | 68 |\n| 4 | Celina | 62 | 91 | 45 | 83 | 77 |\n| 5 | Daniel | 95 | 58 | 97 | 42 | 55 |\n| 6 | Ewa | 71 | 80 | 76 | 79 | 82 |\n| 7 | Filip | 88 | 69 | 84 | 57 | 63 |\n| 8 | Gosia | 55 | 87 | 51 | 90 | 85 |\n\n**Polecenie**:\n1. W kolumnie G oblicz srednia punktow kazdego ucznia (ze wszystkich 5 konkursow), zaokraglona do 1 miejsca.\n2. W kolumnie H oblicz rozstep punktow kazdego ucznia (MAX - MIN z jego wynikow).\n3. W kolumnie I wpisz ranking na podstawie sredniej (1 = najlepsza srednia).\n4. Oblicz srednia klasy dla kazdego przedmiotu osobno.\n5. Ktory uczen ma najbardziej wyrownane wyniki (najmniejszy rozstep)?\n6. Ktory uczen ma najwyzsza srednia, ale jednoczesnie duzy rozstep (>30)?",
+      "wskazowki": [
+        "**Kierunek**: Kazdy uczen to jeden wiersz — AVERAGE, MAX, MIN operuja na B:F danego wiersza.",
+        "**Podejscie**: Rozstep = MAX(wiersz) - MIN(wiersz). RANK operuje na kolumnie G (srednie).",
+        "**Kluczowy krok**: Porownaj ranking ze rozstepem — wysoka srednia z duzym rozstepem oznacza nierownomierne wyniki."
+      ],
+      "odpowiedz": "**Formuly:**\n```\nG2: =ROUND(AVERAGE(B2:F2);1)     (kopiowana w dol)\nH2: =MAX(B2:F2)-MIN(B2:F2)       (kopiowana w dol)\nI2: =RANK(G2;$G$2:$G$8;0)        (kopiowana w dol)\n\nSrednia klasy Mat: =AVERAGE(B2:B8)\nSrednia klasy Fiz: =AVERAGE(C2:C8)\n(analogicznie dla Inf, Bio, Chem)\n```\n\n**Obliczenia:**\n\n| Uczen | Mat | Fiz | Inf | Bio | Chem | G: Sred. | H: Rozstep | I: Rank |\n|-------|-----|-----|-----|-----|------|---------|-----------|---------|\n| Alicja | 78 | 65 | 92 | 54 | 71 | 72.0 | 38 | 4 |\n| Borys | 85 | 72 | 88 | 61 | 68 | 74.8 | 27 | 2 |\n| Celina | 62 | 91 | 45 | 83 | 77 | 71.6 | 46 | 5 |\n| Daniel | 95 | 58 | 97 | 42 | 55 | 69.4 | 55 | 6 |\n| Ewa | 71 | 80 | 76 | 79 | 82 | 77.6 | 11 | 1 |\n| Filip | 88 | 69 | 84 | 57 | 63 | 72.2 | 31 | 3 |\n| Gosia | 55 | 87 | 51 | 90 | 85 | 73.6 | 39 | — |\n\nWeryfikacja G:\n- Alicja: (78+65+92+54+71)/5 = 360/5 = 72.0 ✓\n- Borys: (85+72+88+61+68)/5 = 374/5 = 74.8 ✓\n- Ewa: (71+80+76+79+82)/5 = 388/5 = 77.6 ✓\n- Daniel: (95+58+97+42+55)/5 = 347/5 = 69.4 ✓\n- Gosia: (55+87+51+90+85)/5 = 368/5 = 73.6\n\nRanking: 77.6 (1.), 74.8 (2.), 73.6 (3.), 72.2 (4.), 72.0 (5.), 71.6 (6.), 69.4 (7.)\n\nKorekta rankingu:\n| Uczen | Srednia | Ranking |\n|-------|---------|---------|\n| Ewa | 77.6 | 1 |\n| Borys | 74.8 | 2 |\n| Gosia | 73.6 | 3 |\n| Filip | 72.2 | 4 |\n| Alicja | 72.0 | 5 |\n| Celina | 71.6 | 6 |\n| Daniel | 69.4 | 7 |\n\n**Srednie na przedmiot:**\n- Mat: (78+85+62+95+71+88+55)/7 = 534/7 = **76.3**\n- Fiz: (65+72+91+58+80+69+87)/7 = 522/7 = **74.6**\n- Inf: (92+88+45+97+76+84+51)/7 = 533/7 = **76.1**\n- Bio: (54+61+83+42+79+57+90)/7 = 466/7 = **66.6**\n- Chem: (71+68+77+55+82+63+85)/7 = 501/7 = **71.6**\n\n**5. Najbardziej wyrownane wyniki:**\n**Ewa** — rozstep = 11 (wyniki 71-82, wszystkie zblizone)\n\n**6. Najwyzsza srednia z duzym rozstepem (>30):**\nOsoby z rozstepem >30: Alicja (38), Celina (46), Daniel (55), Filip (31), Gosia (39)\nNajwyzsza srednia wsrod nich: **Gosia** (73.6, rozstep 39) lub **Borys** (74.8, rozstep 27 — nie spelnia >30)\nOdpowiedz: **Gosia** (srednia 73.6, rozstep 39)\n\n**Wyjasnienie**: Rozstep (MAX-MIN) mierzy rozrzut wynikow ucznia. Maly rozstep = wyrownane wyniki (Ewa: 11), duzy = duza zmiennosc (Daniel: 55 — swietny z Mat/Inf, slaby z Bio). Na maturze analiza rozstepu pozwala interpretowac profile uczniow.",
+      "typowe_bledy": [
+        {
+          "opis": "**AVERAGE z kolumny zamiast wiersza**: =AVERAGE(B2:B8) to srednia wszystkich uczniow z matematyki, nie srednia jednego ucznia",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak ROUND w sredniej**: Bez zaokraglenia srednia moze miec wiele miejsc po przecinku",
+          "kara": "-1 pkt jesli wymagane"
+        },
+        {
+          "opis": "**Pomieszanie rozstepu z odchyleniem standardowym**: Rozstep = MAX-MIN, odchylenie standardowe to inna miara (STDEV)",
+          "kara": "-1 pkt"
+        }
+      ]
+    }
+  ]
+}

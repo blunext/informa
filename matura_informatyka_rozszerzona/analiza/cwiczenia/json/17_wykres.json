@@ -1,0 +1,335 @@
+{
+  "typ": "17_wykres",
+  "nazwa": "Wykresy w arkuszu kalkulacyjnym",
+  "kategoria": "ARKUSZ",
+  "czestotliwosc": "8/11 lat",
+  "punkty_lacznie": 25,
+  "tagi_globalne": [
+    "wykres-kolumnowy",
+    "wykres-kolowy",
+    "wykres-liniowy",
+    "wykres-grupowany",
+    "wykres-skumulowany",
+    "wykres-kombinowany",
+    "dwie-osie-Y",
+    "etykiety-danych",
+    "legenda",
+    "tytuly-osi",
+    "odczyt-z-wykresu",
+    "procent-udzialu",
+    "formatowanie-wykresu",
+    "seria-danych"
+  ],
+  "cwiczenia": [
+    {
+      "id": "17.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "ogolna",
+      "tagi": [
+        "wykres-kolumnowy",
+        "etykiety-danych",
+        "tytuly-osi"
+      ],
+      "tresc": "Uczniowie klasy pisali test z matematyki. Wyniki pogrupowano w przedzialy:\n\n| | A | B |\n|---|---|---|\n| 1 | **Przedzial punktow** | **Liczba uczniow** |\n| 2 | 0-20% | 2 |\n| 3 | 21-40% | 5 |\n| 4 | 41-60% | 8 |\n| 5 | 61-80% | 7 |\n| 6 | 81-100% | 3 |\n\n**Polecenie**: Opisz, jak utworzyc wykres kolumnowy (histogram) przedstawiajacy rozklad wynikow testu. Podaj:\n1. Typ wykresu\n2. Dane dla osi X i Y\n3. Tytul wykresu i osi\n4. Dodatkowe formatowanie",
+      "wskazowki": [
+        "**Kierunek**: Wykres kolumnowy (slupkowy pionowy) jest najlepszy dla danych kategorycznych z wartosciami liczbowymi.",
+        "**Podejscie**: Os X to kategorie (przedzialy), os Y to wartosci (liczba uczniow). Jedna seria danych.",
+        "**Kluczowy krok**: Pamietaj o: tytule wykresu, podpisach osi, etykietach danych, odpowiedniej skali osi Y."
+      ],
+      "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kolumnowy (slupkowy pionowy)\n2. **Dane**:\n   - Os X (kategorie): zakres A2:A6 (przedzialy punktow)\n   - Os Y (wartosci): zakres B2:B6 (liczba uczniow)\n3. **Tytuly**:\n   - Tytul wykresu: \"Rozklad wynikow testu z matematyki\"\n   - Os X: \"Przedzial punktow\"\n   - Os Y: \"Liczba uczniow\"\n4. **Formatowanie**:\n   - Kolumny w jednym kolorze (jedna seria danych)\n   - Etykiety danych nad kazdym slupkiem (2, 5, 8, 7, 3)\n   - Linie siatki poziomej dla latwiejszego odczytu\n   - Os Y od 0 do 10 (z krokiem co 2)\n\n**Wyjasnienie**: Wykres kolumnowy jest najwlasciwszy, bo os X zawiera kategorie (przedzialy), a os Y wartosci liczbowe. Kazdy slupek reprezentuje jedna kategorie. Na maturze nalezy zadbac o: czytelny tytul, podpisy osi, etykiety danych.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak tytulu wykresu lub podpisow osi**: Na maturze za brakujace elementy opisowe odejmuje sie punkty",
+          "kara": "-1 pkt za kazdy brakujacy element"
+        },
+        {
+          "opis": "**Wybor zlego typu wykresu**: Wykres kolowy dla rozkladu wynikow jest niewlasciwy — kolumnowy lepiej pokazuje porownanie miedzy przedzialami",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "17.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2017 (Cukier)",
+      "tagi": [
+        "wykres-kolowy",
+        "procent-udzialu",
+        "legenda",
+        "etykiety-danych"
+      ],
+      "tresc": "Rodzina prowadzi budzet domowy. Wydatki miesieczne wg kategorii:\n\n| | A | B |\n|---|---|---|\n| 1 | **Kategoria** | **Kwota (zl)** |\n| 2 | Zywnosc | 1800 |\n| 3 | Mieszkanie | 2200 |\n| 4 | Transport | 600 |\n| 5 | Rozrywka | 400 |\n| 6 | Oszczednosci | 1000 |\n\n**Polecenie**: Opisz, jak utworzyc wykres kolowy z etykietami procentowymi pokazujacy udzial kazdej kategorii w budzecie. Oblicz udzialy procentowe.",
+      "wskazowki": [
+        "**Kierunek**: Wykres kolowy najlepiej pokazuje udzial czesci w calosci. Kazdy wycinek = jedna kategoria.",
+        "**Podejscie**: Oblicz sume wszystkich wydatkow, potem udzial kazdej kategorii (kwota/suma × 100%).",
+        "**Kluczowy krok**: Etykiety na wykresie: nazwa kategorii + procent. Legenda po prawej stronie."
+      ],
+      "odpowiedz": "**Obliczenia:**\n\nSuma wydatkow: 1800 + 2200 + 600 + 400 + 1000 = 6000 zl\n\n| Kategoria | Kwota | Udzial |\n|-----------|-------|--------|\n| Zywnosc | 1800 | 30.0% |\n| Mieszkanie | 2200 | 36.7% |\n| Transport | 600 | 10.0% |\n| Rozrywka | 400 | 6.7% |\n| Oszczednosci | 1000 | 16.7% |\n\n**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kolowy (pie chart)\n2. **Dane**:\n   - Etykiety (kategorie): zakres A2:A6\n   - Wartosci: zakres B2:B6\n3. **Tytul**: \"Struktura wydatkow miesiecznych\"\n4. **Formatowanie**:\n   - Etykiety na kazdym wycinku: nazwa kategorii + procent (np. \"Zywnosc 30.0%\")\n   - Rozne kolory dla kazdej kategorii\n   - Legenda po prawej stronie wykresu\n   - Procenty zaokraglone do 1 miejsca po przecinku\n\n**Wyjasnienie**: Wykres kolowy przedstawia czesci calosci — idealny do pokazania struktury wydatkow. Etykiety procentowe sa obliczane automatycznie przez arkusz (opcja \"Pokaz wartosci jako procenty\"). Suma wycinkow zawsze = 100%.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak etykiet procentowych**: Wykres kolowy bez procentow jest nieczytelny — nie wiadomo, jaki udzial ma kazda kategoria",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Zbyt wiele kategorii**: Wykres kolowy jest czytelny dla 3-7 kategorii. Dla wiekszej liczby lepszy jest kolumnowy. CKE: uwaga ogolna",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "17.3",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2023 (Konfitury)",
+      "tagi": [
+        "wykres-grupowany",
+        "legenda",
+        "seria-danych",
+        "odczyt-z-wykresu"
+      ],
+      "tresc": "Firma sprzedaje 3 produkty. Dane miesiecznej sprzedazy (w tys. zl):\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Miesiac** | **Produkt A** | **Produkt B** | **Produkt C** |\n| 2 | Styczen | 45 | 30 | 20 |\n| 3 | Luty | 38 | 35 | 25 |\n| 4 | Marzec | 52 | 28 | 30 |\n| 5 | Kwiecien | 41 | 42 | 22 |\n| 6 | Maj | 55 | 38 | 35 |\n| 7 | Czerwiec | 48 | 45 | 28 |\n\n**Polecenie**: Opisz, jak utworzyc wykres kolumnowy grupowany (3 serie danych obok siebie) z legenda. Podaj pelna specyfikacje wykresu i odpowiedz na pytanie: w ktorym miesiacu laczna sprzedaz wszystkich produktow byla najwyzsza?",
+      "wskazowki": [
+        "**Kierunek**: Wykres grupowany — kazdy miesiac ma 3 slupki obok siebie (po jednym na produkt).",
+        "**Podejscie**: 3 serie danych = 3 kolumny (B, C, D). Os X = miesiace. Legenda rozroznia serie.",
+        "**Kluczowy krok**: Aby znalezc najwyzsza laczna sprzedaz, zsumuj B+C+D w kazdym wierszu."
+      ],
+      "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kolumnowy grupowany (clustered column)\n2. **Dane**:\n   - Os X (kategorie): zakres A2:A7 (miesiace)\n   - Seria 1: B2:B7 (Produkt A) — np. kolor niebieski\n   - Seria 2: C2:C7 (Produkt B) — np. kolor pomaranczowy\n   - Seria 3: D2:D7 (Produkt C) — np. kolor zielony\n3. **Tytuly**:\n   - Tytul: \"Miesieczna sprzedaz produktow (tys. zl)\"\n   - Os X: \"Miesiac\"\n   - Os Y: \"Sprzedaz (tys. zl)\"\n4. **Formatowanie**:\n   - Legenda u gory lub po prawej: Produkt A, Produkt B, Produkt C\n   - 3 slupki obok siebie w kazdym miesiacu\n   - Linie siatki poziomej\n   - Os Y od 0 do 60\n\n**Laczna sprzedaz:**\n\n| Miesiac | A + B + C | Suma |\n|---------|-----------|------|\n| Styczen | 45+30+20 | 95 |\n| Luty | 38+35+25 | 98 |\n| Marzec | 52+28+30 | 110 |\n| Kwiecien | 41+42+22 | 105 |\n| Maj | 55+38+35 | **128** |\n| Czerwiec | 48+45+28 | 121 |\n\nNajwyzsza laczna sprzedaz: **Maj (128 tys. zl)**\n\n**Wyjasnienie**: Wykres grupowany pozwala porownywac wartosci miedzy seriami w ramach jednej kategorii (np. ktory produkt sprzedal sie najlepiej w marcu) oraz miedzy kategoriami (np. trend sprzedazy Produktu A w czasie). Legenda jest niezbedna, gdy jest wiecej niz jedna seria danych.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak legendy**: Przy 3 seriach danych bez legendy nie wiadomo, ktory slupek odpowiada ktoremu produktowi",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Uzycie wykresu skumulowanego zamiast grupowanego**: Skumulowany uklada serie jedna na drugiej — nie pozwala porownac poszczegolnych produktow",
+          "kara": "-2 pkt jesli zadanie wymaga porownania"
+        }
+      ]
+    },
+    {
+      "id": "17.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2025 (Martianeum)",
+      "tagi": [
+        "wykres-skumulowany",
+        "procent-udzialu",
+        "seria-danych",
+        "odczyt-z-wykresu"
+      ],
+      "tresc": "Zuzycie energii (w GWh) wg zrodel w 4 kwartalach:\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Zrodlo** | **Q1** | **Q2** | **Q3** | **Q4** |\n| 2 | Wegiel | 120 | 100 | 80 | 130 |\n| 3 | Gaz | 60 | 50 | 45 | 65 |\n| 4 | OZE | 30 | 55 | 70 | 35 |\n| 5 | Atom | 90 | 90 | 90 | 90 |\n\n**Polecenie**:\n1. Opisz, jak utworzyc wykres kolumnowy skumulowany (stacked) gdzie kazdy slupek pokazuje calkowite zuzycie energii w kwartale, podzielone na zrodla.\n2. Oblicz calkowite zuzycie w kazdym kwartale.\n3. W ktorym kwartale udzial OZE byl procentowo najwyzszy?",
+      "wskazowki": [
+        "**Kierunek**: Wykres skumulowany — serie ulozone jedna na drugiej. Wysokosc calego slupka = suma.",
+        "**Podejscie**: Os X = kwartaly, kazde zrodlo to osobna seria. Udzial OZE = OZE/razem × 100%.",
+        "**Kluczowy krok**: Uwaga — dane w tabeli sa ulozone \"zrodla w wierszach\", wiec na wykresie serie to wiersze, nie kolumny."
+      ],
+      "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kolumnowy skumulowany (stacked column)\n2. **Dane** (uwaga — dane trzeba \"transponowac\" w ukladzie: kwartaly na osi X, zrodla jako serie):\n   - Os X (kategorie): Q1, Q2, Q3, Q4\n   - Seria 1 (Wegiel): B2:E2\n   - Seria 2 (Gaz): B3:E3\n   - Seria 3 (OZE): B4:E4\n   - Seria 4 (Atom): B5:E5\n3. **Tytuly**:\n   - Tytul: \"Zuzycie energii wg zrodel (GWh)\"\n   - Os X: \"Kwartal\"\n   - Os Y: \"Zuzycie (GWh)\"\n4. **Formatowanie**:\n   - Kolory: Wegiel=czarny, Gaz=szary, OZE=zielony, Atom=zolty\n   - Legenda po prawej stronie\n   - Kazdy slupek sklada sie z 4 warstw (jedno zrodlo na warstwe)\n   - Calkowita wysokosc slupka = suma wszystkich zrodel\n\n**Obliczenia:**\n\n| Kwartal | Wegiel | Gaz | OZE | Atom | Razem |\n|---------|--------|-----|-----|------|-------|\n| Q1 | 120 | 60 | 30 | 90 | 300 |\n| Q2 | 100 | 50 | 55 | 90 | 295 |\n| Q3 | 80 | 45 | 70 | 90 | 285 |\n| Q4 | 130 | 65 | 35 | 90 | 320 |\n\n**Udzial OZE:**\n\n| Kwartal | OZE | Razem | Udzial OZE |\n|---------|-----|-------|------------|\n| Q1 | 30 | 300 | 10.0% |\n| Q2 | 55 | 295 | 18.6% |\n| Q3 | 70 | 285 | **24.6%** |\n| Q4 | 35 | 320 | 10.9% |\n\nNajwyzszy udzial OZE: **Q3 (24.6%)**\n\n**Wyjasnienie**: Wykres skumulowany rozni sie od grupowanego tym, ze serie sa ulozone jedna na drugiej (nie obok siebie). Pozwala to jednoczesnie zobaczyc calkosc (wysokosc slupka) i sklad (czesci). Udzial procentowy = OZE / Razem × 100%. Na maturze trzeba umiec odczytac z wykresu skumulowanego zarowno wartosc calkowita, jak i poszczegolne czesci.",
+      "typowe_bledy": [
+        {
+          "opis": "**Pominiecie transpozycji danych**: Jesli dane sa w wierszach (jak tu), trzeba wskazac programowi, ze serie to wiersze, nie kolumny",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Bledne odczytanie wartosci ze skumulowanego**: Wartosc pojedynczej serii to roznica miedzy gorna a dolna krawedzia warstwy, NIE odczyt z osi Y",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "17.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2019 (Pogoda)",
+      "tagi": [
+        "wykres-kombinowany",
+        "dwie-osie-Y",
+        "wykres-liniowy",
+        "wykres-kolumnowy",
+        "odczyt-z-wykresu"
+      ],
+      "tresc": "Dane pogodowe z 10 dni:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Dzien** | **Temp. max (°C)** | **Temp. min (°C)** | **Opady (mm)** |\n| 2 | 1 | 22 | 12 | 0 |\n| 3 | 2 | 25 | 15 | 0 |\n| 4 | 3 | 20 | 14 | 8 |\n| 5 | 4 | 18 | 11 | 15 |\n| 6 | 5 | 16 | 9 | 22 |\n| 7 | 6 | 19 | 10 | 5 |\n| 8 | 7 | 23 | 13 | 0 |\n| 9 | 8 | 27 | 16 | 0 |\n| 10 | 9 | 24 | 14 | 3 |\n| 11 | 10 | 21 | 12 | 12 |\n\n**Polecenie**: Opisz, jak utworzyc wykres kombinowany (liniowo-kolumnowy) z dwiema osiami Y:\n- Os lewa (Y1): temperatura — dwie linie (max i min)\n- Os prawa (Y2): opady — slupki\nPodaj pelna specyfikacje i odpowiedz: w ktorych dniach opady przekroczyly 10mm, a temperatura maksymalna spadla ponizej 20°C?",
+      "wskazowki": [
+        "**Kierunek**: Wykres kombinowany laczy dwa typy wykresow (liniowy + kolumnowy) z dwiema osiami Y.",
+        "**Podejscie**: Temperatura i opady maja rozne jednostki i skale — potrzebna os dodatkowa. Linie = temperatura, slupki = opady.",
+        "**Kluczowy krok**: W arkuszu: wstaw wykres, zmien serie temperatur na liniowe, przesuń opady na os prawa."
+      ],
+      "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kombinowany (combo chart) — liniowy + kolumnowy z dwiema osiami Y\n2. **Dane**:\n   - Os X: A2:A11 (numery dni)\n   - Seria 1 (linia, os lewa): B2:B11 — Temp. max, kolor czerwony, linia ciagla z markerami\n   - Seria 2 (linia, os lewa): C2:C11 — Temp. min, kolor niebieski, linia ciagla z markerami\n   - Seria 3 (slupki, os prawa): D2:D11 — Opady, kolor jasnoniebieski, slupki\n3. **Osie**:\n   - Os lewa (Y1): \"Temperatura (°C)\", zakres np. 0-30\n   - Os prawa (Y2): \"Opady (mm)\", zakres np. 0-25\n   - Os X: \"Dzien\"\n4. **Formatowanie**:\n   - Tytul: \"Temperatura i opady w ciagu 10 dni\"\n   - Legenda u gory: Temp. max, Temp. min, Opady\n   - Linie siatki poziomej dla osi lewej\n   - Slupki opadow sa \"za\" liniami temperatury (na drugim planie)\n\n**Tworzenie w arkuszu (krok po kroku):**\n1. Zaznacz dane A1:D11\n2. Wstaw wykres kolumnowy\n3. Zmien serie Temp. max i Temp. min na typ \"liniowy\"\n4. Przesuń serie Opady na os dodatkowa (prawa)\n5. Dodaj tytuly osi i legende\n\n**Odpowiedz na pytanie:**\n\n| Dzien | Temp. max | Opady | Opady>10 i Temp<20? |\n|-------|-----------|-------|---------------------|\n| 4 | 18 | 15 | TAK (18<20 i 15>10) |\n| 5 | 16 | 22 | TAK (16<20 i 22>10) |\n| 10 | 21 | 12 | NIE (21≥20) |\n\nDni spelniajace oba warunki: **dzien 4 i dzien 5**\n\n**Wyjasnienie**: Wykres z dwiema osiami Y jest potrzebny, gdy serie maja rozne jednostki lub skale (°C vs mm). Bez osobnej osi slupki opadow (0-22) bylyby nieczytelne na skali temperatury (0-30). Na maturze nalezy precyzyjnie opisac: ktore serie sa na ktorej osi, jaki typ (linia/slupek), kolory i legende.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak drugiej osi Y**: Umieszczenie temperatury i opadow na jednej osi — skale sa rozne, wykres bedzie nieczytelny",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Wszystkie serie jako slupki**: Temperatura powinna byc linia (trend), opady slupkami (pojedyncze zdarzenia)",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Bledne przypisanie serii do osi**: Opady na osi lewej, temperatura na prawej — odwrocona logika",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "17.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "ogolna",
+      "tagi": [
+        "wykres-liniowy",
+        "etykiety-danych",
+        "tytuly-osi",
+        "formatowanie-wykresu"
+      ],
+      "tresc": "Pomiary temperatury powietrza w ciagu dnia:\n\n| | A | B |\n|---|---|---|\n| 1 | **Godzina** | **Temperatura (°C)** |\n| 2 | 6:00 | 8 |\n| 3 | 9:00 | 14 |\n| 4 | 12:00 | 21 |\n| 5 | 15:00 | 23 |\n| 6 | 18:00 | 18 |\n| 7 | 21:00 | 12 |\n\n**Polecenie**: Opisz, jak utworzyc wykres liniowy przedstawiajacy zmiane temperatury w ciagu dnia. Podaj:\n1. Typ wykresu i uzasadnienie wyboru\n2. Dane dla osi X i Y\n3. Elementy opisu wykresu\n4. W jakiej godzinie temperatura byla najwyzsza?",
+      "wskazowki": [
+        "**Kierunek**: Wykres liniowy jest najlepszy dla danych cioglych w czasie — pokazuje trend.",
+        "**Podejscie**: Os X = godziny (czas), os Y = temperatura. Jedna seria danych z markerami.",
+        "**Kluczowy krok**: Odczytaj wartosc maksymalna z tabeli — nie musisz uzywac formuly, wystarczy analiza danych."
+      ],
+      "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres liniowy z markerami\n   - Uzasadnienie: dane przedstawiaja zmiane jednej wielkosci w czasie — linia najlepiej uwidacznia trend (wzrost rano, szczyt po poludniu, spadek wieczorem)\n2. **Dane**:\n   - Os X: A2:A7 (godziny)\n   - Os Y: B2:B7 (temperatura)\n3. **Elementy opisu**:\n   - Tytul: \"Temperatura powietrza w ciagu dnia\"\n   - Os X: \"Godzina\"\n   - Os Y: \"Temperatura (°C)\"\n   - Markery w kazdym punkcie pomiarowym\n   - Etykiety danych przy markerach (8, 14, 21, 23, 18, 12)\n4. Najwyzsza temperatura: **23°C o godzinie 15:00**\n\n**Wyjasnienie**: Wykres liniowy jest preferowany dla danych czasowych, bo linia sugeruje ciagle zmiany miedzy pomiarami. Markery wskazuja dokladne punkty pomiarowe. Na maturze — zawsze uzasadniaj wybor typu wykresu.",
+      "typowe_bledy": [
+        {
+          "opis": "**Wykres kolumnowy zamiast liniowego**: Dla danych czasowych wykres kolumnowy sugeruje niezalezne kategorie, a nie ciagla zmiane",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak markerow**: Sama linia bez markerow moze utrudnic dokladny odczyt wartosci. CKE: zwykle akceptowane, ale mniej czytelne",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "17.7",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2018 (Szkolna biblioteka)",
+      "tagi": [
+        "wykres-kolumnowy",
+        "wykres-kolowy",
+        "procent-udzialu",
+        "odczyt-z-wykresu"
+      ],
+      "tresc": "Wyniki ankiety \"Ulubiony sport\" wsrod 200 uczniow:\n\n| | A | B |\n|---|---|---|\n| 1 | **Sport** | **Liczba glosow** |\n| 2 | Piłka nożna | 68 |\n| 3 | Koszykówka | 42 |\n| 4 | Siatkówka | 35 |\n| 5 | Tenis | 25 |\n| 6 | Pływanie | 18 |\n| 7 | Inne | 12 |\n\n**Polecenie**:\n1. Opisz, jak utworzyc wykres kolowy z etykietami (nazwa + procent).\n2. Oblicz udzial procentowy kazdego sportu.\n3. Ktory typ wykresu lepiej nada sie do porownania liczby glosow: kolowy czy kolumnowy? Uzasadnij.\n4. Jaki procent uczniow wybralo sport druzynowy (piłka nożna, koszykówka, siatkówka)?",
+      "wskazowki": [
+        "**Kierunek**: Wykres kolowy — struktura (udzialy), kolumnowy — porownanie wartosci bezwzglednych.",
+        "**Podejscie**: Udzial = glosy/200 × 100%. Sport druzynowy to suma trzech kategorii.",
+        "**Kluczowy krok**: Oba typy wykresow sa poprawne w roznych kontekstach — uzasadnij wybor na podstawie celu prezentacji."
+      ],
+      "odpowiedz": "**1. Specyfikacja wykresu kolowego:**\n- Etykiety: A2:A7, Wartosci: B2:B7\n- Etykiety na wycinkach: \"Piłka nożna 34.0%\", \"Koszykówka 21.0%\" itd.\n- Legenda po prawej, tytul: \"Ulubiony sport — wyniki ankiety\"\n\n**2. Udzialy procentowe:**\n\n| Sport | Glosy | Udzial |\n|-------|-------|--------|\n| Piłka nożna | 68 | 34.0% |\n| Koszykówka | 42 | 21.0% |\n| Siatkówka | 35 | 17.5% |\n| Tenis | 25 | 12.5% |\n| Pływanie | 18 | 9.0% |\n| Inne | 12 | 6.0% |\n\nWeryfikacja: 34.0+21.0+17.5+12.5+9.0+6.0 = 100.0% ✓\n\n**3. Porownanie typow wykresow:**\n- **Kolowy** — lepszy do pokazania **struktury** (jaki procent calosci stanowi kazdy sport). Czytelny przy 6 kategoriach.\n- **Kolumnowy** — lepszy do **porownania wartosci** (latwiej zobaczyc roznice miedzy slupkami niz miedzy wycinkami). Lepsza precyzja odczytu.\n- **Rekomendacja**: Jesli celem jest porownanie popularnosci — **kolumnowy**. Jesli celem jest pokazanie udzialow — **kolowy**.\n\n**4. Sport druzynowy:**\nPiłka nożna + Koszykówka + Siatkówka = 68 + 42 + 35 = 145\nProcent: 145/200 × 100 = **72.5%**\n\n**Wyjasnienie**: Na maturze czesto pojawia sie pytanie o wybor typu wykresu. Klucz: kolowy = czesc z calosci, kolumnowy = porownanie, liniowy = trend w czasie.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak uzasadnienia wyboru typu**: Na maturze nie wystarczy napisac \"kolumnowy\" — trzeba wyjaśnic DLACZEGO",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Bledne obliczenie procentu**: 68/200 = 0.34, nie 0.34% — pamietaj o mnozeniu razy 100",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Nieuwzglednienie kategorii \"Inne\"**: Suma procentow musi = 100%",
+          "kara": "-1 pkt jesli brakuje"
+        }
+      ]
+    },
+    {
+      "id": "17.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2022 (Wybory)",
+      "tagi": [
+        "wykres-grupowany",
+        "wykres-skumulowany",
+        "seria-danych",
+        "legenda",
+        "odczyt-z-wykresu"
+      ],
+      "tresc": "Wyniki egzaminu w 4 klasach:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Klasa** | **Celujacy/Bdb** | **Dobry/Dst** | **Dop/Ndst** |\n| 2 | 3A | 8 | 14 | 3 |\n| 3 | 3B | 5 | 12 | 8 |\n| 4 | 3C | 10 | 11 | 4 |\n| 5 | 3D | 3 | 9 | 13 |\n\n**Polecenie**:\n1. Jaki typ wykresu (grupowany czy skumulowany) lepiej pokaze: (a) liczebnosc klas, (b) rozklad ocen w klasach? Uzasadnij.\n2. Opisz specyfikacje wykresu skumulowanego procentowego (100% stacked) dla tych danych.\n3. Oblicz rozmiar kazdej klasy i procentowy udzial kazdej grupy ocen.",
+      "wskazowki": [
+        "**Kierunek**: Skumulowany pokazuje sume (liczebnosc klasy), grupowany pozwala porownac poszczegolne kategorie ocen. Skumulowany 100% normalizuje do procentow.",
+        "**Podejscie**: Dla wykresu 100% stacked — kazdy slupek ma ta sama wysokosc (100%), a proporcje wewnatrz pokazuja strukture.",
+        "**Kluczowy krok**: Rozmiar klasy = suma trzech grup. Procent = grupa/rozmiar × 100%."
+      ],
+      "odpowiedz": "**1. Wybor typu wykresu:**\n\n(a) **Liczebnosc klas** — wykres **skumulowany** (stacked): calkowita wysokosc slupka = liczba uczniow w klasie. Latwiej porownac rozmiary klas.\n\n(b) **Rozklad ocen** — wykres **skumulowany 100%** (100% stacked): kazdy slupek ma taka sama wysokosc (100%), wiec widac proporcje ocen niezaleznie od wielkosci klasy. Alternatywnie: **grupowany** pozwala dokladniej porownac wartosci bezwzgledne.\n\n**2. Specyfikacja wykresu 100% stacked:**\n- Typ: Kolumnowy skumulowany 100%\n- Os X: A2:A5 (klasy)\n- Serie: Celujacy/Bdb (zielony), Dobry/Dst (zolty), Dop/Ndst (czerwony)\n- Kazdy slupek = 100%, podzielony na 3 czesci\n- Tytul: \"Rozklad ocen w klasach (%)\"\n- Legenda u gory\n\n**3. Obliczenia:**\n\n| Klasa | Cel/Bdb | Db/Dst | Dop/Ndst | Razem | %Cel/Bdb | %Db/Dst | %Dop/Ndst |\n|-------|---------|--------|----------|-------|----------|---------|-----------|\n| 3A | 8 | 14 | 3 | 25 | 32.0% | 56.0% | 12.0% |\n| 3B | 5 | 12 | 8 | 25 | 20.0% | 48.0% | 32.0% |\n| 3C | 10 | 11 | 4 | 25 | 40.0% | 44.0% | 16.0% |\n| 3D | 3 | 9 | 13 | 25 | 12.0% | 36.0% | 52.0% |\n\nKazda klasa ma 25 uczniow. Klasa 3C ma najlepszy rozklad (40% cel/bdb), klasa 3D — najgorszy (52% dop/ndst).\n\n**Wyjasnienie**: Wykres 100% stacked jest idealny do porownywania struktury miedzy grupami o roznych rozmiarach. Na maturze pojawia sie czesto przy analizie ankiet lub rozkladow.",
+      "typowe_bledy": [
+        {
+          "opis": "**Pomieszanie skumulowanego z 100% skumulowanym**: Zwykly skumulowany pokazuje wartosci bezwzgledne, 100% — udzialy procentowe",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak uzasadnienia**: \"Wybieram kolumnowy\" bez wyjaśnienia dlaczego — na maturze wymagane jest uzasadnienie",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "17.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2024 (Hurtownia)",
+      "tagi": [
+        "wykres-liniowy",
+        "wykres-kombinowany",
+        "dwie-osie-Y",
+        "odczyt-z-wykresu",
+        "formatowanie-wykresu"
+      ],
+      "tresc": "Dane o ruchu na stronie internetowej i sprzedazy online w 8 tygodniach:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Tydzien** | **Odwiedziny** | **Zamowienia** | **Konwersja (%)** |\n| 2 | 1 | 5200 | 156 | 3.0 |\n| 3 | 2 | 4800 | 168 | 3.5 |\n| 4 | 3 | 6100 | 183 | 3.0 |\n| 5 | 4 | 7500 | 300 | 4.0 |\n| 6 | 5 | 6800 | 238 | 3.5 |\n| 7 | 6 | 8200 | 410 | 5.0 |\n| 8 | 7 | 7100 | 284 | 4.0 |\n| 9 | 8 | 9000 | 450 | 5.0 |\n\n**Polecenie**:\n1. Opisz wykres kombinowany: linia odwiedzin (os lewa) + slupki zamowien (os prawa).\n2. Opisz osobny wykres liniowy konwersji z linia trendu.\n3. Czy wzrost odwiedzin zawsze przekladal sie na wzrost zamowien? Uzasadnij na podstawie danych.\n4. W ktorym tygodniu konwersja byla najwyzsza?",
+      "wskazowki": [
+        "**Kierunek**: Dwa wykresy — kombinowany (odwiedziny + zamowienia) i liniowy (konwersja). Skale sa rozne, wiec potrzebne dwie osie Y.",
+        "**Podejscie**: Porownaj tygodnie, w ktorych odwiedziny rosna, a zamowienia spadaja (lub odwrotnie) — to dowod na brak idealnej korelacji.",
+        "**Kluczowy krok**: Linia trendu (regresja liniowa) na wykresie konwersji pokazuje ogolny kierunek zmian."
+      ],
+      "odpowiedz": "**1. Wykres kombinowany (odwiedziny + zamowienia):**\n- Typ: Combo chart (linia + slupki)\n- Os X: A2:A9 (tygodnie)\n- Seria 1 (linia, os lewa): B2:B9 — Odwiedziny, kolor niebieski, skala 0-10000\n- Seria 2 (slupki, os prawa): C2:C9 — Zamowienia, kolor zielony, skala 0-500\n- Tytul: \"Odwiedziny i zamowienia wg tygodni\"\n- Legenda, tytuly osi\n\n**2. Wykres liniowy konwersji:**\n- Typ: Liniowy z markerami + linia trendu (regresja liniowa)\n- Os X: tygodnie, Os Y: D2:D9 (konwersja %)\n- Tytul: \"Wskaznik konwersji — trend\"\n- Linia trendu: rosnaca (konwersja rosnie z 3.0% do 5.0%)\n\n**3. Analiza korelacji odwiedzin vs zamowien:**\n\n| Tydzien | Odwiedziny | Zmiana | Zamowienia | Zmiana | Zgodnosc? |\n|---------|------------|--------|------------|--------|-----------|\n| 1→2 | 5200→4800 | spadek | 156→168 | wzrost | NIE |\n| 2→3 | 4800→6100 | wzrost | 168→183 | wzrost | TAK |\n| 3→4 | 6100→7500 | wzrost | 183→300 | wzrost | TAK |\n| 4→5 | 7500→6800 | spadek | 300→238 | spadek | TAK |\n| 5→6 | 6800→8200 | wzrost | 238→410 | wzrost | TAK |\n| 6→7 | 8200→7100 | spadek | 410→284 | spadek | TAK |\n| 7→8 | 7100→9000 | wzrost | 284→450 | wzrost | TAK |\n\nOdpowiedz: **Nie zawsze** — w tygodniu 1→2 odwiedziny spadly, a zamowienia wzrosly. Ale w wiekszosci przypadkow (6 z 7) kierunki zmian sa zgodne.\n\n**4. Najwyzsza konwersja**: **5.0% w tygodniach 6 i 8**\n\n**Wyjasnienie**: Wykres kombinowany z dwiema osiami pozwala wizualnie porownac dwie wielkosc o roznych skalach. Linia trendu pomaga dostrzec ogolny kierunek zmian. Na maturze czesto trzeba przeanalizowac, czy dwie wielkosci sa skorelowane.",
+      "typowe_bledy": [
+        {
+          "opis": "**Obie serie na jednej osi**: Odwiedziny (tysiace) i zamowienia (setki) na jednej skali — zamowienia beda niewidoczne",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Stwierdzenie \"zawsze rosna razem\" bez analizy**: Trzeba sprawdzic kazda pare tygodni, nie zakladac korelacji",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak linii trendu**: Jesli polecenie wymaga linii trendu, trzeba ja dodac",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "17.10",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "zrodlo": "Matura 2021 (Szyfry)",
+      "tagi": [
+        "wykres-kolumnowy",
+        "wykres-kolowy",
+        "wykres-liniowy",
+        "procent-udzialu",
+        "odczyt-z-wykresu",
+        "formatowanie-wykresu"
+      ],
+      "tresc": "Zrodla dochodow gminy w 3 kolejnych latach (w tys. zl):\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Zrodlo** | **2022** | **2023** | **2024** |\n| 2 | Podatki lokalne | 1200 | 1350 | 1500 |\n| 3 | Dotacje rzadowe | 800 | 750 | 900 |\n| 4 | Oplaty komunalne | 400 | 420 | 450 |\n| 5 | Sprzedaz majatku | 150 | 80 | 200 |\n| 6 | Inne | 100 | 120 | 130 |\n\n**Polecenie**:\n1. Dla kazdego roku oblicz laczny dochod i udzial procentowy kazdego zrodla.\n2. Opisz 3 wykresy: (a) kolumnowy grupowany — porownanie zrodel w latach, (b) kolowy dla roku 2024, (c) liniowy — trend lacznych dochodow.\n3. Ktore zrodlo dochodow roslo najszybciej (najwieksza zmiana procentowa 2022→2024)?\n4. Czy struktura dochodow zmienila sie istotnie miedzy 2022 a 2024?",
+      "wskazowki": [
+        "**Kierunek**: Trzy rozne wykresy — kazdy odpowiada na inne pytanie. Grupowany = porownanie, kolowy = struktura, liniowy = trend.",
+        "**Podejscie**: Zmiana procentowa = (wartosc_2024 - wartosc_2022) / wartosc_2022 × 100%.",
+        "**Kluczowy krok**: Porownaj udzialy procentowe 2022 vs 2024, aby ocenic zmiane struktury."
+      ],
+      "odpowiedz": "**1. Obliczenia:**\n\n| Zrodlo | 2022 | 2023 | 2024 |\n|--------|------|------|------|\n| Podatki lokalne | 1200 | 1350 | 1500 |\n| Dotacje rzadowe | 800 | 750 | 900 |\n| Oplaty komunalne | 400 | 420 | 450 |\n| Sprzedaz majatku | 150 | 80 | 200 |\n| Inne | 100 | 120 | 130 |\n| **RAZEM** | **2650** | **2720** | **3180** |\n\nUdzialy procentowe:\n\n| Zrodlo | 2022 | 2024 |\n|--------|------|------|\n| Podatki lokalne | 45.3% | 47.2% |\n| Dotacje rzadowe | 30.2% | 28.3% |\n| Oplaty komunalne | 15.1% | 14.2% |\n| Sprzedaz majatku | 5.7% | 6.3% |\n| Inne | 3.8% | 4.1% |\n\n**2. Specyfikacje wykresow:**\n\n**(a) Kolumnowy grupowany:**\n- Os X: zrodla dochodow (5 kategorii)\n- Serie: 2022, 2023, 2024 (3 slupki obok siebie)\n- Tytul: \"Dochody gminy wg zrodel (tys. zl)\"\n\n**(b) Kolowy dla 2024:**\n- Etykiety: A2:A6, Wartosci: D2:D6\n- Etykiety: nazwa + procent\n- Tytul: \"Struktura dochodow gminy w 2024\"\n\n**(c) Liniowy — trend:**\n- Os X: 2022, 2023, 2024\n- Os Y: laczne dochody (2650, 2720, 3180)\n- Linia z markerami + ewentualna linia trendu\n- Tytul: \"Trend lacznych dochodow gminy\"\n\n**3. Zmiana procentowa 2022→2024:**\n\n| Zrodlo | 2022 | 2024 | Zmiana |\n|--------|------|------|--------|\n| Podatki lokalne | 1200 | 1500 | +25.0% |\n| Dotacje rzadowe | 800 | 900 | +12.5% |\n| Oplaty komunalne | 400 | 450 | +12.5% |\n| Sprzedaz majatku | 150 | 200 | **+33.3%** |\n| Inne | 100 | 130 | +30.0% |\n\nNajszybszy wzrost: **Sprzedaz majatku (+33.3%)**\n\n**4. Analiza zmian struktury:**\nStruktura dochodow **nie zmienila sie istotnie** — udzialy procentowe sa zblizone (roznice <3 p.p.). Podatki lokalne dominuja w obu latach (~45-47%), dotacje rzadowe sa drugie (~28-30%). Glowny trend: lagodny wzrost udzialu podatkow kosztem dotacji.\n\n**Wyjasnienie**: Na maturze czesto trzeba utworzyc kilka roznych wykresow z tych samych danych — kazdy odpowiada na inne pytanie. Zmiana procentowa to standardowa miara dynamiki. Porownanie struktur wymaga zestawienia udzialow procentowych, nie wartosci bezwzglednych.",
+      "typowe_bledy": [
+        {
+          "opis": "**Porownanie wartosci bezwzglednych zamiast procentowych**: \"Podatki rosly najszybciej bo wzrosly o 300\" — ale 300/1200=25%, podczas gdy sprzedaz majatku 50/150=33%",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak osobnego wykresu na kazde pytanie**: Jeden wykres nie odpowie na wszystkie pytania jednoczesnie",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak wniosku o strukturze**: \"Nie zmienila sie\" to za malo — trzeba podac DLACZEGO (porownac udzialy)",
+          "kara": "-1 pkt"
+        }
+      ]
+    }
+  ]
+}

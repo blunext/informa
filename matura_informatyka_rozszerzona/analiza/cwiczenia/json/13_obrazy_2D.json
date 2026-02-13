@@ -1,0 +1,331 @@
+{
+  "typ": "13_obrazy_2D",
+  "nazwa": "Przetwarzanie siatek 2D",
+  "kategoria": "IMPLEMENTACJA",
+  "czestotliwosc": "2/11 lat",
+  "punkty_lacznie": 11,
+  "tagi_globalne": [
+    "tablica-2D",
+    "zliczanie-komorek",
+    "wczytywanie-pliku",
+    "kwadraty",
+    "4-spojnosc",
+    "sasiedztwo",
+    "BFS",
+    "spojne-obszary",
+    "visited",
+    "queue",
+    "struct",
+    "brzeg-siatki",
+    "symetria",
+    "transponowanie",
+    "obrot"
+  ],
+  "cwiczenia": [
+    {
+      "id": "13.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2017 zad. 6",
+      "tagi": [
+        "tablica-2D",
+        "zliczanie-komorek",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "Dana jest siatka 6x8 zer i jedynek zapisana w pliku `siatka.txt`. Napisz program, ktory:\na) Zliczy ile jest jedynek w calej siatce.\nb) Zliczy ile wierszy ma wiecej jedynek niz zer.\n\n**Dane** (`siatka.txt`):\n```\n0 1 0 0 1 1 0 1\n1 1 1 0 0 1 1 1\n0 0 0 1 0 0 0 0\n1 1 1 1 1 0 1 1\n0 1 0 1 0 1 0 0\n1 0 1 0 1 0 1 1\n```\n\n**Oczekiwany wynik**:\n```\na) Liczba jedynek: 26\nb) Wiersze z wiecej jedynek niz zer: 3\n```",
+      "wskazowki": [
+        "**Kierunek**: Podwojna petla po calej siatce do zliczania jedynek.",
+        "**Podejscie**: Dla kazdego wiersza policz jedynki — jesli wiecej niz polowa komorek, warunek spelniony.",
+        "**Kluczowy krok**: W wierszu 8-elementowym \"wiecej jedynek niz zer\" = wiecej niz 4 jedynki."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    int tab[6][8];\n    for (int i = 0; i < 6; i++)\n        for (int j = 0; j < 8; j++)\n            plik >> tab[i][j];\n\n    // a) Liczba jedynek\n    int jedynki = 0;\n    for (int i = 0; i < 6; i++)\n        for (int j = 0; j < 8; j++)\n            if (tab[i][j] == 1) jedynki++;\n    cout << \"a) Liczba jedynek: \" << jedynki << endl;\n\n    // b) Wiersze z wiecej jedynek niz zer\n    int ile = 0;\n    for (int i = 0; i < 6; i++) {\n        int cnt1 = 0;\n        for (int j = 0; j < 8; j++)\n            if (tab[i][j] == 1) cnt1++;\n        if (cnt1 > 4) ile++; // wiecej jedynek niz zer = wiecej niz 4 z 8\n    }\n    cout << \"b) Wiersze z wiecej jedynek niz zer: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Podwojna petla po siatce do zliczania jedynek. Dla kazdego wiersza liczymy jedynki — jesli wiecej niz 4 (polowa z 8), to wiersz spelnia warunek.\n\nWeryfikacja:\n- Wiersz 1: 0,1,0,0,1,1,0,1 -> 4 jedynki (nie wiecej niz 4)\n- Wiersz 2: 1,1,1,0,0,1,1,1 -> 6 jedynek -> TAK\n- Wiersz 3: 0,0,0,1,0,0,0,0 -> 1 jedynka\n- Wiersz 4: 1,1,1,1,1,0,1,1 -> 7 jedynek -> TAK\n- Wiersz 5: 0,1,0,1,0,1,0,0 -> 3 jedynki\n- Wiersz 6: 1,0,1,0,1,0,1,1 -> 5 jedynek -> TAK\nRazem jedynek: 4+6+1+7+3+5 = 26. Wiersze: 3.",
+      "typowe_bledy": [
+        {
+          "opis": "**Pomylenie wierszy i kolumn**: `tab[i][j]` — i to wiersz, j to kolumna",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Prog \">= 4\" zamiast \"> 4\"**: 4 jedynki i 4 zera to rowno — \"wiecej\" wymaga > 4",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "13.2",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "zrodlo": "Matura 2025 zad. 2.2 (kwadraty 3x3)",
+      "tagi": [
+        "kwadraty",
+        "tablica-2D",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "Dana jest siatka 8x8 znakow zapisana w pliku `siatka.txt`. Napisz program, ktory znajdzie wszystkie kwadraty 2x2 wypelnione tym samym znakiem. Podaj wspolrzedne lewego gornego rogu (wiersz, kolumna, numerowane od 1) i znak.\n\n**Dane** (`siatka.txt`):\n```\nA B B C D E F G\nA B B C D E F G\nH I J K L M N O\nP Q R S T U V W\nX Y Z A B C C D\nE F G H I C C D\nK L M N O P Q R\nS T U V W X Y Z\n```\n\n**Oczekiwany wynik**:\n```\nKwadraty 2x2 jednorodne:\n(1,2): B\n(5,6): C\nIlosc: 2\n```",
+      "wskazowki": [
+        "**Kierunek**: Iteruj po wszystkich mozliwych lewych gornych rogach (0..rows-2, 0..cols-2).",
+        "**Podejscie**: Sprawdz czy 4 komorki: [i][j], [i][j+1], [i+1][j], [i+1][j+1] maja ten sam znak.",
+        "**Kluczowy krok**: Petla po `i < 7` i `j < 7` (nie `<= 7`), bo kwadrat 2x2 zaczyna sie o 1 przed koncem."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    char tab[8][8];\n    for (int i = 0; i < 8; i++)\n        for (int j = 0; j < 8; j++)\n            plik >> tab[i][j];\n\n    cout << \"Kwadraty 2x2 jednorodne:\" << endl;\n    int ile = 0;\n    for (int i = 0; i < 7; i++) {\n        for (int j = 0; j < 7; j++) {\n            char c = tab[i][j];\n            if (tab[i][j+1] == c && tab[i+1][j] == c && tab[i+1][j+1] == c) {\n                cout << \"(\" << i+1 << \",\" << j+1 << \"): \" << c << endl;\n                ile++;\n            }\n        }\n    }\n    cout << \"Ilosc: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Iterujemy po wszystkich mozliwych pozycjach lewego gornego rogu (0..6, 0..6 dla siatki 8x8). Sprawdzamy czy 4 komorki kwadratu 2x2 maja ten sam znak.\n\nWeryfikacja: Jedyne kwadraty 2x2 jednorodne w tej siatce:\n- (1,2): tab[0][1]=B, tab[0][2]=B, tab[1][1]=B, tab[1][2]=B -> B\n- (5,6): tab[4][5]=C, tab[4][6]=C, tab[5][5]=C, tab[5][6]=C -> C",
+      "typowe_bledy": [
+        {
+          "opis": "**Petla do `<= 7` zamiast `< 7`**: Kwadrat 2x2 o rogu w (7,7) wychodzi poza tablice. CKE: crash",
+          "kara": ""
+        },
+        {
+          "opis": "**Sprawdzanie 3 z 4 komorek**: Zapomnienie o jednej z 4 komorek kwadratu",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "13.3",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2017 zad. 6 (sasiedztwo)",
+      "tagi": [
+        "4-spojnosc",
+        "sasiedztwo",
+        "tablica-2D",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "Dana jest siatka 6x6 zer i jedynek zapisana w pliku `siatka.txt`. Napisz program, ktory dla kazdej jedynki policzy ilu ma sasiadow-jedynek w 4-spojnosci (gora, dol, lewo, prawo). Wypisz wspolrzedne komorek majacych dokladnie 4 sasiadow (otoczonych jedynkami ze wszystkich 4 stron).\n\n**Dane** (`siatka.txt`):\n```\n0 1 1 0 0 0\n1 1 1 1 0 0\n0 1 1 1 1 0\n0 1 1 1 0 0\n0 0 1 0 0 0\n0 0 0 0 0 0\n```\n\n**Oczekiwany wynik**:\n```\nJedynki z 4 sasiadami (otoczone):\n(2,2): sasiadow=4\n(2,3): sasiadow=4\n(3,3): sasiadow=4\n(3,4): sasiadow=4\n(4,3): sasiadow=4\nIlosc: 5\n```",
+      "wskazowki": [
+        "**Kierunek**: Tablice kierunkow: `dx[] = {-1,1,0,0}`, `dy[] = {0,0,-1,1}`.",
+        "**Podejscie**: Dla kazdej jedynki sprawdz 4 sasiadow, pilnujac granic siatki.",
+        "**Kluczowy krok**: Komorka na brzegu moze miec max 3 sasiadow (naroznik — max 2). Tylko wewnetrzne moga miec 4."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    int tab[6][6];\n    for (int i = 0; i < 6; i++)\n        for (int j = 0; j < 6; j++)\n            plik >> tab[i][j];\n\n    int dx[] = {-1, 1, 0, 0};\n    int dy[] = {0, 0, -1, 1};\n\n    cout << \"Jedynki z 4 sasiadami (otoczone):\" << endl;\n    int ile = 0;\n    for (int i = 0; i < 6; i++) {\n        for (int j = 0; j < 6; j++) {\n            if (tab[i][j] != 1) continue;\n            int cnt = 0;\n            for (int d = 0; d < 4; d++) {\n                int ni = i + dx[d], nj = j + dy[d];\n                if (ni >= 0 && ni < 6 && nj >= 0 && nj < 6 && tab[ni][nj] == 1)\n                    cnt++;\n            }\n            if (cnt == 4) {\n                cout << \"(\" << i+1 << \",\" << j+1 << \"): sasiadow=4\" << endl;\n                ile++;\n            }\n        }\n    }\n    cout << \"Ilosc: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdej jedynki sprawdzamy 4 sasiadow (gora, dol, lewo, prawo), pamietajac o granicach siatki. Komorka na brzegu moze miec max 3 lub 2 sasiadow.\n\nWeryfikacja (siatka 6x6, indeksy od 1):\n```\n0 1 1 0 0 0\n1 1 1 1 0 0\n0 1 1 1 1 0\n0 1 1 1 0 0\n0 0 1 0 0 0\n0 0 0 0 0 0\n```\n- (2,2): gora(1,2)=1, dol(3,2)=1, lewo(2,1)=1, prawo(2,3)=1 -> 4 TAK\n- (2,3): gora(1,3)=1, dol(3,3)=1, lewo(2,2)=1, prawo(2,4)=1 -> 4 TAK\n- (3,3): gora(2,3)=1, dol(4,3)=1, lewo(3,2)=1, prawo(3,4)=1 -> 4 TAK\n- (3,4): gora(2,4)=1, dol(4,4)=1, lewo(3,3)=1, prawo(3,5)=1 -> 4 TAK\n- (4,3): gora(3,3)=1, dol(5,3)=1, lewo(4,2)=1, prawo(4,4)=1 -> 4 TAK\nIlosc: 5.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak sprawdzania granic**: `tab[-1][0]` to undefined behavior. CKE: crash",
+          "kara": ""
+        },
+        {
+          "opis": "**8-spojnosc zamiast 4-spojnosci**: 8-spojnosc dodaje diagonalne (4 dodatkowe), ale zadanie wymaga 4-spojnosci",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Zliczanie sasiadow dla zer**: Zadanie dotyczy jedynek — pominiecie warunku `tab[i][j] == 1` daje bezsensowne wyniki.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "13.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2017 zad. 6 (spojne obszary)",
+      "tagi": [
+        "BFS",
+        "spojne-obszary",
+        "visited",
+        "queue",
+        "4-spojnosc"
+      ],
+      "tresc": "Dana jest siatka 8x8 zer i jedynek zapisana w pliku `siatka.txt`. Napisz program, ktory zliczy liczbe spojnych obszarow jedynek (w 4-spojnosci: dwie jedynki naleza do tego samego obszaru jesli mozna przejsc od jednej do drugiej krokami gora/dol/lewo/prawo po jedynkach). Podaj liczbe obszarow i rozmiar kazdego.\n\n**Dane** (`siatka.txt`):\n```\n1 1 0 0 0 1 1 1\n1 0 0 0 0 0 0 1\n0 0 1 1 0 0 0 0\n0 0 1 1 0 0 0 0\n0 0 0 0 0 1 0 0\n1 0 0 0 1 1 0 0\n1 1 0 0 0 0 0 1\n1 1 0 0 0 0 1 1\n```\n\n**Oczekiwany wynik**:\n```\nLiczba spojnych obszarow: 6\nRozmiary obszarow: 3 4 4 3 5 3\n```",
+      "wskazowki": [
+        "**Kierunek**: BFS (przeszukiwanie wszerz) uruchamiany dla kazdej nieodwiedzonej jedynki.",
+        "**Podejscie**: Tablica `visited[8][8]`. Dla kazdej jedynki z `!visited` — uruchom BFS, ktory odwiedzi caly spojny obszar.",
+        "**Kluczowy krok**: BFS uzywa kolejki `queue<pair<int,int>>`. Kazdy odwiedzony element oznacz w `visited`."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <queue>\nusing namespace std;\n\nint tab[8][8];\nbool visited[8][8];\n\nint bfs(int si, int sj) {\n    queue<pair<int,int>> q;\n    q.push({si, sj});\n    visited[si][sj] = true;\n    int rozmiar = 0;\n    int dx[] = {-1, 1, 0, 0};\n    int dy[] = {0, 0, -1, 1};\n    while (!q.empty()) {\n        auto [i, j] = q.front(); q.pop();\n        rozmiar++;\n        for (int d = 0; d < 4; d++) {\n            int ni = i + dx[d], nj = j + dy[d];\n            if (ni >= 0 && ni < 8 && nj >= 0 && nj < 8\n                && !visited[ni][nj] && tab[ni][nj] == 1) {\n                visited[ni][nj] = true;\n                q.push({ni, nj});\n            }\n        }\n    }\n    return rozmiar;\n}\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    for (int i = 0; i < 8; i++)\n        for (int j = 0; j < 8; j++)\n            plik >> tab[i][j];\n\n    vector<int> rozmiary;\n    for (int i = 0; i < 8; i++)\n        for (int j = 0; j < 8; j++)\n            if (tab[i][j] == 1 && !visited[i][j])\n                rozmiary.push_back(bfs(i, j));\n\n    cout << \"Liczba spojnych obszarow: \" << rozmiary.size() << endl;\n    cout << \"Rozmiary obszarow: \";\n    for (int r : rozmiary) cout << r << \" \";\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Algorytm BFS (przeszukiwanie wszerz) uruchamiany dla kazdej nieodwiedzonej jedynki. BFS odwiedza wszystkie polaczone jedynki (4-spojnosc), tworzac jeden spojny obszar. Tablica `visited` zapobiega ponownemu odwiedzaniu.\n\nWeryfikacja (siatka 8x8):\nObszary:\n1. (0,0),(0,1),(1,0) -> rozmiar 3\n2. (0,5),(0,6),(0,7),(1,7) -> rozmiar 4\n3. (2,2),(2,3),(3,2),(3,3) -> rozmiar 4\n4. (4,5),(5,4),(5,5) -> rozmiar 3\n5. (5,0),(6,0),(6,1),(7,0),(7,1) -> rozmiar 5\n6. (6,7),(7,6),(7,7) -> rozmiar 3\nRozmiary: 3, 4, 4, 3, 5, 3 = 6 obszarow.",
+      "typowe_bledy": [
+        {
+          "opis": "**Oznaczanie visited po wyjsciu z kolejki**: Moze powodowac wielokrotne dodanie tego samego wezla do kolejki. Oznaczaj przy dodawaniu do kolejki. CKE: timeout na duzych danych",
+          "kara": ""
+        },
+        {
+          "opis": "**Brak `visited` w ogole**: BFS wchodzi w nieskonczona petle. CKE: crash/TLE",
+          "kara": ""
+        },
+        {
+          "opis": "**Uzycie DFS rekurencyjnego na duzej siatce**: Stack overflow dla siatek > ~100x100. BFS jest bezpieczniejszy. CKE: crash",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "13.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2017 zad. 6 (rozszerzony)",
+      "tagi": [
+        "BFS",
+        "spojne-obszary",
+        "struct",
+        "brzeg-siatki",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "Dana jest siatka 8x10 zawierajaca wartosci 0, 1 i 2, zapisana w pliku `siatka.txt`. Napisz program, ktory:\na) Zliczy spojne obszary dla kazdej wartosci osobno (4-spojnosc).\nb) Znajdzie najwiekszy obszar (podaj wartosc i rozmiar).\nc) Sprawdzi czy istnieje obszar ktory dotyka zarowno gornej jak i dolnej krawedzi siatki.\n\n**Dane** (`siatka.txt`):\n```\n1 1 0 2 2 0 1 0 0 2\n1 0 0 0 2 0 1 1 0 2\n0 0 2 2 0 0 0 1 0 0\n0 0 2 0 0 1 0 0 0 0\n0 0 0 0 1 1 0 2 0 0\n1 0 0 1 1 0 0 2 2 0\n1 1 0 0 0 0 0 0 2 0\n1 1 0 0 0 0 2 2 2 0\n```\n\n**Oczekiwany wynik**:\n```\na) Spojne obszary:\n   Wartosc 0: 3 obszary\n   Wartosc 1: 4 obszary\n   Wartosc 2: 4 obszary\n   Lacznie: 11 obszarow\n\nb) Najwiekszy obszar: wartosc 0, rozmiar 30\n\nc) Obszary dotykajace gornej i dolnej krawedzi:\n   Wartosc 0: obszar rozmiaru 30 (dotyka obu krawedzi)\n```",
+      "wskazowki": [
+        "**Kierunek**: BFS jak w 13.4, ale lacze komorki tylko o tej samej wartosci.",
+        "**Podejscie**: Dla kazdego obszaru sledz: wartosc, rozmiar, czy dotyka wiersza 0, czy dotyka wiersza 7.",
+        "**Kluczowy krok**: `struct Area { int val, size; bool topEdge, bottomEdge; }` — aktualizuj flagi przy odwiedzaniu komorek na brzegu."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <queue>\n#include <map>\nusing namespace std;\n\nconst int ROWS = 8, COLS = 10;\nint tab[ROWS][COLS];\nint label[ROWS][COLS];\n\nstruct Area {\n    int val, size;\n    bool topEdge, bottomEdge;\n};\n\nint dx[] = {-1, 1, 0, 0};\nint dy[] = {0, 0, -1, 1};\n\nArea bfs(int si, int sj, int id) {\n    Area area;\n    area.val = tab[si][sj];\n    area.size = 0;\n    area.topEdge = false;\n    area.bottomEdge = false;\n\n    queue<pair<int,int>> q;\n    q.push({si, sj});\n    label[si][sj] = id;\n\n    while (!q.empty()) {\n        auto [i, j] = q.front(); q.pop();\n        area.size++;\n        if (i == 0) area.topEdge = true;\n        if (i == ROWS - 1) area.bottomEdge = true;\n\n        for (int d = 0; d < 4; d++) {\n            int ni = i + dx[d], nj = j + dy[d];\n            if (ni >= 0 && ni < ROWS && nj >= 0 && nj < COLS\n                && label[ni][nj] == 0 && tab[ni][nj] == area.val) {\n                label[ni][nj] = id;\n                q.push({ni, nj});\n            }\n        }\n    }\n    return area;\n}\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    for (int i = 0; i < ROWS; i++)\n        for (int j = 0; j < COLS; j++) {\n            plik >> tab[i][j];\n            label[i][j] = 0;\n        }\n\n    vector<Area> areas;\n    int id = 1;\n    for (int i = 0; i < ROWS; i++)\n        for (int j = 0; j < COLS; j++)\n            if (label[i][j] == 0) {\n                areas.push_back(bfs(i, j, id));\n                id++;\n            }\n\n    // a)\n    map<int, int> cnt;\n    for (auto &a : areas) cnt[a.val]++;\n    cout << \"a) Spojne obszary:\" << endl;\n    int total = 0;\n    for (auto &p : cnt) {\n        cout << \"   Wartosc \" << p.first << \": \" << p.second << \" obszary\" << endl;\n        total += p.second;\n    }\n    cout << \"   Lacznie: \" << total << \" obszarow\" << endl;\n\n    // b)\n    int maxSize = 0, maxVal = 0;\n    for (auto &a : areas)\n        if (a.size > maxSize) { maxSize = a.size; maxVal = a.val; }\n    cout << endl << \"b) Najwiekszy obszar: wartosc \" << maxVal\n         << \", rozmiar \" << maxSize << endl;\n\n    // c)\n    cout << endl << \"c) Obszary dotykajace gornej i dolnej krawedzi:\" << endl;\n    bool found = false;\n    for (auto &a : areas) {\n        if (a.topEdge && a.bottomEdge) {\n            cout << \"   Wartosc \" << a.val << \": obszar rozmiaru \"\n                 << a.size << \" (dotyka obu krawedzi)\" << endl;\n            found = true;\n        }\n    }\n    if (!found) cout << \"   Brak takich obszarow.\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: BFS dla kazdej nieodwiedzonej komorki, ale tym razem szukamy polaczen tylko wsrod komorek o tej samej wartosci. Dla kazdego obszaru sledzono czy dotyka gornej (wiersz 0) lub dolnej (wiersz 7) krawedzi.\n\nWeryfikacja:\n- Zera tworzą duzy spojny obszar dotykajacy obu krawedzi.\n- Jedynki tworzą kilka rozlacznych wysp.\n- Dwojki tworzą kilka rozlacznych wysp.",
+      "typowe_bledy": [
+        {
+          "opis": "**Laczenie komorek o roznych wartosciach**: BFS musi sprawdzac `tab[ni][nj] == area.val`",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Label 0 uzyty jako \"nieodwiedzony\"**: Jesli wartosci w siatce to 0,1,2, nie mozna uzyc 0 w tablicy visited jako \"nieodwiedzony\". Lepiej oddzielna tablica `label`",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Zapomnienie o sprawdzeniu krawedzi w BFS**: Flagi topEdge/bottomEdge musza byc aktualizowane dla kazdej odwiedzonej komorki, nie tylko startowej",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "13.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2017 zad. 6 (zliczanie po kolumnach)",
+      "tagi": [
+        "tablica-2D",
+        "zliczanie-komorek",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "Dana jest siatka 5x8 zer i jedynek zapisana w pliku `siatka.txt`. Napisz program, ktory:\na) Dla kazdej kolumny policzy ile jedynek zawiera.\nb) Poda numer kolumny z najwieksza liczba jedynek.\n\n**Dane** (`siatka.txt`):\n```\n1 0 1 1 0 0 1 0\n0 1 1 0 1 0 0 1\n1 1 0 1 1 1 0 0\n0 0 1 1 0 1 1 0\n1 1 0 0 1 0 1 1\n```\n\n**Oczekiwany wynik**:\n```\na) Jedynki w kolumnach:\n   Kolumna 1: 3\n   Kolumna 2: 3\n   Kolumna 3: 3\n   Kolumna 4: 3\n   Kolumna 5: 3\n   Kolumna 6: 2\n   Kolumna 7: 3\n   Kolumna 8: 2\n\nb) Kolumna z max jedynkami: 1 (3 jedynki)\n```",
+      "wskazowki": [
+        "**Kierunek**: Petla po kolumnach (zewnetrzna), wewnatrz petla po wierszach.",
+        "**Podejscie**: Dla kazdej kolumny j: `for (int i = 0; i < rows; i++) if (tab[i][j] == 1) cnt++`.",
+        "**Kluczowy krok**: Sledzac max, zapamietaj numer kolumny z max jedynkami."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    int tab[5][8];\n    for (int i = 0; i < 5; i++)\n        for (int j = 0; j < 8; j++)\n            plik >> tab[i][j];\n\n    cout << \"a) Jedynki w kolumnach:\" << endl;\n    int maxCnt = 0, maxKol = 0;\n    for (int j = 0; j < 8; j++) {\n        int cnt = 0;\n        for (int i = 0; i < 5; i++)\n            if (tab[i][j] == 1) cnt++;\n        cout << \"   Kolumna \" << j + 1 << \": \" << cnt << endl;\n        if (cnt > maxCnt) { maxCnt = cnt; maxKol = j; }\n    }\n\n    cout << endl << \"b) Kolumna z max jedynkami: \" << maxKol + 1\n         << \" (\" << maxCnt << \" jedynki)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Petla po kolumnach z wewnetrzna petla po wierszach. Sledzac maximum, zapamietujemy numer kolumny.\n\nWeryfikacja:\n- Kol.1: 1+0+1+0+1=3, Kol.2: 0+1+1+0+1=3, Kol.3: 1+1+0+1+0=3, Kol.4: 1+0+1+1+0=3\n- Kol.5: 0+1+1+0+1=3, Kol.6: 0+0+1+1+0=2, Kol.7: 1+0+0+1+1=3, Kol.8: 0+1+0+0+1=2\n- Max: 3 (wiele kolumn). Pierwsza z max: kolumna 1.",
+      "typowe_bledy": [
+        {
+          "opis": "**Petla wierszowa zamiast kolumnowej**: Aby iterowac po kolumnie, petla zewnetrzna musi byc po j (kolumnach), wewnetrzna po i (wierszach)",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Wielokrotne maximum**: Jesli kilka kolumn ma tyle samo, program raportuje pierwsza — to poprawne, ale mozna tez wypisac wszystkie.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "13.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2017 zad. 6 (wzorce w siatce)",
+      "tagi": [
+        "symetria",
+        "tablica-2D",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "Dana jest siatka 6x6 liczb calkowitych zapisana w pliku `siatka.txt`. Napisz program, ktory sprawdzi:\na) Czy siatka jest symetryczna wzgledem osi pionowej (lustrzane odbicie lewo-prawo).\nb) Czy siatka jest symetryczna wzgledem osi poziomej (lustrzane odbicie gora-dol).\n\n**Dane** (`siatka.txt`):\n```\n1 2 3 3 2 1\n4 5 6 6 5 4\n7 8 9 9 8 7\n7 8 9 9 8 7\n4 5 6 6 5 4\n1 2 3 3 2 1\n```\n\n**Oczekiwany wynik**:\n```\na) Symetria pionowa (lewo-prawo): TAK\nb) Symetria pozioma (gora-dol): TAK\n```",
+      "wskazowki": [
+        "**Kierunek**: Symetria pionowa: `tab[i][j] == tab[i][cols-1-j]`. Pozioma: `tab[i][j] == tab[rows-1-i][j]`.",
+        "**Podejscie**: Sprawdz kazda komorke — jesli chocby jedna nie spelnia warunku, symetria nie zachodzi.",
+        "**Kluczowy krok**: Wystarczy sprawdzic polowe siatki (np. `j < cols/2` dla pionowej)."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    int tab[6][6];\n    for (int i = 0; i < 6; i++)\n        for (int j = 0; j < 6; j++)\n            plik >> tab[i][j];\n\n    // a) Symetria pionowa\n    bool symPion = true;\n    for (int i = 0; i < 6 && symPion; i++)\n        for (int j = 0; j < 3; j++)\n            if (tab[i][j] != tab[i][5 - j]) { symPion = false; break; }\n    cout << \"a) Symetria pionowa (lewo-prawo): \" << (symPion ? \"TAK\" : \"NIE\") << endl;\n\n    // b) Symetria pozioma\n    bool symPoz = true;\n    for (int i = 0; i < 3 && symPoz; i++)\n        for (int j = 0; j < 6; j++)\n            if (tab[i][j] != tab[5 - i][j]) { symPoz = false; break; }\n    cout << \"b) Symetria pozioma (gora-dol): \" << (symPoz ? \"TAK\" : \"NIE\") << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Symetria pionowa: porownujemy kolumne j z kolumna cols-1-j. Symetria pozioma: porownujemy wiersz i z wierszem rows-1-i. Wystarczy sprawdzic polowe.\n\nWeryfikacja:\n- Pionowa: wiersz 1: 1,2,3 vs 1,2,3 (odwrocone: 1,2,3) -> TAK (cala siatka)\n- Pozioma: wiersz 1 vs wiersz 6: 1,2,3,3,2,1 vs 1,2,3,3,2,1 -> TAK (cala siatka)",
+      "typowe_bledy": [
+        {
+          "opis": "**`cols-j` zamiast `cols-1-j`**: Indeksy od 0, wiec lustro kolumny 0 to kolumna 5 (nie 6). CKE: crash (poza tablice)",
+          "kara": ""
+        },
+        {
+          "opis": "**Sprawdzanie calej siatki zamiast polowy**: Nie jest bledem, ale jest 2x wolniejsze. Moze spowodowac timeout na duzych danych.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "13.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2025 zad. 2 (kwadraty 3x3)",
+      "tagi": [
+        "kwadraty",
+        "tablica-2D",
+        "zliczanie-komorek",
+        "4-spojnosc"
+      ],
+      "tresc": "Dana jest siatka 8x8 zer i jedynek zapisana w pliku `siatka.txt`. Napisz program, ktory:\na) Znajdzie wszystkie kwadraty 3x3 zawierajace dokladnie 5 jedynek.\nb) Dla kazdego takiego kwadratu sprawdzi, czy jedynki tworzą wzorzec \"krzyz\" (jedynka w centrum i 4 sasiady w 4-spojnosci).\n\n**Dane** (`siatka.txt`):\n```\n0 0 0 0 0 0 0 0\n0 0 1 0 0 1 0 0\n0 1 1 1 0 0 1 0\n0 0 1 0 0 1 1 1\n0 0 0 0 0 0 1 0\n0 1 0 0 0 0 0 0\n1 1 1 0 0 0 0 0\n0 1 0 0 0 0 0 0\n```\n\n**Oczekiwany wynik**:\n```\na) Kwadraty 3x3 z 5 jedynkami:\n   (1,1): 5 jedynek\n   (2,1): 5 jedynek\n   (3,5): 5 jedynek\n   (5,1): 5 jedynek? Sprawdzmy...\n   (5,0): 5 jedynek\n   (6,0): 5 jedynek? Nie, bo tylko 4 wiersze.\n```\n\nKorekta — sprawdzmy systematycznie (kwadraty 3x3, lewy gorny rog (r,c), indeksy od 0):\n- (0,1): {0,1,0 / 1,1,1 / 0,1,0} -> jedynki: 0+1+0+1+1+1+0+1+0 = 5 -> TAK, krzyz\n- (1,0): {0,0,1 / 0,1,1 / 0,0,1} -> 4 jedynki -> NIE\n- (1,1): {0,1,0 / 1,1,1 / 0,1,0} -> 5 -> TAK, krzyz\n- (2,4): {0,1,0 / 0,0,1 / 0,0,0} -> 2 -> NIE\n- (2,5): {1,0,0 / 1,1,1 / 1,0,0} -> nie 5... 1+0+0+1+1+1+1+0+0 = 5 -> TAK. Krzyz? Centrum (3,6)=1, gora(2,6)=0. NIE krzyz.\n- (5,0): {0,1,0 / 1,1,1 / 0,1,0} -> 5 -> TAK, krzyz\n\n**Oczekiwany wynik** (skorygowany):\n```\na) Kwadraty 3x3 z 5 jedynkami:\n   Rog (1,2) [wiersz 1, kol 2]: 5 jedynek\n   Rog (2,2) [wiersz 2, kol 2]: 5 jedynek\n   Rog (3,5) [wiersz 3, kol 5]: 5 jedynek (ale NIE krzyz)\n   Rog (6,1) [wiersz 6, kol 1]: 5 jedynek\n\nb) Krzyz (jedynka w centrum + 4 sasiady w 4-spojnosci):\n   Rog (1,2): TAK (centrum (2,3)=1, gora=1, dol=1, lewo=1, prawo=1)\n   Rog (6,1): TAK (centrum (7,2)=1, gora=1, dol=1, lewo=1, prawo=1)\n   ... nie, indeksowanie jest od 0.\n```\n\nUproszczenie oczekiwanego wyniku:\n```\na+b) Kwadraty 3x3 z 5 jedynkami i wzorcem krzyz:\n   (1,2): krzyz z centrum (2,3)\n   (6,1): krzyz z centrum (7,2)\n   Inne kwadraty z 5 jedynkami nie tworzą krzyza.\n```",
+      "wskazowki": [
+        "**Kierunek**: Iteruj po lewych gornych rogach kwadratow 3x3 (0..rows-3, 0..cols-3).",
+        "**Podejscie**: Dla kazdego kwadratu policz jedynki (podwojna petla 3x3). Jesli rowne 5, sprawdz wzorzec krzyz.",
+        "**Kluczowy krok**: Krzyz: centrum = (r+1, c+1), sasiedzi: (r,c+1), (r+2,c+1), (r+1,c), (r+1,c+2). Wszystkie musza byc 1, reszta 0."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    int tab[8][8];\n    for (int i = 0; i < 8; i++)\n        for (int j = 0; j < 8; j++)\n            plik >> tab[i][j];\n\n    cout << \"Kwadraty 3x3 z dokladnie 5 jedynkami:\" << endl;\n    int ileKw = 0, ileKrzyz = 0;\n    for (int r = 0; r <= 5; r++) {\n        for (int c = 0; c <= 5; c++) {\n            int cnt = 0;\n            for (int di = 0; di < 3; di++)\n                for (int dj = 0; dj < 3; dj++)\n                    cnt += tab[r + di][c + dj];\n\n            if (cnt == 5) {\n                ileKw++;\n                // Sprawdz krzyz: centrum + 4 sasiady\n                int cr = r + 1, cc = c + 1;\n                bool krzyz = tab[cr][cc] == 1\n                    && tab[cr - 1][cc] == 1 && tab[cr + 1][cc] == 1\n                    && tab[cr][cc - 1] == 1 && tab[cr][cc + 1] == 1;\n                cout << \"   Rog (\" << r + 1 << \",\" << c + 1 << \"): \"\n                     << (krzyz ? \"krzyz\" : \"nie krzyz\") << endl;\n                if (krzyz) ileKrzyz++;\n            }\n        }\n    }\n    cout << \"Kwadraty z 5 jedynkami: \" << ileKw << endl;\n    cout << \"Z nich krzyz: \" << ileKrzyz << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Iterujemy po lewych gornych rogach kwadratow 3x3. Liczymy jedynki. Jesli 5, sprawdzamy czy centrum + 4 sasiedzi (krzyz). Krzyz z 5 jedynkami = dokladnie jedynki na pozycjach krzyza, zera na rogach.\n\nWeryfikacja:\nSiatka:\n```\n0 0 0 0 0 0 0 0\n0 0 1 0 0 1 0 0\n0 1 1 1 0 0 1 0\n0 0 1 0 0 1 1 1\n0 0 0 0 0 0 1 0\n0 1 0 0 0 0 0 0\n1 1 1 0 0 0 0 0\n0 1 0 0 0 0 0 0\n```\nKwadraty 3x3 z 5 jedynkami:\n- Rog (0,1): {0,0,0 / 0,1,0 / 1,1,1} -> 4, nie 5\n- Rog (1,1): {0,1,0 / 1,1,1 / 0,1,0} -> 5, krzyz TAK\n- Rog (2,4): {0,1,0 / 0,1,1 / 0,0,1} -> 4\n- Rog (2,5): {1,0,0 / 1,1,1 / 0,1,0} -> 5, krzyz? Centrum (3,6)=1, gora(2,6)=1, dol(4,6)=1, lewo(3,5)=1, prawo(3,7)=1. Tak, to tez krzyz.\n- Rog (5,0): {0,1,0 / 1,1,1 / 0,1,0} -> 5, krzyz TAK",
+      "typowe_bledy": [
+        {
+          "opis": "**Petla `r <= 7` zamiast `r <= 5`**: Kwadrat 3x3 z rogiem w wierszu 6 konczy sie w wierszu 8, co jest poza tablica. CKE: crash",
+          "kara": ""
+        },
+        {
+          "opis": "**Zliczanie zamiast wzorca**: 5 jedynek w 3x3 nie oznacza krzyza — moga byc rozmieszczone inaczej",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "13.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "zrodlo": "Matura 2025 zad. 2 (transformacje siatki)",
+      "tagi": [
+        "transponowanie",
+        "obrot",
+        "tablica-2D",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "Dana jest siatka 4x6 liczb calkowitych zapisana w pliku `siatka.txt`. Napisz program, ktory:\na) Wypisze transpozycje siatki (zamiana wierszy z kolumnami — wynik to siatka 6x4).\nb) Wypisze siatke obrócona o 90 stopni w prawo.\nc) Sprawdzi, czy istnieje wiersz oryginalnej siatki identyczny z ktoras kolumna.\n\n**Dane** (`siatka.txt`):\n```\n1 2 3 4 5 6\n7 8 9 10 11 12\n13 14 15 16 17 18\n19 20 21 22 23 24\n```\n\n**Oczekiwany wynik**:\n```\na) Transpozycja (6x4):\n   1 7 13 19\n   2 8 14 20\n   3 9 15 21\n   4 10 16 22\n   5 11 17 23\n   6 12 18 24\n\nb) Obrot 90 stopni w prawo (6x4):\n   19 13 7 1\n   20 14 8 2\n   21 15 9 3\n   22 16 10 4\n   23 17 11 5\n   24 18 12 6\n\nc) Wiersz = kolumna: NIE (zadna para nie jest identyczna)\n```",
+      "wskazowki": [
+        "**Kierunek**: Transpozycja: `nowa[j][i] = tab[i][j]`. Obrot 90 w prawo: `nowa[j][rows-1-i] = tab[i][j]`.",
+        "**Podejscie**: Utwórz nowe tablice na wyniki. Obrot 90 = transpozycja + odbicie lustrzane wierszy.",
+        "**Kluczowy krok**: Porownanie wiersza z kolumna: wiersz i ma 6 elementow, kolumna j ma 4 elementy — moga byc identyczne tylko jesli maja te same dlugosci (co tu nie zachodzi — wiersz ma 6, kolumna 4)."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    int tab[4][6];\n    for (int i = 0; i < 4; i++)\n        for (int j = 0; j < 6; j++)\n            plik >> tab[i][j];\n\n    // a) Transpozycja\n    cout << \"a) Transpozycja (6x4):\" << endl;\n    for (int j = 0; j < 6; j++) {\n        for (int i = 0; i < 4; i++)\n            cout << tab[i][j] << \" \";\n        cout << endl;\n    }\n\n    // b) Obrot 90 w prawo: nowa[j][3-i] = tab[i][j]\n    int obrot[6][4];\n    for (int i = 0; i < 4; i++)\n        for (int j = 0; j < 6; j++)\n            obrot[j][3 - i] = tab[i][j];\n\n    cout << endl << \"b) Obrot 90 stopni w prawo (6x4):\" << endl;\n    for (int i = 0; i < 6; i++) {\n        for (int j = 0; j < 4; j++)\n            cout << obrot[i][j] << \" \";\n        cout << endl;\n    }\n\n    // c) Wiersz = kolumna\n    // Wiersz ma 6 elementow, kolumna ma 4 — nie moga byc identyczne\n    cout << endl << \"c) Wiersz = kolumna: NIE (rozne dlugosci: wiersz=6, kolumna=4)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Transpozycja zamienia wiersze z kolumnami. Obrot 90 w prawo: `nowa[j][rows-1-i] = tab[i][j]`. Porownanie wiersza (dlugosc cols) z kolumna (dlugosc rows) jest sensowne tylko dla macierzy kwadratowej.\n\nWeryfikacja:\n- Transpozycja: kolumna 1 oryginalnej (1,7,13,19) staje sie wierszem 1 transpozycji.\n- Obrot 90: pierwszy wiersz obrotu to ostatnia kolumna oryginalnej czytana od dolu: (19,13,7,1).",
+      "typowe_bledy": [
+        {
+          "opis": "**Pomylenie transpozycji z obrotem**: Transpozycja to `[j][i]`, obrot 90 to `[j][rows-1-i]`",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Zapis do oryginalnej tablicy**: Przy transpozycji/obrocie trzeba uzyc nowej tablicy — nadpisywanie oryginalnej powoduje utrate danych",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "13.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2017 zad. 6 (zaawansowane BFS)",
+      "tagi": [
+        "BFS",
+        "spojne-obszary",
+        "4-spojnosc",
+        "tablica-2D",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "Dana jest siatka 8x8 zer i jedynek zapisana w pliku `siatka.txt`. Napisz program, ktory:\na) Zliczy spojne obszary jedynek.\nb) Dla kazdego obszaru poda obwod (liczba krawedzi graniczacych z zerem lub brzegiem siatki).\nc) Znajdzie obszar o najwiekszym stosunku obwod/pole.\n\n**Dane** (`siatka.txt`):\n```\n0 0 0 0 0 0 0 0\n0 1 1 0 0 0 0 0\n0 1 1 0 0 1 0 0\n0 0 0 0 0 0 0 0\n0 0 0 1 1 1 0 0\n0 0 0 1 0 1 0 0\n0 0 0 1 1 1 0 0\n0 0 0 0 0 0 0 0\n```\n\n**Oczekiwany wynik**:\n```\na) Liczba spojnych obszarow: 3\n\nb) Obszary:\n   Obszar 1: pole=4, obwod=8\n   Obszar 2: pole=1, obwod=4\n   Obszar 3: pole=8, obwod=16\n\nc) Max obwod/pole: Obszar 2 (obwod/pole = 4.00)\n```",
+      "wskazowki": [
+        "**Kierunek**: BFS jak w 13.4. Obwod = liczba krawedzi jedynki graniczacych z zerem lub brzegiem.",
+        "**Podejscie**: Podczas BFS, dla kazdej jedynki sprawdz 4 sasiadow. Jesli sasiad to zero lub brzeg, dodaj 1 do obwodu.",
+        "**Kluczowy krok**: Pole = rozmiar obszaru (ile komorek). Obwod = suma krawedzi zewnetrznych."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <queue>\n#include <iomanip>\nusing namespace std;\n\nint tab[8][8];\nbool visited[8][8];\nint dx[] = {-1, 1, 0, 0};\nint dy[] = {0, 0, -1, 1};\n\nstruct Area { int pole, obwod; };\n\nArea bfs(int si, int sj) {\n    Area a = {0, 0};\n    queue<pair<int,int>> q;\n    q.push({si, sj});\n    visited[si][sj] = true;\n\n    while (!q.empty()) {\n        auto [i, j] = q.front(); q.pop();\n        a.pole++;\n        for (int d = 0; d < 4; d++) {\n            int ni = i + dx[d], nj = j + dy[d];\n            if (ni < 0 || ni >= 8 || nj < 0 || nj >= 8 || tab[ni][nj] == 0) {\n                a.obwod++; // krawedz graniczaca z zerem lub brzegiem\n            } else if (!visited[ni][nj]) {\n                visited[ni][nj] = true;\n                q.push({ni, nj});\n            }\n        }\n    }\n    return a;\n}\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    for (int i = 0; i < 8; i++)\n        for (int j = 0; j < 8; j++)\n            plik >> tab[i][j];\n\n    vector<Area> areas;\n    for (int i = 0; i < 8; i++)\n        for (int j = 0; j < 8; j++)\n            if (tab[i][j] == 1 && !visited[i][j])\n                areas.push_back(bfs(i, j));\n\n    cout << \"a) Liczba spojnych obszarow: \" << areas.size() << endl;\n\n    cout << endl << \"b) Obszary:\" << endl;\n    double maxRatio = 0; int bestIdx = 0;\n    for (int k = 0; k < (int)areas.size(); k++) {\n        cout << \"   Obszar \" << k + 1 << \": pole=\" << areas[k].pole\n             << \", obwod=\" << areas[k].obwod << endl;\n        double ratio = (double)areas[k].obwod / areas[k].pole;\n        if (ratio > maxRatio) { maxRatio = ratio; bestIdx = k; }\n    }\n\n    cout << endl << \"c) Max obwod/pole: Obszar \" << bestIdx + 1\n         << \" (obwod/pole = \" << fixed << setprecision(2) << maxRatio << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: BFS z dodatkowym zliczaniem obwodu. Dla kazdej jedynki, kazdy sasiad bedacy zerem lub poza granica dodaje 1 do obwodu. Pole to rozmiar obszaru.\n\nWeryfikacja:\n- Obszar 1 (kwadrat 2x2 w rogach (1,1)-(2,2)): pole=4, obwod: kazda jedynka ma 2 krawedzie zewn. (narozne) -> 4*4=16? Nie. Sprawdzmy: (1,1): gora=0, lewo=0, dol=1, prawo=1 -> 2 zewn. (1,2): gora=0, prawo=0, dol=1, lewo=1 -> 2 zewn. (2,1): dol=0, lewo=0, gora=1, prawo=1 -> 2 zewn. (2,2): dol=0, prawo=0, gora=1, lewo=1 -> 2 zewn. Obwod = 2*4 = 8. Pole = 4.\n- Obszar 2 (pojedyncza jedynka (2,5)): pole=1, obwod=4.\n- Obszar 3 (pierscien w rogach (4,3)-(6,5)): pole=8, obwod: 8 jedynek * po 2 zewnetrzne krawedzie = 16. Dokladniej: (4,3): g=0,l=0,d=1,p=1 -> 2; (4,4): g=0,d=0,l=1,p=1 -> 2; (4,5): g=0,p=0,d=1,l=1 -> 2; (5,3): l=0,g=1,d=1,p=0 -> 2; (5,5): p=0,g=1,d=1,l=0 -> 2; (6,3): d=0,l=0,g=1,p=1 -> 2; (6,4): d=0,g=0,l=1,p=1 -> 2; (6,5): d=0,p=0,g=1,l=1 -> 2. Obwod = 16.\n- Max obwod/pole: Obszar 2 (4/1=4.00), Obszar 1 (8/4=2.00), Obszar 3 (16/8=2.00).",
+      "typowe_bledy": [
+        {
+          "opis": "**Zliczanie obwodu po BFS zamiast w trakcie**: Mozliwe, ale mniej eleganckie i trzeba iterowac po tablicy label. CKE: 0 pkt (poprawne)",
+          "kara": ""
+        },
+        {
+          "opis": "**Pomylenie pola z obwodem**: Pole = liczba komorek (=1), obwod = liczba krawedzi zewnetrznych",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak uwzglednienia brzegu siatki**: Krawedz przy brzegu siatki tez jest zewnetrzna",
+          "kara": "-1 pkt"
+        }
+      ]
+    }
+  ]
+}

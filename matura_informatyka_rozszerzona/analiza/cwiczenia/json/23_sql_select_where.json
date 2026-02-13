@@ -1,0 +1,349 @@
+{
+  "typ": "23_sql_select_where",
+  "nazwa": "SQL — SELECT z WHERE",
+  "kategoria": "SQL",
+  "czestotliwosc": "4/11 lat",
+  "punkty_lacznie": 10,
+  "tagi_globalne": [
+    "SELECT",
+    "WHERE",
+    "AND",
+    "OR",
+    "LIKE",
+    "BETWEEN",
+    "IN",
+    "NOT",
+    "IS-NULL",
+    "IS-NOT-NULL",
+    "LENGTH",
+    "SUBSTR",
+    "ORDER-BY",
+    "operatory-porownania",
+    "obliczenia-w-SELECT",
+    "DISTINCT",
+    "CASE-WHEN"
+  ],
+  "cwiczenia": [
+    {
+      "id": "23.1",
+      "trudnosc": "latwe",
+      "punkty": 1,
+      "zrodlo": "Matura 2023 (Gry planszowe)",
+      "tagi": [
+        "SELECT",
+        "WHERE",
+        "AND",
+        "operatory-porownania"
+      ],
+      "tresc": "Tabela **Uczniowie**:\n\n| id | imie | nazwisko | klasa | wiek | srednia_ocen |\n|----|------|----------|-------|------|-------------|\n| 1 | Anna | Kowalska | 3A | 18 | 4.8 |\n| 2 | Jan | Nowak | 2B | 17 | 3.5 |\n| 3 | Ewa | Maj | 3A | 18 | 5.0 |\n| 4 | Piotr | Lis | 1C | 16 | 4.2 |\n| 5 | Kasia | Zak | 2B | 17 | 3.9 |\n| 6 | Tomek | Bak | 3A | 19 | 4.5 |\n| 7 | Ola | Wrobel | 1C | 15 | 4.1 |\n| 8 | Marek | Krol | 2B | 17 | 2.8 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko uczniow z klasy '3A', ktorych srednia ocen jest wieksza lub rowna 4.5.",
+      "wskazowki": [
+        "**Kierunek**: Dwa warunki do polaczenia — klasa i srednia ocen.",
+        "**Podejscie**: WHERE z dwoma warunkami polaczonymi AND.",
+        "**Kluczowy krok**: `>=` oznacza \"wieksze lub rowne\" — uwzglednia tez dokladnie 4.5."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko\nFROM Uczniowie\nWHERE klasa = '3A' AND srednia_ocen >= 4.5;\n```\n\n**Weryfikacja**:\n- Anna Kowalska: klasa=3A ✓, srednia=4.8 ≥ 4.5 ✓\n- Ewa Maj: klasa=3A ✓, srednia=5.0 ≥ 4.5 ✓\n- Tomek Bak: klasa=3A ✓, srednia=4.5 ≥ 4.5 ✓\n\n| imie | nazwisko |\n|------|----------|\n| Anna | Kowalska |\n| Ewa | Maj |\n| Tomek | Bak |\n\n**Wyjasnienie**: WHERE laczy dwa warunki operatorem AND — oba musza byc spelnione jednoczesnie. Operator `>=` oznacza \"wieksze lub rowne\".",
+      "typowe_bledy": [
+        {
+          "opis": "**`>` zamiast `>=`**: Tomek Bak (srednia = 4.5) zostalby pominiiety",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak apostrofow wokol '3A'**: `WHERE klasa = 3A` — blad skladni, tekst wymaga apostrofow",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "23.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2016 (Uniwersytet)",
+      "tagi": [
+        "SELECT",
+        "WHERE",
+        "LIKE",
+        "OR",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Produkty**:\n\n| id | nazwa | kategoria | producent | cena |\n|----|-------|-----------|-----------|------|\n| 1 | Laptop Pro 15 | elektronika | TechCorp | 4599 |\n| 2 | Mysz bezprzewodowa | elektronika | ClickMax | 89 |\n| 3 | Klawiatura mechaniczna | elektronika | KeyMaster | 349 |\n| 4 | Monitor 27 cali | elektronika | ViewPro | 1299 |\n| 5 | Sluchawki Bluetooth | elektronika | SoundWave | 199 |\n| 6 | Pendrive 64GB | elektronika | DataStore | 39 |\n| 7 | Kabel USB-C | akcesoria | CablePlus | 29 |\n| 8 | Ladowarka szybka | akcesoria | PowerUp | 79 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe i cene produktow, ktorych nazwa zaczyna sie od 'K' lub konczy sie na 'a'. Posortuj alfabetycznie.",
+      "wskazowki": [
+        "**Kierunek**: Dwa wzorce do sprawdzenia — poczatek i koniec nazwy.",
+        "**Podejscie**: LIKE z `%` — `'K%'` = zaczyna sie od K, `'%a'` = konczy sie na 'a'.",
+        "**Kluczowy krok**: OR laczy dwa warunki — wystarczy spelnienie jednego."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, cena\nFROM Produkty\nWHERE nazwa LIKE 'K%' OR nazwa LIKE '%a'\nORDER BY nazwa;\n```\n\n**Weryfikacja**:\n- Zaczyna sie od 'K': Klawiatura mechaniczna ✓, Kabel USB-C ✓\n- Konczy sie na 'a': Mysz bezprzewodowa ✓, Klawiatura mechaniczna ✓, Ladowarka szybka ✓\n\n| nazwa | cena |\n|-------|------|\n| Kabel USB-C | 29 |\n| Klawiatura mechaniczna | 349 |\n| Ladowarka szybka | 79 |\n| Mysz bezprzewodowa | 89 |\n\n**Wyjasnienie**: LIKE pozwala na wyszukiwanie wzorcow: `%` zastepuje dowolny ciag znakow, `_` zastepuje dokladnie jeden znak. OR oznacza, ze wystarczy spelnienie jednego z warunkow.",
+      "typowe_bledy": [
+        {
+          "opis": "**`=` zamiast LIKE**: `nazwa = 'K%'` szukalyby dokladnego tekstu \"K%\" — nie znajdzie zadnych wynikow",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**AND zamiast OR**: Z AND oba warunki musza byc spelnione — tylko Klawiatura mechaniczna (zaczyna sie od K i konczy na 'a')",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "23.3",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2024 (Rejestr wykroczen)",
+      "tagi": [
+        "WHERE",
+        "BETWEEN",
+        "IN",
+        "NOT",
+        "LIKE",
+        "AND"
+      ],
+      "tresc": "Tabela **Pojazdy**:\n\n| id | marka | model | rok_produkcji | pojemnosc | kolor | nr_rejestracyjny |\n|----|-------|-------|---------------|-----------|-------|-------------------|\n| 1 | Toyota | Corolla | 2019 | 1800 | bialy | WA 12345 |\n| 2 | Ford | Focus | 2017 | 1600 | czarny | KR 98765 |\n| 3 | BMW | 320i | 2021 | 2000 | srebrny | GD 55555 |\n| 4 | Fiat | 500 | 2020 | 1200 | czerwony | WA 67890 |\n| 5 | Volkswagen | Golf | 2018 | 1400 | bialy | PO 11111 |\n| 6 | Audi | A4 | 2022 | 2000 | czarny | WA 22222 |\n| 7 | Toyota | Yaris | 2016 | 1000 | niebieski | KR 33333 |\n| 8 | Skoda | Octavia | 2019 | 1600 | srebrny | GD 44444 |\n| 9 | Honda | Civic | 2020 | 1500 | bialy | WA 55566 |\n| 10 | Renault | Clio | 2015 | 900 | czerwony | PO 77788 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli marke, model i rok produkcji pojazdow spelniajacych WSZYSTKIE warunki:\n- rok produkcji miedzy 2018 a 2021 (wlacznie)\n- pojemnosc silnika w zbiorze {1400, 1600, 1800, 2000}\n- nr rejestracyjny NIE zaczyna sie od 'WA'",
+      "wskazowki": [
+        "**Kierunek**: Trzy warunki polaczone AND — wszystkie musza byc spelnione.",
+        "**Podejscie**: BETWEEN dla zakresu, IN dla zbioru wartosci, NOT LIKE dla wykluczenia wzorca.",
+        "**Kluczowy krok**: BETWEEN jest wlaczajace (inclusive) — `BETWEEN 2018 AND 2021` obejmuje 2018 i 2021."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT marka, model, rok_produkcji\nFROM Pojazdy\nWHERE rok_produkcji BETWEEN 2018 AND 2021\n  AND pojemnosc IN (1400, 1600, 1800, 2000)\n  AND nr_rejestracyjny NOT LIKE 'WA%';\n```\n\n**Weryfikacja**:\n\n| id | marka | model | rok 2018-2021? | pojemnosc w zbiorze? | nie WA? | Wynik |\n|----|-------|-------|---------------|---------------------|---------|-------|\n| 1 | Toyota | Corolla | 2019 ✓ | 1800 ✓ | WA ✗ | ✗ |\n| 3 | BMW | 320i | 2021 ✓ | 2000 ✓ | GD ✓ | ✓ |\n| 5 | VW | Golf | 2018 ✓ | 1400 ✓ | PO ✓ | ✓ |\n| 8 | Skoda | Octavia | 2019 ✓ | 1600 ✓ | GD ✓ | ✓ |\n\n| marka | model | rok_produkcji |\n|-------|-------|---------------|\n| BMW | 320i | 2021 |\n| Volkswagen | Golf | 2018 |\n| Skoda | Octavia | 2019 |\n\n**Wyjasnienie**: BETWEEN a AND b jest rownowazne `>= a AND <= b`. IN sprawdza przynaleznosc do zbioru. NOT LIKE neguje wzorzec.",
+      "typowe_bledy": [
+        {
+          "opis": "**Zapomnienie, ze BETWEEN jest wlaczajace**: Zarowno 2018 jak i 2021 sa uwzgledniane. CKE: informacyjne — nie blad, ale warto wiedziec.",
+          "kara": ""
+        },
+        {
+          "opis": "**OR zamiast AND**: Zmienia logike — wystarczyloby spelnienie jednego warunku",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak NOT przed LIKE**: Bez NOT warunek wybiera pojazdy z WA zamiast je wykluczac",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "23.4",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2016 (Uniwersytet — LENGTH)",
+      "tagi": [
+        "LENGTH",
+        "SUBSTR",
+        "WHERE",
+        "operatory-porownania"
+      ],
+      "tresc": "Tabela **Filmy**:\n\n| id | tytul | rezyser | rok | ocena | kraj |\n|----|-------|---------|-----|-------|------|\n| 1 | Ogniem i mieczem | Hoffman | 1999 | 7.2 | Polska |\n| 2 | Ida | Pawlikowski | 2013 | 7.8 | Polska |\n| 3 | Kler | Smarzowski | 2018 | 6.5 | Polska |\n| 4 | Parasite | Bong | 2019 | 8.6 | Korea |\n| 5 | Zimna wojna | Pawlikowski | 2018 | 7.9 | Polska |\n| 6 | Boze Cialo | Komasa | 2019 | 7.6 | Polska |\n| 7 | Quo Vadis | Kawalerowicz | 2001 | 5.8 | Polska |\n| 8 | Komornik | Smarzowski | 2005 | 6.9 | Polska |\n\n**Polecenie**:\n1. Napisz zapytanie, ktore wyswietli tytul i dlugosc tytulu (funkcja LENGTH) dla filmow, ktorych tytul ma wiecej niz 10 znakow.\n2. Napisz zapytanie, ktore wyswietli tytul, rezyser oraz pierwsze 3 litery tytulu (funkcja SUBSTR) dla filmow rezysera 'Pawlikowski'.",
+      "wskazowki": [
+        "**Kierunek**: Funkcje tekstowe LENGTH i SUBSTR dzialaja na stringach.",
+        "**Podejscie**: LENGTH(tekst) zwraca liczbe znakow. SUBSTR(tekst, start, dlugosc) wyciaga fragment.",
+        "**Kluczowy krok**: W SQL pozycje w SUBSTR liczymy od 1 (nie od 0 jak w C++)."
+      ],
+      "odpowiedz": "**Zapytania SQL:**\n\n```sql\n-- 1. Filmy z dlugim tytulem\nSELECT tytul, LENGTH(tytul) AS dlugosc\nFROM Filmy\nWHERE LENGTH(tytul) > 10;\n\n-- 2. Filmy Pawlikowskiego z poczatkiem tytulu\nSELECT tytul, rezyser, SUBSTR(tytul, 1, 3) AS poczatek\nFROM Filmy\nWHERE rezyser = 'Pawlikowski';\n```\n\n**Weryfikacja**:\n\n1. Dlugosci tytulow:\n   - 'Ogniem i mieczem' = 17 znakow (>10 ✓)\n   - 'Ida' = 3 (✗), 'Kler' = 4 (✗), 'Parasite' = 8 (✗)\n   - 'Zimna wojna' = 11 (>10 ✓)\n   - 'Boze Cialo' = 10 (>10 ✗, rowne 10, nie wiecej)\n\n| tytul | dlugosc |\n|-------|---------|\n| Ogniem i mieczem | 17 |\n| Zimna wojna | 11 |\n\n2. Filmy Pawlikowskiego:\n\n| tytul | rezyser | poczatek |\n|-------|---------|----------|\n| Ida | Pawlikowski | Ida |\n| Zimna wojna | Pawlikowski | Zim |\n\n**Wyjasnienie**: LENGTH liczy znaki (wliczajac spacje). SUBSTR(tekst, 1, 3) wyciaga znaki od pozycji 1 do 3. Pozycje w SQL liczymy od 1. 'Boze Cialo' ma dokladnie 10 znakow — `> 10` go nie obejmuje.",
+      "typowe_bledy": [
+        {
+          "opis": "**SUBSTR od pozycji 0**: `SUBSTR(tytul, 0, 3)` — w SQLite dziala (traktuje 0 jak 1), ale w standardzie SQL to blad",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**`>= 10` zamiast `> 10`**: Dodaje 'Boze Cialo' (10 znakow) do wyniku, niezgodnie z poleceniem \"wiecej niz 10\"",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "23.5",
+      "trudnosc": "trudne",
+      "punkty": 4,
+      "zrodlo": "Matura 2019 (Perfumy)",
+      "tagi": [
+        "IS-NOT-NULL",
+        "IS-NULL",
+        "AND",
+        "OR",
+        "obliczenia-w-SELECT",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Pomiary**:\n\n| id | stacja | data | temp_min | temp_max | opady | wiatr |\n|----|--------|------|----------|----------|-------|-------|\n| 1 | Warszawa | 2024-01-15 | -5 | 2 | 0 | 15 |\n| 2 | Krakow | 2024-01-15 | -8 | -1 | 3 | 10 |\n| 3 | Gdansk | 2024-01-15 | -2 | 4 | NULL | 20 |\n| 4 | Warszawa | 2024-07-20 | 18 | 32 | 0 | 5 |\n| 5 | Krakow | 2024-07-20 | 16 | 29 | 12 | 8 |\n| 6 | Gdansk | 2024-07-20 | 15 | 25 | NULL | 18 |\n| 7 | Warszawa | 2024-03-10 | 2 | 10 | 5 | 12 |\n| 8 | Krakow | 2024-03-10 | 0 | 8 | 0 | 7 |\n| 9 | Gdansk | 2024-03-10 | 3 | 11 | 8 | 25 |\n| 10 | Warszawa | 2024-12-05 | -10 | -3 | 15 | 22 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli stacje, date, temperature minimalna i maksymalna oraz roznice temperatur (temp_max - temp_min) jako kolumne `amplituda` — ale tylko dla pomiarow spelniajacych WSZYSTKIE warunki:\n- opady nie sa NULL\n- opady sa wieksze od 0\n- wiatr jest wiekszy niz 10 LUB amplituda temperatur (temp_max - temp_min) jest wieksza niz 15\n\nPosortuj malejaco wg amplitudy.",
+      "wskazowki": [
+        "**Kierunek**: Trzy warunki, ale trzeci jest zlozony (OR wewnatrz AND).",
+        "**Podejscie**: IS NOT NULL + warunek na opady + nawiasy wokol OR.",
+        "**Kluczowy krok**: Nawiasy sa kluczowe: `AND (wiatr > 10 OR amplituda > 15)`. Bez nawiasow AND ma wyzszy priorytet niz OR."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT stacja, data, temp_min, temp_max,\n       (temp_max - temp_min) AS amplituda\nFROM Pomiary\nWHERE opady IS NOT NULL\n  AND opady > 0\n  AND (wiatr > 10 OR (temp_max - temp_min) > 15)\nORDER BY amplituda DESC;\n```\n\n**Weryfikacja**:\n\n| id | stacja | opady NOT NULL? | opady > 0? | wiatr>10 OR ampl>15? | amplituda | Wynik |\n|----|--------|----------------|-----------|---------------------|-----------|-------|\n| 2 | Krakow | ✓ (3) | ✓ | wiatr=10 ✗, ampl=7 ✗ | 7 | ✗ |\n| 5 | Krakow | ✓ (12) | ✓ | wiatr=8 ✗, ampl=13 ✗ | 13 | ✗ |\n| 7 | Warszawa | ✓ (5) | ✓ | wiatr=12 >10 ✓ | 8 | ✓ |\n| 9 | Gdansk | ✓ (8) | ✓ | wiatr=25 >10 ✓ | 8 | ✓ |\n| 10 | Warszawa | ✓ (15) | ✓ | wiatr=22 >10 ✓ | 7 | ✓ |\n\n| stacja | data | temp_min | temp_max | amplituda |\n|--------|------|----------|----------|-----------|\n| Warszawa | 2024-03-10 | 2 | 10 | 8 |\n| Gdansk | 2024-03-10 | 3 | 11 | 8 |\n| Warszawa | 2024-12-05 | -10 | -3 | 7 |\n\n**Wyjasnienie**: Kluczowe koncepty:\n1. **IS NOT NULL** — jedyny poprawny sposob sprawdzenia, czy wartosc nie jest NULL.\n2. **Nawiasy w zlozonym WHERE** — `AND (... OR ...)` wymaga nawiasow, bo AND ma wyzszy priorytet niz OR.\n3. **Kolumna obliczana** — `(temp_max - temp_min) AS amplituda` tworzy nowa kolumne w wyniku.",
+      "typowe_bledy": [
+        {
+          "opis": "**`!= NULL` zamiast `IS NOT NULL`**: `opady != NULL` zawsze zwraca NULL/FALSE — nic nie przejdzie tego filtra",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak nawiasow wokol OR**: Bez nawiasow wyrazenie jest interpretowane inaczej z powodu priorytetu AND > OR",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Alias w WHERE**: `WHERE amplituda > 15` — w wielu bazach nie mozna uzyc aliasu w WHERE. Trzeba powtorzyc wyrazenie",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "23.6",
+      "trudnosc": "latwe",
+      "punkty": 1,
+      "zrodlo": "Matura 2025 (Woda na Marsie)",
+      "tagi": [
+        "SELECT",
+        "WHERE",
+        "ORDER-BY",
+        "operatory-porownania"
+      ],
+      "tresc": "Tabela **Planety**:\n\n| id | nazwa | srednica_km | odleglosc_au | liczba_ksiezycow | typ |\n|----|-------|-------------|-------------|-----------------|-----|\n| 1 | Merkury | 4879 | 0.39 | 0 | skalista |\n| 2 | Wenus | 12104 | 0.72 | 0 | skalista |\n| 3 | Ziemia | 12756 | 1.00 | 1 | skalista |\n| 4 | Mars | 6792 | 1.52 | 2 | skalista |\n| 5 | Jowisz | 142984 | 5.20 | 95 | gazowa |\n| 6 | Saturn | 120536 | 9.54 | 146 | gazowa |\n| 7 | Uran | 51118 | 19.19 | 27 | lodowa |\n| 8 | Neptun | 49528 | 30.07 | 16 | lodowa |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe i liczbe ksiezycow planet, ktore maja wiecej niz 10 ksiezycow. Posortuj malejaco wg liczby ksiezycow.",
+      "wskazowki": [
+        "**Kierunek**: Prosty filtr WHERE z jednym warunkiem.",
+        "**Podejscie**: `WHERE liczba_ksiezycow > 10` + ORDER BY DESC.",
+        "**Kluczowy krok**: Pamietaj, ze `> 10` nie obejmuje 10."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, liczba_ksiezycow\nFROM Planety\nWHERE liczba_ksiezycow > 10\nORDER BY liczba_ksiezycow DESC;\n```\n\n**Weryfikacja**:\n- Saturn: 146 > 10 ✓\n- Jowisz: 95 > 10 ✓\n- Uran: 27 > 10 ✓\n- Neptun: 16 > 10 ✓\n\n| nazwa | liczba_ksiezycow |\n|-------|-----------------|\n| Saturn | 146 |\n| Jowisz | 95 |\n| Uran | 27 |\n| Neptun | 16 |\n\n**Wyjasnienie**: Prosty SELECT z WHERE i ORDER BY DESC. To podstawowy wzorzec filtrowania danych w SQL.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak DESC w ORDER BY**: Domyslnie ORDER BY sortuje rosnaco (ASC)",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**`>= 10` zamiast `> 10`**: Gdyby jakas planeta miala 10 ksiezycow, bylaby wlaczona blednie",
+          "kara": "-0.5 pkt (zalezy od danych)"
+        }
+      ]
+    },
+    {
+      "id": "23.7",
+      "trudnosc": "srednie",
+      "punkty": 2,
+      "zrodlo": "Matura 2017 (Pilka reczna)",
+      "tagi": [
+        "WHERE",
+        "LIKE",
+        "NOT",
+        "AND",
+        "OR"
+      ],
+      "tresc": "Tabela **Miasta**:\n\n| id | nazwa | kraj | populacja | powierzchnia_km2 | stolica |\n|----|-------|------|-----------|------------------|---------|\n| 1 | Warszawa | Polska | 1790658 | 517 | tak |\n| 2 | Krakow | Polska | 779115 | 327 | nie |\n| 3 | Berlin | Niemcy | 3644826 | 892 | tak |\n| 4 | Monachium | Niemcy | 1471508 | 311 | nie |\n| 5 | Praga | Czechy | 1309000 | 496 | tak |\n| 6 | Brno | Czechy | 382405 | 230 | nie |\n| 7 | Gdansk | Polska | 470907 | 262 | nie |\n| 8 | Wroclaw | Polska | 641928 | 293 | nie |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe i populacje miast spelniajacych warunki:\n- nazwa NIE konczy sie na 'w'\n- populacja > 500000\n- miasto jest z Polski LUB jest stolica",
+      "wskazowki": [
+        "**Kierunek**: Trzy warunki, trzeci jest zlozony (OR).",
+        "**Podejscie**: NOT LIKE '%w' + warunek na populacje + nawiasy wokol OR.",
+        "**Kluczowy krok**: Nawiasy: `AND (kraj = 'Polska' OR stolica = 'tak')`."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, populacja\nFROM Miasta\nWHERE nazwa NOT LIKE '%w'\n  AND populacja > 500000\n  AND (kraj = 'Polska' OR stolica = 'tak');\n```\n\n**Weryfikacja**:\n\n| id | nazwa | NOT LIKE '%w'? | pop > 500k? | Polska OR stolica? | Wynik |\n|----|-------|----------------|-------------|-------------------|-------|\n| 1 | Warszawa | ✓ (konczy na 'a') | ✓ (1.79M) | Polska ✓ | ✓ |\n| 3 | Berlin | ✓ (konczy na 'n') | ✓ (3.64M) | stolica ✓ | ✓ |\n| 4 | Monachium | ✓ (konczy na 'm') | ✓ (1.47M) | ani Polska, ani stolica ✗ | ✗ |\n| 5 | Praga | ✓ (konczy na 'a') | ✓ (1.31M) | stolica ✓ | ✓ |\n| 2 | Krakow | ✗ (konczy na 'w') | — | — | ✗ |\n| 8 | Wroclaw | ✗ (konczy na 'w') | — | — | ✗ |\n\n| nazwa | populacja |\n|-------|-----------|\n| Warszawa | 1790658 |\n| Berlin | 3644826 |\n| Praga | 1309000 |\n\n**Wyjasnienie**: NOT LIKE '%w' wyklucza nazwy konczace sie na 'w' (Krakow, Wroclaw). Nawiasy wokol OR zapewniaja poprawna logike — bez nich AND bedzie mialo priorytet.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak nawiasow wokol OR**: `AND kraj = 'Polska' OR stolica = 'tak'` zmienia logike — Praga przejdzie nawet bez spelnienia warunkow populacji i NOT LIKE",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**LIKE zamiast NOT LIKE**: Odwrotny wynik — tylko miasta konczace sie na 'w'",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "23.8",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2022 (Ewidencja uczniow)",
+      "tagi": [
+        "DISTINCT",
+        "WHERE",
+        "BETWEEN",
+        "LIKE",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Loty**:\n\n| id | nr_lotu | skad | dokad | data | godzina | cena | status |\n|----|---------|------|-------|------|---------|------|--------|\n| 1 | LO101 | Warszawa | Berlin | 2024-06-15 | 08:30 | 450 | planowy |\n| 2 | LO102 | Warszawa | Paryz | 2024-06-15 | 10:00 | 680 | planowy |\n| 3 | FR201 | Krakow | Londyn | 2024-06-16 | 06:15 | 320 | planowy |\n| 4 | LO103 | Warszawa | Berlin | 2024-06-16 | 08:30 | 450 | opozniony |\n| 5 | FR202 | Gdansk | Berlin | 2024-06-17 | 14:00 | 280 | planowy |\n| 6 | LO104 | Warszawa | Rzym | 2024-06-17 | 12:00 | 550 | odwolany |\n| 7 | FR203 | Krakow | Paryz | 2024-06-18 | 09:45 | 390 | planowy |\n| 8 | LO105 | Warszawa | Londyn | 2024-06-18 | 16:30 | 720 | planowy |\n\n**Polecenie**:\n1. Wyswietl UNIKALNE miasta docelowe (DISTINCT) posortowane alfabetycznie.\n2. Wyswietl nr lotu, trase (skad → dokad) i cene lotow, ktore: maja nr lotu zaczynajacy sie od 'LO', kosztuja miedzy 400 a 600, i NIE sa odwolane.",
+      "wskazowki": [
+        "**Kierunek**: Dwa osobne zapytania — jedno z DISTINCT, drugie z wieloma warunkami.",
+        "**Podejscie**: DISTINCT eliminuje duplikaty. BETWEEN, LIKE i != laczymy AND-em.",
+        "**Kluczowy krok**: `status != 'odwolany'` lub `status <> 'odwolany'` — oba sa poprawne."
+      ],
+      "odpowiedz": "**Zapytania SQL:**\n```sql\n-- 1. Unikalne miasta docelowe\nSELECT DISTINCT dokad\nFROM Loty\nORDER BY dokad;\n\n-- 2. Loty LOT w przedziale cenowym, nieodwolane\nSELECT nr_lotu, skad || ' → ' || dokad AS trasa, cena\nFROM Loty\nWHERE nr_lotu LIKE 'LO%'\n  AND cena BETWEEN 400 AND 600\n  AND status != 'odwolany';\n```\n\n**Weryfikacja**:\n\n1. Unikalne miasta docelowe: Berlin, Londyn, Paryz, Rzym\n\n| dokad |\n|-------|\n| Berlin |\n| Londyn |\n| Paryz |\n| Rzym |\n\n2. Loty LO, cena 400-600, nie odwolane:\n- LO101: LO ✓, 450 ∈ [400,600] ✓, planowy ✓ → ✓\n- LO102: LO ✓, 680 ∉ [400,600] ✗\n- LO103: LO ✓, 450 ∈ [400,600] ✓, opozniony ✓ → ✓\n- LO104: LO ✓, 550 ∈ [400,600] ✓, odwolany ✗\n- LO105: LO ✓, 720 ∉ [400,600] ✗\n\n| nr_lotu | trasa | cena |\n|---------|-------|------|\n| LO101 | Warszawa → Berlin | 450 |\n| LO103 | Warszawa → Berlin | 450 |\n\n**Wyjasnienie**: DISTINCT eliminuje powtorzenia w wynikach. Operator `||` w SQLite laczy teksty (konkatenacja). `!=` i `<>` sa rownowazne.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak DISTINCT**: Berlin pojawi sie 3 razy (loty 1, 4, 5)",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**`= 'odwolany'` zamiast `!= 'odwolany'`**: Odwrotny filtr — pokaze tylko odwolane loty",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Konkatenacja z `+`**: W SQLite operator `+` dodaje liczby, nie laczy teksty. Trzeba uzyc `||`",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "23.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "zrodlo": "Matura 2021 (Gra strategiczna)",
+      "tagi": [
+        "CASE-WHEN",
+        "obliczenia-w-SELECT",
+        "WHERE",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Wyniki_egzaminu**:\n\n| id | imie | nazwisko | teoria | praktyka | projekt |\n|----|------|----------|--------|----------|---------|\n| 1 | Anna | Maj | 38 | 42 | 15 |\n| 2 | Jan | Krol | 25 | 30 | 10 |\n| 3 | Ewa | Lis | 45 | 48 | 18 |\n| 4 | Piotr | Zak | 30 | 35 | 12 |\n| 5 | Kasia | Wrobel | 20 | 25 | 8 |\n| 6 | Tomek | Bak | 42 | 45 | 17 |\n| 7 | Ola | Rak | 35 | 38 | 14 |\n| 8 | Marek | Duda | 15 | 20 | 5 |\n\nMaksymalne punkty: teoria 50, praktyka 50, projekt 20. Lacznie 120.\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko, sume punktow oraz ocene slowna wg schematu:\n- suma >= 96 (80%): 'celujacy'\n- suma >= 72 (60%): 'bardzo dobry'\n- suma >= 48 (40%): 'dostateczny'\n- suma < 48: 'niedostateczny'\n\nPosortuj malejaco wg sumy.",
+      "wskazowki": [
+        "**Kierunek**: Obliczenia w SELECT i CASE WHEN do klasyfikacji.",
+        "**Podejscie**: `(teoria + praktyka + projekt) AS suma` i CASE WHEN z progami.",
+        "**Kluczowy krok**: CASE WHEN sprawdza warunki PO KOLEI — pierwszy spelniony wygrywa. Zacznij od najwyzszego progu."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko,\n       (teoria + praktyka + projekt) AS suma,\n       CASE\n         WHEN (teoria + praktyka + projekt) >= 96 THEN 'celujacy'\n         WHEN (teoria + praktyka + projekt) >= 72 THEN 'bardzo dobry'\n         WHEN (teoria + praktyka + projekt) >= 48 THEN 'dostateczny'\n         ELSE 'niedostateczny'\n       END AS ocena\nFROM Wyniki_egzaminu\nORDER BY suma DESC;\n```\n\n**Weryfikacja**:\n- Ewa: 45+48+18 = **111** → celujacy (>=96)\n- Tomek: 42+45+17 = **104** → celujacy (>=96)\n- Anna: 38+42+15 = **95** → bardzo dobry (>=72, <96)\n- Ola: 35+38+14 = **87** → bardzo dobry (>=72)\n- Piotr: 30+35+12 = **77** → bardzo dobry (>=72)\n- Jan: 25+30+10 = **65** → dostateczny (>=48, <72)\n- Kasia: 20+25+8 = **53** → dostateczny (>=48)\n- Marek: 15+20+5 = **40** → niedostateczny (<48)\n\n| imie | nazwisko | suma | ocena |\n|------|----------|------|-------|\n| Ewa | Lis | 111 | celujacy |\n| Tomek | Bak | 104 | celujacy |\n| Anna | Maj | 95 | bardzo dobry |\n| Ola | Rak | 87 | bardzo dobry |\n| Piotr | Zak | 77 | bardzo dobry |\n| Jan | Krol | 65 | dostateczny |\n| Kasia | Wrobel | 53 | dostateczny |\n| Marek | Duda | 40 | niedostateczny |\n\n**Wyjasnienie**: CASE WHEN dziala jak if/else — sprawdza warunki po kolei, pierwszy spelniony determinuje wynik. Dlatego kolejnosc warunkow jest wazna (od najwyzszego progu do najnizszego). ELSE obsluguje wszystkie przypadki nie spelniajace zadnego warunku.",
+      "typowe_bledy": [
+        {
+          "opis": "**Odwrotna kolejnosc warunkow**: Jesli pierwszy warunek to `>= 48`, WSZYSTKIE osoby poza Markiem dostana 'dostateczny'",
+          "kara": "-3 pkt"
+        },
+        {
+          "opis": "**Brak ELSE**: Osoby z suma < 48 dostana NULL zamiast 'niedostateczny'",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Alias w CASE WHEN**: `WHEN suma >= 96` — w wielu bazach alias nie jest dostepny w tej samej klauzuli SELECT. Trzeba powtorzyc wyrazenie",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "23.10",
+      "trudnosc": "trudne",
+      "punkty": 4,
+      "zrodlo": "Matura 2024 (Rejestr wykroczen)",
+      "tagi": [
+        "IS-NULL",
+        "IS-NOT-NULL",
+        "CASE-WHEN",
+        "obliczenia-w-SELECT",
+        "SUBSTR",
+        "LENGTH",
+        "LIKE",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Zgloszenia**:\n\n| id | nr_sprawy | kategoria | data_zgloszenia | data_zamkniecia | priorytet | opis |\n|----|-----------|-----------|-----------------|-----------------|-----------|------|\n| 1 | ZG-2024-001 | awaria | 2024-01-10 | 2024-01-12 | wysoki | Wyciek wody |\n| 2 | ZG-2024-002 | reklamacja | 2024-01-15 | NULL | niski | Uszkodzony produkt |\n| 3 | ZG-2024-003 | awaria | 2024-02-01 | 2024-02-03 | wysoki | Brak pradu |\n| 4 | ZG-2024-004 | zapytanie | 2024-02-10 | 2024-02-10 | niski | Pytanie o cene |\n| 5 | ZG-2024-005 | awaria | 2024-03-01 | NULL | wysoki | Zepsuta rura |\n| 6 | ZG-2024-006 | reklamacja | 2024-03-05 | 2024-03-15 | sredni | Bledne zamowienie |\n| 7 | ZG-2024-007 | zapytanie | 2024-03-10 | 2024-03-10 | niski | Godziny otwarcia |\n| 8 | ZG-2024-008 | awaria | 2024-04-01 | NULL | wysoki | Brak ogrzewania |\n| 9 | ZG-2024-009 | reklamacja | 2024-04-10 | 2024-04-20 | sredni | Wadliwy towar |\n| 10 | ZG-2024-010 | zapytanie | 2024-04-15 | 2024-04-15 | niski | Regulamin |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli:\n- nr sprawy\n- kategorie\n- miesiac zgloszenia (numer, uzyj SUBSTR)\n- status: 'otwarte' jezeli data_zamkniecia IS NULL, 'zamkniete' w przeciwnym razie\n- dlugosc opisu (LENGTH)\n\nPokaz tylko zgloszenia, ktore sa OTWARTE lub ktorych opis ma wiecej niz 15 znakow. Posortuj wg miesiaca, potem wg priorytetu (wysoki najpierw — uzyj CASE WHEN w ORDER BY).",
+      "wskazowki": [
+        "**Kierunek**: CASE WHEN w SELECT (status) i w ORDER BY (priorytet).",
+        "**Podejscie**: CASE WHEN data_zamkniecia IS NULL THEN 'otwarte' ELSE 'zamkniete'. SUBSTR(data, 6, 2) wyciaga miesiac.",
+        "**Kluczowy krok**: ORDER BY CASE WHEN priorytet = 'wysoki' THEN 1 ... END — mapuje tekst na liczby do sortowania."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nr_sprawy, kategoria,\n       SUBSTR(data_zgloszenia, 6, 2) AS miesiac,\n       CASE WHEN data_zamkniecia IS NULL THEN 'otwarte' ELSE 'zamkniete' END AS status,\n       LENGTH(opis) AS dl_opisu\nFROM Zgloszenia\nWHERE data_zamkniecia IS NULL\n   OR LENGTH(opis) > 15\nORDER BY miesiac,\n         CASE priorytet\n           WHEN 'wysoki' THEN 1\n           WHEN 'sredni' THEN 2\n           WHEN 'niski' THEN 3\n         END;\n```\n\n**Weryfikacja**:\n\n| id | nr_sprawy | otwarte? | dl_opisu > 15? | Wynik |\n|----|-----------|----------|----------------|-------|\n| 1 | ZG-2024-001 | zamkniete | 'Wyciek wody'=11 ✗ | ✗ |\n| 2 | ZG-2024-002 | otwarte ✓ | — | ✓ |\n| 3 | ZG-2024-003 | zamkniete | 'Brak pradu'=10 ✗ | ✗ |\n| 4 | ZG-2024-004 | zamkniete | 'Pytanie o cene'=14 ✗ | ✗ |\n| 5 | ZG-2024-005 | otwarte ✓ | — | ✓ |\n| 6 | ZG-2024-006 | zamkniete | 'Bledne zamowienie'=17 ✓ | ✓ |\n| 7 | ZG-2024-007 | zamkniete | 'Godziny otwarcia'=17 ✓ | ✓ |\n| 8 | ZG-2024-008 | otwarte ✓ | — | ✓ |\n| 9 | ZG-2024-009 | zamkniete | 'Wadliwy towar'=14 ✗ | ✗ |\n| 10 | ZG-2024-010 | zamkniete | 'Regulamin'=9 ✗ | ✗ |\n\n| nr_sprawy | kategoria | miesiac | status | dl_opisu |\n|-----------|-----------|---------|--------|----------|\n| ZG-2024-002 | reklamacja | 01 | otwarte | 19 |\n| ZG-2024-005 | awaria | 03 | otwarte | 12 |\n| ZG-2024-006 | reklamacja | 03 | zamkniete | 17 |\n| ZG-2024-007 | zapytanie | 03 | zamkniete | 17 |\n| ZG-2024-008 | awaria | 04 | otwarte | 16 |\n\n**Wyjasnienie**: CASE WHEN w SELECT tworzy kolumne obliczana na podstawie warunku. CASE WHEN w ORDER BY pozwala mapowac wartosci tekstowe na liczby — dzieki temu 'wysoki' jest sortowany przed 'sredni' i 'niski'. SUBSTR i LENGTH to funkcje tekstowe uzyte jednoczesnie w roznych celach.",
+      "typowe_bledy": [
+        {
+          "opis": "**`= NULL` zamiast `IS NULL`**: Porownanie z NULL zawsze daje NULL. Trzeba uzyc IS NULL / IS NOT NULL",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Sortowanie tekstowe po priorytecie**: Alfabetycznie 'niski' < 'sredni' < 'wysoki' — odwrotna kolejnosc niz zamierzona",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak CASE WHEN w ORDER BY**: Nie ma innego sposobu na posortowanie priorytetu w niestandardowej kolejnosci bez dodatkowej kolumny",
+          "kara": "-1 pkt"
+        }
+      ]
+    }
+  ]
+}

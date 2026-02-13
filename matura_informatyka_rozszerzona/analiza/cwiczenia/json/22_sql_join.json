@@ -1,0 +1,326 @@
+{
+  "typ": "22_sql_join",
+  "nazwa": "SQL — JOIN (laczenie tabel)",
+  "kategoria": "SQL",
+  "czestotliwosc": "8/11 lat",
+  "punkty_lacznie": 21,
+  "tagi_globalne": [
+    "INNER-JOIN",
+    "LEFT-JOIN",
+    "JOIN-wielotabelowy",
+    "aliasy-tabel",
+    "ON-warunek",
+    "COUNT-z-LEFT-JOIN",
+    "self-JOIN",
+    "GROUP-BY-z-JOIN",
+    "WHERE-z-JOIN",
+    "ORDER-BY-wielokolumnowy",
+    "DISTINCT"
+  ],
+  "cwiczenia": [
+    {
+      "id": "22.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2016 (Uniwersytet)",
+      "tagi": [
+        "INNER-JOIN",
+        "aliasy-tabel",
+        "ORDER-BY-wielokolumnowy"
+      ],
+      "tresc": "Tabela **Autorzy**:\n\n| id_autora | imie | nazwisko | kraj |\n|-----------|------|----------|------|\n| 1 | Adam | Mickiewicz | Polska |\n| 2 | Juliusz | Slowacki | Polska |\n| 3 | Fiodor | Dostojewski | Rosja |\n| 4 | Victor | Hugo | Francja |\n\nTabela **Ksiazki**:\n\n| id_ksiazki | tytul | id_autora | rok | cena |\n|------------|-------|-----------|-----|------|\n| 1 | Pan Tadeusz | 1 | 1834 | 29.90 |\n| 2 | Dziady | 1 | 1823 | 24.50 |\n| 3 | Balladyna | 2 | 1839 | 19.90 |\n| 4 | Zbrodnia i kara | 3 | 1866 | 34.90 |\n| 5 | Kordian | 2 | 1834 | 22.00 |\n| 6 | Nedznicy | 4 | 1862 | 39.90 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli tytul ksiazki oraz imie i nazwisko jej autora. Posortuj alfabetycznie wg nazwiska autora, a nastepnie wg tytulu.",
+      "wskazowki": [
+        "**Kierunek**: Dane autora sa w innej tabeli niz dane ksiazki — musisz je polaczyc.",
+        "**Podejscie**: JOIN na wspolnej kolumnie id_autora.",
+        "**Kluczowy krok**: ORDER BY z dwoma kolumnami: najpierw nazwisko, potem tytul."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.tytul, A.imie, A.nazwisko\nFROM Ksiazki K\nJOIN Autorzy A ON K.id_autora = A.id_autora\nORDER BY A.nazwisko, K.tytul;\n```\n\n**Weryfikacja**:\n\n| tytul | imie | nazwisko |\n|-------|------|----------|\n| Zbrodnia i kara | Fiodor | Dostojewski |\n| Nedznicy | Victor | Hugo |\n| Dziady | Adam | Mickiewicz |\n| Pan Tadeusz | Adam | Mickiewicz |\n| Balladyna | Juliusz | Slowacki |\n| Kordian | Juliusz | Slowacki |\n\n**Wyjasnienie**: INNER JOIN (lub samo JOIN) laczy kazdy wiersz z Ksiazki z wierszem z Autorzy, gdzie id_autora sie zgadza. ORDER BY z dwoma kolumnami sortuje najpierw wg nazwiska, a w ramach tego samego nazwiska — wg tytulu.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak aliasow przy niejednoznacznych kolumnach**: Jesli obie tabele maja kolumne `id_autora`, trzeba uzyc prefiksu (K.id_autora lub A.id_autora)",
+          "kara": "-1 pkt (blad skladni)"
+        },
+        {
+          "opis": "**Brak ON**: `FROM Ksiazki JOIN Autorzy` bez ON tworzy iloczyn kartezjanski (kazda ksiazka z kazdym autorem)",
+          "kara": "-3 pkt"
+        }
+      ]
+    },
+    {
+      "id": "22.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2017 (Pilka reczna)",
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "aliasy-tabel",
+        "ORDER-BY-wielokolumnowy"
+      ],
+      "tresc": "Tabela **Oddzialy**:\n\n| id_oddzialu | nazwa_oddzialu |\n|-------------|----------------|\n| 1 | Chirurgia |\n| 2 | Pediatria |\n| 3 | Kardiologia |\n\nTabela **Lekarze**:\n\n| id_lekarza | imie | nazwisko | id_oddzialu | specjalizacja |\n|------------|------|----------|-------------|---------------|\n| 1 | Jan | Kowalski | 1 | chirurg |\n| 2 | Anna | Nowak | 2 | pediatra |\n| 3 | Piotr | Maj | 1 | ortopeda |\n| 4 | Ewa | Lis | 3 | kardiolog |\n\nTabela **Wizyty**:\n\n| id_wizyty | id_lekarza | pacjent | data_wizyty |\n|-----------|------------|---------|-------------|\n| 1 | 1 | Tomek Bak | 2024-03-01 |\n| 2 | 2 | Kasia Zak | 2024-03-01 |\n| 3 | 1 | Ola Wrobel | 2024-03-02 |\n| 4 | 4 | Marek Krol | 2024-03-02 |\n| 5 | 3 | Adam Wilk | 2024-03-03 |\n| 6 | 2 | Zofia Ptak | 2024-03-03 |\n| 7 | 4 | Jan Duda | 2024-03-04 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe oddzialu, imie i nazwisko lekarza oraz nazwe pacjenta dla kazdej wizyty. Posortuj wg daty wizyty.",
+      "wskazowki": [
+        "**Kierunek**: Trzy tabele — potrzebujesz dwoch JOIN-ow.",
+        "**Podejscie**: Wizyty → Lekarze (po id_lekarza) → Oddzialy (po id_oddzialu).",
+        "**Kluczowy krok**: Kolejnosc JOIN-ow: od tabeli z danymi (Wizyty) przez tabele posrednia (Lekarze) do tabeli docelowej (Oddzialy)."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT O.nazwa_oddzialu, L.imie, L.nazwisko, W.pacjent, W.data_wizyty\nFROM Wizyty W\nJOIN Lekarze L ON W.id_lekarza = L.id_lekarza\nJOIN Oddzialy O ON L.id_oddzialu = O.id_oddzialu\nORDER BY W.data_wizyty;\n```\n\n**Weryfikacja**:\n\n| nazwa_oddzialu | imie | nazwisko | pacjent | data_wizyty |\n|----------------|------|----------|---------|-------------|\n| Chirurgia | Jan | Kowalski | Tomek Bak | 2024-03-01 |\n| Pediatria | Anna | Nowak | Kasia Zak | 2024-03-01 |\n| Chirurgia | Jan | Kowalski | Ola Wrobel | 2024-03-02 |\n| Kardiologia | Ewa | Lis | Marek Krol | 2024-03-02 |\n| Chirurgia | Piotr | Maj | Adam Wilk | 2024-03-03 |\n| Pediatria | Anna | Nowak | Zofia Ptak | 2024-03-03 |\n| Kardiologia | Ewa | Lis | Jan Duda | 2024-03-04 |\n\n**Wyjasnienie**: Laczenie 3 tabel wymaga dwoch JOIN-ow: Wizyty → Lekarze (po id_lekarza) i Lekarze → Oddzialy (po id_oddzialu). Kolejnosc JOIN-ow nie ma znaczenia dla wyniku, ale logicznie laczymy \"od srodka\".",
+      "typowe_bledy": [
+        {
+          "opis": "**Pominiecie jednego JOIN-a**: Proba polaczenia Wizyty bezposrednio z Oddzialy — te tabele nie maja wspolnej kolumny",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Bledny warunek ON**: np. `ON W.id_lekarza = O.id_oddzialu` — laczenie blednych kolumn",
+          "kara": "-3 pkt"
+        }
+      ]
+    },
+    {
+      "id": "22.3",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2015 (Formula 1)",
+      "tagi": [
+        "LEFT-JOIN",
+        "COUNT-z-LEFT-JOIN",
+        "GROUP-BY-z-JOIN"
+      ],
+      "tresc": "Tabela **Rowery**:\n\n| id_roweru | model | typ | cena_za_godzine |\n|-----------|-------|-----|-----------------|\n| 1 | City Cruiser | miejski | 15 |\n| 2 | Mountain Pro | gorski | 25 |\n| 3 | Speed Racer | szosowy | 30 |\n| 4 | Kids Fun | dzieciecy | 10 |\n| 5 | Electric One | elektryczny | 35 |\n\nTabela **Wypozyczenia**:\n\n| id_wypozyczenia | id_roweru | klient | godziny | data |\n|-----------------|-----------|--------|---------|------|\n| 1 | 1 | Tomek | 3 | 2024-06-01 |\n| 2 | 2 | Anna | 2 | 2024-06-01 |\n| 3 | 1 | Kasia | 1 | 2024-06-02 |\n| 4 | 3 | Piotr | 4 | 2024-06-02 |\n| 5 | 2 | Tomek | 3 | 2024-06-03 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli model kazdego roweru oraz laczna liczbe jego wypozyczen. Pokaz WSZYSTKIE rowery, nawet te nigdy nie wypozyczone (dla nich liczba = 0). Posortuj malejaco wg liczby wypozyczen.",
+      "wskazowki": [
+        "**Kierunek**: INNER JOIN odrzuca rowery bez wypozyczen — potrzebujesz LEFT JOIN.",
+        "**Podejscie**: LEFT JOIN zachowuje WSZYSTKIE wiersze z lewej tabeli (Rowery).",
+        "**Kluczowy krok**: COUNT(W.id_wypozyczenia) zamiast COUNT(*) — COUNT(*) daje 1 zamiast 0 dla pustych dopasowañ."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT R.model, COUNT(W.id_wypozyczenia) AS liczba_wypozyczen\nFROM Rowery R\nLEFT JOIN Wypozyczenia W ON R.id_roweru = W.id_roweru\nGROUP BY R.model\nORDER BY liczba_wypozyczen DESC;\n```\n\n**Weryfikacja**:\n- City Cruiser (id=1): wyp. 1, 3 → **2**\n- Mountain Pro (id=2): wyp. 2, 5 → **2**\n- Speed Racer (id=3): wyp. 4 → **1**\n- Kids Fun (id=4): brak wypozyczen → **0**\n- Electric One (id=5): brak wypozyczen → **0**\n\n| model | liczba_wypozyczen |\n|-------|-------------------|\n| City Cruiser | 2 |\n| Mountain Pro | 2 |\n| Speed Racer | 1 |\n| Electric One | 0 |\n| Kids Fun | 0 |\n\n**Wyjasnienie**: LEFT JOIN zachowuje wszystkie wiersze z lewej tabeli (Rowery), nawet te bez dopasowania w Wypozyczenia. Kluczowy szczegol: uzywamy `COUNT(W.id_wypozyczenia)` zamiast `COUNT(*)`.",
+      "typowe_bledy": [
+        {
+          "opis": "**COUNT(*) z LEFT JOIN**: Dla rowerow bez wypozyczen daje 1 zamiast 0, bo wiersz z NULL jest liczony",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**INNER JOIN zamiast LEFT JOIN**: Rowery bez wypozyczen nie pojawia sie w wyniku",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**RIGHT JOIN**: Poprawna alternatywa (odwrocona kolejnosc tabel), ale mniej czytelna i na maturze rzadko uzywana. CKE: akceptowane.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "22.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2022 (Ewidencja uczniow)",
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "WHERE-z-JOIN",
+        "ORDER-BY-wielokolumnowy"
+      ],
+      "tresc": "Tabela **Nauczyciele**:\n\n| id_nauczyciela | imie | nazwisko |\n|----------------|------|----------|\n| 1 | Jan | Kowalski |\n| 2 | Anna | Nowak |\n| 3 | Ewa | Maj |\n\nTabela **Przedmioty**:\n\n| id_przedmiotu | nazwa_przedmiotu |\n|---------------|------------------|\n| 1 | Matematyka |\n| 2 | Fizyka |\n| 3 | Angielski |\n| 4 | Informatyka |\n\nTabela **Lekcje**:\n\n| id_lekcji | id_nauczyciela | id_przedmiotu | klasa | dzien_tygodnia |\n|-----------|----------------|---------------|-------|----------------|\n| 1 | 1 | 1 | 1A | poniedzialek |\n| 2 | 1 | 1 | 2B | wtorek |\n| 3 | 2 | 3 | 1A | poniedzialek |\n| 4 | 2 | 3 | 1B | sroda |\n| 5 | 3 | 4 | 2A | czwartek |\n| 6 | 1 | 2 | 1A | sroda |\n| 7 | 3 | 4 | 1A | piatek |\n| 8 | 2 | 3 | 2A | wtorek |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko nauczyciela, nazwe przedmiotu oraz klase — ale tylko dla lekcji w klasie '1A'. Posortuj wg dnia tygodnia.",
+      "wskazowki": [
+        "**Kierunek**: Trzy tabele laczone dwoma JOIN-ami, plus filtr WHERE.",
+        "**Podejscie**: Lekcje → Nauczyciele (po id_nauczyciela) → Przedmioty (po id_przedmiotu), WHERE klasa = '1A'.",
+        "**Kluczowy krok**: Sortowanie tekstowe po dniu tygodnia — 'czwartek' < 'piatek' < 'poniedzialek' < 'sroda'."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT N.imie, N.nazwisko, P.nazwa_przedmiotu, L.klasa, L.dzien_tygodnia\nFROM Lekcje L\nJOIN Nauczyciele N ON L.id_nauczyciela = N.id_nauczyciela\nJOIN Przedmioty P ON L.id_przedmiotu = P.id_przedmiotu\nWHERE L.klasa = '1A'\nORDER BY L.dzien_tygodnia;\n```\n\n**Weryfikacja**:\nLekcje w klasie 1A: id_lekcji = 1, 3, 6, 7\n\n| imie | nazwisko | nazwa_przedmiotu | klasa | dzien_tygodnia |\n|------|----------|------------------|-------|----------------|\n| Ewa | Maj | Informatyka | 1A | piatek |\n| Jan | Kowalski | Matematyka | 1A | poniedzialek |\n| Anna | Nowak | Angielski | 1A | poniedzialek |\n| Jan | Kowalski | Fizyka | 1A | sroda |\n\n**Uwaga**: Sortowanie alfabetyczne wg dnia tygodnia (nie chronologiczne). Gdyby matura wymagala sortowania chronologicznego, potrzebna bylaby kolumna z numerem dnia lub CASE WHEN.\n\n**Wyjasnienie**: Trzy tabele laczone dwoma JOIN-ami, z dodatkowym filtrem WHERE. Kolejnosc: najpierw JOIN laczy wszystkie powiazane wiersze, potem WHERE filtruje wynik.",
+      "typowe_bledy": [
+        {
+          "opis": "**Warunek w ON zamiast WHERE**: `JOIN ... ON ... AND klasa = '1A'` — przy INNER JOIN wynik ten sam, ale przy LEFT JOIN inny. Na maturze bezpieczniej filtrowac w WHERE. CKE: akceptowane, ale ryzykowne.",
+          "kara": ""
+        },
+        {
+          "opis": "**Brak jednego JOIN**: Bez JOIN z Przedmioty nie uzyskamy nazwy przedmiotu",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "22.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2025 (Woda na Marsie)",
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "DISTINCT",
+        "WHERE-z-JOIN",
+        "ORDER-BY-wielokolumnowy"
+      ],
+      "tresc": "Tabela **Bazy**:\n\n| id_bazy | nazwa_bazy | sektor |\n|---------|------------|--------|\n| 1 | Alfa | polnocny |\n| 2 | Beta | poludniowy |\n| 3 | Gamma | polnocny |\n\nTabela **Astronauci**:\n\n| id_astronauty | imie | nazwisko | id_bazy |\n|---------------|------|----------|---------|\n| 1 | Jan | Kowalski | 1 |\n| 2 | Anna | Nowak | 2 |\n| 3 | Piotr | Maj | 1 |\n| 4 | Ewa | Lis | 3 |\n| 5 | Kasia | Zak | 2 |\n\nTabela **Projekty**:\n\n| id_projektu | nazwa_projektu | data_rozpoczecia |\n|-------------|----------------|-----------------|\n| 1 | Terraformacja | 2024-01-15 |\n| 2 | Gornictwo | 2024-03-01 |\n| 3 | Energia solarna | 2024-06-10 |\n| 4 | Szklarnie | 2024-02-20 |\n\nTabela **Przydzialy**:\n\n| id_przydzialu | id_astronauty | id_projektu | rola |\n|---------------|---------------|-------------|------|\n| 1 | 1 | 1 | lider |\n| 2 | 2 | 1 | czlonek |\n| 3 | 3 | 2 | lider |\n| 4 | 1 | 3 | czlonek |\n| 5 | 4 | 2 | czlonek |\n| 6 | 5 | 4 | lider |\n| 7 | 2 | 3 | czlonek |\n| 8 | 3 | 4 | czlonek |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe bazy, imie i nazwisko astronauty, nazwe projektu oraz role — ale tylko dla projektow rozpoczetych przed '2024-04-01'. Kazda kombinacja baza-projekt powinna wystapic co najwyzej raz (uzyj DISTINCT). Posortuj wg nazwy bazy, nastepnie wg nazwy projektu.",
+      "wskazowki": [
+        "**Kierunek**: Cztery tabele — potrzebujesz trzech JOIN-ow tworzacych lancuch.",
+        "**Podejscie**: Bazy → Astronauci → Przydzialy → Projekty, z WHERE na date.",
+        "**Kluczowy krok**: Daty w formacie ISO (RRRR-MM-DD) mozna porownywac jako tekst: `data_rozpoczecia < '2024-04-01'`."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT DISTINCT B.nazwa_bazy, A.imie, A.nazwisko, P.nazwa_projektu, PR.rola\nFROM Bazy B\nJOIN Astronauci A ON B.id_bazy = A.id_bazy\nJOIN Przydzialy PR ON A.id_astronauty = PR.id_astronauty\nJOIN Projekty P ON PR.id_projektu = P.id_projektu\nWHERE P.data_rozpoczecia < '2024-04-01'\nORDER BY B.nazwa_bazy, P.nazwa_projektu;\n```\n\n**Weryfikacja**:\nProjekty rozpoczete przed 2024-04-01:\n- Terraformacja (2024-01-15 ✓)\n- Gornictwo (2024-03-01 ✓)\n- Szklarnie (2024-02-20 ✓)\n- Energia solarna (2024-06-10 ✗)\n\n| nazwa_bazy | imie | nazwisko | nazwa_projektu | rola |\n|------------|------|----------|----------------|------|\n| Alfa | Jan | Kowalski | Terraformacja | lider |\n| Alfa | Piotr | Maj | Gornictwo | lider |\n| Alfa | Piotr | Maj | Szklarnie | czlonek |\n| Beta | Anna | Nowak | Terraformacja | czlonek |\n| Beta | Kasia | Zak | Szklarnie | lider |\n| Gamma | Ewa | Lis | Gornictwo | czlonek |\n\n**Wyjasnienie**: Laczenie 4 tabel wymaga 3 JOIN-ow tworzacych lancuch: Bazy → Astronauci → Przydzialy → Projekty. DISTINCT zapewnia brak duplikatow. Porownanie dat w formacie ISO dziala jako porownanie tekstowe.",
+      "typowe_bledy": [
+        {
+          "opis": "**Bledna kolejnosc JOIN-ow**: Proba polaczenia Bazy bezposrednio z Projekty — brak wspolnej kolumny",
+          "kara": "-3 pkt"
+        },
+        {
+          "opis": "**Brak DISTINCT**: Jesli w danych bylyby duplikaty, wynik zawieralby powtorzenia",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Data bez apostrofow**: `WHERE data < 2024-04-01` — interpretowane jako wyrazenie arytmetyczne (2024 minus 4 minus 1 = 2019)",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "22.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2023 (Gry planszowe)",
+      "tagi": [
+        "INNER-JOIN",
+        "aliasy-tabel",
+        "WHERE-z-JOIN"
+      ],
+      "tresc": "Tabela **Kategorie**:\n\n| id_kat | nazwa_kategorii |\n|--------|-----------------|\n| 1 | Strategiczne |\n| 2 | Karciane |\n| 3 | Familijne |\n| 4 | Kooperacyjne |\n\nTabela **Gry**:\n\n| id_gry | tytul | id_kat | min_graczy | max_graczy | czas_min |\n|--------|-------|--------|------------|------------|----------|\n| 1 | Catan | 1 | 3 | 4 | 90 |\n| 2 | Uno | 2 | 2 | 10 | 30 |\n| 3 | Monopoly | 3 | 2 | 6 | 120 |\n| 4 | Pandemic | 4 | 2 | 4 | 60 |\n| 5 | Risk | 1 | 2 | 6 | 180 |\n| 6 | Dixit | 3 | 3 | 6 | 45 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli tytul gry i nazwe kategorii dla gier, w ktore moze grac co najmniej 3 graczy (min_graczy <= 3 AND max_graczy >= 3). Posortuj wg czasu gry.",
+      "wskazowki": [
+        "**Kierunek**: JOIN dwoch tabel z dodatkowym filtrem WHERE.",
+        "**Podejscie**: JOIN Gry z Kategorie, WHERE na min/max graczy.",
+        "**Kluczowy krok**: \"Co najmniej 3 graczy\" oznacza, ze 3 musi byc w zakresie [min_graczy, max_graczy]."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT G.tytul, K.nazwa_kategorii, G.czas_min\nFROM Gry G\nJOIN Kategorie K ON G.id_kat = K.id_kat\nWHERE G.min_graczy <= 3 AND G.max_graczy >= 3\nORDER BY G.czas_min;\n```\n\n**Weryfikacja**:\n- Catan: min=3 <=3 ✓, max=4 >=3 ✓ → ✓\n- Uno: min=2 <=3 ✓, max=10 >=3 ✓ → ✓\n- Monopoly: min=2 <=3 ✓, max=6 >=3 ✓ → ✓\n- Pandemic: min=2 <=3 ✓, max=4 >=3 ✓ → ✓\n- Risk: min=2 <=3 ✓, max=6 >=3 ✓ → ✓\n- Dixit: min=3 <=3 ✓, max=6 >=3 ✓ → ✓\n\n| tytul | nazwa_kategorii | czas_min |\n|-------|-----------------|----------|\n| Uno | Karciane | 30 |\n| Dixit | Familijne | 45 |\n| Pandemic | Kooperacyjne | 60 |\n| Catan | Strategiczne | 90 |\n| Monopoly | Familijne | 120 |\n| Risk | Strategiczne | 180 |\n\n**Wyjasnienie**: Warunek \"moze grac 3 graczy\" oznacza, ze 3 musi byc w zakresie od min_graczy do max_graczy. To dwa warunki polaczone AND.",
+      "typowe_bledy": [
+        {
+          "opis": "**Tylko jeden warunek**: `WHERE max_graczy >= 3` bez min_graczy — gdyby jakas gra miala min=4, tez by sie pojawila",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**OR zamiast AND**: Zmienilby logike — wystarczylyby spelnienie jednego warunku",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "22.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2024 (Hurtownia)",
+      "tagi": [
+        "LEFT-JOIN",
+        "COUNT-z-LEFT-JOIN",
+        "GROUP-BY-z-JOIN"
+      ],
+      "tresc": "Tabela **Dzialy**:\n\n| id_dzialu | nazwa_dzialu | lokalizacja |\n|-----------|-------------|-------------|\n| 1 | IT | pietro_3 |\n| 2 | HR | pietro_1 |\n| 3 | Finanse | pietro_2 |\n| 4 | Marketing | pietro_1 |\n| 5 | Logistyka | pietro_0 |\n\nTabela **Pracownicy**:\n\n| id | imie | nazwisko | id_dzialu | data_zatrudnienia |\n|----|------|----------|-----------|-------------------|\n| 1 | Anna | Kowalska | 1 | 2020-03-15 |\n| 2 | Jan | Nowak | 1 | 2021-07-01 |\n| 3 | Ewa | Maj | 2 | 2019-11-20 |\n| 4 | Piotr | Lis | 3 | 2022-01-10 |\n| 5 | Kasia | Zak | 1 | 2023-06-01 |\n| 6 | Tomek | Bak | 2 | 2020-09-15 |\n| 7 | Ola | Wrobel | 4 | 2021-04-01 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe dzialu oraz liczbe pracownikow w tym dziale. Pokaz WSZYSTKIE dzialy, nawet te bez pracownikow. Posortuj malejaco wg liczby pracownikow.",
+      "wskazowki": [
+        "**Kierunek**: LEFT JOIN zachowuje wszystkie dzialy, nawet puste.",
+        "**Podejscie**: LEFT JOIN Dzialy z Pracownicy, GROUP BY dzial, COUNT kolumny z prawej tabeli.",
+        "**Kluczowy krok**: COUNT(P.id) zamiast COUNT(*) — dla pustych dzialow COUNT(*) daje 1, a COUNT(P.id) daje 0."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT D.nazwa_dzialu, COUNT(P.id) AS liczba_pracownikow\nFROM Dzialy D\nLEFT JOIN Pracownicy P ON D.id_dzialu = P.id_dzialu\nGROUP BY D.nazwa_dzialu\nORDER BY liczba_pracownikow DESC;\n```\n\n**Weryfikacja**:\n- IT: Anna, Jan, Kasia → **3**\n- HR: Ewa, Tomek → **2**\n- Finanse: Piotr → **1**\n- Marketing: Ola → **1**\n- Logistyka: (brak) → **0**\n\n| nazwa_dzialu | liczba_pracownikow |\n|--------------|--------------------|\n| IT | 3 |\n| HR | 2 |\n| Finanse | 1 |\n| Marketing | 1 |\n| Logistyka | 0 |\n\n**Wyjasnienie**: LEFT JOIN + COUNT(kolumna z prawej tabeli) + GROUP BY to standardowy wzorzec \"policz powiazane rekordy, w tym zerowe\". COUNT pomija NULL, wiec puste grupy daja 0.",
+      "typowe_bledy": [
+        {
+          "opis": "**COUNT(*)**: Daje 1 zamiast 0 dla Logistyki — LEFT JOIN tworzy jeden wiersz z NULL, COUNT(*) go liczy",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**INNER JOIN**: Logistyka nie pojawi sie w wyniku",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "22.8",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "zrodlo": "Matura 2019 (Perfumy)",
+      "tagi": [
+        "self-JOIN",
+        "aliasy-tabel",
+        "WHERE-z-JOIN"
+      ],
+      "tresc": "Tabela **Pracownicy**:\n\n| id | imie | nazwisko | id_przelozonego | stanowisko |\n|----|------|----------|-----------------|------------|\n| 1 | Jan | Kowalski | NULL | dyrektor |\n| 2 | Anna | Nowak | 1 | kierownik |\n| 3 | Piotr | Maj | 1 | kierownik |\n| 4 | Ewa | Lis | 2 | specjalista |\n| 5 | Kasia | Zak | 2 | specjalista |\n| 6 | Tomek | Bak | 3 | specjalista |\n| 7 | Ola | Wrobel | 3 | stazystka |\n| 8 | Marek | Krol | 3 | specjalista |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko kazdego pracownika oraz imie i nazwisko jego przelozonego. Pokaz tylko pracownikow, ktorzy MAJA przelozonego (dyrektor nie ma).",
+      "wskazowki": [
+        "**Kierunek**: Tabela odwoluje sie sama do siebie — potrzebujesz self-JOIN.",
+        "**Podejscie**: JOIN tabeli Pracownicy z nia sama, uzywajac ROZNYCH aliasow.",
+        "**Kluczowy krok**: `JOIN Pracownicy P2 ON P.id_przelozonego = P2.id` — P to pracownik, P2 to jego przelozony."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT P.imie, P.nazwisko, P2.imie AS imie_przelozonego, P2.nazwisko AS nazwisko_przelozonego\nFROM Pracownicy P\nJOIN Pracownicy P2 ON P.id_przelozonego = P2.id;\n```\n\n**Weryfikacja**:\n\n| imie | nazwisko | imie_przelozonego | nazwisko_przelozonego |\n|------|----------|-------------------|-----------------------|\n| Anna | Nowak | Jan | Kowalski |\n| Piotr | Maj | Jan | Kowalski |\n| Ewa | Lis | Anna | Nowak |\n| Kasia | Zak | Anna | Nowak |\n| Tomek | Bak | Piotr | Maj |\n| Ola | Wrobel | Piotr | Maj |\n| Marek | Krol | Piotr | Maj |\n\nJan Kowalski (id_przelozonego = NULL) nie pojawia sie — INNER JOIN pomija NULL.\n\n**Wyjasnienie**: Self-JOIN laczy tabele z sama soba. Kluczowe sa aliasy (P i P2) pozwalajace odroznic \"pracownika\" od \"przelozonego\". INNER JOIN automatycznie wyklucza pracownikow z id_przelozonego = NULL.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak aliasow**: Bez roznych aliasow (P, P2) nie mozna odroznic kolumn pracownika od przelozonego",
+          "kara": "-2 pkt (blad skladni)"
+        },
+        {
+          "opis": "**Odwrotny warunek ON**: `ON P.id = P2.id_przelozonego` — zamiast przelozonego, dostajemy podwladnych",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**LEFT JOIN bez potrzeby**: Gdyby polecenie mowilo \"WSZYSTKICH pracownikow\", potrzebny bylby LEFT JOIN — tu wystarczy INNER JOIN. CKE: akceptowane, ale wynik inny (dyrektor z NULL).",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "22.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "zrodlo": "Matura 2021 (Gra strategiczna)",
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "GROUP-BY-z-JOIN",
+        "LEFT-JOIN",
+        "COUNT-z-LEFT-JOIN"
+      ],
+      "tresc": "Tabela **Kategorie**:\n\n| id_kat | nazwa |\n|--------|-------|\n| 1 | Elektronika |\n| 2 | Ksiazki |\n| 3 | Sport |\n\nTabela **Produkty**:\n\n| id_prod | nazwa | id_kat | cena |\n|---------|-------|--------|------|\n| 1 | Laptop | 1 | 3500 |\n| 2 | Smartfon | 1 | 2500 |\n| 3 | Wiedzmin | 2 | 45 |\n| 4 | Dune | 2 | 55 |\n| 5 | Pilka | 3 | 80 |\n| 6 | Rower | 3 | 1200 |\n\nTabela **Opinie**:\n\n| id_op | id_prod | uzytkownik | ocena | data |\n|-------|---------|------------|-------|------|\n| 1 | 1 | Jan | 5 | 2024-01-10 |\n| 2 | 1 | Anna | 4 | 2024-01-15 |\n| 3 | 2 | Ewa | 3 | 2024-02-01 |\n| 4 | 3 | Jan | 5 | 2024-02-10 |\n| 5 | 4 | Anna | 4 | 2024-03-01 |\n| 6 | 6 | Piotr | 5 | 2024-03-15 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdej kategorii wyswietli nazwe kategorii, liczbe produktow z opiniami oraz srednia ocene (zaokraglona do 1 miejsca). Pokaz WSZYSTKIE kategorie — jesli kategoria nie ma opinii, pokaz 0 produktow i NULL jako srednia.",
+      "wskazowki": [
+        "**Kierunek**: Trzy tabele, LEFT JOIN aby zachowac kategorie bez opinii.",
+        "**Podejscie**: Kategorie LEFT JOIN Produkty LEFT JOIN Opinie, GROUP BY kategoria.",
+        "**Kluczowy krok**: COUNT(DISTINCT P.id_prod) liczy unikalne produkty z opiniami (nie liczbe opinii)."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.nazwa, COUNT(DISTINCT O.id_prod) AS produkty_z_opiniami,\n       ROUND(AVG(O.ocena), 1) AS srednia_ocena\nFROM Kategorie K\nLEFT JOIN Produkty P ON K.id_kat = P.id_kat\nLEFT JOIN Opinie O ON P.id_prod = O.id_prod\nGROUP BY K.nazwa\nORDER BY produkty_z_opiniami DESC;\n```\n\n**Weryfikacja**:\n- Elektronika: Laptop (oceny 5,4), Smartfon (ocena 3) → 2 produkty, srednia = (5+4+3)/3 = **4.0**\n- Ksiazki: Wiedzmin (ocena 5), Dune (ocena 4) → 2 produkty, srednia = (5+4)/2 = **4.5**\n- Sport: Rower (ocena 5), Pilka (brak) → 1 produkt z opinia, srednia = 5/1 = **5.0**\n\n| nazwa | produkty_z_opiniami | srednia_ocena |\n|-------|---------------------|---------------|\n| Elektronika | 2 | 4.0 |\n| Ksiazki | 2 | 4.5 |\n| Sport | 1 | 5.0 |\n\n**Wyjasnienie**: Dwa LEFT JOIN-y zapewniaja, ze kategorie bez produktow i produkty bez opinii tez sie pojawia. COUNT(DISTINCT O.id_prod) liczy unikalne produkty, ktore maja opinie — bez DISTINCT Laptop z 2 opiniami bylby policzony dwa razy.",
+      "typowe_bledy": [
+        {
+          "opis": "**COUNT(*) zamiast COUNT(DISTINCT O.id_prod)**: Liczy opinie, nie produkty. Elektronika daje 3 zamiast 2",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**INNER JOIN zamiast LEFT JOIN**: Kategoria bez opinii nie pojawi sie",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Tylko jeden LEFT JOIN**: `LEFT JOIN Produkty ... JOIN Opinie` — INNER JOIN na Opinie eliminuje produkty bez opinii",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "22.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2015 (Formula 1)",
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "self-JOIN",
+        "GROUP-BY-z-JOIN",
+        "DISTINCT",
+        "WHERE-z-JOIN"
+      ],
+      "tresc": "Tabela **Kraje**:\n\n| id_kraju | nazwa_kraju | kontynent |\n|----------|-------------|-----------|\n| 1 | Polska | Europa |\n| 2 | Niemcy | Europa |\n| 3 | Brazylia | Ameryka |\n| 4 | Japonia | Azja |\n\nTabela **Kierowcy**:\n\n| id_kier | imie | nazwisko | id_kraju |\n|---------|------|----------|----------|\n| 1 | Robert | Kubica | 1 |\n| 2 | Sebastian | Vettel | 2 |\n| 3 | Ayrton | Senna | 3 |\n| 4 | Yuki | Tsunoda | 4 |\n| 5 | Mick | Schumacher | 2 |\n| 6 | Felipe | Massa | 3 |\n\nTabela **Wyscigi**:\n\n| id_wysc | nazwa | tor | data |\n|---------|-------|-----|------|\n| 1 | GP Monako | Monte Carlo | 2024-05-26 |\n| 2 | GP Japonii | Suzuka | 2024-04-07 |\n| 3 | GP Brazylii | Interlagos | 2024-11-03 |\n\nTabela **Wyniki**:\n\n| id | id_kier | id_wysc | pozycja | punkty |\n|----|---------|---------|---------|--------|\n| 1 | 1 | 1 | 8 | 4 |\n| 2 | 2 | 1 | 1 | 25 |\n| 3 | 3 | 1 | 3 | 15 |\n| 4 | 4 | 2 | 5 | 10 |\n| 5 | 2 | 2 | 2 | 18 |\n| 6 | 5 | 2 | 10 | 1 |\n| 7 | 3 | 3 | 1 | 25 |\n| 8 | 6 | 3 | 4 | 12 |\n| 9 | 1 | 3 | 6 | 8 |\n| 10 | 2 | 3 | 3 | 15 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego kontynentu wyswietli:\n- nazwe kontynentu\n- liczbe roznych kierowcow, ktorzy zdobyli punkty\n- laczna sume punktow\n\nPokaz tylko kontynenty z lacza suma punktow > 20. Posortuj malejaco wg sumy.",
+      "wskazowki": [
+        "**Kierunek**: Cztery tabele: Kraje → Kierowcy → Wyniki (← Wyscigi nie jest potrzebna).",
+        "**Podejscie**: JOIN trzech tabel, GROUP BY kontynent, HAVING na SUM.",
+        "**Kluczowy krok**: COUNT(DISTINCT K.id_kier) liczy unikalnych kierowcow, bo jeden moze miec wiele wynikow."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT KR.kontynent,\n       COUNT(DISTINCT K.id_kier) AS liczba_kierowcow,\n       SUM(W.punkty) AS suma_punktow\nFROM Kraje KR\nJOIN Kierowcy K ON KR.id_kraju = K.id_kraju\nJOIN Wyniki W ON K.id_kier = W.id_kier\nGROUP BY KR.kontynent\nHAVING SUM(W.punkty) > 20\nORDER BY suma_punktow DESC;\n```\n\n**Weryfikacja**:\n\nEuropa:\n- Kubica: 4 + 8 = 12 pkt\n- Vettel: 25 + 18 + 15 = 58 pkt\n- Schumacher: 1 pkt\n- Kierowcy: 3, Suma: 12 + 58 + 1 = **71** (>20 ✓)\n\nAmeryka:\n- Senna: 15 + 25 = 40 pkt\n- Massa: 12 pkt\n- Kierowcy: 2, Suma: 40 + 12 = **52** (>20 ✓)\n\nAzja:\n- Tsunoda: 10 pkt\n- Kierowcy: 1, Suma: **10** (>20 ✗)\n\n| kontynent | liczba_kierowcow | suma_punktow |\n|-----------|------------------|-------------|\n| Europa | 3 | 71 |\n| Ameryka | 2 | 52 |\n\n**Wyjasnienie**: Lancuch JOIN-ow: Kraje → Kierowcy → Wyniki. Tabela Wyscigi nie jest potrzebna — nie pytamy o nazwy wyscigow. COUNT(DISTINCT) zapewnia poprawne zliczanie kierowcow. HAVING filtruje grupy po agregacji.",
+      "typowe_bledy": [
+        {
+          "opis": "**Dodatkowy JOIN z Wyscigi**: Niepotrzebny — powieksza wynik (wiele wierszy per wynik), ale COUNT(DISTINCT) i SUM daja ten sam rezultat. Jednak spowalnia zapytanie. CKE: akceptowane, ale zbedne.",
+          "kara": ""
+        },
+        {
+          "opis": "**COUNT(*) zamiast COUNT(DISTINCT)**: Vettel z 3 wynikami bylby policzony 3 razy. Europa daje 6 zamiast 3",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak HAVING**: Azja (10 pkt) pojawia sie w wyniku",
+          "kara": "-1 pkt"
+        }
+      ]
+    }
+  ]
+}

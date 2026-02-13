@@ -1,0 +1,337 @@
+{
+  "typ": "12_sekwencje",
+  "nazwa": "Przetwarzanie sekwencji",
+  "kategoria": "IMPLEMENTACJA",
+  "czestotliwosc": "3/11 lat",
+  "punkty_lacznie": 13,
+  "tagi_globalne": [
+    "ciag-rownych",
+    "ciag-rosnacy",
+    "current-max",
+    "gorka",
+    "NWD-Euklidesa",
+    "spojny-podciag",
+    "srednia-segmentu",
+    "sumy-prefiksowe",
+    "wczytywanie-pliku",
+    "ciag-malejacy",
+    "plateau",
+    "oscylacja",
+    "roznica-sasiadow",
+    "skan-liniowy",
+    "ciag-stalej-roznicy"
+  ],
+  "cwiczenia": [
+    {
+      "id": "12.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2019 zad. 4.3",
+      "tagi": [
+        "ciag-rownych",
+        "current-max",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `dane.txt` znajduje sie 20 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie najdluzszy spojny fragment ciagu, w ktorym wszystkie elementy sa rowne. Podaj dlugosc tego fragmentu, wartosc i pozycje poczatkowa.\n\n**Dane** (`dane.txt`):\n```\n5\n3\n3\n3\n7\n7\n2\n2\n2\n2\n4\n4\n4\n1\n6\n6\n6\n6\n6\n8\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy ciag rownych elementow:\nWartosc: 6, dlugosc: 5, pozycja poczatkowa: 15\n```",
+      "wskazowki": [
+        "**Kierunek**: Wzorzec current/max — sledz biezacy ciag rownych i najdluzszy znaleziony.",
+        "**Podejscie**: Jesli `T[i] == T[i-1]` to curDl++, w przeciwnym razie porownaj z max i zresetuj.",
+        "**Kluczowy krok**: Nie zapomnij sprawdzic po petli — najdluzszy ciag moze konczyc sie na ostatnim elemencie."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int maxDl = 1, maxStart = 0;\n    int curDl = 1, curStart = 0;\n\n    for (int i = 1; i < n; i++) {\n        if (T[i] == T[i - 1]) {\n            curDl++;\n        } else {\n            if (curDl > maxDl) {\n                maxDl = curDl;\n                maxStart = curStart;\n            }\n            curDl = 1;\n            curStart = i;\n        }\n    }\n    if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n\n    cout << \"Najdluzszy ciag rownych elementow:\" << endl;\n    cout << \"Wartosc: \" << T[maxStart] << \", dlugosc: \" << maxDl\n         << \", pozycja poczatkowa: \" << maxStart + 1 << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Wzorzec current/max: sledzony jest biezacy ciag rownych elementow. Gdy element rozni sie od poprzedniego, porownujemy biezaca dlugosc z najdluzsza i resetujemy.\n\nWeryfikacja:\n- 5 (dl.1), 3,3,3 (dl.3, poz.2), 7,7 (dl.2), 2,2,2,2 (dl.4, poz.7), 4,4,4 (dl.3), 1 (dl.1), 6,6,6,6,6 (dl.5, poz.15), 8 (dl.1)\nNajdluzszy: 6 powtorzone 5 razy od pozycji 15.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak sprawdzenia po petli**: Jesli najdluzszy ciag konczy tablice, `curDl > maxDl` nigdy nie zostanie sprawdzone w petli",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Inicjalizacja curDl=0**: Pierwszy element sam w sobie tworzy ciag dlugosci 1, nie 0",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "12.2",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "zrodlo": "Matura 2023 zad. 3.3",
+      "tagi": [
+        "ciag-rosnacy",
+        "current-max",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie najdluzszy spojny podciag scisle rosnacy. Podaj pozycje poczatkowa, dlugosc i elementy.\n\n**Dane** (`dane.txt`):\n```\n5\n8\n12\n3\n6\n9\n14\n18\n25\n2\n4\n7\n1\n10\n15\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy ciag rosnacy:\nPozycja poczatkowa: 4, dlugosc: 6\nElementy: 3 6 9 14 18 25\n```",
+      "wskazowki": [
+        "**Kierunek**: Ten sam wzorzec current/max co w 12.1, ale warunek to `T[i] > T[i-1]` (scisly wzrost).",
+        "**Podejscie**: Zmien warunek rownosci na warunek wzrostu.",
+        "**Kluczowy krok**: Zapamietaj pozycje poczatkowa i dlugosc najdluzszego podciagu — elementy wypisz z wektora."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int maxDl = 1, maxStart = 0;\n    int curDl = 1, curStart = 0;\n\n    for (int i = 1; i < n; i++) {\n        if (T[i] > T[i - 1]) {\n            curDl++;\n        } else {\n            if (curDl > maxDl) {\n                maxDl = curDl;\n                maxStart = curStart;\n            }\n            curDl = 1;\n            curStart = i;\n        }\n    }\n    if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n\n    cout << \"Najdluzszy ciag rosnacy:\" << endl;\n    cout << \"Pozycja poczatkowa: \" << maxStart + 1 << \", dlugosc: \" << maxDl << endl;\n    cout << \"Elementy: \";\n    for (int i = maxStart; i < maxStart + maxDl; i++)\n        cout << T[i] << \" \";\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Analogicznie do ciagu rownych, ale warunek to `T[i] > T[i-1]` (scisly wzrost).\n\nWeryfikacja:\n- 5,8,12 (dl.3, poz.1)\n- 3,6,9,14,18,25 (dl.6, poz.4) -> najdluzszy\n- 2,4,7 (dl.3, poz.10)\n- 1,10,15 (dl.3, poz.13)\nNajdluzszy: 6 elementow od pozycji 4.",
+      "typowe_bledy": [
+        {
+          "opis": "**`>=` zamiast `>`**: \"Scisle rosnacy\" oznacza bez rownosci. Z `>=` ciag 3,3,5 tez bylby \"rosnacy\"",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak aktualizacji po petli**: Jak w 12.1",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "12.3",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2023 zad. 3.3 (rosnaco-malejacy)",
+      "tagi": [
+        "gorka",
+        "ciag-rosnacy",
+        "ciag-malejacy",
+        "skan-liniowy"
+      ],
+      "tresc": "W pliku `dane.txt` znajduje sie 20 liczb calkowitych (kazda w osobnym wierszu). Fragment ciagu nazywamy \"gorka\" jesli najpierw scisle rosnie, a potem scisle maleje (czesc rosnaca i malejaca musza miec co najmniej po 2 elementy, wiec minimalna gorka ma dlugosc 3). Napisz program, ktory znajdzie najdluzsza gorke w ciagu. Podaj pozycje poczatkowa, dlugosc i elementy.\n\n**Dane** (`dane.txt`):\n```\n3\n5\n8\n6\n4\n10\n15\n20\n25\n22\n18\n12\n7\n1\n9\n13\n11\n6\n2\n14\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzsza gorka:\nPozycja poczatkowa: 6, dlugosc: 9\nElementy: 10 15 20 25 22 18 12 7 1\nSzczyt: 25 (pozycja 9)\n```",
+      "wskazowki": [
+        "**Kierunek**: Szukaj faz: najpierw wzrost, potem spadek. Gorka to przejscie wzrost->spadek.",
+        "**Podejscie**: Dla kazdej pozycji startowej szukaj konca fazy rosnacej (szczyt), potem konca fazy malejacej.",
+        "**Kluczowy krok**: Minimalna gorka: 2 elementy w fazie rosnacej + 1 dodatkowy w malejacej = 3 elementy lacznie."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int bestLen = 0, bestStart = 0, bestPeak = 0;\n\n    for (int i = 0; i < n - 2; i++) {\n        // Szukaj wzrostu od pozycji i\n        int j = i;\n        while (j + 1 < n && T[j + 1] > T[j]) j++;\n        if (j == i) continue; // brak wzrostu\n        int peak = j;\n        // Szukaj spadku od szczytu\n        while (j + 1 < n && T[j + 1] < T[j]) j++;\n        if (j == peak) continue; // brak spadku\n        int len = j - i + 1;\n        if (len > bestLen) {\n            bestLen = len;\n            bestStart = i;\n            bestPeak = peak;\n        }\n    }\n\n    cout << \"Najdluzsza gorka:\" << endl;\n    cout << \"Pozycja poczatkowa: \" << bestStart + 1\n         << \", dlugosc: \" << bestLen << endl;\n    cout << \"Elementy: \";\n    for (int i = bestStart; i < bestStart + bestLen; i++)\n        cout << T[i] << \" \";\n    cout << endl;\n    cout << \"Szczyt: \" << T[bestPeak]\n         << \" (pozycja \" << bestPeak + 1 << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdej pozycji startowej szukamy fazy rosnacej (dopoki nastepny > biezacy), nastepnie fazy malejacej (dopoki nastepny < biezacy). Jezeli obie fazy maja co najmniej 1 krok (czesc rosnaca >= 2 elementy, malejaca >= 2), mamy gorke.\n\nWeryfikacja:\n- Poz.1: 3,5,8,6,4 -> rosnaco: 3,5,8 (szczyt poz.3), malejaco: 8,6,4. Gorka dl.5 (poz.1-5).\n- Poz.6: 10,15,20,25,22,18,12,7,1 -> rosnaco: 10,15,20,25 (szczyt poz.9), malejaco: 25,22,18,12,7,1. Gorka dl.9 (poz.6-14).\n- Poz.15: 9,13,11,6,2 -> rosnaco: 9,13 (szczyt poz.16), malejaco: 13,11,6,2. Gorka dl.5 (poz.15-19).\nNajdluzsza: dl.9 (poz.6-14), szczyt=25 (poz.9).",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak sprawdzenia fazy malejacej**: Ciag tylko rosnacy (bez spadku) nie jest gorka",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Zliczanie elementow plateau jako gorki**: `T[j+1] == T[j]` nie jest ani wzrostem, ani spadkiem — przerywamy faze",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Szukanie gorek od kazdej pozycji**: Mozna zoptymalizowac, ale na danych maturalnych (20-1000 elementow) O(n^2) jest OK.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "12.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2019 zad. 4.3 (najdluzszy ciag z NWD > 1)",
+      "tagi": [
+        "NWD-Euklidesa",
+        "spojny-podciag",
+        "current-max",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych wiekszych od 1 (kazda w osobnym wierszu). Napisz program, ktory znajdzie najdluzszy spojny podciag, w ktorym NWD wszystkich elementow jest wiekszy od 1. Podaj dlugosc, pozycje startowa i NWD tego podciagu.\n\n**Dane** (`dane.txt`):\n```\n12\n18\n6\n24\n15\n7\n14\n21\n35\n49\n11\n22\n33\n44\n5\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy ciag z NWD > 1:\nPozycja poczatkowa: 1, dlugosc: 5\nElementy: 12 18 6 24 15\nNWD: 3\n```",
+      "wskazowki": [
+        "**Kierunek**: NWD narastajaco — NWD(a,b,c) = NWD(NWD(a,b), c). Jesli NWD spadnie do 1, przerywamy.",
+        "**Podejscie**: Podwojna petla: dla kazdego startu oblicz NWD narastajaco. `break` gdy NWD == 1.",
+        "**Kluczowy krok**: NWD moze tylko malec lub pozostac stalym — nigdy nie wzrosnie po dodaniu elementu."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint nwd(int a, int b) {\n    while (b != 0) { int t = b; b = a % b; a = t; }\n    return a;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int bestLen = 0, bestStart = 0, bestNwd = 0;\n\n    for (int i = 0; i < n; i++) {\n        int g = T[i];\n        for (int j = i; j < n; j++) {\n            g = nwd(g, T[j]);\n            if (g == 1) break;\n            int len = j - i + 1;\n            if (len > bestLen) {\n                bestLen = len;\n                bestStart = i;\n                bestNwd = g;\n            }\n        }\n    }\n\n    cout << \"Najdluzszy ciag z NWD > 1:\" << endl;\n    cout << \"Pozycja poczatkowa: \" << bestStart + 1\n         << \", dlugosc: \" << bestLen << endl;\n    cout << \"Elementy: \";\n    for (int i = bestStart; i < bestStart + bestLen; i++)\n        cout << T[i] << \" \";\n    cout << endl;\n    cout << \"NWD: \" << bestNwd << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdej pozycji startowej obliczamy NWD narastajaco (dodajac kolejne elementy). Gdy NWD spadnie do 1, przerywamy. Sledzony jest najdluzszy ciag z NWD > 1.\n\nWeryfikacja:\n- Poz.1: NWD(12)=12, NWD(12,18)=6, NWD(6,6)=6, NWD(6,24)=6, NWD(6,15)=3 -> ciag dl.5, NWD=3. NWD(3,7)=1, stop.\n- Poz.6: 7, NWD(7,14)=7, NWD(7,21)=7, NWD(7,35)=7, NWD(7,49)=7 -> dl.5, NWD=7. NWD(7,11)=1, stop.\n\nMamy dwa ciagi dlugosci 5. Pierwszy znaleziony: poz.1 (dl.5, NWD=3). Poz.6 tez dl.5 (NWD=7).\nbestLen nie zmieni sie przy rownej dlugosci (warunek `len > bestLen`), wiec odpowiedz to poz.1.",
+      "typowe_bledy": [
+        {
+          "opis": "**Bledna implementacja NWD**: Klasyczny blad to `while (a != b)` zamiast algorytmu Euklidesa z modulo — dziala, ale jest wolny. CKE: 0 pkt (poprawne, ale moze TLE)",
+          "kara": ""
+        },
+        {
+          "opis": "**Brak `break` przy NWD==1**: Kontynuowanie po NWD=1 jest bezcelowe (NWD nigdy nie wzrosnie), ale nie jest bledem logicznym. Moze spowodowac timeout.",
+          "kara": ""
+        },
+        {
+          "opis": "**Zapomnienie o NWD == bestNwd przy rownej dlugosci**: Nie jest wymagane — wystarczy pierwszy znaleziony.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "12.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2024 zad. 4.4 (maksymalna srednia segmentu)",
+      "tagi": [
+        "srednia-segmentu",
+        "sumy-prefiksowe",
+        "spojny-podciag",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `dane.txt` znajduje sie 20 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie spojny podciag o dlugosci co najmniej 5 z maksymalna srednia arytmetyczna. Podaj pozycje startowa, dlugosc i srednia.\n\n**Dane** (`dane.txt`):\n```\n10\n5\n3\n8\n12\n7\n2\n15\n20\n18\n25\n22\n19\n4\n6\n11\n14\n9\n1\n16\n```\n\n**Oczekiwany wynik**:\n```\nOptymalny segment (dlugosc >= 5):\nPozycja poczatkowa: 9, dlugosc: 5\nElementy: 20 18 25 22 19\nSrednia: 20.80\n```",
+      "wskazowki": [
+        "**Kierunek**: Sumy prefiksowe pozwalaja obliczyc sume kazdego fragmentu w O(1).",
+        "**Podejscie**: `prefix[i+len] - prefix[i]` to suma fragmentu od i dlugosci len. Srednia = suma/len.",
+        "**Kluczowy krok**: Sprawdz wszystkie fragmenty dlugosci >= 5. Najwyzsza srednia czesto wystepuje przy najkrotszym fragmencie (dl. 5)."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    // Sumy prefiksowe\n    vector<int> prefix(n + 1, 0);\n    for (int i = 0; i < n; i++)\n        prefix[i + 1] = prefix[i] + T[i];\n\n    double bestSr = -1;\n    int bestStart = 0, bestLen = 5;\n\n    for (int i = 0; i < n; i++) {\n        for (int len = 5; i + len <= n; len++) {\n            int suma = prefix[i + len] - prefix[i];\n            double sr = (double)suma / len;\n            if (sr > bestSr) {\n                bestSr = sr;\n                bestStart = i;\n                bestLen = len;\n            }\n        }\n    }\n\n    cout << \"Optymalny segment (dlugosc >= 5):\" << endl;\n    cout << \"Pozycja poczatkowa: \" << bestStart + 1\n         << \", dlugosc: \" << bestLen << endl;\n    cout << \"Elementy: \";\n    for (int i = bestStart; i < bestStart + bestLen; i++)\n        cout << T[i] << \" \";\n    cout << endl;\n    cout << \"Srednia: \" << fixed << setprecision(2) << bestSr << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Sumy prefiksowe pozwalaja obliczyc sume dowolnego fragmentu w O(1). Sprawdzamy wszystkie mozliwe fragmenty o dlugosci >= 5, szukajac tego z najwyzsza srednia.\n\nWeryfikacja (kilka kandydatow):\n- Poz.8-12 (dl.5): 15+20+18+25+22 = 100, sr=20.00\n- Poz.9-13 (dl.5): 20+18+25+22+19 = 104, sr=20.80\n- Poz.8-13 (dl.6): 15+20+18+25+22+19 = 119, sr=19.83\nNajlepsza: Poz.9-13 (dl.5), srednia 20.80.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak sum prefiksowych (O(n^3) zamiast O(n^2))**: Obliczanie sumy w petli za kazdym razem od nowa. Dziala, ale moze timeout na duzych danych. CKE: 0 pkt (poprawne, ale wolne)",
+          "kara": ""
+        },
+        {
+          "opis": "**Dzielenie calkowite**: `suma / len` zamiast `(double)suma / len`",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Minimalna dlugosc 4 zamiast 5**: Zle odczytanie warunku \"co najmniej 5\"",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "12.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2019 zad. 4 (ciag malejacy)",
+      "tagi": [
+        "ciag-malejacy",
+        "current-max",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie najdluzszy spojny podciag scisle malejacy. Podaj pozycje poczatkowa, dlugosc i elementy.\n\n**Dane** (`dane.txt`):\n```\n10\n8\n6\n4\n12\n15\n13\n9\n7\n3\n20\n18\n16\n14\n11\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy ciag malejacy:\nPozycja poczatkowa: 6, dlugosc: 5\nElementy: 15 13 9 7 3\n```",
+      "wskazowki": [
+        "**Kierunek**: Ten sam wzorzec current/max co w 12.2, ale warunek to `T[i] < T[i-1]` (scisly spadek).",
+        "**Podejscie**: Jedyna zmiana: warunek `T[i] > T[i-1]` zamien na `T[i] < T[i-1]`.",
+        "**Kluczowy krok**: Nie zapomnij sprawdzic po petli."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int maxDl = 1, maxStart = 0;\n    int curDl = 1, curStart = 0;\n\n    for (int i = 1; i < n; i++) {\n        if (T[i] < T[i - 1]) {\n            curDl++;\n        } else {\n            if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n            curDl = 1; curStart = i;\n        }\n    }\n    if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n\n    cout << \"Najdluzszy ciag malejacy:\" << endl;\n    cout << \"Pozycja poczatkowa: \" << maxStart + 1 << \", dlugosc: \" << maxDl << endl;\n    cout << \"Elementy: \";\n    for (int i = maxStart; i < maxStart + maxDl; i++)\n        cout << T[i] << \" \";\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Wzorzec current/max z warunkiem `T[i] < T[i-1]` (spadek).\n\nWeryfikacja:\n- 10,8,6,4 (dl.4, poz.1)\n- 15,13,9,7,3 (dl.5, poz.6) -> najdluzszy\n- 20,18,16,14,11 (dl.5, poz.11) -> rowny, ale nie dluzszy\nNajdluzszy (pierwszy): dl.5 od poz.6.",
+      "typowe_bledy": [
+        {
+          "opis": "**`<=` zamiast `<`**: \"Scisle malejacy\" wyklucza rownosc",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak aktualizacji po petli**: Ciag 20,18,16,14,11 konczy tablice — bez sprawdzenia po petli moze zostac pominiety.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "12.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2023 zad. 3 (plateau)",
+      "tagi": [
+        "plateau",
+        "ciag-rownych",
+        "ciag-rosnacy",
+        "current-max"
+      ],
+      "tresc": "W pliku `dane.txt` znajduje sie 20 liczb calkowitych (kazda w osobnym wierszu). Fragment ciagu nazywamy \"niemalejacy\" jesli `T[i] <= T[i+1]` dla kazdej pary sasiadow w fragmencie (dopuszczamy rownosc). Znajdz najdluzszy spojny podciag niemalejacy.\n\n**Dane** (`dane.txt`):\n```\n3\n3\n5\n5\n5\n8\n10\n10\n12\n7\n4\n4\n6\n8\n8\n8\n11\n2\n9\n9\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy ciag niemalejacy:\nPozycja poczatkowa: 1, dlugosc: 9\nElementy: 3 3 5 5 5 8 10 10 12\n```",
+      "wskazowki": [
+        "**Kierunek**: Warunek niemalejacosci to `T[i] >= T[i-1]` (dozwolona rownosc).",
+        "**Podejscie**: Wzorzec current/max z `T[i] >= T[i-1]`.",
+        "**Kluczowy krok**: Niemalejacy = rosnacy + plateau. To laczy cwiczenia 12.1 i 12.2."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int maxDl = 1, maxStart = 0;\n    int curDl = 1, curStart = 0;\n\n    for (int i = 1; i < n; i++) {\n        if (T[i] >= T[i - 1]) {\n            curDl++;\n        } else {\n            if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n            curDl = 1; curStart = i;\n        }\n    }\n    if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n\n    cout << \"Najdluzszy ciag niemalejacy:\" << endl;\n    cout << \"Pozycja poczatkowa: \" << maxStart + 1 << \", dlugosc: \" << maxDl << endl;\n    cout << \"Elementy: \";\n    for (int i = maxStart; i < maxStart + maxDl; i++)\n        cout << T[i] << \" \";\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Jedyna zmiana wzgledem 12.2: warunek `>` zamieniony na `>=`. Dopuszczamy rowne elementy obok siebie.\n\nWeryfikacja:\n- Poz.1: 3,3,5,5,5,8,10,10,12 (dl.9) -> niemalejacy (kazdy >= poprzedniego)\n- Poz.10: 7 (dl.1, bo 12>7 przerwa)\n- Poz.11: 4,4,6,8,8,8,11 (dl.7, poz.11-17)\n- Poz.18: 2,9,9 (dl.3)\nNajdluzszy: dl.9 od poz.1.",
+      "typowe_bledy": [
+        {
+          "opis": "**Pomylenie \"niemalejacy\" z \"rosnacy\"**: Niemalejacy dopuszcza rownosc (`>=`), rosnacy nie (`>`)",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak aktualizacji po petli**: Jak we wszystkich cwiczeniach z wzorcem current/max",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "12.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2024 zad. 4 (oscylacje)",
+      "tagi": [
+        "oscylacja",
+        "roznica-sasiadow",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). Fragment ciagu nazywamy \"oscylujacym\" jesli roznice miedzy sasiadami naprzemiennie zmieniaja znak (tj. jesli T[i+1]-T[i] > 0, to T[i+2]-T[i+1] < 0, i na odwrot). Znajdz najdluzszy spojny podciag oscylujacy.\n\n**Dane** (`dane.txt`):\n```\n5\n10\n3\n12\n1\n15\n8\n20\n6\n25\n7\n30\n4\n35\n2\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy ciag oscylujacy:\nPozycja poczatkowa: 1, dlugosc: 15\nElementy: 5 10 3 12 1 15 8 20 6 25 7 30 4 35 2\n```\n\nKorekta — sprawdzmy: roznice: +5,-7,+9,-11,+14,-7,+12,-14,+19,-18,+23,-26,+31,-33\nZnaki: +,-,+,-,+,-,+,-,+,-,+,-,+,-\nZawsze naprzemienne -> caly ciag jest oscylujacy.\n\nZmienmy dane aby nie byl caly ciag:\n\n**Dane** (`dane.txt`) — skorygowane:\n```\n5\n10\n3\n12\n1\n15\n20\n25\n8\n30\n7\n35\n4\n2\n40\n```\n\n**Oczekiwany wynik** (skorygowany):\n```\nRoznice: +5,-7,+9,-11,+14,+5,+5,-17,+22,-23,+28,-31,-2,+38\nZnaki:   +  -  +  -   +   +  +   -   +   -   +   -   -  +\nOscylacje: poz.1-6 (5,10,3,12,1,15) dl.6, potem przerwa (+,+)\n           poz.8-13 (25,8,30,7,35,4) dl.6\n           poz.13-15 (4,2,40) -> -,+ dl.3\n\nNajdluzszy ciag oscylujacy:\nPozycja poczatkowa: 1, dlugosc: 6\nElementy: 5 10 3 12 1 15\n```",
+      "wskazowki": [
+        "**Kierunek**: Oblicz roznice `d[i] = T[i+1] - T[i]`. Oscylacja to naprzemienne znaki roznic.",
+        "**Podejscie**: Sprawdz `d[i] * d[i-1] < 0` (rozne znaki). Wzorzec current/max.",
+        "**Kluczowy krok**: Ciag oscylujacy zaczyna sie od pary — minimalny ma dlugosc 2 (jedna roznica)."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    // Oblicz roznice\n    vector<int> d(n - 1);\n    for (int i = 0; i < n - 1; i++)\n        d[i] = T[i + 1] - T[i];\n\n    int maxDl = 2, maxStart = 0;\n    int curDl = 2, curStart = 0;\n\n    for (int i = 1; i < (int)d.size(); i++) {\n        if ((long long)d[i] * d[i - 1] < 0) {\n            curDl++;\n        } else {\n            if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n            curDl = 2; curStart = i;\n        }\n    }\n    if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n\n    cout << \"Najdluzszy ciag oscylujacy:\" << endl;\n    cout << \"Pozycja poczatkowa: \" << maxStart + 1 << \", dlugosc: \" << maxDl << endl;\n    cout << \"Elementy: \";\n    for (int i = maxStart; i < maxStart + maxDl; i++)\n        cout << T[i] << \" \";\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Obliczamy roznice sasiadow. Oscylacja to naprzemiennosc znakow: `d[i] * d[i-1] < 0`. Wzorzec current/max na tablicy roznic, ale dlugosc liczymy w elementach (= roznice + 1).\n\nWeryfikacja (dane skorygowane: 5,10,3,12,1,15,20,25,8,30,7,35,4,2,40):\n- Roznice: +5,-7,+9,-11,+14,+5,+5,-17,+22,-23,+28,-31,-2,+38\n- Naprzemienne: d[0]*d[1]=-35<0 TAK, d[1]*d[2]=-63<0 TAK, d[2]*d[3]=-99<0 TAK, d[3]*d[4]=-154<0 TAK, d[4]*d[5]=70>0 NIE\n- Poz.1-6: dl.6. Poz.8-12: 25,8,30,7,35 dl.5? Sprawdzmy: d[7]=-17, d[8]=+22, d[9]=-23, d[10]=+28, d[11]=-31 -> naprzemienne, dl.6 (poz.8-13).\nNajdluzsze: dl.6.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak `(long long)` w mnozeniu**: `d[i] * d[i-1]` moze przekroczyc zakres int",
+          "kara": "-1 pkt (UB)"
+        },
+        {
+          "opis": "**Roznica == 0 nie jest ani + ani -**: Jesli `T[i+1] == T[i]`, to `d[i] = 0` i `d[i]*d[i-1] = 0`, co nie jest < 0. Oscylacja sie przerywa — to poprawne zachowanie.",
+          "kara": ""
+        },
+        {
+          "opis": "**Dlugosc w roznicach zamiast elementach**: n roznic = n+1 elementow",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "12.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "zrodlo": "Matura 2024 zad. 4 (ciag arytmetyczny)",
+      "tagi": [
+        "ciag-stalej-roznicy",
+        "roznica-sasiadow",
+        "current-max",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie najdluzszy spojny podciag bedacy ciagiem arytmetycznym (stala roznica miedzy sasiadami). Podaj pozycje, dlugosc, elementy i roznice ciagu.\n\n**Dane** (`dane.txt`):\n```\n5\n8\n11\n14\n17\n20\n3\n7\n11\n15\n12\n10\n8\n6\n4\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy ciag arytmetyczny:\nPozycja poczatkowa: 1, dlugosc: 6\nElementy: 5 8 11 14 17 20\nRoznica: 3\n```",
+      "wskazowki": [
+        "**Kierunek**: Ciag arytmetyczny ma stala roznice: `d[i] == d[i-1]` dla kazdej pary sasiadnich roznic.",
+        "**Podejscie**: Oblicz roznice, potem szukaj najdluzszego ciagu rownych roznic (wzorzec z 12.1!).",
+        "**Kluczowy krok**: Dlugosc ciagu arytmetycznego = dlugosc ciagu rownych roznic + 1."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    if (n < 2) { cout << \"Za malo danych\" << endl; return 0; }\n\n    vector<int> d(n - 1);\n    for (int i = 0; i < n - 1; i++)\n        d[i] = T[i + 1] - T[i];\n\n    // Najdluzszy ciag rownych roznic\n    int maxDl = 1, maxStart = 0;\n    int curDl = 1, curStart = 0;\n\n    for (int i = 1; i < (int)d.size(); i++) {\n        if (d[i] == d[i - 1]) {\n            curDl++;\n        } else {\n            if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n            curDl = 1; curStart = i;\n        }\n    }\n    if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n\n    // Ciag arytmetyczny ma dlugosc = ciag roznic + 1\n    int arDl = maxDl + 1;\n\n    cout << \"Najdluzszy ciag arytmetyczny:\" << endl;\n    cout << \"Pozycja poczatkowa: \" << maxStart + 1 << \", dlugosc: \" << arDl << endl;\n    cout << \"Elementy: \";\n    for (int i = maxStart; i < maxStart + arDl; i++)\n        cout << T[i] << \" \";\n    cout << endl;\n    cout << \"Roznica: \" << d[maxStart] << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Ciag arytmetyczny to ciag o stalej roznicy. Sprowadzamy problem do szukania najdluzszego ciagu rownych w tablicy roznic (cwiczenie 12.1). Dlugosc ciagu arytmetycznego = dlugosc ciagu rownych roznic + 1.\n\nWeryfikacja:\n- Roznice: 3,3,3,3,3,(-17),4,4,4,(-3),(-2),(-2),(-2),(-2)\n- Ciagi rownych roznic: 3,3,3,3,3 (dl.5, poz.1), 4,4,4 (dl.3, poz.7), -2,-2,-2,-2 (dl.4, poz.11)\n- Najdluzszy: dl.5 (roznice) -> dl.6 (elementy) od poz.1: 5,8,11,14,17,20, roznica=3",
+      "typowe_bledy": [
+        {
+          "opis": "**Zapomnienie o +1 przy przeliczaniu dlugosci**: n roznic = n+1 elementow",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak obslugi ciagu 2-elementowego**: Kazda para jest ciagiem arytmetycznym. Minimalny ciag arytmetyczny ma dlugosc 2.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "12.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2024 zad. 4 + 2019 zad. 4 (zlozony)",
+      "tagi": [
+        "spojny-podciag",
+        "NWD-Euklidesa",
+        "skan-liniowy",
+        "wczytywanie-pliku",
+        "gorka"
+      ],
+      "tresc": "W pliku `dane.txt` znajduje sie 20 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Znajdzie najdluzszy spojny podciag, w ktorym kazdy element jest podzielny przez 3.\nb) Znajdzie najdluzsza \"dolinke\" (najpierw scisle maleje, potem scisle rosnie — odwrotnosc gorki). Minimalna dlg to 3.\nc) Znajdzie najdluzszy spojny podciag, w ktorym bezwzgledna roznica miedzy kazdymi dwoma sasiadami jest <= 5.\n\n**Dane** (`dane.txt`):\n```\n12\n9\n15\n6\n21\n18\n7\n3\n6\n12\n24\n5\n8\n4\n2\n6\n10\n14\n18\n22\n```\n\n**Oczekiwany wynik**:\n```\na) Najdluzszy ciag podzielnych przez 3:\n   Pozycja poczatkowa: 1, dlugosc: 6\n   Elementy: 12 9 15 6 21 18\n\nb) Najdluzsza dolinka:\n   Pozycja poczatkowa: 11, dlugosc: 7\n   Elementy: 24 5 8 4 2 6 10\n   Minimum: 2 (pozycja 15)\n   Korekta: 24,5 malejaco. 5,8 rosnaco -> zmiana trendu po 2 krokach.\n   Szukajmy dokladniej: faza malejaca, potem rosnaca.\n   Od poz.11: 24 -> 5 -> malejaco? NIE: 24>5 OK, ale 5<8 -> zmiana na rosnacej.\n   Faza malejaca: 24,5 (dl.2). Faza rosnaca: 5,8 (dl.2). Dolinka dl.3 (24,5,8).\n   Od poz.12: 5,8 rosnaco -> brak spadku na poczatku.\n   Od poz.11: 24,5 spadek. 5,8 wzrost -> dolinka (24,5,8) dl.3.\n   Od poz.13: 8,4,2 spadek. 2,6,10,14,18,22 wzrost -> dolinka dl.8 (8,4,2,6,10,14,18,22).\n\n   Najdluzsza dolinka:\n   Pozycja poczatkowa: 13, dlugosc: 8\n   Elementy: 8 4 2 6 10 14 18 22\n   Minimum: 2 (pozycja 15)\n\nc) Najdluzszy ciag z |T[i]-T[i+1]| <= 5:\n   Poz.1: |12-9|=3, |9-15|=6 > 5 -> dl.2\n   Poz.2: |9-15|=6 > 5 -> dl.1\n   Poz.3: |15-6|=9 > 5 -> dl.1\n   Poz.4: |6-21|=15 > 5 -> dl.1\n   Poz.5: |21-18|=3, |18-7|=11 > 5 -> dl.2\n   Poz.7: |7-3|=4, |3-6|=3, |6-12|=6 > 5 -> dl.3\n   Poz.14: |4-2|=2, |2-6|=4, |6-10|=4, |10-14|=4, |14-18|=4, |18-22|=4 -> dl.7\n\n   Najdluzszy ciag z |roznica| <= 5:\n   Pozycja poczatkowa: 14, dlugosc: 7\n   Elementy: 4 2 6 10 14 18 22\n```",
+      "wskazowki": [
+        "**Kierunek**: Trzy niezalezne problemy, kazdy ze wzorcem current/max.",
+        "**Podejscie**: (a) Warunek: `T[i] % 3 == 0`. (b) Szukaj fazy malejacej, potem rosnacej (odwrotnosc gorki). (c) Warunek: `|T[i]-T[i+1]| <= 5`.",
+        "**Kluczowy krok**: (b) Dolinka to dokładna odwrotnosc gorki z cw. 12.3 — zamien > na < i < na > w warunkach faz."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    // a) Najdluzszy ciag podzielnych przez 3\n    int maxA = 0, startA = 0, curA = 0, curStartA = 0;\n    for (int i = 0; i < n; i++) {\n        if (T[i] % 3 == 0) {\n            if (curA == 0) curStartA = i;\n            curA++;\n        } else {\n            if (curA > maxA) { maxA = curA; startA = curStartA; }\n            curA = 0;\n        }\n    }\n    if (curA > maxA) { maxA = curA; startA = curStartA; }\n\n    cout << \"a) Najdluzszy ciag podzielnych przez 3:\" << endl;\n    cout << \"   Pozycja poczatkowa: \" << startA + 1 << \", dlugosc: \" << maxA << endl;\n    cout << \"   Elementy: \";\n    for (int i = startA; i < startA + maxA; i++) cout << T[i] << \" \";\n    cout << endl;\n\n    // b) Najdluzsza dolinka (spadek + wzrost)\n    int bestDol = 0, bestDolStart = 0, bestDolMin = 0;\n    for (int i = 0; i < n - 2; i++) {\n        int j = i;\n        while (j + 1 < n && T[j + 1] < T[j]) j++;\n        if (j == i) continue;\n        int valley = j;\n        while (j + 1 < n && T[j + 1] > T[j]) j++;\n        if (j == valley) continue;\n        int len = j - i + 1;\n        if (len > bestDol) {\n            bestDol = len; bestDolStart = i; bestDolMin = valley;\n        }\n    }\n\n    cout << endl << \"b) Najdluzsza dolinka:\" << endl;\n    cout << \"   Pozycja poczatkowa: \" << bestDolStart + 1\n         << \", dlugosc: \" << bestDol << endl;\n    cout << \"   Elementy: \";\n    for (int i = bestDolStart; i < bestDolStart + bestDol; i++)\n        cout << T[i] << \" \";\n    cout << endl;\n    cout << \"   Minimum: \" << T[bestDolMin]\n         << \" (pozycja \" << bestDolMin + 1 << \")\" << endl;\n\n    // c) Najdluzszy ciag z |roznica sasiada| <= 5\n    int maxC = 1, startC = 0, curC = 1, curStartC = 0;\n    for (int i = 0; i < n - 1; i++) {\n        if (abs(T[i + 1] - T[i]) <= 5) {\n            curC++;\n        } else {\n            if (curC > maxC) { maxC = curC; startC = curStartC; }\n            curC = 1; curStartC = i + 1;\n        }\n    }\n    if (curC > maxC) { maxC = curC; startC = curStartC; }\n\n    cout << endl << \"c) Najdluzszy ciag z |roznica| <= 5:\" << endl;\n    cout << \"   Pozycja poczatkowa: \" << startC + 1 << \", dlugosc: \" << maxC << endl;\n    cout << \"   Elementy: \";\n    for (int i = startC; i < startC + maxC; i++) cout << T[i] << \" \";\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Trzy niezalezne wyszukiwania, kazde ze wzorcem current/max. (a) Ciag elementow spełniajacych warunek. (b) Odwrotnosc gorki — faza malejaca, potem rosnaca. (c) Ciag par spelniajacych warunek na roznicy.\n\nWeryfikacja:\na) Podzielne przez 3: 12,9,15,6,21,18 (poz.1-6, dl.6). Nastepne: 7 -> nie. 3,6,12,24 (poz.8-11, dl.4). Najdluzszy: dl.6 od poz.1.\nb) Dolinka od poz.13: 8 > 4 > 2 < 6 < 10 < 14 < 18 < 22. Spadek: 8,4,2 (dl.3). Wzrost: 2,6,10,14,18,22 (dl.6). Dolinka dl.8 (poz.13-20).\nc) Od poz.14: |4-2|=2, |2-6|=4, |6-10|=4, |10-14|=4, |14-18|=4, |18-22|=4 -> dl.7.",
+      "typowe_bledy": [
+        {
+          "opis": "**Pomylenie gorki z dolinka**: Gorka = wzrost+spadek, dolinka = spadek+wzrost",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Warunek `<= 5` zamiast `< 5`**: Zalezy od tresci — \"nie przekracza 5\" to `<= 5`, \"mniejsza niz 5\" to `< 5`",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak abs() w punkcie (c)**: Bez wartosci bezwzglednej, ujemne roznice (spadek) nie sa sprawdzane",
+          "kara": "-1 pkt"
+        }
+      ]
+    }
+  ]
+}

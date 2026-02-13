@@ -1,0 +1,341 @@
+{
+  "typ": "01_sledzenie_algorytmu",
+  "nazwa": "Sledzenie algorytmu",
+  "kategoria": "TEORIA",
+  "czestotliwosc": "11/11 lat",
+  "punkty_lacznie": 45,
+  "tagi_globalne": [
+    "mod-div",
+    "cyfry-liczby",
+    "sledzenie-iteracyjne",
+    "rekurencja",
+    "drzewo-wywolan",
+    "tablica-zliczanie",
+    "plansza-2D",
+    "programowanie-dynamiczne",
+    "NWD-Euklidesa",
+    "stos",
+    "sortowanie",
+    "operacje-bitowe",
+    "kolejka",
+    "tablica-pomocnicza"
+  ],
+  "cwiczenia": [
+    {
+      "id": "1.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2024 zad. 2 (Cyfry)",
+      "tagi": [
+        "mod-div",
+        "cyfry-liczby",
+        "sledzenie-iteracyjne"
+      ],
+      "tresc": "Dana jest funkcja:\n\n```\nfunkcja przetworzCyfry(n)\n    wynik := 0\n    mnoznik := 1\n    dopoki n > 0:\n        cyfra := n mod 10\n        jezeli cyfra mod 2 = 0:\n            wynik := wynik + (cyfra / 2) * mnoznik\n        w przeciwnym razie:\n            wynik := wynik + 1 * mnoznik\n        mnoznik := mnoznik * 10\n        n := n div 10\n    zwroc wynik\n```\n\nFunkcja przetwarza cyfry liczby od prawej strony: cyfry parzyste dzieli przez 2, a nieparzyste zamienia na 1.\n\n**Polecenie**: Oblicz wartosc `przetworzCyfry(n)` dla kazdej z podanych liczb. Dla jednej wybranej liczby wypelnij tabele wartosci zmiennych w kazdym kroku petli.\n\n| Lp. | n |\n|-----|---|\n| a)  | 4826 |\n| b)  | 1357 |\n| c)  | 9042 |",
+      "wskazowki": [
+        "**Kierunek**: Zastanow sie, co robi `n mod 10` i `n div 10` — wyodrebniaja cyfry od konca.",
+        "**Podejscie**: Dla kazdej cyfry sprawdz parzystosc i zastosuj odpowiednia regule. Pamietaj o mnozniku pozycyjnym.",
+        "**Kluczowy krok**: Przerob kazda cyfre osobno: parzysta -> /2, nieparzysta -> 1. Zlozyc wynik uzywajac mnoznika (1, 10, 100, ...)."
+      ],
+      "odpowiedz": "**a) przetworzCyfry(4826)**\n\n| Krok | n (poczatek) | cyfra | cyfra%2=0? | wynik | mnoznik | n (koniec) |\n|------|-------------|-------|------------|-------|---------|-----------|\n| 1 | 4826 | 6 | tak (6/2=3) | 0+3*1=3 | 10 | 482 |\n| 2 | 482 | 2 | tak (2/2=1) | 3+1*10=13 | 100 | 48 |\n| 3 | 48 | 8 | tak (8/2=4) | 13+4*100=413 | 1000 | 4 |\n| 4 | 4 | 4 | tak (4/2=2) | 413+2*1000=2413 | 10000 | 0 |\n\nWynik: **2413**\n\n**b) przetworzCyfry(1357)**\n\n- cyfra 7 (nieparzysta) -> 1, wynik = 1\n- cyfra 5 (nieparzysta) -> 1, wynik = 11\n- cyfra 3 (nieparzysta) -> 1, wynik = 111\n- cyfra 1 (nieparzysta) -> 1, wynik = 1111\n\nWynik: **1111**\n\n**c) przetworzCyfry(9042)**\n\n- cyfra 2 (parzysta, 2/2=1) -> wynik = 1\n- cyfra 4 (parzysta, 4/2=2) -> wynik = 21\n- cyfra 0 (parzysta, 0/2=0) -> wynik = 021 = 21\n- cyfra 9 (nieparzysta) -> 1, wynik = 1021\n\nWynik: **1021**",
+      "typowe_bledy": [
+        {
+          "opis": "**Przetwarzanie cyfr od lewej zamiast od prawej**: Algorytm uzywa mod 10, wiec zaczyna od ostatniej cyfry",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Zapomnienie o mnozniku**: Wynik sklada sie z cyfr na odpowiednich pozycjach — bez mnoznika cyfry sie nakladaja",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Cyfra 0 jako nieparzysta**: 0 mod 2 = 0, wiec 0 jest parzysta (0/2 = 0)",
+          "kara": "-0.5 pkt"
+        }
+      ]
+    },
+    {
+      "id": "1.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2025 zad. 1.1 (uproszczony)",
+      "tagi": [
+        "rekurencja",
+        "mod-div",
+        "drzewo-wywolan"
+      ],
+      "tresc": "Dana jest funkcja rekurencyjna:\n\n```\nfunkcja sumaCyfr(n)\n    jezeli n = 0:\n        zwroc 0\n    zwroc sumaCyfr(n div 10) + n mod 10\n```\n\n**Polecenie**: Dla kazdej z podanych wartosci n:\n- podaj wynik funkcji `sumaCyfr(n)`,\n- podaj calkowita liczbe wywolan funkcji (wliczajac wywolanie poczatkowe).\n\n| Lp. | n |\n|-----|---|\n| a)  | 47 |\n| b)  | 305 |\n| c)  | 1234 |",
+      "wskazowki": [
+        "**Kierunek**: To rekurencja liniowa — kazde wywolanie generuje dokladnie jedno kolejne.",
+        "**Podejscie**: Rozpisz stos wywolan: sumaCyfr(1234) -> sumaCyfr(123) + 4 -> sumaCyfr(12) + 3 -> ...",
+        "**Kluczowy krok**: Warunek bazowy to n=0 (zwraca 0). Liczba wywolan = liczba cyfr + 1 (jedno dodatkowe dla n=0)."
+      ],
+      "odpowiedz": "**a) sumaCyfr(47)**\n\nStos wywolan:\n1. sumaCyfr(47) -> sumaCyfr(4) + 7\n2. sumaCyfr(4) -> sumaCyfr(0) + 4\n3. sumaCyfr(0) -> 0 (warunek bazowy)\n\nPowrot: 0 + 4 + 7 = **11**\nLiczba wywolan: **3**\n\n**b) sumaCyfr(305)**\n\nStos wywolan:\n1. sumaCyfr(305) -> sumaCyfr(30) + 5\n2. sumaCyfr(30) -> sumaCyfr(3) + 0\n3. sumaCyfr(3) -> sumaCyfr(0) + 3\n4. sumaCyfr(0) -> 0 (warunek bazowy)\n\nPowrot: 0 + 3 + 0 + 5 = **8**\nLiczba wywolan: **4**\n\n**c) sumaCyfr(1234)**\n\nStos wywolan:\n1. sumaCyfr(1234) -> sumaCyfr(123) + 4\n2. sumaCyfr(123) -> sumaCyfr(12) + 3\n3. sumaCyfr(12) -> sumaCyfr(1) + 2\n4. sumaCyfr(1) -> sumaCyfr(0) + 1\n5. sumaCyfr(0) -> 0 (warunek bazowy)\n\nPowrot: 0 + 1 + 2 + 3 + 4 = **10**\nLiczba wywolan: **5**\n\n**Regula**: Dla liczby o k cyfrach funkcja jest wywolywana k+1 razy (k wywolan z niezerowym n + 1 wywolanie bazowe z n=0).",
+      "typowe_bledy": [
+        {
+          "opis": "**Pominiecie wywolania bazowego (n=0)**: Czesto uczniowie licza tylko wywolania z n>0. Dla n=47 to 3, nie 2 wywolania",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Mylenie div i mod**: `n div 10` obcina ostatnia cyfre, `n mod 10` ja wyodrebnia",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "1.3",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2022 zad. 1 (n-permutacja)",
+      "tagi": [
+        "tablica-zliczanie",
+        "sledzenie-iteracyjne",
+        "tablica-pomocnicza"
+      ],
+      "tresc": "Dany jest algorytm operujacy na tablicy T o elementach ze zbioru {0, 1, 2, 3}:\n\n```\nfunkcja sprawdz(T, n)\n    // T - tablica o indeksach 0..n-1\n    // tworzymy tablice C o indeksach 0..3, wypelniona zerami\n    C[0] := 0; C[1] := 0; C[2] := 0; C[3] := 0\n\n    dla i := 0, 1, ..., n-1:\n        C[T[i]] := C[T[i]] + 1\n\n    dla j := 0, 1, 2, 3:\n        jezeli C[j] <> j:\n            zwroc FALSZ\n\n    zwroc PRAWDA\n```\n\n**Polecenie**: Przesled algorytm krok po kroku dla tablicy T = [3, 1, 2, 1, 3, 2]. Podaj:\n- a) Stan tablicy C po kazdej iteracji pierwszej petli.\n- b) Wynik koncowy funkcji (PRAWDA lub FALSZ).\n- c) Podaj przyklad tablicy 6-elementowej (z wartosciami ze zbioru {0, 1, 2, 3}), dla ktorej funkcja zwroci PRAWDA.",
+      "wskazowki": [
+        "**Kierunek**: Tablica C to tablica zliczajaca — liczy ile razy kazda wartosc wystapila w T.",
+        "**Podejscie**: Iteruj po T element po elemencie, zwiekszajac odpowiedni licznik w C. Potem sprawdz warunek C[j]=j.",
+        "**Kluczowy krok**: Funkcja zwraca PRAWDA gdy: wartosc 0 wystepuje 0 razy, wartosc 1 — 1 raz, wartosc 2 — 2 razy, wartosc 3 — 3 razy. Razem 0+1+2+3=6 elementow."
+      ],
+      "odpowiedz": "**a) Stan tablicy C po kazdej iteracji:**\n\nTablica T = [3, 1, 2, 1, 3, 2], n = 6\n\n| Krok (i) | T[i] | Operacja | C[0] | C[1] | C[2] | C[3] |\n|-----------|-------|----------|------|------|------|------|\n| poczatek  | -     | -        | 0    | 0    | 0    | 0    |\n| i=0       | 3     | C[3]++   | 0    | 0    | 0    | 1    |\n| i=1       | 1     | C[1]++   | 0    | 1    | 0    | 1    |\n| i=2       | 2     | C[2]++   | 0    | 1    | 1    | 1    |\n| i=3       | 1     | C[1]++   | 0    | 2    | 1    | 1    |\n| i=4       | 3     | C[3]++   | 0    | 2    | 1    | 2    |\n| i=5       | 2     | C[2]++   | 0    | 2    | 2    | 2    |\n\nStan koncowy C: [0, 2, 2, 2]\n\n**b) Sprawdzenie warunku C[j] = j:**\n\n| j | C[j] | j | C[j] = j? |\n|---|------|---|-----------|\n| 0 | 0    | 0 | TAK       |\n| 1 | 2    | 1 | NIE       |\n\nFunkcja zwraca **FALSZ** (bo C[1] = 2, a powinno byc 1).\n\n**c) Przyklad tablicy, dla ktorej funkcja zwraca PRAWDA:**\n\nPotrzebujemy: C[0]=0, C[1]=1, C[2]=2, C[3]=3.\nCzyli: 0 wystapien 0, 1 wystapienie 1, 2 wystapienia 2, 3 wystapienia 3.\nRazem: 0+1+2+3 = 6 elementow.\n\nPrzyklad: T = **[3, 2, 3, 1, 2, 3]**\n\nSprawdzenie: C = [0, 1, 2, 3] -- C[j] = j dla kazdego j, PRAWDA.",
+      "typowe_bledy": [
+        {
+          "opis": "**Zapomnienie ze indeksowanie C zaczyna sie od 0**: C[T[i]] to indeksowanie wartoscia elementu, nie pozycja",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Blad w zliczaniu**: Np. pominiecie jednego kroku iteracji. Sprawdz, ze suma C[0]+...+C[3] = n",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**Niepoprawny przyklad w c)**: Tablica musi miec dokladnie 6 elementow i spelnic C[j]=j",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "1.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2019 zad. 2, Matura 2014 zad. 1a (Korale)",
+      "tagi": [
+        "rekurencja",
+        "drzewo-wywolan",
+        "sledzenie-iteracyjne"
+      ],
+      "tresc": "Dana jest funkcja rekurencyjna z dwoma wywolaniami:\n\n```\nfunkcja g(n)\n    jezeli n <= 1:\n        zwroc n\n    zwroc g(n div 2) + g(n div 3) + 1\n```\n\n**Polecenie**:\n- a) Narysuj pelne drzewo wywolan dla `g(12)`. Przy kazdym wezle zapisz wartosc argumentu n oraz wartosc zwracana.\n- b) Podaj calkowita liczbe wywolan funkcji g.\n- c) Podaj wynik koncowy `g(12)`.",
+      "wskazowki": [
+        "**Kierunek**: To rekurencja drzewiasta — kazde wywolanie generuje dwa kolejne (div 2 i div 3).",
+        "**Podejscie**: Zacznij od korzenia g(12), rozwin galaz lewa g(6) i prawa g(4), potem kazda dalej.",
+        "**Kluczowy krok**: Warunek bazowy: n<=1 zwraca n. Kazdy wezel niebazowy dodaje +1 do sumy dzieci."
+      ],
+      "odpowiedz": "**a) Drzewo wywolan g(12):**\n\n```\ng(12) = g(6) + g(4) + 1\n├── g(6) = g(3) + g(2) + 1\n│   ├── g(3) = g(1) + g(1) + 1\n│   │   ├── g(1) = 1  [bazowy]\n│   │   └── g(1) = 1  [bazowy]\n│   │   => g(3) = 1 + 1 + 1 = 3\n│   └── g(2) = g(1) + g(0) + 1\n│       ├── g(1) = 1  [bazowy]\n│       └── g(0) = 0  [bazowy]\n│       => g(2) = 1 + 0 + 1 = 2\n│   => g(6) = 3 + 2 + 1 = 6\n└── g(4) = g(2) + g(1) + 1\n    ├── g(2) = g(1) + g(0) + 1\n    │   ├── g(1) = 1  [bazowy]\n    │   └── g(0) = 0  [bazowy]\n    │   => g(2) = 1 + 0 + 1 = 2\n    └── g(1) = 1  [bazowy]\n    => g(4) = 2 + 1 + 1 = 4\n=> g(12) = 6 + 4 + 1 = 11\n```\n\n**b) Calkowita liczba wywolan:**\n\nPoliczymy wszystkie wezly drzewa:\n- g(12): 1\n- g(6), g(4): 2\n- g(3), g(2), g(2), g(1): 4\n- g(1), g(1), g(1), g(0), g(1), g(0): 6\n\nRazem: 1 + 2 + 4 + 6 = **13 wywolan**\n\n**c) Wynik koncowy: g(12) = 6 + 4 + 1 = **11****",
+      "typowe_bledy": [
+        {
+          "opis": "**Pominiety +1 w formule**: Kazde niebazowe wywolanie dodaje 1 do sumy",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Bledne div (zaokraglanie w gore zamiast w dol)**: 4 div 3 = 1 (nie 1.33 ani 2)",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Niedokonczone drzewo**: Kazda galaz musi dojsc do warunku bazowego (n<=1)",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "1.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2024 zad. 1 (Plansza)",
+      "tagi": [
+        "plansza-2D",
+        "programowanie-dynamiczne",
+        "sledzenie-iteracyjne"
+      ],
+      "tresc": "Dana jest plansza 5x5 o polach bialych (0) i czarnych (1):\n\n```\nplansza:\n  0 1 2 3 4\n0[0 0 1 0 0]\n1[0 0 0 1 0]\n2[1 0 0 0 1]\n3[0 1 0 0 0]\n4[0 0 1 0 0]\n```\n\nAlgorytm wypelnia tablice P[i][j] rozmiaru 5x5 wedlug nastepujacych regul:\n- P[0][0] := 1, jezeli plansza[0][0] = 0; w przeciwnym razie P[0][0] := 0\n- Dla i > 0: P[i][0] := P[i-1][0] AND (1 - plansza[i][0])\n- Dla j > 0: P[0][j] := P[0][j-1] AND (1 - plansza[0][j])\n- Dla i > 0 i j > 0: P[i][j] := (P[i-1][j] OR P[i][j-1]) AND (1 - plansza[i][j])\n\nWartosc P[i][j] = 1 oznacza, ze istnieje sciezka z pola [0,0] do pola [i,j] przechodzaca wylacznie przez pola biale, poruszajac sie tylko w dol lub w prawo.\n\n**Polecenie**:\n- a) Wypelnij cala tablice P[5][5].\n- b) Czy istnieje sciezka z [0,0] do [4,4]? Odpowiedz na podstawie wartosci P[4][4].\n- c) Podaj jedna sciezke z [0,0] do [4,4] (jezeli istnieje) jako ciag wspolrzednych.",
+      "wskazowki": [
+        "**Kierunek**: Wypelniaj tablice wiersz po wierszu, od lewej do prawej. Pierwszy wiersz i pierwsza kolumna maja specjalne reguly.",
+        "**Podejscie**: Dla pierwszego wiersza/kolumny: jesli napotkasz czarne pole, cala reszta wiersza/kolumny to 0. Dla reszty: P[i][j]=1 gdy mozna dojsc z gory LUB z lewej i pole jest biale.",
+        "**Kluczowy krok**: P[i][j] = (P[i-1][j] OR P[i][j-1]) AND (1-plansza[i][j]). Czarne pole zawsze daje 0."
+      ],
+      "odpowiedz": "**a) Wypelnianie tablicy P:**\n\nPlansza (0 = biale, 1 = czarne):\n```\n  0 1 2 3 4\n0[0 0 1 0 0]\n1[0 0 0 1 0]\n2[1 0 0 0 1]\n3[0 1 0 0 0]\n4[0 0 1 0 0]\n```\n\nKrok 1: P[0][0] = 1 (bo plansza[0][0] = 0)\n\nKrok 2: Pierwszy wiersz (i=0):\n- P[0][1] = P[0][0] AND (1-0) = 1 AND 1 = 1\n- P[0][2] = P[0][1] AND (1-1) = 1 AND 0 = 0  (czarne pole!)\n- P[0][3] = P[0][2] AND (1-0) = 0 AND 1 = 0\n- P[0][4] = P[0][3] AND (1-0) = 0 AND 1 = 0\n\nKrok 3: Pierwsza kolumna (j=0):\n- P[1][0] = P[0][0] AND (1-0) = 1 AND 1 = 1\n- P[2][0] = P[1][0] AND (1-1) = 1 AND 0 = 0  (czarne pole!)\n- P[3][0] = P[2][0] AND (1-0) = 0 AND 1 = 0\n- P[4][0] = P[3][0] AND (1-0) = 0 AND 1 = 0\n\nKrok 4: Reszta tablicy:\nWiersz 1 (i=1):\n- P[1][1] = (P[0][1] OR P[1][0]) AND (1-0) = (1 OR 1) AND 1 = 1\n- P[1][2] = (P[0][2] OR P[1][1]) AND (1-0) = (0 OR 1) AND 1 = 1\n- P[1][3] = (P[0][3] OR P[1][2]) AND (1-1) = (0 OR 1) AND 0 = 0  (czarne!)\n- P[1][4] = (P[0][4] OR P[1][3]) AND (1-0) = (0 OR 0) AND 1 = 0\n\nWiersz 2 (i=2):\n- P[2][1] = (P[1][1] OR P[2][0]) AND (1-0) = (1 OR 0) AND 1 = 1\n- P[2][2] = (P[1][2] OR P[2][1]) AND (1-0) = (1 OR 1) AND 1 = 1\n- P[2][3] = (P[1][3] OR P[2][2]) AND (1-0) = (0 OR 1) AND 1 = 1\n- P[2][4] = (P[1][4] OR P[2][3]) AND (1-1) = (0 OR 1) AND 0 = 0  (czarne!)\n\nWiersz 3 (i=3):\n- P[3][1] = (P[2][1] OR P[3][0]) AND (1-1) = (1 OR 0) AND 0 = 0  (czarne!)\n- P[3][2] = (P[2][2] OR P[3][1]) AND (1-0) = (1 OR 0) AND 1 = 1\n- P[3][3] = (P[2][3] OR P[3][2]) AND (1-0) = (1 OR 1) AND 1 = 1\n- P[3][4] = (P[2][4] OR P[3][3]) AND (1-0) = (0 OR 1) AND 1 = 1\n\nWiersz 4 (i=4):\n- P[4][1] = (P[3][1] OR P[4][0]) AND (1-0) = (0 OR 0) AND 1 = 0\n- P[4][2] = (P[3][2] OR P[4][1]) AND (1-1) = (1 OR 0) AND 0 = 0  (czarne!)\n- P[4][3] = (P[3][3] OR P[4][2]) AND (1-0) = (1 OR 0) AND 1 = 1\n- P[4][4] = (P[3][4] OR P[4][3]) AND (1-0) = (1 OR 1) AND 1 = 1\n\n**Tablica P:**\n```\n  0 1 2 3 4\n0[1 1 0 0 0]\n1[1 1 1 0 0]\n2[0 1 1 1 0]\n3[0 0 1 1 1]\n4[0 0 0 1 1]\n```\n\n**b) P[4][4] = 1, wiec sciezka z [0,0] do [4,4] ISTNIEJE.**\n\n**c) Przykladowa sciezka (cofamy sie od [4,4]):**\n\n[0,0] -> [0,1] -> [1,1] -> [1,2] -> [2,2] -> [2,3] -> [3,3] -> [3,4] -> [4,4]\n\nMozna tez: [0,0] -> [1,0] -> [1,1] -> [2,1] -> [2,2] -> [3,2] -> [3,3] -> [4,3] -> [4,4]",
+      "typowe_bledy": [
+        {
+          "opis": "**Pomylenie AND i OR**: Pierwszy wiersz/kolumna uzywa AND (jedna przeszkoda blokuje dalsze pola), reszta uzywa OR (wystarczy dojsc z gory LUB z lewej)",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Zapomnienie o (1-plansza)**: Nawet jesli mozna dojsc do pola, czarne pole daje P=0",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Bledna kolejnosc wypelniania**: Trzeba wypelniac wiersz po wierszu (od gory), w kazdym wierszu od lewej",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "1.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2017 zad. 1 (Algorytm Euklidesa)",
+      "tagi": [
+        "NWD-Euklidesa",
+        "sledzenie-iteracyjne"
+      ],
+      "tresc": "Dany jest algorytm Euklidesa:\n\n```\nfunkcja NWD(a, b)\n    dopoki b <> 0:\n        r := a mod b\n        a := b\n        b := r\n    zwroc a\n```\n\n**Polecenie**: Dla kazdej pary (a, b) przesled algorytm, wypelniajac tabele wartosci zmiennych w kazdym kroku petli. Podaj wynik (NWD).\n\n| Lp. | a | b |\n|-----|---|---|\n| a)  | 48 | 18 |\n| b)  | 105 | 42 |\n| c)  | 121 | 33 |",
+      "wskazowki": [
+        "**Kierunek**: W kazdym kroku oblicz reszte z dzielenia a przez b, potem przesun: a←b, b←r.",
+        "**Podejscie**: Kontynuuj az b = 0. Wtedy a to NWD.",
+        "**Kluczowy krok**: Przyklad: 48 mod 18 = 12, potem 18 mod 12 = 6, potem 12 mod 6 = 0 — NWD = 6."
+      ],
+      "odpowiedz": "**a) NWD(48, 18)**\n\n| Krok | a | b | r = a mod b |\n|------|---|---|-------------|\n| 1 | 48 | 18 | 12 |\n| 2 | 18 | 12 | 6 |\n| 3 | 12 | 6 | 0 |\n\nb = 0, NWD = **6**\n\n**b) NWD(105, 42)**\n\n| Krok | a | b | r = a mod b |\n|------|---|---|-------------|\n| 1 | 105 | 42 | 21 |\n| 2 | 42 | 21 | 0 |\n\nb = 0, NWD = **21**\n\n**c) NWD(121, 33)**\n\n| Krok | a | b | r = a mod b |\n|------|---|---|-------------|\n| 1 | 121 | 33 | 22 |\n| 2 | 33 | 22 | 11 |\n| 3 | 22 | 11 | 0 |\n\nb = 0, NWD = **11**",
+      "typowe_bledy": [
+        {
+          "opis": "**Bledna kolejnosc przypisamien a←b, b←r**: Trzeba najpierw obliczyc r, POTEM przypisac a:=b, b:=r",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Zapomnienie, ze wynik to a (nie b) po zakonczeniu petli**: Petla konczy sie gdy b=0, wynik jest w a",
+          "kara": "-0.5 pkt"
+        }
+      ]
+    },
+    {
+      "id": "1.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2023 zad. 1 (sledzenie sortowania)",
+      "tagi": [
+        "sortowanie",
+        "sledzenie-iteracyjne",
+        "tablica-pomocnicza"
+      ],
+      "tresc": "Dany jest algorytm sortowania babelkowego:\n\n```\nfunkcja babelkowe(T, n)\n    // T - tablica o indeksach 0..n-1\n    dla i := 0, 1, ..., n-2:\n        dla j := 0, 1, ..., n-2-i:\n            jezeli T[j] > T[j+1]:\n                zamien(T[j], T[j+1])\n```\n\n**Polecenie**: Przesled algorytm dla tablicy T = [5, 3, 8, 1, 4] (n=5). Podaj:\n- a) Stan tablicy po kazdym pelnym przebiegu petli zewnetrznej (i=0, i=1, ...).\n- b) Laczna liczbe wykonanych zamian (swap).\n- c) Po ktorym przebiegu petli zewnetrznej tablica jest juz posortowana?",
+      "wskazowki": [
+        "**Kierunek**: W kazdym przebiegu petli zewnetrznej najwiekszy nieposortowany element \"wyplywa\" na koniec.",
+        "**Podejscie**: Dla i=0 porownujesz sasiednie pary j=0..3; dla i=1 j=0..2 (ostatni juz na miejscu) itd.",
+        "**Kluczowy krok**: Zapisz stan tablicy po KAZDYM przebiegu i licz zamiany. Sortowanie moze skonczyc sie wczesniej niz n-1 przebiegow."
+      ],
+      "odpowiedz": "Poczatkowo: T = [5, 3, 8, 1, 4]\n\n**Przebieg i=0** (porownania j=0..3):\n- j=0: T[0]=5 > T[1]=3? TAK -> zamien -> [**3**, **5**, 8, 1, 4] (zamiana 1)\n- j=1: T[1]=5 > T[2]=8? NIE\n- j=2: T[2]=8 > T[3]=1? TAK -> zamien -> [3, 5, **1**, **8**, 4] (zamiana 2)\n- j=3: T[3]=8 > T[4]=4? TAK -> zamien -> [3, 5, 1, **4**, **8**] (zamiana 3)\n\nStan po i=0: [3, 5, 1, 4, 8] — element 8 na swoim miejscu.\n\n**Przebieg i=1** (porownania j=0..2):\n- j=0: T[0]=3 > T[1]=5? NIE\n- j=1: T[1]=5 > T[2]=1? TAK -> zamien -> [3, **1**, **5**, 4, 8] (zamiana 4)\n- j=2: T[2]=5 > T[3]=4? TAK -> zamien -> [3, 1, **4**, **5**, 8] (zamiana 5)\n\nStan po i=1: [3, 1, 4, 5, 8] — elementy 5, 8 na swoich miejscach.\n\n**Przebieg i=2** (porownania j=0..1):\n- j=0: T[0]=3 > T[1]=1? TAK -> zamien -> [**1**, **3**, 4, 5, 8] (zamiana 6)\n- j=1: T[1]=3 > T[2]=4? NIE\n\nStan po i=2: [1, 3, 4, 5, 8] — **tablica posortowana!**\n\n**Przebieg i=3** (porownania j=0..0):\n- j=0: T[0]=1 > T[1]=3? NIE\n\nStan po i=3: [1, 3, 4, 5, 8] — bez zmian.\n\n**a)** Stany po przebiegach: [3,5,1,4,8] → [3,1,4,5,8] → [1,3,4,5,8] → [1,3,4,5,8]\n\n**b)** Laczna liczba zamian: **6**\n\n**c)** Tablica jest posortowana po przebiegu **i=2** (trzecim przebiegu).",
+      "typowe_bledy": [
+        {
+          "opis": "**Bledny zakres petli wewnetrznej**: j idzie do n-2-i (nie n-2 ani n-1)",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Zapomnienie o dalszych porownaniach po zamianie**: Po zamianie T[j] i T[j+1] kontynuujemy z j+1",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Mylenie sortowania rosnacego z malejacym**: Warunek T[j]>T[j+1] daje sortowanie rosnace",
+          "kara": "-0.5 pkt"
+        }
+      ]
+    },
+    {
+      "id": "1.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2021 zad. 2 (operacje bitowe)",
+      "tagi": [
+        "operacje-bitowe",
+        "sledzenie-iteracyjne",
+        "mod-div"
+      ],
+      "tresc": "Dana jest funkcja konwertujaca liczbe na zapis binarny i zliczajaca jedynki:\n\n```\nfunkcja policzJedynki(n)\n    licznik := 0\n    bity := \"\"\n    dopoki n > 0:\n        bit := n mod 2\n        bity := bit + bity   // dopisz bit na poczatek napisu\n        jezeli bit = 1:\n            licznik := licznik + 1\n        n := n div 2\n    zwroc (bity, licznik)\n```\n\n**Polecenie**: Przesled algorytm dla kazdej z podanych wartosci n. Podaj:\n- zapis binarny (wartosc zmiennej `bity`),\n- liczbe jedynek (`licznik`).\n\nDla n = 53 wypelnij pelna tabele wartosci zmiennych w kazdym kroku.\n\n| Lp. | n |\n|-----|---|\n| a)  | 53 |\n| b)  | 100 |\n| c)  | 255 |",
+      "wskazowki": [
+        "**Kierunek**: Algorytm dzieli n przez 2 i zbiera reszty — to standardowa konwersja na system binarny.",
+        "**Podejscie**: W kazdym kroku: reszta z dzielenia przez 2 to kolejny bit (od prawej), potem n := n div 2.",
+        "**Kluczowy krok**: Bity zbieramy od konca do poczatku (dlatego `bit + bity`). Jedynki liczymy na biezaco."
+      ],
+      "odpowiedz": "**a) policzJedynki(53)**\n\n| Krok | n (pocz.) | bit = n mod 2 | bity | licznik | n (koniec) |\n|------|-----------|----------------|------|---------|------------|\n| 1 | 53 | 1 | \"1\" | 1 | 26 |\n| 2 | 26 | 0 | \"01\" | 1 | 13 |\n| 3 | 13 | 1 | \"101\" | 2 | 6 |\n| 4 | 6 | 0 | \"0101\" | 2 | 3 |\n| 5 | 3 | 1 | \"10101\" | 3 | 1 |\n| 6 | 1 | 1 | \"110101\" | 4 | 0 |\n\nWynik: bity = **\"110101\"**, licznik = **4**\nSprawdzenie: 32+16+4+1 = 53. Poprawne.\n\n**b) policzJedynki(100)**\n\n100 div 2: 0, 0, 1, 0, 0, 1, 1 (kolejne reszty)\n- 100→50(r=0), 50→25(r=0), 25→12(r=1), 12→6(r=0), 6→3(r=0), 3→1(r=1), 1→0(r=1)\n\nWynik: bity = **\"1100100\"**, licznik = **3**\nSprawdzenie: 64+32+4 = 100. Poprawne.\n\n**c) policzJedynki(255)**\n\n255 = 2^8 - 1, wiec w zapisie binarnym to osiem jedynek.\n- 255→127(r=1), 127→63(r=1), 63→31(r=1), 31→15(r=1), 15→7(r=1), 7→3(r=1), 3→1(r=1), 1→0(r=1)\n\nWynik: bity = **\"11111111\"**, licznik = **8**",
+      "typowe_bledy": [
+        {
+          "opis": "**Odwrocona kolejnosc bitow**: Algorytm generuje bity od LSB do MSB, ale sklada je w poprawnej kolejnosci (bit + bity). Jesli zapisujesz bity w odwrotnej kolejnosci, wynik bedzie bledny",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Blad przy n=0**: Algorytm nie obsluguje n=0 (petla sie nie wykona). Na maturze CKE nie sprawdza tego przypadku.",
+          "kara": ""
+        },
+        {
+          "opis": "**Pomylka div i mod**: n mod 2 to reszta (0 lub 1), n div 2 to czesc calkowita",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "1.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "zrodlo": "Matura 2018 zad. 1 (stos/odwrotna notacja polska)",
+      "tagi": [
+        "stos",
+        "sledzenie-iteracyjne",
+        "tablica-pomocnicza"
+      ],
+      "tresc": "Dany jest algorytm obliczajacy wartosc wyrazenia w odwrotnej notacji polskiej (ONP) z uzyciem stosu:\n\n```\nfunkcja obliczONP(wyrazenie)\n    // wyrazenie to tablica tokenow (liczb i operatorow)\n    stos := pusty stos\n    dla kazdego tokenu t w wyrazeniu:\n        jezeli t jest liczba:\n            poloz(stos, t)\n        w przeciwnym razie:  // t jest operatorem (+, -, *, /)\n            b := zdejmij(stos)\n            a := zdejmij(stos)\n            wynik := a (operator t) b\n            poloz(stos, wynik)\n    zwroc zdejmij(stos)\n```\n\n**Polecenie**: Przesled algorytm dla wyrazenia ONP: `3 4 2 * + 7 1 - /`\n\nPodaj:\n- a) Stan stosu po przetworzeniu kazdego tokenu.\n- b) Wynik koncowy.\n- c) Zapisz to wyrazenie w notacji infiksowej (standardowej, ze nawiasami).",
+      "wskazowki": [
+        "**Kierunek**: Liczby kladziemy na stos. Operator zdejmuje dwa elementy (uwaga na kolejnosc: a to glabszy, b to wierzcholek), oblicza wynik i kladzie go z powrotem.",
+        "**Podejscie**: Przerob token po tokenie, rysujac stan stosu po kazdym kroku.",
+        "**Kluczowy krok**: Przy dzieleniu i odejmowaniu kolejnosc ma znaczenie: a-b i a/b, gdzie a zdejmujemy drugie, b pierwsze."
+      ],
+      "odpowiedz": "Wyrazenie: `3 4 2 * + 7 1 - /`\n\n| Token | Operacja | Stos (dol → gora) |\n|-------|----------|-------------------|\n| 3 | poloz 3 | [3] |\n| 4 | poloz 4 | [3, 4] |\n| 2 | poloz 2 | [3, 4, 2] |\n| * | b=2, a=4; 4*2=8; poloz 8 | [3, 8] |\n| + | b=8, a=3; 3+8=11; poloz 11 | [11] |\n| 7 | poloz 7 | [11, 7] |\n| 1 | poloz 1 | [11, 7, 1] |\n| - | b=1, a=7; 7-1=6; poloz 6 | [11, 6] |\n| / | b=6, a=11; 11/6=1 (dzielenie calkowite); poloz 1 | [1] |\n\n**a)** Stany stosu — jak w tabeli powyzej.\n\n**b)** Wynik koncowy: **1** (przy dzieleniu calkowitym) lub **11/6 ≈ 1.83** (przy dzieleniu rzeczywistym).\n\n**c)** Notacja infiksowa: **(3 + 4 * 2) / (7 - 1)**\n\nWeryfikacja: (3 + 8) / 6 = 11 / 6 = 1 (calkowite) lub ~1.83 (rzeczywiste).",
+      "typowe_bledy": [
+        {
+          "opis": "**Odwrocona kolejnosc operandow**: Przy `-` i `/` kolejnosc ma znaczenie! Najpierw zdejmujemy b (wierzcholek), potem a (glabszy). Obliczamy a op b, nie b op a",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak informacji o typie dzielenia**: Na maturze CKE wymaga zaznaczenia czy dzielenie calkowite czy rzeczywiste",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**Bledne odczytanie ONP**: Tokeny czytamy od lewej do prawej, nie od prawej",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "1.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2015 zad. 1 (listy, sledzenie zlozonych algorytmow)",
+      "tagi": [
+        "rekurencja",
+        "drzewo-wywolan",
+        "tablica-pomocnicza",
+        "sledzenie-iteracyjne"
+      ],
+      "tresc": "Dana jest funkcja rekurencyjna operujaca na tablicy:\n\n```\nfunkcja tajemnicza(T, lewy, prawy)\n    jezeli lewy >= prawy:\n        zwroc T[lewy]\n    srodek := (lewy + prawy) div 2\n    L := tajemnicza(T, lewy, srodek)\n    P := tajemnicza(T, srodek + 1, prawy)\n    jezeli L > P:\n        zwroc L\n    w przeciwnym razie:\n        zwroc P\n```\n\n**Polecenie**: Dla tablicy T = [3, 7, 2, 9, 1, 5, 8, 4] (indeksy 0..7):\n- a) Narysuj pelne drzewo wywolan `tajemnicza(T, 0, 7)`. Przy kazdym wezle zapisz zakres [lewy, prawy] i wartosc zwracana.\n- b) Podaj calkowita liczbe wywolan funkcji.\n- c) Jaki problem rozwiazuje ta funkcja? Co zwroci dla dowolnej tablicy?",
+      "wskazowki": [
+        "**Kierunek**: Funkcja dzieli tablice na polowy (lewy..srodek i srodek+1..prawy) i laczy wyniki. To schemat \"dziel i zwyciezaj\".",
+        "**Podejscie**: Zacznij od tajemnicza(T, 0, 7), srodek = 3. Lewa galaz: tajemnicza(T, 0, 3), prawa: tajemnicza(T, 4, 7). Kazda dalej sie dzieli.",
+        "**Kluczowy krok**: Warunek bazowy to lewy >= prawy (jednoelementowy zakres — zwroc T[lewy]). Operacja laczenia to `max(L, P)`."
+      ],
+      "odpowiedz": "T = [3, 7, 2, 9, 1, 5, 8, 4]\n\n**a) Drzewo wywolan:**\n\n```\ntajemnicza(0,7) srodek=3\n├── tajemnicza(0,3) srodek=1\n│   ├── tajemnicza(0,1) srodek=0\n│   │   ├── tajemnicza(0,0) -> T[0]=3\n│   │   └── tajemnicza(1,1) -> T[1]=7\n│   │   => max(3,7) = 7\n│   └── tajemnicza(2,3) srodek=2\n│       ├── tajemnicza(2,2) -> T[2]=2\n│       └── tajemnicza(3,3) -> T[3]=9\n│       => max(2,9) = 9\n│   => max(7,9) = 9\n└── tajemnicza(4,7) srodek=5\n    ├── tajemnicza(4,5) srodek=4\n    │   ├── tajemnicza(4,4) -> T[4]=1\n    │   └── tajemnicza(5,5) -> T[5]=5\n    │   => max(1,5) = 5\n    └── tajemnicza(6,7) srodek=6\n        ├── tajemnicza(6,6) -> T[6]=8\n        └── tajemnicza(7,7) -> T[7]=4\n        => max(8,4) = 8\n    => max(5,8) = 8\n=> max(9,8) = 9\n```\n\n**b) Calkowita liczba wywolan:**\n\n- Poziom 0: 1 wywolanie (0,7)\n- Poziom 1: 2 wywolania (0,3), (4,7)\n- Poziom 2: 4 wywolania (0,1), (2,3), (4,5), (6,7)\n- Poziom 3: 8 wywolan (bazowe) (0,0), (1,1), (2,2), (3,3), (4,4), (5,5), (6,6), (7,7)\n\nRazem: 1 + 2 + 4 + 8 = **15 wywolan**\n\n**c)** Funkcja znajduje **maksymalny element** tablicy metoda dziel i zwyciezaj. Dla dowolnej tablicy zwroci jej element najwiekszy.\n\nWeryfikacja: max(3, 7, 2, 9, 1, 5, 8, 4) = 9. Poprawne.",
+      "typowe_bledy": [
+        {
+          "opis": "**Bledny obliczenie srodka**: srodek = (lewy+prawy) div 2, nie (lewy+prawy)/2. Dla (0+7) div 2 = 3, nie 3.5",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Pomylenie zakresu prawej polowy**: Prawa polowa to [srodek+1, prawy], nie [srodek, prawy] (co daloby nieskonczona rekurencje)",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Niedokonczone drzewo**: Kazda galaz musi dojsc do warunku bazowego lewy>=prawy",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Pomylenie max i min**: Warunek `L > P` oznacza, ze zwracamy wieksza wartosc (maximum)",
+          "kara": "-1 pkt"
+        }
+      ]
+    }
+  ]
+}

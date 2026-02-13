@@ -1,0 +1,357 @@
+{
+  "typ": "09_zlozone",
+  "nazwa": "Przetwarzanie zlozone (wieloetapowe)",
+  "kategoria": "IMPLEMENTACJA",
+  "czestotliwosc": "4/11 lat",
+  "punkty_lacznie": 24,
+  "tagi_globalne": [
+    "map-zliczanie",
+    "grupowanie",
+    "wiele-plikow",
+    "JOIN-tabel",
+    "vector-par",
+    "sortowanie",
+    "wieloetapowe",
+    "struct",
+    "iomanip",
+    "trojne-petle"
+  ],
+  "cwiczenia": [
+    {
+      "id": "9.1",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "zrodlo": "Matura 2021 zad. 4",
+      "tagi": [
+        "map-zliczanie",
+        "grupowanie",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `osoby.txt` znajduje sie 12 rekordow w formacie: imie miasto (oddzielone spacja, kazdy rekord w osobnym wierszu). Napisz program, ktory:\na) Wypisze ile osob pochodzi z kazdego miasta.\nb) Poda miasto, z ktorego pochodzi najwiecej osob.\n\n**Dane** (`osoby.txt`):\n```\nAnna Krakow\nJan Warszawa\nEwa Krakow\nPiotr Gdansk\nMaria Warszawa\nTomek Krakow\nKasia Gdansk\nAdam Warszawa\nOla Krakow\nMarek Poznan\nZofia Warszawa\nPawel Gdansk\n```\n\n**Oczekiwany wynik**:\n```\na) Liczba osob z kazdego miasta:\n   Gdansk: 3\n   Krakow: 4\n   Poznan: 1\n   Warszawa: 4\n\nb) Miasto z najwieksza liczba osob: Krakow (4)\n```",
+      "wskazowki": [
+        "**Kierunek**: Uzyj `map<string, int>` do zliczania wystapien kazdego miasta.",
+        "**Podejscie**: Wczytuj pary (imie, miasto), inkrementuj `mapa[miasto]++`.",
+        "**Kluczowy krok**: `map` automatycznie sortuje klucze alfabetycznie. Iteruj po mapie szukajac max."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"osoby.txt\");\n    string imie, miasto;\n    map<string, int> zlicz;\n\n    while (plik >> imie >> miasto) {\n        zlicz[miasto]++;\n    }\n\n    cout << \"a) Liczba osob z kazdego miasta:\" << endl;\n    string maxMiasto;\n    int maxIle = 0;\n    for (auto &p : zlicz) {\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n        if (p.second > maxIle) {\n            maxIle = p.second;\n            maxMiasto = p.first;\n        }\n    }\n\n    cout << endl << \"b) Miasto z najwieksza liczba osob: \"\n         << maxMiasto << \" (\" << maxIle << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Uzywamy `map<string, int>` do zliczania wystapien kazdego miasta. Mapa automatycznie sortuje klucze alfabetycznie. Nastepnie szukamy miasta o maksymalnej wartosci.\n\nWeryfikacja:\n- Krakow: Anna, Ewa, Tomek, Ola = 4\n- Warszawa: Jan, Maria, Adam, Zofia = 4\n- Gdansk: Piotr, Kasia, Pawel = 3\n- Poznan: Marek = 1\n\nUwaga: Krakow i Warszawa maja po 4 osoby. Map iteruje alfabetycznie, wiec Krakow zostanie znaleziony jako pierwszy z maxIle=4.",
+      "typowe_bledy": [
+        {
+          "opis": "**Uzycie `unordered_map` gdy wymagane sortowanie**: `unordered_map` nie gwarantuje kolejnosci kluczy",
+          "kara": "-1 pkt jesli wymaga alfabetycznej"
+        },
+        {
+          "opis": "**Zapomnienie o inicjalizacji mapy**: `map[klucz]++` automatycznie tworzy wpis z wartoscia 0 i inkrementuje. OK.",
+          "kara": ""
+        },
+        {
+          "opis": "**Porownanie stringow z `==` przy szukaniu max**: To poprawne — `==` na stringach dziala w C++",
+          "kara": "-0 pkt"
+        }
+      ]
+    },
+    {
+      "id": "9.2",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "zrodlo": "Matura 2022 zad. 4",
+      "tagi": [
+        "map-zliczanie",
+        "grupowanie",
+        "iomanip",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `produkty.txt` znajduje sie 10 rekordow w formacie: nazwa kategoria cena (oddzielone spacja). Napisz program, ktory:\na) Obliczy srednia cene w kazdej kategorii.\nb) Znajdzie najdrozszy produkt w kazdej kategorii.\n\n**Dane** (`produkty.txt`):\n```\nChleb Pieczywo 5\nBulka Pieczywo 2\nMleko Nabialy 4\nSer Nabialy 12\nJogurt Nabialy 3\nJablko Owoce 3\nBanan Owoce 6\nMaslo Nabialy 8\nBagietka Pieczywo 4\nGruszka Owoce 4\n```\n\n**Oczekiwany wynik**:\n```\na) Srednia cena w kazdej kategorii:\n   Nabialy: 6.75\n   Owoce: 4.33\n   Pieczywo: 3.67\n\nb) Najdrozszy produkt w kazdej kategorii:\n   Nabialy: Ser (12)\n   Owoce: Banan (6)\n   Pieczywo: Chleb (5)\n```",
+      "wskazowki": [
+        "**Kierunek**: Grupuj ceny i nazwy wg kategorii uzywajac `map`.",
+        "**Podejscie**: `map<string, vector<int>>` dla cen, `map<string, pair<string,int>>` dla max.",
+        "**Kluczowy krok**: Srednia = suma / ilosc. Uzywaj `fixed << setprecision(2)` do formatowania."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"produkty.txt\");\n    string nazwa, kategoria;\n    int cena;\n\n    map<string, vector<int>> cenywKat;\n    map<string, pair<string, int>> maxwKat;\n\n    while (plik >> nazwa >> kategoria >> cena) {\n        cenywKat[kategoria].push_back(cena);\n        if (maxwKat.find(kategoria) == maxwKat.end() || cena > maxwKat[kategoria].second) {\n            maxwKat[kategoria] = {nazwa, cena};\n        }\n    }\n\n    cout << \"a) Srednia cena w kazdej kategorii:\" << endl;\n    cout << fixed << setprecision(2);\n    for (auto &p : cenywKat) {\n        double suma = 0;\n        for (int c : p.second) suma += c;\n        cout << \"   \" << p.first << \": \" << suma / p.second.size() << endl;\n    }\n\n    cout << endl << \"b) Najdrozszy produkt w kazdej kategorii:\" << endl;\n    for (auto &p : maxwKat) {\n        cout << \"   \" << p.first << \": \" << p.second.first\n             << \" (\" << p.second.second << \")\" << endl;\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: Grupujemy ceny i produkty wg kategorii uzywajac `map`. Dla sredniej sumujemy ceny w kazdej grupie i dzielimy przez liczbe produktow. Dla max sledzony jest najdrozszy produkt w kazdej kategorii.\n\nWeryfikacja:\n- Nabialy: Mleko(4), Ser(12), Jogurt(3), Maslo(8) -> suma=27, srednia=27/4=6.75, max=Ser(12)\n- Owoce: Jablko(3), Banan(6), Gruszka(4) -> suma=13, srednia=13/3=4.33, max=Banan(6)\n- Pieczywo: Chleb(5), Bulka(2), Bagietka(4) -> suma=11, srednia=11/3=3.67, max=Chleb(5)",
+      "typowe_bledy": [
+        {
+          "opis": "**Dzielenie calkowite zamiast zmiennoprzecinkowego**: `27/4 = 6` zamiast 6.75. Rzutuj na double: `suma / (double)rozmiar`",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak `setprecision`**: Domyslne formatowanie double moze dac zbyt wiele miejsc po przecinku",
+          "kara": "-0 pkt (ale nieczytelne)"
+        },
+        {
+          "opis": "**Uzycie `map[kat]` bez sprawdzenia czy istnieje**: Przy `maxwKat[kat].second` jesli wpis nie istnieje, tworzy domyslny (pusty string, 0)",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "9.3",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2025 zad. 7 (laczenie tabel)",
+      "tagi": [
+        "wiele-plikow",
+        "JOIN-tabel",
+        "map-zliczanie",
+        "iomanip"
+      ],
+      "tresc": "Dane sa dwie tabele. Tabela A (`uczniowie.txt`) zawiera 6 rekordow w formacie: id imie. Tabela B (`wyniki.txt`) zawiera 10 rekordow w formacie: id punkty. Napisz program, ktory:\na) Dopisze wyniki do uczniow (JOIN po id) i wypisze je.\nb) Obliczy sredni wynik dla kazdego ucznia.\nc) Znajdzie uczniow, ktorzy nie maja zadnego wyniku.\n\n**Dane** (`uczniowie.txt`):\n```\n1 Anna\n2 Jan\n3 Ewa\n4 Piotr\n5 Maria\n6 Tomek\n```\n\n**Dane** (`wyniki.txt`):\n```\n1 85\n2 72\n1 90\n3 68\n2 88\n4 95\n1 78\n3 74\n4 82\n2 65\n```\n\n**Oczekiwany wynik**:\n```\na) Wyniki uczniow:\n   Anna: 85 90 78\n   Jan: 72 88 65\n   Ewa: 68 74\n   Piotr: 95 82\n\nb) Srednie wyniki:\n   Anna: 84.33\n   Jan: 75.00\n   Ewa: 71.00\n   Piotr: 88.50\n\nc) Uczniowie bez wynikow:\n   Maria (id=5)\n   Tomek (id=6)\n```",
+      "wskazowki": [
+        "**Kierunek**: Wczytaj obie tabele do osobnych map. Polacz po kluczu `id`.",
+        "**Podejscie**: `map<int, string>` dla uczniow, `map<int, vector<int>>` dla wynikow. JOIN = iteracja po uczniach i sprawdzenie wynikow.",
+        "**Kluczowy krok**: Uczniowie bez wynikow to ci, ktorych id nie ma w mapie wynikow — uzyj `count()`."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream f1(\"uczniowie.txt\"), f2(\"wyniki.txt\");\n    map<int, string> uczniowie;\n    map<int, vector<int>> wyniki;\n\n    int id; string imie;\n    while (f1 >> id >> imie) {\n        uczniowie[id] = imie;\n    }\n    int pkt;\n    while (f2 >> id >> pkt) {\n        wyniki[id].push_back(pkt);\n    }\n\n    cout << \"a) Wyniki uczniow:\" << endl;\n    for (auto &u : uczniowie) {\n        if (wyniki.count(u.first)) {\n            cout << \"   \" << u.second << \": \";\n            for (int p : wyniki[u.first]) cout << p << \" \";\n            cout << endl;\n        }\n    }\n\n    cout << endl << \"b) Srednie wyniki:\" << endl;\n    cout << fixed << setprecision(2);\n    for (auto &u : uczniowie) {\n        if (wyniki.count(u.first)) {\n            double suma = 0;\n            for (int p : wyniki[u.first]) suma += p;\n            cout << \"   \" << u.second << \": \"\n                 << suma / wyniki[u.first].size() << endl;\n        }\n    }\n\n    cout << endl << \"c) Uczniowie bez wynikow:\" << endl;\n    for (auto &u : uczniowie) {\n        if (!wyniki.count(u.first)) {\n            cout << \"   \" << u.second << \" (id=\" << u.first << \")\" << endl;\n        }\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: Wczytujemy obie tabele do osobnych map: uczniowie (id->imie), wyniki (id->lista punktow). JOIN realizujemy przegladajac uczniow i szukajac ich wynikow po id. Uczniowie bez wynikow to ci, ktorych id nie wystepuje w mapie wynikow.\n\nWeryfikacja:\n- Anna (id=1): 85, 90, 78 -> srednia = 253/3 = 84.33\n- Jan (id=2): 72, 88, 65 -> srednia = 225/3 = 75.00\n- Ewa (id=3): 68, 74 -> srednia = 142/2 = 71.00\n- Piotr (id=4): 95, 82 -> srednia = 177/2 = 88.50\n- Maria (id=5): brak wynikow\n- Tomek (id=6): brak wynikow",
+      "typowe_bledy": [
+        {
+          "opis": "**Otwarcie obu plikow tym samym obiektem ifstream**: Trzeba osobne obiekty `ifstream f1, f2` lub zamknac i otworzyc ponownie",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Zakladanie ze wyniki sa w kolejnosci id**: Nie sa — id 1 pojawia sie w wierszach 1, 3, 7",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak sprawdzenia `wyniki.count(id)`**: Proba dostepu do wynikow nieistniejacego ucznia tworzy pusty wpis w mapie",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "9.4",
+      "trudnosc": "srednie",
+      "punkty": 5,
+      "zrodlo": "Matura 2022 zad. 4.3 (trojki dzielnikowe)",
+      "tagi": [
+        "trojne-petle",
+        "wieloetapowe",
+        "wczytywanie-pliku"
+      ],
+      "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory znajdzie wszystkie trojki indeksow (i, j, k) takie, ze i < j < k oraz T[k] dzieli sie przez T[i] i T[k] dzieli sie przez T[j] (indeksy numerowane od 1). Podaj liczbe takich trojek i wypisz pierwsze 5.\n\n**Dane** (`dane.txt`):\n```\n2\n3\n4\n6\n5\n12\n8\n9\n24\n10\n36\n15\n18\n7\n48\n```\n\n**Oczekiwany wynik**:\n```\nTrojki (i,j,k) gdzie T[k] % T[i] == 0 i T[k] % T[j] == 0:\n(1,2,4): T[1]=2, T[2]=3, T[4]=6 (6%2=0, 6%3=0)\n(1,2,6): T[1]=2, T[2]=3, T[6]=12 (12%2=0, 12%3=0)\n(1,3,6): T[1]=2, T[3]=4, T[6]=12 (12%2=0, 12%4=0)\n(1,2,9): T[1]=2, T[2]=3, T[9]=24 (24%2=0, 24%3=0)\n(1,3,9): T[1]=2, T[3]=4, T[9]=24 (24%2=0, 24%4=0)\n...\nLaczna liczba trojek: 93\n```",
+      "wskazowki": [
+        "**Kierunek**: Potrojna petla po indeksach i < j < k.",
+        "**Podejscie**: Dla kazdej trojki sprawdz dwa warunki podzielnosci: `T[k] % T[i] == 0` i `T[k] % T[j] == 0`.",
+        "**Kluczowy krok**: Zlozonosc O(n^3) — dla n=15 to 455 trojek do sprawdzenia. Wypisz tylko 5 pierwszych."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    cout << \"Trojki (i,j,k) gdzie T[k] % T[i] == 0 i T[k] % T[j] == 0:\" << endl;\n    int ile = 0;\n    for (int i = 0; i < n; i++) {\n        for (int j = i + 1; j < n; j++) {\n            for (int k = j + 1; k < n; k++) {\n                if (T[k] % T[i] == 0 && T[k] % T[j] == 0) {\n                    ile++;\n                    if (ile <= 5) {\n                        cout << \"(\" << i+1 << \",\" << j+1 << \",\" << k+1 << \"): \"\n                             << \"T[\" << i+1 << \"]=\" << T[i] << \", \"\n                             << \"T[\" << j+1 << \"]=\" << T[j] << \", \"\n                             << \"T[\" << k+1 << \"]=\" << T[k]\n                             << \" (\" << T[k] << \"%\" << T[i] << \"=0, \"\n                             << T[k] << \"%\" << T[j] << \"=0)\" << endl;\n                    }\n                }\n            }\n        }\n    }\n    cout << \"...\" << endl;\n    cout << \"Laczna liczba trojek: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Potrojna petla O(n^3) przegladajaca wszystkie trojki indeksow i<j<k. Dla kazdej trojki sprawdzamy dwa warunki podzielnosci. Wypisujemy pierwsze 5 trojek i laczna liczbe.\n\nWeryfikacja pierwszych trojek:\n- (1,2,4): T={2,3,6}: 6%2=0, 6%3=0 -> TAK\n- (1,2,6): T={2,3,12}: 12%2=0, 12%3=0 -> TAK\n- (1,3,6): T={2,4,12}: 12%2=0, 12%4=0 -> TAK\n- (1,2,9): T={2,3,24}: 24%2=0, 24%3=0 -> TAK\n- (1,3,9): T={2,4,24}: 24%2=0, 24%4=0 -> TAK",
+      "typowe_bledy": [
+        {
+          "opis": "**Indeksowanie od 1 w kodzie**: Tablice w C++ sa 0-indeksowane. `T[i]` zamiast `T[i-1]`",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak warunku `i < j < k`**: Petla `for(j = 0; ...)` zamiast `for(j = i+1; ...)` liczy te same trojki wielokrotnie",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Dzielenie przez zero**: Jesli T[i] = 0, `T[k] % T[i]` powoduje blad. Tu dane sa dodatnie, ale warto sprawdzic",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "9.5",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "zrodlo": "Matura 2025 zad. 7 (przetwarzanie wieloplikowe)",
+      "tagi": [
+        "wiele-plikow",
+        "JOIN-tabel",
+        "map-zliczanie",
+        "grupowanie",
+        "iomanip"
+      ],
+      "tresc": "Dane sa 3 tabele (podane inline w kodzie lub w osobnych plikach):\n\n**Tabela `uczestnicy.txt`** (id imie):\n```\n1 Anna\n2 Jan\n3 Ewa\n4 Piotr\n5 Maria\n```\n\n**Tabela `kursy.txt`** (id nazwa):\n```\n101 Matematyka\n102 Fizyka\n103 Informatyka\n```\n\n**Tabela `zapisy.txt`** (ucz_id kurs_id ocena):\n```\n1 101 4\n1 102 5\n1 103 4\n2 101 3\n2 103 5\n3 101 5\n3 102 4\n3 103 5\n4 102 3\n5 101 4\n5 102 5\n5 103 3\n```\n\nNapisz program, ktory:\na) Obliczy srednia ocene kazdego uczestnika.\nb) Znajdzie kurs z najwyzsza srednia ocena.\nc) Wypisze uczestnikow zapisanych na wszystkie 3 kursy.\n\n**Oczekiwany wynik**:\n```\na) Srednia ocena kazdego uczestnika:\n   Anna: 4.33\n   Jan: 4.00\n   Ewa: 4.67\n   Piotr: 3.00\n   Maria: 4.00\n\nb) Kurs z najwyzsza srednia ocena:\n   Fizyka (srednia: 4.25)\n\nc) Uczestnicy zapisani na wszystkie 3 kursy:\n   Anna (kursy: 3)\n   Ewa (kursy: 3)\n   Maria (kursy: 3)\n```",
+      "wskazowki": [
+        "**Kierunek**: Trzy mapy: uczniowie, kursy, zapisy. Polacz je po kluczach id.",
+        "**Podejscie**: Agreguj oceny wg uczestnika (srednia) i wg kursu (srednia). Zlicz kursy kazdego uczestnika za pomoca `set`.",
+        "**Kluczowy krok**: Uczestnik na wszystkich kursach = `kursyUcz[id].size() == liczbaKursow`."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <set>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream f1(\"uczestnicy.txt\");\n    map<int, string> uczestnicy;\n    int id; string imie;\n    while (f1 >> id >> imie) uczestnicy[id] = imie;\n\n    ifstream f2(\"kursy.txt\");\n    map<int, string> kursy;\n    string nazwa;\n    while (f2 >> id >> nazwa) kursy[id] = nazwa;\n\n    int liczbaKursow = kursy.size();\n\n    ifstream f3(\"zapisy.txt\");\n    map<int, vector<int>> ocenyUcz;\n    map<int, vector<int>> ocenyKurs;\n    map<int, set<int>> kursyUcz;\n    int uid, kid, ocena;\n    while (f3 >> uid >> kid >> ocena) {\n        ocenyUcz[uid].push_back(ocena);\n        ocenyKurs[kid].push_back(ocena);\n        kursyUcz[uid].insert(kid);\n    }\n\n    cout << \"a) Srednia ocena kazdego uczestnika:\" << endl;\n    cout << fixed << setprecision(2);\n    for (auto &u : uczestnicy) {\n        double suma = 0;\n        for (int o : ocenyUcz[u.first]) suma += o;\n        cout << \"   \" << u.second << \": \"\n             << suma / ocenyUcz[u.first].size() << endl;\n    }\n\n    cout << endl << \"b) Kurs z najwyzsza srednia ocena:\" << endl;\n    double maxSr = 0;\n    string maxKurs;\n    for (auto &k : kursy) {\n        double suma = 0;\n        for (int o : ocenyKurs[k.first]) suma += o;\n        double sr = suma / ocenyKurs[k.first].size();\n        if (sr > maxSr) { maxSr = sr; maxKurs = k.second; }\n    }\n    cout << \"   \" << maxKurs << \" (srednia: \" << maxSr << \")\" << endl;\n\n    cout << endl << \"c) Uczestnicy zapisani na wszystkie \" << liczbaKursow << \" kursy:\" << endl;\n    for (auto &u : uczestnicy) {\n        if ((int)kursyUcz[u.first].size() == liczbaKursow) {\n            cout << \"   \" << u.second << \" (kursy: \" << kursyUcz[u.first].size() << \")\" << endl;\n        }\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: Trzy tabele laczony sa przez klucze id. Uzywamy map do przechowywania danych i grupowania ocen wg uczestnika i kursu. Zbior kursow kazdego uczestnika pozwala sprawdzic, kto jest zapisany na wszystkie.\n\nWeryfikacja:\na) Srednie:\n- Anna (id=1): 4+5+4=13, 13/3=4.33\n- Jan (id=2): 3+5=8, 8/2=4.00\n- Ewa (id=3): 5+4+5=14, 14/3=4.67\n- Piotr (id=4): 3, 3/1=3.00\n- Maria (id=5): 4+5+3=12, 12/3=4.00\n\nb) Srednie kursow:\n- Matematyka (101): Anna(4)+Jan(3)+Ewa(5)+Maria(4)=16, 16/4=4.00\n- Fizyka (102): Anna(5)+Ewa(4)+Piotr(3)+Maria(5)=17, 17/4=4.25\n- Informatyka (103): Anna(4)+Jan(5)+Ewa(5)+Maria(3)=17, 17/4=4.25\nFizyka i Informatyka maja ta sama srednia 4.25. Fizyka zostanie znaleziona jako pierwsza.\n\nc) Uczestnicy na wszystkich 3 kursach:\n- Anna: {101,102,103} -> 3 kursy -> TAK\n- Jan: {101,103} -> 2 kursy -> NIE\n- Ewa: {101,102,103} -> 3 kursy -> TAK\n- Piotr: {102} -> 1 kurs -> NIE\n- Maria: {101,102,103} -> 3 kursy -> TAK",
+      "typowe_bledy": [
+        {
+          "opis": "**Pomieszanie kluczy ucz_id i kurs_id**: Oba to int, latwo pomylic ktory jest ktory",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak `set` do sledzenia unikalnych kursow**: Uzywajac `vector` zamiast `set`, ten sam kurs moze byc policzony wielokrotnie",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Zapomnienie o zamknieciu plikow**: `ifstream` zamyka plik automatycznie w destruktorze. Nie jest bledem, ale dobra praktyka.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "9.6",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "zrodlo": "Matura 2023 zad. 5 (sortowanie rekordow)",
+      "tagi": [
+        "struct",
+        "sortowanie",
+        "wczytywanie-pliku",
+        "grupowanie"
+      ],
+      "tresc": "W pliku `wyniki.txt` znajduje sie 10 rekordow w formacie: imie punkty (oddzielone spacja). Napisz program, ktory:\na) Wypisze rekordy posortowane malejaco wg punktow.\nb) Wypisze rekordy posortowane rosnaco wg imienia (alfabetycznie).\nc) Poda srednia punktow i ile osob ma wynik powyzej sredniej.\n\n**Dane** (`wyniki.txt`):\n```\nAnna 85\nJan 72\nEwa 90\nPiotr 65\nMaria 88\nTomek 70\nKasia 95\nAdam 78\nOla 82\nMarek 60\n```\n\n**Oczekiwany wynik**:\n```\na) Wg punktow (malejaco):\n   Kasia: 95\n   Ewa: 90\n   Maria: 88\n   Anna: 85\n   Ola: 82\n   Adam: 78\n   Jan: 72\n   Tomek: 70\n   Piotr: 65\n   Marek: 60\n\nb) Wg imienia (rosnaco):\n   Adam: 78\n   Anna: 85\n   Ewa: 90\n   Jan: 72\n   Kasia: 95\n   Maria: 88\n   Marek: 60\n   Ola: 82\n   Piotr: 65\n   Tomek: 70\n\nc) Srednia: 78.50, powyzej sredniej: 5\n```",
+      "wskazowki": [
+        "**Kierunek**: Wczytaj dane do `vector<pair<string, int>>` lub `vector<struct>`.",
+        "**Podejscie**: `sort` z custom komparatorem: (a) `[](auto &a, auto &b) { return a.second > b.second; }`, (b) `a.first < b.first`.",
+        "**Kluczowy krok**: Pamietaj ze `sort` modyfikuje wektor — zrob kopie przed drugim sortowaniem lub sortuj dwa razy."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"wyniki.txt\");\n    vector<pair<string, int>> dane;\n    string imie; int pkt;\n    while (plik >> imie >> pkt) dane.push_back({imie, pkt});\n\n    // a) Malejaco wg punktow\n    auto kopia = dane;\n    sort(kopia.begin(), kopia.end(), [](auto &a, auto &b) {\n        return a.second > b.second;\n    });\n    cout << \"a) Wg punktow (malejaco):\" << endl;\n    for (auto &p : kopia)\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n\n    // b) Rosnaco wg imienia\n    sort(kopia.begin(), kopia.end(), [](auto &a, auto &b) {\n        return a.first < b.first;\n    });\n    cout << endl << \"b) Wg imienia (rosnaco):\" << endl;\n    for (auto &p : kopia)\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n\n    // c) Srednia\n    double suma = 0;\n    for (auto &p : dane) suma += p.second;\n    double sr = suma / dane.size();\n    int powyzej = 0;\n    for (auto &p : dane) if (p.second > sr) powyzej++;\n    cout << endl << \"c) Srednia: \" << fixed << setprecision(2) << sr\n         << \", powyzej sredniej: \" << powyzej << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Suma: 85+72+90+65+88+70+95+78+82+60 = 785, srednia = 78.50\n- Powyzej 78.50: Kasia(95), Ewa(90), Maria(88), Anna(85), Ola(82) = 5",
+      "typowe_bledy": [
+        {
+          "opis": "**Sortowanie malejace z `<` zamiast `>`**: Daje rosnace zamiast malejacego",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Zapomnienie o kopii wektora**: `sort` modyfikuje in-place. Bez kopii drugie sortowanie traci oryginalna kolejnosc",
+          "kara": "-0 pkt (jesli nie potrzeba)"
+        },
+        {
+          "opis": "**Porownanie `>=` zamiast `>` przy sredniej**: \"Powyzej sredniej\" to scisle wieksze",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "9.7",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2024 zad. 5 (macierz + statystyki)",
+      "tagi": [
+        "wieloetapowe",
+        "grupowanie",
+        "struct",
+        "sortowanie"
+      ],
+      "tresc": "W pliku `oceny.txt` znajduje sie 8 rekordow w formacie: imie przedmiot ocena. Uczen moze miec kilka ocen z roznych przedmiotow. Napisz program, ktory:\na) Dla kazdego ucznia wypisze wszystkie przedmioty i oceny.\nb) Wypisze uczniow posortowanych wg sredniej oceny (malejaco).\nc) Znajdzie przedmiot z najwyzsza srednia ocen.\n\n**Dane** (`oceny.txt`):\n```\nAnna Matematyka 5\nAnna Fizyka 4\nJan Matematyka 3\nJan Informatyka 5\nEwa Matematyka 4\nEwa Fizyka 5\nEwa Informatyka 5\nJan Fizyka 2\n```\n\n**Oczekiwany wynik**:\n```\na) Oceny uczniow:\n   Anna: Matematyka(5), Fizyka(4) -> srednia: 4.50\n   Ewa: Matematyka(4), Fizyka(5), Informatyka(5) -> srednia: 4.67\n   Jan: Matematyka(3), Informatyka(5), Fizyka(2) -> srednia: 3.33\n\nb) Ranking wg sredniej:\n   1. Ewa (4.67)\n   2. Anna (4.50)\n   3. Jan (3.33)\n\nc) Przedmiot z najwyzsza srednia:\n   Informatyka (srednia: 5.00)\n```",
+      "wskazowki": [
+        "**Kierunek**: Grupuj po uczniu i po przedmiocie osobno.",
+        "**Podejscie**: `map<string, vector<pair<string,int>>>` dla uczniow (imie -> lista (przedmiot, ocena)).",
+        "**Kluczowy krok**: Aby posortowac uczniow wg sredniej, przenies dane do wektora par (srednia, imie) i posortuj malejaco."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"oceny.txt\");\n    string imie, przedmiot;\n    int ocena;\n    map<string, vector<pair<string,int>>> uczniowie;\n    map<string, vector<int>> przedmioty;\n\n    while (plik >> imie >> przedmiot >> ocena) {\n        uczniowie[imie].push_back({przedmiot, ocena});\n        przedmioty[przedmiot].push_back(ocena);\n    }\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Oceny uczniow:\" << endl;\n    vector<pair<double, string>> ranking;\n    for (auto &u : uczniowie) {\n        cout << \"   \" << u.first << \": \";\n        double suma = 0;\n        for (int i = 0; i < u.second.size(); i++) {\n            if (i > 0) cout << \", \";\n            cout << u.second[i].first << \"(\" << u.second[i].second << \")\";\n            suma += u.second[i].second;\n        }\n        double sr = suma / u.second.size();\n        cout << \" -> srednia: \" << sr << endl;\n        ranking.push_back({sr, u.first});\n    }\n\n    sort(ranking.begin(), ranking.end(), [](auto &a, auto &b) {\n        return a.first > b.first;\n    });\n    cout << endl << \"b) Ranking wg sredniej:\" << endl;\n    for (int i = 0; i < ranking.size(); i++) {\n        cout << \"   \" << i+1 << \". \" << ranking[i].second\n             << \" (\" << ranking[i].first << \")\" << endl;\n    }\n\n    cout << endl << \"c) Przedmiot z najwyzsza srednia:\" << endl;\n    double maxSr = 0;\n    string maxPrz;\n    for (auto &p : przedmioty) {\n        double suma = 0;\n        for (int o : p.second) suma += o;\n        double sr = suma / p.second.size();\n        if (sr > maxSr) { maxSr = sr; maxPrz = p.first; }\n    }\n    cout << \"   \" << maxPrz << \" (srednia: \" << maxSr << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Anna: Mat(5), Fiz(4) -> 9/2 = 4.50\n- Jan: Mat(3), Inf(5), Fiz(2) -> 10/3 = 3.33\n- Ewa: Mat(4), Fiz(5), Inf(5) -> 14/3 = 4.67\n- Ranking: Ewa(4.67), Anna(4.50), Jan(3.33)\n- Przedmioty: Matematyka (5+3+4)/3=4.00, Fizyka (4+5+2)/3=3.67, Informatyka (5+5)/2=5.00\n- Max: Informatyka (5.00)",
+      "typowe_bledy": [
+        {
+          "opis": "**Sortowanie stringa zamiast double**: `sort` na `pair<string, double>` sortuje po stringu. Trzeba `pair<double, string>`",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Zapomnienie o odwroceniu kolejnosci sortowania**: Domyslne `sort` jest rosnace. Dla malejacego uzyj `>` w komparatorze",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Pomylenie sredniej ucznia ze srednia przedmiotu**: To dwie rozne agregacje na tych samych danych",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "9.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2021 zad. 4 + 2025 zad. 7 (analiza logów)",
+      "tagi": [
+        "wieloetapowe",
+        "map-zliczanie",
+        "wczytywanie-pliku",
+        "sortowanie"
+      ],
+      "tresc": "W pliku `logi.txt` znajduje sie 15 wpisow w formacie: godzina uzytkownik akcja (oddzielone spacjami). Napisz program, ktory:\na) Zliczy ile akcji wykonal kazdy uzytkownik.\nb) Znajdzie godzine z najwieksza liczba akcji.\nc) Wypisze uzytkownikow, ktorzy wykonali akcje \"LOGIN\" i \"LOGOUT\" (obie).\n\n**Dane** (`logi.txt`):\n```\n08 Anna LOGIN\n08 Jan LOGIN\n09 Anna VIEW\n09 Ewa LOGIN\n10 Anna EDIT\n10 Jan VIEW\n11 Ewa VIEW\n11 Jan LOGOUT\n12 Anna LOGOUT\n12 Ewa EDIT\n13 Ewa LOGOUT\n13 Anna LOGIN\n14 Anna VIEW\n14 Jan LOGIN\n15 Jan LOGOUT\n```\n\n**Oczekiwany wynik**:\n```\na) Akcje wg uzytkownika:\n   Anna: 6 akcji\n   Ewa: 4 akcje\n   Jan: 5 akcji\n\nb) Godzina z najwieksza liczba akcji:\n   08, 09, 10, 11, 12, 13, 14 (po 2 akcje kazda)\n\nc) Uzytkownicy z LOGIN i LOGOUT:\n   Anna (LOGIN: 2, LOGOUT: 1)\n   Ewa (LOGIN: 1, LOGOUT: 1)\n   Jan (LOGIN: 2, LOGOUT: 2)\n```",
+      "wskazowki": [
+        "**Kierunek**: Trzy mapy: `uzytkownik -> ilosc`, `godzina -> ilosc`, `uzytkownik -> set<akcja>`.",
+        "**Podejscie**: Wczytuj trojki, inkrementuj odpowiednie mapy.",
+        "**Kluczowy krok**: Uzytkownik ma obie akcje jesli `akcje[user].count(\"LOGIN\") && akcje[user].count(\"LOGOUT\")`."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <set>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"logi.txt\");\n    string godz, user, akcja;\n    map<string, int> cntUser, cntGodz;\n    map<string, map<string, int>> akcjeUser;\n\n    while (plik >> godz >> user >> akcja) {\n        cntUser[user]++;\n        cntGodz[godz]++;\n        akcjeUser[user][akcja]++;\n    }\n\n    cout << \"a) Akcje wg uzytkownika:\" << endl;\n    for (auto &p : cntUser)\n        cout << \"   \" << p.first << \": \" << p.second << \" akcji\" << endl;\n\n    cout << endl << \"b) Godzina z najwieksza liczba akcji:\" << endl;\n    int maxG = 0;\n    for (auto &p : cntGodz) if (p.second > maxG) maxG = p.second;\n    cout << \"   \";\n    bool first = true;\n    for (auto &p : cntGodz) {\n        if (p.second == maxG) {\n            if (!first) cout << \", \";\n            cout << p.first;\n            first = false;\n        }\n    }\n    cout << \" (po \" << maxG << \" akcje kazda)\" << endl;\n\n    cout << endl << \"c) Uzytkownicy z LOGIN i LOGOUT:\" << endl;\n    for (auto &u : akcjeUser) {\n        if (u.second.count(\"LOGIN\") && u.second.count(\"LOGOUT\")) {\n            cout << \"   \" << u.first << \" (LOGIN: \" << u.second[\"LOGIN\"]\n                 << \", LOGOUT: \" << u.second[\"LOGOUT\"] << \")\" << endl;\n        }\n    }\n    return 0;\n}\n```\n\nWeryfikacja:\n- Anna: LOGIN, VIEW, EDIT, LOGOUT, LOGIN, VIEW = 6\n- Ewa: LOGIN, VIEW, EDIT, LOGOUT = 4\n- Jan: LOGIN, VIEW, LOGOUT, LOGIN, LOGOUT = 5\n- Godziny: 08(2), 09(2), 10(2), 11(2), 12(2), 13(2), 14(2), 15(1) -> max 2 (wszystkie oprocz 15)\n- LOGIN+LOGOUT: Anna(L:2,LO:1), Ewa(L:1,LO:1), Jan(L:2,LO:2) -> wszyscy",
+      "typowe_bledy": [
+        {
+          "opis": "**Wczytywanie godziny jako `int`**: Godziny \"08\", \"09\" sa poprawne jako string, ale `int 08` tez dziala",
+          "kara": "-0 pkt"
+        },
+        {
+          "opis": "**Uzycie `set` zamiast `map` dla akcji**: Set nie zlicza ile razy — jesli potrzebujesz ile, uzyj `map<string, int>`",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak obslugi wielu godzin z tym samym max**: Jesli kilka godzin ma max, wypisz wszystkie",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "9.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2022 zad. 4 + 2025 zad. 7 (transakcje)",
+      "tagi": [
+        "wieloetapowe",
+        "wiele-plikow",
+        "JOIN-tabel",
+        "sortowanie",
+        "iomanip"
+      ],
+      "tresc": "Dane sa 2 tabele: klienci (`klienci.txt`: id imie miasto) i zamowienia (`zamowienia.txt`: id_klienta produkt kwota). Napisz program, ktory:\na) Obliczy laczna kwote zamowien kazdego klienta.\nb) Obliczy laczna kwote zamowien z kazdego miasta.\nc) Znajdzie klienta z najwyzsza srednia kwota zamowienia.\n\n**Dane** (`klienci.txt`):\n```\n1 Anna Krakow\n2 Jan Warszawa\n3 Ewa Krakow\n4 Piotr Gdansk\n```\n\n**Dane** (`zamowienia.txt`):\n```\n1 Laptop 3500\n2 Telefon 2000\n1 Monitor 1200\n3 Tablet 1500\n2 Sluchawki 300\n4 Laptop 4000\n3 Drukarka 800\n1 Klawiatura 200\n4 Monitor 1500\n2 Laptop 3800\n```\n\n**Oczekiwany wynik**:\n```\na) Laczna kwota wg klienta:\n   Anna: 4900\n   Jan: 6100\n   Ewa: 2300\n   Piotr: 5500\n\nb) Laczna kwota wg miasta:\n   Gdansk: 5500\n   Krakow: 7200\n   Warszawa: 6100\n\nc) Klient z najwyzsza srednia kwota:\n   Piotr (srednia: 2750.00, zamowienia: 2)\n```",
+      "wskazowki": [
+        "**Kierunek**: JOIN klientow z zamowieniami po id. Grupuj kwoty wg klienta i wg miasta.",
+        "**Podejscie**: Mapa klientow (id -> {imie, miasto}). Mapa zamowien (id_klienta -> lista kwot).",
+        "**Kluczowy krok**: Kwota wg miasta = suma kwot klientow z danego miasta. Srednia = suma / ilosc zamowien."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream f1(\"klienci.txt\"), f2(\"zamowienia.txt\");\n    map<int, pair<string, string>> klienci; // id -> (imie, miasto)\n    int id;\n    string imie, miasto;\n    while (f1 >> id >> imie >> miasto) klienci[id] = {imie, miasto};\n\n    map<int, vector<int>> zamowienia;\n    string produkt;\n    int kid, kwota;\n    while (f2 >> kid >> produkt >> kwota) zamowienia[kid].push_back(kwota);\n\n    // a) Wg klienta\n    cout << \"a) Laczna kwota wg klienta:\" << endl;\n    for (auto &k : klienci) {\n        int suma = 0;\n        for (int q : zamowienia[k.first]) suma += q;\n        cout << \"   \" << k.second.first << \": \" << suma << endl;\n    }\n\n    // b) Wg miasta\n    cout << endl << \"b) Laczna kwota wg miasta:\" << endl;\n    map<string, int> kwotaMiasto;\n    for (auto &k : klienci) {\n        int suma = 0;\n        for (int q : zamowienia[k.first]) suma += q;\n        kwotaMiasto[k.second.second] += suma;\n    }\n    for (auto &m : kwotaMiasto)\n        cout << \"   \" << m.first << \": \" << m.second << endl;\n\n    // c) Najwyzsza srednia\n    cout << endl << \"c) Klient z najwyzsza srednia kwota:\" << endl;\n    double maxSr = 0;\n    string maxImie;\n    int maxZam = 0;\n    for (auto &k : klienci) {\n        if (zamowienia[k.first].empty()) continue;\n        double suma = 0;\n        for (int q : zamowienia[k.first]) suma += q;\n        double sr = suma / zamowienia[k.first].size();\n        if (sr > maxSr) {\n            maxSr = sr;\n            maxImie = k.second.first;\n            maxZam = zamowienia[k.first].size();\n        }\n    }\n    cout << \"   \" << maxImie << \" (srednia: \" << fixed << setprecision(2)\n         << maxSr << \", zamowienia: \" << maxZam << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Anna (id=1): 3500+1200+200 = 4900\n- Jan (id=2): 2000+300+3800 = 6100\n- Ewa (id=3): 1500+800 = 2300\n- Piotr (id=4): 4000+1500 = 5500\n- Krakow (Anna+Ewa): 4900+2300 = 7200\n- Warszawa (Jan): 6100\n- Gdansk (Piotr): 5500\n- Srednie: Anna=4900/3=1633, Jan=6100/3=2033, Ewa=2300/2=1150, Piotr=5500/2=2750\n- Max: Piotr (2750.00)",
+      "typowe_bledy": [
+        {
+          "opis": "**Wczytanie \"Laptop\" jako kwota**: Format to `id_klienta produkt kwota` — trzeba wczytac string miedzy nimi",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Pomieszanie id klienta z id zamowienia**: Tu nie ma id zamowienia — kazdy wiersz to oddzielne zamowienie",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Niezamkniecie pliku przed otwarciem drugiego**: Nie blad w C++ (osobne obiekty), ale w Pascalu bylo",
+          "kara": "-0 pkt"
+        }
+      ]
+    },
+    {
+      "id": "9.10",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "zrodlo": "Matura 2025 zad. 7 (rozszerzony)",
+      "tagi": [
+        "wieloetapowe",
+        "wiele-plikow",
+        "JOIN-tabel",
+        "grupowanie",
+        "sortowanie",
+        "iomanip"
+      ],
+      "tresc": "Dane sa 3 tabele: zawodnicy (`zawodnicy.txt`: id imie kraj), zawody (`zawody.txt`: id nazwa), wyniki (`wyniki.txt`: zaw_id zaw_id2 czas). Czas jest w sekundach (int). Napisz program, ktory:\na) Obliczy najlepszy (najkrotszy) czas kazdego zawodnika.\nb) Wypisze ranking zawodnikow wg najlepszego czasu (rosnaco).\nc) Obliczy sredni najlepszy czas dla kazdego kraju.\n\n**Dane** (`zawodnicy.txt`):\n```\n1 Kowalski POL\n2 Nowak POL\n3 Mueller GER\n4 Schmidt GER\n5 Smith USA\n```\n\n**Dane** (`zawody.txt`):\n```\n101 Sprint\n102 Maraton\n```\n\n**Dane** (`wyniki.txt`):\n```\n1 101 12\n1 102 240\n2 101 11\n2 102 235\n3 101 13\n3 102 250\n4 101 12\n4 102 238\n5 101 10\n5 102 230\n```\n\n**Oczekiwany wynik**:\n```\na) Najlepszy czas kazdego zawodnika:\n   Kowalski: 12s (Sprint)\n   Nowak: 11s (Sprint)\n   Mueller: 13s (Sprint)\n   Schmidt: 12s (Sprint)\n   Smith: 10s (Sprint)\n\nb) Ranking wg najlepszego czasu:\n   1. Smith (10s)\n   2. Nowak (11s)\n   3. Kowalski (12s)\n   4. Schmidt (12s)\n   5. Mueller (13s)\n\nc) Sredni najlepszy czas wg kraju:\n   GER: 12.50s\n   POL: 11.50s\n   USA: 10.00s\n```",
+      "wskazowki": [
+        "**Kierunek**: JOIN trzech tabel. Dla kazdego zawodnika znajdz min czas.",
+        "**Podejscie**: Mapa min czasow: `map<int, int>` (id -> min czas). Potem JOIN z zawodnikami.",
+        "**Kluczowy krok**: Aby znalezc nazwe zawodow dla min czasu, potrzebna jest dodatkowa mapa `id -> (zaw_id2, czas)`."
+      ],
+      "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream f1(\"zawodnicy.txt\"), f2(\"zawody.txt\"), f3(\"wyniki.txt\");\n    map<int, pair<string, string>> zaw; // id -> (imie, kraj)\n    int id;\n    string imie, kraj;\n    while (f1 >> id >> imie >> kraj) zaw[id] = {imie, kraj};\n\n    map<int, string> zawody; // id -> nazwa\n    string nazwa;\n    while (f2 >> id >> nazwa) zawody[id] = nazwa;\n\n    map<int, int> minCzas;\n    map<int, int> minZawody;\n    int zid, zawid, czas;\n    while (f3 >> zid >> zawid >> czas) {\n        if (!minCzas.count(zid) || czas < minCzas[zid]) {\n            minCzas[zid] = czas;\n            minZawody[zid] = zawid;\n        }\n    }\n\n    // a) Najlepszy czas\n    cout << \"a) Najlepszy czas kazdego zawodnika:\" << endl;\n    for (auto &z : zaw) {\n        cout << \"   \" << z.second.first << \": \" << minCzas[z.first]\n             << \"s (\" << zawody[minZawody[z.first]] << \")\" << endl;\n    }\n\n    // b) Ranking\n    vector<pair<int, string>> ranking;\n    for (auto &z : zaw) ranking.push_back({minCzas[z.first], z.second.first});\n    sort(ranking.begin(), ranking.end());\n\n    cout << endl << \"b) Ranking wg najlepszego czasu:\" << endl;\n    for (int i = 0; i < ranking.size(); i++) {\n        cout << \"   \" << i+1 << \". \" << ranking[i].second\n             << \" (\" << ranking[i].first << \"s)\" << endl;\n    }\n\n    // c) Sredni najlepszy czas wg kraju\n    map<string, vector<int>> krajCzasy;\n    for (auto &z : zaw) krajCzasy[z.second.second].push_back(minCzas[z.first]);\n\n    cout << endl << \"c) Sredni najlepszy czas wg kraju:\" << endl;\n    cout << fixed << setprecision(2);\n    for (auto &k : krajCzasy) {\n        double suma = 0;\n        for (int c : k.second) suma += c;\n        cout << \"   \" << k.first << \": \" << suma / k.second.size() << \"s\" << endl;\n    }\n    return 0;\n}\n```\n\nWeryfikacja:\n- Kowalski: min(12, 240) = 12 (Sprint)\n- Nowak: min(11, 235) = 11 (Sprint)\n- Mueller: min(13, 250) = 13 (Sprint)\n- Schmidt: min(12, 238) = 12 (Sprint)\n- Smith: min(10, 230) = 10 (Sprint)\n- Ranking: Smith(10), Nowak(11), Kowalski(12), Schmidt(12), Mueller(13)\n- POL: (12+11)/2=11.50, GER: (13+12)/2=12.50, USA: 10/1=10.00",
+      "typowe_bledy": [
+        {
+          "opis": "**Szukanie min bez inicjalizacji**: `minCzas[id]` tworzy wpis z wartoscia 0. Trzeba sprawdzic czy klucz istnieje",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Sortowanie po imieniu zamiast po czasie**: `pair<string, int>` sortuje po stringu. Uzyj `pair<int, string>`",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Pomieszanie \"sredni czas\" ze \"sredni najlepszy czas\"**: Srednia najlepszych czasow != srednia wszystkich czasow",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak JOIN z tabela zawodow**: Aby podac nazwe zawodow, trzeba polaczyc po `zawid`",
+          "kara": "-1 pkt"
+        }
+      ]
+    }
+  ]
+}

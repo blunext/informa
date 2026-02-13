@@ -1,0 +1,353 @@
+{
+  "typ": "20_sql_group_by",
+  "nazwa": "SQL — GROUP BY z agregacjami",
+  "kategoria": "SQL",
+  "czestotliwosc": "8/11 lat",
+  "punkty_lacznie": 36,
+  "tagi_globalne": [
+    "GROUP-BY",
+    "COUNT",
+    "SUM",
+    "AVG",
+    "MIN",
+    "MAX",
+    "ROUND",
+    "HAVING",
+    "WHERE-vs-HAVING",
+    "JOIN-z-GROUP-BY",
+    "SUBSTR",
+    "ORDER-BY",
+    "wielokolumnowe-grupowanie",
+    "aliasy",
+    "funkcje-daty"
+  ],
+  "cwiczenia": [
+    {
+      "id": "20.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2023 (Gry planszowe)",
+      "tagi": [
+        "GROUP-BY",
+        "COUNT",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Ksiazki** zawiera dane o ksiazkach w bibliotece szkolnej:\n\n| id | tytul | autor | gatunek | rok_wydania |\n|----|-------|-------|---------|-------------|\n| 1 | Potop | Sienkiewicz | historyczna | 1886 |\n| 2 | Lalka | Prus | realistyczna | 1890 |\n| 3 | Quo Vadis | Sienkiewicz | historyczna | 1896 |\n| 4 | Faraon | Prus | historyczna | 1897 |\n| 5 | Krzyzacy | Sienkiewicz | historyczna | 1900 |\n| 6 | Placowka | Prus | realistyczna | 1886 |\n| 7 | Ogniem i mieczem | Sienkiewicz | historyczna | 1884 |\n| 8 | Emancypantki | Prus | realistyczna | 1894 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli kazdy gatunek oraz liczbe ksiazek w tym gatunku. Posortuj malejaco wg liczby ksiazek.",
+      "wskazowki": [
+        "**Kierunek**: Potrzebujesz pogrupowac ksiazki wg jednej kolumny i policzyc wiersze w kazdej grupie.",
+        "**Podejscie**: Uzyj GROUP BY na kolumnie gatunek, a do zliczania — funkcji COUNT(*).",
+        "**Kluczowy krok**: Pamietaj o ORDER BY z DESC, aby posortowac malejaco."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT gatunek, COUNT(*) AS liczba\nFROM Ksiazki\nGROUP BY gatunek\nORDER BY liczba DESC;\n```\n\n**Weryfikacja**:\n- historyczna: Potop, Quo Vadis, Faraon, Krzyzacy, Ogniem i mieczem = **5**\n- realistyczna: Lalka, Placowka, Emancypantki = **3**\n\n| gatunek | liczba |\n|---------|--------|\n| historyczna | 5 |\n| realistyczna | 3 |\n\n**Wyjasnienie**: GROUP BY grupuje wiersze o tej samej wartosci w kolumnie `gatunek`. COUNT(*) zlicza wiersze w kazdej grupie. ORDER BY z DESC sortuje od najwiekszej wartosci.",
+      "typowe_bledy": [
+        {
+          "opis": "**Uzycie WHERE zamiast GROUP BY**: WHERE filtruje wiersze PRZED grupowaniem, a do filtrowania grup sluzy HAVING — tu jednak nie filtrujemy grup, wiec wystarczy GROUP BY",
+          "kara": "-2 pkt (brak wyniku)"
+        },
+        {
+          "opis": "**Brak aliasu w COUNT(*)**: Bez `AS liczba` kolumna wynikowa moze miec niezrozumiala nazwe. CKE: dopuszczalne, ale -0.5 pkt za czytelnosc w niektorych schematach.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "20.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2024 (Hurtownia)",
+      "tagi": [
+        "GROUP-BY",
+        "COUNT",
+        "AVG",
+        "ROUND",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Produkty** zawiera dane o produktach w sklepie z odzieza:\n\n| id | nazwa | kategoria | cena | rozmiar |\n|----|-------|-----------|------|---------|\n| 1 | Koszulka polo | meska | 89.99 | M |\n| 2 | Sukienka letnia | damska | 149.99 | S |\n| 3 | Spodnie jeans | meska | 179.99 | L |\n| 4 | Bluzka jedwabna | damska | 199.99 | M |\n| 5 | T-shirt basic | meska | 39.99 | S |\n| 6 | Spodnica midi | damska | 129.99 | L |\n| 7 | Koszula flanelowa | meska | 119.99 | M |\n| 8 | Tunika | damska | 89.99 | S |\n| 9 | Polo sportowe | meska | 69.99 | L |\n| 10 | Sukienka koktajlowa | damska | 249.99 | M |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdej kategorii wyswietli: liczbe produktow, srednia cene zaokraglona do 2 miejsc po przecinku. Posortuj alfabetycznie wg kategorii.",
+      "wskazowki": [
+        "**Kierunek**: Grupuj po kategorii i zastosuj dwie funkcje agregujace jednoczesnie.",
+        "**Podejscie**: COUNT(*) i AVG(cena) w jednym SELECT, pamietaj o ROUND.",
+        "**Kluczowy krok**: Skladnia ROUND to ROUND(wartosc, liczba_miejsc_dziesietnych)."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT kategoria, COUNT(*) AS liczba, ROUND(AVG(cena), 2) AS srednia_cena\nFROM Produkty\nGROUP BY kategoria\nORDER BY kategoria;\n```\n\n**Weryfikacja**:\n- damska: Sukienka letnia (149.99), Bluzka jedwabna (199.99), Spodnica midi (129.99), Tunika (89.99), Sukienka koktajlowa (249.99) → 5 produktow, srednia = (149.99+199.99+129.99+89.99+249.99)/5 = 819.95/5 = **163.99**\n- meska: Koszulka polo (89.99), Spodnie jeans (179.99), T-shirt basic (39.99), Koszula flanelowa (119.99), Polo sportowe (69.99) → 5 produktow, srednia = (89.99+179.99+39.99+119.99+69.99)/5 = 499.95/5 = **99.99**\n\n| kategoria | liczba | srednia_cena |\n|-----------|--------|-------------|\n| damska | 5 | 163.99 |\n| meska | 5 | 99.99 |\n\n**Wyjasnienie**: ROUND(AVG(cena), 2) oblicza srednia i zaokragla do 2 miejsc po przecinku. Bez ROUND wynik moze miec wiele miejsc dziesietnych. Na maturze czesto wymagane jest zaokraglanie — warto pamietac skladnie ROUND(wartosc, liczba_miejsc).",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak ROUND**: Wynik sredniej moze miec wiele cyfr po przecinku",
+          "kara": "-1 pkt jesli polecenie wymaga zaokraglenia"
+        },
+        {
+          "opis": "**ROUND z jednym argumentem**: `ROUND(AVG(cena))` zaokragla do calkowitej — nie do 2 miejsc",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "20.3",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2022 (Ewidencja uczniow)",
+      "tagi": [
+        "GROUP-BY",
+        "AVG",
+        "ROUND",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "WHERE-vs-HAVING"
+      ],
+      "tresc": "Tabela **Klasy**:\n\n| id_klasy | nazwa_klasy | wychowawca |\n|----------|-------------|------------|\n| 1 | 1A | Kowalski |\n| 2 | 1B | Nowak |\n| 3 | 2A | Wisniewski |\n| 4 | 2B | Lewandowska |\n\nTabela **Uczniowie**:\n\n| id_ucznia | imie | nazwisko | id_klasy | srednia_ocen |\n|-----------|------|----------|----------|-------------|\n| 1 | Anna | Maj | 1 | 4.8 |\n| 2 | Jan | Krol | 1 | 3.5 |\n| 3 | Ewa | Lis | 2 | 5.0 |\n| 4 | Piotr | Zak | 2 | 4.2 |\n| 5 | Kasia | Wrobel | 3 | 4.6 |\n| 6 | Tomek | Bak | 3 | 3.9 |\n| 7 | Ola | Rak | 3 | 4.1 |\n| 8 | Marek | Duda | 4 | 2.8 |\n| 9 | Zofia | Ptak | 1 | 4.3 |\n| 10 | Adam | Wilk | 4 | 3.6 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe klasy oraz srednia ocen uczniow w tej klasie (zaokraglona do 2 miejsc), ale tylko dla klas, w ktorych srednia ocen jest wieksza niz 4.0.",
+      "wskazowki": [
+        "**Kierunek**: Musisz polaczyc dwie tabele, pogrupowac i odfiltrowac grupy.",
+        "**Podejscie**: JOIN laczy Klasy z Uczniami, GROUP BY grupuje wg klasy, a filtrowanie grup wymaga HAVING (nie WHERE).",
+        "**Kluczowy krok**: HAVING AVG(...) > 4.0 — uzyj funkcji agregajacej bezposrednio w HAVING, nie aliasu."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.nazwa_klasy, ROUND(AVG(U.srednia_ocen), 2) AS srednia_klasy\nFROM Klasy K\nJOIN Uczniowie U ON K.id_klasy = U.id_klasy\nGROUP BY K.nazwa_klasy\nHAVING AVG(U.srednia_ocen) > 4.0\nORDER BY srednia_klasy DESC;\n```\n\n**Weryfikacja**:\n- 1A: Anna (4.8), Jan (3.5), Zofia (4.3) → (4.8+3.5+4.3)/3 = 12.6/3 = **4.20** (>4.0 ✓)\n- 1B: Ewa (5.0), Piotr (4.2) → (5.0+4.2)/2 = 9.2/2 = **4.60** (>4.0 ✓)\n- 2A: Kasia (4.6), Tomek (3.9), Ola (4.1) → (4.6+3.9+4.1)/3 = 12.6/3 = **4.20** (>4.0 ✓)\n- 2B: Marek (2.8), Adam (3.6) → (2.8+3.6)/2 = 6.4/2 = **3.20** (>4.0 ✗)\n\n| nazwa_klasy | srednia_klasy |\n|-------------|--------------|\n| 1B | 4.60 |\n| 1A | 4.20 |\n| 2A | 4.20 |\n\n**Wyjasnienie**: Kluczowa roznica: WHERE filtruje wiersze PRZED grupowaniem, HAVING filtruje grupy PO grupowaniu. Tutaj nie mozna uzyc `WHERE AVG(...) > 4.0`, bo AVG wymaga juz zgrupowanych danych.",
+      "typowe_bledy": [
+        {
+          "opis": "**WHERE zamiast HAVING**: `WHERE AVG(srednia_ocen) > 4.0` powoduje blad skladni — funkcje agregujace nie dzialaja w WHERE",
+          "kara": "-2 pkt (blad logiczny)"
+        },
+        {
+          "opis": "**Alias w HAVING**: `HAVING srednia_klasy > 4.0` — w SQLite dziala, ale w wielu bazach nie. Bezpieczniej powtorzyc: `HAVING AVG(U.srednia_ocen) > 4.0`. CKE: akceptowane, ale ryzykowne.",
+          "kara": ""
+        },
+        {
+          "opis": "**Brak JOIN**: Proba grupowania bez polaczenia tabel — nie uzyskamy nazwy klasy",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "20.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2017 (Pilka reczna)",
+      "tagi": [
+        "GROUP-BY",
+        "SUM",
+        "HAVING",
+        "JOIN-z-GROUP-BY"
+      ],
+      "tresc": "Tabela **Druzyny**:\n\n| id_druzyny | nazwa | miasto |\n|------------|-------|--------|\n| 1 | Orly | Warszawa |\n| 2 | Wilki | Krakow |\n| 3 | Rysie | Gdansk |\n| 4 | Sokoly | Poznan |\n\nTabela **Mecze**:\n\n| id_meczu | id_gospodarzy | id_gosci | bramki_gosp | bramki_gosci |\n|----------|---------------|----------|-------------|-------------|\n| 1 | 1 | 2 | 3 | 1 |\n| 2 | 3 | 4 | 2 | 2 |\n| 3 | 2 | 3 | 4 | 0 |\n| 4 | 4 | 1 | 1 | 3 |\n| 5 | 1 | 3 | 2 | 1 |\n| 6 | 2 | 4 | 0 | 2 |\n| 7 | 3 | 1 | 1 | 1 |\n| 8 | 4 | 2 | 3 | 3 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe kazdej druzyny oraz laczna liczbe bramek strzelonych jako gospodarze (SUM bramki_gosp). Pokaz tylko druzyny, ktore strzelily jako gospodarze wiecej niz 3 bramki lacznie. Posortuj malejaco.",
+      "wskazowki": [
+        "**Kierunek**: Musisz polaczyc Druzyny z Meczami, ale po odpowiedniej kolumnie (gospodarze).",
+        "**Podejscie**: JOIN na `id_druzyny = id_gospodarzy`, potem GROUP BY i SUM.",
+        "**Kluczowy krok**: Filtrowanie po SUM wymaga HAVING, nie WHERE."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT D.nazwa, SUM(M.bramki_gosp) AS bramki_u_siebie\nFROM Druzyny D\nJOIN Mecze M ON D.id_druzyny = M.id_gospodarzy\nGROUP BY D.nazwa\nHAVING SUM(M.bramki_gosp) > 3\nORDER BY bramki_u_siebie DESC;\n```\n\n**Weryfikacja**:\n- Orly (id=1) jako gospodarze: mecz 1 (3), mecz 5 (2) → suma = **5** (>3 ✓)\n- Wilki (id=2) jako gospodarze: mecz 3 (4), mecz 6 (0) → suma = **4** (>3 ✓)\n- Rysie (id=3) jako gospodarze: mecz 2 (2), mecz 7 (1) → suma = **3** (>3 ✗)\n- Sokoly (id=4) jako gospodarze: mecz 4 (1), mecz 8 (3) → suma = **4** (>3 ✓)\n\n| nazwa | bramki_u_siebie |\n|-------|----------------|\n| Orly | 5 |\n| Wilki | 4 |\n| Sokoly | 4 |\n\n**Wyjasnienie**: JOIN laczy druzyny z meczami po id_gospodarzy — to kluczowy element, bo kazda druzyna gra raz jako gospodarz, raz jako gosc. Uzywamy `M.id_gospodarzy` (nie `id_gosci`), bo interesuja nas tylko bramki strzelone u siebie.",
+      "typowe_bledy": [
+        {
+          "opis": "**Pomylenie id_gospodarzy z id_gosci**: Daje bramki stracone zamiast strzelonych u siebie",
+          "kara": "-3 pkt (bledny wynik)"
+        },
+        {
+          "opis": "**Uzycie bramki_gosci zamiast bramki_gosp**: Analogiczny blad — bramki_gosci to bramki strzelone przez gosci, nie przez gospodarzy",
+          "kara": "-3 pkt"
+        },
+        {
+          "opis": "**Brak HAVING**: Bez filtrowania Rysie (3 bramki) tez pojawia sie w wyniku",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "20.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2024 (Hurtownia)",
+      "tagi": [
+        "GROUP-BY",
+        "SUM",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "wielokolumnowe-grupowanie",
+        "SUBSTR",
+        "funkcje-daty"
+      ],
+      "tresc": "Tabela **Klienci**:\n\n| id_klienta | nazwa | miasto | typ |\n|------------|-------|--------|-----|\n| 1 | Sklep ABC | Warszawa | detaliczny |\n| 2 | Market XYZ | Krakow | hurtowy |\n| 3 | Delikatesy Jan | Warszawa | detaliczny |\n| 4 | Supermarket Ola | Gdansk | hurtowy |\n| 5 | Sklep u Marka | Krakow | detaliczny |\n\nTabela **Zamowienia**:\n\n| id_zamowienia | id_klienta | data_zamowienia | kwota |\n|---------------|------------|-----------------|-------|\n| 1 | 1 | 2024-01-15 | 1200 |\n| 2 | 2 | 2024-01-20 | 5800 |\n| 3 | 1 | 2024-02-10 | 800 |\n| 4 | 3 | 2024-02-14 | 1500 |\n| 5 | 4 | 2024-03-01 | 4200 |\n| 6 | 2 | 2024-03-15 | 3600 |\n| 7 | 5 | 2024-01-25 | 950 |\n| 8 | 3 | 2024-03-20 | 2100 |\n| 9 | 1 | 2024-03-28 | 1100 |\n| 10 | 4 | 2024-01-30 | 3800 |\n| 11 | 2 | 2024-02-22 | 4100 |\n| 12 | 5 | 2024-03-05 | 700 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego miasta i kazdego miesiaca (numer miesiaca) wyswietli laczna kwote zamowien. Pokaz tylko te kombinacje miasto-miesiac, w ktorych laczna kwota przekroczyla 2000. Posortuj wg miasta, a nastepnie wg miesiaca.\n\n**Wskazowka**: Uzyj funkcji SUBSTR(data_zamowienia, 6, 2) lub STRFTIME('%m', data_zamowienia) do wyodrebnienia miesiaca.",
+      "wskazowki": [
+        "**Kierunek**: Grupujesz po dwoch kolumnach jednoczesnie: miasto i miesiac wyciagniety z daty.",
+        "**Podejscie**: JOIN + GROUP BY z dwoma wyrazeniami + HAVING na SUM.",
+        "**Kluczowy krok**: SUBSTR(data_zamowienia, 6, 2) wyciaga znaki na pozycjach 6-7 z formatu 'RRRR-MM-DD', dajac numer miesiaca."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.miasto, SUBSTR(Z.data_zamowienia, 6, 2) AS miesiac, SUM(Z.kwota) AS suma_kwot\nFROM Klienci K\nJOIN Zamowienia Z ON K.id_klienta = Z.id_klienta\nGROUP BY K.miasto, SUBSTR(Z.data_zamowienia, 6, 2)\nHAVING SUM(Z.kwota) > 2000\nORDER BY K.miasto, miesiac;\n```\n\n**Weryfikacja** (grupowanie miasto + miesiac):\n\nGdansk:\n- 01: klient 4 → 3800 → **3800** (>2000 ✓)\n- 03: klient 4 → 4200 → **4200** (>2000 ✓)\n\nKrakow:\n- 01: klient 2 (5800) + klient 5 (950) → **6750** (>2000 ✓)\n- 02: klient 2 (4100) → **4100** (>2000 ✓)\n- 03: klient 2 (3600) + klient 5 (700) → **4300** (>2000 ✓)\n\nWarszawa:\n- 01: klient 1 (1200) → **1200** (>2000 ✗)\n- 02: klient 1 (800) + klient 3 (1500) → **2300** (>2000 ✓)\n- 03: klient 3 (2100) + klient 1 (1100) → **3200** (>2000 ✓)\n\n| miasto | miesiac | suma_kwot |\n|--------|---------|-----------|\n| Gdansk | 01 | 3800 |\n| Gdansk | 03 | 4200 |\n| Krakow | 01 | 6750 |\n| Krakow | 02 | 4100 |\n| Krakow | 03 | 4300 |\n| Warszawa | 02 | 2300 |\n| Warszawa | 03 | 3200 |\n\n**Wyjasnienie**: GROUP BY z wieloma kolumnami (miasto, miesiac) tworzy grupy dla kazdej unikalnej kombinacji wartosci. SUBSTR(data, 6, 2) wyciaga znaki 6-7 z daty w formacie 'RRRR-MM-DD', dajac numer miesiaca jako tekst ('01', '02', '03'). Alternatywnie: STRFTIME('%m', data).",
+      "typowe_bledy": [
+        {
+          "opis": "**Grupowanie tylko po jednej kolumnie**: `GROUP BY K.miasto` bez miesiaca — lacza sie np. Gdansk-01 i Gdansk-03 w jedna grupe",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**SUBSTR z blednym offsetem**: `SUBSTR(data, 5, 2)` wyciaga '-M' zamiast 'MM'. W SQL pozycje liczymy od 1",
+          "kara": "-2 pkt (bledne grupowanie)"
+        },
+        {
+          "opis": "**Brak HAVING**: Warszawa-01 (1200) pojawia sie w wyniku mimo ze < 2000",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "20.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2025 (Woda na Marsie)",
+      "tagi": [
+        "GROUP-BY",
+        "MIN",
+        "MAX",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Stacje** zawiera dane o stacjach meteorologicznych:\n\n| id | nazwa | region | wysokosc_npm | rok_zalozenia |\n|----|-------|--------|-------------|---------------|\n| 1 | Kasprowy Wierch | gory | 1991 | 1936 |\n| 2 | Zakopane | gory | 844 | 1950 |\n| 3 | Warszawa | niziny | 106 | 1921 |\n| 4 | Suwalki | niziny | 184 | 1945 |\n| 5 | Sniezka | gory | 1603 | 1900 |\n| 6 | Wroclaw | niziny | 120 | 1948 |\n| 7 | Hala Gasienicowa | gory | 1520 | 1965 |\n| 8 | Poznan | niziny | 86 | 1953 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego regionu wyswietli minimalna i maksymalna wysokosc n.p.m. stacji. Posortuj alfabetycznie wg regionu.",
+      "wskazowki": [
+        "**Kierunek**: Grupuj po regionie i zastosuj funkcje agregujace MIN i MAX.",
+        "**Podejscie**: SELECT region, MIN(wysokosc_npm), MAX(wysokosc_npm) z GROUP BY.",
+        "**Kluczowy krok**: Pamietaj o aliasach — `AS min_wysokosc` i `AS max_wysokosc`."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT region, MIN(wysokosc_npm) AS min_wysokosc, MAX(wysokosc_npm) AS max_wysokosc\nFROM Stacje\nGROUP BY region\nORDER BY region;\n```\n\n**Weryfikacja**:\n- gory: Kasprowy (1991), Zakopane (844), Sniezka (1603), Hala Gasienicowa (1520) → MIN=**844**, MAX=**1991**\n- niziny: Warszawa (106), Suwalki (184), Wroclaw (120), Poznan (86) → MIN=**86**, MAX=**184**\n\n| region | min_wysokosc | max_wysokosc |\n|--------|-------------|-------------|\n| gory | 844 | 1991 |\n| niziny | 86 | 184 |\n\n**Wyjasnienie**: MIN i MAX to funkcje agregujace — dzialaja na grupach wierszy. Mozna je laczyc w jednym zapytaniu z innymi funkcjami (COUNT, SUM, AVG). Kazda kolumna w SELECT musi albo byc w GROUP BY, albo byc funkcja agregujaca.",
+      "typowe_bledy": [
+        {
+          "opis": "**Dodanie kolumny nie-agregatowej do SELECT bez GROUP BY**: np. `SELECT region, nazwa, MIN(wysokosc_npm)` — ktora nazwa stacji powinna sie wyswietlic? SQLite wybiera losowo, inne bazy zglaszaja blad",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Pomylenie MIN/MAX**: Odwrotne nazwy kolumn wynikowych",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "20.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2019 (Perfumy)",
+      "tagi": [
+        "GROUP-BY",
+        "COUNT",
+        "HAVING",
+        "WHERE-vs-HAVING"
+      ],
+      "tresc": "Tabela **Zamowienia** zawiera dane o zamowieniach w restauracji:\n\n| id | stolik | kelner | danie | cena | data |\n|----|--------|--------|-------|------|------|\n| 1 | 3 | Anna | Pizza | 32 | 2024-05-01 |\n| 2 | 1 | Jan | Spaghetti | 28 | 2024-05-01 |\n| 3 | 3 | Anna | Tiramisu | 18 | 2024-05-01 |\n| 4 | 2 | Anna | Pizza | 32 | 2024-05-02 |\n| 5 | 1 | Jan | Risotto | 35 | 2024-05-02 |\n| 6 | 4 | Ewa | Spaghetti | 28 | 2024-05-02 |\n| 7 | 3 | Anna | Risotto | 35 | 2024-05-02 |\n| 8 | 2 | Jan | Tiramisu | 18 | 2024-05-03 |\n| 9 | 4 | Ewa | Pizza | 32 | 2024-05-03 |\n| 10 | 1 | Jan | Pizza | 32 | 2024-05-03 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie kelnera oraz liczbe obslugionych zamowien, ale tylko dla kelnerow, ktorzy obsluzyli wiecej niz 2 zamowienia. Posortuj malejaco wg liczby zamowien.",
+      "wskazowki": [
+        "**Kierunek**: Grupuj po kelnerze, policz zamowienia, odfiltruj grupy.",
+        "**Podejscie**: GROUP BY kelner + COUNT(*) + HAVING.",
+        "**Kluczowy krok**: HAVING COUNT(*) > 2 — nie mozesz uzyc WHERE do filtrowania wynikow agregacji."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT kelner, COUNT(*) AS liczba_zamowien\nFROM Zamowienia\nGROUP BY kelner\nHAVING COUNT(*) > 2\nORDER BY liczba_zamowien DESC;\n```\n\n**Weryfikacja**:\n- Anna: zamowienia 1, 3, 4, 7 → **4** (>2 ✓)\n- Jan: zamowienia 2, 5, 8, 10 → **4** (>2 ✓)\n- Ewa: zamowienia 6, 9 → **2** (>2 ✗)\n\n| kelner | liczba_zamowien |\n|--------|----------------|\n| Anna | 4 |\n| Jan | 4 |\n\n**Wyjasnienie**: HAVING filtruje grupy po agregacji. Ewa ma dokladnie 2 zamowienia — warunek `> 2` ja wyklucza. Gdyby polecenie mowilo \"co najmniej 2\", nalezaloby uzyc `>= 2`.",
+      "typowe_bledy": [
+        {
+          "opis": "**`> 2` vs `>= 2`**: \"Wiecej niz 2\" to `> 2`, a \"co najmniej 2\" to `>= 2`. Czesta pomylka na maturze",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**WHERE COUNT(*) > 2**: Blad skladni — COUNT nie dziala w WHERE",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "20.8",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "zrodlo": "Matura 2023 (Gry planszowe)",
+      "tagi": [
+        "GROUP-BY",
+        "AVG",
+        "ROUND",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "WHERE-vs-HAVING"
+      ],
+      "tresc": "Tabela **Uczniowie**:\n\n| id | imie | nazwisko | klasa |\n|----|------|----------|-------|\n| 1 | Anna | Maj | 3A |\n| 2 | Jan | Krol | 3A |\n| 3 | Ewa | Lis | 3B |\n| 4 | Piotr | Zak | 3B |\n| 5 | Kasia | Wrobel | 3A |\n| 6 | Tomek | Bak | 3C |\n\nTabela **Oceny**:\n\n| id | id_ucznia | przedmiot | ocena |\n|----|-----------|-----------|-------|\n| 1 | 1 | Matematyka | 5 |\n| 2 | 1 | Fizyka | 4 |\n| 3 | 2 | Matematyka | 3 |\n| 4 | 2 | Fizyka | 3 |\n| 5 | 3 | Matematyka | 5 |\n| 6 | 3 | Fizyka | 5 |\n| 7 | 4 | Matematyka | 4 |\n| 8 | 4 | Fizyka | 3 |\n| 9 | 5 | Matematyka | 4 |\n| 10 | 5 | Fizyka | 5 |\n| 11 | 6 | Matematyka | 2 |\n| 12 | 6 | Fizyka | 3 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego przedmiotu i kazdej klasy wyswietli srednia ocene (zaokraglona do 1 miejsca po przecinku). Pokaz tylko te kombinacje, w ktorych srednia jest wieksza lub rowna 4.0. Posortuj wg przedmiotu, potem malejaco wg sredniej.",
+      "wskazowki": [
+        "**Kierunek**: Potrzebujesz JOIN dwoch tabel, potem GROUP BY po dwoch kolumnach.",
+        "**Podejscie**: JOIN Uczniowie z Ocenami, GROUP BY (przedmiot, klasa), HAVING na AVG.",
+        "**Kluczowy krok**: Grupujesz po dwoch kolumnach — kazda unikalna para (przedmiot, klasa) to osobna grupa."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT O.przedmiot, U.klasa, ROUND(AVG(O.ocena), 1) AS srednia\nFROM Uczniowie U\nJOIN Oceny O ON U.id = O.id_ucznia\nGROUP BY O.przedmiot, U.klasa\nHAVING AVG(O.ocena) >= 4.0\nORDER BY O.przedmiot, srednia DESC;\n```\n\n**Weryfikacja** (grupowanie przedmiot + klasa):\n\nFizyka:\n- 3A: Anna (4), Jan (3), Kasia (5) → (4+3+5)/3 = **4.0** (>=4.0 ✓)\n- 3B: Ewa (5), Piotr (3) → (5+3)/2 = **4.0** (>=4.0 ✓)\n- 3C: Tomek (3) → **3.0** (>=4.0 ✗)\n\nMatematyka:\n- 3A: Anna (5), Jan (3), Kasia (4) → (5+3+4)/3 = **4.0** (>=4.0 ✓)\n- 3B: Ewa (5), Piotr (4) → (5+4)/2 = **4.5** (>=4.0 ✓)\n- 3C: Tomek (2) → **2.0** (>=4.0 ✗)\n\n| przedmiot | klasa | srednia |\n|-----------|-------|---------|\n| Fizyka | 3A | 4.0 |\n| Fizyka | 3B | 4.0 |\n| Matematyka | 3B | 4.5 |\n| Matematyka | 3A | 4.0 |\n\n**Wyjasnienie**: Wielokolumnowe GROUP BY tworzy grupe dla kazdej unikalnej pary (przedmiot, klasa). HAVING z `>=` obejmuje rowniez srednia rowna dokladnie 4.0. ROUND(..., 1) zaokragla do 1 miejsca po przecinku.",
+      "typowe_bledy": [
+        {
+          "opis": "**`>` zamiast `>=`**: Pominiecie grup ze srednia rowna 4.0. Przy tych danych eliminuje 3 z 4 wynikow",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**GROUP BY po jednej kolumnie**: Grupowanie tylko po przedmiocie mieszalby klasy razem",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak JOIN**: Tabela Oceny nie ma kolumny klasa — bez JOIN nie mozna pogrupowac wg klas",
+          "kara": "-3 pkt"
+        }
+      ]
+    },
+    {
+      "id": "20.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "zrodlo": "Matura 2021 (Gra strategiczna)",
+      "tagi": [
+        "GROUP-BY",
+        "COUNT",
+        "SUM",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "aliasy"
+      ],
+      "tresc": "Tabela **Sklepy**:\n\n| id_sklepu | nazwa | miasto |\n|-----------|-------|--------|\n| 1 | Elektro-Max | Warszawa |\n| 2 | TechWorld | Krakow |\n| 3 | Neonet | Warszawa |\n| 4 | MediaPark | Gdansk |\n\nTabela **Sprzedaz**:\n\n| id | id_sklepu | produkt | ilosc | cena_jednostkowa | data |\n|----|-----------|---------|-------|-------------------|------|\n| 1 | 1 | Laptop | 2 | 3500 | 2024-06-01 |\n| 2 | 1 | Mysz | 10 | 80 | 2024-06-01 |\n| 3 | 2 | Laptop | 1 | 3200 | 2024-06-02 |\n| 4 | 2 | Monitor | 3 | 1200 | 2024-06-02 |\n| 5 | 3 | Laptop | 3 | 3800 | 2024-06-03 |\n| 6 | 3 | Mysz | 5 | 90 | 2024-06-03 |\n| 7 | 4 | Monitor | 2 | 1100 | 2024-06-04 |\n| 8 | 1 | Monitor | 1 | 1300 | 2024-06-05 |\n| 9 | 4 | Laptop | 1 | 3000 | 2024-06-05 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego sklepu wyswietli nazwe sklepu, liczbe roznych transakcji oraz laczny przychod (SUM ilosc * cena_jednostkowa). Pokaz tylko sklepy z przychodem powyzej 5000. Posortuj malejaco wg przychodu.",
+      "wskazowki": [
+        "**Kierunek**: JOIN + GROUP BY, ale uwaga na obliczenie przychodu — to iloczyn dwoch kolumn.",
+        "**Podejscie**: `SUM(ilosc * cena_jednostkowa)` oblicza laczny przychod per grupa.",
+        "**Kluczowy krok**: Mnozenie odbywa sie WEWNATRZ SUM — najpierw ilosc*cena dla kazdego wiersza, potem suma w grupie."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT S.nazwa, COUNT(*) AS liczba_transakcji,\n       SUM(SP.ilosc * SP.cena_jednostkowa) AS przychod\nFROM Sklepy S\nJOIN Sprzedaz SP ON S.id_sklepu = SP.id_sklepu\nGROUP BY S.nazwa\nHAVING SUM(SP.ilosc * SP.cena_jednostkowa) > 5000\nORDER BY przychod DESC;\n```\n\n**Weryfikacja**:\n- Elektro-Max: (2*3500)+(10*80)+(1*1300) = 7000+800+1300 = **9100**, 3 transakcje (>5000 ✓)\n- TechWorld: (1*3200)+(3*1200) = 3200+3600 = **6800**, 2 transakcje (>5000 ✓)\n- Neonet: (3*3800)+(5*90) = 11400+450 = **11850**, 2 transakcje (>5000 ✓)\n- MediaPark: (2*1100)+(1*3000) = 2200+3000 = **5200**, 2 transakcje (>5000 ✓)\n\n| nazwa | liczba_transakcji | przychod |\n|-------|-------------------|----------|\n| Neonet | 2 | 11850 |\n| Elektro-Max | 3 | 9100 |\n| TechWorld | 2 | 6800 |\n| MediaPark | 2 | 5200 |\n\n**Wyjasnienie**: `SUM(ilosc * cena_jednostkowa)` oblicza przychod: najpierw mnozy ilosc przez cene dla kazdego wiersza, potem sumuje w grupie. To czesty wzorzec na maturze. Nie mozna uzyc `SUM(ilosc) * SUM(cena_jednostkowa)` — to daloby zupelnie inny (bledny) wynik.",
+      "typowe_bledy": [
+        {
+          "opis": "**`SUM(ilosc) * SUM(cena_jednostkowa)`**: To nie to samo co `SUM(ilosc * cena_jednostkowa)`. Np. dla Elektro-Max: SUM(ilosc)=13, SUM(cena)=4880, iloczyn=63440 — zupelnie bledny",
+          "kara": "-3 pkt"
+        },
+        {
+          "opis": "**Brak HAVING**: Wszystkie sklepy maja przychod > 5000, ale gdyby nie — bledne wyniki",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Uzycie aliasu w HAVING**: `HAVING przychod > 5000` — w SQLite dziala, ale bezpieczniej powtorzyc wyrazenie. CKE: akceptowane, ale ryzykowne na egzaminie.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "20.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2015 (Formula 1)",
+      "tagi": [
+        "GROUP-BY",
+        "COUNT",
+        "AVG",
+        "ROUND",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "wielokolumnowe-grupowanie",
+        "aliasy"
+      ],
+      "tresc": "Tabela **Wydzialy**:\n\n| id_wydzialu | nazwa_wydzialu | budynek |\n|-------------|----------------|---------|\n| 1 | Informatyka | A |\n| 2 | Matematyka | A |\n| 3 | Fizyka | B |\n| 4 | Chemia | B |\n\nTabela **Studenci**:\n\n| id | imie | nazwisko | id_wydzialu | rok_studiow |\n|----|------|----------|-------------|-------------|\n| 1 | Anna | Kowalska | 1 | 2 |\n| 2 | Jan | Nowak | 1 | 3 |\n| 3 | Ewa | Maj | 2 | 1 |\n| 4 | Piotr | Lis | 3 | 2 |\n| 5 | Kasia | Zak | 1 | 1 |\n| 6 | Tomek | Bak | 2 | 2 |\n| 7 | Ola | Wrobel | 3 | 1 |\n| 8 | Marek | Krol | 4 | 3 |\n\nTabela **Egzaminy**:\n\n| id | id_studenta | przedmiot | wynik | data_egzaminu |\n|----|-------------|-----------|-------|---------------|\n| 1 | 1 | Algorytmy | 85 | 2024-01-20 |\n| 2 | 1 | Bazy danych | 92 | 2024-01-25 |\n| 3 | 2 | Algorytmy | 78 | 2024-01-20 |\n| 4 | 3 | Analiza | 95 | 2024-01-22 |\n| 5 | 4 | Mechanika | 60 | 2024-01-23 |\n| 6 | 5 | Algorytmy | 88 | 2024-01-20 |\n| 7 | 6 | Analiza | 72 | 2024-01-22 |\n| 8 | 7 | Mechanika | 55 | 2024-01-23 |\n| 9 | 8 | Chemia org. | 90 | 2024-01-24 |\n| 10 | 2 | Bazy danych | 70 | 2024-01-25 |\n| 11 | 4 | Termodynamika | 65 | 2024-01-26 |\n| 12 | 6 | Algebra | 80 | 2024-01-27 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego budynku i kazdego roku studiow wyswietli:\n- nazwe budynku\n- rok studiow\n- liczbe studentow (ktory zdawali przynajmniej 1 egzamin)\n- sredni wynik egzaminow (zaokraglony do 1 miejsca)\n\nPokaz tylko grupy, w ktorych sredni wynik jest wyzszy niz 75. Posortuj wg budynku, potem malejaco wg sredniej.",
+      "wskazowki": [
+        "**Kierunek**: Trzy tabele do polaczenia, grupowanie po dwoch kolumnach z roznych tabel.",
+        "**Podejscie**: JOIN Wydzialy → Studenci → Egzaminy, GROUP BY (budynek, rok_studiow).",
+        "**Kluczowy krok**: COUNT(DISTINCT id_studenta) liczy unikalnych studentow — jeden student moze miec wiele egzaminow. AVG(wynik) oblicza srednia ze wszystkich egzaminow w grupie."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT W.budynek, S.rok_studiow,\n       COUNT(DISTINCT S.id) AS liczba_studentow,\n       ROUND(AVG(E.wynik), 1) AS sredni_wynik\nFROM Wydzialy W\nJOIN Studenci S ON W.id_wydzialu = S.id_wydzialu\nJOIN Egzaminy E ON S.id = E.id_studenta\nGROUP BY W.budynek, S.rok_studiow\nHAVING AVG(E.wynik) > 75\nORDER BY W.budynek, sredni_wynik DESC;\n```\n\n**Weryfikacja** (grupowanie budynek + rok_studiow):\n\nBudynek A:\n- rok 1: Ewa (Analiza 95), Kasia (Algorytmy 88) → 2 studentow, srednia = (95+88)/2 = **91.5** (>75 ✓)\n- rok 2: Anna (Algorytmy 85, Bazy 92), Tomek (Analiza 72, Algebra 80) → 2 studentow, srednia = (85+92+72+80)/4 = **82.3** (>75 ✓) (zaokr. 329/4=82.25→82.3)\n- rok 3: Jan (Algorytmy 78, Bazy 70) → 1 student, srednia = (78+70)/2 = **74.0** (>75 ✗)\n\nBudynek B:\n- rok 1: Ola (Mechanika 55) → 1 student, srednia = **55.0** (>75 ✗)\n- rok 2: Piotr (Mechanika 60, Termodynamika 65) → 1 student, srednia = (60+65)/2 = **62.5** (>75 ✗)\n- rok 3: Marek (Chemia org. 90) → 1 student, srednia = **90.0** (>75 ✓)\n\n| budynek | rok_studiow | liczba_studentow | sredni_wynik |\n|---------|-------------|------------------|-------------|\n| A | 1 | 2 | 91.5 |\n| A | 2 | 2 | 82.3 |\n| B | 3 | 1 | 90.0 |\n\n**Wyjasnienie**: Trzy JOIN-y tworzace lancuch Wydzialy→Studenci→Egzaminy. COUNT(DISTINCT S.id) liczy unikalnych studentow (Anna ma 2 egzaminy, ale to 1 studentka). AVG(E.wynik) oblicza srednia z WSZYSTKICH egzaminow w grupie (nie srednia ze srednich studentow). Wielokolumnowe GROUP BY tworzy grupe per (budynek, rok_studiow).",
+      "typowe_bledy": [
+        {
+          "opis": "**COUNT(*) zamiast COUNT(DISTINCT)**: Anna ma 2 egzaminy — COUNT(*) policzyloby ja 2 razy",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak jednego JOIN**: Pominiecie tabeli Wydzialy — nie mozna uzyskac budynku",
+          "kara": "-3 pkt"
+        },
+        {
+          "opis": "**Srednia ze srednich**: Osobne obliczenie sredniej per student, potem srednia z tych srednich — to inny wynik niz AVG ze wszystkich egzaminow",
+          "kara": "-2 pkt (zalezy od interpretacji polecenia)"
+        }
+      ]
+    }
+  ]
+}

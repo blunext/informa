@@ -1,0 +1,330 @@
+{
+  "typ": "21_sql_podzapytania",
+  "nazwa": "SQL — Podzapytania (subqueries)",
+  "kategoria": "SQL",
+  "czestotliwosc": "7/11 lat",
+  "punkty_lacznie": 25,
+  "tagi_globalne": [
+    "podzapytanie-skalarne",
+    "NOT-IN",
+    "IN",
+    "EXISTS",
+    "podzapytanie-w-WHERE",
+    "podzapytanie-w-HAVING",
+    "LEFT-JOIN-IS-NULL",
+    "AVG",
+    "MAX",
+    "MIN",
+    "korelacja-podzapytan",
+    "COUNT-DISTINCT"
+  ],
+  "cwiczenia": [
+    {
+      "id": "21.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2019 (Perfumy)",
+      "tagi": [
+        "podzapytanie-skalarne",
+        "AVG",
+        "podzapytanie-w-WHERE"
+      ],
+      "tresc": "Tabela **Pracownicy** zawiera dane o pracownikach firmy:\n\n| id | imie | nazwisko | dzial | wynagrodzenie |\n|----|------|----------|-------|--------------|\n| 1 | Anna | Kowalska | IT | 8500 |\n| 2 | Jan | Nowak | HR | 5200 |\n| 3 | Ewa | Maj | IT | 9200 |\n| 4 | Piotr | Lis | Sprzedaz | 6100 |\n| 5 | Kasia | Zak | HR | 5800 |\n| 6 | Tomek | Bak | IT | 7800 |\n| 7 | Ola | Wrobel | Sprzedaz | 7200 |\n| 8 | Marek | Krol | Sprzedaz | 5500 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko pracownikow, ktorych wynagrodzenie jest wyzsze niz srednie wynagrodzenie wszystkich pracownikow.",
+      "wskazowki": [
+        "**Kierunek**: Nie mozesz uzyc AVG bezposrednio w WHERE — potrzebujesz podzapytania.",
+        "**Podejscie**: Podzapytanie `(SELECT AVG(wynagrodzenie) FROM Pracownicy)` zwraca jedna wartosc (skalarne).",
+        "**Kluczowy krok**: Porownaj wynagrodzenie kazdego pracownika z ta wartoscia: `WHERE wynagrodzenie > (SELECT ...)`."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko, wynagrodzenie\nFROM Pracownicy\nWHERE wynagrodzenie > (SELECT AVG(wynagrodzenie) FROM Pracownicy);\n```\n\n**Weryfikacja**:\n- Srednia wynagrodzen: (8500+5200+9200+6100+5800+7800+7200+5500)/8 = 55300/8 = **6912.50**\n- Pracownicy z wynagrodzeniem > 6912.50:\n  - Anna Kowalska (8500 ✓)\n  - Ewa Maj (9200 ✓)\n  - Tomek Bak (7800 ✓)\n  - Ola Wrobel (7200 ✓)\n\n| imie | nazwisko | wynagrodzenie |\n|------|----------|--------------|\n| Anna | Kowalska | 8500 |\n| Ewa | Maj | 9200 |\n| Tomek | Bak | 7800 |\n| Ola | Wrobel | 7200 |\n\n**Wyjasnienie**: Podzapytanie `(SELECT AVG(wynagrodzenie) FROM Pracownicy)` zwraca pojedyncza wartosc (6912.50), ktora jest uzywana w warunku WHERE. To tzw. podzapytanie skalarne — zwraca dokladnie jedna wartosc.",
+      "typowe_bledy": [
+        {
+          "opis": "**AVG bezposrednio w WHERE**: `WHERE wynagrodzenie > AVG(wynagrodzenie)` — blad skladni, funkcje agregujace nie moga byc uzywane w WHERE",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak nawiasow wokol podzapytania**: Podzapytanie musi byc w nawiasach",
+          "kara": "-1 pkt (blad skladni)"
+        }
+      ]
+    },
+    {
+      "id": "21.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2021 (Gra strategiczna)",
+      "tagi": [
+        "NOT-IN",
+        "podzapytanie-w-WHERE"
+      ],
+      "tresc": "Tabela **Kursy**:\n\n| id_kursu | nazwa_kursu | kategoria |\n|----------|-------------|-----------|\n| 1 | Python basics | programowanie |\n| 2 | SQL dla poczatkujacych | bazy_danych |\n| 3 | Excel zaawansowany | arkusze |\n| 4 | HTML i CSS | webdev |\n| 5 | Algorytmy | programowanie |\n\nTabela **Zapisy**:\n\n| id_zapisu | id_kursu | id_ucznia | data_zapisu |\n|-----------|----------|-----------|-------------|\n| 1 | 1 | 101 | 2024-01-10 |\n| 2 | 1 | 102 | 2024-01-12 |\n| 3 | 2 | 103 | 2024-01-15 |\n| 4 | 3 | 101 | 2024-02-01 |\n| 5 | 5 | 104 | 2024-02-10 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwy kursow, na ktore nikt sie nie zapisal.",
+      "wskazowki": [
+        "**Kierunek**: Szukasz kursow, ktorych id NIE wystepuje w tabeli Zapisy.",
+        "**Podejscie**: Podzapytanie zwraca zbior id_kursu z Zapisy, a NOT IN wyklucza je.",
+        "**Kluczowy krok**: `WHERE id_kursu NOT IN (SELECT id_kursu FROM Zapisy)`."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa_kursu\nFROM Kursy\nWHERE id_kursu NOT IN (SELECT id_kursu FROM Zapisy);\n```\n\n**Weryfikacja**:\n- Kursy z zapisami (id_kursu w tabeli Zapisy): 1, 2, 3, 5\n- Kursy bez zapisow: id=4 (HTML i CSS)\n\n| nazwa_kursu |\n|-------------|\n| HTML i CSS |\n\n**Rozwiazanie alternatywne z LEFT JOIN:**\n```sql\nSELECT K.nazwa_kursu\nFROM Kursy K\nLEFT JOIN Zapisy Z ON K.id_kursu = Z.id_kursu\nWHERE Z.id_zapisu IS NULL;\n```\n\n**Wyjasnienie**: Podzapytanie `(SELECT id_kursu FROM Zapisy)` zwraca zbior {1, 2, 3, 5}. NOT IN sprawdza, ktore id_kursu z tabeli Kursy NIE naleza do tego zbioru.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak NOT**: Samo `IN` daloby kursy z zapisami, czyli odwrotnosc oczekiwanego wyniku",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**NOT IN z NULL**: Jesli podzapytanie zwraca NULL wsrod wynikow, NOT IN zwraca pusty zbior. Np. gdyby Zapisy mialy wiersz z id_kursu = NULL, wynik bylby pusty. CKE: nie dotyczy tego zadania, ale warto pamietac.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "21.3",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2024 (Rejestr wykroczen)",
+      "tagi": [
+        "LEFT-JOIN-IS-NULL",
+        "NOT-IN",
+        "podzapytanie-w-WHERE"
+      ],
+      "tresc": "Tabela **Klienci**:\n\n| id_klienta | imie | nazwisko | miasto |\n|------------|------|----------|--------|\n| 1 | Anna | Kowalska | Warszawa |\n| 2 | Jan | Nowak | Krakow |\n| 3 | Ewa | Maj | Gdansk |\n| 4 | Piotr | Lis | Warszawa |\n| 5 | Kasia | Zak | Poznan |\n| 6 | Tomek | Bak | Krakow |\n\nTabela **Zamowienia**:\n\n| id_zamowienia | id_klienta | data | kwota |\n|---------------|------------|------|-------|\n| 1 | 1 | 2024-01-10 | 250 |\n| 2 | 2 | 2024-01-15 | 180 |\n| 3 | 1 | 2024-02-20 | 340 |\n| 4 | 3 | 2024-03-05 | 120 |\n| 5 | 6 | 2024-03-10 | 95 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko klientow, ktorzy nigdy nie zlozyli zamowienia. Uzyj LEFT JOIN.",
+      "wskazowki": [
+        "**Kierunek**: LEFT JOIN zachowuje wszystkie wiersze z lewej tabeli, nawet bez dopasowania.",
+        "**Podejscie**: LEFT JOIN Klienci z Zamowienia, potem szukaj wierszy, gdzie Zamowienia daje NULL.",
+        "**Kluczowy krok**: `WHERE Z.id_zamowienia IS NULL` — to wylapuje klientow bez zamowien."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.imie, K.nazwisko\nFROM Klienci K\nLEFT JOIN Zamowienia Z ON K.id_klienta = Z.id_klienta\nWHERE Z.id_zamowienia IS NULL;\n```\n\n**Weryfikacja**:\n- Klienci z zamowieniami: Anna (id=1), Jan (id=2), Ewa (id=3), Tomek (id=6)\n- Klienci BEZ zamowien: Piotr (id=4), Kasia (id=5)\n\n| imie | nazwisko |\n|------|----------|\n| Piotr | Lis |\n| Kasia | Zak |\n\n**Rozwiazanie alternatywne z NOT IN:**\n```sql\nSELECT imie, nazwisko\nFROM Klienci\nWHERE id_klienta NOT IN (SELECT id_klienta FROM Zamowienia);\n```\n\n**Wyjasnienie**: LEFT JOIN zachowuje WSZYSTKIE wiersze z lewej tabeli (Klienci), nawet jezeli nie maja dopasowania w prawej tabeli (Zamowienia). Dla niedopasowanych wierszy kolumny z Zamowienia maja wartosc NULL.",
+      "typowe_bledy": [
+        {
+          "opis": "**INNER JOIN zamiast LEFT JOIN**: Odrzuca wiersze bez dopasowania — nigdy nie pokaze klientow bez zamowien",
+          "kara": "-3 pkt"
+        },
+        {
+          "opis": "**IS NULL na zlej kolumnie**: `WHERE Z.kwota IS NULL` tez zadziala, ale `WHERE Z.id_klienta IS NULL` jest bezpieczniejsze. CKE: akceptowane.",
+          "kara": ""
+        },
+        {
+          "opis": "**= NULL zamiast IS NULL**: `WHERE Z.id_zamowienia = NULL` zawsze daje FALSE",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "21.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2021 (Gra strategiczna)",
+      "tagi": [
+        "podzapytanie-skalarne",
+        "AVG",
+        "podzapytanie-w-WHERE",
+        "IN"
+      ],
+      "tresc": "Tabela **Gracze**:\n\n| id_gracza | nick | poziom | frakcja |\n|-----------|------|--------|---------|\n| 1 | DragonSlayer | 45 | Ork |\n| 2 | SilverMage | 38 | Elf |\n| 3 | IronFist | 52 | Ork |\n| 4 | StarLight | 41 | Elf |\n| 5 | DarkKnight | 47 | Czlowiek |\n| 6 | FireBlade | 33 | Ork |\n| 7 | MoonArcher | 50 | Elf |\n| 8 | StoneGuard | 29 | Czlowiek |\n\nTabela **Misje**:\n\n| id_misji | id_gracza | nazwa_misji | punkty |\n|----------|-----------|-------------|--------|\n| 1 | 1 | Smocza jaskinia | 120 |\n| 2 | 1 | Mroczny las | 85 |\n| 3 | 3 | Smocza jaskinia | 150 |\n| 4 | 5 | Mroczny las | 90 |\n| 5 | 7 | Smocza jaskinia | 140 |\n| 6 | 2 | Mroczny las | 75 |\n| 7 | 3 | Lodowa forteca | 200 |\n| 8 | 5 | Lodowa forteca | 180 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nicki graczy, ktorzy ukonczyli misje o nazwie 'Smocza jaskinia' i zdobyli w niej wiecej punktow niz srednia punktow ze WSZYSTKICH misji.",
+      "wskazowki": [
+        "**Kierunek**: Dwa warunki w WHERE — jeden na nazwe misji, drugi porownuje z podzapytaniem.",
+        "**Podejscie**: JOIN + WHERE z nazwa_misji + porownanie punktow ze srednia globalna.",
+        "**Kluczowy krok**: Podzapytanie `(SELECT AVG(punkty) FROM Misje)` oblicza srednia z CALEJ tabeli, nie tylko z jednej misji."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT G.nick\nFROM Gracze G\nJOIN Misje M ON G.id_gracza = M.id_gracza\nWHERE M.nazwa_misji = 'Smocza jaskinia'\n  AND M.punkty > (SELECT AVG(punkty) FROM Misje);\n```\n\n**Weryfikacja**:\n- Srednia punktow ze wszystkich misji: (120+85+150+90+140+75+200+180)/8 = 1040/8 = **130.0**\n- Gracze z misja 'Smocza jaskinia':\n  - DragonSlayer: 120 punktow (>130? ✗)\n  - IronFist: 150 punktow (>130? ✓)\n  - MoonArcher: 140 punktow (>130? ✓)\n\n| nick |\n|------|\n| IronFist |\n| MoonArcher |\n\n**Wyjasnienie**: Zapytanie laczy dwa warunki w WHERE: filtr na nazwe misji i porownanie z wynikiem podzapytania skalarnego. Podzapytanie oblicza srednia z CALEJ tabeli Misje, nie tylko z misji 'Smocza jaskinia'.",
+      "typowe_bledy": [
+        {
+          "opis": "**Ograniczenie podzapytania**: `(SELECT AVG(punkty) FROM Misje WHERE nazwa_misji = 'Smocza jaskinia')` daje srednia = (120+150+140)/3 = 136.67 — inny wynik niz globalna srednia 130",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak JOIN**: Bez polaczenia tabel nie uzyskamy nickow graczy",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**OR zamiast AND**: `WHERE nazwa_misji = '...' OR punkty > (...)` daje tez graczy z innych misji",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "21.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2019 (Perfumy)",
+      "tagi": [
+        "podzapytanie-w-HAVING",
+        "COUNT-DISTINCT",
+        "AVG",
+        "ROUND",
+        "IN"
+      ],
+      "tresc": "Tabela **Filmy**:\n\n| id_filmu | tytul | rok | gatunek |\n|----------|-------|-----|---------|\n| 1 | Zielona mila | 1999 | dramat |\n| 2 | Gladiator | 2000 | akcja |\n| 3 | Incepcja | 2010 | sci-fi |\n| 4 | Interstellar | 2014 | sci-fi |\n| 5 | Joker | 2019 | dramat |\n| 6 | Avengers | 2012 | akcja |\n| 7 | Matrix | 1999 | sci-fi |\n| 8 | Titanic | 1997 | dramat |\n\nTabela **Oceny**:\n\n| id_oceny | id_filmu | uzytkownik | ocena |\n|----------|----------|------------|-------|\n| 1 | 1 | user_A | 9 |\n| 2 | 1 | user_B | 8 |\n| 3 | 2 | user_A | 7 |\n| 4 | 3 | user_C | 10 |\n| 5 | 3 | user_A | 9 |\n| 6 | 4 | user_B | 10 |\n| 7 | 4 | user_C | 9 |\n| 8 | 5 | user_A | 8 |\n| 9 | 6 | user_B | 6 |\n| 10 | 7 | user_C | 9 |\n| 11 | 7 | user_A | 8 |\n| 12 | 8 | user_A | 7 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli gatunki filmow, w ktorych srednia ocena jest wyzsza niz ogolna srednia ocena ze wszystkich filmow. Dla kazdego takiego gatunku pokaz srednia ocene zaokraglona do 2 miejsc i liczbe ocenionych filmow.",
+      "wskazowki": [
+        "**Kierunek**: GROUP BY po gatunku, filtrowanie grup z HAVING i podzapytaniem.",
+        "**Podejscie**: JOIN Filmy z Ocenami, GROUP BY gatunek, HAVING AVG(ocena) > (SELECT AVG(ocena) FROM Oceny).",
+        "**Kluczowy krok**: COUNT(DISTINCT id_filmu) liczy unikalne filmy, nie unikalne oceny."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT F.gatunek,\n       ROUND(AVG(O.ocena), 2) AS srednia_ocena,\n       COUNT(DISTINCT F.id_filmu) AS liczba_filmow\nFROM Filmy F\nJOIN Oceny O ON F.id_filmu = O.id_filmu\nGROUP BY F.gatunek\nHAVING AVG(O.ocena) > (SELECT AVG(ocena) FROM Oceny);\n```\n\n**Weryfikacja**:\n\nOgolna srednia ocen: (9+8+7+10+9+10+9+8+6+9+8+7)/12 = 100/12 = **8.33**\n\nSrednia wg gatunku:\n- dramat: filmy 1,5,8 → oceny: 9,8,8,7 → srednia = 32/4 = **8.00** (>8.33? ✗)\n- akcja: filmy 2,6 → oceny: 7,6 → srednia = 13/2 = **6.50** (>8.33? ✗)\n- sci-fi: filmy 3,4,7 → oceny: 10,9,10,9,9,8 → srednia = 55/6 = **9.17** (>8.33? ✓)\n\n| gatunek | srednia_ocena | liczba_filmow |\n|---------|---------------|---------------|\n| sci-fi | 9.17 | 3 |\n\n**Wyjasnienie**: Podzapytanie w klauzuli HAVING pozwala porownac wynik agregacji grupy ze srednia globalna. COUNT(DISTINCT F.id_filmu) liczy unikalne filmy, a nie unikalne oceny.",
+      "typowe_bledy": [
+        {
+          "opis": "**COUNT(*) zamiast COUNT(DISTINCT id_filmu)**: Policzyloby 6 ocen zamiast 3 filmow",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Podzapytanie w WHERE zamiast HAVING**: `WHERE AVG(O.ocena) > (...)` — blad skladni",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Podzapytanie ze srednia per gatunek**: Gdyby podzapytanie filtrowalo po gatunku, porownywaloby grupe z nia sama",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "21.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2016 (Uniwersytet)",
+      "tagi": [
+        "podzapytanie-skalarne",
+        "MAX",
+        "podzapytanie-w-WHERE"
+      ],
+      "tresc": "Tabela **Produkty**:\n\n| id | nazwa | kategoria | cena | na_stanie |\n|----|-------|-----------|------|-----------|\n| 1 | Laptop | elektronika | 3500 | 12 |\n| 2 | Mysz | akcesoria | 80 | 150 |\n| 3 | Monitor | elektronika | 1200 | 30 |\n| 4 | Klawiatura | akcesoria | 250 | 85 |\n| 5 | Tablet | elektronika | 2800 | 20 |\n| 6 | Sluchawki | akcesoria | 350 | 60 |\n| 7 | Drukarka | elektronika | 900 | 15 |\n| 8 | Pendrive | akcesoria | 40 | 200 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe i cene najdrozszego produktu. Uzyj podzapytania z MAX.",
+      "wskazowki": [
+        "**Kierunek**: Nie mozesz uzyc MAX bezposrednio z innymi kolumnami bez GROUP BY.",
+        "**Podejscie**: Podzapytanie `(SELECT MAX(cena) FROM Produkty)` zwraca najwyzsza cene.",
+        "**Kluczowy krok**: `WHERE cena = (SELECT MAX(cena) FROM Produkty)`."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, cena\nFROM Produkty\nWHERE cena = (SELECT MAX(cena) FROM Produkty);\n```\n\n**Weryfikacja**:\n- MAX(cena) = 3500 (Laptop)\n- Produkty z cena = 3500: Laptop\n\n| nazwa | cena |\n|-------|------|\n| Laptop | 3500 |\n\n**Wyjasnienie**: Podzapytanie skalarne zwraca jedna wartosc (3500). WHERE porownuje cene kazdego produktu z ta wartoscia. Gdyby kilka produktow mialo te sama maksymalna cene, wszystkie bylyby wyswietlone.",
+      "typowe_bledy": [
+        {
+          "opis": "**SELECT nazwa, MAX(cena)**: Bez GROUP BY — SQLite wybierze losowa nazwe, inne bazy zglasza blad",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**ORDER BY cena DESC LIMIT 1**: Poprawna alternatywa, ale LIMIT nie jest czescia standardu SQL i na maturze podzapytanie jest bezpieczniejsze. CKE: akceptowane w SQLite.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "21.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Matura 2022 (Ewidencja uczniow)",
+      "tagi": [
+        "IN",
+        "podzapytanie-w-WHERE",
+        "NOT-IN"
+      ],
+      "tresc": "Tabela **Pracownicy**:\n\n| id | imie | nazwisko | dzial | stanowisko |\n|----|------|----------|-------|------------|\n| 1 | Anna | Maj | IT | programista |\n| 2 | Jan | Krol | IT | tester |\n| 3 | Ewa | Lis | HR | rekruter |\n| 4 | Piotr | Zak | IT | programista |\n| 5 | Kasia | Wrobel | HR | kierownik |\n| 6 | Tomek | Bak | Finanse | analityk |\n\nTabela **Szkolenia**:\n\n| id | id_pracownika | nazwa_szkolenia | data |\n|----|---------------|-----------------|------|\n| 1 | 1 | SQL zaawansowany | 2024-03-10 |\n| 2 | 2 | Testowanie | 2024-03-15 |\n| 3 | 1 | Python | 2024-04-01 |\n| 4 | 4 | SQL zaawansowany | 2024-03-10 |\n| 5 | 6 | Excel | 2024-04-05 |\n\n**Polecenie**:\n1. Wyswietl imiona i nazwiska pracownikow, ktorzy ukonczyli szkolenie 'SQL zaawansowany'.\n2. Wyswietl imiona i nazwiska pracownikow z dzialu 'IT', ktorzy NIE ukonczyli zadnego szkolenia.",
+      "wskazowki": [
+        "**Kierunek**: Dwa osobne zapytania — jedno z IN, drugie z NOT IN.",
+        "**Podejscie**: Podzapytanie zwraca zbior id_pracownika spelniajacych warunek.",
+        "**Kluczowy krok**: W zapytaniu 2 laczysz warunek na dzial (WHERE) z NOT IN."
+      ],
+      "odpowiedz": "**Zapytania SQL:**\n```sql\n-- 1. Pracownicy ze szkoleniem SQL zaawansowany\nSELECT imie, nazwisko\nFROM Pracownicy\nWHERE id IN (SELECT id_pracownika FROM Szkolenia WHERE nazwa_szkolenia = 'SQL zaawansowany');\n\n-- 2. Pracownicy IT bez zadnego szkolenia\nSELECT imie, nazwisko\nFROM Pracownicy\nWHERE dzial = 'IT'\n  AND id NOT IN (SELECT id_pracownika FROM Szkolenia);\n```\n\n**Weryfikacja**:\n\n1. Szkolenie 'SQL zaawansowany' ukonczyli: id=1 (Anna), id=4 (Piotr)\n\n| imie | nazwisko |\n|------|----------|\n| Anna | Maj |\n| Piotr | Zak |\n\n2. Pracownicy IT: id=1 (Anna), id=2 (Jan), id=4 (Piotr). Z nich w Szkoleniach: id=1, id=2, id=4 — wszyscy maja szkolenia. Brak wynikow.\n\n| imie | nazwisko |\n|------|----------|\n| (pusty wynik) | |\n\n**Wyjasnienie**: IN z podzapytaniem sprawdza przynaleznosc do zbioru. NOT IN wyklucza elementy zbioru. Mozna laczyc NOT IN z innymi warunkami w WHERE za pomoca AND.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak WHERE w podzapytaniu (zad. 1)**: `SELECT id_pracownika FROM Szkolenia` zwraca wszystkich — bez filtrowania po nazwie szkolenia",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**OR zamiast AND (zad. 2)**: `WHERE dzial = 'IT' OR id NOT IN (...)` daje pracownikow IT PLUS pracownikow bez szkolen z innych dzialow",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "21.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2017 (Pilka reczna)",
+      "tagi": [
+        "podzapytanie-skalarne",
+        "MIN",
+        "MAX",
+        "podzapytanie-w-WHERE"
+      ],
+      "tresc": "Tabela **Zawodnicy**:\n\n| id | imie | nazwisko | druzyna | wiek | wzrost |\n|----|------|----------|---------|------|--------|\n| 1 | Adam | Kowalski | Orly | 25 | 185 |\n| 2 | Jan | Nowak | Wilki | 30 | 192 |\n| 3 | Ewa | Maj | Orly | 22 | 175 |\n| 4 | Piotr | Lis | Rysie | 28 | 188 |\n| 5 | Kasia | Zak | Wilki | 24 | 170 |\n| 6 | Tomek | Bak | Rysie | 32 | 195 |\n| 7 | Ola | Wrobel | Orly | 26 | 178 |\n| 8 | Marek | Krol | Wilki | 21 | 180 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko i druzyne zawodnikow, ktorych wzrost jest wiekszy niz najwyzszy wzrost wsrod zawodnikow druzyny 'Wilki'.",
+      "wskazowki": [
+        "**Kierunek**: Podzapytanie z MAX ograniczone do jednej druzyny.",
+        "**Podejscie**: `(SELECT MAX(wzrost) FROM Zawodnicy WHERE druzyna = 'Wilki')` daje najwyzszy wzrost Wilkow.",
+        "**Kluczowy krok**: Porownaj wzrost kazdego zawodnika z tym wynikiem."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko, druzyna\nFROM Zawodnicy\nWHERE wzrost > (SELECT MAX(wzrost) FROM Zawodnicy WHERE druzyna = 'Wilki');\n```\n\n**Weryfikacja**:\n- MAX wzrost Wilkow: Jan (192), Kasia (170), Marek (180) → MAX = **192**\n- Zawodnicy z wzrostem > 192:\n  - Tomek Bak: 195 > 192 ✓\n\n| imie | nazwisko | druzyna |\n|------|----------|---------|\n| Tomek | Bak | Rysie |\n\n**Wyjasnienie**: Podzapytanie z WHERE ogranicza MAX do jednej druzyny. Wynik (192) jest porownywany ze wzrostem WSZYSTKICH zawodnikow (nie tylko Wilkow). Gdybys chcial wykluczyc samych Wilkow z wynikow, dodalbys `AND druzyna != 'Wilki'` w zapytaniu zewnetrznym.",
+      "typowe_bledy": [
+        {
+          "opis": "**MAX bez WHERE**: `(SELECT MAX(wzrost) FROM Zawodnicy)` daje MAX ze wszystkich — wynik bylby pusty (nikt nie jest wyzszy niz najwyzszy)",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**`>=` zamiast `>`**: \"Wiekszy niz\" to `>`, nie `>=`. Z `>=` Jan Nowak (192) tez bylby w wynikach",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "21.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "zrodlo": "Matura 2025 (Woda na Marsie)",
+      "tagi": [
+        "korelacja-podzapytan",
+        "podzapytanie-skalarne",
+        "AVG",
+        "podzapytanie-w-WHERE"
+      ],
+      "tresc": "Tabela **Uczniowie**:\n\n| id | imie | nazwisko | klasa |\n|----|------|----------|-------|\n| 1 | Anna | Maj | 3A |\n| 2 | Jan | Krol | 3A |\n| 3 | Ewa | Lis | 3B |\n| 4 | Piotr | Zak | 3B |\n| 5 | Kasia | Wrobel | 3A |\n| 6 | Tomek | Bak | 3B |\n\nTabela **Wyniki**:\n\n| id | id_ucznia | przedmiot | punkty |\n|----|-----------|-----------|--------|\n| 1 | 1 | Matematyka | 85 |\n| 2 | 2 | Matematyka | 70 |\n| 3 | 3 | Matematyka | 92 |\n| 4 | 4 | Matematyka | 60 |\n| 5 | 5 | Matematyka | 78 |\n| 6 | 6 | Matematyka | 88 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko, klase i punkty uczniow, ktorych wynik z Matematyki jest wyzszy niz srednia wynikow z Matematyki W ICH KLASIE (nie w calej szkole). Uzyj podzapytania skorelowanego.",
+      "wskazowki": [
+        "**Kierunek**: Podzapytanie musi odwolywac sie do klasy ucznia z zapytania zewnetrznego — to podzapytanie skorelowane.",
+        "**Podejscie**: `WHERE W.punkty > (SELECT AVG(W2.punkty) FROM Wyniki W2 JOIN Uczniowie U2 ON ... WHERE U2.klasa = U.klasa)`.",
+        "**Kluczowy krok**: Alias w podzapytaniu (U2, W2) musi byc INNY niz w zapytaniu glownym (U, W), ale odwolanie `U2.klasa = U.klasa` laczy podzapytanie z zapytaniem zewnetrznym."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT U.imie, U.nazwisko, U.klasa, W.punkty\nFROM Uczniowie U\nJOIN Wyniki W ON U.id = W.id_ucznia\nWHERE W.przedmiot = 'Matematyka'\n  AND W.punkty > (\n    SELECT AVG(W2.punkty)\n    FROM Wyniki W2\n    JOIN Uczniowie U2 ON U2.id = W2.id_ucznia\n    WHERE W2.przedmiot = 'Matematyka'\n      AND U2.klasa = U.klasa\n  );\n```\n\n**Weryfikacja**:\n\nSrednia 3A: Anna (85), Jan (70), Kasia (78) → (85+70+78)/3 = **77.67**\nSrednia 3B: Ewa (92), Piotr (60), Tomek (88) → (92+60+88)/3 = **80.00**\n\n- Anna: 85 > 77.67 ✓\n- Jan: 70 > 77.67 ✗\n- Ewa: 92 > 80.00 ✓\n- Piotr: 60 > 80.00 ✗\n- Kasia: 78 > 77.67 ✓\n- Tomek: 88 > 80.00 ✓\n\n| imie | nazwisko | klasa | punkty |\n|------|----------|-------|--------|\n| Anna | Maj | 3A | 85 |\n| Ewa | Lis | 3B | 92 |\n| Kasia | Wrobel | 3A | 78 |\n| Tomek | Bak | 3B | 88 |\n\n**Wyjasnienie**: Podzapytanie skorelowane jest wykonywane dla KAZDEGO wiersza z zapytania zewnetrznego. Odwolanie `U2.klasa = U.klasa` powoduje, ze srednia jest obliczana osobno dla kazdej klasy. To rozni sie od podzapytania nieskorelowanego, ktore jest wykonywane raz.",
+      "typowe_bledy": [
+        {
+          "opis": "**Nieskorelowane podzapytanie**: `(SELECT AVG(punkty) FROM Wyniki)` oblicza srednia globalna zamiast per klasa",
+          "kara": "-3 pkt"
+        },
+        {
+          "opis": "**Te same aliasy**: `U` w podzapytaniu i w zapytaniu glownym — niejednoznacznosc",
+          "kara": "-1 pkt (blad skladni)"
+        },
+        {
+          "opis": "**Brak filtra na przedmiot w podzapytaniu**: Gdyby tabela Wyniki miala tez inne przedmioty, srednia bylaby bledna",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "21.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2023 (Gry planszowe)",
+      "tagi": [
+        "podzapytanie-w-HAVING",
+        "podzapytanie-skalarne",
+        "COUNT-DISTINCT",
+        "AVG",
+        "ROUND",
+        "IN"
+      ],
+      "tresc": "Tabela **Biblioteki**:\n\n| id_bib | nazwa | miasto |\n|--------|-------|--------|\n| 1 | Miejska | Warszawa |\n| 2 | Akademicka | Krakow |\n| 3 | Dzielnicowa | Warszawa |\n| 4 | Uczelniana | Gdansk |\n\nTabela **Ksiazki**:\n\n| id_ks | tytul | gatunek | id_bib |\n|-------|-------|---------|--------|\n| 1 | Pan Tadeusz | poezja | 1 |\n| 2 | Lalka | proza | 1 |\n| 3 | Quo Vadis | proza | 2 |\n| 4 | Potop | proza | 1 |\n| 5 | Ferdydurke | proza | 3 |\n| 6 | Dziady | poezja | 2 |\n| 7 | Zbrodnia i kara | proza | 4 |\n| 8 | Trans-Atlantyk | proza | 3 |\n\nTabela **Wypozyczenia**:\n\n| id_wyp | id_ks | czytelnik | data_wyp | data_zwrotu |\n|--------|-------|-----------|----------|-------------|\n| 1 | 1 | Jan | 2024-01-10 | 2024-01-25 |\n| 2 | 2 | Anna | 2024-01-15 | 2024-02-01 |\n| 3 | 3 | Ewa | 2024-02-01 | 2024-02-15 |\n| 4 | 1 | Piotr | 2024-02-10 | 2024-02-28 |\n| 5 | 5 | Anna | 2024-03-01 | 2024-03-20 |\n| 6 | 4 | Jan | 2024-03-05 | NULL |\n| 7 | 6 | Ewa | 2024-03-10 | 2024-03-25 |\n| 8 | 2 | Kasia | 2024-03-15 | NULL |\n| 9 | 7 | Tomek | 2024-04-01 | 2024-04-10 |\n| 10 | 8 | Anna | 2024-04-05 | NULL |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe i miasto bibliotek, w ktorych liczba wypozyczen (zakonczonych — data_zwrotu IS NOT NULL) jest wieksza niz srednia liczba zakonczonych wypozyczen na biblioteke. Dla kazdej takiej biblioteki podaj tez te liczbe.",
+      "wskazowki": [
+        "**Kierunek**: Potrzebujesz: (a) policzyc zakonczone wypozyczenia per biblioteka, (b) obliczyc srednia z tych liczb, (c) porownac.",
+        "**Podejscie**: JOIN trzech tabel, WHERE data_zwrotu IS NOT NULL, GROUP BY po bibliotece, HAVING z podzapytaniem.",
+        "**Kluczowy krok**: Podzapytanie w HAVING musi obliczac srednia liczbe wypozyczen na biblioteke — to wymaga zagniezdzonego podzapytania ze swoim GROUP BY."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT B.nazwa, B.miasto, COUNT(*) AS liczba_wypozyczen\nFROM Biblioteki B\nJOIN Ksiazki K ON B.id_bib = K.id_bib\nJOIN Wypozyczenia W ON K.id_ks = W.id_ks\nWHERE W.data_zwrotu IS NOT NULL\nGROUP BY B.id_bib, B.nazwa, B.miasto\nHAVING COUNT(*) > (\n  SELECT AVG(cnt) FROM (\n    SELECT COUNT(*) AS cnt\n    FROM Ksiazki K2\n    JOIN Wypozyczenia W2 ON K2.id_ks = W2.id_ks\n    WHERE W2.data_zwrotu IS NOT NULL\n    GROUP BY K2.id_bib\n  )\n);\n```\n\n**Weryfikacja**:\n\nZakonczone wypozyczenia per biblioteka:\n- Miejska (id=1): ks.1 (wyp.1 ✓, wyp.4 ✓), ks.2 (wyp.2 ✓, wyp.8 ✗ NULL), ks.4 (wyp.6 ✗ NULL) → **3**\n- Akademicka (id=2): ks.3 (wyp.3 ✓), ks.6 (wyp.7 ✓) → **2**\n- Dzielnicowa (id=3): ks.5 (wyp.5 ✓), ks.8 (wyp.10 ✗ NULL) → **1**\n- Uczelniana (id=4): ks.7 (wyp.9 ✓) → **1**\n\nSrednia: (3+2+1+1)/4 = 7/4 = **1.75**\n\nBiblioteki z liczba > 1.75:\n- Miejska: 3 > 1.75 ✓\n- Akademicka: 2 > 1.75 ✓\n\n| nazwa | miasto | liczba_wypozyczen |\n|-------|--------|-------------------|\n| Miejska | Warszawa | 3 |\n| Akademicka | Krakow | 2 |\n\n**Wyjasnienie**: Zagniezdzone podzapytanie (podzapytanie w podzapytaniu) najpierw oblicza COUNT per biblioteka, potem AVG z tych COUNT-ow. Wewnetrzne podzapytanie zwraca tabele (cnt per biblioteka), a zewnetrzne oblicza srednia z tych wartosci. To jeden z najtrudniejszych wzorcow SQL na maturze.",
+      "typowe_bledy": [
+        {
+          "opis": "**AVG(COUNT(*))**: Nie mozna zagniezdzyc funkcji agregujacych bezposrednio — `AVG(COUNT(*))` to blad. Potrzeba podzapytania",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak WHERE data_zwrotu IS NOT NULL w podzapytaniu**: Podzapytanie liczyloby tez niezakonczone wypozyczenia",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak filtra na data_zwrotu w zapytaniu glownym**: Policzyloby wszystkie wypozyczenia (zakonczenia i niezakonczone)",
+          "kara": "-2 pkt"
+        }
+      ]
+    }
+  ]
+}

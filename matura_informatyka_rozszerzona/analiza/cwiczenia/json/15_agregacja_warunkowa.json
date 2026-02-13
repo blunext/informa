@@ -1,0 +1,340 @@
+{
+  "typ": "15_agregacja_warunkowa",
+  "nazwa": "Agregacja warunkowa w arkuszu kalkulacyjnym",
+  "kategoria": "ARKUSZ",
+  "czestotliwosc": "9/11 lat",
+  "punkty_lacznie": 38,
+  "tagi_globalne": [
+    "COUNTIF",
+    "COUNTIFS",
+    "SUMIF",
+    "SUMIFS",
+    "AVERAGEIF",
+    "AVERAGEIFS",
+    "warunek-tekstowy",
+    "warunek-liczbowy",
+    "operator-konkatenacji",
+    "zakres-bezwzgledny",
+    "kolumna-pomocnicza",
+    "IF-AND-OR",
+    "MAXIFS-MINIFS",
+    "zagniezdzone-funkcje"
+  ],
+  "cwiczenia": [
+    {
+      "id": "15.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2024 (Hurtownia)",
+      "tagi": [
+        "COUNTIF",
+        "warunek-tekstowy"
+      ],
+      "tresc": "W arkuszu kalkulacyjnym mamy liste produktow w sklepie:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Produkt** | **Kategoria** | **Cena** |\n| 2 | Mleko | Nabiał | 4.50 |\n| 3 | Chleb | Pieczywo | 5.20 |\n| 4 | Jogurt | Nabiał | 3.80 |\n| 5 | Bułka | Pieczywo | 0.60 |\n| 6 | Ser | Nabiał | 8.90 |\n| 7 | Masło | Nabiał | 7.40 |\n| 8 | Bagietka | Pieczywo | 3.50 |\n| 9 | Kefir | Nabiał | 4.20 |\n| 10 | Rogal | Pieczywo | 1.80 |\n| 11 | Śmietana | Nabiał | 2.90 |\n\n**Polecenie**: Napisz formule, ktora obliczy ile produktow nalezy do kategorii \"Nabiał\".",
+      "wskazowki": [
+        "**Kierunek**: Potrzebujesz funkcji zliczajacej komorki spelniajace warunek tekstowy.",
+        "**Podejscie**: Funkcja COUNTIF przyjmuje zakres i kryterium — przeszukaj kolumne kategorii.",
+        "**Kluczowy krok**: =COUNTIF(B2:B11;\"Nabiał\") — zakres to kolumna B, kryterium to dokladny tekst."
+      ],
+      "odpowiedz": "**Formula:**\n```\n=COUNTIF(B2:B11;\"Nabiał\")\n```\n\n**Weryfikacja**: Produkty z kategorii \"Nabiał\": Mleko, Jogurt, Ser, Masło, Kefir, Śmietana = **6**\n\n**Wyjasnienie**: COUNTIF(zakres; kryterium) zlicza komorki w zakresie B2:B11, ktore zawieraja tekst \"Nabiał\". Srednik oddziela argumenty (konwencja polska/europejska).",
+      "typowe_bledy": [
+        {
+          "opis": "**Przecinek zamiast srednika**: =COUNTIF(B2:B11,\"Nabiał\") — w polskiej wersji Excela separatorem jest srednik",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak cudzyslowow wokol tekstu**: =COUNTIF(B2:B11;Nabiał) — kryterium tekstowe musi byc w cudzyslowach",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "15.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Matura 2015 (Demografia)",
+      "tagi": [
+        "AVERAGEIF",
+        "warunek-tekstowy"
+      ],
+      "tresc": "W arkuszu mamy wyniki uczniow klasy:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Imie** | **Plec** | **Ocena** |\n| 2 | Anna | K | 4 |\n| 3 | Bartek | M | 3 |\n| 4 | Celina | K | 5 |\n| 5 | Dawid | M | 4 |\n| 6 | Ewa | K | 3 |\n| 7 | Filip | M | 2 |\n| 8 | Gosia | K | 5 |\n| 9 | Hubert | M | 4 |\n| 10 | Iza | K | 4 |\n| 11 | Jan | M | 3 |\n\n**Polecenie**: Napisz formuly obliczajace srednia ocene osobno dla chlopcow (M) i dziewczyn (K).",
+      "wskazowki": [
+        "**Kierunek**: Potrzebujesz funkcji obliczajacej srednia z warunkowym filtrowaniem — nie zwyklego AVERAGE.",
+        "**Podejscie**: AVERAGEIF ma 3 argumenty: zakres kryterium, kryterium, zakres sredniej.",
+        "**Kluczowy krok**: Zakres kryterium to kolumna B (plec), zakres sredniej to kolumna C (oceny)."
+      ],
+      "odpowiedz": "**Formuly:**\n```\nSrednia chlopcow: =AVERAGEIF(B2:B11;\"M\";C2:C11)\nSrednia dziewczyn: =AVERAGEIF(B2:B11;\"K\";C2:C11)\n```\n\n**Weryfikacja**:\n- Chlopcy (M): Bartek=3, Dawid=4, Filip=2, Hubert=4, Jan=3 → (3+4+2+4+3)/5 = 16/5 = **3.20**\n- Dziewczyny (K): Anna=4, Celina=5, Ewa=3, Gosia=5, Iza=4 → (4+5+3+5+4)/5 = 21/5 = **4.20**\n\n**Wyjasnienie**: AVERAGEIF(zakres_kryterium; kryterium; zakres_sredniej) oblicza srednia tylko tych wartosci z C2:C11, dla ktorych odpowiadajaca komorka w B2:B11 spelnia warunek.",
+      "typowe_bledy": [
+        {
+          "opis": "**Zamiana kolejnosci argumentow**: =AVERAGEIF(C2:C11;\"M\";B2:B11) — pierwszy zakres to zakres kryterium (B), nie zakres sredniej (C)",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Uzycie AVERAGE zamiast AVERAGEIF**: =AVERAGE(C2:C11) oblicza srednia WSZYSTKICH uczniow, nie tylko jednej plci",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "15.3",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2024 (Hurtownia)",
+      "tagi": [
+        "SUMIFS",
+        "warunek-tekstowy",
+        "wiele-warunkow"
+      ],
+      "tresc": "W arkuszu mamy dane sprzedazy hurtowni:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Data** | **Region** | **Kwartal** | **Sprzedaz** |\n| 2 | 2024-01-15 | Północ | Q1 | 12000 |\n| 3 | 2024-02-20 | Południe | Q1 | 8500 |\n| 4 | 2024-03-10 | Północ | Q1 | 15000 |\n| 5 | 2024-04-05 | Południe | Q2 | 9200 |\n| 6 | 2024-05-18 | Północ | Q2 | 11000 |\n| 7 | 2024-06-22 | Południe | Q2 | 7800 |\n| 8 | 2024-07-14 | Północ | Q3 | 13500 |\n| 9 | 2024-08-30 | Południe | Q3 | 10200 |\n| 10 | 2024-09-05 | Północ | Q3 | 14000 |\n| 11 | 2024-10-12 | Południe | Q4 | 9500 |\n| 12 | 2024-11-20 | Północ | Q4 | 16000 |\n| 13 | 2024-12-15 | Południe | Q4 | 11000 |\n\n**Polecenie**: Napisz formule SUMIFS, ktora obliczy laczna sprzedaz regionu \"Północ\" w kwartale \"Q3\".",
+      "wskazowki": [
+        "**Kierunek**: SUMIFS pozwala sumowac z wieloma warunkami jednoczesnie (w przeciwienstwie do SUMIF z jednym warunkiem).",
+        "**Podejscie**: Pierwszy argument to zakres sumowania, potem pary: zakres kryterium + kryterium.",
+        "**Kluczowy krok**: =SUMIFS(D2:D13;B2:B13;\"Północ\";C2:C13;\"Q3\") — dwa warunki: region i kwartal."
+      ],
+      "odpowiedz": "**Formula:**\n```\n=SUMIFS(D2:D13;B2:B13;\"Północ\";C2:C13;\"Q3\")\n```\n\n**Weryfikacja**:\nSzukamy wierszy, gdzie Region=\"Północ\" ORAZ Kwartal=\"Q3\":\n- Wiersz 8: Region=Północ, Kwartal=Q3, Sprzedaz=13500 ✓\n- Wiersz 10: Region=Północ, Kwartal=Q3, Sprzedaz=14000 ✓\n\nSuma: 13500 + 14000 = **27500**\n\n**Wyjasnienie**: SUMIFS(zakres_sumy; zakres_kryt1; kryterium1; zakres_kryt2; kryterium2) sumuje wartosci z D2:D13 tylko dla wierszy spelniajacych OBA warunki jednoczesnie. Roznica wzgledem SUMIF: SUMIFS akceptuje wiele par zakres-kryterium.",
+      "typowe_bledy": [
+        {
+          "opis": "**Uzycie SUMIF zamiast SUMIFS**: SUMIF obsluguje tylko jeden warunek. Aby filtrowac po regionie I kwartale, trzeba SUMIFS",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Zly porzadek argumentow w SUMIFS**: W SUMIFS zakres sumy jest PIERWSZY (inaczej niz w SUMIF, gdzie jest trzeci)",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Niezgodne rozmiary zakresow**: Wszystkie zakresy w SUMIFS musza miec te sama liczbe wierszy",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "15.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2019 (Pogoda)",
+      "tagi": [
+        "AVERAGEIF",
+        "COUNTIFS",
+        "operator-konkatenacji",
+        "warunek-liczbowy"
+      ],
+      "tresc": "W arkuszu mamy dane pogodowe z 12 miesiecy:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Dzien** | **Miesiac** | **Temperatura** |\n| 2 | 1 | Styczeń | -5.2 |\n| 3 | 2 | Styczeń | -3.1 |\n| 4 | 3 | Styczeń | 0.4 |\n| 5 | 4 | Luty | -1.8 |\n| 6 | 5 | Luty | 2.3 |\n| 7 | 6 | Luty | -0.5 |\n| 8 | 7 | Marzec | 5.1 |\n| 9 | 8 | Marzec | 8.7 |\n| 10 | 9 | Marzec | 3.2 |\n| 11 | 10 | Marzec | 7.4 |\n\nZalozmy, ze normy temperatur sa podane w osobnej tabeli:\n\n| | E | F |\n|---|---|---|\n| 1 | **Miesiac** | **Norma** |\n| 2 | Styczeń | -2.0 |\n| 3 | Luty | 0.0 |\n| 4 | Marzec | 5.0 |\n\n**Polecenie**:\n1. Napisz formule obliczajaca srednia temperature w styczniu (AVERAGEIF).\n2. Napisz formule zliczajaca dni w marcu z temperatura powyzej normy (5.0°C) uzywajac COUNTIFS.",
+      "wskazowki": [
+        "**Kierunek**: Punkt 1 to standardowy AVERAGEIF. Punkt 2 wymaga dwoch warunkow — COUNTIFS.",
+        "**Podejscie**: W punkcie 2 kryterium liczbowe musi byc polaczone z operatorem porownania za pomoca `&`.",
+        "**Kluczowy krok**: Kryterium `\">\"&F4` laczy tekst \">\" z wartoscia komorki F4 (5.0), dajac \">5\"."
+      ],
+      "odpowiedz": "**Formuly:**\n```\n1. Srednia temperatura w styczniu:\n   =AVERAGEIF(B2:B11;\"Styczeń\";C2:C11)\n\n2. Dni w marcu powyzej normy:\n   =COUNTIFS(B2:B11;\"Marzec\";C2:C11;\">\"&F4)\n```\n\n**Weryfikacja**:\n\n1. Srednia w styczniu:\n   - Dni w styczniu: -5.2, -3.1, 0.4\n   - Srednia: (-5.2 + (-3.1) + 0.4) / 3 = -7.9/3 = **-2.633...**\n\n2. Dni w marcu powyzej normy (>5.0):\n   - Marzec: 5.1 (>5.0 ✓), 8.7 (>5.0 ✓), 3.2 (≤5.0 ✗), 7.4 (>5.0 ✓)\n   - Wynik: **3** dni\n\n**Wyjasnienie**:\n- AVERAGEIF dziala analogicznie do SUMIF — uśrednia wartosci C tylko tam, gdzie B spelnia kryterium.\n- W COUNTIFS kryterium `\">\"&F4` laczy operator porownania `\">\"` z wartoscia komorki F4 (5.0), tworzac warunek `\">5\"`. Operator `&` sluzy do laczenia tekstu (konkatenacji).",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak cudzyslowow wokol operatora**: =\">\"&F4 jest poprawne, ale >F4 bez cudzyslowow nie zadziala",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Uzycie COUNTIF zamiast COUNTIFS**: COUNTIF obsluguje tylko jeden warunek (np. tylko \">5\"), ale nie filtruje jednoczesnie po miesiacu",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Wpisanie wartosci zamiast odwolania**: =COUNTIFS(B2:B11;\"Marzec\";C2:C11;\">5\") zadziala, ale traci elastycznosc — lepiej uzywac odwolania do komorki z norma. CKE: zwykle akceptowane, ale mniej eleganckie.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "15.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2025 (Martianeum)",
+      "tagi": [
+        "SUMIFS",
+        "kolumna-pomocnicza",
+        "IF-AND-OR",
+        "AVERAGEIF",
+        "zagniezdzone-funkcje"
+      ],
+      "tresc": "Fabryka produkuje czesci metalowe. Kazda czesc ma wymiary i wagi mierzone na 3 stanowiskach kontroli jakosci. Czesc przechodzi kontrole, jezeli:\n- srednia waga z 3 pomiarow miesci sie w zakresie [95g, 105g]\n- zaden pojedynczy pomiar nie odbiega od sredniej o wiecej niz 5g\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **ID** | **Typ** | **Pomiar1** | **Pomiar2** | **Pomiar3** |\n| 2 | P001 | A | 98 | 101 | 100 |\n| 3 | P002 | B | 94 | 96 | 95 |\n| 4 | P003 | A | 102 | 108 | 99 |\n| 5 | P004 | A | 100 | 100 | 101 |\n| 6 | P005 | B | 92 | 88 | 95 |\n| 7 | P006 | A | 103 | 104 | 105 |\n| 8 | P007 | B | 97 | 99 | 98 |\n| 9 | P008 | A | 110 | 112 | 108 |\n| 10 | P009 | B | 100 | 101 | 99 |\n| 11 | P010 | A | 96 | 97 | 98 |\n\n**Polecenie**:\n1. W kolumnie F oblicz srednia wage kazdej czesci (F2: srednia z C2:E2).\n2. W kolumnie G sprawdz warunek zakresu: czy srednia F jest miedzy 95 a 105 (TRUE/FALSE).\n3. W kolumnie H sprawdz warunek odchylenia: czy kazdy pomiar jest w odleglosci ≤5 od sredniej (TRUE/FALSE).\n4. W kolumnie I wyznacz wynik kontroli: \"OK\" jezeli G=TRUE i H=TRUE, \"ODRZUT\" w przeciwnym razie.\n5. Napisz formule obliczajaca laczna mase (sume srednich wag) czesci typu \"A\", ktore przeszly kontrole (\"OK\").",
+      "wskazowki": [
+        "**Kierunek**: Zadanie wymaga budowania rozwiazania etapami — kazda kolumna pomocnicza odpowiada jednemu krokowi logicznemu.",
+        "**Podejscie**: AND laczy wiele warunkow logicznych. ABS oblicza wartosc bezwzgledna. IF zamienia TRUE/FALSE na teksty.",
+        "**Kluczowy krok**: Koncowa formula SUMIFS filtruje po kolumnach pomocniczych — typ=\"A\" i wynik=\"OK\"."
+      ],
+      "odpowiedz": "**Formuly (w wierszu 2, kopiowane w dol):**\n```\nF2: =AVERAGE(C2:E2)\nG2: =AND(F2>=95;F2<=105)\nH2: =AND(ABS(C2-F2)<=5;ABS(D2-F2)<=5;ABS(E2-F2)<=5)\nI2: =IF(AND(G2;H2);\"OK\";\"ODRZUT\")\n```\n\n**Obliczenia krok po kroku:**\n\n| ID | Typ | P1 | P2 | P3 | F: Srednia | G: Zakres? | H: Odchylenie? | I: Wynik |\n|----|-----|----|----|----|-----------|-----------|----------------|----------|\n| P001 | A | 98 | 101 | 100 | 99.67 | TRUE (95-105) | TRUE (max odch: 1.67) | OK |\n| P002 | B | 94 | 96 | 95 | 95.00 | TRUE (95-105) | TRUE (max odch: 1.00) | OK |\n| P003 | A | 102 | 108 | 99 | 103.00 | TRUE (95-105) | TRUE (max odch: 5.00) | OK |\n| P004 | A | 100 | 100 | 101 | 100.33 | TRUE | TRUE (max odch: 0.67) | OK |\n| P005 | B | 92 | 88 | 95 | 91.67 | FALSE (<95) | TRUE (max odch: 3.67) | ODRZUT |\n| P006 | A | 103 | 104 | 105 | 104.00 | TRUE | TRUE (max odch: 1.00) | OK |\n| P007 | B | 97 | 99 | 98 | 98.00 | TRUE | TRUE (max odch: 1.00) | OK |\n| P008 | A | 110 | 112 | 108 | 110.00 | FALSE (>105) | TRUE (max odch: 2.00) | ODRZUT |\n| P009 | B | 100 | 101 | 99 | 100.00 | TRUE | TRUE (max odch: 1.00) | OK |\n| P010 | A | 96 | 97 | 98 | 97.00 | TRUE | TRUE (max odch: 1.00) | OK |\n\nKorekta P003: srednia = (102+108+99)/3 = 309/3 = 103.00. Odchylenia: |102-103|=1 ≤5 ✓, |108-103|=5 ≤5 ✓, |99-103|=4 ≤5 ✓. Wiec H=TRUE, wynik=OK.\n\n**Formula koncowa (laczna masa czesci typu A z wynikiem OK):**\n```\n=SUMIFS(F2:F11;B2:B11;\"A\";I2:I11;\"OK\")\n```\n\nCzesci typu A z wynikiem OK: P001 (99.67), P003 (103.00), P004 (100.33), P006 (104.00), P010 (97.00)\nSuma: 99.67 + 103.00 + 100.33 + 104.00 + 97.00 = **504.00**\n\n**Wyjasnienie**: Cwiczenie laczy kilka krokow: kolumny pomocnicze z AVERAGE i AND, a nastepnie SUMIFS z wieloma warunkami na kolumnach pomocniczych. Jest to typowy wzorzec na maturze — budowanie rozwiazania etapami.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak ABS w warunku odchylenia**: Bez ABS roznica moze byc ujemna i warunek ≤5 bedzie falszywiy dla pomiarow nizszych od sredniej",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Uzycie OR zamiast AND w kolumnie I**: Wynik \"OK\" wymaga spelnienia OBU warunkow (zakres I odchylenie), nie jednego z nich",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Zapomnienie o kolumnach pomocniczych**: Proba napisania jednej ogromnej formuly SUMIFS bez etapow posrednich — trudne do debugowania i czesto bledne. CKE: akceptowane, ale ryzykowne.",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "15.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "ogolna",
+      "tagi": [
+        "SUMIF",
+        "warunek-tekstowy"
+      ],
+      "tresc": "Sklep prowadzi ewidencje sprzedazy owocow w ciagu tygodnia:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Dzien** | **Owoc** | **Sprzedaz (kg)** |\n| 2 | Pon | Jabłka | 25 |\n| 3 | Pon | Banany | 15 |\n| 4 | Wt | Jabłka | 30 |\n| 5 | Wt | Banany | 20 |\n| 6 | Sr | Jabłka | 18 |\n| 7 | Sr | Banany | 22 |\n| 8 | Czw | Jabłka | 35 |\n| 9 | Czw | Banany | 12 |\n| 10 | Pt | Jabłka | 40 |\n| 11 | Pt | Banany | 28 |\n\n**Polecenie**: Napisz formuly obliczajace:\n1. Laczna sprzedaz jablek w calym tygodniu.\n2. Laczna sprzedaz bananow w calym tygodniu.\n3. Ktory owoc mial wieksza laczna sprzedaz?",
+      "wskazowki": [
+        "**Kierunek**: Potrzebujesz funkcji sumujacej z warunkiem — SUMIF.",
+        "**Podejscie**: SUMIF(zakres_kryterium; kryterium; zakres_sumy) — filtruj po kolumnie B, sumuj kolumne C.",
+        "**Kluczowy krok**: Porownaj wyniki obu SUMIF, aby odpowiedziec na punkt 3."
+      ],
+      "odpowiedz": "**Formuly:**\n```\nJabłka: =SUMIF(B2:B11;\"Jabłka\";C2:C11)\nBanany: =SUMIF(B2:B11;\"Banany\";C2:C11)\n```\n\n**Weryfikacja:**\n- Jabłka: 25 + 30 + 18 + 35 + 40 = **148 kg**\n- Banany: 15 + 20 + 22 + 12 + 28 = **97 kg**\n- Wieksza sprzedaz: **Jabłka (148 kg)**\n\n**Wyjasnienie**: SUMIF(zakres_kryterium; kryterium; zakres_sumy) sumuje wartosci z kolumny C tylko dla wierszy, gdzie kolumna B zawiera podany tekst. Roznica SUMIF vs SUMIFS: SUMIF obsluguje jeden warunek, SUMIFS — wiele.",
+      "typowe_bledy": [
+        {
+          "opis": "**Zamiana zakresow**: =SUMIF(C2:C11;\"Jabłka\";B2:B11) — zakres kryterium (B) i zakres sumy (C) sa zamienione",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Uzycie COUNTIF zamiast SUMIF**: COUNTIF zlicza ILOSC wierszy, a nie sumuje wartosci sprzedazy",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "15.7",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2017 (Cukier)",
+      "tagi": [
+        "COUNTIFS",
+        "warunek-liczbowy",
+        "operator-konkatenacji",
+        "wiele-warunkow"
+      ],
+      "tresc": "Nauczyciel ma wyniki egzaminu z 12 uczniow:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Imie** | **Klasa** | **Punkty** | **Plec** |\n| 2 | Adam | 3A | 72 | M |\n| 3 | Beata | 3B | 85 | K |\n| 4 | Czarek | 3A | 58 | M |\n| 5 | Diana | 3B | 91 | K |\n| 6 | Emil | 3A | 45 | M |\n| 7 | Fiona | 3B | 78 | K |\n| 8 | Grzegorz | 3A | 83 | M |\n| 9 | Hanna | 3B | 67 | K |\n| 10 | Igor | 3A | 39 | M |\n| 11 | Justyna | 3B | 74 | K |\n| 12 | Kamil | 3A | 90 | M |\n| 13 | Laura | 3B | 55 | K |\n\n**Polecenie**:\n1. Ile dziewczyn z klasy 3B uzyskalo wiecej niz 70 punktow?\n2. Ile osob z klasy 3A nie zdalo (ponizej 50 punktow)?\n3. Jaki procent uczniow klasy 3A zdalo egzamin (>=50 punktow)?",
+      "wskazowki": [
+        "**Kierunek**: Punkt 1 i 2 wymagaja COUNTIFS z wieloma warunkami. Punkt 3 to iloraz dwoch COUNTIFS.",
+        "**Podejscie**: Kazdy warunek to osobna para (zakres; kryterium) w COUNTIFS. Warunki liczbowe wymagaja operatora w cudzyslowach.",
+        "**Kluczowy krok**: Procent = zdali / wszyscy z 3A × 100. Zdali = COUNTIFS z warunkiem \">=50\"."
+      ],
+      "odpowiedz": "**Formuly:**\n```\n1. =COUNTIFS(B2:B13;\"3B\";D2:D13;\"K\";C2:C13;\">70\")\n2. =COUNTIFS(B2:B13;\"3A\";C2:C13;\"<50\")\n3. =COUNTIFS(B2:B13;\"3A\";C2:C13;\">=50\")/COUNTIF(B2:B13;\"3A\")*100\n```\n\n**Weryfikacja:**\n\n1. Dziewczyny z 3B z wynikiem >70:\n   - Beata (85 ✓), Diana (91 ✓), Fiona (78 ✓), Hanna (67 ✗), Justyna (74 ✓), Laura (55 ✗)\n   - Wynik: **4**\n\n2. Osoby z 3A ponizej 50:\n   - Adam (72 ✗), Czarek (58 ✗), Emil (45 ✓), Grzegorz (83 ✗), Igor (39 ✓), Kamil (90 ✗)\n   - Wynik: **2**\n\n3. Procent zdanych z 3A:\n   - Zdali (≥50): Adam (72), Czarek (58), Grzegorz (83), Kamil (90) = 4 osoby\n   - Wszyscy z 3A: 6 osob\n   - Procent: 4/6 × 100 = **66.67%**\n\n**Wyjasnienie**: COUNTIFS obsluguje do 127 par warunek-zakres. Warunki liczbowe zapisujemy w cudzyslowach: \">70\", \"<50\", \">=50\". Procent to iloraz — licznik (COUNTIFS ze warunkami) / mianownik (COUNTIF z jednym warunkiem).",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak cudzyslowow wokol operatora liczbowego**: =COUNTIFS(B2:B13;\"3B\";C2:C13;>70) — operator musi byc w cudzyslowach \">70\"",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Pominiecie warunku plci w punkcie 1**: Bez warunku D2:D13;\"K\" policzymy wszystkich z 3B, nie tylko dziewczyny",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Pomieszanie >= z >**: \">=50\" to zdali (50 tez zdal), \">50\" wyklucza osoby z dokladnie 50 punktami",
+          "kara": "-1 pkt jesli zmienia wynik"
+        }
+      ]
+    },
+    {
+      "id": "15.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Matura 2023 (Konfitury)",
+      "tagi": [
+        "SUMIFS",
+        "AVERAGEIFS",
+        "warunek-liczbowy",
+        "wiele-warunkow"
+      ],
+      "tresc": "Hurtownia prowadzi rejestr dostaw towaru:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Dostawca** | **Kategoria** | **Waga (kg)** | **Ocena jakosci** |\n| 2 | Firma A | Owoce | 500 | 8 |\n| 3 | Firma B | Warzywa | 300 | 6 |\n| 4 | Firma A | Warzywa | 450 | 9 |\n| 5 | Firma C | Owoce | 200 | 5 |\n| 6 | Firma B | Owoce | 350 | 7 |\n| 7 | Firma A | Owoce | 600 | 8 |\n| 8 | Firma C | Warzywa | 250 | 4 |\n| 9 | Firma B | Warzywa | 400 | 7 |\n| 10 | Firma A | Warzywa | 550 | 9 |\n| 11 | Firma C | Owoce | 180 | 6 |\n\n**Polecenie**:\n1. Oblicz laczna wage dostaw owocow od Firmy A.\n2. Oblicz srednia ocene jakosci dostaw warzyw o wadze powyzej 300 kg.\n3. Oblicz laczna wage dostaw o ocenie jakosci >= 7.",
+      "wskazowki": [
+        "**Kierunek**: Punkt 1 to SUMIFS z dwoma warunkami tekstowymi. Punkt 2 to AVERAGEIFS. Punkt 3 to SUMIFS z warunkiem liczbowym.",
+        "**Podejscie**: W AVERAGEIFS — pierwszy argument to zakres sredniej (D), potem pary warunek. W warunku liczbowym: \">300\".",
+        "**Kluczowy krok**: Pamietaj o kolejnosci argumentow: SUMIFS(suma; zakr1; kryt1; ...) i AVERAGEIFS(srednia; zakr1; kryt1; ...)."
+      ],
+      "odpowiedz": "**Formuly:**\n```\n1. =SUMIFS(C2:C11;A2:A11;\"Firma A\";B2:B11;\"Owoce\")\n2. =AVERAGEIFS(D2:D11;B2:B11;\"Warzywa\";C2:C11;\">300\")\n3. =SUMIFS(C2:C11;D2:D11;\">=\"&7)\n   lub: =SUMIFS(C2:C11;D2:D11;\">=7\")\n```\n\n**Weryfikacja:**\n\n1. Owoce od Firmy A:\n   - Wiersz 2: Firma A, Owoce, 500 ✓\n   - Wiersz 7: Firma A, Owoce, 600 ✓\n   - Suma: 500 + 600 = **1100 kg**\n\n2. Warzywa o wadze >300 — srednia ocena:\n   - Wiersz 4: Warzywa, 450>300, ocena=9 ✓\n   - Wiersz 9: Warzywa, 400>300, ocena=7 ✓\n   - Wiersz 10: Warzywa, 550>300, ocena=9 ✓\n   - (Wiersz 3: Warzywa, 300 — nie spelnia >300)\n   - (Wiersz 8: Warzywa, 250 — nie spelnia >300)\n   - Srednia: (9+7+9)/3 = **8.33**\n\n3. Dostawy z ocena >=7:\n   - Wiersz 2: ocena 8 ✓, waga 500\n   - Wiersz 4: ocena 9 ✓, waga 450\n   - Wiersz 6: ocena 7 ✓, waga 350\n   - Wiersz 7: ocena 8 ✓, waga 600\n   - Wiersz 9: ocena 7 ✓, waga 400\n   - Wiersz 10: ocena 9 ✓, waga 550\n   - Suma: 500+450+350+600+400+550 = **2850 kg**\n\n**Wyjasnienie**: AVERAGEIFS ma taka sama skladnie jak SUMIFS — pierwszy argument to zakres sredniej/sumy, potem pary warunek. Warunki moga byc tekstowe (\"Owoce\") lub liczbowe (\">=7\"). Mozna mieszac warunki tekstowe i liczbowe w jednej formule.",
+      "typowe_bledy": [
+        {
+          "opis": "**Pominiecie warunku wagi w punkcie 2**: Bez \">300\" policzylibysmy srednia dla WSZYSTKICH warzyw",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Uzycie > zamiast >= w punkcie 3**: \">7\" wyklucza dostawy z ocena dokladnie 7 (Firma B Owoce i Firma B Warzywa)",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Pomieszanie AVERAGEIF z AVERAGEIFS**: AVERAGEIF obsluguje 1 warunek, AVERAGEIFS — wiele. Dla 2 warunkow trzeba AVERAGEIFS",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "15.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "zrodlo": "Matura 2021 (Szyfry)",
+      "tagi": [
+        "COUNTIFS",
+        "SUMIFS",
+        "kolumna-pomocnicza",
+        "IF-AND-OR",
+        "zakres-bezwzgledny"
+      ],
+      "tresc": "W arkuszu mamy dane pracownikow firmy:\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Pracownik** | **Dzial** | **Staz (lata)** | **Pensja** | **Wyksztalcenie** |\n| 2 | Kowalski | IT | 8 | 9500 | Wyzsze |\n| 3 | Nowak | HR | 3 | 5200 | Srednie |\n| 4 | Wisniewski | IT | 12 | 11000 | Wyzsze |\n| 5 | Wojcik | Sprzedaz | 5 | 6800 | Wyzsze |\n| 6 | Kaminska | HR | 7 | 6100 | Wyzsze |\n| 7 | Lewandowski | IT | 2 | 7200 | Wyzsze |\n| 8 | Zielinska | Sprzedaz | 10 | 8500 | Srednie |\n| 9 | Szymanski | IT | 15 | 13000 | Wyzsze |\n| 10 | Dabrowska | HR | 4 | 5800 | Srednie |\n| 11 | Mazur | Sprzedaz | 6 | 7000 | Wyzsze |\n\n**Polecenie**:\n1. W kolumnie F wpisz \"Senior\" jesli staz >= 10, \"Mid\" jesli staz >= 5, \"Junior\" jesli staz < 5.\n2. Oblicz srednia pensje seniorow z dzialu IT.\n3. Ile osob z wyzszym wyksztalceniem zarabia powyzej sredniej firmy?\n4. Oblicz laczna pensje juniorow (staz < 5).",
+      "wskazowki": [
+        "**Kierunek**: Punkt 1 wymaga zagniezdzanego IF. Punkt 3 wymaga odwolania do sredniej firmy jako progu — uzyj komorki pomocniczej.",
+        "**Podejscie**: Zagniezdzone IF: =IF(C2>=10;\"Senior\";IF(C2>=5;\"Mid\";\"Junior\")). COUNTIFS w punkcie 3 z operatorem `\">\"&komorka_sredniej`.",
+        "**Kluczowy krok**: Srednia firmy w komorce pomocniczej (np. H1), potem COUNTIFS z odwolaniem do niej."
+      ],
+      "odpowiedz": "**Formuly:**\n```\nF2: =IF(C2>=10;\"Senior\";IF(C2>=5;\"Mid\";\"Junior\"))\n\nSrednia pensja seniorow IT:\n=AVERAGEIFS(D2:D11;F2:F11;\"Senior\";B2:B11;\"IT\")\n\nSrednia firmy (w H1): =AVERAGE(D2:D11)\n\nOsoby wyzsze powyzej sredniej:\n=COUNTIFS(E2:E11;\"Wyzsze\";D2:D11;\">\"&H1)\n\nLaczna pensja juniorow:\n=SUMIF(F2:F11;\"Junior\";D2:D11)\n```\n\n**Weryfikacja:**\n\nKolumna F (poziom stazu):\n| Pracownik | Staz | Poziom |\n|-----------|------|--------|\n| Kowalski | 8 | Mid |\n| Nowak | 3 | Junior |\n| Wisniewski | 12 | Senior |\n| Wojcik | 5 | Mid |\n| Kaminska | 7 | Mid |\n| Lewandowski | 2 | Junior |\n| Zielinska | 10 | Senior |\n| Szymanski | 15 | Senior |\n| Dabrowska | 4 | Junior |\n| Mazur | 6 | Mid |\n\nSrednia pensja seniorow IT:\n- Seniorzy z IT: Wisniewski (11000), Szymanski (13000)\n- Srednia: (11000+13000)/2 = **12000**\n\nSrednia firmy: (9500+5200+11000+6800+6100+7200+8500+13000+5800+7000)/10 = 80100/10 = **8010**\n\nOsoby z wyzszym wyksztalceniem zarabiajace >8010:\n- Kowalski (9500, Wyzsze) ✓\n- Wisniewski (11000, Wyzsze) ✓\n- Szymanski (13000, Wyzsze) ✓\n- (Wojcik 6800 ✗, Kaminska 6100 ✗, Lewandowski 7200 ✗, Mazur 7000 ✗)\n- Wynik: **3**\n\nLaczna pensja juniorow:\n- Nowak (5200) + Lewandowski (7200) + Dabrowska (5800) = **18200**\n\n**Wyjasnienie**: Zagniezdzone IF tworzy warunki kaskadowe — sprawdza od najwyzszego progu w dol. AVERAGEIFS filtruje po dwoch kolumnach jednoczesnie (F i B). Komorka pomocnicza ze srednia (H1) pozwala uzyc jej dynamicznie w COUNTIFS.",
+      "typowe_bledy": [
+        {
+          "opis": "**Zla kolejnosc warunkow w IF**: =IF(C2>=5;\"Mid\";IF(C2>=10;\"Senior\";\"Junior\")) — warunek >=5 jest sprawdzany pierwszy i „pochłania\" tez seniorow. Sprawdzaj od NAJWYZSZEGO progu",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak komorki pomocniczej ze srednia**: Wpisanie =COUNTIFS(E2:E11;\"Wyzsze\";D2:D11;\">\"&AVERAGE(D2:D11)) tez zadziala, ale jest mniej czytelne i trudniejsze do debugowania.",
+          "kara": ""
+        },
+        {
+          "opis": "**Zapomnienie o $ w odwolaniu do H1**: Jesli formula jest kopiowana, $H$1 zabezpiecza odwolanie",
+          "kara": "-1 pkt jesli kopiowanie jest wymagane"
+        }
+      ]
+    },
+    {
+      "id": "15.10",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "zrodlo": "Matura 2022 (Wybory)",
+      "tagi": [
+        "SUMIFS",
+        "COUNTIFS",
+        "MAXIFS-MINIFS",
+        "kolumna-pomocnicza",
+        "zagniezdzone-funkcje",
+        "zakres-bezwzgledny"
+      ],
+      "tresc": "Siec sklepow prowadzi miesieczna analize sprzedazy. Dane za styczen:\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Sklep** | **Miasto** | **Kategoria** | **Przychod** | **Koszty** |\n| 2 | S1 | Warszawa | Elektronika | 85000 | 62000 |\n| 3 | S2 | Kraków | Odzież | 45000 | 31000 |\n| 4 | S3 | Warszawa | Odzież | 52000 | 38000 |\n| 5 | S4 | Gdańsk | Elektronika | 71000 | 55000 |\n| 6 | S5 | Kraków | Elektronika | 63000 | 48000 |\n| 7 | S6 | Warszawa | Spożywcze | 38000 | 28000 |\n| 8 | S7 | Gdańsk | Odzież | 41000 | 30000 |\n| 9 | S8 | Kraków | Spożywcze | 35000 | 26000 |\n| 10 | S9 | Warszawa | Elektronika | 92000 | 68000 |\n| 11 | S10 | Gdańsk | Spożywcze | 29000 | 22000 |\n\n**Polecenie**:\n1. W kolumnie F oblicz zysk kazdego sklepu (przychod - koszty).\n2. W kolumnie G oblicz marze procentowa (zysk/przychod × 100).\n3. Znajdz najwyzszy zysk wsrod sklepow w Warszawie (uzyj MAXIFS).\n4. Oblicz srednia marze sklepow z kategorii \"Elektronika\".\n5. Ile sklepow ma marze powyzej 20%?\n6. Oblicz laczny zysk sklepow, ktore maja przychod powyzej 50000 i marze powyzej 15%.",
+      "wskazowki": [
+        "**Kierunek**: Zbuduj kolumny pomocnicze F (zysk) i G (marza), a potem uzyj ich w agregacjach warunkowych.",
+        "**Podejscie**: MAXIFS(zakres_max; zakres_kryt; kryterium) dziala jak SUMIFS, ale zwraca maximum. Punkt 6 wymaga SUMIFS z wieloma warunkami na kolumnach pomocniczych.",
+        "**Kluczowy krok**: Marza = F2/D2*100. MAXIFS i AVERAGEIFS operuja na kolumnach F i G."
+      ],
+      "odpowiedz": "**Formuly:**\n```\nF2: =D2-E2                         (zysk, kopiowana w dol)\nG2: =F2/D2*100                     (marza %, kopiowana w dol)\n\nNajwyzszy zysk w Warszawie:\n=MAXIFS(F2:F11;B2:B11;\"Warszawa\")\n\nSrednia marza Elektroniki:\n=AVERAGEIFS(G2:G11;C2:C11;\"Elektronika\")\n\nSklepy z marza >20%:\n=COUNTIF(G2:G11;\">20\")\n\nLaczny zysk (przychod>50000 i marza>15%):\n=SUMIFS(F2:F11;D2:D11;\">50000\";G2:G11;\">15\")\n```\n\n**Obliczenia:**\n\n| Sklep | Miasto | Kat. | Przychod | Koszty | F: Zysk | G: Marza (%) |\n|-------|--------|------|----------|--------|---------|-------------|\n| S1 | Warszawa | Elek. | 85000 | 62000 | 23000 | 27.06 |\n| S2 | Kraków | Odzież | 45000 | 31000 | 14000 | 31.11 |\n| S3 | Warszawa | Odzież | 52000 | 38000 | 14000 | 26.92 |\n| S4 | Gdańsk | Elek. | 71000 | 55000 | 16000 | 22.54 |\n| S5 | Kraków | Elek. | 63000 | 48000 | 15000 | 23.81 |\n| S6 | Warszawa | Spoż. | 38000 | 28000 | 10000 | 26.32 |\n| S7 | Gdańsk | Odzież | 41000 | 30000 | 11000 | 26.83 |\n| S8 | Kraków | Spoż. | 35000 | 26000 | 9000 | 25.71 |\n| S9 | Warszawa | Elek. | 92000 | 68000 | 24000 | 26.09 |\n| S10 | Gdańsk | Spoż. | 29000 | 22000 | 7000 | 24.14 |\n\n3. Najwyzszy zysk w Warszawie: max(23000, 14000, 10000, 24000) = **24000** (S9)\n\n4. Srednia marza Elektroniki: (27.06+22.54+23.81+26.09)/4 = 99.50/4 = **24.87%**\n\n5. Sklepy z marza >20%: Wszystkie 10 sklepow maja marze >20%, wiec wynik = **10**\n\n6. Przychod>50000 i marza>15%:\n   - S1: 85000>50000 ✓, 27.06>15 ✓, zysk=23000\n   - S3: 52000>50000 ✓, 26.92>15 ✓, zysk=14000\n   - S4: 71000>50000 ✓, 22.54>15 ✓, zysk=16000\n   - S5: 63000>50000 ✓, 23.81>15 ✓, zysk=15000\n   - S9: 92000>50000 ✓, 26.09>15 ✓, zysk=24000\n   - Suma: 23000+14000+16000+15000+24000 = **92000**\n\n**Wyjasnienie**: MAXIFS i MINIFS to nowsze funkcje (od Excel 2019 / LibreCalc 7.0). Dzialaja analogicznie do SUMIFS — pierwszy argument to zakres, potem pary warunek. Kolumny pomocnicze (zysk, marza) upraszczaja formuly koncowe. Na maturze to czesty wzorzec: oblicz wartosci posrednie → uzyj ich w agregacji warunkowej.",
+      "typowe_bledy": [
+        {
+          "opis": "**Marza jako zysk/koszty**: Marza procentowa to zysk/PRZYCHOD × 100, nie zysk/koszty",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak MAXIFS — uzycie MAX z IF tablicowym**: =MAX(IF(B2:B11=\"Warszawa\";F2:F11)) wymaga Ctrl+Shift+Enter (formula tablicowa). MAXIFS jest prostsza. CKE: akceptowane oba podejscia.",
+          "kara": ""
+        },
+        {
+          "opis": "**Zapomnienie o kolumnie marzy w punkcie 6**: Bez kolumny G nie mozna filtrowac po marzy w SUMIFS",
+          "kara": "-2 pkt"
+        }
+      ]
+    }
+  ]
+}
