@@ -3,18 +3,19 @@
   "nazwa": "Przetwarzanie zlozone (wieloetapowe)",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "4/11 lat",
-  "punkty_lacznie": 24,
+  "punkty_lacznie": 43,
   "tagi_globalne": [
-    "map-zliczanie",
-    "grupowanie",
-    "wiele-plikow",
     "JOIN-tabel",
-    "vector-par",
-    "sortowanie",
-    "wieloetapowe",
-    "struct",
+    "grupowanie",
     "iomanip",
-    "trojne-petle"
+    "map-zliczanie",
+    "sortowanie",
+    "struct",
+    "trojne-petle",
+    "vector-par",
+    "wczytywanie-pliku",
+    "wiele-plikow",
+    "wieloetapowe"
   ],
   "cwiczenia": [
     {

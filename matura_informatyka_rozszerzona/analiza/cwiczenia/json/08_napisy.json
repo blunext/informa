@@ -3,18 +3,19 @@
   "nazwa": "Przetwarzanie napisow",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "4/11 lat",
-  "punkty_lacznie": 25,
+  "punkty_lacznie": 36,
   "tagi_globalne": [
-    "palindrom",
-    "kody-ASCII",
-    "szyfr-Cezara",
-    "operacje-na-string",
     "getline",
-    "set-unikalnosc",
-    "tolower",
+    "kody-ASCII",
+    "operacje-na-string",
+    "palindrom",
     "podciagi",
-    "zliczanie-znakow",
-    "symulacja-operacji"
+    "set-unikalnosc",
+    "symulacja-operacji",
+    "szyfr-Cezara",
+    "tolower",
+    "wczytywanie-pliku",
+    "zliczanie-znakow"
   ],
   "cwiczenia": [
     {

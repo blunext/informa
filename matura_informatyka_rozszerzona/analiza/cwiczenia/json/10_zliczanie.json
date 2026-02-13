@@ -3,7 +3,7 @@
   "nazwa": "Zliczanie i filtrowanie",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "5/11 lat",
-  "punkty_lacznie": 17,
+  "punkty_lacznie": 33,
   "tagi_globalne": [
     "wczytywanie-pliku",
     "filtrowanie",

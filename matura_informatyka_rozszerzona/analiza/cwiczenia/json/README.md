@@ -46,11 +46,11 @@ System `verify/verify_all.py` automatycznie testuje cwiczenia z kategorii **IMPL
 
 | Pliki | Kategoria | Weryfikator | Status |
 |-------|-----------|-------------|--------|
-| 01-04 | TEORIA | manual | MANUAL_REVIEW |
+| 01-04 | TEORIA | manual_sanity | MANUAL_REVIEW / FAIL |
 | 05 | TEORIA (konwersje) | numconv | PASS/FAIL |
-| 06 | TEORIA | manual | MANUAL_REVIEW |
+| 06 | TEORIA | manual_sanity | MANUAL_REVIEW / FAIL |
 | **07-14** | **IMPLEMENTACJA** | **cpp** | **PASS/FAIL/ERROR** |
-| 15-19 | ARKUSZ | manual | MANUAL_REVIEW |
+| 15-19 | ARKUSZ | manual_sanity | MANUAL_REVIEW / FAIL |
 | **20-23** | **SQL** | **sql** | **PASS/FAIL/ERROR** |
 
 ## Format `tresc` — IMPLEMENTACJA (C++, pliki 07-14)
@@ -205,10 +205,48 @@ Docelowy wynik: **130 PASS, 0 FAIL, 0 ERROR, 100 MANUAL_REVIEW**.
 6. Popraw do PASS
 7. Zaktualizuj `punkty_lacznie` w naglowku pliku jesli trzeba
 
-## Walidacja schema JSON
+## Walidacja schema JSON (standalone)
 
 ```bash
+# Wszystkie pliki:
 python3 analiza/cwiczenia/validate_json.py
+
+# Jeden plik (prefix match):
+python3 analiza/cwiczenia/validate_json.py --file 07_cyfry
 ```
 
-Sprawdza: wymagane pola, dozwolone wartosci `trudnosc`/`kategoria`, format `id`, niepuste stringi.
+Standalone walidator (nie wymaga plikow MD). Sprawdza:
+- Wymagane pola naglowka: `typ`, `nazwa`, `kategoria`, `czestotliwosc`
+- `punkty_lacznie` = suma `punkty` z cwiczen
+- `tagi_globalne` — niepuste, kazdy tag istnieje w rejestrze (`tagi_rejestr.json`)
+- Per cwiczenie: format `id`, `trudnosc`, `punkty` (1-10), `zrodlo`, `tresc` (>50 zn.), `wskazowki` (3 elementy), `odpowiedz` (>50 zn.), `typowe_bledy` (>=1 z `opis` i `kara`)
+- `tagi` cwiczenia — podzbiór `tagi_globalne`, kazdy w rejestrze
+- Reguly per kategoria: IMPLEMENTACJA wymaga ` ```cpp ` i `**Dane**`, SQL wymaga ` ```sql ` i `Tabela **`
+
+## Centralny rejestr tagow
+
+Plik `tagi_rejestr.json` zawiera posortowana liste wszystkich 290 dozwolonych tagow.
+
+Walidator JSON odrzuci tagi spoza rejestru — zapobiega literowkom i niespojnosci.
+
+Aby dodac nowy tag: dopisz go do tablicy `tagi` w `tagi_rejestr.json` (utrzymuj sortowanie alfabetyczne).
+
+## Sanity checki dla MANUAL_REVIEW
+
+Weryfikator `manual_sanity` (pliki 01-04, 06, 15-19) oproc oznaczenia MANUAL_REVIEW wykonuje sanity checki:
+
+**Uniwersalne** (wszystkie):
+- `odpowiedz` >100 znakow
+- `odpowiedz` zawiera tresc strukturalna (tabela/kod/P-F/lista/bold)
+
+**Per typ**:
+- 01 (sledzenie): tabela, drzewo (blok kodu) lub lista krokow
+- 02 (projektowanie): blok kodu
+- 03 (analiza): terminologia analityczna (O(), zlozonosc, porownani, krok...)
+- 04 (test P/F): liczba odpowiedzi PRAWDA/FALSZ >= liczba pytan
+- 06 (bezpieczenstwo): odpowiedz >= 200 znakow
+- 15, 16, 18 (arkusz formuly): formula `=FUNKCJA(...)` lub `=komorka+komorka`
+- 17 (wykresy): slowo "wykres" w odpowiedzi
+- 19 (transformacja): odpowiedz >= 100 znakow
+
+Sanity OK → MANUAL_REVIEW, Sanity FAIL → FAIL.

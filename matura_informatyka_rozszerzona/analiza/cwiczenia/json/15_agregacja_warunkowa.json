@@ -5,20 +5,21 @@
   "czestotliwosc": "9/11 lat",
   "punkty_lacznie": 38,
   "tagi_globalne": [
-    "COUNTIF",
-    "COUNTIFS",
-    "SUMIF",
-    "SUMIFS",
     "AVERAGEIF",
     "AVERAGEIFS",
-    "warunek-tekstowy",
-    "warunek-liczbowy",
-    "operator-konkatenacji",
-    "zakres-bezwzgledny",
-    "kolumna-pomocnicza",
+    "COUNTIF",
+    "COUNTIFS",
     "IF-AND-OR",
     "MAXIFS-MINIFS",
-    "zagniezdzone-funkcje"
+    "SUMIF",
+    "SUMIFS",
+    "kolumna-pomocnicza",
+    "operator-konkatenacji",
+    "warunek-liczbowy",
+    "warunek-tekstowy",
+    "wiele-warunkow",
+    "zagniezdzone-funkcje",
+    "zakres-bezwzgledny"
   ],
   "cwiczenia": [
     {

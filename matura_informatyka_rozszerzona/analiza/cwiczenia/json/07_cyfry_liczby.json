@@ -3,7 +3,7 @@
   "nazwa": "Przetwarzanie cyfr i liczb",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "6/11 lat",
-  "punkty_lacznie": 36,
+  "punkty_lacznie": 35,
   "tagi_globalne": [
     "cyfry-mod-div",
     "suma-cyfr",

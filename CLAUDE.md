@@ -84,16 +84,18 @@ analiza/
 │
 ├── cwiczenia/                     # Training exercises
 │   ├── cwiczenia_sledzenie.md     # 24 algorithm-tracing exercises (7 archetypes + bonus)
+│   ├── validate_json.py           # **Standalone JSON schema validator** (no MD needed)
 │   ├── wg_typu/                   # 23 files × 10 exercises = 230 total (markdown)
 │   │   ├── README.md              # Index with difficulty levels and self-assessment
 │   │   ├── 01_sledzenie_algorytmu.md ... 23_sql_select_where.md
 │   │   └── (each has: skill tags, 3-level hints, full answer, common CKE mistakes)
 │   ├── json/                      # 23 JSON files — same 230 exercises, machine-readable
 │   │   ├── README.md              # **Schema, format danych, checklist dodawania cwiczen**
+│   │   ├── tagi_rejestr.json      # **Central tag registry (290 tags, enforced by validator)**
 │   │   └── 01_sledzenie_algorytmu.json ... 23_sql_select_where.json
 │   └── verify/                    # Automated verification system
 │       ├── verify_all.py          # Main runner (--file, --id, --category, --verbose)
-│       └── verifiers/             # cpp, sql, numconv, manual verifiers
+│       └── verifiers/             # cpp, sql, numconv, manual_sanity verifiers
 │
 └── rozwiazania_wzorcowe/          # Model solutions for real past exam problems
     ├── implementacja_cpp.md       # C++ implementations (e.g., 2024 Zad.3)
@@ -172,10 +174,33 @@ Full documentation: **`analiza/cwiczenia/json/README.md`** — JSON schema, requ
 
 Key points:
 - Exercises live in `json/NN_nazwa.json` files (23 files, 230 exercises total)
-- Automated verification: `python3 analiza/cwiczenia/verify/verify_all.py` (target: 130 PASS, 0 FAIL)
 - **C++ exercises (07-14)**: input data in `tresc` must use `**Dane** (\`plik.txt\`):` format or verifier won't find it
 - **SQL exercises (20-23)**: tables in `tresc` via `Tabela **Name**:`, last non-verification markdown table in `odpowiedz` = expected result
-- Always verify after edits: `--file <name> --verbose` or `--id NN.M --verbose`
+
+### Quality gates (MUST run after any exercise edit)
+
+```bash
+# 1. Schema validation (structure, tags, points):
+python3 analiza/cwiczenia/validate_json.py              # all files
+python3 analiza/cwiczenia/validate_json.py --file NN     # one file
+
+# 2. Content verification (C++ compile+run, SQL exec, sanity checks):
+python3 analiza/cwiczenia/verify/verify_all.py           # all files
+python3 analiza/cwiczenia/verify/verify_all.py --file NN_nazwa --verbose  # one file
+```
+
+**Expected results:**
+- `validate_json.py`: **0 ERRORS**
+- `verify_all.py`: **130 PASS, 0 FAIL, 0 ERROR, 100 MANUAL_REVIEW**
+
+### Tag registry (`json/tagi_rejestr.json`)
+
+Central list of 290 allowed tags. Validator rejects any tag not in this file.
+To add a new tag: add it to `tagi_rejestr.json` (keep alphabetical), then also to `tagi_globalne` of the relevant JSON file.
+
+### Generating new exercises
+
+Use the `/generate-exercises` skill — it guides the full workflow: load context, generate, insert, validate, fix.
 
 ## Common Tasks
 

@@ -3,7 +3,7 @@
   "nazwa": "SQL — JOIN (laczenie tabel)",
   "kategoria": "SQL",
   "czestotliwosc": "8/11 lat",
-  "punkty_lacznie": 21,
+  "punkty_lacznie": 34,
   "tagi_globalne": [
     "INNER-JOIN",
     "LEFT-JOIN",
