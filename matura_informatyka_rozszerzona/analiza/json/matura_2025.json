@@ -1,0 +1,432 @@
+{
+  "rok": 2025,
+  "formula": "2023",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 7,
+  "czesci": [
+    {"czesc": 1, "czas_minuty": 210, "punkty": 50, "opis": "Jedna czesc (nowa formula)"}
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Funkcja rekurencyjna",
+      "punkty": 9,
+      "czesc": 1,
+      "kontekst": "Dana jest rekurencyjna funkcja przestaw, ktorej parametrem jest nieujemna liczba calkowita:\n\nprzestaw(n):\n    r <- n mod 100\n    a <- r div 10\n    b <- r mod 10\n    n <- n div 100\n    jezeli n > 0\n        w <- a + 10 * b + 100 * przestaw(n)\n    w przeciwnym razie\n        jezeli a > 0\n            w <- a + 10 * b\n        w przeciwnym razie\n            w <- b\n    wynikiem jest w\n\nUwaga:\nOperator mod oznacza reszte z dzielenia, natomiast div -- czesc calkowita z dzielenia.",
+      "podzadania": [
+        {
+          "id": "2025.1.1",
+          "numer": "1.1",
+          "punkty": 3,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1. (0-3)\nUzupelnij tabele -- wpisz w drugiej kolumnie wynik funkcji przestaw(n) dla podanych wartosci argumentu n oraz wpisz w trzeciej kolumnie liczbe wywolan funkcji przestaw lacznie z pierwszym wywolaniem z parametrem n.\n\n| n | Wynik dzialania funkcji przestaw | Liczba wywolan funkcji przestaw |\n|---|---|---|\n| 316498 | 134689 | 3 |\n| 43657688 | | |\n| 154005710 | | |\n| 998877665544321 | | |",
+          "odpowiedz": "| n | Wynik dzialania funkcji przestaw | Liczba wywolan funkcji przestaw |\n|---|---|---|\n| 316498 | 134689 | 3 |\n| 43657688 | 34566788 | 4 |\n| 154005710 | 145007501 | 5 |\n| 998877665544321 | 989786756453412 | 8 |",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna.\n2 pkt -- odpowiedz poprawna dla pieciu pol tabeli.\n1 pkt -- odpowiedz poprawna dla czterech pol tabeli.\n0 pkt -- odpowiedz niepoprawna lub niepelna albo brak rozwiazania.",
+          "pulapki": [
+            "Przypadek liczby o nieparzystej liczbie cyfr -- ostatnia pojedyncza cyfra wymaga osobnego warunku",
+            "Pominiecie wiodacych zer w wyniku (np. 154005710 -> 145007501 -- zero w srodku)",
+            "Bledne okreslenie liczby wywolan dla duzych liczb (15-cyfrowa liczba = 8 wywolan)"
+          ]
+        },
+        {
+          "id": "2025.1.2",
+          "numer": "1.2",
+          "punkty": 2,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2. (0-2)\nOcen prawdziwosc podanych zdan. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli jest falszywe.\n\nNiech n bedzie liczba k-cyfrowa, gdzie k > 0. Liczba wywolan funkcji przestaw w zaleznosci od k jest rowna:\n\n| Nr | Zdanie | P | F |\n|---|---|---|---|\n| 1. | k/2 | | |\n| 2. | (k + 1) div 2 (gdzie div oznacza dzielenie calkowite) | | |\n| 3. | k/2 gdy k jest liczba parzysta; (k+1)/2 gdy k jest liczba nieparzysta | | |\n| 4. | (k + 1)/2 | | |",
+          "odpowiedz": "F P P F",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz w 4 zdaniach.\n1 pkt -- za poprawna odpowiedz w 3 zdaniach.\n0 pkt -- odpowiedz niepelna lub niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Rozroznienie miedzy dzieleniem calkowitym (div) a dzieleniem zwyklym (/)",
+            "Zdania 2 i 3 sa rownowazne -- oba prawdziwe",
+            "Zdanie 4 uzywa zwyklego dzielenia (k+1)/2 -- daje wynik niecalkowity dla k parzystego"
+          ]
+        },
+        {
+          "id": "2025.1.3",
+          "numer": "1.3",
+          "punkty": 4,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.3. (0-4)\nW postaci pseudokodu lub w wybranym jezyku programowania napisz nierekurencyjna funkcje przestaw2, ktora dla danej nieujemnej liczby calkowitej n da taka sama wartosc jak przestaw(n).\n\nUwaga: Twoj algorytm moze uzywac wylacznie zmiennych przechowujacych liczby calkowite oraz moze operowac wylacznie na liczbach calkowitych. W zapisie mozesz wykorzystac tylko operacje arytmetyczne: dodawanie, odejmowanie, mnozenie, dzielenie, dzielenie calkowite, reszte z dzielenia oraz porownywanie liczb, instrukcje sterujace, przypisania do zmiennych lub samodzielnie napisane funkcje, wykorzystujace wyzej wymienione operacje. Zabronione jest uzywanie funkcji wbudowanych oraz operatorow innych niz wymienione, w tym -- funkcji przestaw.\n\nSpecyfikacja:\nDane\n    n -- nieujemna liczba calkowita\nWynik\n    w -- nieujemna liczba calkowita, wynik dzialania taki sam jak po wykonaniu przestaw(n)",
+          "odpowiedz": "Przykladowe rozwiazanie:\n\nfunkcja przestaw2(n)\n    w <- 0\n    p <- 1\n    dopoki n > 0 wykonuj\n        r <- n mod 100\n        a <- r div 10\n        b <- r mod 10\n        jezeli n > 9\n            w <- p*a + 10*p*b + w\n        w przeciwnym razie\n            w <- p*b + w\n        n <- n div 100\n        p <- p*100\n    zwroc w",
+          "zasady_oceniania": "4 pkt -- za poprawny algorytm, w tym:\n    1 pkt -- za poprawne przypisanie wartosci poczatkowych zmiennym w oraz p (potega 100) oraz modyfikacje zmiennej oznaczajacej potege 100\n    1 pkt -- za poprawna petle (warunek i dzielenie przez 100)\n    1 pkt -- za poprawna zamiane cyfr\n    1 pkt -- za otrzymanie poprawnego wyniku.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Przypadek liczby o nieparzystej liczbie cyfr -- ostatnia pojedyncza cyfra wymaga osobnego warunku (n > 9 vs n > 0)",
+            "Bledne sledzenie zmiennej p (potegi 100) w wersji iteracyjnej",
+            "Pomylenie warunku n > 0 z n > 9 przy budowaniu wyniku iteracyjnie"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": ["rekurencja", "analiza algorytmu", "operacje na cyfrach liczby"],
+        "algorytmiczny": ["rekurencja", "iteracja", "dzielenie calkowite", "reszta z dzielenia", "zamiana rekurencji na iteracje"],
+        "czasowy_min": 35
+      }
+    },
+    {
+      "numer": 2,
+      "tytul": "Zapis symboliczny",
+      "punkty": 11,
+      "czesc": 1,
+      "kontekst": "W pliku symbole.txt zapisano 2000 napisow. Kazdy z nich jest zapisany w osobnym wierszu i sklada sie z dokladnie 12 znakow sposrod: o, +, *.\n\nNapisz program (lub kilka programow) znajdujacy(-ch) odpowiedzi do podanych zadan. Kazda odpowiedz zapisz w pliku wyniki2.txt i poprzedz ja numerem oznaczajacym zadanie.\n\nDo Twojej dyspozycji jest plik symbole_przyklad.txt, ktory zawiera 20 wierszy danych spelniajacych warunki zadania. Odpowiedzi dla pliku symbole_przyklad.txt sa podane pod kazdym zadaniem.\n\nPamietaj, ze Twoj program musi ostatecznie zadzialac na pliku symbole.txt zawierajacym 2000 napisow.",
+      "podzadania": [
+        {
+          "id": "2025.2.1",
+          "numer": "2.1",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 2.1. (0-2)\nPodaj wszystkie takie napisy z pliku symbole.txt, ktore sa palindromami (czytane od przodu i od tylu sa takie same). Wypisz je po jednym w wierszu, w kolejnosci takiej jak w pliku symbole.txt.\n\nOdpowiedz dla pliku symbole_przyklad.txt to\noooo+**+oooo\n(w tym pliku jest jeden palindrom)",
+          "odpowiedz": "++o+o++o+o++\n+*+**++**+*+\n*+o++**++o+*\n*oo*o**o*oo*\n+*++*oo*++*+\n+o++oooo++o+",
+          "zasady_oceniania": "2 pkt -- poprawne podanie wszystkich palindromow.\n1 pkt -- poprawne podanie 3 palindromow.\n0 pkt -- odpowiedz niepelna lub niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Porownanie znakow od przodu i od tylu -- napis ma 12 znakow, wiec porownujemy pozycje 1-6 z 12-7"
+          ]
+        },
+        {
+          "id": "2025.2.2",
+          "numer": "2.2",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_obrazy_2D",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 2.2. (0-4)\nW pliku symbole.txt szukamy 'kwadratow' zlozonych z dziewieciu sasiednich identycznych symboli:\n\n+ + +       o o o       * * *\n+ + +  lub  o o o  lub  * * *\n+ + +       o o o       * * *\n\nPodaj, ile takich kwadratow wystepuje w pliku symbole.txt. Jezeli w pliku wystepuje jeden taki kwadrat, podaj numer wiersza i numer pozycji w wierszu (liczac od 1) jego srodkowego pola. Jezeli jest wiecej takich kwadratow, podaj numer wiersza i numer pozycji w wierszu dla srodkowego pola kazdego z nich.\n\nPrzyklad:\nPonizej podano 6 wierszy przykladowych danych (po 12 znakow w kazdym wierszu):\n1. +**+o*o++*o+\n2. +++oooo*o***\n3. +o*oooo**+++\n4. *+*ooooo++++\n5. o**o+++o++++\n6. oooo++**+*+o\n\nMamy tutaj trzy kwadraty zlozone z 9 identycznych symboli: pierwszy ma srodek w wierszu 3 na pozycji 5, drugi -- w wierszu 3 na pozycji 6, a trzeci -- w wierszu 4 na pozycji 11.\n\nOdpowiedz dla pliku symbole_przyklad.txt to\n1 6 3\n(jeden kwadrat, ktory ma srodkowe pole w wierszu 6, na pozycji 3).",
+          "odpowiedz": "3 kwadraty o srodkach: (399, 5), (546, 2), (630, 11)\n\n3 399 5 546 2 630 11",
+          "zasady_oceniania": "4 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za liczbe kwadratow\n    3 pkt -- za podanie wspolrzednych srodkow kwadratow (po 1 pkt za kazda pare) i zadnego nieprawidlowego.\n2 pkt -- za podanie wspolrzednych 4 kwadratow (3 prawidlowych i jednego blednego).\n1 pkt -- za podanie wspolrzednych 5 kwadratow (3 prawidlowych i dwoch blednych).\n0 pkt -- za odpowiedz niepelna lub niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Bledne traktowanie siatki 2D -- kwadraty 3x3 wymagaja sprawdzenia trzech kolejnych wierszy",
+            "Krawedzie siatki -- srodek moze byc na pozycjach 2-11 (nie 1 ani 12) i w wierszach 2-1999",
+            "Trzeba sprawdzic 9 pol (3 wiersze x 3 pozycje) czy sa identyczne"
+          ]
+        },
+        {
+          "id": "2025.2.3",
+          "numer": "2.3",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_minmax",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Informacja do zadan 2.3. i 2.4.:\nKazdy z napisow podanych w pliku symbole.txt bedziemy traktowac jako liczbe zapisana w systemie trojkowym, w ktorym:\n  znak o odpowiada cyfrze 0\n  znak + odpowiada cyfrze 1\n  znak * odpowiada cyfrze 2\n\nZadanie 2.3. (0-2)\nPodaj najwieksza liczbe sposrod liczb zapisanych w pliku symbole.txt. W odpowiedzi podaj te liczbe w zapisie dziesietnym oraz napis jej odpowiadajacy.\n\nOdpowiedz dla pliku symbole_przyklad.txt to\n519789  ***+o*ooo++o",
+          "odpowiedz": "531246  *******o+*+o",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za liczbe\n    1 pkt -- za napis.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Konwersja z systemu trojkowego na dziesietny -- potegi 3 od 3^0 do 3^11",
+            "Najwieksza liczba = napis z najwieksza wartoscia po konwersji, nie leksykograficznie najwiekszy"
+          ]
+        },
+        {
+          "id": "2025.2.4",
+          "numer": "2.4",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 2.4. (0-3)\nOblicz sume wszystkich liczb z pliku symbole.txt. Podaj jej wartosc w zapisie dziesietnym oraz w zapisie trojkowym z uzyciem symboli: o, +, *.\n\nOdpowiedz dla pliku symbole_przyklad.txt to\n4841542  +oooo****+oo+o+",
+          "odpowiedz": "527865439  ++oo*+oo*++ooo*o*++",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za podanie poprawnej sumy w systemie dziesietnym\n    2 pkt -- za podanie poprawnej sumy w zapisie trojkowym z uzyciem symboli: o,+,*\n    (1 pkt za podanie poprawnej sumy w zapisie trojkowym z uzyciem cyfr).\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Przepelnienie przy sumowaniu 2000 liczb 12-cyfrowych w systemie trojkowym (max ~531441 * 2000 ~ 10^9)",
+            "Konwersja sumy z powrotem na system trojkowy z uzyciem symboli o/+/* zamiast 0/1/2",
+            "Pomylenie kolejnosci cyfr przy konwersji trojkowej (MSB vs LSB)"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2025_maj/dane maj 23/",
+      "pliki_danych": ["symbole.txt", "symbole_przyklad.txt"],
+      "wymiary": {
+        "tematyczny": ["przetwarzanie tekstow", "systemy liczbowe", "palindromy", "wzorce w danych 2D"],
+        "algorytmiczny": ["porownywanie napisow", "konwersja systemow liczbowych", "wyszukiwanie wzorcow w macierzy 2D", "sumowanie duzych liczb"],
+        "czasowy_min": 40
+      }
+    },
+    {
+      "numer": 3,
+      "tytul": "Dron",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Tor lotu pewnego drona sklada sie z prostych odcinkow. Lot rozpoczyna sie w punkcie (0, 0), a konczy w punkcie (20000, 0). Dron poza startem i ladowaniem jest zawsze na wysokosci wiekszej od zera.\n\nPlik dron.txt zawiera 100 wierszy, w ktorych zapisano dane dotyczace ruchu drona. W kazdym wierszu jest zapisana para liczb calkowitych rozdzielonych znakiem spacji. Pierwsza liczba oznacza przemieszczenie drona (odleglosc) w poziomie od ostatniej pozycji -- jest to zawsze liczba dodatnia. Druga liczba oznacza przemieszczenie w pionie od ostatniej pozycji. Jesli druga liczba jest dodatnia, to dron wykonal ruch w gore, jesli ujemna -- w dol, a jesli rowna 0 -- nie zmienial wysokosci.\n\nPrzyklad 1.\nDla przykladowych danych:\n3000 2000\n2000 9000\n5000 -7000\n5000 4000\n3000 6000\n2000 -14000\nlot drona mozna zilustrować na wykresie (os x: odleglosc w poziomie, os y: wysokosc).\n\nNapisz program (lub kilka programow), ktory(-e) znajdzie(-da) odpowiedzi dla podanych zadan. Kazda odpowiedz zapisz w pliku wyniki3.txt i poprzedz ja numerem oznaczajacym zadanie.\n\nDo Twojej dyspozycji jest plik dron_przyklad.txt zawierajacy 10 wierszy danych w opisanej postaci. Odpowiedzi dla pliku dron_przyklad.txt sa podane pod kazdym zadaniem. Pamietaj, ze Twoj program musi ostatecznie zadzialac na pliku dron.txt zawierajacym 100 wierszy danych.",
+      "podzadania": [
+        {
+          "id": "2025.3.1",
+          "numer": "3.1",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.1. (0-2)\nDla kazdego przesuniecia [A, B] zapisanego w pliku dron.txt oblicz najwiekszy wspolny dzielnik (NWD) wartosci bezwzglednych liczb A i B. Podaj liczbe par [A, B], dla ktorych NWD(|A|, |B|) jest wiekszy od 1.\n\nUwaga: przyjmujemy, ze NWD(A, 0) = A.\n\nOdpowiedz dla pliku dron_przyklad.txt to\n6",
+          "odpowiedz": "40",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz.\n1 pkt -- za odpowiedz wynikajaca z uwzglednienia tylko liczb nieujemnych (26) albo za odpowiedz nie uwzgledniajaca pary z liczba 0 (39), albo za odpowiedz uwzgledniajaca dwukrotnie pare z liczba 0 (41).\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Obsluga NWD z zerem -- NWD(A, 0) = A",
+            "Wartosc bezwzgledna B moze byc ujemna -- trzeba uzyc |B|",
+            "NWD > 1, nie NWD >= 1"
+          ]
+        },
+        {
+          "id": "2025.3.2",
+          "numer": "3.2",
+          "punkty": 4,
+          "typ_zadania": "obliczenia_geometryczne",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.2. (0-4)\nRozwazmy wszystkie punkty, w ktorych dron znajdowal sie po wykonaniu kolejnych ruchow (przesuniec).\n\nDla danych z przykladu 1. beda to punkty: (3000, 2000), (5000, 11000), (10000, 4000), (15000, 8000), (18000, 14000) i (20000, 0).\n\na) Podaj, ile sposrod wszystkich rozwazan punktow znajduje sie wewnatrz kwadratu o wierzcholkach (0, 0), (0, 5000), (5000, 5000), (5000, 0). Nie liczymy punktow lezacych na krawedziach kwadratu.\n\nb) Sposrod wszystkich rozwazan punktow znajdz i podaj trzy rozne, takie, ze jeden z nich jest srodkiem odcinka o koncach w pozostalych dwoch. Jest tylko jedna taka trojka punktow.\nUwaga: punkty nalezace do szukanej trojki nie musza byc trzema kolejnymi punktami, do ktorych dron przemieszczal sie.\n\nOdpowiedz dla pliku dron_przyklad.txt to\na) 2\nb) (14000, 3014), (16000, 2010), (18000, 1006)",
+          "odpowiedz": "a) 24\nb) (5832, 1801) (7410, 1990) (8988, 2179)\n(wspolrzedne trojki punktow: (5832, 1801), (7410, 1990), (8988, 2179))",
+          "zasady_oceniania": "4 pkt -- za poprawna odpowiedz, w tym:\n    2 pkt -- za poprawna odpowiedz w podpunkcie a)\n    2 pkt -- za poprawna odpowiedz w podpunkcie b)\n        1 pkt w przypadku podania poprawnych tylko wspolrzednych x.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Punkty na krawedziach kwadratu nie sa liczone (ostry warunek: 0 < x < 5000 i 0 < y < 5000)",
+            "Trojka punktow wspoliniowych -- srodek odcinka musi miec calkowite wspolrzedne",
+            "Zlozonosc O(n^3) dla 100 punktow jest akceptowalna"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2025_maj/dane maj 23/",
+      "pliki_danych": ["dron.txt", "dron_przyklad.txt"],
+      "wymiary": {
+        "tematyczny": ["geometria obliczeniowa", "teoria liczb", "przetwarzanie danych"],
+        "algorytmiczny": ["algorytm Euklidesa (NWD)", "sumy prefiksowe", "wyszukiwanie trojek punktow wspoliniowych"],
+        "czasowy_min": 35
+      }
+    },
+    {
+      "numer": 4,
+      "tytul": "Keylogger",
+      "punkty": 1,
+      "czesc": 1,
+      "kontekst": null,
+      "podzadania": [
+        {
+          "id": "2025.4",
+          "numer": "4",
+          "punkty": 1,
+          "typ_zadania": "teoria_bezpieczenstwa",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 4. (0-1)\nDokoncz zdanie. Zaznacz wlasciwa odpowiedz sposrod podanych.\n\nProgram typu keylogger sluzy do\n\nA. szyfrowania informacji do postaci uniemozliwiajacej jej odczytanie bez zdefiniowanego klucza.\nB. przechowywania danych logowania, w tym hasel, w bezpiecznym miejscu na dysku uzytkownika.\nC. generowania kodu, ktory umozliwia uzytkownikowi bankowosci elektronicznej wykonanie operacji.\nD. przechwytywania i gromadzenia informacji o nacisniectych klawiszach.",
+          "odpowiedz": "D",
+          "zasady_oceniania": "1 pkt -- odpowiedz poprawna.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Mylenie keyloggera z menedzerem hasel (B) lub programem szyfrujacym (A)"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": ["bezpieczenstwo informatyczne", "malware"],
+        "algorytmiczny": [],
+        "czasowy_min": 1
+      }
+    },
+    {
+      "numer": 5,
+      "tytul": "Dodawanie binarne",
+      "punkty": 2,
+      "czesc": 1,
+      "kontekst": null,
+      "podzadania": [
+        {
+          "id": "2025.5",
+          "numer": "5",
+          "punkty": 2,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 5. (0-2)\nPonizej sposobem pisemnym dodano dwie liczby podane w zapisie binarnym. Uzupelnij brakujace cyfry tak, aby dzialanie bylo wykonane poprawnie.\n\n    1 1 [_] 0 1 0 1 1 0 [_] 1\n+     1 1 0 0 [_] 1 0 1 1 1\n-------------------------------\n  1 [_] 0 1 1 0 0 1 [_] [_] 1 0\n\nGdzie [_] oznacza brakujaca cyfre binarna do uzupelnienia.",
+          "odpowiedz": "  1 1 0 0 1 0 1 1 0 1 1\n+     1 1 0 0 1 1 0 1 1 1\n-------------------------------\n  1 0 0 1 1 0 0 1 0 0 1 0\n\nBrakujace cyfry (od lewej): 0, 1, 1, 0, 0, 0",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna dla wszystkich pol.\n1 pkt -- odpowiedz poprawna dla 4 pol.\n0 pkt -- odpowiedz niepelna lub niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Bledne sledzenie przeniesien (carry) pomiedzy pozycjami",
+            "Pomylenie kolumn przy recznym dodawaniu",
+            "Wynik moze miec o jedna cyfre wiecej niz dluzszy skladnik"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": ["systemy liczbowe", "arytmetyka binarna"],
+        "algorytmiczny": ["dodawanie pisemne w systemie dwojkowym", "przeniesienie (carry)"],
+        "czasowy_min": 5
+      }
+    },
+    {
+      "numer": 6,
+      "tytul": "Martianeum",
+      "punkty": 11,
+      "czesc": 1,
+      "kontekst": "W 2033 roku na Marsie wyladowala automatyczna stacja wydobywcza wyposarzona w transporter i w autonomiczny dron pobierajacy ladunki skal zawierajacych mineral niewystepujacy na Ziemi -- martianeum.\n\nStacja dziala wedlug nastepujacych zasad:\n- dron codziennie przywozi ladunek z pewnego obszaru Marsa\n- stacja wazy ladunek przywieziony przez drona i bada zawartosc martianeum\n- jesli zawartosc martianeum w przywiezionym ladunku wynosi co najmniej 1%, to stacja automatycznie wydobywa caly mineral z tego ladunku\n- jesli na koniec dnia (po wydobyciu martianeum) ilosc mineralu na stacji osiagnie co najmniej 100 kg, to transporter zabiera 100 kg na orbite, skad ladunek jest wysylany na Ziemie, a transporter wraca do stacji (jesli na stacji zgromadzone jest wiecej niz 100 kg, to nadmiar pozostaje na stacji)\n- poczatkowy stan magazynu na stacji -- 0 kg martianeum.\n\nW pliku tekstowym martianeum.txt w kolejnych wierszach zapisano dane z lat 2033-2038:\ndata            -- data przywozu ladunku w formacie rrrr-mm-dd\nnazwa_obszaru   -- nazwa obszaru Marsa, z ktorego ladunek zostal pobrany\nmasa [kg]       -- masa ladunku drona w kilogramach\nzawartosc [%]   -- zawartosc martianeum w probce w % (nieujemna liczba z jednym miejscem po przecinku, np. 0,1 oznacza 0,1%)\n\nDane w pliku rozdzielono znakami tabulacji.\n\nPrzyklad:\ndata        nazwa_obszaru    masa [kg]    zawartosc [%]\n2033-03-03  Cebrenia         27,8         0,2\n2033-03-04  Amenthes         11,8         1,7\n2033-03-05  Noachis          21,0         6,0\n2033-03-06  Coprates         26,3         11,4\n2033-03-07  Ismenius Lacus   28,8         0,0\n2033-03-08  Mare Boreum      29,2         0,0\n\nZ wykorzystaniem danych zawartych w pliku martianeum.txt oraz dostepnych narzedzi informatycznych wykonaj podane zadania. Wyniki zapisz w pliku tekstowym wyniki6.txt. Odpowiedz do kazdego zadania poprzedz numerem tego zadania.",
+      "podzadania": [
+        {
+          "id": "2025.6.1",
+          "numer": "6.1",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 6.1. (0-2)\nPodaj laczna mase ladunkow drona oraz laczna mase martianeum wydobytego przez stacje.\n\nUwaga: stacja wydobywa martianeum tylko z ladunkow o zawartosci co najmniej 1%.",
+          "odpowiedz": "Laczna masa ladunkow: 41498,2 kg\nLaczna masa martianeum: 3092,2943 kg",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za laczna mase ladunkow\n    1 pkt -- za laczna mase martianeum.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Zawartosc martianeum >= 1% -- warunek progowy, nie > 1%",
+            "Wydobycie calego mineralu z ladunku (masa * zawartosc/100), nie tylko nadwyzki powyzej progu",
+            "Laczna masa ladunkow to suma WSZYSTKICH mas, niezaleznie od zawartosci martianeum"
+          ]
+        },
+        {
+          "id": "2025.6.2",
+          "numer": "6.2",
+          "punkty": 1,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 6.2. (0-1)\nPodaj nazwe obszaru, dla ktorego srednia masa przywiezionych ladunkow jest najmniejsza.",
+          "odpowiedz": "Thaumasia",
+          "zasady_oceniania": "1 pkt -- za poprawna odpowiedz.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Srednia masa ladunkow -- dzielenie przez liczbe ladunkow z danego obszaru, nie przez liczbe dni"
+          ]
+        },
+        {
+          "id": "2025.6.3",
+          "numer": "6.3",
+          "punkty": 2,
+          "typ_zadania": "arkusz_transformacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 6.3. (0-2)\nCzas pracy stacji dzielimy na kolejne 7-dniowe okresy. Pierwszy okres obejmuje dni od 03.03.2033 do 09.03.2033, drugi -- od 10.03.2033 do 16.03.2033 itd.\nPodaj najwieksza laczna mase ladunkow przywiezionych w ciagu jednego kolejnego 7-dniowego okresu oraz podaj date poczatku okresu, w ktorym przywieziono te najwieksza mase.",
+          "odpowiedz": "13.12.2035\n174,5 kg",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za date.\n    1 pkt -- za mase.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Okresy 7-dniowe liczone od 03.03.2033, nie od poczatku miesiaca",
+            "Data poczatku okresu, nie data najwiekszego ladunku"
+          ]
+        },
+        {
+          "id": "2025.6.4",
+          "numer": "6.4",
+          "punkty": 3,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 6.4. (0-3)\nWykonaj zestawienie, w ktorym dla kazdego obszaru podasz, ile razy dron przewozil ladunek z tego obszaru w poszczegolnych latach.\nNa podstawie wykonanego zestawienia utworz wykres skumulowany kolumnowy. Pamietaj o czytelnym opisie wykresu: na osi X umiesc nazwy obszarow, dodaj opisy osi -- 'nazwy obszarow' dla osi X i 'liczba przewozow ladunku' dla osi Y, tytul oraz legende zawierajaca kolejne lata.",
+          "odpowiedz": "Tabela 30 obszarow x 6 lat (2033-2038) z liczbami przewozow + wykres skumulowany kolumnowy.\n\nPrzykladowe dane z tabeli:\nAeolis: 5, 7, 11, 2, 13, 5\nAmazonis: 23, 20, 21, 29, 20, 25\n... (pelna tabela w odpowiedzi.pdf strona 13-14)",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za poprawne zestawienie\n    1 pkt -- za prawidlowy dobor danych i typ wykresu\n    1 pkt -- za poprawny opis wykresu i osi (tytul, legenda, nazwy obszarow na osi X, opisy na osiach X i Y).\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Wykres musi byc skumulowany (stacked), nie zgrupowany (grouped)",
+            "Wszystkie 30 obszarow musza byc uwzglednione",
+            "Legenda musi zawierac lata 2033-2038"
+          ]
+        },
+        {
+          "id": "2025.6.5",
+          "numer": "6.5",
+          "punkty": 3,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 6.5. (0-3)\nUwzglednij zasady dzialania stacji opisane na poczatku zadania i podaj:\n- ile razy stacja wysylala ladunek na orbite\n- date pierwszego transportu ladunku na orbite\n- date ostatniego transportu ladunku na orbite.",
+          "odpowiedz": "30 razy\n29.05.2033\n1.09.2038",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za podanie prawidlowej liczby wysilek ladunku na orbite\n    2 pkt -- za podanie prawidlowych dat (w tym po 1 pkt za date poczatku i konca okresu).\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Transporter zabiera dokladnie 100 kg -- nadmiar zostaje",
+            "Jesli jest np. 250 kg, transporter zabiera tylko raz 100 kg (nie 200 kg) -- jedno wyslanie dziennie",
+            "Wydobycie i wyslanie w tym samym dniu -- kolejnosc: wydobycie, potem sprawdzenie >= 100 kg",
+            "Separator dziesietny -- dane uzywaja przecinka (format polski)"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2025_maj/dane maj 23/",
+      "pliki_danych": ["martianeum.txt"],
+      "wymiary": {
+        "tematyczny": ["przetwarzanie danych tabelarycznych", "arkusz kalkulacyjny", "symulacja procesu", "wizualizacja danych"],
+        "algorytmiczny": ["sumowanie warunkowe", "srednia grupowa", "podzial na okresy czasowe", "symulacja krokowa z akumulatorem"],
+        "czasowy_min": 50
+      }
+    },
+    {
+      "numer": 7,
+      "tytul": "Poszukiwanie wody na Marsie",
+      "punkty": 10,
+      "czesc": 1,
+      "kontekst": "W trzech plikach tekstowych o nazwach laziki.txt, obszary.txt, pomiary.txt zapisano informacje zawierajace dane o poszukiwaniu wody na Marsie w latach 2050-2080. Laziki zasilane energia sloneczna poruszaja sie po roznych obszarach Marsa i wykonuja pomiary georadarowe, na podstawie ktorych szacuja ilosc wody i glebokosc, na ktorej sie ona znajduje. Pierwszy wiersz kazdego z plikow jest wierszem naglowkowym, a dane w wierszach rozdzielono znakami tabulacji.\n\nPlik o nazwie laziki.txt zawiera informacje o roznych lazikach, ktore wykonywaly pomiary. W kazdym wierszu tego pliku znajduja sie:\nnr_lazika      -- co najwyzej trzycyfrowy, unikatowy numer lazika\nnazwa_lazika   -- nazwa lazika (tekst do 50 znakow)\nrok_wyslania   -- rok startu z Ziemi\nwsp_ladowania  -- wspolrzedne ladowania na Marsie oddzielone znakiem przecinka i spacja\n\nPrzyklad:\nnr_lazika  nazwa_lazika  rok_wyslania  wsp_ladowania\n1          Mariner 3     2049          50.51N, 70.01E\n2          Mariner 6     2050          11.90N, 119.49E\n3          Mariner 7     2050          44.90S, 130.80W\n\nPlik o nazwie obszary.txt zawiera informacje o obszarach na Marsie. W kazdym wierszu tego pliku znajduja sie:\nkod_obszaru    -- piecioznakowy, unikatowy kod obszaru\nnazwa_obszaru  -- nazwa obszaru (tekst do 50 znakow)\n\nPrzyklad:\nkod_obszaru  nazwa_obszaru\nMC-01        Mare Boreum\nMC-02        Diacria\nMC-03        Arcadia\n\nPlik o nazwie pomiary.txt zawiera informacje o wynikach badan georadarowych wykonanych przez laziki. W kazdym wierszu tego pliku znajduja sie:\nnr_lazika      -- co najwyzej trzycyfrowy numer lazika\ndata_pomiaru   -- data wykonania pomiaru (w formacie rrrr-mm-dd)\nkod_obszaru    -- piecioznakowy kod obszaru, na ktorym zostal wykonany pomiar\nwspolrzedne    -- wspolrzedne wykonania pomiaru, oddzielone znakiem przecinka i spacja\nglebokosc      -- szacowana glebokosc, na ktorej znajduje sie woda (w metrach)\nilosc          -- szacowana ilosc wody (w m^3)\n\nPrzyklad:\nnr_lazika  data_pomiaru  kod_obszaru  wspolrzedne        glebokosc  ilosc\n17         2061-06-03    MC-13        13.17N, 77.80E     344        5622\n17         2056-06-02    MC-14        14.93N, 106.00E    43         2054\n47         2075-10-18    MC-05        45.57N, 3.30E      9          23366\n\nZ wykorzystaniem danych zawartych w podanych plikach oraz dostepnych narzedzi informatycznych podaj odpowiedzi do zadan 7.1-7.4. Odpowiedzi zapisz w pliku wyniki7.txt, a kazda z nich poprzedz numerem odpowiedniego zadania.",
+      "podzadania": [
+        {
+          "id": "2025.7.1",
+          "numer": "7.1",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 7.1. (0-2)\nPodaj nazwe obszaru, na ktorym znaleziono lacznie we wszystkich pomiarach najwiecej m^3 wody na glebokosci do 100 metrow wlacznie. Jest jeden taki obszar.",
+          "odpowiedz": "Mare Boreum",
+          "zasady_oceniania": "2 pkt -- za pelna poprawna odpowiedz.\n1 pkt -- za odpowiedz, w ktorej:\n    podano obszar, na ktorym znaleziono najmniej wody (Sinus Sabaeus)\n    albo podano kod zamiast nazwy obszaru (MC-01).\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Glebokosc do 100 metrow WLACZNIE (<=, nie <)",
+            "Suma ilosc (m^3) per obszar, nie per lazik",
+            "Nalezy podac nazwe obszaru, nie kod"
+          ]
+        },
+        {
+          "id": "2025.7.2",
+          "numer": "7.2",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 7.2. (0-2)\nPodaj nazwe lazika, ktory wykonywal pomiary w najdluzszym okresie, liczac od pierwszego (najwczesniejszego) do ostatniego (najpozniejszego) pomiaru. Podaj date pierwszego i ostatniego pomiaru wykonanego przez ten lazik.",
+          "odpowiedz": "Spirit 14\n29.08.2066  25.07.2076",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za poprawna nazwe lazika\n    1 pkt -- za poprawne daty.\n0 pkt -- za odpowiedz niepelna lub niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Najdluzszy okres mierzony od pierwszego do ostatniego pomiaru, nie liczba pomiarow",
+            "Moze byc wielu lazikow -- szukamy tego z najwieksza roznica dat"
+          ]
+        },
+        {
+          "id": "2025.7.3",
+          "numer": "7.3",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 7.3. (0-2)\nPodaj nazwy obszarow na Marsie, na ktorych zaden z lazikow nie wykonal ani jednego pomiaru w tym samym roku, w ktorym zostal wyslany z Ziemi.",
+          "odpowiedz": "Aeolis\nAmazonis\nArabia\nElysium\nEridania\nMare Tyrrhenum\nSinus Sabaeus\nSyrtis Major",
+          "zasady_oceniania": "2 pkt -- za pelna poprawna odpowiedz.\n1 pkt -- za podanie wszystkich prawidlowych nazw obszarow, na ktorych laziki wykonaly pierwszy pomiar w tym samym roku, w ktorym zostaly wyslane z Ziemi (22 obszary).\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Pytanie o obszary gdzie ZADEN lazik NIE wykonal pomiaru w roku wyslania (negacja warunku)",
+            "Rok wyslania lazika (z laziki.txt) vs rok pomiaru (z pomiary.txt)",
+            "Trzeba polaczyc 3 pliki: laziki + pomiary + obszary"
+          ]
+        },
+        {
+          "id": "2025.7.4",
+          "numer": "7.4",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 7.4. (0-2)\nPodaj nazwy lazikow, ktore wyladowaly na polkuli poludniowej, ale wykonywaly pomiary na obu polkulach: polnocnej (N) i poludniowej (S).\n\nUwaga: polkula ladowania wynika ze wspolrzednej wsp_ladowania w pliku laziki.txt (S = poludniowa). Polkula pomiarow wynika ze wspolrzednych w pliku pomiary.txt.",
+          "odpowiedz": "Mariner 14\nMariner 15\nMariner 20\nViking 17\nSpirit 7\nSpirit 12\nRosetta 1\nRosetta 8\nPhoenix 3\nPhoenix 13",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz.\n1 pkt -- za podanie wszystkich nazw lazikow, ktore badaly obszary na obu polkulach (bez warunku ladowania na poludniowej) albo za podanie wszystkich numerow lazikow zamiast ich nazw.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Laziki wyladowaly na polkuli poludniowej (S w wspolrzednych ladowania)",
+            "ALE pomiary na obu polkulach (N i S w wspolrzednych pomiarow)",
+            "Rozroznienie miedzy wspolrzednymi ladowania a wspolrzednymi pomiarow"
+          ]
+        },
+        {
+          "id": "2025.7.5",
+          "numer": "7.5",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 7.5. (0-2)\nDo tabel utworzonych na podstawie opisanych wczesniej plikow dolaczamy kolejna -- o nazwie Producent, w ktorej zapisano informacje o producentach poszczegolnych modeli lazikow.\n\nTabela Producent zawiera nastepujace pola:\nkod_producenta  -- unikatowy kod producenta\nnazwa           -- nazwa producenta\nkraj            -- kraj producenta\n\nDo tabeli Laziki dodano pole kod_producenta.\n\nNapisz w jezyku SQL zapytanie, w wyniku ktorego otrzymasz liste nazw producentow, ktorych laziki badaly obszar Marsa o nazwie Arcadia w roku 2060. Nazwy producentow nie moga sie powtarzac.\n\nTabele:\n- Producent (kod_producenta, nazwa, kraj)\n- Laziki (nr_lazika, nazwa_lazika, rok_wyslania, wsp_ladowania, kod_producenta)\n- Pomiary (nr_lazika, data_pomiaru, kod_obszaru, wspolrzedne, glebokosc, ilosc)\n- Obszary (kod_obszaru, nazwa_obszaru)",
+          "odpowiedz": "SELECT DISTINCT Producent.nazwa\nFROM Producent\nINNER JOIN Laziki\nON Producent.kod_producenta = Laziki.kod_producenta\nINNER JOIN Pomiary\nON Laziki.nr_lazika = Pomiary.nr_lazika\nINNER JOIN Obszary\nON Obszary.kod_obszaru = Pomiary.kod_obszaru\nWHERE Obszary.nazwa_obszaru = \"Arcadia\" AND YEAR(Pomiary.data_pomiaru) = 2060;",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz z jednym bledem, np. blad przy JOIN albo blad w warunku po WHERE itp.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.\nUwaga: wymagamy uniwersalnego zapytania dzialajacego dla dowolnych danych.",
+          "pulapki": [
+            "Wymagane DISTINCT aby nazwy producentow sie nie powtarzaly",
+            "Laczenie 4 tabel (Producent-Laziki-Pomiary-Obszary)",
+            "Filtrowanie po nazwie obszaru i roku pomiaru jednoczesnie",
+            "YEAR() na kolumnie data_pomiaru do wyciagniecia roku"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2025_maj/dane maj 23/",
+      "pliki_danych": ["laziki.txt", "obszary.txt", "pomiary.txt"],
+      "wymiary": {
+        "tematyczny": ["bazy danych", "zapytania SQL", "przetwarzanie danych relacyjnych", "laczenie tabel"],
+        "algorytmiczny": ["filtrowanie warunkowe", "agregacja", "laczenie tabel (JOIN)", "parsowanie wspolrzednych geograficznych"],
+        "czasowy_min": 40
+      }
+    }
+  ]
+}

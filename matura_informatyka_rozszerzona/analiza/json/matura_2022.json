@@ -1,0 +1,500 @@
+{
+  "rok": 2022,
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc I (teoria, bez komputera)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc II (praktyka, przy komputerze)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "n-permutacja",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Dla dodatniej liczby calkowitej n, n-permutacja nazywamy taki n-elementowy ciag liczb calkowitych, ktory zawiera kazda z liczb 1, 2, ..., n dokladnie jeden raz.\n\nPrzyklad:\nciag (4,2,1,3) jest 4-permutacja,\nciag (6,5,4,1,2,3) jest 6-permutacja,\nciagi (1,3,1,2) i (2,3,4,5) nie sa 4-permutacjami.\n\nW ciagu n liczb calkowitych, ktory nie jest n-permutacja, mozna podmienic niektore elementy tak, aby otrzymac n-permutacje.\n\nPrzyklad:\nw ciagu (1,3,1) wystarczy podmienic jeden element -- pierwsza lub ostatnia jedynke (1) -- na dwojke (2), aby powstaly ciag byl 3-permutacja.",
+      "podzadania": [
+        {
+          "id": "2022.1.1",
+          "numer": "1.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1. (0-2)\nUzupelnij ponizsze tabele -- dla kazdego z podanych ciagow podaj najmniejsza liczbe elementow, ktore trzeba podmienic, aby dany ciag byl n-permutacja. Jesli ciag jest juz n-permutacja, wpisz 0.\n\n| n | ciag | liczba elementow do podmiany |\n|---|---|---|\n| 3 | (1, 3, 1) | 1 |\n| 4 | (1, 4, 2, 5) | |\n| 5 | (2, 2, 2, 2, 2) | |\n| 4 | (4, 2, 3, 1) | |\n| 6 | (5, 4, 1, 5, 6, 8) | |\n| 6 | (8, 4, 9, 6, 5, 7) | |",
+          "odpowiedz": "| n | ciag | liczba elementow do podmiany |\n|---|---|---|\n| 3 | (1, 3, 1) | 1 |\n| 4 | (1, 4, 2, 5) | 1 |\n| 5 | (2, 2, 2, 2, 2) | 4 |\n| 4 | (4, 2, 3, 1) | 0 |\n| 6 | (5, 4, 1, 5, 6, 8) | 2 |\n| 6 | (8, 4, 9, 6, 5, 7) | 3 |",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz (wszystkie 5 wartosci poprawne).\n1 pkt -- za poprawna odpowiedz w 4 z 5 wierszy.\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Elementy spoza zakresu [1,n] wymagaja podmiany (np. 5 w ciagu 4-elementowym)",
+            "Duplikaty: kazdy powtorzony element ponad 1 wymaga podmiany",
+            "Ciag (4,2,3,1) jest juz 4-permutacja -- odpowiedz 0",
+            "Trzeba policzyc ILE brakuje, nie KTORE brakuja"
+          ]
+        },
+        {
+          "id": "2022.1.2",
+          "numer": "1.2",
+          "punkty": 4,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2. (0-4)\nZapisz w pseudojezyku lub wybranym jezyku programowania algorytm, ktory dla danego ciagu n dodatnich liczb calkowitych zapisanego w tablicy A obliczy najmniejsza liczbe elementow, ktore trzeba w nim podmienic, aby otrzymac n-permutacje.\n\nUwaga: W zapisie algorytmu mozesz korzystac tylko z instrukcji sterujacych, operatorow arytmetycznych: dodawania, odejmowania, mnozenia, dzielenia, dzielenia calkowitego i reszty z dzielenia; operatorow logicznych, porownan, odwolywan sie do pojedynczych elementow tablicy i instrukcji przypisania lub samodzielnie napisanych funkcji i procedur wykorzystujacych powyzsze operacje. Zabronione jest uzywanie funkcji wbudowanych oraz operatorow innych niz wymienione, dostepnych w jezykach programowania.\n\nSpecyfikacja:\nDane:\n    n -- dodatnia liczba calkowita\n    A[1..n] -- tablica n dodatnich liczb calkowitych, gdzie A[i] jest i-tym elementem ciagu\nWynik:\n    k -- minimalna liczba elementow, ktore trzeba podmienic w ciagu zapisanym w tablicy A, aby otrzymac n-permutacje",
+          "odpowiedz": "Trzy przykladowe podejscia:\n\n(1) Tablica zliczajaca B[1..n]:\nB[1..n] <- 0\ndla i = 1, ..., n:\n    jezeli 1 <= A[i] <= n:\n        B[A[i]] <- B[A[i]] + 1\nk <- 0\ndla j = 1, ..., n:\n    jezeli B[j] = 0:\n        k <- k + 1\n\n(2) Brute-force O(n^2):\nk <- 0\ndla i = 1, ..., n:\n    znaleziono <- falsz\n    dla j = 1, ..., n:\n        jezeli A[j] = i:\n            znaleziono <- prawda\n    jezeli znaleziono = falsz:\n        k <- k + 1\n\n(3) Sortowanie + skanowanie:\nposortuj A\nk <- (liczba elementow > n) + (liczba duplikatow)",
+          "zasady_oceniania": "4 pkt -- za poprawny algorytm, w tym:\n    1 pkt -- za poprawna petle przegladajaca tablice A i poprawna inicjalizacje tablicy zliczajacej (lub innego mechanizmu)\n    1 pkt -- za poprawny warunek sprawdzajacy zakres [1..n]\n    1 pkt -- za poprawne zliczanie brakujacych wartosci lub duplikatow\n    1 pkt -- za otrzymanie poprawnego wyniku k.\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba uwzglednic elementy spoza zakresu [1,n] -- nie tylko duplikaty",
+            "Tablica zliczajaca wymaga sprawdzenia zakresu przed indeksowaniem",
+            "Brute-force O(n^2) jest akceptowalny, ale wymaga poprawnej logiki",
+            "Nie wolno uzywac funkcji wbudowanych (sort, count, itp.)"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "permutacje",
+          "zliczanie",
+          "tablice pomocnicze"
+        ],
+        "algorytmiczny": [
+          "tablica zliczajaca",
+          "brute-force",
+          "sortowanie"
+        ],
+        "czasowy_min": 25
+      }
+    },
+    {
+      "numer": 2,
+      "tytul": "ab-slowo",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Niech n bedzie dodatnia liczba calkowita i niech s bedzie slowem o dlugosci n zbudowanym z liter a lub b. Zapis s[i] oznacza i-ta litere w tym slowie (1 <= i <= n).\nDla slowa s wykonujemy ponizszy algorytm. Wynikiem dzialania algorytmu jest wartosc zmiennej k.\n\nAlgorytm:\n\nA[0] <- 0\ndla i = 1, 2, ..., n\n    jezeli s[i] = 'a'\n        A[i] <- A[i - 1] + 1\n    w przeciwnym razie\n        A[i] <- A[i - 1]\n\nB[n + 1] <- 0\ndla j = n, n - 1, ..., 1\n    jezeli s[j] = 'b'\n        B[j] <- B[j + 1] + 1\n    w przeciwnym razie\n        B[j] <- B[j + 1]\n\nk <- 1\ndla i = 0, 1, 2, ..., n\n    jezeli A[i] + B[i + 1] > k\n        k <- A[i] + B[i + 1]\n\nObjasninie:\n- A[i] = liczba liter 'a' w prefiksie slowa dlugosci i (pierwsze i znakow)\n- B[j] = liczba liter 'b' w sufiksie slowa od pozycji j (od j-tego znaku do konca)\n- k = maksimum z A[i] + B[i+1] dla i = 0, 1, ..., n (inicjalizowane na 1)",
+      "podzadania": [
+        {
+          "id": "2022.2.1",
+          "numer": "2.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1. (0-2)\nUzupelnij tabele -- wpisz wynik dzialania algorytmu dla podanych wartosci s.\n\n| n | s | Wynik dzialania algorytmu (wartosc k) |\n|---|---|---|\n| 5 | aabab | 4 |\n| 2 | ab | 2 |\n| 3 | aaa | 3 |\n| 6 | aababb | |\n| 9 | baabbaaab | |",
+          "odpowiedz": "| n | s | Wynik dzialania algorytmu (wartosc k) |\n|---|---|---|\n| 5 | aabab | 4 |\n| 2 | ab | 2 |\n| 3 | aaa | 3 |\n| 6 | aababb | 5 |\n| 9 | baabbaaab | 6 |",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz (obie wartosci poprawne).\n1 pkt -- za jedna poprawna wartosc.\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba sledzic dwie tablice A[] i B[] niezaleznie",
+            "A[i] liczy 'a' w prefiksie, B[j] liczy 'b' w sufiksie",
+            "k szuka maximum z A[i]+B[i+1], nie A[i]+B[i]",
+            "k jest inicjalizowane na 1, nie na 0"
+          ]
+        },
+        {
+          "id": "2022.2.2",
+          "numer": "2.2",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2. (0-2)\nPodaj przyklady dziesiecioliterowych slow zlozonych z liter a lub b, dla ktorych wynik dzialania powyzszego algorytmu (wartosc k) jest rowny odpowiednio 10 i 5.\n\n| n | s | Wynik dzialania algorytmu (wartosc k) |\n|---|---|---|\n| 10 | | 10 |\n| 10 | | 5 |",
+          "odpowiedz": "Dla k=10: dowolne slowo 10-literowe z samych 'a' lub samych 'b' lub z 'a' na poczatku i 'b' na koncu, np. aaaaaaaaaa, bbbbbbbbbb, aaaaabbbbb.\n\nDla k=5: slowo z 5 literami 'a' i 5 literami 'b', gdzie w kazdym prefiksie liczba 'a' nie przekracza polowy dlugosci prefiksu plus 'b' w sufiksie daje dokladnie 5, np. bababababa, bbbbbaaaaa, ababababab.",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz (oba slowa poprawne).\n1 pkt -- za jedno poprawne slowo.\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Dla k=10: slowo musi miec dokladnie 10 liter",
+            "Dla k=5: trzeba zrozumiec ze algorytm szuka optymalnego podzialu slowa na 'czesc a' i 'czesc b'",
+            "Nie kazde slowo z 5a i 5b daje k=5 -- np. aaaaabbbbb daje k=10"
+          ]
+        },
+        {
+          "id": "2022.2.3",
+          "numer": "2.3",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.3. (0-2)\nDla uproszczenia bedziemy pisac a^2 zamiast aa, a^3 zamiast aaa i tak dalej. Innymi slowy: dla dowolnej dodatniej liczby calkowitej m, zapis a^m oznacza litere a powtorzona m razy, natomiast b^m oznacza litere b powtorzona m razy.\nPodaj wynik dzialania (wartosc k) powyzszego algorytmu dla slowa a^300 b^550 a^300 b^7 a^280 b^110.\n\nk = ___",
+          "odpowiedz": "k = 990\n\nWyjasnienie: Slowo ma 880 liter 'a' (300+300+280) i 667 liter 'b' (550+7+110), lacznie 1547 znakow.\nOptymalny podzial: po a^300 b^550 a^300 (pozycja 1150) mamy A[1150] = 600 (liczba 'a' w prefiksie) i B[1151] = 117+280 = 390? Nie...\n\nPoprawna analiza: najlepszy split jest w pozycji i=1150 (po a^300 b^550 a^300):\n- A[1150] = 600 (bo 300+300 liter 'a' w pierwszych 1150 znakach)\n- B[1151] = 110+280 = 390 (litery 'b' w sufiksie od pozycji 1151: b^7 a^280 b^110 = 7+110 = 117 liter 'b').\nWait: B[1151] = liczba 'b' w sufiksie = 7+110 = 117. A[1150]+B[1151] = 600+117 = 717? Nie, poprawna odpowiedz to 990.\n\nPoprawna analiza: split w pozycji i=300: A[300]=300, B[301]=550+7+110=667, suma=967.\nSplit w pozycji i=850 (po a^300 b^550): A[850]=300, B[851]=7+110=117, suma=417.\nSplit w pozycji i=1150 (po a^300 b^550 a^300): A[1150]=600, B[1151]=7+110=117, suma=717.\nSplit w pozycji i=1157 (po ...b^7): A[1157]=600, B[1158]=110, suma=710.\nSplit w pozycji i=1437 (po ...a^280): A[1437]=880, B[1438]=110, suma=990.\nSplit w pozycji i=1547 (koniec): A[1547]=880, B[1548]=0, suma=880.\n\nWiec optymalny split jest w pozycji i=1437 (tuz przed b^110): A[1437]=880 (wszystkie 'a'), B[1438]=110. k=990.",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz (990).\n1 pkt -- za odpowiedz 967 lub 989.\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Nie da sie przesledzicc reczniee 1547 krokow -- trzeba analizowac algorytm",
+            "Kluczowe: algorytm szuka pozycji podzialu slowa na prefiks (liczymy 'a') i sufiks (liczymy 'b')",
+            "Optymalny split jest tuz przed ostatnim blokiem b^110: A=880 (wszystkie a), B=110",
+            "Bledna odpowiedz 967 wynika z podzialu po pierwszym bloku a^300 (300+667=967)",
+            "Bledna odpowiedz 989 moze wynikac z bledu w obliczeniu dlugosci blokow"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "analiza algorytmow",
+          "prefiksy i sufiksy",
+          "optymalizacja podzialu"
+        ],
+        "algorytmiczny": [
+          "prefix sum",
+          "suffix sum",
+          "maximum split"
+        ],
+        "czasowy_min": 25
+      }
+    },
+    {
+      "numer": 3,
+      "tytul": "Test",
+      "punkty": 3,
+      "czesc": 1,
+      "kontekst": "Ocen prawdziwosc podanych zdan. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli jest falszywe.\nW kazdym zadaniu punkt uzyskujesz tylko za komplet poprawnych odpowiedzi.",
+      "podzadania": [
+        {
+          "id": "2022.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1. (0-1)\nDany jest algorytm:\n\ns <- 0\ndla i = 1, 2, ..., n\n    dla j = i, i + 1, ..., n\n        s <- s + 1\n\nZlozonosc obliczeniowa powyzszego algorytmu oceniona liczba wykonan instrukcji s <- s + 1, w zaleznosci od dodatniej liczby calkowitej n, jest\n\n| Nr | Zdanie | P | F |\n|---|---|---|---|\n| 1. | liniowa. | | |\n| 2. | kwadratowa. | | |\n| 3. | n log n. | | |\n| 4. | nie wieksza niz szescienna. | | |",
+          "odpowiedz": "F P F P\n\n1. liniowa: F (petla wykonuje n(n+1)/2 razy = O(n^2), nie O(n))\n2. kwadratowa: P (n(n+1)/2 = O(n^2))\n3. n log n: F (O(n^2) nie jest O(n log n))\n4. nie wieksza niz szescienna: P (O(n^2) jest nie wieksza niz O(n^3))",
+          "zasady_oceniania": "1 pkt -- za komplet poprawnych odpowiedzi (FPFP).\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Petla j=i..n wykonuje sie (n-i+1) razy, lacznie n(n+1)/2 = O(n^2)",
+            "Zdanie 4 jest prawdziwe bo O(n^2) jest podzbiorem O(n^3)",
+            "Typowy blad: uznanie ze jest liniowa (mylenie z pojedyncza petla)"
+          ]
+        },
+        {
+          "id": "2022.3.2",
+          "numer": "3.2",
+          "punkty": 1,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2. (0-1)\nPo dodaniu liczb 132 (w systemie czworkowym, czyli o podstawie 4) oraz 3111 (rowniez w systemie czworkowym) otrzymujemy:\n\n| Nr | Zdanie | P | F |\n|---|---|---|---|\n| 1. | 1111011 w systemie dwojkowym (o podstawie 2) | | |\n| 2. | 362 w systemie osemkowym (o podstawie 8) | | |\n| 3. | F3 w systemie szesnastkowym (o podstawie 16) | | |\n| 4. | 3303 w systemie czworkowym (o podstawie 4) | | |",
+          "odpowiedz": "F F P P\n\n132_4 + 3111_4:\n132_4 = 1*16 + 3*4 + 2*1 = 30_10\n3111_4 = 3*64 + 1*16 + 1*4 + 1*1 = 213_10\nSuma = 243_10\n\n243_10 = 11110011_2 (nie 1111011_2) -> F\n243_10 = 363_8 (nie 362_8) -> F\n243_10 = F3_16 (15*16 + 3 = 243) -> P\n243_10 = 3303_4 (3*64 + 3*16 + 0*4 + 3*1 = 243) -> P",
+          "zasady_oceniania": "1 pkt -- za komplet poprawnych odpowiedzi (FFPP).\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba najpierw poprawnie dodac w systemie czworkowym: 132+3111=3303",
+            "Potem skonwertowac 3303_4 = 243_10 do pozostalych systemow",
+            "243_10 = 11110011_2 (8 cyfr, nie 7!) -- latwo zgubic cyfre",
+            "243_10 = 363_8 (nie 362!) -- blad o 1 w konwersji"
+          ]
+        },
+        {
+          "id": "2022.3.3",
+          "numer": "3.3",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.3. (0-1)\nW bazie danych istnieje tabela mandaty(numer, id_osoby, punkty) zawierajaca nastepujace dane:\n\n| numer | id_osoby | punkty |\n|---|---|---|\n| 1 | 1 | 5 |\n| 2 | 1 | 14 |\n| 3 | 2 | 20 |\n| 4 | 3 | 21 |\n| 5 | 2 | 1 |\n| 6 | 1 | 2 |\n\nOcen prawdziwosc zdan:\n\n1. Wynikiem zapytania:\n    SELECT id_osoby, sum(punkty)\n    FROM mandaty\n    GROUP BY id_osoby\n    HAVING sum(punkty) > 5\njest zestawienie:\n    1  14\n    2  20\n    3  21\n\n2. Wynikiem zapytania:\n    SELECT id_osoby, sum(punkty)\n    FROM mandaty\n    GROUP BY id_osoby\njest zestawienie:\n    1  21\n    2  21\n    3  21\n\n3. Wynikiem zapytania:\n    SELECT numer + punkty\n    FROM mandaty\njest\n    86\n\n4. Wynikiem zapytania:\n    SELECT count(punkty)\n    FROM mandaty\n    WHERE punkty = 21\njest\n    1",
+          "odpowiedz": "F P F P\n\n1. F -- HAVING sum(punkty) > 5 odfiltrowuje grupy z suma <= 5. Grupa id_osoby=1: 5+14+2=21 > 5 -> TAK. Grupa id_osoby=2: 20+1=21 > 5 -> TAK. Grupa id_osoby=3: 21 > 5 -> TAK. Wynik to: 1 21, 2 21, 3 21 (nie 1 14, 2 20, 3 21).\n\n2. P -- GROUP BY bez HAVING daje wszystkie grupy: 1 -> 5+14+2=21, 2 -> 20+1=21, 3 -> 21. Wynik: 1 21, 2 21, 3 21.\n\n3. F -- SELECT numer+punkty FROM mandaty zwraca 6 wierszy (po jednym dla kazdego wiersza tabeli): 6, 16, 23, 25, 7, 8. Nie zwraca pojedynczej wartosci 86.\n\n4. P -- count(punkty) WHERE punkty=21 liczy wiersze z punkty=21. Tylko numer=4 ma punkty=21. Wynik: 1.",
+          "zasady_oceniania": "1 pkt -- za komplet poprawnych odpowiedzi (FPFP).\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Zdanie 1: HAVING filtruje GRUPY (nie wiersze) -- trzeba najpierw obliczyc sumy per grupa, potem filtrowac",
+            "Zdanie 1: suma dla id_osoby=1 to 5+14+2=21 (nie 14!) bo sa 3 mandaty",
+            "Zdanie 3: SELECT bez GROUP BY zwraca wiele wierszy, nie pojedyncza wartosc",
+            "Zdanie 3: numer+punkty to operacja per wiersz, nie agregacja"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "zlozonosc obliczeniowa",
+          "systemy liczbowe",
+          "SQL"
+        ],
+        "algorytmiczny": [
+          "analiza petli",
+          "konwersja systemow",
+          "GROUP BY",
+          "HAVING"
+        ],
+        "czasowy_min": 10
+      }
+    },
+    {
+      "numer": 4,
+      "tytul": "Liczby",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "W pliku liczby.txt danych jest 200 roznych liczb calkowitych z zakresu [10, 100000]. Kazda z tych liczb zapisana jest w osobnym wierszu.\n\nNapisz program (lub kilka programow), ktory(-e) znajdzie(-da) odpowiedzi do ponizszych zadan. Odpowiedzi zapisz w pliku wyniki4.txt. Kazda odpowiedz poprzedz numerem oznaczajacym zadanie.\n\nDo dyspozycji masz plik przyklad.txt, ktory takze zawiera 200 liczb -- odpowiedzi dla tego pliku podano w tresciach zadan. Mozesz sprawdzac na nim dzialanie swojego programu.\n\nUwaga: Pamietaj, ze Twoj program musi ostatecznie dzialac dla pliku liczby.txt.",
+      "podzadania": [
+        {
+          "id": "2022.4.1",
+          "numer": "4.1",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.1. (0-4)\nPodaj, ile jest w pliku liczby.txt takich liczb, ktorych cyfry pierwsza i ostatnia sa takie same. Zapisz te z nich, ktora wystepuje w pliku liczby.txt jako pierwsza.\nW pliku z danymi jest co najmniej jedna taka liczba.\n\nOdpowiedz dla danych z pliku przyklad.txt: 26 626\n(26 takich liczb, ktore maja pierwsza i ostatnia cyfre taka sama; pierwsza z nich w pliku przykladowym jest 626)",
+          "odpowiedz": "18 93639\n(18 liczb z pierwsza cyfra rowna ostatniej, pierwsza taka liczba w pliku to 93639)",
+          "zasady_oceniania": "4 pkt -- za poprawna odpowiedz (poprawna liczba i poprawna pierwsza taka liczba).\n3 pkt -- za poprawna liczbe takich liczb (18) bez poprawnej pierwszej takiej liczby.\n2 pkt -- za poprawna pierwsza taka liczbe (93639) bez poprawnej ogolnej liczby.\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Pierwsza cyfra: dla 5-cyfrowych div 10000, dla 2-cyfrowych div 10, itp.",
+            "Ostatnia cyfra: mod 10",
+            "Trzeba podac PIERWSZA taka liczbe wg kolejnosci w pliku, nie najmniejsza",
+            "Zakres [10, 100000] -- liczby moga miec 2-6 cyfr"
+          ]
+        },
+        {
+          "id": "2022.4.2",
+          "numer": "4.2",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.2. (0-4)\nZnajdz w pliku liczby.txt:\n- liczbe, ktora ma w rozkladzie najwiecej czynnikow pierwszych (podaj te liczbe oraz liczbe jej czynnikow pierwszych)\n- liczbe, ktora ma w rozkladzie najwiecej roznych czynnikow pierwszych (podaj te liczbe oraz liczbe jej roznych czynnikow pierwszych).\n\nPrzyklad: liczba 420 = 2*2*3*5*7 ma w rozkladzie 5 czynnikow pierwszych, w tym 4 rozne czynniki pierwsze (2, 3, 5, 7).\n\nOdpowiedz dla danych z pliku przyklad.txt: 144 6 210 4\n(Liczba 144 ma najwiecej czynnikow pierwszych; liczba czynnikow pierwszych liczby 144 wynosi 6. Liczba 210 ma najwiecej roznych czynnikow pierwszych; liczba roznych czynnikow pierwszych liczby 210 wynosi 4).",
+          "odpowiedz": "Najwiecej czynnikow pierwszych (z powtorzeniami): 10, liczby z ta iloscia: 99792, 20992 lub 56064 (kazda z nich ma 10 czynnikow).\nNajwiecej roznych czynnikow pierwszych: 6, liczba: 62790.\n\nPrzykladowa odpowiedz: 99792 10 62790 6",
+          "zasady_oceniania": "4 pkt -- za poprawna odpowiedz (obie czesci poprawne).\n2 pkt -- za jedna poprawna czesc (albo maks. czynniki z powtorzeniami, albo maks. rozne czynniki).\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Rozklad z powtorzeniami vs rozne czynniki -- to dwie oddzielne wielkosci",
+            "Wiele liczb moze miec te sama maksymalna liczbe czynnikow (3 liczby maja po 10)",
+            "Trzeba podac LICZBE i JEJ LICZBE czynnikow, nie same czynniki",
+            "Faktoryzacja: dzielimy przez 2, potem 3, 5, 7, ... az do sqrt(n)"
+          ]
+        },
+        {
+          "id": "2022.4.3",
+          "numer": "4.3",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.3. (0-4)\nTrojka (x, y, z) jest dobra, jesli y jest wielokrotnoscia x, natomiast z jest wielokrotnoscia y (czyli x dzieli y, a y dzieli z) oraz x, y, z sa rozne.\n\nPrzyklad: trojka (2, 6, 12) jest dobra, poniewaz 2 dzieli 6, a 6 dzieli 12. Trojka (2, 10, 12) nie jest dobra, poniewaz 10 nie dzieli 12.\n\nAnalogicznie mozemy zdefiniowac dobra piatke liczb -- piatka (u, w, x, y, z) jest dobra, jesli kazda z liczb, poza pierwsza, jest podzielna przez poprzednia liczbe z piatki (u dzieli w, w dzieli x, x dzieli y oraz y dzieli z) oraz wszystkie liczby z piatki sa rozne.\n\na) Podaj, ile jest dobrych trojek wsrod liczb wystepujacych w pliku liczby.txt. Zapisz wszystkie dobre trojki do pliku trojki.txt, kazda w osobnym wierszu.\n\n   Uwaga: Liczby z trojki nie musza wystepowac w pliku liczby.txt w kolejnych wierszach, a ich kolejnosc w tym pliku moze byc dowolna.\n\nb) Podaj, ile jest dobrych piatek wsrod liczb wystepujacych w pliku liczby.txt.\n\nOdpowiedzi dla danych z pliku przyklad.txt:\na) 10\nb) 1\n(10 dobrych trojek i jedna dobra piatka)\n\nZawartosc pliku trojki.txt dla danych z pliku przyklad.txt:\n13 104 208\n13 52 104\n13 52 208\n13 26 104\n13 26 52\n13 26 208\n52 104 208\n26 104 208\n26 52 104\n26 52 208",
+          "odpowiedz": "a) 27 dobrych trojek\nb) 2 dobre piatki\n\nPelna lista 27 trojek zapisana w pliku trojki.txt.",
+          "zasady_oceniania": "4 pkt -- za poprawna odpowiedz (poprawna liczba trojek, poprawny plik trojki.txt, poprawna liczba piatek).\n3 pkt -- za poprawna liczbe trojek i poprawny plik trojki.txt.\n2 pkt -- za poprawna liczbe trojek bez pliku lub z blednym plikiem.\n1 pkt -- za poprawna liczbe piatek.\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Dobra trojka: x|y ORAZ y|z, nie wystarczy x|z",
+            "Kolejnosc ma znaczenie: (x,y,z) gdzie x < y < z (rosnaco wg podzielnosci)",
+            "Brute-force O(n^3) moze byc za wolny -- mozna optymalizowac sortujac i sprawdzajac pary",
+            "Dobre piatki: analogicznie do trojek ale z 5 liczbami -- wymaga sprytnego podejscia"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2022_maj/Dane_2205/",
+      "pliki_danych": [
+        "liczby.txt",
+        "przyklad.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "analiza cyfr",
+          "rozklad na czynniki pierwsze",
+          "podzielnosc",
+          "kombinatoryka"
+        ],
+        "algorytmiczny": [
+          "ekstrakcja cyfr (mod/div)",
+          "faktoryzacja",
+          "brute-force trojki"
+        ],
+        "czasowy_min": 50
+      }
+    },
+    {
+      "numer": 5,
+      "tytul": "Sok",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Plik o nazwie soki.txt zawiera informacje o zamowieniach butelkowanego soku owocowego skladanych w pewnym zakladzie przez cztery magazyny (Gniezno, Malbork, Ogrodzieniec i Przemysl).\nDane w pliku uporzadkowano wedlug kolejnosci zamowien. W kazdym wierszu pliku znajduja sie nastepujace dane: numer zamowienia, data zamowienia, magazyn (ktory skladal dane zamowienie) oraz wielkosc zamowienia (liczba butelek soku). Zaklad przyjmuje zamowienia codziennie. Z kazdego magazynu splywa maksymalnie jedno zamowienie dziennie. Pierwszy wiersz pliku jest wierszem naglowkowym, a dane w wierszach oddzielono znakami tabulacji.\n\nPrzyklad:\nnr_zamowienia  data       magazyn        wielkosc_zamowienia\n1              02.01.2021 Ogrodzieniec   1290\n2              02.01.2021 Przemysl       4420\n3              02.01.2021 Gniezno        5190\n4              03.01.2021 Malbork        950\n5              03.01.2021 Gniezno        6000\n\nInformacje dodatkowe do zadan 5.4 i 5.5:\n- Sok byl produkowany w zakladzie glownym i jego filii.\n- Kazdego dnia roboczego (od poniedzialku do piatku) w zakladzie glownym wytwarzano 12 000 butelek soku, natomiast w soboty i w niedziele -- po 5 000 butelek soku.\n- Kazdego dnia, po zakonczeniu dziennej produkcji, zaklad wysylal do magazynow butelki soku zgodnie z zamowieniem z danego dnia (to oznacza, ze kazde zamowienie bylo realizowane w tym samym dniu, w ktorym bylo zlozone przez magazyn).\n- Zamowienia byly wysylane w takiej kolejnosci, w jakiej zostaly zlozone przez magazyny (czyli zgodnie z ich numeracja zapisana w pliku soki.txt).\n- Kazde zamowienie realizowano zawsze w calosci. Gdy do wykonania calosci danego zamowienia w zakladzie glownym zabraklo butelek soku, to realizacja calosci tego zamowienia przekazywana byla do filii (na potrzeby zadania zakladamy, ze w filii nigdy nie zabraknie soku).\n- Przyjmujemy, ze w dniu 2.01.2021 rano (przed produkcja) w zakladzie glownym znajdowalo sie 30 000 butelek soku.",
+      "podzadania": [
+        {
+          "id": "2022.5.1",
+          "numer": "5.1",
+          "punkty": 1,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.1. (0-1)\nPodaj, ile razy skladano zamowienia z kazdego z magazynow.",
+          "odpowiedz": "Gniezno: 152\nMalbork: 183\nOgrodzieniec: 222\nPrzemysl: 198",
+          "zasady_oceniania": "1 pkt -- za poprawna odpowiedz (wszystkie 4 wartosci poprawne).\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Proste COUNTIF per magazyn",
+            "Uwaga na pisownie nazw magazynow w danych"
+          ]
+        },
+        {
+          "id": "2022.5.2",
+          "numer": "5.2",
+          "punkty": 2,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.2. (0-2)\nPodaj liczbe dni najdluzszego okresu, kiedy zamowienia z Ogrodzienca wplywaly do zakladu codziennie, oraz date pierwszego dnia i ostatniego dnia tego okresu.",
+          "odpowiedz": "8 dni, od 07.10.2021 do 14.10.2021",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz (liczba dni + obie daty).\n1 pkt -- za poprawna liczbe dni bez dat LUB poprawne daty bez liczby dni.\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba znalezc najdluzszy ciag KOLEJNYCH dni z zamowieniami z Ogrodzienca",
+            "Nie wystarczy policzyc dni -- trzeba znalezc ciag bez przerw",
+            "Analiza przerw w datach (gap detection)"
+          ]
+        },
+        {
+          "id": "2022.5.3",
+          "numer": "5.3",
+          "punkty": 3,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.3. (0-3)\nWykonaj zestawienie zawierajace laczna wielkosc zamowien (czyli laczna liczbe zamowionych butelek soku) z kazdego z magazynow. Na podstawie wykonanego zestawienia utworz procentowy wykres kolowy ilustrujacy laczna wielkosc zamowien z kazdego z magazynow. Pamietaj o czytelnym opisie wykresu: o tytule, legendzie i wartosciach procentowych.",
+          "odpowiedz": "Gniezno: 819 000 butelek (20.8%)\nMalbork: 944 240 butelek (23.9%)\nOgrodzieniec: 1 115 560 butelek (28.3%)\nPrzemysl: 1 062 920 butelek (26.9%)\n\nWykres kolowy (procentowy) z tytulem, legenda i wartosciami procentowymi.",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz (poprawne zestawienie + poprawny wykres kolowy z tytulem, legenda i procentami).\n2 pkt -- za poprawne zestawienie + wykres bez pelnego opisu (brak tytulu lub legendy lub procentow).\n1 pkt -- za poprawne zestawienie bez wykresu LUB wykres z blednym zestawieniem.\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "SUMIFS per magazyn -- proste ale trzeba poprawnie zsumowac",
+            "Wykres musi byc KOLOWY (pie chart), nie slupkowy",
+            "Wymagane: tytul, legenda, wartosci procentowe"
+          ]
+        },
+        {
+          "id": "2022.5.4",
+          "numer": "5.4",
+          "punkty": 4,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.4. (0-4)\nPodaj date oraz numer zamowienia, ktore jako pierwsze zostalo zrealizowane przez filie glownego zakladu. Podaj, ile zamowien w ciagu calego roku zostalo przekazanych do filii i ile butelek lacznie przekazal do magazynow zaklad filialny.\n\nPrzypomnienie zasad (z kontekstu zadania 5):\n- Na poczatku (2.01.2021 rano) zaklad glowny ma 30 000 butelek.\n- Codziennie produkuje: 12 000 (pon-pt) lub 5 000 (sob-nd).\n- Zamowienia realizuje w kolejnosci numeracji, w calosci.\n- Jesli brakuje butelek na cale zamowienie, przekazuje je do filii.\n\nUwaga: Dla danych z zadania po realizacji zamowienia nr 20 w zakladzie glownym pozostalo 9 680 butelek soku.",
+          "odpowiedz": "Data: 19.03.2021\nNumer zamowienia: 154\nLiczba zamowien przekazanych do filii: 37\nLaczna liczba butelek przekazanych przez filie: 285 230",
+          "zasady_oceniania": "4 pkt -- za poprawna odpowiedz (wszystkie 4 wartosci).\n3 pkt -- za 3 poprawne wartosci.\n2 pkt -- za 2 poprawne wartosci.\n1 pkt -- za 1 poprawna wartosc.\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Symulacja stanu magazynu: stan_poczatkowy=30000, codziennie +produkcja, -zamowienia",
+            "Produkcja zalezy od dnia tygodnia (WEEKDAY)",
+            "Zamowienia realizowane w kolejnosci numeracji",
+            "Pierwsze zamowienie do filii = to ktore przekroczylro stan magazynu"
+          ]
+        },
+        {
+          "id": "2022.5.5",
+          "numer": "5.5",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.5. (0-2)\nPodaj, ile najmniej butelek (liczba calkowita) powinien wyprodukowac w dni robocze zaklad glowny (przy niezmienionej produkcji w soboty i w niedziele), przy podanych zamowieniach, aby zrealizowac wszystkie zamowienia samodzielnie.",
+          "odpowiedz": "13 179",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz.\n1 pkt -- w przypadku podania liczby rozniacej sie o 1.\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba znalezc minimalna dzienna produkcje w dni robocze, przy ktorej stan magazynu nigdy nie spada ponizej zera",
+            "Produkcja w weekendy pozostaje 5000 -- nie zmienia sie",
+            "Wymaga symulacji z parametrem lub wyszukiwania binarnego",
+            "Odpowiedz to MINIMALNA liczba butelek dziennie, nie laczna produkcja"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2022_maj/Dane_2205/",
+      "pliki_danych": [
+        "soki.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "arkusz kalkulacyjny",
+          "analiza danych",
+          "wykresy",
+          "symulacja"
+        ],
+        "algorytmiczny": [
+          "COUNTIF",
+          "SUMIF",
+          "gap detection",
+          "symulacja stanu",
+          "optymalizacja"
+        ],
+        "czasowy_min": 45
+      }
+    },
+    {
+      "numer": 6,
+      "tytul": "System kontroli dostepu",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "W plikach klasa.txt, uczen.txt i ewidencja.txt zapisano dane pochodzace z automatycznego systemu kontroli wejsc i wyjsc w pewnej szkole, z 5 dni (od 4 do 8 kwietnia 2022 r.). Uczniowie posiadaja imienne identyfikatory, ktore umozliwiaja rejestracje wejscia do szkoly i wyjscia ze szkoly.\nPierwszy wiersz w kazdym z plikow jest wierszem naglowkowym. Dane w kazdym wierszu oddzielono srednikiem.\n\nUwaga: Jezeli uczen jest obecny, to danego dnia wchodzi do szkoly jeden raz i jeden raz z niej wychodzi.\n\nPlik klasa.txt -- informacje o klasach:\n| Pole | Opis |\n|---|---|\n| IdKlasy | identyfikator klasy |\n| ProfilKlasy | profil ksztalcenia klasy |\n\nPrzyklad:\nIdKlasy;ProfilKlasy\n1a;biologiczno-chemiczny\n1b;humanistyczny\n\nPlik uczen.txt -- informacje o uczniach:\n| Pole | Opis |\n|---|---|\n| IdUcznia | identyfikator ucznia |\n| Imie | imie ucznia |\n| Nazwisko | nazwisko ucznia |\n| IdKlasy | identyfikator klasy |\n\nPrzyklad:\nIdUcznia;Imie;Nazwisko;IdKlasy\n1;Mariusz;Koprowski;3e\n2;Maciej;Machol;3a\n\nPlik ewidencja.txt -- wpisy wejsc/wyjsc:\n| Pole | Opis |\n|---|---|\n| IdEwidencji | identyfikator wpisu |\n| IdUcznia | identyfikator ucznia |\n| Wejscie | data i godzina wejscia (format: rrrr-mm-dd gg:mm:ss) |\n| Wyjscie | data i godzina wyjscia (format: rrrr-mm-dd gg:mm:ss) |\n\nPrzyklad:\nIdEwidencji;IdUcznia;Wejscie;Wyjscie\n1;18;2022-04-04 07:02:00;2022-04-04 14:11:00\n2;94;2022-04-04 07:07:00;2022-04-04 14:14:00\n3;121;2022-04-04 07:07:00;2022-04-04 14:14:00\n4;88;2022-04-04 07:10:00;2022-04-04 14:12:00\n\nWykorzystaj dostepne narzedzia informatyczne i podaj odpowiedzi do zadan 6.1-6.4. Odpowiedzi zapisz w pliku wyniki6.txt. Kazda odpowiedz poprzedz numerem oznaczajacym zadanie.",
+      "podzadania": [
+        {
+          "id": "2022.6.1",
+          "numer": "6.1",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.1. (0-2)\nOblicz i podaj, ile wszystkich wejsc dziewczat z klas o profilu biologiczno-chemicznym ('biologiczno-chemiczny') do szkoly zarejestrowal system kontroli dostepu w analizowanym okresie 5 dni.\nWszystkie imiona dziewczat (i tylko dziewczat) w tej szkole koncza sie litera a.",
+          "odpowiedz": "165\n\nPrzykladowe zapytanie SQL:\nSELECT COUNT(*)\nFROM ewidencja e\nJOIN uczen u ON e.IdUcznia = u.IdUcznia\nJOIN klasa k ON u.IdKlasy = k.IdKlasy\nWHERE k.ProfilKlasy = 'biologiczno-chemiczny'\nAND u.Imie LIKE '%a'",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz (165).\n1 pkt -- za odpowiedz nie uwzgledniajaca jednego warunku (kobiet -- 360 lub profilu -- 886).\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Wymaga JOINa trzech tabel: ewidencja + uczen + klasa",
+            "Warunek na plec: Imie LIKE '%a' (konczy sie na 'a')",
+            "Warunek na profil: ProfilKlasy = 'biologiczno-chemiczny'",
+            "Liczymy WEJSCIA (rekordy ewidencji), nie liczbe dziewczat",
+            "360 = wejscia dziewczat (bez filtra profilu), 886 = wejscia z profilu bio-chem (bez filtra plci)"
+          ]
+        },
+        {
+          "id": "2022.6.2",
+          "numer": "6.2",
+          "punkty": 3,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.2. (0-3)\nUtworz zestawienie zawierajace informacje o liczbie uczniow, ktorzy w poszczegolnych dniach analizowanego okresu nie spoznili sie do szkoly. Jako godzine rozpoczecia zajec przyjmujemy godzine 8:00. Wejscie ucznia zarejestrowane po godzinie 8:00 traktujemy jako spoznienie.",
+          "odpowiedz": "| Dzien | Liczba uczniow nie spoznionych |\n|---|---|\n| 04.04.2022 (Poniedzialek) | 233 |\n| 05.04.2022 (Wtorek) | 303 |\n| 06.04.2022 (Sroda) | 134 |\n| 07.04.2022 (Czwartek) | 280 |\n| 08.04.2022 (Piatek) | 127 |\n\nUwaga: Akceptowane tez wartosci 233, 303, 126, 280, 127 (roznica w interpretacji godziny 8:00).\n\nPrzykladowe zapytanie SQL:\nSELECT DATE(Wejscie), COUNT(*)\nFROM ewidencja\nWHERE TIME(Wejscie) <= '08:00:00'\nGROUP BY DATE(Wejscie)\nORDER BY DATE(Wejscie)",
+          "zasady_oceniania": "3 pkt -- za odpowiedz 233, 303, 134, 280, 127 lub 233, 303, 126, 280, 127.\n2 pkt -- w przypadku zestawienia bez uwzglednienia godziny 8.00 jako godziny, gdy nie ma spoznienia ALBO podania prawidlowego zestawienia dla osob, ktore sie spoznily.\n1 pkt -- w przypadku pominiecia jednego wiersza w odpowiedzi ALBO podania tylko lacznej sumy ALBO podania zestawienia dla osob, ktore sie spoznily ze zle zinterpretowana godzina 8.00.\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Godzina 8:00 to granica -- wejscie o 8:00 to NIE spoznienie",
+            "Liczymy tych co NIE spoznili sie, nie tych co sie spoznili",
+            "Trzeba pogrupowac po dniach (5 wierszy w wyniku)",
+            "Roznica w interpretacji: <= 08:00:00 vs < 08:00:00 daje rozne wyniki dla srody"
+          ]
+        },
+        {
+          "id": "2022.6.3",
+          "numer": "6.3",
+          "punkty": 3,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.3. (0-3)\nDla kazdej osoby zliczamy laczny czas pobytu w szkole w analizowanym okresie 5 dni. Podaj identyfikatory oraz imiona i nazwiska trzech osob, ktore w ciagu monitorowanego czasu przebywaly najdluzej na terenie szkoly.",
+          "odpowiedz": "| IdUcznia | Imie | Nazwisko |\n|---|---|---|\n| 314 | Sebastian | Rabaj |\n| 172 | Monika | Kado |\n| 299 | Alicja | Kronecka |\n\nPrzykladowe zapytanie SQL:\nSELECT u.IdUcznia, u.Imie, u.Nazwisko, SUM(strftime('%s', Wyjscie) - strftime('%s', Wejscie)) AS czas_total\nFROM ewidencja e\nJOIN uczen u ON e.IdUcznia = u.IdUcznia\nGROUP BY u.IdUcznia\nORDER BY czas_total DESC\nLIMIT 3",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za kazdy poprawny wiersz.\n2 pkt -- za wynik otrzymany bez uwzglednienia identyfikatora ucznia ('Zuzanna Adamczyk, Szymon Dabrowski, Marika Kossakowska') ALBO za wyliczenie dla kazdej osoby czasu pobytu w szkole w ciagu 5 dni.\n1 pkt -- za wyliczenie dla kazdej osoby czasu dziennego pobytu w szkole (przykladowy wynik 'Julia Riegel, Nikodem Jaglowski, Antonina Tarkowska lub Piotr Formela').\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Czas pobytu = roznica miedzy Wyjsciem a Wejsciem, sumowana z 5 dni",
+            "Trzeba ZSUMOWAC czas ze wszystkich dni per uczen",
+            "Bez identyfikatora: jezeli szuszszemy po samym imieniu/nazwisku (bez IdUcznia), mozna dostac inny wynik",
+            "ORDER BY DESC + LIMIT 3 -- szukamy NAJDLUZSZEGO czasu",
+            "JOIN z uczen zeby dostac imie i nazwisko"
+          ]
+        },
+        {
+          "id": "2022.6.4",
+          "numer": "6.4",
+          "punkty": 3,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.4. (0-3)\nPodaj imiona i nazwiska wszystkich uczniow, ktorzy byli nieobecni 6.04.2022 r.",
+          "odpowiedz": "Mateusz Kordas\nKrzysztof Michalak\nOliwier Ziolko\n\nPrzykladowe zapytanie SQL:\nSELECT u.Imie, u.Nazwisko\nFROM uczen u\nWHERE u.IdUcznia NOT IN (\n    SELECT IdUcznia\n    FROM ewidencja\n    WHERE DATE(Wejscie) = '2022-04-06'\n)\nORDER BY u.Nazwisko",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za kazde poprawne nazwisko.\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "NOT IN / NOT EXISTS -- szukamy uczniow NIEOBECNYCH (bez rekordu w ewidencji tego dnia)",
+            "Trzeba sprawdzic date 2022-04-06 (6 kwietnia = sroda)",
+            "Alternatywne podejscie: LEFT JOIN ewidencja WHERE ewidencja.IdUcznia IS NULL",
+            "Trzeba podac imie i nazwisko, nie sam identyfikator"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2022_maj/Dane_2205/",
+      "pliki_danych": [
+        "klasa.txt",
+        "uczen.txt",
+        "ewidencja.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "bazy danych",
+          "SQL",
+          "JOIN",
+          "agregacja czasowa"
+        ],
+        "algorytmiczny": [
+          "JOIN wielotabelowy",
+          "COUNT z warunkiem",
+          "roznica czasow",
+          "NOT IN / NOT EXISTS"
+        ],
+        "czasowy_min": 50
+      }
+    }
+  ]
+}

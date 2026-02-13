@@ -1,0 +1,520 @@
+{
+  "rok": 2021,
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc I (teoria, bez komputera)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc II (praktyka, przy komputerze)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Cyfrowe dopelnienie",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Niech n bedzie nieujemna liczba calkowita, ktorej najbardziej znaczaca cyfra w zapisie dziesietnym jest wieksza od 0 i mniejsza od 9. Cyfrowym dopelnieniem liczby n nazywamy liczbe calkowita d, ktorej zapis dziesietny otrzymujemy z zapisu dziesietnego liczby n przez zamiane kazdej cyfry tego zapisu na cyfre, ktora jest jej uzupelnieniem do 9.\n\nPrzyklad:\nCyfrowym dopelnieniem liczby 2021 jest liczba 7978.",
+      "podzadania": [
+        {
+          "id": "2021.1.1",
+          "numer": "1.1",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1. (0-2)\nPodaj czterocyfrowa liczbe n taka, ze wartosc bezwzgledna roznicy n i jej cyfrowego dopelnienia d jest:\n\na) najmniejsza:  n = ______\nb) najwieksza:  n = ______",
+          "odpowiedz": "a) n = 5000 (lub 4999) -- |5000 - 4999| = 1 (lub |4999 - 5000| = 1)\nb) n = 8999 (lub 1000) -- |8999 - 1000| = 7999\n\nWyjasnienie: d(n) = 9999 - n, wiec |n - d(n)| = |n - (9999-n)| = |2n - 9999|. Minimum dla n najblizszego 9999/2 = 4999.5, czyli n=5000 lub n=4999. Maksimum dla n jak najdalszego od 4999.5 w zakresie [1000,8999], czyli n=8999 lub n=1000.",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz (obie wartosci poprawne).\n1 pkt -- za jedna poprawna wartosc.\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Ograniczenie: najbardziej znaczaca cyfra > 0 i < 9, wiec zakres to [1000, 8999]",
+            "d(n) = 9999 - n, wiec |n - d(n)| = |2n - 9999|",
+            "Minimum dla n=5000 lub 4999 (roznica = 1), NIE dla 5555 (roznica = 1111)",
+            "Maksimum dla n=8999 (roznica = 7999), NIE dla 9000 (niedozwolone bo cyfra 9)"
+          ]
+        },
+        {
+          "id": "2021.1.2",
+          "numer": "1.2",
+          "punkty": 4,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2. (0-4)\nW postaci pseudokodu lub w wybranym jezyku programowania napisz algorytm, ktory dla dodatniej liczby calkowitej n obliczy jej cyfrowe dopelnienie d. O liczbie n wiadomo, ze jej najbardziej znaczaca cyfra jest wieksza od 0 i mniejsza od 9.\n\nUwaga: Twoj algorytm moze uzywac wylacznie zmiennych przechowujacych liczby calkowite oraz moze operowac wylacznie na liczbach calkowitych. W zapisie algorytmu mozesz korzystac tylko z instrukcji sterujacych, operatorow arytmetycznych: dodawania, odejmowania, mnozenia, dzielenia, dzielenia calkowitego i reszty z dzielenia; operatorow logicznych, porownan i instrukcji przypisania lub samodzielnie napisanych funkcji i procedur wykorzystujacych powyzsze operacje. Zabronione jest uzywanie funkcji wbudowanych dostepnych w jezykach programowania. Nie wolno w szczegolnosci korzystac z zadnych funkcji zamiany z typu znakowego lub napisowego na liczbowy i odwrotnie.\n\nSpecyfikacja:\nDane:\n    n -- dodatnia liczba calkowita taka, ze jej najbardziej znaczaca cyfra jest wieksza od 0 i mniejsza od 9\nWynik:\n    d -- dodatnia liczba calkowita, cyfrowe dopelnienie liczby n",
+          "odpowiedz": "Wersja I (iteracja po cyfrach):\nd <- 0\npotega <- 1\ndopoki n > 0:\n    cyfra <- n mod 10\n    d <- d + (9 - cyfra) * potega\n    potega <- potega * 10\n    n <- n div 10\n\nWersja II (liczba z samych 9):\nk <- 0\ntemp <- n\ndopoki temp > 0:\n    k <- k + 1\n    temp <- temp div 10\ndziewiatki <- 0\ndla i = 1, ..., k:\n    dziewiatki <- dziewiatki * 10 + 9\nd <- dziewiatki - n",
+          "zasady_oceniania": "4 pkt -- za poprawny algorytm, w tym:\n    1 pkt -- za poprawna petle przegladajaca cyfry liczby n (n mod 10, n div 10)\n    1 pkt -- za poprawne wyodrebnienie cyfry i obliczenie uzupelnienia do 9\n    1 pkt -- za poprawne sledzenie pozycji (potegi 10) lub budowanie liczby z samych 9\n    1 pkt -- za poprawne zbudowanie wyniku d.\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Zakaz uzycia konwersji na stringi -- trzeba operowac czysto arytmetycznie",
+            "Budowanie wyniku wymaga sledzenia pozycji (potegi 10)",
+            "Alternatywna metoda: 999...9 - n dziala ale wymaga obliczenia liczby cyfr",
+            "Petla while n > 0 z mod 10 / div 10 to standardowy wzorzec ekstrakcji cyfr"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "arytmetyka_cyfrowa",
+          "operacje_na_cyfrach_liczby"
+        ],
+        "algorytmiczny": [
+          "ekstrakcja_cyfr_mod_div",
+          "budowanie_liczby_z_cyfr"
+        ],
+        "czasowy_min": 20
+      }
+    },
+    {
+      "numer": 2,
+      "tytul": "Analiza algorytmu (kopiec binarny)",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Niech n bedzie nieujemna liczba calkowita, a T[1..n] -- tablica zawierajaca n liczb calkowitych. Dla n = 0 tablica T jest pusta (nie zawiera zadnego elementu).\nWykonaj analize ponizej zapisanej funkcji d(x), ktora rozszerza tablice T o liczbe calkowita x, a nastepnie przeprowadza pewna reorganizacje zawartosci tej tablicy.\n\nd(x):\n    n <- n + 1\n    T[n] <- x\n    s <- n\n    dopoki ((s div 2) >= 1) oraz (T[s] > T[s div 2]) wykonuj\n        pom <- T[s]\n        T[s] <- T[s div 2]\n        T[s div 2] <- pom\n        s <- s div 2\n\nUwaga: w tym zadaniu przyjmujemy, ze:\n- tablica T moze byc powiekszana;\n- jesli wartosc lewego argumentu operatora 'oraz' jest rowna falsz, to wartosc prawego argumentu nie jest wyliczana;\n- div jest operatorem oznaczajacym czesc calkowita z dzielenia.\n\nAlgorytm realizuje wstawianie elementu do kopca binarnego max (sift-up). Element jest dodawany na koniec tablicy, a nastepnie przesuwany w gore kopca, dopoki jest wiekszy od swojego rodzica (T[s div 2]).",
+      "podzadania": [
+        {
+          "id": "2021.2.1",
+          "numer": "2.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1. (0-2)\nUzupelnij tabele -- wpisz zawartosc tablicy T po wykonaniu d(x) z podanym parametrem x:\n\n| n | T[1..n] | x | T po wykonaniu d(x) |\n|---|---------|---|---------------------|\n| 4 | 26, 3, 5, -4 | 5 | 26, 5, 5, -4, 3 |\n| 4 | 36, 15, 17, 3 | -5 | |\n| 7 | 27, 6, 13, 4, -3, -2, -3 | 30 | |",
+          "odpowiedz": "| n | T[1..n] | x | T po wykonaniu d(x) |\n|---|---------|---|---------------------|\n| 4 | 36, 15, 17, 3 | -5 | 36, 15, 17, 3, -5 |\n| 7 | 27, 6, 13, 4, -3, -2, -3 | 30 | 30, 27, 13, 6, -3, -2, -3, 4 |\n\nWyjasnienie:\n- d(-5) z T=[36,15,17,3]: -5 dodane na pozycje 5. s=5, s div 2 = 2, T[5]=-5 < T[2]=15, wiec petla sie nie wykonuje. T = [36, 15, 17, 3, -5].\n- d(30) z T=[27,6,13,4,-3,-2,-3]: 30 dodane na pozycje 8. s=8, T[8]=30 > T[4]=4 -> zamiana -> T=[27,6,13,30,-3,-2,-3,4]. s=4, T[4]=30 > T[2]=6 -> zamiana -> T=[27,30,13,6,-3,-2,-3,4]. s=2, T[2]=30 > T[1]=27 -> zamiana -> T=[30,27,13,6,-3,-2,-3,4]. s=1, s div 2 = 0, warunek (0>=1) falszywy, koniec.",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz (oba wiersze poprawne).\n1 pkt -- za jeden poprawny wiersz.\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Dla x=-5: -5 < 3 (rodzic), wiec brak zamiany -- T po prostu sie wydluza",
+            "Dla x=30: 30 przesuwa sie az na szczyt (do T[1]) -- 3 zamiany",
+            "Leniwa ewaluacja: jesli (s div 2) >= 1 jest FALSE, drugi warunek nie jest sprawdzany",
+            "Indeksowanie rodzica: s div 2 (dzielenie calkowite)"
+          ]
+        },
+        {
+          "id": "2021.2.2",
+          "numer": "2.2",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2. (0-2)\nPodaj zawartosc tablicy T po wykonaniu wszystkich szesciu wywolan funkcji d kolejno z parametrami: 6, -4, 12, 27, 26, 8, przy poczatkowo pustej tablicy T.\n\nT = ________________________________________",
+          "odpowiedz": "T = [27, 26, 8, -4, 12, 6]\n\nKolejne stany tablicy T:\nd(6):  [6]\nd(-4): [6, -4]\nd(12): [12, -4, 6] (12>6, zamiana)\nd(27): [27, -4, 6, 12] -> [27, 12, 6, -4] (27>12 na poz. 2, potem 27>-4? nie, 27 juz na poz. 1... Poprawnie: d(27) dodaje 27 na poz. 4. T=[12,-4,6,27]. s=4, T[4]=27>T[2]=-4, zamiana: T=[12,27,6,-4]. s=2, T[2]=27>T[1]=12, zamiana: T=[27,12,6,-4].\nd(26): dodaje 26 na poz. 5. T=[27,12,6,-4,26]. s=5, T[5]=26>T[2]=12, zamiana: T=[27,26,6,-4,12]. s=2, T[2]=26<T[1]=27, koniec. T=[27,26,6,-4,12].\nd(8): dodaje 8 na poz. 6. T=[27,26,6,-4,12,8]. s=6, T[6]=8>T[3]=6, zamiana: T=[27,26,8,-4,12,6]. s=3, T[3]=8<T[1]=27, koniec. T=[27,26,8,-4,12,6].",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz.\n1 pkt -- za odpowiedz z jednym bledem zamiany (np. jeden swap pominiety lub nadmiarowy).\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba sledzic 6 kolejnych wstawien krok po kroku",
+            "Kazde wstawienie moze wymagac wielu zamian (sift-up az do korzenia)",
+            "Latwo sie pomylic przy recznym sledzeniu -- warto rysowac drzewo",
+            "Wynik to kopiec max: T[1] >= T[2], T[1] >= T[3], itd."
+          ]
+        },
+        {
+          "id": "2021.2.3",
+          "numer": "2.3",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.3. (0-2)\nDo poczatkowo pustej tablicy T wstawiono za pomoca funkcji d kolejno liczby calkowite od 1 do k - 1. Wstawiamy teraz do tablicy T kolejna liczbe k za pomoca d(k).\nZapisz, ile razy w trakcie wykonywania d(k) sprawdzany jest warunek petli 'dopoki': \"(s div 2) >= 1 oraz (T[s] > T[s div 2])\" dla podanych wartosci k.\n\n| k | Ile razy sprawdzany jest warunek petli dopoki podczas wykonywania d(k)? |\n|---|------------------------------------------------------------------------|\n| 4 | 3 razy |\n| 16 | |\n| 1025 | |",
+          "odpowiedz": "| k | Ile razy sprawdzany jest warunek petli |\n|---|----------------------------------------|\n| 16 | 5 razy |\n| 1025 | 11 razy |\n\nWyjasnienie: Po wstawieniu 1..k-1, k jest najwiekszym elementem i przesuwa sie az na szczyt kopca. Liczba sprawdzen = floor(log2(k)) + 1. Dla k=16: floor(log2(16))+1 = 4+1 = 5. Dla k=1025: floor(log2(1025))+1 = 10+1 = 11. Dodatkowe +1 bo warunek jest sprawdzany raz wiecej niz liczba zamian (ostatnie sprawdzenie konczy petle gdy s div 2 = 0).",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz (obie wartosci poprawne).\n1 pkt -- za jedna poprawna wartosc.\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "k jest nowym max -- przesuwa sie az na szczyt (floor(log2(k)) zamian)",
+            "Liczba SPRAWDZEN warunku = liczba zamian + 1 (ostatnie sprawdzenie konczy petle)",
+            "k=16: 4 zamiany + 1 sprawdzenie konczace = 5",
+            "k=1025: 10 zamian + 1 = 11 (bo log2(1025) ~ 10.0)"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "struktury_danych",
+          "kopiec_binarny_max",
+          "drzewa_binarne"
+        ],
+        "algorytmiczny": [
+          "wstawianie_do_kopca",
+          "sift_up",
+          "analiza_zlozonosci_logarytmicznej"
+        ],
+        "czasowy_min": 25
+      }
+    },
+    {
+      "numer": 3,
+      "tytul": "Test",
+      "punkty": 3,
+      "czesc": 1,
+      "kontekst": "Ocen prawdziwosc podanych zdan. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli jest falszowe. W kazdym zadaniu punkt uzyskasz tylko za komplet poprawnych odpowiedzi.",
+      "podzadania": [
+        {
+          "id": "2021.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1. (0-1)\nDana jest nastepujaca funkcja:\n\nfunkcja f(n):\n    jezeli n > 0\n        wypisz n\n        f(n - 2)\n        wypisz n\n\nOcen prawdziwosc zdan:\n1. W wyniku wywolania f(5) otrzymamy ciag 5 5 5 5 5 5.  [P/F]\n2. W wyniku wywolania f(6) otrzymamy ciag 6 4 2 2 4 6.  [P/F]\n3. W wyniku wywolania f(7) otrzymamy ciag 7 5 3 1 1 3 5 7.  [P/F]\n4. W wyniku wywolania f(8) otrzymamy ciag 8 6 4 2 0 0 2 4 6 8.  [P/F]",
+          "odpowiedz": "F, P, P, F\n\nWyjasnienie:\nf(5): wypisz 5, f(3): wypisz 3, f(1): wypisz 1, f(-1): nic (n<=0), wypisz 1, wypisz 3, wypisz 5 -> 5,3,1,1,3,5 (nie 5,5,5,5,5,5) -> F\nf(6): wypisz 6, f(4): wypisz 4, f(2): wypisz 2, f(0): nic, wypisz 2, wypisz 4, wypisz 6 -> 6,4,2,2,4,6 -> P\nf(7): wypisz 7, f(5)->5,3,1,1,3,5, wypisz 7 -> 7,5,3,1,1,3,5,7 -> P\nf(8): wypisz 8, f(6)->6,4,2,2,4,6, wypisz 8 -> 8,6,4,2,2,4,6,8 (NIE 8,6,4,2,0,0,2,4,6,8 bo f(0) nic nie wypisuje) -> F",
+          "zasady_oceniania": "1 pkt -- za komplet poprawnych odpowiedzi (F, P, P, F).\n0 pkt -- za odpowiedz niepelna lub niepoprawna.",
+          "pulapki": [
+            "f(n) z warunkiem n > 0: f(0) i f(-1) nic nie wypisuja (brak bloku else)",
+            "f(8): rekurencja konczy sie na f(0) ktore nic nie drukuje -- NIE drukuje '0 0'",
+            "f(5): wypisuje n PRZED i PO rekurencji, ale rozne poziomy daja rozne wartosci"
+          ]
+        },
+        {
+          "id": "2021.3.2",
+          "numer": "3.2",
+          "punkty": 1,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2. (0-1)\nOcen prawdziwosc zdan:\n1. (10000000)_2 jest liczba wieksza od liczby (A9)_16  [P/F]\n2. (1111)_4 jest liczba wieksza od liczby (1111111)_2  [P/F]\n3. (3003)_4 jest liczba wieksza od liczby (C2)_16  [P/F]\n4. (333)_8 jest liczba wieksza od liczby (10100101)_2  [P/F]",
+          "odpowiedz": "F, F, P, P\n\nWyjasnienie:\n1. (10000000)_2 = 128, (A9)_16 = 10*16+9 = 169. 128 < 169 -> F\n2. (1111)_4 = 1*64+1*16+1*4+1 = 85, (1111111)_2 = 127. 85 < 127 -> F\n3. (3003)_4 = 3*64+0*16+0*4+3 = 195, (C2)_16 = 12*16+2 = 194. 195 > 194 -> P\n4. (333)_8 = 3*64+3*8+3 = 219, (10100101)_2 = 128+32+4+1 = 165. 219 > 165 -> P",
+          "zasady_oceniania": "1 pkt -- za komplet poprawnych odpowiedzi (F, F, P, P).\n0 pkt -- za odpowiedz niepelna lub niepoprawna.",
+          "pulapki": [
+            "Trzeba dokladnie policzyc kazda wartosc -- latwo o blad rachunkowy",
+            "(A9)_16: A=10, wiec 10*16+9=169, nie np. 109",
+            "(1111)_4: to NIE to samo co (1111)_2 -- system czworkowy",
+            "Roznica miedzy (3003)_4 a (C2)_16 to tylko 1 (195 vs 194)"
+          ]
+        },
+        {
+          "id": "2021.3.3",
+          "numer": "3.3",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.3. (0-1)\nW bazie danych istnieje tabela produkty(id_produktu, produkt, sztuk, cena), zawierajaca nastepujace dane:\n\n| id_produktu | produkt | sztuk | cena |\n|-------------|---------|-------|------|\n| 1 | zeszyt | 160 | 2 |\n| 2 | okladka | 100 | 3 |\n| 3 | olowek | 250 | 1 |\n| 4 | dlugopis | 178 | 5 |\n| 5 | pioro | 100 | 12 |\n| 6 | gumka | 250 | 1 |\n| 7 | piornik | 125 | 8 |\n| 8 | cyrkiel | 130 | 4 |\n\nOcen prawdziwosc zdan:\n1. Wynikiem zapytania SELECT produkt FROM produkty WHERE (cena = 2 OR cena = 4) jest: cyrkiel  [P/F]\n2. Wynikiem zapytania SELECT AVG(cena) FROM produkty WHERE sztuk IN (125, 160) jest: 5  [P/F]\n3. Wynikiem zapytania SELECT SUM(sztuk) FROM produkty WHERE (cena = 1 OR cena = 2) jest: 660  [P/F]\n4. Wynikiem zapytania SELECT COUNT(cena) FROM produkty WHERE cena BETWEEN 2 AND 4 jest: 2  [P/F]",
+          "odpowiedz": "F, P, P, F\n\nWyjasnienie:\n1. cena=2: zeszyt, cena=4: cyrkiel. Wynik = {zeszyt, cyrkiel}, nie samo cyrkiel -> F\n2. sztuk IN (125, 160): piornik (cena=8) i zeszyt (cena=2). AVG = (8+2)/2 = 5 -> P\n3. cena=1: olowek (250), gumka (250). cena=2: zeszyt (160). SUM = 250+250+160 = 660 -> P\n4. cena BETWEEN 2 AND 4: zeszyt (2), okladka (3), cyrkiel (4). COUNT = 3, nie 2 -> F",
+          "zasady_oceniania": "1 pkt -- za komplet poprawnych odpowiedzi (F, P, P, F).\n0 pkt -- za odpowiedz niepelna lub niepoprawna.",
+          "pulapki": [
+            "Zapytanie 1: OR daje DWIE pozycje (zeszyt i cyrkiel), nie jedna",
+            "BETWEEN 2 AND 4 jest inkluzywne -- zawiera 2, 3 i 4 (okladka ma cene 3)",
+            "COUNT(cena) liczy wiersze z niepusta cena -- tu 3, nie 2",
+            "AVG: srednia z 2 i 8 to 5, nie z wszystkich wartosci"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "rekurencja",
+          "systemy_liczbowe",
+          "SQL_podstawy"
+        ],
+        "algorytmiczny": [
+          "sledzenie_rekurencji",
+          "konwersja_systemow",
+          "analiza_zapytan_SQL"
+        ],
+        "czasowy_min": 15
+      }
+    },
+    {
+      "numer": 4,
+      "tytul": "Neon cyfrowy",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "Pewna firma przygotowuje wyswietlanie napisow zlozonych z wielkich liter alfabetu angielskiego. Na poczatku napis jest pusty (nie zawiera liter). W pliku instrukcje.txt podanych jest 2000 instrukcji, ktore wykonuje automat do generowania napisu. Kazda z instrukcji sklada sie z polecenia, spacji oraz pojedynczego znaku. Polecenia sa czterech rodzajow:\n\n- DOPISZ litera -- oznacza, ze na koncu napisu trzeba dopisac pojedyncza litere;\n- ZMIEN litera -- oznacza, ze ostatnia litere aktualnego napisu nalezy zmienic na podana litere (mozesz zalozyc, ze napis jest niepusty);\n- USUN 1 -- oznacza, ze nalezy usunac ostatnia litere aktualnego napisu (mozesz zalozyc, ze napis jest niepusty);\n- PRZESUN litera -- oznacza, ze pierwsze od lewej wystapienie podanej litery w napisie nalezy zamienic na nastepna litere w alfabecie (jesli litera to A, to nalezy zamienic na B, jesli B to na C itd.) Litere Z nalezy zamienic na A. Jesli litera nie wystepuje w napisie, nie nalezy nic robic.\n\nPrzyklad:\nDany jest nastepujacy ciag instrukcji:\nDOPISZ A\nDOPISZ B\nDOPISZ C\nUSUN 1\nDOPISZ D\nZMIEN B\nDOPISZ E\nPRZESUN B\nPo wykonaniu pierwszych trzech instrukcji napis ma postac ABC, potem AB, ABD, ABB, ABBE, wreszcie ostatnia instrukcja zamieni pierwsze B na C, wiec ostatecznie powstaly napis to ACBE.\n\nNapisz program (lub kilka programow), ktory(-e) znajdzie(-da) odpowiedzi na ponizsze pytania. Kazda odpowiedz zapisz w pliku wyniki4.txt i poprzedz ja numerem oznaczajacym zadanie.\nDo dyspozycji masz rowniez plik przyklad.txt, w ktorym znajduje sie tylko 20 instrukcji -- odpowiedzi dla tego pliku podane sa w tresciach zadan, mozesz wiec sprawdzac na nim dzialanie swojego programu. Pamietaj, ze Twoj program musi ostatecznie dzialac dla 2000 instrukcji.",
+      "podzadania": [
+        {
+          "id": "2021.4.1",
+          "numer": "4.1",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zliczanie",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.1. (0-2)\nOblicz calkowita dlugosc napisu po wykonaniu wszystkich instrukcji z pliku instrukcje.txt.\n\nDla pliku przyklad.txt dlugoscia napisu jest liczba 10.",
+          "odpowiedz": "517\n\nWskazowka: Wystarczy sledzic dlugosc: DOPISZ +1, USUN -1, ZMIEN i PRZESUN bez zmian. Czesc punktow (1 pkt) za 563 = liczba samych DOPISZ (bez odejmowania USUN).",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz (517).\n1 pkt -- za odpowiedz 563 (policzenie tylko instrukcji DOPISZ, bez uwzglednienia USUN).\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba uwzglednic ze USUN zmniejsza dlugosc -- nie wystarczy policzyc DOPISZ",
+            "ZMIEN i PRZESUN nie zmieniaja dlugosci napisu",
+            "Typowy blad: 563 (tylko DOPISZ bez USUN)"
+          ]
+        },
+        {
+          "id": "2021.4.2",
+          "numer": "4.2",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.2. (0-2)\nZnajdz najdluzszy ciag wystepujacych kolejno po sobie instrukcji tego samego rodzaju. Jako odpowiedz podaj rodzaj instrukcji oraz dlugosc tego ciagu. Istnieje tylko jeden taki ciag.\n\nDla pliku przyklad.txt odpowiedzia jest: rodzaj instrukcji -- DOPISZ, dlugosc ciagu -- 5.",
+          "odpowiedz": "ZMIEN 7\n\nRodzaj instrukcji: ZMIEN, dlugosc najdluzszego ciagu: 7.",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za poprawny rodzaj instrukcji (ZMIEN),\n    1 pkt -- za poprawna dlugosc ciagu (7).\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba sledzic najdluzszy ciag KOLEJNYCH instrukcji tego samego typu",
+            "Nie chodzi o najczestszy typ ogolnie, lecz o najdluzszy ciag bez przerw",
+            "ZMIEN 7 = siedem instrukcji ZMIEN pod rzad"
+          ]
+        },
+        {
+          "id": "2021.4.3",
+          "numer": "4.3",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_zliczanie",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.3. (0-3)\nOblicz, ktora litera jest najczesciej dopisywana (najczesciej wystepuje w instrukcji DOPISZ). Podaj te litere oraz ile razy jest dopisywana. Istnieje tylko jedna taka litera.\n\nDla pliku przyklad.txt odpowiedzia jest litera U, dopisywana 3 razy.",
+          "odpowiedz": "Z 37\n\nLitera Z jest najczesciej dopisywana -- 37 razy.",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz.\n    2 pkt -- za poprawna liczbe, w przypadku podania liczby 36 lub 38 -- 1 pkt.\n    1 pkt -- za poprawna litere.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba filtrowac TYLKO instrukcje DOPISZ (nie ZMIEN, PRZESUN)",
+            "Trzeba zliczyc czestosci LITER w instrukcjach DOPISZ, nie wszystkich znakow",
+            "Za odpowiedz 36 lub 38 (blad o 1): 1 pkt za liczbe zamiast 2"
+          ]
+        },
+        {
+          "id": "2021.4.4",
+          "numer": "4.4",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.4. (0-4)\nPodaj napis, ktory powstanie po wykonaniu wszystkich instrukcji z pliku instrukcje.txt.\n\nDla pliku przyklad.txt wynikiem jest napis ALANTURING.",
+          "odpowiedz": "POZNIEJMOWIONOZECZLOWIEKTENNADSZEDLODPOLNOCYODBRAMYPOWROZNICZEJSZEDLPIESZOAOBJUCZONEGOKONIAPROWADZILZAUZDEBYLOPOZNEPOPOLUDNIEIKRAMYPOWROZNIKOWIRYMARZYBYLYIJUZZAMKNIETEAULICZKAPUSTABYLOCIEPLOACZLOWIEKTENMIALNASOBIECZARNYPLASZCZONARZUCONYNAMIONAZWRACALUWAGEZATRZYMALSIEPRZEDGOSPODASARYNARAKORTPOSTALCHWILEPOSLUCHA LGWARUGLOSOWGOSPODARJAKZWYKLEOTEJPORZEBYLAPELNALUDZINIEZNA JOMYNIEWSZEDLDOSTAREGONARAKORTUPOCIAGNALKONIADALEJWDOLULICZKITAMBYLADRUGAKARCZMAMNIEJSZANAZYWALASIEPODLISEMTUBYLOPUSTOKARCZMANIEMIALANAJLEPSZEJSLAWY\n\n[poczatek opowiadania 'Wiedzmin' A. Sapkowskiego, zapisane malymi literami, bez spacji i polskich znakow]",
+          "zasady_oceniania": "4 pkt -- za poprawna odpowiedz.\n3 pkt -- za odpowiedz wynikajaca z przesuwania wszystkich wystapien podanej litery, a nie tylko jej pierwszego wystapienia.\n2 pkt -- za odpowiedz wynikajaca z poprawnego dzialania tylko trzech instrukcji.\n1 pkt -- za odpowiedz wynikajaca z poprawnego dzialania tylko dwoch instrukcji (np. DOPISZ oraz ZMIEN).\n0 pkt -- za odpowiedz niepoprawna (inna niz wymienione) albo za brak odpowiedzi.",
+          "pulapki": [
+            "PRZESUN przesuwa PIERWSZE wystapienie litery (nie wszystkie) -- za wszystkie: 3 pkt",
+            "USUN zmniejsza dlugosc napisu -- trzeba uwzglednic przy indeksowaniu",
+            "ZMIEN zamienia ostatnia litere -- napis musi byc niepusty",
+            "Wynik to tekst literacki (poczatek Wiedzmina) -- mozna uzyc do weryfikacji"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2021_maj/DANE_2105/",
+      "pliki_danych": [
+        "instrukcje.txt",
+        "przyklad.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "algorytmy_na_tekstach",
+          "operacje_na_napisach",
+          "przetwarzanie_plikow"
+        ],
+        "algorytmiczny": [
+          "parsowanie_instrukcji",
+          "symulacja_operacji_na_stringu",
+          "zliczanie"
+        ],
+        "czasowy_min": 40
+      }
+    },
+    {
+      "numer": 5,
+      "tytul": "Wodociagi",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Wodociagi miejskie zamierzaja wykonac analize zuzycia wody. W tym celu zgromadzily dane o poborze wody przez wszystkich swoich klientow za rok 2019. Dane sa zapisane w pliku wodociagi.txt. Pierwszy wiersz pliku jest wierszem naglowkowym, a dane rozdzielono srednikami. W kazdym wierszu zapisano informacje dotyczace jednego gospodarstwa domowego jednego klienta: dziesiecioznakowy kod klienta oraz 12 liczb calkowitych oznaczajacych ilosci zuzytej wody w m^3 przez kolejne 12 miesiecy (od stycznia do grudnia).\n\nKod klienta sklada sie z pieciocyfrowego numeru klienta, dwucyfrowej liczby oznaczajacej liczbe osob pozostajacych we wspolnym gospodarstwie domowym oraz trzyliterowego kodu dzielnicy miasta. Kazdy kod klienta jest unikatowy.\n\nFragment pliku wodociagi.txt:\nKodKlienta;I;II;III;IV;V;VI;VII;VIII;IX;X;XI;XII\n0000103WIL;6;6;6;9;6;15;12;12;12;6;9;6\n0000403BEM;6;3;9;9;12;15;15;15;9;6;3;9\n\nKorzystajac z powyzszych danych oraz dostepnych narzedzi informatycznych, wykonaj podane zadania. Wyniki zapisz w pliku tekstowym wyniki5.txt. Odpowiedz poprzedz numerem tego zadania.",
+      "podzadania": [
+        {
+          "id": "2021.5.1",
+          "numer": "5.1",
+          "punkty": 3,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.1. (0-3)\nUtworz zestawienie zawierajace pieciocyfrowe numery 10 klientow, ktorzy w ciagu roku zuzyli w swoim gospodarstwie domowym srednio najwiecej wody na jedna osobe, oraz ich srednie zuzycie wody na jedna osobe. Srednioroczne zuzycie wody na jedna osobe zaokraglij do dwoch miejsc po przecinku.\nZestawienie, zawierajace numery klientow i srednie zuzycie wody na jedna osobe, uporzadkuj nierosnaco wedlug sredniej.",
+          "odpowiedz": "| Nr klienta | Srednie zuzycie na osobe |\n|------------|-------------------------|\n| 07935 | 41,33 |\n| 05080 | 40,00 |\n| 00645 | 39,75 |\n| 08090 | 39,50 |\n| 05738 | 39,33 |\n| 08349 | 39,20 |\n| 08850 | 39,00 |\n| 02202 | 38,25 |\n| 09468 | 37,75 |\n| 06866 | 36,75 |",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za poprawne zestawienie 5-cyfrowych numerow 10 klientow,\n    1 pkt -- za poprawne srednioroczne zuzycie wody na jedna osobe zaokraglone do dwoch miejsc po przecinku,\n    1 pkt -- za poprawne uporzadkowanie zestawienia malejaco wedlug sredniej.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Numer klienta 5-cyfrowy (z wiodacymi zerami) -- trzeba zachowac format tekstu",
+            "Srednie zuzycie NA OSOBE -- trzeba dzielic laczne zuzycie przez liczbe osob (2 cyfry z kodu)",
+            "Zaokraglenie do 2 miejsc po przecinku",
+            "Sortowanie NIEROSNACO (malejaco) wedlug sredniej"
+          ]
+        },
+        {
+          "id": "2021.5.2",
+          "numer": "5.2",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.2. (0-2)\nDla kazdej dzielnicy podaj calkowite roczne zuzycie wody przez jej wszystkich mieszkancow.",
+          "odpowiedz": "| Dzielnica | Suma |\n|-----------|------|\n| BEM | 54080 |\n| BIA | 61614 |\n| BIE | 56368 |\n| MOK | 55889 |\n| OCH | 59273 |\n| PRA | 57241 |\n| REM | 58971 |\n| SRO | 58124 |\n| TAR | 60234 |\n| URU | 59597 |\n| URY | 50116 |\n| WAW | 57674 |\n| WES | 60372 |\n| WIL | 55476 |\n| WLO | 66372 |\n| WOL | 60523 |\n| ZOL | 62312 |",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za poprawne zestawienie kodow dzielnic,\n    1 pkt -- za poprawne sumy zuzycia wody w dzielnicach.\n1 pkt -- za poprawne zestawienie niezawierajace danych jednej z dzielnic.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "17 dzielnic Warszawy -- trzeba poprawnie zagregowac po 3-literowym kodzie",
+            "Kod dzielnicy to ostatnie 3 znaki kodu klienta",
+            "Suma calkowitego zuzycia = suma 12 miesiecy dla wszystkich klientow z danej dzielnicy"
+          ]
+        },
+        {
+          "id": "2021.5.3",
+          "numer": "5.3",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.3. (0-2)\nDla kazdej dzielnicy oblicz zuzycie wody w kazdym miesiacu lacznie przez wszystkich mieszkancow tej dzielnicy. Podaj maksymalne miesieczne zuzycie wody w kazdej z dzielnic.",
+          "odpowiedz": "| Dzielnica | Maksimum |\n|-----------|----------|\n| BEM | 8108 |\n| BIA | 9274 |\n| BIE | 8475 |\n| MOK | 8452 |\n| OCH | 8861 |\n| PRA | 8575 |\n| REM | 8873 |\n| SRO | 8776 |\n| TAR | 9120 |\n| URU | 8960 |\n| URY | 7519 |\n| WAW | 8699 |\n| WES | 9050 |\n| WIL | 8284 |\n| WLO | 9966 |\n| WOL | 9117 |\n| ZOL | 9417 |",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz.\n1 pkt -- za poprawne zestawienie niezawierajace danych jednej z dzielnic\n    ALBO za podanie w odpowiedzi pelnego zestawienia zuzycia wody w kazdym miesiacu dla kazdej z dzielnic, zamiast wartosci maksymalnych.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba najpierw zsumowac zuzycie per dzielnica per miesiac, potem wziac MAX",
+            "Nie chodzi o MAX z calego roku, lecz MAX z 12 miesiecznych sum",
+            "Alternatywnie: pelna tabela 17x12 z zaznaczonym MAX -- za to 1 pkt"
+          ]
+        },
+        {
+          "id": "2021.5.4",
+          "numer": "5.4",
+          "punkty": 4,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.4. (0-4)\nDzial inwestycji analizuje koniecznosc modernizacji sieci wodociagowej na podstawie danych za rok 2019. Jako podstawe obliczen bierze sumaryczne zuzycie wody w kazdym z 12 miesiecy. Inzynierowie zalozyli, ze sumaryczne miesieczne zuzycie wody bedzie roslo o 1% rok do roku kazdego miesiaca (w m^3 z zaokragleniem w gore do najblizszej liczby calkowitej).\n\nPrzyklad: jesli w styczniu 2019 roku sumaryczne zuzycie wody w miescie wynioslo 53 545 m^3, to w styczniu 2020 przewidywane zuzycie wyniesie 54 081 m^3.\n\nUwaga: dla danych z zadania przewidywane zuzycie wody w maju 2025 roku wyniesie 90 898 m^3.\n\nObecnie maksymalny miesieczny przeplyw (wydajnosc sieci) wynosi 160 000 m^3. Podaj rok i miesiac, w ktorym pierwszy raz zabraknie wody w miescie (przewidywane zuzycie bedzie wieksze niz maksymalny przeplyw sieci).\nSporzadz zestawienie obrazujace przewidywane zuzycie wody w kazdym z kolejnych miesiecy od stycznia 2020 roku do grudnia 2030 roku.\nNarysuj wykres liniowy obrazujacy przewidywane zuzycie wody w kazdym z kolejnych miesiecy w 2030 roku.",
+          "odpowiedz": "Pierwszy raz zabraknie wody: lipiec 2026 roku.\n\nZestawienie przewidywanego zuzycia wody (fragment -- pelna tabela 2020-2030 z 12 miesiacami):\n| rok | I | II | III | IV | V | VI | VII | VIII | IX | X | XI | XII |\n|-----|-------|-------|-------|-------|-------|--------|--------|--------|-------|-------|-------|-------|\n| 2020 | 54081 | 53807 | 53727 | 86603 | 86484 | 118728 | 151022 | 118672 | 86480 | 86386 | 54052 | 54143 |\n| ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... |\n| 2026 | 57411 | 57120 | 57036 | 91935 | 91807 | 126036 | 160316 | 125975 | 91803 | 91703 | 57380 | 57477 |\n| ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... |\n| 2030 | 59744 | 59441 | 59354 | 95670 | 95537 | 131155 | 166828 | 131092 | 95533 | 95429 | 59712 | 59813 |\n\nWykres liniowy: przewidywane zuzycie wody w roku 2030 (12 miesiecy na osi X, zuzycie wody w m^3 na osi Y).",
+          "zasady_oceniania": "4 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za podanie poprawnego miesiaca i roku, kiedy pierwszy raz zabraknie wody,\n    1 pkt -- za poprawne zestawienie przewidywanego zuzycia wody w kazdym z kolejnych miesiecy do konca 2030 roku,\n    1 pkt -- za prawidlowy dobor danych i typ wykresu,\n    1 pkt -- za poprawny opis wykresu i osi.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Wzrost 1% rocznie z zaokragleniem W GORE (ceiling, nie round) do liczby calkowitej",
+            "Lipiec to miesiac z najwyzszym zuzyciem -- przekroczy 160000 jako pierwszy",
+            "Trzeba liczyc od danych 2019, nie 2020",
+            "Wykres musi miec poprawny opis osi i tytul (1 pkt za opis)"
+          ]
+        },
+        {
+          "id": "2021.5.5",
+          "numer": "5.5",
+          "punkty": 1,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.5. (0-1)\nWodociagi miejskie zaplanowaly inwestycje, ktora poczawszy od 2021 roku corocznie w styczniu pozwoli na zwiekszanie maksymalnego przeplywu o 1000 m^3.\nPodaj rok i miesiac, kiedy pierwszy raz zabraknie wody w miescie po uwzglednieniu tej inwestycji.",
+          "odpowiedz": "lipiec 2035",
+          "zasady_oceniania": "1 pkt -- za poprawna odpowiedz.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Limit rosnie o 1000 m^3 rocznie od 2021 (160000, 161000, 162000, ...)",
+            "W 2035 limit = 160000 + 15*1000 = 175000",
+            "Zuzycie nadal rosnie 1% rocznie -- trzeba porownac rosnace zuzycie z rosnacym limitem"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2021_maj/DANE_2105/",
+      "pliki_danych": [
+        "wodociagi.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "arkusz_kalkulacyjny",
+          "analiza_danych",
+          "prognozowanie"
+        ],
+        "algorytmiczny": [
+          "agregacja_danych",
+          "prognoza_wzrostu_procentowego",
+          "wyszukiwanie_progu"
+        ],
+        "czasowy_min": 50
+      }
+    },
+    {
+      "numer": 6,
+      "tytul": "Bitwa",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "W internetowej grze Bitwa o Kamienna Brame bierze udzial wielu graczy z calego swiata. Kazdy gracz moze budowac roznego rodzaju jednostki (np. robotnikow, piechurów, lucznikow, szpiegow lub magow), ktore moze wykorzystac do budowy wirtualnego ksiestwa lub wystawic do bitwy. Polem gry jest duza plansza, na ktorej kazda jednostka zajmuje pewne miejsce. Kazdy gracz moze miec wiele jednostek, np. kilku robotnikow, drwali, balist i innych.\n\nW plikach gracze.txt, klasy.txt oraz jednostki.txt podano aktualny stan wirtualnej planszy. Dane w tych plikach podane sa w kolejnych wierszach, w kazdym wierszu pola oddzielono znakiem tabulacji. Pierwszy wiersz kazdego z plikow jest wierszem naglowkowym.\n\nPlik gracze.txt zawiera informacje o graczach:\n- id_gracza (unikatowy identyfikator, liczba calkowita naturalna)\n- kraj (kraj pochodzenia)\n- data_dolaczenia (data dolaczenia do gry w formacie rrrr-mm-dd)\n\nPrzyklad:\nid_gracza  kraj             data_dolaczenia\n1          Japonia          2018-02-15\n2          Indie            2017-06-08\n3          Stany Zjednoczone 2019-06-10\n\nW pliku klasy.txt podano klasy jednostek, jakie gracz moze budowac. Kazda klasa jest opisana przez:\n- nazwe klasy jednostek (nazwa)\n- sile (sila), strzal (strzal) oraz magie (magia) -- trzy atrybuty okreslajace zdolnosci jednostek tej klasy\n- szybkosc (szybkosc) -- predkosc poruszania sie jednostek tej klasy\n\nPrzyklad:\nnazwa       sila  strzal  magia  szybkosc\nzwiadowca   8     5       0      25\nlucznik     5     10      0      12\nmag ognia   5     0       15     10\npaladyn     20    0       5      20\n\nW pliku jednostki.txt podano stan planszy, czyli wszystkie jednostki zbudowane przez graczy. Jeden wiersz opisuje jedna jednostke:\n- id_jednostki (unikatowy identyfikator, liczba calkowita naturalna)\n- id_gracza (identyfikator gracza, do ktorego nalezy jednostka)\n- nazwa (nazwa klasy, do ktorej nalezy jednostka)\n- lok_x, lok_y (wspolrzedne x i y jednostki na planszy)\n\nPrzyklad:\nid_jednostki  id_gracza  nazwa     lok_x  lok_y\n1             153        piechur   166    30\n2             60         topornik  36     44\n3             88         drwal     134    88\n4             182        kusznik   3      196\n\nKorzystajac z dostepnych narzedzi informatycznych, wykonaj ponizsze polecenia. Odpowiedzi zapisz w pliku wyniki6.txt, a kazdy podpunkt poprzedz odpowiadajacym mu numerem zadania.",
+      "podzadania": [
+        {
+          "id": "2021.6.1",
+          "numer": "6.1",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.1. (0-2)\nPodaj 5 krajow, z ktorych najwiecej graczy dolaczalo do gry w 2018 roku. Dla kazdego z tych krajow podaj liczbe graczy, ktorzy dolaczyli w 2018 roku.",
+          "odpowiedz": "Rozwiazanie poprawne (z warunkiem roku 2018):\n| Kraj | Liczba graczy |\n|------|---------------|\n| Polska | 11 |\n| Stany Zjednoczone | 8 |\n| Francja | 7 |\n| Rosja | 6 |\n| Niemcy | 6 |\n\nRozwiazanie czesciowe (bez warunku roku, za 1 pkt):\n| Kraj | Liczba graczy |\n|------|---------------|\n| Polska | 26 |\n| Niemcy | 23 |\n| Stany Zjednoczone | 18 |\n| Rosja | 17 |\n| Francja | 15 |",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz.\n1 pkt -- w przypadku podania zestawienia najwiekszej liczby graczy z poszczegolnych panstw, bez uwzglednienia roku dolaczenia.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba uwzglednic rok dolaczenia = 2018 (WHERE YEAR(data_dolaczenia) = 2018 lub LIKE '2018%')",
+            "Bez warunku roku: inna kolejnosc i inne liczby (za to 1 pkt)",
+            "TOP 5 / LIMIT 5 po ORDER BY COUNT(*) DESC"
+          ]
+        },
+        {
+          "id": "2021.6.2",
+          "numer": "6.2",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.2. (0-2)\nPodaj sume wartosci pola strzal dla kazdej klasy jednostek, ktore maja 'elf' jako czesc nazwy.",
+          "odpowiedz": "| Klasa | Suma strzal |\n|-------|-------------|\n| ciemny elf | 555 |\n| elfi czarodziej | 435 |\n| lesny elf | 1815 |\n| wysoki elf-gwardzista | 870 |",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz, w tym za:\n    1 pkt -- wyszukanie wszystkich klas jednostek, ktore maja 'elf' w nazwie klasy (zastosowanie filtra '*elf*'),\n    1 pkt -- za prawidlowe zliczenie sumy pola 'strzal' dla wyszukanych jednostek (z podzialem na klasy).\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "LIKE '%elf%' musi znalezc tez 'elfi czarodziej' (elf na poczatku slowa)",
+            "Trzeba zlaczyc jednostki z klasy (JOIN) zeby miec strzal per jednostka",
+            "SUM(strzal) z GROUP BY nazwa klasy",
+            "4 klasy zawieraja 'elf': ciemny elf, elfi czarodziej, lesny elf, wysoki elf-gwardzista"
+          ]
+        },
+        {
+          "id": "2021.6.3",
+          "numer": "6.3",
+          "punkty": 2,
+          "typ_zadania": "sql_select_where",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.3. (0-2)\nPodaj numery graczy, ktorzy nie maja artylerzystow (jednostek o nazwie artylerzysta). Numery podaj w porzadku rosnacym.",
+          "odpowiedz": "22, 24, 29, 35, 36, 37, 38, 47, 54, 61, 64, 72, 110, 114, 115, 122, 123, 138, 141, 167\n\n(20 numerow posortowanych rosnaco)",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za prawidlowe numery,\n    1 pkt -- za posortowanie w porzadku rosnacym.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "NOT IN lub NOT EXISTS -- trzeba znalezc graczy BEZ jednostek typu artylerzysta",
+            "Gracze moga miec inne jednostki ale nie artylerzystow",
+            "Sortowanie ASC po id_gracza",
+            "20 wynikow -- latwo pominac lub dodac nadmiarowy"
+          ]
+        },
+        {
+          "id": "2021.6.4",
+          "numer": "6.4",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.4. (0-2)\nJeden krok jednostki to przejscie o 1 w dowolnym z czterech kierunkow (polnoc, poludnie, wschod lub zachod). W jednej turze jednostka moze wykonac co najwyzej tyle krokow, ile wynosi jej szybkosc. Innymi slowy jednostka w ciagu jednej tury moze przemiesic sie z punktu (x,y) do punktu (x1,y1), jesli |x - x1| + |y - y1| <= szybkosc.\nTytulowa Kamienna Brama znajduje sie w miejscu (100,100). Wyszukaj jednostki, ktore moga w jednej turze dojsc do Bramy, i podziel je na poszczegolne klasy. Utworz zestawienie ktore dla kazdej klasy poda jej nazwe oraz liczbe jednostek z tej klasy mogacych w jednej turze osiagnac Brame.",
+          "odpowiedz": "23 klasy jednostek:\n| Nazwa klasy | Liczba jednostek |\n|-------------|------------------|\n| architekt | 1 |\n| artylerzysta | 4 |\n| balista | 2 |\n| ciemny elf | 1 |\n| drwal | 3 |\n| elfi czarodziej | 1 |\n| goniec | 2 |\n| ifryt | 1 |\n| kaplan | 2 |\n| kawalerzysta | 7 |\n| konny lucznik | 4 |\n| kusznik | 1 |\n| lekki jezdziec | 19 |\n| lucznik | 1 |\n| mag powietrza | 3 |\n| mag wody | 2 |\n| paladyn | 1 |\n| piechur | 7 |\n| pikinier | 5 |\n| robotnik | 5 |\n| topornik | 5 |\n| wysoki elf-gwardzista | 1 |\n| zwiadowca | 4 |",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za 23 poprawne nazwy jednostek,\n    1 pkt -- za poprawne liczby jednostek.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Odleglosc Manhattan: |lok_x - 100| + |lok_y - 100| <= szybkosc klasy",
+            "Trzeba JOIN jednostki z klasy zeby miec szybkosc",
+            "23 rozne klasy w wyniku -- trzeba wymieniac wszystkie",
+            "Lekki jezdziec dominuje (19 jednostek) -- duza szybkosc"
+          ]
+        },
+        {
+          "id": "2021.6.5",
+          "numer": "6.5",
+          "punkty": 4,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.5. (0-4)\nJesli w pewnej lokalizacji znajduja sie jednostki wiecej niz jednego gracza, toczy sie tam (jedna) bitwa. Oblicz:\na) ile bitew ma miejsce na planszy,\nb) w ilu bitwach biora udzial gracze z Polski.\n\nUwaga: zauważ, ze w jednej lokalizacji moze sie znajdowac wiecej niz jedna jednostka tego samego gracza.",
+          "odpowiedz": "a) 1061 bitew\nb) 245 z udzialem Polakow\n\nCzesciowe punkty:\n- 3 pkt za: 1067 bitew, 246 z udzialem Polakow (bez DISTINCT -- ta sama lokalizacja liczona wielokrotnie jesli wiecej jednostek)\n- 3 pkt za: 1061 bitew, 19 z udzialem Polakow (bitwy WYLACZNIE Polakow zamiast Z UDZIALEM)\n- 3 pkt za: 1061 bitew, 264 z udzialem Polakow (podwojne policzenie bitwy jesli 2 Polakow)\n- 2 pkt za: 1061 bitew + bledna/brak odpowiedzi b)\n- 1 pkt za: 1067 bitew + bledna/brak odpowiedzi b)",
+          "zasady_oceniania": "4 pkt -- za poprawna odpowiedz.\n3 pkt -- za odpowiedz: 1067 bitew, w tym 246 z udzialem Polakow (bez uwzglednienia, ze w tej samej lokalizacji moze byc wiecej niz jedna jednostka jednej osoby)\n    ALBO za odpowiedz: 1061 bitew, w tym 19 z udzialem Polakow (w przypadku obliczenia liczby bitew wylacznie z udzialem Polakow),\n    ALBO za odpowiedz: 1061 bitew, w tym 264 z udzialem Polakow (w przypadku policzenia tej samej bitwy dwukrotnie jesli wzięlo w niej udzial dwoch Polakow).\n2 pkt -- za odpowiedz: 1061 bitew i brak odpowiedzi lub bledna odpowiedz (inna niz 19 i 264) dotyczaca liczby bitew z udzialem Polakow.\n1 pkt -- za odpowiedz: 1067 bitew i brak odpowiedzi lub bledna odpowiedz (inna niz 246) dotyczaca liczby bitew z udzialem Polakow.\n0 pkt -- za odpowiedz bledna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Bitwa = lokalizacja (lok_x, lok_y) z jednostkami WIECEJ NIZ JEDNEGO gracza",
+            "Trzeba DISTINCT po (lok_x, lok_y) bo w jednej lokalizacji moze byc wiele jednostek jednego gracza",
+            "Z udzialem Polakow != WYLACZNIE Polakow -- wystarczy ze JEDEN gracz z Polski uczestniczy",
+            "Nie liczyc tej samej bitwy dwukrotnie jesli 2 Polakow w niej uczestniczy",
+            "NAJTRUDNIEJSZE zadanie -- wymaga COUNT DISTINCT na zlaczeniu wielu tabel"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2021_maj/DANE_2105/",
+      "pliki_danych": [
+        "gracze.txt",
+        "jednostki.txt",
+        "klasy.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "bazy_danych_relacyjne",
+          "SQL_zaawansowany",
+          "gra_strategiczna"
+        ],
+        "algorytmiczny": [
+          "JOIN_wielu_tabel",
+          "GROUP_BY_HAVING",
+          "COUNT_DISTINCT",
+          "podzapytania"
+        ],
+        "czasowy_min": 50
+      }
+    }
+  ]
+}

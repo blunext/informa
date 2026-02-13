@@ -1,0 +1,430 @@
+{
+  "rok": 2017,
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {"czesc": 1, "czas_minuty": 60, "punkty": 15, "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"},
+    {"czesc": 2, "czas_minuty": 150, "punkty": 35, "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny, bazy danych)"}
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Prosokat",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Dane sa:\n    liczba calkowita n wieksza od 1\n    zbior A zawierajacy n dodatnich, roznych liczb calkowitych\n    liczba pierwsza p\n\nSzukamy najwiekszego pola powierzchni prostokata, ktore nie jest podzielne przez p, a dlugosci sasiednich bokow tego prostokata sa rozne (nie moze on byc kwadratem) i naleza do zbioru A. Jezeli taki prostokat nie istnieje, jako wynik podajemy liczbe 0 (zero).",
+      "podzadania": [
+        {
+          "id": "2017.1.1",
+          "numer": "1.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1. (0-2)\nDla danych z kazdego wiersza w tabeli oblicz najwieksze pole powierzchni prostokata, ktore nie jest podzielne przez p, a dlugosci sasiednich bokow tego prostokata sa rozne (nie moze on byc kwadratem) i naleza do zbioru A. Zapisz pole tego prostokata w kolumnie S.\nJezeli taki prostokat nie istnieje, jako wynik podaj liczbe 0 (zero).\n\n| Zbior A                             | p | S |\n|-------------------------------------|---|---|\n| 7, 5, 11, 33                        | 3 | 77 (przyklad) |\n| 15, 12, 10, 6, 5, 1                 | 5 |   |\n| 6, 28, 7, 12, 10, 14, 5, 9, 4, 8, 18 | 7 |   |\n| 4, 34, 16, 8, 6, 22, 14, 12, 2, 7   | 2 |   |",
+          "odpowiedz": "| Zbior A | p | S |\n|---|---|---|\n| 15, 12, 10, 6, 5, 1 | 5 | 72 (12*6) |\n| 6, 28, 7, 12, 10, 14, 5, 9, 4, 8, 18 | 7 | 216 (18*12) |\n| 4, 34, 16, 8, 6, 22, 14, 12, 2, 7 | 2 | 0 |\n\nWyjasnienie:\n- p=5: niepodzielne przez 5: {12,6,1}. Dwa najwieksze: 12,6. Pole=72.\n- p=7: niepodzielne przez 7: {18,12,10,9,8,6,5,4}. Dwa najwieksze: 18,12. Pole=216.\n- p=2: niepodzielne przez 2: tylko {7}. Nie mozna zbudowac prostokata z jednym bokiem. Wynik=0.",
+          "zasady_oceniania": "2 p. -- za prawidlowa odpowiedz w trzech wierszach.\n1 p. -- w przypadku tylko dwoch prawidlowych odpowiedzi.\n0 p. -- za jedna poprawna odpowiedz albo brak odpowiedzi.",
+          "pulapki": [
+            "Boki musza byc ROZNE (prostokat nie moze byc kwadratem)",
+            "Pole musi byc niepodzielne przez p, nie boki",
+            "Dla p=2 jest tylko jeden element niepodzielny (7), wiec wynik to 0",
+            "Trzeba znalezc dwa NAJWIEKSZE elementy niepodzielne przez p"
+          ]
+        },
+        {
+          "id": "2017.1.2",
+          "numer": "1.2",
+          "punkty": 4,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2. (0-4)\nZapisz (w postaci pseudokodu, listy krokow lub w wybranym jezyku programowania) algorytm obliczajacy najwieksze pole powierzchni prostokata, ktore nie jest podzielne przez p, a dlugosci sasiednich bokow tego prostokata naleza do zbioru A i sa rozne.\nPrzy ocenie brana bedzie pod uwage zlozonosc obliczeniowa Twojego algorytmu.\n\nUwaga:\nW zapisie algorytmu mozesz wykorzystywac tylko nastepujace operacje arytmetyczne: dodawanie, odejmowanie, mnozenie, dzielenie, dzielenie calkowite i obliczanie reszty z dzielenia.\n\nSpecyfikacja:\nDane:\n    n -- liczba calkowita wieksza od 1\n    A[1..n] -- tablica zawierajaca n roznych, dodatnich liczb calkowitych\n    p -- liczba pierwsza\nWynik:\n    S -- najwieksze pole powierzchni prostokata, ktore nie jest podzielne przez p,\n         a dlugosci sasiednich bokow tego prostokata sa rozne i zawarte w tablicy A;\n         jezeli nie mozna zbudowac takiego prostokata, wynikiem powinno byc 0 (zero)",
+          "odpowiedz": "Algorytm o zlozonosci liniowej O(n):\n\nint max1, max2;\nmax1 = max2 = 0;\nfor(int i = 1; i <= n; ++i)\n{\n    if(A[i] % p != 0)\n    {\n        if(A[i] > max1)\n        {\n            max2 = max1;\n            max1 = A[i];\n        }\n        else if(A[i] > max2)\n            max2 = A[i];\n    }\n}\ncout << max1 * max2;\n\nAlgorytm o zlozonosci kwadratowej O(n^2):\n\nint maxpole = 0;\nfor(int i = 1; i < n; ++i)\n{\n    for(int j = i + 1; j <= n; ++j)\n    {\n        int pole = A[i] * A[j];\n        if(pole % p != 0)\n        {\n            if(pole > maxpole)\n                maxpole = pole;\n        }\n    }\n}\ncout << maxpole;",
+          "zasady_oceniania": "4 p. -- za prawidlowe rozwiazanie o zlozonosci liniowej, w tym:\n    3 p. -- za poprawne wyznaczenie dlugosci dwoch najdluzszych bokow, w tym\n        2 p. -- za wyznaczenie dlugosci dwoch najdluzszych bokow\n        Uwaga: za wyznaczanie dlugosci dwoch najdluzszych bokow, w tym tylko jednej poprawnej -- 1 punkt\n    1 p. -- za sprawdzanie podzielnosci przez p.\n    1 p. -- za wyznaczenie najwiekszego pola prostokata o bokach roznej dlugosci i uwzglednienie wyniku S = 0.\n2 p. -- za prawidlowe rozwiazanie o zlozonosci innej niz liniowa, w tym:\n    1 p. -- sprawdzanie podzielnosci przez p.\n    1 p. -- za wyznaczenie najwiekszego pola prostokata o bokach roznej dlugosci oraz uwzglednienie wyniku S = 0.\n0 p. -- za podanie blednej odpowiedzi albo brak odpowiedzi.",
+          "pulapki": [
+            "Algorytm O(n) daje pelne 4 punkty, O(n^2) tylko 2 punkty",
+            "Trzeba sprawdzac A[i] % p != 0 (niepodzielnosc przez p), nie pole % p",
+            "Algorytm liniowy wymaga sledzenia dwoch najwiekszych (max1, max2)",
+            "Jezeli max2 = 0, wynik S = 0 (nie mozna zbudowac prostokata)",
+            "Boki musza byc rozne -- max1 != max2 jest gwarantowane przez roznosc elementow A"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": ["optymalizacja", "podzielnosc", "algorytmy_zachlanne"],
+        "algorytmiczny": ["znajdowanie_dwoch_najwiekszych", "podzielnosc_przez_p", "optymalizacja_liniowa"],
+        "czasowy_min": 25
+      }
+    },
+    {
+      "numer": 2,
+      "tytul": "Rekurencja",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Funkcja licz(x) przyjmuje jako argument dodatnia liczbe calkowita x, natomiast jako wynik daje pewna liczbe calkowita.\n\nlicz(x)\n    jezeli x = 1\n        podaj wynik 1\n    w przeciwnym przypadku\n        w <- licz(x div 2)\n        jezeli x mod 2 = 1\n            podaj wynik w+1\n        w przeciwnym przypadku\n            podaj wynik w-1\n\nUwaga: div -- dzielenie calkowite, mod -- reszta z dzielenia calkowitego.",
+      "podzadania": [
+        {
+          "id": "2017.2.1",
+          "numer": "2.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1. (0-2)\nUzupelnij tabele -- podaj wartosc licz(x) dla podanych argumentow x.\n\n| x  | licz(x) |\n|----|--------|\n| 11 | 2 (przyklad) |\n| 13 |        |\n| 21 |        |\n| 32 |        |",
+          "odpowiedz": "| x  | licz(x) |\n|----|--------|\n| 13 | 2      |\n| 21 | 1      |\n| 32 | -4     |\n\nSledzenie:\nlicz(13): 13->6->3->1. Binarnie 1101: jedynki=3, zera=1. Wynik = 1 + 1 + 1 - 1 = 2.\nlicz(21): 21->10->5->2->1. Binarnie 10101: jedynki=3, zera=2. Wynik = 1 + 0 + 1 + 0 + 1 = 1. Wait:\nlicz(1) = 1\nlicz(2) = licz(1) - 1 = 0\nlicz(5) = licz(2) + 1 = 1\nlicz(10) = licz(5) - 1 = 0\nlicz(21) = licz(10) + 1 = 1\nlicz(32): licz(1)=1, licz(2)=0, licz(4)=-1, licz(8)=-2, licz(16)=-3, licz(32)=-4.",
+          "zasady_oceniania": "2 p. -- za podanie trzech poprawnych wartosci.\n1 p. -- za podanie dwoch poprawnych wartosci.\n0 p. -- za podanie jednej poprawnej wartosci albo brak odpowiedzi.",
+          "pulapki": [
+            "Funkcja operuje na reprezentacji binarnej: nieparzyste bity +1, parzyste bity -1",
+            "licz(32) = -4 bo 32 = 100000 (same zera po poczatkowej jedynce)",
+            "Latwo pomylic div i mod -- div to dzielenie calkowite, mod to reszta"
+          ]
+        },
+        {
+          "id": "2017.2.2",
+          "numer": "2.2",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2. (0-2)\nDana jest dodatnia liczba calkowita k. Jaka jest najmniejsza dodatnia liczba calkowita x, dla ktorej obliczanie wartosci licz(x) wymaga dokladnie k wywolan funkcji licz, liczac takze pierwsze wywolanie licz(x)?\n\nPrzyklad: obliczenie licz(13) wymaga dokladnie 4 wywolan funkcji licz.\n\nPodkresl prawidlowa odpowiedz.\n\nA) x = k^2\nB) x = 2^(k-1)\nC) x = k+1\nD) x = 2^k",
+          "odpowiedz": "B) x = 2^(k-1)\n\nWyjasnienie: Kazde wywolanie licz(x) wywoluje rekurencyjnie licz(x div 2), az do x=1 (warunek stopu). Liczba wywolan = liczba krokow dzielenia przez 2 + 1 = floor(log2(x)) + 1. Zeby miec dokladnie k wywolan, potrzebujemy floor(log2(x)) = k-1, czyli x = 2^(k-1) (najmniejsze takie x).",
+          "zasady_oceniania": "2 p. -- za prawidlowa odpowiedz 2^(k-1).\n1 p. -- za odpowiedz 2^k.\n0 p. -- za podanie odpowiedzi blednej albo brak odpowiedzi.",
+          "pulapki": [
+            "Latwo pomylic 2^(k-1) z 2^k -- roznica wynika z tego, ze liczymy TAKSE pierwsze wywolanie",
+            "Przyklad: licz(13) = 4 wywolania (13->6->3->1), 13 >= 2^3 = 8, wiec k=4 -> x=2^3=8"
+          ]
+        },
+        {
+          "id": "2017.2.3",
+          "numer": "2.3",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.3. (0-2)\nPodaj najmniejsza liczbe calkowita x wieksza od 100, dla ktorej wynikiem wywolania licz(x) bedzie 0.",
+          "odpowiedz": "135\n\nWyjasnienie: licz(x)=0 oznacza, ze w reprezentacji binarnej x liczba jedynek (lacznie z wiodaca) rowna sie liczbie zer. Potrzebujemy x > 100 z rowna liczba 0 i 1 w zapisie binarnym.\n135 = 10000111 (8 bitow: 4 jedynki, 4 zera) -> licz(135) = 4*1 + 4*(-1) + pocz. = 0.\nSledzenie: licz(1)=1, licz(2)=0, licz(4)=-1, licz(8)=-2, licz(16)=-3, licz(33)=-2, licz(67)=-1, licz(135)=0.",
+          "zasady_oceniania": "2 p. -- za prawidlowa odpowiedz.\n1 p. -- za podanie innej wartosci wiekszej od 100, dla ktorej wynikiem dzialania algorytmu bedzie 0.\n0 p. -- za podanie innej blednej odpowiedzi albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba znalezc NAJMNIEJSZE x > 100 z licz(x)=0",
+            "licz(x)=0 oznacza rowna liczbe jedynek i zer w zapisie binarnym",
+            "128=10000000 (1 jedynka, 7 zer) -> licz(128)=-6, nie pasuje",
+            "135=10000111 to najmniejsze x>100 z 4 jedynkami i 4 zerami"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": ["rekurencja", "analiza_algorytmow", "reprezentacja_binarna"],
+        "algorytmiczny": ["sledzenie_rekurencji", "zlozonosc_wywolan", "warunki_brzegowe"],
+        "czasowy_min": 20
+      }
+    },
+    {
+      "numer": 3,
+      "tytul": "Test",
+      "punkty": 3,
+      "czesc": 1,
+      "kontekst": "Ocen prawdziwosc podanych zdan. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli jest falzywe.\nW kazdym zadaniu uzyskasz punkt tylko za komplet poprawnych odpowiedzi.",
+      "podzadania": [
+        {
+          "id": "2017.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1. (0-1)\nPo wykonaniu podanego zapytania SQL do pewnej bazy danych wyniki beda zawsze uporzadkowane niemalejaco wedlug pola nazwa.\n\n1. SELECT nazwa, wartosc FROM dane ORDER BY wartosc, nazwa  [P/F]\n2. SELECT nazwa, wartosc FROM dane ORDER BY nazwa  [P/F]\n3. SELECT nazwa, sum(wartosc) FROM dane GROUP BY nazwa  [P/F]\n4. SELECT nazwa, sum(wartosc) FROM dane GROUP BY nazwa ORDER BY nazwa  [P/F]",
+          "odpowiedz": "F, P, F, P\n\n1. F -- ORDER BY wartosc, nazwa sortuje najpierw po wartosc, nie po nazwa.\n2. P -- ORDER BY nazwa sortuje po nazwa niemalejaco.\n3. F -- GROUP BY nazwa nie gwarantuje sortowania (brak ORDER BY).\n4. P -- GROUP BY nazwa + ORDER BY nazwa gwarantuje sortowanie po nazwa.",
+          "zasady_oceniania": "1 p. -- za wskazanie czterech poprawnych odpowiedzi.\n0 p. -- za odpowiedz niepelna lub bledna albo za brak odpowiedzi.",
+          "pulapki": [
+            "ORDER BY z wieloma kolumnami -- pierwsza kolumna ma priorytet",
+            "GROUP BY NIE gwarantuje sortowania (to zalezne od implementacji)",
+            "Tylko ORDER BY explicite gwarantuje kolejnosc wynikow"
+          ]
+        },
+        {
+          "id": "2017.3.2",
+          "numer": "3.2",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2. (0-1)\nRozwaz nastepujace zapytanie SQL do pewnej bazy danych:\n\nSELECT pesel, COUNT(*)\nFROM samochody\nWHERE pesel NOT IN (SELECT pesel FROM dokumenty_zastrzezone)\nGROUP BY pesel HAVING COUNT(*) > 1\n\nPo wykonaniu tego zapytania w odpowiedzi:\n\n1. ten sam numer PESEL moze pojawic sie wiecej niz jeden raz.  [P/F]\n2. nie pojawi sie zaden numer PESEL, ktory jest zapisany w tabeli dokumenty_zastrzezone.  [P/F]\n3. otrzymasz tabele o 2 kolumnach.  [P/F]\n4. przy odpowiednich danych moze pojawic sie wiersz \"82122302134, 1\".  [P/F]\n\nUwaga: kolumna pesel zawiera numery PESEL.",
+          "odpowiedz": "F, P, P, F\n\n1. F -- GROUP BY pesel grupuje po PESEL, wiec kazdy PESEL pojawi sie dokladnie raz.\n2. P -- WHERE pesel NOT IN (...) filtruje numery z dokumenty_zastrzezone.\n3. P -- SELECT pesel, COUNT(*) daje dokladnie 2 kolumny.\n4. F -- HAVING COUNT(*) > 1 eliminuje grupy z COUNT=1, wiec wiersz z wartoscia 1 nie pojawi sie.",
+          "zasady_oceniania": "1 p. -- za wskazanie czterech poprawnych odpowiedzi.\n0 p. -- za odpowiedz niepelna lub bledna albo za brak odpowiedzi.",
+          "pulapki": [
+            "GROUP BY gwarantuje unikatowe wartosci w kolumnie grupujacej",
+            "HAVING COUNT(*) > 1 oznacza ze minimalna wartosc COUNT to 2",
+            "NOT IN z podzapytaniem -- wyklucza pesele z dokumenty_zastrzezone"
+          ]
+        },
+        {
+          "id": "2017.3.3",
+          "numer": "3.3",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.3. (0-1)\nPewien oszust chce rozeslac wiadomosc, podszywajac sie pod Jana Kowalskiego, ale nie zdolal wykrasc zadnych hasel nalezacych do Jana ani innych prywatnych informacji. Posiada jednak klucz publiczny Jana Kowalskiego, ktory ten udostepnil w sieci, a takze znaleziony w internecie adres e-mail Jana. Moze zatem:\n\n1. zalozyc konto \"Jan Kowalski\" w serwisie spolecznosciowym i stamtad rozsylac wiadomosci.  [P/F]\n2. na podstawie klucza publicznego Jana Kowalskiego szybko wygenerowac jego podpis cyfrowy.  [P/F]\n3. na podstawie klucza publicznego Jana Kowalskiego szybko obliczyc jego klucz prywatny.  [P/F]\n4. rozsylac listy elektroniczne, ktore w naglowku \"Od:\" beda mialy adres e-mail Jana Kowalskiego.  [P/F]",
+          "odpowiedz": "P, F, F, P\n\n1. P -- kazdy moze zalozyc konto z dowolna nazwa w serwisie spolecznosciowym (spoofing).\n2. F -- podpis cyfrowy wymaga klucza prywatnego, nie publicznego.\n3. F -- z klucza publicznego nie da sie szybko obliczyc klucza prywatnego (to podstawa bezpieczenstwa RSA).\n4. P -- naglowek \"Od:\" w e-mailu mozna dowolnie sfalszykowac (e-mail spoofing).",
+          "zasady_oceniania": "1 p. -- za wskazanie czterech poprawnych odpowiedzi.\n0 p. -- za odpowiedz niepelna lub bledna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Klucz publiczny NIE pozwala generowac podpisu cyfrowego",
+            "Klucz publiczny NIE pozwala obliczyc klucza prywatnego",
+            "E-mail spoofing jest mozliwy -- naglowek Od: nie jest weryfikowany",
+            "Kazdy moze zalozyc konto z dowolna nazwa"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": ["SQL", "kryptografia", "bezpieczenstwo"],
+        "algorytmiczny": ["ORDER_BY", "GROUP_BY_HAVING", "NOT_IN_subquery", "klucz_publiczny"],
+        "czasowy_min": 10
+      }
+    },
+    {
+      "numer": 4,
+      "tytul": "Arkusz kalkulacyjny - transakcje i rabaty cukru",
+      "punkty": 13,
+      "czesc": 2,
+      "kontekst": "Pewna firma handluje cukrem. W pliku cukier.txt zapisano dane o transakcjach sprzedazy cukru z lat 2005-2014. Kazdy wiersz zawiera (rozdzielone tabulatorem): date transakcji (RRRR-MM-DD), numer telefonu klienta (format xxx-xx-xx-xxx) oraz liczbe sprzedanych kilogramow cukru (liczba calkowita).\n\nW pliku cennik.txt zapisano ceny cukru (w zlotych za kilogram) w poszczegolnych latach: rok i cene (z przecinkiem dziesietnym).\n\nPrzykladowe wiersze cukier.txt:\n2005-01-01  872-13-44-365  10\n2005-01-04  369-43-03-176  2\n\nPlik cennik.txt:\n2005  2,00\n2006  2,05\n...\n2014  2,23\n\nUwaga: Oryginalny arkusz czesci II nie jest dostepny w repozytorium. Tresc zadan zrekonstruowano na podstawie odpowiedzi CKE i plikow danych.",
+      "podzadania": [
+        {
+          "id": "2017.4.1",
+          "numer": "4.1",
+          "punkty": 1,
+          "typ_zadania": "arkusz_transformacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.1. (0-1)\nDla kazdego numeru telefonu klienta oblicz laczna liczbe kilogramow cukru zakupionego we wszystkich transakcjach. Podaj 3 numery telefonow klientow, ktorzy zakupili lacznie najwiecej kilogramow cukru.",
+          "odpowiedz": "847-48-41-699    26955\n392-78-93-552    26451\n254-14-00-156    27505",
+          "zasady_oceniania": "1 p. -- za podanie poprawnej odpowiedzi.\n0 p. -- za odpowiedz niepelna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba zsumowac kilogramy po numerze telefonu (SUMIF lub tabela przestawna)",
+            "Numer telefonu pelni role identyfikatora klienta"
+          ]
+        },
+        {
+          "id": "2017.4.2",
+          "numer": "4.2",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_podstawowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.2. (0-2)\nOblicz calkowity przychod ze sprzedazy cukru we wszystkich latach (2005-2014). Przychod za dany rok = suma kilogramow * cena za kg w danym roku (z cennika).",
+          "odpowiedz": "643 267,07 zl\n\nZestawienie przychodow rocznych:\n| Rok  | Przychod    |\n|------|------------|\n| 2005 | 54032      |\n| 2006 | 55813,3    |\n| 2007 | 66294,8    |\n| 2008 | 78524,45   |\n| 2009 | 65527,32   |\n| 2010 | 68294,1    |\n| 2011 | 52311,6    |\n| 2012 | 60696      |\n| 2013 | 63090,18   |\n| 2014 | 78683,32   |\n| SUMA | 643267,07  |",
+          "zasady_oceniania": "2 p. -- za podanie prawidlowej odpowiedzi.\n1 p. -- za podanie poprawnego zestawienia przychodow w poszczegolnych latach.\n0 p. -- za inna bledna odpowiedz albo za brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba polaczyc dane z cukier.txt z cenami z cennik.txt wg roku",
+            "Ceny w cennik.txt maja format z przecinkiem (polski format liczb)",
+            "Przychod = suma_kg_w_roku * cena_za_kg_w_roku"
+          ]
+        },
+        {
+          "id": "2017.4.3",
+          "numer": "4.3",
+          "punkty": 3,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.3. (0-3)\nSporzadz wykres przedstawiajacy laczna sprzedaz cukru (w kilogramach) w poszczegolnych latach 2005-2014.",
+          "odpowiedz": "Wykres liniowy (lub slupkowy) przedstawiajacy sprzedaz cukru w kg w latach 2005-2014:\n\n| Rok  | Sprzedaz (kg) |\n|------|-------------|\n| 2005 | 27016       |\n| 2006 | 27226       |\n| 2007 | 31720       |\n| 2008 | 36523       |\n| 2009 | 30764       |\n| 2010 | 32521       |\n| 2011 | 23778       |\n| 2012 | 26976       |\n| 2013 | 28419       |\n| 2014 | 35284       |",
+          "zasady_oceniania": "3 p. -- za poprawna odpowiedz, w tym:\n    1 p. -- za prawidlowe zestawienie danych.\n    1 p. -- za prawidlowy dobor danych i typ wykresu.\n    1 p. -- za poprawny opis i wyskalowanie osi pionowej.\n0 p. -- za odpowiedz bledna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Dane do wykresu to KILOGRAMY (nie przychod w zlotych)",
+            "Os pionowa musi byc prawidlowo wyskalowana",
+            "Wykres liniowy lub slupkowy -- oba akceptowalne"
+          ]
+        },
+        {
+          "id": "2017.4.4",
+          "numer": "4.4",
+          "punkty": 3,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.4. (0-3)\nFirma stosuje system rabatow progresywnych. Rabat jest naliczany na podstawie lacznej ilosci kilogramow cukru zakupionego przez klienta we wszystkich dotychczasowych transakcjach (BEZ biezacej transakcji). Progi rabatowe:\n- do 100 kg lacznie: 0% rabatu\n- od 100 do 1000 kg: rabat r1\n- od 1000 do 10000 kg: rabat r2\n- powyzej 10000 kg: rabat r3\n\nOblicz calkowita wartosc naleznosci dla wskazanego klienta, uwzgledniajac rabaty progresywne.",
+          "odpowiedz": "38126,35 zl\n\nCzeste bledy:\n- 38116,8 zl -- obliczanie rabatu dla wartosci wiekszych niz progi (100, 1000, 10000) zamiast od przyszlych transakcji\n- 37175,75 zl -- nieuwzglednienie rabatu przy biezacej transakcji\n- 176,30 zl -- nieuwzglednienie liczby sprzedanych kilogramow cukru",
+          "zasady_oceniania": "3 p. -- za poprawna odpowiedz.\n2 p. -- za podanie odpowiedzi uwzgledniajacej obliczanie rabatu dla wartosci wiekszych niz 100, 1000, 10000 kg (38116,8 zl).\n2 p. -- za podanie odpowiedzi, ktora nie uwzglednia rabatu przy biezacej transakcji (37175,75 zl).\n1 p. -- za podanie odpowiedzi, ktora nie uwzglednia liczby sprzedanych kilogramow cukru (176,30 zl).\n0 p. -- za inna bledna odpowiedz albo brak odpowiedzi.",
+          "pulapki": [
+            "Rabat zalezy od LACZNEJ ilosci kg ze WSZYSTKICH poprzednich transakcji",
+            "Rabat NIE obejmuje biezacej transakcji (ktora przekracza prog)",
+            "Progi rabatowe: 100, 1000, 10000 kg",
+            "Zlozony IF z wieloma progami w arkuszu kalkulacyjnym"
+          ]
+        },
+        {
+          "id": "2017.4.5",
+          "numer": "4.5",
+          "punkty": 4,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.5. (0-4)\nFirma posiada magazyn cukru. Na poczatku (przed pierwsza transakcja) magazyn jest pelny. Gdy stan magazynu spadnie ponizej 5000 kg, firma dokupuje cukier w pelnych paletach (kazda paleta = pewna ilosc kg), tak aby zamowienie wynioslo co najmniej 4000 kg.\n\nOblicz, ile razy firma musiala dokupic cukier (uzupelnic magazyn) w calym okresie 2005-2014.",
+          "odpowiedz": "14\n\nCzeste bledy:\n- 13 -- liczenie dokupionego cukru pierwszego dnia miesiaca zamiast gdy stan < 5000\n- 4 -- uzycie warunku >4000 zamiast >=4000\n- 5 -- obliczanie ile razy brakuje >= 4000 kg bez uwzglednienia pelnych palet\n- 15 -- nieuwzglednienie przypadku sprzedazy nieobnizajacej stanu ponizej 5000 (sierpien 2010)",
+          "zasady_oceniania": "4 p. -- za poprawna odpowiedz.\n3 p. -- za odpowiedz wynikajaca z liczenia dokupionego cukru pierwszego dnia miesiaca (13).\n2 p. -- za odpowiedz z warunkiem '>4000' zamiast '>=4000' (4).\n2 p. -- za obliczenie, ile razy brakuje >= 4000 kg i nie uwzglednienie koniecznosci zakupu pelnych palet (5).\n2 p. -- za odpowiedz, w ktorej nie uwzgledniono przypadku sprzedazy, niemalejszacej stanu magazynu ponizej 5000 (sierpien 2010) (15).\n0 p. -- za inna bledna odpowiedz albo brak odpowiedzi.\nUwaga: Nie przyznaje sie 1 p.",
+          "pulapki": [
+            "Warunek uzupelnienia: stan magazynu < 5000 (nie <=)",
+            "Zamowienie musi byc >= 4000 kg w PELNYCH paletach",
+            "Trzeba symulowac stan magazynu dzien po dniu",
+            "Sierpien 2010 -- przypadek brzegowy, gdzie stan nie spada ponizej 5000"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2017_maj/Dane_PR/",
+      "pliki_danych": ["cukier.txt", "cennik.txt"],
+      "wymiary": {
+        "tematyczny": ["arkusz_kalkulacyjny", "agregacja", "rabaty_progresywne", "zarzadzanie_magazynem"],
+        "algorytmiczny": ["suma_cyfr", "sumowanie_warunkowe", "rabaty_schodkowe", "symulacja_stanu"],
+        "czasowy_min": 50
+      }
+    },
+    {
+      "numer": 5,
+      "tytul": "Baza danych SQL - pilka reczna",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "Baza danych zawiera informacje o meczach pilki recznej rozgrywanych przez pewna druzyne. Baza sklada sie z trzech tabel:\n\nTabela druzyny (plik druzyny.txt):\n- Id_druzyny (klucz glowny) -- identyfikator druzyny przeciwnika\n- Nazwa -- nazwa druzyny\n- Miasto -- miasto druzyny\n\nTabela wyniki (plik wyniki.txt):\n- Data_meczu -- data meczu (RRRR-MM-DD)\n- Rodzaj_meczu -- typ meczu: T (towarzyski), L (ligowy), P (pucharowy)\n- Gdzie -- D (dom) lub W (wyjazd)\n- Id_druzyny -- identyfikator druzyny przeciwnika (klucz obcy -> druzyny)\n- Nr_licencji -- numer licencji sedziego (klucz obcy -> sedziowie)\n- Bramki_zdobyte -- bramki zdobyte przez nasza druzyne\n- Bramki_stracone -- bramki stracone przez nasza druzyne\n\nTabela sedziowie (plik sedziowie.txt):\n- Nr_licencji (klucz glowny) -- numer licencji sedziego\n- Imie -- imie sedziego\n- Nazwisko -- nazwisko sedziego\n\nPrzykladowe wiersze wyniki.txt:\nData_meczu  Rodzaj_meczu  Gdzie  Id_druzyny  Nr_licencji  Bramki_zdobyte  Bramki_stracone\n2002-10-20  L             D      2           AC6776       0               2\n\nUwaga: Oryginalny arkusz czesci II nie jest dostepny w repozytorium. Tresc zadan zrekonstruowano na podstawie odpowiedzi CKE i plikow danych.",
+      "podzadania": [
+        {
+          "id": "2017.5.1",
+          "numer": "5.1",
+          "punkty": 3,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 5.1. (0-3)\na) Podaj liczbe meczy rozegranych przez druzyne z podzialem na rodzaje meczy (T -- towarzyski, L -- ligowy, P -- pucharowy).\n\nb) Podaj rok, w ktorym druzyna rozegrala najwiecej meczy z druzynami ze swojego miasta. Podaj rowniez liczbe tych meczy.",
+          "odpowiedz": "5.1.a.\nLiczba meczy:\nT    6\nL    113\nP    25\n\n5.1.b.\nRok: 2007\nLiczba meczy rozegranych z druzynami ze swego miasta: 21\n\nSQL (przykladowe):\n-- 5.1.a:\nSELECT Rodzaj_meczu, COUNT(*) FROM wyniki GROUP BY Rodzaj_meczu;\n\n-- 5.1.b:\nSELECT strftime('%Y', Data_meczu) AS rok, COUNT(*) AS ile\nFROM wyniki\nJOIN druzyny ON wyniki.Id_druzyny = druzyny.Id_druzyny\nWHERE druzyny.Miasto = '[miasto naszej druzyny]'\nGROUP BY rok\nORDER BY ile DESC\nLIMIT 1;",
+          "zasady_oceniania": "3 p. -- za prawidlowa odpowiedz, w tym:\n    1 p. -- Zadanie 5.1.a. -- za poprawna liczbe meczy.\n    2 p. -- Zadanie 5.1.b., w tym:\n        1 p. -- za podanie prawidlowego roku.\n        1 p. -- za prawidlowa liczbe meczy rozegranych z druzynami ze swego miasta.\n0 p. -- za odpowiedz bledna albo za brak odpowiedzi.",
+          "pulapki": [
+            "5.1.a wymaga prostego GROUP BY po Rodzaj_meczu",
+            "5.1.b wymaga JOIN z tabela druzyny i filtrowania po Miasto",
+            "Miasto naszej druzyny musi byc znane z tresci zadania"
+          ]
+        },
+        {
+          "id": "2017.5.2",
+          "numer": "5.2",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 5.2. (0-2)\nPodaj nazwy druzyn (przeciwnikow), z ktorymi nasza druzyna rozegrala najwiecej i najmniej meczy u siebie (Gdzie='D').",
+          "odpowiedz": "Najwiecej meczy domowych: Zwinne Mewy (Id_druzyny = 84)\nNajmniej meczy domowych: Nocne Pumy (Id_druzyny = 48)\n\nSQL (przykladowe):\nSELECT d.Nazwa, COUNT(*) AS ile\nFROM wyniki w\nJOIN druzyny d ON w.Id_druzyny = d.Id_druzyny\nWHERE w.Gdzie = 'D'\nGROUP BY w.Id_druzyny\nORDER BY ile DESC; -- pierwszy wiersz = max, ostatni = min",
+          "zasady_oceniania": "2 p. -- za prawidlowa odpowiedz.\n1 p. -- za podanie poprawnych dwoch ID_druzyny (84 i 48).\n0 p. -- za odpowiedz bledna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba podac NAZWY druzyn (nie ID), wymaga JOIN",
+            "Filtr: Gdzie = 'D' (mecze domowe)",
+            "Trzeba znalezc zarowno MAX jak i MIN"
+          ]
+        },
+        {
+          "id": "2017.5.3",
+          "numer": "5.3",
+          "punkty": 3,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 5.3. (0-3)\nPodaj bilans meczy wyjazdowych (Gdzie='W') rozegranych w latach 2005-2008: ile meczy wygranych, zremisowanych i przegranych.\n\nMecz wygrany: Bramki_zdobyte > Bramki_stracone\nMecz zremisowany: Bramki_zdobyte = Bramki_stracone\nMecz przegrany: Bramki_zdobyte < Bramki_stracone",
+          "odpowiedz": "Przegrane:    452\nZremisowane:  170\nWygrane:      579\n\nBez filtra (wszystkie mecze, nie tylko wyjazdowe 2005-2008):\nPrzegrane: 910, Zremisowane: 352, Wygrane: 1185\n\nSQL (przykladowe):\nSELECT\n    SUM(CASE WHEN Bramki_zdobyte < Bramki_stracone THEN 1 ELSE 0 END) AS Przegrane,\n    SUM(CASE WHEN Bramki_zdobyte = Bramki_stracone THEN 1 ELSE 0 END) AS Zremisowane,\n    SUM(CASE WHEN Bramki_zdobyte > Bramki_stracone THEN 1 ELSE 0 END) AS Wygrane\nFROM wyniki\nWHERE Gdzie = 'W'\n    AND Data_meczu >= '2005-01-01'\n    AND Data_meczu <= '2008-12-31';",
+          "zasady_oceniania": "3 p. -- za prawidlowa odpowiedz, po jednym punkcie za kazdy wiersz.\n2 p. -- za odpowiedz uzyskana bez zastosowania filtra (Przegrane 910, Zremisowane 352, Wygrane 1185).\n0 p. -- za inna bledna odpowiedz albo za brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba filtrowac: Gdzie='W' (tylko wyjazdy) ORAZ lata 2005-2008",
+            "CASE WHEN do klasyfikacji wynikow (wygrana/remis/przegrana)",
+            "Bez filtra daje inna odpowiedz (910/352/1185) -- czesty blad",
+            "Filtrowanie dat: BETWEEN '2005-01-01' AND '2008-12-31' lub YEAR(Data_meczu)"
+          ]
+        },
+        {
+          "id": "2017.5.4",
+          "numer": "5.4",
+          "punkty": 3,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 5.4. (0-3)\nPodaj laczna liczbe sedziow zapisanych w tabeli sedziowie, uwzgledniajac rowniez tych sedziow, ktorzy nie sedziowali zadnego meczu.",
+          "odpowiedz": "22\n\nW tym:\n- 18 sedziow sedziowalo co najmniej jeden mecz\n- 4 sedziow nie sedziowalo zadnego meczu\n\nSQL (przykladowe):\nSELECT COUNT(*) FROM sedziowie;\n-- lub z LEFT JOIN:\nSELECT COUNT(DISTINCT s.Nr_licencji)\nFROM sedziowie s\nLEFT JOIN wyniki w ON s.Nr_licencji = w.Nr_licencji;",
+          "zasady_oceniania": "3 p. -- za prawidlowa odpowiedz.\n2 p. -- za odpowiedz bez uwzglednienia tych sedziow, ktorzy nie sedziowali zadnego meczu (18).\n2 p. -- za odpowiedz uwzgledniajaca tylko tych sedziow, ktorzy nie sedziowali zadnego meczu (4).\n0 p. -- za inna bledna odpowiedz albo za brak odpowiedzi.\nUwaga: Nie przyznaje sie 1 p.",
+          "pulapki": [
+            "Sedziowie bez meczy wymagaja LEFT JOIN lub COUNT z tabeli sedziowie",
+            "Czesty blad: COUNT(DISTINCT Nr_licencji) z samej tabeli wyniki = 18 (pomija sedziow bez meczy)",
+            "Najprostrze rozwiazanie: SELECT COUNT(*) FROM sedziowie"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2017_maj/Dane_PR/",
+      "pliki_danych": ["druzyny.txt", "wyniki.txt", "sedziowie.txt"],
+      "wymiary": {
+        "tematyczny": ["bazy_danych", "SQL", "JOIN", "agregacja"],
+        "algorytmiczny": ["GROUP_BY", "CASE_WHEN", "LEFT_JOIN", "COUNT"],
+        "czasowy_min": 40
+      }
+    },
+    {
+      "numer": 6,
+      "tytul": "Programowanie - obraz rastrowy i piksele",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "W pliku dane.txt zapisano obraz rastrowy w skali szarosci o wymiarach 320x200 pikseli. Kazdy wiersz pliku zawiera 320 liczb calkowitych oddzielonych spacjami -- wartosci jasnosci kolejnych pikseli w danym wierszu obrazu. Wartosci pikseli sa z zakresu 0-255 (0 = czarny, 255 = bialy).\n\nPlik przyklad.txt zawiera przykladowy obraz w tym samym formacie (do testowania programu).\n\nSasiedztwo pikseli rozumiane jest jako sasiedztwo 4-kierunkowe: gora, dol, lewo, prawo (nie po przekatnej).\n\nUwaga: Oryginalny arkusz czesci II nie jest dostepny w repozytorium. Tresc zadan zrekonstruowano na podstawie odpowiedzi CKE i plikow danych.",
+      "podzadania": [
+        {
+          "id": "2017.6.1",
+          "numer": "6.1",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_minmax",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 6.1. (0-2)\nZnajdz wartosc najjasniejszego i najciemniejszego piksela w obrazie z pliku dane.txt.",
+          "odpowiedz": "Wartosc najjasniejszego piksela: 221\nWartosc najciemniejszego piksela: 7",
+          "zasady_oceniania": "2 p. -- za prawidlowa odpowiedz, w tym:\n    1 p. -- za podanie wartosci najjasniejszego piksela.\n    1 p. -- za podanie wartosci najciemniejszego piksela.\n0 p. -- za odpowiedz bledna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Najjasniejszy = MAX wartosci (nie 255!), najciemniejszy = MIN (nie 0!)",
+            "Trzeba przeszukac WSZYSTKIE 320*200 = 64000 pikseli"
+          ]
+        },
+        {
+          "id": "2017.6.2",
+          "numer": "6.2",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zliczanie",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 6.2. (0-2)\nOblicz srednia wartosc pikseli w obrazie z pliku dane.txt. Wynik podaj zaokraglony do liczby calkowitej.",
+          "odpowiedz": "149",
+          "zasady_oceniania": "2 p. -- za poprawna odpowiedz.\n0 p. -- za odpowiedz bledna albo za brak odpowiedzi.\nUwaga: Nie przyznaje sie 1 p.",
+          "pulapki": [
+            "Suma wszystkich pikseli moze przekroczyc zakres int (320*200*255 > 16 mln) -- uzyc long/long long",
+            "Srednia = suma / (320*200), zaokraglenie do calkowitej"
+          ]
+        },
+        {
+          "id": "2017.6.3",
+          "numer": "6.3",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_obrazy_2D",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 6.3. (0-3)\nPiksel nazywamy kontrastujacym, jezeli roznica bezwzgledna miedzy nim a co najmniej jednym z jego sasiadow (sasiedztwo 4-kierunkowe: gora, dol, lewo, prawo) jest wieksza niz 128.\n\nOblicz liczbe pikseli kontrastujacych w obrazie z pliku dane.txt.",
+          "odpowiedz": "753\n\nCzeste bledy:\n- 768 -- roznica >= 128 zamiast > 128\n- 166 lub 587 -- brak wartosci bezwzglednej przy obliczaniu roznicy\n- 1226 -- wielokrotne zliczanie piksela (raz za kazdego kontrastujacego sasiada)\n- 747 lub 750 lub 752 -- pominiecie pikseli brzegowych",
+          "zasady_oceniania": "3 p. -- za prawidlowa odpowiedz.\n2 p. -- za odpowiedz, w ktorej roznica wartosci miedzy pikselami jest wieksza lub rowna 128 (768).\n1 p. -- za odpowiedz do otrzymania, ktorej nie wykorzystano wartosci bezwzglednej przy obliczaniu roznicy (166 lub 587).\n1 p. -- za odpowiedz, ktora otrzymano w wyniku wielokrotnego zliczania sasiedztwa z kontrastujacym pikselem (1226).\n1 p. -- za odpowiedz, ktora nie uwzglednia brzegowych pikseli (747 lub 750 lub 752).\n0 p. -- za inna bledna odpowiedz albo za brak odpowiedzi.",
+          "pulapki": [
+            "Warunek: |piksel - sasiad| > 128 (SCISLE wieksze, nie >=)",
+            "Trzeba uzyc wartosci bezwzglednej (abs) roznicy",
+            "Piksel liczymy JEDEN RAZ nawet jesli kontrastuje z wieloma sasiadami",
+            "Piksele brzegowe maja mniej sasiadow (2 lub 3 zamiast 4) -- tez je liczymy"
+          ]
+        },
+        {
+          "id": "2017.6.4",
+          "numer": "6.4",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_obrazy_2D",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 6.4. (0-4)\nPiksele kontrastujace (z zadania 6.3) moga tworzyc polaczone obszary. Dwa piksele kontrastujace naleza do tego samego obszaru, jezeli mozna przejsc od jednego do drugiego przez sasiednie piksele kontrastujace (sasiedztwo 4-kierunkowe).\n\nOblicz liczbe polaczonych obszarow pikseli kontrastujacych w obrazie z pliku dane.txt.",
+          "odpowiedz": "5\n\nCzeste bledy:\n- 4 lub 6 -- bledna definicja kontrastujacego piksela z zadania 6.3",
+          "zasady_oceniania": "4 p. -- za prawidlowa odpowiedz.\n2 p. -- za podanie odpowiedzi 4 lub 6.\n0 p. -- za inna bledna odpowiedz albo za brak odpowiedzi.\nUwaga: Nie przyznaje sie 3 p. i 1 p.",
+          "pulapki": [
+            "Wymaga algorytmu connected components: DFS/BFS flood fill",
+            "Bazuje na wynikach z 6.3 -- blad w 6.3 propaguje sie do 6.4",
+            "Tablica visited[] zeby nie liczyc pikseli wielokrotnie",
+            "Sasiedztwo 4-kierunkowe (nie 8-kierunkowe)"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2017_maj/Dane_PR/",
+      "pliki_danych": ["dane.txt", "przyklad.txt"],
+      "wymiary": {
+        "tematyczny": ["przetwarzanie_obrazow", "grafika_rastrowa", "analiza_pikseli", "DFS_BFS"],
+        "algorytmiczny": ["min_max", "srednia", "sasiedztwo_4kierunkowe", "connected_components"],
+        "czasowy_min": 50
+      }
+    }
+  ]
+}

@@ -1,0 +1,411 @@
+{
+  "rok": 2019,
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {"czesc": 1, "czas_minuty": 60, "punkty": 15, "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"},
+    {"czesc": 2, "czas_minuty": 150, "punkty": 35, "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny, bazy danych)"}
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Ulubione liczby",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Malgosia i Jas lubia liczby. Malgosia lubi liczby nieparzyste, a Jas lubi liczby parzyste. Kazde z dzieci zapisalo po kilka sposrod swoich ulubionych liczb na jednej wspolnej kartce. Najpierw Malgosia zapisala wszystkie swoje liczby, a potem Jas dopisal swoje.",
+      "podzadania": [
+        {
+          "id": "2019.1.1",
+          "numer": "1.1",
+          "punkty": 5,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1. (0-5)\nNapisz algorytm (w postaci listy krokow, w pseudokodzie lub w wybranym jezyku programowania), ktory dla danego ciagu liczb zapisanych przez dzieci znajdzie pierwsza liczbe zapisana przez Jasia. Zakladamy, ze kazde z dzieci zapisalo co najmniej jedna liczbe.\n\nPrzy ocenie bedzie brana pod uwage zlozonosc czasowa Twojego algorytmu. Maksymalna liczbe punktow uzyskasz za algorytm o zlozonosci lepszej niz liniowa.\n\nUwaga: W zapisie algorytmu mozesz wykorzystac tylko operacje arytmetyczne (dodawanie, odejmowanie, mnozenie, dzielenie, dzielenie calkowite, reszte z dzielenia), instrukcje porownania, instrukcje sterujace i przypisania do zmiennych lub samodzielnie napisane funkcje, wykorzystujace wyzej wymienione operacje.\n\nSpecyfikacja:\nDane:\n    n -- liczba calkowita wieksza od 1\n    A[1..n] -- tablica zawierajaca ciag n liczb zapisanych przez dzieci (najpierw wszystkie liczby nieparzyste, a potem wszystkie liczby parzyste)\nWynik:\n    w -- pierwsza od lewej parzysta liczba w tablicy A\n\nPrzyklad:\nDane: n = 10, A[1..n] = {5, 99, 3, 7, 111, 13, 4, 24, 4, 8}\nWynik: w = 4",
+          "odpowiedz": "Algorytm o zlozonosci logarytmicznej -- wyszukiwanie binarne:\n\np <- 1\nk <- n\ndopoki p < k wykonuj\n    s <- (p + k) div 2\n    jezeli A[s] mod 2 = 1\n        p <- s + 1\n    w przeciwnym przypadku\n        k <- s\nw <- A[p]\n\nAlternatywnie w Pythonie:\ndef szukaj_bin(A):\n    lewy, prawy = 1, n\n    while lewy < prawy:\n        srodkowy = (lewy + prawy) // 2\n        if A[srodkowy] % 2 != 0:\n            lewy = srodkowy + 1\n        else:\n            prawy = srodkowy\n    return prawy\n\nAlgorytm o zlozonosci liniowej (max 3 punkty):\np <- 1\ndopoki A[p] mod 2 = 1 wykonuj\n    p <- p + 1\nw <- A[p]",
+          "zasady_oceniania": "5 pkt -- za poprawny algorytm o zlozonosci czasowej lepszej niz liniowa, w tym:\n    1 pkt -- prawidlowy warunek petli\n    1 pkt -- prawidlowe wyznaczenie podzialu ciagu liczb\n    1 pkt -- prawidlowe wyznaczenie poczatku podciagu liczb\n    1 pkt -- prawidlowe wyznaczenie konca podciagu liczb\n    1 pkt -- prawidlowe wyznaczenie pierwszego elementu parzystego w A[] (lub jego indeksu)\n3 pkt -- za poprawny algorytm o zlozonosci czasowej liniowej, w tym:\n    1 pkt -- za prawidlowy przebieg petli\n    1 pkt -- za sprawdzenie warunku (parzystosci liczby)\n    1 pkt -- prawidlowe wyznaczenie pierwszego elementu parzystego w A[] (lub jego indeksu)\n0 pkt -- za podanie odpowiedzi blednej albo brak odpowiedzi.\nUwaga: Za kazde inne poprawne rozwiazanie o zlozonosci lepszej niz liniowa przyznajemy maksymalnie 5 punktow, a o zlozonosci liniowej -- maksymalnie 3 punkty.",
+          "pulapki": [
+            "Uzycie wyszukiwania liniowego zamiast binarnego daje maksymalnie 3 z 5 punktow",
+            "Bledne wyznaczenie granic przeszukiwania w wyszukiwaniu binarnym",
+            "Pominiecie przypadku, gdy element srodkowy jest parzysty - trzeba przesunac prawy koniec",
+            "Niezgodnosc miedzy algorytmem a podana zlozonoscia w 1.2"
+          ]
+        },
+        {
+          "id": "2019.1.2",
+          "numer": "1.2",
+          "punkty": 1,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2. (0-1)\nPodaj, jaka zlozonosc czasowa -- kwadratowa, liniowa, logarytmiczna lub inna (napisz jaka) -- ma Twoj algorytm.",
+          "odpowiedz": "Dla wyszukiwania binarnego: log(n) lub logarytmiczna.\nDla wyszukiwania liniowego: zlozonosc liniowa.",
+          "zasady_oceniania": "1 pkt -- za poprawna odpowiedz.\n0 pkt -- za podanie odpowiedzi blednej albo brak odpowiedzi.",
+          "pulapki": [
+            "Odpowiedz musi byc spojnia z algorytmem z zadania 1.1"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": ["wyszukiwanie w tablicy", "podzial ciagu na czesci", "parzystosc liczb"],
+        "algorytmiczny": ["wyszukiwanie binarne", "wyszukiwanie liniowe", "analiza zlozonosci"],
+        "czasowy_min": 20
+      }
+    },
+    {
+      "numer": 2,
+      "tytul": "Analiza algorytmu",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Przeanalizuj podana funkcje pisz.\n\nSpecyfikacja:\nDane:\n    s -- napis\n    n -- liczba calkowita dodatnia, nie mniejsza niz dlugosc napisu s\n    k -- liczba calkowita z zakresu [2..10]\n\nfunkcja pisz(s, n, k)\n    jezeli dl(s) = n\n        wypisz s\n    w przeciwnym razie\n        dla i = 0, 1, ..., k-1 wykonuj\n            pisz(s + napis(i), n, k)\n\nUwaga:\ndl(x) -- daje w wyniku dlugosc napisu x\ns1 + s2 -- daje w wyniku zlaczenie napisow s1 i s2\nnapis(p) -- daje w wyniku napis bedacy zapisem dziesietnym liczby calkowitej p",
+      "podzadania": [
+        {
+          "id": "2019.2.1",
+          "numer": "2.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1. (0-2)\na) Uzupelnij miejsca oznaczone kropkami w drzewie wywolan funkcji pisz otrzymanym w wyniku wywolania pisz(\"\", 2, 2).\n\nb) W kwadratowych polach, przy wezlach drzewa, podaj odpowiednia kolejnosc wywolan funkcji pisz, tzn. przy pierwszym wywolaniu -- 1, przy kolejnym -- 2 itd.\n\nDrzewo wywolan (do uzupelnienia):\n\n         [1] pisz(\"\",2,2)\n        /                \\\n   [_] pisz(\"0\",2,2)    [_] pisz(\"1\",2,2)\n   /           \\          /            \\\n[_] pisz(\"00\",2,2)  [_] pisz(\"01\",2,2)  [_] ..........  [_] ..........",
+          "odpowiedz": "Brakujace wywolania: pisz(\"10\", 2, 2) i pisz(\"11\", 2, 2).\nKolejnosc wywolan:\n    [1] pisz(\"\", 2, 2)\n    [2] pisz(\"0\", 2, 2)\n    [3] pisz(\"00\", 2, 2)\n    [4] pisz(\"01\", 2, 2)\n    [5] pisz(\"1\", 2, 2)\n    [6] pisz(\"10\", 2, 2)\n    [7] pisz(\"11\", 2, 2)",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- poprawne uzupelnienie drzewka wywolan funkcji pisz\n    1 pkt -- prawidlowa kolejnosc wywolan.\n0 pkt -- za podanie odpowiedzi blednej albo brak odpowiedzi.",
+          "pulapki": [
+            "Pomylenie kolejnosci DFS (depth-first) z BFS (breadth-first) przy numerowaniu wywolan",
+            "Brakujace wywolania to pisz(\"10\",2,2) i pisz(\"11\",2,2) -- analogicznie do lewego poddrzewa"
+          ]
+        },
+        {
+          "id": "2019.2.2",
+          "numer": "2.2",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2. (0-2)\nUzupelnij ponizszа tabele -- przeanalizuj podane w niej wywolania funkcji pisz. Podaj napisy wypisywane w wyniku wywolania funkcji pisz z zadanymi parametrami oraz laczna liczbe wywolan tej funkcji.\n\n| Pierwsze wywolanie funkcji pisz | Napisy wypisane w wyniku wywolania funkcji pisz | Laczna liczba wywolan funkcji pisz |\n|---|---|---|\n| pisz(\"\", 3, 2) | | |\n| pisz(\"\", 2, 3) | | |",
+          "odpowiedz": "| Wywolanie | Napisy wypisane | Liczba wywolan |\n|---|---|---|\n| pisz(\"\", 3, 2) | 000, 001, 010, 011, 100, 101, 110, 111 | 15 (1+2+4+8) |\n| pisz(\"\", 2, 3) | 00, 01, 02, 10, 11, 12, 20, 21, 22 | 13 (1+3+9) |",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za kazde poprawnie uzupelnione dwa pola tabeli.\nUwaga: teksty wypisane przez funkcje moga byc zapisane w jednym wierszu lub jeden pod drugim -- nie zmienia to oceny.\n0 pkt -- za podanie odpowiedzi blednej albo brak odpowiedzi.",
+          "pulapki": [
+            "pisz(\"\",3,2) generuje wszystkie 3-znakowe napisy w systemie o podstawie 2 (binarnym) -- 2^3 = 8 napisow",
+            "pisz(\"\",2,3) generuje wszystkie 2-znakowe napisy w systemie o podstawie 3 (trojkowym) -- 3^2 = 9 napisow",
+            "Pomylenie parametrow n i k: n to dlugosc napisu, k to podstawa"
+          ]
+        },
+        {
+          "id": "2019.2.3",
+          "numer": "2.3",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.3. (0-2)\nPodaj wzor na laczna liczbe wywolan funkcji pisz w wyniku wywolania pisz(\"\", n, k).",
+          "odpowiedz": "(k^(n+1) - 1) / (k - 1)   lub   1 + k + k^2 + ... + k^n",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz.\n1 pkt -- w przypadku podania w odpowiedzi liczby mniejszej o 1 lub gdy ostatni element szeregu w odpowiedzi ma indeks n-1 zamiast n (np. 1+k+k^2+...+k^(n-1) zamiast 1+k+k^2+...+k^n).\n0 pkt -- za podanie odpowiedzi blednej albo brak odpowiedzi.\nUwaga: odpowiedz moze byc zapisana takze w postaci sumy (ze znakiem sigma).",
+          "pulapki": [
+            "Blad o 1 we wzorze -- uzycie k^n zamiast k^(n+1) w liczniku lub pominiecie +1 w sumie",
+            "Pominiecie samego pierwszego wywolania przy liczeniu lacznej liczby wywolan",
+            "Niezrozumienie ze to suma ciagu geometrycznego: 1 + k + k^2 + ... + k^n"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": ["rekurencja", "drzewa wywolan", "generowanie napisow", "systemy liczbowe"],
+        "algorytmiczny": ["rekurencja", "analiza drzewa wywolan", "suma ciagu geometrycznego"],
+        "czasowy_min": 20
+      }
+    },
+    {
+      "numer": 3,
+      "tytul": "Test",
+      "punkty": 3,
+      "czesc": 1,
+      "kontekst": "Ocen prawdziwosc podanych zdan. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli jest falszywe.\nW kazdym zadaniu punkt uzyskasz tylko za komplet poprawnych odpowiedzi.",
+      "podzadania": [
+        {
+          "id": "2019.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1. (0-1)\nDana jest tabela PRACOWNICY.\n\n| Nr_P | Nazwisko | Imie | Stanowisko | Nr_dzialu |\n|------|----------|------|------------|----------|\n| 736 | Smitko | Alan | urzednik | 20 |\n| 7499 | Nowak | Kazimierz | sprzedawca | 30 |\n| 7521 | Wiecek | Mariusz | sprzedawca | 30 |\n| 7566 | Jonas | Kamil | kierownik | 20 |\n| 7654 | Martin | Leon | sprzedawca | 30 |\n| 7698 | Bracki | Bartosz | kierownik | 30 |\n| 7782 | Celerek | Agnieszka | kierownik | 10 |\n| 7788 | Skotnik | Natalia | analityk | 20 |\n| 7839 | King | Miroslawa | prezes | 10 |\n\n1. Wynikiem zapytania SELECT COUNT(Stanowisko) FROM PRACOWNICY; jest: Stanowisko 5\n2. Wynikiem zapytania SELECT COUNT(Stanowisko) FROM PRACOWNICY WHERE Stanowisko <> \"kierownik\"; jest: 6\n3. Wynikiem zapytania SELECT Stanowisko, COUNT(*) FROM PRACOWNICY GROUP BY Stanowisko; jest: urzednik 1, sprzedawca 3, kierownik 3, analityk 1, prezes 1\n4. Wynikiem zapytania SELECT COUNT(Stanowisko) FROM PRACOWNICY WHERE Stanowisko LIKE \"*nik\"; jest: 2",
+          "odpowiedz": "F, P, P, F\n\n1. F -- COUNT(Stanowisko) zwraca 9 (liczy wszystkie wiersze z niepusta wartoscia w kolumnie), nie 5 z naglowkiem 'Stanowisko'\n2. P -- 9 wierszy minus 3 kierownikow = 6\n3. P -- poprawne zestawienie: urzednik 1, sprzedawca 3, kierownik 3, analityk 1, prezes 1\n4. F -- LIKE \"*nik\" (Access SQL) pasuje do: urzednik (1 wiersz) + kierownik (3 wiersze) + analityk (1 wiersz) = 5 wierszy, nie 2",
+          "zasady_oceniania": "1 pkt -- za wskazanie czterech poprawnych odpowiedzi.\n0 pkt -- za odpowiedz niepelna lub bledna albo za brak odpowiedzi.",
+          "pulapki": [
+            "COUNT(Stanowisko) liczy wiersze (nie unikalne wartosci) -- COUNT(DISTINCT Stanowisko) liczyloby unikalne",
+            "LIKE '*nik' (Access SQL) -- gwiazdka zastepuje dowolny ciag znakow, pasuje do urzedNIK, kierowNIK i analityK (bo 'k' != 'nik'? -- nie, analityk konczy sie na 'tyk' nie 'nik')",
+            "W standardowym SQL uzylibysmy % zamiast * w LIKE"
+          ]
+        },
+        {
+          "id": "2019.3.2",
+          "numer": "3.2",
+          "punkty": 1,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2. (0-1)\nPo pomnozeniu dwoch liczb 1111110_2 oraz 101_2 zapisanych w systemie dwojkowym otrzymamy:\n\n1. 21312_4\n2. 1001010110_2\n3. 1166_8\n4. 276_16",
+          "odpowiedz": "P, F, P, P\n\nObliczenie: 1111110_2 = 126, 101_2 = 5, 126 * 5 = 630\n630 w systemie czworkowym: 21312_4 -- P\n630 w systemie dwojkowym: 1001110110_2 (nie 1001010110_2) -- F\n630 w systemie osemkowym: 1166_8 -- P\n630 w systemie szesnastkowym: 276_16 -- P",
+          "zasady_oceniania": "1 pkt -- za wskazanie czterech poprawnych odpowiedzi.\n0 pkt -- za odpowiedz niepelna lub bledna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Blad w mnozeniu binarnym -- latwo o pomylke przy dodawaniu czesciowych iloczynow",
+            "630 binarnie to 1001110110, nie 1001010110 (roznica w 5. bicie od lewej)",
+            "Trzeba poprawnie konwertowac miedzy systemami: 630 = 21312_4 = 1166_8 = 276_16"
+          ]
+        },
+        {
+          "id": "2019.3.3",
+          "numer": "3.3",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.3. (0-1)\n\n1. DNS to skrot od Domain Name System.\n2. Do danego adresu IP moze byc przypisanych wiele roznych nazw.\n3. Przy zmianie adresu IP komputera pelniacego funkcje serwera WWW jest konieczna zmiana nazwy domeny internetowej.\n4. System DNS ma jedna centralna baze danych adresow IP i nazw.",
+          "odpowiedz": "P, P, F, F\n\n1. P -- DNS to Domain Name System\n2. P -- Do jednego adresu IP moze byc przypisanych wiele nazw\n3. F -- Przy zmianie IP serwera WWW nie trzeba zmieniac nazwy domeny, wystarczy zaktualizowac rekord DNS\n4. F -- DNS nie ma jednej centralnej bazy, jest systemem rozproszonym (hierarchicznym)",
+          "zasady_oceniania": "1 pkt -- za wskazanie czterech poprawnych odpowiedzi.\n0 pkt -- za odpowiedz niepelna lub bledna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Mylne przekonanie ze DNS ma centralna baze danych",
+            "Mylenie koniecznosci zmiany domeny ze zmiana IP -- wystarczy aktualizacja rekordu A w DNS"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": ["SQL", "systemy liczbowe", "sieci komputerowe", "DNS"],
+        "algorytmiczny": ["analiza zapytan SQL", "konwersja miedzy systemami liczbowymi", "mnozenie binarne"],
+        "czasowy_min": 15
+      }
+    },
+    {
+      "numer": 4,
+      "tytul": "Liczby",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "W pliku liczby.txt zapisano 500 liczb calkowitych dodatnich po jednej w kazdym wierszu. Kazda liczba jest z zakresu od 1 do 100 000.\n\nNapisz program(-y) dajacy(-e) odpowiedzi do ponizszych zadan. Zapisz uzyskane odpowiedzi w pliku wyniki4.txt, poprzedzajac kazda z nich numerem odpowiedniego zadania.\n\nUwaga: Plik przyklad.txt zawiera przykladowe dane spelniajace warunki zadania. Odpowiedzi dla danych z tego pliku sa podane pod tresciami zadan.",
+      "podzadania": [
+        {
+          "id": "2019.4.1",
+          "numer": "4.1",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.1. (0-3)\nPodaj, ile z podanych liczb jest potegami liczby 3 (czyli liczbami postaci 1 = 3^0, 3 = 3^1, 9 = 3^2 itd.).\n\nDla pliku przyklad.txt odpowiedz wynosi 2.",
+          "odpowiedz": "18",
+          "zasady_oceniania": "3 pkt -- za prawidlowa odpowiedz.\n2 pkt -- za podanie wyniku rozniacy sie o 1 (np. w przypadku pominiecia liczby 1 = 3^0 lub liczenia od 0 zamiast od 1).\n1 pkt -- za podanie wyniku mniejszego od prawidlowego o 2 lub 3 (w przypadku pominiecia przy zliczaniu maksymalnie trzech liczb).\n0 pkt -- za bledna odpowiedz albo brak odpowiedzi.",
+          "pulapki": [
+            "Pominiecie 1 = 3^0 jako potegi trojki",
+            "Potegi trojki do 100000: 1, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683, 59049",
+            "Mozna sprawdzac przez wielokrotne dzielenie przez 3 az do 1 lub porownywac z predefiniowana lista"
+          ]
+        },
+        {
+          "id": "2019.4.2",
+          "numer": "4.2",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.2. (0-4)\nSilnia liczby naturalnej k wiekszej od 0 nazywamy wartosc iloczynu 1*2*...*k i oznaczamy przez k!.\nPrzyjmujemy, ze 0! = 1. Zatem mamy:\n0! = 1, 1! = 1, 2! = 1*2 = 2, 3! = 1*2*3 = 6, 4! = 1*2*3*4 = 24 itd.\n\nDowolna liczbe naturalna mozemy rozbic na cyfry, a nastepnie policzyc sume silni jej cyfr. Na przyklad dla liczby 343 mamy 3! + 4! + 3! = 6 + 24 + 6 = 36.\n\nPodaj, w kolejnosci ich wystepowania w pliku liczby.txt, wszystkie liczby, ktore sa rowne sumie silni swoich cyfr.\n\nW pliku przyklad.txt znajduje sie jedna taka liczba: 145 (1! + 4! + 5! = 1 + 24 + 120 = 145).",
+          "odpowiedz": "2, 145, 1, 40585\n\n(w kolejnosci wystepowania w pliku)",
+          "zasady_oceniania": "4 pkt -- za podanie prawidlowej odpowiedzi, w tym:\n    1 pkt -- za kazda poprawnie podana liczbe w wyniku.\n0 pkt -- za bledna odpowiedz albo brak odpowiedzi.",
+          "pulapki": [
+            "1! = 1 wiec 1 tez spelnia warunek (1 = 1!), a takze 2 = 2!",
+            "Przepelnienie arytmetyczne przy obliczaniu silni wiekszych cyfr (9! = 362880)",
+            "Warto predefiniowac tablice silni cyfr 0-9: [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880]",
+            "Podawac w kolejnosci wystepowania w pliku, nie rosnacej"
+          ]
+        },
+        {
+          "id": "2019.4.3",
+          "numer": "4.3",
+          "punkty": 5,
+          "typ_zadania": "przetwarzanie_sekwencje",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.3. (0-5)\nW pliku liczby.txt znajdz najdluzszy ciag liczb wystepujacych kolejno po sobie i taki, ze najwiekszy wspolny dzielnik ich wszystkich jest wiekszy od 1 (innymi slowy: istnieje taka liczba calkowita wieksza od 1, ktora jest dzielnikiem kazdej z tych liczb).\n\nJako odpowiedz podaj wartosc pierwszej liczby w takim ciagu, dlugosc ciagu oraz najwieksza liczbe calkowita, ktora jest dzielnikiem kazdej liczby w tym ciagu. W pliku z danymi jest tylko jeden taki ciag o najwiekszej dlugosci.\n\nUwaga: Mozesz skorzystac z zaleznosci NWD(a, b, c) = NWD(NWD(a, b), c).\n\nPrzyklad: Dla liczb 3, 7, 4, 6, 10, 2, 5 odpowiedzia jest 4 (pierwsza liczba ciagu), 4 (dlugosc ciagu) i 2 (najwiekszy wspolny dzielnik). Dla liczb 5, 70, 28, 42, 98, 1 odpowiedzia jest 70, 4, 14.\n\nOdpowiedz dla pliku przyklad.txt: pierwsza liczba ciagu 90, dlugosc 5, najwiekszy wspolny dzielnik 10.",
+          "odpowiedz": "Pierwsza liczba: 31968\nDlugosc ciagu: 150\nNajwiekszy wspolny dzielnik: 74",
+          "zasady_oceniania": "5 pkt -- za podanie prawidlowej odpowiedzi, w tym:\n    1 pkt -- za poprawnie podana pierwsza liczbe w ciagu\n    2 pkt -- za poprawnie podana dlugosc ciagu (lub 1 punkt -- jesli dlugosc ciagu bedzie roznic sie od poprawnej o 1 np. z powodu zliczania od 0)\n    2 pkt -- za poprawnie podany najwiekszy wspolny dzielnik w ciagu\n4 pkt -- za podanie w odpowiedzi zestawu skladajacego sie z liczby 56536 jako pierwszej w ciagu, 149 jako dlugosci ciagu, oraz poprawnego wspolnego dzielnika -- 74. Zestaw taki zdajacy otrzyma w wyniku nieuwzglednienia faktu, ze pierwszy element ciagu moze byc jednoczesnie ostatnim elementem ciagu poprzedniego spelniajacego warunki zadania.\n0 pkt -- za bledna odpowiedz albo za brak odpowiedzi.",
+          "pulapki": [
+            "Pierwszy element ciagu moze byc jednoczesnie ostatnim elementem poprzedniego ciagu (blad daje 56536 zamiast 31968, 149 zamiast 150)",
+            "NWD calego ciagu trzeba liczyc kumulacyjnie: NWD(NWD(a,b),c)...",
+            "Ciag konczy sie gdy NWD staje sie rowny 1 -- trzeba sledzic biezacy NWD",
+            "Pamietac o przypadku brzegowym na koncu pliku"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2019_maj/Dane_PR/",
+      "pliki_danych": ["liczby.txt", "przyklad.txt"],
+      "wymiary": {
+        "tematyczny": ["potegi liczb", "silnia cyfr", "NWD", "ciagi kolejnych elementow"],
+        "algorytmiczny": ["sprawdzanie poteg", "obliczanie silni", "algorytm Euklidesa (NWD)", "wyszukiwanie najdluzszego podciagu"],
+        "czasowy_min": 50
+      }
+    },
+    {
+      "numer": 5,
+      "tytul": "Chmury",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "Naukowcy sledza zmiany pogody na odleglej planecie. Chmury wystepujace na niebie tej planety podzielono na dwie kategorie, nazwane przez analogie do ziemskich cirrusami (C) i stratusami (S). W kazdej z kategorii chmury sa klasyfikowane wzgledem wielkosci od 1 do 5. Mamy zatem chmury dziesieciu rodzajow: C1, C2, C3, C4 i C5 oraz S1, S2, S3, S4 i S5. Na tej planecie w jednym dniu moga wystepowac chmury tylko jednego rodzaju.\n\nW kazdym z 500 kolejnych dni stacja badawcza umiejscowiona na planecie mierzyla temperature w stopniach oraz okreslala rodzaj chmur. Dane te zawarte sa w kolejnych wierszach pliku pogoda.txt. Kazdy wiersz pliku pogoda.txt zawiera kolejno:\n- numer dnia (od 1 do 500)\n- zmierzona temperature (z dokladnoscia do jednego miejsca po przecinku, temperatura nigdy nie spada ponizej zera)\n- wielkosc opadu, jaki mial miejsce tego dnia (w milimetrach, zaokraglony do liczby calkowitej)\n- kategorie chmur (C, S lub 0 -- jesli dzien byl bezchmurny)\n- wielkosc chmur (od 1 do 5 lub 0 -- jesli dzien byl bezchmurny)\n\nDane oddzielone sa srednikami, pierwszy wiersz jest wierszem naglowkowym.\n\nPrzyklad:\nDzien;Temperatura;Opad;Kategoria_chmur;Wielkosc_chmur\n1;19;0;0;0\n2;22;1;C;1\n3;23,6;4;C;1\n\nW dniu 301. kamera na stacji badawczej sie zepsuta i od tego dnia stacja raportowala wszystkie dni jako 'bezchmurne', temperatura i opady jednak dalej byly poprawnie mierzone.",
+      "podzadania": [
+        {
+          "id": "2019.5.1",
+          "numer": "5.1",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.1. (0-2)\nPodaj liczbe dni o temperaturze wiekszej lub rownej 20 stopni i jednoczesnie o opadzie mniejszym lub rownym 5 mm.\n\n(Dotyczy wszystkich 500 dni.)",
+          "odpowiedz": "63",
+          "zasady_oceniania": "2 pkt -- za podanie poprawnej odpowiedzi.\n1 pkt -- za podanie odpowiedzi wynikajacej z zastosowania warunkow z 'ostrymi' nierownosciami, czyli np. 'mniejsze' zamiast 'mniejsze badz rowne' (odpowiedzi: 51 -- obie nierownosci ostre, 59 -- nierowosc dotyczaca temperatury ostra, 54 -- nierowosc ostra przy zapisywaniu warunku dotyczacego opadow).\n0 pkt -- za bledna odpowiedz albo za brak odpowiedzi.",
+          "pulapki": [
+            "Temperatura >= 20 (nieostra), nie > 20",
+            "Opad <= 5 (nieostra), nie < 5",
+            "Dotyczy WSZYSTKICH 500 dni, nie tylko pierwszych 300"
+          ]
+        },
+        {
+          "id": "2019.5.2",
+          "numer": "5.2",
+          "punkty": 2,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.2. (0-2)\nZnajdz najdluzszy ciag kolejnych dni, w ktorych temperatura zmierzona kazdego dnia jest wyzsza niz temperatura dnia poprzedniego. Jest tylko jeden taki ciag. Podaj numer pierwszego i numer ostatniego dnia w takim ciagu.\n\nNa przyklad dla danych:\ndzien  temperatura\n34     3,7\n35     3,4\n36     3,5\n37     3,6\n38     3,7\n39     3,5\npierwszym dniem ciagu spelniajacym warunek zadania jest dzien 36, a ostatnim -- 38.\n\n(Dotyczy wszystkich 500 dni.)",
+          "odpowiedz": "Pierwszy dzien: 448\nOstatni dzien: 455",
+          "zasady_oceniania": "2 pkt -- za podanie poprawnej odpowiedzi, w tym:\n    1 pkt -- za podanie poprawnego poczatku okresu -- 448 dzien\n    1 pkt -- za podanie poprawnego konca okresu -- 455 dzien.\n0 pkt -- za bledna odpowiedz albo za brak odpowiedzi.",
+          "pulapki": [
+            "Najdluzszy ciag ROSNACEJ temperatury (kazdy dzien wyzszy niz poprzedni), nie najdluzszy ciag w ogole",
+            "Ciag 448-455 to 8 kolejnych dni rosnacej temperatury",
+            "Szukamy ciagu w calym pliku (500 dni), nie tylko w pierwszych 300"
+          ]
+        },
+        {
+          "id": "2019.5.3",
+          "numer": "5.3",
+          "punkty": 3,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.3. (0-3)\nDla pierwszych 300 dni pomiaru oblicz, z dokladnoscia do dwoch miejsc po przecinku, sredni opad dla kazdego rodzaju chmur (kategoria + wielkosc, czyli C1, C2, C3, C4, C5, S1, S2, S3, S4, S5). Przedstaw wyniki na wykresie kolumnowym, pamietajac o czytelnym opisie wykresu.\n\n(Dotyczy TYLKO pierwszych 300 dni.)",
+          "odpowiedz": "| Rodzaj chmury | Srednie opady |\n|---|---|\n| C1 | 3,45 |\n| C2 | 7,28 |\n| C3 | 9,05 |\n| C4 | 11,58 |\n| C5 | 19,40 |\n| S1 | 3,73 |\n| S2 | 6,52 |\n| S3 | 10,29 |\n| S4 | 15,00 |\n| S5 | 19,64 |\n\n+ wykres kolumnowy z 10 kolumnami, opisami osi i tytulem",
+          "zasady_oceniania": "3 pkt -- za podanie poprawnej odpowiedzi, w tym:\n    1 pkt -- za prawidlowe wyniki w zestawieniu danych\n    1 pkt -- za odpowiednia dokladnosc wynikow w zestawieniu\n    1 pkt -- za utworzenie prawidlowego wykresu.\n0 pkt -- za bledna odpowiedz albo za brak odpowiedzi.\nUwaga: jesli zestawienie bedzie wykonane dla 500 wierszy danych zamiast 300 -- maksymalnie 2 punkty.",
+          "pulapki": [
+            "TYLKO pierwsze 300 dni (do wiersza 300), nie wszystkie 500",
+            "Sredni opad -- srednia arytmetyczna opadow dla danego rodzaju chmur",
+            "10 kategorii chmur (C1-C5 i S1-S5), dni bezchmurne (0) nie sa uwzgledniane"
+          ]
+        },
+        {
+          "id": "2019.5.4",
+          "numer": "5.4",
+          "punkty": 4,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.4. (0-4)\nProfesor George Nubis przedstawil teorie, wedlug ktorej chmury okreslonej wielkosci i kategorii rozwijaja sie w nastepujacy sposob:\n- jesli w danym dniu nie ma chmur, nazajutrz na pewno pojawia sie chmury o wielkosci 1\n- chmury po trzech dniach samoczynnie przechodza w chmury o wyzszym numerze, az do numeru 5\n- chmury o wielkosci 5 zanikaja wtedy, gdy spadnie w ciagu dnia co najmniej 20 mm deszczu, a wowczas nastepny dzien jest bezchmurny\n- powstanie chmur kategorii C lub S zalezy od temperatury powietrza w dniu ich tworzenia sie. Jesli temperatura w dniu pojawienia sie chmur jest nie mniejsza niz 10 stopni, to powstaja chmury kategorii C (o wielkosci 1), w przeciwnym wypadku -- chmury kategorii S (o wielkosci 1).\n\nUwaga: Przez pierwszych 20 dni teoria zgodzia sie dokladnie z obserwacjami. Uzyj tej informacji, aby sprawdzic swoje obliczenia.\n\nZaloz, ze chmury rozwijalyby sie przez caly czas (500 dni) wedlug teorii profesora i ze dzien pierwszy byl bezchmurny (wielkosc chmur 0), a nastepnie:\na) podaj liczbe dni (sposrod wszystkich 500) z chmurami wielkosci 0, 1, 2, 3, 4 i 5 -- dla kazdej wielkosci oddzielnie (przyjmij, ze wielkosc opadu w danym dniu jest taka, jaka zapisano w pliku z danymi)\nb) dla pierwszych 300 dni pomiaru podaj, ile wsrod nich bylo takich, w ktorych teorie profesora Nubisa dotyczaca wielkosci chmur potwierdzaly odczyty z kamery\nc) dla pierwszych 300 dni pomiaru podaj, ile wsrod nich bylo takich, w ktorych teorie profesora Nubisa dotyczaca kategorii chmur potwierdzaly odczyty z kamery",
+          "odpowiedz": "a) Liczba dni z chmurami wielkosci:\n| Wielkosc | Liczba dni |\n|---|---|\n| 0 | 34 |\n| 1 | 102 |\n| 2 | 102 |\n| 3 | 102 |\n| 4 | 100 |\n| 5 | 60 |\n\nb) 296\n\nc) 286",
+          "zasady_oceniania": "4 pkt -- za podanie poprawnej odpowiedzi, w tym:\n    2 pkt -- za podanie prawidlowego zestawienia dla podpunktu a) (lub 1 pkt -- w przypadku zestawienia z maksymalnie dwoma blednymi wartosciami)\n    1 pkt -- za podanie poprawnej odpowiedzi dla podpunktu b)\n    1 pkt -- za podanie poprawnej odpowiedzi dla podpunktu c).\n0 pkt -- za bledna odpowiedz albo za brak odpowiedzi.",
+          "pulapki": [
+            "Chmury rosna co 3 DNI (nie co dzien) -- wielkosc 1 trwa 3 dni, potem 2 trwa 3 dni itd.",
+            "Chmury wielkosci 5 zanikaja TYLKO jesli opad >= 20mm -- inaczej zostaja jako 5",
+            "Kategorii (C/S) nie zmienia sie w trakcie cyklu -- zalezy od temperatury w dniu pojawienia sie chmur (wielkosc 1)",
+            "Dzien 1 jest bezchmurny (wielkosc 0) -- to jest warunek poczatkowy",
+            "Podpunkt b) i c) dotycza TYLKO pierwszych 300 dni"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2019_maj/Dane_PR/",
+      "pliki_danych": ["pogoda.txt"],
+      "wymiary": {
+        "tematyczny": ["dane pogodowe", "analiza statystyczna", "srednie warunkowe", "symulacja procesow"],
+        "algorytmiczny": ["filtrowanie danych", "sumowanie warunkowe", "najdluzszy ciag rosnacy", "symulacja krokowa"],
+        "czasowy_min": 45
+      }
+    },
+    {
+      "numer": 6,
+      "tytul": "Perfumeria DlaWas",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "W plikach: marki.txt, perfumy.txt, sklad.txt opisana jest oferta perfumerii 'DlaWas'. W perfumerii dostepne sa perfumy roznych marek. Perfumy skladaja sie z kilku skladnikow. Zestaw skladnikow decyduje, do jakiej rodziny zapachow naleza perfumy. Pierwszy wiersz w kazdym z plikow jest wierszem naglowkowym i zawiera nazwy pol. Dane w kazdym wierszu oddzielone sa znakiem tabulacji.\n\nPlik marki.txt -- kazdy wiersz zawiera:\n  id_marki -- identyfikator marki\n  nazwa_m -- nazwa marki\n\nPlik perfumy.txt -- kazdy wiersz zawiera:\n  id_perfum -- identyfikator perfum\n  nazwa_p -- nazwa perfum\n  id_marki -- identyfikator marki tych perfum\n  rodzina_zapachow -- nazwa rodziny zapachow, do ktorej naleza perfumy\n  cena -- cena perfum\n\nPlik sklad.txt -- kolejne wiersze zawieraja:\n  id_perfum -- identyfikator perfum\n  nazwa_skladnika -- nazwa skladnika",
+      "podzadania": [
+        {
+          "id": "2019.6.1",
+          "numer": "6.1",
+          "punkty": 1,
+          "typ_zadania": "sql_select_where",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.1. (0-1)\nPodaj liste wszystkich nazw perfum, ktorych jednym ze skladnikow jest 'absolut jasminu'.",
+          "odpowiedz": "Oyal Priather\nOlogne D'oud\nUelques FleuE",
+          "zasady_oceniania": "1 pkt -- za podanie poprawnej odpowiedzi.\n0 pkt -- za bledna odpowiedz albo za brak odpowiedzi.",
+          "pulapki": [
+            "Wymaga zlaczenia tabel perfumy i sklad (JOIN na id_perfum)",
+            "Dokladna nazwa skladnika: 'absolut jasminu' (nie LIKE, tylko dokladne dopasowanie)"
+          ]
+        },
+        {
+          "id": "2019.6.2",
+          "numer": "6.2",
+          "punkty": 3,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.2. (0-3)\nPodaj liste roznych rodzin zapachow. Dla kazdej rodziny podaj jej nazwe, cene najtanszych perfum z tej rodziny i ich nazwe.",
+          "odpowiedz": "| Rodzina zapachow | Cena | Nazwa perfum |\n|---|---|---|\n| aromatyczna | 124 | Ibrary Ollec D'amore |\n| cytrusowa | 259 | Sian Grad |\n| cytrusowo-aromatyczna | 178 | Re Nostrum,ir |\n| drzewna | 123 | Pperlee Bouquet |\n| kwiatowa | 110 | Ose Deurmaline |\n| kwiatowo-drzewna | 104 | Rougna |\n| kwiatowo-orientalna | 103 | Arla : Vivace |\n| kwiatowo-szyprowa | 287 | Etish Pothal |\n| orientalna | 113 | Anille La Tosca |\n| orientalna lagodna | 122 | Ndy Warhol S Rose |\n| orientalno-drzewna | 138 | LackNight |\n| owocowa | 154 | Ake Perfucturne |\n| pudrowa | 139 | Ivm Cristal |\n| skorzana | 112 | Ui Mare |\n| szyprowa | 226 | Usk ti 1888 |\n| szyprowo-skorzana | 158 | Uir OtPlace |\n| wodna | 146 | Ilver Mounaya |\n| zielona | 406 | EOman |",
+          "zasady_oceniania": "3 pkt -- za podanie poprawnej odpowiedzi, w tym:\n    1 pkt -- za podanie prawidlowej listy 18 rodzin zapachow\n    1 pkt -- za podanie ceny najtanszych perfum dla kazdej rodziny\n    1 pkt -- za podanie nazwy najtanszych perfum dla kazdej rodziny.\n0 pkt -- za bledna odpowiedz albo za brak odpowiedzi.",
+          "pulapki": [
+            "Znalezienie nazwy perfum o minimalnej cenie wymaga podzapytania lub samozlaczenia (nie wystarczy MIN + GROUP BY)",
+            "18 roznych rodzin zapachow w bazie danych",
+            "Jezeli dwie perfumy maja ta sama minimalna cene w danej rodzinie -- obydwie sa poprawne"
+          ]
+        },
+        {
+          "id": "2019.6.3",
+          "numer": "6.3",
+          "punkty": 3,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.3. (0-3)\nUtworz uporzadkowana alfabetycznie liste wszystkich nazw marek, ktore NIE zawieraja w swoich perfumach zadnego skladnika majacego w nazwie slowo 'paczula'.",
+          "odpowiedz": "Aison Eranciro\nArthbey\nEmbert Lucas\nEnmith\nNnick a Kieffo",
+          "zasady_oceniania": "3 pkt -- za podanie poprawnej odpowiedzi, w tym:\n    2 pkt -- za zastosowanie odpowiedniego filtra przy wyszukiwaniu danych (tj. *paczula*)\n        lub 1 pkt za zastosowanie filtra paczula* lub paczula\n    1 pkt -- za zastosowanie sortowania.\n0 pkt -- za inna bledna odpowiedz albo za brak odpowiedzi.",
+          "pulapki": [
+            "Pytanie o marki BEZ paczuli (NIE zawieraja) -- wymaga NOT IN / NOT EXISTS",
+            "Trzeba uzyc LIKE '*paczula*' (Access) lub LIKE '%paczula%' (standard SQL) -- aby wychwycic skladniki jak 'olejek paczulowy'",
+            "Wymaga zlaczenia trzech tabel: marki + perfumy + sklad",
+            "Lista posortowana ALFABETYCZNIE"
+          ]
+        },
+        {
+          "id": "2019.6.4",
+          "numer": "6.4",
+          "punkty": 3,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.4. (0-3)\nCeny wszystkich perfum marki Mou De Rosine z rodziny o nazwie 'orientalno-drzewna' zostaly obnizone o 15%. Podaj liste zawierajaca wszystkie nazwy takich perfum i ich ceny po obnizce. Liste posortuj niemalejaaco wedlug ceny.",
+          "odpowiedz": "| Nazwa | Nowa cena |\n|---|---|\n| Ourn Boise | 141,95 |\n| Onou Back | 222,70 |\n| Pic An | 230,35 |\n| Nterl Bambola | 292,40 |\n| Ubilatio Champs | 381,65 |\n| Ibrary Ollec D'or | 489,60 |\n| Ate An | 544,85 |\n| Elov & Musc | 660,45 |",
+          "zasady_oceniania": "3 pkt -- za podanie poprawnej odpowiedzi.\n2 pkt -- za podanie prawidlowo posortowanej listy z poprawnym wyliczeniem cen, ale bez zastosowania jednego z kryteriow filtrowania.\n2 pkt -- za podanie poprawnej listy bez sortowania.\n1 pkt -- za podanie listy z poprawnie obliczonymi cenami.\n0 pkt -- za bledna odpowiedz albo za brak odpowiedzi.",
+          "pulapki": [
+            "Obnizka o 15% = cena * 0.85 (nie cena * 0.15)",
+            "Filtrowanie po DWOCH warunkach: marka = 'Mou De Rosine' AND rodzina = 'orientalno-drzewna'",
+            "Wymaga zlaczenia tabel marki i perfumy (JOIN na id_marki)",
+            "Sortowanie niemalejaaco (ASC) wedlug ceny po obnizce"
+          ]
+        },
+        {
+          "id": "2019.6.5",
+          "numer": "6.5",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.5. (0-2)\nIstnieja marki, ktorych wszystkie perfumy naleza do tylko jednej rodziny zapachow. Podaj liste wszystkich nazw takich marek. Lista powinna zawierac nazwy marek i nazwy odpowiednich rodzin zapachow.",
+          "odpowiedz": "| Nazwa marki | Rodzina zapachow |\n|---|---|\n| Ightce | aromatyczna |\n| X ICologne | orientalno-drzewna |\n| Nnick a Kieffo | orientalna |\n| Enmith | kwiatowo-orientalna |\n| Issmkunstwerke | orientalna |",
+          "zasady_oceniania": "2 pkt -- za podanie poprawnej odpowiedzi: nazw 5 marek i odpowiednio 5 nazw rodzin zapachow.\n1 pkt -- za podanie tylko prawidlowej listy 5 marek.\n1 pkt -- za podanie listy trzech lub czterech z 5 marek w parze z prawidlowa nazwa rodziny zapachow.\n0 pkt -- za bledna odpowiedz albo za brak odpowiedzi.",
+          "pulapki": [
+            "Wymaga GROUP BY id_marki HAVING COUNT(DISTINCT rodzina_zapachow) = 1",
+            "Trzeba zlaczyc tabele marki i perfumy",
+            "Nie mozna po prostu policzyc perfumow -- trzeba sprawdzic ile ROZNYCH rodzin zapachow ma marka"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2019_maj/Dane_PR/",
+      "pliki_danych": ["marki.txt", "perfumy.txt", "sklad.txt"],
+      "wymiary": {
+        "tematyczny": ["bazy danych", "relacje miedzy tabelami", "perfumy i sklady zapachowe"],
+        "algorytmiczny": ["zlaczenia tabel (JOIN)", "grupowanie (GROUP BY)", "filtrowanie (WHERE/HAVING)", "sortowanie (ORDER BY)", "podzapytania (NOT IN/NOT EXISTS)", "funkcje agregujace (MIN, COUNT)"],
+        "czasowy_min": 55
+      }
+    }
+  ]
+}

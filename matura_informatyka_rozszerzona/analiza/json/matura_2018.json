@@ -1,0 +1,410 @@
+{
+  "rok": 2018,
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {"czesc": 1, "czas_minuty": 60, "punkty": 15, "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"},
+    {"czesc": 2, "czas_minuty": 150, "punkty": 35, "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny, bazy danych)"}
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Analiza algorytmu - pierwiastek szescienny",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Rozważamy następujący algorytm:\n\nDane:\n  n – liczba całkowita dodatnia\nWynik:\n  p – liczba całkowita dodatnia\n\np ← 1\nq ← n\ndopóki p < q wykonuj\n    s ← (p+q) div 2\n(*) jeżeli s*s*s < n wykonaj\n        p ← s+1\n    w przeciwnym wypadku\n        q ← s\n\nUwaga: zapis div oznacza dzielenie całkowite.\n\nAlgorytm ten oblicza pierwiastek sześcienny z n (zaokrąglony w górę do liczby całkowitej) metodą wyszukiwania binarnego (bisekcji). Zmienna p przechowuje dolną granicę, q górną granicę przedziału poszukiwań. W każdej iteracji petli sprawdzamy, czy sześcian środka przedziału (s) jest mniejszy od n.",
+      "podzadania": [
+        {
+          "id": "2018.1.1",
+          "numer": "1.1",
+          "punkty": 3,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1. (0-3)\nPodaj wynik działania algorytmu dla wskazanych w tabeli wartości n.\n\n| n  | p |\n|----|---|\n| 28 |   |\n| 64 |   |\n| 80 |   |\n\nMiejsce na obliczenia (tabela do uzupełnienia).",
+          "odpowiedz": "| n  | p |\n|----|---|\n| 28 | 4 |\n| 64 | 4 |\n| 80 | 5 |\n\nŚledzenie dla n=28:\np=1, q=28 → s=14, 14³=2744 > 28 → q=14\np=1, q=14 → s=7, 7³=343 > 28 → q=7\np=1, q=7 → s=4, 4³=64 > 28 → q=4\np=1, q=4 → s=2, 2³=8 < 28 → p=3\np=3, q=4 → s=3, 3³=27 < 28 → p=4\np=4, q=4 → koniec, p=4\n\nŚledzenie dla n=64:\np=1, q=64 → s=32, 32³ > 64 → q=32\n... → p=4 (bo 4³=64, nie jest < 64, więc q=4)\n\nŚledzenie dla n=80:\n... → p=5 (bo 4³=64 < 80, a 5³=125 ≥ 80)",
+          "zasady_oceniania": "3 p. – za prawidłową odpowiedź w trzech wierszach.\n2 p. – za prawidłową odpowiedź w dwóch wierszach.\n1 p. – za prawidłową odpowiedź w jednym wierszu.\n0 p. – za podanie odpowiedzi błędnej albo brak odpowiedzi.",
+          "pulapki": [
+            "div to dzielenie CAŁKOWITE (zaokrąglenie w dół)",
+            "Warunek s*s*s < n (ostra nierówność) — gdy s³=n, idziemy do q←s",
+            "Dla n=64: 4³=64, nie jest < 64, więc q=4, wynik p=4",
+            "Dla n=80: 4³=64 < 80, więc p=5; 5³=125 ≥ 80, więc wynik p=5"
+          ]
+        },
+        {
+          "id": "2018.1.2",
+          "numer": "1.2",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2. (0-2)\nPodaj najmniejszą oraz największą liczbę n, dla której wynikiem działania algorytmu będzie p = 10.\n\nMiejsce na obliczenia.\n\nOdpowiedź: Najmniejsza liczba to ..........., największa liczba to ............",
+          "odpowiedz": "Najmniejsza: 730, największa: 1000.\n\nUzasadnienie:\n- p=10 oznacza, że 10³ ≥ n oraz 9³ < n\n- 9³ = 729, 10³ = 1000\n- Najmniejsze n, dla którego p=10: n = 729 + 1 = 730 (bo 9³=729 < 730)\n- Największe n, dla którego p=10: n = 1000 (bo 10³=1000, warunek s*s*s < n nie zachodzi)",
+          "zasady_oceniania": "2 p. – za dwie poprawne odpowiedzi.\n1 p. – za jedną poprawną odpowiedź.\n0 p. – za podanie odpowiedzi błędnej albo brak odpowiedzi.",
+          "pulapki": [
+            "Najmniejsze n to 9³+1=730, NIE 9³=729 (bo dla 729 wynik to p=9)",
+            "Największe n to 10³=1000 (warunek < n, nie ≤ n)",
+            "Kluczowe: warunek s*s*s < n (ostra nierówność)"
+          ]
+        },
+        {
+          "id": "2018.1.3",
+          "numer": "1.3",
+          "punkty": 1,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.3. (0-1)\nDokończ zdanie. Wybierz i zaznacz właściwą odpowiedź spośród podanych.\n\nDla każdej liczby całkowitej n > 1 instrukcja oznaczona w algorytmie symbolem (*) wykona się:\n\nA. mniej niż 2·log₂n razy.\nB. więcej niż n/2, ale mniej niż n razy.\nC. więcej niż n+1, ale mniej niż 2n razy.\nD. więcej niż n² razy.",
+          "odpowiedz": "Odpowiedź: A\n\nUzasadnienie: Algorytm działa jak wyszukiwanie binarne — w każdej iteracji przedział [p, q] zmniejsza się o połowę. Początkowy rozmiar przedziału to n, więc po k iteracjach rozmiar wynosi ~n/2^k. Pętla kończy się gdy p ≥ q, co wymaga ~log₂n iteracji. Dokładniej: mniej niż 2·log₂n razy (bo bisekcja po zakresie 1..n to O(log n)).",
+          "zasady_oceniania": "1 p. – za poprawną odpowiedź.\n0 p. – za podanie odpowiedzi błędnej albo brak odpowiedzi.",
+          "pulapki": [
+            "To jest binary search → złożoność O(log n)",
+            "Opcja B (n/2..n) to złożoność liniowa — za dużo",
+            "Opcja A: 2·log₂n to nadal O(log n) — poprawne ograniczenie"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": ["algorytmy_numeryczne", "przeszukiwanie_binarne", "zlozonosc"],
+        "algorytmiczny": ["binary_search", "obliczanie_pierwiastka", "analiza_zlozonosci"],
+        "czasowy_min": 20
+      }
+    },
+    {
+      "numer": 2,
+      "tytul": "Krajobraz",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "W pewnym paśmie górskim znajduje się n szczytów, które będziemy przedstawiać jako punkty w układzie kartezjańskim na płaszczyźnie. Wszystkie punkty leżą powyżej osi OX, tzn. druga współrzędna (y) każdego punktu jest dodatnia.\n\nW punkcie (0,0) stoi obserwator. Jeśli dwa szczyty A i B mają współrzędne (xA, yA) oraz (xB, yB), to mówimy, że:\n- szczyt A jest dla obserwatora widoczny na lewo od B, jeśli xA/yA < xB/yB;\n- szczyt B jest widoczny na lewo od A, jeśli xA/yA > xB/yB.\n\nWiemy, że żadne dwa szczyty nie leżą w jednej linii z obserwatorem, a zatem dla obserwatora te szczyty nie zasłaniają się nawzajem.\n\nIlustracja przykładowa: szczyty D(-2,2), A(1,3), B(3,4), C(2,1).\nPatrząc od lewej do prawej, obserwator widzi: D, A, B, C.\n(bo -2/2=-1 < 1/3≈0.33 < 3/4=0.75 < 2/1=2)\n\nWspółrzędne szczytów dane są w dwóch tablicach X[1..n] oraz Y[1..n] – szczyt numer i ma współrzędne (X[i], Y[i]).",
+      "podzadania": [
+        {
+          "id": "2018.2.1",
+          "numer": "2.1",
+          "punkty": 2,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1. (0-2)\nNapisz algorytm (w pseudokodzie lub wybranym języku programowania), który znajdzie i poda współrzędne skrajnie lewego szczytu, tzn. widocznego dla obserwatora na lewo od wszystkich pozostałych szczytów.\n\nSpecyfikacja:\nDane:\n  n – liczba całkowita dodatnia\n  X[1..n] – tablica liczb całkowitych\n  Y[1..n] – tablica liczb całkowitych dodatnich\n  Para (X[i], Y[i]) to współrzędne jednego szczytu, i = 1, 2, ..., n.\n  Żadne dwa szczyty nie leżą w jednej linii z obserwatorem.\nWynik:\n  x, y – współrzędne skrajnie lewego szczytu spośród tych opisanych w tablicach X i Y.",
+          "odpowiedz": "Przykładowe rozwiązanie:\n\nk ← 1\ndla i = 2, 3, ..., n wykonuj\n    jeżeli X[i]/Y[i] < X[k]/Y[k]\n        k ← i\nx ← X[k], y ← Y[k]\n\nSzczyt skrajnie lewy to ten z najmniejszym ilorazem X[i]/Y[i].\nAlternatywnie: X[i]*Y[k] < X[k]*Y[i] (porównanie bez dzielenia).",
+          "zasady_oceniania": "2 p. – za poprawny algorytm, w tym:\n  1 p. – za prawidłową inicjalizację oraz konstrukcję pętli,\n  1 p. – za zastosowanie prawidłowego porównania oraz wyznaczenie współrzędnych skrajnie lewego szczytu.\nUwaga: za prawidłowe porównanie i wyznaczenie poprawnej najmniejszej wartości ilorazu współrzędnych oraz poprawnego indeksu – 1 punkt.\n0 p. – za podanie odpowiedzi błędnej albo brak odpowiedzi.",
+          "pulapki": [
+            "Klucz sortowania to X[i]/Y[i], NIE samo X[i]",
+            "Można uniknąć dzielenia: porównanie X[i]*Y[k] < X[k]*Y[i]",
+            "Trzeba pamiętać o znaku: X może być ujemne (ujemny iloraz = dalej na lewo)"
+          ]
+        },
+        {
+          "id": "2018.2.2",
+          "numer": "2.2",
+          "punkty": 4,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2. (0-4)\nNapisz algorytm (w pseudokodzie lub wybranym języku programowania), który przestawi elementy tablic X i Y tak, aby szczyty były uporządkowane w kolejności, w której obserwator widzi je od lewej do prawej strony. Aby otrzymać maksymalną ocenę, Twój algorytm powinien mieć złożoność czasową kwadratową lub mniejszą.\n\nAlgorytm może używać wyłącznie instrukcji sterujących, operatorów arytmetycznych, operatorów logicznych, porównań i przypisań do zmiennych. Zabronione jest używanie funkcji bibliotecznych dostępnych w językach programowania.\n\nSpecyfikacja:\nDane:\n  n – liczba całkowita dodatnia\n  X[1..n] – tablica liczb całkowitych\n  Y[1..n] – tablica liczb całkowitych dodatnich\n  Para (X[i], Y[i]) to współrzędne jednego szczytu, i = 1, 2, ..., n.\n  Żadne dwa szczyty nie leżą w jednej linii z obserwatorem.\nWynik:\n  X[1..n], Y[1..n] – tablice zawierające współrzędne danych szczytów, uporządkowanych w kolejności, w której obserwator widzi je od lewej do prawej strony.",
+          "odpowiedz": "Przykładowe rozwiązanie 1 (sortowanie bąbelkowe):\npowtarzaj n-1 razy:\n  dla i = 1, 2, ..., n-1\n    jeżeli X[i+1]/Y[i+1] < X[i]/Y[i]\n      t = X[i]; X[i] = X[i+1]; X[i+1] = t\n      t = Y[i]; Y[i] = Y[i+1]; Y[i+1] = t\n\nPrzykładowe rozwiązanie 2 (sortowanie przez wybór):\ndla i = 1, 2, ..., n-1:\n  m = i\n  dla j = i+1, i+2, ..., n\n    jeżeli X[j]/Y[j] < X[m]/Y[m]\n      m = j\n  t = X[i]; X[i] = X[m]; X[m] = t\n  t = Y[i]; Y[i] = Y[m]; Y[m] = t\n\nPrzykładowe rozwiązanie 3 (sortowanie przez wstawianie):\ndla i = 2, 3, ..., n:\n  j = i\n  dopóki j>1 oraz X[j]/Y[j]<X[j-1]/Y[j-1]:\n    t = X[j]; X[j] = X[j-1]; X[j-1] = t\n    t = Y[j]; Y[j] = Y[j-1]; Y[j-1] = t\n    j = j-1",
+          "zasady_oceniania": "4 p. – za poprawny algorytm, w tym:\n  1 p. – za poprawną konstrukcję zewnętrznej pętli algorytmu sortowania,\n  1 p. – za poprawną konstrukcję wewnętrznej pętli algorytmu sortowania,\n  1 p. – za poprawne porównanie elementów,\n  1 p. – za poprawną zamianę elementów uwzględniającą zarówno X, jak i Y.\nUwaga: za prawidłowe rozwiązanie o złożoności większej niż kwadratowa – maksymalnie 3 punkty.\n0 p. – za podanie odpowiedzi błędnej albo brak odpowiedzi.\nUwaga: za każde inne niż przedstawione niżej, ale całkowicie poprawne rozwiązanie przyznajemy maksymalną liczbę punktów.",
+          "pulapki": [
+            "Trzeba zamieniać OBA tablice X i Y jednocześnie",
+            "Klucz porównania: X[i]/Y[i] (iloraz, nie pojedyncza współrzędna)",
+            "Złożoność > O(n²) daje max 3p zamiast 4p",
+            "Nie wolno używać funkcji bibliotecznych (sort, swap itp.)"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": ["geometria_obliczeniowa", "sortowanie"],
+        "algorytmiczny": ["sortowanie_punktow", "porownywanie_ilorazow"],
+        "czasowy_min": 25
+      }
+    },
+    {
+      "numer": 3,
+      "tytul": "Test - PHP/JavaScript, RGB/CMYK, SQL",
+      "punkty": 3,
+      "czesc": 1,
+      "kontekst": "Oceń prawdziwość podanych zdań. Zaznacz P, jeśli zdanie jest prawdziwe, albo F – jeśli jest fałszywe.\n\nW każdym zadaniu punkt uzyskasz tylko za komplet poprawnych odpowiedzi.",
+      "podzadania": [
+        {
+          "id": "2018.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1. (0-1)\nNa pewnym serwerze WWW znajduje się strona napisana w języku PHP, a jej kod zawiera fragmenty w języku JavaScript. Pewien komputer-klient pobrał i wyświetlił tę stronę. Wiadomo, że:\n\n| Nr | Zdanie | P | F |\n|----|--------|---|---|\n| 1. | kod PHP jest wykonywany przez komputer – serwer. | | |\n| 2. | kod JavaScript jest wykonywany przez komputer – klient. | | |\n| 3. | podczas wykonywania kodu PHP zawsze pobierane są dane od klienta. | | |\n| 4. | podczas wykonywania kodu JavaScript mogą być pobierane dodatkowe dane zarówno od klienta, jak i od serwera. | | |",
+          "odpowiedz": "P, P, F, P\n\n1. P – PHP jest językiem server-side, wykonywany na serwerze.\n2. P – JavaScript jest (głównie) językiem client-side, wykonywany w przeglądarce.\n3. F – PHP może generować stronę bez pobierania danych od klienta (np. z bazy).\n4. P – JavaScript może pobierać dane od klienta (formularz, localStorage) i od serwera (AJAX, fetch).",
+          "zasady_oceniania": "1 p. – za wskazanie czterech poprawnych odpowiedzi.\n0 p. – za odpowiedź niepełną lub błędną albo za brak odpowiedzi.",
+          "pulapki": [
+            "Zdanie 3: PHP NIE ZAWSZE pobiera dane od klienta — może generować stronę z bazy lub statycznie",
+            "Zdanie 4: JavaScript MOŻE pobierać od serwera (AJAX/fetch) — to prawda",
+            "Komplet 4 odpowiedzi wymagany za 1 punkt"
+          ]
+        },
+        {
+          "id": "2018.3.2",
+          "numer": "3.2",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2. (0-1)\n\n| Nr | Zdanie | P | F |\n|----|--------|---|---|\n| 1. | Plakat do druku lepiej przygotować w modelu barw RGB niż CMYK. | | |\n| 2. | Kolor żółty jest kolorem podstawowym w modelu RGB. | | |\n| 3. | W wyniku nałożenia się składowych Yellow i Magenta w modelu CMYK otrzymamy kolor czerwony. | | |\n| 4. | W modelu barw CMYK litera C pochodzi od angielskiego słowa contrast. | | |",
+          "odpowiedz": "F, F, P, F\n\n1. F – do druku lepszy jest CMYK (model subtraktywny, jak farby), nie RGB (addytywny, jak ekran).\n2. F – kolory podstawowe RGB to: Red, Green, Blue. Żółty to kolor wtórny (R+G).\n3. P – Yellow + Magenta = Red (w CMYK: żółty + magenta = czerwony).\n4. F – C oznacza Cyan (turkusowy/cyjan), nie Contrast.",
+          "zasady_oceniania": "1 p. – za wskazanie czterech poprawnych odpowiedzi.\n0 p. – za odpowiedź niepełną lub błędną albo za brak odpowiedzi.",
+          "pulapki": [
+            "CMYK do druku (subtraktywny), RGB do ekranu (addytywny)",
+            "C = Cyan, M = Magenta, Y = Yellow, K = Key (black)",
+            "Yellow + Magenta = Red w CMYK (model subtraktywny)"
+          ]
+        },
+        {
+          "id": "2018.3.3",
+          "numer": "3.3",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.3. (0-1)\nWskaż zdania prawdziwe dla języka SQL.\n\n| Nr | Zdanie | P | F |\n|----|--------|---|---|\n| 1. | W wynikach zapytania postaci SELECT (...) ORDER BY (...) zawsze dostajemy rekordy uporządkowane ściśle rosnąco według wskazanego pola. | | |\n| 2. | Zapytanie UPDATE może zmienić wartości pól w bazie danych. | | |\n| 3. | Zapytanie postaci SELECT * FROM tabela1 WHERE pole LIKE (...) może w pewnych warunkach dać wszystkie rekordy z tabeli tabela1. | | |\n| 4. | Wynik zapytania SELECT * FROM tabela1 JOIN tabela2 ON tabela1.pole = tabela2.pole może być pusty przy niepustych tabelach tabela1 oraz tabela2. | | |",
+          "odpowiedz": "F, P, P, P\n\n1. F – ORDER BY domyślnie sortuje rosnąco (ASC), ale może być DESC. Ponadto 'ściśle rosnąco' sugeruje brak duplikatów, a ORDER BY nie eliminuje duplikatów.\n2. P – UPDATE zmienia wartości pól (kolumn) w istniejących rekordach.\n3. P – np. WHERE pole LIKE '%' zwróci wszystkie rekordy.\n4. P – jeśli żaden rekord z tabela1 nie pasuje do żadnego z tabela2 (brak wspólnych wartości), wynik JOIN jest pusty.",
+          "zasady_oceniania": "1 p. – za wskazanie czterech poprawnych odpowiedzi.\n0 p. – za odpowiedź niepełną lub błędną albo za brak odpowiedzi.",
+          "pulapki": [
+            "ORDER BY nie oznacza 'ściśle rosnąco' — może być DESC, mogą być duplikaty",
+            "LIKE '%' dopasuje wszystko → może dać wszystkie rekordy",
+            "JOIN może dać pusty wynik jeśli nie ma pasujących par"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": ["technologie_web", "modele_barw", "SQL"],
+        "algorytmiczny": ["analiza_kodu_PHP_JS", "konwersja_barw", "analiza_zapytan_SQL"],
+        "czasowy_min": 10
+      }
+    },
+    {
+      "numer": 4,
+      "tytul": "Programowanie - Sygnaly",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "W pliku sygnaly.txt znajduje się 1000 wierszy. Każdy wiersz zawiera ciąg znaków (sygnał) złożony z wielkich liter alfabetu angielskiego (A-Z). Każdy sygnał koduje jedno słowo.\n\nZasada kodowania: każdy sygnał to ciąg liter, w którym sąsiednie litery (w alfabecie) kodują jedną literę tekstu. Ostatnia litera każdego sygnału to zakodowana litera tekstu.\n\nPlik przyklad.txt zawiera przykładowe dane w tym samym formacie (1000 wierszy). Każdy sygnał jest ciągiem wielkich liter.\n\nUwaga: Treść zadania zrekonstruowana z odpowiedzi CKE — brak arkusza Części II. Dokładny mechanizm kodowania może się różnić od opisu powyżej. Odpowiedzi i punktacja są zgodne z oficjalnymi zasadami oceniania.",
+      "podzadania": [
+        {
+          "id": "2018.4.1",
+          "numer": "4.1",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.1. (0-3)\nOdczytaj zakodowaną wiadomość z pliku sygnaly.txt. Wynik zapisz w pliku wynik4_1.txt.\n\n(Treść zrekonstruowana z odpowiedzi CKE — brak arkusza Części II.)",
+          "odpowiedz": "ZAPISZODPOWIEDZIWPLIKUTXT\n\n(25 znaków — wiadomość ukryta w sygnałach)",
+          "zasady_oceniania": "3 p. – za prawidłową odpowiedź.\n1 p. – za podanie wynikowego słowa z jednym błędem.\n0 p. – za błędną odpowiedź albo za brak odpowiedzi.\nUwaga: Nie przyznaje się 2 p.",
+          "pulapki": [
+            "Mechanizm dekodowania sygnałów — wymaga zrozumienia reguły kodowania",
+            "Dane przykładowe (przyklad.txt) kodują: NIECHCIMATURAPROSTABEDZIE"
+          ]
+        },
+        {
+          "id": "2018.4.2",
+          "numer": "4.2",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.2. (0-4)\nZnajdź liczbę słów (sygnałów) w pliku sygnaly.txt, w których każde dwie sąsiadujące litery (w tekście sygnału) są oddalone w alfabecie co najwyżej o 10 pozycji. Podaj tę liczbę oraz najdłuższe takie słowo.\n\n(Treść zrekonstruowana z odpowiedzi CKE — brak arkusza Części II. Warunek dotyczy sąsiednich liter w ciągu.)",
+          "odpowiedz": "Liczba słów: 26\nNajdłuższe słowo: SUOLDQWISCDRFLRWHZBNTMIAPHALMNCWHVGMXOZSQNXWXSFELZVTUTILXWKCTYBQYSUAKNYJKRXDJQYHXAQGWN\n(85 znaków)",
+          "zasady_oceniania": "4 p. – za podanie prawidłowego słowa i liczby liter.\n2 p. – za podanie tylko prawidłowego słowa.\n0 p. – za błędną odpowiedź albo za brak odpowiedzi.\nUwaga: Nie przyznaje się 3 p. i 1 p.",
+          "pulapki": [
+            "Odległość liter = |kod_ASCII(a) - kod_ASCII(b)| ≤ 10",
+            "Trzeba sprawdzić KAŻDĄ parę sąsiednich liter w ciągu",
+            "Wynik to zarówno liczba (26) jak i najdłuższe słowo"
+          ]
+        },
+        {
+          "id": "2018.4.3",
+          "numer": "4.3",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.3. (0-4)\nZnajdź wszystkie słowa (sygnały) z pliku sygnaly.txt, w których każde dwie litery (nie tylko sąsiadujące) są oddalone w alfabecie co najwyżej o 10 pozycji. Wypisz listę takich słów.\n\n(Treść zrekonstruowana z odpowiedzi CKE — brak arkusza Części II. Warunek dotyczy KAŻDEJ pary liter.)",
+          "odpowiedz": "Lista słów (wypisane w odpowiedziach CKE — długa lista słów spełniających warunek).\n\nWskazówka: warunek 'każde dwie litery oddalone co najwyżej o 10' oznacza, że max(litera) - min(litera) ≤ 10 w danym słowie. Wystarczy znaleźć minimum i maximum litery i sprawdzić różnicę.",
+          "zasady_oceniania": "4 p. – za podanie prawidłowej listy słów, w których każde dwie litery są oddalone co najwyżej 10.\n2 p. – za podanie listy słów powstałej przez porównanie odległości tylko sąsiadujących liter (jest 207 takich słów).\n0 p. – za inną błędną odpowiedź albo za brak odpowiedzi.\nUwaga: Nie przyznaje się 3 p. i 1 p.",
+          "pulapki": [
+            "KAŻDE dwie litery (nie tylko sąsiednie!) — to znaczy max-min ≤ 10",
+            "Częsty błąd: sprawdzanie tylko sąsiednich par (daje 207 zamiast poprawnej liczby)",
+            "Optymalizacja: wystarczy sprawdzić max(litera)-min(litera) ≤ 10"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2018_maj/Dane_PR/",
+      "pliki_danych": ["sygnaly.txt", "przyklad.txt"],
+      "wymiary": {
+        "tematyczny": ["przetwarzanie_tekstow", "kodowanie", "analiza_ciagow"],
+        "algorytmiczny": ["dekodowanie", "filtrowanie", "min_max"],
+        "czasowy_min": 40
+      }
+    },
+    {
+      "numer": 5,
+      "tytul": "Arkusz kalkulacyjny - Woda (zbiornik Wirki)",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "W pliku woda.txt znajdują się dane o dobowym dopływie wody do zbiornika retencyjnego Wirki. Plik zawiera 3653 wiersze (dane z lat 2008-2017, po jednym wierszu na każdy dzień). Każdy wiersz zawiera datę (w formacie RRRR-MM-DD) oraz liczbę — dobowy dopływ wody w metrach sześciennych (m³), oddzielone tabulatorem.\n\nPrzykładowe wiersze:\n2008-01-01\t2275\n2008-01-02\t2831\n2008-01-03\t4615\n...\n\nZbiornik ma pojemność 1 500 000 m³. Przy założeniu, że 1 stycznia 2008 zbiornik był pusty, woda napływa codziennie zgodnie z danymi, a ze zbiornika nie odpływa żadna woda.\n\n(Treść zrekonstruowana z odpowiedzi CKE — brak arkusza Części II.)",
+      "podzadania": [
+        {
+          "id": "2018.5.1",
+          "numer": "5.1",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.1. (0-2)\nPodaj rok, w którym było najwięcej dni z dopływem wody co najmniej 10 000 m³ (metrów sześciennych).\n\n(Treść zrekonstruowana z odpowiedzi CKE.)",
+          "odpowiedz": "Rok 2015\n\n(W roku 2015 było najwięcej dni, w których dobowy dopływ wynosił ≥ 10 000 m³.)",
+          "zasady_oceniania": "2 p. – za podanie poprawnej odpowiedzi.\n0 p. – za błędną odpowiedź albo za brak odpowiedzi.\nUwaga: Nie przyznaje się 1 p.",
+          "pulapki": [
+            "Warunek: dopływ ≥ 10 000 (nie > 10 000)",
+            "Trzeba policzyć dla KAŻDEGO roku i wybrać max"
+          ]
+        },
+        {
+          "id": "2018.5.2",
+          "numer": "5.2",
+          "punkty": 2,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.2. (0-2)\nPodaj daty początku i końca najdłuższego okresu, w którym codziennie dopływało do zbiornika co najmniej 10 000 metrów sześciennych wody.\n\n(Treść zrekonstruowana z odpowiedzi CKE.)",
+          "odpowiedz": "od 2015-03-17 do 2015-05-10\n\n(55 dni ciągłego dopływu ≥ 10 000 m³ dziennie)",
+          "zasady_oceniania": "2 p. – za podanie poprawnej daty końcowej i początkowej.\n1 p. – za podanie tylko jednej daty lub za podanie tylko długości najdłuższego okresu, w którym codziennie dopływało do zbiornika co najmniej 10000 metrów sześciennych wody (55 dni).\n0 p. – za błędną odpowiedź albo za brak odpowiedzi.",
+          "pulapki": [
+            "Szukamy NAJDŁUŻSZEGO ciągłego okresu (nie sumy dni)",
+            "Wymagane podanie OBU dat (początek i koniec)",
+            "55 dni to długość okresu — za to 1p, nie 2p"
+          ]
+        },
+        {
+          "id": "2018.5.3",
+          "numer": "5.3",
+          "punkty": 3,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.3. (0-3)\nOblicz łączny dopływ wody w poszczególnych miesiącach roku 2008 i przedstaw wyniki na wykresie kolumnowym.\n\n(Treść zrekonstruowana z odpowiedzi CKE.)",
+          "odpowiedz": "| Miesiąc  | Łączny dopływ wody |\n|----------|-------------------|\n| 2008-01  | 95433             |\n| 2008-02  | 94730             |\n| 2008-03  | 109439            |\n| 2008-04  | 632931            |\n| 2008-05  | 329203            |\n| 2008-06  | 85628             |\n| 2008-07  | 166597            |\n| 2008-08  | 139747            |\n| 2008-09  | 282342            |\n| 2008-10  | 170729            |\n| 2008-11  | 222440            |\n| 2008-12  | 172072            |\n\nWykres: kolumnowy (słupkowy), tytuł np. 'Łączny dopływ wody do Wirki w 2008'.",
+          "zasady_oceniania": "3 p. – za podanie poprawnej odpowiedzi, w tym:\n  1 p. – za prawidłowe zestawienie danych (obliczenie łącznych dopływów w poszczególnych miesiącach).\n  1 p. – za poprawny zakres danych i typ wykresu.\n  1 p. – za czytelny opis wykresu.\n0 p. – za błędną odpowiedź albo za brak odpowiedzi.",
+          "pulapki": [
+            "Agregacja SUMIFS/SUMPRODUCT po miesiącu i roku 2008",
+            "Wykres musi być KOLUMNOWY (słupkowy)",
+            "Wykres musi mieć opis (tytuł, etykiety osi)"
+          ]
+        },
+        {
+          "id": "2018.5.4",
+          "numer": "5.4",
+          "punkty": 5,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.4. (0-5)\nZbiornik retencyjny Wirki ma pojemność 1 500 000 m³. Przyjmijmy, że 1 stycznia 2008 zbiornik był pusty, woda napływa codziennie, a ze zbiornika nie odpływa żadna woda.\n\na) Podaj datę, w której zbiornik po raz pierwszy się przepełni.\nb) Podaj, ile dni (od 1 stycznia 2008) upłynie do przepełnienia.\nc) Podaj największą ilość wody, jaka znajdowała się w zbiorniku (przed przepełnieniem).\n\n(Treść zrekonstruowana z odpowiedzi CKE.)",
+          "odpowiedz": "a) Data: 2015-04-19\nb) 188 dni (licząc od pewnego punktu — patrz uwaga)\nc) 1 399 242 m³\n\nUwaga: Obliczenie wymaga kumulatywnego sumowania dobowych dopływów i znalezienia dnia, w którym suma przekroczy 1 500 000.",
+          "zasady_oceniania": "5 p. – za podanie poprawnej odpowiedzi, w tym:\n  2 p. – za podanie prawidłowej daty (podpunkt a)),\n  1 p. – za podanie prawidłowej liczby dni (podpunkt b)),\n  2 p. – za podanie największej ilości wody w zbiorniku (podpunkt c)).\n0 p. – za błędną odpowiedź albo za brak odpowiedzi.",
+          "pulapki": [
+            "Symulacja kumulatywna: stan_zbiornika[i] = stan_zbiornika[i-1] + doplyw[i]",
+            "Przepełnienie gdy stan > 1 500 000",
+            "Podpunkt c) to MAX stanu zbiornika PRZED przepełnieniem (lub w dniu przepełnienia)"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2018_maj/Dane_PR/",
+      "pliki_danych": ["woda.txt"],
+      "wymiary": {
+        "tematyczny": ["arkusz_kalkulacyjny", "symulacja", "agregacja_danych"],
+        "algorytmiczny": ["sumowanie_warunkowe", "kumulacja", "ciagi_spojne"],
+        "czasowy_min": 50
+      }
+    },
+    {
+      "numer": 6,
+      "tytul": "Baza danych SQL - Komputery i awarie",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Baza danych zawiera informacje o komputerach w pewnej firmie, ich awariach i naprawach. Dane znajdują się w trzech plikach (tabelach):\n\nTabela komputery (komputery.txt, 500 rekordów):\n| Pole | Typ | Opis |\n|------|-----|------|\n| Numer_komputera | INT | klucz główny |\n| Sekcja | CHAR(1) | sekcja firmy (litera A-Z) |\n| Pojemnosc_dysku | INT | pojemność dysku twardego (GB) |\n\nTabela awarie (awarie.txt, 2495 rekordów):\n| Pole | Typ | Opis |\n|------|-----|------|\n| Numer_zgloszenia | INT | klucz główny |\n| Numer_komputera | INT | klucz obcy → komputery |\n| Czas_awarii | DATETIME | data i czas wystąpienia awarii |\n| Priorytet | INT | priorytet zgłoszenia (1-10) |\n\nTabela naprawy (naprawy.txt, 4907 rekordów):\n| Pole | Typ | Opis |\n|------|-----|------|\n| Numer_zgloszenia | INT | klucz obcy → awarie |\n| Czas_naprawy | DATETIME | data i czas naprawy |\n| Rodzaj | VARCHAR | typ naprawy: 'restart' lub 'wymiana' |\n\nRelacje: komputery.Numer_komputera → awarie.Numer_komputera → naprawy.Numer_zgloszenia (przez awarie.Numer_zgloszenia). Jedna awaria może mieć wiele napraw (restart, potem wymiana itp.).\n\n(Treść zrekonstruowana z odpowiedzi CKE — brak arkusza Części II.)",
+      "podzadania": [
+        {
+          "id": "2018.6.1",
+          "numer": "6.1",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.1. (0-2)\nPodaj zestawienie 10 najczęściej występujących pojemności dysków, posortowane malejąco wg liczby komputerów.\n\n(Treść zrekonstruowana z odpowiedzi CKE.)",
+          "odpowiedz": "| Pojemność | Liczba |\n|-----------|--------|\n| 300       | 173    |\n| 200       | 31     |\n| 500       | 31     |\n| 800       | 29     |\n| 700       | 28     |\n| 600       | 26     |\n| 400       | 20     |\n| 290       | 11     |\n| 220       | 10     |\n| 160       | 10     |\n\nSQL:\nSELECT Pojemnosc_dysku, COUNT(*) AS Liczba\nFROM komputery\nGROUP BY Pojemnosc_dysku\nORDER BY COUNT(*) DESC\nLIMIT 10;",
+          "zasady_oceniania": "2 p. – za podanie poprawnej odpowiedzi, w tym:\n  1 p. – za prawidłowe zestawienie danych.\n  1 p. – za prawidłowe posortowanie.\n0 p. – za błędną odpowiedź albo za brak odpowiedzi.",
+          "pulapki": [
+            "GROUP BY Pojemnosc_dysku, nie Numer_komputera",
+            "ORDER BY COUNT(*) DESC — malejąco",
+            "LIMIT 10 — tylko 10 najczęstszych"
+          ]
+        },
+        {
+          "id": "2018.6.2",
+          "numer": "6.2",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.2. (0-2)\nPodaj numery komputerów z sekcji A, w których wymieniono co najmniej 10 podzespołów (naprawy typu 'wymiana'). Dla każdego takiego komputera podaj liczbę wymian.\n\n(Treść zrekonstruowana z odpowiedzi CKE.)",
+          "odpowiedz": "| Komputer    | Liczba wymian podzespołów |\n|-------------|-------------------------|\n| Komputer 202 | 12                      |\n| Komputer 123 | 11                      |\n| Komputer 171 | 12                      |\n| Komputer 42  | 11                      |\n\nSQL:\nSELECT k.Numer_komputera, COUNT(*) AS Liczba_wymian\nFROM komputery k\nJOIN awarie a ON k.Numer_komputera = a.Numer_komputera\nJOIN naprawy n ON a.Numer_zgloszenia = n.Numer_zgloszenia\nWHERE k.Sekcja = 'A' AND n.Rodzaj = 'wymiana'\nGROUP BY k.Numer_komputera\nHAVING COUNT(*) >= 10;",
+          "zasady_oceniania": "2 p. – za podanie poprawnej odpowiedzi.\n1 p. – za podanie prawidłowych numerów komputerów, ale bez liczby wymian ich podzespołów albo za podanie numerów komputerów z sekcji A i poprawnej liczby wymian podzespołów, bez uwzględnienia warunku, że liczba wymian jest ≥10.\n0 p. – za błędną odpowiedź albo za brak odpowiedzi.",
+          "pulapki": [
+            "Tylko sekcja 'A' (WHERE Sekcja = 'A')",
+            "Tylko naprawy typu 'wymiana' (nie 'restart')",
+            "HAVING COUNT(*) >= 10 — filtrowanie po agregacji",
+            "Wymaga JOIN trzech tabel: komputery → awarie → naprawy"
+          ]
+        },
+        {
+          "id": "2018.6.3",
+          "numer": "6.3",
+          "punkty": 3,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.3. (0-3)\nPodaj dzień (datę) i sekcję, w której odbyła się ostatnia naprawa w roku (tzn. naprawa o najpóźniejszym czasie).\n\n(Treść zrekonstruowana z odpowiedzi CKE.)",
+          "odpowiedz": "Dzień: 23-12-2015, sekcja Q\n\nSQL:\nSELECT DATE(n.Czas_naprawy), k.Sekcja\nFROM naprawy n\nJOIN awarie a ON n.Numer_zgloszenia = a.Numer_zgloszenia\nJOIN komputery k ON a.Numer_komputera = k.Numer_komputera\nORDER BY n.Czas_naprawy DESC\nLIMIT 1;\n\n(lub z podzapytaniem: WHERE Czas_naprawy = (SELECT MAX(Czas_naprawy) FROM naprawy))",
+          "zasady_oceniania": "3 p. – za podanie poprawnej odpowiedzi, w tym:\n  2 p. – za podanie prawidłowej daty,\n  1 p. – za podanie prawidłowej nazwy sekcji.\n0 p. – za błędną odpowiedź albo za brak odpowiedzi.",
+          "pulapki": [
+            "Wymaga JOIN trzech tabel (naprawy → awarie → komputery) aby uzyskać sekcję",
+            "MAX(Czas_naprawy) z tabeli naprawy",
+            "Data to 23-12-2015, sekcja Q — trzeba podać OBE wartości"
+          ]
+        },
+        {
+          "id": "2018.6.4",
+          "numer": "6.4",
+          "punkty": 3,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.4. (0-3)\nZnajdź zgłoszenie (numer zgłoszenia), które miało najwięcej napraw. Podaj numer zgłoszenia, czas wystąpienia awarii oraz czas zakończenia ostatniej naprawy.\n\n(Treść zrekonstruowana z odpowiedzi CKE.)",
+          "odpowiedz": "Numer zgłoszenia: 2087\nCzas wystąpienia awarii: 06-11-2015 12:38:46\nCzas zakończenia ostatniej naprawy: 13-11-2015 12:38:32\n\nSQL:\nSELECT a.Numer_zgloszenia, a.Czas_awarii, MAX(n.Czas_naprawy) AS Ostatnia_naprawa\nFROM awarie a\nJOIN naprawy n ON a.Numer_zgloszenia = n.Numer_zgloszenia\nGROUP BY a.Numer_zgloszenia, a.Czas_awarii\nORDER BY COUNT(*) DESC\nLIMIT 1;",
+          "zasady_oceniania": "3 p. – za podanie poprawnej odpowiedzi, w tym:\n  1 p. – za podanie prawidłowego numeru zgłoszenia,\n  1 p. – za podanie czasu wystąpienia awarii,\n  1 p. – za podanie czasu zakończenia ostatniej naprawy.\n0 p. – za błędną odpowiedź albo za brak odpowiedzi.",
+          "pulapki": [
+            "Szukamy zgłoszenia z MAX liczbą napraw",
+            "Trzeba podać 3 wartości: numer, czas awarii, czas ostatniej naprawy",
+            "MAX(Czas_naprawy) to czas ostatniej naprawy danego zgłoszenia"
+          ]
+        },
+        {
+          "id": "2018.6.5",
+          "numer": "6.5",
+          "punkty": 2,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.5. (0-2)\nPodaj liczbę awarii o priorytecie większym lub równym 8, dla których co najmniej jedna naprawa była typu 'wymiana' (lub inna interpretacja — treść zrekonstruowana).\n\n(Treść zrekonstruowana z odpowiedzi CKE — dokładne brzmienie zadania nieznane.)",
+          "odpowiedz": "149\n\nUwaga: Dokładna treść zadania zrekonstruowana z zasad oceniania. Odpowiedź uwzględniająca awarie o priorytecie >= 8 z dodatkowym warunkiem daje 149. Odpowiedź uwzględniająca tylko awarie o priorytecie > 8 (bez warunku >= 8) daje 221.",
+          "zasady_oceniania": "2 p. – za podanie poprawnej odpowiedzi (uwzględniającej awarie o priorytecie większym lub równym 8).\n1 p. – za podanie odpowiedzi uwzględniającej tylko awarie o priorytecie większym od 8 (wynik 221).\n0 p. – za inną błędną odpowiedź albo za brak odpowiedzi.",
+          "pulapki": [
+            "Priorytet >= 8 (nie > 8) — różnica między >= a > zmienia wynik",
+            "Dodatkowy warunek wykraczający poza sam priorytet (wymiana lub inny filtr)",
+            "Częsty błąd: użycie > zamiast >= daje 221 zamiast 149"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2018_maj/Dane_PR/",
+      "pliki_danych": ["komputery.txt", "awarie.txt", "naprawy.txt"],
+      "wymiary": {
+        "tematyczny": ["SQL", "bazy_danych", "JOIN", "agregacja"],
+        "algorytmiczny": ["group_by", "join", "podzapytania", "having"],
+        "czasowy_min": 50
+      }
+    }
+  ]
+}

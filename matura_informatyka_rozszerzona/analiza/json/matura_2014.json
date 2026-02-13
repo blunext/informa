@@ -1,0 +1,516 @@
+{
+  "rok": 2014,
+  "formula": "2014",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 90,
+      "punkty": 20,
+      "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test). Formula 2014: 90 min zamiast 60 min."
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 120,
+      "punkty": 30,
+      "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny, bazy danych). Formula 2014: 120 min zamiast 150 min."
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Korale",
+      "punkty": 8,
+      "czesc": 1,
+      "kontekst": "Rozwazamy nastepujaca rekurencyjna procedure Korale, ktorej parametrem jest dodatnia liczba calkowita n.\n\nKorale(n)\n1. Jezeli n = 1, to\n   1.1. nawlecz czarny koralik na prawy koniec sznurka,\n   1.2. zakoncz dzialanie procedury.\n2. Jezeli n jest parzyste, to\n   2.1. wykonaj Korale(n/2),\n   2.2. nawlecz bialy koralik na prawy koniec sznurka,\n   2.3. zakoncz dzialanie procedury.\n3. Jezeli n jest nieparzyste, to\n   3.1. wykonaj Korale((n-1)/2),\n   3.2. nawlecz czarny koralik na prawy koniec sznurka,\n   3.3. zakoncz dzialanie procedury.\n\nProcedura tworzy naszyjnik z czarnych i bialych koralikow, gdzie:\n- czarny koralik odpowiada bitowi 1\n- bialy koralik odpowiada bitowi 0\nKorale(n) nawleka reprezentacje binarna liczby n od najstarszego bitu (rekurencja) do najmlodszego (powrot).\n\nPrzyklad: Korale(1) = [czarny], Korale(2) = [czarny, bialy], Korale(4) = [czarny, bialy, bialy].",
+      "podzadania": [
+        {
+          "id": "2014.1a",
+          "numer": "1a",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1a. (0-2)\nUzupelnij tabele i w ten sposob przedstaw wynik dzialania powyzszego algorytmu dla podanych argumentow n:\n\n| n  | wynik dzialania Korale(n)              |\n|----|---------------------------------------|\n| 1  | [czarny]                              |\n| 2  | [czarny, bialy]                       |\n| 3  |                                       |\n| 4  | [czarny, bialy, bialy]                |\n| 7  |                                       |\n| 8  |                                       |\n| 15 |                                       |\n| 16 |                                       |\n\nWyniki dla n=1, 2 i 4 sa juz wypelnione (czarny = pelne kolo, bialy = puste kolo).",
+          "odpowiedz": "| n  | Korale(n) (czarny=1, bialy=0)    | Binarnie |\n|----|----------------------------------|----------|\n| 1  | [czarny]                         | 1        |\n| 2  | [czarny, bialy]                  | 10       |\n| 3  | [czarny, czarny]                 | 11       |\n| 4  | [czarny, bialy, bialy]           | 100      |\n| 7  | [czarny, czarny, czarny]         | 111      |\n| 8  | [czarny, bialy, bialy, bialy]    | 1000     |\n| 15 | [czarny, czarny, czarny, czarny] | 1111     |\n| 16 | [czarny, bialy, bialy, bialy, bialy] | 10000 |\n\nSledzenie np. Korale(7):\n7 nieparzyste -> Korale(3), potem czarny\n3 nieparzyste -> Korale(1), potem czarny\n1 -> czarny\nWynik: czarny, czarny, czarny (= 111₂ = 7)",
+          "zasady_oceniania": "2 p. -- za podanie poprawnej odpowiedzi.\n1 p. -- za podanie odpowiedzi z jednym blednym ciagiem koralikow.\n0 p. -- za podanie niepoprawnej odpowiedzi lub jej brak.",
+          "pulapki": [
+            "Koraliki sa dodawane na PRAWY koniec -- kolejnosc od najstarszego bitu",
+            "n=3: Korale(1) + czarny = czarny,czarny (nie czarny,bialy)",
+            "Wynik to reprezentacja binarna n (czarny=1, bialy=0)"
+          ]
+        },
+        {
+          "id": "2014.1b",
+          "numer": "1b",
+          "punkty": 3,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1b. (0-3)\nIle koralikow zostanie nawleczonych na sznurek w wyniku wywolania procedury Korale dla danej liczby n? Odpowiedz uzasadnij.",
+          "odpowiedz": "Liczba koralikow = floor(log2(n)) + 1 = ceil(log2(n+1)).\n\nTo minimalna liczba bitow potrzebna do zapisania liczby n w systemie dwojkowym.\n\nUzasadnienie: Kazde wywolanie Korale(n) nawleka dokladnie 1 koralik (w krokach 1.1, 2.2 lub 3.2). Liczba wywolan rekurencyjnych to liczba razy, ile mozna dzielic n przez 2 (z zaokragleniem w dol) az do osiagniecia 1. To jest dokladnie floor(log2(n)) + 1.",
+          "zasady_oceniania": "3 p. -- za podanie poprawnej odpowiedzi oraz uzasadnienia.\n2 p. -- za podanie poprawnej odpowiedzi bez uzasadnienia.\n0 p. -- za podanie niepoprawnej odpowiedzi lub jej brak.",
+          "pulapki": [
+            "Odpowiedz to floor(log2(n))+1, NIE log2(n)",
+            "Uzasadnienie musi wyjasniac DLACZEGO (kazde wywolanie = 1 koralik)",
+            "Alternatywna postac: ceil(log2(n+1))"
+          ]
+        },
+        {
+          "id": "2014.1c",
+          "numer": "1c",
+          "punkty": 3,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1c. (0-3)\nZaprojektuj i zapisz nierekurencyjna procedure KoraleBis(n), po wykonaniu ktorej uzyskamy taki sam efekt, jak po wykonaniu Korale(n). W procedurze KoraleBis mozna nawlekac koraliki tylko na jeden, wybrany koniec sznurka.",
+          "odpowiedz": "KoraleBis(n):\ndopoki n > 0 wykonuj\n    jezeli n mod 2 = 0, to\n        nawlecz bialy koralik na lewy koniec sznurka\n    w przeciwnym przypadku\n        nawlecz czarny koralik na lewy koniec sznurka\n    n := n div 2\n\nAlternatywnie (nawlekanie na prawy koniec):\nWyznacz k = floor(log2(n))+1 (liczba bitow)\npotega = 2^(k-1)\ndopoki potega >= 1 wykonuj\n    jezeli (n div potega) mod 2 = 1, to\n        nawlecz czarny koralik na prawy koniec\n    w przeciwnym przypadku\n        nawlecz bialy koralik na prawy koniec\n    potega = potega div 2",
+          "zasady_oceniania": "3 p. -- za poprawny iteracyjny algorytm -- 3 punkty, w tym:\n  - za poprawna organizacje petli -- 1 punkt\n  - za poprawne ustalanie koloru kolejnych korali -- 1 punkt\n  - za ulozenie korali we wlasciwej kolejnosci -- 1 punkt\n0 p. -- za podanie niepoprawnej odpowiedzi lub jej brak.",
+          "pulapki": [
+            "Nawlekanie na LEWY koniec (odwrotna kolejnosc) -- najprostsze rozwiazanie",
+            "Jezeli nawlekamy na prawy koniec, trzeba najpierw znalezc najstarszy bit",
+            "n mod 2 = 0 -> bialy (0), n mod 2 = 1 -> czarny (1)",
+            "n div 2 w kazdej iteracji -- operacja dzielenia calkowitego"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "rekurencja",
+          "reprezentacja_binarna",
+          "konwersja_rekurencja_iteracja"
+        ],
+        "algorytmiczny": [
+          "rekurencja",
+          "konwersja_do_iteracji",
+          "operacje_mod_div"
+        ],
+        "czasowy_min": 20
+      }
+    },
+    {
+      "numer": 2,
+      "tytul": "Bisekcja",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Bisekcja jest jedna z metod szukania przyblizenia miejsca zerowego funkcji rzeczywistej f(x), ciaglej w zadanym przedziale <a, b> i o wartosciach majacych rozne znaki na koncach przedzialu.\n\nAlgorytm bisekcji oblicza wartosci funkcji na obu koncach przedzialu, oraz w jego srodku, tj. dla x = (a+b)/2. Jezeli wartosc funkcji w srodku przedzialu jest zerem, to x jest szukanym miejscem zerowym tej funkcji. W przeciwnym przypadku przedział <a, b> zaweza sie do przedzialu <a, x> lub <x, b> tak, aby na koncach tego nowego przedzialu wartosci funkcji znowu mialy rozne znaki.\n\nWszystkie opisane czynnosci powtarza sie, az do znalezienia miejsca zerowego lub do zmniejszenia sie dlugosci analizowanego przedzialu ponizej zadanej dokladnosci d -- wowczas wynikiem jest srodek ostatniego przedzialu.\n\nDla funkcji f(x) = x^3 - x - 2 oraz przedzialu <0, 2>:",
+      "podzadania": [
+        {
+          "id": "2014.2a",
+          "numer": "2a",
+          "punkty": 1,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2a. (0-1)\nWykonaj trzy pierwsze kroki algorytmu bisekcji i uzupelnij tabelke:\n\n| krok | a   | b | f(a)   | f(b) | x=(a+b)/2 | f(x)   | Czy f(a) i f(x) maja te same znaki? |\n|------|-----|---|--------|------|-----------|--------|-------------------------------------|\n| 1    | 0   | 2 | -2     | 4    | 1         | -2     | tak, wiec wybieram przedzial <x,b>  |\n| 2    |     |   |        |      |           |        |                                     |\n| 3    |     |   |        |      |           |        |                                     |\n\nKrok 1 jest juz wypelniony jako przyklad. f(x) = x^3 - x - 2.",
+          "odpowiedz": "| krok | a   | b | f(a)    | f(b) | x    | f(x)    | f(a) i f(x) te same znaki?          |\n|------|-----|---|---------|------|------|---------|-------------------------------------|\n| 1    | 0   | 2 | -2      | 4    | 1    | -2      | tak, wiec wybieram <x,b>            |\n| 2    | 1   | 2 | -2      | 4    | 1.5  | -0.125  | tak, wiec wybieram <x,b>            |\n| 3    | 1.5 | 2 | -0.125  | 4    | 1.75 |         |                                     |\n\nObliczenia:\nKrok 2: a=1, b=2, x=(1+2)/2=1.5, f(1.5)=3.375-1.5-2=-0.125. f(a)=-2 i f(x)=-0.125 -- oba ujemne, wiec <x,b>=<1.5,2>\nKrok 3: a=1.5, b=2, x=(1.5+2)/2=1.75, f(1.75)=5.359375-1.75-2=1.609375",
+          "zasady_oceniania": "1 p. -- za poprawne wypelnienie calej tabeli.\n0 p. -- za podanie niepoprawnej odpowiedzi lub jej brak.",
+          "pulapki": [
+            "f(1.5) = 1.5^3 - 1.5 - 2 = 3.375 - 1.5 - 2 = -0.125 (ujemne!)",
+            "Porownywanie znakow: f(a) i f(x) oba ujemne -> ten sam znak",
+            "Nowy przedzial <x,b>, nie <a,x>, bo szukamy zmiany znaku"
+          ]
+        },
+        {
+          "id": "2014.2b",
+          "numer": "2b",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2b. (0-2)\nPodaj, w ktorym kroku algorytmu bisekcji dlugosc analizowanego przedzialu <a, b> bedzie po raz pierwszy mniejsza niz 0,1.",
+          "odpowiedz": "Krok 6.\n\nDlugosc przedzialu po n krokach: 2 / 2^n = 2^(1-n)\nKrok 1: 2/2 = 1\nKrok 2: 2/4 = 0.5\nKrok 3: 2/8 = 0.25\nKrok 4: 2/16 = 0.125\nKrok 5: 2/32 = 0.0625 < 0.1 ?\nAle uwaga: dlugosc PRZED krokiem n to 2/2^(n-1).\nPoczatkowy przedzial: 2. Po kroku 1: 1. Po kroku 2: 0.5. ... Po kroku 5: 2/2^5 = 0.0625 < 0.1.\n\nWedlug odpowiedzi CKE: krok 6. To oznacza, ze CKE liczy dlugosc PRZED wykonaniem kroku (po zakonczeniu poprzedniego). Dlugosc po kroku k = 2/2^k:\n- Po kroku 4: 2/16 = 0.125 >= 0.1\n- Po kroku 5: 2/32 = 0.0625 < 0.1\nAle CKE mowi 6. Mozliwe, ze CKE liczy krok jako 'iteracja ktora sie rozpoczyna z przedzialen < 0.1'. Wiec w kroku 6 mamy przedzial dlugosci 0.0625 < 0.1.\n\nAlternatywna interpretacja: dlugosc po kroku n = (b-a)/2^n = 2/2^n.\nPrzedzial < 0.1 po raz pierwszy: 2/2^n < 0.1 -> 2^n > 20 -> n >= 5.\nAle CKE mowi 6. Czesc bledna z moich obliczen vs CKE = 6 (przyjmuje odpowiedz CKE).",
+          "zasady_oceniania": "2 p. -- za poprawna odpowiedz.\n1 p. -- za podanie odpowiedzi 5 lub 7.\n0 p. -- za podanie niepoprawnej odpowiedzi lub jej brak.",
+          "pulapki": [
+            "Poczatkowa dlugosc przedzialu = 2 (nie 1)",
+            "Dlugosc maleje o polowe w kazdym kroku: 2, 1, 0.5, 0.25, 0.125, 0.0625...",
+            "Odpowiedzi 5 lub 7 daja czesciowe punkty (off-by-one)"
+          ]
+        },
+        {
+          "id": "2014.2c",
+          "numer": "2c",
+          "punkty": 3,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2c. (0-3)\nDane sa: domkniety przedzial <a, b>, rzeczywista funkcja f, ciagla na tym przedziale i taka, ze f(a)*f(b) jest ujemne, oraz dodatnia liczba rzeczywista d, nie wieksza niz (b-a).\n\nZapisz algorytm, ktory poda przyblizenie miejsca zerowego funkcji f w przedziale <a, b>, przy zadanej dokladnosci d.",
+          "odpowiedz": "x <- (a+b) / 2\nwhile (b - a >= d) do\n    if f(a) * f(x) < 0 then\n        b <- x\n    else\n        a <- x\n    x <- (a+b) / 2\nwypisz x\n\nAlternatywna wersja:\ndopoki b - a >= d wykonuj\n    x <- (a+b) / 2\n    jezeli f(a) * f(x) <= 0 to\n        b <- x\n    w przeciwnym razie\n        a <- x\nwypisz (a+b) / 2",
+          "zasady_oceniania": "3 p. -- za zapis poprawnego algorytmu.\n0 p. -- za podanie niepoprawnej odpowiedzi lub jej brak.",
+          "pulapki": [
+            "Warunek petli: b-a >= d (nie b-a > d)",
+            "Sprawdzanie ZNAKU iloczynu f(a)*f(x), nie porownywanie wartosci",
+            "Jezeli f(a)*f(x) < 0 to miejsce zerowe w <a,x>, wiec b<-x",
+            "Na koniec wypisz x = (a+b)/2 -- srodek ostatniego przedzialu"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "algorytmy_numeryczne",
+          "metody_przyblizone",
+          "znajdowanie_miejsc_zerowych"
+        ],
+        "algorytmiczny": [
+          "bisekcja",
+          "dziel_i_zwyciezaj",
+          "przeszukiwanie_binarne"
+        ],
+        "czasowy_min": 15
+      }
+    },
+    {
+      "numer": 3,
+      "tytul": "Zadania mieszane (algorytm, systemy liczbowe, teoria liczb, kombinatoryka)",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Przeanalizuj ponizszy algorytm dla dodatniej liczby calkowitej n:\n\njezeli n = 1, to suma <- 1\nw przeciwnym przypadku\n    suma <- 1 + n\n    i <- n - 1\n    dopoki i > 1 wykonuj\n        suma <- 1 + i * suma\n        i <- i - 1\n\nDla kolejnych zdan zdecyduj, ktore z podanych odpowiedzi sa prawdziwe, a ktore falszywe. Zaznacz znakiem X odpowiednie pola tabeli.",
+      "podzadania": [
+        {
+          "id": "2014.3a",
+          "numer": "3a",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3a. (0-2)\nPodaj wartosc zmiennej suma po zakonczeniu dzialania algorytmu dla nastepujacych wartosci argumentow n:\n\n| n | suma |\n|---|------|\n| 4 |      |\n| 6 |      |",
+          "odpowiedz": "n=4: suma = 33\nn=6: suma = 873\n\nSledzenie dla n=4:\nsuma = 1 + 4 = 5, i = 3\ni=3: suma = 1 + 3*5 = 16, i=2\ni=2: suma = 1 + 2*16 = 33, i=1\nKoniec. suma = 33.\n\nSledzenie dla n=6:\nsuma = 1 + 6 = 7, i = 5\ni=5: suma = 1 + 5*7 = 36, i=4\ni=4: suma = 1 + 4*36 = 145, i=3\ni=3: suma = 1 + 3*145 = 436, i=2\ni=2: suma = 1 + 2*436 = 873, i=1\nKoniec. suma = 873.\n\nAlgorytm oblicza 1! + 2! + 3! + ... + n!",
+          "zasady_oceniania": "2 p. -- za podanie poprawnych odpowiedzi.\n1 p. -- za podanie jednej poprawnej odpowiedzi.\n0 p. -- za podanie niepoprawnej odpowiedzi lub jej brak.",
+          "pulapki": [
+            "Petla idzie od i=n-1 do i=2 (malejaco)",
+            "suma = 1 + i * suma (nie suma = suma + i)",
+            "Algorytm oblicza sume silni: 1!+2!+...+n!"
+          ]
+        },
+        {
+          "id": "2014.3b",
+          "numer": "3b",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3b. (0-1)\nWynikiem dzialania algorytmu przedstawionego na poczatku zadania jest:\n\n| 1. | 1 + 2 * (1 + 3 * (1 + ... (n-2) * (1 + (n-1) * (1+n)) ... )) | P | F |\n| 2. | 1 + 2^2 + 3^3 + ... + n^n                                     | P | F |\n| 3. | 1! + 2! + 3! + ... + n!                                        | P | F |\n| 4. | 1 + 2 + 3 + ... + n                                            | P | F |",
+          "odpowiedz": "PFPF\n\n1. PRAWDA -- algorytm oblicza dokladnie te zagniezdzona forme\n2. FALSZ -- to suma poteg, nie silni\n3. PRAWDA -- algorytm oblicza sume silni 1!+2!+...+n!\n4. FALSZ -- to suma arytmetyczna, nie silnia",
+          "zasady_oceniania": "1 p. -- za poprawna odpowiedz (komplet: P, F, P, F).\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Wzor 1 i 3 sa ROWNOWAZNE (rozne zapisy tej samej sumy silni)",
+            "Wzor 2 to 1+4+27+256+... (potegi, nie silnie)",
+            "Algorytm uzywa schematu Hornera do obliczenia sumy silni"
+          ]
+        },
+        {
+          "id": "2014.3c",
+          "numer": "3c",
+          "punkty": 1,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3c. (0-1)\nLiczba binarna 101011111100 zapisana w systemie szesnastkowym ma postac:\n\n| AEC | P | F |\n| CFC | P | F |\n| AFC | P | F |\n| DFC | P | F |",
+          "odpowiedz": "FFPF\n\n101011111100₂ = 1010 1111 1100₂\n1010 = A₁₆\n1111 = F₁₆\n1100 = C₁₆\nWynik: AFC₁₆\n\nWeryfikacja: A*256 + F*16 + C = 10*256 + 15*16 + 12 = 2560 + 240 + 12 = 2812\n101011111100₂ = 2048+512+128+64+32+16+8+4 = 2812 ✓",
+          "zasady_oceniania": "1 p. -- za poprawna odpowiedz (komplet: F, F, P, F).\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Grupowanie od PRAWEJ po 4 bity: 1010 | 1111 | 1100",
+            "AEC vs AFC -- roznica w srodkowej cyfrze (E=1110 vs F=1111)"
+          ]
+        },
+        {
+          "id": "2014.3d",
+          "numer": "3d",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3d. (0-1)\nLiczba 262 to:\n\n| wielokrotnosc liczby 2.                        | P | F |\n| najwiekszy wspolny dzielnik liczb 1310 i 524.  | P | F |\n| kwadrat liczby pierwszej.                       | P | F |\n| najmniejsza wspolna wielokrotnosc liczb 31 i 42.| P | F |",
+          "odpowiedz": "PPFF\n\n1. PRAWDA -- 262 / 2 = 131, wiec 262 jest wielokrotnoscia 2\n2. PRAWDA -- NWD(1310, 524): 1310 = 2*524 + 262, 524 = 2*262 + 0. NWD = 262 ✓\n3. FALSZ -- 262 = 2 * 131. 131 jest liczba pierwsza, ale 262 = 2*131, nie kwadrat\n4. FALSZ -- NWW(31, 42) = 31*42/NWD(31,42) = 31*42/1 = 1302 (bo NWD(31,42)=1)",
+          "zasady_oceniania": "1 p. -- za poprawna odpowiedz (komplet: P, P, F, F).\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "262 = 2 * 131 (nie jest kwadratem zadnej liczby)",
+            "NWD(1310, 524) = 262 (algorytm Euklidesa)",
+            "NWW(31, 42) = 1302, nie 262"
+          ]
+        },
+        {
+          "id": "2014.3e",
+          "numer": "3e",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3e. (0-1)\nWitajac sie z druga osoba, podajemy sobie rece. Jesli wsrod n osob kazda chce sie przywitac z kazda, to ile razy nastapi uscisk dloni?\n\n| n*(n-1)/2    | P | F |\n| log₂(n)      | P | F |\n| n² - n/2     | P | F |\n| n²/2         | P | F |",
+          "odpowiedz": "PFFF\n\n1. PRAWDA -- n*(n-1)/2 = liczba par = C(n,2) ✓\n2. FALSZ -- log₂(n) to zupelnie inna wartosc\n3. FALSZ -- n² - n/2 = (2n² - n)/2 ≠ n(n-1)/2. Np. n=4: 16-2=14 ≠ 6\n4. FALSZ -- n²/2 ≠ n(n-1)/2. Np. n=4: 8 ≠ 6",
+          "zasady_oceniania": "1 p. -- za poprawna odpowiedz (komplet: P, F, F, F).\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "n*(n-1)/2 = C(n,2) to jedyna poprawna odpowiedz",
+            "n²-n/2 wyglada podobnie ale to (2n²-n)/2, nie n(n-1)/2",
+            "n²/2 nie ma odejmowania n"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "algorytmy",
+          "systemy_liczbowe",
+          "teoria_liczb",
+          "kombinatoryka"
+        ],
+        "algorytmiczny": [
+          "sledzenie_algorytmu",
+          "konwersja_systemow",
+          "NWD",
+          "kombinatoryka"
+        ],
+        "czasowy_min": 10
+      }
+    },
+    {
+      "numer": 4,
+      "tytul": "Arkusz kalkulacyjny - Przychody i koszty",
+      "punkty": 9,
+      "czesc": 2,
+      "kontekst": "Dane dotycza przychodow i kosztow firmy przez okres okolo 180 dni. Dla kazdego dnia podana jest pora dnia (rano/wieczor) oraz kwota przychodu i kosztu. Dane dostepne sa w pliku dolaczonym do arkusza.\n\nUwaga: Tresc zadan zrekonstruowana z odpowiedzi CKE -- arkusz Czesci II dla 2014 nie jest dostepny w repozytorium.",
+      "podzadania": [
+        {
+          "id": "2014.4a",
+          "numer": "4a",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4a. (0-2)\nKtorego dnia po zmroku/wieczorem przychod byl najwiekszy?",
+          "odpowiedz": "33 dnia po zmroku/wieczorem.",
+          "zasady_oceniania": "2 p. -- za podanie poprawnego numeru dnia i poprawnej pory dnia.\n1 p. -- za podanie poprawnego numeru dnia lub poprawnej pory dnia.\n0 p. -- za podanie niepoprawnej odpowiedzi lub jej brak.",
+          "pulapki": [
+            "Trzeba filtrowac po porze dnia (wieczor/zmrok)",
+            "MAX z warunkowym filtrowaniem (MAX.WARUNKI lub pomocnicza kolumna)",
+            "Znalezienie numeru dnia dla maksymalnego przychodu wieczornego"
+          ]
+        },
+        {
+          "id": "2014.4b",
+          "numer": "4b",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_podstawowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4b. (0-2)\nJaka byla laczna wartosc wszystkich przychodow?",
+          "odpowiedz": "13 533,70 zl.",
+          "zasady_oceniania": "2 p. -- za podanie poprawnej odpowiedzi.\n0 p. -- za podanie niepoprawnej odpowiedzi lub jej brak.",
+          "pulapki": [
+            "Prosta suma SUMA/SUM calej kolumny przychodow",
+            "Uwaga na format walutowy i grosze"
+          ]
+        },
+        {
+          "id": "2014.4c",
+          "numer": "4c",
+          "punkty": 3,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4c. (0-3)\nPo ktorym dniu i jaka byla maksymalna roznica miedzy suma przychodow a suma kosztow (narastajaco)?",
+          "odpowiedz": "Po 19 dniu, 10 220,90 zl.",
+          "zasady_oceniania": "3 p. -- za podanie poprawnego numeru dnia i poprawnej kwoty.\n2 p. -- za podanie poprawnego numeru dnia.\n1 p. -- za podanie poprawnej kwoty.\n0 p. -- za podanie niepoprawnej odpowiedzi lub jej brak.",
+          "pulapki": [
+            "Narastajaca suma przychodow MINUS narastajaca suma kosztow",
+            "Trzeba obliczyc skumulowana roznice dla kazdego dnia",
+            "Potem znalezc MAX z tej kolumny i odpowiadajacy dzien"
+          ]
+        },
+        {
+          "id": "2014.4d",
+          "numer": "4d",
+          "punkty": 2,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4d. (0-2)\nSporzadz wykres przedstawiajacy przychody i koszty dziennie.",
+          "odpowiedz": "Wykres slupkowy (lub liniowy) z dwiema seriami danych:\n- dzienny przychod (niebieska linia)\n- dzienny koszt (czerwona linia)\nOs X: dzien (1-180), Os Y: kwota w zl.",
+          "zasady_oceniania": "2 p. -- za poprawna odpowiedz (wykres z dwiema seriami).\n0 p. -- za podanie niepoprawnej odpowiedzi lub jej brak.",
+          "pulapki": [
+            "Dwie serie danych na jednym wykresie",
+            "Odpowiednie etykiety osi i legendy",
+            "Typ wykresu: slupkowy lub liniowy"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "arkusz_kalkulacyjny",
+          "analiza_danych",
+          "agregacja",
+          "wizualizacja"
+        ],
+        "algorytmiczny": [
+          "wyszukiwanie_max",
+          "sumowanie",
+          "sumowanie_skumulowane"
+        ],
+        "czasowy_min": 30
+      }
+    },
+    {
+      "numer": 5,
+      "tytul": "Programowanie - Napisy",
+      "punkty": 10,
+      "czesc": 2,
+      "kontekst": "Plik NAPIS.TXT zawiera napisy skladajace sie z wielkich liter alfabetu angielskiego (A-Z), po jednym napisie w kazdym wierszu. Kazdy napis ma dlugosc od 1 do 50 znakow.\n\nPrzykladowe dane z pliku:\nVELEELHXDPVRQCFSE\nBEGPLEC\nRGCUBXAOCEZLDECYYSA\nNHUQLCFZH\n\nUwaga: Tresc zadan zrekonstruowana z odpowiedzi CKE -- arkusz Czesci II dla 2014 nie jest dostepny w repozytorium.",
+      "podzadania": [
+        {
+          "id": "2014.5a",
+          "numer": "5a",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_zliczanie",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5a. (0-4)\nIle napisow w pliku NAPIS.TXT ma dlugosc rowna 6?",
+          "odpowiedz": "122",
+          "zasady_oceniania": "4 p. -- za poprawna odpowiedz.\n1 p. -- za odpowiedz 121 lub 123.\n0 p. -- za podanie niepoprawnej odpowiedzi lub jej brak.",
+          "pulapki": [
+            "Dlugosc napisu = 6 (dokladnie, nie >= 6)",
+            "CRLF line endings mogа zafalszowac dlugosc napisu",
+            "Bledne trim/strip moze dac 121 lub 123"
+          ]
+        },
+        {
+          "id": "2014.5b",
+          "numer": "5b",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5b. (0-4)\nDla kazdego napisu oblicz sume kodow ASCII wszystkich jego znakow. Pogrupuj napisy o tej samej sumie i z kazdej grupy podaj napis, ktory jest pierwszy w porzadku alfabetycznym.\n\nPodaj liste takich napisow (po jednym z kazdej grupy sum, pierwszy alfabetycznie).",
+          "odpowiedz": "FHJLMU\nBEJNOSY\nMNS\nAEIOUY\nBDL\nJT\nBJQR\nAHJS\nFHJLMU\nDIT\nCEGKZ\nBCV\nCEGIKOT\nCEGKZ",
+          "zasady_oceniania": "4 p. -- za poprawna odpowiedz.\n2 p. -- za podanie listy napisow uwzgledniajacej dodatkowe napisy LVV oraz HHO.\n0 p. -- za podanie niepoprawnej odpowiedzi lub jej brak.",
+          "pulapki": [
+            "Grupowanie po sumie kodow ASCII (np. 'AB' = 65+66 = 131)",
+            "Z kazdej grupy: napis PIERWSZY ALFABETYCZNIE (leksykograficznie)",
+            "Czesciowy wynik (2p) jesli dodano LVV i HHO (bledne grupowanie)"
+          ]
+        },
+        {
+          "id": "2014.5c",
+          "numer": "5c",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5c. (0-2)\nKtore napisy maja najwieksza roznice miedzy maksymalnym a minimalnym kodem ASCII znaku w napisie?",
+          "odpowiedz": "FHJLMU\nGC\nQULA\nCEGKZ\nBZYFFLOICLUNWLTH\nSWIFT",
+          "zasady_oceniania": "2 p. -- za poprawne zestawienie szesciu napisow.\n1 p. -- za zestawienie 4 lub 5 poprawnych napisow.\n0 p. -- za podanie niepoprawnej odpowiedzi lub jej brak.",
+          "pulapki": [
+            "Dla kazdego napisu: max_char - min_char (kody ASCII)",
+            "Znalezc WSZYSTKIE napisy z ta sama maksymalna roznica",
+            "6 napisow ma te sama najwieksza roznice"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2014_maj/dane_PR/",
+      "pliki_danych": [
+        "NAPIS.TXT"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "przetwarzanie_plikow",
+          "operacje_na_stringach",
+          "kody_ASCII"
+        ],
+        "algorytmiczny": [
+          "czytanie_pliku",
+          "zliczanie",
+          "grupowanie",
+          "sortowanie",
+          "min_max"
+        ],
+        "czasowy_min": 45
+      }
+    },
+    {
+      "numer": 6,
+      "tytul": "Baza danych SQL - Rekrutacja do przedszkoli",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "Baza danych zawiera informacje o rekrutacji dzieci do przedszkoli w trzech tabelach:\n\nTabela DZIECI (plik DZIECI.TXT):\n| Kolumna  | Opis                                    |\n|----------|------------------------------------------|\n| Pesel    | Numer identyfikacyjny dziecka (np. p06281200672) |\n| Nazwisko | Nazwisko dziecka                          |\n| Imie     | Imie dziecka                              |\n| Plec     | 'chlopiec' lub 'dziewczynka'              |\n| Wiek     | Wiek dziecka (5, 6, 7)                    |\n\nTabela PRZEDSZKOLA (plik PRZEDSZKOLA.TXT):\n| Kolumna           | Opis                              |\n|-------------------|------------------------------------|\n| Id_przedszkola    | Numer identyfikacyjny przedszkola  |\n| Nazwa_przedszkola | Pelna nazwa przedszkola            |\n| Liczba_miejsc     | Liczba dostepnych miejsc           |\n\nTabela PREFERENCJE (plik PREFERENCJE.TXT):\n| Kolumna            | Opis                              |\n|--------------------|------------------------------------|\n| Pesel              | Pesel dziecka                      |\n| Numer_preferencji  | 1 = pierwsza preferencja, 2 = druga, itd. |\n| Id_przedszkola     | Id wybranego przedszkola           |\n\nKazde dziecko moze wyrazic wiele preferencji (1., 2., 3., ...) dotyczacych przedszkoli.",
+      "podzadania": [
+        {
+          "id": "2014.6a",
+          "numer": "6a",
+          "punkty": 2,
+          "typ_zadania": "sql_select_where",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6a. (0-2)\nPodaj imiona i nazwiska dziewczynek z dzielnicy Praga (informacja o dzielnicy jest zakodowana w danych, np. w nazwie przedszkola lub peselu).",
+          "odpowiedz": "Paulina Czeszewska\nJoanna Derengowska\nZuzanna Jasinska\nMarta Studzieniecka\nZofia Waluszko",
+          "zasady_oceniania": "2 p. -- za poprawne zestawienie i uporzadkowanie poprawnej listy.\n0 p. -- za podanie niepoprawnej odpowiedzi lub jej brak.",
+          "pulapki": [
+            "Filtrowanie po plci = 'dziewczynka'",
+            "Filtrowanie po dzielnicy (moze byc w peselu lub w innej tabeli)",
+            "Uporzadkowanie alfabetyczne"
+          ]
+        },
+        {
+          "id": "2014.6b",
+          "numer": "6b",
+          "punkty": 3,
+          "typ_zadania": "sql_select_where",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6b. (0-3)\nPodaj imiona i nazwiska dzieci, ktorych imie lub nazwisko zaczyna sie na litere 'A', urodzonych w 2010 roku (informacja o roku urodzenia zakodowana w peselu).",
+          "odpowiedz": "Julia Adamczyk\nPawel Adamik\nWeronika Adamowicz",
+          "zasady_oceniania": "3 p. -- za podanie poprawnego zestawienia.\n0 p. -- za podanie niepoprawnej odpowiedzi lub jej brak.",
+          "pulapki": [
+            "Rok urodzenia zakodowany w PESEL (pozycje 1-2 lub w specjalnym formacie)",
+            "LIKE 'A%' dla imienia lub nazwiska",
+            "WHERE (Imie LIKE 'A%' OR Nazwisko LIKE 'A%')"
+          ]
+        },
+        {
+          "id": "2014.6c",
+          "numer": "6c",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6c. (0-2)\nPodaj nazwe przedszkola, ktore ma najwieksza liczbe chetnych z pierwszej preferencji (Numer_preferencji = 1).",
+          "odpowiedz": "Przedszkole nr 61\nChetni z pierwszej preferencji: 20",
+          "zasady_oceniania": "2 p. -- za podanie poprawnej nazwy przedszkola i poprawnej liczby chetnych z pierwszej preferencji.\n0 p. -- za podanie niepoprawnej odpowiedzi lub jej brak.",
+          "pulapki": [
+            "Filtr: Numer_preferencji = 1",
+            "GROUP BY Id_przedszkola + COUNT(*)",
+            "JOIN z PRZEDSZKOLA dla nazwy",
+            "ORDER BY COUNT(*) DESC LIMIT 1"
+          ]
+        },
+        {
+          "id": "2014.6d",
+          "numer": "6d",
+          "punkty": 4,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6d. (0-4)\nPodaj 3 przedszkola o najmniejszej sredniej liczbie chetnych na 1 miejsce. Dla kazdego przedszkola podaj: nazwe, liczbe miejsc, liczbe chetnych (z pierwszej preferencji) i srednia liczbe chetnych na 1 miejsce.",
+          "odpowiedz": "| Nazwa                            | Miejsca | Chetni | Srednia na miejsce |\n|----------------------------------|---------|--------|--------------------|\n| Przedszkole nr 1                 | 55      | 36     | 0.65               |\n| Przedszkole nr 12                | 45      | 31     | 0.69               |\n| Niepubliczne Przedszkole Krasnal | 30      | 27     | 0.90               |",
+          "zasady_oceniania": "4 p. -- za poprawne zestawienie -- 4 punkty, w tym:\n  - za 3 poprawne nazwy przedszkoli -- 1 punkt\n  - za poprawne liczby miejsc w przedszkolach -- 1 punkt\n  - za poprawne liczby chetnych -- 1 punkt\n  - za poprawne liczby chetnych na jedno miejsce -- 1 punkt\n0 p. -- za podanie niepoprawnej odpowiedzi lub jej brak.",
+          "pulapki": [
+            "Srednia = COUNT(chetni) / Liczba_miejsc (z tabeli PRZEDSZKOLA)",
+            "Chetni z PIERWSZEJ preferencji (Numer_preferencji = 1)",
+            "JOIN PREFERENCJE z PRZEDSZKOLA",
+            "ORDER BY srednia ASC LIMIT 3",
+            "Dzielenie calkowite vs rzeczywiste -- uzyc CAST lub 1.0*"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2014_maj/dane_PR/",
+      "pliki_danych": [
+        "DZIECI.TXT",
+        "PRZEDSZKOLA.TXT",
+        "PREFERENCJE.TXT"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "bazy_danych",
+          "SQL",
+          "JOIN",
+          "agregacja"
+        ],
+        "algorytmiczny": [
+          "SELECT_WHERE",
+          "JOIN",
+          "GROUP_BY",
+          "ORDER_BY",
+          "LIMIT",
+          "COUNT",
+          "AVG"
+        ],
+        "czasowy_min": 30
+      }
+    }
+  ]
+}

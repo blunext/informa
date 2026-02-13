@@ -1,0 +1,496 @@
+{
+  "rok": 2016,
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny, bazy danych)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Liczby skojarzone",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "Dwie rozne liczby calkowite a i b wieksze od 1 nazwiemy skojarzonymi, jesli suma wszystkich roznych dodatnich dzielnikow a mniejszych od a jest rowna b+1, a suma wszystkich roznych dodatnich dzielnikow b mniejszych od b jest rowna a+1.\n\nSkojarzone sa np. liczby 140 i 195, poniewaz:\na) dzielnikami 140 sa 1, 2, 4, 5, 7, 10, 14, 20, 28, 35, 70, a ich suma wynosi 196 = 195+1.\nb) dzielnikami 195 sa 1, 3, 5, 13, 15, 39, 65, a suma tych liczb jest rowna 141 = 140+1.",
+      "podzadania": [
+        {
+          "id": "2016.1.1",
+          "numer": "1.1",
+          "punkty": 1,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1. (0-1)\nZbadaj, ktore z nastepujacych par liczb (a, b) sa liczbami skojarzonymi, i wypelnij ponizszа tabele:\n\n| a  | b  | dzielniki a (mniejsze od a) | dzielniki b (mniejsze od b) | suma dzielnikow a | suma dzielnikow b | skojarzone TAK/NIE |\n|----|----|-----------------------------|-----------------------------|--------------------|--------------------|-----------------------|\n| 78 | 64 | 1, 2, 3, 6, 13, 26, 39     | 1, 2, 4, 8, 16, 32         | 90                 | 63                 | NIE                   |\n| 20 | 21 |                             |                             |                    |                    |                       |\n| 75 | 48 |                             |                             |                    |                    |                       |\n\nPrzyklad (78, 64) jest juz wypelniony: dzielniki 78 to 1,2,3,6,13,26,39, suma=90; dzielniki 64 to 1,2,4,8,16,32, suma=63. Suma dzielnikow 78 = 90 != 64+1 = 65, wiec NIE sa skojarzone.",
+          "odpowiedz": "| a  | b  | dzielniki a         | dzielniki b              | suma dz. a | suma dz. b | skojarzone |\n|----|----|--------------------|--------------------------|------------|------------|------------|\n| 20 | 21 | 1, 2, 4, 5, 10     | 1, 3, 7                  | 22         | 11         | NIE        |\n| 75 | 48 | 1, 3, 5, 15, 25    | 1, 2, 3, 4, 6, 8, 12, 16, 24 | 49    | 76         | TAK        |\n\nDla (20, 21): suma dzielnikow 20 = 22 != 21+1 = 22... wait, 22 = 22, ale suma dzielnikow 21 = 11 != 20+1 = 21, wiec NIE.\nDla (75, 48): suma dzielnikow 75 = 49 = 48+1 ✓, suma dzielnikow 48 = 76 = 75+1 ✓, wiec TAK.",
+          "zasady_oceniania": "1 p. -- za poprawne uzupelnienie wszystkich rubryk tabeli.\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Suma dzielnikow BEZ samej liczby (dzielniki wlasciwe mniejsze od n)",
+            "Para (20,21): suma_dz(20)=22=21+1, ale suma_dz(21)=11!=20+1, wiec NIE",
+            "Trzeba sprawdzic OBA warunki (suma_dz(a)=b+1 ORAZ suma_dz(b)=a+1)"
+          ]
+        },
+        {
+          "id": "2016.1.2",
+          "numer": "1.2",
+          "punkty": 4,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2. (0-4)\nDana jest liczba calkowita a wieksza od 1. Uloz i zapisz w wybranej przez siebie notacji algorytm, ktory znajdzie i wypisze liczbe b skojarzona z a lub komunikat \"NIE\", jesli taka liczba nie istnieje.\nW zapisie algorytmu mozesz korzystac tylko z nastepujacych operacji arytmetycznych: dodawania, odejmowania, mnozenia, dzielenia calkowitego i obliczania reszty z dzielenia.\n\nUwaga:\nPrzy ocenie algorytmu bedzie brana pod uwage liczba operacji arytmetycznych wykonywanych przez Twoj algorytm.\n\nSpecyfikacja:\nDane:\n    Liczba calkowita a > 1.\nWynik:\n    Liczba calkowita b skojarzona z a lub komunikat \"NIE\", jesli taka liczba nie istnieje.",
+          "odpowiedz": "funkcja sumadz(n) {\n    suma = 1\n    i = 2\n    dopoki (i*i <= n)\n        jezeli (n mod i = 0)\n            suma = suma + i\n            jezeli (n div i != i)\n                suma = suma + n/i\n        i = i + 1\n    zwroc suma\n}\n\nx = sumadz(a)\ny = sumadz(x-1)\njezeli (y-1 = a)\n    wypisz x-1\nw przeciwnym wypadku\n    wypisz \"NIE\"\n\nAlgorytm:\n1. Oblicz x = sumadz(a) -- suma dzielnikow a\n2. Kandydat na b: b = x - 1\n3. Oblicz y = sumadz(b) -- suma dzielnikow b\n4. Jesli y - 1 = a, to a i b sa skojarzone -- wypisz b\n5. W przeciwnym razie wypisz \"NIE\"\n\nOptymalizacja: petla w sumadz iteruje do sqrt(n), wiec zlozonosc O(sqrt(n)).",
+          "zasady_oceniania": "4 p. -- za poprawny algorytm, w tym:\n  3 p. -- za poprawne obliczanie sumy dzielnikow zadanej liczby (lub potencjalnej liczby skojarzonej):\n    - 1 p. -- za sumowanie kolejnych dzielnikow,\n    - 1 p. -- za poprawna konstrukcje petli,\n    - 1 p. -- za algorytm o zlozonosci nie gorszej niz sqrt(n);\n  1 p. -- za poprawne ustalenie liczby b oraz za sprawdzenie, czy liczby a i b sa skojarzone;\n0 p. -- za odpowiedz bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Optymalizacja: petla do sqrt(n), nie do n -- wplyw na ocene",
+            "Przy i*i = n dodaj tylko i (nie dodawaj i oraz n/i osobno)",
+            "Rozpocznij sume od 1 (1 zawsze jest dzielnikiem)",
+            "Sprawdz OBA warunki: suma_dz(a)=b+1 i suma_dz(b)=a+1",
+            "Kandydat b = suma_dz(a) - 1, potem weryfikacja"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "teoria_liczb",
+          "dzielniki",
+          "optymalizacja_algorytmow"
+        ],
+        "algorytmiczny": [
+          "znajdowanie_dzielnikow",
+          "suma_dzielnikow",
+          "optymalizacja_sqrt_n"
+        ],
+        "czasowy_min": 25
+      }
+    },
+    {
+      "numer": 2,
+      "tytul": "Przestawienia w tablicy",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Parametrem podanej ponizej funkcji przestaw jest tablica A o dlugosci n, indeksowana od 1, w ktorej znajduja sie liczby calkowite. Niech klucz bedzie wartoscia pierwszego elementu tablicy A. Funkcja przestawia (zamienia wzajemnie) elementy tablicy A tak, aby po jej wykonaniu w lewej czesci tablicy byly wszystkie elementy tablicy mniejsze od klucza, natomiast w prawej czesci -- wszystkie elementy wieksze lub rowne kluczowi.\n\nSpecyfikacja:\nDane:\n    n -- liczba calkowita dodatnia\n    A[1..n] -- tablica liczb calkowitych\nWynik:\n    A[1..n] -- tablica liczb calkowitych ulozona wedlug podanej reguly\n\nfunkcja przestaw(A)\n    klucz <- A[1]\n    w <- 1\n    dla k = 2, 3, ..., n wykonaj\n        jesli A[k] < klucz\n            zamien(A[w], A[k])\n            w <- w+1\n\nUwaga:\nFunkcja zamien(x,y) zamienia wzajemnie wartosci zmiennych x i y -- w powyzszym przypadku zamienia wzajemnie dwa elementy tablicy A.",
+      "podzadania": [
+        {
+          "id": "2016.2.1",
+          "numer": "2.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1. (0-2)\nDana jest liczba n = 6 oraz tablica A = [4,6,3,5,2,1]. Podaj kolejnosc elementow w tablicy A po wykonaniu funkcji przestaw(A).",
+          "odpowiedz": "A = [3, 2, 1, 5, 6, 4]\n\nSledzenie krok po kroku:\nklucz = A[1] = 4, w = 1\nk=2: A[2]=6 >= 4, nic\nk=3: A[3]=3 < 4, zamien(A[1],A[3]): A=[3,6,4,5,2,1], w=2\nk=4: A[4]=5 >= 4, nic\nk=5: A[5]=2 < 4, zamien(A[2],A[5]): A=[3,2,4,5,6,1], w=3\nk=6: A[6]=1 < 4, zamien(A[3],A[6]): A=[3,2,1,5,6,4], w=4\nWynik: [3, 2, 1, 5, 6, 4]",
+          "zasady_oceniania": "2 p. -- za poprawna odpowiedz.\n0 p. -- za odpowiedz bledna albo brak odpowiedzi.\nUwaga: Nie przyznaje sie 1 p.",
+          "pulapki": [
+            "Klucz to wartosc A[1]=4, nie indeks",
+            "Zamiana odbywa sie A[w] z A[k], nie sasiadow",
+            "Po zamianie w zwieksza sie o 1",
+            "Element klucza (4) tez sie przesuwa -- konczy na pozycji 6"
+          ]
+        },
+        {
+          "id": "2016.2.2",
+          "numer": "2.2",
+          "punkty": 1,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2. (0-1)\nPodaj przyklad siedmioelementowej tablicy A, dla ktorej funkcja przestaw(A) dokladnie 5 razy wykona zamien.",
+          "odpowiedz": "[8, 1, 2, 3, 4, 5, 9]\n\nUwaga: Poprawna odpowiedzia jest podanie dowolnej siedmioelementowej tablicy, w ktorej dokladnie piec z szesciu elementow z pozycji 2..7 jest mniejszych od elementu pierwszego.\n\nInne przyklady: [6, 1, 2, 3, 4, 5, 7], [10, 3, 1, 7, 2, 4, 99], itp.",
+          "zasady_oceniania": "1 p. -- za poprawna odpowiedz.\n0 p. -- za podanie odpowiedzi z tablica wieksza niz 7-elementowa lub odpowiedz bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Funkcja zamien wykonuje sie gdy A[k] < klucz (ostro mniejsze)",
+            "Trzeba dokladnie 5 z 6 elementow mniejszych od pierwszego",
+            "Element rowny kluczowi NIE powoduje zamiany (warunek < nie <=)"
+          ]
+        },
+        {
+          "id": "2016.2.3",
+          "numer": "2.3",
+          "punkty": 3,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.3. (0-3)\nTablica A[1..100] zawiera wszystkie liczby calkowite z przedzialu <1, 100> w nastepujacej kolejnosci:\nA = [10, 20, 30, ..., 100, 9, 19, 29, ..., 99, 8, 18, 28, ..., 98, ...., 1, 11, 21, ..., 91].\n(najpierw rosnaco wszystkie liczby konczace sie na 0, potem rosnaco liczby konczace sie na 9, potem na 8 itd.)\n\nPodaj wartosc zmiennej w oraz wartosci trzech pierwszych elementow tablicy A (A[1], A[2], A[3]), po wykonaniu funkcji przestaw(A).",
+          "odpowiedz": "w = 10\nA[1] = 9\nA[2] = 8\nA[3] = 7\n\nUzasadnienie:\nklucz = A[1] = 10\nElementy mniejsze od 10 to: 9, 8, 7, 6, 5, 4, 3, 2, 1 -- jest ich 9.\nKazdy z nich powoduje zamiane z A[w] i w <- w+1.\nPo 9 zamianach: w = 10.\nPierwsze 9 pozycji to elementy < 10 (w kolejnosci napotkania): 9 jest na poz. 11 w oryginalnej tablicy (pierwszy element konczacy sie na 9, tj. po 10 elementach konczacych sie na 0), 8 na poz. 21, 7 na poz. 31, itd.\nA[1]=9 (zamienione z A[1]=10 gdy k=11), A[2]=8 (zamienione z A[2]=20 gdy k=21), A[3]=7 (zamienione z A[3]=30 gdy k=31).\n\nUwaga: Za poprawne dwie z trzech wartosci A[1], A[2] i A[3] -- 1 punkt.",
+          "zasady_oceniania": "3 p. -- za odpowiedz poprawna, w tym:\n  1 p. -- za poprawna wartosc w\n  2 p. -- za poprawne wszystkie trzy wartosci A[1], A[2] i A[3].\n0 p. -- za odpowiedz bledna albo brak odpowiedzi.\nUwaga: Za poprawne dwie z trzech wartosci A[1], A[2] i A[3] -- 1 punkt.",
+          "pulapki": [
+            "Tablica ma specjalna kolejnosc: najpierw koncowki 0, potem 9, 8, 7...",
+            "klucz = 10, wiec elementy < 10 to 1-9 (9 elementow)",
+            "w startuje od 1, po 9 zamianach w = 10",
+            "Kolejnosc zamienianych elementow: 9 napotkane jako pierwszy < 10"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "algorytmy_sortowania",
+          "partycjonowanie",
+          "quicksort_partition"
+        ],
+        "algorytmiczny": [
+          "partycjonowanie_tablicy",
+          "sledzenie_algorytmu",
+          "analiza_liczby_operacji"
+        ],
+        "czasowy_min": 20
+      }
+    },
+    {
+      "numer": 3,
+      "tytul": "Test",
+      "punkty": 4,
+      "czesc": 1,
+      "kontekst": "Ocen, czy ponizsze zdania sa prawdziwe. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli zdanie jest falszywe.\nW kazdym zadaniu czastkowym punkt uzyskasz tylko za komplet poprawnych odpowiedzi.",
+      "podzadania": [
+        {
+          "id": "2016.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1. (0-1)\nPo wpisaniu w pasku adresu przegladarki http://81.219.47.83 otwiera sie strona Centralnej Komisji Egzaminacyjnej, ale po wpisaniu http://cke.edu.pl pojawia sie blad \"Nie mozna odnalezc podanej strony\". Mozliwe przyczyny tego stanu rzeczy to:\n\n| Nr | Stwierdzenie                                                  | P | F |\n|----|---------------------------------------------------------------|---|---|\n| 1. | awaria serwera SMTP Centralnej Komisji Egzaminacyjnej,        | P | F |\n| 2. | awaria serwera poczty uzytkownika,                            | P | F |\n| 3. | awaria serwera DNS,                                           | P | F |\n| 4. | brak prawidlowego klucza szyfrujacego w przegladarce.         | P | F |",
+          "odpowiedz": "F, F, P, F\n\n1. F -- SMTP to protokol poczty elektronicznej, nie ma zwiazku z otwieraniem stron WWW.\n2. F -- serwer poczty uzytkownika nie ma zwiazku z przegladaniem stron.\n3. P -- DNS tlumacy nazwy domenowe na adresy IP. Jezeli DNS nie dziala, adres IP (81.219.47.83) zadziala, ale nazwa (cke.edu.pl) nie.\n4. F -- klucz szyfrujacy (HTTPS/SSL) nie jest potrzebny do otwarcia strony HTTP.",
+          "zasady_oceniania": "1 p. -- za wskazanie czterech poprawnych odpowiedzi.\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "SMTP = poczta, nie WWW",
+            "DNS tlumaCzy nazwy domenowe na IP -- awaria DNS = IP dziala, domena nie",
+            "Klucz szyfrujacy dotyczy HTTPS, nie HTTP"
+          ]
+        },
+        {
+          "id": "2016.3.2",
+          "numer": "3.2",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2. (0-1)\nDana jest funkcja f okreslona wzorem rekurencyjnym:\nf(1) = 4\nf(n+1) = 1 / (1 - f(n))  dla n >= 1\n\nWtedy:\n\n| Nr | Stwierdzenie        | P | F |\n|----|---------------------|---|---|\n| 1. | f(8) = 1/3          | P | F |\n| 2. | f(9) = 3/4          | P | F |\n| 3. | f(10) = 4           | P | F |\n| 4. | f(100) = -1/3       | P | F |",
+          "odpowiedz": "F, P, P, F\n\nObliczenia:\nf(1) = 4\nf(2) = 1/(1-4) = 1/(-3) = -1/3\nf(3) = 1/(1-(-1/3)) = 1/(4/3) = 3/4\nf(4) = 1/(1-3/4) = 1/(1/4) = 4\nf(5) = 1/(1-4) = -1/3\nf(6) = 3/4\nf(7) = 4\n...\nFunkcja jest cykliczna z okresem 3: f(1)=4, f(2)=-1/3, f(3)=3/4, f(4)=4, ...\nWzor: f(n) = f(((n-1) mod 3) + 1)\n\nf(8): (8-1) mod 3 = 1, f(2) = -1/3, wiec f(8) = -1/3 (nie 1/3) → F\nf(9): (9-1) mod 3 = 2, f(3) = 3/4 → P\nf(10): (10-1) mod 3 = 0, f(1) = 4 → P\nf(100): (100-1) mod 3 = 0, f(1) = 4 (nie -1/3) → F",
+          "zasady_oceniania": "1 p. -- za wskazanie czterech poprawnych odpowiedzi.\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Funkcja jest CYKLICZNA z okresem 3: 4, -1/3, 3/4, 4, -1/3, 3/4, ...",
+            "f(8) = -1/3, NIE 1/3 (roznica znaku!)",
+            "f(100): (99 mod 3 = 0) → f(100) = f(1) = 4, nie -1/3",
+            "Trzeba obliczyc kilka wartosci aby zauwazyc cykl"
+          ]
+        },
+        {
+          "id": "2016.3.3",
+          "numer": "3.3",
+          "punkty": 1,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.3. (0-1)\nDla dwoch liczb 1111₍₂₎ i 101₍₂₎, ich:\n\n| Nr | Stwierdzenie                            | P | F |\n|----|-----------------------------------------|---|---|\n| 1. | suma jest rowna 10110₍₂₎.              | P | F |\n| 2. | roznica jest rowna 1010₍₂₎.            | P | F |\n| 3. | iloczyn jest mniejszy od 110000₍₂₎.    | P | F |\n| 4. | iloraz jest wiekszy od 10₍₂₎.          | P | F |",
+          "odpowiedz": "F, P, F, P\n\n1111₍₂₎ = 15₍₁₀₎, 101₍₂₎ = 5₍₁₀₎\n\n1. Suma: 15+5 = 20 = 10100₍₂₎, nie 10110₍₂₎ (=22) → F\n2. Roznica: 15-5 = 10 = 1010₍₂₎ → P\n3. Iloczyn: 15*5 = 75, 110000₍₂₎ = 48. 75 > 48, wiec NIE jest mniejszy → F\n4. Iloraz: 15/5 = 3 = 11₍₂₎, 10₍₂₎ = 2. 3 > 2 → P",
+          "zasady_oceniania": "1 p. -- za wskazanie czterech poprawnych odpowiedzi.\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Dodawanie binarne z przeniesieniem: 1111+101=10100, NIE 10110",
+            "Iloczyn: 15*5=75=1001011₍₂₎, co jest wieksze od 110000₍₂₎=48",
+            "Iloraz calkowity: 15 div 5 = 3 = 11₍₂₎ > 10₍₂₎ = 2"
+          ]
+        },
+        {
+          "id": "2016.3.4",
+          "numer": "3.4",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.4. (0-1)\n\n| Nr | Stwierdzenie                                                                     | P | F |\n|----|----------------------------------------------------------------------------------|---|---|\n| 1. | Jednym z zadan systemu operacyjnego jest przydzial pamieci dzialajacym programom. | P | F |\n| 2. | Na jednym dysku twardym moga byc zainstalowane dwa systemy operacyjne.            | P | F |\n| 3. | System operacyjny musi byc przechowywany w pamieci ROM.                           | P | F |\n| 4. | System operacyjny musi byc przechowywany na twardym dysku.                        | P | F |",
+          "odpowiedz": "P, P, F, F\n\n1. P -- zarzadzanie pamiecia to jedna z podstawowych funkcji systemu operacyjnego.\n2. P -- mozna zainstalowac wiele systemow operacyjnych na jednym dysku (dual boot, partycje).\n3. F -- system operacyjny NIE musi byc w ROM (jest zwykle na dysku twardym lub SSD; ROM zawiera jedynie BIOS/UEFI).\n4. F -- system operacyjny nie musi byc na dysku twardym (moze byc na SSD, USB, CD, a nawet w sieci -- PXE boot).",
+          "zasady_oceniania": "1 p. -- za wskazanie czterech poprawnych odpowiedzi.\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "ROM przechowuje BIOS/UEFI, nie caly system operacyjny",
+            "System moze byc uruchamiany z USB, CD, sieci -- nie musi byc na HDD",
+            "Dual boot jest mozliwy na jednym dysku"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "sieci_komputerowe",
+          "rekurencja",
+          "systemy_liczbowe",
+          "systemy_operacyjne"
+        ],
+        "algorytmiczny": [
+          "diagnostyka_sieci",
+          "sledzenie_rekurencji",
+          "arytmetyka_binarna"
+        ],
+        "czasowy_min": 10
+      }
+    },
+    {
+      "numer": 4,
+      "tytul": "Metoda Monte Carlo - przyblizone obliczanie liczby pi",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "UWAGA: Tresc zrekonstruowana z odpowiedzi.pdf i plikow danych (brak arkusza Czesci II).\n\nW pliku punkty.txt znajduja sie wspolrzedne (x, y) punktow, gdzie x i y sa liczbami calkowitymi z przedzialu [0, 400]. Punkty naleza do kwadratu o boku 400.\n\nW kwadrat wpisano kolo o promieniu R = 200 i srodku w punkcie (200, 200). Punkt (x, y) lezy wewnatrz kola, jezeli (x-200)^2 + (y-200)^2 <= 200^2. Punkt lezy na okregu, jezeli (x-200)^2 + (y-200)^2 = 200^2.\n\nMetoda Monte Carlo pozwala przyblizac wartosc liczby pi na podstawie stosunku liczby punktow wewnatrz kola do calkowitej liczby punktow w kwadracie:\npi ≈ 4 * (liczba_punktow_w_kole / N)\ngdzie N to liczba rozpatrywanych punktow.\n\nPlik punkty.txt zawiera pary liczb (x, y) oddzielone spacja, po jednej parze w wierszu. Dane nalezy zaimportowac do arkusza kalkulacyjnego.\n\nFormat pliku punkty.txt:\n145 370\n116 330\n389 191\n...",
+      "podzadania": [
+        {
+          "id": "2016.4.1",
+          "numer": "4.1",
+          "punkty": 3,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.1. (0-3)\nZnajdz wspolrzedne punktow lezacych dokladnie na okregu kola (spelniajacych warunek (x-200)^2 + (y-200)^2 = 200^2) oraz podaj liczbe punktow lezacych wewnatrz kola (spelniajacych warunek (x-200)^2 + (y-200)^2 <= 200^2).",
+          "odpowiedz": "Punkty na okregu: (256, 8) i (200, 400)\nLiczba punktow lezacych wewnatrz kola: 7852",
+          "zasady_oceniania": "3 p. -- za podanie poprawnej odpowiedzi, w tym:\n  2 p. -- za prawidlowe wspolrzedne (po jednym punkcie za jedna pare wspolrzednych)\n  1 p. -- za prawidlowa liczbe punktow kola.\n0 p. -- za kazda inna odpowiedz z blednymiw spolrzednymi albo brak odpowiedzi.",
+          "pulapki": [
+            "Warunek na okregu: (x-200)^2 + (y-200)^2 = R^2 (rownosc, nie nierownosc)",
+            "Warunek wewnatrz kola: <= R^2 (wlacznie z brzegiem)",
+            "Punkty na okregu TEZ licza sie jako wewnatrz kola"
+          ]
+        },
+        {
+          "id": "2016.4.2",
+          "numer": "4.2",
+          "punkty": 3,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.2. (0-3)\nOblicz przyblizana wartosc liczby pi dla N = 500, N = 1000 i N = 1700 (pierwszych N punktow z pliku). Wyniki zaokraglij do 4 miejsc po przecinku.",
+          "odpowiedz": "a) pi_500 ≈ 3,2280 (albo 3,228)\nb) pi_1000 ≈ 3,1656\nc) pi_1700 ≈ 3,1416\n\nUwaga: W przypadku wszystkich prawidlowych wynikow z wyzsza dokladnoscia lub z dokladnoscia do dwoch lub trzech miejsc po przecinku -- 2 punkty.\nJesli zdajacy nie wezamie pod uwage brzegu kola i uzyska ponizsze wyniki -- 2 punkty:\na) 3,2240 albo 3,224\nb) 3,1648\nc) 3,1408\nZa sume bledow -- zaokraglenia i brak brzegu kola -- 1 punkt.",
+          "zasady_oceniania": "3 p. -- za podanie trzech prawidlowych wynikow.\n2 p. -- za podanie dwoch prawidlowych wynikow.\n1 p. -- za podanie jednego prawidlowego wyniku.\n0 p. -- za odpowiedz bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Roznica z/bez brzegu kola: (x-200)^2+(y-200)^2 <= R^2 vs < R^2",
+            "Zaokraglenie do 4 miejsc po przecinku",
+            "Formula: pi = 4 * count_inside / N"
+          ]
+        },
+        {
+          "id": "2016.4.3",
+          "numer": "4.3",
+          "punkty": 5,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.3. (0-5)\nOblicz blad bezwzgledny aproksymacji liczby pi (epsilon = |pi_przyblizane - pi|) dla N = 1000 i N = 1700. Narysuj wykres przedstawiajacy zaleznosc bledu bezwzglednego od N.",
+          "odpowiedz": "epsilon_1000 = 0,0864\nepsilon_1700 = 0,0184\n\nWykres: wykres liniowy/kolumnowy pokazujacy malejacy blad bezwzgledny w funkcji N (od N=1 do N=1700). Blad zaczyna sie od wartosci okolo 1,0 dla malych N i maleje do okolo 0,02 dla N=1700.\n\nUwaga: Za poprawne wyniki uznajemy takze epsilon_1000 = 0,0824 i epsilon_1700 = 0,0161, ktore wynikaja z nieuwzglednienia brzegu kola w zadaniu 4.2.",
+          "zasady_oceniania": "5 p. -- za poprawna odpowiedz, w tym:\n  3 p. -- za prawidlowe podanie wartosci:\n    - po 1 p. za kazda prawidlowa odpowiedz (lacznie 2 p.)\n    - 1 p. -- za odpowiednia dokladnosc obu wartosci.\n  1 p. -- za poprawny zakres danych i prawidlowy typ wykresu.\n  1 p. -- za czytelny opis wykresu.\n0 p. -- za odpowiedz bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Blad bezwzgledny = |wartosc_przyblizana - pi|, NIE (pi - wartosc)",
+            "Wykres musi pokazywac trend malejacy",
+            "Czytelne osie i etykiety na wykresie"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2016_maj/Dane_NOWA/",
+      "pliki_danych": [
+        "punkty.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "arkusz_kalkulacyjny",
+          "metoda_Monte_Carlo",
+          "geometria",
+          "aproksymacja_pi"
+        ],
+        "algorytmiczny": [
+          "sprawdzanie_przynaleznosci_do_kola",
+          "obliczanie_bledu",
+          "symulacje"
+        ],
+        "czasowy_min": 40
+      }
+    },
+    {
+      "numer": 5,
+      "tytul": "Baza danych SQL - Uniwersytet",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "UWAGA: Tresc zrekonstruowana z odpowiedzi.pdf i plikow danych (brak arkusza Czesci II).\n\nBaza danych zawiera informacje o uniwersytecie: studentach, pokojach w akademiku, oraz wypozyczeniach ksiazek z biblioteki.\n\nTabele w bazie danych:\n- studenci (pesel TEXT, nazwisko TEXT, imie TEXT) -- dane studentow\n- meldunek (pesel TEXT, id_pok INTEGER) -- przypisanie studentow do pokoi w akademiku\n- wypozyczenia (lp INTEGER, pesel TEXT, tytul TEXT) -- wypozyczenia ksiazek\n\nUwaga: Moze istniec dodatkowa tabela z informacjami o ksiazkach i ich autorach (schemat z arkusza Czesci II nieznany).\n\nPlec studenta mozna okreslic na podstawie numeru PESEL: 10. cyfra PESEL (od lewej, liczac od 1) -- jesli parzysta to kobieta, jesli nieparzysta to mezczyzna.\n\nPlik studenci.txt: pesel(TAB)nazwisko(TAB)imie -- 330 studentow\nPlik meldunek.txt: pesel(TAB)id_pok -- przydzial pokoi (70 pokoi, nie wszyscy studenci mieszkaja w akademiku)\nPlik wypozyczenia.txt: lp(TAB)pesel(TAB)tytul -- rejestr wypozyczen",
+      "podzadania": [
+        {
+          "id": "2016.5.1",
+          "numer": "5.1",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 5.1. (0-2)\nZnajdz autora, ktory napisal ksiazki o najdluzszych tytulach. Podaj imie i nazwisko tego autora oraz tytuly jego ksiazek.\n\nUwaga: zadanie wymaga polaczenia tabel (JOIN) z tabela ksiazek/autorow.",
+          "odpowiedz": "Imie i nazwisko: KRZYSZTOF LEWANDOWSKI\nTytuly ksiazek:\n- FLASH I PHP\n- JEZYKI PROGRAMOWANIA II\n- METODY NUMERYCZNE II\n- TEORIA GRAFOW",
+          "zasady_oceniania": "2 p. -- za poprawne podanie imienia i nazwiska oraz wszystkich tytulow ksiazek.\n1 p. -- za poprawne podanie imienia i nazwiska lub wszystkich tytulow ksiazek.\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Wymaga JOIN z tabela ksiazek/autorow",
+            "Najdluzsze tytuly -- LENGTH/LEN w roznych DBMS",
+            "Trzeba podac WSZYSTKIE tytuly tego autora"
+          ]
+        },
+        {
+          "id": "2016.5.2",
+          "numer": "5.2",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 5.2. (0-2)\nOblicz srednia liczbe studentow przypadajacych na jeden pokoj w akademiku. Wynik zaokraglij do 4 miejsc po przecinku.",
+          "odpowiedz": "4,7101\n\nUwaga: Za wynik bez prawidlowego zaokraglenia np. 4,7101449275 lub 4,71 albo za wynik liczony na 70 pokojach (4,6429) -- 1 punkt.",
+          "zasady_oceniania": "2 p. -- za prawidlowy wynik zaokraglony zgodnie z trescia zadania.\n1 p. -- za wynik bez prawidlowego zaokraglenia np. 4,7101449275 lub 4,71 albo za wynik liczony na 70 pokojach (4,6429).\n0 p. -- za odpowiedz bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Zaokraglenie do 4 miejsc: ROUND(..., 4)",
+            "Srednia = COUNT(studenci w akademiku) / COUNT(DISTINCT id_pok z meldunek)",
+            "Nie wszystkie 70 pokoi musza byc zajete -- liczyc tylko zajete pokoje",
+            "Wynik 4,6429 = 325/70 (bledne: liczy wszystkie pokoje)"
+          ]
+        },
+        {
+          "id": "2016.5.3",
+          "numer": "5.3",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 5.3. (0-2)\nPodaj liczbe studentek (kobiet) i studentow (mezczyzn) mieszkajacych w akademiku.\n\nWskazowka: Plec okresla 10. cyfra PESEL -- parzysta = kobieta, nieparzysta = mezczyzna. W SQL: SUBSTR(pesel, 10, 1) lub MID(pesel, 10, 1).",
+          "odpowiedz": "Kobiety: 138\nMezczyzni: 192\n\nUwaga: W przypadku otrzymania wynikow (kobiety = 153, mezczyzni = 177) -- 1 punkt. Te wartosci wynikaja z liczenia wszystkich studentow, nie tylko tych w akademiku.",
+          "zasady_oceniania": "2 p. -- za prawidlowe podanie dwoch wynikow.\n1 p. -- za prawidlowe podanie jednego wyniku.\n0 p. -- za odpowiedz bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Liczyc tylko studentow Z AKADEMIKU (z tabeli meldunek), nie wszystkich",
+            "10. cyfra PESEL okresla plec: parzysta=K, nieparzysta=M",
+            "SUBSTR/MID indeksowanie: PESEL ma 11 cyfr, 10. od lewej",
+            "Bledne wyniki 153/177 = wszyscy studenci (nie tylko w akademiku)"
+          ]
+        },
+        {
+          "id": "2016.5.4",
+          "numer": "5.4",
+          "punkty": 3,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 5.4. (0-3)\nPodaj nazwiska i imiona studentow, ktorzy nie wypozyczyli jeszcze zadnej ksiazki. Wyniki posortuj alfabetycznie wg nazwiska.",
+          "odpowiedz": "| nazwisko        | imie    |\n|-----------------|---------|\n| DYLAG           | JACEK   |\n| NAJDA           | PIOTR   |\n| PIETRASZEWSKI   | STEFAN  |\n| SIECZKOWSKI     | MACIEJ  |\n| ZALESKA         | JULIA   |\n\n5 studentow, posortowanych alfabetycznie wg nazwiska.\n\nPrzykladowe zapytanie SQL:\nSELECT nazwisko, imie\nFROM studenci\nWHERE pesel NOT IN (SELECT pesel FROM wypozyczenia)\nORDER BY nazwisko;",
+          "zasady_oceniania": "3 p. -- za poprawne zestawienie wszystkich wynikow oraz ich posortowanie.\n2 p. -- za poprawne zestawienie wszystkich wynikow, ale ich nieposortowanie.\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.\nUwaga: Nie przyznaje sie 1 p.",
+          "pulapki": [
+            "NOT IN lub LEFT JOIN ... IS NULL dla znalezienia studentow bez wypozyczen",
+            "Sortowanie alfabetyczne wg nazwiska (ORDER BY nazwisko)",
+            "Brak sortowania = -1 punkt"
+          ]
+        },
+        {
+          "id": "2016.5.5",
+          "numer": "5.5",
+          "punkty": 3,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 5.5. (0-3)\nPodaj liczbe studentow, ktorzy wypozyczyli wiecej niz 3 ksiazki.\n\nPrzykladowe zapytanie SQL:\nSELECT COUNT(*)\nFROM (\n    SELECT pesel\n    FROM wypozyczenia\n    GROUP BY pesel\n    HAVING COUNT(*) > 3\n);",
+          "odpowiedz": "316\n\nUwaga: Wynik 311 (nieuwzgledniajacy studentow spoza kampusu/akademiku) -- 1 punkt.",
+          "zasady_oceniania": "3 p. -- za podanie prawidlowego wyniku.\n1 p. -- za wynik nieuwzgledniajacy studentow spoza kampusu (311).\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.\nUwaga: Nie przyznaje sie 2 p.",
+          "pulapki": [
+            "Liczyc WSZYSTKICH studentow, nie tylko z akademiku",
+            "GROUP BY pesel HAVING COUNT(*) > 3",
+            "Bledny wynik 311 = tylko studenci z meldunek, a trzeba wszystkich",
+            "Podzapytanie z GROUP BY + HAVING, zewnetrzne COUNT"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2016_maj/Dane_NOWA/",
+      "pliki_danych": [
+        "studenci.txt",
+        "meldunek.txt",
+        "wypozyczenia.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "bazy_danych",
+          "SQL",
+          "JOIN",
+          "agregacja",
+          "podzapytania"
+        ],
+        "algorytmiczny": [
+          "JOIN_wiele_tabel",
+          "MAX_LENGTH",
+          "AVG",
+          "COUNT_GROUP_BY",
+          "NOT_IN"
+        ],
+        "czasowy_min": 40
+      }
+    },
+    {
+      "numer": 6,
+      "tytul": "Szyfr Cezara",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "UWAGA: Tresc zrekonstruowana z odpowiedzi.pdf i plikow danych (brak arkusza Czesci II).\n\nZadanie dotyczy szyfru Cezara -- szyfru podstawieniowego, w ktorym kazda litera tekstu jawnego jest zastepowana litera przesunieta o okreslona liczbe pozycji w alfabecie.\n\nAlfabet sklada sie z 26 liter: A=0, B=1, C=2, ..., Z=25.\n\nSzyfrowanie: litera_zaszyfrowana = (litera_jawna + przesuniecie) mod 26\nDeszyfrowanie: litera_jawna = (litera_zaszyfrowana - przesuniecie + 26) mod 26\n\nZadanie 6.1 uzywa stalego przesuniecia = 3 do zaszyfrowania 100 slow z pliku dane_6_1.txt.\nZadania 6.2 i 6.3 uzywaja klucza zmiennego (slowa kluczowego, np. 'KOMPUTER'), gdzie przesuniecie kazdej litery zalezy od odpowiedniej litery klucza (klucz powtarza sie cyklicznie). Przesuniecie = pozycja litery klucza w alfabecie (A=0, B=1, ..., Z=25).\n\nBlad szyfrowania (brak zawijania): gdy litera_jawna + przesuniecie > 25, zamiast zawinac cyklicznie (mod 26), program generuje nieprawidlowy znak (znak spoza alfabetu A-Z).\n\nPliki danych:\n- dane_6_1.txt: 100 slow (wielkie litery A-Z), jedno slowo w wierszu -- do zaszyfrowania\n- dane_6_2.txt: 3000 zaszyfrowanych nazwisk (kluczem zmiennym) -- do odszyfrowania\n- dane_6_3.txt: 3000 nazwisk zaszyfrowanych Z BLEDEM (bez zawijania cyklicznego) -- do analizy bledow",
+      "podzadania": [
+        {
+          "id": "2016.6.1",
+          "numer": "6.1",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 6.1. (0-3)\nZaszyfruj 100 slow z pliku dane_6_1.txt szyfrem Cezara z przesunieciem 3 (kazda litera przesunieta o 3 pozycje w prawo, z zawijaniem cyklicznym: Z+3 → C).\n\nWynik zapisz do pliku wynikowego.",
+          "odpowiedz": "Ostatnie 4 wiersze pliku wynikowego:\n\n| Nr wiersza | Tekst jawny  | Tekst zaszyfrowany | Blad zaw. cykl. / brak zawijania |\n|------------|-------------|--------------------|---------------------------------|\n| 97         | INWOKACJA   | LQZRNDFMD          | LQZRNDFMD                       |\n| 98         | INWESTOWANIE| LQZHVWRZDQLH       | LQZHVWRZDQLH                    |\n| 99         | ROZSZERZANIE| URCVCHUCDQLH       | UR#V#HU#DQLH                    |\n| 100        | ARYSTOTELES | DUBVWRWHOHV        | DU#VWRWHOHV                     |\n\nPrzyklad szyfrowania (przesuniecie=3):\nR(17)+3=U(20), O(14)+3=R(17), Z(25)+3=C(2) [zawijanie!], S(18)+3=V(21), ...\nBez zawijania: Z(25)+3=28 → znak spoza alfabetu (#).",
+          "zasady_oceniania": "3 p. -- za poprawny plik wynikowy.\n2 p. -- za pominiecie ostatniego wiersza.\n1 p. -- za plik z blednym wykonaniem zawijania cyklicznego albo bez zawijania.\n0 p. -- za odpowiedz bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Zawijanie cykliczne: (kod + 3) mod 26, np. Z(25)+3 = C(2)",
+            "Brak zawijania = czesc punktow",
+            "Pominiecie ostatniego wiersza = -1 punkt",
+            "Kazda litera przesuwana o 3, bez wyjatkow"
+          ]
+        },
+        {
+          "id": "2016.6.2",
+          "numer": "6.2",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 6.2. (0-4)\nOdszyfruj nazwiska z pliku dane_6_2.txt. Plik zawiera 3000 zaszyfrowanych nazwisk (kluczem zmiennym -- slowo kluczowe powtarzajace sie cyklicznie). Wynik (odszyfrowane nazwiska) zapisz do pliku wynikowego.\n\nSprawdzane jest pierwszych 700 wierszy pliku wynikowego. W przypadku braku pliku uruchamiany jest program i ustalane wczytywanie 700 wierszy.",
+          "odpowiedz": "Przyklady poprawnie odszyfrowanych nazwisk:\n\n| Linia | Poprawny wynik | Blad zawijania | Dlugosc alfabetu = 25 |\n|-------|----------------|----------------|-----------------------|\n| 10    | KREZEL         | KRE#EL         | KREYEL                |\n| 11    | ANTOLAK        | ANTOLAK        | THNIFTE               |\n| 100   | KWIATKOWSKI    | KWIATKOWSKI    | JVHYSJNVRJH           |\n| 453   | LADA           | LADA           | LADA                  |\n\nKolumna 'Blad zawijania': wynik deszyfrowania bez poprawnego zawijania (mod 26) -- ujemne wartosci daja #.\nKolumna 'Dlugosc alfabetu = 25': wynik z mod 25 zamiast mod 26.",
+          "zasady_oceniania": "4 p. -- za poprawy plik wynikowy.\n2 p. -- za bledne dekodowanie jednej z liter alfabetu lub bledne rozwiazanie wynikajace z bledu zawijania lub za bledne rozwiazanie wynikajace z przyjecia blednej dlugosci alfabetu (25).\n0 p. -- za odpowiedz bledna albo brak odpowiedzi.\nUwaga: Nie przyznaje sie 3 p. i 1 p.",
+          "pulapki": [
+            "Deszyfrowanie: (zaszyfrowana - klucz + 26) mod 26",
+            "Klucz powtarza sie cyklicznie (dlugosc klucza moze byc krotsza niz slowo)",
+            "Blad zawijania: ujemna roznica bez dodania 26 daje nieprawidlowy znak",
+            "Blad dlugosci alfabetu: mod 25 zamiast mod 26 zmienia wyniki"
+          ]
+        },
+        {
+          "id": "2016.6.3",
+          "numer": "6.3",
+          "punkty": 5,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 6.3. (0-5)\nPlik dane_6_3.txt zawiera 3000 nazwisk zaszyfrowanych BEZ poprawnego zawijania cyklicznego (gdy litera + przesuniecie > 25, zamiast zawinac, powstaje bledny znak). Znajdz wszystkie nazwiska (w formie jawnej -- odszyfrowanej), ktorych wersja zaszyfrowana blednie (bez zawijania) rozni sie od wersji zaszyfrowanej poprawnie (z zawijaniem).\n\nInnymi slowy: znajdz te nazwiska, w ktorych przynajmniej jedna litera po zaszyfrowaniu kluczem przekroczyłaby wartosc 25 (Z) i wymagala zawijania.",
+          "odpowiedz": "8 nazwisk zaszyfrowanych blednie:\n1. SMIGIELSKI\n2. JANEK\n3. JANUSZEWSKI\n4. WOLAK\n5. GAJEK\n6. MROCZKOWSKI\n7. SZCZESNIAK\n8. CIESLINSKI\n\nPlik z poprawnie kodowanymi nazwiskami zawiera 2992 (3000-8) nazwisk.\nPlik z 'bledem zawijania' zawiera 2296 nazwisk.",
+          "zasady_oceniania": "5 p. -- za poprawny plik wynikowy.\n3 p. -- w przypadku programu przepisujacego tylko poprawnie kodowane nazwiska (odwrotnie niz w poleceniu) -- 2992 nazwisk.\n2 p. -- w przypadku programu znajdujacego blednie zaszyfrowane nazwiska (bez uwzglednienia zawijania) -- 2296 nazwisk.\n0 p. -- za odpowiedz bledna albo brak odpowiedzi.\nUwaga: Nie przyznaje sie 4 p. i 1 p.",
+          "pulapki": [
+            "Bledne szyfrowanie: litera + klucz > 25 → brak zawijania",
+            "Trzeba porownac bledne szyfrowanie z poprawnym dla kazdego nazwiska",
+            "Odpowiedz to nazwy JAWNE (odszyfrowane), nie zaszyfrowane",
+            "2992 poprawnych + 8 blednych = 3000 w pliku"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2016_maj/Dane_NOWA/",
+      "pliki_danych": [
+        "dane_6_1.txt",
+        "dane_6_2.txt",
+        "dane_6_3.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "kryptografia",
+          "szyfr_Cezara",
+          "operacje_na_stringach",
+          "przetwarzanie_plikow"
+        ],
+        "algorytmiczny": [
+          "szyfrowanie_podstawieniowe",
+          "zawijanie_cykliczne",
+          "odszyfrowywanie",
+          "wykrywanie_bledow"
+        ],
+        "czasowy_min": 50
+      }
+    }
+  ]
+}

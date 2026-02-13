@@ -1,0 +1,485 @@
+{
+  "rok": 2015,
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny, bazy danych)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Problem telewidza",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "W Problemie telewidza mamy program telewizyjny, zawierajacy liste filmow emitowanych w roznych stacjach telewizyjnych jednego dnia. Telewidz zamierza obejrzec jak najwiecej filmow w calosci. Jedyne ograniczenie jest takie, ze telewidz moze ogladac co najwyzej jeden film (stacje telewizyjne) jednoczesnie. Zakladamy, ze jednego dnia wszystkie filmy sa rozne.\n\nProgram telewizyjny emisji filmow w 4 stacjach telewizyjnych:\n\n| Telewizja / stacja | Film i godziny jego emisji     | Czas trwania emisji filmu |\n|---------------------|-------------------------------|---------------------------|\n| TV1                 | film 1: od 9:00 do 12:00     | 3 godziny                 |\n| TV1                 | film 2: od 15:00 do 17:00    | 2 godziny                 |\n| TV2                 | film 3: od 11:00 do 16:00    | 5 godzin                  |\n| TV3                 | film 4: od 12:00 do 14:00    | 2 godziny                 |\n| TV4                 | film 5: od 11:30 do 12:30    | 1 godzina                 |\n\nDla programu podanego powyzej telewidz jest w stanie obejrzec az trzy filmy, np.: film 1, film 4, film 2. Przyjmujemy, ze telewidz nie traci w ogole czasu na przelaczanie pomiedzy stacjami (np. o godz. 12:00 z TV1 na TV3). Innymi slowy, czasy emisji filmow 1 i 4 nie koliduja ze soba.\n\nRozwaz nastepujacy algorytm wyboru filmow do obejrzenia przez telewidza, w ktorym w kroku 2. stosuje sie jedna z czterech strategii opisanych w tabeli 1.\n\nSpecyfikacja:\nDane:\n  T -- zbior filmow z programu telewizyjnego z godzinami emisji i czasami ich trwania,\n  S -- strategia z tabeli 1.\nWynik:\n  P -- zbior filmow, ktore obejrzy telewidz.\n\nAlgorytm:\nKrok 1. Zainicjuj P jako zbior pusty.\nKrok 2. Dopoki T zawiera jakies filmy, wykonuj:\n  - stosujac strategie S, wybierz ze zbioru T film x i usun go z T\n  - dodaj film x do zbioru P\n  - usun ze zbioru T wszystkie filmy, ktorych czasy emisji koliduja z czasem emisji filmu x.\nKrok 3. Zakoncz wykonywanie algorytmu i wypisz wszystkie filmy ze zbioru P.\n\nTabela 1. Cztery strategie (S) w Problemie telewidza:\n\n| Strategia A | Wybierz film, ktory trwa najdluzej, a jesli jest takich wiecej, to wybierz z nich ten, ktory sie najwczesniej konczy. Jesli jest wiecej takich filmow, wybierz dowolny z nich. |\n| Strategia B | Wybierz film, ktory trwa najkrocej, a jesli jest takich wiecej, to wybierz z nich ten, ktory sie najwczesniej konczy. Jesli jest wiecej takich filmow, wybierz dowolny z nich. |\n| Strategia C | Wybierz film, ktory sie najwczesniej zaczyna, a jesli jest takich wiecej, to wybierz z nich ten, ktory sie najwczesniej konczy. Jesli jest wiecej takich filmow, wybierz dowolny z nich. |\n| Strategia D | Wybierz film, ktory sie najwczesniej konczy, a jesli jest takich wiecej, to wybierz z nich ten, ktory sie najpozniej zaczyna. Jesli jest wiecej takich filmow, wybierz dowolny z nich. |\n\nPrzyklad: Dla podanego programu telewizyjnego zastosowanie w kroku 2. strategii A daje wynik P = {film 3}, czyli telewidz obejrzy tylko jeden film.",
+      "podzadania": [
+        {
+          "id": "2015.1.1",
+          "numer": "1.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1. (0-2)\nDla podanego programu telewizyjnego podaj wyniki wykonywania algorytmu po zastosowaniu strategii B, C i D.\n\nWypelnij tabele:\n\n| Strategia S | Zawartosc zbioru P po zakonczeniu wykonywania algorytmu |\n|-------------|--------------------------------------------------------|\n| B           |                                                        |\n| C           |                                                        |\n| D           |                                                        |",
+          "odpowiedz": "| Strategia S | Zawartosc zbioru P |\n|-------------|--------------------|\n| B           | {film 5, film 2}   |\n| C           | {film 1, film 4, film 2} |\n| D           | {film 1, film 4, film 2} |\n\nSledzenie strategii B:\n1. Najkrotszy: film 5 (1h). Usun film 5 z T, dodaj do P. Kolidujace: film 3 (11:00-16:00 koliduje z 11:30-12:30), film 4 (12:00-14:00 koliduje z 11:30-12:30). Usun film 3 i 4.\n   T = {film 1, film 2}, P = {film 5}\n2. Najkrotszy: film 2 (2h). Usun film 2, dodaj do P. Kolidujace: brak.\n   T = {film 1}, P = {film 5, film 2}\n3. Film 1 nie koliduje z P? Film 1 konczy sie o 12:00, film 5 zaczyna 11:30 -- koliduje! Ale film 1 juz nie jest w T po kroku 2? Ah nie, film 1 jest w T. Film 1 (9-12) koliduje z film 5 (11:30-12:30)? Tak. Wiec film 1 zostal usuniety w kroku 1.\n   Wiec po kroku 1: T = {film 1, film 2}.\n   Czekaj -- film 1 (9:00-12:00) koliduje z film 5 (11:30-12:30)? Tak, zachodza na siebie.\n   Wiec po wybraniu film 5: T = {film 2}, P = {film 5}\n   Po wybraniu film 2: T = {}, P = {film 5, film 2}\n\nSledzenie strategii C:\n1. Najwczesniej zaczyna: film 1 (9:00). Dodaj do P. Kolidujace z film 1 (9-12): film 3 (11-16), film 5 (11:30-12:30). Usun film 3, 5.\n   T = {film 2, film 4}, P = {film 1}\n2. Najwczesniej: film 4 (12:00). Dodaj do P. Kolidujace: brak (film 2 zaczyna 15:00).\n   T = {film 2}, P = {film 1, film 4}\n3. Film 2 (15:00-17:00). Dodaj do P.\n   P = {film 1, film 4, film 2}\n\nSledzenie strategii D:\n1. Najwczesniej konczy: film 1 (12:00). Dodaj do P. Kolidujace z film 1 (9-12): film 3, film 5. Usun.\n   T = {film 2, film 4}, P = {film 1}\n2. Najwczesniej konczy: film 4 (14:00). Dodaj do P. Brak kolizji.\n   T = {film 2}, P = {film 1, film 4}\n3. Film 2. Dodaj.\n   P = {film 1, film 4, film 2}",
+          "zasady_oceniania": "2 p. -- za podanie poprawnych wynikow dla trzech strategii.\n1 p. -- za podanie poprawnego wyniku dla co najmniej jednej, ale nie wszystkich strategii.\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Film 5 (11:30-12:30) koliduje z filmem 1 (9-12), filmem 3 (11-16) i filmem 4 (12-14)",
+            "Strategia B: najkrotszy film 5 (1h), nie film 4 (2h)",
+            "Strategie C i D daja ten sam wynik {film 1, film 4, film 2} = 3 filmy (optymalna)",
+            "Strategia D (earliest finish) jest optymalna dla Activity Selection Problem"
+          ]
+        },
+        {
+          "id": "2015.1.2",
+          "numer": "1.2",
+          "punkty": 3,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2. (0-3)\nZastosowana strategia S w algorytmie jest optymalna, jesli dla kazdego programu telewizyjnego wynik algorytmu (zbior P) zawiera najwieksza mozliwa liczbe filmow, ktore moze obejrzec telewidz.\n\nUwaga: Strategia A nie jest optymalna, poniewaz telewidz moze obejrzec trzy filmy: film 1, film 4 oraz film 2.\n\nDla strategii A, B i C podaj w przygotowanych tabelach przyklady programow telewizyjnych, z emisja czterech filmow w dwoch stacjach, bedace dowodami, ze zadna z tych strategii nie jest optymalna.\n\nDla kazdej strategii i podanego dla niej programu telewizyjnego podaj wynik dzialania algorytmu oraz przyklad ilustrujacy, ze telewidz moze obejrzec wiecej filmow, jezeli nie uzywa tej strategii.\n\nWskazowka: Podaj takie godziny emisji czterech filmow, aby telewidz byl w stanie obejrzec np. trzy lub wiecej filmow, podczas gdy zastosowanie algorytmu z odpowiednia strategia daje rozwiazanie zawierajace co najwyzej dwa filmy.\n\nDla kazdej strategii (A, B, C) wypelnij tabele:\n| Telewizja/stacja | Film i godziny jego emisji | Czas trwania emisji filmu |\n|------------------|---------------------------|---------------------------|\n| TV1              | film 1 (od ... do ...)    |                           |\n|                  | film 2 (od ... do ...)    |                           |\n| TV2              | film 3 (od ... do ...)    |                           |\n|                  | film 4 (od ... do ...)    |                           |\n\nWynik dzialania algorytmu przy zastosowaniu strategii [A/B/C]: P = {...}\nLiczniejszy zbior filmow, ktore moze obejrzec widz: {...}",
+          "odpowiedz": "Kontrprzyklad dla strategii A:\n| TV1 | film 1: od 10:00 do 12:00 (2h) | film 2: od 12:00 do 14:00 (2h) |\n| TV2 | film 3: od 10:00 do 11:00 (1h) | film 4: od 11:00 do 12:00 (1h) |\nA wybiera najdluzszy: film 1 (2h). Koliduje z film 3 i 4. Wynik: P = {film 1, film 2} (2 filmy).\nOptymalne: {film 3, film 4, film 2} (3 filmy).\n\nKontrprzyklad dla strategii B:\n| TV1 | film 1: od 11:30 do 12:30 (1h) | film 2: od 15:00 do 16:00 (1h) |\n| TV2 | film 3: od 10:00 do 12:00 (2h) | film 4: od 12:00 do 14:00 (2h) |\nB wybiera najkrotszy z najwczesniejszym koncem: film 1 (1h, koniec 12:30). Koliduje z film 3 i 4. Wynik: P = {film 1, film 2} (2 filmy).\nOptymalne: {film 3, film 4, film 2} (3 filmy).\n\nKontrprzyklad dla strategii C:\n| TV1 | film 1: od 9:00 do 14:00 (5h) | film 2: od 15:00 do 16:00 (1h) |\n| TV2 | film 3: od 10:00 do 12:00 (2h) | film 4: od 12:00 do 14:00 (2h) |\nC wybiera najwczesniej zaczynajacy: film 1 (9:00). Koliduje z film 3 i 4. Wynik: P = {film 1, film 2} (2 filmy).\nOptymalne: {film 3, film 4, film 2} (3 filmy).",
+          "zasady_oceniania": "3 p. -- za poprawne podanie kontrprzykladow dla wszystkich trzech strategii (A, B, C).\n2 p. -- za poprawne podanie kontrprzykladow dla dwoch strategii.\n1 p. -- za poprawne podanie kontrprzykladu dla jednej strategii.\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Kazdy kontrprzyklad musi miec dokladnie 4 filmy i 2 stacje",
+            "Algorytm z dana strategia musi dawac <= 2 filmy, a optymalne >= 3",
+            "Strategia D NIE wymaga kontrprzykladu (jest optymalna - earliest finish time)",
+            "Kontrprzyklad musi dzialac dla KONKRETNEJ strategii, nie wszystkich naraz",
+            "Trzeba podac WYNIK algorytmu I optymalny zbior"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "algorytmy_zachlanne",
+          "optymalizacja",
+          "activity_selection"
+        ],
+        "algorytmiczny": [
+          "greedy_algorithms",
+          "interval_scheduling",
+          "analiza_strategii",
+          "kontrprzyklad"
+        ],
+        "czasowy_min": 30
+      }
+    },
+    {
+      "numer": 2,
+      "tytul": "Test",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "Ocen, czy ponizsze zdania sa prawdziwe. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli zdanie jest falszywe. W kazdym zadaniu punkt uzyskasz tylko za komplet poprawnych odpowiedzi.",
+      "podzadania": [
+        {
+          "id": "2015.2.1",
+          "numer": "2.1",
+          "punkty": 1,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1. (0-1)\nPo wymnozeniu dwoch liczb 1032_4 oraz 131_4 zapisanych w systemie czworkowym otrzymamy:\n\n| 1. | 78_10               | P | F |\n| 2. | 8D6_16              | P | F |\n| 3. | 4326_8              | P | F |\n| 4. | 100110101110_2      | P | F |",
+          "odpowiedz": "Odpowiedz: F, P, P, F\n\n1032_4 = 1*64 + 0*16 + 3*4 + 2 = 64 + 12 + 2 = 78_10\n131_4 = 1*16 + 3*4 + 1 = 16 + 12 + 1 = 29_10\n78 * 29 = 2262_10\n\n1. 78_10: FALSZ (2262 != 78)\n2. 8D6_16 = 8*256 + 13*16 + 6 = 2048 + 208 + 6 = 2262. PRAWDA\n3. 4326_8 = 4*512 + 3*64 + 2*8 + 6 = 2048 + 192 + 16 + 6 = 2262. PRAWDA\n4. 100110101110_2 = 2048+128+64+32+8+4+2 = 2286. FALSZ (2286 != 2262)\n   Poprawnie: 2262_10 = 100011010110_2",
+          "zasady_oceniania": "1 p. -- za poprawna odpowiedz (komplet: F, P, P, F).\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "1032_4 to NIE jest 1032 dziesietnie -- to 78 dziesietnie",
+            "Trzeba pomnozyc 78 * 29 = 2262, nie 1032 * 131",
+            "Konwersja na system dwojkowy: 2262 = 100011010110, nie 100110101110"
+          ]
+        },
+        {
+          "id": "2015.2.2",
+          "numer": "2.2",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2. (0-1)\nKompresja stratna w grafice:\n\n| 1. | ma zwiazek z plikami graficznymi w formacie BMP.                                  | P | F |\n| 2. | ma zwiazek z plikami graficznymi w formacie JPG.                                  | P | F |\n| 3. | jest metoda zmniejszania rozmiaru pliku graficznego bez utraty szczegolow w obrazie. | P | F |\n| 4. | wykorzystuje algorytm szyfrowania RSA.                                            | P | F |",
+          "odpowiedz": "Odpowiedz: F, P, F, F\n\n1. FALSZ -- BMP jest formatem bezstratnym (nieskompresowanym)\n2. PRAWDA -- JPG (JPEG) uzywa kompresji stratnej\n3. FALSZ -- kompresja stratna TRACI szegoly (z definicji)\n4. FALSZ -- RSA to algorytm szyfrowania, nie kompresji",
+          "zasady_oceniania": "1 p. -- za poprawna odpowiedz (komplet: F, P, F, F).\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "BMP jest formatem BEZstratnym (raw bitmap)",
+            "Kompresja STRATNA = utrata szczegolow (lossy), BEZstratna = bez utraty (lossless)",
+            "RSA to szyfrowanie asymetryczne, nie kompresja"
+          ]
+        },
+        {
+          "id": "2015.2.3",
+          "numer": "2.3",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.3. (0-1)\nFiltrowanie tabeli w bazie danych:\n\n| 1. | polega na wyborze wierszy spelniajacych okreslone kryterium. | P | F |\n| 2. | polega na wyborze niektorych kolumn z tabeli.                | P | F |\n| 3. | zmienia jej zawartosc.                                       | P | F |\n| 4. | wymaga podania warunku dla jednej lub kilku kolumn tabeli.   | P | F |",
+          "odpowiedz": "Odpowiedz: P, F, F, P\n\n1. PRAWDA -- filtrowanie = wybor wierszy spelniajacych warunek (WHERE)\n2. FALSZ -- wybor kolumn to projekcja (SELECT kolumny), nie filtrowanie\n3. FALSZ -- filtrowanie nie zmienia danych, tylko wybiera podzbiory\n4. PRAWDA -- filtr wymaga warunku na kolumnach (np. WHERE wiek > 18)",
+          "zasady_oceniania": "1 p. -- za poprawna odpowiedz (komplet: P, F, F, P).\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Filtrowanie to SELEKCJA (wybor wierszy), nie PROJEKCJA (wybor kolumn)",
+            "Filtrowanie NIE zmienia danych -- jest operacja tylko-do-odczytu"
+          ]
+        },
+        {
+          "id": "2015.2.4",
+          "numer": "2.4",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.4. (0-1)\nNa licencji ADWARE jest rozpowszechniane oprogramowanie, ktore:\n\n| 1. | jest rozpowszechniane za darmo, ale zawiera funkcje wyswietlajace reklamy. | P | F |\n| 2. | ma otwarty kod zrodlowy.                                                   | P | F |\n| 3. | jest oplacane przez uzytkownika.                                            | P | F |\n| 4. | moze byc uzywane tylko przez z gory ustalony czas.                         | P | F |",
+          "odpowiedz": "Odpowiedz: P, F, F, F\n\n1. PRAWDA -- ADWARE = oprogramowanie z reklamami, darmowe dla uzytkownika\n2. FALSZ -- otwarty kod to open-source, nie ADWARE\n3. FALSZ -- ADWARE jest darmowe (oplacane przez reklamy)\n4. FALSZ -- ograniczenie czasowe to trial/shareware, nie ADWARE",
+          "zasady_oceniania": "1 p. -- za poprawna odpowiedz (komplet: P, F, F, F).\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "ADWARE =/= open-source (otwarty kod)",
+            "ADWARE =/= shareware (ograniczone czasowo)",
+            "ADWARE jest finansowane z reklam, nie przez uzytkownika"
+          ]
+        },
+        {
+          "id": "2015.2.5",
+          "numer": "2.5",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.5. (0-1)\nW komorkach arkusza kalkulacyjnego umieszczone zostaly ponizsze wartosci i formuly:\n\n|   | A | B       | C |\n|---|---|---------|---|\n| 1 | 1 | 2       | 3 |\n| 2 | 2 | =A$2*B1 |   |\n| 3 | 3 |         |   |\n| 4 | 4 |         |   |\n\nNastepnie zawartosc komorki B2 zostala skopiowana do komorki C2 oraz do komorek B3, B4, ..., B10.\nUstal, ktore z ponizszych stwierdzien sa poprawne.\n\n| 1. | W komorce C2 umieszczona zostanie formula =A$2*C1.  | P | F |\n| 2. | W komorce B3 umieszczona zostanie formula =A$2*B2.  | P | F |\n| 3. | Wartosc w komorce B10 wyniesie 1024.                 | P | F |\n| 4. | Wartosc w komorce C2 wyniesie 4.                     | P | F |",
+          "odpowiedz": "Odpowiedz: F, P, P, F\n\nFormula w B2: =A$2*B1. A$2 ma zablokowany wiersz ($2), kolumna A jest wzgledna.\n\nKopiowanie B2 -> C2 (przesuniecie o 1 kolumne w prawo):\n  A$2 -> B$2 (kolumna A+1=B, wiersz 2 zablokowany)\n  B1 -> C1 (kolumna B+1=C, wiersz 1)\n  Formula C2: =B$2*C1 = 2*3 = 6\n\n1. FALSZ -- formula to =B$2*C1, nie =A$2*C1\n4. FALSZ -- wartosc C2 = B$2*C1 = 2*3 = 6, nie 4\n\nKopiowanie B2 -> B3 (przesuniecie o 1 wiersz w dol):\n  A$2 -> A$2 (kolumna A bez zmian, wiersz 2 zablokowany)\n  B1 -> B2 (kolumna B bez zmian, wiersz 1+1=2)\n  Formula B3: =A$2*B2 = 2*B2\n\n2. PRAWDA -- formula B3 = =A$2*B2\n\nWartosci:\n  B2 = A$2*B1 = 2*2 = 4\n  B3 = A$2*B2 = 2*4 = 8\n  B4 = A$2*B3 = 2*8 = 16\n  ...\n  Bn = 2^(n-1) * B1 = 2^(n-1) * 2 = 2^n\n  B10 = 2^10 = 1024\n\n3. PRAWDA -- B10 = 1024",
+          "zasady_oceniania": "1 p. -- za poprawna odpowiedz (komplet: F, P, P, F).\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "$2 blokuje WIERSZ, nie kolumne -- A$2 przy kopiowaniu w prawo zmienia sie na B$2",
+            "C2 = B$2*C1 = 2*3 = 6, nie 4",
+            "B10 = 2^10 = 1024 (ciaг geometryczny: B2=4, B3=8, ..., Bn=2^n)"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "systemy_liczbowe",
+          "grafika_komputerowa",
+          "bazy_danych",
+          "licencje_oprogramowania",
+          "arkusze_kalkulacyjne"
+        ],
+        "algorytmiczny": [
+          "konwersja_systemow",
+          "kompresja_danych",
+          "filtrowanie",
+          "odniesienia_komorkowe"
+        ],
+        "czasowy_min": 10
+      }
+    },
+    {
+      "numer": 3,
+      "tytul": "Rozszerzony algorytm Euklidesa",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "Algorytm Euklidesa to algorytm wyznaczania najwiekszego wspolnego dzielnika (NWD) dwoch liczb calkowitych a > 0 i b >= 0.\n\nSpecyfikacja:\nDane: liczby calkowite, a > 0 i b >= 0\nWynik: najwiekszy wspolny dzielnik liczb a i b.\n\nAlgorytm NWD:\nKrok 1. Jezeli b = 0, to NWD jest rowny a i zakoncz wykonywanie algorytmu.\nKrok 2. Oblicz r jako reszte z dzielenia a przez b.\nKrok 3. Zastap a przez b, natomiast b przez r.\nKrok 4. Przejdz do kroku 1.\n\nW niektorych zastosowaniach informatycznych potrzebujemy wyrazic najwiekszy wspolny dzielnik dwoch liczb calkowitych a, b w nastepujacy sposob:\n\nNWD(a, b) = a * x + b * y\n\ngdzie x i y sa liczbami calkowitymi.\n\nDo wyznaczania wartosci x i y wykorzystywana jest nastepujaca zaleznosc:\ndla r = a mod b roznego od zera oraz liczb calkowitych x', y' takich, ze\nNWD(b, r) = b * x' + r * y'\n\npare liczb (x, y) mozna wyrazic wzorami:\nx = y'\ny = x' - (a div b) * y'\n\nUwaga: a mod b, a div b oznaczaja odpowiednio reszte i iloraz z dzielenia calkowitego a przez b.\n\nOpisana zaleznosc pozwala na rekurencyjne obliczenie pary liczb (x, y).\nNiech RozszerzonyEuklides(a, b) bedzie rekurencyjna funkcja realizujaca ten pomysl.\n\nPrzyklad dla a = 231, b = 30:\n\n| i -- nr wywolania | Wartosc a | Wartosc b | Zagniezdz. rek. | Powrot z rek. | Wynik x | Wynik y |\n|-------------------|-----------|-----------|-----------------|---------------|---------|--------|\n| 1                 | 231       | 30        | v               | ^             | 3       | -23    |\n| 2                 | 30        | 21        | v               | ^             | -2      | 3      |\n| 3                 | 21        | 9         | v               | ^             | 1       | -2     |\n| 4                 | 9         | 3         | v               | ^             | 0       | 1      |\n| 5                 | 3         | 0         | v               | ^             | 1       | 0      |\n\nZatem NWD(231, 30) = 3 = 3 * 231 + (-23) * 30.",
+      "podzadania": [
+        {
+          "id": "2015.3.1",
+          "numer": "3.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1. (0-2)\nUzupelnij ponizsa tabele ilustrujaca wykonanie funkcji RozszerzonyEuklides(a, b) dla danych a = 188, b = 12.\n\n| i -- nr wywolania | Wartosc a w i-tym wywolaniu | Wartosc b w i-tym wywolaniu | Wynik x | Wynik y |\n|-------------------|-----------------------------|-----------------------------|---------|---------|\n| 1                 | 188                         | 12                          |         |         |\n| 2                 |                             |                             |         |         |\n| 3                 |                             |                             |         |         |\n| 4                 |                             | 0                           | 1       | 0       |",
+          "odpowiedz": "| i | a   | b  | x  | y   |\n|---|-----|----|----|-----|\n| 1 | 188 | 12 | -1 | 16  |\n| 2 | 12  | 8  | 1  | -1  |\n| 3 | 8   | 4  | 0  | 1   |\n| 4 | 4   | 0  | 1  | 0   |\n\nSledzenie:\nWywolanie 1: a=188, b=12, r = 188 mod 12 = 8 -> RozszerzonyEuklides(12, 8)\nWywolanie 2: a=12, b=8, r = 12 mod 8 = 4 -> RozszerzonyEuklides(8, 4)\nWywolanie 3: a=8, b=4, r = 8 mod 4 = 0 -> RozszerzonyEuklides(4, 0)\nWywolanie 4: a=4, b=0 -> zwroc (1, 0) [warunek bazowy]\n\nPowroty z rekurencji:\nWywolanie 3: x' = 1, y' = 0. x = y' = 0, y = x' - (8 div 4)*y' = 1 - 2*0 = 1. Zwroc (0, 1).\nWywolanie 2: x' = 0, y' = 1. x = y' = 1, y = x' - (12 div 8)*y' = 0 - 1*1 = -1. Zwroc (1, -1).\nWywolanie 1: x' = 1, y' = -1. x = y' = -1, y = x' - (188 div 12)*y' = 1 - 15*(-1) = 16. Zwroc (-1, 16).\n\nWeryfikacja: NWD(188, 12) = 4 = 188*(-1) + 12*16 = -188 + 192 = 4. Poprawne.",
+          "zasady_oceniania": "2 p. -- za poprawne uzupelnienie calej tabeli.\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.\nUwaga: Nie przyznaje sie 1 p.",
+          "pulapki": [
+            "Powrot z rekurencji -- x i y oblicza sie WSTECZ od warunku bazowego",
+            "188 div 12 = 15 (nie 16), 188 mod 12 = 8",
+            "Wzor: x = y', y = x' - (a div b) * y'",
+            "Warunek bazowy: b=0 -> (1, 0), NIE (0, 1)"
+          ]
+        },
+        {
+          "id": "2015.3.2",
+          "numer": "3.2",
+          "punkty": 3,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2. (0-3)\nUzupelnij ponizsa rekurencyjna funkcje obliczania pary liczb (x, y) dla danych liczb a, b.\n\nSpecyfikacja:\nDane: liczby calkowite a > 0 i b >= 0\nWynik: para liczb calkowitych (x, y), dla ktorych NWD(a, b) = a * x + b * y\n\nRozszerzonyEuklides(a, b):\nKrok 1. Jesli b = 0, podaj jako wynik funkcji pare (1, 0) i zakoncz jej wykonywanie.\nKrok 2. r <- a mod b\nKrok 3. (x, y) <- RozszerzonyEuklides(__________, __________)\nKrok 4. Podaj jako wynik pare (__________, __________).",
+          "odpowiedz": "Krok 3: (x, y) <- RozszerzonyEuklides(b, r)\nKrok 4: Podaj jako wynik pare (y, x - (a div b) * y)\n\nAlternatywna poprawna odpowiedz dla Kroku 4: (y, x' - (a div b) * y') jesli x', y' sa uzyte jako nazwy zwroconych wartosci.",
+          "zasady_oceniania": "3 p. -- za prawidlowo wypelnione pola w krokach 3 i 4 algorytmu.\n2 p. -- za prawidlowo wypelnione pola w kroku 4 algorytmu.\n1 p. -- za prawidlowo wypelnione pola w kroku 3 algorytmu albo za odpowiedz (y, x' - (a div b) * y').\n0 p. -- za odpowiedz bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Krok 3: argumenty rekurencji to (b, r) NIE (a, b) ani (b, a mod b)",
+            "Krok 4: para wynikowa to (y, x - (a div b) * y), NIE (x, y)",
+            "Kolejnosc: x staje sie y', a y oblicza sie z formuly",
+            "a div b to dzielenie calkowite, nie reszta"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "algorytmy_numeryczne",
+          "teoria_liczb",
+          "NWD",
+          "rekurencja"
+        ],
+        "algorytmiczny": [
+          "algorytm_Euklidesa",
+          "rozszerzony_Euklides",
+          "rekurencja",
+          "backtracking_wartosci"
+        ],
+        "czasowy_min": 20
+      }
+    },
+    {
+      "numer": 4,
+      "tytul": "Programowanie - Liczby binarne",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Plik liczby.txt zawiera 1000 napisow zlozonych ze znakow 0 i 1 (reprezentujacych liczby w systemie dwojkowym), kazdy w osobnym wierszu. Dlugosci napisow sa rozne (od 3 do 200 znakow). Kazdy napis zaczyna sie od znaku 1. Napisz program(y), ktore dadza odpowiedzi do ponizszych zadan. Wyniki zapisz w pliku wyniki4.txt.\n\nUwaga: Tresc zadan zrekonstruowana z odpowiedzi CKE -- arkusz Czesci II dla 2015 nie jest dostepny w repozytorium.",
+      "podzadania": [
+        {
+          "id": "2015.4.1",
+          "numer": "4.1",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.1. (0-3)\nPodaj, ile liczb w pliku liczby.txt ma ostatnia cyfre rowna pierwszej cyfrze (interpretacja na podstawie odpowiedzi CKE).\n\nUwaga: Dokladna tresc zadania pochodzi z arkusza Czesci II, ktory nie jest dostepny. Odpowiedz potwierdzona przez CKE.",
+          "odpowiedz": "422",
+          "zasady_oceniania": "3 p. -- za podanie poprawnej odpowiedzi.\n2 p. -- za uwzglednienie tylko 250 wierszy (wynik: 98).\n1 p. -- za nieuwzglednienie ostatniego znaku w wierszu (wynik: 419).\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Plik ma 1000 wierszy, nie 250 (plik przykladowy vs pelny)",
+            "Uwaga na ostatni znak w wierszu (CRLF line endings)",
+            "Poprawna obsluga dlugich napisow binarnych"
+          ]
+        },
+        {
+          "id": "2015.4.2",
+          "numer": "4.2",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.2. (0-3)\nPodaj, ile sposrod liczb zapisanych w pliku liczby.txt jest podzielnych przez 2 oraz ile jest podzielnych przez 8.\n\nLiczba w systemie dwojkowym jest podzielna przez 2, gdy jej ostatni bit to 0.\nLiczba w systemie dwojkowym jest podzielna przez 8, gdy jej trzy ostatnie bity to 000.",
+          "odpowiedz": "500 -- liczba liczb podzielnych przez 2.\n123 -- liczba liczb podzielnych przez 8.",
+          "zasady_oceniania": "3 p. -- za podanie prawidlowej liczby liczb podzielnych przez 8 oraz za podanie prawidlowej liczby liczb podzielnych przez 2.\n2 p. -- za podanie prawidlowej liczby liczb podzielnych przez 8 albo za uwzglednienie tylko 250 wierszy (wynik: 121 liczb podzielnych przez 2, 27 liczb podzielnych przez 8).\n1 p. -- za podanie prawidlowej liczby liczb podzielnych przez 2.\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Podzielnosc przez 2 w systemie binarnym: ostatni bit = 0",
+            "Podzielnosc przez 8 w systemie binarnym: ostatnie 3 bity = 000",
+            "Plik ma 1000 wierszy, nie 250",
+            "CRLF endings mogа zaklocic odczyt ostatniego znaku"
+          ]
+        },
+        {
+          "id": "2015.4.3",
+          "numer": "4.3",
+          "punkty": 6,
+          "typ_zadania": "przetwarzanie_minmax",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.3. (0-6)\nPodaj numery wierszy zawierajacych minimalna i maksymalna liczbe w pliku liczby.txt (wiersze numerowane od 1).\n\nPorownywanie liczb binarnych: krotsza liczba binarna (mniej cyfr) jest mniejsza od dluzszej. Przy tej samej dlugosci -- porownujemy leksykograficznie (jak napisy).",
+          "odpowiedz": "859 -- numer wiersza zawierajacego minimalna liczbe.\n925 -- numer wiersza zawierajacego maksymalna liczbe.",
+          "zasady_oceniania": "6 p. -- za prawidlowe podanie numeru wiersza zawierajacego minimalna liczbe oraz za prawidlowe podanie numeru wiersza zawierajacego maksymalna liczbe.\n4 p. -- za uwzglednienie tylko 250 wierszy oraz podanie numerow wierszy zawierajacych minimum i maksimum (wynik: 125 dla minimum, 107 dla maksimum).\n3 p. -- za prawidlowe podanie numeru wiersza zawierajacego minimalna liczbe albo za prawidlowe podanie numeru wiersza zawierajacego maksymalna liczbe.\n2 p. -- za uwzglednienie tylko 250 wierszy i podanie numeru wiersza zawierajacego minimum (wynik: 125) albo maksimum (wynik: 107).\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.\nUwaga: Nie przyznaje sie 5 p. i 1 p.",
+          "pulapki": [
+            "Liczby binarne nie mieszcza sie w typie int (do 200 cyfr = ~60 cyfr dziesietnych)",
+            "Porownywanie jako napisy: najpierw po dlugosci, potem leksykograficznie",
+            "Wiersze numerowane od 1, nie od 0",
+            "Plik ma 1000 wierszy, nie 250"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2015_maj/Dane_PR/",
+      "pliki_danych": [
+        "liczby.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "przetwarzanie_plikow",
+          "systemy_liczbowe",
+          "operacje_na_liczbach"
+        ],
+        "algorytmiczny": [
+          "czytanie_pliku",
+          "operacje_na_cyfrach",
+          "zliczanie",
+          "wyszukiwanie_min_max"
+        ],
+        "czasowy_min": 40
+      }
+    },
+    {
+      "numer": 5,
+      "tytul": "Arkusz kalkulacyjny - Demografia",
+      "punkty": 13,
+      "czesc": 2,
+      "kontekst": "Plik kraina.txt zawiera dane demograficzne fikcyjnego panstwa podzielonego na 50 jednostek administracyjnych (w01-w50), pogrupowanych w 4 regiony (A, B, C, D). Kazdy wiersz ma format:\n\nkod;ludnosc_1;ludnosc_2;wartosc_3;wartosc_4\n\ngdzie kod to wNN + litera regionu (np. w01D = jednostka 01 w regionie D).\n\nPrzykladowe dane:\nw01D;1415007;1397195;1499070;1481105\nw05A;2436107;2228622;1831600;1960624\nw12C;3997724;3690756;4339393;4639643\n\nUwaga: Tresc zadan zrekonstruowana z odpowiedzi CKE -- arkusz Czesci II dla 2015 nie jest dostepny w repozytorium.",
+      "podzadania": [
+        {
+          "id": "2015.5.1",
+          "numer": "5.1",
+          "punkty": 5,
+          "typ_zadania": "arkusz_agregacja_podstawowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.1. (0-5)\nOblicz laczna liczbe mieszkancow w kazdym z regionow (A, B, C, D) i przedstaw wyniki na wykresie kolumnowym.",
+          "odpowiedz": "Liczba mieszkancow w regionach:\nA: 33 929 579\nB: 41 736 619\nC: 57 649 017\nD: 36 530 387\n\nWykres kolumnowy z 4 slupkami (A, B, C, D) z odpowiednimi wartosciami.",
+          "zasady_oceniania": "5 p. -- za poprawne obliczenie ludnosci w 4 regionach + wykres kolumnowy.\n4 p. -- za poprawne obliczenia bez wykresu lub wykres z drobnymi bledami.\n3 p. -- za poprawne obliczenia dla 3 regionow.\n2 p. -- za poprawna metode z bledami w wynikach.\n1 p. -- za wykres lub czesciowe obliczenia.\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Sumowanie warunkowe: SUMIF po ostatnim znaku kodu (litera regionu)",
+            "Wyodrebnienie regionu: PRAWY(kod;1) lub MID/RIGHT",
+            "Wykres musi miec etykiety regionow i wartosci"
+          ]
+        },
+        {
+          "id": "2015.5.2",
+          "numer": "5.2",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.2. (0-2)\nOblicz, ile jest wojewodztw w calym panstwie oraz ile w kazdym z regionow (A, B, C, D), spelniajacych okreslone kryteria.",
+          "odpowiedz": "19 wojewodztw ogolem.\nW regionach: A: 3, B: 4, C: 8, D: 4.",
+          "zasady_oceniania": "2 p. -- za poprawna odpowiedz (19 ogolem + rozklad na regiony).\n1 p. -- za czesciowa odpowiedz.\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "LICZ.WARUNKI / COUNTIF z odpowiednim kryterium",
+            "50 jednostek w pliku, ale tylko 19 spelnia warunek",
+            "Wyodrebnienie litery regionu z kodu"
+          ]
+        },
+        {
+          "id": "2015.5.3",
+          "numer": "5.3",
+          "punkty": 6,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.3. (0-6)\nOblicz prognozowana liczbe mieszkancow calego panstwa w roku 2025, podaj nazwe najludniejszego wojewodztwa w 2025, oraz ile wojewodztw bedzie miec problem przeludnienia.",
+          "odpowiedz": "Prognozowana liczba mieszkancow w 2025: 125 930 205.\nNajludniejsze wojewodztwo w 2025: w12C.\n18 wojewodztw z przeludnieniem.",
+          "zasady_oceniania": "6 p. -- za poprawne odpowiedzi na wszystkie 3 pytania.\n4-5 p. -- za poprawne odpowiedzi na 2 z 3 pytan.\n2-3 p. -- za poprawna odpowiedz na 1 pytanie.\n1 p. -- za poprawna metode z bledami.\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Prognoza wymaga obliczenia wzrostu ludnosci na podstawie danych z pliku",
+            "Przeludnienie = ludnosc > powierzchnia (lub inny prog z tresci)",
+            "w12C jest najludniejsze (region C, powyzej 4.6 mln)",
+            "Trzeba znalezc MAX i porownac z progiem dla kazdej jednostki"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2015_maj/Dane_PR/",
+      "pliki_danych": [
+        "kraina.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "arkusz_kalkulacyjny",
+          "analiza_danych",
+          "agregacja",
+          "wizualizacja",
+          "prognozy"
+        ],
+        "algorytmiczny": [
+          "sumowanie_warunkowe",
+          "zliczanie",
+          "grupowanie",
+          "prognozowanie",
+          "wykres"
+        ],
+        "czasowy_min": 45
+      }
+    },
+    {
+      "numer": 6,
+      "tytul": "Baza danych SQL - Formula 1",
+      "punkty": 10,
+      "czesc": 2,
+      "kontekst": "Baza danych zawiera informacje o wyscigach Formuly 1 w trzech tabelach:\n\nTabela Kierowcy (plik Kierowcy.txt):\n| Kolumna      | Opis                          |\n|-------------|-------------------------------|\n| Id_kierowcy | Identyfikator kierowcy (np. z1) |\n| Nazwisko    | Nazwisko kierowcy              |\n| Imie        | Imie kierowcy                  |\n| Kraj        | Kraj pochodzenia               |\n\nPrzykladowe dane:\nz1;Pizzonia;Antonio;Brazylia\nz11;Alonso;Fernando;Hiszpania\nz31;Schumacher;Michael;Niemcy\n\nTabela Wyscigi (plik Wyscigi.txt):\n| Kolumna     | Opis                           |\n|------------|--------------------------------|\n| Id_wyscigu | Identyfikator wyscigu (np. w1) |\n| Rok        | Rok (sezon) wyscigu            |\n| GrandPrix  | Nazwa Grand Prix               |\n\nPrzykladowe dane:\nw1;2000;Australia\nw2;2000;Brazylia\nw10;2000;Austria\n\nTabela Wyniki (plik Wyniki.txt):\n| Kolumna      | Opis                            |\n|-------------|----------------------------------|\n| Id_kierowcy | Id kierowcy                      |\n| Punkty      | Liczba zdobytych punktow         |\n| Id_wyscigu  | Id wyscigu                       |\n\nPrzykladowe dane:\nz31;10;w1  (Schumacher zdobyl 10 pkt w wyscigu w1)\nz42;6;w1   (ktos inny zdobyl 6 pkt w wyscigu w1)\n\nKazdy kierowca moze miec wiele wynikow (po jednym na wyScig). Kierowca moze nie miec zadnych wynikow. Napisz zapytania SQL dajace odpowiedzi na ponizsze pytania.",
+      "podzadania": [
+        {
+          "id": "2015.6.1",
+          "numer": "6.1",
+          "punkty": 2,
+          "typ_zadania": "sql_select_where",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.1. (0-2)\nPodaj nazwe Grand Prix i sezon (rok) wyscigu, ktory odbyl sie najwczesniej w historii (o najwczesniejszym Id_wyscigu lub najwczesniejszym roku).",
+          "odpowiedz": "| GrandPrix | Sezon |\n|-----------|-------|\n| Australia | 2010  |\n\nPrzykladowe zapytanie SQL:\nSELECT GrandPrix, Rok AS Sezon\nFROM Wyscigi\nWHERE Rok = (SELECT MIN(Rok) FROM Wyscigi)\nORDER BY Id_wyscigu\nLIMIT 1;\n\nlub:\nSELECT GrandPrix, Rok\nFROM Wyscigi\nORDER BY Rok, Id_wyscigu\nLIMIT 1;",
+          "zasady_oceniania": "2 p. -- za poprawne zestawienie wszystkich wynikow.\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.\nUwaga: Nie przyznaje sie 1 p.",
+          "pulapki": [
+            "Trzeba znalezc najwczesniejszy ROK, nie najnizsze Id_wyscigu",
+            "Moze byc wiele wyscigew w najwczesniejszym roku -- trzeba wziac pierwszy",
+            "SELECT MIN(Rok) jako podzapytanie lub ORDER BY + LIMIT 1"
+          ]
+        },
+        {
+          "id": "2015.6.2",
+          "numer": "6.2",
+          "punkty": 2,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.2. (0-2)\nPodaj nazwe miejsca (GrandPrix), w ktorym nie odbyl sie ani jeden wyScig w bazie danych.",
+          "odpowiedz": "Indie.\n\nPrzykladowe zapytanie SQL:\nSELECT DISTINCT GrandPrix\nFROM Wyscigi w\nLEFT JOIN Wyniki wy ON w.Id_wyscigu = wy.Id_wyscigu\nWHERE wy.Id_kierowcy IS NULL;\n\nlub z podzapytaniem:\nSELECT DISTINCT GrandPrix\nFROM Wyscigi\nWHERE Id_wyscigu NOT IN (SELECT DISTINCT Id_wyscigu FROM Wyniki);",
+          "zasady_oceniania": "2 p. -- za prawidlowe podanie nazwy miejsca.\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.\nUwaga: Nie przyznaje sie 1 p.",
+          "pulapki": [
+            "LEFT JOIN + IS NULL lub NOT IN z podzapytaniem",
+            "Szukamy wyscigu bez WYNIKOW, nie kierowcy bez wynikow",
+            "DISTINCT jezeli wiele wyscigew w tym samym miejscu"
+          ]
+        },
+        {
+          "id": "2015.6.3",
+          "numer": "6.3",
+          "punkty": 3,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.3. (0-3)\nDla sezonow 2000, 2006 i 2012 podaj imie i nazwisko mistrza (kierowcy z najwieksza suma punktow w sezonie) oraz jego laczna sume punktow.",
+          "odpowiedz": "| Imie      | Nazwisko   | Sezon | Suma Punktow |\n|-----------|------------|-------|-------------|\n| Michael   | Schumacher | 2000  | 108         |\n| Fernando  | Alonso     | 2006  | 134         |\n| Sebastian | Vettel     | 2012  | 281         |\n\nPrzykladowe zapytanie SQL:\nSELECT k.Imie, k.Nazwisko, w.Rok AS Sezon, SUM(wy.Punkty) AS SumaPunktow\nFROM Kierowcy k\nJOIN Wyniki wy ON k.Id_kierowcy = wy.Id_kierowcy\nJOIN Wyscigi w ON wy.Id_wyscigu = w.Id_wyscigu\nWHERE w.Rok IN (2000, 2006, 2012)\nGROUP BY k.Id_kierowcy, w.Rok\nHAVING SUM(wy.Punkty) = (\n  SELECT MAX(s)\n  FROM (SELECT SUM(wy2.Punkty) AS s\n        FROM Wyniki wy2 JOIN Wyscigi w2 ON wy2.Id_wyscigu = w2.Id_wyscigu\n        WHERE w2.Rok = w.Rok\n        GROUP BY wy2.Id_kierowcy)\n);",
+          "zasady_oceniania": "3 p. -- za poprawne odpowiedzi we wszystkich trzech wersach.\n2 p. -- za poprawne odpowiedzi tylko we dwoch wersach.\n1 p. -- za poprawna odpowiedz tylko w jednym wersie.\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Potrzeba JOIN trzech tabel: Kierowcy + Wyniki + Wyscigi",
+            "GROUP BY kierowca + rok, potem MAX(SUM) per rok",
+            "Podzapytanie lub ORDER BY + LIMIT per rok",
+            "IN (2000, 2006, 2012) aby filtrowac sezony"
+          ]
+        },
+        {
+          "id": "2015.6.4",
+          "numer": "6.4",
+          "punkty": 3,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.4. (0-3)\nPodaj zestawienie: dla kazdego kraju -- liczbe zawodnikow z tego kraju, ktorzy zdobyli punkty w jakimkolwiek wyscigu.",
+          "odpowiedz": "| Kraj            | Liczba zawodnikow |\n|-----------------|-------------------|\n| Australia       | 2                 |\n| Brazylia        | 2                 |\n| Finlandia       | 1                 |\n| Francja         | 2                 |\n| Hiszpania       | 1                 |\n| Japonia         | 1                 |\n| Meksyk          | 1                 |\n| Niemcy          | 4                 |\n| Wenezuela       | 1                 |\n| Wielka Brytania | 3                 |\n\nUwaga: Bledne grupowanie (np. COUNT bez DISTINCT lub grupowanie po wynikach zamiast po kierowcach) daje inna tabele: Australia:21, Brazylia:24, itd.\n\nPrzykladowe zapytanie SQL:\nSELECT k.Kraj, COUNT(DISTINCT k.Id_kierowcy) AS LiczbaZawodnikow\nFROM Kierowcy k\nJOIN Wyniki wy ON k.Id_kierowcy = wy.Id_kierowcy\nGROUP BY k.Kraj\nORDER BY k.Kraj;",
+          "zasady_oceniania": "3 p. -- za poprawne zestawienie wszystkich odpowiedzi.\n1 p. -- za podanie zestawienia wynikajacego z blednego grupowania (wynik ponizej).\n  Uwaga: Zestawienie wynikajace z blednego grupowania:\n  | Kraj | Liczba |\n  |------|--------|\n  | Australia | 21 | Brazylia | 24 | Finlandia | 19 | Francja | 14 |\n  | Hiszpania | 18 | Japonia | 9 | Meksyk | 7 | Niemcy | 46 |\n  | Wenezuela | 5 | Wielka Brytania | 37 |\n0 p. -- za odpowiedz niepelna lub bledna albo brak odpowiedzi.\nUwaga: Nie przyznaje sie 2 p.",
+          "pulapki": [
+            "COUNT(DISTINCT Id_kierowcy), NIE COUNT(*) -- bo jeden kierowca ma wiele wynikow",
+            "Bledne grupowanie (bez DISTINCT) daje np. Niemcy:46 zamiast 4",
+            "Tylko kierowcy z punktami (INNER JOIN), nie wszyscy z bazy",
+            "GROUP BY Kraj"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2015_maj/Dane_PR/",
+      "pliki_danych": [
+        "Kierowcy.txt",
+        "Wyscigi.txt",
+        "Wyniki.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "bazy_danych",
+          "SQL",
+          "JOIN",
+          "agregacja",
+          "GROUP_BY"
+        ],
+        "algorytmiczny": [
+          "SELECT_WHERE",
+          "JOIN",
+          "LEFT_JOIN",
+          "MIN_MAX",
+          "GROUP_BY",
+          "COUNT"
+        ],
+        "czasowy_min": 35
+      }
+    }
+  ]
+}

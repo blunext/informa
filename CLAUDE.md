@@ -64,7 +64,12 @@ analiza/
 ├── podsumowanie_szybkie_wszystkie_lata.md  # Quick summary of all years
 │
 ├── json/                          # Machine-readable analysis data
-│   ├── analiza_YYYY.json          # 11 files, per-year detailed analysis (each subtask has typ_zadania)
+│   ├── matura_YYYY.json           # **11 files — COMPLETE exam database** (230 subtasks, self-contained)
+│   │                              # Full task text, answers, scoring criteria, typ_zadania, traps
+│   │                              # No PDF needed — each subtask is standalone and solvable
+│   ├── matura_indeks.json         # **Cross-reference index** for all 230 subtasks across 11 years
+│   │                              # Filter by typ_zadania, kategoria, rok — instant access
+│   ├── analiza_YYYY.json          # 11 files, per-year analysis summaries (older, less detailed)
 │   ├── ranking_tematow.csv        # Topic frequency matrix: 21 topics × 11 years
 │   └── ranking_typow_zadan.csv    # Task type frequency: 23 types × 11 years + total points
 │
@@ -106,9 +111,11 @@ analiza/
 
 ### Key Analysis Data
 
-- **23 task types** in 4 categories: TEORIA (6), IMPLEMENTACJA (8), ARKUSZ (5), SQL (4)
+- **Complete exam database**: `matura_YYYY.json` — 11 files, 230 subtasks, 550 points total. Each subtask has full text (`tresc`), answer (`odpowiedz`), scoring (`zasady_oceniania`), type (`typ_zadania`), and traps (`pulapki`). Self-contained: no PDF needed to solve any task.
+- **Cross-reference index**: `matura_indeks.json` — all 230 subtasks indexed by typ_zadania, kategoria, rok. Supports filtering for cross-year practice (e.g., "all SQL tasks" or "all 2025 tasks").
+- **23 task types** in 4 categories: TEORIA (6), IMPLEMENTACJA (8), ARKUSZ (5), SQL (4). All types use canonical prefixed names (e.g., `przetwarzanie_napisy`, `arkusz_symulacja`, `sql_group_by`).
 - **Topic frequency tiers**: TIER 1 (100%): SQL, number ops, file processing, spreadsheet; TIER 2 (73-82%): number systems, recursion, sorting, GCD
-- **Known gap**: `analiza_2018.json` only has Part I data (Part II was never analyzed)
+- **`analiza_YYYY.json`**: Older per-year summaries (less detailed than `matura_YYYY.json`). Known gap: `analiza_2018.json` only has Part I data.
 - **No code files** exist in the year directories — the repo is documentation and reference material only
 
 ## Important Context
