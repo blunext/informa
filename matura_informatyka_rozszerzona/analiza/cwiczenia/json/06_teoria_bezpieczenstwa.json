@@ -156,7 +156,7 @@
           "kara": "-0.5 pkt"
         },
         {
-          "opis": "**10^8 = duzo**: 100 mln kombinacji to bardzo malo. Brute-force to trwa ulamek sekundy na nowoczesnym komputerze. CKE: brak kary, ale warto wiedziec.",
+          "opis": "**10^8 = duzo**: 100 mln kombinacji to bardzo malo. Brute-force to trwa ulamek sekundy na nowoczesnym komputerze",
           "kara": ""
         }
       ]
@@ -180,7 +180,7 @@
       "odpowiedz": "**a) Typ ataku: phishing (spear phishing)**\n\nUzasadnienie: Atak polegal na podszywaniu sie pod zaufany podmiot (dzial IT firmy) w celu naklonenia ofiary do wykonania niebezpiecznej czynnosci (pobrania i uruchomienia zlosliwego pliku). Jest to odmiana phishingu zwana spear phishing, poniewaz wiadomosc byla ukierunkowana na konkretna osobe/firme (nie masowa wysylka). Elementy typowe dla phishingu:\n- Podszywanie sie pod zaufane zrodlo (dzial IT)\n- Wywieranie presji czasowej (\"krytyczna aktualizacja\", \"natychmiast\")\n- Naklanianie do klikniecia linku i pobrania pliku\n\n**b) Rodzaj zlosliwego oprogramowania: trojan (kon trojanski)**\n\nUzasadnienie: Plik \"aktualizacja_v2.exe\" wygladal jak legalne oprogramowanie (aktualizacja systemu), ale w rzeczywistosci zawieral zlosliwy kod. Trojan mogl zainstalowac backdoor (tylne drzwi) umozliwiajacy zdalny dostep do serwera firmowego, co pozwolilo na kradzez bazy danych klientow. Mozliwe, ze trojan zawieral rowniez keylogger do przechwycenia hasel dostepu do serwera.\n\n**c) Trzy srodki ochrony:**\n\n1. **Szkolenie pracownikow z rozpoznawania phishingu** — pracownik powinien wiedziec, ze dzial IT nie wysyla aktualizacji przez e-mail z linkami do pobrania. Powinien weryfikowac takie wiadomosci bezposrednio z dzialem IT (np. telefonicznie).\n\n2. **Filtrowanie poczty i blokowanie zlosliwych zalacznikow** — system bezpieczenstwa poczty (anti-spam, anti-malware) powinien wykrywac podejrzane linki i pliki wykonywalne (.exe) w zalacznikach i blokowac je lub oznaczac jako niebezpieczne.\n\n3. **Ograniczenie uprawnien uzytkownikow (zasada najmniejszych uprawnien)** — pracownik nie powinien miec mozliwosci instalowania oprogramowania bez zgody administratora. Oprogramowanie powinno byc instalowane wylacznie z autoryzowanych zrodel.\n\nDodatkowe srodki (alternatywne):\n- Program antywirusowy z aktualna baza sygnatur\n- Dwuskladnikowe uwierzytelnianie (2FA) do krytycznych systemow\n- Segmentacja sieci — oddzielenie stacji roboczych od serwerow z danymi",
       "typowe_bledy": [
         {
-          "opis": "**Phishing zamiast spear phishing**: CKE akceptuje \"phishing\", ale \"spear phishing\" jest dokladniejszy (ukierunkowany). CKE: brak kary za ogolna nazwe.",
+          "opis": "**Phishing zamiast spear phishing**: CKE akceptuje \"phishing\", ale \"spear phishing\" jest dokladniejszy (ukierunkowany)",
           "kara": ""
         },
         {

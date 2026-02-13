@@ -47,7 +47,7 @@
           "kara": "-1 pkt"
         },
         {
-          "opis": "**Uzycie SUM zamiast AVERAGE**: =SUM(B2:B9)/8 tez da poprawna srednia, ale jest mniej eleganckie i latwiej o blad (jesli zmieni sie liczba uczniow). CKE: akceptowane",
+          "opis": "**Uzycie SUM zamiast AVERAGE**: =SUM(B2:B9)/8 tez da poprawna srednia, ale jest mniej eleganckie i latwiej o blad (jesli zmieni sie liczba uczniow)",
           "kara": ""
         }
       ]
@@ -297,7 +297,7 @@
       "odpowiedz": "**Formuly:**\n```\nE2: =SUM(B2:D2)                    (kopiowana w dol)\nF2: =ROUND(B2/E2*100;1)            (kopiowana w dol)\n\nSrednia dzienna: =AVERAGE(E2:E8)\nNajwyzsza:       =MAX(E2:E8)\nNajnizsza:       =MIN(E2:E8)\n```\n\n**Obliczenia:**\n\n| Dzien | Elek. | Odzież | Żywn. | E: Razem | F: % Elek. |\n|-------|-------|--------|-------|----------|------------|\n| Pon | 2500 | 1800 | 3200 | 7500 | 33.3 |\n| Wt | 1900 | 2100 | 2800 | 6800 | 27.9 |\n| Sr | 3100 | 1500 | 3500 | 8100 | 38.3 |\n| Czw | 2200 | 1900 | 2600 | 6700 | 32.8 |\n| Pt | 4500 | 2800 | 4100 | 11400 | 39.5 |\n| Sob | 5200 | 3500 | 4800 | 13500 | 38.5 |\n| Ndz | 800 | 900 | 1200 | 2900 | 27.6 |\n\n- Srednia: (7500+6800+8100+6700+11400+13500+2900)/7 = 56900/7 = **8128.57**\n- Najwyzsza: **13500** (Sob)\n- Najnizsza: **2900** (Ndz)\n- Najwyzszy udzial elektroniki: **39.5%** (Piatek)\n\n**Wyjasnienie**: Udzial procentowy pozwala porownac proporcje niezaleznie od calkowitej sprzedazy. Piatek ma najwyzszy udzial elektroniki (39.5%), mimo ze sobota ma wyzsza bezwzgledna sprzedaz elektroniki (5200 vs 4500). To pokazuje roznice miedzy wartoscia bezwzgledna a wzgledna (procentowa).",
       "typowe_bledy": [
         {
-          "opis": "**Dzielenie przez B+C+D zamiast E**: =B2/(B2+C2+D2)*100 zadziala, ale lepiej uzyc E2 (unika duplikacji obliczen). CKE: akceptowane",
+          "opis": "**Dzielenie przez B+C+D zamiast E**: =B2/(B2+C2+D2)*100 zadziala, ale lepiej uzyc E2 (unika duplikacji obliczen)",
           "kara": ""
         },
         {

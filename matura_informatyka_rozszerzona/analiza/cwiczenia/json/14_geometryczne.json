@@ -44,7 +44,7 @@
       "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    vector<pair<int,int>> P;\n    int x, y;\n    while (plik >> x >> y) P.push_back({x, y});\n\n    cout << \"Odleglosci miedzy kolejnymi punktami:\" << endl;\n    cout << fixed << setprecision(2);\n    double suma = 0;\n    for (int i = 0; i < (int)P.size() - 1; i++) {\n        double dx = P[i+1].first - P[i].first;\n        double dy = P[i+1].second - P[i].second;\n        double d = sqrt(dx*dx + dy*dy);\n        cout << \"(\" << P[i].first << \",\" << P[i].second << \") -> (\"\n             << P[i+1].first << \",\" << P[i+1].second << \"): \" << d << endl;\n        suma += d;\n    }\n    cout << \"Laczna dlugosc sciezki: \" << suma << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Odleglosc euklidesowa miedzy punktami (x1,y1) i (x2,y2) to sqrt((x2-x1)^2 + (y2-y1)^2). Sumujemy odleglosci kolejnych par.\n\nWeryfikacja:\n- (0,0)->(3,4): sqrt(9+16) = sqrt(25) = 5.00\n- (3,4)->(6,0): sqrt(9+16) = sqrt(25) = 5.00\n- (6,0)->(6,8): sqrt(0+64) = 8.00\n- (6,8)->(10,8): sqrt(16+0) = 4.00\n- (10,8)->(10,0): sqrt(0+64) = 8.00\nSuma: 5+5+8+4+8 = 30.00",
       "typowe_bledy": [
         {
-          "opis": "**Brak `#include <cmath>`**: Funkcja `sqrt` wymaga tego naglowka. CKE: blad kompilacji",
+          "opis": "**Brak `#include <cmath>`**: Funkcja `sqrt` wymaga tego naglowka",
           "kara": ""
         },
         {
@@ -52,7 +52,7 @@
           "kara": "-1 pkt"
         },
         {
-          "opis": "**Petla do `P.size()` zamiast `P.size()-1`**: Dostep do P[i+1] poza zakresem. CKE: crash",
+          "opis": "**Petla do `P.size()` zamiast `P.size()-1`**: Dostep do P[i+1] poza zakresem",
           "kara": ""
         }
       ]
@@ -96,7 +96,7 @@
         "podwojna-petla",
         "wczytywanie-pliku"
       ],
-      "tresc": "W pliku `punkty.txt` znajduje sie 8 punktow (x, y) o wspolrzednych calkowitych. Napisz program, ktory:\na) Znajdzie pare punktow o najmniejszej odleglosci euklidesowej.\nb) Znajdzie pare punktow o najwiekszej odleglosci.\n\n**Dane** (`punkty.txt`):\n```\n1 2\n4 6\n7 1\n3 5\n10 3\n8 8\n2 9\n6 4\n```\n\n**Oczekiwany wynik**:\n```\na) Najblizsze punkty: (3,5) i (4,6), odleglosc: 1.41\n\nb) Najdalsze punkty: (2,9) i (10,3), odleglosc: 10.00\n```",
+      "tresc": "W pliku `punkty.txt` znajduje sie 8 punktow (x, y) o wspolrzednych calkowitych. Napisz program, ktory:\na) Znajdzie pare punktow o najmniejszej odleglosci euklidesowej.\nb) Znajdzie pare punktow o najwiekszej odleglosci.\n\n**Dane** (`punkty.txt`):\n```\n1 2\n4 6\n7 1\n3 5\n10 3\n8 8\n2 9\n6 4\n```\n\n**Oczekiwany wynik**:\n```\na) Najblizsze punkty: (4,6) i (3,5), odleglosc: 1.41\n\nb) Najdalsze punkty: (10,3) i (2,9), odleglosc: 10.00\n```",
       "wskazowki": [
         "**Kierunek**: Podwojna petla O(n^2) po wszystkich parach.",
         "**Podejscie**: Sledzac min i max odleglosc, zapamietaj indeksy odpowiednich par.",
@@ -105,11 +105,11 @@
       "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    vector<pair<int,int>> P;\n    int x, y;\n    while (plik >> x >> y) P.push_back({x, y});\n    int n = P.size();\n\n    double minDist = 1e18, maxDist = 0;\n    int mi1, mi2, ma1, ma2;\n\n    for (int i = 0; i < n; i++) {\n        for (int j = i + 1; j < n; j++) {\n            double dx = P[i].first - P[j].first;\n            double dy = P[i].second - P[j].second;\n            double d = sqrt(dx*dx + dy*dy);\n            if (d < minDist) { minDist = d; mi1 = i; mi2 = j; }\n            if (d > maxDist) { maxDist = d; ma1 = i; ma2 = j; }\n        }\n    }\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Najblizsze punkty: (\" << P[mi1].first << \",\" << P[mi1].second\n         << \") i (\" << P[mi2].first << \",\" << P[mi2].second\n         << \"), odleglosc: \" << minDist << endl;\n    cout << endl << \"b) Najdalsze punkty: (\" << P[ma1].first << \",\" << P[ma1].second\n         << \") i (\" << P[ma2].first << \",\" << P[ma2].second\n         << \"), odleglosc: \" << maxDist << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Podwojna petla O(n^2) sprawdzajaca odleglosci miedzy wszystkimi parami punktow.\n\nWeryfikacja:\n- (3,5)-(4,6): sqrt(1+1) = sqrt(2) = 1.41\n- (2,9)-(10,3): sqrt(64+36) = sqrt(100) = 10.00",
       "typowe_bledy": [
         {
-          "opis": "**Niezainicjalizowane zmienne mi1, mi2**: Jesli zaden if nie jest spelniony (niemozliwe dla n >= 2), wynik bezsensowny. Dobra praktyka: zainicjalizuj. CKE: potencjalny UB",
+          "opis": "**Niezainicjalizowane zmienne mi1, mi2**: Jesli zaden if nie jest spelniony (niemozliwe dla n >= 2), wynik bezsensowny. Dobra praktyka: zainicjalizuj",
           "kara": ""
         },
         {
-          "opis": "**Porownywanie odleglosci z `==`**: Odleglosci sa double — unikaj `==` przez epsilony. CKE: 0 pkt (tu nie dotyczy)",
+          "opis": "**Porownywanie odleglosci z `==`**: Odleglosci sa double — unikaj `==` przez epsilony",
           "kara": ""
         }
       ]
@@ -125,7 +125,7 @@
         "podwojna-petla",
         "wczytywanie-pliku"
       ],
-      "tresc": "W pliku `punkty.txt` znajduje sie 8 punktow o wspolrzednych calkowitych. Napisz program, ktory znajdzie wszystkie trojki punktow (A, B, C) takie, ze jeden z nich jest srodkiem odcinka laczacego dwa pozostale. Srodek odcinka AB to punkt ((xA+xB)/2, (yA+yB)/2) — obie wspolrzedne musza byc calkowite.\n\n**Dane** (`punkty.txt`):\n```\n0 0\n2 4\n4 8\n1 2\n6 2\n3 1\n8 4\n5 3\n```\n\n**Oczekiwany wynik**:\n```\nTrojki gdzie jeden punkt jest srodkiem odcinka dwoch pozostalych:\n(0,0) i (4,8) -> srodek (2,4) - jest w zbiorze\n(0,0) i (2,4) -> srodek (1,2) - jest w zbiorze\n(0,0) i (6,2) -> srodek (3,1) - jest w zbiorze\nIlosc: 3\n```",
+      "tresc": "W pliku `punkty.txt` znajduje sie 8 punktow o wspolrzednych calkowitych. Napisz program, ktory znajdzie wszystkie trojki punktow (A, B, C) takie, ze jeden z nich jest srodkiem odcinka laczacego dwa pozostale. Srodek odcinka AB to punkt ((xA+xB)/2, (yA+yB)/2) — obie wspolrzedne musza byc calkowite.\n\n**Dane** (`punkty.txt`):\n```\n0 0\n2 4\n4 8\n1 2\n6 2\n3 1\n8 4\n5 3\n```\n\n**Oczekiwany wynik**:\n```\nTrojki gdzie jeden punkt jest srodkiem odcinka dwoch pozostalych:\n(0,0) i (2,4) -> srodek (1,2) - jest w zbiorze\n(0,0) i (4,8) -> srodek (2,4) - jest w zbiorze\n(0,0) i (6,2) -> srodek (3,1) - jest w zbiorze\nIlosc: 3\n```",
       "wskazowki": [
         "**Kierunek**: Wczytaj punkty i wstaw do `set<pair<int,int>>` dla szybkiego wyszukiwania.",
         "**Podejscie**: Podwojna petla po parach. Srodek ma calkowite wspolrzedne gdy `(xA+xB) % 2 == 0` i `(yA+yB) % 2 == 0`.",
@@ -219,7 +219,7 @@
         "pole-trojkata",
         "wczytywanie-pliku"
       ],
-      "tresc": "W pliku `punkty.txt` znajduje sie 8 punktow (x, y) o wspolrzednych calkowitych. Napisz program, ktory:\na) Sprawdzi, ktore trojki punktow sa wspollinowe (leza na jednej prostej).\nb) Znajdzie najdluzsza grupe punktow wspollinowych.\n\n**Dane** (`punkty.txt`):\n```\n0 0\n1 2\n2 4\n3 6\n5 1\n7 3\n9 5\n4 8\n```\n\n**Oczekiwany wynik**:\n```\na) Trojki wspollinowe (pole trojkata = 0):\n   (0,0)-(1,2)-(2,4): pole=0 -> wspollinowe\n   (0,0)-(1,2)-(3,6): pole=0 -> wspollinowe\n   (0,0)-(2,4)-(3,6): pole=0 -> wspollinowe\n   (1,2)-(2,4)-(3,6): pole=0 -> wspollinowe\n   (5,1)-(7,3)-(9,5): pole=0 -> wspollinowe\n\nb) Najdluzsza grupa wspollinowa: 4 punkty\n   Punkty: (0,0), (1,2), (2,4), (3,6)\n```",
+      "tresc": "W pliku `punkty.txt` znajduje sie 8 punktow (x, y) o wspolrzednych calkowitych. Napisz program, ktory:\na) Sprawdzi, ktore trojki punktow sa wspollinowe (leza na jednej prostej).\nb) Znajdzie najdluzsza grupe punktow wspollinowych.\n\n**Dane** (`punkty.txt`):\n```\n0 0\n1 2\n2 4\n3 6\n5 1\n7 3\n9 5\n4 8\n```\n\n**Oczekiwany wynik**:\n```\na) Trojki wspollinowe (pole trojkata = 0):\n   (0,0)-(1,2)-(2,4): wspollinowe\n   (0,0)-(1,2)-(3,6): wspollinowe\n   (0,0)-(1,2)-(4,8): wspollinowe\n   (0,0)-(2,4)-(3,6): wspollinowe\n   (0,0)-(2,4)-(4,8): wspollinowe\n   (0,0)-(3,6)-(4,8): wspollinowe\n   (1,2)-(2,4)-(3,6): wspollinowe\n   (1,2)-(2,4)-(4,8): wspollinowe\n   (1,2)-(3,6)-(4,8): wspollinowe\n   (2,4)-(3,6)-(4,8): wspollinowe\n   (5,1)-(7,3)-(9,5): wspollinowe\n\nb) Najdluzsza grupa wspollinowa: 5 punkty\n   Punkty: (0,0), (1,2), (2,4), (3,6), (4,8)\n```",
       "wskazowki": [
         "**Kierunek**: Trzy punkty sa wspollinowe gdy pole trojkata = 0. Wzor: `x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2) == 0`.",
         "**Podejscie**: Dla kazdej pary (A, B) policz ile innych punktow lezy na prostej AB (pole = 0).",
@@ -248,7 +248,7 @@
         "odleglosc-euklidesowa",
         "wczytywanie-pliku"
       ],
-      "tresc": "W pliku `punkty.txt` znajduje sie 6 punktow tworzacych wielokat wypukly (podane w kolejnosci obejscia). Napisz program, ktory:\na) Obliczy obwod wielokata (suma dlugosci bokow, wlaczajac odcinek zamykajacy od ostatniego do pierwszego punktu).\nb) Obliczy pole wielokata (wzor sznurowadla: P = |sum(x_i * y_{i+1} - x_{i+1} * y_i)| / 2).\nc) Obliczy srodek ciezkosci (centroid): (srednia x, srednia y).\n\n**Dane** (`punkty.txt`):\n```\n0 0\n6 0\n8 3\n6 6\n2 6\n0 3\n```\n\n**Oczekiwany wynik**:\n```\na) Obwod: 22.65\n\nb) Pole: 36.00\n\nc) Centroid: (3.67, 3.00)\n```",
+      "tresc": "W pliku `punkty.txt` znajduje sie 6 punktow tworzacych wielokat wypukly (podane w kolejnosci obejscia). Napisz program, ktory:\na) Obliczy obwod wielokata (suma dlugosci bokow, wlaczajac odcinek zamykajacy od ostatniego do pierwszego punktu).\nb) Obliczy pole wielokata (wzor sznurowadla: P = |sum(x_i * y_{i+1} - x_{i+1} * y_i)| / 2).\nc) Obliczy srodek ciezkosci (centroid): (srednia x, srednia y).\n\n**Dane** (`punkty.txt`):\n```\n0 0\n6 0\n8 3\n6 6\n2 6\n0 3\n```\n\n**Oczekiwany wynik**:\n```\na) Obwod: 23.82\n\nb) Pole: 39.00\n\nc) Centroid: (3.67, 3.00)\n```",
       "wskazowki": [
         "**Kierunek**: Obwod = suma odleglosci kolejnych par + odleglosc ostatni->pierwszy. Pole = wzor sznurowadla.",
         "**Podejscie**: Wzor sznurowadla (Shoelace): `P = |sum(x[i]*y[i+1] - x[i+1]*y[i])| / 2` (indeksy modulo n).",
@@ -290,7 +290,7 @@
       "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nstruct Pt { int x, y; };\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    vector<Pt> P;\n    int x, y;\n    while (plik >> x >> y) P.push_back({x, y});\n\n    Pt A = P[0], B = P[1];\n    double dAB = sqrt(pow(B.x - A.x, 2) + pow(B.y - A.y, 2));\n\n    cout << fixed << setprecision(2);\n    cout << \"Prosta AB: (\" << A.x << \",\" << A.y << \")-(\"\n         << B.x << \",\" << B.y << \"), dlugosc |AB| = \" << dAB << endl;\n\n    cout << endl << \"a) Odleglosci od prostej AB:\" << endl;\n    double minD = 1e18; int bestIdx = 2;\n\n    for (int i = 2; i < (int)P.size(); i++) {\n        Pt Q = P[i];\n        double pole2 = abs(A.x * (B.y - Q.y) + B.x * (Q.y - A.y) + Q.x * (A.y - B.y));\n        double d = pole2 / dAB;\n        cout << \"   (\" << Q.x << \",\" << Q.y << \"): d = \" << d << endl;\n        if (d < minD) { minD = d; bestIdx = i; }\n    }\n\n    cout << endl << \"b) Najblizej prostej: (\" << P[bestIdx].x << \",\"\n         << P[bestIdx].y << \") (d=\" << minD << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Odleglosc punktu od prostej = 2 * pole trojkata / dlugosc podstawy. Uzywamy wzoru na pole trojkata z wspolrzednych.\n\nWeryfikacja (prosta y=0, A=(0,0), B=(10,0)):\n- (3,4): d = |0*(0-4)+10*(4-0)+3*(0-0)| / 10 = 40/10 = 4.00\n- (7,2): d = |0*(0-2)+10*(2-0)+7*(0-0)| / 10 = 20/10 = 2.00\n- (5,6): d = |0*(0-6)+10*(6-0)+5*(0-0)| / 10 = 60/10 = 6.00\n- (1,1): d = |0*(0-1)+10*(1-0)+1*(0-0)| / 10 = 10/10 = 1.00\nNajblizej: (1,1) z d=1.00",
       "typowe_bledy": [
         {
-          "opis": "**Pomylenie odleglosci od prostej z odlegloscia od odcinka**: Odleglosc od prostej jest zawsze prostopadla. Odleglosc od odcinka moze byc do konca odcinka. CKE: zalezy od tresci",
+          "opis": "**Pomylenie odleglosci od prostej z odlegloscia od odcinka**: Odleglosc od prostej jest zawsze prostopadla. Odleglosc od odcinka moze byc do konca odcinka",
           "kara": ""
         },
         {

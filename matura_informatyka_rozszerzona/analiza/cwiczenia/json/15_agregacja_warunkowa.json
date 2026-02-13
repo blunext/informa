@@ -135,7 +135,7 @@
           "kara": "-2 pkt"
         },
         {
-          "opis": "**Wpisanie wartosci zamiast odwolania**: =COUNTIFS(B2:B11;\"Marzec\";C2:C11;\">5\") zadziala, ale traci elastycznosc — lepiej uzywac odwolania do komorki z norma. CKE: zwykle akceptowane, ale mniej eleganckie.",
+          "opis": "**Wpisanie wartosci zamiast odwolania**: =COUNTIFS(B2:B11;\"Marzec\";C2:C11;\">5\") zadziala, ale traci elastycznosc — lepiej uzywac odwolania do komorki z norma",
           "kara": ""
         }
       ]
@@ -169,7 +169,7 @@
           "kara": "-2 pkt"
         },
         {
-          "opis": "**Zapomnienie o kolumnach pomocniczych**: Proba napisania jednej ogromnej formuly SUMIFS bez etapow posrednich — trudne do debugowania i czesto bledne. CKE: akceptowane, ale ryzykowne.",
+          "opis": "**Zapomnienie o kolumnach pomocniczych**: Proba napisania jednej ogromnej formuly SUMIFS bez etapow posrednich — trudne do debugowania i czesto bledne",
           "kara": ""
         }
       ]
@@ -327,7 +327,7 @@
           "kara": "-2 pkt"
         },
         {
-          "opis": "**Brak MAXIFS — uzycie MAX z IF tablicowym**: =MAX(IF(B2:B11=\"Warszawa\";F2:F11)) wymaga Ctrl+Shift+Enter (formula tablicowa). MAXIFS jest prostsza. CKE: akceptowane oba podejscia.",
+          "opis": "**Brak MAXIFS — uzycie MAX z IF tablicowym**: =MAX(IF(B2:B11=\"Warszawa\";F2:F11)) wymaga Ctrl+Shift+Enter (formula tablicowa). MAXIFS jest prostsza",
           "kara": ""
         },
         {

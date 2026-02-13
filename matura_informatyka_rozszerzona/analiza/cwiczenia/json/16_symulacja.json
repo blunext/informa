@@ -4,7 +4,26 @@
   "kategoria": "ARKUSZ",
   "czestotliwosc": "9/11 lat",
   "punkty_lacznie": 37,
-  "tagi_globalne": [],
+  "tagi_globalne": [
+    "akumulator",
+    "IF-warunkowy",
+    "odwolanie-bezwzgledne",
+    "kopiowanie-formul",
+    "SUM-kumulacyjna",
+    "COUNTIF",
+    "IF-zagniezdzony",
+    "MAX",
+    "MIN",
+    "INT",
+    "ROUND",
+    "symulacja-krokowa",
+    "prog-warunkowy",
+    "lancuch-zaleznosci",
+    "formatowanie-wyniku",
+    "ZAOKR",
+    "rata-annuitetowa",
+    "amortyzacja"
+  ],
   "cwiczenia": [
     {
       "id": "16.1",
@@ -23,7 +42,16 @@
         "**Wskazowka 3**: Wpisz `=C2+B3` w komorce C3. Po skopiowaniu w dol do C4 formula automatycznie zmieni sie na `=C3+B4` — dokladnie to, czego potrzebujemy."
       ],
       "odpowiedz": "**Formula (C3, kopiowana w dol):**\n```\nC3: =C2+B3\n```\n\n**Wypelniona tabela:**\n\n| Miesiac | Operacja | Saldo |\n|---------|----------|-------|\n| 0 (start) | — | 1000 |\n| 1 | +500 | 1500 |\n| 2 | -200 | 1300 |\n| 3 | +300 | 1600 |\n| 4 | -800 | 800 |\n| 5 | +150 | 950 |\n| 6 | -100 | 850 |\n\n**Weryfikacja krok po kroku:**\n- C3: 1000 + 500 = 1500\n- C4: 1500 + (-200) = 1300\n- C5: 1300 + 300 = 1600\n- C6: 1600 + (-800) = 800\n- C7: 800 + 150 = 950\n- C8: 950 + (-100) = 850\n\n**Wyjasnienie**: Jest to prosty akumulator — kazdy wiersz odwoluje sie do poprzedniego wyniku. Odwolanie C2 jest wzgledne, wiec po skopiowaniu formuly w dol automatycznie zmienia sie na C3, C4 itd.",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Uzycie stalej zamiast odwolania**: Wpisanie `=1000+B3` zamiast `=C2+B3` — formula dziala tylko dla pierwszego wiersza, po skopiowaniu w dol dalej dodaje do 1000 zamiast do biezacego salda.",
+          "kara": ""
+        },
+        {
+          "opis": "**Pominiecie znaku minus w operacji**: Trzeba pamietac, ze wyplaty sa juz zapisane jako liczby ujemne — wystarczy dodawanie, nie trzeba osobno odejmowac.",
+          "kara": ""
+        }
+      ]
     },
     {
       "id": "16.2",
@@ -43,7 +71,16 @@
         "**Wskazowka 3**: Formula to `=B2*$D$1`. Po skopiowaniu do B4 stanie sie `=B3*$D$1` — B2 zmienilo sie na B3, ale $D$1 zostalo bez zmian."
       ],
       "odpowiedz": "**Formula (B3, kopiowana w dol):**\n```\nB3: =B2*$D$1\n```\n\n**Wypelniona tabela (zaokraglone do calkowitych):**\n\n| Rok | Populacja |\n|-----|-----------|\n| 2024 | 50000 |\n| 2025 | 51250 |\n| 2026 | 52531 |\n| 2027 | 53845 |\n| 2028 | 55191 |\n| 2029 | 56571 |\n\n**Weryfikacja:**\n- B3: 50000 x 1.025 = 51250.00\n- B4: 51250 x 1.025 = 52531.25 ~ 52531\n- B5: 52531.25 x 1.025 = 53844.53 ~ 53845\n- B6: 53844.53 x 1.025 = 55190.64 ~ 55191\n- B7: 55190.64 x 1.025 = 56570.41 ~ 56571\n\n**Wyjasnienie**: Znak `$` przed D i 1 (`$D$1`) sprawia, ze odwolanie jest bezwzgledne — nie zmienia sie przy kopiowaniu formuly. Bez `$` kopiowanie z B3 do B4 zmieniloby D1 na D2, co daloby bledny wynik.",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Brak znaku $ przy wspolczynniku**: Napisanie `=B2*D1` zamiast `=B2*$D$1` — po skopiowaniu do B4 formula zmieni sie na `=B3*D2`, a komorka D2 jest pusta (wynik = 0).",
+          "kara": ""
+        },
+        {
+          "opis": "**Zakotwiczenie obu odwolan**: Napisanie `=$B$2*$D$1` — kazdy rok mnozy poczatkowa populacje (50000) zamiast poprzedniej, co daje ten sam wynik 51250 w kazdym wierszu.",
+          "kara": ""
+        }
+      ]
     },
     {
       "id": "16.3",
@@ -63,7 +100,20 @@
         "**Wskazowka 3**: D3: `=D2+B3-C3`, E3: `=IF(D3<50;\"NISKI STAN\";\"\")`. Obie formuly kopiujemy w dol — wszystkie odwolania sa wzgledne."
       ],
       "odpowiedz": "**Formuly (wiersz 3, kopiowane w dol):**\n```\nD3: =D2+B3-C3\nE3: =IF(D3<50;\"NISKI STAN\";\"\")\n```\n\n**Wypelniona tabela:**\n\n| Dzien | Przyjecie | Wydanie | Zapas | Alarm |\n|-------|-----------|---------|-------|-------|\n| 0 (start) | — | — | 200 | |\n| 1 | 0 | 80 | 120 | |\n| 2 | 50 | 60 | 110 | |\n| 3 | 0 | 70 | 40 | NISKI STAN |\n| 4 | 100 | 30 | 110 | |\n| 5 | 0 | 90 | 20 | NISKI STAN |\n| 6 | 20 | 50 | -10 | NISKI STAN |\n| 7 | 0 | 40 | -50 | NISKI STAN |\n\n**Weryfikacja:**\n- D3: 200 + 0 - 80 = 120 (>=50, brak alarmu)\n- D4: 120 + 50 - 60 = 110 (>=50, brak alarmu)\n- D5: 110 + 0 - 70 = 40 (<50, NISKI STAN)\n- D6: 40 + 100 - 30 = 110 (>=50, brak alarmu)\n- D7: 110 + 0 - 90 = 20 (<50, NISKI STAN)\n- D8: 20 + 20 - 50 = -10 (<50, NISKI STAN)\n- D9: -10 + 0 - 40 = -50 (<50, NISKI STAN)\n\n**Wyjasnienie**: Kolumna D to akumulator z dwoma zrodlami zmian (przyjecia i wydania). Kolumna E uzywa IF do warunkowego wyswietlania tekstu. Ujemny zapas oznacza, ze magazyn jest \"na minusie\" (zamowienia przekraczaja stan).",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Odwrotna kolejnosc odejmowania**: Napisanie `=D2-B3+C3` (odjecie przyjecia i dodanie wydania) — odwrocona logika daje calkowicie bledne wyniki.",
+          "kara": ""
+        },
+        {
+          "opis": "**Porownanie alarmu z odwrotnym znakiem**: Napisanie `IF(D3>50;...)` zamiast `IF(D3<50;...)` — alarm pojawia sie gdy zapas jest wysoki, a znika gdy jest niski.",
+          "kara": ""
+        },
+        {
+          "opis": "**Puste pole jako spacja**: Napisanie `\" \"` (spacja) zamiast `\"\"` (pusty tekst) w trzecim argumencie IF — komorka wyglada na pusta, ale zawiera spacje, co moze zaklocic inne formuly (np. COUNTBLANK).",
+          "kara": ""
+        }
+      ]
     },
     {
       "id": "16.4",
@@ -83,7 +133,20 @@
         "**Wskazowka 3**: C2: `=SUM($B$2:B2)`, D2: `=IF(C2>=2000;15%;IF(C2>=1000;10%;IF(C2>=500;5%;0%)))`, E2: `=B2*(1-D2)`."
       ],
       "odpowiedz": "**Formuly (wiersz 2, kopiowane w dol):**\n```\nC2: =SUM($B$2:B2)\nD2: =IF(C2>=2000;15%;IF(C2>=1000;10%;IF(C2>=500;5%;0%)))\nE2: =B2*(1-D2)\n```\n\n**Wypelniona tabela:**\n\n| Zakup nr | Kwota | Suma kum. | Rabat | Cena po rabacie |\n|----------|-------|-----------|-------|-----------------|\n| 1 | 350 | 350 | 0% | 350.00 |\n| 2 | 280 | 630 | 5% | 266.00 |\n| 3 | 420 | 1050 | 10% | 378.00 |\n| 4 | 150 | 1200 | 10% | 135.00 |\n| 5 | 600 | 1800 | 10% | 540.00 |\n| 6 | 300 | 2100 | 15% | 255.00 |\n\n**Weryfikacja:**\n- C2: SUM(B2:B2) = 350 -> prog 0% -> E2: 350 x 1.00 = 350.00\n- C3: SUM(B2:B3) = 350+280 = 630 -> prog 5% -> E3: 280 x 0.95 = 266.00\n- C4: SUM(B2:B4) = 630+420 = 1050 -> prog 10% -> E4: 420 x 0.90 = 378.00\n- C5: SUM(B2:B5) = 1050+150 = 1200 -> prog 10% -> E5: 150 x 0.90 = 135.00\n- C6: SUM(B2:B6) = 1200+600 = 1800 -> prog 10% -> E6: 600 x 0.90 = 540.00\n- C7: SUM(B2:B7) = 1800+300 = 2100 -> prog 15% -> E7: 300 x 0.85 = 255.00\n\n**Wyjasnienie**: Kluczowy jest zakres `$B$2:B2` — poczatek jest zakotwiczony ($B$2), ale koniec (B2) jest wzgledny. Po skopiowaniu do wiersza 5 formula staje sie `=SUM($B$2:B5)`, co daje sume od poczatku do biezacego wiersza. Zagniezdzony IF sprawdza progi od najwiekszego, bo pierwszy speliony warunek konczy ewaluacje.",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Sprawdzanie progow od najnizszego**: Napisanie `=IF(C2>=500;5%;IF(C2>=1000;10%;...))` — warunek C2>=500 jest spelniony takze dla 1000 i 2000, wiec rabat nigdy nie przekroczy 5%. Progi nalezy sprawdzac od najwyzszego.",
+          "kara": ""
+        },
+        {
+          "opis": "**Brak zakotwiczenia poczatku SUM**: Napisanie `=SUM(B2:B2)` bez znaku `$` — po skopiowaniu do wiersza 5 formula stanie sie `=SUM(B5:B5)`, czyli sumuje tylko biezacy wiersz zamiast calego zakresu od poczatku.",
+          "kara": ""
+        },
+        {
+          "opis": "**Uzycie przecinka zamiast srednika**: W polskiej wersji Excela separator argumentow to srednik (`;`), nie przecinek (`,`). Przecinek jest traktowany jako separator dziesietny.",
+          "kara": ""
+        }
+      ]
     },
     {
       "id": "16.5",
@@ -104,7 +167,20 @@
         "**Wskazowka 3**: C2: `=B2`, C3: `=E2+B3` (kopiowane w dol). D2: `=IF(C2>=100;\"TAK\";\"NIE\")`. E2: `=IF(D2=\"TAK\";C2-100;C2)`. Liczba transportow: `=COUNTIF(D2:D11;\"TAK\")`."
       ],
       "odpowiedz": "**Formuly:**\n```\nC2: =B2                    (pierwszy dzien, zapas startowy = 0)\nC3: =E2+B3                 (kopiowane w dol od wiersza 3)\nD2: =IF(C2>=100;\"TAK\";\"NIE\")\nE2: =IF(D2=\"TAK\";C2-100;C2)\nLaczna liczba transportow: =COUNTIF(D2:D11;\"TAK\")\n```\n\n**Wypelniona tabela:**\n\n| Dzien | Wydobycie | Zapas przed | Transport? | Zapas po |\n|-------|-----------|-------------|-----------|----------|\n| 1 | 35 | 35 | NIE | 35 |\n| 2 | 42 | 77 | NIE | 77 |\n| 3 | 28 | 105 | TAK | 5 |\n| 4 | 50 | 55 | NIE | 55 |\n| 5 | 15 | 70 | NIE | 70 |\n| 6 | 45 | 115 | TAK | 15 |\n| 7 | 38 | 53 | NIE | 53 |\n| 8 | 55 | 108 | TAK | 8 |\n| 9 | 22 | 30 | NIE | 30 |\n| 10 | 48 | 78 | NIE | 78 |\n\nLaczna liczba transportow: **3**\n\n**Weryfikacja krok po kroku:**\n- Dzien 1: C=0+35=35, <100 -> NIE, E=35\n- Dzien 2: C=35+42=77, <100 -> NIE, E=77\n- Dzien 3: C=77+28=105, >=100 -> TAK, E=105-100=5\n- Dzien 4: C=5+50=55, <100 -> NIE, E=55\n- Dzien 5: C=55+15=70, <100 -> NIE, E=70\n- Dzien 6: C=70+45=115, >=100 -> TAK, E=115-100=15\n- Dzien 7: C=15+38=53, <100 -> NIE, E=53\n- Dzien 8: C=53+55=108, >=100 -> TAK, E=108-100=8\n- Dzien 9: C=8+22=30, <100 -> NIE, E=30\n- Dzien 10: C=30+48=78, <100 -> NIE, E=78\n\n**Wyjasnienie**: To typowa symulacja z akumulatorem i warunkiem resetowania. Kolumna E \"przenosi\" stan do nastepnego dnia — odwolanie E2 w formule C3 tworzy lancuch zaleznosci. Kazdy dzien zalezy od wyniku poprzedniego dnia. COUNTIF na koncu zlicza ile razy wyslano transport. Na maturze tego typu zadania wymagaja dokladnego sledzenia stanu wiersz po wierszu.",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Odwolanie do C zamiast E w nastepnym wierszu**: Napisanie `C3: =C2+B3` zamiast `=E2+B3` — pominiecie transportu powoduje, ze zapas nigdy nie jest zmniejszany o 100 ton, co daje bledne wyniki od wiersza z pierwszym transportem.",
+          "kara": ""
+        },
+        {
+          "opis": "**Porownanie tekstu bez cudzyslowow**: Napisanie `=IF(D2=TAK;...)` zamiast `=IF(D2=\"TAK\";...)` — bez cudzyslowow arkusz traktuje TAK jako nazwe zakresu lub zmiennej, nie jako tekst.",
+          "kara": ""
+        },
+        {
+          "opis": "**Zapomnienie o osobnej formule dla pierwszego wiersza**: Proste skopiowanie `=E1+B2` do C2 odwoluje sie do E1, ktore jest naglowkiem (tekst), co daje blad #WARTOSC!.",
+          "kara": ""
+        }
+      ]
     },
     {
       "id": "16.6",
@@ -124,7 +200,16 @@
         "**Wskazowka 3**: C2: `=ZAOKR(B2*$F$1;2)`, D2: `=B2+C2`, B3: `=D2`. Skopiuj wszystkie trzy formuly w dol. Sprawdz, czy po 8 latach kapital wynosi okolo 14221."
       ],
       "odpowiedz": "**Formuly (kopiowane w dol):**\n```\nC2: =ZAOKR(B2*$F$1;2)\nD2: =B2+C2\nB3: =D2\n```\n\n**Wypelniona tabela:**\n\n| Rok | Kapital na poczatku | Odsetki | Kapital na koniec |\n|-----|---------------------|---------|-------------------|\n| 1 | 10000.00 | 450.00 | 10450.00 |\n| 2 | 10450.00 | 470.25 | 10920.25 |\n| 3 | 10920.25 | 491.41 | 11411.66 |\n| 4 | 11411.66 | 513.52 | 11925.19 |\n| 5 | 11925.19 | 536.63 | 12461.82 |\n| 6 | 12461.82 | 560.78 | 13022.60 |\n| 7 | 13022.60 | 586.02 | 13608.62 |\n| 8 | 13608.62 | 612.39 | 14221.01 |\n\n**Weryfikacja:**\n- Rok 1: 10000.00 x 0.045 = 450.00, kapital = 10450.00\n- Rok 2: 10450.00 x 0.045 = 470.25, kapital = 10920.25\n- Rok 3: 10920.25 x 0.045 = 491.41125 ~ 491.41, kapital = 11411.66\n- Rok 4: 11411.66 x 0.045 = 513.5247 ~ 513.52, kapital = 11925.19 (z zaokragleniem: 11925.18, ale 11411.66 + 513.52 = 11925.18; poprawka: 11411.66*0.045=513.52470, ZAOKR->513.52, suma=11925.18)\n\nDokladna weryfikacja z ZAOKR:\n- Rok 1: ZAOKR(10000*0.045;2)=450.00 -> 10000+450=10450.00\n- Rok 2: ZAOKR(10450*0.045;2)=470.25 -> 10450+470.25=10920.25\n- Rok 3: ZAOKR(10920.25*0.045;2)=491.41 -> 10920.25+491.41=11411.66\n- Rok 4: ZAOKR(11411.66*0.045;2)=513.52 -> 11411.66+513.52=11925.18\n- Rok 5: ZAOKR(11925.18*0.045;2)=536.63 -> 11925.18+536.63=12461.81\n- Rok 6: ZAOKR(12461.81*0.045;2)=560.78 -> 12461.81+560.78=13022.59\n- Rok 7: ZAOKR(13022.59*0.045;2)=586.02 -> 13022.59+586.02=13608.61\n- Rok 8: ZAOKR(13608.61*0.045;2)=612.39 -> 13608.61+612.39=14221.00\n\nKoncowy kapital po 8 latach: **14221.00 zl**\n\n**Wyjasnienie**: Procent skladany oznacza, ze odsetki z kazdego roku sa doliczane do kapitalu i w nastepnym roku odsetki sa naliczane od wiekszej kwoty. Dlatego kapital rosnie coraz szybciej. Kluczowe jest uzycie ZAOKR (ROUND) do zaokraglenia odsetek do groszy — w finansach zawsze zaokraglamy do 2 miejsc po przecinku. Odwolanie bezwzgledne $F$1 gwarantuje, ze kazdy wiersz uzywa tej samej stopy.",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Brak zaokraglenia odsetek**: Pominiecie ZAOKR powoduje, ze odsetki maja wiele miejsc po przecinku (np. 491.41125), co daje drobne roznice narastajace w kolejnych latach. W zadaniach maturalnych wyniki musza sie zgadzac co do grosza.",
+          "kara": ""
+        },
+        {
+          "opis": "**Procent prosty zamiast skladanego**: Uzycie `=10000*$F$1` (zawsze od poczatkowej kwoty) zamiast `=B2*$F$1` (od biezacego kapitalu) — daje stale odsetki 450 zl rocznie.",
+          "kara": ""
+        }
+      ]
     },
     {
       "id": "16.7",
@@ -145,7 +230,20 @@
         "**Wskazowka 3**: Przelicz wiersz po wierszu. Rok 2020: 120000 + INT(120000*0.012) - INT(120000*0.008) + 800 = 120000 + 1440 - 960 + 800 = 121280. Kontynuuj az znajdziesz rok >125000."
       ],
       "odpowiedz": "**Formuly (kopiowane w dol):**\n```\nC2: =INT(B2*$G$1)\nD2: =INT(B2*$G$2)\nF2: =B2+C2-D2+E2\nB3: =F2\n```\n\n**Wypelniona tabela:**\n\n| Rok | Populacja pocz. | Urodzenia | Zgony | Migracja | Populacja kon. |\n|-----|-----------------|-----------|-------|----------|----------------|\n| 2020 | 120000 | 1440 | 960 | +800 | 121280 |\n| 2021 | 121280 | 1455 | 970 | -300 | 121465 |\n| 2022 | 121465 | 1457 | 971 | +1200 | 123151 |\n| 2023 | 123151 | 1477 | 985 | +500 | 124143 |\n| 2024 | 124143 | 1489 | 993 | -600 | 124039 |\n| 2025 | 124039 | 1488 | 992 | +900 | 125435 |\n| 2026 | 125435 | 1505 | 1003 | -100 | 125837 |\n| 2027 | 125837 | 1510 | 1006 | +400 | 126741 |\n| 2028 | 126741 | 1520 | 1013 | +700 | 127948 |\n| 2029 | 127948 | 1535 | 1023 | -200 | 128260 |\n\n**Weryfikacja (pierwsze 3 lata):**\n- 2020: INT(120000*0.012)=1440, INT(120000*0.008)=960, F=120000+1440-960+800=121280\n- 2021: INT(121280*0.012)=INT(1455.36)=1455, INT(121280*0.008)=INT(970.24)=970, F=121280+1455-970-300=121465\n- 2022: INT(121465*0.012)=INT(1457.58)=1457, INT(121465*0.008)=INT(971.72)=971, F=121465+1457-971+1200=123151\n\nPopulacja po raz pierwszy przekracza 125000 w roku **2025** (125435).\n\n**Wyjasnienie**: Symulacja demograficzna laczy trzy czynniki zmian populacji. Uzycie INT zamiast ROUND zapewnia zaokraglenie w dol — bardziej realistyczne dla liczby osob. Odwolania bezwzgledne ($G$1, $G$2) sa kluczowe, bo wspolczynniki sa stale we wszystkich wierszach. Migracja netto moze byc dodatnia lub ujemna, co dodaje realizmu do modelu.",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Uzycie ROUND zamiast INT**: ROUND(1455.36;0) daje 1455, ale ROUND(1455.5;0) daloby 1456. Dla populacji INT (zaokraglenie w dol) jest bardziej typowe, choc oba podejscia sa akceptowane na maturze — wazne, by stosowac konsekwentnie.",
+          "kara": ""
+        },
+        {
+          "opis": "**Zapomnienie o odwolaniu bezwzglednym do wspolczynnikow**: Bez $G$1 po skopiowaniu do wiersza 4 formula odwoluje sie do G3, ktore jest puste — wynik to 0 urodzen.",
+          "kara": ""
+        },
+        {
+          "opis": "**Dodanie zgonow zamiast odjecia**: Napisanie `=B2+C2+D2+E2` zamiast `=B2+C2-D2+E2` — zgony powinny zmniejszac populacje, nie zwiekszac.",
+          "kara": ""
+        }
+      ]
     },
     {
       "id": "16.8",
@@ -166,7 +264,20 @@
         "**Wskazowka 3**: Dzien 1: 80-20=60 (>=30, NIE). Dzien 2: 60-15=45 (>=30, NIE). Dzien 3: 45-25=20 (<30, TAK, dostawa w dniu 6). Dzien 4-5: brak dostawy. Dzien 6: dostawa +100."
       ],
       "odpowiedz": "**Formuly:**\n```\nC2: =IF(COUNTIF($F$2:$F$11;A2)>0;$H$2;0)\nD2: =80+C2-B2                     (pierwszy dzien, zapas poczatkowy=80)\nD3: =D2+C3-B3                     (kopiowane w dol od wiersza 3)\nE2: =IF(D2<$H$1;\"TAK\";\"NIE\")\nF2: =IF(E2=\"TAK\";A2+$H$3;\"---\")\n```\n\nUwaga: W praktyce te formuly tworza zaleznosc cykliczna (C zalezy od F, a F od D, D od C). Na maturze tego typu zadanie rozwiazuje sie recznym sledzeniem krok po kroku, a formuly pisze sie uproszczone lub opisowo.\n\n**Reczne sledzenie krok po kroku:**\n\n- Dzien 1: zapas = 80 + 0 - 20 = 60 (>=30 -> NIE)\n- Dzien 2: zapas = 60 + 0 - 15 = 45 (>=30 -> NIE)\n- Dzien 3: zapas = 45 + 0 - 25 = 20 (<30 -> TAK, dostawa w dniu 6)\n- Dzien 4: zapas = 20 + 0 - 10 = 10 (<30 -> TAK, dostawa w dniu 7)\n- Dzien 5: zapas = 10 + 0 - 18 = -8 (<30 -> TAK, dostawa w dniu 8)\n- Dzien 6: zapas = -8 + 100 - 12 = 80 (>=30 -> NIE) [dostawa z dnia 3]\n- Dzien 7: zapas = 80 + 100 - 22 = 158 (>=30 -> NIE) [dostawa z dnia 4]\n- Dzien 8: zapas = 158 + 100 - 8 = 250 (>=30 -> NIE) [dostawa z dnia 5]\n- Dzien 9: zapas = 250 + 0 - 30 = 220 (>=30 -> NIE)\n- Dzien 10: zapas = 220 + 0 - 14 = 206 (>=30 -> NIE)\n\n**Wypelniona tabela:**\n\n| Dzien | Wydania | Dostawa | Zapas | Zamowiono? | Dzien dostawy |\n|-------|---------|---------|-------|------------|---------------|\n| 1 | 20 | 0 | 60 | NIE | --- |\n| 2 | 15 | 0 | 45 | NIE | --- |\n| 3 | 25 | 0 | 20 | TAK | 6 |\n| 4 | 10 | 0 | 10 | TAK | 7 |\n| 5 | 18 | 0 | -8 | TAK | 8 |\n| 6 | 12 | 100 | 80 | NIE | --- |\n| 7 | 22 | 100 | 158 | NIE | --- |\n| 8 | 8 | 100 | 250 | NIE | --- |\n| 9 | 30 | 0 | 220 | NIE | --- |\n| 10 | 14 | 0 | 206 | NIE | --- |\n\n**Wyjasnienie**: To klasyczna symulacja logistyczna z opoznieniem dostawy. Kluczowe obserwacje: (1) zapas moze byc ujemny (dzien 5: -8), co oznacza niezrealizowane zamowienia; (2) wielokrotne zamowienia moga sie nakladac — zamowiono w dniach 3, 4 i 5, wiec dostawy przyszly kolejno w dniach 6, 7 i 8; (3) po serii dostaw zapas jest bardzo wysoki (250), co jest typowe dla systemu z opoznieniem (efekt byczego bicza). Na maturze tego typu zadanie rozwiazuje sie recznym sledzeniem — krok po kroku.",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Ignorowanie opoznienia dostawy**: Dodanie 100 do zapasu natychmiast po zamowieniu (tego samego dnia) zamiast po 3 dniach — calkowicie zmienia dynamike symulacji.",
+          "kara": ""
+        },
+        {
+          "opis": "**Zamowienie tylko raz**: Zalozenie, ze hurtownia zamawia tylko przy pierwszym spadku ponizej progu i czeka na dostawe — w rzeczywistosci kazdy dzien z zapasem <30 generuje nowe zamowienie.",
+          "kara": ""
+        },
+        {
+          "opis": "**Pominiecie ujemnego zapasu**: Zapas moze byc ujemny (niedobor), co jest prawidlowe w modelu. Nie nalezy zastepowac go zerem.",
+          "kara": ""
+        }
+      ]
     },
     {
       "id": "16.9",
@@ -188,7 +299,20 @@
         "**Wskazowka 3**: Rata = 50000*0.005/(1-(1.005)^(-10)) = 250/( 1 - 0.95135) = 250/0.04865 = 5138.83 zl (w przyblizeniu). Pierwsza rata: odsetki = 50000*0.005 = 250.00, kapital = 5138.83 - 250.00 = 4888.83, saldo = 50000 - 4888.83 = 45111.17."
       ],
       "odpowiedz": "**Formuly:**\n```\nF4: =ZAOKR($F$1*$F$2/(1-(1+$F$2)^(-$F$3));2)\nB2: =$F$1\nB3: =E2                           (kopiowane w dol)\nC2: =ZAOKR(B2*$F$2;2)             (kopiowane w dol)\nD2: =$F$4-C2                      (kopiowane w dol)\nE2: =B2-D2                        (kopiowane w dol)\n```\n\n**Obliczenie raty:**\nR = 50000 * 0.005 / (1 - (1.005)^(-10))\nR = 250 / (1 - 0.951110305...)\nR = 250 / 0.048889695...\nR = 5113.63 zl (po zaokragleniu do 2 miejsc)\n\nWeryfikacja: (1.005)^10 = 1.05114013... -> (1.005)^(-10) = 1/1.05114013 = 0.95132890...\nR = 250 / (1 - 0.95132890) = 250 / 0.04867110 = 5136.62...\n\nDokaldne obliczenie: (1.005)^10:\n- (1.005)^1 = 1.005\n- (1.005)^2 = 1.010025\n- (1.005)^3 = 1.015075125\n- (1.005)^4 = 1.020150500625\n- (1.005)^5 = 1.025251253128\n- (1.005)^6 = 1.030377509384\n- (1.005)^7 = 1.035529446931\n- (1.005)^8 = 1.040707094165\n- (1.005)^9 = 1.045910629636\n- (1.005)^10 = 1.051140132184\n\n(1.005)^(-10) = 1/1.051140132184 = 0.951348404866\n\nR = 250 / (1 - 0.951348404866) = 250 / 0.048651595134 = 5138.53 zl\n\nPoprawne obliczenie: **R = 5138.53 zl**\n\n**Wypelniona tabela:**\n\n| Rata nr | Saldo poczatkowe | Odsetki | Czesc kapitalowa | Saldo koncowe |\n|---------|------------------|---------|------------------|---------------|\n| 1 | 50000.00 | 250.00 | 4888.53 | 45111.47 |\n| 2 | 45111.47 | 225.56 | 4912.97 | 40198.50 |\n| 3 | 40198.50 | 200.99 | 4937.54 | 35260.96 |\n| 4 | 35260.96 | 176.30 | 4962.23 | 30298.73 |\n| 5 | 30298.73 | 151.49 | 4987.04 | 25311.69 |\n| 6 | 25311.69 | 126.56 | 5011.97 | 20299.72 |\n| 7 | 20299.72 | 101.50 | 5037.03 | 15262.69 |\n| 8 | 15262.69 | 76.31 | 5062.22 | 10200.47 |\n| 9 | 10200.47 | 51.00 | 5087.53 | 5112.94 |\n| 10 | 5112.94 | 25.56 | 5112.97 | -0.03 |\n\n**Weryfikacja (pierwsze 3 raty):**\n- Rata 1: odsetki = ZAOKR(50000*0.005;2) = 250.00, kapital = 5138.53-250.00 = 4888.53, saldo = 50000-4888.53 = 45111.47\n- Rata 2: odsetki = ZAOKR(45111.47*0.005;2) = 225.56, kapital = 5138.53-225.56 = 4912.97, saldo = 45111.47-4912.97 = 40198.50\n- Rata 3: odsetki = ZAOKR(40198.50*0.005;2) = 200.99, kapital = 5138.53-200.99 = 4937.54, saldo = 40198.50-4937.54 = 35260.96\n\nSaldo koncowe po 10. racie wynosi -0.03 zl (blisko zera). Drobna roznica wynika z zaokraglen. W praktyce ostatnia rata jest korygowana, aby saldo wynioslo dokladnie 0.\n\n**Wyjasnienie**: Harmonogram amortyzacji to klasyczna symulacja finansowa. Rata jest stala (annuitetowa), ale proporcja odsetki/kapital zmienia sie: na poczatku odsetki stanowia wieksza czesc raty (bo saldo jest duze), a pod koniec prawie cala rata idzie na kapital. Kluczowe elementy: (1) formula potegowa dla raty, (2) zaokraglanie do 2 miejsc, (3) lancuch zaleznosci wiersz po wierszu. Na maturze tego typu zadanie moze pojawic sie z uproszczonym wzorem lub z podana wartoscia raty.",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Pomylenie stopy rocznej z miesieczna**: Uzycie 6% (0.06) zamiast 0.5% (0.005) jako stopy miesiecznej — daje absurdalnie wysokie odsetki i rate.",
+          "kara": ""
+        },
+        {
+          "opis": "**Bledna formula potegowa**: Napisanie `(1+F2)*(-F3)` zamiast `(1+F2)^(-F3)` — mnozenie zamiast potegowania daje calkowicie inny wynik.",
+          "kara": ""
+        },
+        {
+          "opis": "**Brak zaokraglenia odsetek**: Bez ZAOKR odsetki maja wiele miejsc po przecinku, co powoduje narastajace rozbieznosci — saldo koncowe moze roznic sie o kilka zlotych od zera.",
+          "kara": ""
+        }
+      ]
     },
     {
       "id": "16.10",
@@ -211,7 +335,20 @@
         "**Wskazowka 3**: Formuly: D2 (stan po wyjazdach): `=MAX($I$2-C2;0)` (dla godz. 8:00), od D3: `=MAX(G2-C3;0)`. E2: `=MIN(B2;$I$1-D2)`. F2: `=B2-E2`. G2: `=D2+E2`. Godz. 8:00: stan po wyjazdach = MAX(15-3;0)=12, wolne=40-12=28, przyjecia=MIN(12;28)=12, odrzucone=0, stan=24."
       ],
       "odpowiedz": "**Formuly:**\n```\nD2: =MAX($I$2-C2;0)               (godz. 8:00, poczatkowy stan z I2)\nD3: =MAX(G2-C3;0)                 (kopiowane w dol od wiersza 3)\nE2: =MIN(B2;$I$1-D2)              (kopiowane w dol)\nF2: =B2-E2                        (kopiowane w dol)\nG2: =D2+E2                        (kopiowane w dol)\nLaczna liczba odrzuconych: =SUM(F2:F11)\n```\n\n**Reczne sledzenie krok po kroku:**\n\nGodz. 8:00: stan_przed=15, po_wyjazdach=MAX(15-3;0)=12, wolne=40-12=28, przyjecia=MIN(12;28)=12, odrzucone=0, stan_po=12+12=24\nGodz. 9:00: stan_przed=24, po_wyjazdach=MAX(24-5;0)=19, wolne=40-19=21, przyjecia=MIN(18;21)=18, odrzucone=0, stan_po=19+18=37\nGodz. 10:00: stan_przed=37, po_wyjazdach=MAX(37-10;0)=27, wolne=40-27=13, przyjecia=MIN(8;13)=8, odrzucone=0, stan_po=27+8=35\nGodz. 11:00: stan_przed=35, po_wyjazdach=MAX(35-7;0)=28, wolne=40-28=12, przyjecia=MIN(6;12)=6, odrzucone=0, stan_po=28+6=34\nGodz. 12:00: stan_przed=34, po_wyjazdach=MAX(34-12;0)=22, wolne=40-22=18, przyjecia=MIN(15;18)=15, odrzucone=0, stan_po=22+15=37\nGodz. 13:00: stan_przed=37, po_wyjazdach=MAX(37-8;0)=29, wolne=40-29=11, przyjecia=MIN(20;11)=11, odrzucone=9, stan_po=29+11=40\nGodz. 14:00: stan_przed=40, po_wyjazdach=MAX(40-14;0)=26, wolne=40-26=14, przyjecia=MIN(10;14)=10, odrzucone=0, stan_po=26+10=36\nGodz. 15:00: stan_przed=36, po_wyjazdach=MAX(36-9;0)=27, wolne=40-27=13, przyjecia=MIN(5;13)=5, odrzucone=0, stan_po=27+5=32\nGodz. 16:00: stan_przed=32, po_wyjazdach=MAX(32-15;0)=17, wolne=40-17=23, przyjecia=MIN(3;23)=3, odrzucone=0, stan_po=17+3=20\nGodz. 17:00: stan_przed=20, po_wyjazdach=MAX(20-12;0)=8, wolne=40-8=32, przyjecia=MIN(2;32)=2, odrzucone=0, stan_po=8+2=10\n\n**Wypelniona tabela:**\n\n| Godz | Przyjazdy | Wyjazdy | Po wyjazdach | Fakt. przyjecia | Odrzucone | Po operacjach |\n|------|-----------|---------|--------------|-----------------|-----------|---------------|\n| 8:00 | 12 | 3 | 12 | 12 | 0 | 24 |\n| 9:00 | 18 | 5 | 19 | 18 | 0 | 37 |\n| 10:00 | 8 | 10 | 27 | 8 | 0 | 35 |\n| 11:00 | 6 | 7 | 28 | 6 | 0 | 34 |\n| 12:00 | 15 | 12 | 22 | 15 | 0 | 37 |\n| 13:00 | 20 | 8 | 29 | 11 | 9 | 40 |\n| 14:00 | 10 | 14 | 26 | 10 | 0 | 36 |\n| 15:00 | 5 | 9 | 27 | 5 | 0 | 32 |\n| 16:00 | 3 | 15 | 17 | 3 | 0 | 20 |\n| 17:00 | 2 | 12 | 8 | 2 | 0 | 10 |\n\nLaczna liczba odrzuconych samochodow: **9** (wszystkie o godz. 13:00)\nGodzina szczytu (najwiecej aut): **13:00** (40 samochodow — pelny parking)\n\n**Weryfikacja szczytu (godz. 13:00):**\n- Stan przed = 37 (z poprzedniej godziny)\n- Po wyjazdach: MAX(37-8;0) = 29\n- Wolne miejsca: 40-29 = 11\n- Chce wjechac 20, ale zmiesci sie tylko 11\n- Odrzucone: 20-11 = 9\n- Stan po: 29+11 = 40 (pelny parking)\n\n**Wyjasnienie**: Symulacja kolejkowa z ograniczeniem pojemnosci to zaawansowane zadanie laczace kilka technik: (1) akumulator z dwoma zrodlami zmian, (2) ograniczenie dolne przez MAX(...;0) — stan nie moze byc ujemny, (3) ograniczenie gorne przez MIN(przyjazdy; wolne_miejsca) — nie mozna przyjac wiecej niz jest miejsc, (4) obliczenie odrzuconych jako roznica. Na maturze kluczowe jest prawidlowe okreslenie kolejnosci operacji (najpierw wyjazdy, potem przyjazdy) oraz uzycie MIN/MAX do modelowania ograniczen fizycznych. Tego typu zadanie laczy umiejetnosci z wielu prostszych cwiczen w jedna spójna symulacje.",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Odwrotna kolejnosc operacji**: Najpierw dodanie przyjazdow, potem odjecie wyjazdow — moze doprowadzic do sytuacji, ze parking \"przekracza\" pojemnosc na chwile, co daje inne wyniki odrzucen.",
+          "kara": ""
+        },
+        {
+          "opis": "**Brak ograniczenia MIN dla przyjazdow**: Napisanie `E2: =B2` zamiast `=MIN(B2;$I$1-D2)` — pozwala na przekroczenie pojemnosci parkingu (np. 45 aut na 40 miejscach).",
+          "kara": ""
+        },
+        {
+          "opis": "**Brak ograniczenia MAX dla wyjazdow**: Jezeli wyjazdy > stan parkingu, bez MAX stan staje sie ujemny, co daje sztuczne \"wolne miejsca\" powyzej pojemnosci. Nalezy uzywac `MAX(stan-wyjazdy;0)`.",
+          "kara": ""
+        }
+      ]
     }
   ]
 }

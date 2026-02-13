@@ -137,7 +137,7 @@
           "kara": "-1 pkt"
         },
         {
-          "opis": "**Warunek i*i <= n zamiast i <= sqrt(n)**: Oba sa poprawne, ale i*i unika bledu zaokraglania sqrt. CKE: brak kary, ale warto wiedziec.",
+          "opis": "**Warunek i*i <= n zamiast i <= sqrt(n)**: Oba sa poprawne, ale i*i unika bledu zaokraglania sqrt",
           "kara": ""
         },
         {

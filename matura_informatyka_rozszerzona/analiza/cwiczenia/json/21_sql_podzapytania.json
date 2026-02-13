@@ -69,7 +69,7 @@
           "kara": "-2 pkt"
         },
         {
-          "opis": "**NOT IN z NULL**: Jesli podzapytanie zwraca NULL wsrod wynikow, NOT IN zwraca pusty zbior. Np. gdyby Zapisy mialy wiersz z id_kursu = NULL, wynik bylby pusty. CKE: nie dotyczy tego zadania, ale warto pamietac.",
+          "opis": "**NOT IN z NULL**: Jesli podzapytanie zwraca NULL wsrod wynikow, NOT IN zwraca pusty zbior. Np. gdyby Zapisy mialy wiersz z id_kursu = NULL, wynik bylby pusty",
           "kara": ""
         }
       ]
@@ -97,7 +97,7 @@
           "kara": "-3 pkt"
         },
         {
-          "opis": "**IS NULL na zlej kolumnie**: `WHERE Z.kwota IS NULL` tez zadziala, ale `WHERE Z.id_klienta IS NULL` jest bezpieczniejsze. CKE: akceptowane.",
+          "opis": "**IS NULL na zlej kolumnie**: `WHERE Z.kwota IS NULL` tez zadziala, ale `WHERE Z.id_klienta IS NULL` jest bezpieczniejsze",
           "kara": ""
         },
         {
@@ -196,7 +196,7 @@
           "kara": "-1 pkt"
         },
         {
-          "opis": "**ORDER BY cena DESC LIMIT 1**: Poprawna alternatywa, ale LIMIT nie jest czescia standardu SQL i na maturze podzapytanie jest bezpieczniejsze. CKE: akceptowane w SQLite.",
+          "opis": "**ORDER BY cena DESC LIMIT 1**: Poprawna alternatywa, ale LIMIT nie jest czescia standardu SQL i na maturze podzapytanie jest bezpieczniejsze",
           "kara": ""
         }
       ]

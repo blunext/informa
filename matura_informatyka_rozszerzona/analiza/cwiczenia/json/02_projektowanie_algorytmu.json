@@ -43,7 +43,20 @@
         "W kazdym kroku petli: `cyfra = n mod 10`, sprawdz `cyfra mod 2 == 0`, jesli tak -- zwieksz licznik. Na koncu `n = n div 10`."
       ],
       "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja parzyste_cyfry(n)\n    licznik := 0\n    dopoki n > 0:\n        cyfra := n mod 10\n        jezeli cyfra mod 2 = 0:\n            licznik := licznik + 1\n        n := n div 10\n    zwroc licznik\n```\n\n**C++:**\n\n```cpp\nint parzyste_cyfry(int n) {\n    int licznik = 0;\n    while (n > 0) {\n        int cyfra = n % 10;\n        if (cyfra % 2 == 0)\n            licznik++;\n        n /= 10;\n    }\n    return licznik;\n}\n```\n\n**Weryfikacja**:\n- parzyste_cyfry(24681): cyfry 1,8,6,4,2 -> parzyste: 8,6,4,2 -> wynik 4\n- parzyste_cyfry(13579): cyfry 9,7,5,3,1 -> parzyste: brak -> wynik 0\n- parzyste_cyfry(1024): cyfry 4,2,0,1 -> parzyste: 4,2,0 -> wynik 3",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Brak obslugi cyfry 0 jako parzystej** -- cyfra 0 jest parzysta (0 mod 2 = 0). Uczniowie czesto pomijaja ja w warunku lub traktuja jako nieparzysty przypadek brzegowy",
+          "kara": "-1 pkt za bledny wynik dla danych z cyfra 0"
+        },
+        {
+          "opis": "**Uzycie `n > 0` zamiast petli po cyfrach** -- sprawdzanie `n != 0` zadziala identycznie, ale jesli uczeń uzyje warunku `n >= 10` (myslac o \"cyfrach wielocyfrowych\"), pominie jednocyfrowe liczby",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Porownywanie przez wyliczenie `cyfra==0 || cyfra==2 || ...`** -- poprawne, ale CKE preferuje `cyfra mod 2 = 0` jako elegantsze rozwiazanie. Punktacja zwykle pelna, ale ryzyko bledu przy wyliczaniu.",
+          "kara": ""
+        }
+      ]
     },
     {
       "id": "2.2",
@@ -63,7 +76,16 @@
         "Warunek konca petli to `n > 0` (odpowiada warunkowi bazowemu rekurencji `n = 0`). Przed petla zainicjuj `suma := 0`."
       ],
       "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja sumaCyfrIter(n)\n    suma := 0\n    dopoki n > 0:\n        suma := suma + n mod 10\n        n := n div 10\n    zwroc suma\n```\n\n**C++:**\n\n```cpp\nint sumaCyfrIter(int n) {\n    int suma = 0;\n    while (n > 0) {\n        suma += n % 10;\n        n /= 10;\n    }\n    return suma;\n}\n```\n\n**Wyjasinienie konwersji**:\n\nRekurencja ogonowa (gdzie wynik rekurencyjnego wywolania jest bezposrednio zwracany z dodanym skladnikiem) zamieniamy mechanicznie:\n1. Warunek bazowy `n = 0` staje sie warunkiem konca petli `n > 0`\n2. Akumulator (suma) przechowuje wynik czesciowy\n3. Zmiana argumentu `n div 10` staje sie aktualizacja zmiennej `n := n div 10`\n4. Dodawanie `n mod 10` odbywa sie w kazdej iteracji\n\n**Weryfikacja**:\n- sumaCyfrIter(47): 7 + 4 = 11\n- sumaCyfrIter(305): 5 + 0 + 3 = 8\n- sumaCyfrIter(1234): 4 + 3 + 2 + 1 = 10",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Zapomnienie inicjalizacji akumulatora** -- zmienna `suma` musi byc zainicjowana na 0 przed petla. Brak inicjalizacji w C++ daje niezdefiniowane zachowanie",
+          "kara": "-1 pkt za brak inicjalizacji"
+        },
+        {
+          "opis": "**Zamiana kolejnosci operacji** -- pisanie `n := n div 10` PRZED `suma := suma + n mod 10` powoduje utrate ostatniej cyfry",
+          "kara": "blad logiczny, -1 pkt"
+        }
+      ]
     },
     {
       "id": "2.3",
@@ -83,7 +105,20 @@
         "Pamietaj, zeby PRZED petla zapisac oryginalna wartosc `n` do osobnej zmiennej (`oryginal := n`), bo petla zmodyfikuje `n`. Na koncu porownaj `odwrocona` z `oryginal`."
       ],
       "odpowiedz": "**Pseudokod (metoda: odwroc liczbe i porownaj):**\n\n```\nfunkcja czyPalindrom(n)\n    oryginal := n\n    odwrocona := 0\n    dopoki n > 0:\n        cyfra := n mod 10\n        odwrocona := odwrocona * 10 + cyfra\n        n := n div 10\n    jezeli odwrocona = oryginal:\n        zwroc PRAWDA\n    w przeciwnym razie:\n        zwroc FALSZ\n```\n\n**C++:**\n\n```cpp\nbool czyPalindrom(int n) {\n    int oryginal = n;\n    int odwrocona = 0;\n    while (n > 0) {\n        odwrocona = odwrocona * 10 + n % 10;\n        n /= 10;\n    }\n    return odwrocona == oryginal;\n}\n```\n\n**Sledzenie dla n = 12321:**\n\n| Krok | n | cyfra | odwrocona |\n|------|---|-------|-----------|\n| poczatek | 12321 | - | 0 |\n| 1 | 1232 | 1 | 1 |\n| 2 | 123 | 2 | 12 |\n| 3 | 12 | 3 | 123 |\n| 4 | 1 | 2 | 1232 |\n| 5 | 0 | 1 | 12321 |\n\nodwrocona (12321) = oryginal (12321) -> PRAWDA\n\n**Sledzenie dla n = 12345:**\n\nodwrocona po petli: 54321\n54321 != 12345 -> FALSZ",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Brak zapisu oryginalnej wartosci** -- porownywanie z `n` po petli (ktore jest juz rowne 0) zamiast z zapisana wartoscia poczatkowa",
+          "kara": "-2 pkt, bo wynik zawsze PRAWDA (0 == 0 po petli jest falszywe, ale logika bledu jest powazna)"
+        },
+        {
+          "opis": "**Bledna kolejnosc w budowaniu odwroconej** -- pisanie `odwrocona = cyfra * 10 + odwrocona` zamiast `odwrocona * 10 + cyfra` daje bledny wynik",
+          "kara": "-2 pkt za bledny algorytm"
+        },
+        {
+          "opis": "**Pominiecie jednocyfrowych liczb** -- jednocyfrowa liczba jest zawsze palindromem. Algorytm poprawnie to obsluguje (po jednej iteracji odwrocona = cyfra = oryginal), ale uczniowie czasem dodaja niepotrzebny warunek brzegowy, ktory moze wprowadzic blad.",
+          "kara": ""
+        }
+      ]
     },
     {
       "id": "2.4",
@@ -103,7 +138,20 @@
         "W kazdym kroku: `wynik = wynik + (n mod k) * mnoznik`, potem `n = n div k` i `mnoznik = mnoznik * 10`. Kontynuuj az `n = 0`."
       ],
       "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja konwertuj(n, k)\n    wynik := 0\n    mnoznik := 1\n    dopoki n > 0:\n        reszta := n mod k\n        wynik := wynik + reszta * mnoznik\n        mnoznik := mnoznik * 10\n        n := n div k\n    zwroc wynik\n```\n\n**C++:**\n\n```cpp\nint konwertuj(int n, int k) {\n    int wynik = 0;\n    int mnoznik = 1;\n    while (n > 0) {\n        int reszta = n % k;\n        wynik += reszta * mnoznik;\n        mnoznik *= 10;\n        n /= k;\n    }\n    return wynik;\n}\n```\n\n**Weryfikacja konwertuj(13, 2):**\n\n| Krok | n | n%2 | wynik | mnoznik | n (po /2) |\n|------|---|-----|-------|---------|-----------|\n| 1 | 13 | 1 | 0+1*1=1 | 10 | 6 |\n| 2 | 6 | 0 | 1+0*10=1 | 100 | 3 |\n| 3 | 3 | 1 | 1+1*100=101 | 1000 | 1 |\n| 4 | 1 | 1 | 101+1*1000=1101 | 10000 | 0 |\n\nWynik: 1101. Sprawdzenie: 1*8 + 1*4 + 0*2 + 1*1 = 13.\n\n**Weryfikacja konwertuj(100, 8):**\n\n| Krok | n | n%8 | wynik | mnoznik | n (po /8) |\n|------|---|-----|-------|---------|-----------|\n| 1 | 100 | 4 | 4 | 10 | 12 |\n| 2 | 12 | 4 | 44 | 100 | 1 |\n| 3 | 1 | 1 | 144 | 1000 | 0 |\n\nWynik: 144. Sprawdzenie: 1*64 + 4*8 + 4*1 = 100.\n\n**Weryfikacja konwertuj(25, 3):**\n\n| Krok | n | n%3 | wynik | mnoznik | n (po /3) |\n|------|---|-----|-------|---------|-----------|\n| 1 | 25 | 1 | 1 | 10 | 8 |\n| 2 | 8 | 2 | 21 | 100 | 2 |\n| 3 | 2 | 2 | 221 | 1000 | 0 |\n\nWynik: 221. Sprawdzenie: 2*9 + 2*3 + 1*1 = 25.",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Inicjalizacja `mnoznik := 0` zamiast `mnoznik := 1`** -- pierwsza cyfra zostaje pomnozona przez 0 i znika",
+          "kara": "-2 pkt za blad w algorytmie"
+        },
+        {
+          "opis": "**Uzycie `n mod 10` zamiast `n mod k`** -- skopiowanie szablonu z cwiczen na cyfrach dziesietnych bez zmiany podstawy",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Proba konwersji dla k >= 10** -- algorytm z wynikiem calkowitym nie dziala dla systemow o podstawie >= 10 (np. szesnastkowy), bo cyfry >= 10 nie maja jednoznacznej reprezentacji w liczbie calkowitej. To nie jest blad, jesli polecenie wymaga k <= 9, ale warto byc swiadomym ograniczenia.",
+          "kara": ""
+        }
+      ]
     },
     {
       "id": "2.5",
@@ -123,7 +171,20 @@
         "Petla konczy sie, gdy stos jest pusty. Nie wkladaj na stos pustych wezlow (NULL). Caly algorytm: `push(korzen)`, potem `while(!empty): wezel=pop(), suma+=w, push(R), push(L)`."
       ],
       "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja suma_preorder_iter(korzen)\n    jezeli korzen = NULL:\n        zwroc 0\n    suma := 0\n    stos := nowy pusty stos\n    stos.push(korzen)\n    dopoki stos nie jest pusty:\n        wezel := stos.pop()\n        suma := suma + wezel.w\n        jezeli wezel.R <> NULL:\n            stos.push(wezel.R)\n        jezeli wezel.L <> NULL:\n            stos.push(wezel.L)\n    zwroc suma\n```\n\n**C++:**\n\n```cpp\nstruct Wezel {\n    int w;\n    Wezel* L;\n    Wezel* R;\n};\n\nint suma_preorder_iter(Wezel* korzen) {\n    if (korzen == nullptr) return 0;\n    int suma = 0;\n    stack<Wezel*> stos;\n    stos.push(korzen);\n    while (!stos.empty()) {\n        Wezel* wezel = stos.top();\n        stos.pop();\n        suma += wezel->w;\n        if (wezel->R != nullptr)\n            stos.push(wezel->R);\n        if (wezel->L != nullptr)\n            stos.push(wezel->L);\n    }\n    return suma;\n}\n```\n\n**Wyjasinienie:**\n\n1. Stos symuluje stos wywolan rekurencji. Zamiast wywolywac funkcje rekurencyjnie, wkladamy wezly na stos.\n\n2. Kolejnosc wkladania na stos jest ODWROTNA do porzadku przetwarzania:\n   - Chcemy przetworzyc: wezel, lewy, prawy (preorder)\n   - Wkladamy na stos: prawy, lewy (bo stos jest LIFO)\n   - Sciagamy ze stosu: lewy (przetwarzany jako pierwszy potomek)\n\n3. Dodajemy wartosc wezla natychmiast po sciagnieciu ze stosu (preorder = wezel przed potomkami).\n\n**Weryfikacja na przykladowym drzewie:**\n\n```\n       5\n      / \\\n     3   8\n    / \\   \\\n   1   4   9\n```\n\nStos (od dolu):\n1. push(5). Stos: [5]\n2. pop(5), suma=5. push(8), push(3). Stos: [8, 3]\n3. pop(3), suma=8. push(4), push(1). Stos: [8, 4, 1]\n4. pop(1), suma=9. (brak potomkow). Stos: [8, 4]\n5. pop(4), suma=13. (brak potomkow). Stos: [8]\n6. pop(8), suma=21. push(9). Stos: [9]\n7. pop(9), suma=30. (brak potomkow). Stos: []\n\nWynik: 30. Sprawdzenie: 5+3+1+4+8+9 = 30.",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Bledna kolejnosc push na stos** -- wkladanie najpierw lewego, potem prawego powoduje przetwarzanie w kolejnosci wezel-prawy-lewy zamiast preorder (wezel-lewy-prawy)",
+          "kara": "-1 pkt za bledna kolejnosc przejscia"
+        },
+        {
+          "opis": "**Brak sprawdzenia NULL przed push** -- wkladanie pustych wezlow na stos powoduje blad wykonania (dereferencja nullptr)",
+          "kara": ""
+        },
+        {
+          "opis": "**Uzycie `stos.front()` zamiast `stos.top()`** -- pomylenie stosu z kolejka. W C++ `stack` nie ma metody `front()`",
+          "kara": "-1 pkt za blad skladniowy"
+        }
+      ]
     },
     {
       "id": "2.6",
@@ -143,7 +204,20 @@
         "Przyklad krok po kroku: NWD(48, 18): 48 mod 18 = 12, potem NWD(18, 12): 18 mod 12 = 6, potem NWD(12, 6): 12 mod 6 = 0, wynik = 6."
       ],
       "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja NWD(a, b)\n    dopoki b > 0:\n        reszta := a mod b\n        a := b\n        b := reszta\n    zwroc a\n```\n\n**C++:**\n\n```cpp\nint NWD(int a, int b) {\n    while (b > 0) {\n        int reszta = a % b;\n        a = b;\n        b = reszta;\n    }\n    return a;\n}\n```\n\n**Weryfikacja NWD(48, 18):**\n\n| Krok | a | b | a mod b | a (nowe) | b (nowe) |\n|------|---|---|---------|----------|----------|\n| 1 | 48 | 18 | 12 | 18 | 12 |\n| 2 | 18 | 12 | 6 | 12 | 6 |\n| 3 | 12 | 6 | 0 | 6 | 0 |\n\nWynik: 6. Sprawdzenie: 48 = 6*8, 18 = 6*3.\n\n**Weryfikacja NWD(100, 25):**\n\n| Krok | a | b | a mod b | a (nowe) | b (nowe) |\n|------|---|---|---------|----------|----------|\n| 1 | 100 | 25 | 0 | 25 | 0 |\n\nWynik: 25. Sprawdzenie: 100 = 25*4, 25 = 25*1.\n\n**Weryfikacja NWD(17, 13):**\n\n| Krok | a | b | a mod b | a (nowe) | b (nowe) |\n|------|---|---|---------|----------|----------|\n| 1 | 17 | 13 | 4 | 13 | 4 |\n| 2 | 13 | 4 | 1 | 4 | 1 |\n| 3 | 4 | 1 | 0 | 1 | 0 |\n\nWynik: 1. Liczby 17 i 13 sa wzglednie pierwsze.",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Bledna kolejnosc przypiasan** -- pisanie `a := reszta; b := a` zamiast uzycia zmiennej tymczasowej `reszta`. Bez zmiennej posredniej wartosc `a` jest nadpisana zanim zostanie przypisana do `b`",
+          "kara": "-2 pkt za bledny algorytm"
+        },
+        {
+          "opis": "**Warunek petli `b >= 0` zamiast `b > 0`** -- powoduje dzielenie przez zero w nastepnej iteracji, gdy `b` osiagnie 0",
+          "kara": "-1 pkt za blad wykonania"
+        },
+        {
+          "opis": "**Zwracanie `b` zamiast `a`** -- po zakonczeniu petli `b = 0`, wiec wynik zawsze bylby 0",
+          "kara": "-2 pkt"
+        }
+      ]
     },
     {
       "id": "2.7",
@@ -163,7 +237,20 @@
         "Jesli znajdziesz jakikolwiek dzielnik (tj. `n mod dzielnik = 0`), zwroc od razu FALSZ. Jesli petla sie skonczy bez znalezienia dzielnika, zwroc PRAWDA. Pamietaj o przypadku brzegowym: n < 2 nie jest pierwsza."
       ],
       "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja czyPierwsza(n)\n    jezeli n < 2:\n        zwroc FALSZ\n    dzielnik := 2\n    dopoki dzielnik * dzielnik <= n:\n        jezeli n mod dzielnik = 0:\n            zwroc FALSZ\n        dzielnik := dzielnik + 1\n    zwroc PRAWDA\n```\n\n**C++:**\n\n```cpp\nbool czyPierwsza(int n) {\n    if (n < 2) return false;\n    int dzielnik = 2;\n    while (dzielnik * dzielnik <= n) {\n        if (n % dzielnik == 0)\n            return false;\n        dzielnik++;\n    }\n    return true;\n}\n```\n\n**Weryfikacja czyPierwsza(17):**\n\n| Krok | dzielnik | dzielnik*dzielnik | <= 17? | 17 % dzielnik |\n|------|----------|-------------------|--------|---------------|\n| 1 | 2 | 4 | tak | 1 (nie dzieli) |\n| 2 | 3 | 9 | tak | 2 (nie dzieli) |\n| 3 | 4 | 16 | tak | 1 (nie dzieli) |\n| 4 | 5 | 25 | nie | - |\n\nPetla konczy sie, zwroc PRAWDA. 17 jest liczba pierwsza.\n\n**Weryfikacja czyPierwsza(15):**\n\n| Krok | dzielnik | dzielnik*dzielnik | <= 15? | 15 % dzielnik |\n|------|----------|-------------------|--------|---------------|\n| 1 | 2 | 4 | tak | 1 (nie dzieli) |\n| 2 | 3 | 9 | tak | 0 (dzieli!) |\n\nZnaleziono dzielnik 3, zwroc FALSZ. 15 = 3 * 5.\n\n**Weryfikacja czyPierwsza(2):**\n\ndzielnik = 2, dzielnik*dzielnik = 4 > 2, petla sie nie wykonuje, zwroc PRAWDA.",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Sprawdzanie `dzielnik <= n` zamiast `dzielnik * dzielnik <= n`** -- algorytm poprawny, ale zbyt wolny (zlozonosc O(n) zamiast O(sqrt(n))). CKE moze odebrac -1 pkt za brak optymalizacji, jesli polecenie wyraznie wymaga efektywnosci.",
+          "kara": ""
+        },
+        {
+          "opis": "**Brak obslugi n < 2** -- dla n = 1 algorytm bez warunku brzegowego zwroci PRAWDA (petla sie nie wykona), co jest bledne",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Uzycie `dzielnik * dzielnik < n` (ostry) zamiast `<=`** -- pomija przypadek, gdy n jest kwadratem liczby pierwszej (np. 25 = 5*5). Dla n = 25 i dzielnik = 5: 5*5 = 25, `25 < 25` jest falsz, wiec petla sie konczy i zwraca PRAWDA (blednie)",
+          "kara": "-1 pkt za bledny wynik"
+        }
+      ]
     },
     {
       "id": "2.8",
@@ -183,7 +270,20 @@
         "Na poczatku ustaw `biezaca = 1` i `najdluzsza = 1` (pierwszy znak tworzy serie dlugosci 1). Iteruj od indeksu 1 do konca napisu."
       ],
       "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja najdluzsza_seria(s)\n    n := dlugosc(s)\n    najdluzsza := 1\n    biezaca := 1\n    dla i := 1, 2, ..., n-1:\n        jezeli s[i] = s[i-1]:\n            biezaca := biezaca + 1\n        w przeciwnym razie:\n            biezaca := 1\n        jezeli biezaca > najdluzsza:\n            najdluzsza := biezaca\n    zwroc najdluzsza\n```\n\n**C++:**\n\n```cpp\nint najdluzsza_seria(const string& s) {\n    int n = s.size();\n    int najdluzsza = 1;\n    int biezaca = 1;\n    for (int i = 1; i < n; i++) {\n        if (s[i] == s[i - 1])\n            biezaca++;\n        else\n            biezaca = 1;\n        if (biezaca > najdluzsza)\n            najdluzsza = biezaca;\n    }\n    return najdluzsza;\n}\n```\n\n**Weryfikacja najdluzsza_seria(\"aaabbcdddd\"):**\n\n| i | s[i] | s[i-1] | rowne? | biezaca | najdluzsza |\n|---|------|--------|--------|---------|------------|\n| 1 | a | a | tak | 2 | 2 |\n| 2 | a | a | tak | 3 | 3 |\n| 3 | b | a | nie | 1 | 3 |\n| 4 | b | b | tak | 2 | 3 |\n| 5 | c | b | nie | 1 | 3 |\n| 6 | d | c | nie | 1 | 3 |\n| 7 | d | d | tak | 2 | 3 |\n| 8 | d | d | tak | 3 | 3 |\n| 9 | d | d | tak | 4 | 4 |\n\nWynik: 4 (seria 'd').\n\n**Weryfikacja najdluzsza_seria(\"abcdef\"):**\n\nKazdy znak rozny od poprzedniego, `biezaca` resetuje sie do 1 w kazdym kroku. Wynik: 1.\n\n**Weryfikacja najdluzsza_seria(\"x\"):**\n\nPetla sie nie wykonuje (n=1, i=1 < 1 falsz). Wynik: 1 (wartosc poczatkowa).",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Aktualizacja `najdluzsza` tylko w galezi `else`** -- jesli najdluzsza seria konczy sie na koncu napisu (np. \"abcdddd\"), wartosc `biezaca` nigdy nie jest porownana z `najdluzsza` po ostatnim znaku",
+          "kara": "-1 pkt za bledny wynik"
+        },
+        {
+          "opis": "**Inicjalizacja `biezaca = 0` i `najdluzsza = 0`** -- dla jednoelementowego napisu petla sie nie wykona i wynik bedzie 0 zamiast 1",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Iteracja od i = 0 z porownaniem `s[i] == s[i-1]`** -- dostep do `s[-1]` powoduje odczyt poza zakresem tablicy",
+          "kara": "blad wykonania, -2 pkt"
+        }
+      ]
     },
     {
       "id": "2.9",
@@ -203,7 +303,20 @@
         "Jesli `biezaca_suma + T[i] < T[i]`, to znaczy ze `biezaca_suma < 0` i oplacalniej jest zaczac od nowa. Zaktualizuj `max_suma = max(max_suma, biezaca_suma)`. Zainicjuj obie zmienne wartoscia `T[0]`."
       ],
       "odpowiedz": "**Pseudokod (algorytm Kadane'a):**\n\n```\nfunkcja max_suma_podciagu(T, n)\n    biezaca_suma := T[0]\n    max_suma := T[0]\n    dla i := 1, 2, ..., n-1:\n        jezeli biezaca_suma + T[i] > T[i]:\n            biezaca_suma := biezaca_suma + T[i]\n        w przeciwnym razie:\n            biezaca_suma := T[i]\n        jezeli biezaca_suma > max_suma:\n            max_suma := biezaca_suma\n    zwroc max_suma\n```\n\n**C++:**\n\n```cpp\nint max_suma_podciagu(int T[], int n) {\n    int biezaca_suma = T[0];\n    int max_suma = T[0];\n    for (int i = 1; i < n; i++) {\n        if (biezaca_suma + T[i] > T[i])\n            biezaca_suma = biezaca_suma + T[i];\n        else\n            biezaca_suma = T[i];\n        if (biezaca_suma > max_suma)\n            max_suma = biezaca_suma;\n    }\n    return max_suma;\n}\n```\n\n**Weryfikacja max_suma_podciagu([2, -1, 3, -2, 5], 5):**\n\n| i | T[i] | biezaca_suma + T[i] | T[i] | biezaca_suma | max_suma |\n|---|------|---------------------|------|--------------|----------|\n| 0 | 2 | - | - | 2 | 2 |\n| 1 | -1 | 2+(-1)=1 | -1 | 1 (kontynuuj) | 2 |\n| 2 | 3 | 1+3=4 | 3 | 4 (kontynuuj) | 4 |\n| 3 | -2 | 4+(-2)=2 | -2 | 2 (kontynuuj) | 4 |\n| 4 | 5 | 2+5=7 | 5 | 7 (kontynuuj) | 7 |\n\nWynik: 7. Podciag: [2, -1, 3, -2, 5] (cala tablica).\n\n**Weryfikacja max_suma_podciagu([-3, -2, -1, -4], 4):**\n\n| i | T[i] | biezaca_suma + T[i] | T[i] | biezaca_suma | max_suma |\n|---|------|---------------------|------|--------------|----------|\n| 0 | -3 | - | - | -3 | -3 |\n| 1 | -2 | -3+(-2)=-5 | -2 | -2 (nowy) | -2 |\n| 2 | -1 | -2+(-1)=-3 | -1 | -1 (nowy) | -1 |\n| 3 | -4 | -1+(-4)=-5 | -4 | -4 (nowy) | -1 |\n\nWynik: -1 (element -1, bo wszystkie sa ujemne).\n\n**Weryfikacja max_suma_podciagu([5, -9, 6, -2, 3], 5):**\n\n| i | T[i] | biezaca_suma + T[i] | T[i] | biezaca_suma | max_suma |\n|---|------|---------------------|------|--------------|----------|\n| 0 | 5 | - | - | 5 | 5 |\n| 1 | -9 | 5+(-9)=-4 | -9 | -4 (kontynuuj) | 5 |\n| 2 | 6 | -4+6=2 | 6 | 6 (nowy) | 6 |\n| 3 | -2 | 6+(-2)=4 | -2 | 4 (kontynuuj) | 6 |\n| 4 | 3 | 4+3=7 | 3 | 7 (kontynuuj) | 7 |\n\nWynik: 7. Podciag: [6, -2, 3].",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Inicjalizacja `max_suma = 0`** -- jesli wszystkie elementy sa ujemne, wynik blednie wyniesie 0 (co nie odpowiada zadnemu podciagowi). Prawidlowa inicjalizacja to `max_suma = T[0]`",
+          "kara": "-1 pkt za bledny wynik dla danych ujemnych"
+        },
+        {
+          "opis": "**Uzycie zagniezdzonej petli (brute force O(n^2))** -- sprawdzanie kazdego mozliwego podciagu jest poprawne, ale nie spelnia wymagania zlozonosci O(n)",
+          "kara": "-1 do -2 pkt za brak optymalizacji, jesli polecenie tego wymaga"
+        },
+        {
+          "opis": "**Zapomnienie o aktualizacji `max_suma` wewnatrz petli** -- obliczanie `biezaca_suma` bez porownywania z `max_suma` w kazdym kroku moze powodowac pominiecie optymalnego podciagu, ktory nie konczy sie na ostatnim elemencie",
+          "kara": "-1 pkt"
+        }
+      ]
     },
     {
       "id": "2.10",
@@ -224,7 +337,20 @@
         "Zewnetrzna petla sprawdza warunek `n >= 10` PRZED wewnetrzna. Jesli `n < 10`, petla sie konczy i zwracamy `n`. Calosc to `while (n >= 10) { suma=0; while (n>0) { suma+=n%10; n/=10; } n=suma; }`."
       ],
       "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja korzen_cyfrowy(n)\n    dopoki n >= 10:\n        suma := 0\n        dopoki n > 0:\n            suma := suma + n mod 10\n            n := n div 10\n        n := suma\n    zwroc n\n```\n\n**C++:**\n\n```cpp\nint korzen_cyfrowy(int n) {\n    while (n >= 10) {\n        int suma = 0;\n        while (n > 0) {\n            suma += n % 10;\n            n /= 10;\n        }\n        n = suma;\n    }\n    return n;\n}\n```\n\n**Weryfikacja korzen_cyfrowy(9875):**\n\nIteracja zewnetrzna 1 (n = 9875 >= 10):\n| Krok wewn. | n | n%10 | suma | n (po /10) |\n|------------|---|------|------|------------|\n| 1 | 9875 | 5 | 5 | 987 |\n| 2 | 987 | 7 | 12 | 98 |\n| 3 | 98 | 8 | 20 | 9 |\n| 4 | 9 | 9 | 29 | 0 |\nn := 29\n\nIteracja zewnetrzna 2 (n = 29 >= 10):\n| Krok wewn. | n | n%10 | suma | n (po /10) |\n|------------|---|------|------|------------|\n| 1 | 29 | 9 | 9 | 2 |\n| 2 | 2 | 2 | 11 | 0 |\nn := 11\n\nIteracja zewnetrzna 3 (n = 11 >= 10):\n| Krok wewn. | n | n%10 | suma | n (po /10) |\n|------------|---|------|------|------------|\n| 1 | 11 | 1 | 1 | 1 |\n| 2 | 1 | 1 | 2 | 0 |\nn := 2\n\nn = 2 < 10, petla zewnetrzna konczy sie. Wynik: 2.\n\n**Weryfikacja korzen_cyfrowy(493):**\n\nIteracja 1: 4+9+3 = 16, n := 16\nIteracja 2: 1+6 = 7, n := 7\nn = 7 < 10. Wynik: 7.\n\n**Weryfikacja korzen_cyfrowy(7):**\n\nn = 7 < 10, petla zewnetrzna sie nie wykonuje. Wynik: 7.\n\n**Uwaga o zlozonosci**: Mozna udowodnic, ze korzen cyfrowy mozna obliczyc wzorem `1 + (n - 1) % 9` dla n > 0 (zwiazek z arytmetyka modularną). Jednak na maturze CKE oczekuje algorytmu iteracyjnego z petlami, nie wzoru matematycznego.",
-      "typowe_bledy": []
+      "typowe_bledy": [
+        {
+          "opis": "**Brak reinicjalizacji `suma = 0` na poczatku kazdej iteracji zewnetrznej** -- `suma` z poprzedniej iteracji dodaje sie do nowej, dajac bledne wyniki",
+          "kara": "-2 pkt za blad logiczny"
+        },
+        {
+          "opis": "**Warunek zewnetrznej petli `n > 0` zamiast `n >= 10`** -- petla nigdy sie nie konczy dla n > 0 lub konczy z blednym wynikiem. Dla n = 7: wewnetrzna petla da suma = 7, n := 7, i petla sie powtarza w nieskonczonosc",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Pomylenie kolejnosci petli** -- uzycie jednej petli zamiast zagniezdzonej powoduje, ze algorytm oblicza sume cyfr tylko raz (nie powtarza procesu az do jednej cyfry)",
+          "kara": "-2 pkt za niekompletny algorytm"
+        }
+      ]
     }
   ]
 }

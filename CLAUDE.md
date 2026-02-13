@@ -84,10 +84,16 @@ analiza/
 │
 ├── cwiczenia/                     # Training exercises
 │   ├── cwiczenia_sledzenie.md     # 24 algorithm-tracing exercises (7 archetypes + bonus)
-│   └── wg_typu/                   # 23 files × 10 exercises = 230 total
-│       ├── README.md              # Index with difficulty levels and self-assessment
-│       ├── 01_sledzenie_algorytmu.md ... 23_sql_select_where.md
-│       └── (each has: skill tags, 3-level hints, full answer, common CKE mistakes)
+│   ├── wg_typu/                   # 23 files × 10 exercises = 230 total (markdown)
+│   │   ├── README.md              # Index with difficulty levels and self-assessment
+│   │   ├── 01_sledzenie_algorytmu.md ... 23_sql_select_where.md
+│   │   └── (each has: skill tags, 3-level hints, full answer, common CKE mistakes)
+│   ├── json/                      # 23 JSON files — same 230 exercises, machine-readable
+│   │   ├── README.md              # **Schema, format danych, checklist dodawania cwiczen**
+│   │   └── 01_sledzenie_algorytmu.json ... 23_sql_select_where.json
+│   └── verify/                    # Automated verification system
+│       ├── verify_all.py          # Main runner (--file, --id, --category, --verbose)
+│       └── verifiers/             # cpp, sql, numconv, manual verifiers
 │
 └── rozwiazania_wzorcowe/          # Model solutions for real past exam problems
     ├── implementacja_cpp.md       # C++ implementations (e.g., 2024 Zad.3)
@@ -159,6 +165,17 @@ curl -L -o odpowiedzi.pdf "https://arkusze.pl/maturalne/informatyka-YYYY-maj-mat
 curl -L -o zalaczniki.zip "https://arkusze.pl/maturalne/informatyka-YYYY-maj-matura-rozszerzona-zalaczniki.zip"
 unzip -q zalaczniki.zip
 ```
+
+## Working with Exercises (`analiza/cwiczenia/json/`)
+
+Full documentation: **`analiza/cwiczenia/json/README.md`** — JSON schema, required data format patterns, verification commands, and a step-by-step checklist for adding new exercises.
+
+Key points:
+- Exercises live in `json/NN_nazwa.json` files (23 files, 230 exercises total)
+- Automated verification: `python3 analiza/cwiczenia/verify/verify_all.py` (target: 130 PASS, 0 FAIL)
+- **C++ exercises (07-14)**: input data in `tresc` must use `**Dane** (\`plik.txt\`):` format or verifier won't find it
+- **SQL exercises (20-23)**: tables in `tresc` via `Tabela **Name**:`, last non-verification markdown table in `odpowiedz` = expected result
+- Always verify after edits: `--file <name> --verbose` or `--id NN.M --verbose`
 
 ## Common Tasks
 

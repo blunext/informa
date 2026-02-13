@@ -132,7 +132,7 @@
           "kara": "-2 pkt"
         },
         {
-          "opis": "**Brak weryfikacji sum**: Nie sprawdzenie, ze suma wiersza = liczba odpowiedzi na pytanie. CKE: brak kary, ale pomaga znalezc bledy",
+          "opis": "**Brak weryfikacji sum**: Nie sprawdzenie, ze suma wiersza = liczba odpowiedzi na pytanie",
           "kara": ""
         }
       ]
@@ -292,7 +292,7 @@
           "kara": "-2 pkt"
         },
         {
-          "opis": "**Uzycie VLOOKUP zamiast INDEX-MATCH**: VLOOKUP nie obsluguje wyszukiwania dwuwymiarowego bez kolumny pomocniczej. CKE: mozliwe, ale wymaga wiecej pracy.",
+          "opis": "**Uzycie VLOOKUP zamiast INDEX-MATCH**: VLOOKUP nie obsluguje wyszukiwania dwuwymiarowego bez kolumny pomocniczej",
           "kara": ""
         }
       ]

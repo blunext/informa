@@ -45,8 +45,8 @@
           "kara": "-2 pkt (brak wyniku)"
         },
         {
-          "opis": "**Brak aliasu w COUNT(*)**: Bez `AS liczba` kolumna wynikowa moze miec niezrozumiala nazwe. CKE: dopuszczalne, ale -0.5 pkt za czytelnosc w niektorych schematach.",
-          "kara": ""
+          "opis": "**Brak aliasu w COUNT(*)**: Bez `AS liczba` kolumna wynikowa moze miec niezrozumiala nazwe",
+          "kara": "dopuszczalne, ale -0.5 pkt za czytelnosc w niektorych schematach"
         }
       ]
     },
@@ -106,7 +106,7 @@
           "kara": "-2 pkt (blad logiczny)"
         },
         {
-          "opis": "**Alias w HAVING**: `HAVING srednia_klasy > 4.0` — w SQLite dziala, ale w wielu bazach nie. Bezpieczniej powtorzyc: `HAVING AVG(U.srednia_ocen) > 4.0`. CKE: akceptowane, ale ryzykowne.",
+          "opis": "**Alias w HAVING**: `HAVING srednia_klasy > 4.0` — w SQLite dziala, ale w wielu bazach nie. Bezpieczniej powtorzyc: `HAVING AVG(U.srednia_ocen) > 4.0`",
           "kara": ""
         },
         {
@@ -307,7 +307,7 @@
           "kara": "-1 pkt"
         },
         {
-          "opis": "**Uzycie aliasu w HAVING**: `HAVING przychod > 5000` — w SQLite dziala, ale bezpieczniej powtorzyc wyrazenie. CKE: akceptowane, ale ryzykowne na egzaminie.",
+          "opis": "**Uzycie aliasu w HAVING**: `HAVING przychod > 5000` — w SQLite dziala, ale bezpieczniej powtorzyc wyrazenie",
           "kara": ""
         }
       ]
