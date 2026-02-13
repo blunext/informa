@@ -3,7 +3,7 @@
   "nazwa": "SQL — SELECT z WHERE",
   "kategoria": "SQL",
   "czestotliwosc": "4/11 lat",
-  "punkty_lacznie": 26,
+  "punkty_lacznie": 56,
   "tagi_globalne": [
     "SELECT",
     "WHERE",
@@ -341,6 +341,303 @@
         },
         {
           "opis": "**Brak CASE WHEN w ORDER BY**: Nie ma innego sposobu na posortowanie priorytetu w niestandardowej kolejnosci bez dodatkowej kolumny",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "23.11",
+      "trudnosc": "latwe",
+      "punkty": 1,
+      "zrodlo": "Inspirowane matura 2025",
+      "tagi": [
+        "SELECT",
+        "WHERE",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Ksiazki**:\n\n| id | tytul | autor | rok | cena | gatunek |\n|----|-------|-------|-----|------|---------|\n| 1 | Wiedzmin | Sapkowski | 1993 | 39.90 | fantasy |\n| 2 | Solaris | Lem | 1961 | 29.90 | sci-fi |\n| 3 | Lalka | Prus | 1890 | 24.50 | klasyka |\n| 4 | Hobbit | Tolkien | 1937 | 34.90 | fantasy |\n| 5 | Dune | Herbert | 1965 | 44.90 | sci-fi |\n| 6 | Potop | Sienkiewicz | 1886 | 27.00 | klasyka |\n| 7 | Harry Potter | Rowling | 1997 | 49.90 | fantasy |\n| 8 | Fundacja | Asimov | 1951 | 32.00 | sci-fi |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli tytul i cene ksiazek z gatunku 'fantasy'. Posortuj rosnaco wg ceny.",
+      "wskazowki": [
+        "**Kierunek**: Prosty filtr WHERE z jednym warunkiem na gatunek.",
+        "**Podejscie**: `WHERE gatunek = 'fantasy'` + ORDER BY cena.",
+        "**Kluczowy krok**: Domyslnie ORDER BY sortuje rosnaco (ASC) — nie trzeba pisac ASC."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT tytul, cena\nFROM Ksiazki\nWHERE gatunek = 'fantasy'\nORDER BY cena;\n```\n\n**Weryfikacja**:\n- Wiedzmin: fantasy ✓, cena 39.90\n- Hobbit: fantasy ✓, cena 34.90\n- Harry Potter: fantasy ✓, cena 49.90\n\n| tytul | cena |\n|-------|------|\n| Hobbit | 34.9 |\n| Wiedzmin | 39.9 |\n| Harry Potter | 49.9 |\n\n**Wyjasnienie**: Prosty SELECT z WHERE i ORDER BY. ORDER BY bez slowa DESC sortuje rosnaco (od najtanszej).",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak apostrofow**: `WHERE gatunek = fantasy` — bez apostrofow SQL szuka kolumny o nazwie fantasy",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "23.12",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Inspirowane matura 2016",
+      "tagi": [
+        "SELECT",
+        "WHERE",
+        "LIKE",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Pracownicy**:\n\n| id | imie | nazwisko | email | dzial |\n|----|------|----------|-------|-------|\n| 1 | Anna | Kowalska | anna.k@firma.pl | IT |\n| 2 | Jan | Kowalski | jan.k@firma.pl | HR |\n| 3 | Ewa | Majewska | ewa.m@firma.pl | IT |\n| 4 | Piotr | Lisowski | piotr.l@firma.pl | Finanse |\n| 5 | Kasia | Zakowska | kasia.z@firma.pl | IT |\n| 6 | Tomek | Bakiewicz | tomek.b@firma.pl | HR |\n| 7 | Ola | Kowalczyk | ola.k@firma.pl | Finanse |\n| 8 | Marek | Krolewski | marek.k@firma.pl | IT |\n\n**Polecenie**:\n1. Wyswietl imie i nazwisko pracownikow, ktorych nazwisko zaczyna sie od litery 'K'. Posortuj wg nazwiska.\n2. Wyswietl imie, nazwisko i email pracownikow, ktorych email zawiera '.k@'. Posortuj wg imienia.",
+      "wskazowki": [
+        "**Kierunek**: LIKE z wzorcami — `'K%'` = zaczyna sie od K, `'%.k@%'` = zawiera .k@.",
+        "**Podejscie**: Dwa osobne zapytania, kazde z jednym wzorcem LIKE.",
+        "**Kluczowy krok**: `%` zastepuje dowolny ciag znakow (w tym pusty)."
+      ],
+      "odpowiedz": "**Zapytania SQL:**\n```sql\n-- 1. Nazwisko zaczynajace sie od K\nSELECT imie, nazwisko\nFROM Pracownicy\nWHERE nazwisko LIKE 'K%'\nORDER BY nazwisko;\n\n-- 2. Email zawierajacy .k@\nSELECT imie, nazwisko, email\nFROM Pracownicy\nWHERE email LIKE '%.k@%'\nORDER BY imie;\n```\n\n**Weryfikacja zad. 1**:\n- Kowalska ✓, Kowalski ✓, Kowalczyk ✓, Krolewski ✓\n\n| imie | nazwisko |\n|------|----------|\n| Anna | Kowalska |\n| Jan | Kowalski |\n| Ola | Kowalczyk |\n| Marek | Krolewski |\n\n**Weryfikacja zad. 2**:\n- anna.k@ ✓, jan.k@ ✓, ola.k@ ✓, marek.k@ ✓\n\n| imie | nazwisko | email |\n|------|----------|-------|\n| Anna | Kowalska | anna.k@firma.pl |\n| Jan | Kowalski | jan.k@firma.pl |\n| Marek | Krolewski | marek.k@firma.pl |\n| Ola | Kowalczyk | ola.k@firma.pl |",
+      "typowe_bledy": [
+        {
+          "opis": "**`=` zamiast LIKE**: `WHERE nazwisko = 'K%'` szuka dokladnego tekstu 'K%' — nie znajdzie wynikow",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak `%` na koncu**: `LIKE 'K'` szuka dokladnie jednoliterowego 'K', nie nazwisk zaczynajacych sie od K",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "23.13",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Inspirowane matura 2023",
+      "tagi": [
+        "SELECT",
+        "WHERE",
+        "IN",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Kraje**:\n\n| id | nazwa | kontynent | populacja_mln | stolica |\n|----|-------|-----------|---------------|--------|\n| 1 | Polska | Europa | 38 | Warszawa |\n| 2 | Niemcy | Europa | 83 | Berlin |\n| 3 | Francja | Europa | 67 | Paryz |\n| 4 | Japonia | Azja | 125 | Tokio |\n| 5 | Brazylia | Ameryka | 214 | Brasilia |\n| 6 | Australia | Oceania | 26 | Canberra |\n| 7 | Kanada | Ameryka | 38 | Ottawa |\n| 8 | Indie | Azja | 1400 | Delhi |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe i populacje krajow z kontynentu 'Europa' lub 'Azja'. Uzyj operatora IN. Posortuj malejaco wg populacji.",
+      "wskazowki": [
+        "**Kierunek**: IN pozwala sprawdzic przynaleznosc do zbioru wartosci.",
+        "**Podejscie**: `WHERE kontynent IN ('Europa', 'Azja')` — rownowazne z `kontynent = 'Europa' OR kontynent = 'Azja'`.",
+        "**Kluczowy krok**: IN jest krotsze i czytelniejsze niz wiele warunkow OR."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, populacja_mln\nFROM Kraje\nWHERE kontynent IN ('Europa', 'Azja')\nORDER BY populacja_mln DESC;\n```\n\n**Weryfikacja**:\n- Europa: Polska (38), Niemcy (83), Francja (67)\n- Azja: Japonia (125), Indie (1400)\n\n| nazwa | populacja_mln |\n|-------|---------------|\n| Indie | 1400 |\n| Japonia | 125 |\n| Niemcy | 83 |\n| Francja | 67 |\n| Polska | 38 |\n\n**Wyjasnienie**: IN sprawdza, czy wartosc nalezy do podanego zbioru. Jest rownowazne z wieloma OR, ale krotsze i czytelniejsze.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak apostrofow w IN**: `IN (Europa, Azja)` — SQL szuka kolumn o tych nazwach zamiast tekstow",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**AND zamiast IN/OR**: `WHERE kontynent = 'Europa' AND kontynent = 'Azja'` — kontynent nie moze byc jednoczesnie Europa i Azja, wynik pusty",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "23.14",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Inspirowane matura 2024",
+      "tagi": [
+        "WHERE",
+        "BETWEEN",
+        "AND",
+        "NOT",
+        "operatory-porownania"
+      ],
+      "tresc": "Tabela **Samochody**:\n\n| id | marka | model | rok | cena | kolor |\n|----|-------|-------|-----|------|-------|\n| 1 | Toyota | Corolla | 2020 | 85000 | bialy |\n| 2 | Ford | Focus | 2018 | 55000 | czarny |\n| 3 | BMW | 320i | 2022 | 150000 | srebrny |\n| 4 | Fiat | 500 | 2019 | 42000 | czerwony |\n| 5 | Audi | A3 | 2021 | 130000 | bialy |\n| 6 | Toyota | Yaris | 2020 | 65000 | czarny |\n| 7 | Skoda | Octavia | 2019 | 72000 | srebrny |\n| 8 | Renault | Clio | 2017 | 38000 | bialy |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli marke, model i cene samochodow spelniajacych WSZYSTKIE warunki:\n- rok produkcji miedzy 2019 a 2021 (wlacznie)\n- cena ponizej 100000\n- kolor NIE jest 'czarny'",
+      "wskazowki": [
+        "**Kierunek**: Trzy warunki polaczone AND — wszystkie musza byc spelnione.",
+        "**Podejscie**: BETWEEN dla zakresu, `<` dla ceny, `!=` dla koloru.",
+        "**Kluczowy krok**: BETWEEN jest wlaczajace — `BETWEEN 2019 AND 2021` obejmuje 2019 i 2021."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT marka, model, cena\nFROM Samochody\nWHERE rok BETWEEN 2019 AND 2021\n  AND cena < 100000\n  AND kolor != 'czarny';\n```\n\n**Weryfikacja**:\n\n| id | marka | model | rok OK? | cena OK? | kolor OK? | Wynik |\n|----|-------|-------|---------|----------|-----------|-------|\n| 1 | Toyota | Corolla | 2020 ✓ | 85000 ✓ | bialy ✓ | ✓ |\n| 4 | Fiat | 500 | 2019 ✓ | 42000 ✓ | czerwony ✓ | ✓ |\n| 6 | Toyota | Yaris | 2020 ✓ | 65000 ✓ | czarny ✗ | ✗ |\n| 7 | Skoda | Octavia | 2019 ✓ | 72000 ✓ | srebrny ✓ | ✓ |\n\n| marka | model | cena |\n|-------|-------|------|\n| Toyota | Corolla | 85000 |\n| Fiat | 500 | 42000 |\n| Skoda | Octavia | 72000 |\n\n**Wyjasnienie**: Trzy warunki polaczone AND — samochod musi spelnic WSZYSTKIE naraz. BETWEEN 2019 AND 2021 jest rownowazne z `rok >= 2019 AND rok <= 2021`.",
+      "typowe_bledy": [
+        {
+          "opis": "**OR zamiast AND**: Zmienia logike — wystarczyloby spelnienie jednego warunku",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**`= NULL` zamiast `!= 'czarny'`**: Porownanie z czarny nie wymaga IS NULL — to zwykly tekst",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "23.15",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Inspirowane matura 2022",
+      "tagi": [
+        "WHERE",
+        "IS-NULL",
+        "IS-NOT-NULL",
+        "AND"
+      ],
+      "tresc": "Tabela **Zadania**:\n\n| id | tytul | priorytet | przypisany_do | data_zakonczenia |\n|----|-------|-----------|---------------|------------------|\n| 1 | Migracja bazy | wysoki | Anna | 2024-01-15 |\n| 2 | Testy jednostkowe | sredni | Jan | NULL |\n| 3 | Dokumentacja API | niski | NULL | NULL |\n| 4 | Naprawa bledu | wysoki | Ewa | 2024-02-01 |\n| 5 | Refaktoryzacja | sredni | Anna | NULL |\n| 6 | Deploy produkcyjny | wysoki | NULL | NULL |\n| 7 | Code review | niski | Jan | 2024-01-20 |\n| 8 | Optymalizacja SQL | sredni | Ewa | 2024-02-10 |\n\n**Polecenie**:\n1. Wyswietl tytul i priorytet zadan, ktore NIE SA zakonczone (data_zakonczenia IS NULL).\n2. Wyswietl tytul i priorytet zadan o priorytecie 'wysoki', ktore SA przypisane do kogos (przypisany_do IS NOT NULL).",
+      "wskazowki": [
+        "**Kierunek**: IS NULL sprawdza brak wartosci, IS NOT NULL sprawdza jej obecnosc.",
+        "**Podejscie**: Dwa osobne zapytania — jedno z IS NULL, drugie z IS NOT NULL i AND.",
+        "**Kluczowy krok**: `!= NULL` NIE DZIALA — jedyny poprawny sposob to `IS NULL` / `IS NOT NULL`."
+      ],
+      "odpowiedz": "**Zapytania SQL:**\n```sql\n-- 1. Niezakonczone zadania\nSELECT tytul, priorytet\nFROM Zadania\nWHERE data_zakonczenia IS NULL;\n\n-- 2. Wysokopriorytetowe i przypisane\nSELECT tytul, priorytet\nFROM Zadania\nWHERE priorytet = 'wysoki' AND przypisany_do IS NOT NULL;\n```\n\n**Weryfikacja zad. 1** (data_zakonczenia IS NULL):\n\n| tytul | priorytet |\n|-------|-----------|\n| Testy jednostkowe | sredni |\n| Dokumentacja API | niski |\n| Refaktoryzacja | sredni |\n| Deploy produkcyjny | wysoki |\n\n**Weryfikacja zad. 2** (wysoki AND przypisany):\n- Migracja bazy: wysoki ✓, Anna ✓ → ✓\n- Naprawa bledu: wysoki ✓, Ewa ✓ → ✓\n- Deploy produkcyjny: wysoki ✓, NULL ✗ → ✗\n\n| tytul | priorytet |\n|-------|-----------|\n| Migracja bazy | wysoki |\n| Naprawa bledu | wysoki |",
+      "typowe_bledy": [
+        {
+          "opis": "**`= NULL` zamiast `IS NULL`**: `WHERE data_zakonczenia = NULL` zawsze daje FALSE — nic nie przejdzie filtra",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**OR zamiast AND (zad. 2)**: `WHERE priorytet = 'wysoki' OR przypisany_do IS NOT NULL` daje tez zadania z innym priorytetem, jesli sa przypisane",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "23.16",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Inspirowane matura 2016",
+      "tagi": [
+        "LENGTH",
+        "SUBSTR",
+        "WHERE",
+        "operatory-porownania"
+      ],
+      "tresc": "Tabela **Produkty**:\n\n| id | kod | nazwa | kategoria | cena |\n|----|-----|-------|-----------|------|\n| 1 | EL-001 | Laptop Dell | elektronika | 3500 |\n| 2 | EL-002 | Smartfon Samsung | elektronika | 2500 |\n| 3 | ME-001 | Biurko debowe | meble | 1200 |\n| 4 | EL-003 | Monitor LG | elektronika | 1800 |\n| 5 | ME-002 | Fotel obrotowy | meble | 900 |\n| 6 | SP-001 | Pilka nozna | sport | 80 |\n| 7 | SP-002 | Rakieta tenisowa | sport | 250 |\n| 8 | ME-003 | Szafa drewniana | meble | 2200 |\n\n**Polecenie**:\n1. Wyswietl kod i nazwe produktow, ktorych nazwa ma wiecej niz 14 znakow (LENGTH).\n2. Wyswietl kod, nazwe i kategorie produktow, ktorych kod zaczyna sie od 'EL' (uzyj SUBSTR, nie LIKE).",
+      "wskazowki": [
+        "**Kierunek**: LENGTH liczy znaki (wlacznie ze spacjami), SUBSTR wyciaga fragment tekstu.",
+        "**Podejscie**: `WHERE LENGTH(nazwa) > 14` i `WHERE SUBSTR(kod, 1, 2) = 'EL'`.",
+        "**Kluczowy krok**: W SQL pozycje w SUBSTR liczymy od 1, nie od 0."
+      ],
+      "odpowiedz": "**Zapytania SQL:**\n```sql\n-- 1. Produkty z dluga nazwa\nSELECT kod, nazwa\nFROM Produkty\nWHERE LENGTH(nazwa) > 14;\n\n-- 2. Produkty z kodem EL\nSELECT kod, nazwa, kategoria\nFROM Produkty\nWHERE SUBSTR(kod, 1, 2) = 'EL';\n```\n\n**Weryfikacja zad. 1** (LENGTH > 14):\n- 'Laptop Dell' = 11 ✗\n- 'Smartfon Samsung' = 16 ✓\n- 'Biurko debowe' = 13 ✗\n- 'Monitor LG' = 10 ✗\n- 'Fotel obrotowy' = 14 ✗ (rowne 14, nie wiecej)\n- 'Pilka nozna' = 11 ✗\n- 'Rakieta tenisowa' = 16 ✓\n- 'Szafa drewniana' = 15 ✓\n\n| kod | nazwa |\n|-----|-------|\n| EL-002 | Smartfon Samsung |\n| SP-002 | Rakieta tenisowa |\n| ME-003 | Szafa drewniana |\n\n**Weryfikacja zad. 2** (SUBSTR = 'EL'):\n\n| kod | nazwa | kategoria |\n|-----|-------|-----------|\n| EL-001 | Laptop Dell | elektronika |\n| EL-002 | Smartfon Samsung | elektronika |\n| EL-003 | Monitor LG | elektronika |",
+      "typowe_bledy": [
+        {
+          "opis": "**SUBSTR od pozycji 0**: `SUBSTR(kod, 0, 2)` — w SQLite zadziala (traktuje 0 jak 1), ale w standardzie SQL blad",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**`>= 14` zamiast `> 14`**: 'Fotel obrotowy' (14 znakow) bylby dodany do wyniku wbrew poleceniu",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "23.17",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "zrodlo": "Inspirowane matura 2021",
+      "tagi": [
+        "CASE-WHEN",
+        "obliczenia-w-SELECT",
+        "AND",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Uczniowie**:\n\n| id | imie | nazwisko | klasa | punkty_matematyka | punkty_polski |\n|----|------|----------|-------|-------------------|---------------|\n| 1 | Anna | Kowalska | 3A | 85 | 78 |\n| 2 | Jan | Nowak | 3B | 45 | 52 |\n| 3 | Ewa | Maj | 3A | 92 | 88 |\n| 4 | Piotr | Lis | 3B | 38 | 41 |\n| 5 | Kasia | Zak | 3A | 70 | 65 |\n| 6 | Tomek | Bak | 3B | 55 | 48 |\n\nProg zdawalnosci: 50 punktow na 100 mozliwych z kazdego przedmiotu.\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko oraz status:\n- 'zdal/a' jezeli OBA przedmioty >= 50\n- 'nie zdal/a' w przeciwnym razie\n\nPosortuj wg nazwiska.",
+      "wskazowki": [
+        "**Kierunek**: CASE WHEN do klasyfikacji na podstawie warunkow.",
+        "**Podejscie**: `CASE WHEN pkt_mat >= 50 AND pkt_pol >= 50 THEN 'zdal/a' ELSE 'nie zdal/a' END`.",
+        "**Kluczowy krok**: OBA warunki musza byc spelnione — uzyj AND wewnatrz CASE WHEN."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko,\n  CASE\n    WHEN punkty_matematyka >= 50 AND punkty_polski >= 50 THEN 'zdal/a'\n    ELSE 'nie zdal/a'\n  END AS status\nFROM Uczniowie\nORDER BY nazwisko;\n```\n\n**Weryfikacja**:\n- Anna: mat=85 ✓, pol=78 ✓ → zdal/a\n- Jan: mat=45 ✗ → nie zdal/a\n- Ewa: mat=92 ✓, pol=88 ✓ → zdal/a\n- Piotr: mat=38 ✗ → nie zdal/a\n- Kasia: mat=70 ✓, pol=65 ✓ → zdal/a\n- Tomek: mat=55 ✓, pol=48 ✗ → nie zdal/a\n\n| imie | nazwisko | status |\n|------|----------|--------|\n| Tomek | Bak | nie zdal/a |\n| Anna | Kowalska | zdal/a |\n| Piotr | Lis | nie zdal/a |\n| Ewa | Maj | zdal/a |\n| Jan | Nowak | nie zdal/a |\n| Kasia | Zak | zdal/a |\n\n**Wyjasnienie**: CASE WHEN dziala jak if/else. AND wewnatrz warunku wymaga spelnienia OBU podwarunkow. Tomek zdal matematyke (55>=50), ale nie zdal polskiego (48<50).",
+      "typowe_bledy": [
+        {
+          "opis": "**OR zamiast AND**: `WHEN mat >= 50 OR pol >= 50` — wystarczy zdac jeden przedmiot, co jest niezgodne z poleceniem",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak ELSE**: Osoby niezdajace dostana NULL zamiast 'nie zdal/a'",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "23.18",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "zrodlo": "Inspirowane matura 2024",
+      "tagi": [
+        "WHERE",
+        "AND",
+        "OR",
+        "NOT",
+        "operatory-porownania"
+      ],
+      "tresc": "Tabela **Loty**:\n\n| id | nr_lotu | linia | skad | dokad | cena | status | data |\n|----|---------|-------|------|-------|------|--------|------|\n| 1 | WZ101 | Wizz | Warszawa | Londyn | 250 | planowy | 2024-06-15 |\n| 2 | LO201 | LOT | Warszawa | Paryz | 680 | planowy | 2024-06-15 |\n| 3 | RY301 | Ryanair | Krakow | Barcelona | 180 | planowy | 2024-06-16 |\n| 4 | WZ102 | Wizz | Gdansk | Londyn | 220 | opozniony | 2024-06-16 |\n| 5 | LO202 | LOT | Warszawa | Berlin | 450 | planowy | 2024-06-17 |\n| 6 | RY302 | Ryanair | Krakow | Rzym | 150 | odwolany | 2024-06-17 |\n| 7 | WZ103 | Wizz | Warszawa | Mediolan | 280 | planowy | 2024-06-18 |\n| 8 | LO203 | LOT | Krakow | Londyn | 720 | planowy | 2024-06-18 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nr lotu, trase (skad -> dokad), cene i status lotow spelniajacych warunki:\n- linia lotnicza to 'LOT' LUB cena ponizej 300\n- status NIE jest 'odwolany'\n- data jest po '2024-06-15'\n\nUWAGA: nawiasy wokol OR sa kluczowe! Posortuj wg daty.",
+      "wskazowki": [
+        "**Kierunek**: Trzy warunki, pierwszy jest zlozony (OR). Nawiasy obowiazkowe.",
+        "**Podejscie**: `WHERE (linia = 'LOT' OR cena < 300) AND status != 'odwolany' AND data > '...'`.",
+        "**Kluczowy krok**: Bez nawiasow `AND` ma wyzszy priorytet niz `OR` — wyrazenie bedzie interpretowane inaczej."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nr_lotu, skad || ' -> ' || dokad AS trasa, cena, status\nFROM Loty\nWHERE (linia = 'LOT' OR cena < 300)\n  AND status != 'odwolany'\n  AND data > '2024-06-15'\nORDER BY data;\n```\n\n**Weryfikacja**:\n\n| id | nr_lotu | LOT or <300? | nie odwolany? | po 06-15? | Wynik |\n|----|---------|-------------|--------------|-----------|-------|\n| 3 | RY301 | 180<300 ✓ | planowy ✓ | 06-16 ✓ | ✓ |\n| 4 | WZ102 | 220<300 ✓ | opozniony ✓ | 06-16 ✓ | ✓ |\n| 5 | LO202 | LOT ✓ | planowy ✓ | 06-17 ✓ | ✓ |\n| 6 | RY302 | 150<300 ✓ | odwolany ✗ | — | ✗ |\n| 7 | WZ103 | 280<300 ✓ | planowy ✓ | 06-18 ✓ | ✓ |\n| 8 | LO203 | LOT ✓ | planowy ✓ | 06-18 ✓ | ✓ |\n\n| nr_lotu | trasa | cena | status |\n|---------|-------|------|--------|\n| RY301 | Krakow -> Barcelona | 180 | planowy |\n| WZ102 | Gdansk -> Londyn | 220 | opozniony |\n| LO202 | Warszawa -> Berlin | 450 | planowy |\n| WZ103 | Warszawa -> Mediolan | 280 | planowy |\n| LO203 | Krakow -> Londyn | 720 | planowy |\n\n**Wyjasnienie**: Nawiasy `(linia = 'LOT' OR cena < 300)` sa KLUCZOWE. Bez nawiasow: `linia = 'LOT' OR (cena < 300 AND status != 'odwolany' AND ...)` — OR bylby interpretowany inaczej.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak nawiasow wokol OR**: Bez nawiasow AND ma priorytet — logika zmienia sie calkowicie",
+          "kara": "-3 pkt"
+        },
+        {
+          "opis": "**`<>` zamiast `!=`**: Oba sa poprawne w SQL — `<>` to standard, `!=` to rozszerzenie",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "23.19",
+      "trudnosc": "trudne",
+      "punkty": 4,
+      "zrodlo": "Inspirowane matura 2019",
+      "tagi": [
+        "DISTINCT",
+        "CASE-WHEN",
+        "obliczenia-w-SELECT",
+        "WHERE",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Transakcje**:\n\n| id | klient | produkt | ilosc | cena_jdn | data | typ |\n|----|--------|---------|-------|----------|------|-----|\n| 1 | Anna | Laptop | 1 | 3500 | 2024-01-10 | zakup |\n| 2 | Jan | Telefon | 2 | 1500 | 2024-01-15 | zakup |\n| 3 | Anna | Tablet | 1 | 1200 | 2024-02-01 | zakup |\n| 4 | Ewa | Laptop | 1 | 3500 | 2024-02-10 | zakup |\n| 5 | Jan | Laptop | 1 | 3500 | 2024-02-15 | zwrot |\n| 6 | Anna | Telefon | 1 | 1500 | 2024-03-01 | zakup |\n| 7 | Piotr | Tablet | 2 | 1200 | 2024-03-05 | zakup |\n| 8 | Ewa | Telefon | 1 | 1500 | 2024-03-10 | zwrot |\n\n**Polecenie**:\n1. Wyswietl UNIKALNE nazwy produktow, ktore zostaly zwrocone (typ = 'zwrot'). Posortuj alfabetycznie.\n2. Wyswietl klienta, wartosc transakcji (ilosc * cena_jdn) oraz opis: 'PRZYCHOD' dla zakupu, 'KOSZT' dla zwrotu (CASE WHEN). Pokaz tylko transakcje o wartosci powyzej 2000. Posortuj malejaco wg wartosci, potem wg klienta.",
+      "wskazowki": [
+        "**Kierunek**: DISTINCT eliminuje powtorzenia. CASE WHEN mapuje typ na opis.",
+        "**Podejscie**: Zad. 1: DISTINCT + WHERE. Zad. 2: obliczenia w SELECT + CASE + WHERE.",
+        "**Kluczowy krok**: W zad. 2 warunek `(ilosc * cena_jdn) > 2000` musi uzyc wyrazenia, nie aliasu."
+      ],
+      "odpowiedz": "**Zapytania SQL:**\n```sql\n-- 1. Unikalne zwrocone produkty\nSELECT DISTINCT produkt\nFROM Transakcje\nWHERE typ = 'zwrot'\nORDER BY produkt;\n\n-- 2. Transakcje powyzej 2000 z opisem\nSELECT klient, (ilosc * cena_jdn) AS wartosc,\n  CASE typ\n    WHEN 'zakup' THEN 'PRZYCHOD'\n    WHEN 'zwrot' THEN 'KOSZT'\n  END AS opis\nFROM Transakcje\nWHERE (ilosc * cena_jdn) > 2000\nORDER BY wartosc DESC, klient;\n```\n\n**Weryfikacja zad. 1**:\n- Zwroty: Laptop (id=5), Telefon (id=8)\n- DISTINCT: Laptop, Telefon\n\n| produkt |\n|---------|\n| Laptop |\n| Telefon |\n\n**Weryfikacja zad. 2** (wartosc > 2000):\n- Anna, Laptop: 1*3500=3500 ✓ → PRZYCHOD\n- Jan, Telefon: 2*1500=3000 ✓ → PRZYCHOD\n- Ewa, Laptop: 1*3500=3500 ✓ → PRZYCHOD\n- Jan, Laptop zwrot: 1*3500=3500 ✓ → KOSZT\n- Piotr, Tablet: 2*1200=2400 ✓ → PRZYCHOD\n\n| klient | wartosc | opis |\n|--------|---------|------|\n| Anna | 3500 | PRZYCHOD |\n| Ewa | 3500 | PRZYCHOD |\n| Jan | 3500 | KOSZT |\n| Jan | 3000 | PRZYCHOD |\n| Piotr | 2400 | PRZYCHOD |",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak DISTINCT (zad. 1)**: Gdyby Laptop byl zwrocony 2 razy, pojawilyby sie duplikaty",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Alias w WHERE (zad. 2)**: `WHERE wartosc > 2000` — w wielu bazach alias z SELECT nie jest dostepny w WHERE",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak CASE dla zwrotu**: Jezeli CASE nie obsluguje 'zwrot', opis bedzie NULL",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "23.20",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Inspirowane matura 2025",
+      "tagi": [
+        "CASE-WHEN",
+        "obliczenia-w-SELECT",
+        "WHERE",
+        "ORDER-BY",
+        "operatory-porownania"
+      ],
+      "tresc": "Tabela **Pracownicy**:\n\n| id | imie | nazwisko | dzial | stanowisko | pensja | data_zatrudnienia |\n|----|------|----------|-------|------------|--------|-------------------|\n| 1 | Anna | Kowalska | IT | programista | 9500 | 2019-03-15 |\n| 2 | Jan | Nowak | HR | rekruter | 6200 | 2020-07-01 |\n| 3 | Ewa | Maj | IT | tester | 7800 | 2021-01-10 |\n| 4 | Piotr | Lis | Finanse | analityk | 8500 | 2018-11-20 |\n| 5 | Kasia | Zak | IT | programista | 11000 | 2017-05-01 |\n| 6 | Tomek | Bak | HR | kierownik | 9000 | 2016-02-15 |\n| 7 | Ola | Wrobel | Finanse | analityk | 7500 | 2022-06-01 |\n| 8 | Marek | Krol | IT | tester | 7200 | 2023-01-15 |\n| 9 | Zofia | Ptak | HR | rekruter | 5800 | 2023-09-01 |\n| 10 | Adam | Wilk | Finanse | kierownik | 12000 | 2015-04-10 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko, dzial, pensje i kategorie stazowa:\n- zatrudniony przed '2018-01-01' → 'senior'\n- zatrudniony '2018-01-01' do '2020-12-31' → 'mid'\n- zatrudniony po '2020-12-31' → 'junior'\n\nPokaz tylko pracownikow z pensja powyzej 7000. Posortuj wg kategorii (senior najpierw — uzyj CASE WHEN w ORDER BY), a w ramach kategorii wg pensji malejaco.",
+      "wskazowki": [
+        "**Kierunek**: CASE WHEN w SELECT (kategoria) i w ORDER BY (sortowanie niestandardowe).",
+        "**Podejscie**: CASE WHEN z porownaniem dat. W ORDER BY mapuj kategorie na liczby: senior=1, mid=2, junior=3.",
+        "**Kluczowy krok**: Daty w formacie ISO mozna porownywac tekstowo: `data_zatrudnienia < '2018-01-01'`."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko, dzial, pensja,\n  CASE\n    WHEN data_zatrudnienia < '2018-01-01' THEN 'senior'\n    WHEN data_zatrudnienia < '2021-01-01' THEN 'mid'\n    ELSE 'junior'\n  END AS kategoria\nFROM Pracownicy\nWHERE pensja > 7000\nORDER BY\n  CASE\n    WHEN data_zatrudnienia < '2018-01-01' THEN 1\n    WHEN data_zatrudnienia < '2021-01-01' THEN 2\n    ELSE 3\n  END,\n  pensja DESC;\n```\n\n**Weryfikacja** (pensja > 7000):\n\n| imie | data | kategoria | pensja |\n|------|------|-----------|--------|\n| Kasia | 2017-05-01 | senior | 11000 |\n| Tomek | 2016-02-15 | senior | 9000 |\n| Adam | 2015-04-10 | senior | 12000 |\n| Anna | 2019-03-15 | mid | 9500 |\n| Piotr | 2018-11-20 | mid | 8500 |\n| Ewa | 2021-01-10 | junior | 7800 |\n| Ola | 2022-06-01 | junior | 7500 |\n| Marek | 2023-01-15 | junior | 7200 |\n\n| imie | nazwisko | dzial | pensja | kategoria |\n|------|----------|-------|--------|-----------|\n| Adam | Wilk | Finanse | 12000 | senior |\n| Kasia | Zak | IT | 11000 | senior |\n| Tomek | Bak | HR | 9000 | senior |\n| Anna | Kowalska | IT | 9500 | mid |\n| Piotr | Lis | Finanse | 8500 | mid |\n| Ewa | Maj | IT | 7800 | junior |\n| Ola | Wrobel | Finanse | 7500 | junior |\n| Marek | Krol | IT | 7200 | junior |\n\n**Wyjasnienie**: CASE WHEN w SELECT tworzy kolumne tekstowa. CASE WHEN w ORDER BY mapuje tekst na liczby (1,2,3) — bez tego SQL sortowaloby alfabetycznie: junior < mid < senior (odwrotna kolejnosc). To zaawansowany wzorzec czesto spotykany na maturze.",
+      "typowe_bledy": [
+        {
+          "opis": "**Sortowanie tekstowe**: Bez CASE w ORDER BY: alfabetycznie junior < mid < senior — juniorzy na gorze",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Odwrotna kolejnosc warunkow CASE**: Jezeli pierwszy warunek to `< '2021-01-01'`, wszyscy sprzed 2021 dostana 'mid' (senior tez)",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Alias w WHERE**: `WHERE kategoria = 'senior'` — alias z SELECT nie jest dostepny w WHERE",
           "kara": "-1 pkt"
         }
       ]

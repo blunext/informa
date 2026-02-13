@@ -3,23 +3,25 @@
   "nazwa": "SQL — GROUP BY z agregacjami",
   "kategoria": "SQL",
   "czestotliwosc": "8/11 lat",
-  "punkty_lacznie": 35,
+  "punkty_lacznie": 74,
   "tagi_globalne": [
-    "GROUP-BY",
-    "COUNT",
-    "SUM",
     "AVG",
-    "MIN",
-    "MAX",
-    "ROUND",
+    "COUNT",
+    "COUNT-DISTINCT",
+    "GROUP-BY",
     "HAVING",
-    "WHERE-vs-HAVING",
     "JOIN-z-GROUP-BY",
-    "SUBSTR",
+    "MAX",
+    "MIN",
     "ORDER-BY",
-    "wielokolumnowe-grupowanie",
+    "ROUND",
+    "SUBSTR",
+    "SUM",
+    "WHERE-vs-HAVING",
     "aliasy",
-    "funkcje-daty"
+    "funkcje-daty",
+    "obliczenia-w-SELECT",
+    "wielokolumnowe-grupowanie"
   ],
   "cwiczenia": [
     {
@@ -346,6 +348,344 @@
         {
           "opis": "**Srednia ze srednich**: Osobne obliczenie sredniej per student, potem srednia z tych srednich — to inny wynik niz AVG ze wszystkich egzaminow",
           "kara": "-2 pkt (zalezy od interpretacji polecenia)"
+        }
+      ]
+    },
+    {
+      "id": "20.11",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Inspirowane matura 2024 (Hurtownia)",
+      "tagi": [
+        "GROUP-BY",
+        "SUM",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Zamowienia** zawiera dane o zakupach w sklepie internetowym:\n\n| id | klient | produkt | kwota |\n|----|--------|---------|-------|\n| 1 | Anna | Laptop | 3500 |\n| 2 | Jan | Mysz | 80 |\n| 3 | Anna | Monitor | 1200 |\n| 4 | Ewa | Laptop | 3200 |\n| 5 | Jan | Klawiatura | 150 |\n| 6 | Anna | Klawiatura | 120 |\n| 7 | Ewa | Mysz | 90 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego klienta wyswietli laczna kwote zamowien. Posortuj malejaco wg kwoty.",
+      "wskazowki": [
+        "**Kierunek**: Musisz pogrupowac zamowienia wg klienta i zsumowac kwoty.",
+        "**Podejscie**: GROUP BY na kolumnie klient, funkcja SUM na kwota.",
+        "**Kluczowy krok**: ORDER BY z DESC sortuje od najwiekszej do najmniejszej sumy."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT klient, SUM(kwota) AS suma_wydatkow\nFROM Zamowienia\nGROUP BY klient\nORDER BY suma_wydatkow DESC;\n```\n\n**Weryfikacja**:\n- Anna: 3500+1200+120 = **4820**\n- Ewa: 3200+90 = **3290**\n- Jan: 80+150 = **230**\n\n| klient | suma_wydatkow |\n|--------|---------------|\n| Anna | 4820 |\n| Ewa | 3290 |\n| Jan | 230 |",
+      "typowe_bledy": [
+        {
+          "opis": "**Uzycie COUNT zamiast SUM**: COUNT(*) liczy WIERSZE, a SUM(kwota) sumuje WARTOSCI — to rozne operacje",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak ORDER BY DESC**: Bez DESC sortowanie jest rosnace (domyslnie ASC)",
+          "kara": "-0.5 pkt"
+        }
+      ]
+    },
+    {
+      "id": "20.12",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "zrodlo": "Inspirowane matura 2023 (Gry planszowe)",
+      "tagi": [
+        "GROUP-BY",
+        "COUNT",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Produkty** zawiera dane o asortymencie sklepu:\n\n| id | nazwa | kategoria | cena | dostepny |\n|----|-------|-----------|------|----------|\n| 1 | Laptop X1 | elektronika | 3500 | tak |\n| 2 | Mysz M2 | elektronika | 80 | tak |\n| 3 | Koszulka | odziez | 59 | nie |\n| 4 | Spodnie | odziez | 120 | tak |\n| 5 | Monitor | elektronika | 1200 | nie |\n| 6 | Bluza | odziez | 89 | tak |\n| 7 | Sluchawki | elektronika | 250 | tak |\n| 8 | Kurtka | odziez | 350 | nie |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe kategorii i liczbe **dostepnych** produktow (dostepny = 'tak') w kazdej kategorii. Posortuj malejaco wg liczby.",
+      "wskazowki": [
+        "**Kierunek**: Najpierw musisz odfiltrowac produkty — tylko dostepne. Potem pogrupowac.",
+        "**Podejscie**: WHERE dostepny = 'tak' filtruje PRZED grupowaniem, potem GROUP BY + COUNT.",
+        "**Kluczowy krok**: WHERE dziala na wierszach (przed GROUP BY), HAVING na grupach (po GROUP BY). Tu potrzebujesz WHERE."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT kategoria, COUNT(*) AS liczba_dostepnych\nFROM Produkty\nWHERE dostepny = 'tak'\nGROUP BY kategoria\nORDER BY liczba_dostepnych DESC;\n```\n\n**Weryfikacja** (tylko dostepny = 'tak'):\n- elektronika: Laptop X1, Mysz M2, Sluchawki = **3**\n- odziez: Spodnie, Bluza = **2**\n\n| kategoria | liczba_dostepnych |\n|-----------|-------------------|\n| elektronika | 3 |\n| odziez | 2 |\n\n**Wyjasnienie**: WHERE filtruje wiersze PRZED grupowaniem — najpierw usuwamy niedostepne produkty, potem liczymy w kazdej kategorii. Gdybysmy chcieli odfiltrowac kategorie PO pogrupowaniu (np. \"tylko kategorie z > 2 produktami\"), uzylibysmy HAVING.",
+      "typowe_bledy": [
+        {
+          "opis": "**HAVING zamiast WHERE**: `HAVING dostepny = 'tak'` — blad logiczny, bo dostepny nie jest funkcja agregujaca. Filtrowanie wierszy wymaga WHERE",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak warunku WHERE**: Liczy WSZYSTKIE produkty (4+4=8) zamiast dostepnych (3+2=5)",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "20.13",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Inspirowane matura 2022 (Ewidencja uczniow)",
+      "tagi": [
+        "GROUP-BY",
+        "AVG",
+        "ROUND",
+        "HAVING",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Pracownicy** zawiera dane o pracownikach firmy:\n\n| id | imie | dzial | pensja |\n|----|------|-------|--------|\n| 1 | Anna | IT | 8500 |\n| 2 | Jan | HR | 5200 |\n| 3 | Ewa | IT | 9200 |\n| 4 | Piotr | Sprzedaz | 4800 |\n| 5 | Kasia | HR | 5800 |\n| 6 | Tomek | Sprzedaz | 5100 |\n| 7 | Ola | IT | 7800 |\n| 8 | Marek | Sprzedaz | 4500 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe dzialu i srednia pensje (zaokraglona do 2 miejsc po przecinku), ale tylko dla dzialow, w ktorych srednia pensja jest wieksza niz 5000. Posortuj malejaco wg sredniej pensji.",
+      "wskazowki": [
+        "**Kierunek**: Grupuj po dziale, oblicz srednia, odfiltruj grupy.",
+        "**Podejscie**: GROUP BY dzial + ROUND(AVG(pensja), 2) + HAVING na sredniej.",
+        "**Kluczowy krok**: W HAVING powtorz wyrazenie AVG(pensja) — nie uzywaj aliasu (bezpieczniej w roznych silnikach SQL)."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT dzial, ROUND(AVG(pensja), 2) AS srednia_pensja\nFROM Pracownicy\nGROUP BY dzial\nHAVING AVG(pensja) > 5000\nORDER BY srednia_pensja DESC;\n```\n\n**Weryfikacja**:\n- IT: (8500+9200+7800)/3 = 25500/3 = **8500.00** (>5000 ✓)\n- HR: (5200+5800)/2 = 11000/2 = **5500.00** (>5000 ✓)\n- Sprzedaz: (4800+5100+4500)/3 = 14400/3 = **4800.00** (>5000 ✗)\n\n| dzial | srednia_pensja |\n|-------|---------------|\n| IT | 8500.0 |\n| HR | 5500.0 |",
+      "typowe_bledy": [
+        {
+          "opis": "**WHERE AVG(pensja) > 5000**: Funkcje agregujace nie dzialaja w WHERE — to blad skladniowy",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak ROUND**: Srednia moze miec wiele miejsc dziesietnych (tutaj akurat wychodzi rowno, ale nie zawsze)",
+          "kara": "-0.5 pkt"
+        }
+      ]
+    },
+    {
+      "id": "20.14",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Inspirowane matura 2019 (Perfumy)",
+      "tagi": [
+        "GROUP-BY",
+        "COUNT-DISTINCT",
+        "JOIN-z-GROUP-BY",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Nauczyciele**:\n\n| id | imie | nazwisko | przedmiot |\n|----|------|----------|----------|\n| 1 | Anna | Kowalska | Matematyka |\n| 2 | Jan | Nowak | Fizyka |\n| 3 | Ewa | Maj | Matematyka |\n| 4 | Piotr | Lis | Informatyka |\n\nTabela **Lekcje**:\n\n| id | id_nauczyciela | klasa | data |\n|----|----------------|-------|------|\n| 1 | 1 | 1A | 2024-09-02 |\n| 2 | 1 | 1B | 2024-09-02 |\n| 3 | 2 | 1A | 2024-09-02 |\n| 4 | 1 | 1A | 2024-09-03 |\n| 5 | 3 | 2A | 2024-09-02 |\n| 6 | 3 | 2B | 2024-09-03 |\n| 7 | 4 | 1A | 2024-09-02 |\n| 8 | 4 | 1B | 2024-09-03 |\n| 9 | 2 | 1B | 2024-09-03 |\n| 10 | 3 | 2A | 2024-09-03 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego przedmiotu wyswietli liczbe ROZNYCH klas, w ktorych ten przedmiot jest nauczany. Posortuj malejaco wg liczby klas.",
+      "wskazowki": [
+        "**Kierunek**: Musisz polaczyc tabele i policzyc unikalne klasy per przedmiot.",
+        "**Podejscie**: JOIN Nauczyciele z Lekcjami, GROUP BY przedmiot, COUNT(DISTINCT klasa).",
+        "**Kluczowy krok**: COUNT(DISTINCT L.klasa) liczy unikalne wartosci — ta sama klasa nauczana wielokrotnie liczy sie raz."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT N.przedmiot, COUNT(DISTINCT L.klasa) AS liczba_klas\nFROM Nauczyciele N\nJOIN Lekcje L ON N.id = L.id_nauczyciela\nGROUP BY N.przedmiot\nORDER BY liczba_klas DESC;\n```\n\n**Weryfikacja**:\n- Matematyka (nauczyciele 1, 3): klasy 1A, 1B (Anna) + 2A, 2B (Ewa) → DISTINCT: 1A, 1B, 2A, 2B = **4**\n- Fizyka (nauczyciel 2): klasy 1A, 1B → DISTINCT: 1A, 1B = **2**\n- Informatyka (nauczyciel 4): klasy 1A, 1B → DISTINCT: 1A, 1B = **2**\n\n| przedmiot | liczba_klas |\n|-----------|-------------|\n| Matematyka | 4 |\n| Fizyka | 2 |\n| Informatyka | 2 |\n\n**Wyjasnienie**: COUNT(DISTINCT klasa) zlicza kazda klase tylko RAZ, nawet jesli w danej klasie odbylo sie wiele lekcji z tego przedmiotu. Bez DISTINCT: Matematyka mialoby 5 (bo 5 wierszy lekcji), a nie 4 unikalne klasy.",
+      "typowe_bledy": [
+        {
+          "opis": "**COUNT(*) zamiast COUNT(DISTINCT)**: Zlicza WSZYSTKIE lekcje, nie unikalne klasy. Matematyka dostaje 5 zamiast 4",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak JOIN**: Bez polaczenia tabel nie mozna pogrupowac wg przedmiotu",
+          "kara": "-3 pkt"
+        }
+      ]
+    },
+    {
+      "id": "20.15",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Inspirowane matura 2023 (Gry planszowe)",
+      "tagi": [
+        "GROUP-BY",
+        "SUM",
+        "HAVING",
+        "WHERE-vs-HAVING",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Transakcje** zawiera dane o sprzedazy w sieci sklepow:\n\n| id | sklep | produkt | kwota | status |\n|----|-------|---------|-------|--------|\n| 1 | Alfa | Laptop | 3500 | zakonczona |\n| 2 | Alfa | Mysz | 80 | zakonczona |\n| 3 | Beta | Monitor | 1200 | anulowana |\n| 4 | Beta | Laptop | 3200 | zakonczona |\n| 5 | Alfa | Monitor | 1100 | zakonczona |\n| 6 | Gamma | Laptop | 3800 | zakonczona |\n| 7 | Beta | Klawiatura | 150 | zakonczona |\n| 8 | Gamma | Mysz | 90 | anulowana |\n| 9 | Alfa | Klawiatura | 120 | anulowana |\n| 10 | Gamma | Monitor | 1300 | zakonczona |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe sklepu i laczna kwote ZAKONCZONYCH transakcji, ale tylko dla sklepow, w ktorych ta kwota przekracza 4000. Posortuj malejaco wg kwoty.",
+      "wskazowki": [
+        "**Kierunek**: Potrzebujesz dwoch etapow filtrowania: wiersze (WHERE) i grupy (HAVING).",
+        "**Podejscie**: WHERE status = 'zakonczona' filtruje przed grupowaniem. HAVING SUM(...) > 4000 filtruje po grupowaniu.",
+        "**Kluczowy krok**: Kolejnosc w SQL: WHERE → GROUP BY → HAVING. Nie mozna zamienic."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT sklep, SUM(kwota) AS suma_kwot\nFROM Transakcje\nWHERE status = 'zakonczona'\nGROUP BY sklep\nHAVING SUM(kwota) > 4000\nORDER BY suma_kwot DESC;\n```\n\n**Weryfikacja** (tylko status = 'zakonczona'):\n- Alfa: 3500+80+1100 = **4680** (>4000 ✓)\n- Beta: 3200+150 = **3350** (>4000 ✗)\n- Gamma: 3800+1300 = **5100** (>4000 ✓)\n\n| sklep | suma_kwot |\n|-------|-----------|\n| Gamma | 5100 |\n| Alfa | 4680 |\n\n**Wyjasnienie**: WHERE i HAVING dzialaja na ROZNYCH etapach:\n1. WHERE filtruje wiersze (tu: usuwa anulowane transakcje)\n2. GROUP BY grupuje przefiltrowane wiersze\n3. HAVING filtruje grupy (tu: tylko sklepy z suma > 4000)\n\nBez WHERE: Alfa mialoby 3500+80+1100+120=4800, a Beta 1200+3200+150=4550 — bledne wyniki.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak WHERE — filtrowanie statusu w HAVING**: `HAVING status = 'zakonczona'` nie dziala, bo status nie jest funkcja agregujaca. Wiersze filtrujemy w WHERE",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Pominiecie anulowanych**: Bez WHERE suma Alfa wynosi 4800 (wlicza anulowana 120), co zmienia wynik",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak HAVING**: Beta (3350) pojawia sie w wyniku mimo ze < 4000",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "20.16",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "zrodlo": "Inspirowane matura 2024 (Hurtownia)",
+      "tagi": [
+        "GROUP-BY",
+        "SUM",
+        "JOIN-z-GROUP-BY",
+        "wielokolumnowe-grupowanie",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Oddzialy**:\n\n| id | nazwa | miasto |\n|----|-------|--------|\n| 1 | Centrala | Warszawa |\n| 2 | Poludnie | Krakow |\n| 3 | Polnoc | Gdansk |\n\nTabela **Sprzedawcy**:\n\n| id | imie | id_oddzialu |\n|----|------|-------------|\n| 1 | Anna | 1 |\n| 2 | Jan | 1 |\n| 3 | Ewa | 2 |\n| 4 | Piotr | 3 |\n| 5 | Kasia | 2 |\n\nTabela **Sprzedaz**:\n\n| id | id_sprzedawcy | miesiac | kwota |\n|----|---------------|---------|-------|\n| 1 | 1 | 01 | 5000 |\n| 2 | 1 | 02 | 6200 |\n| 3 | 2 | 01 | 4500 |\n| 4 | 3 | 01 | 7800 |\n| 5 | 3 | 02 | 3200 |\n| 6 | 4 | 01 | 2100 |\n| 7 | 4 | 02 | 4800 |\n| 8 | 5 | 01 | 3500 |\n| 9 | 2 | 02 | 5100 |\n| 10 | 5 | 02 | 4200 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego miasta oddzialu i kazdego miesiaca wyswietli laczna kwote sprzedazy. Posortuj wg miasta, potem wg miesiaca.",
+      "wskazowki": [
+        "**Kierunek**: Musisz polaczyc trzy tabele i pogrupowac po dwoch kolumnach.",
+        "**Podejscie**: JOIN Oddzialy → Sprzedawcy → Sprzedaz, GROUP BY (miasto, miesiac).",
+        "**Kluczowy krok**: Lancuch JOIN-ow: O.id = S.id_oddzialu i S.id = SP.id_sprzedawcy. GROUP BY z dwoma kolumnami tworzy osobna grupe dla kazdej pary (miasto, miesiac)."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT O.miasto, SP.miesiac, SUM(SP.kwota) AS suma_sprzedazy\nFROM Oddzialy O\nJOIN Sprzedawcy S ON O.id = S.id_oddzialu\nJOIN Sprzedaz SP ON S.id = SP.id_sprzedawcy\nGROUP BY O.miasto, SP.miesiac\nORDER BY O.miasto, SP.miesiac;\n```\n\n**Weryfikacja**:\nGdansk (oddz. 3, sprzedawca Piotr=4):\n- 01: 2100 → **2100**\n- 02: 4800 → **4800**\n\nKrakow (oddz. 2, sprzedawcy Ewa=3, Kasia=5):\n- 01: 7800+3500 = **11300**\n- 02: 3200+4200 = **7400**\n\nWarszawa (oddz. 1, sprzedawcy Anna=1, Jan=2):\n- 01: 5000+4500 = **9500**\n- 02: 6200+5100 = **11300**\n\n| miasto | miesiac | suma_sprzedazy |\n|--------|---------|----------------|\n| Gdansk | 01 | 2100 |\n| Gdansk | 02 | 4800 |\n| Krakow | 01 | 11300 |\n| Krakow | 02 | 7400 |\n| Warszawa | 01 | 9500 |\n| Warszawa | 02 | 11300 |\n\n**Wyjasnienie**: Trzy JOIN-y tworzace lancuch: Oddzialy → Sprzedawcy → Sprzedaz. Kazdy sprzedawca nalezy do oddzialu, a kazda sprzedaz do sprzedawcy. GROUP BY z dwoma kolumnami (miasto, miesiac) agreguje kwoty dla kazdej pary.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak jednego JOIN**: Pominiecie tabeli Sprzedawcy — nie mozna polaczyc Oddzialow ze Sprzedaza bezposrednio",
+          "kara": "-3 pkt"
+        },
+        {
+          "opis": "**GROUP BY po jednej kolumnie**: Grupowanie tylko po miescie laczy oba miesiace razem",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Pomylenie kolumn JOIN**: O.id = SP.id_sprzedawcy zamiast S.id = SP.id_sprzedawcy — laczenie po zlych kluczach",
+          "kara": "-3 pkt"
+        }
+      ]
+    },
+    {
+      "id": "20.17",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "zrodlo": "Inspirowane matura 2021 (Gra strategiczna)",
+      "tagi": [
+        "GROUP-BY",
+        "MIN",
+        "MAX",
+        "AVG",
+        "ROUND",
+        "aliasy",
+        "ORDER-BY",
+        "obliczenia-w-SELECT"
+      ],
+      "tresc": "Tabela **Wyniki** zawiera dane o wynikach testow uczniow:\n\n| id | uczen | przedmiot | wynik | pkt_max |\n|----|-------|-----------|-------|---------|\n| 1 | Anna | Matematyka | 85 | 100 |\n| 2 | Jan | Matematyka | 72 | 100 |\n| 3 | Ewa | Matematyka | 91 | 100 |\n| 4 | Anna | Fizyka | 60 | 80 |\n| 5 | Jan | Fizyka | 55 | 80 |\n| 6 | Ewa | Fizyka | 78 | 80 |\n| 7 | Anna | Chemia | 45 | 60 |\n| 8 | Jan | Chemia | 52 | 60 |\n| 9 | Ewa | Chemia | 58 | 60 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego przedmiotu wyswietli:\n- minimalny wynik,\n- maksymalny wynik,\n- sredni wynik (zaokraglony do 1 m.p.),\n- sredni procent wyniku: `ROUND(AVG(wynik * 100.0 / pkt_max), 1)`.\n\nPosortuj malejaco wg sredniego procentu.",
+      "wskazowki": [
+        "**Kierunek**: Jedno zapytanie z wieloma funkcjami agregujacymi i obliczeniem w SELECT.",
+        "**Podejscie**: MIN, MAX, AVG, oraz AVG(wyrazenie) — wszystko w jednym SELECT.",
+        "**Kluczowy krok**: `wynik * 100.0 / pkt_max` oblicza procent per wiersz, AVG uśrednia go w grupie. Uzyj 100.0 (nie 100) aby wymusic dzielenie zmiennoprzecinkowe."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT przedmiot,\n       MIN(wynik) AS min_wynik,\n       MAX(wynik) AS max_wynik,\n       ROUND(AVG(wynik), 1) AS sredni_wynik,\n       ROUND(AVG(wynik * 100.0 / pkt_max), 1) AS sredni_procent\nFROM Wyniki\nGROUP BY przedmiot\nORDER BY sredni_procent DESC;\n```\n\n**Weryfikacja**:\nChemia (pkt_max=60): wyniki 45, 52, 58\n- MIN=45, MAX=58, AVG=(45+52+58)/3=51.7\n- procenty: 75.0, 86.67, 96.67 → AVG=86.1\n\nMatematyka (pkt_max=100): wyniki 85, 72, 91\n- MIN=72, MAX=91, AVG=(85+72+91)/3=82.7\n- procenty: 85.0, 72.0, 91.0 → AVG=82.7\n\nFizyka (pkt_max=80): wyniki 60, 55, 78\n- MIN=55, MAX=78, AVG=(60+55+78)/3=64.3\n- procenty: 75.0, 68.75, 97.5 → AVG=80.4\n\n| przedmiot | min_wynik | max_wynik | sredni_wynik | sredni_procent |\n|-----------|-----------|-----------|-------------|----------------|\n| Chemia | 45 | 58 | 51.7 | 86.1 |\n| Matematyka | 72 | 91 | 82.7 | 82.7 |\n| Fizyka | 55 | 78 | 64.3 | 80.4 |\n\n**Wyjasnienie**: Mozna stosowac wiele funkcji agregujacych jednoczesnie. `AVG(wynik * 100.0 / pkt_max)` to obliczenie per wiersz wewnatrz agregatu — najpierw oblicza procent dla kazdego ucznia, potem usrednia w grupie. Uzycie `100.0` (a nie `100`) wymusza dzielenie zmiennoprzecinkowe.",
+      "typowe_bledy": [
+        {
+          "opis": "**Dzielenie calkowite**: `wynik * 100 / pkt_max` w SQLite daje dzielenie calkowite (np. 45*100/60=75, ale 55*100/80=68 zamiast 68.75). Uzyj 100.0",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**AVG(wynik) / AVG(pkt_max) * 100**: To nie to samo co AVG(wynik/pkt_max*100) — inna kolejnosc operacji",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Pomylenie MIN/MAX kolumn**: Np. MIN(pkt_max) zamiast MIN(wynik)",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "20.18",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Inspirowane matura 2017 (Pilka reczna)",
+      "tagi": [
+        "GROUP-BY",
+        "SUM",
+        "COUNT",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "WHERE-vs-HAVING",
+        "obliczenia-w-SELECT",
+        "aliasy",
+        "ORDER-BY"
+      ],
+      "tresc": "Tabela **Pracownicy**:\n\n| id | imie | dzial | stawka_godz |\n|----|------|-------|-------------|\n| 1 | Anna | IT | 120 |\n| 2 | Jan | IT | 100 |\n| 3 | Ewa | Marketing | 90 |\n| 4 | Piotr | IT | 110 |\n| 5 | Kasia | Marketing | 85 |\n\nTabela **Projekty**:\n\n| id | id_pracownika | nazwa_projektu | godziny | status |\n|----|---------------|----------------|---------|--------|\n| 1 | 1 | Portal | 40 | zakonczony |\n| 2 | 1 | Apka | 60 | w_trakcie |\n| 3 | 2 | Portal | 35 | zakonczony |\n| 4 | 3 | Kampania | 25 | zakonczony |\n| 5 | 4 | Portal | 50 | zakonczony |\n| 6 | 2 | Apka | 45 | w_trakcie |\n| 7 | 5 | Kampania | 30 | zakonczony |\n| 8 | 3 | Newsletter | 15 | zakonczony |\n| 9 | 4 | Apka | 30 | w_trakcie |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego ZAKONCZONEGO projektu wyswietli:\n- nazwe projektu,\n- liczbe pracownikow,\n- laczne godziny,\n- laczny koszt (SUM godziny * stawka_godz).\n\nPokaz tylko projekty o koszcie powyzej 3000. Posortuj malejaco wg kosztu.",
+      "wskazowki": [
+        "**Kierunek**: WHERE filtruje status, JOIN laczy pracownikow z projektami, obliczenie kosztu wymaga mnozenia kolumn z roznych tabel.",
+        "**Podejscie**: JOIN + WHERE status + GROUP BY nazwa_projektu + SUM(godziny * stawka_godz) + HAVING.",
+        "**Kluczowy krok**: Koszt = SUM(PR.godziny * P.stawka_godz). Mnozenie odbywa sie per wiersz (per przypisanie pracownika do projektu), potem SUM sumuje w grupie."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT PR.nazwa_projektu,\n       COUNT(*) AS liczba_pracownikow,\n       SUM(PR.godziny) AS laczne_godziny,\n       SUM(PR.godziny * P.stawka_godz) AS koszt\nFROM Pracownicy P\nJOIN Projekty PR ON P.id = PR.id_pracownika\nWHERE PR.status = 'zakonczony'\nGROUP BY PR.nazwa_projektu\nHAVING SUM(PR.godziny * P.stawka_godz) > 3000\nORDER BY koszt DESC;\n```\n\n**Weryfikacja** (tylko zakonczony):\nPortal: Anna(40h×120=4800) + Jan(35h×100=3500) + Piotr(50h×110=5500)\n→ 3 prac., 125h, koszt = **13800** (>3000 ✓)\n\nKampania: Ewa(25h×90=2250) + Kasia(30h×85=2550)\n→ 2 prac., 55h, koszt = **4800** (>3000 ✓)\n\nNewsletter: Ewa(15h×90=1350)\n→ 1 prac., 15h, koszt = **1350** (>3000 ✗)\n\n| nazwa_projektu | liczba_pracownikow | laczne_godziny | koszt |\n|----------------|--------------------|-----------------|---------|\n| Portal | 3 | 125 | 13800 |\n| Kampania | 2 | 55 | 4800 |\n\n**Wyjasnienie**: To cwiczenie laczy trzy kluczowe wzorce:\n1. WHERE filtruje wiersze (status) PRZED grupowaniem\n2. SUM(a * b) oblicza koszt — mnozenie per wiersz, potem suma w grupie\n3. HAVING filtruje grupy (koszt > 3000) PO grupowaniu",
+      "typowe_bledy": [
+        {
+          "opis": "**SUM(godziny) * stawka_godz**: Stawka jest ROZNA dla kazdego pracownika — nie mozna wyciagnac jej przed SUM. Trzeba mnozyc per wiersz wewnatrz SUM",
+          "kara": "-3 pkt"
+        },
+        {
+          "opis": "**Brak WHERE na status**: Wlicza projekty w_trakcie — Apka (60h+45h+30h) pojawiloby sie w wyniku",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**HAVING zamiast WHERE na status**: `HAVING status = 'zakonczony'` — blad, status nie jest funkcja agregujaca",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "20.19",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Inspirowane matura 2015 (Formula 1)",
+      "tagi": [
+        "GROUP-BY",
+        "COUNT",
+        "COUNT-DISTINCT",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "wielokolumnowe-grupowanie",
+        "ORDER-BY",
+        "aliasy"
+      ],
+      "tresc": "Tabela **Autorzy**:\n\n| id | imie | nazwisko | kraj |\n|----|------|----------|------|\n| 1 | Adam | Mickiewicz | Polska |\n| 2 | Juliusz | Slowacki | Polska |\n| 3 | Charles | Dickens | Anglia |\n| 4 | Mark | Twain | USA |\n\nTabela **Ksiazki**:\n\n| id | tytul | id_autora | gatunek |\n|----|-------|-----------|---------|\n| 1 | Pan Tadeusz | 1 | epopeja |\n| 2 | Dziady | 1 | dramat |\n| 3 | Balladyna | 2 | dramat |\n| 4 | Oliver Twist | 3 | powiesc |\n| 5 | Przygody Tomka | 4 | powiesc |\n| 6 | Kordian | 2 | dramat |\n\nTabela **Wypozyczenia**:\n\n| id | id_ksiazki | czytelnik | data |\n|----|------------|-----------|------|\n| 1 | 1 | Anna | 2024-01-10 |\n| 2 | 1 | Jan | 2024-02-15 |\n| 3 | 2 | Ewa | 2024-01-20 |\n| 4 | 3 | Anna | 2024-03-01 |\n| 5 | 4 | Jan | 2024-01-25 |\n| 6 | 5 | Ewa | 2024-02-10 |\n| 7 | 1 | Kasia | 2024-03-05 |\n| 8 | 6 | Jan | 2024-03-10 |\n| 9 | 2 | Anna | 2024-02-20 |\n| 10 | 4 | Kasia | 2024-03-15 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego autora (imie i nazwisko) wyswietli:\n- liczbe ROZNYCH czytelnikow, ktorzy wypozyczyli jego ksiazki,\n- laczna liczbe wypozyczen.\n\nPokaz tylko autorow, ktorych ksiazki wypozyczono co najmniej 2 razy. Posortuj malejaco wg liczby wypozyczen.",
+      "wskazowki": [
+        "**Kierunek**: Trzy tabele do polaczenia (Autorzy → Ksiazki → Wypozyczenia), grupowanie po autorze.",
+        "**Podejscie**: Dwa JOINy, GROUP BY (imie, nazwisko), COUNT(DISTINCT czytelnik) i COUNT(*).",
+        "**Kluczowy krok**: COUNT(DISTINCT W.czytelnik) zlicza unikalnych czytelnikow — Anna wypozyczyla 2 ksiazki Mickiewicza, ale liczy sie raz."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT A.imie, A.nazwisko,\n       COUNT(DISTINCT W.czytelnik) AS rozni_czytelnicy,\n       COUNT(*) AS liczba_wypozyczen\nFROM Autorzy A\nJOIN Ksiazki K ON A.id = K.id_autora\nJOIN Wypozyczenia W ON K.id = W.id_ksiazki\nGROUP BY A.imie, A.nazwisko\nHAVING COUNT(*) >= 2\nORDER BY liczba_wypozyczen DESC;\n```\n\n**Weryfikacja**:\nMickiewicz (ksiazki: Pan Tadeusz=1, Dziady=2):\n- Wypozyczenia: Anna(1), Jan(1), Ewa(2), Kasia(1), Anna(2) → COUNT(*)=**5**\n- DISTINCT czytelnicy: Anna, Jan, Ewa, Kasia = **4**\n- 5 >= 2 ✓\n\nSlowacki (ksiazki: Balladyna=3, Kordian=6):\n- Wypozyczenia: Anna(3), Jan(6) → COUNT(*)=**2**\n- DISTINCT: Anna, Jan = **2**\n- 2 >= 2 ✓\n\nDickens (ksiazki: Oliver Twist=4):\n- Wypozyczenia: Jan(4), Kasia(4) → COUNT(*)=**2**\n- DISTINCT: Jan, Kasia = **2**\n- 2 >= 2 ✓\n\nTwain (ksiazki: Przygody Tomka=5):\n- Wypozyczenia: Ewa(5) → COUNT(*)=**1**\n- 1 >= 2 ✗\n\n| imie | nazwisko | rozni_czytelnicy | liczba_wypozyczen |\n|------|----------|------------------|-----------|\n| Adam | Mickiewicz | 4 | 5 |\n| Juliusz | Slowacki | 2 | 2 |\n| Charles | Dickens | 2 | 2 |\n\n**Wyjasnienie**: Lancuch 3 JOINow laczy autorow z ich ksiazkami i wypozyczeniami. COUNT(DISTINCT czytelnik) vs COUNT(*) — roznica kluczowa: Anna wypozyczyla Pan Tadeusza i Dziady (2 wypozyczenia), ale to 1 czytelnik. GROUP BY po dwoch kolumnach (imie, nazwisko) zabezpiecza przed kolizja imion.",
+      "typowe_bledy": [
+        {
+          "opis": "**COUNT(*) zamiast COUNT(DISTINCT)** w kolumnie czytelnikow: Mickiewicz dostaje 5 zamiast 4",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**GROUP BY tylko po nazwisku**: Jezeli dwoch autorow mialoby to samo nazwisko, ich dane zostana polaczone",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**`> 2` zamiast `>= 2`**: Polecenie mowi 'co najmniej 2', wiec warunek to >= 2, nie > 2",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "20.20",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Inspirowane matura 2024 (Hurtownia) i 2015 (F1)",
+      "tagi": [
+        "GROUP-BY",
+        "SUM",
+        "COUNT",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "wielokolumnowe-grupowanie",
+        "SUBSTR",
+        "obliczenia-w-SELECT",
+        "ORDER-BY",
+        "aliasy"
+      ],
+      "tresc": "Tabela **Kategorie**:\n\n| id | nazwa |\n|----|---------|\n| 1 | Elektronika |\n| 2 | Odziez |\n| 3 | Sport |\n\nTabela **Produkty**:\n\n| id | nazwa | id_kategorii | cena |\n|----|-------|-------------|------|\n| 1 | Laptop | 1 | 3500 |\n| 2 | Monitor | 1 | 1200 |\n| 3 | Koszulka | 2 | 80 |\n| 4 | Spodnie | 2 | 150 |\n| 5 | Pilka | 3 | 120 |\n| 6 | Rower | 3 | 2500 |\n\nTabela **Sprzedaz**:\n\n| id | id_produktu | ilosc | data_sprzedazy |\n|----|-------------|-------|----------------|\n| 1 | 1 | 2 | 2024-01-15 |\n| 2 | 3 | 5 | 2024-01-20 |\n| 3 | 5 | 3 | 2024-02-10 |\n| 4 | 2 | 1 | 2024-02-14 |\n| 5 | 1 | 1 | 2024-02-22 |\n| 6 | 4 | 4 | 2024-01-30 |\n| 7 | 6 | 1 | 2024-03-05 |\n| 8 | 3 | 3 | 2024-03-10 |\n| 9 | 2 | 2 | 2024-01-25 |\n| 10 | 5 | 2 | 2024-03-18 |\n| 11 | 1 | 1 | 2024-03-22 |\n| 12 | 4 | 2 | 2024-02-28 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdej kategorii i kazdego miesiaca (wyciagnij numer miesiaca z daty za pomoca SUBSTR) wyswietli:\n- nazwe kategorii,\n- numer miesiaca,\n- laczny przychod (SUM ilosc * cena),\n- liczbe transakcji.\n\nPokaz tylko grupy z przychodem wiekszym niz 500. Posortuj wg kategorii, potem wg miesiaca.",
+      "wskazowki": [
+        "**Kierunek**: Trzy tabele + wielokolumnowe grupowanie po kategorii i miesiacu z daty.",
+        "**Podejscie**: JOIN Kategorie → Produkty → Sprzedaz, GROUP BY (nazwa, SUBSTR(data_sprzedazy, 6, 2)), HAVING na SUM.",
+        "**Kluczowy krok**: SUBSTR(data_sprzedazy, 6, 2) wyciaga znaki na pozycjach 6-7 z formatu 'RRRR-MM-DD', dajac numer miesiaca. SUM(ilosc * cena) oblicza przychod — mnozenie per transakcja, potem suma w grupie."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT KAT.nazwa, SUBSTR(S.data_sprzedazy, 6, 2) AS miesiac,\n       SUM(S.ilosc * P.cena) AS przychod,\n       COUNT(*) AS transakcje\nFROM Kategorie KAT\nJOIN Produkty P ON KAT.id = P.id_kategorii\nJOIN Sprzedaz S ON P.id = S.id_produktu\nGROUP BY KAT.nazwa, SUBSTR(S.data_sprzedazy, 6, 2)\nHAVING SUM(S.ilosc * P.cena) > 500\nORDER BY KAT.nazwa, miesiac;\n```\n\n**Weryfikacja** (grupowanie kategoria + miesiac):\n\nElektronika (Laptop@3500, Monitor@1200):\n- 01: Laptop(2×3500=7000) + Monitor(2×1200=2400) = **9400**, 2 trans. (>500 ✓)\n- 02: Monitor(1×1200=1200) + Laptop(1×3500=3500) = **4700**, 2 trans. (>500 ✓)\n- 03: Laptop(1×3500=3500) = **3500**, 1 trans. (>500 ✓)\n\nOdziez (Koszulka@80, Spodnie@150):\n- 01: Koszulka(5×80=400) + Spodnie(4×150=600) = **1000**, 2 trans. (>500 ✓)\n- 02: Spodnie(2×150=300) = **300**, 1 trans. (>500 ✗)\n- 03: Koszulka(3×80=240) = **240**, 1 trans. (>500 ✗)\n\nSport (Pilka@120, Rower@2500):\n- 02: Pilka(3×120=360) = **360**, 1 trans. (>500 ✗)\n- 03: Rower(1×2500=2500) + Pilka(2×120=240) = **2740**, 2 trans. (>500 ✓)\n\n| nazwa | miesiac | przychod | transakcje |\n|-------|---------|----------|------------|\n| Elektronika | 01 | 9400 | 2 |\n| Elektronika | 02 | 4700 | 2 |\n| Elektronika | 03 | 3500 | 1 |\n| Odziez | 01 | 1000 | 2 |\n| Sport | 03 | 2740 | 2 |\n\n**Wyjasnienie**: To cwiczenie laczy wszystkie kluczowe elementy GROUP BY:\n- 3 JOINy (lancuch tabel)\n- SUBSTR do wyciagania miesiaca z daty\n- Wielokolumnowe grupowanie (kategoria + miesiac)\n- SUM(a * b) — obliczenie w agregacie\n- HAVING filtrujacy grupy po zagregowanej wartosci",
+      "typowe_bledy": [
+        {
+          "opis": "**SUBSTR z blednym offsetem**: `SUBSTR(data, 5, 2)` daje '-0' zamiast '01'. W SQL pozycje liczymy od 1, wiec 'RRRR-MM' → pozycja 6",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**SUM(ilosc) * cena**: Jesli w grupie sa rozne produkty o roznych cenach, to daje bledny wynik. Trzeba mnozyc per wiersz wewnatrz SUM",
+          "kara": "-3 pkt"
+        },
+        {
+          "opis": "**GROUP BY tylko po kategorii**: Miesiace zostana polaczone — Elektronika dostaje 9400+4700+3500=17600 lacznie",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak jednego JOIN**: Pominiecie tabeli Kategorie — nie mozna uzyskac nazwy kategorii",
+          "kara": "-2 pkt"
         }
       ]
     }

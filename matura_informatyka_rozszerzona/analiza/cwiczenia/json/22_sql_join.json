@@ -3,7 +3,7 @@
   "nazwa": "SQL — JOIN (laczenie tabel)",
   "kategoria": "SQL",
   "czestotliwosc": "8/11 lat",
-  "punkty_lacznie": 34,
+  "punkty_lacznie": 70,
   "tagi_globalne": [
     "INNER-JOIN",
     "LEFT-JOIN",
@@ -319,6 +319,296 @@
         {
           "opis": "**Brak HAVING**: Azja (10 pkt) pojawia sie w wyniku",
           "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "22.11",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Inspirowane matura 2023",
+      "tagi": [
+        "INNER-JOIN",
+        "aliasy-tabel",
+        "ON-warunek"
+      ],
+      "tresc": "Tabela **Klienci**:\n\n| id_klienta | imie | nazwisko | miasto |\n|------------|------|----------|--------|\n| 1 | Anna | Kowalska | Warszawa |\n| 2 | Jan | Nowak | Krakow |\n| 3 | Ewa | Maj | Gdansk |\n| 4 | Piotr | Lis | Warszawa |\n\nTabela **Zamowienia**:\n\n| id_zam | id_klienta | produkt | cena | data |\n|--------|------------|---------|------|------|\n| 1 | 1 | Laptop | 3500 | 2024-01-10 |\n| 2 | 2 | Telefon | 2500 | 2024-01-15 |\n| 3 | 1 | Tablet | 1200 | 2024-02-01 |\n| 4 | 3 | Laptop | 3800 | 2024-02-15 |\n| 5 | 4 | Telefon | 2200 | 2024-03-01 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko klienta, produkt i cene dla kazdego zamowienia. Posortuj wg ceny malejaco.",
+      "wskazowki": [
+        "**Kierunek**: Dane klienta i zamowienia sa w roznych tabelach — musisz je polaczyc.",
+        "**Podejscie**: JOIN na wspolnej kolumnie id_klienta.",
+        "**Kluczowy krok**: ORDER BY cena DESC sortuje od najdrozszego do najtanszego."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.imie, K.nazwisko, Z.produkt, Z.cena\nFROM Zamowienia Z\nJOIN Klienci K ON Z.id_klienta = K.id_klienta\nORDER BY Z.cena DESC;\n```\n\n**Weryfikacja**:\n\n| imie | nazwisko | produkt | cena |\n|------|----------|---------|------|\n| Ewa | Maj | Laptop | 3800 |\n| Anna | Kowalska | Laptop | 3500 |\n| Jan | Nowak | Telefon | 2500 |\n| Piotr | Lis | Telefon | 2200 |\n| Anna | Kowalska | Tablet | 1200 |\n\n**Wyjasnienie**: JOIN laczy kazdy wiersz z Zamowienia z odpowiednim wierszem z Klienci po wspolnej kolumnie id_klienta. Anna pojawia sie 2 razy, bo ma 2 zamowienia.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak ON**: `FROM Zamowienia JOIN Klienci` bez ON tworzy iloczyn kartezjanski — kazde zamowienie z kazdym klientem",
+          "kara": "-3 pkt"
+        },
+        {
+          "opis": "**Brak DESC**: Domyslnie ORDER BY sortuje rosnaco — najtansze na gorze",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "22.12",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Inspirowane matura 2024",
+      "tagi": [
+        "INNER-JOIN",
+        "WHERE-z-JOIN",
+        "aliasy-tabel"
+      ],
+      "tresc": "Tabela **Marki**:\n\n| id_marki | nazwa | kraj |\n|----------|-------|------|\n| 1 | Samsung | Korea |\n| 2 | Apple | USA |\n| 3 | Xiaomi | Chiny |\n| 4 | Sony | Japonia |\n\nTabela **Telefony**:\n\n| id | model | id_marki | cena | rok |\n|----|-------|----------|------|-----|\n| 1 | Galaxy S24 | 1 | 4500 | 2024 |\n| 2 | iPhone 15 | 2 | 5200 | 2023 |\n| 3 | Redmi Note 13 | 3 | 1200 | 2024 |\n| 4 | Xperia 5 | 4 | 3800 | 2023 |\n| 5 | Galaxy A54 | 1 | 1800 | 2023 |\n| 6 | iPhone 14 | 2 | 4200 | 2022 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli model telefonu, nazwe marki i kraj producenta — ale tylko dla telefonow drozszych niz 3000 zl. Posortuj wg ceny malejaco.",
+      "wskazowki": [
+        "**Kierunek**: JOIN dwoch tabel z dodatkowym filtrem WHERE.",
+        "**Podejscie**: JOIN Telefony z Marki, WHERE na cene.",
+        "**Kluczowy krok**: Warunek `WHERE T.cena > 3000` filtruje po polaczeniu tabel."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT T.model, M.nazwa, M.kraj\nFROM Telefony T\nJOIN Marki M ON T.id_marki = M.id_marki\nWHERE T.cena > 3000\nORDER BY T.cena DESC;\n```\n\n**Weryfikacja**:\n- Galaxy S24: 4500 > 3000 ✓\n- iPhone 15: 5200 > 3000 ✓\n- Xperia 5: 3800 > 3000 ✓\n- iPhone 14: 4200 > 3000 ✓\n\n| model | nazwa | kraj |\n|-------|-------|------|\n| iPhone 15 | Apple | USA |\n| Galaxy S24 | Samsung | Korea |\n| iPhone 14 | Apple | USA |\n| Xperia 5 | Sony | Japonia |\n\n**Wyjasnienie**: WHERE filtruje wiersze PO polaczeniu tabel. Kolejnosc: najpierw JOIN laczy wszystkie pasujace wiersze, potem WHERE odrzuca te z cena <= 3000.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak prefiksu tabeli**: `WHERE cena > 3000` — jesli obie tabele mialy kolumne cena, byloby niejednoznaczne",
+          "kara": "-0.5 pkt"
+        },
+        {
+          "opis": "**Bledny warunek ON**: `ON T.id = M.id_marki` zamiast `ON T.id_marki = M.id_marki` — laczenie po zlych kolumnach",
+          "kara": "-3 pkt"
+        }
+      ]
+    },
+    {
+      "id": "22.13",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "zrodlo": "Inspirowane matura 2016",
+      "tagi": [
+        "LEFT-JOIN",
+        "COUNT-z-LEFT-JOIN",
+        "GROUP-BY-z-JOIN"
+      ],
+      "tresc": "Tabela **Autorzy**:\n\n| id | imie | nazwisko |\n|----|------|----------|\n| 1 | Adam | Mickiewicz |\n| 2 | Henryk | Sienkiewicz |\n| 3 | Wislawa | Szymborska |\n| 4 | Olga | Tokarczuk |\n\nTabela **Ksiazki**:\n\n| id | tytul | id_autora | rok |\n|----|-------|-----------|-----|\n| 1 | Pan Tadeusz | 1 | 1834 |\n| 2 | Dziady | 1 | 1823 |\n| 3 | Quo Vadis | 2 | 1896 |\n| 4 | Potop | 2 | 1886 |\n| 5 | Bieguni | 4 | 2007 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko kazdego autora oraz liczbe jego ksiazek. Pokaz WSZYSTKICH autorow, nawet tych bez ksiazek (dla nich liczba = 0). Posortuj malejaco wg liczby ksiazek, potem alfabetycznie wg nazwiska.",
+      "wskazowki": [
+        "**Kierunek**: INNER JOIN odrzuca autorow bez ksiazek — potrzebujesz LEFT JOIN.",
+        "**Podejscie**: LEFT JOIN zachowuje WSZYSTKIE wiersze z lewej tabeli (Autorzy).",
+        "**Kluczowy krok**: COUNT(K.id) zamiast COUNT(*) — COUNT(*) daje 1 zamiast 0 dla autorow bez ksiazek."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT A.imie, A.nazwisko, COUNT(K.id) AS liczba_ksiazek\nFROM Autorzy A\nLEFT JOIN Ksiazki K ON A.id = K.id_autora\nGROUP BY A.imie, A.nazwisko\nORDER BY liczba_ksiazek DESC, A.nazwisko;\n```\n\n**Weryfikacja**:\n- Adam Mickiewicz: Pan Tadeusz, Dziady → **2**\n- Henryk Sienkiewicz: Quo Vadis, Potop → **2**\n- Olga Tokarczuk: Bieguni → **1**\n- Wislawa Szymborska: brak → **0**\n\n| imie | nazwisko | liczba_ksiazek |\n|------|----------|---------------|\n| Adam | Mickiewicz | 2 |\n| Henryk | Sienkiewicz | 2 |\n| Olga | Tokarczuk | 1 |\n| Wislawa | Szymborska | 0 |\n\n**Wyjasnienie**: LEFT JOIN + COUNT(kolumna z prawej tabeli) + GROUP BY to standardowy wzorzec \"policz powiazane rekordy, w tym zerowe\".",
+      "typowe_bledy": [
+        {
+          "opis": "**COUNT(*)**: Daje 1 zamiast 0 dla Szymborskiej — LEFT JOIN tworzy jeden wiersz z NULL, COUNT(*) go liczy",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**INNER JOIN**: Szymborska nie pojawi sie w wyniku",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "22.14",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Inspirowane matura 2022",
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "WHERE-z-JOIN",
+        "GROUP-BY-z-JOIN"
+      ],
+      "tresc": "Tabela **Sklepy**:\n\n| id_sklepu | nazwa | miasto |\n|-----------|-------|--------|\n| 1 | Biedronka | Warszawa |\n| 2 | Lidl | Krakow |\n| 3 | Zabka | Gdansk |\n\nTabela **Produkty**:\n\n| id_prod | nazwa | kategoria |\n|---------|-------|-----------|\n| 1 | Chleb | pieczywo |\n| 2 | Maslo | nabial |\n| 3 | Mleko | nabial |\n| 4 | Bulka | pieczywo |\n\nTabela **Sprzedaz**:\n\n| id | id_sklepu | id_prod | ilosc | data |\n|----|-----------|---------|-------|------|\n| 1 | 1 | 1 | 50 | 2024-01-10 |\n| 2 | 1 | 2 | 30 | 2024-01-10 |\n| 3 | 2 | 1 | 40 | 2024-01-10 |\n| 4 | 2 | 3 | 60 | 2024-01-11 |\n| 5 | 3 | 4 | 100 | 2024-01-11 |\n| 6 | 1 | 3 | 45 | 2024-01-12 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe sklepu i laczna ilosc sprzedanych produktow z kategorii 'nabial'. Posortuj malejaco wg lacznej ilosci.",
+      "wskazowki": [
+        "**Kierunek**: Trzy tabele — potrzebujesz dwoch JOIN-ow.",
+        "**Podejscie**: Sklepy → Sprzedaz → Produkty, WHERE na kategorie, GROUP BY po sklepie.",
+        "**Kluczowy krok**: SUM(ilosc) sumuje ilosc tylko dla produktow z kategorii 'nabial' dzieki WHERE."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT S.nazwa, SUM(SP.ilosc) AS laczna_ilosc\nFROM Sklepy S\nJOIN Sprzedaz SP ON S.id_sklepu = SP.id_sklepu\nJOIN Produkty P ON SP.id_prod = P.id_prod\nWHERE P.kategoria = 'nabial'\nGROUP BY S.nazwa\nORDER BY laczna_ilosc DESC;\n```\n\n**Weryfikacja**:\n- Produkty nabial: Maslo (id=2), Mleko (id=3)\n- Biedronka: Maslo 30 + Mleko 45 = **75**\n- Lidl: Mleko 60 = **60**\n- Zabka: brak nabialu → nie pojawia sie\n\n| nazwa | laczna_ilosc |\n|-------|-------------|\n| Biedronka | 75 |\n| Lidl | 60 |\n\n**Wyjasnienie**: WHERE filtruje produkty PRZED grupowaniem. Zabka nie pojawia sie, bo nie sprzedala zadnego nabialu (INNER JOIN odrzuca niedopasowane wiersze).",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak JOIN z Produkty**: Bez trzeciej tabeli nie mozna filtrowac po kategorii",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**HAVING zamiast WHERE**: `HAVING P.kategoria = 'nabial'` — kategoria nie jest kolumna grupujaca ani agregacja",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "22.15",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Inspirowane matura 2021",
+      "tagi": [
+        "LEFT-JOIN",
+        "COUNT-z-LEFT-JOIN",
+        "GROUP-BY-z-JOIN",
+        "ORDER-BY-wielokolumnowy"
+      ],
+      "tresc": "Tabela **Produkty**:\n\n| id_prod | nazwa | cena |\n|---------|-------|------|\n| 1 | Laptop | 3500 |\n| 2 | Smartfon | 2500 |\n| 3 | Wiedzmin | 45 |\n| 4 | Pilka | 80 |\n| 5 | Monitor | 1200 |\n\nTabela **Opinie**:\n\n| id_op | id_prod | ocena | uzytkownik |\n|-------|---------|-------|------------|\n| 1 | 1 | 5 | Jan |\n| 2 | 1 | 4 | Anna |\n| 3 | 2 | 3 | Ewa |\n| 4 | 3 | 5 | Jan |\n| 5 | 4 | 4 | Piotr |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe produktu i liczbe opinii. Pokaz WSZYSTKIE produkty, nawet te bez opinii (dla nich liczba = 0). Posortuj malejaco wg liczby opinii, potem alfabetycznie wg nazwy.",
+      "wskazowki": [
+        "**Kierunek**: LEFT JOIN zachowuje produkty bez opinii.",
+        "**Podejscie**: LEFT JOIN Produkty z Opinie, GROUP BY produkt, COUNT kolumny z prawej tabeli.",
+        "**Kluczowy krok**: COUNT(O.id_op) zamiast COUNT(*) — dla produktow bez opinii COUNT(*) daje 1."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT P.nazwa, COUNT(O.id_op) AS liczba_opinii\nFROM Produkty P\nLEFT JOIN Opinie O ON P.id_prod = O.id_prod\nGROUP BY P.nazwa\nORDER BY liczba_opinii DESC, P.nazwa;\n```\n\n**Weryfikacja**:\n- Laptop (id=1): opinie 1, 2 → **2**\n- Smartfon (id=2): opinia 3 → **1**\n- Wiedzmin (id=3): opinia 4 → **1**\n- Pilka (id=4): opinia 5 → **1**\n- Monitor (id=5): brak opinii → **0**\n\n| nazwa | liczba_opinii |\n|-------|--------------|\n| Laptop | 2 |\n| Pilka | 1 |\n| Smartfon | 1 |\n| Wiedzmin | 1 |\n| Monitor | 0 |\n\n**Wyjasnienie**: LEFT JOIN + COUNT(kolumna z prawej) to kluczowy wzorzec. Sortowanie po 2 kolumnach: najpierw malejaco wg opinii, potem alfabetycznie w ramach tej samej liczby.",
+      "typowe_bledy": [
+        {
+          "opis": "**COUNT(*)**: Monitor bez opinii daje 1 zamiast 0",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**INNER JOIN**: Monitor nie pojawi sie w wyniku",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "22.16",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Inspirowane matura 2019",
+      "tagi": [
+        "self-JOIN",
+        "aliasy-tabel",
+        "WHERE-z-JOIN"
+      ],
+      "tresc": "Tabela **Pracownicy**:\n\n| id | imie | nazwisko | id_szefa | dzial |\n|----|------|----------|----------|-------|\n| 1 | Anna | Kowalska | NULL | IT |\n| 2 | Jan | Nowak | 1 | IT |\n| 3 | Ewa | Maj | 1 | HR |\n| 4 | Piotr | Lis | 2 | IT |\n| 5 | Kasia | Zak | 3 | HR |\n| 6 | Tomek | Bak | 2 | IT |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko kazdego pracownika z dzialu 'IT' oraz imie jego szefa. Pokaz tylko pracownikow, ktorzy MAJA szefa (Anna nie ma). Uzyj self-JOIN.",
+      "wskazowki": [
+        "**Kierunek**: Tabela odwoluje sie sama do siebie — potrzebujesz self-JOIN.",
+        "**Podejscie**: JOIN Pracownicy P z Pracownicy S (szef), ROZNE aliasy.",
+        "**Kluczowy krok**: `JOIN Pracownicy S ON P.id_szefa = S.id` + `WHERE P.dzial = 'IT'`."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT P.imie, P.nazwisko, S.imie AS imie_szefa\nFROM Pracownicy P\nJOIN Pracownicy S ON P.id_szefa = S.id\nWHERE P.dzial = 'IT';\n```\n\n**Weryfikacja**:\n- Pracownicy IT: Anna (1, szef=NULL), Jan (2, szef=1), Piotr (4, szef=2), Tomek (6, szef=2)\n- INNER JOIN pomija Anna (NULL) → 3 wyniki\n\n| imie | nazwisko | imie_szefa |\n|------|----------|------------|\n| Jan | Nowak | Anna |\n| Piotr | Lis | Jan |\n| Tomek | Bak | Jan |\n\n**Wyjasnienie**: Self-JOIN laczy tabele z sama soba. P to pracownik, S to jego szef. INNER JOIN automatycznie wyklucza wiersze z id_szefa = NULL (Anna).",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak aliasow**: Bez P i S nie mozna odroznic kolumn pracownika od szefa",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Odwrotny warunek ON**: `ON P.id = S.id_szefa` — zamiast szefa, dostajemy podwladnych",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "22.17",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "zrodlo": "Inspirowane matura 2023",
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "GROUP-BY-z-JOIN",
+        "DISTINCT"
+      ],
+      "tresc": "Tabela **Gatunki**:\n\n| id_gatunku | nazwa |\n|------------|-------|\n| 1 | Akcja |\n| 2 | Komedia |\n| 3 | Horror |\n| 4 | Dramat |\n\nTabela **Filmy**:\n\n| id_filmu | tytul | id_gatunku | rok |\n|----------|-------|------------|-----|\n| 1 | Film A | 1 | 2020 |\n| 2 | Film B | 1 | 2021 |\n| 3 | Film C | 2 | 2022 |\n| 4 | Film D | 3 | 2020 |\n| 5 | Film E | 2 | 2023 |\n| 6 | Film F | 1 | 2022 |\n\nTabela **Oceny**:\n\n| id | id_filmu | ocena | uzytkownik |\n|----|----------|-------|------------|\n| 1 | 1 | 8 | Jan |\n| 2 | 1 | 7 | Anna |\n| 3 | 2 | 9 | Ewa |\n| 4 | 3 | 6 | Jan |\n| 5 | 4 | 5 | Anna |\n| 6 | 5 | 7 | Ewa |\n| 7 | 6 | 8 | Jan |\n| 8 | 2 | 8 | Piotr |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe gatunku, liczbe ocenionych filmow (COUNT DISTINCT) i srednia ocene (zaokraglona do 1 miejsca). Pokaz tylko gatunki z wiecej niz 1 ocenionym filmem. Posortuj malejaco wg sredniej.",
+      "wskazowki": [
+        "**Kierunek**: Trzy tabele laczone dwoma JOIN-ami, GROUP BY gatunek, HAVING na COUNT.",
+        "**Podejscie**: Gatunki → Filmy → Oceny, GROUP BY gatunek, HAVING COUNT(DISTINCT) > 1.",
+        "**Kluczowy krok**: COUNT(DISTINCT F.id_filmu) liczy unikalne filmy, nie unikalne oceny."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT G.nazwa, COUNT(DISTINCT F.id_filmu) AS liczba_filmow,\n       ROUND(AVG(O.ocena), 1) AS srednia\nFROM Gatunki G\nJOIN Filmy F ON G.id_gatunku = F.id_gatunku\nJOIN Oceny O ON F.id_filmu = O.id_filmu\nGROUP BY G.nazwa\nHAVING COUNT(DISTINCT F.id_filmu) > 1\nORDER BY srednia DESC;\n```\n\n**Weryfikacja**:\n\nAkcja (filmy 1,2,6): oceny 8,7,9,8,8 → 3 filmy, AVG=40/5=**8.0** (>1 ✓)\nKomedia (filmy 3,5): oceny 6,7 → 2 filmy, AVG=13/2=**6.5** (>1 ✓)\nHorror (film 4): ocena 5 → 1 film (>1 ✗)\nDramat: brak filmow z ocenami\n\n| nazwa | liczba_filmow | srednia |\n|-------|---------------|--------|\n| Akcja | 3 | 8.0 |\n| Komedia | 2 | 6.5 |\n\n**Wyjasnienie**: COUNT(DISTINCT F.id_filmu) liczy unikalne filmy (Film B z 2 ocenami = 1 film, nie 2). HAVING filtruje grupy PO agregacji.",
+      "typowe_bledy": [
+        {
+          "opis": "**COUNT(*) zamiast COUNT(DISTINCT)**: Film B (id=2) ma 2 oceny — COUNT(*) daje 5 zamiast 3 dla Akcji",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**WHERE COUNT(...) > 1**: Funkcje agregujace nie dzialaja w WHERE — trzeba HAVING",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "22.18",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "zrodlo": "Inspirowane matura 2025",
+      "tagi": [
+        "LEFT-JOIN",
+        "COUNT-z-LEFT-JOIN",
+        "GROUP-BY-z-JOIN",
+        "DISTINCT"
+      ],
+      "tresc": "Tabela **Dzialy**:\n\n| id_dzialu | nazwa |\n|-----------|-------|\n| 1 | IT |\n| 2 | HR |\n| 3 | Finanse |\n| 4 | Marketing |\n\nTabela **Pracownicy**:\n\n| id | imie | nazwisko | id_dzialu |\n|----|------|----------|----------|\n| 1 | Anna | Kowalska | 1 |\n| 2 | Jan | Nowak | 1 |\n| 3 | Ewa | Maj | 2 |\n| 4 | Piotr | Lis | 3 |\n\nTabela **Projekty**:\n\n| id_proj | nazwa | id_pracownika | budzet |\n|---------|-------|---------------|--------|\n| 1 | Aplikacja | 1 | 50000 |\n| 2 | Strona www | 2 | 30000 |\n| 3 | Raport | 4 | 15000 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe dzialu i liczbe unikalnych projektow, w ktore zaangazowani sa pracownicy tego dzialu. Pokaz WSZYSTKIE dzialy (0 dla dzialow bez projektow). Posortuj malejaco wg liczby projektow.",
+      "wskazowki": [
+        "**Kierunek**: Trzy tabele, dwa LEFT JOIN aby zachowac puste dzialy.",
+        "**Podejscie**: Dzialy LEFT JOIN Pracownicy LEFT JOIN Projekty, GROUP BY dzial.",
+        "**Kluczowy krok**: COUNT(DISTINCT PR.id_proj) liczy unikalne projekty — COUNT(PR.id_proj) tez zadziala tu, ale DISTINCT jest bezpieczniejszy."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT D.nazwa, COUNT(DISTINCT PR.id_proj) AS liczba_projektow\nFROM Dzialy D\nLEFT JOIN Pracownicy P ON D.id_dzialu = P.id_dzialu\nLEFT JOIN Projekty PR ON P.id = PR.id_pracownika\nGROUP BY D.nazwa\nORDER BY liczba_projektow DESC;\n```\n\n**Weryfikacja**:\n- IT: Anna → Aplikacja (1), Jan → Strona www (2) → **2**\n- HR: Ewa → brak projektow → **0**\n- Finanse: Piotr → Raport (3) → **1**\n- Marketing: brak pracownikow → **0**\n\n| nazwa | liczba_projektow |\n|-------|-----------------|\n| IT | 2 |\n| Finanse | 1 |\n| HR | 0 |\n| Marketing | 0 |\n\n**Wyjasnienie**: Dwa LEFT JOIN-y zapewniaja, ze dzialy bez pracownikow i pracownicy bez projektow tez sie pojawia. COUNT(DISTINCT) pomija NULL, wiec puste grupy daja 0.",
+      "typowe_bledy": [
+        {
+          "opis": "**INNER JOIN**: HR i Marketing nie pojawia sie (HR nie ma projektow, Marketing nie ma pracownikow)",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Tylko jeden LEFT JOIN**: `LEFT JOIN Pracownicy ... JOIN Projekty` — INNER JOIN na Projekty odrzuca pracownikow bez projektow",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "22.19",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Inspirowane matura 2017",
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "WHERE-z-JOIN",
+        "GROUP-BY-z-JOIN"
+      ],
+      "tresc": "Tabela **Miasta**:\n\n| id_miasta | nazwa | kraj |\n|-----------|-------|------|\n| 1 | Warszawa | Polska |\n| 2 | Krakow | Polska |\n| 3 | Berlin | Niemcy |\n\nTabela **Stadiony**:\n\n| id_stadionu | nazwa | id_miasta | pojemnosc |\n|-------------|-------|-----------|-----------|\n| 1 | Narodowy | 1 | 58000 |\n| 2 | Wisla | 2 | 33000 |\n| 3 | Olympia | 3 | 74000 |\n\nTabela **Druzyny**:\n\n| id_druzyny | nazwa | liga |\n|------------|-------|------|\n| 1 | Legia | ekstraklasa |\n| 2 | Cracovia | ekstraklasa |\n| 3 | Hertha | bundesliga |\n| 4 | Rakow | ekstraklasa |\n\nTabela **Mecze**:\n\n| id_meczu | id_druzyny | id_stadionu | data | bramki |\n|----------|------------|-------------|------|--------|\n| 1 | 1 | 1 | 2024-03-10 | 2 |\n| 2 | 2 | 2 | 2024-03-10 | 1 |\n| 3 | 3 | 3 | 2024-03-11 | 3 |\n| 4 | 1 | 1 | 2024-03-17 | 0 |\n| 5 | 2 | 2 | 2024-03-17 | 2 |\n| 6 | 4 | 1 | 2024-03-24 | 1 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe druzyny, nazwe miasta (w ktorym rozegrala mecz) i laczna liczbe bramek strzelonych na danym stadionie. Pokaz tylko druzyny z ligi 'ekstraklasa'. Posortuj malejaco wg lacznej liczby bramek.",
+      "wskazowki": [
+        "**Kierunek**: Cztery tabele — potrzebujesz trzech JOIN-ow tworzacych lancuch.",
+        "**Podejscie**: Druzyny → Mecze → Stadiony → Miasta, WHERE na lige, GROUP BY druzyna+miasto.",
+        "**Kluczowy krok**: GROUP BY po dwoch kolumnach: D.nazwa i MI.nazwa — bo ta sama druzyna moze grac w roznych miastach."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT D.nazwa AS druzyna, MI.nazwa AS miasto,\n       SUM(ME.bramki) AS bramki_lacznie\nFROM Druzyny D\nJOIN Mecze ME ON D.id_druzyny = ME.id_druzyny\nJOIN Stadiony S ON ME.id_stadionu = S.id_stadionu\nJOIN Miasta MI ON S.id_miasta = MI.id_miasta\nWHERE D.liga = 'ekstraklasa'\nGROUP BY D.nazwa, MI.nazwa\nORDER BY bramki_lacznie DESC;\n```\n\n**Weryfikacja**:\n\nEkstraklasa:\n- Legia, Narodowy (Warszawa): mecz 1 (2) + mecz 4 (0) = **2**\n- Cracovia, Wisla (Krakow): mecz 2 (1) + mecz 5 (2) = **3**\n- Rakow, Narodowy (Warszawa): mecz 6 (1) = **1**\n\n| druzyna | miasto | bramki_lacznie |\n|---------|--------|---------------|\n| Cracovia | Krakow | 3 |\n| Legia | Warszawa | 2 |\n| Rakow | Warszawa | 1 |\n\n**Wyjasnienie**: 4-table JOIN tworzy lancuch: Druzyny → Mecze → Stadiony → Miasta. GROUP BY po druzyna+miasto pozwala zliczac bramki per lokalizacja. Hertha (bundesliga) jest odfiltrowana przez WHERE.",
+      "typowe_bledy": [
+        {
+          "opis": "**Bledna kolejnosc JOIN-ow**: Proba polaczenia Druzyny z Miasta bezposrednio — brak wspolnej kolumny",
+          "kara": "-3 pkt"
+        },
+        {
+          "opis": "**Brak GROUP BY po miescie**: Legia i Rakow grajace w Warszawie zostana zlaczone w jedna grupe",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak WHERE na lige**: Hertha (bundesliga) tez pojawi sie w wyniku",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "22.20",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Inspirowane matura 2024",
+      "tagi": [
+        "self-JOIN",
+        "aliasy-tabel",
+        "GROUP-BY-z-JOIN"
+      ],
+      "tresc": "Tabela **Pracownicy**:\n\n| id | imie | nazwisko | id_kierownika | stanowisko | pensja |\n|----|------|----------|---------------|------------|--------|\n| 1 | Anna | Kowalska | NULL | dyrektor | 15000 |\n| 2 | Jan | Nowak | 1 | kierownik | 10000 |\n| 3 | Ewa | Maj | 1 | kierownik | 11000 |\n| 4 | Piotr | Lis | 2 | specjalista | 7000 |\n| 5 | Kasia | Zak | 2 | specjalista | 7500 |\n| 6 | Tomek | Bak | 3 | specjalista | 8000 |\n| 7 | Ola | Wrobel | 3 | stazystka | 4500 |\n| 8 | Marek | Krol | 3 | specjalista | 6500 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko kazdego kierownika oraz liczbe jego bezposrednich podwladnych i srednia pensje podwladnych (zaokraglona do 0 miejsc po przecinku). Pokaz tylko kierownikow (stanowisko = 'kierownik'). Posortuj malejaco wg liczby podwladnych.",
+      "wskazowki": [
+        "**Kierunek**: Self-JOIN — tabela odwoluje sie sama do siebie.",
+        "**Podejscie**: JOIN Pracownicy P (podwladni) z Pracownicy K (kierownicy), GROUP BY kierownik.",
+        "**Kluczowy krok**: `ON P.id_kierownika = K.id WHERE K.stanowisko = 'kierownik'` — K to kierownik, P to jego podwladny."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.imie, K.nazwisko,\n       COUNT(P.id) AS liczba_podwladnych,\n       ROUND(AVG(P.pensja), 0) AS srednia_pensja\nFROM Pracownicy P\nJOIN Pracownicy K ON P.id_kierownika = K.id\nWHERE K.stanowisko = 'kierownik'\nGROUP BY K.id, K.imie, K.nazwisko\nORDER BY liczba_podwladnych DESC;\n```\n\n**Weryfikacja**:\n\nPodwladni kierownikow:\n- Jan Nowak (id=2): Piotr (7000), Kasia (7500) → 2 osoby, AVG=7250.0\n- Ewa Maj (id=3): Tomek (8000), Ola (4500), Marek (6500) → 3 osoby, AVG=6333.33→6333.0\n\n| imie | nazwisko | liczba_podwladnych | srednia_pensja |\n|------|----------|--------------------|---------------|\n| Ewa | Maj | 3 | 6333.0 |\n| Jan | Nowak | 2 | 7250.0 |\n\n**Wyjasnienie**: Self-JOIN z GROUP BY liczy podwladnych per kierownik. P to podwladni, K to kierownicy. WHERE filtruje tylko kierownikow (nie dyrektora). ROUND(..., 0) zaokragla do 0 miejsc.",
+      "typowe_bledy": [
+        {
+          "opis": "**Odwrotny warunek ON**: `ON P.id = K.id_kierownika` — zamiast podwladnych kierownika, dostajemy kierownikow podwladnego",
+          "kara": "-3 pkt"
+        },
+        {
+          "opis": "**Brak WHERE na stanowisko**: Dyrektor (Anna) tez bylby w wyniku z podwladnymi Jan i Ewa",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**COUNT(*)**: Tu dziala tak samo jak COUNT(P.id), bo INNER JOIN nie daje NULL — ale nawyk COUNT(kolumna) jest bezpieczniejszy",
+          "kara": ""
         }
       ]
     }

@@ -3,7 +3,7 @@
   "nazwa": "SQL — Podzapytania (subqueries)",
   "kategoria": "SQL",
   "czestotliwosc": "7/11 lat",
-  "punkty_lacznie": 35,
+  "punkty_lacznie": 71,
   "tagi_globalne": [
     "AVG",
     "COUNT-DISTINCT",
@@ -324,6 +324,295 @@
         {
           "opis": "**Brak filtra na data_zwrotu w zapytaniu glownym**: Policzyloby wszystkie wypozyczenia (zakonczenia i niezakonczone)",
           "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "21.11",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Inspirowane matura 2023",
+      "tagi": [
+        "podzapytanie-skalarne",
+        "AVG",
+        "podzapytanie-w-WHERE"
+      ],
+      "tresc": "Tabela **Owoce**:\n\n| id | nazwa | kategoria | cena_za_kg | kalorie |\n|----|-------|-----------|------------|--------|\n| 1 | Jablko | krajowe | 4.50 | 52 |\n| 2 | Banan | tropikalne | 5.90 | 89 |\n| 3 | Truskawka | krajowe | 12.00 | 33 |\n| 4 | Mango | tropikalne | 18.50 | 60 |\n| 5 | Gruszka | krajowe | 5.00 | 57 |\n| 6 | Ananas | tropikalne | 8.00 | 50 |\n| 7 | Malina | krajowe | 25.00 | 52 |\n| 8 | Kiwi | tropikalne | 9.50 | 61 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe i cene za kg owocow tanszych niz srednia cena wszystkich owocow.",
+      "wskazowki": [
+        "**Kierunek**: Nie mozesz uzyc AVG bezposrednio w WHERE — potrzebujesz podzapytania.",
+        "**Podejscie**: Podzapytanie `(SELECT AVG(cena_za_kg) FROM Owoce)` zwraca jedna wartosc.",
+        "**Kluczowy krok**: `WHERE cena_za_kg < (SELECT AVG(cena_za_kg) FROM Owoce)` porownuje kazdy owoc ze srednia."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, cena_za_kg\nFROM Owoce\nWHERE cena_za_kg < (SELECT AVG(cena_za_kg) FROM Owoce);\n```\n\n**Weryfikacja**:\n- Srednia cena: (4.50+5.90+12.00+18.50+5.00+8.00+25.00+9.50)/8 = 88.40/8 = **11.05**\n- Owoce tansze niz 11.05: Jablko (4.50), Banan (5.90), Gruszka (5.00), Ananas (8.00), Kiwi (9.50)\n\n| nazwa | cena_za_kg |\n|-------|------------|\n| Jablko | 4.5 |\n| Banan | 5.9 |\n| Gruszka | 5.0 |\n| Ananas | 8.0 |\n| Kiwi | 9.5 |",
+      "typowe_bledy": [
+        {
+          "opis": "**AVG w WHERE**: `WHERE cena_za_kg < AVG(cena_za_kg)` — blad skladni, funkcje agregujace nie dzialaja w WHERE",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**`>` zamiast `<`**: Odwrotny wynik — owoce drozsze zamiast tanszych",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "21.12",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "zrodlo": "Inspirowane matura 2017",
+      "tagi": [
+        "NOT-IN",
+        "podzapytanie-w-WHERE"
+      ],
+      "tresc": "Tabela **Druzyny**:\n\n| id_druzyny | nazwa | miasto |\n|------------|-------|--------|\n| 1 | Orly | Warszawa |\n| 2 | Wilki | Krakow |\n| 3 | Lwy | Gdansk |\n| 4 | Rysie | Poznan |\n\nTabela **Mecze**:\n\n| id_meczu | id_druzyny | przeciwnik | wynik |\n|----------|------------|------------|-------|\n| 1 | 1 | Tygrysy | wygrana |\n| 2 | 2 | Jaguary | przegrana |\n| 3 | 1 | Pantery | wygrana |\n| 4 | 3 | Tygrysy | remis |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwy druzyn, ktore NIE rozegraly zadnego meczu.",
+      "wskazowki": [
+        "**Kierunek**: Szukasz druzyn, ktorych id NIE wystepuje w tabeli Mecze.",
+        "**Podejscie**: Podzapytanie zwraca zbior id_druzyny z Mecze, a NOT IN wyklucza je.",
+        "**Kluczowy krok**: `WHERE id_druzyny NOT IN (SELECT id_druzyny FROM Mecze)`."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa\nFROM Druzyny\nWHERE id_druzyny NOT IN (SELECT id_druzyny FROM Mecze);\n```\n\n**Weryfikacja**:\n- Druzyny z meczami (id_druzyny w Mecze): 1, 2, 3\n- Druzyny bez meczy: id=4 (Rysie)\n\n| nazwa |\n|-------|\n| Rysie |\n\n**Wyjasnienie**: NOT IN sprawdza, czy id_druzyny NIE nalezy do zbioru zwroconego przez podzapytanie. Alternatywa: LEFT JOIN + IS NULL.",
+      "typowe_bledy": [
+        {
+          "opis": "**IN zamiast NOT IN**: Daje druzyny Z meczami — odwrotnosc oczekiwanego wyniku",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Brak nawiasow wokol podzapytania**: Podzapytanie musi byc w nawiasach",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "21.13",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Inspirowane matura 2022",
+      "tagi": [
+        "IN",
+        "podzapytanie-w-WHERE"
+      ],
+      "tresc": "Tabela **Studenci**:\n\n| id | imie | nazwisko | kierunek |\n|----|------|----------|----------|\n| 1 | Anna | Kowalska | informatyka |\n| 2 | Jan | Nowak | matematyka |\n| 3 | Ewa | Maj | informatyka |\n| 4 | Piotr | Lis | fizyka |\n| 5 | Kasia | Zak | matematyka |\n| 6 | Tomek | Bak | informatyka |\n\nTabela **Egzaminy**:\n\n| id | id_studenta | przedmiot | ocena |\n|----|-------------|-----------|-------|\n| 1 | 1 | Algorytmy | 5 |\n| 2 | 1 | Bazy danych | 4 |\n| 3 | 2 | Analiza | 3 |\n| 4 | 3 | Algorytmy | 5 |\n| 5 | 3 | Bazy danych | 5 |\n| 6 | 4 | Mechanika | 4 |\n| 7 | 5 | Analiza | 5 |\n| 8 | 6 | Algorytmy | 3 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imiona i nazwiska studentow z kierunku 'informatyka', ktorzy uzyskali ocene 5 z przedmiotu 'Algorytmy'. Uzyj podzapytania z IN.",
+      "wskazowki": [
+        "**Kierunek**: Dwa warunki: kierunek w zapytaniu glownym, ocena i przedmiot w podzapytaniu.",
+        "**Podejscie**: Podzapytanie zwraca id studentow z piatkq z Algorytmow. WHERE kierunek + IN.",
+        "**Kluczowy krok**: `WHERE kierunek = 'informatyka' AND id IN (SELECT id_studenta FROM Egzaminy WHERE ...)`."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko\nFROM Studenci\nWHERE kierunek = 'informatyka'\n  AND id IN (SELECT id_studenta FROM Egzaminy WHERE przedmiot = 'Algorytmy' AND ocena = 5);\n```\n\n**Weryfikacja**:\n- Studenci informatyki: Anna (1), Ewa (3), Tomek (6)\n- Studenci z 5 z Algorytmow: Anna (1), Ewa (3)\n- Czesc wspolna: Anna (1), Ewa (3)\n\n| imie | nazwisko |\n|------|----------|\n| Anna | Kowalska |\n| Ewa | Maj |\n\n**Wyjasnienie**: Laczenie warunku na kierunek (WHERE) z podzapytaniem (IN) pozwala filtrowac po danych z dwoch tabel bez uzycia JOIN.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak filtra na przedmiot w podzapytaniu**: `SELECT id_studenta FROM Egzaminy WHERE ocena = 5` — daje tez studentow z piatka z innych przedmiotow",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**OR zamiast AND**: `WHERE kierunek = 'informatyka' OR id IN (...)` — daje wszystkich informatykow PLUS studentow z piatka z innych kierunkow",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "21.14",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "zrodlo": "Inspirowane matura 2024",
+      "tagi": [
+        "podzapytanie-skalarne",
+        "MAX",
+        "podzapytanie-w-WHERE"
+      ],
+      "tresc": "Tabela **Samochody**:\n\n| id | marka | model | rok | cena |\n|----|-------|-------|-----|------|\n| 1 | Toyota | Corolla | 2020 | 85000 |\n| 2 | Fiat | 500 | 2019 | 45000 |\n| 3 | BMW | 320i | 2021 | 150000 |\n| 4 | Fiat | Tipo | 2020 | 62000 |\n| 5 | Audi | A3 | 2022 | 130000 |\n| 6 | Toyota | Yaris | 2021 | 65000 |\n| 7 | Fiat | Panda | 2018 | 35000 |\n| 8 | Volkswagen | Golf | 2020 | 95000 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli marke, model i cene samochodow drozszych niz najdrozszy samochod marki 'Fiat'.",
+      "wskazowki": [
+        "**Kierunek**: Podzapytanie z MAX ograniczone do jednej marki.",
+        "**Podejscie**: `(SELECT MAX(cena) FROM Samochody WHERE marka = 'Fiat')` daje najwyzsza cene Fiata.",
+        "**Kluczowy krok**: Porownaj cene kazdego samochodu z tym wynikiem: `WHERE cena > (SELECT ...)`."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT marka, model, cena\nFROM Samochody\nWHERE cena > (SELECT MAX(cena) FROM Samochody WHERE marka = 'Fiat');\n```\n\n**Weryfikacja**:\n- MAX cena Fiatow: max(45000, 62000, 35000) = **62000**\n- Samochody z cena > 62000:\n  - Toyota Corolla (85000 ✓)\n  - BMW 320i (150000 ✓)\n  - Audi A3 (130000 ✓)\n  - Toyota Yaris (65000 ✓)\n  - VW Golf (95000 ✓)\n\n| marka | model | cena |\n|-------|-------|------|\n| Toyota | Corolla | 85000 |\n| BMW | 320i | 150000 |\n| Audi | A3 | 130000 |\n| Toyota | Yaris | 65000 |\n| Volkswagen | Golf | 95000 |",
+      "typowe_bledy": [
+        {
+          "opis": "**MAX bez WHERE**: `(SELECT MAX(cena) FROM Samochody)` daje MAX ze wszystkich marek (150000) — wynik bylby pusty",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**`>=` zamiast `>`**: Fiat Tipo (62000) tez bylby w wyniku, choc nie jest drozszy",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "21.15",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Inspirowane matura 2019",
+      "tagi": [
+        "EXISTS",
+        "korelacja-podzapytan",
+        "podzapytanie-w-WHERE"
+      ],
+      "tresc": "Tabela **Lekarze**:\n\n| id | imie | nazwisko | specjalizacja |\n|----|------|----------|---------------|\n| 1 | Jan | Kowalski | kardiolog |\n| 2 | Anna | Nowak | ortopeda |\n| 3 | Piotr | Maj | kardiolog |\n| 4 | Ewa | Lis | neurolog |\n| 5 | Kasia | Zak | ortopeda |\n\nTabela **Wizyty**:\n\n| id | id_lekarza | pacjent | data | koszt |\n|----|------------|---------|------|-------|\n| 1 | 1 | Tomek | 2024-01-10 | 200 |\n| 2 | 1 | Anna | 2024-01-15 | 250 |\n| 3 | 2 | Marek | 2024-02-01 | 180 |\n| 4 | 3 | Kasia | 2024-02-10 | 300 |\n| 5 | 1 | Piotr | 2024-03-01 | 200 |\n| 6 | 5 | Ewa | 2024-03-05 | 150 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imiona i nazwiska lekarzy, dla ktorych istnieje przynajmniej jedna wizyta o koszcie powyzej 200 zl. Uzyj EXISTS.",
+      "wskazowki": [
+        "**Kierunek**: EXISTS sprawdza, czy podzapytanie zwraca chociaz jeden wiersz.",
+        "**Podejscie**: `WHERE EXISTS (SELECT 1 FROM Wizyty WHERE ...)` z warunkiem na koszt i polaczeniem z lekarzem.",
+        "**Kluczowy krok**: Podzapytanie musi odwolywac sie do zapytania zewnetrznego: `W.id_lekarza = L.id`."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT L.imie, L.nazwisko\nFROM Lekarze L\nWHERE EXISTS (\n  SELECT 1 FROM Wizyty W\n  WHERE W.id_lekarza = L.id AND W.koszt > 200\n);\n```\n\n**Weryfikacja**:\n- Wizyty z kosztem > 200: id=2 (lekarza 1, 250), id=4 (lekarza 3, 300)\n- Lekarze z takimi wizytami: Jan Kowalski (id=1), Piotr Maj (id=3)\n\n| imie | nazwisko |\n|------|----------|\n| Jan | Kowalski |\n| Piotr | Maj |\n\n**Wyjasnienie**: EXISTS jest alternatywa dla IN — sprawdza, czy podzapytanie zwraca niepusty zbior. Jest podzapytaniem skorelowanym, bo odwoluje sie do `L.id` z zapytania zewnetrznego.",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak korelacji**: `EXISTS (SELECT 1 FROM Wizyty WHERE koszt > 200)` bez `W.id_lekarza = L.id` — zwraca TRUE dla wszystkich lekarzy",
+          "kara": "-3 pkt"
+        },
+        {
+          "opis": "**SELECT * zamiast SELECT 1**: Dziala poprawnie, ale SELECT 1 jest konwencja — EXISTS sprawdza tylko istnienie, nie wartosc",
+          "kara": ""
+        }
+      ]
+    },
+    {
+      "id": "21.16",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "zrodlo": "Inspirowane matura 2023",
+      "tagi": [
+        "podzapytanie-w-HAVING",
+        "AVG",
+        "podzapytanie-skalarne"
+      ],
+      "tresc": "Tabela **Sklepy**:\n\n| id_sklepu | nazwa | miasto |\n|-----------|-------|--------|\n| 1 | MediaMarkt | Warszawa |\n| 2 | Saturn | Krakow |\n| 3 | Euro RTV | Warszawa |\n| 4 | Komputronik | Gdansk |\n\nTabela **Sprzedaz**:\n\n| id | id_sklepu | produkt | kwota | data |\n|----|-----------|---------|-------|------|\n| 1 | 1 | Laptop | 3500 | 2024-01-10 |\n| 2 | 1 | Telefon | 2500 | 2024-01-15 |\n| 3 | 2 | Laptop | 3200 | 2024-02-01 |\n| 4 | 2 | Tablet | 1800 | 2024-02-10 |\n| 5 | 3 | Telefon | 2800 | 2024-03-01 |\n| 6 | 3 | Laptop | 4000 | 2024-03-05 |\n| 7 | 3 | Tablet | 1500 | 2024-03-10 |\n| 8 | 4 | Telefon | 2200 | 2024-03-15 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwy sklepow, ktorych laczna kwota sprzedazy jest wyzsza niz srednia laczna kwota sprzedazy na sklep. Dla kazdego takiego sklepu podaj laczna kwote.",
+      "wskazowki": [
+        "**Kierunek**: GROUP BY po sklepie, HAVING z podzapytaniem obliczajacym srednia sum.",
+        "**Podejscie**: Podzapytanie w HAVING musi obliczyc srednia z lacznych kwot per sklep — wymaga zagniezdzonego podzapytania.",
+        "**Kluczowy krok**: `HAVING SUM(kwota) > (SELECT AVG(suma) FROM (SELECT SUM(kwota) AS suma FROM Sprzedaz GROUP BY id_sklepu))`."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT S.nazwa, SUM(SP.kwota) AS laczna_kwota\nFROM Sklepy S\nJOIN Sprzedaz SP ON S.id_sklepu = SP.id_sklepu\nGROUP BY S.id_sklepu, S.nazwa\nHAVING SUM(SP.kwota) > (\n  SELECT AVG(suma) FROM (\n    SELECT SUM(kwota) AS suma\n    FROM Sprzedaz\n    GROUP BY id_sklepu\n  )\n);\n```\n\n**Weryfikacja**:\n\nLaczna sprzedaz per sklep:\n- MediaMarkt: 3500+2500 = **6000**\n- Saturn: 3200+1800 = **5000**\n- Euro RTV: 2800+4000+1500 = **8300**\n- Komputronik: **2200**\n\nSrednia laczna: (6000+5000+8300+2200)/4 = 21500/4 = **5375**\n\nSklepy z laczna > 5375: MediaMarkt (6000), Euro RTV (8300)\n\n| nazwa | laczna_kwota |\n|-------|--------------|\n| MediaMarkt | 6000 |\n| Euro RTV | 8300 |\n\n**Wyjasnienie**: Zagniezdzone podzapytanie najpierw oblicza SUM per sklep, potem AVG z tych sum. To jeden z najtrudniejszych wzorcow — wymaga podzapytania w podzapytaniu.",
+      "typowe_bledy": [
+        {
+          "opis": "**AVG(SUM(kwota))**: Nie mozna zagniezdzyc funkcji agregujacych bezposrednio — to blad skladni",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**AVG(kwota) zamiast AVG sum**: Srednia pojedynczych transakcji (2687.5) to nie to samo co srednia lacznych kwot per sklep (5375)",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "21.17",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "zrodlo": "Inspirowane matura 2025",
+      "tagi": [
+        "korelacja-podzapytan",
+        "podzapytanie-skalarne",
+        "AVG",
+        "podzapytanie-w-WHERE"
+      ],
+      "tresc": "Tabela **Nauczyciele**:\n\n| id | imie | nazwisko | przedmiot | staz_lat |\n|----|------|----------|-----------|----------|\n| 1 | Anna | Kowalska | matematyka | 15 |\n| 2 | Jan | Nowak | fizyka | 8 |\n| 3 | Ewa | Maj | matematyka | 20 |\n| 4 | Piotr | Lis | chemia | 5 |\n| 5 | Kasia | Zak | fizyka | 12 |\n| 6 | Tomek | Bak | chemia | 3 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko, przedmiot i staz nauczycieli, ktorych staz jest dluzszy niz sredni staz nauczycieli uczacych TEGO SAMEGO przedmiotu. Uzyj podzapytania skorelowanego.",
+      "wskazowki": [
+        "**Kierunek**: Podzapytanie musi odwolywac sie do przedmiotu z zapytania zewnetrznego.",
+        "**Podejscie**: `WHERE N.staz_lat > (SELECT AVG(N2.staz_lat) FROM Nauczyciele N2 WHERE N2.przedmiot = N.przedmiot)`.",
+        "**Kluczowy krok**: Alias N2 w podzapytaniu musi byc INNY niz N w zapytaniu glownym."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT N.imie, N.nazwisko, N.przedmiot, N.staz_lat\nFROM Nauczyciele N\nWHERE N.staz_lat > (\n  SELECT AVG(N2.staz_lat)\n  FROM Nauczyciele N2\n  WHERE N2.przedmiot = N.przedmiot\n);\n```\n\n**Weryfikacja**:\n\nSredni staz per przedmiot:\n- matematyka: (15+20)/2 = **17.5**\n- fizyka: (8+12)/2 = **10.0**\n- chemia: (5+3)/2 = **4.0**\n\nPorownanie:\n- Anna: 15 > 17.5? ✗\n- Jan: 8 > 10.0? ✗\n- Ewa: 20 > 17.5? ✓\n- Piotr: 5 > 4.0? ✓\n- Kasia: 12 > 10.0? ✓\n- Tomek: 3 > 4.0? ✗\n\n| imie | nazwisko | przedmiot | staz_lat |\n|------|----------|-----------|----------|\n| Ewa | Maj | matematyka | 20 |\n| Piotr | Lis | chemia | 5 |\n| Kasia | Zak | fizyka | 12 |\n\n**Wyjasnienie**: Podzapytanie skorelowane jest wykonywane dla KAZDEGO wiersza z zapytania zewnetrznego. `N2.przedmiot = N.przedmiot` powoduje, ze srednia jest obliczana osobno per przedmiot.",
+      "typowe_bledy": [
+        {
+          "opis": "**Nieskorelowane podzapytanie**: `(SELECT AVG(staz_lat) FROM Nauczyciele)` daje srednia globalna (10.5) zamiast per przedmiot",
+          "kara": "-3 pkt"
+        },
+        {
+          "opis": "**Ten sam alias**: `N` w obu zapytaniach — niejednoznacznosc i potencjalny blad",
+          "kara": "-1 pkt"
+        }
+      ]
+    },
+    {
+      "id": "21.18",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "zrodlo": "Inspirowane matura 2021",
+      "tagi": [
+        "korelacja-podzapytan",
+        "MAX",
+        "podzapytanie-w-WHERE"
+      ],
+      "tresc": "Tabela **Wydzialy**:\n\n| id_wydzialu | nazwa |\n|-------------|-------|\n| 1 | Informatyka |\n| 2 | Matematyka |\n| 3 | Fizyka |\n\nTabela **Pracownicy**:\n\n| id | imie | nazwisko | id_wydzialu | pensja |\n|----|------|----------|-------------|--------|\n| 1 | Anna | Kowalska | 1 | 8000 |\n| 2 | Jan | Nowak | 1 | 9500 |\n| 3 | Ewa | Maj | 2 | 7000 |\n| 4 | Piotr | Lis | 2 | 6500 |\n| 5 | Kasia | Zak | 3 | 7500 |\n| 6 | Tomek | Bak | 1 | 11000 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko i pensje pracownikow, ktorych pensja jest najwyzsza na ich wydziale (rowna MAX na wydziale). Uzyj podzapytania skorelowanego.",
+      "wskazowki": [
+        "**Kierunek**: Podzapytanie musi odwolywac sie do wydzialu z zapytania zewnetrznego.",
+        "**Podejscie**: `WHERE pensja = (SELECT MAX(P2.pensja) FROM Pracownicy P2 WHERE P2.id_wydzialu = P.id_wydzialu)`.",
+        "**Kluczowy krok**: Uzywamy `=` a nie `>`, bo szukamy dokladnie najwyzszej pensji."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT P.imie, P.nazwisko, P.pensja\nFROM Pracownicy P\nWHERE P.pensja = (\n  SELECT MAX(P2.pensja)\n  FROM Pracownicy P2\n  WHERE P2.id_wydzialu = P.id_wydzialu\n);\n```\n\n**Weryfikacja**:\n\nMAX pensja per wydzial:\n- Informatyka: max(8000, 9500, 11000) = **11000**\n- Matematyka: max(7000, 6500) = **7000**\n- Fizyka: max(7500) = **7500**\n\nPracownicy z pensja = MAX:\n- Tomek Bak: 11000 = 11000 ✓\n- Ewa Maj: 7000 = 7000 ✓\n- Kasia Zak: 7500 = 7500 ✓\n\n| imie | nazwisko | pensja |\n|------|----------|--------|\n| Ewa | Maj | 7000 |\n| Kasia | Zak | 7500 |\n| Tomek | Bak | 11000 |\n\n**Wyjasnienie**: Podzapytanie skorelowane oblicza MAX(pensja) osobno dla kazdego wydzialu. `=` zamiast `>` oznacza \"dokladnie najwieksza\", nie \"wieksza niz najwieksza\".",
+      "typowe_bledy": [
+        {
+          "opis": "**`>` zamiast `=`**: `WHERE pensja > MAX(...)` — nikt nie ma pensji wyzszej niz MAX, wynik pusty",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Nieskorelowane MAX**: `(SELECT MAX(pensja) FROM Pracownicy)` daje MAX globalny (11000) — tylko Tomek bylby w wyniku",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "21.19",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Inspirowane matura 2024",
+      "tagi": [
+        "podzapytanie-w-HAVING",
+        "COUNT-DISTINCT",
+        "AVG",
+        "podzapytanie-skalarne"
+      ],
+      "tresc": "Tabela **Produkty**:\n\n| id_prod | nazwa | kategoria | cena |\n|---------|-------|-----------|------|\n| 1 | Laptop A | elektronika | 3500 |\n| 2 | Laptop B | elektronika | 4200 |\n| 3 | Telefon A | elektronika | 2500 |\n| 4 | Biurko | meble | 800 |\n| 5 | Krzeslo | meble | 450 |\n| 6 | Fotel | meble | 1200 |\n\nTabela **Zamowienia**:\n\n| id_zam | id_prod | klient | ilosc | data |\n|--------|---------|--------|-------|------|\n| 1 | 1 | Anna | 1 | 2024-01-10 |\n| 2 | 3 | Jan | 2 | 2024-01-15 |\n| 3 | 1 | Ewa | 1 | 2024-02-01 |\n| 4 | 5 | Anna | 4 | 2024-02-10 |\n| 5 | 2 | Piotr | 1 | 2024-03-01 |\n| 6 | 6 | Jan | 2 | 2024-03-05 |\n| 7 | 4 | Kasia | 1 | 2024-03-10 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli kategorie produktow, w ktorych laczna wartosc zamowien (cena * ilosc) jest wyzsza niz srednia laczna wartosc zamowien na kategorie. Dla kazdej takiej kategorii podaj laczna wartosc i liczbe roznych zamowionych produktow (DISTINCT).",
+      "wskazowki": [
+        "**Kierunek**: GROUP BY po kategorii, HAVING z podzapytaniem obliczajacym srednia sum per kategorie.",
+        "**Podejscie**: JOIN Produkty z Zamowienia, SUM(cena*ilosc) per kategoria, HAVING z zagniezdzona srednia.",
+        "**Kluczowy krok**: Podzapytanie w HAVING wymaga zagniezdzonego SELECT — najpierw SUM per kategoria, potem AVG z tych sum."
+      ],
+      "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT P.kategoria,\n       SUM(P.cena * Z.ilosc) AS wartosc,\n       COUNT(DISTINCT P.id_prod) AS liczba_produktow\nFROM Produkty P\nJOIN Zamowienia Z ON P.id_prod = Z.id_prod\nGROUP BY P.kategoria\nHAVING SUM(P.cena * Z.ilosc) > (\n  SELECT AVG(kat_suma) FROM (\n    SELECT SUM(P2.cena * Z2.ilosc) AS kat_suma\n    FROM Produkty P2\n    JOIN Zamowienia Z2 ON P2.id_prod = Z2.id_prod\n    GROUP BY P2.kategoria\n  )\n);\n```\n\n**Weryfikacja**:\n\nWartosc zamowien per produkt:\n- Laptop A (id=1): 3500*1 + 3500*1 = 7000\n- Laptop B (id=2): 4200*1 = 4200\n- Telefon A (id=3): 2500*2 = 5000\n- Biurko (id=4): 800*1 = 800\n- Krzeslo (id=5): 450*4 = 1800\n- Fotel (id=6): 1200*2 = 2400\n\nPer kategoria:\n- elektronika: 7000+4200+5000 = **16200** (3 produkty)\n- meble: 800+1800+2400 = **5000** (3 produkty)\n\nSrednia: (16200+5000)/2 = **10600**\n\nKategorie > 10600: elektronika (16200)\n\n| kategoria | wartosc | liczba_produktow |\n|-----------|---------|------------------|\n| elektronika | 16200 | 3 |\n\n**Wyjasnienie**: Zagniezdzone podzapytanie w HAVING: wewnetrzne oblicza SUM per kategoria, zewnetrzne oblicza AVG z tych sum. COUNT(DISTINCT) liczy unikalne produkty.",
+      "typowe_bledy": [
+        {
+          "opis": "**AVG(SUM(...))**: Nie mozna zagniezdzyc agregacji — potrzeba podzapytania",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**COUNT(*) zamiast COUNT(DISTINCT)**: Laptop A zamowiony 2x — COUNT(*) daje 4 zamiast 3 dla elektroniki",
+          "kara": "-1 pkt"
+        },
+        {
+          "opis": "**Brak mnozenia przez ilosc**: SUM(cena) zamiast SUM(cena*ilosc) — inna wartosc",
+          "kara": "-2 pkt"
+        }
+      ]
+    },
+    {
+      "id": "21.20",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "zrodlo": "Inspirowane matura 2025",
+      "tagi": [
+        "NOT-IN",
+        "korelacja-podzapytan",
+        "AVG",
+        "podzapytanie-w-WHERE"
+      ],
+      "tresc": "Tabela **Kursy**:\n\n| id_kursu | nazwa | poziom | cena |\n|----------|-------|--------|------|\n| 1 | Python | poczatkujacy | 200 |\n| 2 | Java | zaawansowany | 350 |\n| 3 | SQL | poczatkujacy | 150 |\n| 4 | C++ | zaawansowany | 400 |\n| 5 | HTML | poczatkujacy | 100 |\n\nTabela **Uczestnicy**:\n\n| id | imie | miasto |\n|----|------|--------|\n| 1 | Anna | Warszawa |\n| 2 | Jan | Krakow |\n| 3 | Ewa | Warszawa |\n| 4 | Piotr | Gdansk |\n| 5 | Kasia | Krakow |\n\nTabela **Zapisy**:\n\n| id_zapisu | id_uczestnika | id_kursu | data_zapisu | ocena |\n|-----------|---------------|----------|-------------|-------|\n| 1 | 1 | 1 | 2024-01-10 | 5 |\n| 2 | 1 | 2 | 2024-02-15 | 4 |\n| 3 | 2 | 1 | 2024-01-10 | 3 |\n| 4 | 3 | 3 | 2024-03-01 | 5 |\n| 5 | 4 | 2 | 2024-02-15 | 4 |\n| 6 | 5 | 1 | 2024-01-10 | 5 |\n| 7 | 2 | 4 | 2024-04-01 | 3 |\n| 8 | 3 | 5 | 2024-04-05 | 4 |\n\n**Polecenie**:\n1. Wyswietl nazwy kursow, na ktore nie zapisal sie zaden uczestnik z Warszawy. Uzyj NOT IN.\n2. Wyswietl imiona uczestnikow, ktorzy uzyskali ocene wyzsza niz srednia ocena z kursu, na ktory byli zapisani (podzapytanie skorelowane). Podaj tez nazwe kursu i ocene.",
+      "wskazowki": [
+        "**Kierunek**: Dwa zapytania — jedno z NOT IN, drugie z podzapytaniem skorelowanym.",
+        "**Podejscie**: Zad. 1: NOT IN z podzapytaniem laczacym Zapisy z Uczestnikami. Zad. 2: AVG per kurs w podzapytaniu.",
+        "**Kluczowy krok**: W zad. 2 podzapytanie skorelowane oblicza AVG(ocena) dla TEGO SAMEGO kursu: `WHERE Z2.id_kursu = Z.id_kursu`."
+      ],
+      "odpowiedz": "**Zapytania SQL:**\n```sql\n-- 1. Kursy bez uczestnikow z Warszawy\nSELECT nazwa\nFROM Kursy\nWHERE id_kursu NOT IN (\n  SELECT Z.id_kursu FROM Zapisy Z\n  JOIN Uczestnicy U ON Z.id_uczestnika = U.id\n  WHERE U.miasto = 'Warszawa'\n);\n\n-- 2. Uczestnicy z ocena wyzsza niz srednia kursu\nSELECT U.imie, K.nazwa, Z.ocena\nFROM Zapisy Z\nJOIN Uczestnicy U ON Z.id_uczestnika = U.id\nJOIN Kursy K ON Z.id_kursu = K.id_kursu\nWHERE Z.ocena > (\n  SELECT AVG(Z2.ocena)\n  FROM Zapisy Z2\n  WHERE Z2.id_kursu = Z.id_kursu\n);\n```\n\n**Weryfikacja zad. 1**:\n- Uczestnicy z Warszawy: Anna (1), Ewa (3)\n- Kursy Anny: 1 (Python), 2 (Java)\n- Kursy Ewy: 3 (SQL), 5 (HTML)\n- Kursy z uczestnikami z Warszawy: {1, 2, 3, 5}\n- Kursy bez: id=4 (C++)\n\n| nazwa |\n|-------|\n| C++ |\n\n**Weryfikacja zad. 2**:\nSrednie per kurs:\n- Python (1): (5+3+5)/3 = 4.33\n- Java (2): (4+4)/2 = 4.0\n- SQL (3): 5/1 = 5.0\n- C++ (4): 3/1 = 3.0\n- HTML (5): 4/1 = 4.0\n\n- Anna, Python: 5 > 4.33 ✓\n- Anna, Java: 4 > 4.0 ✗\n- Jan, Python: 3 > 4.33 ✗\n- Ewa, SQL: 5 > 5.0 ✗\n- Piotr, Java: 4 > 4.0 ✗\n- Kasia, Python: 5 > 4.33 ✓\n- Jan, C++: 3 > 3.0 ✗\n- Ewa, HTML: 4 > 4.0 ✗\n\n| imie | nazwa | ocena |\n|------|-------|-------|\n| Anna | Python | 5 |\n| Kasia | Python | 5 |",
+      "typowe_bledy": [
+        {
+          "opis": "**Brak JOIN w podzapytaniu (zad. 1)**: `NOT IN (SELECT id_kursu FROM Zapisy)` — wyklucza WSZYSTKIE kursy z zapisami, nie tylko te z uczestnikami z Warszawy",
+          "kara": "-2 pkt"
+        },
+        {
+          "opis": "**Nieskorelowane podzapytanie (zad. 2)**: `AVG(ocena) FROM Zapisy` bez filtra na kurs — srednia globalna zamiast per kurs",
+          "kara": "-3 pkt"
+        },
+        {
+          "opis": "**Te same aliasy w podzapytaniu**: Z i Z w podzapytaniu i zapytaniu glownym — niejednoznacznosc",
+          "kara": "-1 pkt"
         }
       ]
     }
