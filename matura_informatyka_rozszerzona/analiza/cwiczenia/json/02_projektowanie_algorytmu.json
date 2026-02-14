@@ -75,7 +75,7 @@
         "Potrzebujesz zmiennej akumulujacej sume. W kazdej iteracji petli dodajesz `n mod 10` do sumy i zmniejszasz `n` przez `n div 10`.",
         "Warunek konca petli to `n > 0` (odpowiada warunkowi bazowemu rekurencji `n = 0`). Przed petla zainicjuj `suma := 0`."
       ],
-      "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja sumaCyfrIter(n)\n    suma := 0\n    dopoki n > 0:\n        suma := suma + n mod 10\n        n := n div 10\n    zwroc suma\n```\n\n**C++:**\n\n```cpp\nint sumaCyfrIter(int n) {\n    int suma = 0;\n    while (n > 0) {\n        suma += n % 10;\n        n /= 10;\n    }\n    return suma;\n}\n```\n\n**Wyjasinienie konwersji**:\n\nRekurencja ogonowa (gdzie wynik rekurencyjnego wywolania jest bezposrednio zwracany z dodanym skladnikiem) zamieniamy mechanicznie:\n1. Warunek bazowy `n = 0` staje sie warunkiem konca petli `n > 0`\n2. Akumulator (suma) przechowuje wynik czesciowy\n3. Zmiana argumentu `n div 10` staje sie aktualizacja zmiennej `n := n div 10`\n4. Dodawanie `n mod 10` odbywa sie w kazdej iteracji\n\n**Weryfikacja**:\n- sumaCyfrIter(47): 7 + 4 = 11\n- sumaCyfrIter(305): 5 + 0 + 3 = 8\n- sumaCyfrIter(1234): 4 + 3 + 2 + 1 = 10",
+      "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja sumaCyfrIter(n)\n    suma := 0\n    dopoki n > 0:\n        suma := suma + n mod 10\n        n := n div 10\n    zwroc suma\n```\n\n**C++:**\n\n```cpp\nint sumaCyfrIter(int n) {\n    int suma = 0;\n    while (n > 0) {\n        suma += n % 10;\n        n /= 10;\n    }\n    return suma;\n}\n```\n\n**Wyjasinienie konwersji**:\n\nKonwersja rekurencji na iteracje -- kazde wywolanie przetwarza jedna cyfre (n mod 10) i przechodzi do mniejszej liczby (n div 10). Zamieniamy mechanicznie na petle z akumulatorem:\n1. Warunek bazowy `n = 0` staje sie warunkiem konca petli `n > 0`\n2. Akumulator (suma) przechowuje wynik czesciowy\n3. Zmiana argumentu `n div 10` staje sie aktualizacja zmiennej `n := n div 10`\n4. Dodawanie `n mod 10` odbywa sie w kazdej iteracji\n\n**Weryfikacja**:\n- sumaCyfrIter(47): 7 + 4 = 11\n- sumaCyfrIter(305): 5 + 0 + 3 = 8\n- sumaCyfrIter(1234): 4 + 3 + 2 + 1 = 10",
       "typowe_bledy": [
         {
           "opis": "**Zapomnienie inicjalizacji akumulatora** -- zmienna `suma` musi byc zainicjowana na 0 przed petla. Brak inicjalizacji w C++ daje niezdefiniowane zachowanie",
@@ -108,7 +108,7 @@
       "typowe_bledy": [
         {
           "opis": "**Brak zapisu oryginalnej wartosci** -- porownywanie z `n` po petli (ktore jest juz rowne 0) zamiast z zapisana wartoscia poczatkowa",
-          "kara": "-2 pkt, bo wynik zawsze PRAWDA (0 == 0 po petli jest falszywe, ale logika bledu jest powazna)"
+          "kara": "-2 pkt, bo wynik zawsze FALSZ (po petli n = 0, wiec porownanie odwrocona == n daje np. 12321 == 0, czyli zawsze FALSZ -- zadna liczba nie zostanie uznana za palindrom)"
         },
         {
           "opis": "**Bledna kolejnosc w budowaniu odwroconej** -- pisanie `odwrocona = cyfra * 10 + odwrocona` zamiast `odwrocona * 10 + cyfra` daje bledny wynik",
