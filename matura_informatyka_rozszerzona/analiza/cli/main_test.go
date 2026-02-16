@@ -13,22 +13,54 @@ import (
 	_ "modernc.org/sqlite"
 )
 
-// testDir returns a temp dir with imported data for testing.
-func testDir(t *testing.T) string {
-	t.Helper()
-	dir := t.TempDir()
+// sharedTestDir holds a temp dir with imported matura.db, created once in TestMain.
+var sharedTestDir string
 
-	// Build data DB
+func TestMain(m *testing.M) {
+	dir, err := os.MkdirTemp("", "matura-test-*")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "create temp dir: %v\n", err)
+		os.Exit(1)
+	}
+
 	dataDB, err := OpenDataDB(dir)
 	if err != nil {
-		t.Fatalf("open data db: %v", err)
+		fmt.Fprintf(os.Stderr, "open data db: %v\n", err)
+		os.RemoveAll(dir)
+		os.Exit(1)
 	}
 
 	sourceDir := filepath.Join("..", "") // analiza/ is parent of cli/
 	if err := ImportAll(dataDB, sourceDir); err != nil {
-		t.Fatalf("import: %v", err)
+		fmt.Fprintf(os.Stderr, "import: %v\n", err)
+		dataDB.Close()
+		os.RemoveAll(dir)
+		os.Exit(1)
 	}
 	dataDB.Close()
+
+	sharedTestDir = dir
+	code := m.Run()
+	os.RemoveAll(dir)
+	os.Exit(code)
+}
+
+// testDir returns a temp dir with a copy of matura.db for testing.
+// Each test gets its own progress.db (created on first OpenDB).
+func testDir(t *testing.T) string {
+	t.Helper()
+	dir := t.TempDir()
+
+	// Copy shared matura.db
+	src := filepath.Join(sharedTestDir, "matura.db")
+	dst := filepath.Join(dir, "matura.db")
+	data, err := os.ReadFile(src)
+	if err != nil {
+		t.Fatalf("read shared matura.db: %v", err)
+	}
+	if err := os.WriteFile(dst, data, 0644); err != nil {
+		t.Fatalf("write matura.db copy: %v", err)
+	}
 
 	return dir
 }
@@ -36,9 +68,12 @@ func testDir(t *testing.T) string {
 // openTestDB opens both DBs (progress + attached data) for testing.
 func openTestDB(t *testing.T, dir string) *sql.DB {
 	t.Helper()
-	db, err := OpenDB(dir)
+	db, attached, err := OpenDB(dir)
 	if err != nil {
 		t.Fatalf("open db: %v", err)
+	}
+	if !attached {
+		t.Fatal("matura.db not attached")
 	}
 	t.Cleanup(func() { db.Close() })
 	return db
@@ -166,7 +201,10 @@ func TestSpacedRepetitionLevels(t *testing.T) {
 	tags := []string{"test-tag-1", "test-tag-2"}
 
 	// Level 0 → poprawne_bez_pomocy → level 1, interval = 1 day
-	dates := updateTags(db, tags, "poprawne_bez_pomocy")
+	dates, err := updateTags(db, tags, "poprawne_bez_pomocy")
+	if err != nil {
+		t.Fatal(err)
+	}
 	if len(dates) != 2 {
 		t.Fatalf("expected 2 dates, got %d", len(dates))
 	}
@@ -184,7 +222,10 @@ func TestSpacedRepetitionLevels(t *testing.T) {
 	}
 
 	// Level 1 → poprawne_bez_pomocy → level 2, interval = 3 days
-	dates = updateTags(db, []string{"test-tag-1"}, "poprawne_bez_pomocy")
+	dates, err = updateTags(db, []string{"test-tag-1"}, "poprawne_bez_pomocy")
+	if err != nil {
+		t.Fatal(err)
+	}
 	expected = time.Now().AddDate(0, 0, 3).Format("2006-01-02")
 	if dates[0] != expected {
 		t.Errorf("level 1→2: got %s, want %s", dates[0], expected)
@@ -195,21 +236,30 @@ func TestSpacedRepetitionLevels(t *testing.T) {
 	}
 
 	// Level 2 → poprawne_bez_pomocy → level 3, interval = 7 days
-	dates = updateTags(db, []string{"test-tag-1"}, "poprawne_bez_pomocy")
+	dates, err = updateTags(db, []string{"test-tag-1"}, "poprawne_bez_pomocy")
+	if err != nil {
+		t.Fatal(err)
+	}
 	expected = time.Now().AddDate(0, 0, 7).Format("2006-01-02")
 	if dates[0] != expected {
 		t.Errorf("level 2→3: got %s, want %s", dates[0], expected)
 	}
 
 	// Level 3 → poprawne_bez_pomocy → level 4, interval = 21 days
-	dates = updateTags(db, []string{"test-tag-1"}, "poprawne_bez_pomocy")
+	dates, err = updateTags(db, []string{"test-tag-1"}, "poprawne_bez_pomocy")
+	if err != nil {
+		t.Fatal(err)
+	}
 	expected = time.Now().AddDate(0, 0, 21).Format("2006-01-02")
 	if dates[0] != expected {
 		t.Errorf("level 3→4: got %s, want %s", dates[0], expected)
 	}
 
 	// Level 4 → poprawne_bez_pomocy → stays level 4 (capped), interval = 21
-	dates = updateTags(db, []string{"test-tag-1"}, "poprawne_bez_pomocy")
+	dates, err = updateTags(db, []string{"test-tag-1"}, "poprawne_bez_pomocy")
+	if err != nil {
+		t.Fatal(err)
+	}
 	if dates[0] != expected {
 		t.Errorf("level 4→4 (capped): got %s, want %s", dates[0], expected)
 	}
@@ -227,7 +277,10 @@ func TestSpacedRepetitionWalkThrough(t *testing.T) {
 	db.Exec("INSERT INTO progress_tagi (tag, poziom, nastepna_powtorka) VALUES ('walk-test', 3, '2026-01-01')")
 
 	// walk_through → level drops to 2, interval = 1 day
-	dates := updateTags(db, []string{"walk-test"}, "walk_through")
+	dates, err := updateTags(db, []string{"walk-test"}, "walk_through")
+	if err != nil {
+		t.Fatal(err)
+	}
 	expected := time.Now().AddDate(0, 0, 1).Format("2006-01-02")
 	if dates[0] != expected {
 		t.Errorf("walk_through interval: got %s, want %s", dates[0], expected)
@@ -245,14 +298,20 @@ func TestSpacedRepetitionZPomoca(t *testing.T) {
 	db := openTestDB(t, dir)
 
 	// Level 0 → z_pomoca_1 → level 1, interval from level 0 = 0 days
-	dates := updateTags(db, []string{"pomoc-test"}, "poprawne_z_pomoca_1")
+	dates, err := updateTags(db, []string{"pomoc-test"}, "poprawne_z_pomoca_1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	expected := time.Now().Format("2006-01-02") // interval[0] = 0
 	if dates[0] != expected {
 		t.Errorf("z_pomoca_1 from 0: got %s, want %s", dates[0], expected)
 	}
 
 	// Level 1 → z_pomoca_1 → level 2, interval from level 1 = 1 day
-	dates = updateTags(db, []string{"pomoc-test"}, "poprawne_z_pomoca_1")
+	dates, err = updateTags(db, []string{"pomoc-test"}, "poprawne_z_pomoca_1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	expected = time.Now().AddDate(0, 0, 1).Format("2006-01-02")
 	if dates[0] != expected {
 		t.Errorf("z_pomoca_1 from 1: got %s, want %s", dates[0], expected)
@@ -349,12 +408,13 @@ func TestCheatsheetCategories(t *testing.T) {
 func TestProgressSchemaCreation(t *testing.T) {
 	dir := t.TempDir()
 
-	// First open — should create schema
-	db, err := OpenDB(dir)
+	// First open — should create schema (no matura.db, so attached=false)
+	db, attached, err := OpenDB(dir)
 	if err != nil {
-		// Expected: no matura.db, but progress schema should be created
-		// Actually OpenDB doesn't fail if matura.db is missing — it just doesn't attach.
 		t.Fatalf("first open: %v", err)
+	}
+	if attached {
+		t.Error("expected not attached in empty dir")
 	}
 	defer db.Close()
 
@@ -416,7 +476,10 @@ func TestSessionTracking(t *testing.T) {
 	db := openTestDB(t, dir)
 
 	// Fresh → count=0
-	count, lastTyp := getSessionState(db)
+	count, lastTyp, err := getSessionState(db)
+	if err != nil {
+		t.Fatal(err)
+	}
 	if count != 0 {
 		t.Errorf("fresh count: got %d, want 0", count)
 	}
@@ -425,8 +488,13 @@ func TestSessionTracking(t *testing.T) {
 	}
 
 	// Increment
-	incrementSession(db, "sql_group_by")
-	count, lastTyp = getSessionState(db)
+	if err := incrementSession(db, "sql_group_by"); err != nil {
+		t.Fatal(err)
+	}
+	count, lastTyp, err = getSessionState(db)
+	if err != nil {
+		t.Fatal(err)
+	}
 	if count != 1 {
 		t.Errorf("after 1st increment: got %d, want 1", count)
 	}
@@ -435,8 +503,13 @@ func TestSessionTracking(t *testing.T) {
 	}
 
 	// Increment again
-	incrementSession(db, "cyfry_liczby")
-	count, lastTyp = getSessionState(db)
+	if err := incrementSession(db, "cyfry_liczby"); err != nil {
+		t.Fatal(err)
+	}
+	count, lastTyp, err = getSessionState(db)
+	if err != nil {
+		t.Fatal(err)
+	}
 	if count != 2 {
 		t.Errorf("after 2nd increment: got %d, want 2", count)
 	}
@@ -449,11 +522,11 @@ func TestAutodifficulty(t *testing.T) {
 	dir := testDir(t)
 	db := openTestDB(t, dir)
 
-	// Set mainDB for queryExercises
-	mainDB = db
-
 	// Fresh DB → getLevel returns "latwe"
-	results := queryExercises("cyfry_liczby", "latwe", "")
+	results, err := queryExercises(db, "cyfry_liczby", "latwe", "")
+	if err != nil {
+		t.Fatal(err)
+	}
 	if len(results) == 0 {
 		t.Fatal("no latwe exercises for cyfry_liczby")
 	}
@@ -470,7 +543,10 @@ func TestAutodifficulty(t *testing.T) {
 	}
 
 	// Query srednie exercises
-	results = queryExercises("cyfry_liczby", "srednie", "")
+	results, err = queryExercises(db, "cyfry_liczby", "srednie", "")
+	if err != nil {
+		t.Fatal(err)
+	}
 	for _, r := range results {
 		if r.Trudnosc != "srednie" {
 			t.Errorf("got trudnosc %q, want srednie", r.Trudnosc)
@@ -511,10 +587,7 @@ func TestTypIntro(t *testing.T) {
 	dir := testDir(t)
 	db := openTestDB(t, dir)
 
-	mainDB = db
-
 	// Fresh DB: sql_group_by → first_in_type=true, first_in_category=true
-	// We need to simulate the typ intro logic directly
 	kat := getKategoria(db, "sql_group_by")
 	if kat != "SQL" {
 		t.Fatalf("sql_group_by kategoria: got %q, want SQL", kat)
@@ -691,10 +764,43 @@ func TestMigrationV3(t *testing.T) {
 	}
 }
 
+func TestMigrationV3Idempotent(t *testing.T) {
+	dir := t.TempDir()
+
+	// Create v2 DB
+	progressPath := filepath.Join(dir, "matura_progress.db")
+	db, err := sql.Open("sqlite", progressPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	db.Exec(`CREATE TABLE schema_version (version INTEGER PRIMARY KEY)`)
+	db.Exec(`INSERT INTO schema_version VALUES (2)`)
+	db.Exec(`CREATE TABLE progress_meta (key TEXT PRIMARY KEY, value TEXT)`)
+	db.Exec(`CREATE TABLE progress_typy (typ TEXT PRIMARY KEY, poziom_trudnosci TEXT DEFAULT 'latwe', streak INTEGER DEFAULT 0)`)
+	db.Exec(`CREATE TABLE progress_zrobione (id TEXT PRIMARY KEY, typ TEXT, data TEXT, wynik TEXT)`)
+	db.Exec(`CREATE TABLE progress_tagi (tag TEXT PRIMARY KEY, poziom INTEGER DEFAULT 0, nastepna_powtorka TEXT)`)
+	db.Exec(`CREATE TABLE matura_zrobione (id TEXT PRIMARY KEY, typ TEXT, data TEXT, punkty INTEGER, max_punkty INTEGER)`)
+	db.Exec(`CREATE TABLE probne_matury (id INTEGER PRIMARY KEY AUTOINCREMENT, rok INTEGER, data TEXT, czas_min INTEGER, wynik_pkt INTEGER, max_pkt INTEGER, procent REAL, per_kategoria TEXT, przerwany BOOLEAN DEFAULT 0)`)
+	db.Exec(`CREATE TABLE pulapki_przejrzane (id TEXT PRIMARY KEY, typ TEXT, data TEXT, trafienia INTEGER, total INTEGER)`)
+	db.Close()
+
+	// Migrate to v3 twice — second run should be a no-op
+	for i := 0; i < 2; i++ {
+		db, err = sql.Open("sqlite", progressPath)
+		if err != nil {
+			t.Fatal(err)
+		}
+		err = initProgressSchema(db)
+		if err != nil {
+			t.Fatalf("migration run %d failed: %v", i+1, err)
+		}
+		db.Close()
+	}
+}
+
 func TestProgressUpdateWithCzas(t *testing.T) {
 	dir := testDir(t)
 	db := openTestDB(t, dir)
-	mainDB = db
 
 	// Simulate what progressUpdateCmd does with --czas
 	id := "7.1"
@@ -896,7 +1002,6 @@ func TestProgressDiagnoseEmpty(t *testing.T) {
 func TestTypIntroWithCKEStats(t *testing.T) {
 	dir := testDir(t)
 	db := openTestDB(t, dir)
-	mainDB = db
 
 	// sledzenie_algorytmu appears in every year (11/11)
 	ckeNames := exerciseTypToCKETypes("sledzenie_algorytmu", "TEORIA")
@@ -913,7 +1018,6 @@ func TestTypIntroWithCKEStats(t *testing.T) {
 func TestTypIntroTopPulapki(t *testing.T) {
 	dir := testDir(t)
 	db := openTestDB(t, dir)
-	mainDB = db
 
 	// Check that sledzenie_algorytmu has pulapki
 	ckeNames := exerciseTypToCKETypes("sledzenie_algorytmu", "TEORIA")
@@ -1024,5 +1128,41 @@ func TestImportBenchmarks(t *testing.T) {
 	}
 	if benchSek.Valid && benchSek.Int64 <= 0 {
 		t.Errorf("benchmark for sledzenie_algorytmu: got %d, want > 0", benchSek.Int64)
+	}
+}
+
+// === Fix #9: examMeta czesc column ===
+
+func TestExamMetaCzesc(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// 2015 (stara formula) should have tasks in czesc 1 and czesc 2
+	rows, err := db.Query(`
+		SELECT DISTINCT e.czesc
+		FROM data.egzamin e
+		WHERE e.rok = 2015
+		ORDER BY e.czesc`)
+	if err != nil {
+		t.Fatalf("query czesc: %v", err)
+	}
+	defer rows.Close()
+
+	var czesci []int
+	for rows.Next() {
+		var c int
+		rows.Scan(&c)
+		czesci = append(czesci, c)
+	}
+
+	if len(czesci) < 2 {
+		t.Errorf("2015 czesci: got %v, want [1, 2]", czesci)
+	}
+
+	// 2023 (nowa formula) should have only czesc 1
+	var czesc2023 int
+	db.QueryRow(`SELECT DISTINCT e.czesc FROM data.egzamin e WHERE e.rok = 2023`).Scan(&czesc2023)
+	if czesc2023 != 1 {
+		t.Errorf("2023 czesc: got %d, want 1", czesc2023)
 	}
 }

@@ -165,8 +165,8 @@ func ImportExams(db *sql.DB, sourceDir string) (int, error) {
 	}
 	defer tx.Rollback()
 
-	stmt, err := tx.Prepare(`INSERT INTO egzamin (id, rok, numer_zadania, numer_podzadania, tytul, kontekst, tresc, odpowiedz, zasady_oceniania, typ_zadania, kategoria, punkty, pulapki, sciezka_danych, pliki_danych)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+	stmt, err := tx.Prepare(`INSERT INTO egzamin (id, rok, numer_zadania, numer_podzadania, tytul, kontekst, tresc, odpowiedz, zasady_oceniania, typ_zadania, kategoria, punkty, czesc, pulapki, sciezka_danych, pliki_danych)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
 	if err != nil {
 		return 0, err
 	}
@@ -203,6 +203,7 @@ func ImportExams(db *sql.DB, sourceDir string) (int, error) {
 					task.Tytul, kontekst,
 					sub.Tresc, sub.Odpowiedz, sub.ZasadyOceniania,
 					sub.TypZadania, sub.Kategoria, sub.Punkty,
+					task.Czesc,
 					string(pulapkiJSON), sciezkaDanych, string(plikiDanychJSON),
 				)
 				if err != nil {

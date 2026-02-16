@@ -23,17 +23,30 @@ func jsonOut(v any) {
 	enc.Encode(v)
 }
 
-func exitNotFound(msg string) {
-	fmt.Fprintln(os.Stderr, msg)
-	os.Exit(1)
+// Error types for proper exit codes (1=not found, 2=fatal)
+type errNotFound struct{ msg string }
+
+func (e errNotFound) Error() string { return e.msg }
+
+type errFatal struct{ msg string }
+
+func (e errFatal) Error() string { return e.msg }
+
+func notFound(msg string) error { return errNotFound{msg} }
+func fatal(msg string) error    { return errFatal{msg} }
+
+// Context key for DB access
+type ctxKey struct{}
+
+func db(cmd *cobra.Command) *sql.DB {
+	return cmd.Context().Value(ctxKey{}).(*sql.DB)
 }
 
-func exitError(msg string) {
-	fmt.Fprintln(os.Stderr, msg)
-	os.Exit(2)
+// dbExecer is satisfied by both *sql.DB and *sql.Tx
+type dbExecer interface {
+	Exec(string, ...any) (sql.Result, error)
+	QueryRow(string, ...any) *sql.Row
 }
-
-func db() *sql.DB { return mainDB }
 
 // === helpers ===
 
@@ -94,9 +107,15 @@ func scanExercise(scanner interface{ Scan(dest ...any) error }) (ExerciseOut, er
 	if err != nil {
 		return ex, err
 	}
-	json.Unmarshal([]byte(tagiJSON), &ex.Tagi)
-	json.Unmarshal([]byte(wskazowkiJSON), &ex.Wskazowki)
-	json.Unmarshal([]byte(typoweBledyJSON), &ex.TypoweBledy)
+	if err := json.Unmarshal([]byte(tagiJSON), &ex.Tagi); err != nil {
+		fmt.Fprintf(os.Stderr, "warning: unmarshal tagi for %s: %v\n", ex.ID, err)
+	}
+	if err := json.Unmarshal([]byte(wskazowkiJSON), &ex.Wskazowki); err != nil {
+		fmt.Fprintf(os.Stderr, "warning: unmarshal wskazowki for %s: %v\n", ex.ID, err)
+	}
+	if err := json.Unmarshal([]byte(typoweBledyJSON), &ex.TypoweBledy); err != nil {
+		fmt.Fprintf(os.Stderr, "warning: unmarshal typowe_bledy for %s: %v\n", ex.ID, err)
+	}
 	if ex.Tagi == nil {
 		ex.Tagi = []string{}
 	}
@@ -109,7 +128,7 @@ func scanExercise(scanner interface{ Scan(dest ...any) error }) (ExerciseOut, er
 	return ex, nil
 }
 
-func queryExercises(typ, trudnosc, exclude string) []ExerciseOut {
+func queryExercises(d *sql.DB, typ, trudnosc, exclude string) ([]ExerciseOut, error) {
 	query := `SELECT ` + exerciseColumns + ` FROM data.cwiczenia c WHERE c.typ_nazwa = ?`
 	params := []any{typ}
 	if trudnosc != "" {
@@ -123,20 +142,23 @@ func queryExercises(typ, trudnosc, exclude string) []ExerciseOut {
 			params = append(params, strings.TrimSpace(id))
 		}
 	}
-	rows, err := db().Query(query, params...)
+	rows, err := d.Query(query, params...)
 	if err != nil {
-		exitError(fmt.Sprintf("query error: %v", err))
+		return nil, fatal(fmt.Sprintf("query error: %v", err))
 	}
 	defer rows.Close()
 	var results []ExerciseOut
 	for rows.Next() {
 		ex, err := scanExercise(rows)
 		if err != nil {
-			exitError(fmt.Sprintf("scan error: %v", err))
+			return nil, fatal(fmt.Sprintf("scan error: %v", err))
 		}
 		results = append(results, ex)
 	}
-	return results
+	if err := rows.Err(); err != nil {
+		return nil, fatal(fmt.Sprintf("rows error: %v", err))
+	}
+	return results, nil
 }
 
 func getLevel(d *sql.DB, typ string) string {
@@ -167,15 +189,21 @@ func poolWarning(d *sql.DB, typ, trudnosc string) *string {
 	return nil
 }
 
-func getSessionState(d *sql.DB) (count int, lastTyp string) {
+func getSessionState(d *sql.DB) (count int, lastTyp string, err error) {
 	today := time.Now().Format("2006-01-02")
 	var sessionDate sql.NullString
 	d.QueryRow("SELECT value FROM progress_meta WHERE key = 'session_date'").Scan(&sessionDate)
 	if !sessionDate.Valid || sessionDate.String != today {
-		d.Exec("INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_date', ?)", today)
-		d.Exec("INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_exercise_count', '0')")
-		d.Exec("INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_last_typ', '')")
-		return 0, ""
+		if _, err = d.Exec("INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_date', ?)", today); err != nil {
+			return 0, "", fmt.Errorf("reset session date: %w", err)
+		}
+		if _, err = d.Exec("INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_exercise_count', '0')"); err != nil {
+			return 0, "", fmt.Errorf("reset session count: %w", err)
+		}
+		if _, err = d.Exec("INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_last_typ', '')"); err != nil {
+			return 0, "", fmt.Errorf("reset session last typ: %w", err)
+		}
+		return 0, "", nil
 	}
 	var countStr, lastTypStr sql.NullString
 	d.QueryRow("SELECT value FROM progress_meta WHERE key = 'session_exercise_count'").Scan(&countStr)
@@ -186,32 +214,41 @@ func getSessionState(d *sql.DB) (count int, lastTyp string) {
 	if lastTypStr.Valid {
 		lastTyp = lastTypStr.String
 	}
-	return
+	return count, lastTyp, nil
 }
 
-func incrementSession(d *sql.DB, typ string) {
+func incrementSession(d dbExecer, typ string) error {
 	today := time.Now().Format("2006-01-02")
 	var sessionDate sql.NullString
 	d.QueryRow("SELECT value FROM progress_meta WHERE key = 'session_date'").Scan(&sessionDate)
 	if !sessionDate.Valid || sessionDate.String != today {
-		d.Exec("INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_date', ?)", today)
-		d.Exec("INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_exercise_count', '1')")
+		if _, err := d.Exec("INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_date', ?)", today); err != nil {
+			return fmt.Errorf("set session date: %w", err)
+		}
+		if _, err := d.Exec("INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_exercise_count', '1')"); err != nil {
+			return fmt.Errorf("set session count: %w", err)
+		}
 	} else {
-		d.Exec(`UPDATE progress_meta SET value = CAST(CAST(value AS INTEGER) + 1 AS TEXT) WHERE key = 'session_exercise_count'`)
+		if _, err := d.Exec(`UPDATE progress_meta SET value = CAST(CAST(value AS INTEGER) + 1 AS TEXT) WHERE key = 'session_exercise_count'`); err != nil {
+			return fmt.Errorf("increment session count: %w", err)
+		}
 	}
-	d.Exec("INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_last_typ', ?)", typ)
+	if _, err := d.Exec("INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_last_typ', ?)", typ); err != nil {
+		return fmt.Errorf("set session last typ: %w", err)
+	}
+	return nil
 }
 
 func findExerciseByTag(d *sql.DB, tag string) (ExerciseOut, error) {
 	row := d.QueryRow(`SELECT `+exerciseColumns+` FROM data.cwiczenia c
-		WHERE c.tagi LIKE ? AND c.id NOT IN (SELECT id FROM progress_zrobione)
-		ORDER BY RANDOM() LIMIT 1`, "%"+tag+"%")
+		WHERE INSTR(c.tagi, ?) > 0 AND c.id NOT IN (SELECT id FROM progress_zrobione)
+		ORDER BY RANDOM() LIMIT 1`, tag)
 	ex, err := scanExercise(row)
 	if err == nil {
 		return ex, nil
 	}
 	row = d.QueryRow(`SELECT `+exerciseColumns+` FROM data.cwiczenia c
-		WHERE c.tagi LIKE ? ORDER BY RANDOM() LIMIT 1`, "%"+tag+"%")
+		WHERE INSTR(c.tagi, ?) > 0 ORDER BY RANDOM() LIMIT 1`, tag)
 	return scanExercise(row)
 }
 
@@ -252,29 +289,38 @@ func exerciseGetCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "get",
 		Short: "Get a random exercise by type",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			if typ == "" {
-				exitError("--typ is required")
+				return fatal("--typ is required")
 			}
+
+			d := db(cmd)
 
 			// Auto-difficulty: if --trudnosc not explicitly set, use current level
 			if !cmd.Flags().Changed("trudnosc") {
-				trudnosc = getLevel(db(), typ)
+				trudnosc = getLevel(d, typ)
 			}
 
-			results := queryExercises(typ, trudnosc, exclude)
+			results, err := queryExercises(d, typ, trudnosc, exclude)
+			if err != nil {
+				return err
+			}
 
 			// Fallback: if auto-difficulty yielded 0 results, try without difficulty filter
 			if len(results) == 0 && !cmd.Flags().Changed("trudnosc") {
-				results = queryExercises(typ, "", exclude)
+				results, err = queryExercises(d, typ, "", exclude)
+				if err != nil {
+					return err
+				}
 			}
 
 			if len(results) == 0 {
-				exitNotFound(fmt.Sprintf("no exercises found for typ=%s trudnosc=%s", typ, trudnosc))
+				return notFound(fmt.Sprintf("no exercises found for typ=%s trudnosc=%s", typ, trudnosc))
 			}
 
 			chosen := results[rand.Intn(len(results))]
 			jsonOut(chosen)
+			return nil
 		},
 	}
 
@@ -292,17 +338,18 @@ func exerciseReviewCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "review",
 		Short: "Get exercises due for spaced repetition review",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
+			d := db(cmd)
 			today := time.Now().Format("2006-01-02")
 
-			rows, err := db().Query(`
+			rows, err := d.Query(`
 				SELECT t.tag, t.nastepna_powtorka
 				FROM progress_tagi t
 				WHERE t.nastepna_powtorka <= ?
 				ORDER BY t.nastepna_powtorka ASC
 				LIMIT ?`, today, limit)
 			if err != nil {
-				exitError(fmt.Sprintf("query error: %v", err))
+				return fatal(fmt.Sprintf("query error: %v", err))
 			}
 			defer rows.Close()
 
@@ -310,13 +357,13 @@ func exerciseReviewCmd() *cobra.Command {
 			for rows.Next() {
 				var tag, powtorka string
 				if err := rows.Scan(&tag, &powtorka); err != nil {
-					exitError(fmt.Sprintf("scan error: %v", err))
+					return fatal(fmt.Sprintf("scan error: %v", err))
 				}
 
 				powtorkaDate, _ := time.Parse("2006-01-02", powtorka)
 				daysOverdue := int(time.Since(powtorkaDate).Hours() / 24)
 
-				ex, err := findExerciseByTag(db(), tag)
+				ex, err := findExerciseByTag(d, tag)
 				if err != nil {
 					continue
 				}
@@ -327,11 +374,15 @@ func exerciseReviewCmd() *cobra.Command {
 					DaysOverdue: daysOverdue,
 				})
 			}
+			if err := rows.Err(); err != nil {
+				return fatal(fmt.Sprintf("rows error: %v", err))
+			}
 
 			if len(results) == 0 {
-				exitNotFound("no reviews due")
+				return notFound("no reviews due")
 			}
 			jsonOut(results)
+			return nil
 		},
 	}
 
@@ -348,9 +399,9 @@ func progressUpdateCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "update",
 		Short: "Record exercise result and update spaced repetition",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			if id == "" || wynik == "" {
-				exitError("--id and --wynik are required")
+				return fatal("--id and --wynik are required")
 			}
 
 			validWynik := map[string]bool{
@@ -360,61 +411,92 @@ func progressUpdateCmd() *cobra.Command {
 				"walk_through":        true,
 			}
 			if !validWynik[wynik] {
-				exitError("--wynik must be one of: poprawne_bez_pomocy, poprawne_z_pomoca_1, poprawne_z_pomoca_2, walk_through")
+				return fatal("--wynik must be one of: poprawne_bez_pomocy, poprawne_z_pomoca_1, poprawne_z_pomoca_2, walk_through")
 			}
 
+			d := db(cmd)
 			today := time.Now().Format("2006-01-02")
 
-			// Get exercise info from data DB
+			// Read-only: get exercise info from data DB
 			var typNazwa, tagiJSON string
-			err := db().QueryRow("SELECT typ_nazwa, tagi FROM data.cwiczenia WHERE id = ?", id).Scan(&typNazwa, &tagiJSON)
+			err := d.QueryRow("SELECT typ_nazwa, tagi FROM data.cwiczenia WHERE id = ?", id).Scan(&typNazwa, &tagiJSON)
 			if err != nil {
-				exitError(fmt.Sprintf("exercise %s not found: %v", id, err))
+				return fatal(fmt.Sprintf("exercise %s not found: %v", id, err))
 			}
 
 			var tagi []string
-			json.Unmarshal([]byte(tagiJSON), &tagi)
+			if err := json.Unmarshal([]byte(tagiJSON), &tagi); err != nil {
+				return fatal(fmt.Sprintf("invalid tagi JSON for %s: %v", id, err))
+			}
+
+			// Read-only: benchmark (for output enrichment)
+			var benchmarkSek sql.NullInt64
+			if czas > 0 {
+				d.QueryRow("SELECT benchmark_sek FROM data.benchmarki WHERE typ = ?", typNazwa).Scan(&benchmarkSek)
+			}
+
+			// Begin transaction for all writes
+			tx, err := d.Begin()
+			if err != nil {
+				return fatal(fmt.Sprintf("begin tx: %v", err))
+			}
+			defer tx.Rollback()
 
 			// Record done exercise
 			var czasSekVal *int
 			if czas > 0 {
 				czasSekVal = &czas
 			}
-			_, err = db().Exec(`INSERT OR REPLACE INTO progress_zrobione (id, typ, data, wynik, czas_sek) VALUES (?, ?, ?, ?, ?)`,
-				id, typNazwa, today, wynik, czasSekVal)
-			if err != nil {
-				exitError(fmt.Sprintf("save progress: %v", err))
+			if _, err = tx.Exec(`INSERT OR REPLACE INTO progress_zrobione (id, typ, data, wynik, czas_sek) VALUES (?, ?, ?, ?, ?)`,
+				id, typNazwa, today, wynik, czasSekVal); err != nil {
+				return fatal(fmt.Sprintf("save progress: %v", err))
 			}
 
 			// Update streak and level
-			_, err = db().Exec(`INSERT INTO progress_typy (typ, poziom_trudnosci, streak) VALUES (?, 'latwe', 1)
-				ON CONFLICT(typ) DO UPDATE SET streak = streak + 1`, typNazwa)
-			if err != nil {
-				exitError(fmt.Sprintf("update typ: %v", err))
+			if _, err = tx.Exec(`INSERT INTO progress_typy (typ, poziom_trudnosci, streak) VALUES (?, 'latwe', 1)
+				ON CONFLICT(typ) DO UPDATE SET streak = streak + 1`, typNazwa); err != nil {
+				return fatal(fmt.Sprintf("update typ: %v", err))
 			}
 
 			// Level progression based on streak
 			var streak int
-			db().QueryRow("SELECT streak FROM progress_typy WHERE typ = ?", typNazwa).Scan(&streak)
+			tx.QueryRow("SELECT streak FROM progress_typy WHERE typ = ?", typNazwa).Scan(&streak)
 
 			newLevel := calculateLevel(streak, wynik)
-			db().Exec("UPDATE progress_typy SET poziom_trudnosci = ? WHERE typ = ?", newLevel, typNazwa)
+			if _, err = tx.Exec("UPDATE progress_typy SET poziom_trudnosci = ? WHERE typ = ?", newLevel, typNazwa); err != nil {
+				return fatal(fmt.Sprintf("update level: %v", err))
+			}
 
 			// Spaced repetition for tags
-			nextReviewDates := updateTags(db(), tagi, wynik)
+			nextReviewDates, err := updateTags(tx, tagi, wynik)
+			if err != nil {
+				return err
+			}
 
 			// Update session metadata
-			db().Exec(`INSERT INTO progress_meta (key, value) VALUES ('sesje', '1')
+			if _, err = tx.Exec(`INSERT INTO progress_meta (key, value) VALUES ('sesje', '1')
 				ON CONFLICT(key) DO UPDATE SET value = CAST(CAST(value AS INTEGER) + 1 AS TEXT)
 				WHERE key = 'sesje' AND NOT EXISTS (
 					SELECT 1 FROM progress_meta WHERE key = 'ostatnia_sesja' AND value = ?
-				)`, today)
-			db().Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('ostatnia_sesja', ?)`, today)
-			db().Exec(`INSERT INTO progress_meta (key, value) VALUES ('cwiczenia_lacznie', '1')
-				ON CONFLICT(key) DO UPDATE SET value = CAST(CAST(value AS INTEGER) + 1 AS TEXT)`)
+				)`, today); err != nil {
+				return fatal(fmt.Sprintf("update sesje: %v", err))
+			}
+			if _, err = tx.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('ostatnia_sesja', ?)`, today); err != nil {
+				return fatal(fmt.Sprintf("update ostatnia_sesja: %v", err))
+			}
+			if _, err = tx.Exec(`INSERT INTO progress_meta (key, value) VALUES ('cwiczenia_lacznie', '1')
+				ON CONFLICT(key) DO UPDATE SET value = CAST(CAST(value AS INTEGER) + 1 AS TEXT)`); err != nil {
+				return fatal(fmt.Sprintf("update cwiczenia_lacznie: %v", err))
+			}
 
 			// Session tracking
-			incrementSession(db(), typNazwa)
+			if err := incrementSession(tx, typNazwa); err != nil {
+				return fatal(fmt.Sprintf("session tracking: %v", err))
+			}
+
+			if err := tx.Commit(); err != nil {
+				return fatal(fmt.Sprintf("commit: %v", err))
+			}
 
 			out := ProgressUpdateOut{
 				ID:              id,
@@ -427,8 +509,6 @@ func progressUpdateCmd() *cobra.Command {
 			// Time tracking
 			if czas > 0 {
 				out.CzasSek = &czas
-				var benchmarkSek sql.NullInt64
-				db().QueryRow("SELECT benchmark_sek FROM data.benchmarki WHERE typ = ?", typNazwa).Scan(&benchmarkSek)
 				if benchmarkSek.Valid {
 					b := int(benchmarkSek.Int64)
 					out.BenchmarkSek = &b
@@ -440,6 +520,7 @@ func progressUpdateCmd() *cobra.Command {
 			}
 
 			jsonOut(out)
+			return nil
 		},
 	}
 
@@ -465,7 +546,7 @@ func calculateLevel(streak int, wynik string) string {
 	}
 }
 
-func updateTags(d *sql.DB, tags []string, wynik string) []string {
+func updateTags(d dbExecer, tags []string, wynik string) ([]string, error) {
 	var dates []string
 	for _, tag := range tags {
 		var poziom int
@@ -494,12 +575,14 @@ func updateTags(d *sql.DB, tags []string, wynik string) []string {
 		}
 
 		nextReview := time.Now().AddDate(0, 0, interval).Format("2006-01-02")
-		d.Exec(`INSERT INTO progress_tagi (tag, poziom, nastepna_powtorka) VALUES (?, ?, ?)
+		if _, err := d.Exec(`INSERT INTO progress_tagi (tag, poziom, nastepna_powtorka) VALUES (?, ?, ?)
 			ON CONFLICT(tag) DO UPDATE SET poziom = ?, nastepna_powtorka = ?`,
-			tag, newPoziom, nextReview, newPoziom, nextReview)
+			tag, newPoziom, nextReview, newPoziom, nextReview); err != nil {
+			return nil, fatal(fmt.Sprintf("update tag %s: %v", tag, err))
+		}
 		dates = append(dates, nextReview)
 	}
-	return dates
+	return dates, nil
 }
 
 // === progress status ===
@@ -510,14 +593,15 @@ func progressStatusCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "status",
 		Short: "Show progress dashboard",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
+			d := db(cmd)
 			out := ProgressStatusOut{}
 
 			// Meta
 			var sesjeStr, ostatnia, cwiczeniaStr sql.NullString
-			db().QueryRow("SELECT value FROM progress_meta WHERE key = 'sesje'").Scan(&sesjeStr)
-			db().QueryRow("SELECT value FROM progress_meta WHERE key = 'ostatnia_sesja'").Scan(&ostatnia)
-			db().QueryRow("SELECT value FROM progress_meta WHERE key = 'cwiczenia_lacznie'").Scan(&cwiczeniaStr)
+			d.QueryRow("SELECT value FROM progress_meta WHERE key = 'sesje'").Scan(&sesjeStr)
+			d.QueryRow("SELECT value FROM progress_meta WHERE key = 'ostatnia_sesja'").Scan(&ostatnia)
+			d.QueryRow("SELECT value FROM progress_meta WHERE key = 'cwiczenia_lacznie'").Scan(&cwiczeniaStr)
 
 			if sesjeStr.Valid {
 				fmt.Sscanf(sesjeStr.String, "%d", &out.Sesje)
@@ -549,19 +633,24 @@ func progressStatusCmd() *cobra.Command {
 			var rows *sql.Rows
 			var err error
 			if typ != "" {
-				rows, err = db().Query(query, typ)
+				rows, err = d.Query(query, typ)
 			} else {
-				rows, err = db().Query(query)
+				rows, err = d.Query(query)
 			}
 			if err != nil {
-				exitError(fmt.Sprintf("query error: %v", err))
+				return fatal(fmt.Sprintf("query error: %v", err))
 			}
 			defer rows.Close()
 
 			for rows.Next() {
 				var ts TypStatusOut
-				rows.Scan(&ts.Typ, &ts.PoziomTrudnosci, &ts.Streak, &ts.Zrobione, &ts.Dostepne)
+				if err := rows.Scan(&ts.Typ, &ts.PoziomTrudnosci, &ts.Streak, &ts.Zrobione, &ts.Dostepne); err != nil {
+					return fatal(fmt.Sprintf("scan error: %v", err))
+				}
 				out.PerTyp = append(out.PerTyp, ts)
+			}
+			if err := rows.Err(); err != nil {
+				return fatal(fmt.Sprintf("rows error: %v", err))
 			}
 			if out.PerTyp == nil {
 				out.PerTyp = []TypStatusOut{}
@@ -569,13 +658,16 @@ func progressStatusCmd() *cobra.Command {
 
 			// Enrich per-typ with avg_czas_sek and benchmark
 			avgCzasMap := map[string]int{}
-			avgRows, _ := db().Query(`SELECT typ, CAST(AVG(czas_sek) AS INTEGER) FROM progress_zrobione WHERE czas_sek IS NOT NULL GROUP BY typ`)
-			if avgRows != nil {
+			avgRows, err := d.Query(`SELECT typ, CAST(AVG(czas_sek) AS INTEGER) FROM progress_zrobione WHERE czas_sek IS NOT NULL GROUP BY typ`)
+			if err == nil {
 				for avgRows.Next() {
 					var t string
 					var avg int
 					avgRows.Scan(&t, &avg)
 					avgCzasMap[t] = avg
+				}
+				if rowErr := avgRows.Err(); rowErr != nil {
+					fmt.Fprintf(os.Stderr, "warning: avg czas rows: %v\n", rowErr)
 				}
 				avgRows.Close()
 			}
@@ -585,7 +677,7 @@ func progressStatusCmd() *cobra.Command {
 					out.PerTyp[i].AvgCzasSek = &avg
 				}
 				var benchSek sql.NullInt64
-				db().QueryRow("SELECT benchmark_sek FROM data.benchmarki WHERE typ = ?", out.PerTyp[i].Typ).Scan(&benchSek)
+				d.QueryRow("SELECT benchmark_sek FROM data.benchmarki WHERE typ = ?", out.PerTyp[i].Typ).Scan(&benchSek)
 				if benchSek.Valid {
 					b := int(benchSek.Int64)
 					out.PerTyp[i].BenchmarkSek = &b
@@ -594,12 +686,15 @@ func progressStatusCmd() *cobra.Command {
 
 			// Per-kategoria aggregation
 			typKatMap := map[string]string{}
-			katRows, _ := db().Query("SELECT DISTINCT typ_nazwa, kategoria FROM data.cwiczenia")
-			if katRows != nil {
+			katRows, err := d.Query("SELECT DISTINCT typ_nazwa, kategoria FROM data.cwiczenia")
+			if err == nil {
 				for katRows.Next() {
 					var t, k string
 					katRows.Scan(&t, &k)
 					typKatMap[t] = k
+				}
+				if rowErr := katRows.Err(); rowErr != nil {
+					fmt.Fprintf(os.Stderr, "warning: kategoria rows: %v\n", rowErr)
 				}
 				katRows.Close()
 			}
@@ -636,37 +731,44 @@ func progressStatusCmd() *cobra.Command {
 
 			// Overdue reviews
 			today := time.Now().Format("2006-01-02")
-			db().QueryRow("SELECT COUNT(*) FROM progress_tagi WHERE nastepna_powtorka <= ?", today).Scan(&out.Zaleglosci)
+			d.QueryRow("SELECT COUNT(*) FROM progress_tagi WHERE nastepna_powtorka <= ?", today).Scan(&out.Zaleglosci)
 
 			// Mastered tags (poziom >= 3)
-			tagRows, _ := db().Query("SELECT tag FROM progress_tagi WHERE poziom >= 3 ORDER BY tag")
-			if tagRows != nil {
-				defer tagRows.Close()
+			tagRows, err := d.Query("SELECT tag FROM progress_tagi WHERE poziom >= 3 ORDER BY tag")
+			if err == nil {
 				for tagRows.Next() {
 					var tag string
 					tagRows.Scan(&tag)
 					out.TagiOpanowane = append(out.TagiOpanowane, tag)
 				}
+				if rowErr := tagRows.Err(); rowErr != nil {
+					fmt.Fprintf(os.Stderr, "warning: tagi opanowane rows: %v\n", rowErr)
+				}
+				tagRows.Close()
 			}
 			if out.TagiOpanowane == nil {
 				out.TagiOpanowane = []string{}
 			}
 
 			// Problematic tags (poziom <= 1 AND has reviews)
-			probRows, _ := db().Query("SELECT tag FROM progress_tagi WHERE poziom <= 1 AND nastepna_powtorka IS NOT NULL ORDER BY tag")
-			if probRows != nil {
-				defer probRows.Close()
+			probRows, err := d.Query("SELECT tag FROM progress_tagi WHERE poziom <= 1 AND nastepna_powtorka IS NOT NULL ORDER BY tag")
+			if err == nil {
 				for probRows.Next() {
 					var tag string
 					probRows.Scan(&tag)
 					out.TagiProblematyczne = append(out.TagiProblematyczne, tag)
 				}
+				if rowErr := probRows.Err(); rowErr != nil {
+					fmt.Fprintf(os.Stderr, "warning: tagi problematyczne rows: %v\n", rowErr)
+				}
+				probRows.Close()
 			}
 			if out.TagiProblematyczne == nil {
 				out.TagiProblematyczne = []string{}
 			}
 
 			jsonOut(out)
+			return nil
 		},
 	}
 
@@ -683,25 +785,27 @@ func progressBladCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "blad",
 		Short: "Record an error/mistake for diagnosis",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			if exerciseID == "" || typ == "" || kod == "" {
-				exitError("--exercise-id, --typ, and --kod are required")
+				return fatal("--exercise-id, --typ, and --kod are required")
 			}
+
+			d := db(cmd)
 
 			// Validate exercise exists
 			var exists int
-			db().QueryRow("SELECT COUNT(*) FROM data.cwiczenia WHERE id = ?", exerciseID).Scan(&exists)
+			d.QueryRow("SELECT COUNT(*) FROM data.cwiczenia WHERE id = ?", exerciseID).Scan(&exists)
 			if exists == 0 {
-				exitError(fmt.Sprintf("exercise %s not found", exerciseID))
+				return fatal(fmt.Sprintf("exercise %s not found", exerciseID))
 			}
 
 			today := time.Now().Format("2006-01-02")
 
-			result, err := db().Exec(
+			result, err := d.Exec(
 				`INSERT INTO progress_bledy (exercise_id, typ, blad_kod, blad_opis, hint_level, data) VALUES (?, ?, ?, ?, ?, ?)`,
 				exerciseID, typ, kod, opis, hint, today)
 			if err != nil {
-				exitError(fmt.Sprintf("save error: %v", err))
+				return fatal(fmt.Sprintf("save error: %v", err))
 			}
 
 			lastID, _ := result.LastInsertId()
@@ -714,6 +818,7 @@ func progressBladCmd() *cobra.Command {
 				HintLevel:  hint,
 				Data:       today,
 			})
+			return nil
 		},
 	}
 
@@ -734,7 +839,9 @@ func progressDiagnoseCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "diagnose",
 		Short: "Analyze recurring errors",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
+			d := db(cmd)
+
 			// Get total count first
 			totalQuery := "SELECT COUNT(*) FROM progress_bledy"
 			var totalParams []any
@@ -743,7 +850,7 @@ func progressDiagnoseCmd() *cobra.Command {
 				totalParams = append(totalParams, typ)
 			}
 			out := DiagnoseOut{}
-			db().QueryRow(totalQuery, totalParams...).Scan(&out.Total)
+			d.QueryRow(totalQuery, totalParams...).Scan(&out.Total)
 
 			query := `SELECT blad_kod, COUNT(*) as cnt,
 				GROUP_CONCAT(DISTINCT typ) as typy,
@@ -758,18 +865,23 @@ func progressDiagnoseCmd() *cobra.Command {
 			query += " GROUP BY blad_kod ORDER BY cnt DESC LIMIT ?"
 			params = append(params, limit)
 
-			rows, err := db().Query(query, params...)
+			rows, err := d.Query(query, params...)
 			if err != nil {
-				exitError(fmt.Sprintf("query error: %v", err))
+				return fatal(fmt.Sprintf("query error: %v", err))
 			}
 			defer rows.Close()
 
 			for rows.Next() {
 				var entry DiagnoseEntry
 				var typyStr string
-				rows.Scan(&entry.BladKod, &entry.Count, &typyStr, &entry.Ostatnio)
+				if err := rows.Scan(&entry.BladKod, &entry.Count, &typyStr, &entry.Ostatnio); err != nil {
+					return fatal(fmt.Sprintf("scan error: %v", err))
+				}
 				entry.Typy = strings.Split(typyStr, ",")
 				out.TopBledy = append(out.TopBledy, entry)
+			}
+			if err := rows.Err(); err != nil {
+				return fatal(fmt.Sprintf("rows error: %v", err))
 			}
 
 			if out.TopBledy == nil {
@@ -777,6 +889,7 @@ func progressDiagnoseCmd() *cobra.Command {
 			}
 
 			jsonOut(out)
+			return nil
 		},
 	}
 
@@ -794,16 +907,18 @@ func ckeGetCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "get",
 		Short: "Get a random CKE subtask",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			if typ == "" {
-				exitError("--typ is required")
+				return fatal("--typ is required")
 			}
+
+			d := db(cmd)
 
 			// Unlock check: require level "trudne" unless --force
 			if !force {
-				level := getLevel(db(), typ)
+				level := getLevel(d, typ)
 				if level != "trudne" {
-					exitNotFound(fmt.Sprintf("Sprawdzian typu %s wymaga poziomu trudne. Twoj poziom: %s. Uzyj --force aby pominac.", typ, level))
+					return notFound(fmt.Sprintf("Sprawdzian typu %s wymaga poziomu trudne. Twoj poziom: %s. Uzyj --force aby pominac.", typ, level))
 				}
 			}
 
@@ -823,39 +938,35 @@ func ckeGetCmd() *cobra.Command {
 				query += " AND e.id NOT IN (" + strings.Join(ph, ",") + ")"
 			}
 
-			rows, err := db().Query(query, params...)
+			query += " ORDER BY RANDOM() LIMIT 1"
+
+			var out CKEOut
+			var pulapkiJSON, plikiJSON string
+			err := d.QueryRow(query, params...).Scan(&out.ID, &out.Rok, &out.NumerZadania, &out.Tytul, &out.Kontekst,
+				&out.TypZadania, &out.Kategoria, &out.Punkty, &out.Tresc, &out.Odpowiedz,
+				&out.ZasadyOceniania, &pulapkiJSON, &out.SciezkaDanych, &plikiJSON)
+			if err == sql.ErrNoRows {
+				return notFound(fmt.Sprintf("no CKE subtasks found for typ=%s", typ))
+			}
 			if err != nil {
-				exitError(fmt.Sprintf("query error: %v", err))
-			}
-			defer rows.Close()
-
-			var results []CKEOut
-			for rows.Next() {
-				var out CKEOut
-				var pulapkiJSON, plikiJSON string
-				err := rows.Scan(&out.ID, &out.Rok, &out.NumerZadania, &out.Tytul, &out.Kontekst,
-					&out.TypZadania, &out.Kategoria, &out.Punkty, &out.Tresc, &out.Odpowiedz,
-					&out.ZasadyOceniania, &pulapkiJSON, &out.SciezkaDanych, &plikiJSON)
-				if err != nil {
-					exitError(fmt.Sprintf("scan error: %v", err))
-				}
-				json.Unmarshal([]byte(pulapkiJSON), &out.Pulapki)
-				json.Unmarshal([]byte(plikiJSON), &out.PlikiDanych)
-				if out.Pulapki == nil {
-					out.Pulapki = []string{}
-				}
-				if out.PlikiDanych == nil {
-					out.PlikiDanych = []string{}
-				}
-				results = append(results, out)
+				return fatal(fmt.Sprintf("query error: %v", err))
 			}
 
-			if len(results) == 0 {
-				exitNotFound(fmt.Sprintf("no CKE subtasks found for typ=%s", typ))
+			if err := json.Unmarshal([]byte(pulapkiJSON), &out.Pulapki); err != nil {
+				fmt.Fprintf(os.Stderr, "warning: unmarshal pulapki: %v\n", err)
+			}
+			if err := json.Unmarshal([]byte(plikiJSON), &out.PlikiDanych); err != nil {
+				fmt.Fprintf(os.Stderr, "warning: unmarshal pliki_danych: %v\n", err)
+			}
+			if out.Pulapki == nil {
+				out.Pulapki = []string{}
+			}
+			if out.PlikiDanych == nil {
+				out.PlikiDanych = []string{}
 			}
 
-			chosen := results[rand.Intn(len(results))]
-			jsonOut(chosen)
+			jsonOut(out)
+			return nil
 		},
 	}
 
@@ -874,22 +985,24 @@ func ckeSaveCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "save",
 		Short: "Save CKE subtask result",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			if id == "" {
-				exitError("--id is required")
+				return fatal("--id is required")
 			}
 
+			d := db(cmd)
+
 			var typ string
-			err := db().QueryRow("SELECT typ_zadania FROM data.egzamin WHERE id = ?", id).Scan(&typ)
+			err := d.QueryRow("SELECT typ_zadania FROM data.egzamin WHERE id = ?", id).Scan(&typ)
 			if err != nil {
-				exitError(fmt.Sprintf("CKE subtask %s not found", id))
+				return fatal(fmt.Sprintf("CKE subtask %s not found", id))
 			}
 
 			today := time.Now().Format("2006-01-02")
-			_, err = db().Exec(`INSERT OR REPLACE INTO matura_zrobione (id, typ, data, punkty, max_punkty) VALUES (?, ?, ?, ?, ?)`,
+			_, err = d.Exec(`INSERT OR REPLACE INTO matura_zrobione (id, typ, data, punkty, max_punkty) VALUES (?, ?, ?, ?, ?)`,
 				id, typ, today, punkty, maxPunkty)
 			if err != nil {
-				exitError(fmt.Sprintf("save error: %v", err))
+				return fatal(fmt.Sprintf("save error: %v", err))
 			}
 
 			jsonOut(map[string]any{
@@ -898,6 +1011,7 @@ func ckeSaveCmd() *cobra.Command {
 				"max":    maxPunkty,
 				"saved":  true,
 			})
+			return nil
 		},
 	}
 
@@ -915,32 +1029,38 @@ func examMetaCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "meta",
 		Short: "Get exam metadata (tasks without content)",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			if rok == 0 {
-				exitError("--rok is required")
+				return fatal("--rok is required")
 			}
 
-			rows, err := db().Query(`
-				SELECT e.numer_zadania, e.tytul, SUM(e.punkty) as total_pkt
+			d := db(cmd)
+
+			rows, err := d.Query(`
+				SELECT e.numer_zadania, e.tytul, SUM(e.punkty) as total_pkt, MIN(e.czesc) as czesc
 				FROM data.egzamin e
 				WHERE e.rok = ?
 				GROUP BY e.numer_zadania, e.tytul
 				ORDER BY e.numer_zadania`, rok)
 			if err != nil {
-				exitError(fmt.Sprintf("query error: %v", err))
+				return fatal(fmt.Sprintf("query error: %v", err))
 			}
 			defer rows.Close()
 
 			var zadania []ExamTaskBrief
 			for rows.Next() {
 				var tb ExamTaskBrief
-				rows.Scan(&tb.Numer, &tb.Tytul, &tb.Punkty)
-				tb.Czesc = 1
+				if err := rows.Scan(&tb.Numer, &tb.Tytul, &tb.Punkty, &tb.Czesc); err != nil {
+					return fatal(fmt.Sprintf("scan error: %v", err))
+				}
 				zadania = append(zadania, tb)
+			}
+			if err := rows.Err(); err != nil {
+				return fatal(fmt.Sprintf("rows error: %v", err))
 			}
 
 			if len(zadania) == 0 {
-				exitNotFound(fmt.Sprintf("no exam data for rok=%d", rok))
+				return notFound(fmt.Sprintf("no exam data for rok=%d", rok))
 			}
 
 			totalPunkty := 0
@@ -950,7 +1070,6 @@ func examMetaCmd() *cobra.Command {
 
 			formula := "2023"
 			// czas_minuty = 210 for ALL formulas: 2014 (90+120), 2015 (60+150), 2023 (210).
-			// Per-part times are in Czesci below.
 			czasMinuty := 210
 			if rok == 2014 {
 				formula = "2014"
@@ -985,6 +1104,7 @@ func examMetaCmd() *cobra.Command {
 			}
 
 			jsonOut(out)
+			return nil
 		},
 	}
 
@@ -1000,18 +1120,20 @@ func examTaskCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "task",
 		Short: "Get exam task with subtasks (full content)",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			if rok == 0 || zadanie == 0 {
-				exitError("--rok and --zadanie are required")
+				return fatal("--rok and --zadanie are required")
 			}
 
-			rows, err := db().Query(`
+			d := db(cmd)
+
+			rows, err := d.Query(`
 				SELECT e.id, e.numer_podzadania, e.tytul, e.kontekst, e.typ_zadania, e.kategoria, e.punkty, e.tresc, e.odpowiedz, e.zasady_oceniania, e.pulapki, e.sciezka_danych, e.pliki_danych
 				FROM data.egzamin e
 				WHERE e.rok = ? AND e.numer_zadania = ?
 				ORDER BY e.id`, rok, zadanie)
 			if err != nil {
-				exitError(fmt.Sprintf("query error: %v", err))
+				return fatal(fmt.Sprintf("query error: %v", err))
 			}
 			defer rows.Close()
 
@@ -1025,10 +1147,12 @@ func examTaskCmd() *cobra.Command {
 					&sub.Tresc, &sub.Odpowiedz, &sub.ZasadyOceniania,
 					&pulapkiJSON, &sciezkaDanych, &plikiJSON)
 				if err != nil {
-					exitError(fmt.Sprintf("scan error: %v", err))
+					return fatal(fmt.Sprintf("scan error: %v", err))
 				}
 
-				json.Unmarshal([]byte(pulapkiJSON), &sub.Pulapki)
+				if err := json.Unmarshal([]byte(pulapkiJSON), &sub.Pulapki); err != nil {
+					fmt.Fprintf(os.Stderr, "warning: unmarshal pulapki for %s: %v\n", sub.ID, err)
+				}
 				if sub.Pulapki == nil {
 					sub.Pulapki = []string{}
 				}
@@ -1038,7 +1162,9 @@ func examTaskCmd() *cobra.Command {
 					out.Numer = zadanie
 					out.Kontekst = kontekst
 					out.SciezkaDanych = sciezkaDanych
-					json.Unmarshal([]byte(plikiJSON), &out.PlikiDanych)
+					if err := json.Unmarshal([]byte(plikiJSON), &out.PlikiDanych); err != nil {
+						fmt.Fprintf(os.Stderr, "warning: unmarshal pliki_danych: %v\n", err)
+					}
 					if out.PlikiDanych == nil {
 						out.PlikiDanych = []string{}
 					}
@@ -1048,12 +1174,16 @@ func examTaskCmd() *cobra.Command {
 				out.Podzadania = append(out.Podzadania, sub)
 				out.Punkty += sub.Punkty
 			}
+			if err := rows.Err(); err != nil {
+				return fatal(fmt.Sprintf("rows error: %v", err))
+			}
 
 			if first {
-				exitNotFound(fmt.Sprintf("no task found for rok=%d zadanie=%d", rok, zadanie))
+				return notFound(fmt.Sprintf("no task found for rok=%d zadanie=%d", rok, zadanie))
 			}
 
 			jsonOut(out)
+			return nil
 		},
 	}
 
@@ -1072,9 +1202,9 @@ func examSaveCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "save",
 		Short: "Save mock exam results",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			if rok == 0 || resultsJSON == "" {
-				exitError("--rok and --results are required")
+				return fatal("--rok and --results are required")
 			}
 
 			type ResultEntry struct {
@@ -1085,9 +1215,10 @@ func examSaveCmd() *cobra.Command {
 
 			var results []ResultEntry
 			if err := json.Unmarshal([]byte(resultsJSON), &results); err != nil {
-				exitError(fmt.Sprintf("invalid --results JSON: %v", err))
+				return fatal(fmt.Sprintf("invalid --results JSON: %v", err))
 			}
 
+			d := db(cmd)
 			today := time.Now().Format("2006-01-02")
 			wynikPkt := 0
 			maxPkt := 0
@@ -1097,9 +1228,13 @@ func examSaveCmd() *cobra.Command {
 				maxPkt += r.Max
 
 				var typ string
-				db().QueryRow("SELECT typ_zadania FROM data.egzamin WHERE id = ?", r.ID).Scan(&typ)
-				db().Exec(`INSERT OR REPLACE INTO matura_zrobione (id, typ, data, punkty, max_punkty) VALUES (?, ?, ?, ?, ?)`,
-					r.ID, typ, today, r.Pkt, r.Max)
+				if err := d.QueryRow("SELECT typ_zadania FROM data.egzamin WHERE id = ?", r.ID).Scan(&typ); err != nil {
+					return fatal(fmt.Sprintf("CKE subtask %s not found: %v", r.ID, err))
+				}
+				if _, err := d.Exec(`INSERT OR REPLACE INTO matura_zrobione (id, typ, data, punkty, max_punkty) VALUES (?, ?, ?, ?, ?)`,
+					r.ID, typ, today, r.Pkt, r.Max); err != nil {
+					return fatal(fmt.Sprintf("save result %s: %v", r.ID, err))
+				}
 			}
 
 			procent := 0.0
@@ -1107,10 +1242,10 @@ func examSaveCmd() *cobra.Command {
 				procent = float64(wynikPkt) / float64(maxPkt) * 100
 			}
 
-			_, err := db().Exec(`INSERT INTO probne_matury (rok, data, czas_min, wynik_pkt, max_pkt, procent) VALUES (?, ?, ?, ?, ?, ?)`,
+			_, err := d.Exec(`INSERT INTO probne_matury (rok, data, czas_min, wynik_pkt, max_pkt, procent) VALUES (?, ?, ?, ?, ?, ?)`,
 				rok, today, czasMin, wynikPkt, maxPkt, procent)
 			if err != nil {
-				exitError(fmt.Sprintf("save error: %v", err))
+				return fatal(fmt.Sprintf("save error: %v", err))
 			}
 
 			jsonOut(map[string]any{
@@ -1120,6 +1255,7 @@ func examSaveCmd() *cobra.Command {
 				"procent": fmt.Sprintf("%.1f%%", procent),
 				"saved":   true,
 			})
+			return nil
 		},
 	}
 
@@ -1137,12 +1273,17 @@ func exerciseNextCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "next",
 		Short: "Get next exercise with smart priority (review > interleave > new)",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			if typ == "" {
-				exitError("--typ is required")
+				return fatal("--typ is required")
 			}
 
-			sessionCount, _ := getSessionState(db())
+			d := db(cmd)
+
+			sessionCount, _, err := getSessionState(d)
+			if err != nil {
+				return fatal(fmt.Sprintf("session state: %v", err))
+			}
 			out := ExerciseNextOut{
 				SessionCount:   sessionCount,
 				ResetSuggested: sessionCount > 0 && sessionCount%16 == 0,
@@ -1152,14 +1293,14 @@ func exerciseNextCmd() *cobra.Command {
 
 			// Priority 1: overdue review
 			var tag, powtorka string
-			err := db().QueryRow(`
+			err = d.QueryRow(`
 				SELECT t.tag, t.nastepna_powtorka
 				FROM progress_tagi t
 				WHERE t.nastepna_powtorka <= ?
 				ORDER BY t.nastepna_powtorka ASC
 				LIMIT 1`, today).Scan(&tag, &powtorka)
 			if err == nil {
-				ex, findErr := findExerciseByTag(db(), tag)
+				ex, findErr := findExerciseByTag(d, tag)
 				if findErr == nil {
 					powtorkaDate, _ := time.Parse("2006-01-02", powtorka)
 					daysOverdue := int(time.Since(powtorkaDate).Hours() / 24)
@@ -1167,39 +1308,40 @@ func exerciseNextCmd() *cobra.Command {
 					out.Exercise = ex
 					out.ReviewTag = &tag
 					out.DaysOverdue = &daysOverdue
-					out.PoolWarning = poolWarning(db(), ex.TypNazwa, ex.Trudnosc)
+					out.PoolWarning = poolWarning(d, ex.TypNazwa, ex.Trudnosc)
 					jsonOut(out)
-					return
+					return nil
 				}
 			}
 
 			// Priority 2: interleaving (every 3rd exercise from a different type)
 			if sessionCount > 0 && sessionCount%3 == 0 {
-				ex, err := findInterleaveExercise(db(), typ)
+				ex, err := findInterleaveExercise(d, typ)
 				if err == nil {
 					out.Mode = "interleave"
 					out.Exercise = ex
-					out.PoolWarning = poolWarning(db(), ex.TypNazwa, ex.Trudnosc)
+					out.PoolWarning = poolWarning(d, ex.TypNazwa, ex.Trudnosc)
 					jsonOut(out)
-					return
+					return nil
 				}
 			}
 
 			// Priority 3: new exercise with auto-difficulty
-			level := getLevel(db(), typ)
-			ex, err := findExerciseByTypAndLevel(db(), typ, level)
+			level := getLevel(d, typ)
+			ex, err := findExerciseByTypAndLevel(d, typ, level)
 			if err != nil {
 				// Fallback: any difficulty
-				ex, err = findExerciseByTypAndLevel(db(), typ, "")
+				ex, err = findExerciseByTypAndLevel(d, typ, "")
 				if err != nil {
-					exitNotFound(fmt.Sprintf("no exercises available for typ=%s", typ))
+					return notFound(fmt.Sprintf("no exercises available for typ=%s", typ))
 				}
 			}
 
 			out.Mode = "new"
 			out.Exercise = ex
-			out.PoolWarning = poolWarning(db(), typ, level)
+			out.PoolWarning = poolWarning(d, typ, level)
 			jsonOut(out)
+			return nil
 		},
 	}
 
@@ -1215,14 +1357,16 @@ func typIntroCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "intro",
 		Short: "Get type introduction context",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			if typ == "" {
-				exitError("--typ is required")
+				return fatal("--typ is required")
 			}
 
-			kat := getKategoria(db(), typ)
+			d := db(cmd)
+
+			kat := getKategoria(d, typ)
 			if kat == "" {
-				exitNotFound(fmt.Sprintf("unknown type: %s", typ))
+				return notFound(fmt.Sprintf("unknown type: %s", typ))
 			}
 
 			out := TypIntroOut{
@@ -1232,22 +1376,25 @@ func typIntroCmd() *cobra.Command {
 
 			// Check if first in type
 			var doneInType int
-			db().QueryRow(`SELECT COUNT(*) FROM progress_zrobione z
+			d.QueryRow(`SELECT COUNT(*) FROM progress_zrobione z
 				JOIN data.cwiczenia c ON c.id = z.id
 				WHERE c.typ_nazwa = ?`, typ).Scan(&doneInType)
 			out.FirstInType = doneInType == 0
 			out.Done = doneInType
 
 			// Check if OTHER types in this category have been done
-			otherRows, _ := db().Query(`SELECT DISTINCT c.typ_nazwa FROM progress_zrobione z
+			otherRows, err := d.Query(`SELECT DISTINCT c.typ_nazwa FROM progress_zrobione z
 				JOIN data.cwiczenia c ON c.id = z.id
 				WHERE c.kategoria = ? AND c.typ_nazwa != ?`, kat, typ)
 			var otherTypes []string
-			if otherRows != nil {
+			if err == nil {
 				for otherRows.Next() {
 					var t string
 					otherRows.Scan(&t)
 					otherTypes = append(otherTypes, t)
+				}
+				if rowErr := otherRows.Err(); rowErr != nil {
+					fmt.Fprintf(os.Stderr, "warning: other types rows: %v\n", rowErr)
 				}
 				otherRows.Close()
 			}
@@ -1258,14 +1405,14 @@ func typIntroCmd() *cobra.Command {
 			out.OtherTypesDoneInCategory = otherTypes
 
 			// Level and streak
-			out.Level = getLevel(db(), typ)
+			out.Level = getLevel(d, typ)
 			var streak int
-			db().QueryRow("SELECT COALESCE(streak, 0) FROM progress_typy WHERE typ = ?", typ).Scan(&streak)
+			d.QueryRow("SELECT COALESCE(streak, 0) FROM progress_typy WHERE typ = ?", typ).Scan(&streak)
 			out.Streak = streak
 
 			// Available exercises
 			var available int
-			db().QueryRow(`SELECT COUNT(*) FROM data.cwiczenia WHERE typ_nazwa = ?
+			d.QueryRow(`SELECT COUNT(*) FROM data.cwiczenia WHERE typ_nazwa = ?
 				AND id NOT IN (SELECT id FROM progress_zrobione)`, typ).Scan(&available)
 			out.Available = available
 
@@ -1275,7 +1422,7 @@ func typIntroCmd() *cobra.Command {
 			ckeNames := exerciseTypToCKETypes(typ, kat)
 			var ckeStats CKETypStats
 			ckeStats.LatTotal = 11
-			err := db().QueryRow(
+			err = d.QueryRow(
 				`SELECT COUNT(DISTINCT rok), COALESCE(AVG(punkty), 0), COALESCE(SUM(punkty), 0)
 				FROM data.egzamin WHERE typ_zadania IN (`+placeholders(len(ckeNames))+`)`,
 				toAny(ckeNames)...).
@@ -1285,11 +1432,11 @@ func typIntroCmd() *cobra.Command {
 			}
 
 			// Top pulapki — single pass: count + preserve first-seen casing
-			trapRows, _ := db().Query(
+			trapRows, err := d.Query(
 				`SELECT pulapki FROM data.egzamin
 				WHERE typ_zadania IN (`+placeholders(len(ckeNames))+`)
 				AND pulapki != '[]' AND pulapki != 'null'`, toAny(ckeNames)...)
-			if trapRows != nil {
+			if err == nil {
 				type pulapkaEntry struct {
 					Original string
 					Count    int
@@ -1300,7 +1447,10 @@ func typIntroCmd() *cobra.Command {
 					var pJSON string
 					trapRows.Scan(&pJSON)
 					var pulapki []string
-					json.Unmarshal([]byte(pJSON), &pulapki)
+					if err := json.Unmarshal([]byte(pJSON), &pulapki); err != nil {
+						fmt.Fprintf(os.Stderr, "warning: unmarshal pulapki: %v\n", err)
+						continue
+					}
 					for _, p := range pulapki {
 						p = strings.TrimSpace(p)
 						if p == "" {
@@ -1313,6 +1463,9 @@ func typIntroCmd() *cobra.Command {
 							pulapkiMap[lp] = &pulapkaEntry{Original: p, Count: 1}
 						}
 					}
+				}
+				if rowErr := trapRows.Err(); rowErr != nil {
+					fmt.Fprintf(os.Stderr, "warning: trap rows: %v\n", rowErr)
 				}
 				trapRows.Close()
 
@@ -1339,7 +1492,7 @@ func typIntroCmd() *cobra.Command {
 
 			// Przyklad (shortest easy exercise)
 			var brief ExerciseBrief
-			err = db().QueryRow(
+			err = d.QueryRow(
 				`SELECT id, tresc, odpowiedz FROM data.cwiczenia
 				WHERE typ_nazwa = ? AND trudnosc = 'latwe'
 				ORDER BY LENGTH(tresc) ASC LIMIT 1`, typ).
@@ -1350,7 +1503,7 @@ func typIntroCmd() *cobra.Command {
 
 			// Cheatsheet excerpt
 			var fullContent string
-			db().QueryRow("SELECT content FROM data.cheatsheets WHERE kategoria = ?", kat).
+			d.QueryRow("SELECT content FROM data.cheatsheets WHERE kategoria = ?", kat).
 				Scan(&fullContent)
 			if len(fullContent) > 500 {
 				cutoff := strings.LastIndex(fullContent[:500], ".")
@@ -1363,6 +1516,7 @@ func typIntroCmd() *cobra.Command {
 			out.CheatsheetExcerpt = fullContent
 
 			jsonOut(out)
+			return nil
 		},
 	}
 
@@ -1376,15 +1530,17 @@ func ckeStatusCmd() *cobra.Command {
 	return &cobra.Command{
 		Use:   "status",
 		Short: "Show CKE unlock status for all types",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
+			d := db(cmd)
+
 			// Get all types with CKE subtasks
-			rows, err := db().Query(`
+			rows, err := d.Query(`
 				SELECT e.typ_zadania, e.kategoria, COUNT(*) as total
 				FROM data.egzamin e
 				GROUP BY e.typ_zadania, e.kategoria
 				ORDER BY e.kategoria, e.typ_zadania`)
 			if err != nil {
-				exitError(fmt.Sprintf("query error: %v", err))
+				return fatal(fmt.Sprintf("query error: %v", err))
 			}
 			defer rows.Close()
 
@@ -1392,24 +1548,30 @@ func ckeStatusCmd() *cobra.Command {
 			for rows.Next() {
 				var out CKEStatusOut
 				var total int
-				rows.Scan(&out.Typ, &out.Kategoria, &total)
+				if err := rows.Scan(&out.Typ, &out.Kategoria, &total); err != nil {
+					return fatal(fmt.Sprintf("scan error: %v", err))
+				}
 				out.CKEAvailable = total
 
-				out.Level = getLevel(db(), out.Typ)
+				out.Level = getLevel(d, out.Typ)
 				out.Unlocked = out.Level == "trudne"
 
 				var done int
-				db().QueryRow("SELECT COUNT(*) FROM matura_zrobione WHERE typ = ?", out.Typ).Scan(&done)
+				d.QueryRow("SELECT COUNT(*) FROM matura_zrobione WHERE typ = ?", out.Typ).Scan(&done)
 				out.CKEDone = done
 				out.CKEAvailable = total - done
 
 				results = append(results, out)
+			}
+			if err := rows.Err(); err != nil {
+				return fatal(fmt.Sprintf("rows error: %v", err))
 			}
 
 			if results == nil {
 				results = []CKEStatusOut{}
 			}
 			jsonOut(results)
+			return nil
 		},
 	}
 }
@@ -1423,21 +1585,25 @@ func examListCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
 		Short: "List available exam years with status",
-		Run: func(cmd *cobra.Command, args []string) {
-			rows, err := db().Query(`
+		RunE: func(cmd *cobra.Command, args []string) error {
+			d := db(cmd)
+
+			rows, err := d.Query(`
 				SELECT rok, SUM(punkty) as total
 				FROM data.egzamin
 				GROUP BY rok
 				ORDER BY rok`)
 			if err != nil {
-				exitError(fmt.Sprintf("query error: %v", err))
+				return fatal(fmt.Sprintf("query error: %v", err))
 			}
 			defer rows.Close()
 
 			var entries []ExamListEntry
 			for rows.Next() {
 				var e ExamListEntry
-				rows.Scan(&e.Rok, &e.TotalPkt)
+				if err := rows.Scan(&e.Rok, &e.TotalPkt); err != nil {
+					return fatal(fmt.Sprintf("scan error: %v", err))
+				}
 
 				if e.Rok == 2014 {
 					e.Formula = "2014"
@@ -1452,7 +1618,7 @@ func examListCmd() *cobra.Command {
 
 				// Check if done (has a non-interrupted mock exam)
 				var procent sql.NullFloat64
-				db().QueryRow("SELECT procent FROM probne_matury WHERE rok = ? AND przerwany = 0 ORDER BY procent DESC LIMIT 1", e.Rok).Scan(&procent)
+				d.QueryRow("SELECT procent FROM probne_matury WHERE rok = ? AND przerwany = 0 ORDER BY procent DESC LIMIT 1", e.Rok).Scan(&procent)
 				if procent.Valid {
 					e.Done = true
 					p := procent.Float64
@@ -1471,9 +1637,12 @@ func examListCmd() *cobra.Command {
 
 				entries = append(entries, e)
 			}
+			if err := rows.Err(); err != nil {
+				return fatal(fmt.Sprintf("rows error: %v", err))
+			}
 
 			if len(entries) == 0 {
-				exitNotFound("no exams found")
+				return notFound("no exams found")
 			}
 
 			out := ExamListOut{Available: entries}
@@ -1530,6 +1699,7 @@ func examListCmd() *cobra.Command {
 			}
 
 			jsonOut(out)
+			return nil
 		},
 	}
 
@@ -1546,7 +1716,9 @@ func trapListCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
 		Short: "List traps/gotchas from CKE exams",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
+			d := db(cmd)
+
 			query := `SELECT e.id, e.rok, e.tytul, e.pulapki FROM data.egzamin e WHERE e.pulapki != '[]' AND e.pulapki != 'null'`
 			var params []any
 
@@ -1561,9 +1733,9 @@ func trapListCmd() *cobra.Command {
 
 			query += " ORDER BY e.rok DESC, e.id"
 
-			rows, err := db().Query(query, params...)
+			rows, err := d.Query(query, params...)
 			if err != nil {
-				exitError(fmt.Sprintf("query error: %v", err))
+				return fatal(fmt.Sprintf("query error: %v", err))
 			}
 			defer rows.Close()
 
@@ -1571,18 +1743,27 @@ func trapListCmd() *cobra.Command {
 			for rows.Next() {
 				var t TrapOut
 				var pulapkiJSON string
-				rows.Scan(&t.SourceID, &t.Rok, &t.Tytul, &pulapkiJSON)
-				json.Unmarshal([]byte(pulapkiJSON), &t.Pulapki)
+				if err := rows.Scan(&t.SourceID, &t.Rok, &t.Tytul, &pulapkiJSON); err != nil {
+					return fatal(fmt.Sprintf("scan error: %v", err))
+				}
+				if err := json.Unmarshal([]byte(pulapkiJSON), &t.Pulapki); err != nil {
+					fmt.Fprintf(os.Stderr, "warning: unmarshal pulapki for %s: %v\n", t.SourceID, err)
+					continue
+				}
 				if len(t.Pulapki) > 0 {
 					results = append(results, t)
 				}
 			}
+			if err := rows.Err(); err != nil {
+				return fatal(fmt.Sprintf("rows error: %v", err))
+			}
 
 			if len(results) == 0 {
-				exitNotFound("no traps found")
+				return notFound("no traps found")
 			}
 
 			jsonOut(results)
+			return nil
 		},
 	}
 
@@ -1600,23 +1781,26 @@ func trapSaveCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "save",
 		Short: "Save trap quiz result",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			if id == "" || typ == "" {
-				exitError("--id and --typ are required")
+				return fatal("--id and --typ are required")
 			}
 			if total <= 0 {
-				exitError("--total must be > 0")
+				return fatal("--total must be > 0")
 			}
 
+			d := db(cmd)
+
 			today := time.Now().Format("2006-01-02")
-			_, err := db().Exec(
+			_, err := d.Exec(
 				`INSERT OR REPLACE INTO pulapki_przejrzane (id, typ, data, trafienia, total) VALUES (?, ?, ?, ?, ?)`,
 				id, typ, today, trafienia, total)
 			if err != nil {
-				exitError(fmt.Sprintf("save trap result: %v", err))
+				return fatal(fmt.Sprintf("save trap result: %v", err))
 			}
 
 			jsonOut(TrapSaveOut{ID: id, Typ: typ, Trafienia: trafienia, Total: total})
+			return nil
 		},
 	}
 
@@ -1635,18 +1819,21 @@ func cheatsheetGetCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "get",
 		Short: "Get cheatsheet content",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			if kategoria == "" {
-				exitError("--kategoria is required")
+				return fatal("--kategoria is required")
 			}
 
+			d := db(cmd)
+
 			var content string
-			err := db().QueryRow("SELECT content FROM data.cheatsheets WHERE kategoria = ?", kategoria).Scan(&content)
+			err := d.QueryRow("SELECT content FROM data.cheatsheets WHERE kategoria = ?", kategoria).Scan(&content)
 			if err != nil {
-				exitNotFound(fmt.Sprintf("cheatsheet for kategoria=%s not found", kategoria))
+				return notFound(fmt.Sprintf("cheatsheet for kategoria=%s not found", kategoria))
 			}
 
 			fmt.Print(content)
+			return nil
 		},
 	}
 
@@ -1662,18 +1849,19 @@ func dataImportCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "import",
 		Short: "Import JSON data into matura.db",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			dataDB, err := OpenDataDB(dbDir)
 			if err != nil {
-				exitError(fmt.Sprintf("open data DB: %v", err))
+				return fatal(fmt.Sprintf("open data DB: %v", err))
 			}
 			defer dataDB.Close()
 
 			if err := ImportAll(dataDB, source); err != nil {
-				exitError(fmt.Sprintf("import failed: %v", err))
+				return fatal(fmt.Sprintf("import failed: %v", err))
 			}
 
 			fmt.Fprintln(os.Stderr, "Import complete.")
+			return nil
 		},
 	}
 
@@ -1688,12 +1876,14 @@ func dataStatsCmd() *cobra.Command {
 	return &cobra.Command{
 		Use:   "stats",
 		Short: "Show data counts",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
+			d := db(cmd)
 			var out DataStatsOut
-			db().QueryRow("SELECT COUNT(*) FROM data.cwiczenia").Scan(&out.Cwiczenia)
-			db().QueryRow("SELECT COUNT(*) FROM data.egzamin").Scan(&out.Podzadania)
-			db().QueryRow("SELECT COUNT(*) FROM data.cheatsheets").Scan(&out.Cheatsheets)
+			d.QueryRow("SELECT COUNT(*) FROM data.cwiczenia").Scan(&out.Cwiczenia)
+			d.QueryRow("SELECT COUNT(*) FROM data.egzamin").Scan(&out.Podzadania)
+			d.QueryRow("SELECT COUNT(*) FROM data.cheatsheets").Scan(&out.Cheatsheets)
 			jsonOut(out)
+			return nil
 		},
 	}
 }

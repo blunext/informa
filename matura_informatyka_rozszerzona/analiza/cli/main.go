@@ -1,7 +1,9 @@
 package main
 
 import (
+	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -9,12 +11,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var (
-	dbDir  string
-	mainDB *sql.DB
-)
+var dbDir string
 
 func main() {
+	var openedDB *sql.DB
+
 	rootCmd := &cobra.Command{
 		Use:   "matura",
 		Short: "CLI for matura informatyka exam preparation",
@@ -38,17 +39,18 @@ func main() {
 				return nil
 			}
 
-			db, err := OpenDB(dbDir)
+			db, attached, err := OpenDB(dbDir)
 			if err != nil {
 				return fmt.Errorf("open DB: %w", err)
 			}
-			mainDB = db
-			return nil
-		},
-		PersistentPostRun: func(cmd *cobra.Command, args []string) {
-			if mainDB != nil {
-				mainDB.Close()
+			openedDB = db
+
+			if !attached {
+				return fmt.Errorf("matura.db not found in %s — run: matura data import --source <path>", dbDir)
 			}
+
+			cmd.SetContext(context.WithValue(cmd.Context(), ctxKey{}, db))
+			return nil
 		},
 		SilenceUsage:  true,
 		SilenceErrors: true,
@@ -90,7 +92,16 @@ func main() {
 
 	rootCmd.AddCommand(exerciseCmd, progressCmd, ckeCmd, examCmd, typCmd, trapCmd, cheatsheetCmd, dataCmd)
 
-	if err := rootCmd.Execute(); err != nil {
+	err := rootCmd.Execute()
+	if openedDB != nil {
+		openedDB.Close()
+	}
+	if err != nil {
+		var nf errNotFound
+		if errors.As(err, &nf) {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(2)
 	}

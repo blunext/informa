@@ -12,37 +12,40 @@ import (
 const currentSchemaVersion = 3
 
 // OpenDB opens progress DB as main, attaches matura.db as "data" read-only.
-func OpenDB(dbDir string) (*sql.DB, error) {
+// Returns the DB, whether matura.db was attached, and any error.
+func OpenDB(dbDir string) (*sql.DB, bool, error) {
 	progressPath := filepath.Join(dbDir, "matura_progress.db")
 	maturaPath := filepath.Join(dbDir, "matura.db")
 
 	db, err := sql.Open("sqlite", progressPath)
 	if err != nil {
-		return nil, fmt.Errorf("open progress db: %w", err)
+		return nil, false, fmt.Errorf("open progress db: %w", err)
 	}
 
 	// Enable WAL mode for better concurrency
 	if _, err := db.Exec("PRAGMA journal_mode=WAL"); err != nil {
 		db.Close()
-		return nil, fmt.Errorf("set WAL mode: %w", err)
+		return nil, false, fmt.Errorf("set WAL mode: %w", err)
 	}
 
 	// Initialize progress schema if needed
 	if err := initProgressSchema(db); err != nil {
 		db.Close()
-		return nil, fmt.Errorf("init progress schema: %w", err)
+		return nil, false, fmt.Errorf("init progress schema: %w", err)
 	}
 
 	// Attach matura.db read-only
+	attached := false
 	if _, err := os.Stat(maturaPath); err == nil {
 		_, err = db.Exec("ATTACH DATABASE ? AS data", maturaPath)
 		if err != nil {
 			db.Close()
-			return nil, fmt.Errorf("attach matura.db: %w", err)
+			return nil, false, fmt.Errorf("attach matura.db: %w", err)
 		}
+		attached = true
 	}
 
-	return db, nil
+	return db, attached, nil
 }
 
 // OpenDataDB opens matura.db directly for import (write mode).
@@ -98,6 +101,7 @@ func CreateDataSchema(db *sql.DB) error {
 		typ_zadania TEXT,
 		kategoria TEXT,
 		punkty INTEGER,
+		czesc INTEGER,
 		pulapki TEXT,
 		sciezka_danych TEXT,
 		pliki_danych TEXT
@@ -231,26 +235,39 @@ func createProgressSchema(db *sql.DB) error {
 	return err
 }
 
-// Migration table for future schema changes
+// Migration uses Apply function for idempotent, transactional migrations.
 type Migration struct {
 	Version int
-	SQL     string
+	Apply   func(tx *sql.Tx) error
 }
 
 var migrations = []Migration{
-	{Version: 2, SQL: `
-		CREATE TABLE IF NOT EXISTS pulapki_przejrzane (
-			id TEXT PRIMARY KEY,
-			typ TEXT,
-			data TEXT,
-			trafienia INTEGER,
-			total INTEGER
-		);
-		CREATE INDEX IF NOT EXISTS idx_pulapki_typ ON pulapki_przejrzane(typ);
-	`},
-	{Version: 3, SQL: `
-		ALTER TABLE progress_zrobione ADD COLUMN czas_sek INTEGER;
-		CREATE TABLE IF NOT EXISTS progress_bledy (
+	{Version: 2, Apply: func(tx *sql.Tx) error {
+		if _, err := tx.Exec(`
+			CREATE TABLE IF NOT EXISTS pulapki_przejrzane (
+				id TEXT PRIMARY KEY,
+				typ TEXT,
+				data TEXT,
+				trafienia INTEGER,
+				total INTEGER
+			)`); err != nil {
+			return err
+		}
+		_, err := tx.Exec("CREATE INDEX IF NOT EXISTS idx_pulapki_typ ON pulapki_przejrzane(typ)")
+		return err
+	}},
+	{Version: 3, Apply: func(tx *sql.Tx) error {
+		// Idempotent: check if czas_sek column already exists
+		var count int
+		if err := tx.QueryRow("SELECT COUNT(*) FROM pragma_table_info('progress_zrobione') WHERE name='czas_sek'").Scan(&count); err != nil {
+			return err
+		}
+		if count == 0 {
+			if _, err := tx.Exec("ALTER TABLE progress_zrobione ADD COLUMN czas_sek INTEGER"); err != nil {
+				return err
+			}
+		}
+		if _, err := tx.Exec(`CREATE TABLE IF NOT EXISTS progress_bledy (
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
 			exercise_id TEXT NOT NULL,
 			typ TEXT NOT NULL,
@@ -258,20 +275,34 @@ var migrations = []Migration{
 			blad_opis TEXT,
 			hint_level INTEGER DEFAULT 0,
 			data TEXT NOT NULL
-		);
-		CREATE INDEX IF NOT EXISTS idx_bledy_kod ON progress_bledy(blad_kod);
-		CREATE INDEX IF NOT EXISTS idx_bledy_typ ON progress_bledy(typ);
-	`},
+		)`); err != nil {
+			return err
+		}
+		if _, err := tx.Exec("CREATE INDEX IF NOT EXISTS idx_bledy_kod ON progress_bledy(blad_kod)"); err != nil {
+			return err
+		}
+		_, err := tx.Exec("CREATE INDEX IF NOT EXISTS idx_bledy_typ ON progress_bledy(typ)")
+		return err
+	}},
 }
 
 func migrateProgress(db *sql.DB, fromVersion int) error {
 	for _, m := range migrations {
 		if m.Version > fromVersion {
-			if _, err := db.Exec(m.SQL); err != nil {
+			tx, err := db.Begin()
+			if err != nil {
+				return fmt.Errorf("begin migration v%d: %w", m.Version, err)
+			}
+			if err := m.Apply(tx); err != nil {
+				tx.Rollback()
 				return fmt.Errorf("migration to v%d failed: %w", m.Version, err)
 			}
-			if _, err := db.Exec("UPDATE schema_version SET version = ?", m.Version); err != nil {
-				return err
+			if _, err := tx.Exec("UPDATE schema_version SET version = ?", m.Version); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("update version to v%d: %w", m.Version, err)
+			}
+			if err := tx.Commit(); err != nil {
+				return fmt.Errorf("commit migration v%d: %w", m.Version, err)
 			}
 		}
 	}
