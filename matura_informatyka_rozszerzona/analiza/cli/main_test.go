@@ -1166,3 +1166,104 @@ func TestExamMetaCzesc(t *testing.T) {
 		t.Errorf("2023 czesc: got %d, want 1", czesc2023)
 	}
 }
+
+// === Audit fixes ===
+
+func TestSpacedRepetitionZPomoca2(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Bring tag to level 2 first (two poprawne_bez_pomocy)
+	updateTags(db, []string{"pomoc2-test"}, "poprawne_bez_pomocy") // 0→1
+	updateTags(db, []string{"pomoc2-test"}, "poprawne_bez_pomocy") // 1→2
+
+	var poziom int
+	db.QueryRow("SELECT poziom FROM progress_tagi WHERE tag = 'pomoc2-test'").Scan(&poziom)
+	if poziom != 2 {
+		t.Fatalf("setup: expected level 2, got %d", poziom)
+	}
+
+	// z_pomoca_2 from level 2 → stays level 2, interval = intervals[max(2-1,0)] = intervals[1] = 1 day
+	dates, err := updateTags(db, []string{"pomoc2-test"}, "poprawne_z_pomoca_2")
+	if err != nil {
+		t.Fatal(err)
+	}
+	expected := time.Now().AddDate(0, 0, 1).Format("2006-01-02")
+	if dates[0] != expected {
+		t.Errorf("z_pomoca_2 from level 2: got %s, want %s", dates[0], expected)
+	}
+
+	db.QueryRow("SELECT poziom FROM progress_tagi WHERE tag = 'pomoc2-test'").Scan(&poziom)
+	if poziom != 2 {
+		t.Errorf("z_pomoca_2 level: got %d, want 2 (unchanged)", poziom)
+	}
+
+	// Edge case: level 0 → z_pomoca_2 → stays 0, interval = intervals[max(0-1,0)] = intervals[0] = 0 days
+	dates, err = updateTags(db, []string{"pomoc2-edge"}, "poprawne_z_pomoca_2")
+	if err != nil {
+		t.Fatal(err)
+	}
+	expected = time.Now().Format("2006-01-02") // interval[0] = 0
+	if dates[0] != expected {
+		t.Errorf("z_pomoca_2 from level 0: got %s, want %s", dates[0], expected)
+	}
+
+	db.QueryRow("SELECT poziom FROM progress_tagi WHERE tag = 'pomoc2-edge'").Scan(&poziom)
+	if poziom != 0 {
+		t.Errorf("z_pomoca_2 edge level: got %d, want 0", poziom)
+	}
+}
+
+func TestExamSaveTransaction(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	today := time.Now().Format("2006-01-02")
+
+	// Committed transaction: both matura_zrobione and probne_matury are written
+	tx, err := db.Begin()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	tx.Exec(`INSERT OR REPLACE INTO matura_zrobione (id, typ, data, punkty, max_punkty) VALUES (?, ?, ?, ?, ?)`,
+		"2024.1.1", "sledzenie_algorytmu", today, 1, 1)
+	tx.Exec(`INSERT OR REPLACE INTO matura_zrobione (id, typ, data, punkty, max_punkty) VALUES (?, ?, ?, ?, ?)`,
+		"2024.1.2", "sledzenie_algorytmu", today, 2, 2)
+	tx.Exec(`INSERT INTO probne_matury (rok, data, czas_min, wynik_pkt, max_pkt, procent) VALUES (?, ?, ?, ?, ?, ?)`,
+		2024, today, 180, 3, 3, 100.0)
+
+	if err := tx.Commit(); err != nil {
+		t.Fatalf("commit: %v", err)
+	}
+
+	var zrobioneCount int
+	db.QueryRow("SELECT COUNT(*) FROM matura_zrobione").Scan(&zrobioneCount)
+	if zrobioneCount != 2 {
+		t.Errorf("matura_zrobione after commit: got %d, want 2", zrobioneCount)
+	}
+
+	var probneCount int
+	db.QueryRow("SELECT COUNT(*) FROM probne_matury").Scan(&probneCount)
+	if probneCount != 1 {
+		t.Errorf("probne_matury after commit: got %d, want 1", probneCount)
+	}
+
+	// Rolled-back transaction: nothing persisted
+	tx2, err := db.Begin()
+	if err != nil {
+		t.Fatal(err)
+	}
+	tx2.Exec(`INSERT OR REPLACE INTO matura_zrobione (id, typ, data, punkty, max_punkty) VALUES ('2024.2.1', 'test', ?, 1, 1)`, today)
+	tx2.Exec(`INSERT INTO probne_matury (rok, data, czas_min, wynik_pkt, max_pkt, procent) VALUES (2025, ?, 120, 1, 1, 100.0)`, today)
+	tx2.Rollback()
+
+	db.QueryRow("SELECT COUNT(*) FROM matura_zrobione").Scan(&zrobioneCount)
+	if zrobioneCount != 2 {
+		t.Errorf("matura_zrobione after rollback: got %d, want 2", zrobioneCount)
+	}
+	db.QueryRow("SELECT COUNT(*) FROM probne_matury").Scan(&probneCount)
+	if probneCount != 1 {
+		t.Errorf("probne_matury after rollback: got %d, want 1", probneCount)
+	}
+}

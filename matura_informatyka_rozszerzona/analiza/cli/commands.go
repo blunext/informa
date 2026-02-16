@@ -1223,6 +1223,13 @@ func examSaveCmd() *cobra.Command {
 			wynikPkt := 0
 			maxPkt := 0
 
+			// Begin transaction for all writes (atomicity: all results + summary or nothing)
+			tx, err := d.Begin()
+			if err != nil {
+				return fatal(fmt.Sprintf("begin tx: %v", err))
+			}
+			defer tx.Rollback()
+
 			for _, r := range results {
 				wynikPkt += r.Pkt
 				maxPkt += r.Max
@@ -1231,7 +1238,7 @@ func examSaveCmd() *cobra.Command {
 				if err := d.QueryRow("SELECT typ_zadania FROM data.egzamin WHERE id = ?", r.ID).Scan(&typ); err != nil {
 					return fatal(fmt.Sprintf("CKE subtask %s not found: %v", r.ID, err))
 				}
-				if _, err := d.Exec(`INSERT OR REPLACE INTO matura_zrobione (id, typ, data, punkty, max_punkty) VALUES (?, ?, ?, ?, ?)`,
+				if _, err := tx.Exec(`INSERT OR REPLACE INTO matura_zrobione (id, typ, data, punkty, max_punkty) VALUES (?, ?, ?, ?, ?)`,
 					r.ID, typ, today, r.Pkt, r.Max); err != nil {
 					return fatal(fmt.Sprintf("save result %s: %v", r.ID, err))
 				}
@@ -1242,10 +1249,13 @@ func examSaveCmd() *cobra.Command {
 				procent = float64(wynikPkt) / float64(maxPkt) * 100
 			}
 
-			_, err := d.Exec(`INSERT INTO probne_matury (rok, data, czas_min, wynik_pkt, max_pkt, procent) VALUES (?, ?, ?, ?, ?, ?)`,
-				rok, today, czasMin, wynikPkt, maxPkt, procent)
-			if err != nil {
+			if _, err := tx.Exec(`INSERT INTO probne_matury (rok, data, czas_min, wynik_pkt, max_pkt, procent) VALUES (?, ?, ?, ?, ?, ?)`,
+				rok, today, czasMin, wynikPkt, maxPkt, procent); err != nil {
 				return fatal(fmt.Sprintf("save error: %v", err))
+			}
+
+			if err := tx.Commit(); err != nil {
+				return fatal(fmt.Sprintf("commit: %v", err))
 			}
 
 			jsonOut(map[string]any{
@@ -1832,6 +1842,8 @@ func cheatsheetGetCmd() *cobra.Command {
 				return notFound(fmt.Sprintf("cheatsheet for kategoria=%s not found", kategoria))
 			}
 
+			// Raw markdown output (not jsonOut) — intentional.
+			// SKILL.md expects plain text for direct citation by the AI tutor.
 			fmt.Print(content)
 			return nil
 		},
