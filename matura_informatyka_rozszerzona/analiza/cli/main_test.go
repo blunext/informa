@@ -366,6 +366,251 @@ func TestProgressSchemaCreation(t *testing.T) {
 	}
 }
 
+func TestGetLevel(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Fresh DB → "latwe"
+	if got := getLevel(db, "cyfry_liczby"); got != "latwe" {
+		t.Errorf("fresh DB: got %q, want latwe", got)
+	}
+
+	// Insert level
+	db.Exec("INSERT INTO progress_typy (typ, poziom_trudnosci, streak) VALUES ('cyfry_liczby', 'srednie', 3)")
+	if got := getLevel(db, "cyfry_liczby"); got != "srednie" {
+		t.Errorf("after insert: got %q, want srednie", got)
+	}
+
+	// Unknown type → "latwe"
+	if got := getLevel(db, "nonexistent_type"); got != "latwe" {
+		t.Errorf("unknown type: got %q, want latwe", got)
+	}
+}
+
+func TestGetKategoria(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	cases := map[string]string{
+		"sql_group_by":        "SQL",
+		"cyfry_liczby":        "IMPLEMENTACJA",
+		"sledzenie_algorytmu": "TEORIA",
+		"agregacja_warunkowa": "ARKUSZ",
+	}
+	for typ, want := range cases {
+		if got := getKategoria(db, typ); got != want {
+			t.Errorf("getKategoria(%s): got %q, want %q", typ, got, want)
+		}
+	}
+
+	if got := getKategoria(db, "nonexistent"); got != "" {
+		t.Errorf("unknown type: got %q, want empty", got)
+	}
+}
+
+func TestSessionTracking(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Fresh → count=0
+	count, lastTyp := getSessionState(db)
+	if count != 0 {
+		t.Errorf("fresh count: got %d, want 0", count)
+	}
+	if lastTyp != "" {
+		t.Errorf("fresh lastTyp: got %q, want empty", lastTyp)
+	}
+
+	// Increment
+	incrementSession(db, "sql_group_by")
+	count, lastTyp = getSessionState(db)
+	if count != 1 {
+		t.Errorf("after 1st increment: got %d, want 1", count)
+	}
+	if lastTyp != "sql_group_by" {
+		t.Errorf("after 1st increment: got %q, want sql_group_by", lastTyp)
+	}
+
+	// Increment again
+	incrementSession(db, "cyfry_liczby")
+	count, lastTyp = getSessionState(db)
+	if count != 2 {
+		t.Errorf("after 2nd increment: got %d, want 2", count)
+	}
+	if lastTyp != "cyfry_liczby" {
+		t.Errorf("after 2nd increment: got %q, want cyfry_liczby", lastTyp)
+	}
+}
+
+func TestAutodifficulty(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Set mainDB for queryExercises
+	mainDB = db
+
+	// Fresh DB → getLevel returns "latwe"
+	results := queryExercises("cyfry_liczby", "latwe", "")
+	if len(results) == 0 {
+		t.Fatal("no latwe exercises for cyfry_liczby")
+	}
+	for _, r := range results {
+		if r.Trudnosc != "latwe" {
+			t.Errorf("got trudnosc %q, want latwe", r.Trudnosc)
+		}
+	}
+
+	// Set level to srednie
+	db.Exec("INSERT INTO progress_typy (typ, poziom_trudnosci, streak) VALUES ('cyfry_liczby', 'srednie', 3)")
+	if got := getLevel(db, "cyfry_liczby"); got != "srednie" {
+		t.Errorf("level after insert: got %q, want srednie", got)
+	}
+
+	// Query srednie exercises
+	results = queryExercises("cyfry_liczby", "srednie", "")
+	for _, r := range results {
+		if r.Trudnosc != "srednie" {
+			t.Errorf("got trudnosc %q, want srednie", r.Trudnosc)
+		}
+	}
+}
+
+func TestPoolWarning(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// sql_group_by has many exercises → no warning
+	if w := poolWarning(db, "sql_group_by", "latwe"); w != nil {
+		t.Errorf("sql_group_by latwe: expected nil warning, got %q", *w)
+	}
+
+	// Mark all but 2 teoria_bezpieczenstwa/latwe as done
+	rows, _ := db.Query(`SELECT id FROM data.cwiczenia WHERE typ_nazwa = 'teoria_bezpieczenstwa' AND trudnosc = 'latwe'`)
+	var ids []string
+	for rows.Next() {
+		var id string
+		rows.Scan(&id)
+		ids = append(ids, id)
+	}
+	rows.Close()
+
+	// Mark all but last 2 as done
+	for i := 0; i < len(ids)-2; i++ {
+		db.Exec("INSERT INTO progress_zrobione (id, typ, data, wynik) VALUES (?, 'teoria_bezpieczenstwa', '2026-01-01', 'poprawne_bez_pomocy')", ids[i])
+	}
+
+	if w := poolWarning(db, "teoria_bezpieczenstwa", "latwe"); w == nil {
+		t.Error("teoria_bezpieczenstwa latwe: expected warning, got nil")
+	}
+}
+
+func TestTypIntro(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	mainDB = db
+
+	// Fresh DB: sql_group_by → first_in_type=true, first_in_category=true
+	// We need to simulate the typ intro logic directly
+	kat := getKategoria(db, "sql_group_by")
+	if kat != "SQL" {
+		t.Fatalf("sql_group_by kategoria: got %q, want SQL", kat)
+	}
+
+	var doneInType int
+	db.QueryRow(`SELECT COUNT(*) FROM progress_zrobione z
+		JOIN data.cwiczenia c ON c.id = z.id
+		WHERE c.typ_nazwa = 'sql_group_by'`).Scan(&doneInType)
+	if doneInType != 0 {
+		t.Errorf("fresh DB doneInType: got %d, want 0", doneInType)
+	}
+
+	// Mark 1 exercise from sql_group_by as done
+	db.Exec("INSERT INTO progress_zrobione (id, typ, data, wynik) VALUES ('20.1', 'sql_group_by', '2026-01-01', 'poprawne_bez_pomocy')")
+
+	// Now check sql_join: first_in_type=true, first_in_category=false (sql_group_by done)
+	var doneJoin int
+	db.QueryRow(`SELECT COUNT(*) FROM progress_zrobione z
+		JOIN data.cwiczenia c ON c.id = z.id
+		WHERE c.typ_nazwa = 'sql_join'`).Scan(&doneJoin)
+	if doneJoin != 0 {
+		t.Errorf("sql_join doneInType: got %d, want 0", doneJoin)
+	}
+
+	otherRows, _ := db.Query(`SELECT DISTINCT c.typ_nazwa FROM progress_zrobione z
+		JOIN data.cwiczenia c ON c.id = z.id
+		WHERE c.kategoria = 'SQL' AND c.typ_nazwa != 'sql_join'`)
+	var otherTypes []string
+	for otherRows.Next() {
+		var tt string
+		otherRows.Scan(&tt)
+		otherTypes = append(otherTypes, tt)
+	}
+	otherRows.Close()
+
+	if len(otherTypes) == 0 {
+		t.Error("expected other types done in SQL category")
+	}
+	found := false
+	for _, tt := range otherTypes {
+		if tt == "sql_group_by" {
+			found = true
+		}
+	}
+	if !found {
+		t.Errorf("expected sql_group_by in other types, got %v", otherTypes)
+	}
+}
+
+func TestCKEUnlockCheck(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Fresh → not "trudne"
+	level := getLevel(db, "sledzenie_algorytmu")
+	if level == "trudne" {
+		t.Error("fresh DB: expected non-trudne level")
+	}
+
+	// Set to trudne
+	db.Exec("INSERT INTO progress_typy (typ, poziom_trudnosci, streak) VALUES ('sledzenie_algorytmu', 'trudne', 8)")
+	level = getLevel(db, "sledzenie_algorytmu")
+	if level != "trudne" {
+		t.Errorf("after insert: got %q, want trudne", level)
+	}
+}
+
+func TestExamList(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Check all 11 years are in data.egzamin
+	var yearCount int
+	db.QueryRow("SELECT COUNT(DISTINCT rok) FROM data.egzamin").Scan(&yearCount)
+	if yearCount != 11 {
+		t.Errorf("years: got %d, want 11", yearCount)
+	}
+
+	// No mock exams → none Done
+	var doneCount int
+	db.QueryRow("SELECT COUNT(*) FROM probne_matury WHERE przerwany = 0").Scan(&doneCount)
+	if doneCount != 0 {
+		t.Errorf("fresh done count: got %d, want 0", doneCount)
+	}
+
+	// Insert a mock exam for 2024
+	db.Exec("INSERT INTO probne_matury (rok, data, czas_min, wynik_pkt, max_pkt, procent, przerwany) VALUES (2024, '2026-01-15', 180, 35, 50, 70.0, 0)")
+
+	var procent float64
+	err := db.QueryRow("SELECT procent FROM probne_matury WHERE rok = 2024 AND przerwany = 0 ORDER BY procent DESC LIMIT 1").Scan(&procent)
+	if err != nil {
+		t.Fatalf("query procent: %v", err)
+	}
+	if procent != 70.0 {
+		t.Errorf("procent: got %.1f, want 70.0", procent)
+	}
+}
+
 func TestDataImportCreatesDBFile(t *testing.T) {
 	dir := testDir(t)
 

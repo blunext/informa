@@ -121,13 +121,14 @@ type ProgressUpdateOut struct {
 
 // ProgressStatusOut is what progress status returns
 type ProgressStatusOut struct {
-	Sesje              int            `json:"sesje"`
-	OstatniaSesja      string         `json:"ostatnia_sesja"`
-	CwiczeniaLacznie   int            `json:"cwiczenia_lacznie"`
-	PerTyp             []TypStatusOut `json:"per_typ"`
-	Zaleglosci         int            `json:"zaleglosci"`
-	TagiOpanowane      []string       `json:"tagi_opanowane"`
-	TagiProblematyczne []string       `json:"tagi_problematyczne"`
+	Sesje              int                  `json:"sesje"`
+	OstatniaSesja      string               `json:"ostatnia_sesja"`
+	CwiczeniaLacznie   int                  `json:"cwiczenia_lacznie"`
+	PerTyp             []TypStatusOut       `json:"per_typ"`
+	PerKategoria       []KategoriaStatusOut `json:"per_kategoria"`
+	Zaleglosci         int                  `json:"zaleglosci"`
+	TagiOpanowane      []string             `json:"tagi_opanowane"`
+	TagiProblematyczne []string             `json:"tagi_problematyczne"`
 }
 
 type TypStatusOut struct {
@@ -218,4 +219,72 @@ type DataStatsOut struct {
 	Cwiczenia   int `json:"cwiczenia"`
 	Podzadania  int `json:"podzadania"`
 	Cheatsheets int `json:"cheatsheets"`
+}
+
+// ExerciseNextOut is what exercise next returns
+type ExerciseNextOut struct {
+	Mode           string      `json:"mode"`
+	Exercise       ExerciseOut `json:"exercise"`
+	ReviewTag      *string     `json:"review_tag"`
+	DaysOverdue    *int        `json:"days_overdue"`
+	PoolWarning    *string     `json:"pool_warning"`
+	SessionCount   int         `json:"session_count"`
+	ResetSuggested bool        `json:"reset_suggested"`
+}
+
+// TypIntroOut is what typ intro returns
+type TypIntroOut struct {
+	Typ                      string   `json:"typ"`
+	Kategoria                string   `json:"kategoria"`
+	FirstInType              bool     `json:"first_in_type"`
+	FirstInCategory          bool     `json:"first_in_category"`
+	OtherTypesDoneInCategory []string `json:"other_types_done_in_category"`
+	Level                    string   `json:"level"`
+	Streak                   int      `json:"streak"`
+	Available                int      `json:"available"`
+	Done                     int      `json:"done"`
+	SprawdzianUnlocked       bool     `json:"sprawdzian_unlocked"`
+}
+
+// KategoriaStatusOut is per-category status
+type KategoriaStatusOut struct {
+	Kategoria   string  `json:"kategoria"`
+	TypyTotal   int     `json:"typy_total"`
+	TypyRuszane int     `json:"typy_ruszane"`
+	Zrobione    int     `json:"zrobione"`
+	Dostepne    int     `json:"dostepne"`
+	AvgStreak   float64 `json:"avg_streak"`
+}
+
+// CKEStatusOut is what cke status returns
+type CKEStatusOut struct {
+	Typ          string `json:"typ"`
+	Kategoria    string `json:"kategoria"`
+	Unlocked     bool   `json:"unlocked"`
+	Level        string `json:"level"`
+	CKEDone      int    `json:"cke_done"`
+	CKEAvailable int    `json:"cke_available"`
+}
+
+// ExamListEntry is one year in exam list
+type ExamListEntry struct {
+	Rok          int      `json:"rok"`
+	Formula      string   `json:"formula"`
+	CzasMin      int      `json:"czas_min"`
+	TotalPkt     int      `json:"total_pkt"`
+	Done         bool     `json:"done"`
+	WynikProcent *float64 `json:"wynik_procent,omitempty"`
+}
+
+// ExamListOut is what exam list returns
+type ExamListOut struct {
+	Available []ExamListEntry `json:"available"`
+	Suggested *ExamSuggestion `json:"suggested,omitempty"`
+}
+
+// ExamSuggestion is a suggested exam year
+type ExamSuggestion struct {
+	Rok     int    `json:"rok"`
+	Formula string `json:"formula"`
+	Reason  string `json:"reason"`
 }

@@ -58,7 +58,7 @@ func main() {
 
 	// === exercise ===
 	exerciseCmd := &cobra.Command{Use: "exercise", Short: "Exercise operations"}
-	exerciseCmd.AddCommand(exerciseGetCmd(), exerciseReviewCmd())
+	exerciseCmd.AddCommand(exerciseGetCmd(), exerciseReviewCmd(), exerciseNextCmd())
 
 	// === progress ===
 	progressCmd := &cobra.Command{Use: "progress", Short: "Progress tracking"}
@@ -66,11 +66,15 @@ func main() {
 
 	// === cke ===
 	ckeCmd := &cobra.Command{Use: "cke", Short: "CKE exam subtasks"}
-	ckeCmd.AddCommand(ckeGetCmd(), ckeSaveCmd())
+	ckeCmd.AddCommand(ckeGetCmd(), ckeSaveCmd(), ckeStatusCmd())
 
 	// === exam ===
 	examCmd := &cobra.Command{Use: "exam", Short: "Mock exam operations"}
-	examCmd.AddCommand(examMetaCmd(), examTaskCmd(), examSaveCmd())
+	examCmd.AddCommand(examMetaCmd(), examTaskCmd(), examSaveCmd(), examListCmd())
+
+	// === typ ===
+	typCmd := &cobra.Command{Use: "typ", Short: "Type information"}
+	typCmd.AddCommand(typIntroCmd())
 
 	// === trap ===
 	trapCmd := &cobra.Command{Use: "trap", Short: "Exam traps/gotchas"}
@@ -84,7 +88,7 @@ func main() {
 	dataCmd := &cobra.Command{Use: "data", Short: "Data import and stats"}
 	dataCmd.AddCommand(dataImportCmd(), dataStatsCmd())
 
-	rootCmd.AddCommand(exerciseCmd, progressCmd, ckeCmd, examCmd, trapCmd, cheatsheetCmd, dataCmd)
+	rootCmd.AddCommand(exerciseCmd, progressCmd, ckeCmd, examCmd, typCmd, trapCmd, cheatsheetCmd, dataCmd)
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Fprintln(os.Stderr, err)

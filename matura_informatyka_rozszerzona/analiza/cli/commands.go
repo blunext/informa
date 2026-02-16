@@ -34,6 +34,168 @@ func exitError(msg string) {
 
 func db() *sql.DB { return mainDB }
 
+// === helpers ===
+
+const exerciseColumns = `c.id, c.typ_nazwa, c.kategoria, c.trudnosc, c.punkty, c.zrodlo, c.tagi, c.tresc, c.wskazowki, c.odpowiedz, c.typowe_bledy`
+
+func scanExercise(scanner interface{ Scan(dest ...any) error }) (ExerciseOut, error) {
+	var ex ExerciseOut
+	var tagiJSON, wskazowkiJSON, typoweBledyJSON string
+	err := scanner.Scan(&ex.ID, &ex.TypNazwa, &ex.Kategoria, &ex.Trudnosc, &ex.Punkty, &ex.Zrodlo,
+		&tagiJSON, &ex.Tresc, &wskazowkiJSON, &ex.Odpowiedz, &typoweBledyJSON)
+	if err != nil {
+		return ex, err
+	}
+	json.Unmarshal([]byte(tagiJSON), &ex.Tagi)
+	json.Unmarshal([]byte(wskazowkiJSON), &ex.Wskazowki)
+	json.Unmarshal([]byte(typoweBledyJSON), &ex.TypoweBledy)
+	if ex.Tagi == nil {
+		ex.Tagi = []string{}
+	}
+	if ex.Wskazowki == nil {
+		ex.Wskazowki = []string{}
+	}
+	if ex.TypoweBledy == nil {
+		ex.TypoweBledy = []CommonError{}
+	}
+	return ex, nil
+}
+
+func queryExercises(typ, trudnosc, exclude string) []ExerciseOut {
+	query := `SELECT ` + exerciseColumns + ` FROM data.cwiczenia c WHERE c.typ_nazwa = ?`
+	params := []any{typ}
+	if trudnosc != "" {
+		query += " AND c.trudnosc = ?"
+		params = append(params, trudnosc)
+	}
+	query += " AND c.id NOT IN (SELECT id FROM progress_zrobione)"
+	if exclude != "" {
+		for _, id := range strings.Split(exclude, ",") {
+			query += " AND c.id != ?"
+			params = append(params, strings.TrimSpace(id))
+		}
+	}
+	rows, err := db().Query(query, params...)
+	if err != nil {
+		exitError(fmt.Sprintf("query error: %v", err))
+	}
+	defer rows.Close()
+	var results []ExerciseOut
+	for rows.Next() {
+		ex, err := scanExercise(rows)
+		if err != nil {
+			exitError(fmt.Sprintf("scan error: %v", err))
+		}
+		results = append(results, ex)
+	}
+	return results
+}
+
+func getLevel(d *sql.DB, typ string) string {
+	var level sql.NullString
+	d.QueryRow("SELECT poziom_trudnosci FROM progress_typy WHERE typ = ?", typ).Scan(&level)
+	if level.Valid {
+		return level.String
+	}
+	return "latwe"
+}
+
+func getKategoria(d *sql.DB, typ string) string {
+	var kat string
+	d.QueryRow("SELECT DISTINCT kategoria FROM data.cwiczenia WHERE typ_nazwa = ? LIMIT 1", typ).Scan(&kat)
+	return kat
+}
+
+func poolWarning(d *sql.DB, typ, trudnosc string) *string {
+	var available int
+	d.QueryRow(`SELECT COUNT(*) FROM data.cwiczenia
+		WHERE typ_nazwa = ? AND trudnosc = ?
+		AND id NOT IN (SELECT id FROM progress_zrobione)`, typ, trudnosc).Scan(&available)
+	if available <= 2 {
+		msg := fmt.Sprintf("Pozostaly %d cwiczenia typu %s na poziomie %s. Dogeneruj: /generate-exercises %s 5",
+			available, typ, trudnosc, typ)
+		return &msg
+	}
+	return nil
+}
+
+func getSessionState(d *sql.DB) (count int, lastTyp string) {
+	today := time.Now().Format("2006-01-02")
+	var sessionDate sql.NullString
+	d.QueryRow("SELECT value FROM progress_meta WHERE key = 'session_date'").Scan(&sessionDate)
+	if !sessionDate.Valid || sessionDate.String != today {
+		d.Exec("INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_date', ?)", today)
+		d.Exec("INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_exercise_count', '0')")
+		d.Exec("INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_last_typ', '')")
+		return 0, ""
+	}
+	var countStr, lastTypStr sql.NullString
+	d.QueryRow("SELECT value FROM progress_meta WHERE key = 'session_exercise_count'").Scan(&countStr)
+	d.QueryRow("SELECT value FROM progress_meta WHERE key = 'session_last_typ'").Scan(&lastTypStr)
+	if countStr.Valid {
+		fmt.Sscanf(countStr.String, "%d", &count)
+	}
+	if lastTypStr.Valid {
+		lastTyp = lastTypStr.String
+	}
+	return
+}
+
+func incrementSession(d *sql.DB, typ string) {
+	today := time.Now().Format("2006-01-02")
+	var sessionDate sql.NullString
+	d.QueryRow("SELECT value FROM progress_meta WHERE key = 'session_date'").Scan(&sessionDate)
+	if !sessionDate.Valid || sessionDate.String != today {
+		d.Exec("INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_date', ?)", today)
+		d.Exec("INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_exercise_count', '1')")
+	} else {
+		d.Exec(`UPDATE progress_meta SET value = CAST(CAST(value AS INTEGER) + 1 AS TEXT) WHERE key = 'session_exercise_count'`)
+	}
+	d.Exec("INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_last_typ', ?)", typ)
+}
+
+func findExerciseByTag(d *sql.DB, tag string) (ExerciseOut, error) {
+	row := d.QueryRow(`SELECT `+exerciseColumns+` FROM data.cwiczenia c
+		WHERE c.tagi LIKE ? AND c.id NOT IN (SELECT id FROM progress_zrobione)
+		ORDER BY RANDOM() LIMIT 1`, "%"+tag+"%")
+	ex, err := scanExercise(row)
+	if err == nil {
+		return ex, nil
+	}
+	row = d.QueryRow(`SELECT `+exerciseColumns+` FROM data.cwiczenia c
+		WHERE c.tagi LIKE ? ORDER BY RANDOM() LIMIT 1`, "%"+tag+"%")
+	return scanExercise(row)
+}
+
+func findExerciseByTypAndLevel(d *sql.DB, typ, level string) (ExerciseOut, error) {
+	query := `SELECT ` + exerciseColumns + ` FROM data.cwiczenia c
+		WHERE c.typ_nazwa = ? AND c.id NOT IN (SELECT id FROM progress_zrobione)`
+	params := []any{typ}
+	if level != "" {
+		query += " AND c.trudnosc = ?"
+		params = append(params, level)
+	}
+	query += " ORDER BY RANDOM() LIMIT 1"
+	return scanExercise(d.QueryRow(query, params...))
+}
+
+func findInterleaveExercise(d *sql.DB, excludeTyp string) (ExerciseOut, error) {
+	var altTyp, altLevel string
+	err := d.QueryRow(`
+		SELECT c.typ_nazwa, COALESCE(p.poziom_trudnosci, 'latwe')
+		FROM data.cwiczenia c
+		LEFT JOIN progress_typy p ON p.typ = c.typ_nazwa
+		WHERE c.typ_nazwa != ?
+		AND c.id NOT IN (SELECT id FROM progress_zrobione)
+		GROUP BY c.typ_nazwa
+		ORDER BY COALESCE(p.streak, 0) ASC, RANDOM()
+		LIMIT 1`, excludeTyp).Scan(&altTyp, &altLevel)
+	if err != nil {
+		return ExerciseOut{}, err
+	}
+	return findExerciseByTypAndLevel(d, altTyp, altLevel)
+}
+
 // === exercise get ===
 
 func exerciseGetCmd() *cobra.Command {
@@ -47,57 +209,16 @@ func exerciseGetCmd() *cobra.Command {
 				exitError("--typ is required")
 			}
 
-			query := `SELECT c.id, c.typ_nazwa, c.kategoria, c.trudnosc, c.punkty, c.zrodlo, c.tagi, c.tresc, c.wskazowki, c.odpowiedz, c.typowe_bledy
-				FROM data.cwiczenia c
-				WHERE c.typ_nazwa = ?`
-			params := []any{typ}
-
-			if trudnosc != "" {
-				query += " AND c.trudnosc = ?"
-				params = append(params, trudnosc)
+			// Auto-difficulty: if --trudnosc not explicitly set, use current level
+			if !cmd.Flags().Changed("trudnosc") {
+				trudnosc = getLevel(db(), typ)
 			}
 
-			// Exclude already done exercises
-			query += ` AND c.id NOT IN (SELECT id FROM progress_zrobione)`
+			results := queryExercises(typ, trudnosc, exclude)
 
-			if exclude != "" {
-				excludeIDs := strings.Split(exclude, ",")
-				placeholders := make([]string, len(excludeIDs))
-				for i, id := range excludeIDs {
-					placeholders[i] = "?"
-					params = append(params, strings.TrimSpace(id))
-				}
-				query += " AND c.id NOT IN (" + strings.Join(placeholders, ",") + ")"
-			}
-
-			rows, err := db().Query(query, params...)
-			if err != nil {
-				exitError(fmt.Sprintf("query error: %v", err))
-			}
-			defer rows.Close()
-
-			var results []ExerciseOut
-			for rows.Next() {
-				var ex ExerciseOut
-				var tagiJSON, wskazowkiJSON, typoweBledyJSON string
-				err := rows.Scan(&ex.ID, &ex.TypNazwa, &ex.Kategoria, &ex.Trudnosc, &ex.Punkty, &ex.Zrodlo,
-					&tagiJSON, &ex.Tresc, &wskazowkiJSON, &ex.Odpowiedz, &typoweBledyJSON)
-				if err != nil {
-					exitError(fmt.Sprintf("scan error: %v", err))
-				}
-				json.Unmarshal([]byte(tagiJSON), &ex.Tagi)
-				json.Unmarshal([]byte(wskazowkiJSON), &ex.Wskazowki)
-				json.Unmarshal([]byte(typoweBledyJSON), &ex.TypoweBledy)
-				if ex.Tagi == nil {
-					ex.Tagi = []string{}
-				}
-				if ex.Wskazowki == nil {
-					ex.Wskazowki = []string{}
-				}
-				if ex.TypoweBledy == nil {
-					ex.TypoweBledy = []CommonError{}
-				}
-				results = append(results, ex)
+			// Fallback: if auto-difficulty yielded 0 results, try without difficulty filter
+			if len(results) == 0 && !cmd.Flags().Changed("trudnosc") {
+				results = queryExercises(typ, "", exclude)
 			}
 
 			if len(results) == 0 {
@@ -147,46 +268,9 @@ func exerciseReviewCmd() *cobra.Command {
 				powtorkaDate, _ := time.Parse("2006-01-02", powtorka)
 				daysOverdue := int(time.Since(powtorkaDate).Hours() / 24)
 
-				// Find an exercise that has this tag and isn't done
-				var ex ExerciseOut
-				var tagiJSON, wskazowkiJSON, typoweBledyJSON string
-				err := db().QueryRow(`
-					SELECT c.id, c.typ_nazwa, c.kategoria, c.trudnosc, c.punkty, c.zrodlo, c.tagi, c.tresc, c.wskazowki, c.odpowiedz, c.typowe_bledy
-					FROM data.cwiczenia c
-					WHERE c.tagi LIKE ?
-					AND c.id NOT IN (SELECT id FROM progress_zrobione)
-					ORDER BY RANDOM() LIMIT 1`,
-					"%"+tag+"%",
-				).Scan(&ex.ID, &ex.TypNazwa, &ex.Kategoria, &ex.Trudnosc, &ex.Punkty, &ex.Zrodlo,
-					&tagiJSON, &ex.Tresc, &wskazowkiJSON, &ex.Odpowiedz, &typoweBledyJSON)
-
-				if err == sql.ErrNoRows {
-					// Try with done exercises too
-					err = db().QueryRow(`
-						SELECT c.id, c.typ_nazwa, c.kategoria, c.trudnosc, c.punkty, c.zrodlo, c.tagi, c.tresc, c.wskazowki, c.odpowiedz, c.typowe_bledy
-						FROM data.cwiczenia c
-						WHERE c.tagi LIKE ?
-						ORDER BY RANDOM() LIMIT 1`,
-						"%"+tag+"%",
-					).Scan(&ex.ID, &ex.TypNazwa, &ex.Kategoria, &ex.Trudnosc, &ex.Punkty, &ex.Zrodlo,
-						&tagiJSON, &ex.Tresc, &wskazowkiJSON, &ex.Odpowiedz, &typoweBledyJSON)
-				}
-
+				ex, err := findExerciseByTag(db(), tag)
 				if err != nil {
 					continue
-				}
-
-				json.Unmarshal([]byte(tagiJSON), &ex.Tagi)
-				json.Unmarshal([]byte(wskazowkiJSON), &ex.Wskazowki)
-				json.Unmarshal([]byte(typoweBledyJSON), &ex.TypoweBledy)
-				if ex.Tagi == nil {
-					ex.Tagi = []string{}
-				}
-				if ex.Wskazowki == nil {
-					ex.Wskazowki = []string{}
-				}
-				if ex.TypoweBledy == nil {
-					ex.TypoweBledy = []CommonError{}
 				}
 
 				results = append(results, ReviewOut{
@@ -275,6 +359,9 @@ func progressUpdateCmd() *cobra.Command {
 			db().Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('ostatnia_sesja', ?)`, today)
 			db().Exec(`INSERT INTO progress_meta (key, value) VALUES ('cwiczenia_lacznie', '1')
 				ON CONFLICT(key) DO UPDATE SET value = CAST(CAST(value AS INTEGER) + 1 AS TEXT)`)
+
+			// Session tracking
+			incrementSession(db(), typNazwa)
 
 			out := ProgressUpdateOut{
 				ID:              id,
@@ -410,6 +497,48 @@ func progressStatusCmd() *cobra.Command {
 				out.PerTyp = []TypStatusOut{}
 			}
 
+			// Per-kategoria aggregation
+			typKatMap := map[string]string{}
+			katRows, _ := db().Query("SELECT DISTINCT typ_nazwa, kategoria FROM data.cwiczenia")
+			if katRows != nil {
+				for katRows.Next() {
+					var t, k string
+					katRows.Scan(&t, &k)
+					typKatMap[t] = k
+				}
+				katRows.Close()
+			}
+
+			katAgg := map[string]*KategoriaStatusOut{}
+			for _, ts := range out.PerTyp {
+				kat := typKatMap[ts.Typ]
+				if kat == "" {
+					continue
+				}
+				if katAgg[kat] == nil {
+					katAgg[kat] = &KategoriaStatusOut{Kategoria: kat}
+				}
+				katAgg[kat].TypyTotal++
+				if ts.Zrobione > 0 {
+					katAgg[kat].TypyRuszane++
+				}
+				katAgg[kat].Zrobione += ts.Zrobione
+				katAgg[kat].Dostepne += ts.Dostepne
+				katAgg[kat].AvgStreak += float64(ts.Streak)
+			}
+			katOrder := []string{"TEORIA", "IMPLEMENTACJA", "ARKUSZ", "SQL"}
+			for _, k := range katOrder {
+				if ks, ok := katAgg[k]; ok {
+					if ks.TypyTotal > 0 {
+						ks.AvgStreak /= float64(ks.TypyTotal)
+					}
+					out.PerKategoria = append(out.PerKategoria, *ks)
+				}
+			}
+			if out.PerKategoria == nil {
+				out.PerKategoria = []KategoriaStatusOut{}
+			}
+
 			// Overdue reviews
 			today := time.Now().Format("2006-01-02")
 			db().QueryRow("SELECT COUNT(*) FROM progress_tagi WHERE nastepna_powtorka <= ?", today).Scan(&out.Zaleglosci)
@@ -454,6 +583,7 @@ func progressStatusCmd() *cobra.Command {
 
 func ckeGetCmd() *cobra.Command {
 	var typ, exclude string
+	var force bool
 
 	cmd := &cobra.Command{
 		Use:   "get",
@@ -461,6 +591,14 @@ func ckeGetCmd() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			if typ == "" {
 				exitError("--typ is required")
+			}
+
+			// Unlock check: require level "trudne" unless --force
+			if !force {
+				level := getLevel(db(), typ)
+				if level != "trudne" {
+					exitNotFound(fmt.Sprintf("Sprawdzian typu %s wymaga poziomu trudne. Twoj poziom: %s. Uzyj --force aby pominac.", typ, level))
+				}
 			}
 
 			query := `SELECT e.id, e.rok, e.numer_zadania, e.tytul, e.kontekst, e.typ_zadania, e.kategoria, e.punkty, e.tresc, e.odpowiedz, e.zasady_oceniania, e.pulapki, e.sciezka_danych, e.pliki_danych
@@ -517,6 +655,7 @@ func ckeGetCmd() *cobra.Command {
 
 	cmd.Flags().StringVar(&typ, "typ", "", "Task type (e.g. sledzenie_algorytmu)")
 	cmd.Flags().StringVar(&exclude, "exclude", "", "Comma-separated IDs to exclude")
+	cmd.Flags().BoolVar(&force, "force", false, "Bypass unlock check")
 	return cmd
 }
 
@@ -604,6 +743,8 @@ func examMetaCmd() *cobra.Command {
 			}
 
 			formula := "2023"
+			// czas_minuty = 210 for ALL formulas: 2014 (90+120), 2015 (60+150), 2023 (210).
+			// Per-part times are in Czesci below.
 			czasMinuty := 210
 			if rok == 2014 {
 				formula = "2014"
@@ -779,6 +920,324 @@ func examSaveCmd() *cobra.Command {
 	cmd.Flags().IntVar(&rok, "rok", 0, "Exam year")
 	cmd.Flags().StringVar(&resultsJSON, "results", "", "JSON array of results")
 	cmd.Flags().IntVar(&czasMin, "czas", 0, "Time spent in minutes")
+	return cmd
+}
+
+// === exercise next ===
+
+func exerciseNextCmd() *cobra.Command {
+	var typ string
+
+	cmd := &cobra.Command{
+		Use:   "next",
+		Short: "Get next exercise with smart priority (review > interleave > new)",
+		Run: func(cmd *cobra.Command, args []string) {
+			if typ == "" {
+				exitError("--typ is required")
+			}
+
+			sessionCount, _ := getSessionState(db())
+			out := ExerciseNextOut{
+				SessionCount:   sessionCount,
+				ResetSuggested: sessionCount > 0 && sessionCount%16 == 0,
+			}
+
+			today := time.Now().Format("2006-01-02")
+
+			// Priority 1: overdue review
+			var tag, powtorka string
+			err := db().QueryRow(`
+				SELECT t.tag, t.nastepna_powtorka
+				FROM progress_tagi t
+				WHERE t.nastepna_powtorka <= ?
+				ORDER BY t.nastepna_powtorka ASC
+				LIMIT 1`, today).Scan(&tag, &powtorka)
+			if err == nil {
+				ex, findErr := findExerciseByTag(db(), tag)
+				if findErr == nil {
+					powtorkaDate, _ := time.Parse("2006-01-02", powtorka)
+					daysOverdue := int(time.Since(powtorkaDate).Hours() / 24)
+					out.Mode = "review"
+					out.Exercise = ex
+					out.ReviewTag = &tag
+					out.DaysOverdue = &daysOverdue
+					out.PoolWarning = poolWarning(db(), ex.TypNazwa, ex.Trudnosc)
+					jsonOut(out)
+					return
+				}
+			}
+
+			// Priority 2: interleaving (every 3rd exercise from a different type)
+			if sessionCount > 0 && sessionCount%3 == 0 {
+				ex, err := findInterleaveExercise(db(), typ)
+				if err == nil {
+					out.Mode = "interleave"
+					out.Exercise = ex
+					out.PoolWarning = poolWarning(db(), ex.TypNazwa, ex.Trudnosc)
+					jsonOut(out)
+					return
+				}
+			}
+
+			// Priority 3: new exercise with auto-difficulty
+			level := getLevel(db(), typ)
+			ex, err := findExerciseByTypAndLevel(db(), typ, level)
+			if err != nil {
+				// Fallback: any difficulty
+				ex, err = findExerciseByTypAndLevel(db(), typ, "")
+				if err != nil {
+					exitNotFound(fmt.Sprintf("no exercises available for typ=%s", typ))
+				}
+			}
+
+			out.Mode = "new"
+			out.Exercise = ex
+			out.PoolWarning = poolWarning(db(), typ, level)
+			jsonOut(out)
+		},
+	}
+
+	cmd.Flags().StringVar(&typ, "typ", "", "Exercise type")
+	return cmd
+}
+
+// === typ intro ===
+
+func typIntroCmd() *cobra.Command {
+	var typ string
+
+	cmd := &cobra.Command{
+		Use:   "intro",
+		Short: "Get type introduction context",
+		Run: func(cmd *cobra.Command, args []string) {
+			if typ == "" {
+				exitError("--typ is required")
+			}
+
+			kat := getKategoria(db(), typ)
+			if kat == "" {
+				exitNotFound(fmt.Sprintf("unknown type: %s", typ))
+			}
+
+			out := TypIntroOut{
+				Typ:       typ,
+				Kategoria: kat,
+			}
+
+			// Check if first in type
+			var doneInType int
+			db().QueryRow(`SELECT COUNT(*) FROM progress_zrobione z
+				JOIN data.cwiczenia c ON c.id = z.id
+				WHERE c.typ_nazwa = ?`, typ).Scan(&doneInType)
+			out.FirstInType = doneInType == 0
+			out.Done = doneInType
+
+			// Check if OTHER types in this category have been done
+			otherRows, _ := db().Query(`SELECT DISTINCT c.typ_nazwa FROM progress_zrobione z
+				JOIN data.cwiczenia c ON c.id = z.id
+				WHERE c.kategoria = ? AND c.typ_nazwa != ?`, kat, typ)
+			var otherTypes []string
+			if otherRows != nil {
+				for otherRows.Next() {
+					var t string
+					otherRows.Scan(&t)
+					otherTypes = append(otherTypes, t)
+				}
+				otherRows.Close()
+			}
+			out.FirstInCategory = len(otherTypes) == 0
+			if otherTypes == nil {
+				otherTypes = []string{}
+			}
+			out.OtherTypesDoneInCategory = otherTypes
+
+			// Level and streak
+			out.Level = getLevel(db(), typ)
+			var streak int
+			db().QueryRow("SELECT COALESCE(streak, 0) FROM progress_typy WHERE typ = ?", typ).Scan(&streak)
+			out.Streak = streak
+
+			// Available exercises
+			var available int
+			db().QueryRow(`SELECT COUNT(*) FROM data.cwiczenia WHERE typ_nazwa = ?
+				AND id NOT IN (SELECT id FROM progress_zrobione)`, typ).Scan(&available)
+			out.Available = available
+
+			out.SprawdzianUnlocked = out.Level == "trudne"
+
+			jsonOut(out)
+		},
+	}
+
+	cmd.Flags().StringVar(&typ, "typ", "", "Exercise type")
+	return cmd
+}
+
+// === cke status ===
+
+func ckeStatusCmd() *cobra.Command {
+	return &cobra.Command{
+		Use:   "status",
+		Short: "Show CKE unlock status for all types",
+		Run: func(cmd *cobra.Command, args []string) {
+			// Get all types with CKE subtasks
+			rows, err := db().Query(`
+				SELECT e.typ_zadania, e.kategoria, COUNT(*) as total
+				FROM data.egzamin e
+				GROUP BY e.typ_zadania, e.kategoria
+				ORDER BY e.kategoria, e.typ_zadania`)
+			if err != nil {
+				exitError(fmt.Sprintf("query error: %v", err))
+			}
+			defer rows.Close()
+
+			var results []CKEStatusOut
+			for rows.Next() {
+				var out CKEStatusOut
+				var total int
+				rows.Scan(&out.Typ, &out.Kategoria, &total)
+				out.CKEAvailable = total
+
+				out.Level = getLevel(db(), out.Typ)
+				out.Unlocked = out.Level == "trudne"
+
+				var done int
+				db().QueryRow("SELECT COUNT(*) FROM matura_zrobione WHERE typ = ?", out.Typ).Scan(&done)
+				out.CKEDone = done
+				out.CKEAvailable = total - done
+
+				results = append(results, out)
+			}
+
+			if results == nil {
+				results = []CKEStatusOut{}
+			}
+			jsonOut(results)
+		},
+	}
+}
+
+// === exam list ===
+
+func examListCmd() *cobra.Command {
+	var formula string
+	var random bool
+
+	cmd := &cobra.Command{
+		Use:   "list",
+		Short: "List available exam years with status",
+		Run: func(cmd *cobra.Command, args []string) {
+			rows, err := db().Query(`
+				SELECT rok, SUM(punkty) as total
+				FROM data.egzamin
+				GROUP BY rok
+				ORDER BY rok`)
+			if err != nil {
+				exitError(fmt.Sprintf("query error: %v", err))
+			}
+			defer rows.Close()
+
+			var entries []ExamListEntry
+			for rows.Next() {
+				var e ExamListEntry
+				rows.Scan(&e.Rok, &e.TotalPkt)
+
+				if e.Rok == 2014 {
+					e.Formula = "2014"
+					e.CzasMin = 210 // 90+120 total
+				} else if e.Rok <= 2022 {
+					e.Formula = "2015"
+					e.CzasMin = 210 // 60+150 total
+				} else {
+					e.Formula = "2023"
+					e.CzasMin = 210
+				}
+
+				// Check if done (has a non-interrupted mock exam)
+				var procent sql.NullFloat64
+				db().QueryRow("SELECT procent FROM probne_matury WHERE rok = ? AND przerwany = 0 ORDER BY procent DESC LIMIT 1", e.Rok).Scan(&procent)
+				if procent.Valid {
+					e.Done = true
+					p := procent.Float64
+					e.WynikProcent = &p
+				}
+
+				// Apply formula filter
+				if formula != "" {
+					if formula == "nowa" && e.Formula != "2023" {
+						continue
+					}
+					if formula == "stara" && e.Formula == "2023" {
+						continue
+					}
+				}
+
+				entries = append(entries, e)
+			}
+
+			if len(entries) == 0 {
+				exitNotFound("no exams found")
+			}
+
+			out := ExamListOut{Available: entries}
+
+			// Suggestion logic: prefer undone with nowa formula
+			for _, e := range entries {
+				if !e.Done && e.Formula == "2023" {
+					out.Suggested = &ExamSuggestion{
+						Rok:     e.Rok,
+						Formula: e.Formula,
+						Reason:  "Nowa formula, jeszcze nie zrobiona",
+					}
+					break
+				}
+			}
+			if out.Suggested == nil {
+				for _, e := range entries {
+					if !e.Done {
+						out.Suggested = &ExamSuggestion{
+							Rok:     e.Rok,
+							Formula: e.Formula,
+							Reason:  "Jeszcze nie zrobiona",
+						}
+						break
+					}
+				}
+			}
+
+			if random && len(entries) > 0 {
+				// Filter to undone first
+				var undone []ExamListEntry
+				for _, e := range entries {
+					if !e.Done {
+						undone = append(undone, e)
+					}
+				}
+				if len(undone) > 0 {
+					chosen := undone[rand.Intn(len(undone))]
+					out.Available = []ExamListEntry{chosen}
+					out.Suggested = &ExamSuggestion{
+						Rok:     chosen.Rok,
+						Formula: chosen.Formula,
+						Reason:  "Losowy wybor z niezrobionych",
+					}
+				} else {
+					chosen := entries[rand.Intn(len(entries))]
+					out.Available = []ExamListEntry{chosen}
+					out.Suggested = &ExamSuggestion{
+						Rok:     chosen.Rok,
+						Formula: chosen.Formula,
+						Reason:  "Losowy wybor (wszystkie zrobione)",
+					}
+				}
+			}
+
+			jsonOut(out)
+		},
+	}
+
+	cmd.Flags().StringVar(&formula, "formula", "", "Filter: nowa, stara, or empty for all")
+	cmd.Flags().BoolVar(&random, "random", false, "Pick one random year")
 	return cmd
 }
 
