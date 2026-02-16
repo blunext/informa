@@ -1,0 +1,33 @@
+{
+  "id": "5.1",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "styl maturalny podstawowy",
+  "tagi": [
+    "dec-bin",
+    "bin-dec",
+    "dzielenie-z-reszta",
+    "potegi-dwojki"
+  ],
+  "tresc": "**Polecenie A**: Zamien podane liczby z systemu dziesietnego na binarny. Pokaz pelne obliczenia metoda dzielenia z reszta.\n\n| Lp. | Liczba dziesietna |\n|-----|-------------------|\n| a)  | 45 |\n| b)  | 100 |\n| c)  | 255 |\n\n**Polecenie B**: Zamien podane liczby z systemu binarnego na dziesietny. Pokaz obliczenia.\n\n| Lp. | Liczba binarna |\n|-----|----------------|\n| d)  | 110101(2) |\n| e)  | 11111111(2) |\n| f)  | 10000000(2) |",
+  "wskazowki": [
+    "**Kierunek**: Dziesietny -> binarny: dziel przez 2 i zapisuj reszty. Binarny -> dziesietny: sumuj potegi dwojki.",
+    "**Podejscie**: Reszty czytaj od dolu do gory. Pamietaj potegi: 1, 2, 4, 8, 16, 32, 64, 128, 256.",
+    "**Kluczowy krok**: 255 = 2^8 - 1, wiec w binarnym to 8 jedynek. 128 = 2^7, wiec to 1 i 7 zer."
+  ],
+  "odpowiedz": "**a) 45(10) -> binarny:**\n\n| Dzielenie | Iloraz | Reszta |\n|-----------|--------|--------|\n| 45 / 2 | 22 | 1 |\n| 22 / 2 | 11 | 0 |\n| 11 / 2 | 5 | 1 |\n| 5 / 2 | 2 | 1 |\n| 2 / 2 | 1 | 0 |\n| 1 / 2 | 0 | 1 |\n\nCzytamy reszty od dolu: 45(10) = **101101(2)**\n\nSprawdzenie: 1*32 + 0*16 + 1*8 + 1*4 + 0*2 + 1*1 = 32+8+4+1 = 45\n\n**b) 100(10) -> binarny:**\n\n| Dzielenie | Iloraz | Reszta |\n|-----------|--------|--------|\n| 100 / 2 | 50 | 0 |\n| 50 / 2 | 25 | 0 |\n| 25 / 2 | 12 | 1 |\n| 12 / 2 | 6 | 0 |\n| 6 / 2 | 3 | 0 |\n| 3 / 2 | 1 | 1 |\n| 1 / 2 | 0 | 1 |\n\n100(10) = **1100100(2)**\n\nSprawdzenie: 64+32+4 = 100\n\n**c) 255(10) -> binarny:**\n\n| Dzielenie | Iloraz | Reszta |\n|-----------|--------|--------|\n| 255 / 2 | 127 | 1 |\n| 127 / 2 | 63 | 1 |\n| 63 / 2 | 31 | 1 |\n| 31 / 2 | 15 | 1 |\n| 15 / 2 | 7 | 1 |\n| 7 / 2 | 3 | 1 |\n| 3 / 2 | 1 | 1 |\n| 1 / 2 | 0 | 1 |\n\n255(10) = **11111111(2)**\n\nSprawdzenie: 128+64+32+16+8+4+2+1 = 255\n\n**d) 110101(2) -> dziesietny:**\n\n1*32 + 1*16 + 0*8 + 1*4 + 0*2 + 1*1 = 32 + 16 + 4 + 1 = **53**\n\n**e) 11111111(2) -> dziesietny:**\n\n128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 = **255**\n\n**f) 10000000(2) -> dziesietny:**\n\n1*128 = **128**",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwrocona kolejnosc reszt**: Reszty czytamy od DOLU do gory, nie od gory do dolu",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pominiecie kroku dzielenia**: Trzeba kontynuowac az iloraz = 0",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Bledne potegi dwojki**: Zapamietaj: 2^0=1, 2^1=2, 2^2=4, ..., 2^7=128, 2^8=256",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "21.15",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2019",
+  "tagi": [
+    "EXISTS",
+    "korelacja-podzapytan",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Lekarze**:\n\n| id | imie | nazwisko | specjalizacja |\n|----|------|----------|---------------|\n| 1 | Jan | Kowalski | kardiolog |\n| 2 | Anna | Nowak | ortopeda |\n| 3 | Piotr | Maj | kardiolog |\n| 4 | Ewa | Lis | neurolog |\n| 5 | Kasia | Zak | ortopeda |\n\nTabela **Wizyty**:\n\n| id | id_lekarza | pacjent | data | koszt |\n|----|------------|---------|------|-------|\n| 1 | 1 | Tomek | 2024-01-10 | 200 |\n| 2 | 1 | Anna | 2024-01-15 | 250 |\n| 3 | 2 | Marek | 2024-02-01 | 180 |\n| 4 | 3 | Kasia | 2024-02-10 | 300 |\n| 5 | 1 | Piotr | 2024-03-01 | 200 |\n| 6 | 5 | Ewa | 2024-03-05 | 150 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imiona i nazwiska lekarzy, dla ktorych istnieje przynajmniej jedna wizyta o koszcie powyzej 200 zl. Uzyj EXISTS.",
+  "wskazowki": [
+    "**Kierunek**: EXISTS sprawdza, czy podzapytanie zwraca chociaz jeden wiersz.",
+    "**Podejscie**: `WHERE EXISTS (SELECT 1 FROM Wizyty WHERE ...)` z warunkiem na koszt i polaczeniem z lekarzem.",
+    "**Kluczowy krok**: Podzapytanie musi odwolywac sie do zapytania zewnetrznego: `W.id_lekarza = L.id`."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT L.imie, L.nazwisko\nFROM Lekarze L\nWHERE EXISTS (\n  SELECT 1 FROM Wizyty W\n  WHERE W.id_lekarza = L.id AND W.koszt > 200\n);\n```\n\n**Weryfikacja**:\n- Wizyty z kosztem > 200: id=2 (lekarza 1, 250), id=4 (lekarza 3, 300)\n- Lekarze z takimi wizytami: Jan Kowalski (id=1), Piotr Maj (id=3)\n\n| imie | nazwisko |\n|------|----------|\n| Jan | Kowalski |\n| Piotr | Maj |\n\n**Wyjasnienie**: EXISTS jest alternatywa dla IN — sprawdza, czy podzapytanie zwraca niepusty zbior. Jest podzapytaniem skorelowanym, bo odwoluje sie do `L.id` z zapytania zewnetrznego.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak korelacji**: `EXISTS (SELECT 1 FROM Wizyty WHERE koszt > 200)` bez `W.id_lekarza = L.id` — zwraca TRUE dla wszystkich lekarzy",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**SELECT * zamiast SELECT 1**: Dziala poprawnie, ale SELECT 1 jest konwencja — EXISTS sprawdza tylko istnienie, nie wartosc",
+      "kara": ""
+    }
+  ]
+}

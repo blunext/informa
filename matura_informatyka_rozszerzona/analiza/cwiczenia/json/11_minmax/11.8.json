@@ -1,0 +1,29 @@
+{
+  "id": "11.8",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2019 zad. 4 (min/max roznic)",
+  "tagi": [
+    "roznica-bezwzgledna",
+    "pary-elementow",
+    "min-max",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Dla kazdego elementu policzy, ile jest od niego wiekszych i ile mniejszych.\nb) Znajdzie element, dla ktorego liczba wiekszych i mniejszych jest najbardziej zrownowazona (minimalna roznica |wieksze - mniejsze|).\n\n**Dane** (`dane.txt`):\n```\n15\n42\n8\n33\n27\n50\n19\n36\n11\n44\n```\n\n**Oczekiwany wynik**:\n```\na) Statystyki:\n   15: wiekszych=7, mniejszych=2, roznica=5\n   42: wiekszych=2, mniejszych=7, roznica=5\n   8: wiekszych=9, mniejszych=0, roznica=9\n   33: wiekszych=4, mniejszych=5, roznica=1\n   27: wiekszych=5, mniejszych=4, roznica=1\n   50: wiekszych=0, mniejszych=9, roznica=9\n   19: wiekszych=6, mniejszych=3, roznica=3\n   36: wiekszych=3, mniejszych=6, roznica=3\n   11: wiekszych=8, mniejszych=1, roznica=7\n   44: wiekszych=1, mniejszych=8, roznica=7\n\nb) Najbardziej zrownowazone: 33 (roznica=1)\n   Rowniez: 27 (roznica=1)\n```",
+  "wskazowki": [
+    "**Kierunek**: Dla kazdego elementu policz ile jest wiekszych i mniejszych — petla w petli.",
+    "**Podejscie**: Wewnetrzna petla porownuje element z kazdym innym (pomijajac siebie).",
+    "**Kluczowy krok**: Zrownowazona pozycja to taka, gdzie element jest \"blisko mediany\" — minimalna `|wieksze - mniejsze|`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    cout << \"a) Statystyki:\" << endl;\n    int minRoz = n;\n    vector<int> bestIdx;\n\n    for (int i = 0; i < n; i++) {\n        int wiecej = 0, mniej = 0;\n        for (int j = 0; j < n; j++) {\n            if (j == i) continue;\n            if (T[j] > T[i]) wiecej++;\n            if (T[j] < T[i]) mniej++;\n        }\n        int roz = abs(wiecej - mniej);\n        cout << \"   \" << T[i] << \": wiekszych=\" << wiecej\n             << \", mniejszych=\" << mniej << \", roznica=\" << roz << endl;\n        if (roz < minRoz) { minRoz = roz; bestIdx.clear(); bestIdx.push_back(i); }\n        else if (roz == minRoz) bestIdx.push_back(i);\n    }\n\n    cout << endl << \"b) Najbardziej zrownowazone: \";\n    for (int k = 0; k < (int)bestIdx.size(); k++) {\n        if (k > 0) cout << \"   Rowniez: \";\n        cout << T[bestIdx[k]] << \" (roznica=\" << minRoz << \")\" << endl;\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: Podwojna petla O(n^2): dla kazdego elementu zliczamy ile jest od niego wiekszych i mniejszych. Najlepszy to ten z minimalna roznica tych zliczen.\n\nWeryfikacja:\nPosortowane: 8,11,15,19,27,33,36,42,44,50\n- 33: wiekszych 4 (36,42,44,50), mniejszych 5 (8,11,15,19,27) -> roznica=1\n- 27: wiekszych 5 (33,36,42,44,50), mniejszych 4 (8,11,15,19) -> roznica=1",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownanie elementu z samym soba**: Bez `if (j == i) continue` element jest jednoczesnie wiekszy i mniejszy od siebie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o elementach rownych**: Elementy rowne nie sa ani wieksze, ani mniejsze. W tym zestawie nie ma duplikatow, ale generalnie trzeba o tym pamietac.",
+      "kara": ""
+    }
+  ]
+}

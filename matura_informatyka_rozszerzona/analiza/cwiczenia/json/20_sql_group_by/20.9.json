@@ -1,0 +1,35 @@
+{
+  "id": "20.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Matura 2021 (Gra strategiczna)",
+  "tagi": [
+    "GROUP-BY",
+    "COUNT",
+    "SUM",
+    "HAVING",
+    "JOIN-z-GROUP-BY",
+    "aliasy"
+  ],
+  "tresc": "Tabela **Sklepy**:\n\n| id_sklepu | nazwa | miasto |\n|-----------|-------|--------|\n| 1 | Elektro-Max | Warszawa |\n| 2 | TechWorld | Krakow |\n| 3 | Neonet | Warszawa |\n| 4 | MediaPark | Gdansk |\n\nTabela **Sprzedaz**:\n\n| id | id_sklepu | produkt | ilosc | cena_jednostkowa | data |\n|----|-----------|---------|-------|-------------------|------|\n| 1 | 1 | Laptop | 2 | 3500 | 2024-06-01 |\n| 2 | 1 | Mysz | 10 | 80 | 2024-06-01 |\n| 3 | 2 | Laptop | 1 | 3200 | 2024-06-02 |\n| 4 | 2 | Monitor | 3 | 1200 | 2024-06-02 |\n| 5 | 3 | Laptop | 3 | 3800 | 2024-06-03 |\n| 6 | 3 | Mysz | 5 | 90 | 2024-06-03 |\n| 7 | 4 | Monitor | 2 | 1100 | 2024-06-04 |\n| 8 | 1 | Monitor | 1 | 1300 | 2024-06-05 |\n| 9 | 4 | Laptop | 1 | 3000 | 2024-06-05 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego sklepu wyswietli nazwe sklepu, liczbe roznych transakcji oraz laczny przychod (SUM ilosc * cena_jednostkowa). Pokaz tylko sklepy z przychodem powyzej 5000. Posortuj malejaco wg przychodu.",
+  "wskazowki": [
+    "**Kierunek**: JOIN + GROUP BY, ale uwaga na obliczenie przychodu — to iloczyn dwoch kolumn.",
+    "**Podejscie**: `SUM(ilosc * cena_jednostkowa)` oblicza laczny przychod per grupa.",
+    "**Kluczowy krok**: Mnozenie odbywa sie WEWNATRZ SUM — najpierw ilosc*cena dla kazdego wiersza, potem suma w grupie."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT S.nazwa, COUNT(*) AS liczba_transakcji,\n       SUM(SP.ilosc * SP.cena_jednostkowa) AS przychod\nFROM Sklepy S\nJOIN Sprzedaz SP ON S.id_sklepu = SP.id_sklepu\nGROUP BY S.nazwa\nHAVING SUM(SP.ilosc * SP.cena_jednostkowa) > 5000\nORDER BY przychod DESC;\n```\n\n**Weryfikacja**:\n- Elektro-Max: (2*3500)+(10*80)+(1*1300) = 7000+800+1300 = **9100**, 3 transakcje (>5000 ✓)\n- TechWorld: (1*3200)+(3*1200) = 3200+3600 = **6800**, 2 transakcje (>5000 ✓)\n- Neonet: (3*3800)+(5*90) = 11400+450 = **11850**, 2 transakcje (>5000 ✓)\n- MediaPark: (2*1100)+(1*3000) = 2200+3000 = **5200**, 2 transakcje (>5000 ✓)\n\n| nazwa | liczba_transakcji | przychod |\n|-------|-------------------|----------|\n| Neonet | 2 | 11850 |\n| Elektro-Max | 3 | 9100 |\n| TechWorld | 2 | 6800 |\n| MediaPark | 2 | 5200 |\n\n**Wyjasnienie**: `SUM(ilosc * cena_jednostkowa)` oblicza przychod: najpierw mnozy ilosc przez cene dla kazdego wiersza, potem sumuje w grupie. To czesty wzorzec na maturze. Nie mozna uzyc `SUM(ilosc) * SUM(cena_jednostkowa)` — to daloby zupelnie inny (bledny) wynik.",
+  "typowe_bledy": [
+    {
+      "opis": "**`SUM(ilosc) * SUM(cena_jednostkowa)`**: To nie to samo co `SUM(ilosc * cena_jednostkowa)`. Np. dla Elektro-Max: SUM(ilosc)=13, SUM(cena)=4880, iloczyn=63440 — zupelnie bledny",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Brak HAVING**: Wszystkie sklepy maja przychod > 5000, ale gdyby nie — bledne wyniki",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie aliasu w HAVING**: `HAVING przychod > 5000` — w SQLite dziala, ale bezpieczniej powtorzyc wyrazenie",
+      "kara": ""
+    }
+  ]
+}

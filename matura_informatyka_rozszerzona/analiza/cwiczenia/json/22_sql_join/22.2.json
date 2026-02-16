@@ -1,0 +1,28 @@
+{
+  "id": "22.2",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2017 (Pilka reczna)",
+  "tagi": [
+    "JOIN-wielotabelowy",
+    "aliasy-tabel",
+    "ORDER-BY-wielokolumnowy"
+  ],
+  "tresc": "Tabela **Oddzialy**:\n\n| id_oddzialu | nazwa_oddzialu |\n|-------------|----------------|\n| 1 | Chirurgia |\n| 2 | Pediatria |\n| 3 | Kardiologia |\n\nTabela **Lekarze**:\n\n| id_lekarza | imie | nazwisko | id_oddzialu | specjalizacja |\n|------------|------|----------|-------------|---------------|\n| 1 | Jan | Kowalski | 1 | chirurg |\n| 2 | Anna | Nowak | 2 | pediatra |\n| 3 | Piotr | Maj | 1 | ortopeda |\n| 4 | Ewa | Lis | 3 | kardiolog |\n\nTabela **Wizyty**:\n\n| id_wizyty | id_lekarza | pacjent | data_wizyty |\n|-----------|------------|---------|-------------|\n| 1 | 1 | Tomek Bak | 2024-03-01 |\n| 2 | 2 | Kasia Zak | 2024-03-01 |\n| 3 | 1 | Ola Wrobel | 2024-03-02 |\n| 4 | 4 | Marek Krol | 2024-03-02 |\n| 5 | 3 | Adam Wilk | 2024-03-03 |\n| 6 | 2 | Zofia Ptak | 2024-03-03 |\n| 7 | 4 | Jan Duda | 2024-03-04 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe oddzialu, imie i nazwisko lekarza oraz nazwe pacjenta dla kazdej wizyty. Posortuj wg daty wizyty.",
+  "wskazowki": [
+    "**Kierunek**: Trzy tabele — potrzebujesz dwoch JOIN-ow.",
+    "**Podejscie**: Wizyty → Lekarze (po id_lekarza) → Oddzialy (po id_oddzialu).",
+    "**Kluczowy krok**: Kolejnosc JOIN-ow: od tabeli z danymi (Wizyty) przez tabele posrednia (Lekarze) do tabeli docelowej (Oddzialy)."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT O.nazwa_oddzialu, L.imie, L.nazwisko, W.pacjent, W.data_wizyty\nFROM Wizyty W\nJOIN Lekarze L ON W.id_lekarza = L.id_lekarza\nJOIN Oddzialy O ON L.id_oddzialu = O.id_oddzialu\nORDER BY W.data_wizyty;\n```\n\n**Weryfikacja**:\n\n| nazwa_oddzialu | imie | nazwisko | pacjent | data_wizyty |\n|----------------|------|----------|---------|-------------|\n| Chirurgia | Jan | Kowalski | Tomek Bak | 2024-03-01 |\n| Pediatria | Anna | Nowak | Kasia Zak | 2024-03-01 |\n| Chirurgia | Jan | Kowalski | Ola Wrobel | 2024-03-02 |\n| Kardiologia | Ewa | Lis | Marek Krol | 2024-03-02 |\n| Chirurgia | Piotr | Maj | Adam Wilk | 2024-03-03 |\n| Pediatria | Anna | Nowak | Zofia Ptak | 2024-03-03 |\n| Kardiologia | Ewa | Lis | Jan Duda | 2024-03-04 |\n\n**Wyjasnienie**: Laczenie 3 tabel wymaga dwoch JOIN-ow: Wizyty → Lekarze (po id_lekarza) i Lekarze → Oddzialy (po id_oddzialu). Kolejnosc JOIN-ow nie ma znaczenia dla wyniku, ale logicznie laczymy \"od srodka\".",
+  "typowe_bledy": [
+    {
+      "opis": "**Pominiecie jednego JOIN-a**: Proba polaczenia Wizyty bezposrednio z Oddzialy — te tabele nie maja wspolnej kolumny",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledny warunek ON**: np. `ON W.id_lekarza = O.id_oddzialu` — laczenie blednych kolumn",
+      "kara": "-3 pkt"
+    }
+  ]
+}

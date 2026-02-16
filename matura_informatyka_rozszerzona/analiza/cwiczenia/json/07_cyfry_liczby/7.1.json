@@ -1,0 +1,33 @@
+{
+  "id": "7.1",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2015 zad. 4 (cyfry liczb)",
+  "tagi": [
+    "cyfry-mod-div",
+    "suma-cyfr",
+    "wczytywanie-pliku",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory wczyta te liczby, obliczy sume cyfr kazdej z nich i wypisze te liczby, ktorych suma cyfr jest parzysta.\n\n**Dane** (`dane.txt`):\n```\n4821\n13507\n296\n88412\n5039\n77164\n621\n45008\n9273\n30456\n```\n\n**Oczekiwany wynik**:\n```\n4821 (suma cyfr: 15) - NIE\n13507 (suma cyfr: 16) - TAK\n296 (suma cyfr: 17) - NIE\n88412 (suma cyfr: 23) - NIE\n5039 (suma cyfr: 17) - NIE\n77164 (suma cyfr: 25) - NIE\n621 (suma cyfr: 9) - NIE\n45008 (suma cyfr: 17) - NIE\n9273 (suma cyfr: 21) - NIE\n30456 (suma cyfr: 18) - TAK\nLiczby z parzysta suma cyfr: 2\n```",
+  "wskazowki": [
+    "**Kierunek**: Zastanow sie, jak wyodrebnic poszczegolne cyfry z liczby.",
+    "**Podejscie**: Uzyj petli `while(n > 0)` z operacjami `n % 10` (ostatnia cyfra) i `n /= 10` (usuniecie ostatniej).",
+    "**Kluczowy krok**: Po obliczeniu sumy cyfr sprawdz parzystosc: `suma % 2 == 0`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint sumaCyfr(int n) {\n    int suma = 0;\n    while (n > 0) {\n        suma += n % 10;\n        n /= 10;\n    }\n    return suma;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int liczba;\n    int ile = 0;\n    while (plik >> liczba) {\n        int s = sumaCyfr(liczba);\n        cout << liczba << \" (suma cyfr: \" << s << \") - \";\n        if (s % 2 == 0) {\n            cout << \"TAK\" << endl;\n            ile++;\n        } else {\n            cout << \"NIE\" << endl;\n        }\n    }\n    cout << \"Liczby z parzysta suma cyfr: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Funkcja `sumaCyfr` wyodrębnia kolejne cyfry operacjami `% 10` (ostatnia cyfra) i `/ 10` (usunięcie ostatniej cyfry), sumujac je. Nastepnie sprawdzamy parzystosc sumy.\n\nWeryfikacja:\n- 4821: 4+8+2+1=15 (nieparzysta)\n- 13507: 1+3+5+0+7=16 (parzysta) -> TAK\n- 296: 2+9+6=17 (nieparzysta)\n- 88412: 8+8+4+1+2=23 (nieparzysta)\n- 5039: 5+0+3+9=17 (nieparzysta)\n- 77164: 7+7+1+6+4=25 (nieparzysta)\n- 621: 6+2+1=9 (nieparzysta)\n- 45008: 4+5+0+0+8=17 (nieparzysta)\n- 9273: 9+2+7+3=21 (nieparzysta)\n- 30456: 3+0+4+5+6=18 (parzysta) -> TAK",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o n=0**: Petla `while(n > 0)` pomija liczbe 0 (suma cyfr = 0, a nie pusta). Dla tego zadania to OK (liczby dodatnie), ale warto pamietac",
+      "kara": "-0 pkt (tu nie dotyczy)"
+    },
+    {
+      "opis": "**Uzycie `int` zamiast wyodrebniania cyfr**: Proba operowania na string bez konwersji",
+      "kara": "-1 pkt za bledna metode"
+    },
+    {
+      "opis": "**Brak inicjalizacji licznika `ile`**: Niezainicjalizowana zmienna daje losowy wynik",
+      "kara": "-1 pkt"
+    }
+  ]
+}

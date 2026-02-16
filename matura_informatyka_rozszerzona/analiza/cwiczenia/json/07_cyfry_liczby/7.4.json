@@ -1,0 +1,33 @@
+{
+  "id": "7.4",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2022 zad. 4.2 (faktoryzacja)",
+  "tagi": [
+    "faktoryzacja",
+    "cyfry-mod-div",
+    "wczytywanie-pliku",
+    "podzielnosc"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 8 liczb calkowitych wiekszych od 1 (kazda w osobnym wierszu). Napisz program, ktory dla kazdej liczby:\na) Wypisze jej rozklad na czynniki pierwsze.\nb) Poda laczna liczbe czynnikow pierwszych (z powtorzeniami).\n\nNa koniec program powinien podac, ktora liczba ma najwieksza liczbe czynnikow.\n\n**Dane** (`dane.txt`):\n```\n60\n17\n84\n128\n45\n97\n150\n72\n```\n\n**Oczekiwany wynik**:\n```\n60 = 2 * 2 * 3 * 5 (4 czynniki)\n17 = 17 (1 czynnik)\n84 = 2 * 2 * 3 * 7 (4 czynniki)\n128 = 2 * 2 * 2 * 2 * 2 * 2 * 2 (7 czynnikow)\n45 = 3 * 3 * 5 (3 czynniki)\n97 = 97 (1 czynnik)\n150 = 2 * 3 * 5 * 5 (4 czynniki)\n72 = 2 * 2 * 2 * 3 * 3 (5 czynnikow)\nNajwiecej czynnikow: 128 (7 czynnikow)\n```",
+  "wskazowki": [
+    "**Kierunek**: Faktoryzacja probna — dziel przez kolejne liczby od 2.",
+    "**Podejscie**: Zagniezdzona petla: zewnetrzna po d od 2, wewnetrzna `while(n % d == 0)`. Kontynuuj do `d*d > n`.",
+    "**Kluczowy krok**: Po petli jesli `n > 1`, to n jest ostatnim czynnikiem pierwszym. Nie zapomnij o tym!"
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int maxCzynnikow = 0, maxLiczba = 0;\n\n    while (plik >> n) {\n        int oryg = n;\n        vector<int> czynniki;\n        int d = 2;\n        while (d * d <= n) {\n            while (n % d == 0) {\n                czynniki.push_back(d);\n                n /= d;\n            }\n            d++;\n        }\n        if (n > 1) czynniki.push_back(n);\n\n        cout << oryg << \" = \";\n        for (int i = 0; i < czynniki.size(); i++) {\n            if (i > 0) cout << \" * \";\n            cout << czynniki[i];\n        }\n        int ile = czynniki.size();\n        cout << \" (\" << ile << \" czynnik\";\n        if (ile == 1) cout << \")\";\n        else if (ile < 5) cout << \"i)\";\n        else cout << \"ow)\";\n        cout << endl;\n\n        if (ile > maxCzynnikow) {\n            maxCzynnikow = ile;\n            maxLiczba = oryg;\n        }\n    }\n    cout << \"Najwiecej czynnikow: \" << maxLiczba << \" (\" << maxCzynnikow << \" czynnikow)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Faktoryzacja probna: dzielimy przez kolejne liczby od 2. Jesli d dzieli n, dodajemy d do czynnikow i dzielimy n. Kontynuujemy do d*d > n. Jesli na koncu n > 1, to n jest ostatnim czynnikiem pierwszym.\n\nWeryfikacja:\n- 60: 60/2=30, 30/2=15, 15/3=5, 5/5=1 -> 2*2*3*5 (4)\n- 17: pierwsza -> 17 (1)\n- 84: 84/2=42, 42/2=21, 21/3=7, 7/7=1 -> 2*2*3*7 (4)\n- 128: 2^7 -> 2*2*2*2*2*2*2 (7)\n- 45: 45/3=15, 15/3=5, 5/5=1 -> 3*3*5 (3)\n- 97: pierwsza -> 97 (1)\n- 150: 150/2=75, 75/3=25, 25/5=5, 5/5=1 -> 2*3*5*5 (4)\n- 72: 72/2=36, 36/2=18, 18/2=9, 9/3=3, 3/3=1 -> 2*2*2*3*3 (5)",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o `if (n > 1)` na koncu**: Jesli po petli n > 1, ostatni czynnik pierwszy jest pomijany. Np. 15 = 3*5, ale bez tego warunku dostaniesz tylko 3",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Warunek `d <= n` zamiast `d*d <= n`**: Poprawne ale O(n) zamiast O(sqrt(n)). Na maturze dla malych danych nie przeszkadza.",
+      "kara": ""
+    },
+    {
+      "opis": "**Brak zapisu oryginalnej wartosci**: Zmienna n jest modyfikowana w petli — trzeba ja skopiowac przed faktoryzacja",
+      "kara": "-1 pkt"
+    }
+  ]
+}

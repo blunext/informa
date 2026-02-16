@@ -1,0 +1,33 @@
+{
+  "id": "21.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Matura 2025 (Woda na Marsie)",
+  "tagi": [
+    "korelacja-podzapytan",
+    "podzapytanie-skalarne",
+    "AVG",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Uczniowie**:\n\n| id | imie | nazwisko | klasa |\n|----|------|----------|-------|\n| 1 | Anna | Maj | 3A |\n| 2 | Jan | Krol | 3A |\n| 3 | Ewa | Lis | 3B |\n| 4 | Piotr | Zak | 3B |\n| 5 | Kasia | Wrobel | 3A |\n| 6 | Tomek | Bak | 3B |\n\nTabela **Wyniki**:\n\n| id | id_ucznia | przedmiot | punkty |\n|----|-----------|-----------|--------|\n| 1 | 1 | Matematyka | 85 |\n| 2 | 2 | Matematyka | 70 |\n| 3 | 3 | Matematyka | 92 |\n| 4 | 4 | Matematyka | 60 |\n| 5 | 5 | Matematyka | 78 |\n| 6 | 6 | Matematyka | 88 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko, klase i punkty uczniow, ktorych wynik z Matematyki jest wyzszy niz srednia wynikow z Matematyki W ICH KLASIE (nie w calej szkole). Uzyj podzapytania skorelowanego.",
+  "wskazowki": [
+    "**Kierunek**: Podzapytanie musi odwolywac sie do klasy ucznia z zapytania zewnetrznego — to podzapytanie skorelowane.",
+    "**Podejscie**: `WHERE W.punkty > (SELECT AVG(W2.punkty) FROM Wyniki W2 JOIN Uczniowie U2 ON ... WHERE U2.klasa = U.klasa)`.",
+    "**Kluczowy krok**: Alias w podzapytaniu (U2, W2) musi byc INNY niz w zapytaniu glownym (U, W), ale odwolanie `U2.klasa = U.klasa` laczy podzapytanie z zapytaniem zewnetrznym."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT U.imie, U.nazwisko, U.klasa, W.punkty\nFROM Uczniowie U\nJOIN Wyniki W ON U.id = W.id_ucznia\nWHERE W.przedmiot = 'Matematyka'\n  AND W.punkty > (\n    SELECT AVG(W2.punkty)\n    FROM Wyniki W2\n    JOIN Uczniowie U2 ON U2.id = W2.id_ucznia\n    WHERE W2.przedmiot = 'Matematyka'\n      AND U2.klasa = U.klasa\n  );\n```\n\n**Weryfikacja**:\n\nSrednia 3A: Anna (85), Jan (70), Kasia (78) → (85+70+78)/3 = **77.67**\nSrednia 3B: Ewa (92), Piotr (60), Tomek (88) → (92+60+88)/3 = **80.00**\n\n- Anna: 85 > 77.67 ✓\n- Jan: 70 > 77.67 ✗\n- Ewa: 92 > 80.00 ✓\n- Piotr: 60 > 80.00 ✗\n- Kasia: 78 > 77.67 ✓\n- Tomek: 88 > 80.00 ✓\n\n| imie | nazwisko | klasa | punkty |\n|------|----------|-------|--------|\n| Anna | Maj | 3A | 85 |\n| Ewa | Lis | 3B | 92 |\n| Kasia | Wrobel | 3A | 78 |\n| Tomek | Bak | 3B | 88 |\n\n**Wyjasnienie**: Podzapytanie skorelowane jest wykonywane dla KAZDEGO wiersza z zapytania zewnetrznego. Odwolanie `U2.klasa = U.klasa` powoduje, ze srednia jest obliczana osobno dla kazdej klasy. To rozni sie od podzapytania nieskorelowanego, ktore jest wykonywane raz.",
+  "typowe_bledy": [
+    {
+      "opis": "**Nieskorelowane podzapytanie**: `(SELECT AVG(punkty) FROM Wyniki)` oblicza srednia globalna zamiast per klasa",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Te same aliasy**: `U` w podzapytaniu i w zapytaniu glownym — niejednoznacznosc",
+      "kara": "-1 pkt (blad skladni)"
+    },
+    {
+      "opis": "**Brak filtra na przedmiot w podzapytaniu**: Gdyby tabela Wyniki miala tez inne przedmioty, srednia bylaby bledna",
+      "kara": "-1 pkt"
+    }
+  ]
+}

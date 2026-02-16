@@ -1,0 +1,33 @@
+{
+  "id": "7.5",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2024 zad. 3.3 (skrot liczby + NWD)",
+  "tagi": [
+    "cyfry-mod-div",
+    "NWD-Euklidesa",
+    "wczytywanie-pliku",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych dodatnich (kazda w osobnym wierszu). \"Skrotem\" liczby nazywamy liczbe utworzona z jej cyfr nieparzystych (w tej samej kolejnosci). Na przyklad skrotem liczby 24837 jest 37 (cyfry nieparzyste to 3 i 7), a skrotem 2468 jest 0 (brak cyfr nieparzystych).\n\nNapisz program, ktory:\na) Dla kazdej liczby wypisze jej skrot.\nb) Znajdzie wszystkie liczby, dla ktorych NWD(liczba, skrot) = 7.\n\n**Dane** (`dane.txt`):\n```\n24837\n1470\n35291\n8624\n77742\n5019\n63154\n28007\n91356\n42175\n11368\n50743\n7826\n39501\n14287\n```\n\n**Oczekiwany wynik**:\n```\na) Skroty:\n24837 -> 37\n1470 -> 17\n35291 -> 3591\n8624 -> 0\n77742 -> 777\n5019 -> 519\n63154 -> 315\n28007 -> 7\n91356 -> 9135\n42175 -> 175\n11368 -> 113\n50743 -> 573\n7826 -> 7\n39501 -> 3951\n14287 -> 17\n\nb) Liczby z NWD(liczba, skrot) = 7:\n63154 -> skrot 315, NWD(63154, 315) = 7 -> TAK\n28007 -> skrot 7, NWD(28007, 7) = 7 -> TAK\n7826 -> skrot 7, NWD(7826, 7) = 7 -> TAK\nIlosc: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Rozloz zadanie na etapy — najpierw ekstrakcja cyfr nieparzystych, potem NWD.",
+    "**Podejscie**: Konwertuj liczbe na string, iteruj po znakach, wyciagaj nieparzyste cyfry do nowego stringa, konwertuj z powrotem na int.",
+    "**Kluczowy krok**: Pamietaj o przypadku brzegowym — gdy nie ma cyfr nieparzystych, skrot = 0. NWD(x, 0) jest niezdefiniowane, wiec pomin taka pare."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\nusing namespace std;\n\nint nwd(int a, int b) {\n    while (b != 0) {\n        int temp = b;\n        b = a % b;\n        a = temp;\n    }\n    return a;\n}\n\nint skrot(int n) {\n    string s = to_string(n);\n    string wynik = \"\";\n    for (char c : s) {\n        int cyfra = c - '0';\n        if (cyfra % 2 == 1) {\n            wynik += c;\n        }\n    }\n    if (wynik.empty()) return 0;\n    return stoi(wynik);\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    vector<int> liczby;\n    while (plik >> n) liczby.push_back(n);\n\n    cout << \"a) Skroty:\" << endl;\n    vector<int> skroty;\n    for (int x : liczby) {\n        int sk = skrot(x);\n        skroty.push_back(sk);\n        cout << x << \" -> \" << sk << endl;\n    }\n\n    cout << endl << \"b) Liczby z NWD(liczba, skrot) = 7:\" << endl;\n    int ile = 0;\n    for (int i = 0; i < liczby.size(); i++) {\n        if (skroty[i] > 0) {\n            int g = nwd(liczby[i], skroty[i]);\n            if (g == 7) {\n                cout << liczby[i] << \" -> skrot \" << skroty[i]\n                     << \", NWD(\" << liczby[i] << \", \" << skroty[i]\n                     << \") = \" << g << \" -> TAK\" << endl;\n                ile++;\n            }\n        }\n    }\n    cout << \"Ilosc: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Wieloetapowe przetwarzanie: (1) ekstrakcja cyfr nieparzystych i budowanie skrotu, (2) obliczenie NWD liczby i skrotu, (3) filtrowanie po warunku NWD = 7.\n\nWeryfikacja skrotow:\n- 24837: cyfry 2,4,8,3,7 -> nieparzyste: 3,7 -> skrot 37\n- 1470: cyfry 1,4,7,0 -> nieparzyste: 1,7 -> skrot 17\n- 35291: cyfry 3,5,2,9,1 -> nieparzyste: 3,5,9,1 -> skrot 3591\n- 8624: cyfry 8,6,2,4 -> brak nieparzystych -> skrot 0\n- 77742: cyfry 7,7,7,4,2 -> nieparzyste: 7,7,7 -> skrot 777\n- 5019: cyfry 5,0,1,9 -> nieparzyste: 5,1,9 -> skrot 519\n- 63154: cyfry 6,3,1,5,4 -> nieparzyste: 3,1,5 -> skrot 315\n- 28007: cyfry 2,8,0,0,7 -> nieparzyste: 7 -> skrot 7\n- 91356: cyfry 9,1,3,5,6 -> nieparzyste: 9,1,3,5 -> skrot 9135\n- 42175: cyfry 4,2,1,7,5 -> nieparzyste: 1,7,5 -> skrot 175\n- 11368: cyfry 1,1,3,6,8 -> nieparzyste: 1,1,3 -> skrot 113\n- 50743: cyfry 5,0,7,4,3 -> nieparzyste: 5,7,3 -> skrot 573\n- 7826: cyfry 7,8,2,6 -> nieparzyste: 7 -> skrot 7\n- 39501: cyfry 3,9,5,0,1 -> nieparzyste: 3,9,5,1 -> skrot 3951\n- 14287: cyfry 1,4,2,8,7 -> nieparzyste: 1,7 -> skrot 17\n\nWeryfikacja NWD = 7:\n- 63154, skrot 315: NWD(63154, 315) = NWD(315, 154) = NWD(154, 7) = NWD(7, 0) = 7 -> TAK\n- 28007, skrot 7: NWD(28007, 7) = 7 (bo 28007 = 4001*7) -> TAK\n- 7826, skrot 7: NWD(7826, 7) = 7 (bo 7826 = 1118*7) -> TAK\n\nPozostale: NWD(24837,37)=1, NWD(1470,17)=1, NWD(35291,3591)=1, NWD(77742,777)=21, NWD(5019,519)=3, NWD(91356,9135)=3, NWD(42175,175)=175, NWD(11368,113)=1, NWD(50743,573)=1, NWD(39501,3951)=9, NWD(14287,17)=1",
+  "typowe_bledy": [
+    {
+      "opis": "**Ekstrakcja cyfr w odwrotnej kolejnosci**: Uzywajac mod/div cyfry wychodza od konca (7,3 zamiast 3,7 dla 24837). Uzyj `to_string` lub odwroc wynik",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak obslugi skrotu = 0**: NWD(x, 0) moze powodowac dzielenie przez zero lub nieskonczona petle",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie `atoi` zamiast `stoi`**: `atoi` nie sygnalizuje bledu. Dla pustego stringa lepiej sprawdzic recznie",
+      "kara": "-0 pkt (dziala, ale zla praktyka)"
+    }
+  ]
+}

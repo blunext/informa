@@ -1,0 +1,33 @@
+{
+  "id": "8.7",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2025 zad. 2 (podciagi)",
+  "tagi": [
+    "podciagi",
+    "operacje-na-string",
+    "wczytywanie-pliku",
+    "zliczanie-znakow"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 10 napisow (kazdy w osobnym wierszu, male litery a-z). Napisz program, ktory:\na) Dla kazdego napisu znajdzie najdluzszy podciag zlozony z tej samej litery (np. \"aabbbcccc\" -> 'c' powtorzone 4 razy).\nb) Znajdzie napis z najdluzszym takim podciagiem.\n\n**Dane** (`napisy.txt`):\n```\naabbbcccc\nxxxyz\nabcde\nmmmnnnmm\npppppq\nabccba\nzzzzzzz\naabb\nqwerty\njjjkkk\n```\n\n**Oczekiwany wynik**:\n```\naabbbcccc: najdluzszy='c' (4x, poz.6)\nxxxyz: najdluzszy='x' (3x, poz.1)\nabcde: najdluzszy='a' (1x, poz.1)\nmmmnnnmm: najdluzszy='m' (3x, poz.1)\npppppq: najdluzszy='p' (5x, poz.1)\nabccba: najdluzszy='c' (2x, poz.3)\nzzzzzzz: najdluzszy='z' (7x, poz.1)\naabb: najdluzszy='a' (2x, poz.1)\nqwerty: najdluzszy='q' (1x, poz.1)\njjjkkk: najdluzszy='j' (3x, poz.1)\n\nNapis z najdluzszym podciagiem: zzzzzzz ('z' x7)\n```",
+  "wskazowki": [
+    "**Kierunek**: Wzorzec current/max — sledz biezacy ciag identycznych znakow.",
+    "**Podejscie**: Iteruj po napisie. Jesli `s[i] == s[i-1]`, zwieksz biezacy licznik. Inaczej porownaj z max i resetuj.",
+    "**Kluczowy krok**: Nie zapomnij o sprawdzeniu po zakonczeniu petli (ostatni ciag moze byc najdluzszy)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    string bestNapis;\n    char bestZnak = ' ';\n    int bestGlobal = 0;\n\n    while (plik >> s) {\n        int maxDl = 1, maxStart = 0;\n        int curDl = 1;\n        for (int i = 1; i < s.length(); i++) {\n            if (s[i] == s[i - 1]) {\n                curDl++;\n            } else {\n                if (curDl > maxDl) {\n                    maxDl = curDl;\n                    maxStart = i - curDl;\n                }\n                curDl = 1;\n            }\n        }\n        if (curDl > maxDl) {\n            maxDl = curDl;\n            maxStart = s.length() - curDl;\n        }\n\n        cout << s << \": najdluzszy='\" << s[maxStart] << \"' (\"\n             << maxDl << \"x, poz.\" << maxStart + 1 << \")\" << endl;\n\n        if (maxDl > bestGlobal) {\n            bestGlobal = maxDl;\n            bestNapis = s;\n            bestZnak = s[maxStart];\n        }\n    }\n    cout << endl << \"Napis z najdluzszym podciagiem: \" << bestNapis\n         << \" ('\" << bestZnak << \"' x\" << bestGlobal << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- aabbbcccc: a(2), b(3), c(4) -> max 'c' x4, poz.6\n- xxxyz: x(3), y(1), z(1) -> max 'x' x3, poz.1\n- zzzzzzz: z(7) -> max 'z' x7, poz.1\n- mmmnnnmm: m(3), n(3), m(2) -> max 'm' x3, poz.1 (pierwszy znaleziony)\nGlobal max: zzzzzzz (z x7)",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o sprawdzeniu po petli**: Ostatni ciag identycznych znakow nie jest porownywany z max",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Inicjalizacja maxDl=0**: Kazdy napis ma co najmniej 1-znakowy podciag. Powinno byc maxDl=1",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledna pozycja startowa**: Obliczenie `maxStart = i` zamiast `i - curDl` daje koniec zamiast poczatek ciagu",
+      "kara": "-1 pkt"
+    }
+  ]
+}

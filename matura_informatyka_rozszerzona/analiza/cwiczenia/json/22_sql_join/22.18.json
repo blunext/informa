@@ -1,0 +1,29 @@
+{
+  "id": "22.18",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2025",
+  "tagi": [
+    "LEFT-JOIN",
+    "COUNT-z-LEFT-JOIN",
+    "GROUP-BY-z-JOIN",
+    "DISTINCT"
+  ],
+  "tresc": "Tabela **Dzialy**:\n\n| id_dzialu | nazwa |\n|-----------|-------|\n| 1 | IT |\n| 2 | HR |\n| 3 | Finanse |\n| 4 | Marketing |\n\nTabela **Pracownicy**:\n\n| id | imie | nazwisko | id_dzialu |\n|----|------|----------|----------|\n| 1 | Anna | Kowalska | 1 |\n| 2 | Jan | Nowak | 1 |\n| 3 | Ewa | Maj | 2 |\n| 4 | Piotr | Lis | 3 |\n\nTabela **Projekty**:\n\n| id_proj | nazwa | id_pracownika | budzet |\n|---------|-------|---------------|--------|\n| 1 | Aplikacja | 1 | 50000 |\n| 2 | Strona www | 2 | 30000 |\n| 3 | Raport | 4 | 15000 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe dzialu i liczbe unikalnych projektow, w ktore zaangazowani sa pracownicy tego dzialu. Pokaz WSZYSTKIE dzialy (0 dla dzialow bez projektow). Posortuj malejaco wg liczby projektow.",
+  "wskazowki": [
+    "**Kierunek**: Trzy tabele, dwa LEFT JOIN aby zachowac puste dzialy.",
+    "**Podejscie**: Dzialy LEFT JOIN Pracownicy LEFT JOIN Projekty, GROUP BY dzial.",
+    "**Kluczowy krok**: COUNT(DISTINCT PR.id_proj) liczy unikalne projekty — COUNT(PR.id_proj) tez zadziala tu, ale DISTINCT jest bezpieczniejszy."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT D.nazwa, COUNT(DISTINCT PR.id_proj) AS liczba_projektow\nFROM Dzialy D\nLEFT JOIN Pracownicy P ON D.id_dzialu = P.id_dzialu\nLEFT JOIN Projekty PR ON P.id = PR.id_pracownika\nGROUP BY D.nazwa\nORDER BY liczba_projektow DESC;\n```\n\n**Weryfikacja**:\n- IT: Anna → Aplikacja (1), Jan → Strona www (2) → **2**\n- HR: Ewa → brak projektow → **0**\n- Finanse: Piotr → Raport (3) → **1**\n- Marketing: brak pracownikow → **0**\n\n| nazwa | liczba_projektow |\n|-------|-----------------|\n| IT | 2 |\n| Finanse | 1 |\n| HR | 0 |\n| Marketing | 0 |\n\n**Wyjasnienie**: Dwa LEFT JOIN-y zapewniaja, ze dzialy bez pracownikow i pracownicy bez projektow tez sie pojawia. COUNT(DISTINCT) pomija NULL, wiec puste grupy daja 0.",
+  "typowe_bledy": [
+    {
+      "opis": "**INNER JOIN**: HR i Marketing nie pojawia sie (HR nie ma projektow, Marketing nie ma pracownikow)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Tylko jeden LEFT JOIN**: `LEFT JOIN Pracownicy ... JOIN Projekty` — INNER JOIN na Projekty odrzuca pracownikow bez projektow",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "17.10",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Matura 2021 (Szyfry)",
+  "tagi": [
+    "wykres-kolumnowy",
+    "wykres-kolowy",
+    "wykres-liniowy",
+    "procent-udzialu",
+    "odczyt-z-wykresu",
+    "formatowanie-wykresu"
+  ],
+  "tresc": "Zrodla dochodow gminy w 3 kolejnych latach (w tys. zl):\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Zrodlo** | **2022** | **2023** | **2024** |\n| 2 | Podatki lokalne | 1200 | 1350 | 1500 |\n| 3 | Dotacje rzadowe | 800 | 750 | 900 |\n| 4 | Oplaty komunalne | 400 | 420 | 450 |\n| 5 | Sprzedaz majatku | 150 | 80 | 200 |\n| 6 | Inne | 100 | 120 | 130 |\n\n**Polecenie**:\n1. Dla kazdego roku oblicz laczny dochod i udzial procentowy kazdego zrodla.\n2. Opisz 3 wykresy: (a) kolumnowy grupowany — porownanie zrodel w latach, (b) kolowy dla roku 2024, (c) liniowy — trend lacznych dochodow.\n3. Ktore zrodlo dochodow roslo najszybciej (najwieksza zmiana procentowa 2022→2024)?\n4. Czy struktura dochodow zmienila sie istotnie miedzy 2022 a 2024?",
+  "wskazowki": [
+    "**Kierunek**: Trzy rozne wykresy — kazdy odpowiada na inne pytanie. Grupowany = porownanie, kolowy = struktura, liniowy = trend.",
+    "**Podejscie**: Zmiana procentowa = (wartosc_2024 - wartosc_2022) / wartosc_2022 × 100%.",
+    "**Kluczowy krok**: Porownaj udzialy procentowe 2022 vs 2024, aby ocenic zmiane struktury."
+  ],
+  "odpowiedz": "**1. Obliczenia:**\n\n| Zrodlo | 2022 | 2023 | 2024 |\n|--------|------|------|------|\n| Podatki lokalne | 1200 | 1350 | 1500 |\n| Dotacje rzadowe | 800 | 750 | 900 |\n| Oplaty komunalne | 400 | 420 | 450 |\n| Sprzedaz majatku | 150 | 80 | 200 |\n| Inne | 100 | 120 | 130 |\n| **RAZEM** | **2650** | **2720** | **3180** |\n\nUdzialy procentowe:\n\n| Zrodlo | 2022 | 2024 |\n|--------|------|------|\n| Podatki lokalne | 45.3% | 47.2% |\n| Dotacje rzadowe | 30.2% | 28.3% |\n| Oplaty komunalne | 15.1% | 14.2% |\n| Sprzedaz majatku | 5.7% | 6.3% |\n| Inne | 3.8% | 4.1% |\n\n**2. Specyfikacje wykresow:**\n\n**(a) Kolumnowy grupowany:**\n- Os X: zrodla dochodow (5 kategorii)\n- Serie: 2022, 2023, 2024 (3 slupki obok siebie)\n- Tytul: \"Dochody gminy wg zrodel (tys. zl)\"\n\n**(b) Kolowy dla 2024:**\n- Etykiety: A2:A6, Wartosci: D2:D6\n- Etykiety: nazwa + procent\n- Tytul: \"Struktura dochodow gminy w 2024\"\n\n**(c) Liniowy — trend:**\n- Os X: 2022, 2023, 2024\n- Os Y: laczne dochody (2650, 2720, 3180)\n- Linia z markerami + ewentualna linia trendu\n- Tytul: \"Trend lacznych dochodow gminy\"\n\n**3. Zmiana procentowa 2022→2024:**\n\n| Zrodlo | 2022 | 2024 | Zmiana |\n|--------|------|------|--------|\n| Podatki lokalne | 1200 | 1500 | +25.0% |\n| Dotacje rzadowe | 800 | 900 | +12.5% |\n| Oplaty komunalne | 400 | 450 | +12.5% |\n| Sprzedaz majatku | 150 | 200 | **+33.3%** |\n| Inne | 100 | 130 | +30.0% |\n\nNajszybszy wzrost: **Sprzedaz majatku (+33.3%)**\n\n**4. Analiza zmian struktury:**\nStruktura dochodow **nie zmienila sie istotnie** — udzialy procentowe sa zblizone (roznice <3 p.p.). Podatki lokalne dominuja w obu latach (~45-47%), dotacje rzadowe sa drugie (~28-30%). Glowny trend: lagodny wzrost udzialu podatkow kosztem dotacji.\n\n**Wyjasnienie**: Na maturze czesto trzeba utworzyc kilka roznych wykresow z tych samych danych — kazdy odpowiada na inne pytanie. Zmiana procentowa to standardowa miara dynamiki. Porownanie struktur wymaga zestawienia udzialow procentowych, nie wartosci bezwzglednych.",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownanie wartosci bezwzglednych zamiast procentowych**: \"Podatki rosly najszybciej bo wzrosly o 300\" — ale 300/1200=25%, podczas gdy sprzedaz majatku 50/150=33%",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak osobnego wykresu na kazde pytanie**: Jeden wykres nie odpowie na wszystkie pytania jednoczesnie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak wniosku o strukturze**: \"Nie zmienila sie\" to za malo — trzeba podac DLACZEGO (porownac udzialy)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

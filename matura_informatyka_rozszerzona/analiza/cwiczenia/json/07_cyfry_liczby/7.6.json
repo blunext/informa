@@ -1,0 +1,28 @@
+{
+  "id": "7.6",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2023 zad. 3 (cyfry liczby pi)",
+  "tagi": [
+    "cyfry-mod-div",
+    "wczytywanie-pliku",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory dla kazdej liczby:\na) Poda jej liczbe cyfr.\nb) Poda jej pierwsza i ostatnia cyfre.\nc) Sprawdzi, czy pierwsza cyfra jest wieksza od ostatniej.\n\n**Dane** (`dane.txt`):\n```\n7245\n918\n36470\n5\n84213\n609\n12\n47856\n301\n6783\n```\n\n**Oczekiwany wynik**:\n```\n7245: 4 cyfry, pierwsza=7, ostatnia=5, pierwsza > ostatnia: TAK\n918: 3 cyfry, pierwsza=9, ostatnia=8, pierwsza > ostatnia: TAK\n36470: 5 cyfr, pierwsza=3, ostatnia=0, pierwsza > ostatnia: TAK\n5: 1 cyfra, pierwsza=5, ostatnia=5, pierwsza > ostatnia: NIE\n84213: 5 cyfr, pierwsza=8, ostatnia=3, pierwsza > ostatnia: TAK\n609: 3 cyfry, pierwsza=6, ostatnia=9, pierwsza > ostatnia: NIE\n12: 2 cyfry, pierwsza=1, ostatnia=2, pierwsza > ostatnia: NIE\n47856: 5 cyfr, pierwsza=4, ostatnia=6, pierwsza > ostatnia: NIE\n301: 3 cyfry, pierwsza=3, ostatnia=1, pierwsza > ostatnia: TAK\n6783: 4 cyfry, pierwsza=6, ostatnia=3, pierwsza > ostatnia: TAK\nLiczby z pierwsza > ostatnia: 6\n```",
+  "wskazowki": [
+    "**Kierunek**: Ostatnia cyfra to `n % 10`. Pierwsza cyfra to wynik dzielenia przez 10 dopoki n >= 10.",
+    "**Podejscie**: Liczba cyfr to dlugosc `to_string(n)` lub zliczanie w petli `while(n > 0)`.",
+    "**Kluczowy krok**: Pamietaj, ze dla jednocyfrowej liczby pierwsza == ostatnia."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int ile = 0;\n    while (plik >> n) {\n        string s = to_string(n);\n        int liczbaCyfr = s.length();\n        int pierwsza = s[0] - '0';\n        int ostatnia = s[s.length() - 1] - '0';\n        cout << n << \": \" << liczbaCyfr << \" cyfr\";\n        if (liczbaCyfr == 1) cout << \"a\";\n        else cout << (liczbaCyfr < 5 ? \"y\" : \"\");\n        cout << \", pierwsza=\" << pierwsza << \", ostatnia=\" << ostatnia;\n        cout << \", pierwsza > ostatnia: \";\n        if (pierwsza > ostatnia) {\n            cout << \"TAK\" << endl;\n            ile++;\n        } else {\n            cout << \"NIE\" << endl;\n        }\n    }\n    cout << \"Liczby z pierwsza > ostatnia: \" << ile << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- 7245: 4 cyfry, 7 > 5 -> TAK\n- 918: 3 cyfry, 9 > 8 -> TAK\n- 36470: 5 cyfr, 3 > 0 -> TAK\n- 5: 1 cyfra, 5 > 5 -> NIE (nie scisle)\n- 84213: 5 cyfr, 8 > 3 -> TAK\n- 609: 3 cyfry, 6 > 9 -> NIE\n- 12: 2 cyfry, 1 > 2 -> NIE\n- 47856: 5 cyfr, 4 > 6 -> NIE\n- 301: 3 cyfry, 3 > 1 -> TAK\n- 6783: 4 cyfry, 6 > 3 -> TAK\nRazem TAK: 6",
+  "typowe_bledy": [
+    {
+      "opis": "**Wyciaganie pierwszej cyfry petla dzielenia — zapomnienie o kopii**: Petla `while(n >= 10) n /= 10` niszczy oryginalna wartosc",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzywanie `n / pow(10, k)` z double**: Bledy zaokraglen float mogą dac zla cyfre",
+      "kara": "-1 pkt"
+    }
+  ]
+}

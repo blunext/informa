@@ -1,0 +1,32 @@
+{
+  "id": "1.4",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2019 zad. 2, Matura 2014 zad. 1a (Korale)",
+  "tagi": [
+    "rekurencja",
+    "drzewo-wywolan",
+    "sledzenie-iteracyjne"
+  ],
+  "tresc": "Dana jest funkcja rekurencyjna z dwoma wywolaniami:\n\n```\nfunkcja g(n)\n    jezeli n <= 1:\n        zwroc n\n    zwroc g(n div 2) + g(n div 3) + 1\n```\n\n**Polecenie**:\n- a) Narysuj pelne drzewo wywolan dla `g(12)`. Przy kazdym wezle zapisz wartosc argumentu n oraz wartosc zwracana.\n- b) Podaj calkowita liczbe wywolan funkcji g.\n- c) Podaj wynik koncowy `g(12)`.",
+  "wskazowki": [
+    "**Kierunek**: To rekurencja drzewiasta — kazde wywolanie generuje dwa kolejne (div 2 i div 3).",
+    "**Podejscie**: Zacznij od korzenia g(12), rozwin galaz lewa g(6) i prawa g(4), potem kazda dalej.",
+    "**Kluczowy krok**: Warunek bazowy: n<=1 zwraca n. Kazdy wezel niebazowy dodaje +1 do sumy dzieci."
+  ],
+  "odpowiedz": "**a) Drzewo wywolan g(12):**\n\n```\ng(12) = g(6) + g(4) + 1\n├── g(6) = g(3) + g(2) + 1\n│   ├── g(3) = g(1) + g(1) + 1\n│   │   ├── g(1) = 1  [bazowy]\n│   │   └── g(1) = 1  [bazowy]\n│   │   => g(3) = 1 + 1 + 1 = 3\n│   └── g(2) = g(1) + g(0) + 1\n│       ├── g(1) = 1  [bazowy]\n│       └── g(0) = 0  [bazowy]\n│       => g(2) = 1 + 0 + 1 = 2\n│   => g(6) = 3 + 2 + 1 = 6\n└── g(4) = g(2) + g(1) + 1\n    ├── g(2) = g(1) + g(0) + 1\n    │   ├── g(1) = 1  [bazowy]\n    │   └── g(0) = 0  [bazowy]\n    │   => g(2) = 1 + 0 + 1 = 2\n    └── g(1) = 1  [bazowy]\n    => g(4) = 2 + 1 + 1 = 4\n=> g(12) = 6 + 4 + 1 = 11\n```\n\n**b) Calkowita liczba wywolan:**\n\nPoliczymy wszystkie wezly drzewa:\n- g(12): 1\n- g(6), g(4): 2\n- g(3), g(2), g(2), g(1): 4\n- g(1), g(1), g(1), g(0), g(1), g(0): 6\n\nRazem: 1 + 2 + 4 + 6 = **13 wywolan**\n\n**c) Wynik koncowy: g(12) = 6 + 4 + 1 = **11****",
+  "typowe_bledy": [
+    {
+      "opis": "**Pominiety +1 w formule**: Kazde niebazowe wywolanie dodaje 1 do sumy",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne div (zaokraglanie w gore zamiast w dol)**: 4 div 3 = 1 (nie 1.33 ani 2)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Niedokonczone drzewo**: Kazda galaz musi dojsc do warunku bazowego (n<=1)",
+      "kara": "-2 pkt"
+    }
+  ]
+}

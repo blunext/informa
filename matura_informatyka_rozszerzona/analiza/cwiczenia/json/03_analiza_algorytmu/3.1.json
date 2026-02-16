@@ -1,0 +1,29 @@
+{
+  "id": "3.1",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2022 zad. 3.1 (zlozonosc), styl P/F z matur",
+  "tagi": [
+    "zlozonosc-czasowa",
+    "O-notacja",
+    "petle-zagniezdzne",
+    "przeszukiwanie-binarne"
+  ],
+  "tresc": "Podane sa cztery fragmenty kodu operujace na tablicy T o n elementach. Przypisz kazdemu fragmentowi zlozonosc czasowa ze zbioru: {O(log n), O(n), O(n^2), O(n^3)}.\n\n**Fragment A:**\n```\ns := 0\ndla i := 1, 2, ..., n:\n    s := s + T[i]\n```\n\n**Fragment B:**\n```\ns := 0\ndla i := 1, 2, ..., n:\n    dla j := 1, 2, ..., n:\n        s := s + T[i] * T[j]\n```\n\n**Fragment C:**\n```\np := 1\nq := n\ndopoki p < q:\n    s := (p + q) div 2\n    jezeli T[s] < x:\n        p := s + 1\n    w przeciwnym razie:\n        q := s\n```\n\n**Fragment D:**\n```\ns := 0\ndla i := 1, 2, ..., n:\n    dla j := 1, 2, ..., n:\n        dla k := 1, 2, ..., n:\n            jezeli T[i] + T[j] = T[k]:\n                s := s + 1\n```",
+  "wskazowki": [
+    "**Kierunek**: Policz ile razy wykonuje sie operacja dominujaca (np. dodawanie, porownanie) w kazdym fragmencie.",
+    "**Podejscie**: Jedna petla = O(n), dwie zagniezdzne = O(n^2), trzy = O(n^3). Szukanie binarne polowi zakres.",
+    "**Kluczowy krok**: Fragment C: zakres [p,q] zmniejsza sie o polowe w kazdym kroku. Ilosc krokow = log2(n)."
+  ],
+  "odpowiedz": "- **Fragment A**: **O(n)** -- jedna petla przechodzaca n elementow\n- **Fragment B**: **O(n^2)** -- dwie zagniezdzne petle, kazda po n iteracji, razem n*n operacji\n- **Fragment C**: **O(log n)** -- przeszukiwanie binarne, w kazdym kroku zakres dzielony na pol\n- **Fragment D**: **O(n^3)** -- trzy zagniezdzne petle, kazda po n iteracji, razem n*n*n operacji\n\n**Uzasadnienie dla fragmentu C:**\nPoczatkowo zakres wynosi n. Po kazdej iteracji zmniejsza sie o polowe:\nn -> n/2 -> n/4 -> ... -> 1.\nLiczba krokow: log2(n). Stad zlozonosc O(log n).",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie O(n) z O(n^2)**: Dwie petle NIEzagniezdzne (jedna po drugiej) to O(n)+O(n)=O(n), nie O(n^2). O(n^2) wymaga zagniezdenia",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o log n**: Przeszukiwanie binarne to O(log n), nie O(n). Jesli zakres dzieli sie na pol, to logarytm",
+      "kara": "-1 pkt"
+    }
+  ]
+}

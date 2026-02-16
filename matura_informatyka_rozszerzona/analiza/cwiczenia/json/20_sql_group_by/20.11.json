@@ -1,0 +1,28 @@
+{
+  "id": "20.11",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2024 (Hurtownia)",
+  "tagi": [
+    "GROUP-BY",
+    "SUM",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Zamowienia** zawiera dane o zakupach w sklepie internetowym:\n\n| id | klient | produkt | kwota |\n|----|--------|---------|-------|\n| 1 | Anna | Laptop | 3500 |\n| 2 | Jan | Mysz | 80 |\n| 3 | Anna | Monitor | 1200 |\n| 4 | Ewa | Laptop | 3200 |\n| 5 | Jan | Klawiatura | 150 |\n| 6 | Anna | Klawiatura | 120 |\n| 7 | Ewa | Mysz | 90 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego klienta wyswietli laczna kwote zamowien. Posortuj malejaco wg kwoty.",
+  "wskazowki": [
+    "**Kierunek**: Musisz pogrupowac zamowienia wg klienta i zsumowac kwoty.",
+    "**Podejscie**: GROUP BY na kolumnie klient, funkcja SUM na kwota.",
+    "**Kluczowy krok**: ORDER BY z DESC sortuje od najwiekszej do najmniejszej sumy."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT klient, SUM(kwota) AS suma_wydatkow\nFROM Zamowienia\nGROUP BY klient\nORDER BY suma_wydatkow DESC;\n```\n\n**Weryfikacja**:\n- Anna: 3500+1200+120 = **4820**\n- Ewa: 3200+90 = **3290**\n- Jan: 80+150 = **230**\n\n| klient | suma_wydatkow |\n|--------|---------------|\n| Anna | 4820 |\n| Ewa | 3290 |\n| Jan | 230 |",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie COUNT zamiast SUM**: COUNT(*) liczy WIERSZE, a SUM(kwota) sumuje WARTOSCI — to rozne operacje",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak ORDER BY DESC**: Bez DESC sortowanie jest rosnace (domyslnie ASC)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

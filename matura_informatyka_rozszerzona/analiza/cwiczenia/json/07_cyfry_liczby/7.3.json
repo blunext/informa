@@ -1,0 +1,33 @@
+{
+  "id": "7.3",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2024 zad. 4.1 (liczby pierwsze)",
+  "tagi": [
+    "test-pierwszosci",
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "podzielnosc"
+  ],
+  "tresc": "W pliku `liczby.txt` znajduje sie 12 liczb calkowitych wiekszych od 1 (kazda w osobnym wierszu). Napisz program, ktory:\na) Wypisze wszystkie liczby pierwsze sposrod danych.\nb) Dla kazdej liczby zlozonej podaj jej najmniejszy dzielnik wlasciwy (wiekszy od 1).\n\n**Dane** (`liczby.txt`):\n```\n17\n24\n31\n45\n53\n78\n91\n2\n100\n67\n49\n83\n```\n\n**Oczekiwany wynik**:\n```\na) Liczby pierwsze: 17 31 53 2 67 83\n   Ilosc: 6\n\nb) Liczby zlozone i ich najmniejsze dzielniki:\n   24 -> 2\n   45 -> 3\n   78 -> 2\n   91 -> 7\n   100 -> 2\n   49 -> 7\n```",
+  "wskazowki": [
+    "**Kierunek**: Test pierwszosci wymaga sprawdzenia podzielnosci do sqrt(n).",
+    "**Podejscie**: Petla `for(i = 2; i*i <= n; i++)` — jesli znajdziesz dzielnik, liczba jest zlozona.",
+    "**Kluczowy krok**: Optymalizacja — sprawdz 2 osobno, potem tylko nieparzyste dzielniki `for(i = 3; i*i <= n; i += 2)`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nbool czyPierwsza(int n) {\n    if (n < 2) return false;\n    if (n == 2) return true;\n    if (n % 2 == 0) return false;\n    for (int i = 3; i * i <= n; i += 2) {\n        if (n % i == 0) return false;\n    }\n    return true;\n}\n\nint najmniejszyDzielnik(int n) {\n    for (int i = 2; i * i <= n; i++) {\n        if (n % i == 0) return i;\n    }\n    return n;\n}\n\nint main() {\n    ifstream plik(\"liczby.txt\");\n    int n;\n    vector<int> tab;\n    while (plik >> n) tab.push_back(n);\n\n    cout << \"a) Liczby pierwsze: \";\n    int ile = 0;\n    for (int x : tab) {\n        if (czyPierwsza(x)) {\n            cout << x << \" \";\n            ile++;\n        }\n    }\n    cout << endl << \"   Ilosc: \" << ile << endl;\n\n    cout << endl << \"b) Liczby zlozone i ich najmniejsze dzielniki:\" << endl;\n    for (int x : tab) {\n        if (!czyPierwsza(x)) {\n            cout << \"   \" << x << \" -> \" << najmniejszyDzielnik(x) << endl;\n        }\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: Test pierwszosci sprawdza podzielnosc od 2 do sqrt(n). Jesli zaden dzielnik nie zostal znaleziony, liczba jest pierwsza. Najmniejszy dzielnik wlasciwy szukamy analogicznie — pierwszy znaleziony dzielnik jest najmniejszy.\n\nWeryfikacja:\n- 17: pierwsza (brak dzielnikow do sqrt(17)~4)\n- 24: zlozona, 24/2=12, najmniejszy dzielnik = 2\n- 31: pierwsza\n- 45: zlozona, 45/3=15, najmniejszy dzielnik = 3\n- 53: pierwsza\n- 78: zlozona, 78/2=39, najmniejszy dzielnik = 2\n- 91: zlozona, 91/7=13, najmniejszy dzielnik = 7\n- 2: pierwsza\n- 100: zlozona, 100/2=50, najmniejszy dzielnik = 2\n- 67: pierwsza\n- 49: zlozona, 49/7=7, najmniejszy dzielnik = 7\n- 83: pierwsza",
+  "typowe_bledy": [
+    {
+      "opis": "**Warunek `i < n` zamiast `i*i <= n`**: Program dziala poprawnie ale jest O(n) zamiast O(sqrt(n))",
+      "kara": "-0 pkt (ale wolniejszy)"
+    },
+    {
+      "opis": "**Brak obslugi n=2**: Jesli petla zaczyna od i=3, to n=2 nie jest sprawdzane",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak `return n` w `najmniejszyDzielnik`**: Dla liczby pierwszej (nie powinno sie wywolac) petla nie znajdzie dzielnika",
+      "kara": "-1 pkt"
+    }
+  ]
+}

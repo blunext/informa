@@ -1,0 +1,32 @@
+{
+  "id": "3.6",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2019 zad. 1 (zlozonosc), typowe pytanie CKE",
+  "tagi": [
+    "zlozonosc-czasowa",
+    "O-notacja",
+    "petle-zagniezdzne"
+  ],
+  "tresc": "Przypisz zlozonosc czasowa kazdemu z ponizszych fragmentow kodu. Wybierz sposrod: {O(1), O(log n), O(n), O(n log n), O(n^2)}.\n\n**Fragment A:**\n```\ns := T[1] + T[n]\n```\n\n**Fragment B:**\n```\ns := 0\ndla i := 1, 2, ..., n:\n    s := s + T[i]\ndla j := 1, 2, ..., n:\n    s := s - T[j]\n```\n\n**Fragment C:**\n```\ns := 0\nk := n\ndopoki k > 0:\n    s := s + T[k]\n    k := k div 2\n```\n\n**Fragment D:**\n```\ns := 0\ndla i := 1, 2, ..., n:\n    dla j := i, i+1, ..., n:\n        s := s + 1\n```",
+  "wskazowki": [
+    "**Kierunek**: Fragment A nie ma petli. Fragment B ma dwie NIEzagniezdzne petle. Fragment C polowi k. Fragment D ma trojkatna petle.",
+    "**Podejscie**: Policz ile razy wykonuje sie operacja wewnatrz kazdej petli/grupy petli.",
+    "**Kluczowy krok**: Fragment D: j idzie od i do n, wiec ilosc iteracji to n + (n-1) + ... + 1 = n(n+1)/2 = O(n^2)."
+  ],
+  "odpowiedz": "- **Fragment A**: **O(1)** — brak petli, stala liczba operacji (2 odczyty i 1 dodawanie)\n- **Fragment B**: **O(n)** — dwie petle sekwencyjne (niezagniezdzne), kazda O(n). Razem O(n) + O(n) = O(n)\n- **Fragment C**: **O(log n)** — k zaczyna od n i w kazdym kroku jest dzielone przez 2: n, n/2, n/4, ..., 1. Liczba krokow = floor(log2(n)) + 1\n- **Fragment D**: **O(n^2)** — petle zagniezdzne, ale petla wewnetrzna zaczyna od i (nie od 1). Laczna liczba iteracji: n + (n-1) + ... + 1 = n(n+1)/2 = O(n^2)\n\n**Pulapka we fragmencie B**: Dwie petle pod rzad to O(n)+O(n) = O(2n) = O(n), NIE O(n^2)! Zagniezdzenie jest potrzebne do O(n^2).\n\n**Pulapka we fragmencie D**: Mimo ze petla wewnetrzna nie zawsze robi n iteracji, suma jest n(n+1)/2 co jest O(n^2).",
+  "typowe_bledy": [
+    {
+      "opis": "**Dwie petle sekwencyjne != O(n^2)**: O(n)+O(n) = O(n), nie O(n^2). Trzeba ZAGNIEZDZENIA",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Trojkatna petla to nadal O(n^2)**: n(n+1)/2 = O(n^2), nie O(n)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**O(1) pomieszane z O(n)**: Brak petli = stala ilosc operacji = O(1)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

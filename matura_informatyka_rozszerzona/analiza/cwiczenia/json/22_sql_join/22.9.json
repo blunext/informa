@@ -1,0 +1,33 @@
+{
+  "id": "22.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Matura 2021 (Gra strategiczna)",
+  "tagi": [
+    "JOIN-wielotabelowy",
+    "GROUP-BY-z-JOIN",
+    "LEFT-JOIN",
+    "COUNT-z-LEFT-JOIN"
+  ],
+  "tresc": "Tabela **Kategorie**:\n\n| id_kat | nazwa |\n|--------|-------|\n| 1 | Elektronika |\n| 2 | Ksiazki |\n| 3 | Sport |\n\nTabela **Produkty**:\n\n| id_prod | nazwa | id_kat | cena |\n|---------|-------|--------|------|\n| 1 | Laptop | 1 | 3500 |\n| 2 | Smartfon | 1 | 2500 |\n| 3 | Wiedzmin | 2 | 45 |\n| 4 | Dune | 2 | 55 |\n| 5 | Pilka | 3 | 80 |\n| 6 | Rower | 3 | 1200 |\n\nTabela **Opinie**:\n\n| id_op | id_prod | uzytkownik | ocena | data |\n|-------|---------|------------|-------|------|\n| 1 | 1 | Jan | 5 | 2024-01-10 |\n| 2 | 1 | Anna | 4 | 2024-01-15 |\n| 3 | 2 | Ewa | 3 | 2024-02-01 |\n| 4 | 3 | Jan | 5 | 2024-02-10 |\n| 5 | 4 | Anna | 4 | 2024-03-01 |\n| 6 | 6 | Piotr | 5 | 2024-03-15 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdej kategorii wyswietli nazwe kategorii, liczbe produktow z opiniami oraz srednia ocene (zaokraglona do 1 miejsca). Pokaz WSZYSTKIE kategorie — jesli kategoria nie ma opinii, pokaz 0 produktow i NULL jako srednia.",
+  "wskazowki": [
+    "**Kierunek**: Trzy tabele, LEFT JOIN aby zachowac kategorie bez opinii.",
+    "**Podejscie**: Kategorie LEFT JOIN Produkty LEFT JOIN Opinie, GROUP BY kategoria.",
+    "**Kluczowy krok**: COUNT(DISTINCT P.id_prod) liczy unikalne produkty z opiniami (nie liczbe opinii)."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.nazwa, COUNT(DISTINCT O.id_prod) AS produkty_z_opiniami,\n       ROUND(AVG(O.ocena), 1) AS srednia_ocena\nFROM Kategorie K\nLEFT JOIN Produkty P ON K.id_kat = P.id_kat\nLEFT JOIN Opinie O ON P.id_prod = O.id_prod\nGROUP BY K.nazwa\nORDER BY produkty_z_opiniami DESC;\n```\n\n**Weryfikacja**:\n- Elektronika: Laptop (oceny 5,4), Smartfon (ocena 3) → 2 produkty, srednia = (5+4+3)/3 = **4.0**\n- Ksiazki: Wiedzmin (ocena 5), Dune (ocena 4) → 2 produkty, srednia = (5+4)/2 = **4.5**\n- Sport: Rower (ocena 5), Pilka (brak) → 1 produkt z opinia, srednia = 5/1 = **5.0**\n\n| nazwa | produkty_z_opiniami | srednia_ocena |\n|-------|---------------------|---------------|\n| Elektronika | 2 | 4.0 |\n| Ksiazki | 2 | 4.5 |\n| Sport | 1 | 5.0 |\n\n**Wyjasnienie**: Dwa LEFT JOIN-y zapewniaja, ze kategorie bez produktow i produkty bez opinii tez sie pojawia. COUNT(DISTINCT O.id_prod) liczy unikalne produkty, ktore maja opinie — bez DISTINCT Laptop z 2 opiniami bylby policzony dwa razy.",
+  "typowe_bledy": [
+    {
+      "opis": "**COUNT(*) zamiast COUNT(DISTINCT O.id_prod)**: Liczy opinie, nie produkty. Elektronika daje 3 zamiast 2",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**INNER JOIN zamiast LEFT JOIN**: Kategoria bez opinii nie pojawi sie",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Tylko jeden LEFT JOIN**: `LEFT JOIN Produkty ... JOIN Opinie` — INNER JOIN na Opinie eliminuje produkty bez opinii",
+      "kara": "-1 pkt"
+    }
+  ]
+}

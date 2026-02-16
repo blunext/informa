@@ -1,0 +1,29 @@
+{
+  "id": "12.6",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2019 zad. 4 (ciag malejacy)",
+  "tagi": [
+    "ciag-malejacy",
+    "current-max",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie najdluzszy spojny podciag scisle malejacy. Podaj pozycje poczatkowa, dlugosc i elementy.\n\n**Dane** (`dane.txt`):\n```\n10\n8\n6\n4\n12\n15\n13\n9\n7\n3\n20\n18\n16\n14\n11\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy ciag malejacy:\nPozycja poczatkowa: 6, dlugosc: 5\nElementy: 15 13 9 7 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Ten sam wzorzec current/max co w 12.2, ale warunek to `T[i] < T[i-1]` (scisly spadek).",
+    "**Podejscie**: Jedyna zmiana: warunek `T[i] > T[i-1]` zamien na `T[i] < T[i-1]`.",
+    "**Kluczowy krok**: Nie zapomnij sprawdzic po petli."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int maxDl = 1, maxStart = 0;\n    int curDl = 1, curStart = 0;\n\n    for (int i = 1; i < n; i++) {\n        if (T[i] < T[i - 1]) {\n            curDl++;\n        } else {\n            if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n            curDl = 1; curStart = i;\n        }\n    }\n    if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n\n    cout << \"Najdluzszy ciag malejacy:\" << endl;\n    cout << \"Pozycja poczatkowa: \" << maxStart + 1 << \", dlugosc: \" << maxDl << endl;\n    cout << \"Elementy: \";\n    for (int i = maxStart; i < maxStart + maxDl; i++)\n        cout << T[i] << \" \";\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Wzorzec current/max z warunkiem `T[i] < T[i-1]` (spadek).\n\nWeryfikacja:\n- 10,8,6,4 (dl.4, poz.1)\n- 15,13,9,7,3 (dl.5, poz.6) -> najdluzszy\n- 20,18,16,14,11 (dl.5, poz.11) -> rowny, ale nie dluzszy\nNajdluzszy (pierwszy): dl.5 od poz.6.",
+  "typowe_bledy": [
+    {
+      "opis": "**`<=` zamiast `<`**: \"Scisle malejacy\" wyklucza rownosc",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak aktualizacji po petli**: Ciag 20,18,16,14,11 konczy tablice — bez sprawdzenia po petli moze zostac pominiety.",
+      "kara": ""
+    }
+  ]
+}

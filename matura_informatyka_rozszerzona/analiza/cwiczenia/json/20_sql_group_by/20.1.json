@@ -1,0 +1,28 @@
+{
+  "id": "20.1",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2023 (Gry planszowe)",
+  "tagi": [
+    "GROUP-BY",
+    "COUNT",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Ksiazki** zawiera dane o ksiazkach w bibliotece szkolnej:\n\n| id | tytul | autor | gatunek | rok_wydania |\n|----|-------|-------|---------|-------------|\n| 1 | Potop | Sienkiewicz | historyczna | 1886 |\n| 2 | Lalka | Prus | realistyczna | 1890 |\n| 3 | Quo Vadis | Sienkiewicz | historyczna | 1896 |\n| 4 | Faraon | Prus | historyczna | 1897 |\n| 5 | Krzyzacy | Sienkiewicz | historyczna | 1900 |\n| 6 | Placowka | Prus | realistyczna | 1886 |\n| 7 | Ogniem i mieczem | Sienkiewicz | historyczna | 1884 |\n| 8 | Emancypantki | Prus | realistyczna | 1894 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli kazdy gatunek oraz liczbe ksiazek w tym gatunku. Posortuj malejaco wg liczby ksiazek.",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz pogrupowac ksiazki wg jednej kolumny i policzyc wiersze w kazdej grupie.",
+    "**Podejscie**: Uzyj GROUP BY na kolumnie gatunek, a do zliczania — funkcji COUNT(*).",
+    "**Kluczowy krok**: Pamietaj o ORDER BY z DESC, aby posortowac malejaco."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT gatunek, COUNT(*) AS liczba\nFROM Ksiazki\nGROUP BY gatunek\nORDER BY liczba DESC;\n```\n\n**Weryfikacja**:\n- historyczna: Potop, Quo Vadis, Faraon, Krzyzacy, Ogniem i mieczem = **5**\n- realistyczna: Lalka, Placowka, Emancypantki = **3**\n\n| gatunek | liczba |\n|---------|--------|\n| historyczna | 5 |\n| realistyczna | 3 |\n\n**Wyjasnienie**: GROUP BY grupuje wiersze o tej samej wartosci w kolumnie `gatunek`. COUNT(*) zlicza wiersze w kazdej grupie. ORDER BY z DESC sortuje od najwiekszej wartosci.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie WHERE zamiast GROUP BY**: WHERE filtruje wiersze PRZED grupowaniem, a do filtrowania grup sluzy HAVING — tu jednak nie filtrujemy grup, wiec wystarczy GROUP BY",
+      "kara": "-2 pkt (brak wyniku)"
+    },
+    {
+      "opis": "**Brak aliasu w COUNT(*)**: Bez `AS liczba` kolumna wynikowa moze miec niezrozumiala nazwe",
+      "kara": "dopuszczalne, ale -0.5 pkt za czytelnosc w niektorych schematach"
+    }
+  ]
+}

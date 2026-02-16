@@ -1,0 +1,33 @@
+{
+  "id": "6.7",
+  "trudnosc": "srednie",
+  "punkty": 2,
+  "zrodlo": "Matura 2023 zad. 4.2 (scenariusz bezpieczenstwa)",
+  "tagi": [
+    "2FA",
+    "szyfrowanie-asymetryczne",
+    "certyfikat-SSL",
+    "VPN"
+  ],
+  "tresc": "Wyjasnij krotko (1-2 zdania) nastepujace pojecia z zakresu bezpieczenstwa informatycznego:\n\n| Lp. | Pojecie |\n|-----|---------|\n| a)  | Uwierzytelnianie dwuskladnikowe (2FA) |\n| b)  | Podpis cyfrowy |\n| c)  | Certyfikat SSL/TLS |\n| d)  | Atak typu zero-day |",
+  "wskazowki": [
+    "**Kierunek**: 2FA = dwa niezalezne sposoby potwierdzenia tozsamosci. Podpis cyfrowy = gwarancja autentycznosci.",
+    "**Podejscie**: Certyfikat SSL = \"dowod osobisty\" strony internetowej. Zero-day = luka, o ktorej producent nie wie.",
+    "**Kluczowy krok**: 2FA: cos wiesz (haslo) + cos masz (telefon) LUB cos jestes (biometria)."
+  ],
+  "odpowiedz": "**a) Uwierzytelnianie dwuskladnikowe (2FA):**\nMetoda potwierdzania tozsamosci wymagajaca dwoch niezaleznych skladnikow: zazwyczaj \"cos wiesz\" (haslo) i \"cos masz\" (kod SMS, aplikacja authenticator, klucz U2F). Nawet jesli atakujacy pozna haslo, nie zaloguje sie bez drugiego skladnika.\n\n**b) Podpis cyfrowy:**\nMechanizm kryptograficzny pozwalajacy potwierdzic autentycznosc i integralnosc dokumentu elektronicznego. Nadawca tworzy podpis uzywajac swojego klucza prywatnego, a odbiorca weryfikuje go kluczem publicznym nadawcy — dzieki temu mozna potwierdzic, ze dokument pochodzi od konkretnej osoby i nie zostal zmieniony.\n\n**c) Certyfikat SSL/TLS:**\nCyfrowy dokument wydawany przez zaufany urzad certyfikacji (CA), ktory potwierdza tozsamosc wlasciciela strony internetowej (ze domena nalezy do okreslonego podmiotu). Umozliwia nawiazanie zaszyfrowanego polaczenia HTTPS miedzy przegladarka a serwerem.\n\n**d) Atak typu zero-day:**\nAtak wykorzystujacy luke w oprogramowaniu, o ktorej producent (tworca oprogramowania) jeszcze nie wie lub na ktora nie wydal jeszcze poprawki (patch). Nazwa \"zero-day\" oznacza, ze producent mial zero dni na naprawienie bledu od momentu jego odkrycia przez atakujacego.",
+  "typowe_bledy": [
+    {
+      "opis": "**2FA = dwa hasla**: NIE! 2FA wymaga dwoch ROZNYCH typow skladnikow (cos wiesz + cos masz), nie dwoch hasel",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Podpis cyfrowy = szyfrowanie**: Podpis potwierdza AUTENTYCZNOSC, nie szyfruje tresci",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Zero-day = stara znana luka**: Zero-day to luka NIEZNANA producentowi. Znana luka to CVE",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

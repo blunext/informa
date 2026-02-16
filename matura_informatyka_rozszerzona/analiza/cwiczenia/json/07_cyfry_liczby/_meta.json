@@ -1,0 +1,133 @@
+{
+  "typ": "07_cyfry_liczby",
+  "nazwa": "Przetwarzanie cyfr i liczb",
+  "kategoria": "IMPLEMENTACJA",
+  "czestotliwosc": "6/11 lat",
+  "punkty_lacznie": 35,
+  "tagi_globalne": [
+    "cyfry-mod-div",
+    "suma-cyfr",
+    "NWD-Euklidesa",
+    "test-pierwszosci",
+    "faktoryzacja",
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "systemy-liczbowe",
+    "potegi",
+    "odwracanie-liczby",
+    "NWW",
+    "podzielnosc"
+  ],
+  "cwiczenia": [
+    {
+      "id": "7.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "cyfry-mod-div",
+        "suma-cyfr",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "NWD-Euklidesa",
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "podzielnosc"
+      ]
+    },
+    {
+      "id": "7.3",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "test-pierwszosci",
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "podzielnosc"
+      ]
+    },
+    {
+      "id": "7.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "faktoryzacja",
+        "cyfry-mod-div",
+        "wczytywanie-pliku",
+        "podzielnosc"
+      ]
+    },
+    {
+      "id": "7.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "cyfry-mod-div",
+        "NWD-Euklidesa",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "cyfry-mod-div",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "systemy-liczbowe",
+        "cyfry-mod-div",
+        "potegi",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "7.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "cyfry-mod-div",
+        "odwracanie-liczby",
+        "test-pierwszosci",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "7.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "NWD-Euklidesa",
+        "NWW",
+        "faktoryzacja",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "7.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "cyfry-mod-div",
+        "suma-cyfr",
+        "test-pierwszosci",
+        "potegi",
+        "wczytywanie-pliku"
+      ]
+    }
+  ]
+}

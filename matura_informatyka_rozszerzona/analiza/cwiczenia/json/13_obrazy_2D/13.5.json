@@ -1,0 +1,34 @@
+{
+  "id": "13.5",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2017 zad. 6 (rozszerzony)",
+  "tagi": [
+    "BFS",
+    "spojne-obszary",
+    "struct",
+    "brzeg-siatki",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Dana jest siatka 8x10 zawierajaca wartosci 0, 1 i 2, zapisana w pliku `siatka.txt`. Napisz program, ktory:\na) Zliczy spojne obszary dla kazdej wartosci osobno (4-spojnosc).\nb) Znajdzie najwiekszy obszar (podaj wartosc i rozmiar).\nc) Sprawdzi czy istnieje obszar ktory dotyka zarowno gornej jak i dolnej krawedzi siatki.\n\n**Dane** (`siatka.txt`):\n```\n1 1 0 2 2 0 1 0 0 2\n1 0 0 0 2 0 1 1 0 2\n0 0 2 2 0 0 0 1 0 0\n0 0 2 0 0 1 0 0 0 0\n0 0 0 0 1 1 0 2 0 0\n1 0 0 1 1 0 0 2 2 0\n1 1 0 0 0 0 0 0 2 0\n1 1 0 0 0 0 2 2 2 0\n```\n\n**Oczekiwany wynik**:\n```\na) Spojne obszary:\n   Wartosc 0: 1 obszary\n   Wartosc 1: 4 obszary\n   Wartosc 2: 4 obszary\n   Lacznie: 9 obszarow\n\nb) Najwiekszy obszar: wartosc 0, rozmiar 48\n\nc) Obszary dotykajace gornej i dolnej krawedzi:\n   Wartosc 0: obszar rozmiaru 48 (dotyka obu krawedzi)\n```",
+  "wskazowki": [
+    "**Kierunek**: BFS jak w 13.4, ale lacze komorki tylko o tej samej wartosci.",
+    "**Podejscie**: Dla kazdego obszaru sledz: wartosc, rozmiar, czy dotyka wiersza 0, czy dotyka wiersza 7.",
+    "**Kluczowy krok**: `struct Area { int val, size; bool topEdge, bottomEdge; }` — aktualizuj flagi przy odwiedzaniu komorek na brzegu."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <queue>\n#include <map>\nusing namespace std;\n\nconst int ROWS = 8, COLS = 10;\nint tab[ROWS][COLS];\nint label[ROWS][COLS];\n\nstruct Area {\n    int val, size;\n    bool topEdge, bottomEdge;\n};\n\nint dx[] = {-1, 1, 0, 0};\nint dy[] = {0, 0, -1, 1};\n\nArea bfs(int si, int sj, int id) {\n    Area area;\n    area.val = tab[si][sj];\n    area.size = 0;\n    area.topEdge = false;\n    area.bottomEdge = false;\n\n    queue<pair<int,int>> q;\n    q.push({si, sj});\n    label[si][sj] = id;\n\n    while (!q.empty()) {\n        auto [i, j] = q.front(); q.pop();\n        area.size++;\n        if (i == 0) area.topEdge = true;\n        if (i == ROWS - 1) area.bottomEdge = true;\n\n        for (int d = 0; d < 4; d++) {\n            int ni = i + dx[d], nj = j + dy[d];\n            if (ni >= 0 && ni < ROWS && nj >= 0 && nj < COLS\n                && label[ni][nj] == 0 && tab[ni][nj] == area.val) {\n                label[ni][nj] = id;\n                q.push({ni, nj});\n            }\n        }\n    }\n    return area;\n}\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    for (int i = 0; i < ROWS; i++)\n        for (int j = 0; j < COLS; j++) {\n            plik >> tab[i][j];\n            label[i][j] = 0;\n        }\n\n    vector<Area> areas;\n    int id = 1;\n    for (int i = 0; i < ROWS; i++)\n        for (int j = 0; j < COLS; j++)\n            if (label[i][j] == 0) {\n                areas.push_back(bfs(i, j, id));\n                id++;\n            }\n\n    // a)\n    map<int, int> cnt;\n    for (auto &a : areas) cnt[a.val]++;\n    cout << \"a) Spojne obszary:\" << endl;\n    int total = 0;\n    for (auto &p : cnt) {\n        cout << \"   Wartosc \" << p.first << \": \" << p.second << \" obszary\" << endl;\n        total += p.second;\n    }\n    cout << \"   Lacznie: \" << total << \" obszarow\" << endl;\n\n    // b)\n    int maxSize = 0, maxVal = 0;\n    for (auto &a : areas)\n        if (a.size > maxSize) { maxSize = a.size; maxVal = a.val; }\n    cout << endl << \"b) Najwiekszy obszar: wartosc \" << maxVal\n         << \", rozmiar \" << maxSize << endl;\n\n    // c)\n    cout << endl << \"c) Obszary dotykajace gornej i dolnej krawedzi:\" << endl;\n    bool found = false;\n    for (auto &a : areas) {\n        if (a.topEdge && a.bottomEdge) {\n            cout << \"   Wartosc \" << a.val << \": obszar rozmiaru \"\n                 << a.size << \" (dotyka obu krawedzi)\" << endl;\n            found = true;\n        }\n    }\n    if (!found) cout << \"   Brak takich obszarow.\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: BFS dla kazdej nieodwiedzonej komorki, ale tym razem szukamy polaczen tylko wsrod komorek o tej samej wartosci. Dla kazdego obszaru sledzono czy dotyka gornej (wiersz 0) lub dolnej (wiersz 7) krawedzi.\n\nWeryfikacja:\n- Zera tworzą duzy spojny obszar dotykajacy obu krawedzi.\n- Jedynki tworzą kilka rozlacznych wysp.\n- Dwojki tworzą kilka rozlacznych wysp.",
+  "typowe_bledy": [
+    {
+      "opis": "**Laczenie komorek o roznych wartosciach**: BFS musi sprawdzac `tab[ni][nj] == area.val`",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Label 0 uzyty jako \"nieodwiedzony\"**: Jesli wartosci w siatce to 0,1,2, nie mozna uzyc 0 w tablicy visited jako \"nieodwiedzony\". Lepiej oddzielna tablica `label`",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o sprawdzeniu krawedzi w BFS**: Flagi topEdge/bottomEdge musza byc aktualizowane dla kazdej odwiedzonej komorki, nie tylko startowej",
+      "kara": "-1 pkt"
+    }
+  ]
+}

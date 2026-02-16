@@ -1,0 +1,35 @@
+{
+  "id": "6.2",
+  "trudnosc": "latwe",
+  "punkty": 1,
+  "zrodlo": "Matura 2024 zad. 5 (Protokoly)",
+  "tagi": [
+    "protokoly-sieciowe",
+    "HTTPS",
+    "FTP",
+    "DNS",
+    "DHCP",
+    "SMTP"
+  ],
+  "tresc": "Dopasuj protokol sieciowy do jego funkcji. Wpisz w tabeli nazwe protokolu wybrana ze zbioru: {HTTP, FTP, DHCP, DNS, SMTP, HTTPS}.\n\n| Lp. | Opis funkcji | Protokol |\n|-----|-------------|----------|\n| a) | Automatyczne przydzielanie adresow IP urzadzeniom w sieci lokalnej. | |\n| b) | Przesylanie plikow miedzy komputerem a serwerem (upload i download plikow). | |\n| c) | Zamienianie nazw domenowych (np. www.google.com) na adresy IP. | |\n| d) | Przesylanie stron internetowych z szyfrowaniem danych (polaczenie bezpieczne). | |\n| e) | Przesylanie stron internetowych bez szyfrowania. | |\n| f) | Wysylanie poczty elektronicznej z klienta do serwera pocztowego. | |",
+  "wskazowki": [
+    "**Kierunek**: Kazdy protokol ma jedna glowna funkcje. Skojarz akronimy: D=Dynamic, H=Host, C=Configuration, P=Protocol.",
+    "**Podejscie**: HTTP vs HTTPS — jedyna roznica to szyfrowanie (S = Secure). FTP = pliki, SMTP = poczta.",
+    "**Kluczowy krok**: DNS zamienia domeny na IP. DHCP przydziela adresy IP automatycznie."
+  ],
+  "odpowiedz": "| Lp. | Protokol | Uzasadnienie |\n|-----|----------|-------------|\n| a) | **DHCP** | Dynamic Host Configuration Protocol — automatycznie przydziela adresy IP, maski podsieci i inne parametry konfiguracyjne urzadzeniom w sieci. |\n| b) | **FTP** | File Transfer Protocol — protokol przesylania plikow. Umozliwia upload (wysylanie) i download (pobieranie) plikow z/na serwer. |\n| c) | **DNS** | Domain Name System — tlumaczenie nazw domenowych na adresy IP (np. www.google.com -> 142.250.185.14). |\n| d) | **HTTPS** | HyperText Transfer Protocol Secure — wersja HTTP z szyfrowaniem TLS/SSL. Przesyla strony internetowe w sposob bezpieczny. |\n| e) | **HTTP** | HyperText Transfer Protocol — podstawowy protokol przesylania stron www, bez szyfrowania. |\n| f) | **SMTP** | Simple Mail Transfer Protocol — protokol wysylania poczty elektronicznej od klienta do serwera i miedzy serwerami. |",
+  "typowe_bledy": [
+    {
+      "opis": "**DNS = DHCP**: DNS zamienia domeny na IP, DHCP przydziela adresy IP. Rozne funkcje!",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**HTTP = FTP**: HTTP przesyla strony WWW, FTP przesyla pliki",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**SMTP = POP3/IMAP**: SMTP wysyla poczta, POP3/IMAP odbieraja",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

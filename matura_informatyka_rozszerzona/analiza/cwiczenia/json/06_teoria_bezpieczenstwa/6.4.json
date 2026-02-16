@@ -1,0 +1,33 @@
+{
+  "id": "6.4",
+  "trudnosc": "srednie",
+  "punkty": 2,
+  "zrodlo": "styl mieszany 2023-2025",
+  "tagi": [
+    "firewall",
+    "VPN",
+    "certyfikat-SSL",
+    "atak-brute-force"
+  ],
+  "tresc": "Ocen prawdziwosc ponizszych zdan dotyczacych bezpieczenstwa sieci i danych. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Zapora sieciowa (firewall) blokuje caly ruch sieciowy przychodzacy do komputera. | |\n| b) | VPN (Virtual Private Network) szyfruje transmisje danych miedzy urzodzeniem uzytkownika a serwerem VPN. | |\n| c) | Certyfikat SSL/TLS potwierdza tozsamosc wlasciciela strony internetowej. | |\n| d) | Haslo o dlugosci 8 znakow, zlozone wylacznie z cyfr, ma dokladnie 10^8 (sto milionow) mozliwych kombinacji. | |",
+  "wskazowki": [
+    "**Kierunek**: Firewall filtruje ruch (nie blokuje calego). VPN tworzy szyfrowany tunel.",
+    "**Podejscie**: Certyfikat SSL potwierdza, ze domena nalezy do podmiotu. 10 cyfr ^ 8 pozycji.",
+    "**Kluczowy krok**: 10^8 = 100 mln. To bardzo malo — takie haslo mozna zlamac brute-force w sekundy."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | Firewall NIE blokuje calego ruchu przychodzacego — filtruje ruch na podstawie zdefiniowanych regul. Przepuszcza ruch dozwolony (np. odpowiedzi na Twoje zapytania HTTP) i blokuje ruch podejrzany lub nieautoryzowany. |\n| b) | **P** | VPN tworzy zaszyfrowany tunel miedzy urzodzeniem uzytkownika a serwerem VPN. Caly ruch sieciowy przechodzacy przez ten tunel jest szyfrowany, co chroni dane przed podsluchem (np. w publicznych sieciach Wi-Fi). |\n| c) | **P** | Certyfikat SSL/TLS jest wydawany przez zaufany urzod certyfikacji (CA) i potwierdza, ze domena nalezy do okreslonego podmiotu. Przegladarka weryfikuje certyfikat i wyswietla ikone klocki przy adresie HTTPS. |\n| d) | **P** | Kazdy z 8 znakow moze byc jedna z 10 cyfr (0-9). Liczba kombinacji: 10 * 10 * 10 * 10 * 10 * 10 * 10 * 10 = 10^8 = 100 000 000. Dlatego hasla zlozone z samych cyfr sa slabe — mozna je zlamac atakiem brute-force. |\n\nOdpowiedzi: a) F, b) P, c) P, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Firewall = blokuje wszystko**: Firewall FILTRUJE ruch wg regul, nie blokuje calego",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**VPN = calkowita anonimnosc**: VPN szyfruje polaczenie do serwera VPN, ale operator VPN widzi ruch",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**10^8 = duzo**: 100 mln kombinacji to bardzo malo. Brute-force to trwa ulamek sekundy na nowoczesnym komputerze",
+      "kara": ""
+    }
+  ]
+}

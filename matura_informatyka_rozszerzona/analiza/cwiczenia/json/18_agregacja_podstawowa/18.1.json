@@ -1,0 +1,29 @@
+{
+  "id": "18.1",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "AVERAGE",
+    "MAX",
+    "MIN",
+    "rozstep"
+  ],
+  "tresc": "Uczniowie pisali test z 20 pytan. Wyniki (liczba poprawnych odpowiedzi):\n\n| | A | B |\n|---|---|---|\n| 1 | **Uczen** | **Wynik** |\n| 2 | Anna | 16 |\n| 3 | Bartek | 12 |\n| 4 | Celina | 19 |\n| 5 | Dawid | 8 |\n| 6 | Ewa | 14 |\n| 7 | Filip | 11 |\n| 8 | Gosia | 17 |\n| 9 | Hubert | 13 |\n\n**Polecenie**: Napisz formuly obliczajace:\n1. Srednia wynikow\n2. Najwyzszy wynik\n3. Najnizszy wynik\n4. Rozstep (roznica miedzy max a min)",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz czterech podstawowych funkcji agregujacych: AVERAGE, MAX, MIN.",
+    "**Podejscie**: Wszystkie operuja na tym samym zakresie B2:B9.",
+    "**Kluczowy krok**: Rozstep nie ma dedykowanej funkcji — oblicz jako MAX(...) - MIN(...)."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nSrednia:     =AVERAGE(B2:B9)\nNajwyzszy:   =MAX(B2:B9)\nNajnizszy:   =MIN(B2:B9)\nRozstep:     =MAX(B2:B9)-MIN(B2:B9)\n```\n\n**Weryfikacja:**\n- Wartosci: 16, 12, 19, 8, 14, 11, 17, 13\n- Srednia: (16+12+19+8+14+11+17+13)/8 = 110/8 = **13.75**\n- Max: **19** (Celina)\n- Min: **8** (Dawid)\n- Rozstep: 19 - 8 = **11**\n\n**Wyjasnienie**: AVERAGE, MAX i MIN to podstawowe funkcje agregujace. Przyjmuja zakres komorek i zwracaja odpowiednio srednia arytmetyczna, wartosc najwieksza i najmniejsza. Rozstep nie ma dedykowanej funkcji — obliczamy go jako roznice MAX - MIN.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zly zakres**: =AVERAGE(B1:B9) wlacza naglowek \"Wynik\" — spowoduje blad lub zly wynik",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie SUM zamiast AVERAGE**: =SUM(B2:B9)/8 tez da poprawna srednia, ale jest mniej eleganckie i latwiej o blad (jesli zmieni sie liczba uczniow)",
+      "kara": ""
+    }
+  ]
+}

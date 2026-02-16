@@ -1,0 +1,28 @@
+{
+  "id": "21.18",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2021",
+  "tagi": [
+    "korelacja-podzapytan",
+    "MAX",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Wydzialy**:\n\n| id_wydzialu | nazwa |\n|-------------|-------|\n| 1 | Informatyka |\n| 2 | Matematyka |\n| 3 | Fizyka |\n\nTabela **Pracownicy**:\n\n| id | imie | nazwisko | id_wydzialu | pensja |\n|----|------|----------|-------------|--------|\n| 1 | Anna | Kowalska | 1 | 8000 |\n| 2 | Jan | Nowak | 1 | 9500 |\n| 3 | Ewa | Maj | 2 | 7000 |\n| 4 | Piotr | Lis | 2 | 6500 |\n| 5 | Kasia | Zak | 3 | 7500 |\n| 6 | Tomek | Bak | 1 | 11000 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko i pensje pracownikow, ktorych pensja jest najwyzsza na ich wydziale (rowna MAX na wydziale). Uzyj podzapytania skorelowanego.",
+  "wskazowki": [
+    "**Kierunek**: Podzapytanie musi odwolywac sie do wydzialu z zapytania zewnetrznego.",
+    "**Podejscie**: `WHERE pensja = (SELECT MAX(P2.pensja) FROM Pracownicy P2 WHERE P2.id_wydzialu = P.id_wydzialu)`.",
+    "**Kluczowy krok**: Uzywamy `=` a nie `>`, bo szukamy dokladnie najwyzszej pensji."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT P.imie, P.nazwisko, P.pensja\nFROM Pracownicy P\nWHERE P.pensja = (\n  SELECT MAX(P2.pensja)\n  FROM Pracownicy P2\n  WHERE P2.id_wydzialu = P.id_wydzialu\n);\n```\n\n**Weryfikacja**:\n\nMAX pensja per wydzial:\n- Informatyka: max(8000, 9500, 11000) = **11000**\n- Matematyka: max(7000, 6500) = **7000**\n- Fizyka: max(7500) = **7500**\n\nPracownicy z pensja = MAX:\n- Tomek Bak: 11000 = 11000 ✓\n- Ewa Maj: 7000 = 7000 ✓\n- Kasia Zak: 7500 = 7500 ✓\n\n| imie | nazwisko | pensja |\n|------|----------|--------|\n| Ewa | Maj | 7000 |\n| Kasia | Zak | 7500 |\n| Tomek | Bak | 11000 |\n\n**Wyjasnienie**: Podzapytanie skorelowane oblicza MAX(pensja) osobno dla kazdego wydzialu. `=` zamiast `>` oznacza \"dokladnie najwieksza\", nie \"wieksza niz najwieksza\".",
+  "typowe_bledy": [
+    {
+      "opis": "**`>` zamiast `=`**: `WHERE pensja > MAX(...)` — nikt nie ma pensji wyzszej niz MAX, wynik pusty",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Nieskorelowane MAX**: `(SELECT MAX(pensja) FROM Pracownicy)` daje MAX globalny (11000) — tylko Tomek bylby w wyniku",
+      "kara": "-2 pkt"
+    }
+  ]
+}

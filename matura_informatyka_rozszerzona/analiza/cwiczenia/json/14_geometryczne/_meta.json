@@ -1,0 +1,140 @@
+{
+  "typ": "14_geometryczne",
+  "nazwa": "Obliczenia geometryczne",
+  "kategoria": "IMPLEMENTACJA",
+  "czestotliwosc": "1/11 lat",
+  "punkty_lacznie": 32,
+  "tagi_globalne": [
+    "collinear",
+    "filtrowanie",
+    "kat-miedzy-wektorami",
+    "najblizsze-punkty",
+    "obwod",
+    "odleglosc-euklidesowa",
+    "otoczka-wypukla",
+    "podwojna-petla",
+    "pole-trojkata",
+    "punkt-w-prostokacie",
+    "punkt-w-trojkacie",
+    "set",
+    "sortowanie",
+    "sqrt",
+    "srodek-odcinka",
+    "struct",
+    "vector-par",
+    "wczytywanie-pliku",
+    "wielokat"
+  ],
+  "cwiczenia": [
+    {
+      "id": "14.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "odleglosc-euklidesowa",
+        "sqrt",
+        "wczytywanie-pliku",
+        "vector-par"
+      ]
+    },
+    {
+      "id": "14.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "punkt-w-prostokacie",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "14.3",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "najblizsze-punkty",
+        "odleglosc-euklidesowa",
+        "podwojna-petla",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.4",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "srodek-odcinka",
+        "set",
+        "podwojna-petla",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.5",
+      "trudnosc": "trudne",
+      "punkty": 4,
+      "tagi": [
+        "pole-trojkata",
+        "punkt-w-trojkacie",
+        "struct",
+        "sortowanie",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "odleglosc-euklidesowa",
+        "sortowanie",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "collinear",
+        "pole-trojkata",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "wielokat",
+        "obwod",
+        "odleglosc-euklidesowa",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "odleglosc-euklidesowa",
+        "pole-trojkata",
+        "struct",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "wielokat",
+        "pole-trojkata",
+        "punkt-w-trojkacie",
+        "obwod",
+        "struct",
+        "wczytywanie-pliku"
+      ]
+    }
+  ]
+}

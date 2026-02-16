@@ -1,0 +1,33 @@
+{
+  "id": "10.5",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2024 zad. 4.1 (liczby pierwsze dzielace)",
+  "tagi": [
+    "podzielnosc",
+    "liczby-pierwsze",
+    "podwojna-petla",
+    "wiele-plikow"
+  ],
+  "tresc": "Dane sa dwa zbiory: 8 liczb pierwszych i 10 duzych liczb calkowitych. Napisz program, ktory:\na) Zliczy ile z podanych liczb pierwszych dzieli chociaz jedna z duzych liczb.\nb) Zliczy ile par (pierwsza, duza) spelnia warunek podzielnosci.\nc) Znajdzie liczbe pierwsza, ktora dzieli najwiecej duzych liczb.\n\n**Dane** (`pierwsze.txt`):\n```\n2\n3\n5\n7\n11\n13\n17\n19\n```\n\n**Dane** (`duze.txt`):\n```\n210\n143\n85\n66\n119\n51\n34\n78\n95\n231\n```\n\n**Oczekiwany wynik**:\n```\na) Liczby pierwsze dzielace chociaz jedna duza: 8\n\nb) Pary (pierwsza, duza) spelniajace podzielnosc:\n   2 dzieli: 210, 66, 34, 78 (4 duzych)\n   3 dzieli: 210, 66, 51, 78, 231 (5 duzych)\n   5 dzieli: 210, 85, 95 (3 duzych)\n   7 dzieli: 210, 119, 231 (3 duzych)\n   11 dzieli: 143, 66, 231 (3 duzych)\n   13 dzieli: 143, 78 (2 duzych)\n   17 dzieli: 85, 119, 51, 34 (4 duzych)\n   19 dzieli: 95 (1 duzych)\n   Laczna liczba par: 25\n\nc) Liczba pierwsza dzielaca najwiecej duzych: 3 (5 duzych)\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj oba zbiory do wektorow, a potem uzyj podwojnej petli (po liczbach pierwszych i duzych).",
+    "**Podejscie**: Dla kazdej liczby pierwszej `p` sprawdz `d % p == 0` dla kazdej duzej liczby `d`. Zlicz trafienia.",
+    "**Kluczowy krok**: Jesli cnt > 0, to liczba pierwsza dzieli chociaz jedna duza. Sledzac cnt dla kazdej p, znajdziesz tez max."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream f1(\"pierwsze.txt\"), f2(\"duze.txt\");\n    vector<int> pierwsze, duze;\n    int x;\n    while (f1 >> x) pierwsze.push_back(x);\n    while (f2 >> x) duze.push_back(x);\n\n    int ileA = 0, ileB = 0;\n    int maxDzieli = 0, maxPierwsza = 0;\n    for (int p : pierwsze) {\n        int cnt = 0;\n        for (int d : duze) if (d % p == 0) cnt++;\n        ileB += cnt;\n        if (cnt > 0) ileA++;\n        if (cnt > maxDzieli) { maxDzieli = cnt; maxPierwsza = p; }\n    }\n\n    cout << \"a) Liczby pierwsze dzielace chociaz jedna duza: \" << ileA << endl;\n\n    cout << endl << \"b) Pary (pierwsza, duza) spelniajace podzielnosc:\" << endl;\n    for (int p : pierwsze) {\n        cout << \"   \" << p << \" dzieli: \";\n        bool first = true;\n        for (int d : duze) {\n            if (d % p == 0) {\n                if (!first) cout << \", \";\n                cout << d;\n                first = false;\n            }\n        }\n        int cnt = 0;\n        for (int d : duze) if (d % p == 0) cnt++;\n        cout << \" (\" << cnt << \" duzych)\" << endl;\n    }\n    cout << \"   Laczna liczba par: \" << ileB << endl;\n\n    cout << endl << \"c) Liczba pierwsza dzielaca najwiecej duzych: \"\n         << maxPierwsza << \" (\" << maxDzieli << \" duzych)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Podwojna petla: dla kazdej liczby pierwszej sprawdzamy podzielnosc kazdej duzej. Zliczamy pary, sprawdzamy ktore pierwsze dziela chociaz jedna duza, i szukamy pierwszej z max liczba dzielonych duzych.\n\nWeryfikacja (rozklady duzych):\n- 210 = 2*3*5*7 -> dzielniki: 2,3,5,7\n- 143 = 11*13 -> dzielniki: 11,13\n- 85 = 5*17 -> dzielniki: 5,17\n- 66 = 2*3*11 -> dzielniki: 2,3,11\n- 119 = 7*17 -> dzielniki: 7,17\n- 51 = 3*17 -> dzielniki: 3,17\n- 34 = 2*17 -> dzielniki: 2,17\n- 78 = 2*3*13 -> dzielniki: 2,3,13\n- 95 = 5*19 -> dzielniki: 5,19\n- 231 = 3*7*11 -> dzielniki: 3,7,11\n\nZliczenia:\n- 2: 210,66,34,78 = 4\n- 3: 210,66,51,78,231 = 5\n- 5: 210,85,95 = 3\n- 7: 210,119,231 = 3\n- 11: 143,66,231 = 3\n- 13: 143,78 = 2\n- 17: 85,51,34,119 = 4\n- 19: 95 = 1\n\nLaczna liczba par: 4+5+3+3+3+2+4+1 = 25\nMax: 3 (5 duzych)\nWszystkie 8 pierwszych dziela chociaz jedna duza: TAK",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie kolejnosci petli**: Petla zewnetrzna po pierwszych, wewnetrzna po duzych — odwrotnie daje inne wyniki (ile duzych dzieli kazda pierwsza vs ile pierwszych dzieli kazda duza)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o otwarciu drugiego pliku**: Jesli oba pliki sa otwarte tym samym obiektem ifstream, trzeba go zamknac i otworzyc ponownie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak separacji wynikow**: Mieszanie wynikow z roznych podpunktow",
+      "kara": "-1 pkt"
+    }
+  ]
+}

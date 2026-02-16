@@ -1,0 +1,37 @@
+{
+  "id": "20.10",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2015 (Formula 1)",
+  "tagi": [
+    "GROUP-BY",
+    "COUNT",
+    "AVG",
+    "ROUND",
+    "HAVING",
+    "JOIN-z-GROUP-BY",
+    "wielokolumnowe-grupowanie",
+    "aliasy"
+  ],
+  "tresc": "Tabela **Wydzialy**:\n\n| id_wydzialu | nazwa_wydzialu | budynek |\n|-------------|----------------|---------|\n| 1 | Informatyka | A |\n| 2 | Matematyka | A |\n| 3 | Fizyka | B |\n| 4 | Chemia | B |\n\nTabela **Studenci**:\n\n| id | imie | nazwisko | id_wydzialu | rok_studiow |\n|----|------|----------|-------------|-------------|\n| 1 | Anna | Kowalska | 1 | 2 |\n| 2 | Jan | Nowak | 1 | 3 |\n| 3 | Ewa | Maj | 2 | 1 |\n| 4 | Piotr | Lis | 3 | 2 |\n| 5 | Kasia | Zak | 1 | 1 |\n| 6 | Tomek | Bak | 2 | 2 |\n| 7 | Ola | Wrobel | 3 | 1 |\n| 8 | Marek | Krol | 4 | 3 |\n\nTabela **Egzaminy**:\n\n| id | id_studenta | przedmiot | wynik | data_egzaminu |\n|----|-------------|-----------|-------|---------------|\n| 1 | 1 | Algorytmy | 85 | 2024-01-20 |\n| 2 | 1 | Bazy danych | 92 | 2024-01-25 |\n| 3 | 2 | Algorytmy | 78 | 2024-01-20 |\n| 4 | 3 | Analiza | 95 | 2024-01-22 |\n| 5 | 4 | Mechanika | 60 | 2024-01-23 |\n| 6 | 5 | Algorytmy | 88 | 2024-01-20 |\n| 7 | 6 | Analiza | 72 | 2024-01-22 |\n| 8 | 7 | Mechanika | 55 | 2024-01-23 |\n| 9 | 8 | Chemia org. | 90 | 2024-01-24 |\n| 10 | 2 | Bazy danych | 70 | 2024-01-25 |\n| 11 | 4 | Termodynamika | 65 | 2024-01-26 |\n| 12 | 6 | Algebra | 80 | 2024-01-27 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego budynku i kazdego roku studiow wyswietli:\n- nazwe budynku\n- rok studiow\n- liczbe studentow (ktory zdawali przynajmniej 1 egzamin)\n- sredni wynik egzaminow (zaokraglony do 1 miejsca)\n\nPokaz tylko grupy, w ktorych sredni wynik jest wyzszy niz 75. Posortuj wg budynku, potem malejaco wg sredniej.",
+  "wskazowki": [
+    "**Kierunek**: Trzy tabele do polaczenia, grupowanie po dwoch kolumnach z roznych tabel.",
+    "**Podejscie**: JOIN Wydzialy → Studenci → Egzaminy, GROUP BY (budynek, rok_studiow).",
+    "**Kluczowy krok**: COUNT(DISTINCT id_studenta) liczy unikalnych studentow — jeden student moze miec wiele egzaminow. AVG(wynik) oblicza srednia ze wszystkich egzaminow w grupie."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT W.budynek, S.rok_studiow,\n       COUNT(DISTINCT S.id) AS liczba_studentow,\n       ROUND(AVG(E.wynik), 1) AS sredni_wynik\nFROM Wydzialy W\nJOIN Studenci S ON W.id_wydzialu = S.id_wydzialu\nJOIN Egzaminy E ON S.id = E.id_studenta\nGROUP BY W.budynek, S.rok_studiow\nHAVING AVG(E.wynik) > 75\nORDER BY W.budynek, sredni_wynik DESC;\n```\n\n**Weryfikacja** (grupowanie budynek + rok_studiow):\n\nBudynek A:\n- rok 1: Ewa (Analiza 95), Kasia (Algorytmy 88) → 2 studentow, srednia = (95+88)/2 = **91.5** (>75 ✓)\n- rok 2: Anna (Algorytmy 85, Bazy 92), Tomek (Analiza 72, Algebra 80) → 2 studentow, srednia = (85+92+72+80)/4 = **82.3** (>75 ✓) (zaokr. 329/4=82.25→82.3)\n- rok 3: Jan (Algorytmy 78, Bazy 70) → 1 student, srednia = (78+70)/2 = **74.0** (>75 ✗)\n\nBudynek B:\n- rok 1: Ola (Mechanika 55) → 1 student, srednia = **55.0** (>75 ✗)\n- rok 2: Piotr (Mechanika 60, Termodynamika 65) → 1 student, srednia = (60+65)/2 = **62.5** (>75 ✗)\n- rok 3: Marek (Chemia org. 90) → 1 student, srednia = **90.0** (>75 ✓)\n\n| budynek | rok_studiow | liczba_studentow | sredni_wynik |\n|---------|-------------|------------------|-------------|\n| A | 1 | 2 | 91.5 |\n| A | 2 | 2 | 82.3 |\n| B | 3 | 1 | 90.0 |\n\n**Wyjasnienie**: Trzy JOIN-y tworzace lancuch Wydzialy→Studenci→Egzaminy. COUNT(DISTINCT S.id) liczy unikalnych studentow (Anna ma 2 egzaminy, ale to 1 studentka). AVG(E.wynik) oblicza srednia z WSZYSTKICH egzaminow w grupie (nie srednia ze srednich studentow). Wielokolumnowe GROUP BY tworzy grupe per (budynek, rok_studiow).",
+  "typowe_bledy": [
+    {
+      "opis": "**COUNT(*) zamiast COUNT(DISTINCT)**: Anna ma 2 egzaminy — COUNT(*) policzyloby ja 2 razy",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak jednego JOIN**: Pominiecie tabeli Wydzialy — nie mozna uzyskac budynku",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Srednia ze srednich**: Osobne obliczenie sredniej per student, potem srednia z tych srednich — to inny wynik niz AVG ze wszystkich egzaminow",
+      "kara": "-2 pkt (zalezy od interpretacji polecenia)"
+    }
+  ]
+}

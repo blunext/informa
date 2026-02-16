@@ -1,0 +1,32 @@
+{
+  "id": "9.4",
+  "trudnosc": "srednie",
+  "punkty": 5,
+  "zrodlo": "Matura 2022 zad. 4.3 (trojki dzielnikowe)",
+  "tagi": [
+    "trojne-petle",
+    "wieloetapowe",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory znajdzie wszystkie trojki indeksow (i, j, k) takie, ze i < j < k oraz T[k] dzieli sie przez T[i] i T[k] dzieli sie przez T[j] (indeksy numerowane od 1). Podaj liczbe takich trojek i wypisz pierwsze 5.\n\n**Dane** (`dane.txt`):\n```\n2\n3\n4\n6\n5\n12\n8\n9\n24\n10\n36\n15\n18\n7\n48\n```\n\n**Oczekiwany wynik**:\n```\nTrojki (i,j,k) gdzie T[k] % T[i] == 0 i T[k] % T[j] == 0:\n(1,2,4): T[1]=2, T[2]=3, T[4]=6 (6%2=0, 6%3=0)\n(1,2,6): T[1]=2, T[2]=3, T[6]=12 (12%2=0, 12%3=0)\n(1,2,9): T[1]=2, T[2]=3, T[9]=24 (24%2=0, 24%3=0)\n(1,2,11): T[1]=2, T[2]=3, T[11]=36 (36%2=0, 36%3=0)\n(1,2,13): T[1]=2, T[2]=3, T[13]=18 (18%2=0, 18%3=0)\n...\nLaczna liczba trojek: 67\n```",
+  "wskazowki": [
+    "**Kierunek**: Potrojna petla po indeksach i < j < k.",
+    "**Podejscie**: Dla kazdej trojki sprawdz dwa warunki podzielnosci: `T[k] % T[i] == 0` i `T[k] % T[j] == 0`.",
+    "**Kluczowy krok**: Zlozonosc O(n^3) — dla n=15 to 455 trojek do sprawdzenia. Wypisz tylko 5 pierwszych."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    cout << \"Trojki (i,j,k) gdzie T[k] % T[i] == 0 i T[k] % T[j] == 0:\" << endl;\n    int ile = 0;\n    for (int i = 0; i < n; i++) {\n        for (int j = i + 1; j < n; j++) {\n            for (int k = j + 1; k < n; k++) {\n                if (T[k] % T[i] == 0 && T[k] % T[j] == 0) {\n                    ile++;\n                    if (ile <= 5) {\n                        cout << \"(\" << i+1 << \",\" << j+1 << \",\" << k+1 << \"): \"\n                             << \"T[\" << i+1 << \"]=\" << T[i] << \", \"\n                             << \"T[\" << j+1 << \"]=\" << T[j] << \", \"\n                             << \"T[\" << k+1 << \"]=\" << T[k]\n                             << \" (\" << T[k] << \"%\" << T[i] << \"=0, \"\n                             << T[k] << \"%\" << T[j] << \"=0)\" << endl;\n                    }\n                }\n            }\n        }\n    }\n    cout << \"...\" << endl;\n    cout << \"Laczna liczba trojek: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Potrojna petla O(n^3) przegladajaca wszystkie trojki indeksow i<j<k. Dla kazdej trojki sprawdzamy dwa warunki podzielnosci. Wypisujemy pierwsze 5 trojek i laczna liczbe.\n\nWeryfikacja pierwszych trojek:\n- (1,2,4): T={2,3,6}: 6%2=0, 6%3=0 -> TAK\n- (1,2,6): T={2,3,12}: 12%2=0, 12%3=0 -> TAK\n- (1,2,9): T={2,3,24}: 24%2=0, 24%3=0 -> TAK\n- (1,2,11): T={2,3,36}: 36%2=0, 36%3=0 -> TAK\n- (1,2,13): T={2,3,18}: 18%2=0, 18%3=0 -> TAK",
+  "typowe_bledy": [
+    {
+      "opis": "**Indeksowanie od 1 w kodzie**: Tablice w C++ sa 0-indeksowane. `T[i]` zamiast `T[i-1]`",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak warunku `i < j < k`**: Petla `for(j = 0; ...)` zamiast `for(j = i+1; ...)` liczy te same trojki wielokrotnie",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Dzielenie przez zero**: Jesli T[i] = 0, `T[k] % T[i]` powoduje blad. Tu dane sa dodatnie, ale warto sprawdzic",
+      "kara": "-1 pkt"
+    }
+  ]
+}

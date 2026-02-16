@@ -1,0 +1,33 @@
+{
+  "id": "7.7",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2024 zad. 3 (konwersja bin/dec)",
+  "tagi": [
+    "systemy-liczbowe",
+    "cyfry-mod-div",
+    "potegi",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 8 liczb calkowitych dodatnich (kazda w osobnym wierszu, wartosci z zakresu 1-255). Napisz program, ktory:\na) Wypisze kazda liczbe w systemie dwojkowym (bez zer wiodacych).\nb) Poda ile jedynek ma jej zapis binarny.\nc) Znajdzie liczbe z najwieksza liczba jedynek w zapisie binarnym.\n\n**Dane** (`dane.txt`):\n```\n42\n255\n13\n100\n7\n128\n63\n200\n```\n\n**Oczekiwany wynik**:\n```\n42 -> 101010 (jedynki: 3)\n255 -> 11111111 (jedynki: 8)\n13 -> 1101 (jedynki: 3)\n100 -> 1100100 (jedynki: 3)\n7 -> 111 (jedynki: 3)\n128 -> 10000000 (jedynki: 1)\n63 -> 111111 (jedynki: 6)\n200 -> 11001000 (jedynki: 3)\nNajwiecej jedynek: 255 (8 jedynek)\n```",
+  "wskazowki": [
+    "**Kierunek**: Konwersja na system dwojkowy to powtarzane dzielenie przez 2, reszty od konca.",
+    "**Podejscie**: `while(n > 0) { reszty += (n%2); n /= 2; }`, a potem odwroc string reszt.",
+    "**Kluczowy krok**: Zliczaj jedynki (reszty rowne 1) w trakcie konwersji."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int maxJedynki = 0, maxLiczba = 0;\n\n    while (plik >> n) {\n        int oryg = n;\n        string bin = \"\";\n        int jedynki = 0;\n        int tmp = n;\n        while (tmp > 0) {\n            int bit = tmp % 2;\n            bin += to_string(bit);\n            if (bit == 1) jedynki++;\n            tmp /= 2;\n        }\n        reverse(bin.begin(), bin.end());\n        cout << oryg << \" -> \" << bin << \" (jedynki: \" << jedynki << \")\" << endl;\n        if (jedynki > maxJedynki) {\n            maxJedynki = jedynki;\n            maxLiczba = oryg;\n        }\n    }\n    cout << \"Najwiecej jedynek: \" << maxLiczba << \" (\" << maxJedynki << \" jedynek)\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- 42: 42/2=21 r0, 21/2=10 r1, 10/2=5 r0, 5/2=2 r1, 2/2=1 r0, 1/2=0 r1 -> 101010, jedynki=3\n- 255: 11111111, jedynki=8\n- 13: 1101, jedynki=3\n- 100: 1100100, jedynki=3\n- 7: 111, jedynki=3\n- 128: 10000000, jedynki=1\n- 63: 111111, jedynki=6\n- 200: 11001000, jedynki=3\nMax: 255 (8)",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o odwroceniu wyniku**: Reszty z dzielenia sa od konca. Bez `reverse` dostaniesz odwrocony zapis",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak obslugi n=0**: `while(n > 0)` daje pusty string dla 0. Dodaj warunek specjalny",
+      "kara": "-1 pkt (tu nie dotyczy, n >= 1)"
+    },
+    {
+      "opis": "**Uzycie float/double przy dzieleniu**: `n / 2.0` daje double, traci dokladnosc. Uzywaj `n / 2` (int)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

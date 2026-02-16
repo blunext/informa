@@ -1,0 +1,28 @@
+{
+  "id": "14.6",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2025 zad. 3 (odleglosc od poczatku)",
+  "tagi": [
+    "odleglosc-euklidesowa",
+    "sortowanie",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `punkty.txt` znajduje sie 8 punktow (x, y) o wspolrzednych calkowitych. Napisz program, ktory:\na) Obliczy odleglosc kazdego punktu od poczatku ukladu wspolrzednych (0, 0).\nb) Wypisze punkty posortowane rosnaco wedlug odleglosci od (0, 0).\n\n**Dane** (`punkty.txt`):\n```\n3 4\n1 1\n5 0\n0 7\n6 8\n2 3\n4 4\n8 1\n```\n\n**Oczekiwany wynik**:\n```\na) Odleglosci od (0,0):\n   (3,4): 5.00\n   (1,1): 1.41\n   (5,0): 5.00\n   (0,7): 7.00\n   (6,8): 10.00\n   (2,3): 3.61\n   (4,4): 5.66\n   (8,1): 8.06\n\nb) Posortowane:\n   (1,1): 1.41\n   (2,3): 3.61\n   (3,4): 5.00\n   (5,0): 5.00\n   (4,4): 5.66\n   (0,7): 7.00\n   (8,1): 8.06\n   (6,8): 10.00\n```",
+  "wskazowki": [
+    "**Kierunek**: Odleglosc od (0,0) to `sqrt(x*x + y*y)`.",
+    "**Podejscie**: Wczytaj do vectora, oblicz odleglosci, posortuj z lambda po odleglosci.",
+    "**Kluczowy krok**: `sort` z komparatorem `sqrt(a.x^2+a.y^2) < sqrt(b.x^2+b.y^2)`. Mozna porownywac kwadraty odleglosci (bez sqrt)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    vector<pair<int,int>> P;\n    int x, y;\n    while (plik >> x >> y) P.push_back({x, y});\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Odleglosci od (0,0):\" << endl;\n    for (auto &p : P) {\n        double d = sqrt(p.first * p.first + p.second * p.second);\n        cout << \"   (\" << p.first << \",\" << p.second << \"): \" << d << endl;\n    }\n\n    sort(P.begin(), P.end(), [](auto &a, auto &b) {\n        return a.first * a.first + a.second * a.second\n             < b.first * b.first + b.second * b.second;\n    });\n\n    cout << endl << \"b) Posortowane:\" << endl;\n    for (auto &p : P) {\n        double d = sqrt(p.first * p.first + p.second * p.second);\n        cout << \"   (\" << p.first << \",\" << p.second << \"): \" << d << endl;\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: Odleglosc od poczatku to sqrt(x^2 + y^2). Sortowanie po kwadratach odleglosci (bez sqrt) jest szybsze i unika bledow zaokraglen.\n\nWeryfikacja:\n- (1,1): sqrt(2) = 1.41\n- (2,3): sqrt(13) = 3.61\n- (3,4): sqrt(25) = 5.00\n- (5,0): sqrt(25) = 5.00\n- (4,4): sqrt(32) = 5.66\n- (0,7): sqrt(49) = 7.00\n- (8,1): sqrt(65) = 8.06\n- (6,8): sqrt(100) = 10.00",
+  "typowe_bledy": [
+    {
+      "opis": "**Sortowanie z sqrt zamiast kwadratow**: Dziala, ale jest wolniejsze. Nie jest bledem.",
+      "kara": ""
+    },
+    {
+      "opis": "**Brak stabilnosci sortowania**: Punkty o tej samej odleglosci (3,4) i (5,0) moga byc w dowolnej kolejnosci — to OK.",
+      "kara": ""
+    }
+  ]
+}

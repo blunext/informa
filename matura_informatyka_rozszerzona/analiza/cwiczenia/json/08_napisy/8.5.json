@@ -1,0 +1,38 @@
+{
+  "id": "8.5",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2014 zad. 5 + 2025 zad. 2",
+  "tagi": [
+    "zliczanie-znakow",
+    "palindrom",
+    "tolower",
+    "set-unikalnosc",
+    "operacje-na-string"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 12 napisow skladajacych sie z malych i duzych liter alfabetu lacinskiego oraz cyfr (kazdy w osobnym wierszu). Napisz program, ktory:\na) Zliczy ile napisow zawiera dokladnie 3 cyfry.\nb) Znajdzie najdluzszy napis, ktory nie zawiera powtarzajacych sie znakow (z uwzglednieniem wielkosci liter, tzn. 'A' i 'a' to rozne znaki).\nc) Wypisze napisy, ktore sa palindromami po zamianie wszystkich liter na male (case-insensitive palindrom). Cyfry pozostaja bez zmian.\n\n**Dane** (`napisy.txt`):\n```\nAb3cD2eF1\nKaJaK\nhelloworld\nAa1Bb2Cc3\nNoRepeat\nAba\nx5y5z5w5\nRacEcAr\nABCBA\ntest12\nMadam\nr2d2R\n```\n\n**Oczekiwany wynik**:\n```\na) Napisy z dokladnie 3 cyframi:\n   Ab3cD2eF1 (cyfry: 3)\n   Aa1Bb2Cc3 (cyfry: 3)\n   Ilosc: 2\n\nb) Najdluzszy napis bez powtorzen:\n   Ab3cD2eF1 (dlugosc: 9, wszystkie znaki rozne)\n\nc) Case-insensitive palindromy:\n   KaJaK (male: kajak) - palindrom\n   Aba (male: aba) - palindrom\n   RacEcAr (male: racecar) - palindrom\n   ABCBA (male: abcba) - palindrom\n   Madam (male: madam) - palindrom\n   r2d2R (male: r2d2r) - palindrom\n   Ilosc: 6\n```",
+  "wskazowki": [
+    "**Kierunek**: Trzy niezalezne analizy — rozbij na osobne petle lub funkcje.",
+    "**Podejscie**: (a) zlicz cyfry petla po znakach, (b) `set<char>` — jesli rozmiar == dlugosc to brak powtorzen, (c) `tolower` lub reczna konwersja + test palindromu.",
+    "**Kluczowy krok**: W (b) pamietaj ze 'A' != 'a' (case-sensitive). W (c) konwertuj caly napis na male przed testem palindromu."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n#include <set>\nusing namespace std;\n\nstring toLower(string s) {\n    for (char &c : s)\n        if (c >= 'A' && c <= 'Z') c = c - 'A' + 'a';\n    return s;\n}\n\nbool czyPalindrom(string s) {\n    int n = s.length();\n    for (int i = 0; i < n / 2; i++)\n        if (s[i] != s[n - 1 - i]) return false;\n    return true;\n}\n\nbool bezPowtorzen(string s) {\n    set<char> znaki(s.begin(), s.end());\n    return (int)znaki.size() == (int)s.size();\n}\n\nint countDigits(string s) {\n    int cnt = 0;\n    for (char c : s)\n        if (c >= '0' && c <= '9') cnt++;\n    return cnt;\n}\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    vector<string> napisy;\n    while (getline(plik, s)) napisy.push_back(s);\n\n    // a) Dokladnie 3 cyfry\n    cout << \"a) Napisy z dokladnie 3 cyframi:\" << endl;\n    int ileA = 0;\n    for (string &n : napisy) {\n        int d = countDigits(n);\n        if (d == 3) {\n            cout << \"   \" << n << \" (cyfry: 3)\" << endl;\n            ileA++;\n        }\n    }\n    cout << \"   Ilosc: \" << ileA << endl;\n\n    // b) Najdluzszy bez powtorzen\n    string najdl = \"\";\n    for (string &n : napisy) {\n        if (bezPowtorzen(n) && n.length() > najdl.length()) {\n            najdl = n;\n        }\n    }\n    cout << endl << \"b) Najdluzszy napis bez powtorzen:\" << endl;\n    cout << \"   \" << najdl << \" (dlugosc: \" << najdl.length()\n         << \", wszystkie znaki rozne)\" << endl;\n\n    // c) Case-insensitive palindromy\n    cout << endl << \"c) Case-insensitive palindromy:\" << endl;\n    int ileC = 0;\n    for (string &n : napisy) {\n        string maly = toLower(n);\n        if (czyPalindrom(maly)) {\n            cout << \"   \" << n << \" (male: \" << maly << \") - palindrom\" << endl;\n            ileC++;\n        }\n    }\n    cout << \"   Ilosc: \" << ileC << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Trzy niezalezne analizy: (a) zliczanie cyfr w kazdym napisie, (b) sprawdzenie unikalnosci znakow za pomoca `set` — jesli rozmiar seta rowny dlugosci napisu, to znaki sie nie powtarzaja, (c) konwersja na male litery i test palindromu.\n\nWeryfikacja:\na) Cyfry w kazdym napisie:\n- Ab3cD2eF1: 3,2,1 -> 3 cyfry -> TAK\n- KaJaK: 0 cyfr\n- helloworld: 0 cyfr\n- Aa1Bb2Cc3: 1,2,3 -> 3 cyfry -> TAK\n- NoRepeat: 0 cyfr\n- Aba: 0 cyfr\n- x5y5z5w5: 5,5,5,5 -> 4 cyfry\n- RacEcAr: 0 cyfr\n- ABCBA: 0 cyfr\n- test12: 1,2 -> 2 cyfry\n- Madam: 0 cyfr\n- r2d2R: 2,2 -> 2 cyfry\n\nb) Napisy bez powtorzen znakow:\n- Ab3cD2eF1: {A,b,3,c,D,2,e,F,1} = 9 znakow, 9 roznych -> TAK (dl. 9)\n- helloworld: 'l' i 'o' sie powtarzaja -> NIE\n- NoRepeat: 'e' sie powtarza -> NIE (N,o,R,e,p,e,a,t)\n- test12: 't' sie powtarza -> NIE\nNajdluzszy: Ab3cD2eF1 (dl. 9)\n\nc) Palindromy (case-insensitive):\n- KaJaK -> kajak -> palindrom\n- Aba -> aba -> palindrom\n- RacEcAr -> racecar -> palindrom\n- ABCBA -> abcba -> palindrom\n- Madam -> madam -> palindrom\n- r2d2R -> r2d2r -> palindrom",
+  "typowe_bledy": [
+    {
+      "opis": "**W (b) uzycie `tolower` przed sprawdzeniem unikalnosci**: Wtedy 'A' i 'a' staja sie tym samym znakiem, a zadanie mowi ze to rozne znaki",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**W (c) zapomnienie o konwersji cyfr**: Cyfry nie powinny byc zmieniane przez `tolower`. `tolower('5') == '5'` wiec nie problem, ale warto byc swiadomym.",
+      "kara": ""
+    },
+    {
+      "opis": "**Uzycie `plik >> s` zamiast `getline`**: `>>` dzieli po spacjach. Jesli napisy moga zawierac spacje, uzyj `getline`. Tu OK bo napisy sa jednoslowne",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Brak obslugi pustego napisu**: Pusty string jest palindromem i nie ma powtorzen",
+      "kara": "-1 pkt"
+    }
+  ]
+}

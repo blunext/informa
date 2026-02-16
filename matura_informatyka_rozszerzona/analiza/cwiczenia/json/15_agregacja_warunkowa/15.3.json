@@ -1,0 +1,32 @@
+{
+  "id": "15.3",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2024 (Hurtownia)",
+  "tagi": [
+    "SUMIFS",
+    "warunek-tekstowy",
+    "wiele-warunkow"
+  ],
+  "tresc": "W arkuszu mamy dane sprzedazy hurtowni:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Data** | **Region** | **Kwartal** | **Sprzedaz** |\n| 2 | 2024-01-15 | Północ | Q1 | 12000 |\n| 3 | 2024-02-20 | Południe | Q1 | 8500 |\n| 4 | 2024-03-10 | Północ | Q1 | 15000 |\n| 5 | 2024-04-05 | Południe | Q2 | 9200 |\n| 6 | 2024-05-18 | Północ | Q2 | 11000 |\n| 7 | 2024-06-22 | Południe | Q2 | 7800 |\n| 8 | 2024-07-14 | Północ | Q3 | 13500 |\n| 9 | 2024-08-30 | Południe | Q3 | 10200 |\n| 10 | 2024-09-05 | Północ | Q3 | 14000 |\n| 11 | 2024-10-12 | Południe | Q4 | 9500 |\n| 12 | 2024-11-20 | Północ | Q4 | 16000 |\n| 13 | 2024-12-15 | Południe | Q4 | 11000 |\n\n**Polecenie**: Napisz formule SUMIFS, ktora obliczy laczna sprzedaz regionu \"Północ\" w kwartale \"Q3\".",
+  "wskazowki": [
+    "**Kierunek**: SUMIFS pozwala sumowac z wieloma warunkami jednoczesnie (w przeciwienstwie do SUMIF z jednym warunkiem).",
+    "**Podejscie**: Pierwszy argument to zakres sumowania, potem pary: zakres kryterium + kryterium.",
+    "**Kluczowy krok**: =SUMIFS(D2:D13;B2:B13;\"Północ\";C2:C13;\"Q3\") — dwa warunki: region i kwartal."
+  ],
+  "odpowiedz": "**Formula:**\n```\n=SUMIFS(D2:D13;B2:B13;\"Północ\";C2:C13;\"Q3\")\n```\n\n**Weryfikacja**:\nSzukamy wierszy, gdzie Region=\"Północ\" ORAZ Kwartal=\"Q3\":\n- Wiersz 8: Region=Północ, Kwartal=Q3, Sprzedaz=13500 ✓\n- Wiersz 10: Region=Północ, Kwartal=Q3, Sprzedaz=14000 ✓\n\nSuma: 13500 + 14000 = **27500**\n\n**Wyjasnienie**: SUMIFS(zakres_sumy; zakres_kryt1; kryterium1; zakres_kryt2; kryterium2) sumuje wartosci z D2:D13 tylko dla wierszy spelniajacych OBA warunki jednoczesnie. Roznica wzgledem SUMIF: SUMIFS akceptuje wiele par zakres-kryterium.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie SUMIF zamiast SUMIFS**: SUMIF obsluguje tylko jeden warunek. Aby filtrowac po regionie I kwartale, trzeba SUMIFS",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zly porzadek argumentow w SUMIFS**: W SUMIFS zakres sumy jest PIERWSZY (inaczej niz w SUMIF, gdzie jest trzeci)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Niezgodne rozmiary zakresow**: Wszystkie zakresy w SUMIFS musza miec te sama liczbe wierszy",
+      "kara": "-1 pkt"
+    }
+  ]
+}

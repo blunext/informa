@@ -1,0 +1,35 @@
+{
+  "id": "23.3",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2024 (Rejestr wykroczen)",
+  "tagi": [
+    "WHERE",
+    "BETWEEN",
+    "IN",
+    "NOT",
+    "LIKE",
+    "AND"
+  ],
+  "tresc": "Tabela **Pojazdy**:\n\n| id | marka | model | rok_produkcji | pojemnosc | kolor | nr_rejestracyjny |\n|----|-------|-------|---------------|-----------|-------|-------------------|\n| 1 | Toyota | Corolla | 2019 | 1800 | bialy | WA 12345 |\n| 2 | Ford | Focus | 2017 | 1600 | czarny | KR 98765 |\n| 3 | BMW | 320i | 2021 | 2000 | srebrny | GD 55555 |\n| 4 | Fiat | 500 | 2020 | 1200 | czerwony | WA 67890 |\n| 5 | Volkswagen | Golf | 2018 | 1400 | bialy | PO 11111 |\n| 6 | Audi | A4 | 2022 | 2000 | czarny | WA 22222 |\n| 7 | Toyota | Yaris | 2016 | 1000 | niebieski | KR 33333 |\n| 8 | Skoda | Octavia | 2019 | 1600 | srebrny | GD 44444 |\n| 9 | Honda | Civic | 2020 | 1500 | bialy | WA 55566 |\n| 10 | Renault | Clio | 2015 | 900 | czerwony | PO 77788 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli marke, model i rok produkcji pojazdow spelniajacych WSZYSTKIE warunki:\n- rok produkcji miedzy 2018 a 2021 (wlacznie)\n- pojemnosc silnika w zbiorze {1400, 1600, 1800, 2000}\n- nr rejestracyjny NIE zaczyna sie od 'WA'",
+  "wskazowki": [
+    "**Kierunek**: Trzy warunki polaczone AND — wszystkie musza byc spelnione.",
+    "**Podejscie**: BETWEEN dla zakresu, IN dla zbioru wartosci, NOT LIKE dla wykluczenia wzorca.",
+    "**Kluczowy krok**: BETWEEN jest wlaczajace (inclusive) — `BETWEEN 2018 AND 2021` obejmuje 2018 i 2021."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT marka, model, rok_produkcji\nFROM Pojazdy\nWHERE rok_produkcji BETWEEN 2018 AND 2021\n  AND pojemnosc IN (1400, 1600, 1800, 2000)\n  AND nr_rejestracyjny NOT LIKE 'WA%';\n```\n\n**Weryfikacja**:\n\n| id | marka | model | rok 2018-2021? | pojemnosc w zbiorze? | nie WA? | Wynik |\n|----|-------|-------|---------------|---------------------|---------|-------|\n| 1 | Toyota | Corolla | 2019 ✓ | 1800 ✓ | WA ✗ | ✗ |\n| 3 | BMW | 320i | 2021 ✓ | 2000 ✓ | GD ✓ | ✓ |\n| 5 | VW | Golf | 2018 ✓ | 1400 ✓ | PO ✓ | ✓ |\n| 8 | Skoda | Octavia | 2019 ✓ | 1600 ✓ | GD ✓ | ✓ |\n\n| marka | model | rok_produkcji |\n|-------|-------|---------------|\n| BMW | 320i | 2021 |\n| Volkswagen | Golf | 2018 |\n| Skoda | Octavia | 2019 |\n\n**Wyjasnienie**: BETWEEN a AND b jest rownowazne `>= a AND <= b`. IN sprawdza przynaleznosc do zbioru. NOT LIKE neguje wzorzec.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie, ze BETWEEN jest wlaczajace**: Zarowno 2018 jak i 2021 sa uwzgledniane",
+      "kara": ""
+    },
+    {
+      "opis": "**OR zamiast AND**: Zmienia logike — wystarczyloby spelnienie jednego warunku",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak NOT przed LIKE**: Bez NOT warunek wybiera pojazdy z WA zamiast je wykluczac",
+      "kara": "-2 pkt"
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "typ": "01_sledzenie_algorytmu",
+  "nazwa": "Sledzenie algorytmu",
+  "kategoria": "TEORIA",
+  "czestotliwosc": "11/11 lat",
+  "punkty_lacznie": 34,
+  "tagi_globalne": [
+    "mod-div",
+    "cyfry-liczby",
+    "sledzenie-iteracyjne",
+    "rekurencja",
+    "drzewo-wywolan",
+    "tablica-zliczanie",
+    "plansza-2D",
+    "programowanie-dynamiczne",
+    "NWD-Euklidesa",
+    "stos",
+    "sortowanie",
+    "operacje-bitowe",
+    "kolejka",
+    "tablica-pomocnicza"
+  ],
+  "cwiczenia": [
+    {
+      "id": "1.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "mod-div",
+        "cyfry-liczby",
+        "sledzenie-iteracyjne"
+      ]
+    },
+    {
+      "id": "1.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "rekurencja",
+        "mod-div",
+        "drzewo-wywolan"
+      ]
+    },
+    {
+      "id": "1.3",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "tablica-zliczanie",
+        "sledzenie-iteracyjne",
+        "tablica-pomocnicza"
+      ]
+    },
+    {
+      "id": "1.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "rekurencja",
+        "drzewo-wywolan",
+        "sledzenie-iteracyjne"
+      ]
+    },
+    {
+      "id": "1.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "plansza-2D",
+        "programowanie-dynamiczne",
+        "sledzenie-iteracyjne"
+      ]
+    },
+    {
+      "id": "1.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "NWD-Euklidesa",
+        "sledzenie-iteracyjne"
+      ]
+    },
+    {
+      "id": "1.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "sortowanie",
+        "sledzenie-iteracyjne",
+        "tablica-pomocnicza"
+      ]
+    },
+    {
+      "id": "1.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "operacje-bitowe",
+        "sledzenie-iteracyjne",
+        "mod-div"
+      ]
+    },
+    {
+      "id": "1.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "stos",
+        "sledzenie-iteracyjne",
+        "tablica-pomocnicza"
+      ]
+    },
+    {
+      "id": "1.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "rekurencja",
+        "drzewo-wywolan",
+        "tablica-pomocnicza",
+        "sledzenie-iteracyjne"
+      ]
+    }
+  ]
+}

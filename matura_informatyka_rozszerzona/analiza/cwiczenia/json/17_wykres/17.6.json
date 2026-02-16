@@ -1,0 +1,29 @@
+{
+  "id": "17.6",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "wykres-liniowy",
+    "etykiety-danych",
+    "tytuly-osi",
+    "formatowanie-wykresu"
+  ],
+  "tresc": "Pomiary temperatury powietrza w ciagu dnia:\n\n| | A | B |\n|---|---|---|\n| 1 | **Godzina** | **Temperatura (°C)** |\n| 2 | 6:00 | 8 |\n| 3 | 9:00 | 14 |\n| 4 | 12:00 | 21 |\n| 5 | 15:00 | 23 |\n| 6 | 18:00 | 18 |\n| 7 | 21:00 | 12 |\n\n**Polecenie**: Opisz, jak utworzyc wykres liniowy przedstawiajacy zmiane temperatury w ciagu dnia. Podaj:\n1. Typ wykresu i uzasadnienie wyboru\n2. Dane dla osi X i Y\n3. Elementy opisu wykresu\n4. W jakiej godzinie temperatura byla najwyzsza?",
+  "wskazowki": [
+    "**Kierunek**: Wykres liniowy jest najlepszy dla danych cioglych w czasie — pokazuje trend.",
+    "**Podejscie**: Os X = godziny (czas), os Y = temperatura. Jedna seria danych z markerami.",
+    "**Kluczowy krok**: Odczytaj wartosc maksymalna z tabeli — nie musisz uzywac formuly, wystarczy analiza danych."
+  ],
+  "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres liniowy z markerami\n   - Uzasadnienie: dane przedstawiaja zmiane jednej wielkosci w czasie — linia najlepiej uwidacznia trend (wzrost rano, szczyt po poludniu, spadek wieczorem)\n2. **Dane**:\n   - Os X: A2:A7 (godziny)\n   - Os Y: B2:B7 (temperatura)\n3. **Elementy opisu**:\n   - Tytul: \"Temperatura powietrza w ciagu dnia\"\n   - Os X: \"Godzina\"\n   - Os Y: \"Temperatura (°C)\"\n   - Markery w kazdym punkcie pomiarowym\n   - Etykiety danych przy markerach (8, 14, 21, 23, 18, 12)\n4. Najwyzsza temperatura: **23°C o godzinie 15:00**\n\n**Wyjasnienie**: Wykres liniowy jest preferowany dla danych czasowych, bo linia sugeruje ciagle zmiany miedzy pomiarami. Markery wskazuja dokladne punkty pomiarowe. Na maturze — zawsze uzasadniaj wybor typu wykresu.",
+  "typowe_bledy": [
+    {
+      "opis": "**Wykres kolumnowy zamiast liniowego**: Dla danych czasowych wykres kolumnowy sugeruje niezalezne kategorie, a nie ciagla zmiane",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak markerow**: Sama linia bez markerow moze utrudnic dokladny odczyt wartosci",
+      "kara": ""
+    }
+  ]
+}

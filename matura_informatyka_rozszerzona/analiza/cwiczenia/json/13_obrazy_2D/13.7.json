@@ -1,0 +1,28 @@
+{
+  "id": "13.7",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2017 zad. 6 (wzorce w siatce)",
+  "tagi": [
+    "symetria",
+    "tablica-2D",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Dana jest siatka 6x6 liczb calkowitych zapisana w pliku `siatka.txt`. Napisz program, ktory sprawdzi:\na) Czy siatka jest symetryczna wzgledem osi pionowej (lustrzane odbicie lewo-prawo).\nb) Czy siatka jest symetryczna wzgledem osi poziomej (lustrzane odbicie gora-dol).\n\n**Dane** (`siatka.txt`):\n```\n1 2 3 3 2 1\n4 5 6 6 5 4\n7 8 9 9 8 7\n7 8 9 9 8 7\n4 5 6 6 5 4\n1 2 3 3 2 1\n```\n\n**Oczekiwany wynik**:\n```\na) Symetria pionowa (lewo-prawo): TAK\nb) Symetria pozioma (gora-dol): TAK\n```",
+  "wskazowki": [
+    "**Kierunek**: Symetria pionowa: `tab[i][j] == tab[i][cols-1-j]`. Pozioma: `tab[i][j] == tab[rows-1-i][j]`.",
+    "**Podejscie**: Sprawdz kazda komorke — jesli chocby jedna nie spelnia warunku, symetria nie zachodzi.",
+    "**Kluczowy krok**: Wystarczy sprawdzic polowe siatki (np. `j < cols/2` dla pionowej)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    int tab[6][6];\n    for (int i = 0; i < 6; i++)\n        for (int j = 0; j < 6; j++)\n            plik >> tab[i][j];\n\n    // a) Symetria pionowa\n    bool symPion = true;\n    for (int i = 0; i < 6 && symPion; i++)\n        for (int j = 0; j < 3; j++)\n            if (tab[i][j] != tab[i][5 - j]) { symPion = false; break; }\n    cout << \"a) Symetria pionowa (lewo-prawo): \" << (symPion ? \"TAK\" : \"NIE\") << endl;\n\n    // b) Symetria pozioma\n    bool symPoz = true;\n    for (int i = 0; i < 3 && symPoz; i++)\n        for (int j = 0; j < 6; j++)\n            if (tab[i][j] != tab[5 - i][j]) { symPoz = false; break; }\n    cout << \"b) Symetria pozioma (gora-dol): \" << (symPoz ? \"TAK\" : \"NIE\") << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Symetria pionowa: porownujemy kolumne j z kolumna cols-1-j. Symetria pozioma: porownujemy wiersz i z wierszem rows-1-i. Wystarczy sprawdzic polowe.\n\nWeryfikacja:\n- Pionowa: wiersz 1: 1,2,3 vs 1,2,3 (odwrocone: 1,2,3) -> TAK (cala siatka)\n- Pozioma: wiersz 1 vs wiersz 6: 1,2,3,3,2,1 vs 1,2,3,3,2,1 -> TAK (cala siatka)",
+  "typowe_bledy": [
+    {
+      "opis": "**`cols-j` zamiast `cols-1-j`**: Indeksy od 0, wiec lustro kolumny 0 to kolumna 5 (nie 6)",
+      "kara": ""
+    },
+    {
+      "opis": "**Sprawdzanie calej siatki zamiast polowy**: Nie jest bledem, ale jest 2x wolniejsze. Moze spowodowac timeout na duzych danych.",
+      "kara": ""
+    }
+  ]
+}

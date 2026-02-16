@@ -1,0 +1,33 @@
+{
+  "id": "10.7",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2024 zad. 3 (filtrowanie napisow)",
+  "tagi": [
+    "napisy",
+    "filtrowanie",
+    "wczytywanie-pliku",
+    "zliczanie-znakow"
+  ],
+  "tresc": "W pliku `slowa.txt` znajduje sie 12 slow (kazde w osobnym wierszu, male litery). Napisz program, ktory:\na) Zliczy ile slow zaczyna sie na samogloske (a, e, i, o, u, y).\nb) Zliczy ile slow ma dlugosc wieksza niz 5.\nc) Zliczy ile slow zawiera podwojna litere (np. \"pp\", \"ll\").\n\n**Dane** (`slowa.txt`):\n```\nalgorytm\nprogramowanie\nabecadlo\npetla\nif\nzmienna\ntablica\nsortowanie\nrekurencja\nstos\nkolejka\ndrzewo\n```\n\n**Oczekiwany wynik**:\n```\na) Slowa zaczynajace sie na samogloske: 3 (algorytm, abecadlo, if)\nb) Slowa dluzsze niz 5 znakow: 9\nc) Slowa z podwojna litera: 1 (zmienna)\n```",
+  "wskazowki": [
+    "**Kierunek**: (a) Sprawdz pierwszy znak: `s[0]` i porownaj z samogloskami. (b) Sprawdz `s.length() > 5`.",
+    "**Podejscie**: Dla (c) przeiteruj po slowie i sprawdz `s[i] == s[i+1]` dla kazdego i.",
+    "**Kluczowy krok**: Pamietaj o petli do `s.length()-1` (nie `s.length()`) aby nie wyjsc poza zakres."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\nusing namespace std;\n\nbool samogloska(char c) {\n    return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'y';\n}\n\nbool maPodwojna(const string &s) {\n    for (int i = 0; i + 1 < (int)s.length(); i++)\n        if (s[i] == s[i + 1]) return true;\n    return false;\n}\n\nint main() {\n    ifstream plik(\"slowa.txt\");\n    string s;\n    int ileA = 0, ileB = 0, ileC = 0;\n    vector<string> samogl, dluzsze, podwojne;\n\n    while (plik >> s) {\n        if (samogloska(s[0])) { ileA++; samogl.push_back(s); }\n        if (s.length() > 5) { ileB++; dluzsze.push_back(s); }\n        if (maPodwojna(s)) { ileC++; podwojne.push_back(s); }\n    }\n\n    cout << \"a) Slowa zaczynajace sie na samogloske: \" << ileA << \" (\";\n    for (int i = 0; i < (int)samogl.size(); i++) {\n        if (i > 0) cout << \", \";\n        cout << samogl[i];\n    }\n    cout << \")\" << endl;\n\n    cout << \"b) Slowa dluzsze niz 5 znakow: \" << ileB << endl;\n    cout << \"c) Slowa z podwojna litera: \" << ileC << \" (\";\n    for (int i = 0; i < (int)podwojne.size(); i++) {\n        if (i > 0) cout << \", \";\n        cout << podwojne[i];\n    }\n    cout << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Trzy niezalezne filtry stosowane w jednym przebiegu pliku. `samogloska()` sprawdza pierwszy znak. `maPodwojna()` szuka par identycznych sasiadow.\n\nWeryfikacja:\n- Samogloska na poczatku: algorytm (a), abecadlo (a) = 2\n- Dluzsze niz 5: algorytm(8), programowanie(14), abecadlo(8), zmienna(7), tablica(7), sortowanie(10), rekurencja(10), kolejka(7) = 8\n- Podwojna litera: zmienna (nn) = 1",
+  "typowe_bledy": [
+    {
+      "opis": "**Petla `i < s.length()` w maPodwojna**: Dostep do `s[i+1]` poza zakresem",
+      "kara": "-1 pkt (crash lub UB)"
+    },
+    {
+      "opis": "**Brak `y` w samogloskach polskich**: W jezyku polskim \"y\" to samogloska — pominiecie jej to blad",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie `==` na calym stringu zamiast na znaku**: `s == \"a\"` to nie to samo co `s[0] == 'a'`",
+      "kara": "-1 pkt"
+    }
+  ]
+}

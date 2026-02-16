@@ -1,0 +1,31 @@
+{
+  "id": "4.3",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2022 zad. 3.1",
+  "tagi": [
+    "sortowanie-zlozonosc",
+    "stabilnosc-sortowania"
+  ],
+  "tresc": "Ocen prawdziwosc ponizszych zdan dotyczacych algorytmow sortowania i zlozonosci obliczeniowej. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Sortowanie babelkowe ma pesymistyczna zlozonosc czasowa O(n log n). | |\n| b) | Sortowanie przez wstawianie (insertion sort) jest algorytmem stabilnym. | |\n| c) | Algorytm quicksort w najgorszym przypadku ma zlozonosc O(n^2). | |\n| d) | Kazdy algorytm sortowania oparty na porownywaniu elementow ma zlozonosc co najmniej O(n log n) w przypadku pesymistycznym. | |",
+  "wskazowki": [
+    "**Kierunek**: Przypomnij sobie zlozonosci: babelkowe O(n^2), quicksort O(n^2) pesym. / O(n log n) sred., merge sort O(n log n).",
+    "**Podejscie**: Stabilnosc = elementy o rownych kluczach zachowuja kolejnosc. Insertion sort i merge sort sa stabilne, quicksort i heap sort nie.",
+    "**Kluczowy krok**: Dolna granica Omega(n log n) dotyczy sortowan opartych na porownaniach (twierdzenie o drzewie decyzyjnym)."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | Sortowanie babelkowe ma pesymistyczna zlozonosc O(n^2), nie O(n log n). Wymaga dwoch zagniezdznonych petli po n elementach. |\n| b) | **P** | Insertion sort jest stabilny — elementy o rownych kluczach zachowuja swoja wzgledna kolejnosc. Wstawiajac element, przesuwamy go w lewo tylko dopoki napotykamy elementy scisle wieksze. |\n| c) | **P** | Quicksort w najgorszym przypadku (np. juz posortowana tablica przy zlym wyborze pivota) ma zlozonosc O(n^2). Srednia zlozonosc to O(n log n). |\n| d) | **P** | Dolne ograniczenie zlozonosci sortowan opartych na porownywaniu wynosi Omega(n log n). Wynika to z faktu, ze drzewo decyzyjne o n! lisciach ma wysokosc co najmniej log2(n!) = Theta(n log n). |\n\nOdpowiedzi: a) F, b) P, c) P, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Babelkowe O(n log n)**: Babelkowe to ZAWSZE O(n^2) pesymistycznie. Jedynie optymistycznie (z flaga) moze byc O(n)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Quicksort zawsze O(n log n)**: Quicksort MA najgorszy przypadek O(n^2)! Tylko srednia to O(n log n)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Mylenie stabilnosci z zlozonoscia**: Stabilnosc to cecha zachowania kolejnosci rownych elementow, nie ma zwiazku z szybkoscia",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

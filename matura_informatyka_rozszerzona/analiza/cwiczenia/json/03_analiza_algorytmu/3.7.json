@@ -1,0 +1,33 @@
+{
+  "id": "3.7",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2021 zad. 2 (rekurencja)",
+  "tagi": [
+    "rekurencja",
+    "rownanie-rekurencyjne",
+    "drzewo-rekursji",
+    "zlozonosc-czasowa"
+  ],
+  "tresc": "Dana jest funkcja rekurencyjna:\n\n```\nfunkcja f(n)\n    jezeli n <= 1:\n        zwroc 1\n    zwroc f(n-1) + f(n-2)\n```\n\n**Polecenie**:\n- a) Ile razy funkcja `f` jest wywolywana podczas obliczania `f(6)`? (Wliczajac wywolanie poczatkowe.)\n- b) Jaka zlozonosc czasowa ma ten algorytm obliczania f(n)?\n- c) Podaj wersje iteracyjna tego algorytmu o zlozonosci O(n) i wyjasnij, dlaczego jest szybsza.",
+  "wskazowki": [
+    "**Kierunek**: f(n) oblicza n-ta liczbe Fibonacciego. Rekurencyjna wersja ma powtarzajace sie obliczenia.",
+    "**Podejscie**: Narysuj drzewo wywolan dla f(6). Policz wezly. Zauwazyc powtorzenia: f(3) jest liczone wiele razy.",
+    "**Kluczowy krok**: Liczba wywolan rosnie wykladniczo. Iteracyjna wersja uzywa dwoch zmiennych i petli."
+  ],
+  "odpowiedz": "**a) Drzewo wywolan f(6):**\n\n```\nf(6)\n├── f(5)\n│   ├── f(4)\n│   │   ├── f(3)\n│   │   │   ├── f(2)\n│   │   │   │   ├── f(1) = 1\n│   │   │   │   └── f(0) = 1\n│   │   │   └── f(1) = 1\n│   │   └── f(2)\n│   │       ├── f(1) = 1\n│   │       └── f(0) = 1\n│   └── f(3)\n│       ├── f(2)\n│       │   ├── f(1) = 1\n│       │   └── f(0) = 1\n│       └── f(1) = 1\n└── f(4)\n    ├── f(3)\n    │   ├── f(2)\n    │   │   ├── f(1) = 1\n    │   │   └── f(0) = 1\n    │   └── f(1) = 1\n    └── f(2)\n        ├── f(1) = 1\n        └── f(0) = 1\n```\n\nLiczba wywolan: **25**\n\nWynik: f(6) = 13\n\n**b) Zlozonosc: O(2^n)** (wykladnicza)\n\nDokladniej O(phi^n), gdzie phi = (1+sqrt(5))/2 ≈ 1.618 (zloty podzial). Kazde wywolanie generuje dwa kolejne, wiec drzewo rosnie wykladniczo. Wiele wartosci jest obliczanych wielokrotnie (np. f(3) jest liczone 3 razy).\n\n**c) Wersja iteracyjna O(n):**\n\n```\nfunkcja f_iter(n)\n    jezeli n <= 1:\n        zwroc 1\n    a := 1   // f(0)\n    b := 1   // f(1)\n    dla i := 2, 3, ..., n:\n        c := a + b\n        a := b\n        b := c\n    zwroc b\n```\n\nJest szybsza, bo kazda wartosc f(i) oblicza dokladnie raz (w jednym kroku petli), bez powtorzen. Uzywa O(1) pamieci dodatkowej (tylko 3 zmienne) zamiast O(n) stosu rekursji.",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledna liczba wywolan**: Trzeba dokladnie policzyc wezly drzewa. Dla f(6) jest ich 25, nie np. 15",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zlozonosc O(n^2) zamiast O(2^n)**: Fibonacci rekurencyjny rosnie wykladniczo, nie kwadratowo",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak wyjasnnienia dlaczego iteracyjna jest szybsza**: Klucz: brak powtarzajacych sie obliczen",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "8.2",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Matura 2014 zad. 5 (kody ASCII)",
+  "tagi": [
+    "kody-ASCII",
+    "operacje-na-string",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 8 napisow skladajacych sie z malych liter alfabetu lacinskiego (kazdy w osobnym wierszu). Napisz program, ktory dla kazdego napisu obliczy sume kodow ASCII wszystkich jego znakow, a nastepnie poda napis o najwiekszej i najmniejszej sumie kodow.\n\n**Dane** (`napisy.txt`):\n```\nabc\nxyz\nhello\ncat\nzoo\nbee\nax\nwind\n```\n\n**Oczekiwany wynik**:\n```\nabc -> suma ASCII: 294\nxyz -> suma ASCII: 363\nhello -> suma ASCII: 532\ncat -> suma ASCII: 312\nzoo -> suma ASCII: 344\nbee -> suma ASCII: 300\nax -> suma ASCII: 217\nwind -> suma ASCII: 434\nNajwieksza suma: hello (532)\nNajmniejsza suma: ax (217)\n```",
+  "wskazowki": [
+    "**Kierunek**: Kazdy znak `char` ma wartosc liczbowa (ASCII). `a`=97, `b`=98, ..., `z`=122.",
+    "**Podejscie**: Iteruj po znakach napisu, rzutuj na `int` i sumuj: `suma += (int)c`.",
+    "**Kluczowy krok**: Sledz max/min sume i odpowiadajacy napis jednoczesnie."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    string maxNapis, minNapis;\n    int maxSuma = -1, minSuma = 1000000;\n\n    while (plik >> s) {\n        int suma = 0;\n        for (char c : s) suma += (int)c;\n        cout << s << \" -> suma ASCII: \" << suma << endl;\n        if (suma > maxSuma) { maxSuma = suma; maxNapis = s; }\n        if (suma < minSuma) { minSuma = suma; minNapis = s; }\n    }\n    cout << \"Najwieksza suma: \" << maxNapis << \" (\" << maxSuma << \")\" << endl;\n    cout << \"Najmniejsza suma: \" << minNapis << \" (\" << minSuma << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Suma kodow ASCII to suma wartosci liczbowych znakow (a=97, b=98, ..., z=122). Szukamy napisu o max i min sumie przegladajac wszystkie napisy.\n\nWeryfikacja:\n- abc: 97+98+99 = 294\n- xyz: 120+121+122 = 363\n- hello: 104+101+108+108+111 = 532\n- cat: 99+97+116 = 312\n- zoo: 122+111+111 = 344\n- bee: 98+101+101 = 300\n- ax: 97+120 = 217\n- wind: 119+105+110+100 = 434\n\nMax: hello (532), Min: ax (217).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak rzutowania na int**: W C++ `char + char` daje `int`, wiec tu nie problem, ale warto byc swiadomym typow.",
+      "kara": ""
+    },
+    {
+      "opis": "**Inicjalizacja min/max wartosciami 0**: maxSuma=0 jest OK (sumy sa dodatnie), ale minSuma=0 sprawi ze kazda suma > 0 nie przejdzie warunku",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Porownywanie napisow zamiast sum**: Porownanie leksykograficzne != porownanie sum ASCII",
+      "kara": "-2 pkt"
+    }
+  ]
+}

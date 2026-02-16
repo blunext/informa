@@ -1,0 +1,32 @@
+{
+  "id": "1.8",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2021 zad. 2 (operacje bitowe)",
+  "tagi": [
+    "operacje-bitowe",
+    "sledzenie-iteracyjne",
+    "mod-div"
+  ],
+  "tresc": "Dana jest funkcja konwertujaca liczbe na zapis binarny i zliczajaca jedynki:\n\n```\nfunkcja policzJedynki(n)\n    licznik := 0\n    bity := \"\"\n    dopoki n > 0:\n        bit := n mod 2\n        bity := bit + bity   // dopisz bit na poczatek napisu\n        jezeli bit = 1:\n            licznik := licznik + 1\n        n := n div 2\n    zwroc (bity, licznik)\n```\n\n**Polecenie**: Przesled algorytm dla kazdej z podanych wartosci n. Podaj:\n- zapis binarny (wartosc zmiennej `bity`),\n- liczbe jedynek (`licznik`).\n\nDla n = 53 wypelnij pelna tabele wartosci zmiennych w kazdym kroku.\n\n| Lp. | n |\n|-----|---|\n| a)  | 53 |\n| b)  | 100 |\n| c)  | 255 |",
+  "wskazowki": [
+    "**Kierunek**: Algorytm dzieli n przez 2 i zbiera reszty — to standardowa konwersja na system binarny.",
+    "**Podejscie**: W kazdym kroku: reszta z dzielenia przez 2 to kolejny bit (od prawej), potem n := n div 2.",
+    "**Kluczowy krok**: Bity zbieramy od konca do poczatku (dlatego `bit + bity`). Jedynki liczymy na biezaco."
+  ],
+  "odpowiedz": "**a) policzJedynki(53)**\n\n| Krok | n (pocz.) | bit = n mod 2 | bity | licznik | n (koniec) |\n|------|-----------|----------------|------|---------|------------|\n| 1 | 53 | 1 | \"1\" | 1 | 26 |\n| 2 | 26 | 0 | \"01\" | 1 | 13 |\n| 3 | 13 | 1 | \"101\" | 2 | 6 |\n| 4 | 6 | 0 | \"0101\" | 2 | 3 |\n| 5 | 3 | 1 | \"10101\" | 3 | 1 |\n| 6 | 1 | 1 | \"110101\" | 4 | 0 |\n\nWynik: bity = **\"110101\"**, licznik = **4**\nSprawdzenie: 32+16+4+1 = 53. Poprawne.\n\n**b) policzJedynki(100)**\n\n100 div 2: 0, 0, 1, 0, 0, 1, 1 (kolejne reszty)\n- 100→50(r=0), 50→25(r=0), 25→12(r=1), 12→6(r=0), 6→3(r=0), 3→1(r=1), 1→0(r=1)\n\nWynik: bity = **\"1100100\"**, licznik = **3**\nSprawdzenie: 64+32+4 = 100. Poprawne.\n\n**c) policzJedynki(255)**\n\n255 = 2^8 - 1, wiec w zapisie binarnym to osiem jedynek.\n- 255→127(r=1), 127→63(r=1), 63→31(r=1), 31→15(r=1), 15→7(r=1), 7→3(r=1), 3→1(r=1), 1→0(r=1)\n\nWynik: bity = **\"11111111\"**, licznik = **8**",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwrocona kolejnosc bitow**: Algorytm generuje bity od LSB do MSB, ale sklada je w poprawnej kolejnosci (bit + bity). Jesli zapisujesz bity w odwrotnej kolejnosci, wynik bedzie bledny",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Blad przy n=0**: Algorytm nie obsluguje n=0 (petla sie nie wykona). Na maturze CKE nie sprawdza tego przypadku.",
+      "kara": ""
+    },
+    {
+      "opis": "**Pomylka div i mod**: n mod 2 to reszta (0 lub 1), n div 2 to czesc calkowita",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "2.10",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2023 zad. 3 (rekurencja i iteracja), styl CKE",
+  "tagi": [
+    "rekurencja",
+    "iteracja",
+    "cyfry",
+    "zlozonosc",
+    "C++"
+  ],
+  "tresc": "Dany jest nastepujacy algorytm rekurencyjny obliczajacy \"cyfrowy korzen\" liczby (tj. powtarzane sumowanie cyfr az do uzyskania jednocyfrowego wyniku):\n\n```\nfunkcja korzen_cyfrowy(n)\n    jezeli n < 10:\n        zwroc n\n    zwroc korzen_cyfrowy(sumaCyfr(n))\n```\n\ngdzie `sumaCyfr(n)` oblicza sume cyfr liczby n (patrz cwiczenie 2.2).\n\n**Polecenie**: Napisz w pelni iteracyjna wersje funkcji `korzen_cyfrowy(n)` -- bez uzywania rekurencji i bez oddzielnej funkcji `sumaCyfr`. Uzyj zagniezdzonej petli: zewnetrzna petla powtarza sumowanie, wewnetrzna oblicza sume cyfr.\n\n**Ograniczenia**: Nie wolno uzywac rekurencji, stringow ani tablic. Tylko zmienne calkowite i operatory arytmetyczne.\n\n**Przyklady**:\n- `korzen_cyfrowy(9875)` = 2 (9+8+7+5=29, 2+9=11, 1+1=2)\n- `korzen_cyfrowy(493)` = 7 (4+9+3=16, 1+6=7)\n- `korzen_cyfrowy(7)` = 7 (juz jednocyfrowa)\n- `korzen_cyfrowy(100)` = 1 (1+0+0=1)",
+  "wskazowki": [
+    "Potrzebujesz dwoch petli. Zewnetrzna petla dziala dopoki `n >= 10` (tzn. n ma wiecej niz jedna cyfre). Wewnetrzna petla oblicza sume cyfr biezacego `n`.",
+    "W wewnetrznej petli oblicz sume cyfr: `suma = 0`, potem `while (n > 0): suma += n mod 10; n = n div 10`. Po wewnetrznej petli przypisz `n = suma`.",
+    "Zewnetrzna petla sprawdza warunek `n >= 10` PRZED wewnetrzna. Jesli `n < 10`, petla sie konczy i zwracamy `n`. Calosc to `while (n >= 10) { suma=0; while (n>0) { suma+=n%10; n/=10; } n=suma; }`."
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja korzen_cyfrowy(n)\n    dopoki n >= 10:\n        suma := 0\n        dopoki n > 0:\n            suma := suma + n mod 10\n            n := n div 10\n        n := suma\n    zwroc n\n```\n\n**C++:**\n\n```cpp\nint korzen_cyfrowy(int n) {\n    while (n >= 10) {\n        int suma = 0;\n        while (n > 0) {\n            suma += n % 10;\n            n /= 10;\n        }\n        n = suma;\n    }\n    return n;\n}\n```\n\n**Weryfikacja korzen_cyfrowy(9875):**\n\nIteracja zewnetrzna 1 (n = 9875 >= 10):\n| Krok wewn. | n | n%10 | suma | n (po /10) |\n|------------|---|------|------|------------|\n| 1 | 9875 | 5 | 5 | 987 |\n| 2 | 987 | 7 | 12 | 98 |\n| 3 | 98 | 8 | 20 | 9 |\n| 4 | 9 | 9 | 29 | 0 |\nn := 29\n\nIteracja zewnetrzna 2 (n = 29 >= 10):\n| Krok wewn. | n | n%10 | suma | n (po /10) |\n|------------|---|------|------|------------|\n| 1 | 29 | 9 | 9 | 2 |\n| 2 | 2 | 2 | 11 | 0 |\nn := 11\n\nIteracja zewnetrzna 3 (n = 11 >= 10):\n| Krok wewn. | n | n%10 | suma | n (po /10) |\n|------------|---|------|------|------------|\n| 1 | 11 | 1 | 1 | 1 |\n| 2 | 1 | 1 | 2 | 0 |\nn := 2\n\nn = 2 < 10, petla zewnetrzna konczy sie. Wynik: 2.\n\n**Weryfikacja korzen_cyfrowy(493):**\n\nIteracja 1: 4+9+3 = 16, n := 16\nIteracja 2: 1+6 = 7, n := 7\nn = 7 < 10. Wynik: 7.\n\n**Weryfikacja korzen_cyfrowy(7):**\n\nn = 7 < 10, petla zewnetrzna sie nie wykonuje. Wynik: 7.\n\n**Uwaga o zlozonosci**: Mozna udowodnic, ze korzen cyfrowy mozna obliczyc wzorem `1 + (n - 1) % 9` dla n > 0 (zwiazek z arytmetyka modularną). Jednak na maturze CKE oczekuje algorytmu iteracyjnego z petlami, nie wzoru matematycznego.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak reinicjalizacji `suma = 0` na poczatku kazdej iteracji zewnetrznej** -- `suma` z poprzedniej iteracji dodaje sie do nowej, dajac bledne wyniki",
+      "kara": "-2 pkt za blad logiczny"
+    },
+    {
+      "opis": "**Warunek zewnetrznej petli `n > 0` zamiast `n >= 10`** -- petla nigdy sie nie konczy dla n > 0 lub konczy z blednym wynikiem. Dla n = 7: wewnetrzna petla da suma = 7, n := 7, i petla sie powtarza w nieskonczonosc",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pomylenie kolejnosci petli** -- uzycie jednej petli zamiast zagniezdzonej powoduje, ze algorytm oblicza sume cyfr tylko raz (nie powtarza procesu az do jednej cyfry)",
+      "kara": "-2 pkt za niekompletny algorytm"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "17.4",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2025 (Martianeum)",
+  "tagi": [
+    "wykres-skumulowany",
+    "procent-udzialu",
+    "seria-danych",
+    "odczyt-z-wykresu"
+  ],
+  "tresc": "Zuzycie energii (w GWh) wg zrodel w 4 kwartalach:\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Zrodlo** | **Q1** | **Q2** | **Q3** | **Q4** |\n| 2 | Wegiel | 120 | 100 | 80 | 130 |\n| 3 | Gaz | 60 | 50 | 45 | 65 |\n| 4 | OZE | 30 | 55 | 70 | 35 |\n| 5 | Atom | 90 | 90 | 90 | 90 |\n\n**Polecenie**:\n1. Opisz, jak utworzyc wykres kolumnowy skumulowany (stacked) gdzie kazdy slupek pokazuje calkowite zuzycie energii w kwartale, podzielone na zrodla.\n2. Oblicz calkowite zuzycie w kazdym kwartale.\n3. W ktorym kwartale udzial OZE byl procentowo najwyzszy?",
+  "wskazowki": [
+    "**Kierunek**: Wykres skumulowany — serie ulozone jedna na drugiej. Wysokosc calego slupka = suma.",
+    "**Podejscie**: Os X = kwartaly, kazde zrodlo to osobna seria. Udzial OZE = OZE/razem × 100%.",
+    "**Kluczowy krok**: Uwaga — dane w tabeli sa ulozone \"zrodla w wierszach\", wiec na wykresie serie to wiersze, nie kolumny."
+  ],
+  "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kolumnowy skumulowany (stacked column)\n2. **Dane** (uwaga — dane trzeba \"transponowac\" w ukladzie: kwartaly na osi X, zrodla jako serie):\n   - Os X (kategorie): Q1, Q2, Q3, Q4\n   - Seria 1 (Wegiel): B2:E2\n   - Seria 2 (Gaz): B3:E3\n   - Seria 3 (OZE): B4:E4\n   - Seria 4 (Atom): B5:E5\n3. **Tytuly**:\n   - Tytul: \"Zuzycie energii wg zrodel (GWh)\"\n   - Os X: \"Kwartal\"\n   - Os Y: \"Zuzycie (GWh)\"\n4. **Formatowanie**:\n   - Kolory: Wegiel=czarny, Gaz=szary, OZE=zielony, Atom=zolty\n   - Legenda po prawej stronie\n   - Kazdy slupek sklada sie z 4 warstw (jedno zrodlo na warstwe)\n   - Calkowita wysokosc slupka = suma wszystkich zrodel\n\n**Obliczenia:**\n\n| Kwartal | Wegiel | Gaz | OZE | Atom | Razem |\n|---------|--------|-----|-----|------|-------|\n| Q1 | 120 | 60 | 30 | 90 | 300 |\n| Q2 | 100 | 50 | 55 | 90 | 295 |\n| Q3 | 80 | 45 | 70 | 90 | 285 |\n| Q4 | 130 | 65 | 35 | 90 | 320 |\n\n**Udzial OZE:**\n\n| Kwartal | OZE | Razem | Udzial OZE |\n|---------|-----|-------|------------|\n| Q1 | 30 | 300 | 10.0% |\n| Q2 | 55 | 295 | 18.6% |\n| Q3 | 70 | 285 | **24.6%** |\n| Q4 | 35 | 320 | 10.9% |\n\nNajwyzszy udzial OZE: **Q3 (24.6%)**\n\n**Wyjasnienie**: Wykres skumulowany rozni sie od grupowanego tym, ze serie sa ulozone jedna na drugiej (nie obok siebie). Pozwala to jednoczesnie zobaczyc calkosc (wysokosc slupka) i sklad (czesci). Udzial procentowy = OZE / Razem × 100%. Na maturze trzeba umiec odczytac z wykresu skumulowanego zarowno wartosc calkowita, jak i poszczegolne czesci.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pominiecie transpozycji danych**: Jesli dane sa w wierszach (jak tu), trzeba wskazac programowi, ze serie to wiersze, nie kolumny",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne odczytanie wartosci ze skumulowanego**: Wartosc pojedynczej serii to roznica miedzy gorna a dolna krawedzia warstwy, NIE odczyt z osi Y",
+      "kara": "-1 pkt"
+    }
+  ]
+}

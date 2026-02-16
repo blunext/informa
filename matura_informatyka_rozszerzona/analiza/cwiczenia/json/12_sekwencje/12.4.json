@@ -1,0 +1,33 @@
+{
+  "id": "12.4",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2019 zad. 4.3 (najdluzszy ciag z NWD > 1)",
+  "tagi": [
+    "NWD-Euklidesa",
+    "spojny-podciag",
+    "current-max",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych wiekszych od 1 (kazda w osobnym wierszu). Napisz program, ktory znajdzie najdluzszy spojny podciag, w ktorym NWD wszystkich elementow jest wiekszy od 1. Podaj dlugosc, pozycje startowa i NWD tego podciagu.\n\n**Dane** (`dane.txt`):\n```\n12\n18\n6\n24\n15\n7\n14\n21\n35\n49\n11\n22\n33\n44\n5\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy ciag z NWD > 1:\nPozycja poczatkowa: 1, dlugosc: 5\nElementy: 12 18 6 24 15\nNWD: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: NWD narastajaco — NWD(a,b,c) = NWD(NWD(a,b), c). Jesli NWD spadnie do 1, przerywamy.",
+    "**Podejscie**: Podwojna petla: dla kazdego startu oblicz NWD narastajaco. `break` gdy NWD == 1.",
+    "**Kluczowy krok**: NWD moze tylko malec lub pozostac stalym — nigdy nie wzrosnie po dodaniu elementu."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint nwd(int a, int b) {\n    while (b != 0) { int t = b; b = a % b; a = t; }\n    return a;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int bestLen = 0, bestStart = 0, bestNwd = 0;\n\n    for (int i = 0; i < n; i++) {\n        int g = T[i];\n        for (int j = i; j < n; j++) {\n            g = nwd(g, T[j]);\n            if (g == 1) break;\n            int len = j - i + 1;\n            if (len > bestLen) {\n                bestLen = len;\n                bestStart = i;\n                bestNwd = g;\n            }\n        }\n    }\n\n    cout << \"Najdluzszy ciag z NWD > 1:\" << endl;\n    cout << \"Pozycja poczatkowa: \" << bestStart + 1\n         << \", dlugosc: \" << bestLen << endl;\n    cout << \"Elementy: \";\n    for (int i = bestStart; i < bestStart + bestLen; i++)\n        cout << T[i] << \" \";\n    cout << endl;\n    cout << \"NWD: \" << bestNwd << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdej pozycji startowej obliczamy NWD narastajaco (dodajac kolejne elementy). Gdy NWD spadnie do 1, przerywamy. Sledzony jest najdluzszy ciag z NWD > 1.\n\nWeryfikacja:\n- Poz.1: NWD(12)=12, NWD(12,18)=6, NWD(6,6)=6, NWD(6,24)=6, NWD(6,15)=3 -> ciag dl.5, NWD=3. NWD(3,7)=1, stop.\n- Poz.6: 7, NWD(7,14)=7, NWD(7,21)=7, NWD(7,35)=7, NWD(7,49)=7 -> dl.5, NWD=7. NWD(7,11)=1, stop.\n\nMamy dwa ciagi dlugosci 5. Pierwszy znaleziony: poz.1 (dl.5, NWD=3). Poz.6 tez dl.5 (NWD=7).\nbestLen nie zmieni sie przy rownej dlugosci (warunek `len > bestLen`), wiec odpowiedz to poz.1.",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledna implementacja NWD**: Klasyczny blad to `while (a != b)` zamiast algorytmu Euklidesa z modulo — dziala, ale jest wolny",
+      "kara": ""
+    },
+    {
+      "opis": "**Brak `break` przy NWD==1**: Kontynuowanie po NWD=1 jest bezcelowe (NWD nigdy nie wzrosnie), ale nie jest bledem logicznym. Moze spowodowac timeout.",
+      "kara": ""
+    },
+    {
+      "opis": "**Zapomnienie o NWD == bestNwd przy rownej dlugosci**: Nie jest wymagane — wystarczy pierwszy znaleziony.",
+      "kara": ""
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "2.3",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "styl CKE -- \"tylko zmienne calkowite\"",
+  "tagi": [
+    "palindrom",
+    "mod-div",
+    "cyfry",
+    "C++"
+  ],
+  "tresc": "Napisz pseudokod funkcji `czyPalindrom(n)` sprawdzajacej, czy liczba naturalna n > 0 jest palindromem (czytana od lewej i od prawej daje ta sama liczbe, np. 12321, 4554, 7).\n\n**Ograniczenia**: Nie wolno uzywac stringow, tablic ani funkcji wbudowanych. Dozwolone sa wylacznie zmienne calkowite i operatory arytmetyczne (mod, div, +, *, porownania).\n\n**Przyklady**:\n- `czyPalindrom(12321)` = PRAWDA\n- `czyPalindrom(12345)` = FALSZ\n- `czyPalindrom(4554)` = PRAWDA\n- `czyPalindrom(7)` = PRAWDA",
+  "wskazowki": [
+    "Pomysl o strategii: jesli odwrocisz cyfry liczby i otrzymasz te sama wartosc, to liczba jest palindromem. Jak odwrocic liczbe uzywajac mod i div?",
+    "Buduj odwrocona liczbe od zera: w kazdym kroku `odwrocona = odwrocona * 10 + n mod 10`, potem `n = n div 10`. Powtarzaj az `n = 0`.",
+    "Pamietaj, zeby PRZED petla zapisac oryginalna wartosc `n` do osobnej zmiennej (`oryginal := n`), bo petla zmodyfikuje `n`. Na koncu porownaj `odwrocona` z `oryginal`."
+  ],
+  "odpowiedz": "**Pseudokod (metoda: odwroc liczbe i porownaj):**\n\n```\nfunkcja czyPalindrom(n)\n    oryginal := n\n    odwrocona := 0\n    dopoki n > 0:\n        cyfra := n mod 10\n        odwrocona := odwrocona * 10 + cyfra\n        n := n div 10\n    jezeli odwrocona = oryginal:\n        zwroc PRAWDA\n    w przeciwnym razie:\n        zwroc FALSZ\n```\n\n**C++:**\n\n```cpp\nbool czyPalindrom(int n) {\n    int oryginal = n;\n    int odwrocona = 0;\n    while (n > 0) {\n        odwrocona = odwrocona * 10 + n % 10;\n        n /= 10;\n    }\n    return odwrocona == oryginal;\n}\n```\n\n**Sledzenie dla n = 12321:**\n\n| Krok | n | cyfra | odwrocona |\n|------|---|-------|-----------|\n| poczatek | 12321 | - | 0 |\n| 1 | 1232 | 1 | 1 |\n| 2 | 123 | 2 | 12 |\n| 3 | 12 | 3 | 123 |\n| 4 | 1 | 2 | 1232 |\n| 5 | 0 | 1 | 12321 |\n\nodwrocona (12321) = oryginal (12321) -> PRAWDA\n\n**Sledzenie dla n = 12345:**\n\nodwrocona po petli: 54321\n54321 != 12345 -> FALSZ",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak zapisu oryginalnej wartosci** -- porownywanie z `n` po petli (ktore jest juz rowne 0) zamiast z zapisana wartoscia poczatkowa",
+      "kara": "-2 pkt, bo wynik zawsze FALSZ (po petli n = 0, wiec porownanie odwrocona == n daje np. 12321 == 0, czyli zawsze FALSZ -- zadna liczba nie zostanie uznana za palindrom)"
+    },
+    {
+      "opis": "**Bledna kolejnosc w budowaniu odwroconej** -- pisanie `odwrocona = cyfra * 10 + odwrocona` zamiast `odwrocona * 10 + cyfra` daje bledny wynik",
+      "kara": "-2 pkt za bledny algorytm"
+    },
+    {
+      "opis": "**Pominiecie jednocyfrowych liczb** -- jednocyfrowa liczba jest zawsze palindromem. Algorytm poprawnie to obsluguje (po jednej iteracji odwrocona = cyfra = oryginal), ale uczniowie czasem dodaja niepotrzebny warunek brzegowy, ktory moze wprowadzic blad.",
+      "kara": ""
+    }
+  ]
+}

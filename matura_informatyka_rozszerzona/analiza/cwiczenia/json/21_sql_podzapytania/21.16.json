@@ -1,0 +1,28 @@
+{
+  "id": "21.16",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2023",
+  "tagi": [
+    "podzapytanie-w-HAVING",
+    "AVG",
+    "podzapytanie-skalarne"
+  ],
+  "tresc": "Tabela **Sklepy**:\n\n| id_sklepu | nazwa | miasto |\n|-----------|-------|--------|\n| 1 | MediaMarkt | Warszawa |\n| 2 | Saturn | Krakow |\n| 3 | Euro RTV | Warszawa |\n| 4 | Komputronik | Gdansk |\n\nTabela **Sprzedaz**:\n\n| id | id_sklepu | produkt | kwota | data |\n|----|-----------|---------|-------|------|\n| 1 | 1 | Laptop | 3500 | 2024-01-10 |\n| 2 | 1 | Telefon | 2500 | 2024-01-15 |\n| 3 | 2 | Laptop | 3200 | 2024-02-01 |\n| 4 | 2 | Tablet | 1800 | 2024-02-10 |\n| 5 | 3 | Telefon | 2800 | 2024-03-01 |\n| 6 | 3 | Laptop | 4000 | 2024-03-05 |\n| 7 | 3 | Tablet | 1500 | 2024-03-10 |\n| 8 | 4 | Telefon | 2200 | 2024-03-15 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwy sklepow, ktorych laczna kwota sprzedazy jest wyzsza niz srednia laczna kwota sprzedazy na sklep. Dla kazdego takiego sklepu podaj laczna kwote.",
+  "wskazowki": [
+    "**Kierunek**: GROUP BY po sklepie, HAVING z podzapytaniem obliczajacym srednia sum.",
+    "**Podejscie**: Podzapytanie w HAVING musi obliczyc srednia z lacznych kwot per sklep — wymaga zagniezdzonego podzapytania.",
+    "**Kluczowy krok**: `HAVING SUM(kwota) > (SELECT AVG(suma) FROM (SELECT SUM(kwota) AS suma FROM Sprzedaz GROUP BY id_sklepu))`."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT S.nazwa, SUM(SP.kwota) AS laczna_kwota\nFROM Sklepy S\nJOIN Sprzedaz SP ON S.id_sklepu = SP.id_sklepu\nGROUP BY S.id_sklepu, S.nazwa\nHAVING SUM(SP.kwota) > (\n  SELECT AVG(suma) FROM (\n    SELECT SUM(kwota) AS suma\n    FROM Sprzedaz\n    GROUP BY id_sklepu\n  )\n);\n```\n\n**Weryfikacja**:\n\nLaczna sprzedaz per sklep:\n- MediaMarkt: 3500+2500 = **6000**\n- Saturn: 3200+1800 = **5000**\n- Euro RTV: 2800+4000+1500 = **8300**\n- Komputronik: **2200**\n\nSrednia laczna: (6000+5000+8300+2200)/4 = 21500/4 = **5375**\n\nSklepy z laczna > 5375: MediaMarkt (6000), Euro RTV (8300)\n\n| nazwa | laczna_kwota |\n|-------|--------------|\n| MediaMarkt | 6000 |\n| Euro RTV | 8300 |\n\n**Wyjasnienie**: Zagniezdzone podzapytanie najpierw oblicza SUM per sklep, potem AVG z tych sum. To jeden z najtrudniejszych wzorcow — wymaga podzapytania w podzapytaniu.",
+  "typowe_bledy": [
+    {
+      "opis": "**AVG(SUM(kwota))**: Nie mozna zagniezdzyc funkcji agregujacych bezposrednio — to blad skladni",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**AVG(kwota) zamiast AVG sum**: Srednia pojedynczych transakcji (2687.5) to nie to samo co srednia lacznych kwot per sklep (5375)",
+      "kara": "-2 pkt"
+    }
+  ]
+}

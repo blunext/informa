@@ -1,0 +1,38 @@
+{
+  "id": "20.18",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2017 (Pilka reczna)",
+  "tagi": [
+    "GROUP-BY",
+    "SUM",
+    "COUNT",
+    "HAVING",
+    "JOIN-z-GROUP-BY",
+    "WHERE-vs-HAVING",
+    "obliczenia-w-SELECT",
+    "aliasy",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Pracownicy**:\n\n| id | imie | dzial | stawka_godz |\n|----|------|-------|-------------|\n| 1 | Anna | IT | 120 |\n| 2 | Jan | IT | 100 |\n| 3 | Ewa | Marketing | 90 |\n| 4 | Piotr | IT | 110 |\n| 5 | Kasia | Marketing | 85 |\n\nTabela **Projekty**:\n\n| id | id_pracownika | nazwa_projektu | godziny | status |\n|----|---------------|----------------|---------|--------|\n| 1 | 1 | Portal | 40 | zakonczony |\n| 2 | 1 | Apka | 60 | w_trakcie |\n| 3 | 2 | Portal | 35 | zakonczony |\n| 4 | 3 | Kampania | 25 | zakonczony |\n| 5 | 4 | Portal | 50 | zakonczony |\n| 6 | 2 | Apka | 45 | w_trakcie |\n| 7 | 5 | Kampania | 30 | zakonczony |\n| 8 | 3 | Newsletter | 15 | zakonczony |\n| 9 | 4 | Apka | 30 | w_trakcie |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego ZAKONCZONEGO projektu wyswietli:\n- nazwe projektu,\n- liczbe pracownikow,\n- laczne godziny,\n- laczny koszt (SUM godziny * stawka_godz).\n\nPokaz tylko projekty o koszcie powyzej 3000. Posortuj malejaco wg kosztu.",
+  "wskazowki": [
+    "**Kierunek**: WHERE filtruje status, JOIN laczy pracownikow z projektami, obliczenie kosztu wymaga mnozenia kolumn z roznych tabel.",
+    "**Podejscie**: JOIN + WHERE status + GROUP BY nazwa_projektu + SUM(godziny * stawka_godz) + HAVING.",
+    "**Kluczowy krok**: Koszt = SUM(PR.godziny * P.stawka_godz). Mnozenie odbywa sie per wiersz (per przypisanie pracownika do projektu), potem SUM sumuje w grupie."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT PR.nazwa_projektu,\n       COUNT(*) AS liczba_pracownikow,\n       SUM(PR.godziny) AS laczne_godziny,\n       SUM(PR.godziny * P.stawka_godz) AS koszt\nFROM Pracownicy P\nJOIN Projekty PR ON P.id = PR.id_pracownika\nWHERE PR.status = 'zakonczony'\nGROUP BY PR.nazwa_projektu\nHAVING SUM(PR.godziny * P.stawka_godz) > 3000\nORDER BY koszt DESC;\n```\n\n**Weryfikacja** (tylko zakonczony):\nPortal: Anna(40h×120=4800) + Jan(35h×100=3500) + Piotr(50h×110=5500)\n→ 3 prac., 125h, koszt = **13800** (>3000 ✓)\n\nKampania: Ewa(25h×90=2250) + Kasia(30h×85=2550)\n→ 2 prac., 55h, koszt = **4800** (>3000 ✓)\n\nNewsletter: Ewa(15h×90=1350)\n→ 1 prac., 15h, koszt = **1350** (>3000 ✗)\n\n| nazwa_projektu | liczba_pracownikow | laczne_godziny | koszt |\n|----------------|--------------------|-----------------|---------|\n| Portal | 3 | 125 | 13800 |\n| Kampania | 2 | 55 | 4800 |\n\n**Wyjasnienie**: To cwiczenie laczy trzy kluczowe wzorce:\n1. WHERE filtruje wiersze (status) PRZED grupowaniem\n2. SUM(a * b) oblicza koszt — mnozenie per wiersz, potem suma w grupie\n3. HAVING filtruje grupy (koszt > 3000) PO grupowaniu",
+  "typowe_bledy": [
+    {
+      "opis": "**SUM(godziny) * stawka_godz**: Stawka jest ROZNA dla kazdego pracownika — nie mozna wyciagnac jej przed SUM. Trzeba mnozyc per wiersz wewnatrz SUM",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Brak WHERE na status**: Wlicza projekty w_trakcie — Apka (60h+45h+30h) pojawiloby sie w wyniku",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**HAVING zamiast WHERE na status**: `HAVING status = 'zakonczony'` — blad, status nie jest funkcja agregujaca",
+      "kara": "-2 pkt"
+    }
+  ]
+}

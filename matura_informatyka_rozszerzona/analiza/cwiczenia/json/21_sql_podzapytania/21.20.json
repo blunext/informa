@@ -1,0 +1,33 @@
+{
+  "id": "21.20",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2025",
+  "tagi": [
+    "NOT-IN",
+    "korelacja-podzapytan",
+    "AVG",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Kursy**:\n\n| id_kursu | nazwa | poziom | cena |\n|----------|-------|--------|------|\n| 1 | Python | poczatkujacy | 200 |\n| 2 | Java | zaawansowany | 350 |\n| 3 | SQL | poczatkujacy | 150 |\n| 4 | C++ | zaawansowany | 400 |\n| 5 | HTML | poczatkujacy | 100 |\n\nTabela **Uczestnicy**:\n\n| id | imie | miasto |\n|----|------|--------|\n| 1 | Anna | Warszawa |\n| 2 | Jan | Krakow |\n| 3 | Ewa | Warszawa |\n| 4 | Piotr | Gdansk |\n| 5 | Kasia | Krakow |\n\nTabela **Zapisy**:\n\n| id_zapisu | id_uczestnika | id_kursu | data_zapisu | ocena |\n|-----------|---------------|----------|-------------|-------|\n| 1 | 1 | 1 | 2024-01-10 | 5 |\n| 2 | 1 | 2 | 2024-02-15 | 4 |\n| 3 | 2 | 1 | 2024-01-10 | 3 |\n| 4 | 3 | 3 | 2024-03-01 | 5 |\n| 5 | 4 | 2 | 2024-02-15 | 4 |\n| 6 | 5 | 1 | 2024-01-10 | 5 |\n| 7 | 2 | 4 | 2024-04-01 | 3 |\n| 8 | 3 | 5 | 2024-04-05 | 4 |\n\n**Polecenie**:\n1. Wyswietl nazwy kursow, na ktore nie zapisal sie zaden uczestnik z Warszawy. Uzyj NOT IN.\n2. Wyswietl imiona uczestnikow, ktorzy uzyskali ocene wyzsza niz srednia ocena z kursu, na ktory byli zapisani (podzapytanie skorelowane). Podaj tez nazwe kursu i ocene.",
+  "wskazowki": [
+    "**Kierunek**: Dwa zapytania — jedno z NOT IN, drugie z podzapytaniem skorelowanym.",
+    "**Podejscie**: Zad. 1: NOT IN z podzapytaniem laczacym Zapisy z Uczestnikami. Zad. 2: AVG per kurs w podzapytaniu.",
+    "**Kluczowy krok**: W zad. 2 podzapytanie skorelowane oblicza AVG(ocena) dla TEGO SAMEGO kursu: `WHERE Z2.id_kursu = Z.id_kursu`."
+  ],
+  "odpowiedz": "**Zapytania SQL:**\n```sql\n-- 1. Kursy bez uczestnikow z Warszawy\nSELECT nazwa\nFROM Kursy\nWHERE id_kursu NOT IN (\n  SELECT Z.id_kursu FROM Zapisy Z\n  JOIN Uczestnicy U ON Z.id_uczestnika = U.id\n  WHERE U.miasto = 'Warszawa'\n);\n\n-- 2. Uczestnicy z ocena wyzsza niz srednia kursu\nSELECT U.imie, K.nazwa, Z.ocena\nFROM Zapisy Z\nJOIN Uczestnicy U ON Z.id_uczestnika = U.id\nJOIN Kursy K ON Z.id_kursu = K.id_kursu\nWHERE Z.ocena > (\n  SELECT AVG(Z2.ocena)\n  FROM Zapisy Z2\n  WHERE Z2.id_kursu = Z.id_kursu\n);\n```\n\n**Weryfikacja zad. 1**:\n- Uczestnicy z Warszawy: Anna (1), Ewa (3)\n- Kursy Anny: 1 (Python), 2 (Java)\n- Kursy Ewy: 3 (SQL), 5 (HTML)\n- Kursy z uczestnikami z Warszawy: {1, 2, 3, 5}\n- Kursy bez: id=4 (C++)\n\n| nazwa |\n|-------|\n| C++ |\n\n**Weryfikacja zad. 2**:\nSrednie per kurs:\n- Python (1): (5+3+5)/3 = 4.33\n- Java (2): (4+4)/2 = 4.0\n- SQL (3): 5/1 = 5.0\n- C++ (4): 3/1 = 3.0\n- HTML (5): 4/1 = 4.0\n\n- Anna, Python: 5 > 4.33 ✓\n- Anna, Java: 4 > 4.0 ✗\n- Jan, Python: 3 > 4.33 ✗\n- Ewa, SQL: 5 > 5.0 ✗\n- Piotr, Java: 4 > 4.0 ✗\n- Kasia, Python: 5 > 4.33 ✓\n- Jan, C++: 3 > 3.0 ✗\n- Ewa, HTML: 4 > 4.0 ✗\n\n| imie | nazwa | ocena |\n|------|-------|-------|\n| Anna | Python | 5 |\n| Kasia | Python | 5 |",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak JOIN w podzapytaniu (zad. 1)**: `NOT IN (SELECT id_kursu FROM Zapisy)` — wyklucza WSZYSTKIE kursy z zapisami, nie tylko te z uczestnikami z Warszawy",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Nieskorelowane podzapytanie (zad. 2)**: `AVG(ocena) FROM Zapisy` bez filtra na kurs — srednia globalna zamiast per kurs",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Te same aliasy w podzapytaniu**: Z i Z w podzapytaniu i zapytaniu glownym — niejednoznacznosc",
+      "kara": "-1 pkt"
+    }
+  ]
+}

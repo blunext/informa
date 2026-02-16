@@ -1,0 +1,29 @@
+{
+  "id": "11.2",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2024 zad. 4.2",
+  "tagi": [
+    "min-max",
+    "rekordy",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 rekordow w formacie: nazwa wartosc (oddzielone spacja). Napisz program, ktory poda nazwe o najwyzszej i najnizszej wartosci.\n\n**Dane** (`dane.txt`):\n```\nAlfa 150\nBeta 87\nGamma 203\nDelta 45\nEpsilon 178\nZeta 92\nEta 310\nTheta 56\nIota 134\nKappa 267\n```\n\n**Oczekiwany wynik**:\n```\nNajwyzsza wartosc: Eta (310)\nNajnizsza wartosc: Delta (45)\n```",
+  "wskazowki": [
+    "**Kierunek**: Czytaj nazwe i wartosc w petli. Sledzic trzeba max/min wartosc i towarzyszaca nazwe.",
+    "**Podejscie**: `plik >> nazwa >> wartosc` wczytuje jedno pole string i jedno int.",
+    "**Kluczowy krok**: Przy aktualizacji maxVal/minVal, zaktualizuj tez maxNazwa/minNazwa."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    string nazwa, maxN, minN;\n    int wartosc, maxV = -1, minV = 1000000;\n\n    while (plik >> nazwa >> wartosc) {\n        if (wartosc > maxV) { maxV = wartosc; maxN = nazwa; }\n        if (wartosc < minV) { minV = wartosc; minN = nazwa; }\n    }\n    cout << \"Najwyzsza wartosc: \" << maxN << \" (\" << maxV << \")\" << endl;\n    cout << \"Najnizsza wartosc: \" << minN << \" (\" << minV << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Skan liniowy z zapamietywaniem nazwy towarzyszacej ekstremalnej wartosci.\n\nWeryfikacja: Max=Eta(310), Min=Delta(45).",
+  "typowe_bledy": [
+    {
+      "opis": "**Inicjalizacja maxV=0 przy danych ktore moga byc ujemne**: Jesli dane sa ujemne, max=0 nie zostanie nadpisane",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o zapamietaniu nazwy**: Wypisanie samej wartosci bez nazwy to niepelna odpowiedz",
+      "kara": "-1 pkt"
+    }
+  ]
+}

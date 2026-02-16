@@ -1,0 +1,28 @@
+{
+  "id": "10.6",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2023 zad. 3 (zliczanie w przedzialach)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "przedzialy"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu, z zakresu 0-200). Napisz program, ktory zliczy ile liczb nalezy do kazdego z trzech przedzialow: [0, 50], [51, 100], [101, 200].\n\n**Dane** (`dane.txt`):\n```\n12\n75\n143\n8\n100\n51\n200\n33\n67\n0\n155\n48\n99\n180\n22\n```\n\n**Oczekiwany wynik**:\n```\nPrzedzial [0, 50]: 6\nPrzedzial [51, 100]: 5\nPrzedzial [101, 200]: 4\n```",
+  "wskazowki": [
+    "**Kierunek**: Trzy liczniki — sprawdz w ktorym przedziale miesci sie kazda liczba.",
+    "**Podejscie**: Uzyj `if-else if-else` aby kazda liczba trafila do dokladnie jednego przedzialu.",
+    "**Kluczowy krok**: Zwroc uwage na granice przedzialow — 50 nalezy do [0,50], 51 do [51,100]."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int p1 = 0, p2 = 0, p3 = 0;\n    while (plik >> n) {\n        if (n <= 50) p1++;\n        else if (n <= 100) p2++;\n        else p3++;\n    }\n    cout << \"Przedzial [0, 50]: \" << p1 << endl;\n    cout << \"Przedzial [51, 100]: \" << p2 << endl;\n    cout << \"Przedzial [101, 200]: \" << p3 << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Kaskada `if-else if-else` gwarantuje, ze kazda liczba jest przypisana do jednego przedzialu. Dzieki sprawdzaniu od najmniejszego, warunek `n <= 50` obsluguje [0,50], a `n <= 100` obsluguje [51,100] (bo 0-50 juz odpadlo).\n\nWeryfikacja:\n- [0,50]: 12, 8, 33, 0, 48, 22 = 6\n- [51,100]: 75, 100, 51, 67, 99 = 5\n- [101,200]: 143, 200, 155, 180 = 4",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie samych `if` zamiast `if-else if`**: Liczba moze byc zliczona w kilku przedzialach jednoczesnie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pomylenie granic (<= vs <)**: Np. `n < 50` pominie wartosc 50",
+      "kara": "-1 pkt"
+    }
+  ]
+}

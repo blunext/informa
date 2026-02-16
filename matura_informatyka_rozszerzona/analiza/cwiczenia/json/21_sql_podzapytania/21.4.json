@@ -1,0 +1,33 @@
+{
+  "id": "21.4",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2021 (Gra strategiczna)",
+  "tagi": [
+    "podzapytanie-skalarne",
+    "AVG",
+    "podzapytanie-w-WHERE",
+    "IN"
+  ],
+  "tresc": "Tabela **Gracze**:\n\n| id_gracza | nick | poziom | frakcja |\n|-----------|------|--------|---------|\n| 1 | DragonSlayer | 45 | Ork |\n| 2 | SilverMage | 38 | Elf |\n| 3 | IronFist | 52 | Ork |\n| 4 | StarLight | 41 | Elf |\n| 5 | DarkKnight | 47 | Czlowiek |\n| 6 | FireBlade | 33 | Ork |\n| 7 | MoonArcher | 50 | Elf |\n| 8 | StoneGuard | 29 | Czlowiek |\n\nTabela **Misje**:\n\n| id_misji | id_gracza | nazwa_misji | punkty |\n|----------|-----------|-------------|--------|\n| 1 | 1 | Smocza jaskinia | 120 |\n| 2 | 1 | Mroczny las | 85 |\n| 3 | 3 | Smocza jaskinia | 150 |\n| 4 | 5 | Mroczny las | 90 |\n| 5 | 7 | Smocza jaskinia | 140 |\n| 6 | 2 | Mroczny las | 75 |\n| 7 | 3 | Lodowa forteca | 200 |\n| 8 | 5 | Lodowa forteca | 180 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nicki graczy, ktorzy ukonczyli misje o nazwie 'Smocza jaskinia' i zdobyli w niej wiecej punktow niz srednia punktow ze WSZYSTKICH misji.",
+  "wskazowki": [
+    "**Kierunek**: Dwa warunki w WHERE — jeden na nazwe misji, drugi porownuje z podzapytaniem.",
+    "**Podejscie**: JOIN + WHERE z nazwa_misji + porownanie punktow ze srednia globalna.",
+    "**Kluczowy krok**: Podzapytanie `(SELECT AVG(punkty) FROM Misje)` oblicza srednia z CALEJ tabeli, nie tylko z jednej misji."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT G.nick\nFROM Gracze G\nJOIN Misje M ON G.id_gracza = M.id_gracza\nWHERE M.nazwa_misji = 'Smocza jaskinia'\n  AND M.punkty > (SELECT AVG(punkty) FROM Misje);\n```\n\n**Weryfikacja**:\n- Srednia punktow ze wszystkich misji: (120+85+150+90+140+75+200+180)/8 = 1040/8 = **130.0**\n- Gracze z misja 'Smocza jaskinia':\n  - DragonSlayer: 120 punktow (>130? ✗)\n  - IronFist: 150 punktow (>130? ✓)\n  - MoonArcher: 140 punktow (>130? ✓)\n\n| nick |\n|------|\n| IronFist |\n| MoonArcher |\n\n**Wyjasnienie**: Zapytanie laczy dwa warunki w WHERE: filtr na nazwe misji i porownanie z wynikiem podzapytania skalarnego. Podzapytanie oblicza srednia z CALEJ tabeli Misje, nie tylko z misji 'Smocza jaskinia'.",
+  "typowe_bledy": [
+    {
+      "opis": "**Ograniczenie podzapytania**: `(SELECT AVG(punkty) FROM Misje WHERE nazwa_misji = 'Smocza jaskinia')` daje srednia = (120+150+140)/3 = 136.67 — inny wynik niz globalna srednia 130",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak JOIN**: Bez polaczenia tabel nie uzyskamy nickow graczy",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**OR zamiast AND**: `WHERE nazwa_misji = '...' OR punkty > (...)` daje tez graczy z innych misji",
+      "kara": "-2 pkt"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "6.8",
+  "trudnosc": "srednie",
+  "punkty": 2,
+  "zrodlo": "styl CKE, sila hasel",
+  "tagi": [
+    "atak-brute-force",
+    "szyfrowanie-symetryczne"
+  ],
+  "tresc": "**Polecenie**: Oblicz i porownaj sile dwoch hasel:\n\n- Haslo A: 6 znakow, tylko male litery (a-z), np. \"abcdef\"\n- Haslo B: 4 znaki, male i duze litery + cyfry (a-z, A-Z, 0-9), np. \"aB3x\"\n\nPodaj:\n- a) Ile roznych hasel mozna utworzyc dla kazdego typu?\n- b) Ktore haslo jest silniejsze (trudniejsze do zlamania brute-force)?\n- c) Jezeli komputer probuje 10^9 (miliard) hasel na sekunde, ile czasu zajmie sprawdzenie wszystkich hasel typu A i typu B?",
+  "wskazowki": [
+    "**Kierunek**: Ilosc hasel = (liczba znakow)^(dlugosc). Male litery = 26, duze = 26, cyfry = 10.",
+    "**Podejscie**: A: 26^6. B: 62^4. Porownaj obie wartosci.",
+    "**Kluczowy krok**: 26^6 ≈ 309 mln. 62^4 ≈ 14.8 mln. Dluzsze haslo z mniejszym alfabetem moze byc silniejsze!"
+  ],
+  "odpowiedz": "**a) Liczba roznych hasel:**\n\nHaslo A: 26^6 = 26 * 26 * 26 * 26 * 26 * 26 = **308 915 776** (≈ 309 mln)\n\nHaslo B: 62^4 = 62 * 62 * 62 * 62 = **14 776 336** (≈ 14.8 mln)\n\n**b) Haslo A jest silniejsze** — ma ponad 20 razy wiecej mozliwych kombinacji.\n\nWniosek: dlugosc hasla ma WIEKSZY wplyw na sile niz roznorodnosc znakow. 6 malych liter > 4 znaki z duzego alfabetu.\n\n**c) Czas lamania przy 10^9 hasel/s:**\n\nHaslo A: 308 915 776 / 10^9 ≈ **0.31 sekundy**\n\nHaslo B: 14 776 336 / 10^9 ≈ **0.015 sekundy** (15 milisekund)\n\nOba hasla sa BARDZO slabe przy wspolczesnej mocy obliczeniowej! Bezpieczne haslo powinno miec co najmniej 12 znakow z duzego alfabetu: 62^12 ≈ 3.2 * 10^21, co daje ~100 lat lamania.",
+  "typowe_bledy": [
+    {
+      "opis": "**26+26+10 = 62 zamiast 26*26*10**: Liczymy ILOCZYN (kazda pozycja niezalezna), nie sume",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Krotsze haslo silniejsze bo roznorodne**: Dlugosc wplywa wykladniczo, roznorodnosc liniowo",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Brak jednostki czasu**: Podaj wynik w sekundach/minutach/godzinach",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

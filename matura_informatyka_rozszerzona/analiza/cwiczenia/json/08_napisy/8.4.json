@@ -1,0 +1,32 @@
+{
+  "id": "8.4",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2021 zad. 4 (DOPISZ/USUN)",
+  "tagi": [
+    "symulacja-operacji",
+    "operacje-na-string",
+    "podciagi"
+  ],
+  "tresc": "Dany jest napis poczatkowy oraz ciag 8 operacji do wykonania na nim. Operacje sa nastepujacych typow:\n- `DOPISZ x` — dopisz znak x na koncu napisu\n- `USUN k` — usun znak na pozycji k (pozycje numerujemy od 1)\n- `ZAMIEN k x` — zamien znak na pozycji k na znak x\n\nNapisz program, ktory zasymuluje wykonanie operacji i wypisze napis po kazdej operacji oraz napis koncowy.\n\n**Dane**:\n```\nNapis poczatkowy: ALGORYTM\nOperacje:\nDOPISZ Y\nUSUN 3\nZAMIEN 2 X\nDOPISZ K\nUSUN 1\nZAMIEN 3 Z\nDOPISZ A\nUSUN 6\n```\n\n**Oczekiwany wynik**:\n```\nStart:    ALGORYTM\nPo op. 1: ALGORYTMY\nPo op. 2: ALORYTMY\nPo op. 3: AXORYTMY\nPo op. 4: AXORYTMYK\nPo op. 5: XORYTMYK\nPo op. 6: XOZYTMYK\nPo op. 7: XOZYTMYKA\nPo op. 8: XOZYTYKA\nNapis koncowy: XOZYTYKA\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj metod klasy `string`: `+=`, `erase()`, `[]` do indeksowania.",
+    "**Podejscie**: Wczytaj typ operacji, potem odpowiednie parametry. Rozgalezienie `if/else if`.",
+    "**Kluczowy krok**: Pozycje sa 1-indeksowane (jak w tresci zadania), a `string` jest 0-indeksowany — odejmij 1."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <string>\n#include <sstream>\nusing namespace std;\n\nint main() {\n    string napis = \"ALGORYTM\";\n    string operacje[] = {\n        \"DOPISZ Y\", \"USUN 3\", \"ZAMIEN 2 X\", \"DOPISZ K\",\n        \"USUN 1\", \"ZAMIEN 3 Z\", \"DOPISZ A\", \"USUN 6\"\n    };\n    int n = 8;\n\n    cout << \"Start:    \" << napis << endl;\n    for (int i = 0; i < n; i++) {\n        istringstream ss(operacje[i]);\n        string typ;\n        ss >> typ;\n        if (typ == \"DOPISZ\") {\n            char znak;\n            ss >> znak;\n            napis += znak;\n        } else if (typ == \"USUN\") {\n            int k;\n            ss >> k;\n            napis.erase(k - 1, 1);\n        } else if (typ == \"ZAMIEN\") {\n            int k; char znak;\n            ss >> k >> znak;\n            napis[k - 1] = znak;\n        }\n        cout << \"Po op. \" << i + 1 << \": \" << napis << endl;\n    }\n    cout << \"Napis koncowy: \" << napis << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Symulacja operacji na napisie. Uzywamy metod klasy `string`: `+=` do dopisywania, `erase(pos, 1)` do usuwania, indeksowanie `[]` do zamiany. Pozycje sa 1-indeksowane, wiec odejmujemy 1.\n\nWeryfikacja krok po kroku:\n1. ALGORYTM + Y -> ALGORYTMY (dl. 9)\n2. ALGORYTMY, usun poz.3 ('G') -> ALORYTMY (dl. 8)\n3. ALORYTMY, zamien poz.2 na X ('L'->'X') -> AXORYTMY (dl. 8)\n4. AXORYTMY + K -> AXORYTMYK (dl. 9)\n5. AXORYTMYK, usun poz.1 ('A') -> XORYTMYK (dl. 8)\n6. XORYTMYK, zamien poz.3 na Z ('R'->'Z') -> XOZYTMYK (dl. 8)\n7. XOZYTMYK + A -> XOZYTMYKA (dl. 9)\n8. XOZYTMYKA, usun poz.6 ('M') -> XOZYTYKA (dl. 8)",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o konwersji 1-indexed -> 0-indexed**: `erase(k, 1)` zamiast `erase(k-1, 1)` usuwa zly znak",
+      "kara": "-2 pkt (efekt kaskadowy na reszcie)"
+    },
+    {
+      "opis": "**Uzycie `erase(k-1)` bez drugiego argumentu**: `erase(pos)` bez dlugosci usuwa od pozycji do konca stringa!",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak parsowania operacji**: Proba wczytania calej linii bez rozdzielenia na typ i parametry",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "15.2",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2015 (Demografia)",
+  "tagi": [
+    "AVERAGEIF",
+    "warunek-tekstowy"
+  ],
+  "tresc": "W arkuszu mamy wyniki uczniow klasy:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Imie** | **Plec** | **Ocena** |\n| 2 | Anna | K | 4 |\n| 3 | Bartek | M | 3 |\n| 4 | Celina | K | 5 |\n| 5 | Dawid | M | 4 |\n| 6 | Ewa | K | 3 |\n| 7 | Filip | M | 2 |\n| 8 | Gosia | K | 5 |\n| 9 | Hubert | M | 4 |\n| 10 | Iza | K | 4 |\n| 11 | Jan | M | 3 |\n\n**Polecenie**: Napisz formuly obliczajace srednia ocene osobno dla chlopcow (M) i dziewczyn (K).",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz funkcji obliczajacej srednia z warunkowym filtrowaniem — nie zwyklego AVERAGE.",
+    "**Podejscie**: AVERAGEIF ma 3 argumenty: zakres kryterium, kryterium, zakres sredniej.",
+    "**Kluczowy krok**: Zakres kryterium to kolumna B (plec), zakres sredniej to kolumna C (oceny)."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nSrednia chlopcow: =AVERAGEIF(B2:B11;\"M\";C2:C11)\nSrednia dziewczyn: =AVERAGEIF(B2:B11;\"K\";C2:C11)\n```\n\n**Weryfikacja**:\n- Chlopcy (M): Bartek=3, Dawid=4, Filip=2, Hubert=4, Jan=3 → (3+4+2+4+3)/5 = 16/5 = **3.20**\n- Dziewczyny (K): Anna=4, Celina=5, Ewa=3, Gosia=5, Iza=4 → (4+5+3+5+4)/5 = 21/5 = **4.20**\n\n**Wyjasnienie**: AVERAGEIF(zakres_kryterium; kryterium; zakres_sredniej) oblicza srednia tylko tych wartosci z C2:C11, dla ktorych odpowiadajaca komorka w B2:B11 spelnia warunek.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zamiana kolejnosci argumentow**: =AVERAGEIF(C2:C11;\"M\";B2:B11) — pierwszy zakres to zakres kryterium (B), nie zakres sredniej (C)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie AVERAGE zamiast AVERAGEIF**: =AVERAGE(C2:C11) oblicza srednia WSZYSTKICH uczniow, nie tylko jednej plci",
+      "kara": "-2 pkt"
+    }
+  ]
+}

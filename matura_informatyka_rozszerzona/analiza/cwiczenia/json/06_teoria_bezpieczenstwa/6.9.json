@@ -1,0 +1,33 @@
+{
+  "id": "6.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 2,
+  "zrodlo": "Matura 2025 zad. 4.2, analiza polityki bezpieczenstwa",
+  "tagi": [
+    "RODO",
+    "firewall",
+    "2FA",
+    "socjotechnika"
+  ],
+  "tresc": "Firma XYZ przechowuje dane osobowe klientow. Zaplanuj polityne bezpieczenstwa odpowiadajac na pytania:\n\n- a) Wymien 3 organizacyjne srodki ochrony danych osobowych.\n- b) Wymien 3 techniczne srodki ochrony danych osobowych.\n- c) Czym jest zasada minimalnych uprawnien (principle of least privilege) i dlaczego jest wazna?",
+  "wskazowki": [
+    "**Kierunek**: Organizacyjne = szkolenia, polityki, procedury. Techniczne = szyfrowanie, firewall, backup.",
+    "**Podejscie**: RODO wymaga zarowno srodkow organizacyjnych, jak i technicznych.",
+    "**Kluczowy krok**: Minimalne uprawnienia = kazdy uzytkownik ma dostep TYLKO do tego, co potrzebuje do pracy."
+  ],
+  "odpowiedz": "**a) 3 organizacyjne srodki ochrony:**\n\n1. **Szkolenia pracownikow** z zakresu bezpieczenstwa informacji i rozpoznawania atakow socjotechnicznych (phishing)\n2. **Polityka hasel** — wymogi dotyczace dlugosci, zlozonosci i regularnej zmiany hasel\n3. **Procedury reagowania na incydenty** — plan dzialania w razie wycieku danych (kogo powiadomic, jak zabezpieczyc dowody, jak zminimalizowac szkody)\n\n**b) 3 techniczne srodki ochrony:**\n\n1. **Szyfrowanie danych** — zarowno w spoczynku (na dyskach) jak i w tranzycie (HTTPS/TLS)\n2. **Zapora sieciowa (firewall)** i system wykrywania wlaman (IDS/IPS)\n3. **Regularne kopie zapasowe (backup)** — przechowywane w oddzielnej lokalizacji, testowane pod katem mozliwosci odtworzenia\n\n**c) Zasada minimalnych uprawnien:**\n\nKazdy uzytkownik, program lub proces powinien miec dostep TYLKO do tych zasobow i danych, ktore sa niezbedne do wykonywania jego zadan — i nic wiecej.\n\nDlaczego jest wazna:\n- Ogranicza szkody w razie przejecia konta (atakujacy uzyskuje dostep tylko do czesci systemu)\n- Zmniejsza ryzyko przypadkowego uszkodzenia lub usuniecia danych\n- Ulatwia audyt i sledzenie, kto mial dostep do czego\n- Chroni przed atakami typu eskalacja uprawnien\n\nPrzyklad: Pracownik dzialu marketingu nie powinien miec dostepu do bazy danych finansowych firmy.",
+  "typowe_bledy": [
+    {
+      "opis": "**Tylko srodki techniczne bez organizacyjnych**: RODO wymaga OBU typow srodkow",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Brak przykladow**: CKE ceni konkretne przyklady, nie ogolniki",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Minimalne uprawnienia = brak dostepu**: NIE — chodzi o WYSTARCZAJACY dostep, nie zerowy",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "11.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Matura 2025 zad. 2 (min/max z wieloma kryteriami)",
+  "tagi": [
+    "struct",
+    "wielokryterialne",
+    "sortowanie",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `produkty.txt` znajduje sie 10 rekordow w formacie: nazwa kategoria cena ilosc (oddzielone spacjami). Napisz program, ktory:\na) Znajdzie najdrozszy produkt w kazdej kategorii.\nb) Znajdzie produkt z najwieksza laczna wartoscia (cena * ilosc).\nc) Znajdzie kategorie z najwieksza laczna wartoscia.\n\n**Dane** (`produkty.txt`):\n```\nLaptop Elektronika 3500 5\nMysz Elektronika 50 100\nMonitor Elektronika 1200 15\nBiurko Meble 800 8\nKrzeslo Meble 450 20\nSzafa Meble 1500 3\nDlugopis Biuro 5 500\nPapier Biuro 20 200\nToner Biuro 150 30\nSegregator Biuro 15 100\n```\n\n**Oczekiwany wynik**:\n```\na) Najdrozszy w kategorii:\n   Biuro: Toner (150)\n   Elektronika: Laptop (3500)\n   Meble: Szafa (1500)\n\nb) Produkt z max wartoscia: Monitor (18000)\n\nc) Kategoria z max wartoscia: Elektronika (40500)\n```",
+  "wskazowki": [
+    "**Kierunek**: Trzy mapy: `maxCena[kat]`, `maxProd[kat]`, `sumWart[kat]`.",
+    "**Podejscie**: Dla kazdego rekordu: aktualizuj max ceny w kategorii, doloz wartosc do sumy kategorii.",
+    "**Kluczowy krok**: Wartosc produktu = cena * ilosc. Wartosc kategorii = suma wartosci wszystkich produktow w niej."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"produkty.txt\");\n    string nazwa, kat;\n    int cena, ilosc;\n\n    map<string, int> maxCena;\n    map<string, string> maxProd;\n    map<string, int> sumWart;\n    string bestProd; int bestWart = 0;\n\n    while (plik >> nazwa >> kat >> cena >> ilosc) {\n        int wart = cena * ilosc;\n        if (maxCena.find(kat) == maxCena.end() || cena > maxCena[kat]) {\n            maxCena[kat] = cena;\n            maxProd[kat] = nazwa;\n        }\n        sumWart[kat] += wart;\n        if (wart > bestWart) { bestWart = wart; bestProd = nazwa; }\n    }\n\n    // a)\n    cout << \"a) Najdrozszy w kategorii:\" << endl;\n    for (auto &p : maxProd)\n        cout << \"   \" << p.first << \": \" << p.second\n             << \" (\" << maxCena[p.first] << \")\" << endl;\n\n    // b)\n    cout << endl << \"b) Produkt z max wartoscia: \" << bestProd\n         << \" (\" << bestWart << \")\" << endl;\n\n    // c)\n    string bestKat; int bestSum = 0;\n    for (auto &p : sumWart)\n        if (p.second > bestSum) { bestSum = p.second; bestKat = p.first; }\n    cout << endl << \"c) Kategoria z max wartoscia: \" << bestKat\n         << \" (\" << bestSum << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Trzy mapy sledza rozne aspekty danych. `maxCena` i `maxProd` — najdrozszy per kategoria. `sumWart` — laczna wartosc per kategoria. Globalne max po wartosci sledzone na biezaco.\n\nWeryfikacja:\n- Elektronika: Laptop 3500*5=17500, Mysz 50*100=5000, Monitor 1200*15=18000. Suma=40500. Max cena: Laptop 3500.\n  Korekta: 17500+5000+18000 = 40500. Nie 35500.\n\nKorekta oczekiwanego wyniku:\n```\nc) Kategoria z max wartoscia: Elektronika (40500)\n```\n\nPelna weryfikacja:\n- Elektronika: 17500+5000+18000 = 40500\n- Meble: 6400+9000+4500 = 19900\n- Biuro: 2500+4000+4500+1500 = 12500\nMax: Elektronika (40500)\nMax produkt: Monitor (18000), nie Laptop (17500).\n\nKorekta:\n```\nb) Produkt z max wartoscia: Monitor (1200 * 15 = 18000)\n```",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie \"najdrozszy\" z \"najwieksza wartosc\"**: Najdrozszy = max cena jednostkowa. Najwieksza wartosc = max(cena*ilosc)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak `find()` przy inicjalizacji mapy**: Dla nowej kategorii `maxCena[kat]` wynosi 0, wiec sprawdzenie `cena > maxCena[kat]` moze nie zadzialac dla ceny 0",
+      "kara": "-1 pkt"
+    }
+  ]
+}

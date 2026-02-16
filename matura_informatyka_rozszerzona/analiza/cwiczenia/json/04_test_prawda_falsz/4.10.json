@@ -1,0 +1,33 @@
+{
+  "id": "4.10",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Matura 2024 zad. 3 (zaawansowane twierdzenia)",
+  "tagi": [
+    "zlozonosc-czasowa",
+    "rekurencja",
+    "struktury-danych",
+    "grafy"
+  ],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Problem plecakowy 0-1 mozna rozwiazac w czasie wielomianowym. | |\n| b) | Dla dowolnej liczby naturalnej n, suma pierwszych n liczb naturalnych wynosi n*(n+1)/2. | |\n| c) | Algorytm zachlanny (greedy) zawsze daje rozwiazanie optymalne. | |\n| d) | Jezeli funkcja f(n) = O(n^2) i g(n) = O(n), to f(n) + g(n) = O(n^2). | |",
+  "wskazowki": [
+    "**Kierunek**: Problem plecakowy 0-1 jest NP-trudny — brak algorytmu wielomianowego (chyba ze P=NP). Greedy nie zawsze daje optimum.",
+    "**Podejscie**: Suma 1+2+...+n = n(n+1)/2 (wzor Gaussa). Dla notacji O: O(n^2) + O(n) = O(n^2) (dominuje wyzszy wyraz).",
+    "**Kluczowy krok**: Greedy daje optimum np. dla problemu wydawania reszty (standardowe nominaly), ale NIE dla plecakowego 0-1."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | Problem plecakowy 0-1 jest NP-trudny. Najlepsze znane algorytmy maja zlozonosc pseudowielomianowa O(nW) gdzie W to pojemnosc plecaka, lub wykladnicza O(2^n). Nie jest znany algorytm scisle wielomianowy (i nie bedzie, chyba ze P=NP). |\n| b) | **P** | Wzor Gaussa: 1+2+3+...+n = n*(n+1)/2. Mozna to udowodnic indukcyjnie: baza n=1: 1 = 1*2/2 = 1. Krok: zakladamy dla k, dowod dla k+1: k*(k+1)/2 + (k+1) = (k+1)*(k+2)/2. |\n| c) | **F** | Algorytmy zachlanne NIE zawsze daja rozwiazanie optymalne. Dzialaja optymalnie tylko dla problemow o wlasnosci optymalnej podstruktury i zachlannego wyboru (np. minimalne drzewo rozpinajace, kodowanie Huffmana). Kontrprzyklad: plecak 0-1 z przedmiotami o wagach [3,4,5], wartosciach [3,4,5] i pojemnosci 7 — zachlanny wezme 5, ale optimum to 3+4=7. |\n| d) | **P** | Przy dodawaniu funkcji w notacji O dominuje wyzszy rzad: O(n^2) + O(n) = O(n^2). Formalnie: istnieja stale c1, c2, n0 takie ze f(n) <= c1*n^2 i g(n) <= c2*n, wiec f(n)+g(n) <= c1*n^2 + c2*n <= (c1+c2)*n^2 = O(n^2). |\n\nOdpowiedzi: a) F, b) P, c) F, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Plecak 0-1 wielomianowy**: Rozwiazanie O(nW) wyglada na wielomianowe, ale W jest wykladnicze wzgledem rozmiaru wejscia (log W bitow)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Greedy = zawsze optimum**: Kontrprzyklad: plecak 0-1, problem komiwojazera. Greedy dziala dla: MST (Kruskal/Prim), Huffman, wydawanie reszty",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**O(n^2) + O(n) = O(n^3)**: NIE! Przy dodawaniu bierzemy maksimum rzadow, nie mnozenie",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

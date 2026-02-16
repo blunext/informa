@@ -1,0 +1,33 @@
+{
+  "id": "15.8",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2023 (Konfitury)",
+  "tagi": [
+    "SUMIFS",
+    "AVERAGEIFS",
+    "warunek-liczbowy",
+    "wiele-warunkow"
+  ],
+  "tresc": "Hurtownia prowadzi rejestr dostaw towaru:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Dostawca** | **Kategoria** | **Waga (kg)** | **Ocena jakosci** |\n| 2 | Firma A | Owoce | 500 | 8 |\n| 3 | Firma B | Warzywa | 300 | 6 |\n| 4 | Firma A | Warzywa | 450 | 9 |\n| 5 | Firma C | Owoce | 200 | 5 |\n| 6 | Firma B | Owoce | 350 | 7 |\n| 7 | Firma A | Owoce | 600 | 8 |\n| 8 | Firma C | Warzywa | 250 | 4 |\n| 9 | Firma B | Warzywa | 400 | 7 |\n| 10 | Firma A | Warzywa | 550 | 9 |\n| 11 | Firma C | Owoce | 180 | 6 |\n\n**Polecenie**:\n1. Oblicz laczna wage dostaw owocow od Firmy A.\n2. Oblicz srednia ocene jakosci dostaw warzyw o wadze powyzej 300 kg.\n3. Oblicz laczna wage dostaw o ocenie jakosci >= 7.",
+  "wskazowki": [
+    "**Kierunek**: Punkt 1 to SUMIFS z dwoma warunkami tekstowymi. Punkt 2 to AVERAGEIFS. Punkt 3 to SUMIFS z warunkiem liczbowym.",
+    "**Podejscie**: W AVERAGEIFS — pierwszy argument to zakres sredniej (D), potem pary warunek. W warunku liczbowym: \">300\".",
+    "**Kluczowy krok**: Pamietaj o kolejnosci argumentow: SUMIFS(suma; zakr1; kryt1; ...) i AVERAGEIFS(srednia; zakr1; kryt1; ...)."
+  ],
+  "odpowiedz": "**Formuly:**\n```\n1. =SUMIFS(C2:C11;A2:A11;\"Firma A\";B2:B11;\"Owoce\")\n2. =AVERAGEIFS(D2:D11;B2:B11;\"Warzywa\";C2:C11;\">300\")\n3. =SUMIFS(C2:C11;D2:D11;\">=\"&7)\n   lub: =SUMIFS(C2:C11;D2:D11;\">=7\")\n```\n\n**Weryfikacja:**\n\n1. Owoce od Firmy A:\n   - Wiersz 2: Firma A, Owoce, 500 ✓\n   - Wiersz 7: Firma A, Owoce, 600 ✓\n   - Suma: 500 + 600 = **1100 kg**\n\n2. Warzywa o wadze >300 — srednia ocena:\n   - Wiersz 4: Warzywa, 450>300, ocena=9 ✓\n   - Wiersz 9: Warzywa, 400>300, ocena=7 ✓\n   - Wiersz 10: Warzywa, 550>300, ocena=9 ✓\n   - (Wiersz 3: Warzywa, 300 — nie spelnia >300)\n   - (Wiersz 8: Warzywa, 250 — nie spelnia >300)\n   - Srednia: (9+7+9)/3 = **8.33**\n\n3. Dostawy z ocena >=7:\n   - Wiersz 2: ocena 8 ✓, waga 500\n   - Wiersz 4: ocena 9 ✓, waga 450\n   - Wiersz 6: ocena 7 ✓, waga 350\n   - Wiersz 7: ocena 8 ✓, waga 600\n   - Wiersz 9: ocena 7 ✓, waga 400\n   - Wiersz 10: ocena 9 ✓, waga 550\n   - Suma: 500+450+350+600+400+550 = **2850 kg**\n\n**Wyjasnienie**: AVERAGEIFS ma taka sama skladnie jak SUMIFS — pierwszy argument to zakres sredniej/sumy, potem pary warunek. Warunki moga byc tekstowe (\"Owoce\") lub liczbowe (\">=7\"). Mozna mieszac warunki tekstowe i liczbowe w jednej formule.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pominiecie warunku wagi w punkcie 2**: Bez \">300\" policzylibysmy srednia dla WSZYSTKICH warzyw",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Uzycie > zamiast >= w punkcie 3**: \">7\" wyklucza dostawy z ocena dokladnie 7 (Firma B Owoce i Firma B Warzywa)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pomieszanie AVERAGEIF z AVERAGEIFS**: AVERAGEIF obsluguje 1 warunek, AVERAGEIFS — wiele. Dla 2 warunkow trzeba AVERAGEIFS",
+      "kara": "-1 pkt"
+    }
+  ]
+}

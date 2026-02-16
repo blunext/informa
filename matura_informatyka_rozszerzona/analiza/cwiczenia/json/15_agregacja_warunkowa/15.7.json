@@ -1,0 +1,33 @@
+{
+  "id": "15.7",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2017 (Cukier)",
+  "tagi": [
+    "COUNTIFS",
+    "warunek-liczbowy",
+    "operator-konkatenacji",
+    "wiele-warunkow"
+  ],
+  "tresc": "Nauczyciel ma wyniki egzaminu z 12 uczniow:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Imie** | **Klasa** | **Punkty** | **Plec** |\n| 2 | Adam | 3A | 72 | M |\n| 3 | Beata | 3B | 85 | K |\n| 4 | Czarek | 3A | 58 | M |\n| 5 | Diana | 3B | 91 | K |\n| 6 | Emil | 3A | 45 | M |\n| 7 | Fiona | 3B | 78 | K |\n| 8 | Grzegorz | 3A | 83 | M |\n| 9 | Hanna | 3B | 67 | K |\n| 10 | Igor | 3A | 39 | M |\n| 11 | Justyna | 3B | 74 | K |\n| 12 | Kamil | 3A | 90 | M |\n| 13 | Laura | 3B | 55 | K |\n\n**Polecenie**:\n1. Ile dziewczyn z klasy 3B uzyskalo wiecej niz 70 punktow?\n2. Ile osob z klasy 3A nie zdalo (ponizej 50 punktow)?\n3. Jaki procent uczniow klasy 3A zdalo egzamin (>=50 punktow)?",
+  "wskazowki": [
+    "**Kierunek**: Punkt 1 i 2 wymagaja COUNTIFS z wieloma warunkami. Punkt 3 to iloraz dwoch COUNTIFS.",
+    "**Podejscie**: Kazdy warunek to osobna para (zakres; kryterium) w COUNTIFS. Warunki liczbowe wymagaja operatora w cudzyslowach.",
+    "**Kluczowy krok**: Procent = zdali / wszyscy z 3A × 100. Zdali = COUNTIFS z warunkiem \">=50\"."
+  ],
+  "odpowiedz": "**Formuly:**\n```\n1. =COUNTIFS(B2:B13;\"3B\";D2:D13;\"K\";C2:C13;\">70\")\n2. =COUNTIFS(B2:B13;\"3A\";C2:C13;\"<50\")\n3. =COUNTIFS(B2:B13;\"3A\";C2:C13;\">=50\")/COUNTIF(B2:B13;\"3A\")*100\n```\n\n**Weryfikacja:**\n\n1. Dziewczyny z 3B z wynikiem >70:\n   - Beata (85 ✓), Diana (91 ✓), Fiona (78 ✓), Hanna (67 ✗), Justyna (74 ✓), Laura (55 ✗)\n   - Wynik: **4**\n\n2. Osoby z 3A ponizej 50:\n   - Adam (72 ✗), Czarek (58 ✗), Emil (45 ✓), Grzegorz (83 ✗), Igor (39 ✓), Kamil (90 ✗)\n   - Wynik: **2**\n\n3. Procent zdanych z 3A:\n   - Zdali (≥50): Adam (72), Czarek (58), Grzegorz (83), Kamil (90) = 4 osoby\n   - Wszyscy z 3A: 6 osob\n   - Procent: 4/6 × 100 = **66.67%**\n\n**Wyjasnienie**: COUNTIFS obsluguje do 127 par warunek-zakres. Warunki liczbowe zapisujemy w cudzyslowach: \">70\", \"<50\", \">=50\". Procent to iloraz — licznik (COUNTIFS ze warunkami) / mianownik (COUNTIF z jednym warunkiem).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak cudzyslowow wokol operatora liczbowego**: =COUNTIFS(B2:B13;\"3B\";C2:C13;>70) — operator musi byc w cudzyslowach \">70\"",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pominiecie warunku plci w punkcie 1**: Bez warunku D2:D13;\"K\" policzymy wszystkich z 3B, nie tylko dziewczyny",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pomieszanie >= z >**: \">=50\" to zdali (50 tez zdal), \">50\" wyklucza osoby z dokladnie 50 punktami",
+      "kara": "-1 pkt jesli zmienia wynik"
+    }
+  ]
+}

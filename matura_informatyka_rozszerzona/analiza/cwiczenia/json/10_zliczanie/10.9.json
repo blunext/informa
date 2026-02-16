@@ -1,0 +1,33 @@
+{
+  "id": "10.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Matura 2024 zad. 3 (rekordy z grupowaniem)",
+  "tagi": [
+    "map-zliczanie",
+    "grupowanie",
+    "struct",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `uczniowie.txt` znajduje sie 10 rekordow w formacie: klasa imie ocena (oddzielone spacjami, klasa to string np. \"3A\", ocena to int 1-6). Napisz program, ktory:\na) Zliczy ile rekordow ma ocene >= 4.\nb) Dla kazdej klasy policzy srednia ocen.\nc) Poda klase z najwyzsza srednia.\n\n**Dane** (`uczniowie.txt`):\n```\n3A Jan 5\n3A Maria 4\n3A Piotr 3\n3B Anna 6\n3B Tomek 5\n3B Ewa 4\n3C Kacper 2\n3C Ola 5\n3C Adam 3\n3C Zofia 4\n```\n\n**Oczekiwany wynik**:\n```\na) Uczniowie z ocena >= 4: 7\n\nb) Srednie ocen:\n   3A: 4.00\n   3B: 5.00\n   3C: 3.50\n\nc) Klasa z najwyzsza srednia: 3B (5.00)\n```",
+  "wskazowki": [
+    "**Kierunek**: Dwa kontenery map: jeden na sume ocen, drugi na liczbe uczniow w klasie.",
+    "**Podejscie**: `suma[klasa] += ocena; ile[klasa]++;` — potem srednia to `suma/ile` (uzyj rzutowania na double).",
+    "**Kluczowy krok**: `map<string,int>` automatycznie sortuje klucze leksykograficznie (3A < 3B < 3C)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"uczniowie.txt\");\n    string klasa, imie;\n    int ocena;\n    map<string, int> suma, ile;\n    int dobre = 0;\n\n    while (plik >> klasa >> imie >> ocena) {\n        if (ocena >= 4) dobre++;\n        suma[klasa] += ocena;\n        ile[klasa]++;\n    }\n\n    cout << \"a) Uczniowie z ocena >= 4: \" << dobre << endl;\n\n    cout << endl << \"b) Srednie ocen:\" << endl;\n    cout << fixed << setprecision(2);\n    string bestKlasa;\n    double bestSr = 0;\n    for (auto &p : suma) {\n        double sr = (double)p.second / ile[p.first];\n        cout << \"   \" << p.first << \": \" << sr << endl;\n        if (sr > bestSr) { bestSr = sr; bestKlasa = p.first; }\n    }\n\n    cout << endl << \"c) Klasa z najwyzsza srednia: \" << bestKlasa\n         << \" (\" << bestSr << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dwie mapy: `suma[klasa]` gromadzi sume ocen, `ile[klasa]` liczbe uczniow. Srednia = suma / ile. Najwyzsza srednia szukana liniowo.\n\nWeryfikacja:\n- 3A: 5+4+3=12, 3 uczniow, sr=4.00\n- 3B: 6+5+4=15, 3 uczniow, sr=5.00\n- 3C: 2+5+3+4=14, 4 uczniow, sr=3.50\n- Ocena >= 4: Jan(5), Maria(4), Anna(6), Tomek(5), Ewa(4), Ola(5), Zofia(4) -> 7? Sprawdzmy: 5>=4 TAK, 4>=4 TAK, 3>=4 NIE, 6>=4 TAK, 5>=4 TAK, 4>=4 TAK, 2>=4 NIE, 5>=4 TAK, 3>=4 NIE, 4>=4 TAK -> 7\n\nKorekta oczekiwanego wyniku:\n```\na) Uczniowie z ocena >= 4: 7\n```",
+  "typowe_bledy": [
+    {
+      "opis": "**Dzielenie calkowite zamiast zmiennoprzecinkowego**: `12 / 3 = 4` jest OK, ale `14 / 4 = 3` (nie 3.5). Uzyj `(double)suma / ile`",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o klasach z jednym uczniem**: Srednia wtedy rowna ocenie — nie pomijaj ich",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne wczytywanie formatu**: Jesli imie zawiera spacje, `plik >> imie` nie wystarczy — ale w tym zadaniu imiona sa jednoczlonowe.",
+      "kara": ""
+    }
+  ]
+}

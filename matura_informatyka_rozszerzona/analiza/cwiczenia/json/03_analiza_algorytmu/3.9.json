@@ -1,0 +1,32 @@
+{
+  "id": "3.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Matura 2017 zad. 2 (specyfikacja i analiza)",
+  "tagi": [
+    "indukcja",
+    "niezmiennik-petli",
+    "zlozonosc-czasowa"
+  ],
+  "tresc": "Dany jest algorytm:\n\n```\nfunkcja potega(x, n)\n    // n >= 0 (calkowite)\n    wynik := 1\n    baza := x\n    wyk := n\n    dopoki wyk > 0:\n        jezeli wyk mod 2 = 1:\n            wynik := wynik * baza\n        baza := baza * baza\n        wyk := wyk div 2\n    zwroc wynik\n```\n\n**Polecenie**:\n- a) Przesled algorytm dla x=3, n=13. Podaj wartosci zmiennych w kazdym kroku.\n- b) Ile mnozen wykonuje algorytm dla n=13? Ile wykona prosta petla `wynik := x * x * ... * x` (n-1 razy)?\n- c) Podaj zlozonosc czasowa algorytmu w funkcji n. Uzasadnij.\n- d) Podaj niezmiennik petli: jaki zwiazek zachodzi miedzy `wynik`, `baza`, `wyk` a oryginalnym `x^n`?",
+  "wskazowki": [
+    "**Kierunek**: To szybkie potegowanie (binary exponentiation). Wykladnik jest analizowany bit po bicie.",
+    "**Podejscie**: Rozpisz n=13 w systemie binarnym: 13 = 1101₂. Bity odpowiadaja krokom algorytmu.",
+    "**Kluczowy krok**: Niezmiennik: wynik * baza^wyk = x^n jest prawdziwy na poczatku kazdej iteracji."
+  ],
+  "odpowiedz": "**a) Sledzenie dla x=3, n=13:**\n\n13 w systemie binarnym: 1101₂\n\n| Krok | wyk | wyk%2 | wynik | baza | operacje |\n|------|-----|-------|-------|------|----------|\n| pocz. | 13 | - | 1 | 3 | - |\n| 1 | 13 | 1 (nieparzyste) | 1*3=3 | 3*3=9 | wyk=13 div 2=6 |\n| 2 | 6 | 0 (parzyste) | 3 (bez zmiany) | 9*9=81 | wyk=6 div 2=3 |\n| 3 | 3 | 1 (nieparzyste) | 3*81=243 | 81*81=6561 | wyk=3 div 2=1 |\n| 4 | 1 | 1 (nieparzyste) | 243*6561=1594323 | 6561*6561=... | wyk=1 div 2=0 |\n\nWynik: 3^13 = **1594323**\n\nSprawdzenie: 3^13 = 1594323. Poprawne.\n\n**b) Liczba mnozen:**\n\n- Szybkie potegowanie: W kazdym kroku 1 mnozenie (baza*baza) + ewentualnie 1 (wynik*baza). Dla n=13: 4 kroki, 4 mnozenia baza + 3 mnozenia wynik = **7 mnozen**\n- Prosta petla: n-1 = **12 mnozen**\n\nOszczednosc: prawie 2x mniej mnozen. Dla duzych n roznica jest drastyczna.\n\n**c) Zlozonosc: O(log n)**\n\nUzasadnienie: W kazdym kroku wyk jest dzielone przez 2 (wyk := wyk div 2). Liczba iteracji to floor(log2(n)) + 1. Kazda iteracja wykonuje stala liczbe operacji (1-2 mnozenia). Stad O(log n).\n\nPorownanie: prosta petla to O(n). Dla n=1000000 szybkie potegowanie robi ~20 krokow zamiast 999999.\n\n**d) Niezmiennik petli:**\n\n**wynik * baza^wyk = x^n**\n\nNa poczatku: 1 * x^n = x^n. Prawda.\nW kazdym kroku:\n- Jezeli wyk nieparzyste: wynik' = wynik*baza, baza' = baza^2, wyk' = (wyk-1)/2\n  wynik' * baza'^wyk' = (wynik*baza) * (baza^2)^((wyk-1)/2) = wynik * baza * baza^(wyk-1) = wynik * baza^wyk\n- Jezeli wyk parzyste: wynik' = wynik, baza' = baza^2, wyk' = wyk/2\n  wynik' * baza'^wyk' = wynik * (baza^2)^(wyk/2) = wynik * baza^wyk\n\nNa koncu (wyk=0): wynik * baza^0 = wynik = x^n.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o mnozeniu baza*baza w KAZDYM kroku**: Baza jest podnoszona do kwadratu niezaleznie od parzystosci wyk",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne obliczenie 3^13**: Duze liczby — latwo o blad. Warto weryfikowac krok po kroku",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Niezmiennik bez dowodu**: Trzeba pokazac, ze zachowuje sie w kazdym kroku, nie tylko podac go",
+      "kara": "-1 pkt"
+    }
+  ]
+}

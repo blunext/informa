@@ -1,0 +1,29 @@
+{
+  "id": "11.6",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2023 zad. 3 (min/max warunkowe)",
+  "tagi": [
+    "min-max",
+    "filtrowanie",
+    "wczytywanie-pliku",
+    "warunkowe-min-max"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Znajdzie najwieksza liczbe parzysta.\nb) Znajdzie najmniejsza liczbe nieparzysta.\n\n**Dane** (`dane.txt`):\n```\n17\n42\n8\n55\n36\n91\n24\n63\n100\n5\n78\n33\n```\n\n**Oczekiwany wynik**:\n```\na) Najwieksza parzysta: 100\nb) Najmniejsza nieparzysta: 5\n```",
+  "wskazowki": [
+    "**Kierunek**: Dwa osobne skany — w kazdym sprawdzaj dodatkowy warunek (parzystosc/nieparzystosc).",
+    "**Podejscie**: Inicjalizuj max parzysta jako -1e9 (lub `INT_MIN`), min nieparzysta jako 1e9 (lub `INT_MAX`).",
+    "**Kluczowy krok**: Jesli `n % 2 == 0` i `n > maxP` -> aktualizuj maxP."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <climits>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int maxP = INT_MIN, minN = INT_MAX;\n\n    while (plik >> n) {\n        if (n % 2 == 0 && n > maxP) maxP = n;\n        if (n % 2 != 0 && n < minN) minN = n;\n    }\n\n    cout << \"a) Najwieksza parzysta: \" << maxP << endl;\n    cout << \"b) Najmniejsza nieparzysta: \" << minN << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Skan liniowy z warunkiem — aktualizujemy max/min tylko gdy element spelnia dodatkowe kryterium (parzystosc/nieparzystosc).\n\nWeryfikacja:\n- Parzyste: 42, 8, 36, 24, 100, 78. Max = 100.\n- Nieparzyste: 17, 55, 91, 63, 5, 33. Min = 5.",
+  "typowe_bledy": [
+    {
+      "opis": "**Inicjalizacja max pierwszym elementem bez sprawdzenia parzystosci**: Jesli pierwszy element jest nieparzysty, to max parzystych zaczyna sie od zlej wartosci",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak obslugi przypadku gdy nie ma elementow spelniajacych warunek**: Jesli nie ma parzystych, maxP = INT_MIN to bezsensowny wynik. Trzeba sprawdzic.",
+      "kara": ""
+    }
+  ]
+}

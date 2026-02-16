@@ -1,0 +1,33 @@
+{
+  "id": "6.1",
+  "trudnosc": "latwe",
+  "punkty": 1,
+  "zrodlo": "Matura 2025 zad. 4 (Keylogger)",
+  "tagi": [
+    "phishing",
+    "trojan",
+    "ransomware",
+    "keylogger"
+  ],
+  "tresc": "Dopasuj opis sytuacji do odpowiedniego typu zagrozenia. Wpisz w tabeli nazwe zagrozenia wybrana ze zbioru: {keylogger, phishing, ransomware, trojan}.\n\n| Lp. | Opis sytuacji | Typ zagrozenia |\n|-----|---------------|----------------|\n| a) | Uzytkownik otrzymal e-mail wygladajacy jak wiadomosc z banku z prosba o klikniecie linku i podanie loginu oraz hasla. Strona pod linkiem wyglada identycznie jak strona banku, ale ma inny adres URL. | |\n| b) | Po zainstalowaniu darmowego programu do edycji zdjec komputer zaczal wysylac dane uzytkownika na nieznany serwer. Program wygladal na legalne oprogramowanie. | |\n| c) | Wszystkie pliki na dysku uzytkownika zostaly zaszyfrowane. Na ekranie pojawil sie komunikat z zadaniem zaplacenia 500 dolarow w kryptowalucie za odzyskanie dostepu do danych. | |\n| d) | Na komputerze znaleziono program, ktory rejestruje kazde nacisniecie klawisza i wysyla te dane do zewnetrznego serwera. Program dzialal w tle, niewidoczny dla uzytkownika. | |",
+  "wskazowki": [
+    "**Kierunek**: Przypomnij sobie definicje: phishing = wyludzanie danych, trojan = zlosliwy program udajacy legalne oprogramowanie, ransomware = szyfrowanie z zadaniem okupu, keylogger = rejestracja klawiszy.",
+    "**Podejscie**: Zwroc uwage na slowa kluczowe: \"e-mail z banku\" = phishing, \"darmowy program\" = trojan, \"zaszyfrowane pliki\" = ransomware, \"rejestruje nacisniecia klawiszy\" = keylogger.",
+    "**Kluczowy krok**: Phishing to technika socjotechniczna (nie oprogramowanie). Trojan, ransomware i keylogger to rodzaje malware."
+  ],
+  "odpowiedz": "| Lp. | Typ zagrozenia | Uzasadnienie |\n|-----|----------------|-------------|\n| a) | **phishing** | Phishing to metoda wyludzania danych (loginow, hasel, numerow kart) poprzez podszywanie sie pod zaufana instytucje. Charakterystyczny element: falszywa strona imitujaca prawdziwa. |\n| b) | **trojan** (kon trojanski) | Trojan to zlosliwe oprogramowanie ukryte wewnatrz pozornie przydatnego programu. Uzytkownik sam go instaluje, nie wiedzac o ukrytych funkcjach (np. kradzez danych). |\n| c) | **ransomware** | Ransomware szyfruje pliki ofiary i zoda okupu (ransom) za klucz deszyfrujacy. Czesto zodanie jest w kryptowalucie, by utrudnic sledzenie platnosci. |\n| d) | **keylogger** | Keylogger to program rejestrujacy nacisniecia klawiszy (key = klawisz, logger = rejestrator). Pozwala przechwycic hasla, wiadomosci i inne wrazliwe dane wpisywane z klawiatury. |",
+  "typowe_bledy": [
+    {
+      "opis": "**Trojan = wirus**: Trojan NIE jest wirusem (wirus sie replikuje, trojan nie)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Phishing = malware**: Phishing to technika socjotechniczna, nie oprogramowanie",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Ransomware = keylogger**: Ransomware szyfruje pliki, keylogger rejestruje klawisze — zupelnie rozne dzialanie",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

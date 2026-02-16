@@ -1,0 +1,29 @@
+{
+  "id": "12.2",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Matura 2023 zad. 3.3",
+  "tagi": [
+    "ciag-rosnacy",
+    "current-max",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie najdluzszy spojny podciag scisle rosnacy. Podaj pozycje poczatkowa, dlugosc i elementy.\n\n**Dane** (`dane.txt`):\n```\n5\n8\n12\n3\n6\n9\n14\n18\n25\n2\n4\n7\n1\n10\n15\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy ciag rosnacy:\nPozycja poczatkowa: 4, dlugosc: 6\nElementy: 3 6 9 14 18 25\n```",
+  "wskazowki": [
+    "**Kierunek**: Ten sam wzorzec current/max co w 12.1, ale warunek to `T[i] > T[i-1]` (scisly wzrost).",
+    "**Podejscie**: Zmien warunek rownosci na warunek wzrostu.",
+    "**Kluczowy krok**: Zapamietaj pozycje poczatkowa i dlugosc najdluzszego podciagu — elementy wypisz z wektora."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int maxDl = 1, maxStart = 0;\n    int curDl = 1, curStart = 0;\n\n    for (int i = 1; i < n; i++) {\n        if (T[i] > T[i - 1]) {\n            curDl++;\n        } else {\n            if (curDl > maxDl) {\n                maxDl = curDl;\n                maxStart = curStart;\n            }\n            curDl = 1;\n            curStart = i;\n        }\n    }\n    if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n\n    cout << \"Najdluzszy ciag rosnacy:\" << endl;\n    cout << \"Pozycja poczatkowa: \" << maxStart + 1 << \", dlugosc: \" << maxDl << endl;\n    cout << \"Elementy: \";\n    for (int i = maxStart; i < maxStart + maxDl; i++)\n        cout << T[i] << \" \";\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Analogicznie do ciagu rownych, ale warunek to `T[i] > T[i-1]` (scisly wzrost).\n\nWeryfikacja:\n- 5,8,12 (dl.3, poz.1)\n- 3,6,9,14,18,25 (dl.6, poz.4) -> najdluzszy\n- 2,4,7 (dl.3, poz.10)\n- 1,10,15 (dl.3, poz.13)\nNajdluzszy: 6 elementow od pozycji 4.",
+  "typowe_bledy": [
+    {
+      "opis": "**`>=` zamiast `>`**: \"Scisle rosnacy\" oznacza bez rownosci. Z `>=` ciag 3,3,5 tez bylby \"rosnacy\"",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak aktualizacji po petli**: Jak w 12.1",
+      "kara": "-2 pkt"
+    }
+  ]
+}

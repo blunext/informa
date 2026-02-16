@@ -1,0 +1,33 @@
+{
+  "id": "4.2",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2017 zad. 3, Matura 2019 zad. 3.3, Matura 2022 zad. 3.3",
+  "tagi": [
+    "SQL-skladnia",
+    "WHERE-vs-HAVING",
+    "JOIN",
+    "ORDER-BY"
+  ],
+  "tresc": "Ocen prawdziwosc ponizszych zdan dotyczacych jezyka SQL. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Klauzula WHERE filtruje rekordy po wykonaniu agregacji GROUP BY. | |\n| b) | LEFT JOIN zwraca wartosc NULL w kolumnach prawej tabeli dla rekordow, ktore nie maja dopasowania. | |\n| c) | ORDER BY domyslnie sortuje wyniki malejaco (DESC). | |\n| d) | Klauzula HAVING moze byc uzyta tylko w polaczeniu z GROUP BY. | |",
+  "wskazowki": [
+    "**Kierunek**: Przypomnij sobie kolejnosc wykonywania klauzul SQL: FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY.",
+    "**Podejscie**: WHERE dziala PRZED GROUP BY, HAVING dziala PO. LEFT JOIN zachowuje wszystkie wiersze z lewej tabeli.",
+    "**Kluczowy krok**: ORDER BY domyslnie = ASC (rosnaco), nie DESC."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | WHERE filtruje rekordy PRZED agregacja (przed GROUP BY). Do filtrowania po agregacji sluzy HAVING. Kolejnosc: WHERE -> GROUP BY -> HAVING. |\n| b) | **P** | LEFT JOIN zachowuje wszystkie rekordy z lewej tabeli. Jezeli rekord nie ma dopasowania w prawej tabeli, kolumny prawej tabeli wypelniane sa wartoscia NULL. |\n| c) | **F** | ORDER BY domyslnie sortuje rosnaco (ASC). Aby sortowac malejaco, nalezy jawnie uzyc DESC. |\n| d) | **P** | HAVING filtruje grupy po agregacji, wiec wymaga GROUP BY (lub calej tabeli jako jednej grupy). W standardowym SQL HAVING stosuje sie po GROUP BY. |\n\nOdpowiedzi: a) F, b) P, c) F, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie WHERE i HAVING**: WHERE filtruje WIERSZE przed grupowaniem, HAVING filtruje GRUPY po agregacji",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**ORDER BY DESC jako domyslne**: Domyslne to ASC (rosnaco). Czesty blad na maturze",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**LEFT JOIN vs INNER JOIN**: LEFT zachowuje wszystkie wiersze z lewej tabeli (NULL dla brakujacych), INNER — tylko dopasowane",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

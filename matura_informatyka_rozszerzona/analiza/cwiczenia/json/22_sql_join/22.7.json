@@ -1,0 +1,28 @@
+{
+  "id": "22.7",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2024 (Hurtownia)",
+  "tagi": [
+    "LEFT-JOIN",
+    "COUNT-z-LEFT-JOIN",
+    "GROUP-BY-z-JOIN"
+  ],
+  "tresc": "Tabela **Dzialy**:\n\n| id_dzialu | nazwa_dzialu | lokalizacja |\n|-----------|-------------|-------------|\n| 1 | IT | pietro_3 |\n| 2 | HR | pietro_1 |\n| 3 | Finanse | pietro_2 |\n| 4 | Marketing | pietro_1 |\n| 5 | Logistyka | pietro_0 |\n\nTabela **Pracownicy**:\n\n| id | imie | nazwisko | id_dzialu | data_zatrudnienia |\n|----|------|----------|-----------|-------------------|\n| 1 | Anna | Kowalska | 1 | 2020-03-15 |\n| 2 | Jan | Nowak | 1 | 2021-07-01 |\n| 3 | Ewa | Maj | 2 | 2019-11-20 |\n| 4 | Piotr | Lis | 3 | 2022-01-10 |\n| 5 | Kasia | Zak | 1 | 2023-06-01 |\n| 6 | Tomek | Bak | 2 | 2020-09-15 |\n| 7 | Ola | Wrobel | 4 | 2021-04-01 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe dzialu oraz liczbe pracownikow w tym dziale. Pokaz WSZYSTKIE dzialy, nawet te bez pracownikow. Posortuj malejaco wg liczby pracownikow.",
+  "wskazowki": [
+    "**Kierunek**: LEFT JOIN zachowuje wszystkie dzialy, nawet puste.",
+    "**Podejscie**: LEFT JOIN Dzialy z Pracownicy, GROUP BY dzial, COUNT kolumny z prawej tabeli.",
+    "**Kluczowy krok**: COUNT(P.id) zamiast COUNT(*) — dla pustych dzialow COUNT(*) daje 1, a COUNT(P.id) daje 0."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT D.nazwa_dzialu, COUNT(P.id) AS liczba_pracownikow\nFROM Dzialy D\nLEFT JOIN Pracownicy P ON D.id_dzialu = P.id_dzialu\nGROUP BY D.nazwa_dzialu\nORDER BY liczba_pracownikow DESC;\n```\n\n**Weryfikacja**:\n- IT: Anna, Jan, Kasia → **3**\n- HR: Ewa, Tomek → **2**\n- Finanse: Piotr → **1**\n- Marketing: Ola → **1**\n- Logistyka: (brak) → **0**\n\n| nazwa_dzialu | liczba_pracownikow |\n|--------------|--------------------|\n| IT | 3 |\n| HR | 2 |\n| Finanse | 1 |\n| Marketing | 1 |\n| Logistyka | 0 |\n\n**Wyjasnienie**: LEFT JOIN + COUNT(kolumna z prawej tabeli) + GROUP BY to standardowy wzorzec \"policz powiazane rekordy, w tym zerowe\". COUNT pomija NULL, wiec puste grupy daja 0.",
+  "typowe_bledy": [
+    {
+      "opis": "**COUNT(*)**: Daje 1 zamiast 0 dla Logistyki — LEFT JOIN tworzy jeden wiersz z NULL, COUNT(*) go liczy",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**INNER JOIN**: Logistyka nie pojawi sie w wyniku",
+      "kara": "-2 pkt"
+    }
+  ]
+}

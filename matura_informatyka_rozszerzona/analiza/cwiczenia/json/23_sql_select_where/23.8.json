@@ -1,0 +1,34 @@
+{
+  "id": "23.8",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2022 (Ewidencja uczniow)",
+  "tagi": [
+    "DISTINCT",
+    "WHERE",
+    "BETWEEN",
+    "LIKE",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Loty**:\n\n| id | nr_lotu | skad | dokad | data | godzina | cena | status |\n|----|---------|------|-------|------|---------|------|--------|\n| 1 | LO101 | Warszawa | Berlin | 2024-06-15 | 08:30 | 450 | planowy |\n| 2 | LO102 | Warszawa | Paryz | 2024-06-15 | 10:00 | 680 | planowy |\n| 3 | FR201 | Krakow | Londyn | 2024-06-16 | 06:15 | 320 | planowy |\n| 4 | LO103 | Warszawa | Berlin | 2024-06-16 | 08:30 | 450 | opozniony |\n| 5 | FR202 | Gdansk | Berlin | 2024-06-17 | 14:00 | 280 | planowy |\n| 6 | LO104 | Warszawa | Rzym | 2024-06-17 | 12:00 | 550 | odwolany |\n| 7 | FR203 | Krakow | Paryz | 2024-06-18 | 09:45 | 390 | planowy |\n| 8 | LO105 | Warszawa | Londyn | 2024-06-18 | 16:30 | 720 | planowy |\n\n**Polecenie**:\n1. Wyswietl UNIKALNE miasta docelowe (DISTINCT) posortowane alfabetycznie.\n2. Wyswietl nr lotu, trase (skad → dokad) i cene lotow, ktore: maja nr lotu zaczynajacy sie od 'LO', kosztuja miedzy 400 a 600, i NIE sa odwolane.",
+  "wskazowki": [
+    "**Kierunek**: Dwa osobne zapytania — jedno z DISTINCT, drugie z wieloma warunkami.",
+    "**Podejscie**: DISTINCT eliminuje duplikaty. BETWEEN, LIKE i != laczymy AND-em.",
+    "**Kluczowy krok**: `status != 'odwolany'` lub `status <> 'odwolany'` — oba sa poprawne."
+  ],
+  "odpowiedz": "**Zapytania SQL:**\n```sql\n-- 1. Unikalne miasta docelowe\nSELECT DISTINCT dokad\nFROM Loty\nORDER BY dokad;\n\n-- 2. Loty LOT w przedziale cenowym, nieodwolane\nSELECT nr_lotu, skad || ' → ' || dokad AS trasa, cena\nFROM Loty\nWHERE nr_lotu LIKE 'LO%'\n  AND cena BETWEEN 400 AND 600\n  AND status != 'odwolany';\n```\n\n**Weryfikacja**:\n\n1. Unikalne miasta docelowe: Berlin, Londyn, Paryz, Rzym\n\n| dokad |\n|-------|\n| Berlin |\n| Londyn |\n| Paryz |\n| Rzym |\n\n2. Loty LO, cena 400-600, nie odwolane:\n- LO101: LO ✓, 450 ∈ [400,600] ✓, planowy ✓ → ✓\n- LO102: LO ✓, 680 ∉ [400,600] ✗\n- LO103: LO ✓, 450 ∈ [400,600] ✓, opozniony ✓ → ✓\n- LO104: LO ✓, 550 ∈ [400,600] ✓, odwolany ✗\n- LO105: LO ✓, 720 ∉ [400,600] ✗\n\n| nr_lotu | trasa | cena |\n|---------|-------|------|\n| LO101 | Warszawa → Berlin | 450 |\n| LO103 | Warszawa → Berlin | 450 |\n\n**Wyjasnienie**: DISTINCT eliminuje powtorzenia w wynikach. Operator `||` w SQLite laczy teksty (konkatenacja). `!=` i `<>` sa rownowazne.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak DISTINCT**: Berlin pojawi sie 3 razy (loty 1, 4, 5)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**`= 'odwolany'` zamiast `!= 'odwolany'`**: Odwrotny filtr — pokaze tylko odwolane loty",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Konkatenacja z `+`**: W SQLite operator `+` dodaje liczby, nie laczy teksty. Trzeba uzyc `||`",
+      "kara": "-1 pkt"
+    }
+  ]
+}

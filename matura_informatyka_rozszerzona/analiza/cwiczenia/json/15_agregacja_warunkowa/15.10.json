@@ -1,0 +1,35 @@
+{
+  "id": "15.10",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Matura 2022 (Wybory)",
+  "tagi": [
+    "SUMIFS",
+    "COUNTIFS",
+    "MAXIFS-MINIFS",
+    "kolumna-pomocnicza",
+    "zagniezdzone-funkcje",
+    "zakres-bezwzgledny"
+  ],
+  "tresc": "Siec sklepow prowadzi miesieczna analize sprzedazy. Dane za styczen:\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Sklep** | **Miasto** | **Kategoria** | **Przychod** | **Koszty** |\n| 2 | S1 | Warszawa | Elektronika | 85000 | 62000 |\n| 3 | S2 | Kraków | Odzież | 45000 | 31000 |\n| 4 | S3 | Warszawa | Odzież | 52000 | 38000 |\n| 5 | S4 | Gdańsk | Elektronika | 71000 | 55000 |\n| 6 | S5 | Kraków | Elektronika | 63000 | 48000 |\n| 7 | S6 | Warszawa | Spożywcze | 38000 | 28000 |\n| 8 | S7 | Gdańsk | Odzież | 41000 | 30000 |\n| 9 | S8 | Kraków | Spożywcze | 35000 | 26000 |\n| 10 | S9 | Warszawa | Elektronika | 92000 | 68000 |\n| 11 | S10 | Gdańsk | Spożywcze | 29000 | 22000 |\n\n**Polecenie**:\n1. W kolumnie F oblicz zysk kazdego sklepu (przychod - koszty).\n2. W kolumnie G oblicz marze procentowa (zysk/przychod × 100).\n3. Znajdz najwyzszy zysk wsrod sklepow w Warszawie (uzyj MAXIFS).\n4. Oblicz srednia marze sklepow z kategorii \"Elektronika\".\n5. Ile sklepow ma marze powyzej 20%?\n6. Oblicz laczny zysk sklepow, ktore maja przychod powyzej 50000 i marze powyzej 15%.",
+  "wskazowki": [
+    "**Kierunek**: Zbuduj kolumny pomocnicze F (zysk) i G (marza), a potem uzyj ich w agregacjach warunkowych.",
+    "**Podejscie**: MAXIFS(zakres_max; zakres_kryt; kryterium) dziala jak SUMIFS, ale zwraca maximum. Punkt 6 wymaga SUMIFS z wieloma warunkami na kolumnach pomocniczych.",
+    "**Kluczowy krok**: Marza = F2/D2*100. MAXIFS i AVERAGEIFS operuja na kolumnach F i G."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nF2: =D2-E2                         (zysk, kopiowana w dol)\nG2: =F2/D2*100                     (marza %, kopiowana w dol)\n\nNajwyzszy zysk w Warszawie:\n=MAXIFS(F2:F11;B2:B11;\"Warszawa\")\n\nSrednia marza Elektroniki:\n=AVERAGEIFS(G2:G11;C2:C11;\"Elektronika\")\n\nSklepy z marza >20%:\n=COUNTIF(G2:G11;\">20\")\n\nLaczny zysk (przychod>50000 i marza>15%):\n=SUMIFS(F2:F11;D2:D11;\">50000\";G2:G11;\">15\")\n```\n\n**Obliczenia:**\n\n| Sklep | Miasto | Kat. | Przychod | Koszty | F: Zysk | G: Marza (%) |\n|-------|--------|------|----------|--------|---------|-------------|\n| S1 | Warszawa | Elek. | 85000 | 62000 | 23000 | 27.06 |\n| S2 | Kraków | Odzież | 45000 | 31000 | 14000 | 31.11 |\n| S3 | Warszawa | Odzież | 52000 | 38000 | 14000 | 26.92 |\n| S4 | Gdańsk | Elek. | 71000 | 55000 | 16000 | 22.54 |\n| S5 | Kraków | Elek. | 63000 | 48000 | 15000 | 23.81 |\n| S6 | Warszawa | Spoż. | 38000 | 28000 | 10000 | 26.32 |\n| S7 | Gdańsk | Odzież | 41000 | 30000 | 11000 | 26.83 |\n| S8 | Kraków | Spoż. | 35000 | 26000 | 9000 | 25.71 |\n| S9 | Warszawa | Elek. | 92000 | 68000 | 24000 | 26.09 |\n| S10 | Gdańsk | Spoż. | 29000 | 22000 | 7000 | 24.14 |\n\n3. Najwyzszy zysk w Warszawie: max(23000, 14000, 10000, 24000) = **24000** (S9)\n\n4. Srednia marza Elektroniki: (27.06+22.54+23.81+26.09)/4 = 99.50/4 = **24.87%**\n\n5. Sklepy z marza >20%: Wszystkie 10 sklepow maja marze >20%, wiec wynik = **10**\n\n6. Przychod>50000 i marza>15%:\n   - S1: 85000>50000 ✓, 27.06>15 ✓, zysk=23000\n   - S3: 52000>50000 ✓, 26.92>15 ✓, zysk=14000\n   - S4: 71000>50000 ✓, 22.54>15 ✓, zysk=16000\n   - S5: 63000>50000 ✓, 23.81>15 ✓, zysk=15000\n   - S9: 92000>50000 ✓, 26.09>15 ✓, zysk=24000\n   - Suma: 23000+14000+16000+15000+24000 = **92000**\n\n**Wyjasnienie**: MAXIFS i MINIFS to nowsze funkcje (od Excel 2019 / LibreCalc 7.0). Dzialaja analogicznie do SUMIFS — pierwszy argument to zakres, potem pary warunek. Kolumny pomocnicze (zysk, marza) upraszczaja formuly koncowe. Na maturze to czesty wzorzec: oblicz wartosci posrednie → uzyj ich w agregacji warunkowej.",
+  "typowe_bledy": [
+    {
+      "opis": "**Marza jako zysk/koszty**: Marza procentowa to zysk/PRZYCHOD × 100, nie zysk/koszty",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak MAXIFS — uzycie MAX z IF tablicowym**: =MAX(IF(B2:B11=\"Warszawa\";F2:F11)) wymaga Ctrl+Shift+Enter (formula tablicowa). MAXIFS jest prostsza",
+      "kara": ""
+    },
+    {
+      "opis": "**Zapomnienie o kolumnie marzy w punkcie 6**: Bez kolumny G nie mozna filtrowac po marzy w SUMIFS",
+      "kara": "-2 pkt"
+    }
+  ]
+}

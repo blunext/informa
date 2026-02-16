@@ -1,0 +1,28 @@
+{
+  "id": "22.11",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2023",
+  "tagi": [
+    "INNER-JOIN",
+    "aliasy-tabel",
+    "ON-warunek"
+  ],
+  "tresc": "Tabela **Klienci**:\n\n| id_klienta | imie | nazwisko | miasto |\n|------------|------|----------|--------|\n| 1 | Anna | Kowalska | Warszawa |\n| 2 | Jan | Nowak | Krakow |\n| 3 | Ewa | Maj | Gdansk |\n| 4 | Piotr | Lis | Warszawa |\n\nTabela **Zamowienia**:\n\n| id_zam | id_klienta | produkt | cena | data |\n|--------|------------|---------|------|------|\n| 1 | 1 | Laptop | 3500 | 2024-01-10 |\n| 2 | 2 | Telefon | 2500 | 2024-01-15 |\n| 3 | 1 | Tablet | 1200 | 2024-02-01 |\n| 4 | 3 | Laptop | 3800 | 2024-02-15 |\n| 5 | 4 | Telefon | 2200 | 2024-03-01 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko klienta, produkt i cene dla kazdego zamowienia. Posortuj wg ceny malejaco.",
+  "wskazowki": [
+    "**Kierunek**: Dane klienta i zamowienia sa w roznych tabelach — musisz je polaczyc.",
+    "**Podejscie**: JOIN na wspolnej kolumnie id_klienta.",
+    "**Kluczowy krok**: ORDER BY cena DESC sortuje od najdrozszego do najtanszego."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.imie, K.nazwisko, Z.produkt, Z.cena\nFROM Zamowienia Z\nJOIN Klienci K ON Z.id_klienta = K.id_klienta\nORDER BY Z.cena DESC;\n```\n\n**Weryfikacja**:\n\n| imie | nazwisko | produkt | cena |\n|------|----------|---------|------|\n| Ewa | Maj | Laptop | 3800 |\n| Anna | Kowalska | Laptop | 3500 |\n| Jan | Nowak | Telefon | 2500 |\n| Piotr | Lis | Telefon | 2200 |\n| Anna | Kowalska | Tablet | 1200 |\n\n**Wyjasnienie**: JOIN laczy kazdy wiersz z Zamowienia z odpowiednim wierszem z Klienci po wspolnej kolumnie id_klienta. Anna pojawia sie 2 razy, bo ma 2 zamowienia.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak ON**: `FROM Zamowienia JOIN Klienci` bez ON tworzy iloczyn kartezjanski — kazde zamowienie z kazdym klientem",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Brak DESC**: Domyslnie ORDER BY sortuje rosnaco — najtansze na gorze",
+      "kara": "-1 pkt"
+    }
+  ]
+}

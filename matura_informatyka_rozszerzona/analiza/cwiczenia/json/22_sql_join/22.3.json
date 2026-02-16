@@ -1,0 +1,32 @@
+{
+  "id": "22.3",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2015 (Formula 1)",
+  "tagi": [
+    "LEFT-JOIN",
+    "COUNT-z-LEFT-JOIN",
+    "GROUP-BY-z-JOIN"
+  ],
+  "tresc": "Tabela **Rowery**:\n\n| id_roweru | model | typ | cena_za_godzine |\n|-----------|-------|-----|-----------------|\n| 1 | City Cruiser | miejski | 15 |\n| 2 | Mountain Pro | gorski | 25 |\n| 3 | Speed Racer | szosowy | 30 |\n| 4 | Kids Fun | dzieciecy | 10 |\n| 5 | Electric One | elektryczny | 35 |\n\nTabela **Wypozyczenia**:\n\n| id_wypozyczenia | id_roweru | klient | godziny | data |\n|-----------------|-----------|--------|---------|------|\n| 1 | 1 | Tomek | 3 | 2024-06-01 |\n| 2 | 2 | Anna | 2 | 2024-06-01 |\n| 3 | 1 | Kasia | 1 | 2024-06-02 |\n| 4 | 3 | Piotr | 4 | 2024-06-02 |\n| 5 | 2 | Tomek | 3 | 2024-06-03 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli model kazdego roweru oraz laczna liczbe jego wypozyczen. Pokaz WSZYSTKIE rowery, nawet te nigdy nie wypozyczone (dla nich liczba = 0). Posortuj malejaco wg liczby wypozyczen.",
+  "wskazowki": [
+    "**Kierunek**: INNER JOIN odrzuca rowery bez wypozyczen — potrzebujesz LEFT JOIN.",
+    "**Podejscie**: LEFT JOIN zachowuje WSZYSTKIE wiersze z lewej tabeli (Rowery).",
+    "**Kluczowy krok**: COUNT(W.id_wypozyczenia) zamiast COUNT(*) — COUNT(*) daje 1 zamiast 0 dla pustych dopasowañ."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT R.model, COUNT(W.id_wypozyczenia) AS liczba_wypozyczen\nFROM Rowery R\nLEFT JOIN Wypozyczenia W ON R.id_roweru = W.id_roweru\nGROUP BY R.model\nORDER BY liczba_wypozyczen DESC;\n```\n\n**Weryfikacja**:\n- City Cruiser (id=1): wyp. 1, 3 → **2**\n- Mountain Pro (id=2): wyp. 2, 5 → **2**\n- Speed Racer (id=3): wyp. 4 → **1**\n- Kids Fun (id=4): brak wypozyczen → **0**\n- Electric One (id=5): brak wypozyczen → **0**\n\n| model | liczba_wypozyczen |\n|-------|-------------------|\n| City Cruiser | 2 |\n| Mountain Pro | 2 |\n| Speed Racer | 1 |\n| Electric One | 0 |\n| Kids Fun | 0 |\n\n**Wyjasnienie**: LEFT JOIN zachowuje wszystkie wiersze z lewej tabeli (Rowery), nawet te bez dopasowania w Wypozyczenia. Kluczowy szczegol: uzywamy `COUNT(W.id_wypozyczenia)` zamiast `COUNT(*)`.",
+  "typowe_bledy": [
+    {
+      "opis": "**COUNT(*) z LEFT JOIN**: Dla rowerow bez wypozyczen daje 1 zamiast 0, bo wiersz z NULL jest liczony",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**INNER JOIN zamiast LEFT JOIN**: Rowery bez wypozyczen nie pojawia sie w wyniku",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**RIGHT JOIN**: Poprawna alternatywa (odwrocona kolejnosc tabel), ale mniej czytelna i na maturze rzadko uzywana",
+      "kara": ""
+    }
+  ]
+}

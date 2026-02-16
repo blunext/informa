@@ -1,0 +1,27 @@
+{
+  "id": "18.2",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2014 (Przychody)",
+  "tagi": [
+    "mnozenie-komorek",
+    "SUM"
+  ],
+  "tresc": "Sklep internetowy realizuje zamowienie:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Produkt** | **Cena jedn.** | **Ilosc** | **Wartosc** |\n| 2 | Zeszyt | 3.50 | 10 | ? |\n| 3 | Dlugopis | 2.80 | 5 | ? |\n| 4 | Linijka | 4.20 | 3 | ? |\n| 5 | Gumka | 1.50 | 8 | ? |\n| 6 | Olowek | 1.90 | 6 | ? |\n| 7 | | | **RAZEM:** | ? |\n\n**Polecenie**:\n1. Napisz formule w D2 obliczajaca wartosc pozycji (cena × ilosc).\n2. Napisz formule w D7 obliczajaca laczna wartosc zamowienia.",
+  "wskazowki": [
+    "**Kierunek**: Wartosc pozycji = cena jednostkowa × ilosc. Laczna wartosc = suma wszystkich pozycji.",
+    "**Podejscie**: D2 to mnozenie dwoch komorek. D7 to SUM zakresu D2:D6.",
+    "**Kluczowy krok**: Formula D2 jest kopiowana w dol do D6 — dzieki adresowaniu wzglednemu automatycznie dostosuje numery wierszy."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nD2: =B2*C2        (kopiowana w dol do D6)\nD7: =SUM(D2:D6)\n```\n\n**Wypelniona tabela:**\n\n| Produkt | Cena | Ilosc | Wartosc |\n|---------|------|-------|---------|\n| Zeszyt | 3.50 | 10 | 35.00 |\n| Dlugopis | 2.80 | 5 | 14.00 |\n| Linijka | 4.20 | 3 | 12.60 |\n| Gumka | 1.50 | 8 | 12.00 |\n| Olowek | 1.90 | 6 | 11.40 |\n| | | **RAZEM:** | **85.00** |\n\n**Weryfikacja:**\n- D2: 3.50 × 10 = 35.00\n- D3: 2.80 × 5 = 14.00\n- D4: 4.20 × 3 = 12.60\n- D5: 1.50 × 8 = 12.00\n- D6: 1.90 × 6 = 11.40\n- D7: 35.00 + 14.00 + 12.60 + 12.00 + 11.40 = 85.00\n\n**Wyjasnienie**: Mnozenie komorek (B2*C2) to najprostsza operacja w arkuszu. SUM sumuje caly zakres. Na maturze czesto trzeba najpierw obliczyc wartosci posrednie (kolumna D), a dopiero potem je zagregowac.",
+  "typowe_bledy": [
+    {
+      "opis": "**Wpisanie wartosci zamiast formuly**: D2: =3.50*10 zamiast =B2*C2 — strata elastycznosci, formula nie zaktualizuje sie przy zmianie danych",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**SUM na zlym zakresie**: =SUM(D2:D7) wlacza komorke RAZEM do sumy (odwolanie cykliczne)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

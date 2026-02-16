@@ -1,0 +1,35 @@
+{
+  "id": "23.5",
+  "trudnosc": "trudne",
+  "punkty": 4,
+  "zrodlo": "Matura 2019 (Perfumy)",
+  "tagi": [
+    "IS-NOT-NULL",
+    "IS-NULL",
+    "AND",
+    "OR",
+    "obliczenia-w-SELECT",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Pomiary**:\n\n| id | stacja | data | temp_min | temp_max | opady | wiatr |\n|----|--------|------|----------|----------|-------|-------|\n| 1 | Warszawa | 2024-01-15 | -5 | 2 | 0 | 15 |\n| 2 | Krakow | 2024-01-15 | -8 | -1 | 3 | 10 |\n| 3 | Gdansk | 2024-01-15 | -2 | 4 | NULL | 20 |\n| 4 | Warszawa | 2024-07-20 | 18 | 32 | 0 | 5 |\n| 5 | Krakow | 2024-07-20 | 16 | 29 | 12 | 8 |\n| 6 | Gdansk | 2024-07-20 | 15 | 25 | NULL | 18 |\n| 7 | Warszawa | 2024-03-10 | 2 | 10 | 5 | 12 |\n| 8 | Krakow | 2024-03-10 | 0 | 8 | 0 | 7 |\n| 9 | Gdansk | 2024-03-10 | 3 | 11 | 8 | 25 |\n| 10 | Warszawa | 2024-12-05 | -10 | -3 | 15 | 22 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli stacje, date, temperature minimalna i maksymalna oraz roznice temperatur (temp_max - temp_min) jako kolumne `amplituda` — ale tylko dla pomiarow spelniajacych WSZYSTKIE warunki:\n- opady nie sa NULL\n- opady sa wieksze od 0\n- wiatr jest wiekszy niz 10 LUB amplituda temperatur (temp_max - temp_min) jest wieksza niz 15\n\nPosortuj malejaco wg amplitudy.",
+  "wskazowki": [
+    "**Kierunek**: Trzy warunki, ale trzeci jest zlozony (OR wewnatrz AND).",
+    "**Podejscie**: IS NOT NULL + warunek na opady + nawiasy wokol OR.",
+    "**Kluczowy krok**: Nawiasy sa kluczowe: `AND (wiatr > 10 OR amplituda > 15)`. Bez nawiasow AND ma wyzszy priorytet niz OR."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT stacja, data, temp_min, temp_max,\n       (temp_max - temp_min) AS amplituda\nFROM Pomiary\nWHERE opady IS NOT NULL\n  AND opady > 0\n  AND (wiatr > 10 OR (temp_max - temp_min) > 15)\nORDER BY amplituda DESC;\n```\n\n**Weryfikacja**:\n\n| id | stacja | opady NOT NULL? | opady > 0? | wiatr>10 OR ampl>15? | amplituda | Wynik |\n|----|--------|----------------|-----------|---------------------|-----------|-------|\n| 2 | Krakow | ✓ (3) | ✓ | wiatr=10 ✗, ampl=7 ✗ | 7 | ✗ |\n| 5 | Krakow | ✓ (12) | ✓ | wiatr=8 ✗, ampl=13 ✗ | 13 | ✗ |\n| 7 | Warszawa | ✓ (5) | ✓ | wiatr=12 >10 ✓ | 8 | ✓ |\n| 9 | Gdansk | ✓ (8) | ✓ | wiatr=25 >10 ✓ | 8 | ✓ |\n| 10 | Warszawa | ✓ (15) | ✓ | wiatr=22 >10 ✓ | 7 | ✓ |\n\n| stacja | data | temp_min | temp_max | amplituda |\n|--------|------|----------|----------|-----------|\n| Warszawa | 2024-03-10 | 2 | 10 | 8 |\n| Gdansk | 2024-03-10 | 3 | 11 | 8 |\n| Warszawa | 2024-12-05 | -10 | -3 | 7 |\n\n**Wyjasnienie**: Kluczowe koncepty:\n1. **IS NOT NULL** — jedyny poprawny sposob sprawdzenia, czy wartosc nie jest NULL.\n2. **Nawiasy w zlozonym WHERE** — `AND (... OR ...)` wymaga nawiasow, bo AND ma wyzszy priorytet niz OR.\n3. **Kolumna obliczana** — `(temp_max - temp_min) AS amplituda` tworzy nowa kolumne w wyniku.",
+  "typowe_bledy": [
+    {
+      "opis": "**`!= NULL` zamiast `IS NOT NULL`**: `opady != NULL` zawsze zwraca NULL/FALSE — nic nie przejdzie tego filtra",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak nawiasow wokol OR**: Bez nawiasow wyrazenie jest interpretowane inaczej z powodu priorytetu AND > OR",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Alias w WHERE**: `WHERE amplituda > 15` — w wielu bazach nie mozna uzyc aliasu w WHERE. Trzeba powtorzyc wyrazenie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

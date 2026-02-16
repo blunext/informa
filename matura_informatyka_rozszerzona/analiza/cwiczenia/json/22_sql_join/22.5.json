@@ -1,0 +1,33 @@
+{
+  "id": "22.5",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2025 (Woda na Marsie)",
+  "tagi": [
+    "JOIN-wielotabelowy",
+    "DISTINCT",
+    "WHERE-z-JOIN",
+    "ORDER-BY-wielokolumnowy"
+  ],
+  "tresc": "Tabela **Bazy**:\n\n| id_bazy | nazwa_bazy | sektor |\n|---------|------------|--------|\n| 1 | Alfa | polnocny |\n| 2 | Beta | poludniowy |\n| 3 | Gamma | polnocny |\n\nTabela **Astronauci**:\n\n| id_astronauty | imie | nazwisko | id_bazy |\n|---------------|------|----------|---------|\n| 1 | Jan | Kowalski | 1 |\n| 2 | Anna | Nowak | 2 |\n| 3 | Piotr | Maj | 1 |\n| 4 | Ewa | Lis | 3 |\n| 5 | Kasia | Zak | 2 |\n\nTabela **Projekty**:\n\n| id_projektu | nazwa_projektu | data_rozpoczecia |\n|-------------|----------------|-----------------|\n| 1 | Terraformacja | 2024-01-15 |\n| 2 | Gornictwo | 2024-03-01 |\n| 3 | Energia solarna | 2024-06-10 |\n| 4 | Szklarnie | 2024-02-20 |\n\nTabela **Przydzialy**:\n\n| id_przydzialu | id_astronauty | id_projektu | rola |\n|---------------|---------------|-------------|------|\n| 1 | 1 | 1 | lider |\n| 2 | 2 | 1 | czlonek |\n| 3 | 3 | 2 | lider |\n| 4 | 1 | 3 | czlonek |\n| 5 | 4 | 2 | czlonek |\n| 6 | 5 | 4 | lider |\n| 7 | 2 | 3 | czlonek |\n| 8 | 3 | 4 | czlonek |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe bazy, imie i nazwisko astronauty, nazwe projektu oraz role — ale tylko dla projektow rozpoczetych przed '2024-04-01'. Kazda kombinacja baza-projekt powinna wystapic co najwyzej raz (uzyj DISTINCT). Posortuj wg nazwy bazy, nastepnie wg nazwy projektu.",
+  "wskazowki": [
+    "**Kierunek**: Cztery tabele — potrzebujesz trzech JOIN-ow tworzacych lancuch.",
+    "**Podejscie**: Bazy → Astronauci → Przydzialy → Projekty, z WHERE na date.",
+    "**Kluczowy krok**: Daty w formacie ISO (RRRR-MM-DD) mozna porownywac jako tekst: `data_rozpoczecia < '2024-04-01'`."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT DISTINCT B.nazwa_bazy, A.imie, A.nazwisko, P.nazwa_projektu, PR.rola\nFROM Bazy B\nJOIN Astronauci A ON B.id_bazy = A.id_bazy\nJOIN Przydzialy PR ON A.id_astronauty = PR.id_astronauty\nJOIN Projekty P ON PR.id_projektu = P.id_projektu\nWHERE P.data_rozpoczecia < '2024-04-01'\nORDER BY B.nazwa_bazy, P.nazwa_projektu;\n```\n\n**Weryfikacja**:\nProjekty rozpoczete przed 2024-04-01:\n- Terraformacja (2024-01-15 ✓)\n- Gornictwo (2024-03-01 ✓)\n- Szklarnie (2024-02-20 ✓)\n- Energia solarna (2024-06-10 ✗)\n\n| nazwa_bazy | imie | nazwisko | nazwa_projektu | rola |\n|------------|------|----------|----------------|------|\n| Alfa | Jan | Kowalski | Terraformacja | lider |\n| Alfa | Piotr | Maj | Gornictwo | lider |\n| Alfa | Piotr | Maj | Szklarnie | czlonek |\n| Beta | Anna | Nowak | Terraformacja | czlonek |\n| Beta | Kasia | Zak | Szklarnie | lider |\n| Gamma | Ewa | Lis | Gornictwo | czlonek |\n\n**Wyjasnienie**: Laczenie 4 tabel wymaga 3 JOIN-ow tworzacych lancuch: Bazy → Astronauci → Przydzialy → Projekty. DISTINCT zapewnia brak duplikatow. Porownanie dat w formacie ISO dziala jako porownanie tekstowe.",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledna kolejnosc JOIN-ow**: Proba polaczenia Bazy bezposrednio z Projekty — brak wspolnej kolumny",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Brak DISTINCT**: Jesli w danych bylyby duplikaty, wynik zawieralby powtorzenia",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Data bez apostrofow**: `WHERE data < 2024-04-01` — interpretowane jako wyrazenie arytmetyczne (2024 minus 4 minus 1 = 2019)",
+      "kara": "-2 pkt"
+    }
+  ]
+}

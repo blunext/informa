@@ -1,0 +1,29 @@
+{
+  "id": "12.7",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2023 zad. 3 (plateau)",
+  "tagi": [
+    "plateau",
+    "ciag-rownych",
+    "ciag-rosnacy",
+    "current-max"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 20 liczb calkowitych (kazda w osobnym wierszu). Fragment ciagu nazywamy \"niemalejacy\" jesli `T[i] <= T[i+1]` dla kazdej pary sasiadow w fragmencie (dopuszczamy rownosc). Znajdz najdluzszy spojny podciag niemalejacy.\n\n**Dane** (`dane.txt`):\n```\n3\n3\n5\n5\n5\n8\n10\n10\n12\n7\n4\n4\n6\n8\n8\n8\n11\n2\n9\n9\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy ciag niemalejacy:\nPozycja poczatkowa: 1, dlugosc: 9\nElementy: 3 3 5 5 5 8 10 10 12\n```",
+  "wskazowki": [
+    "**Kierunek**: Warunek niemalejacosci to `T[i] >= T[i-1]` (dozwolona rownosc).",
+    "**Podejscie**: Wzorzec current/max z `T[i] >= T[i-1]`.",
+    "**Kluczowy krok**: Niemalejacy = rosnacy + plateau. To laczy cwiczenia 12.1 i 12.2."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int maxDl = 1, maxStart = 0;\n    int curDl = 1, curStart = 0;\n\n    for (int i = 1; i < n; i++) {\n        if (T[i] >= T[i - 1]) {\n            curDl++;\n        } else {\n            if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n            curDl = 1; curStart = i;\n        }\n    }\n    if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n\n    cout << \"Najdluzszy ciag niemalejacy:\" << endl;\n    cout << \"Pozycja poczatkowa: \" << maxStart + 1 << \", dlugosc: \" << maxDl << endl;\n    cout << \"Elementy: \";\n    for (int i = maxStart; i < maxStart + maxDl; i++)\n        cout << T[i] << \" \";\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Jedyna zmiana wzgledem 12.2: warunek `>` zamieniony na `>=`. Dopuszczamy rowne elementy obok siebie.\n\nWeryfikacja:\n- Poz.1: 3,3,5,5,5,8,10,10,12 (dl.9) -> niemalejacy (kazdy >= poprzedniego)\n- Poz.10: 7 (dl.1, bo 12>7 przerwa)\n- Poz.11: 4,4,6,8,8,8,11 (dl.7, poz.11-17)\n- Poz.18: 2,9,9 (dl.3)\nNajdluzszy: dl.9 od poz.1.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie \"niemalejacy\" z \"rosnacy\"**: Niemalejacy dopuszcza rownosc (`>=`), rosnacy nie (`>`)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak aktualizacji po petli**: Jak we wszystkich cwiczeniach z wzorcem current/max",
+      "kara": "-2 pkt"
+    }
+  ]
+}

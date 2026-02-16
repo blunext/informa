@@ -1,0 +1,33 @@
+{
+  "id": "4.7",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2024 zad. 3 (algorytmy i struktury)",
+  "tagi": [
+    "sortowanie-zlozonosc",
+    "drzewa",
+    "grafy",
+    "struktury-danych"
+  ],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Algorytm sortowania przez scalanie (merge sort) ma zlozonosc O(n log n) zarowno w przypadku optymistycznym, jak i pesymistycznym. | |\n| b) | Graf nieskierowany o n wierzcholkach i n-1 krawedziach jest zawsze drzewem. | |\n| c) | W drzewie o n wierzcholkach jest dokladnie n-1 krawedzi. | |\n| d) | Algorytm BFS (przeszukiwanie wszerz) uzywa stosu jako struktury pomocniczej. | |",
+  "wskazowki": [
+    "**Kierunek**: Merge sort zawsze dzieli na polowy i scala — niezaleznie od danych. BFS uzywa kolejki, DFS uzywa stosu.",
+    "**Podejscie**: Graf o n wierzcholkach i n-1 krawedziach to drzewo TYLKO jezeli jest spojny.",
+    "**Kluczowy krok**: BFS = kolejka (FIFO), DFS = stos (LIFO). To CZESTY blad na maturze."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | Merge sort zawsze dzieli tablice na polowy, sortuje kazda rekurencyjnie i scala. Koszt scalania na kazdym poziomie to O(n), a poziomow jest log2(n). Stad O(n log n) w KAZDYM przypadku (optymistycznym, srednim, pesymistycznym). |\n| b) | **F** | Graf o n wierzcholkach i n-1 krawedziach jest drzewem TYLKO jezeli jest spojny. Niespojny graf moze miec n wierzcholkow i n-1 krawedzi (np. cykl na 3 wierzcholkach + izolowany wierzcholek = 4 wierzcholki, 3 krawedzie). |\n| c) | **P** | Kazde drzewo (spojny graf acykliczny) o n wierzcholkach ma dokladnie n-1 krawedzi. To podstawowa wlasnosc drzew. |\n| d) | **F** | BFS uzywa KOLEJKI (FIFO), nie stosu. To DFS (przeszukiwanie w glab) uzywa stosu (LIFO, lub niejawnie — przez rekurencje). |\n\nOdpowiedzi: a) P, b) F, c) P, d) F",
+  "typowe_bledy": [
+    {
+      "opis": "**BFS = stos, DFS = kolejka**: Odwrotnie! BFS = kolejka (FIFO), DFS = stos (LIFO)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**n wierzcholkow + n-1 krawedzi = drzewo**: Brakuje warunku spojnosci!",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Merge sort O(n^2) w pesymistycznym**: Merge sort ma O(n log n) ZAWSZE. To quicksort ma O(n^2) pesymistycznie",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

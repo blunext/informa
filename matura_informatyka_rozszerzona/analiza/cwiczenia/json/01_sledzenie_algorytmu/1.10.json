@@ -1,0 +1,37 @@
+{
+  "id": "1.10",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2015 zad. 1 (listy, sledzenie zlozonych algorytmow)",
+  "tagi": [
+    "rekurencja",
+    "drzewo-wywolan",
+    "tablica-pomocnicza",
+    "sledzenie-iteracyjne"
+  ],
+  "tresc": "Dana jest funkcja rekurencyjna operujaca na tablicy:\n\n```\nfunkcja tajemnicza(T, lewy, prawy)\n    jezeli lewy >= prawy:\n        zwroc T[lewy]\n    srodek := (lewy + prawy) div 2\n    L := tajemnicza(T, lewy, srodek)\n    P := tajemnicza(T, srodek + 1, prawy)\n    jezeli L > P:\n        zwroc L\n    w przeciwnym razie:\n        zwroc P\n```\n\n**Polecenie**: Dla tablicy T = [3, 7, 2, 9, 1, 5, 8, 4] (indeksy 0..7):\n- a) Narysuj pelne drzewo wywolan `tajemnicza(T, 0, 7)`. Przy kazdym wezle zapisz zakres [lewy, prawy] i wartosc zwracana.\n- b) Podaj calkowita liczbe wywolan funkcji.\n- c) Jaki problem rozwiazuje ta funkcja? Co zwroci dla dowolnej tablicy?",
+  "wskazowki": [
+    "**Kierunek**: Funkcja dzieli tablice na polowy (lewy..srodek i srodek+1..prawy) i laczy wyniki. To schemat \"dziel i zwyciezaj\".",
+    "**Podejscie**: Zacznij od tajemnicza(T, 0, 7), srodek = 3. Lewa galaz: tajemnicza(T, 0, 3), prawa: tajemnicza(T, 4, 7). Kazda dalej sie dzieli.",
+    "**Kluczowy krok**: Warunek bazowy to lewy >= prawy (jednoelementowy zakres — zwroc T[lewy]). Operacja laczenia to `max(L, P)`."
+  ],
+  "odpowiedz": "T = [3, 7, 2, 9, 1, 5, 8, 4]\n\n**a) Drzewo wywolan:**\n\n```\ntajemnicza(0,7) srodek=3\n├── tajemnicza(0,3) srodek=1\n│   ├── tajemnicza(0,1) srodek=0\n│   │   ├── tajemnicza(0,0) -> T[0]=3\n│   │   └── tajemnicza(1,1) -> T[1]=7\n│   │   => max(3,7) = 7\n│   └── tajemnicza(2,3) srodek=2\n│       ├── tajemnicza(2,2) -> T[2]=2\n│       └── tajemnicza(3,3) -> T[3]=9\n│       => max(2,9) = 9\n│   => max(7,9) = 9\n└── tajemnicza(4,7) srodek=5\n    ├── tajemnicza(4,5) srodek=4\n    │   ├── tajemnicza(4,4) -> T[4]=1\n    │   └── tajemnicza(5,5) -> T[5]=5\n    │   => max(1,5) = 5\n    └── tajemnicza(6,7) srodek=6\n        ├── tajemnicza(6,6) -> T[6]=8\n        └── tajemnicza(7,7) -> T[7]=4\n        => max(8,4) = 8\n    => max(5,8) = 8\n=> max(9,8) = 9\n```\n\n**b) Calkowita liczba wywolan:**\n\n- Poziom 0: 1 wywolanie (0,7)\n- Poziom 1: 2 wywolania (0,3), (4,7)\n- Poziom 2: 4 wywolania (0,1), (2,3), (4,5), (6,7)\n- Poziom 3: 8 wywolan (bazowe) (0,0), (1,1), (2,2), (3,3), (4,4), (5,5), (6,6), (7,7)\n\nRazem: 1 + 2 + 4 + 8 = **15 wywolan**\n\n**c)** Funkcja znajduje **maksymalny element** tablicy metoda dziel i zwyciezaj. Dla dowolnej tablicy zwroci jej element najwiekszy.\n\nWeryfikacja: max(3, 7, 2, 9, 1, 5, 8, 4) = 9. Poprawne.",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledny obliczenie srodka**: srodek = (lewy+prawy) div 2, nie (lewy+prawy)/2. Dla (0+7) div 2 = 3, nie 3.5",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pomylenie zakresu prawej polowy**: Prawa polowa to [srodek+1, prawy], nie [srodek, prawy] (co daloby nieskonczona rekurencje)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Niedokonczone drzewo**: Kazda galaz musi dojsc do warunku bazowego lewy>=prawy",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pomylenie max i min**: Warunek `L > P` oznacza, ze zwracamy wieksza wartosc (maximum)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

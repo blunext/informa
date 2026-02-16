@@ -1,0 +1,34 @@
+{
+  "id": "20.16",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2024 (Hurtownia)",
+  "tagi": [
+    "GROUP-BY",
+    "SUM",
+    "JOIN-z-GROUP-BY",
+    "wielokolumnowe-grupowanie",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Oddzialy**:\n\n| id | nazwa | miasto |\n|----|-------|--------|\n| 1 | Centrala | Warszawa |\n| 2 | Poludnie | Krakow |\n| 3 | Polnoc | Gdansk |\n\nTabela **Sprzedawcy**:\n\n| id | imie | id_oddzialu |\n|----|------|-------------|\n| 1 | Anna | 1 |\n| 2 | Jan | 1 |\n| 3 | Ewa | 2 |\n| 4 | Piotr | 3 |\n| 5 | Kasia | 2 |\n\nTabela **Sprzedaz**:\n\n| id | id_sprzedawcy | miesiac | kwota |\n|----|---------------|---------|-------|\n| 1 | 1 | 01 | 5000 |\n| 2 | 1 | 02 | 6200 |\n| 3 | 2 | 01 | 4500 |\n| 4 | 3 | 01 | 7800 |\n| 5 | 3 | 02 | 3200 |\n| 6 | 4 | 01 | 2100 |\n| 7 | 4 | 02 | 4800 |\n| 8 | 5 | 01 | 3500 |\n| 9 | 2 | 02 | 5100 |\n| 10 | 5 | 02 | 4200 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego miasta oddzialu i kazdego miesiaca wyswietli laczna kwote sprzedazy. Posortuj wg miasta, potem wg miesiaca.",
+  "wskazowki": [
+    "**Kierunek**: Musisz polaczyc trzy tabele i pogrupowac po dwoch kolumnach.",
+    "**Podejscie**: JOIN Oddzialy → Sprzedawcy → Sprzedaz, GROUP BY (miasto, miesiac).",
+    "**Kluczowy krok**: Lancuch JOIN-ow: O.id = S.id_oddzialu i S.id = SP.id_sprzedawcy. GROUP BY z dwoma kolumnami tworzy osobna grupe dla kazdej pary (miasto, miesiac)."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT O.miasto, SP.miesiac, SUM(SP.kwota) AS suma_sprzedazy\nFROM Oddzialy O\nJOIN Sprzedawcy S ON O.id = S.id_oddzialu\nJOIN Sprzedaz SP ON S.id = SP.id_sprzedawcy\nGROUP BY O.miasto, SP.miesiac\nORDER BY O.miasto, SP.miesiac;\n```\n\n**Weryfikacja**:\nGdansk (oddz. 3, sprzedawca Piotr=4):\n- 01: 2100 → **2100**\n- 02: 4800 → **4800**\n\nKrakow (oddz. 2, sprzedawcy Ewa=3, Kasia=5):\n- 01: 7800+3500 = **11300**\n- 02: 3200+4200 = **7400**\n\nWarszawa (oddz. 1, sprzedawcy Anna=1, Jan=2):\n- 01: 5000+4500 = **9500**\n- 02: 6200+5100 = **11300**\n\n| miasto | miesiac | suma_sprzedazy |\n|--------|---------|----------------|\n| Gdansk | 01 | 2100 |\n| Gdansk | 02 | 4800 |\n| Krakow | 01 | 11300 |\n| Krakow | 02 | 7400 |\n| Warszawa | 01 | 9500 |\n| Warszawa | 02 | 11300 |\n\n**Wyjasnienie**: Trzy JOIN-y tworzace lancuch: Oddzialy → Sprzedawcy → Sprzedaz. Kazdy sprzedawca nalezy do oddzialu, a kazda sprzedaz do sprzedawcy. GROUP BY z dwoma kolumnami (miasto, miesiac) agreguje kwoty dla kazdej pary.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak jednego JOIN**: Pominiecie tabeli Sprzedawcy — nie mozna polaczyc Oddzialow ze Sprzedaza bezposrednio",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**GROUP BY po jednej kolumnie**: Grupowanie tylko po miescie laczy oba miesiace razem",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pomylenie kolumn JOIN**: O.id = SP.id_sprzedawcy zamiast S.id = SP.id_sprzedawcy — laczenie po zlych kluczach",
+      "kara": "-3 pkt"
+    }
+  ]
+}

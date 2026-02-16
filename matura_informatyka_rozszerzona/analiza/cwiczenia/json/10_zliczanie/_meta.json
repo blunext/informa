@@ -1,0 +1,139 @@
+{
+  "typ": "10_zliczanie",
+  "nazwa": "Zliczanie i filtrowanie",
+  "kategoria": "IMPLEMENTACJA",
+  "czestotliwosc": "5/11 lat",
+  "punkty_lacznie": 33,
+  "tagi_globalne": [
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "parzystosc",
+    "tablica-czestotliwosci",
+    "kody-ASCII",
+    "zliczanie-znakow",
+    "cyfry-mod-div",
+    "suma-cyfr",
+    "podzielnosc",
+    "map-zliczanie",
+    "moda-statystyczna",
+    "unikalnosc",
+    "liczby-pierwsze",
+    "podwojna-petla",
+    "wiele-plikow",
+    "przedzialy",
+    "napisy",
+    "pary-elementow",
+    "grupowanie",
+    "struct",
+    "sortowanie"
+  ],
+  "cwiczenia": [
+    {
+      "id": "10.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "parzystosc"
+      ]
+    },
+    {
+      "id": "10.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "tablica-czestotliwosci",
+        "kody-ASCII",
+        "zliczanie-znakow"
+      ]
+    },
+    {
+      "id": "10.3",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "cyfry-mod-div",
+        "suma-cyfr",
+        "podzielnosc",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "10.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "map-zliczanie",
+        "moda-statystyczna",
+        "unikalnosc"
+      ]
+    },
+    {
+      "id": "10.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "podzielnosc",
+        "liczby-pierwsze",
+        "podwojna-petla",
+        "wiele-plikow"
+      ]
+    },
+    {
+      "id": "10.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "przedzialy"
+      ]
+    },
+    {
+      "id": "10.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "napisy",
+        "filtrowanie",
+        "wczytywanie-pliku",
+        "zliczanie-znakow"
+      ]
+    },
+    {
+      "id": "10.8",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "pary-elementow",
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "podzielnosc"
+      ]
+    },
+    {
+      "id": "10.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "map-zliczanie",
+        "grupowanie",
+        "struct",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "10.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "map-zliczanie",
+        "podwojna-petla",
+        "sortowanie",
+        "filtrowanie",
+        "struct"
+      ]
+    }
+  ]
+}

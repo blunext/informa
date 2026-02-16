@@ -1,0 +1,39 @@
+{
+  "id": "9.10",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Matura 2025 zad. 7 (rozszerzony)",
+  "tagi": [
+    "wieloetapowe",
+    "wiele-plikow",
+    "JOIN-tabel",
+    "grupowanie",
+    "sortowanie",
+    "iomanip"
+  ],
+  "tresc": "Dane sa 3 tabele: zawodnicy (`zawodnicy.txt`: id imie kraj), zawody (`zawody.txt`: id nazwa), wyniki (`wyniki.txt`: zaw_id zaw_id2 czas). Czas jest w sekundach (int). Napisz program, ktory:\na) Obliczy najlepszy (najkrotszy) czas kazdego zawodnika.\nb) Wypisze ranking zawodnikow wg najlepszego czasu (rosnaco).\nc) Obliczy sredni najlepszy czas dla kazdego kraju.\n\n**Dane** (`zawodnicy.txt`):\n```\n1 Kowalski POL\n2 Nowak POL\n3 Mueller GER\n4 Schmidt GER\n5 Smith USA\n```\n\n**Dane** (`zawody.txt`):\n```\n101 Sprint\n102 Maraton\n```\n\n**Dane** (`wyniki.txt`):\n```\n1 101 12\n1 102 240\n2 101 11\n2 102 235\n3 101 13\n3 102 250\n4 101 12\n4 102 238\n5 101 10\n5 102 230\n```\n\n**Oczekiwany wynik**:\n```\na) Najlepszy czas kazdego zawodnika:\n   Kowalski: 12s (Sprint)\n   Nowak: 11s (Sprint)\n   Mueller: 13s (Sprint)\n   Schmidt: 12s (Sprint)\n   Smith: 10s (Sprint)\n\nb) Ranking wg najlepszego czasu:\n   1. Smith (10s)\n   2. Nowak (11s)\n   3. Kowalski (12s)\n   4. Schmidt (12s)\n   5. Mueller (13s)\n\nc) Sredni najlepszy czas wg kraju:\n   GER: 12.50s\n   POL: 11.50s\n   USA: 10.00s\n```",
+  "wskazowki": [
+    "**Kierunek**: JOIN trzech tabel. Dla kazdego zawodnika znajdz min czas.",
+    "**Podejscie**: Mapa min czasow: `map<int, int>` (id -> min czas). Potem JOIN z zawodnikami.",
+    "**Kluczowy krok**: Aby znalezc nazwe zawodow dla min czasu, potrzebna jest dodatkowa mapa `id -> (zaw_id2, czas)`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream f1(\"zawodnicy.txt\"), f2(\"zawody.txt\"), f3(\"wyniki.txt\");\n    map<int, pair<string, string>> zaw; // id -> (imie, kraj)\n    int id;\n    string imie, kraj;\n    while (f1 >> id >> imie >> kraj) zaw[id] = {imie, kraj};\n\n    map<int, string> zawody; // id -> nazwa\n    string nazwa;\n    while (f2 >> id >> nazwa) zawody[id] = nazwa;\n\n    map<int, int> minCzas;\n    map<int, int> minZawody;\n    int zid, zawid, czas;\n    while (f3 >> zid >> zawid >> czas) {\n        if (!minCzas.count(zid) || czas < minCzas[zid]) {\n            minCzas[zid] = czas;\n            minZawody[zid] = zawid;\n        }\n    }\n\n    // a) Najlepszy czas\n    cout << \"a) Najlepszy czas kazdego zawodnika:\" << endl;\n    for (auto &z : zaw) {\n        cout << \"   \" << z.second.first << \": \" << minCzas[z.first]\n             << \"s (\" << zawody[minZawody[z.first]] << \")\" << endl;\n    }\n\n    // b) Ranking\n    vector<pair<int, string>> ranking;\n    for (auto &z : zaw) ranking.push_back({minCzas[z.first], z.second.first});\n    sort(ranking.begin(), ranking.end());\n\n    cout << endl << \"b) Ranking wg najlepszego czasu:\" << endl;\n    for (int i = 0; i < ranking.size(); i++) {\n        cout << \"   \" << i+1 << \". \" << ranking[i].second\n             << \" (\" << ranking[i].first << \"s)\" << endl;\n    }\n\n    // c) Sredni najlepszy czas wg kraju\n    map<string, vector<int>> krajCzasy;\n    for (auto &z : zaw) krajCzasy[z.second.second].push_back(minCzas[z.first]);\n\n    cout << endl << \"c) Sredni najlepszy czas wg kraju:\" << endl;\n    cout << fixed << setprecision(2);\n    for (auto &k : krajCzasy) {\n        double suma = 0;\n        for (int c : k.second) suma += c;\n        cout << \"   \" << k.first << \": \" << suma / k.second.size() << \"s\" << endl;\n    }\n    return 0;\n}\n```\n\nWeryfikacja:\n- Kowalski: min(12, 240) = 12 (Sprint)\n- Nowak: min(11, 235) = 11 (Sprint)\n- Mueller: min(13, 250) = 13 (Sprint)\n- Schmidt: min(12, 238) = 12 (Sprint)\n- Smith: min(10, 230) = 10 (Sprint)\n- Ranking: Smith(10), Nowak(11), Kowalski(12), Schmidt(12), Mueller(13)\n- POL: (12+11)/2=11.50, GER: (13+12)/2=12.50, USA: 10/1=10.00",
+  "typowe_bledy": [
+    {
+      "opis": "**Szukanie min bez inicjalizacji**: `minCzas[id]` tworzy wpis z wartoscia 0. Trzeba sprawdzic czy klucz istnieje",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Sortowanie po imieniu zamiast po czasie**: `pair<string, int>` sortuje po stringu. Uzyj `pair<int, string>`",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pomieszanie \"sredni czas\" ze \"sredni najlepszy czas\"**: Srednia najlepszych czasow != srednia wszystkich czasow",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak JOIN z tabela zawodow**: Aby podac nazwe zawodow, trzeba polaczyc po `zawid`",
+      "kara": "-1 pkt"
+    }
+  ]
+}

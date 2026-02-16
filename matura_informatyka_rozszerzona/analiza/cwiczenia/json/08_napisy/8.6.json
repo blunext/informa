@@ -1,0 +1,32 @@
+{
+  "id": "8.6",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2023 zad. 2 (zliczanie znakow)",
+  "tagi": [
+    "zliczanie-znakow",
+    "operacje-na-string",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 8 napisow skladajacych sie z malych liter a-z (kazdy w osobnym wierszu). Napisz program, ktory dla kazdego napisu:\na) Poda najczesciej wystepujaca litere.\nb) Sprawdzi, czy napis zawiera wszystkie samogloski (a, e, i, o, u).\n\n**Dane** (`napisy.txt`):\n```\nabrakadabra\nprogramowanie\nelement\nuczucie\nala\ninformatyka\neducation\neuforyczny\n```\n\n**Oczekiwany wynik**:\n```\nabrakadabra: najczestsza='a' (5x), samogloski aeiou: a=5 e=0 i=0 o=0 u=0 -> NIE\nprogramowanie: najczestsza='a' (2x), samogloski aeiou: a=2 e=1 i=1 o=2 u=0 -> NIE\nelement: najczestsza='e' (3x), samogloski aeiou: a=0 e=3 i=0 o=0 u=0 -> NIE\nuczucie: najczestsza='c' (2x), samogloski aeiou: a=0 e=1 i=1 o=0 u=2 -> NIE\nala: najczestsza='a' (2x), samogloski aeiou: a=2 e=0 i=0 o=0 u=0 -> NIE\ninformatyka: najczestsza='a' (2x), samogloski aeiou: a=2 e=0 i=1 o=1 u=0 -> NIE\neducation: najczestsza='a' (1x), samogloski aeiou: a=1 e=1 i=1 o=1 u=1 -> TAK\neuforyczny: najczestsza='y' (2x), samogloski aeiou: a=0 e=1 i=0 o=1 u=1 -> NIE\nNapisy ze wszystkimi samogloskami: 1\n```",
+  "wskazowki": [
+    "**Kierunek**: Tablica czestotliwosci `int freq[26]` indeksowana `c - 'a'`.",
+    "**Podejscie**: Zlicz kazda litere, znajdz max, sprawdz czy freq['a'-'a'], freq['e'-'a'], ... sa > 0.",
+    "**Kluczowy krok**: Samogloski to {a, e, i, o, u}. Wszystkie musza miec freq > 0."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    string samogloski = \"aeiou\";\n    int ileWszystkie = 0;\n\n    while (plik >> s) {\n        int freq[26] = {0};\n        for (char c : s) freq[c - 'a']++;\n\n        // Najczestsza litera\n        int maxF = 0;\n        char maxC = 'a';\n        for (int i = 0; i < 26; i++) {\n            if (freq[i] > maxF) { maxF = freq[i]; maxC = 'a' + i; }\n        }\n\n        // Samogloski\n        cout << s << \": najczestsza='\" << maxC << \"' (\" << maxF << \"x), samogloski aeiou: \";\n        bool wszystkie = true;\n        for (int i = 0; i < 5; i++) {\n            char v = samogloski[i];\n            cout << v << \"=\" << freq[v - 'a'];\n            if (i < 4) cout << \" \";\n            if (freq[v - 'a'] == 0) wszystkie = false;\n        }\n        cout << \" -> \" << (wszystkie ? \"TAK\" : \"NIE\") << endl;\n        if (wszystkie) ileWszystkie++;\n    }\n    cout << \"Napisy ze wszystkimi samogloskami: \" << ileWszystkie << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- abrakadabra: a=5,b=2,r=2,k=1,d=1 -> najczestsza 'a'(5). Samogloski: a=5,e=0,i=0,o=0,u=0 -> NIE\n- education: e=1,d=1,u=1,c=1,a=1,t=1,i=1,o=1,n=1 -> najczestsza wiele po 1x, pierwsza 'a'. Samogloski: a=1,e=1,i=1,o=1,u=1 -> TAK",
+  "typowe_bledy": [
+    {
+      "opis": "**Tablica freq o rozmiarze 10 zamiast 26**: Wyjscie poza zakres dla liter dalszych niz 'j'",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o inicjalizacji tablicy zerami**: W C++ `int freq[26]` bez `= {0}` ma losowe wartosci",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Sprawdzenie samoglosek polskich (a, e) zamiast lacinskich (a, e, i, o, u)**: Zadanie mowi o alfabecie lacinskim",
+      "kara": "-1 pkt"
+    }
+  ]
+}

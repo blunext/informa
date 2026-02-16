@@ -1,0 +1,28 @@
+{
+  "id": "22.13",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2016",
+  "tagi": [
+    "LEFT-JOIN",
+    "COUNT-z-LEFT-JOIN",
+    "GROUP-BY-z-JOIN"
+  ],
+  "tresc": "Tabela **Autorzy**:\n\n| id | imie | nazwisko |\n|----|------|----------|\n| 1 | Adam | Mickiewicz |\n| 2 | Henryk | Sienkiewicz |\n| 3 | Wislawa | Szymborska |\n| 4 | Olga | Tokarczuk |\n\nTabela **Ksiazki**:\n\n| id | tytul | id_autora | rok |\n|----|-------|-----------|-----|\n| 1 | Pan Tadeusz | 1 | 1834 |\n| 2 | Dziady | 1 | 1823 |\n| 3 | Quo Vadis | 2 | 1896 |\n| 4 | Potop | 2 | 1886 |\n| 5 | Bieguni | 4 | 2007 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko kazdego autora oraz liczbe jego ksiazek. Pokaz WSZYSTKICH autorow, nawet tych bez ksiazek (dla nich liczba = 0). Posortuj malejaco wg liczby ksiazek, potem alfabetycznie wg nazwiska.",
+  "wskazowki": [
+    "**Kierunek**: INNER JOIN odrzuca autorow bez ksiazek — potrzebujesz LEFT JOIN.",
+    "**Podejscie**: LEFT JOIN zachowuje WSZYSTKIE wiersze z lewej tabeli (Autorzy).",
+    "**Kluczowy krok**: COUNT(K.id) zamiast COUNT(*) — COUNT(*) daje 1 zamiast 0 dla autorow bez ksiazek."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT A.imie, A.nazwisko, COUNT(K.id) AS liczba_ksiazek\nFROM Autorzy A\nLEFT JOIN Ksiazki K ON A.id = K.id_autora\nGROUP BY A.imie, A.nazwisko\nORDER BY liczba_ksiazek DESC, A.nazwisko;\n```\n\n**Weryfikacja**:\n- Adam Mickiewicz: Pan Tadeusz, Dziady → **2**\n- Henryk Sienkiewicz: Quo Vadis, Potop → **2**\n- Olga Tokarczuk: Bieguni → **1**\n- Wislawa Szymborska: brak → **0**\n\n| imie | nazwisko | liczba_ksiazek |\n|------|----------|---------------|\n| Adam | Mickiewicz | 2 |\n| Henryk | Sienkiewicz | 2 |\n| Olga | Tokarczuk | 1 |\n| Wislawa | Szymborska | 0 |\n\n**Wyjasnienie**: LEFT JOIN + COUNT(kolumna z prawej tabeli) + GROUP BY to standardowy wzorzec \"policz powiazane rekordy, w tym zerowe\".",
+  "typowe_bledy": [
+    {
+      "opis": "**COUNT(*)**: Daje 1 zamiast 0 dla Szymborskiej — LEFT JOIN tworzy jeden wiersz z NULL, COUNT(*) go liczy",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**INNER JOIN**: Szymborska nie pojawi sie w wyniku",
+      "kara": "-2 pkt"
+    }
+  ]
+}

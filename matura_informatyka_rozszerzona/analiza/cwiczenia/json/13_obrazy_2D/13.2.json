@@ -1,0 +1,28 @@
+{
+  "id": "13.2",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Matura 2025 zad. 2.2 (kwadraty 3x3)",
+  "tagi": [
+    "kwadraty",
+    "tablica-2D",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Dana jest siatka 8x8 znakow zapisana w pliku `siatka.txt`. Napisz program, ktory znajdzie wszystkie kwadraty 2x2 wypelnione tym samym znakiem. Podaj wspolrzedne lewego gornego rogu (wiersz, kolumna, numerowane od 1) i znak.\n\n**Dane** (`siatka.txt`):\n```\nA B B C D E F G\nA B B C D E F G\nH I J K L M N O\nP Q R S T U V W\nX Y Z A B C C D\nE F G H I C C D\nK L M N O P Q R\nS T U V W X Y Z\n```\n\n**Oczekiwany wynik**:\n```\nKwadraty 2x2 jednorodne:\n(1,2): B\n(5,6): C\nIlosc: 2\n```",
+  "wskazowki": [
+    "**Kierunek**: Iteruj po wszystkich mozliwych lewych gornych rogach (0..rows-2, 0..cols-2).",
+    "**Podejscie**: Sprawdz czy 4 komorki: [i][j], [i][j+1], [i+1][j], [i+1][j+1] maja ten sam znak.",
+    "**Kluczowy krok**: Petla po `i < 7` i `j < 7` (nie `<= 7`), bo kwadrat 2x2 zaczyna sie o 1 przed koncem."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    char tab[8][8];\n    for (int i = 0; i < 8; i++)\n        for (int j = 0; j < 8; j++)\n            plik >> tab[i][j];\n\n    cout << \"Kwadraty 2x2 jednorodne:\" << endl;\n    int ile = 0;\n    for (int i = 0; i < 7; i++) {\n        for (int j = 0; j < 7; j++) {\n            char c = tab[i][j];\n            if (tab[i][j+1] == c && tab[i+1][j] == c && tab[i+1][j+1] == c) {\n                cout << \"(\" << i+1 << \",\" << j+1 << \"): \" << c << endl;\n                ile++;\n            }\n        }\n    }\n    cout << \"Ilosc: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Iterujemy po wszystkich mozliwych pozycjach lewego gornego rogu (0..6, 0..6 dla siatki 8x8). Sprawdzamy czy 4 komorki kwadratu 2x2 maja ten sam znak.\n\nWeryfikacja: Jedyne kwadraty 2x2 jednorodne w tej siatce:\n- (1,2): tab[0][1]=B, tab[0][2]=B, tab[1][1]=B, tab[1][2]=B -> B\n- (5,6): tab[4][5]=C, tab[4][6]=C, tab[5][5]=C, tab[5][6]=C -> C",
+  "typowe_bledy": [
+    {
+      "opis": "**Petla do `<= 7` zamiast `< 7`**: Kwadrat 2x2 o rogu w (7,7) wychodzi poza tablice",
+      "kara": ""
+    },
+    {
+      "opis": "**Sprawdzanie 3 z 4 komorek**: Zapomnienie o jednej z 4 komorek kwadratu",
+      "kara": "-1 pkt"
+    }
+  ]
+}

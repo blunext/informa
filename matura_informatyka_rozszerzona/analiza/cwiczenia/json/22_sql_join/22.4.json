@@ -1,0 +1,28 @@
+{
+  "id": "22.4",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2022 (Ewidencja uczniow)",
+  "tagi": [
+    "JOIN-wielotabelowy",
+    "WHERE-z-JOIN",
+    "ORDER-BY-wielokolumnowy"
+  ],
+  "tresc": "Tabela **Nauczyciele**:\n\n| id_nauczyciela | imie | nazwisko |\n|----------------|------|----------|\n| 1 | Jan | Kowalski |\n| 2 | Anna | Nowak |\n| 3 | Ewa | Maj |\n\nTabela **Przedmioty**:\n\n| id_przedmiotu | nazwa_przedmiotu |\n|---------------|------------------|\n| 1 | Matematyka |\n| 2 | Fizyka |\n| 3 | Angielski |\n| 4 | Informatyka |\n\nTabela **Lekcje**:\n\n| id_lekcji | id_nauczyciela | id_przedmiotu | klasa | dzien_tygodnia |\n|-----------|----------------|---------------|-------|----------------|\n| 1 | 1 | 1 | 1A | poniedzialek |\n| 2 | 1 | 1 | 2B | wtorek |\n| 3 | 2 | 3 | 1A | poniedzialek |\n| 4 | 2 | 3 | 1B | sroda |\n| 5 | 3 | 4 | 2A | czwartek |\n| 6 | 1 | 2 | 1A | sroda |\n| 7 | 3 | 4 | 1A | piatek |\n| 8 | 2 | 3 | 2A | wtorek |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko nauczyciela, nazwe przedmiotu oraz klase — ale tylko dla lekcji w klasie '1A'. Posortuj wg dnia tygodnia.",
+  "wskazowki": [
+    "**Kierunek**: Trzy tabele laczone dwoma JOIN-ami, plus filtr WHERE.",
+    "**Podejscie**: Lekcje → Nauczyciele (po id_nauczyciela) → Przedmioty (po id_przedmiotu), WHERE klasa = '1A'.",
+    "**Kluczowy krok**: Sortowanie tekstowe po dniu tygodnia — 'czwartek' < 'piatek' < 'poniedzialek' < 'sroda'."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT N.imie, N.nazwisko, P.nazwa_przedmiotu, L.klasa, L.dzien_tygodnia\nFROM Lekcje L\nJOIN Nauczyciele N ON L.id_nauczyciela = N.id_nauczyciela\nJOIN Przedmioty P ON L.id_przedmiotu = P.id_przedmiotu\nWHERE L.klasa = '1A'\nORDER BY L.dzien_tygodnia;\n```\n\n**Weryfikacja**:\nLekcje w klasie 1A: id_lekcji = 1, 3, 6, 7\n\n| imie | nazwisko | nazwa_przedmiotu | klasa | dzien_tygodnia |\n|------|----------|------------------|-------|----------------|\n| Ewa | Maj | Informatyka | 1A | piatek |\n| Jan | Kowalski | Matematyka | 1A | poniedzialek |\n| Anna | Nowak | Angielski | 1A | poniedzialek |\n| Jan | Kowalski | Fizyka | 1A | sroda |\n\n**Uwaga**: Sortowanie alfabetyczne wg dnia tygodnia (nie chronologiczne). Gdyby matura wymagala sortowania chronologicznego, potrzebna bylaby kolumna z numerem dnia lub CASE WHEN.\n\n**Wyjasnienie**: Trzy tabele laczone dwoma JOIN-ami, z dodatkowym filtrem WHERE. Kolejnosc: najpierw JOIN laczy wszystkie powiazane wiersze, potem WHERE filtruje wynik.",
+  "typowe_bledy": [
+    {
+      "opis": "**Warunek w ON zamiast WHERE**: `JOIN ... ON ... AND klasa = '1A'` — przy INNER JOIN wynik ten sam, ale przy LEFT JOIN inny. Na maturze bezpieczniej filtrowac w WHERE",
+      "kara": ""
+    },
+    {
+      "opis": "**Brak jednego JOIN**: Bez JOIN z Przedmioty nie uzyskamy nazwy przedmiotu",
+      "kara": "-2 pkt"
+    }
+  ]
+}

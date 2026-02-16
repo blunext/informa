@@ -1,0 +1,32 @@
+{
+  "id": "19.4",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "COUNTIFS",
+    "tabela-krzyzowa",
+    "odwolania-mieszane"
+  ],
+  "tresc": "Przeprowadzono ankiete z 4 pytaniami. Kazda odpowiedz to A, B, C lub D:\n\n| | A | B |\n|---|---|---|\n| 1 | **Pytanie** | **Odpowiedz** |\n| 2 | P1 | A |\n| 3 | P1 | B |\n| 4 | P1 | A |\n| 5 | P1 | C |\n| 6 | P1 | A |\n| 7 | P2 | B |\n| 8 | P2 | B |\n| 9 | P2 | D |\n| 10 | P2 | A |\n| 11 | P2 | B |\n| 12 | P3 | C |\n| 13 | P3 | C |\n| 14 | P3 | A |\n| 15 | P3 | B |\n| 16 | P3 | C |\n\nChcemy utworzyc tabele krzyzowa: pytanie (wiersz) × odpowiedz (kolumna) z liczba wystapien:\n\n| | D | E | F | G | H |\n|---|---|---|---|---|---|\n| 1 | | **A** | **B** | **C** | **D** |\n| 2 | **P1** | ? | ? | ? | ? |\n| 3 | **P2** | ? | ? | ? | ? |\n| 4 | **P3** | ? | ? | ? | ? |\n\n**Polecenie**: Napisz formule w E2, ktora zliczy ile razy pytanie P1 otrzymalo odpowiedz A. Formula musi dzialac po skopiowaniu w prawo i w dol.",
+  "wskazowki": [
+    "**Kierunek**: COUNTIFS z dwoma parami kryteriow — pytanie i odpowiedz.",
+    "**Podejscie**: $D2 zakotwicza kolumne (pytanie), E$1 zakotwicza wiersz (odpowiedz).",
+    "**Kluczowy krok**: Weryfikacja: suma kazdego wiersza powinna rownych sie liczbie odpowiedzi na to pytanie."
+  ],
+  "odpowiedz": "**Formula (E2, kopiowana w prawo i w dol):**\n```\nE2: =COUNTIFS(A$2:A$16;$D2;B$2:B$16;E$1)\n```\n\n**Wypelniona tabela:**\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| P1 | 3 | 1 | 1 | 0 |\n| P2 | 1 | 3 | 0 | 1 |\n| P3 | 1 | 1 | 3 | 0 |\n\n**Weryfikacja:**\n- P1: A(wiersze 2,4,6)=3, B(wiersz 3)=1, C(wiersz 5)=1, D=0 → suma=5 ✓\n- P2: A(wiersz 10)=1, B(wiersze 7,8,11)=3, C=0, D(wiersz 9)=1 → suma=5 ✓\n- P3: A(wiersz 14)=1, B(wiersz 15)=1, C(wiersze 12,13,16)=3, D=0 → suma=5 ✓\n\n**Wyjasnienie odniesien w COUNTIFS:**\n- `A$2:A$16` — zakres danych z $ na wierszach (nie zmienia sie przy kopiowaniu)\n- `$D2` — kolumna D zakotwiczona (czyta nazwe pytania), wiersz wzgledny\n- `B$2:B$16` — zakres odpowiedzi z $ na wierszach\n- `E$1` — wiersz 1 zakotwiczony (czyta nazwe odpowiedzi), kolumna wzgledna\n\nCOUNTIFS z dwoma parami kryteriow zlicza wiersze spelniajace OBA warunki jednoczesnie. To klasyczna transformacja z listy do tabeli krzyzowej za pomoca formul.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak $ na wierszach zakresow danych**: Po skopiowaniu w dol zakresy A2:A16 i B2:B16 przesuna sie",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**$ na obu elementach kryterium**: $D$2 nie zmieni sie w dol — kazdy wiersz pokaże P1",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak weryfikacji sum**: Nie sprawdzenie, ze suma wiersza = liczba odpowiedzi na pytanie",
+      "kara": ""
+    }
+  ]
+}

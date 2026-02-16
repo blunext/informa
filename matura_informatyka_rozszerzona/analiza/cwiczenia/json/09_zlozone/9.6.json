@@ -1,0 +1,33 @@
+{
+  "id": "9.6",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Matura 2023 zad. 5 (sortowanie rekordow)",
+  "tagi": [
+    "struct",
+    "sortowanie",
+    "wczytywanie-pliku",
+    "grupowanie"
+  ],
+  "tresc": "W pliku `wyniki.txt` znajduje sie 10 rekordow w formacie: imie punkty (oddzielone spacja). Napisz program, ktory:\na) Wypisze rekordy posortowane malejaco wg punktow.\nb) Wypisze rekordy posortowane rosnaco wg imienia (alfabetycznie).\nc) Poda srednia punktow i ile osob ma wynik powyzej sredniej.\n\n**Dane** (`wyniki.txt`):\n```\nAnna 85\nJan 72\nEwa 90\nPiotr 65\nMaria 88\nTomek 70\nKasia 95\nAdam 78\nOla 82\nMarek 60\n```\n\n**Oczekiwany wynik**:\n```\na) Wg punktow (malejaco):\n   Kasia: 95\n   Ewa: 90\n   Maria: 88\n   Anna: 85\n   Ola: 82\n   Adam: 78\n   Jan: 72\n   Tomek: 70\n   Piotr: 65\n   Marek: 60\n\nb) Wg imienia (rosnaco):\n   Adam: 78\n   Anna: 85\n   Ewa: 90\n   Jan: 72\n   Kasia: 95\n   Marek: 60\n   Maria: 88\n   Ola: 82\n   Piotr: 65\n   Tomek: 70\n\nc) Srednia: 78.50, powyzej sredniej: 5\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj dane do `vector<pair<string, int>>` lub `vector<struct>`.",
+    "**Podejscie**: `sort` z custom komparatorem: (a) `[](auto &a, auto &b) { return a.second > b.second; }`, (b) `a.first < b.first`.",
+    "**Kluczowy krok**: Pamietaj ze `sort` modyfikuje wektor — zrob kopie przed drugim sortowaniem lub sortuj dwa razy."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"wyniki.txt\");\n    vector<pair<string, int>> dane;\n    string imie; int pkt;\n    while (plik >> imie >> pkt) dane.push_back({imie, pkt});\n\n    // a) Malejaco wg punktow\n    auto kopia = dane;\n    sort(kopia.begin(), kopia.end(), [](auto &a, auto &b) {\n        return a.second > b.second;\n    });\n    cout << \"a) Wg punktow (malejaco):\" << endl;\n    for (auto &p : kopia)\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n\n    // b) Rosnaco wg imienia\n    sort(kopia.begin(), kopia.end(), [](auto &a, auto &b) {\n        return a.first < b.first;\n    });\n    cout << endl << \"b) Wg imienia (rosnaco):\" << endl;\n    for (auto &p : kopia)\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n\n    // c) Srednia\n    double suma = 0;\n    for (auto &p : dane) suma += p.second;\n    double sr = suma / dane.size();\n    int powyzej = 0;\n    for (auto &p : dane) if (p.second > sr) powyzej++;\n    cout << endl << \"c) Srednia: \" << fixed << setprecision(2) << sr\n         << \", powyzej sredniej: \" << powyzej << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Suma: 85+72+90+65+88+70+95+78+82+60 = 785, srednia = 78.50\n- Powyzej 78.50: Kasia(95), Ewa(90), Maria(88), Anna(85), Ola(82) = 5",
+  "typowe_bledy": [
+    {
+      "opis": "**Sortowanie malejace z `<` zamiast `>`**: Daje rosnace zamiast malejacego",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o kopii wektora**: `sort` modyfikuje in-place. Bez kopii drugie sortowanie traci oryginalna kolejnosc",
+      "kara": "-0 pkt (jesli nie potrzeba)"
+    },
+    {
+      "opis": "**Porownanie `>=` zamiast `>` przy sredniej**: \"Powyzej sredniej\" to scisle wieksze",
+      "kara": "-1 pkt"
+    }
+  ]
+}

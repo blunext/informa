@@ -1,0 +1,28 @@
+{
+  "id": "10.1",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2014 zad. 5a",
+  "tagi": [
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "parzystosc"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Zliczy ile sposrod nich jest parzystych.\nb) Zliczy ile jest wiekszych od 100.\n\n**Dane** (`dane.txt`):\n```\n42\n155\n7\n200\n88\n13\n176\n51\n99\n300\n64\n111\n25\n148\n33\n```\n\n**Oczekiwany wynik**:\n```\na) Liczby parzyste: 7\nb) Liczby wieksze od 100: 6\n```",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz dwoch niezaleznych licznikow — kazdy zlicza cos innego.",
+    "**Podejscie**: W petli while czytaj liczby z pliku i sprawdzaj dwa warunki (parzystosc: `n % 2 == 0`, prog: `n > 100`).",
+    "**Kluczowy krok**: Oba warunki mozna sprawdzac w tej samej petli — nie musisz czytac pliku dwa razy."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int parzyste = 0, powyzej100 = 0;\n    while (plik >> n) {\n        if (n % 2 == 0) parzyste++;\n        if (n > 100) powyzej100++;\n    }\n    cout << \"a) Liczby parzyste: \" << parzyste << endl;\n    cout << \"b) Liczby wieksze od 100: \" << powyzej100 << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Prosta petla z dwoma licznikami. Warunek parzystosci: `n % 2 == 0`. Warunek wiekszosci: `n > 100`.\n\nWeryfikacja:\n- Parzyste: 42, 200, 88, 176, 300, 64, 148 = 7\n- Wieksze od 100: 155, 200, 176, 300, 111, 148 = 6",
+  "typowe_bledy": [
+    {
+      "opis": "**`>= 100` zamiast `> 100`**: Zle odczytanie warunku \"wieksze od 100\" (100 nie jest wieksze od 100)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak inicjalizacji licznikow**: Liczniki musza zaczynac od 0, niezainicjalizowane zmienne moga miec smieci",
+      "kara": "-1 pkt"
+    }
+  ]
+}

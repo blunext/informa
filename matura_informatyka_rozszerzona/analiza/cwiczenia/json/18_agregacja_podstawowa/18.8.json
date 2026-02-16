@@ -1,0 +1,35 @@
+{
+  "id": "18.8",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "MEDIAN",
+    "AVERAGE",
+    "MAX",
+    "MIN",
+    "COUNT",
+    "procent"
+  ],
+  "tresc": "Wynagrodzenia 12 pracownikow firmy (w tys. zl):\n\n| | A | B |\n|---|---|---|\n| 1 | **Pracownik** | **Wynagrodzenie** |\n| 2 | P1 | 4.2 |\n| 3 | P2 | 5.1 |\n| 4 | P3 | 4.8 |\n| 5 | P4 | 12.5 |\n| 6 | P5 | 5.3 |\n| 7 | P6 | 4.5 |\n| 8 | P7 | 5.0 |\n| 9 | P8 | 4.9 |\n| 10 | P9 | 5.5 |\n| 11 | P10 | 4.7 |\n| 12 | P11 | 5.2 |\n| 13 | P12 | 4.6 |\n\n**Polecenie**:\n1. Oblicz srednia, mediane, minimum i maximum wynagrodzen.\n2. Ktora miara (srednia czy mediana) lepiej opisuje \"typowe\" wynagrodzenie? Uzasadnij.\n3. Ile osob zarabia powyzej sredniej? Jaki to procent?",
+  "wskazowki": [
+    "**Kierunek**: MEDIAN zwraca wartosc srodkowa — jest odporniejsza na wartosci odstajace niz AVERAGE.",
+    "**Podejscie**: Porownaj srednia z mediana. Jesli roznica jest duza, w danych sa wartosci odstajace (tu: P4 = 12.5).",
+    "**Kluczowy krok**: Uzyj COUNTIF z kryterium \">\"&srednia, aby policzyc osoby powyzej sredniej."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nSrednia:   =AVERAGE(B2:B13)\nMediana:   =MEDIAN(B2:B13)\nMinimum:   =MIN(B2:B13)\nMaximum:   =MAX(B2:B13)\n\nPowyzej sredniej: =COUNTIF(B2:B13;\">\"&AVERAGE(B2:B13))\nProcent:          =COUNTIF(B2:B13;\">\"&AVERAGE(B2:B13))/COUNT(B2:B13)*100\n```\n\n**Obliczenia:**\n- Suma: 4.2+5.1+4.8+12.5+5.3+4.5+5.0+4.9+5.5+4.7+5.2+4.6 = 66.3\n- Srednia: 66.3/12 = **5.525 tys. zl**\n- Posortowane: 4.2, 4.5, 4.6, 4.7, 4.8, 4.9, 5.0, 5.1, 5.2, 5.3, 5.5, 12.5\n- Mediana (srednia z 6. i 7. wartosci): (4.9+5.0)/2 = **4.95 tys. zl**\n- Min: **4.2** (P1)\n- Max: **12.5** (P4)\n\nPowyzej sredniej (>5.525): P4 (12.5) i P9 (5.5) — nie, 5.5 < 5.525... Sprawdzmy:\n- P4: 12.5 > 5.525 ✓\n- P9: 5.5 < 5.525 ✗\n- Wiec tylko **1 osoba** (P4)\n- Procent: 1/12 × 100 = **8.33%**\n\n**2. Ktora miara lepsza?**\n**Mediana** (4.95) lepiej opisuje typowe wynagrodzenie. Srednia (5.525) jest zawyzona przez jedna wartosc odstajaca (P4 = 12.5 tys. zl). Tylko 1 z 12 osob zarabia powyzej sredniej, co potwierdza, ze srednia jest niereprezentatywna.\n\n**Wyjasnienie**: Mediana jest odporniejsza na wartosci skrajne (outliers). Jesli rozklad jest skosniony (jak tu — jedna bardzo wysoka pensja), mediana lepiej reprezentuje \"typowa\" wartosc. Na maturze czesto pytaja o interpretacje roznic miedzy srednia a mediana.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomieszanie MEDIAN z AVERAGE**: Mediana to wartosc srodkowa posortowanego zbioru, nie srednia arytmetyczna",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledne obliczenie mediany dla parzystej liczby elementow**: Dla 12 elementow mediana = srednia z 6. i 7. elementu (po posortowaniu)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak uzasadnienia**: \"Mediana jest lepsza\" bez wyjaśnienia dlaczego",
+      "kara": "-1 pkt"
+    }
+  ]
+}

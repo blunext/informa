@@ -1,0 +1,29 @@
+{
+  "id": "23.16",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2016",
+  "tagi": [
+    "LENGTH",
+    "SUBSTR",
+    "WHERE",
+    "operatory-porownania"
+  ],
+  "tresc": "Tabela **Produkty**:\n\n| id | kod | nazwa | kategoria | cena |\n|----|-----|-------|-----------|------|\n| 1 | EL-001 | Laptop Dell | elektronika | 3500 |\n| 2 | EL-002 | Smartfon Samsung | elektronika | 2500 |\n| 3 | ME-001 | Biurko debowe | meble | 1200 |\n| 4 | EL-003 | Monitor LG | elektronika | 1800 |\n| 5 | ME-002 | Fotel obrotowy | meble | 900 |\n| 6 | SP-001 | Pilka nozna | sport | 80 |\n| 7 | SP-002 | Rakieta tenisowa | sport | 250 |\n| 8 | ME-003 | Szafa drewniana | meble | 2200 |\n\n**Polecenie**:\n1. Wyswietl kod i nazwe produktow, ktorych nazwa ma wiecej niz 14 znakow (LENGTH).\n2. Wyswietl kod, nazwe i kategorie produktow, ktorych kod zaczyna sie od 'EL' (uzyj SUBSTR, nie LIKE).",
+  "wskazowki": [
+    "**Kierunek**: LENGTH liczy znaki (wlacznie ze spacjami), SUBSTR wyciaga fragment tekstu.",
+    "**Podejscie**: `WHERE LENGTH(nazwa) > 14` i `WHERE SUBSTR(kod, 1, 2) = 'EL'`.",
+    "**Kluczowy krok**: W SQL pozycje w SUBSTR liczymy od 1, nie od 0."
+  ],
+  "odpowiedz": "**Zapytania SQL:**\n```sql\n-- 1. Produkty z dluga nazwa\nSELECT kod, nazwa\nFROM Produkty\nWHERE LENGTH(nazwa) > 14;\n\n-- 2. Produkty z kodem EL\nSELECT kod, nazwa, kategoria\nFROM Produkty\nWHERE SUBSTR(kod, 1, 2) = 'EL';\n```\n\n**Weryfikacja zad. 1** (LENGTH > 14):\n- 'Laptop Dell' = 11 ✗\n- 'Smartfon Samsung' = 16 ✓\n- 'Biurko debowe' = 13 ✗\n- 'Monitor LG' = 10 ✗\n- 'Fotel obrotowy' = 14 ✗ (rowne 14, nie wiecej)\n- 'Pilka nozna' = 11 ✗\n- 'Rakieta tenisowa' = 16 ✓\n- 'Szafa drewniana' = 15 ✓\n\n| kod | nazwa |\n|-----|-------|\n| EL-002 | Smartfon Samsung |\n| SP-002 | Rakieta tenisowa |\n| ME-003 | Szafa drewniana |\n\n**Weryfikacja zad. 2** (SUBSTR = 'EL'):\n\n| kod | nazwa | kategoria |\n|-----|-------|-----------|\n| EL-001 | Laptop Dell | elektronika |\n| EL-002 | Smartfon Samsung | elektronika |\n| EL-003 | Monitor LG | elektronika |",
+  "typowe_bledy": [
+    {
+      "opis": "**SUBSTR od pozycji 0**: `SUBSTR(kod, 0, 2)` — w SQLite zadziala (traktuje 0 jak 1), ale w standardzie SQL blad",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**`>= 14` zamiast `> 14`**: 'Fotel obrotowy' (14 znakow) bylby dodany do wyniku wbrew poleceniu",
+      "kara": "-1 pkt"
+    }
+  ]
+}

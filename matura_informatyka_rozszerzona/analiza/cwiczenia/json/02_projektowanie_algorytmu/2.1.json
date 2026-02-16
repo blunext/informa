@@ -1,0 +1,33 @@
+{
+  "id": "2.1",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2024 zad. 2 (cyfry), styl CKE",
+  "tagi": [
+    "mod-div",
+    "cyfry",
+    "petla-while",
+    "warunek"
+  ],
+  "tresc": "Napisz w pseudokodzie lub C++ funkcje `parzyste_cyfry(n)`, ktora dla danej liczby naturalnej n > 0 zwraca liczbe jej cyfr parzystych (0, 2, 4, 6, 8).\n\n**Ograniczenia**: Uzyj tylko zmiennych calkowitych i operatorow arytmetycznych (mod, div, +, porownania). Nie wolno uzywac stringow, tablic ani funkcji wbudowanych.\n\n**Przyklady**:\n- `parzyste_cyfry(24681)` = 4 (cyfry parzyste: 2, 4, 6, 8)\n- `parzyste_cyfry(13579)` = 0 (brak cyfr parzystych)\n- `parzyste_cyfry(1024)` = 3 (cyfry parzyste: 0, 2, 4)",
+  "wskazowki": [
+    "Zastanow sie, jak wyodrebnic ostatnia cyfre liczby -- jaki operator arytmetyczny daje reszte z dzielenia przez 10?",
+    "Po sprawdzeniu ostatniej cyfry, jak \"usunac\" ja z liczby? Uzyj dzielenia calkowitego przez 10. Powtarzaj az liczba stanie sie rowna 0.",
+    "W kazdym kroku petli: `cyfra = n mod 10`, sprawdz `cyfra mod 2 == 0`, jesli tak -- zwieksz licznik. Na koncu `n = n div 10`."
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja parzyste_cyfry(n)\n    licznik := 0\n    dopoki n > 0:\n        cyfra := n mod 10\n        jezeli cyfra mod 2 = 0:\n            licznik := licznik + 1\n        n := n div 10\n    zwroc licznik\n```\n\n**C++:**\n\n```cpp\nint parzyste_cyfry(int n) {\n    int licznik = 0;\n    while (n > 0) {\n        int cyfra = n % 10;\n        if (cyfra % 2 == 0)\n            licznik++;\n        n /= 10;\n    }\n    return licznik;\n}\n```\n\n**Weryfikacja**:\n- parzyste_cyfry(24681): cyfry 1,8,6,4,2 -> parzyste: 8,6,4,2 -> wynik 4\n- parzyste_cyfry(13579): cyfry 9,7,5,3,1 -> parzyste: brak -> wynik 0\n- parzyste_cyfry(1024): cyfry 4,2,0,1 -> parzyste: 4,2,0 -> wynik 3",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak obslugi cyfry 0 jako parzystej** -- cyfra 0 jest parzysta (0 mod 2 = 0). Uczniowie czesto pomijaja ja w warunku lub traktuja jako nieparzysty przypadek brzegowy",
+      "kara": "-1 pkt za bledny wynik dla danych z cyfra 0"
+    },
+    {
+      "opis": "**Uzycie `n > 0` zamiast petli po cyfrach** -- sprawdzanie `n != 0` zadziala identycznie, ale jesli uczeń uzyje warunku `n >= 10` (myslac o \"cyfrach wielocyfrowych\"), pominie jednocyfrowe liczby",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Porownywanie przez wyliczenie `cyfra==0 || cyfra==2 || ...`** -- poprawne, ale CKE preferuje `cyfra mod 2 = 0` jako elegantsze rozwiazanie. Punktacja zwykle pelna, ale ryzyko bledu przy wyliczaniu.",
+      "kara": ""
+    }
+  ]
+}

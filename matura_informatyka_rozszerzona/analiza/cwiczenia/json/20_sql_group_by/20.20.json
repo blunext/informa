@@ -1,0 +1,43 @@
+{
+  "id": "20.20",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2024 (Hurtownia) i 2015 (F1)",
+  "tagi": [
+    "GROUP-BY",
+    "SUM",
+    "COUNT",
+    "HAVING",
+    "JOIN-z-GROUP-BY",
+    "wielokolumnowe-grupowanie",
+    "SUBSTR",
+    "obliczenia-w-SELECT",
+    "ORDER-BY",
+    "aliasy"
+  ],
+  "tresc": "Tabela **Kategorie**:\n\n| id | nazwa |\n|----|---------|\n| 1 | Elektronika |\n| 2 | Odziez |\n| 3 | Sport |\n\nTabela **Produkty**:\n\n| id | nazwa | id_kategorii | cena |\n|----|-------|-------------|------|\n| 1 | Laptop | 1 | 3500 |\n| 2 | Monitor | 1 | 1200 |\n| 3 | Koszulka | 2 | 80 |\n| 4 | Spodnie | 2 | 150 |\n| 5 | Pilka | 3 | 120 |\n| 6 | Rower | 3 | 2500 |\n\nTabela **Sprzedaz**:\n\n| id | id_produktu | ilosc | data_sprzedazy |\n|----|-------------|-------|----------------|\n| 1 | 1 | 2 | 2024-01-15 |\n| 2 | 3 | 5 | 2024-01-20 |\n| 3 | 5 | 3 | 2024-02-10 |\n| 4 | 2 | 1 | 2024-02-14 |\n| 5 | 1 | 1 | 2024-02-22 |\n| 6 | 4 | 4 | 2024-01-30 |\n| 7 | 6 | 1 | 2024-03-05 |\n| 8 | 3 | 3 | 2024-03-10 |\n| 9 | 2 | 2 | 2024-01-25 |\n| 10 | 5 | 2 | 2024-03-18 |\n| 11 | 1 | 1 | 2024-03-22 |\n| 12 | 4 | 2 | 2024-02-28 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdej kategorii i kazdego miesiaca (wyciagnij numer miesiaca z daty za pomoca SUBSTR) wyswietli:\n- nazwe kategorii,\n- numer miesiaca,\n- laczny przychod (SUM ilosc * cena),\n- liczbe transakcji.\n\nPokaz tylko grupy z przychodem wiekszym niz 500. Posortuj wg kategorii, potem wg miesiaca.",
+  "wskazowki": [
+    "**Kierunek**: Trzy tabele + wielokolumnowe grupowanie po kategorii i miesiacu z daty.",
+    "**Podejscie**: JOIN Kategorie → Produkty → Sprzedaz, GROUP BY (nazwa, SUBSTR(data_sprzedazy, 6, 2)), HAVING na SUM.",
+    "**Kluczowy krok**: SUBSTR(data_sprzedazy, 6, 2) wyciaga znaki na pozycjach 6-7 z formatu 'RRRR-MM-DD', dajac numer miesiaca. SUM(ilosc * cena) oblicza przychod — mnozenie per transakcja, potem suma w grupie."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT KAT.nazwa, SUBSTR(S.data_sprzedazy, 6, 2) AS miesiac,\n       SUM(S.ilosc * P.cena) AS przychod,\n       COUNT(*) AS transakcje\nFROM Kategorie KAT\nJOIN Produkty P ON KAT.id = P.id_kategorii\nJOIN Sprzedaz S ON P.id = S.id_produktu\nGROUP BY KAT.nazwa, SUBSTR(S.data_sprzedazy, 6, 2)\nHAVING SUM(S.ilosc * P.cena) > 500\nORDER BY KAT.nazwa, miesiac;\n```\n\n**Weryfikacja** (grupowanie kategoria + miesiac):\n\nElektronika (Laptop@3500, Monitor@1200):\n- 01: Laptop(2×3500=7000) + Monitor(2×1200=2400) = **9400**, 2 trans. (>500 ✓)\n- 02: Monitor(1×1200=1200) + Laptop(1×3500=3500) = **4700**, 2 trans. (>500 ✓)\n- 03: Laptop(1×3500=3500) = **3500**, 1 trans. (>500 ✓)\n\nOdziez (Koszulka@80, Spodnie@150):\n- 01: Koszulka(5×80=400) + Spodnie(4×150=600) = **1000**, 2 trans. (>500 ✓)\n- 02: Spodnie(2×150=300) = **300**, 1 trans. (>500 ✗)\n- 03: Koszulka(3×80=240) = **240**, 1 trans. (>500 ✗)\n\nSport (Pilka@120, Rower@2500):\n- 02: Pilka(3×120=360) = **360**, 1 trans. (>500 ✗)\n- 03: Rower(1×2500=2500) + Pilka(2×120=240) = **2740**, 2 trans. (>500 ✓)\n\n| nazwa | miesiac | przychod | transakcje |\n|-------|---------|----------|------------|\n| Elektronika | 01 | 9400 | 2 |\n| Elektronika | 02 | 4700 | 2 |\n| Elektronika | 03 | 3500 | 1 |\n| Odziez | 01 | 1000 | 2 |\n| Sport | 03 | 2740 | 2 |\n\n**Wyjasnienie**: To cwiczenie laczy wszystkie kluczowe elementy GROUP BY:\n- 3 JOINy (lancuch tabel)\n- SUBSTR do wyciagania miesiaca z daty\n- Wielokolumnowe grupowanie (kategoria + miesiac)\n- SUM(a * b) — obliczenie w agregacie\n- HAVING filtrujacy grupy po zagregowanej wartosci",
+  "typowe_bledy": [
+    {
+      "opis": "**SUBSTR z blednym offsetem**: `SUBSTR(data, 5, 2)` daje '-0' zamiast '01'. W SQL pozycje liczymy od 1, wiec 'RRRR-MM' → pozycja 6",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**SUM(ilosc) * cena**: Jesli w grupie sa rozne produkty o roznych cenach, to daje bledny wynik. Trzeba mnozyc per wiersz wewnatrz SUM",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**GROUP BY tylko po kategorii**: Miesiace zostana polaczone — Elektronika dostaje 9400+4700+3500=17600 lacznie",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak jednego JOIN**: Pominiecie tabeli Kategorie — nie mozna uzyskac nazwy kategorii",
+      "kara": "-2 pkt"
+    }
+  ]
+}

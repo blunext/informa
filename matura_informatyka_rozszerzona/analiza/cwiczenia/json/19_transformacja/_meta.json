@@ -1,0 +1,132 @@
+{
+  "typ": "19_transformacja",
+  "nazwa": "Transformacja danych w arkuszu kalkulacyjnym",
+  "kategoria": "ARKUSZ",
+  "czestotliwosc": "2/11 lat",
+  "punkty_lacznie": 34,
+  "tagi_globalne": [
+    "SUMIF",
+    "SUMIFS",
+    "COUNTIFS",
+    "tabela-krzyzowa",
+    "kolumna-pomocnicza",
+    "INT-dzielenie",
+    "odwolania-mieszane",
+    "grupowanie-danych",
+    "VLOOKUP",
+    "INDEX-MATCH",
+    "LEFT-RIGHT-MID",
+    "TEXT",
+    "konkatenacja",
+    "pivot-reczny"
+  ],
+  "cwiczenia": [
+    {
+      "id": "19.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "SUMIF",
+        "grupowanie-danych"
+      ]
+    },
+    {
+      "id": "19.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "SUMIFS",
+        "tabela-krzyzowa",
+        "odwolania-mieszane"
+      ]
+    },
+    {
+      "id": "19.3",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "INT-dzielenie",
+        "kolumna-pomocnicza",
+        "SUMIF",
+        "grupowanie-danych"
+      ]
+    },
+    {
+      "id": "19.4",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "COUNTIFS",
+        "tabela-krzyzowa",
+        "odwolania-mieszane"
+      ]
+    },
+    {
+      "id": "19.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "SUMIFS",
+        "tabela-krzyzowa",
+        "odwolania-mieszane",
+        "pivot-reczny"
+      ]
+    },
+    {
+      "id": "19.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "LEFT-RIGHT-MID",
+        "konkatenacja",
+        "TEXT"
+      ]
+    },
+    {
+      "id": "19.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "VLOOKUP",
+        "kolumna-pomocnicza",
+        "grupowanie-danych"
+      ]
+    },
+    {
+      "id": "19.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "LEFT-RIGHT-MID",
+        "INT-dzielenie",
+        "kolumna-pomocnicza",
+        "SUMIF",
+        "grupowanie-danych"
+      ]
+    },
+    {
+      "id": "19.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "INDEX-MATCH",
+        "VLOOKUP",
+        "tabela-krzyzowa",
+        "odwolania-mieszane"
+      ]
+    },
+    {
+      "id": "19.10",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "SUMIFS",
+        "COUNTIFS",
+        "tabela-krzyzowa",
+        "pivot-reczny",
+        "odwolania-mieszane",
+        "kolumna-pomocnicza"
+      ]
+    }
+  ]
+}

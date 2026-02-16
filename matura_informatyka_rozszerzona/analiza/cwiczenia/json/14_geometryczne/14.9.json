@@ -1,0 +1,29 @@
+{
+  "id": "14.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Matura 2025 zad. 3 (odleglosc punkt-odcinek)",
+  "tagi": [
+    "odleglosc-euklidesowa",
+    "pole-trojkata",
+    "struct",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `punkty.txt` znajduje sie 6 punktow (x, y) o wspolrzednych calkowitych. Pierwsze 2 punkty definiuja odcinek AB. Pozostale 4 to punkty do analizy. Napisz program, ktory:\na) Obliczy odleglosc kazdego z 4 punktow od prostej przechodzacej przez A i B.\nb) Poda ktory punkt jest najblizej prostej AB.\n\nWzor na odleglosc punktu P od prostej przez A i B:\nd = |pole_trojkata(A, B, P) * 2| / |AB|\n\n**Dane** (`punkty.txt`):\n```\n0 0\n10 0\n3 4\n7 2\n5 6\n1 1\n```\n\n**Oczekiwany wynik**:\n```\nProsta AB: (0,0)-(10,0), dlugosc |AB| = 10.00\n\na) Odleglosci od prostej AB:\n   (3,4): d = 4.00\n   (7,2): d = 2.00\n   (5,6): d = 6.00\n   (1,1): d = 1.00\n\nb) Najblizej prostej: (1,1) (d=1.00)\n```",
+  "wskazowki": [
+    "**Kierunek**: Odleglosc punktu od prostej = 2 * pole trojkata / dlugosc podstawy.",
+    "**Podejscie**: Pole trojkata ze wzoru: `|Ax*(By-Py) + Bx*(Py-Ay) + Px*(Ay-By)| / 2`. Odleglosc: `pole * 2 / |AB|`.",
+    "**Kluczowy krok**: Jesli AB jest poziomy (y=0), odleglosc punktu (x,y) to po prostu |y|."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nstruct Pt { int x, y; };\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    vector<Pt> P;\n    int x, y;\n    while (plik >> x >> y) P.push_back({x, y});\n\n    Pt A = P[0], B = P[1];\n    double dAB = sqrt(pow(B.x - A.x, 2) + pow(B.y - A.y, 2));\n\n    cout << fixed << setprecision(2);\n    cout << \"Prosta AB: (\" << A.x << \",\" << A.y << \")-(\"\n         << B.x << \",\" << B.y << \"), dlugosc |AB| = \" << dAB << endl;\n\n    cout << endl << \"a) Odleglosci od prostej AB:\" << endl;\n    double minD = 1e18; int bestIdx = 2;\n\n    for (int i = 2; i < (int)P.size(); i++) {\n        Pt Q = P[i];\n        double pole2 = abs(A.x * (B.y - Q.y) + B.x * (Q.y - A.y) + Q.x * (A.y - B.y));\n        double d = pole2 / dAB;\n        cout << \"   (\" << Q.x << \",\" << Q.y << \"): d = \" << d << endl;\n        if (d < minD) { minD = d; bestIdx = i; }\n    }\n\n    cout << endl << \"b) Najblizej prostej: (\" << P[bestIdx].x << \",\"\n         << P[bestIdx].y << \") (d=\" << minD << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Odleglosc punktu od prostej = 2 * pole trojkata / dlugosc podstawy. Uzywamy wzoru na pole trojkata z wspolrzednych.\n\nWeryfikacja (prosta y=0, A=(0,0), B=(10,0)):\n- (3,4): d = |0*(0-4)+10*(4-0)+3*(0-0)| / 10 = 40/10 = 4.00\n- (7,2): d = |0*(0-2)+10*(2-0)+7*(0-0)| / 10 = 20/10 = 2.00\n- (5,6): d = |0*(0-6)+10*(6-0)+5*(0-0)| / 10 = 60/10 = 6.00\n- (1,1): d = |0*(0-1)+10*(1-0)+1*(0-0)| / 10 = 10/10 = 1.00\nNajblizej: (1,1) z d=1.00",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie odleglosci od prostej z odlegloscia od odcinka**: Odleglosc od prostej jest zawsze prostopadla. Odleglosc od odcinka moze byc do konca odcinka",
+      "kara": ""
+    },
+    {
+      "opis": "**Dzielenie przez 0**: Jesli A == B, |AB| = 0 i dzielenie sie nie powiedzie. Sprawdz dane.",
+      "kara": ""
+    }
+  ]
+}

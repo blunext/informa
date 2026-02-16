@@ -1,0 +1,35 @@
+{
+  "id": "19.10",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Matura 2025 (Martianeum)",
+  "tagi": [
+    "SUMIFS",
+    "COUNTIFS",
+    "tabela-krzyzowa",
+    "pivot-reczny",
+    "odwolania-mieszane",
+    "kolumna-pomocnicza"
+  ],
+  "tresc": "Firma transportowa rejestruje przejazdy:\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Nr** | **Skad** | **Dokad** | **Typ** | **Koszt** |\n| 2 | 1 | Warszawa | Kraków | Towarowy | 2500 |\n| 3 | 2 | Kraków | Wrocław | Osobowy | 800 |\n| 4 | 3 | Warszawa | Gdańsk | Towarowy | 3200 |\n| 5 | 4 | Gdańsk | Kraków | Osobowy | 1100 |\n| 6 | 5 | Wrocław | Warszawa | Towarowy | 2800 |\n| 7 | 6 | Kraków | Gdańsk | Osobowy | 950 |\n| 8 | 7 | Warszawa | Wrocław | Towarowy | 2100 |\n| 9 | 8 | Gdańsk | Warszawa | Osobowy | 1300 |\n| 10 | 9 | Kraków | Warszawa | Towarowy | 2600 |\n| 11 | 10 | Wrocław | Kraków | Osobowy | 750 |\n| 12 | 11 | Warszawa | Kraków | Osobowy | 900 |\n| 13 | 12 | Kraków | Wrocław | Towarowy | 1900 |\n\n**Polecenie**:\n1. Utworz tabele krzyzowa: miasto poczatkowe (wiersz) × typ przejazdu (kolumna) z SUMA kosztow.\n2. Dodaj wiersz i kolumne \"Razem\".\n3. Utworz druga tabele krzyzowa z LICZBA przejazdow (zamiast sumy kosztow).\n4. Oblicz sredni koszt przejazdu towarowego i osobowego.\n5. Z ktorego miasta wyjezdzalo najwiecej przejazdow towarowych?",
+  "wskazowki": [
+    "**Kierunek**: Dwie tabele krzyzowe — jedna z SUMIFS (koszty), druga z COUNTIFS (liczba). Ten sam wzorzec odwolan.",
+    "**Podejscie**: Tabela 1: SUMIFS(E;B;miasto;D;typ). Tabela 2: COUNTIFS(B;miasto;D;typ).",
+    "**Kluczowy krok**: Sredni koszt = suma kosztow (z tabeli 1) / liczba przejazdow (z tabeli 2)."
+  ],
+  "odpowiedz": "**Formuly dla tabeli kosztow (G2):**\n```\nG2: =SUMIFS($E$2:$E$13;$B$2:$B$13;$F2;$D$2:$D$13;G$1)\n```\n\n**Formuly dla tabeli liczby (M2):**\n```\nM2: =COUNTIFS($B$2:$B$13;$L2;$D$2:$D$13;M$1)\n```\n\n**Tabela 1 — Suma kosztow:**\n\n| Miasto | Towarowy | Osobowy | Razem |\n|--------|----------|---------|-------|\n| Warszawa | 2500+3200+2100 = 7800 | 900 | 8700 |\n| Kraków | 2600+1900 = 4500 | 800+950 = 1750 | 6250 |\n| Gdańsk | — (0) | 1100+1300 = 2400 | 2400 |\n| Wrocław | 2800 | 750 | 3550 |\n| **Razem** | **15100** | **5800** | **20900** |\n\nWeryfikacja: SUM(E2:E13) = 2500+800+3200+1100+2800+950+2100+1300+2600+750+900+1900 = 20900 ✓\n\n**Tabela 2 — Liczba przejazdow:**\n\n| Miasto | Towarowy | Osobowy | Razem |\n|--------|----------|---------|-------|\n| Warszawa | 3 | 1 | 4 |\n| Kraków | 2 | 2 | 4 |\n| Gdańsk | 0 | 2 | 2 |\n| Wrocław | 1 | 1 | 2 |\n| **Razem** | **6** | **6** | **12** |\n\n**Sredni koszt przejazdu:**\n- Towarowy: 15100 / 6 = **2516.67 zl**\n- Osobowy: 5800 / 6 = **966.67 zl**\n\n**Najwiecej przejazdow towarowych:**\n**Warszawa** — 3 przejazdy towarowe\n\n**Wyjasnienie**: Dwie tabele krzyzowe (SUMIFS i COUNTIFS) uzywaja tego samego wzorca odwolan mieszanych — rozni sie tylko funkcja. Sredni koszt obliczamy jako iloraz odpowiednich komorek z obu tabel. Na maturze tabele krzyzowe pojawiaja sie przy analizie danych wielowymiarowych.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pominecie zerowych wartosci**: Gdańsk ma 0 przejazdow towarowych — SUMIFS zwroci 0, nie blad. Trzeba uwzglednic to w analizie",
+      "kara": "-1 pkt jesli wplywaja na srednia"
+    },
+    {
+      "opis": "**Dzielenie przez zero**: Jesli miasto ma 0 przejazdow danego typu, srednia nie istnieje. Na szczescie tu kazdy typ ma 6 przejazdow",
+      "kara": "-1 pkt w ogolnosci"
+    },
+    {
+      "opis": "**Pomieszanie kolumny B (Skad) z C (Dokad)**: Pytanie mowi o miescie poczatkowym — filtrujemy po B, nie C",
+      "kara": "-2 pkt"
+    }
+  ]
+}

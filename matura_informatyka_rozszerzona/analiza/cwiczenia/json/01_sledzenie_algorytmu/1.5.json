@@ -1,0 +1,32 @@
+{
+  "id": "1.5",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2024 zad. 1 (Plansza)",
+  "tagi": [
+    "plansza-2D",
+    "programowanie-dynamiczne",
+    "sledzenie-iteracyjne"
+  ],
+  "tresc": "Dana jest plansza 5x5 o polach bialych (0) i czarnych (1):\n\n```\nplansza:\n  0 1 2 3 4\n0[0 0 1 0 0]\n1[0 0 0 1 0]\n2[1 0 0 0 1]\n3[0 1 0 0 0]\n4[0 0 1 0 0]\n```\n\nAlgorytm wypelnia tablice P[i][j] rozmiaru 5x5 wedlug nastepujacych regul:\n- P[0][0] := 1, jezeli plansza[0][0] = 0; w przeciwnym razie P[0][0] := 0\n- Dla i > 0: P[i][0] := P[i-1][0] AND (1 - plansza[i][0])\n- Dla j > 0: P[0][j] := P[0][j-1] AND (1 - plansza[0][j])\n- Dla i > 0 i j > 0: P[i][j] := (P[i-1][j] OR P[i][j-1]) AND (1 - plansza[i][j])\n\nWartosc P[i][j] = 1 oznacza, ze istnieje sciezka z pola [0,0] do pola [i,j] przechodzaca wylacznie przez pola biale, poruszajac sie tylko w dol lub w prawo.\n\n**Polecenie**:\n- a) Wypelnij cala tablice P[5][5].\n- b) Czy istnieje sciezka z [0,0] do [4,4]? Odpowiedz na podstawie wartosci P[4][4].\n- c) Podaj jedna sciezke z [0,0] do [4,4] (jezeli istnieje) jako ciag wspolrzednych.",
+  "wskazowki": [
+    "**Kierunek**: Wypelniaj tablice wiersz po wierszu, od lewej do prawej. Pierwszy wiersz i pierwsza kolumna maja specjalne reguly.",
+    "**Podejscie**: Dla pierwszego wiersza/kolumny: jesli napotkasz czarne pole, cala reszta wiersza/kolumny to 0. Dla reszty: P[i][j]=1 gdy mozna dojsc z gory LUB z lewej i pole jest biale.",
+    "**Kluczowy krok**: P[i][j] = (P[i-1][j] OR P[i][j-1]) AND (1-plansza[i][j]). Czarne pole zawsze daje 0."
+  ],
+  "odpowiedz": "**a) Wypelnianie tablicy P:**\n\nPlansza (0 = biale, 1 = czarne):\n```\n  0 1 2 3 4\n0[0 0 1 0 0]\n1[0 0 0 1 0]\n2[1 0 0 0 1]\n3[0 1 0 0 0]\n4[0 0 1 0 0]\n```\n\nKrok 1: P[0][0] = 1 (bo plansza[0][0] = 0)\n\nKrok 2: Pierwszy wiersz (i=0):\n- P[0][1] = P[0][0] AND (1-0) = 1 AND 1 = 1\n- P[0][2] = P[0][1] AND (1-1) = 1 AND 0 = 0  (czarne pole!)\n- P[0][3] = P[0][2] AND (1-0) = 0 AND 1 = 0\n- P[0][4] = P[0][3] AND (1-0) = 0 AND 1 = 0\n\nKrok 3: Pierwsza kolumna (j=0):\n- P[1][0] = P[0][0] AND (1-0) = 1 AND 1 = 1\n- P[2][0] = P[1][0] AND (1-1) = 1 AND 0 = 0  (czarne pole!)\n- P[3][0] = P[2][0] AND (1-0) = 0 AND 1 = 0\n- P[4][0] = P[3][0] AND (1-0) = 0 AND 1 = 0\n\nKrok 4: Reszta tablicy:\nWiersz 1 (i=1):\n- P[1][1] = (P[0][1] OR P[1][0]) AND (1-0) = (1 OR 1) AND 1 = 1\n- P[1][2] = (P[0][2] OR P[1][1]) AND (1-0) = (0 OR 1) AND 1 = 1\n- P[1][3] = (P[0][3] OR P[1][2]) AND (1-1) = (0 OR 1) AND 0 = 0  (czarne!)\n- P[1][4] = (P[0][4] OR P[1][3]) AND (1-0) = (0 OR 0) AND 1 = 0\n\nWiersz 2 (i=2):\n- P[2][1] = (P[1][1] OR P[2][0]) AND (1-0) = (1 OR 0) AND 1 = 1\n- P[2][2] = (P[1][2] OR P[2][1]) AND (1-0) = (1 OR 1) AND 1 = 1\n- P[2][3] = (P[1][3] OR P[2][2]) AND (1-0) = (0 OR 1) AND 1 = 1\n- P[2][4] = (P[1][4] OR P[2][3]) AND (1-1) = (0 OR 1) AND 0 = 0  (czarne!)\n\nWiersz 3 (i=3):\n- P[3][1] = (P[2][1] OR P[3][0]) AND (1-1) = (1 OR 0) AND 0 = 0  (czarne!)\n- P[3][2] = (P[2][2] OR P[3][1]) AND (1-0) = (1 OR 0) AND 1 = 1\n- P[3][3] = (P[2][3] OR P[3][2]) AND (1-0) = (1 OR 1) AND 1 = 1\n- P[3][4] = (P[2][4] OR P[3][3]) AND (1-0) = (0 OR 1) AND 1 = 1\n\nWiersz 4 (i=4):\n- P[4][1] = (P[3][1] OR P[4][0]) AND (1-0) = (0 OR 0) AND 1 = 0\n- P[4][2] = (P[3][2] OR P[4][1]) AND (1-1) = (1 OR 0) AND 0 = 0  (czarne!)\n- P[4][3] = (P[3][3] OR P[4][2]) AND (1-0) = (1 OR 0) AND 1 = 1\n- P[4][4] = (P[3][4] OR P[4][3]) AND (1-0) = (1 OR 1) AND 1 = 1\n\n**Tablica P:**\n```\n  0 1 2 3 4\n0[1 1 0 0 0]\n1[1 1 1 0 0]\n2[0 1 1 1 0]\n3[0 0 1 1 1]\n4[0 0 0 1 1]\n```\n\n**b) P[4][4] = 1, wiec sciezka z [0,0] do [4,4] ISTNIEJE.**\n\n**c) Przykladowa sciezka (cofamy sie od [4,4]):**\n\n[0,0] -> [0,1] -> [1,1] -> [1,2] -> [2,2] -> [2,3] -> [3,3] -> [3,4] -> [4,4]\n\nMozna tez: [0,0] -> [1,0] -> [1,1] -> [2,1] -> [2,2] -> [3,2] -> [3,3] -> [4,3] -> [4,4]",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie AND i OR**: Pierwszy wiersz/kolumna uzywa AND (jedna przeszkoda blokuje dalsze pola), reszta uzywa OR (wystarczy dojsc z gory LUB z lewej)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o (1-plansza)**: Nawet jesli mozna dojsc do pola, czarne pole daje P=0",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledna kolejnosc wypelniania**: Trzeba wypelniac wiersz po wierszu (od gory), w kazdym wierszu od lewej",
+      "kara": "-1 pkt"
+    }
+  ]
+}

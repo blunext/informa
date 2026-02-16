@@ -1,0 +1,37 @@
+{
+  "id": "20.19",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2015 (Formula 1)",
+  "tagi": [
+    "GROUP-BY",
+    "COUNT",
+    "COUNT-DISTINCT",
+    "HAVING",
+    "JOIN-z-GROUP-BY",
+    "wielokolumnowe-grupowanie",
+    "ORDER-BY",
+    "aliasy"
+  ],
+  "tresc": "Tabela **Autorzy**:\n\n| id | imie | nazwisko | kraj |\n|----|------|----------|------|\n| 1 | Adam | Mickiewicz | Polska |\n| 2 | Juliusz | Slowacki | Polska |\n| 3 | Charles | Dickens | Anglia |\n| 4 | Mark | Twain | USA |\n\nTabela **Ksiazki**:\n\n| id | tytul | id_autora | gatunek |\n|----|-------|-----------|---------|\n| 1 | Pan Tadeusz | 1 | epopeja |\n| 2 | Dziady | 1 | dramat |\n| 3 | Balladyna | 2 | dramat |\n| 4 | Oliver Twist | 3 | powiesc |\n| 5 | Przygody Tomka | 4 | powiesc |\n| 6 | Kordian | 2 | dramat |\n\nTabela **Wypozyczenia**:\n\n| id | id_ksiazki | czytelnik | data |\n|----|------------|-----------|------|\n| 1 | 1 | Anna | 2024-01-10 |\n| 2 | 1 | Jan | 2024-02-15 |\n| 3 | 2 | Ewa | 2024-01-20 |\n| 4 | 3 | Anna | 2024-03-01 |\n| 5 | 4 | Jan | 2024-01-25 |\n| 6 | 5 | Ewa | 2024-02-10 |\n| 7 | 1 | Kasia | 2024-03-05 |\n| 8 | 6 | Jan | 2024-03-10 |\n| 9 | 2 | Anna | 2024-02-20 |\n| 10 | 4 | Kasia | 2024-03-15 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego autora (imie i nazwisko) wyswietli:\n- liczbe ROZNYCH czytelnikow, ktorzy wypozyczyli jego ksiazki,\n- laczna liczbe wypozyczen.\n\nPokaz tylko autorow, ktorych ksiazki wypozyczono co najmniej 2 razy. Posortuj malejaco wg liczby wypozyczen.",
+  "wskazowki": [
+    "**Kierunek**: Trzy tabele do polaczenia (Autorzy → Ksiazki → Wypozyczenia), grupowanie po autorze.",
+    "**Podejscie**: Dwa JOINy, GROUP BY (imie, nazwisko), COUNT(DISTINCT czytelnik) i COUNT(*).",
+    "**Kluczowy krok**: COUNT(DISTINCT W.czytelnik) zlicza unikalnych czytelnikow — Anna wypozyczyla 2 ksiazki Mickiewicza, ale liczy sie raz."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT A.imie, A.nazwisko,\n       COUNT(DISTINCT W.czytelnik) AS rozni_czytelnicy,\n       COUNT(*) AS liczba_wypozyczen\nFROM Autorzy A\nJOIN Ksiazki K ON A.id = K.id_autora\nJOIN Wypozyczenia W ON K.id = W.id_ksiazki\nGROUP BY A.imie, A.nazwisko\nHAVING COUNT(*) >= 2\nORDER BY liczba_wypozyczen DESC;\n```\n\n**Weryfikacja**:\nMickiewicz (ksiazki: Pan Tadeusz=1, Dziady=2):\n- Wypozyczenia: Anna(1), Jan(1), Ewa(2), Kasia(1), Anna(2) → COUNT(*)=**5**\n- DISTINCT czytelnicy: Anna, Jan, Ewa, Kasia = **4**\n- 5 >= 2 ✓\n\nSlowacki (ksiazki: Balladyna=3, Kordian=6):\n- Wypozyczenia: Anna(3), Jan(6) → COUNT(*)=**2**\n- DISTINCT: Anna, Jan = **2**\n- 2 >= 2 ✓\n\nDickens (ksiazki: Oliver Twist=4):\n- Wypozyczenia: Jan(4), Kasia(4) → COUNT(*)=**2**\n- DISTINCT: Jan, Kasia = **2**\n- 2 >= 2 ✓\n\nTwain (ksiazki: Przygody Tomka=5):\n- Wypozyczenia: Ewa(5) → COUNT(*)=**1**\n- 1 >= 2 ✗\n\n| imie | nazwisko | rozni_czytelnicy | liczba_wypozyczen |\n|------|----------|------------------|-----------|\n| Adam | Mickiewicz | 4 | 5 |\n| Juliusz | Slowacki | 2 | 2 |\n| Charles | Dickens | 2 | 2 |\n\n**Wyjasnienie**: Lancuch 3 JOINow laczy autorow z ich ksiazkami i wypozyczeniami. COUNT(DISTINCT czytelnik) vs COUNT(*) — roznica kluczowa: Anna wypozyczyla Pan Tadeusza i Dziady (2 wypozyczenia), ale to 1 czytelnik. GROUP BY po dwoch kolumnach (imie, nazwisko) zabezpiecza przed kolizja imion.",
+  "typowe_bledy": [
+    {
+      "opis": "**COUNT(*) zamiast COUNT(DISTINCT)** w kolumnie czytelnikow: Mickiewicz dostaje 5 zamiast 4",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**GROUP BY tylko po nazwisku**: Jezeli dwoch autorow mialoby to samo nazwisko, ich dane zostana polaczone",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**`> 2` zamiast `>= 2`**: Polecenie mowi 'co najmniej 2', wiec warunek to >= 2, nie > 2",
+      "kara": "-1 pkt"
+    }
+  ]
+}

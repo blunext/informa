@@ -1,0 +1,29 @@
+{
+  "id": "23.13",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2023",
+  "tagi": [
+    "SELECT",
+    "WHERE",
+    "IN",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Kraje**:\n\n| id | nazwa | kontynent | populacja_mln | stolica |\n|----|-------|-----------|---------------|--------|\n| 1 | Polska | Europa | 38 | Warszawa |\n| 2 | Niemcy | Europa | 83 | Berlin |\n| 3 | Francja | Europa | 67 | Paryz |\n| 4 | Japonia | Azja | 125 | Tokio |\n| 5 | Brazylia | Ameryka | 214 | Brasilia |\n| 6 | Australia | Oceania | 26 | Canberra |\n| 7 | Kanada | Ameryka | 38 | Ottawa |\n| 8 | Indie | Azja | 1400 | Delhi |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe i populacje krajow z kontynentu 'Europa' lub 'Azja'. Uzyj operatora IN. Posortuj malejaco wg populacji.",
+  "wskazowki": [
+    "**Kierunek**: IN pozwala sprawdzic przynaleznosc do zbioru wartosci.",
+    "**Podejscie**: `WHERE kontynent IN ('Europa', 'Azja')` — rownowazne z `kontynent = 'Europa' OR kontynent = 'Azja'`.",
+    "**Kluczowy krok**: IN jest krotsze i czytelniejsze niz wiele warunkow OR."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, populacja_mln\nFROM Kraje\nWHERE kontynent IN ('Europa', 'Azja')\nORDER BY populacja_mln DESC;\n```\n\n**Weryfikacja**:\n- Europa: Polska (38), Niemcy (83), Francja (67)\n- Azja: Japonia (125), Indie (1400)\n\n| nazwa | populacja_mln |\n|-------|---------------|\n| Indie | 1400 |\n| Japonia | 125 |\n| Niemcy | 83 |\n| Francja | 67 |\n| Polska | 38 |\n\n**Wyjasnienie**: IN sprawdza, czy wartosc nalezy do podanego zbioru. Jest rownowazne z wieloma OR, ale krotsze i czytelniejsze.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak apostrofow w IN**: `IN (Europa, Azja)` — SQL szuka kolumn o tych nazwach zamiast tekstow",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**AND zamiast IN/OR**: `WHERE kontynent = 'Europa' AND kontynent = 'Azja'` — kontynent nie moze byc jednoczesnie Europa i Azja, wynik pusty",
+      "kara": "-2 pkt"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "11.3",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2024 zad. 4.2 (k-ta liczba pierwsza)",
+  "tagi": [
+    "sortowanie",
+    "k-ty-element",
+    "mediana",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 20 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Poda 5-ta najmniejsza liczbe.\nb) Poda 3-cia najwieksza liczbe.\nc) Poda mediane (wartosc srodkowa po posortowaniu; dla parzystej liczby elementow — srednia dwoch srodkowych).\n\n**Dane** (`dane.txt`):\n```\n42\n17\n85\n3\n56\n91\n28\n64\n12\n73\n38\n95\n7\n50\n21\n69\n34\n88\n46\n60\n```\n\n**Oczekiwany wynik**:\n```\nPo sortowaniu: 3 7 12 17 21 28 34 38 42 46 50 56 60 64 69 73 85 88 91 95\na) 5-ta najmniejsza: 21\nb) 3-cia najwieksza: 88\nc) Mediana: 48.00\n```",
+  "wskazowki": [
+    "**Kierunek**: Posortuj tablice rosnaco — `sort(tab.begin(), tab.end())`.",
+    "**Podejscie**: K-ta najmniejsza to `tab[k-1]`. K-ta najwieksza to `tab[n-k]`.",
+    "**Kluczowy krok**: Mediana dla parzystego n: `(tab[n/2-1] + tab[n/2]) / 2.0` — pamietaj o dzieleniu zmiennoprzecinkowym."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> tab;\n    int x;\n    while (plik >> x) tab.push_back(x);\n\n    sort(tab.begin(), tab.end());\n    int n = tab.size();\n\n    cout << \"Po sortowaniu: \";\n    for (int v : tab) cout << v << \" \";\n    cout << endl;\n\n    cout << \"a) 5-ta najmniejsza: \" << tab[4] << endl;\n    cout << \"b) 3-cia najwieksza: \" << tab[n - 3] << endl;\n\n    double mediana;\n    if (n % 2 == 0)\n        mediana = (tab[n/2 - 1] + tab[n/2]) / 2.0;\n    else\n        mediana = tab[n/2];\n    cout << \"c) Mediana: \" << fixed << setprecision(2) << mediana << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Sortujemy tablice rosnaco. K-ty najmniejszy element to `tab[k-1]`, k-ty najwiekszy to `tab[n-k]`. Mediana dla parzystej liczby elementow to srednia dwoch srodkowych: `(tab[9] + tab[10]) / 2.0`.\n\nWeryfikacja:\nPosortowane: 3,7,12,17,21,28,34,38,42,46,50,56,60,64,69,73,85,88,91,95\na) tab[4] = 21\nb) tab[17] = 88\nc) tab[9]=46, tab[10]=50 -> mediana = (46+50)/2 = 48.00",
+  "typowe_bledy": [
+    {
+      "opis": "**Dzielenie calkowite w medianie**: `(46 + 50) / 2 = 48` (OK akurat tutaj), ale np. `(3+4)/2 = 3` zamiast 3.5. Uzyj `/2.0`",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Indeks k-tej zamiast k-1**: `tab[5]` to 6-ta najmniejsza, nie 5-ta",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak sortowania**: K-ty element bez sortowania to element na k-tej pozycji, nie k-ty co do wielkosci",
+      "kara": "-2 pkt"
+    }
+  ]
+}

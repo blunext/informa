@@ -1,0 +1,33 @@
+{
+  "id": "21.19",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2024",
+  "tagi": [
+    "podzapytanie-w-HAVING",
+    "COUNT-DISTINCT",
+    "AVG",
+    "podzapytanie-skalarne"
+  ],
+  "tresc": "Tabela **Produkty**:\n\n| id_prod | nazwa | kategoria | cena |\n|---------|-------|-----------|------|\n| 1 | Laptop A | elektronika | 3500 |\n| 2 | Laptop B | elektronika | 4200 |\n| 3 | Telefon A | elektronika | 2500 |\n| 4 | Biurko | meble | 800 |\n| 5 | Krzeslo | meble | 450 |\n| 6 | Fotel | meble | 1200 |\n\nTabela **Zamowienia**:\n\n| id_zam | id_prod | klient | ilosc | data |\n|--------|---------|--------|-------|------|\n| 1 | 1 | Anna | 1 | 2024-01-10 |\n| 2 | 3 | Jan | 2 | 2024-01-15 |\n| 3 | 1 | Ewa | 1 | 2024-02-01 |\n| 4 | 5 | Anna | 4 | 2024-02-10 |\n| 5 | 2 | Piotr | 1 | 2024-03-01 |\n| 6 | 6 | Jan | 2 | 2024-03-05 |\n| 7 | 4 | Kasia | 1 | 2024-03-10 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli kategorie produktow, w ktorych laczna wartosc zamowien (cena * ilosc) jest wyzsza niz srednia laczna wartosc zamowien na kategorie. Dla kazdej takiej kategorii podaj laczna wartosc i liczbe roznych zamowionych produktow (DISTINCT).",
+  "wskazowki": [
+    "**Kierunek**: GROUP BY po kategorii, HAVING z podzapytaniem obliczajacym srednia sum per kategorie.",
+    "**Podejscie**: JOIN Produkty z Zamowienia, SUM(cena*ilosc) per kategoria, HAVING z zagniezdzona srednia.",
+    "**Kluczowy krok**: Podzapytanie w HAVING wymaga zagniezdzonego SELECT — najpierw SUM per kategoria, potem AVG z tych sum."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT P.kategoria,\n       SUM(P.cena * Z.ilosc) AS wartosc,\n       COUNT(DISTINCT P.id_prod) AS liczba_produktow\nFROM Produkty P\nJOIN Zamowienia Z ON P.id_prod = Z.id_prod\nGROUP BY P.kategoria\nHAVING SUM(P.cena * Z.ilosc) > (\n  SELECT AVG(kat_suma) FROM (\n    SELECT SUM(P2.cena * Z2.ilosc) AS kat_suma\n    FROM Produkty P2\n    JOIN Zamowienia Z2 ON P2.id_prod = Z2.id_prod\n    GROUP BY P2.kategoria\n  )\n);\n```\n\n**Weryfikacja**:\n\nWartosc zamowien per produkt:\n- Laptop A (id=1): 3500*1 + 3500*1 = 7000\n- Laptop B (id=2): 4200*1 = 4200\n- Telefon A (id=3): 2500*2 = 5000\n- Biurko (id=4): 800*1 = 800\n- Krzeslo (id=5): 450*4 = 1800\n- Fotel (id=6): 1200*2 = 2400\n\nPer kategoria:\n- elektronika: 7000+4200+5000 = **16200** (3 produkty)\n- meble: 800+1800+2400 = **5000** (3 produkty)\n\nSrednia: (16200+5000)/2 = **10600**\n\nKategorie > 10600: elektronika (16200)\n\n| kategoria | wartosc | liczba_produktow |\n|-----------|---------|------------------|\n| elektronika | 16200 | 3 |\n\n**Wyjasnienie**: Zagniezdzone podzapytanie w HAVING: wewnetrzne oblicza SUM per kategoria, zewnetrzne oblicza AVG z tych sum. COUNT(DISTINCT) liczy unikalne produkty.",
+  "typowe_bledy": [
+    {
+      "opis": "**AVG(SUM(...))**: Nie mozna zagniezdzyc agregacji — potrzeba podzapytania",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**COUNT(*) zamiast COUNT(DISTINCT)**: Laptop A zamowiony 2x — COUNT(*) daje 4 zamiast 3 dla elektroniki",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak mnozenia przez ilosc**: SUM(cena) zamiast SUM(cena*ilosc) — inna wartosc",
+      "kara": "-2 pkt"
+    }
+  ]
+}

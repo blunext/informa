@@ -1,0 +1,129 @@
+{
+  "typ": "03_analiza_algorytmu",
+  "nazwa": "Analiza algorytmu",
+  "kategoria": "TEORIA",
+  "czestotliwosc": "10/11 lat",
+  "punkty_lacznie": 35,
+  "tagi_globalne": [
+    "zlozonosc-czasowa",
+    "O-notacja",
+    "petle-zagniezdzne",
+    "przeszukiwanie-binarne",
+    "sortowanie",
+    "kontrprzyklad",
+    "dzielniki",
+    "optymalizacja-sqrt",
+    "rekurencja",
+    "rownanie-rekurencyjne",
+    "indukcja",
+    "niezmiennik-petli",
+    "drzewo-rekursji",
+    "analiza-srednia"
+  ],
+  "cwiczenia": [
+    {
+      "id": "3.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "zlozonosc-czasowa",
+        "O-notacja",
+        "petle-zagniezdzne",
+        "przeszukiwanie-binarne"
+      ]
+    },
+    {
+      "id": "3.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "sortowanie",
+        "kontrprzyklad",
+        "zlozonosc-czasowa"
+      ]
+    },
+    {
+      "id": "3.3",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "zlozonosc-czasowa",
+        "analiza-srednia",
+        "przeszukiwanie-binarne"
+      ]
+    },
+    {
+      "id": "3.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "dzielniki",
+        "optymalizacja-sqrt",
+        "zlozonosc-czasowa"
+      ]
+    },
+    {
+      "id": "3.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "zlozonosc-czasowa",
+        "sortowanie",
+        "przeszukiwanie-binarne",
+        "analiza-srednia"
+      ]
+    },
+    {
+      "id": "3.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "zlozonosc-czasowa",
+        "O-notacja",
+        "petle-zagniezdzne"
+      ]
+    },
+    {
+      "id": "3.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "rekurencja",
+        "rownanie-rekurencyjne",
+        "drzewo-rekursji",
+        "zlozonosc-czasowa"
+      ]
+    },
+    {
+      "id": "3.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "zlozonosc-czasowa",
+        "O-notacja",
+        "niezmiennik-petli"
+      ]
+    },
+    {
+      "id": "3.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "indukcja",
+        "niezmiennik-petli",
+        "zlozonosc-czasowa"
+      ]
+    },
+    {
+      "id": "3.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "rekurencja",
+        "rownanie-rekurencyjne",
+        "zlozonosc-czasowa",
+        "indukcja"
+      ]
+    }
+  ]
+}

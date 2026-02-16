@@ -1,0 +1,33 @@
+{
+  "id": "19.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Matura 2023 (Konfitury)",
+  "tagi": [
+    "INDEX-MATCH",
+    "VLOOKUP",
+    "tabela-krzyzowa",
+    "odwolania-mieszane"
+  ],
+  "tresc": "Sklep ma cennik w formacie tabeli krzyzowej:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Rozmiar \\ Kolor** | **Czerwony** | **Niebieski** | **Zielony** |\n| 2 | S | 49.90 | 54.90 | 44.90 |\n| 3 | M | 59.90 | 64.90 | 54.90 |\n| 4 | L | 69.90 | 74.90 | 64.90 |\n| 5 | XL | 79.90 | 84.90 | 74.90 |\n\nLista zamowien:\n\n| | F | G | H |\n|---|---|---|---|\n| 1 | **Rozmiar** | **Kolor** | **Cena** |\n| 2 | M | Niebieski | ? |\n| 3 | XL | Czerwony | ? |\n| 4 | S | Zielony | ? |\n| 5 | L | Niebieski | ? |\n| 6 | M | Czerwony | ? |\n\n**Polecenie**: Napisz formule w H2, ktora automatycznie wyszuka cene na podstawie rozmiaru (F2) i koloru (G2) z tabeli cennikowej. Formula powinna dzialac po skopiowaniu w dol.",
+  "wskazowki": [
+    "**Kierunek**: INDEX+MATCH — INDEX zwraca wartosc z tabeli na przecieciu wiersza i kolumny. MATCH szuka pozycji wartosci.",
+    "**Podejscie**: INDEX(tabela_cen; MATCH(rozmiar;kolumna_rozmiarow;0); MATCH(kolor;wiersz_kolorow;0)).",
+    "**Kluczowy krok**: MATCH zwraca NUMER pozycji, nie wartosc. INDEX uzywa tego numeru do pobrania ceny."
+  ],
+  "odpowiedz": "**Formula:**\n```\nH2: =INDEX($B$2:$D$5;MATCH(F2;$A$2:$A$5;0);MATCH(G2;$B$1:$D$1;0))\n```\n\nAlternatywnie:\n```\nH2: =INDEX($A$1:$D$5;MATCH(F2;$A$2:$A$5;0)+1;MATCH(G2;$B$1:$D$1;0)+1)\n```\n\n**Wyjanienie formuly:**\n- `$B$2:$D$5` — tabela cen (bez naglowkow)\n- `MATCH(F2;$A$2:$A$5;0)` — szuka rozmiaru F2 w kolumnie A, zwraca numer wiersza\n- `MATCH(G2;$B$1:$D$1;0)` — szuka koloru G2 w wierszu 1, zwraca numer kolumny\n\n**Weryfikacja:**\n\n| Rozmiar | Kolor | MATCH rozmiar | MATCH kolor | Cena |\n|---------|-------|---------------|-------------|------|\n| M | Niebieski | 2 | 2 | 64.90 |\n| XL | Czerwony | 4 | 1 | 79.90 |\n| S | Zielony | 1 | 3 | 44.90 |\n| L | Niebieski | 3 | 2 | 74.90 |\n| M | Czerwony | 2 | 1 | 59.90 |\n\nKontrola z tabela: M-Niebieski = 64.90 ✓, XL-Czerwony = 79.90 ✓, S-Zielony = 44.90 ✓\n\n**Wyjasnienie**: INDEX+MATCH to potezniejsza alternatywa dla VLOOKUP — pozwala szukac w dwoch wymiarach jednoczesnie. VLOOKUP szuka tylko w jednej kolumnie (lewej), a INDEX+MATCH w dowolnym kierunku. Na maturze INDEX+MATCH pojawia sie przy wyszukiwaniu w tablicach 2D (cenniki, rozmiary, odleglosci).",
+  "typowe_bledy": [
+    {
+      "opis": "**Zakres INDEX wlaczajacy naglowki**: Jesli INDEX obejmuje A1:D5, to MATCH musi zwrocic pozycje +1. Lepiej uzyc B2:D5 bez naglowkow",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak $ w zakresach tabeli cennikowej**: Kopiowanie w dol przesunie zakresy",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Uzycie VLOOKUP zamiast INDEX-MATCH**: VLOOKUP nie obsluguje wyszukiwania dwuwymiarowego bez kolumny pomocniczej",
+      "kara": ""
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "12.5",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2024 zad. 4.4 (maksymalna srednia segmentu)",
+  "tagi": [
+    "srednia-segmentu",
+    "sumy-prefiksowe",
+    "spojny-podciag",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 20 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie spojny podciag o dlugosci co najmniej 5 z maksymalna srednia arytmetyczna. Podaj pozycje startowa, dlugosc i srednia.\n\n**Dane** (`dane.txt`):\n```\n10\n5\n3\n8\n12\n7\n2\n15\n20\n18\n25\n22\n19\n4\n6\n11\n14\n9\n1\n16\n```\n\n**Oczekiwany wynik**:\n```\nOptymalny segment (dlugosc >= 5):\nPozycja poczatkowa: 9, dlugosc: 5\nElementy: 20 18 25 22 19\nSrednia: 20.80\n```",
+  "wskazowki": [
+    "**Kierunek**: Sumy prefiksowe pozwalaja obliczyc sume kazdego fragmentu w O(1).",
+    "**Podejscie**: `prefix[i+len] - prefix[i]` to suma fragmentu od i dlugosci len. Srednia = suma/len.",
+    "**Kluczowy krok**: Sprawdz wszystkie fragmenty dlugosci >= 5. Najwyzsza srednia czesto wystepuje przy najkrotszym fragmencie (dl. 5)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    // Sumy prefiksowe\n    vector<int> prefix(n + 1, 0);\n    for (int i = 0; i < n; i++)\n        prefix[i + 1] = prefix[i] + T[i];\n\n    double bestSr = -1;\n    int bestStart = 0, bestLen = 5;\n\n    for (int i = 0; i < n; i++) {\n        for (int len = 5; i + len <= n; len++) {\n            int suma = prefix[i + len] - prefix[i];\n            double sr = (double)suma / len;\n            if (sr > bestSr) {\n                bestSr = sr;\n                bestStart = i;\n                bestLen = len;\n            }\n        }\n    }\n\n    cout << \"Optymalny segment (dlugosc >= 5):\" << endl;\n    cout << \"Pozycja poczatkowa: \" << bestStart + 1\n         << \", dlugosc: \" << bestLen << endl;\n    cout << \"Elementy: \";\n    for (int i = bestStart; i < bestStart + bestLen; i++)\n        cout << T[i] << \" \";\n    cout << endl;\n    cout << \"Srednia: \" << fixed << setprecision(2) << bestSr << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Sumy prefiksowe pozwalaja obliczyc sume dowolnego fragmentu w O(1). Sprawdzamy wszystkie mozliwe fragmenty o dlugosci >= 5, szukajac tego z najwyzsza srednia.\n\nWeryfikacja (kilka kandydatow):\n- Poz.8-12 (dl.5): 15+20+18+25+22 = 100, sr=20.00\n- Poz.9-13 (dl.5): 20+18+25+22+19 = 104, sr=20.80\n- Poz.8-13 (dl.6): 15+20+18+25+22+19 = 119, sr=19.83\nNajlepsza: Poz.9-13 (dl.5), srednia 20.80.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak sum prefiksowych (O(n^3) zamiast O(n^2))**: Obliczanie sumy w petli za kazdym razem od nowa. Dziala, ale moze timeout na duzych danych",
+      "kara": ""
+    },
+    {
+      "opis": "**Dzielenie calkowite**: `suma / len` zamiast `(double)suma / len`",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Minimalna dlugosc 4 zamiast 5**: Zle odczytanie warunku \"co najmniej 5\"",
+      "kara": "-1 pkt"
+    }
+  ]
+}

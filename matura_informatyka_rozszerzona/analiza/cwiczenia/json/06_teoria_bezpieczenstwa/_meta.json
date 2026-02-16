@@ -1,0 +1,139 @@
+{
+  "typ": "06_teoria_bezpieczenstwa",
+  "nazwa": "Teoria bezpieczenstwa",
+  "kategoria": "TEORIA",
+  "czestotliwosc": "2/11 lat",
+  "punkty_lacznie": 19,
+  "tagi_globalne": [
+    "phishing",
+    "ransomware",
+    "trojan",
+    "keylogger",
+    "protokoly-sieciowe",
+    "HTTPS",
+    "FTP",
+    "DNS",
+    "DHCP",
+    "SMTP",
+    "szyfrowanie-symetryczne",
+    "szyfrowanie-asymetryczne",
+    "podpis-cyfrowy",
+    "firewall",
+    "VPN",
+    "certyfikat-SSL",
+    "socjotechnika",
+    "atak-brute-force",
+    "2FA",
+    "RODO"
+  ],
+  "cwiczenia": [
+    {
+      "id": "6.1",
+      "trudnosc": "latwe",
+      "punkty": 1,
+      "tagi": [
+        "phishing",
+        "trojan",
+        "ransomware",
+        "keylogger"
+      ]
+    },
+    {
+      "id": "6.2",
+      "trudnosc": "latwe",
+      "punkty": 1,
+      "tagi": [
+        "protokoly-sieciowe",
+        "HTTPS",
+        "FTP",
+        "DNS",
+        "DHCP",
+        "SMTP"
+      ]
+    },
+    {
+      "id": "6.3",
+      "trudnosc": "srednie",
+      "punkty": 2,
+      "tagi": [
+        "szyfrowanie-symetryczne",
+        "szyfrowanie-asymetryczne",
+        "podpis-cyfrowy",
+        "HTTPS"
+      ]
+    },
+    {
+      "id": "6.4",
+      "trudnosc": "srednie",
+      "punkty": 2,
+      "tagi": [
+        "firewall",
+        "VPN",
+        "certyfikat-SSL",
+        "atak-brute-force"
+      ]
+    },
+    {
+      "id": "6.5",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": [
+        "phishing",
+        "trojan",
+        "socjotechnika"
+      ]
+    },
+    {
+      "id": "6.6",
+      "trudnosc": "latwe",
+      "punkty": 1,
+      "tagi": [
+        "socjotechnika",
+        "phishing",
+        "ransomware"
+      ]
+    },
+    {
+      "id": "6.7",
+      "trudnosc": "srednie",
+      "punkty": 2,
+      "tagi": [
+        "2FA",
+        "szyfrowanie-asymetryczne",
+        "certyfikat-SSL",
+        "VPN"
+      ]
+    },
+    {
+      "id": "6.8",
+      "trudnosc": "srednie",
+      "punkty": 2,
+      "tagi": [
+        "atak-brute-force",
+        "szyfrowanie-symetryczne"
+      ]
+    },
+    {
+      "id": "6.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 2,
+      "tagi": [
+        "RODO",
+        "firewall",
+        "2FA",
+        "socjotechnika"
+      ]
+    },
+    {
+      "id": "6.10",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": [
+        "socjotechnika",
+        "szyfrowanie-asymetryczne",
+        "phishing",
+        "2FA"
+      ]
+    }
+  ]
+}

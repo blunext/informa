@@ -1,0 +1,33 @@
+{
+  "id": "2.6",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2019 zad. 2 (NWD), styl CKE",
+  "tagi": [
+    "NWD",
+    "petla-while",
+    "mod-div",
+    "pseudokod"
+  ],
+  "tresc": "Napisz w pseudokodzie lub C++ funkcje `NWD(a, b)`, ktora oblicza najwiekszy wspolny dzielnik dwoch liczb naturalnych a > 0 i b > 0, korzystajac z algorytmu Euklidesa z reszta z dzielenia (wersja iteracyjna).\n\n**Ograniczenia**: Uzyj tylko zmiennych calkowitych i operatora mod. Nie wolno uzywac rekurencji ani funkcji wbudowanych.\n\n**Przyklady**:\n- `NWD(48, 18)` = 6\n- `NWD(100, 25)` = 25\n- `NWD(17, 13)` = 1 (liczby wzglednie pierwsze)\n- `NWD(12, 12)` = 12",
+  "wskazowki": [
+    "Algorytm Euklidesa opiera sie na fakcie, ze NWD(a, b) = NWD(b, a mod b). Jak to przelozyc na petle?",
+    "Petla dziala dopoki `b > 0`. W kazdym kroku oblicz `reszta = a mod b`, potem zamien: `a = b`, `b = reszta`. Gdy `b` osiagnie 0, wynikiem jest `a`.",
+    "Przyklad krok po kroku: NWD(48, 18): 48 mod 18 = 12, potem NWD(18, 12): 18 mod 12 = 6, potem NWD(12, 6): 12 mod 6 = 0, wynik = 6."
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja NWD(a, b)\n    dopoki b > 0:\n        reszta := a mod b\n        a := b\n        b := reszta\n    zwroc a\n```\n\n**C++:**\n\n```cpp\nint NWD(int a, int b) {\n    while (b > 0) {\n        int reszta = a % b;\n        a = b;\n        b = reszta;\n    }\n    return a;\n}\n```\n\n**Weryfikacja NWD(48, 18):**\n\n| Krok | a | b | a mod b | a (nowe) | b (nowe) |\n|------|---|---|---------|----------|----------|\n| 1 | 48 | 18 | 12 | 18 | 12 |\n| 2 | 18 | 12 | 6 | 12 | 6 |\n| 3 | 12 | 6 | 0 | 6 | 0 |\n\nWynik: 6. Sprawdzenie: 48 = 6*8, 18 = 6*3.\n\n**Weryfikacja NWD(100, 25):**\n\n| Krok | a | b | a mod b | a (nowe) | b (nowe) |\n|------|---|---|---------|----------|----------|\n| 1 | 100 | 25 | 0 | 25 | 0 |\n\nWynik: 25. Sprawdzenie: 100 = 25*4, 25 = 25*1.\n\n**Weryfikacja NWD(17, 13):**\n\n| Krok | a | b | a mod b | a (nowe) | b (nowe) |\n|------|---|---|---------|----------|----------|\n| 1 | 17 | 13 | 4 | 13 | 4 |\n| 2 | 13 | 4 | 1 | 4 | 1 |\n| 3 | 4 | 1 | 0 | 1 | 0 |\n\nWynik: 1. Liczby 17 i 13 sa wzglednie pierwsze.",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledna kolejnosc przypiasan** -- pisanie `a := reszta; b := a` zamiast uzycia zmiennej tymczasowej `reszta`. Bez zmiennej posredniej wartosc `a` jest nadpisana zanim zostanie przypisana do `b`",
+      "kara": "-2 pkt za bledny algorytm"
+    },
+    {
+      "opis": "**Warunek petli `b >= 0` zamiast `b > 0`** -- powoduje dzielenie przez zero w nastepnej iteracji, gdy `b` osiagnie 0",
+      "kara": "-1 pkt za blad wykonania"
+    },
+    {
+      "opis": "**Zwracanie `b` zamiast `a`** -- po zakonczeniu petli `b = 0`, wiec wynik zawsze bylby 0",
+      "kara": "-2 pkt"
+    }
+  ]
+}

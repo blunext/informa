@@ -1,0 +1,262 @@
+{
+  "typ": "23_sql_select_where",
+  "nazwa": "SQL — SELECT z WHERE",
+  "kategoria": "SQL",
+  "czestotliwosc": "4/11 lat",
+  "punkty_lacznie": 56,
+  "tagi_globalne": [
+    "SELECT",
+    "WHERE",
+    "AND",
+    "OR",
+    "LIKE",
+    "BETWEEN",
+    "IN",
+    "NOT",
+    "IS-NULL",
+    "IS-NOT-NULL",
+    "LENGTH",
+    "SUBSTR",
+    "ORDER-BY",
+    "operatory-porownania",
+    "obliczenia-w-SELECT",
+    "DISTINCT",
+    "CASE-WHEN"
+  ],
+  "cwiczenia": [
+    {
+      "id": "23.1",
+      "trudnosc": "latwe",
+      "punkty": 1,
+      "tagi": [
+        "SELECT",
+        "WHERE",
+        "AND",
+        "operatory-porownania"
+      ]
+    },
+    {
+      "id": "23.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "SELECT",
+        "WHERE",
+        "LIKE",
+        "OR",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "23.3",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "WHERE",
+        "BETWEEN",
+        "IN",
+        "NOT",
+        "LIKE",
+        "AND"
+      ]
+    },
+    {
+      "id": "23.4",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "LENGTH",
+        "SUBSTR",
+        "WHERE",
+        "operatory-porownania"
+      ]
+    },
+    {
+      "id": "23.5",
+      "trudnosc": "trudne",
+      "punkty": 4,
+      "tagi": [
+        "IS-NOT-NULL",
+        "IS-NULL",
+        "AND",
+        "OR",
+        "obliczenia-w-SELECT",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "23.6",
+      "trudnosc": "latwe",
+      "punkty": 1,
+      "tagi": [
+        "SELECT",
+        "WHERE",
+        "ORDER-BY",
+        "operatory-porownania"
+      ]
+    },
+    {
+      "id": "23.7",
+      "trudnosc": "srednie",
+      "punkty": 2,
+      "tagi": [
+        "WHERE",
+        "LIKE",
+        "NOT",
+        "AND",
+        "OR"
+      ]
+    },
+    {
+      "id": "23.8",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "DISTINCT",
+        "WHERE",
+        "BETWEEN",
+        "LIKE",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "23.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": [
+        "CASE-WHEN",
+        "obliczenia-w-SELECT",
+        "WHERE",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "23.10",
+      "trudnosc": "trudne",
+      "punkty": 4,
+      "tagi": [
+        "IS-NULL",
+        "IS-NOT-NULL",
+        "CASE-WHEN",
+        "obliczenia-w-SELECT",
+        "SUBSTR",
+        "LENGTH",
+        "LIKE",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "23.11",
+      "trudnosc": "latwe",
+      "punkty": 1,
+      "tagi": [
+        "SELECT",
+        "WHERE",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "23.12",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "SELECT",
+        "WHERE",
+        "LIKE",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "23.13",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "SELECT",
+        "WHERE",
+        "IN",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "23.14",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "WHERE",
+        "BETWEEN",
+        "AND",
+        "NOT",
+        "operatory-porownania"
+      ]
+    },
+    {
+      "id": "23.15",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "WHERE",
+        "IS-NULL",
+        "IS-NOT-NULL",
+        "AND"
+      ]
+    },
+    {
+      "id": "23.16",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "LENGTH",
+        "SUBSTR",
+        "WHERE",
+        "operatory-porownania"
+      ]
+    },
+    {
+      "id": "23.17",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": [
+        "CASE-WHEN",
+        "obliczenia-w-SELECT",
+        "AND",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "23.18",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "WHERE",
+        "AND",
+        "OR",
+        "NOT",
+        "operatory-porownania"
+      ]
+    },
+    {
+      "id": "23.19",
+      "trudnosc": "trudne",
+      "punkty": 4,
+      "tagi": [
+        "DISTINCT",
+        "CASE-WHEN",
+        "obliczenia-w-SELECT",
+        "WHERE",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "23.20",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "CASE-WHEN",
+        "obliczenia-w-SELECT",
+        "WHERE",
+        "ORDER-BY",
+        "operatory-porownania"
+      ]
+    }
+  ]
+}

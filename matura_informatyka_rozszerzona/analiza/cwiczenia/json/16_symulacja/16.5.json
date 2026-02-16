@@ -1,0 +1,34 @@
+{
+  "id": "16.5",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2025 (Martianeum)",
+  "tagi": [
+    "akumulator",
+    "IF-warunkowy",
+    "lancuch-zaleznosci",
+    "COUNTIF",
+    "symulacja-krokowa"
+  ],
+  "tresc": "Kopalnia codziennie wydobywa pewna ilosc rudy. Ruda jest gromadzona w magazynie. Gdy zapas osiagnie lub przekroczy 100 ton, wysylany jest transport (dokladnie 100 ton), a reszta zostaje w magazynie. Nalezy policzyc ile transportow wyslano.\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Dzien** | **Wydobycie** | **Zapas przed transportem** | **Transport?** | **Zapas po transporcie** |\n| 2 | 1 | 35 | ? | ? | ? |\n| 3 | 2 | 42 | ? | ? | ? |\n| 4 | 3 | 28 | ? | ? | ? |\n| 5 | 4 | 50 | ? | ? | ? |\n| 6 | 5 | 15 | ? | ? | ? |\n| 7 | 6 | 45 | ? | ? | ? |\n| 8 | 7 | 38 | ? | ? | ? |\n| 9 | 8 | 55 | ? | ? | ? |\n| 10 | 9 | 22 | ? | ? | ? |\n| 11 | 10 | 48 | ? | ? | ? |\n\nPoczatkowy zapas (dzien 0) wynosi 0 ton.\n\n**Polecenie**:\n1. W C2 oblicz zapas przed transportem = poprzedni zapas po transporcie + dzisiejsze wydobycie. Dla dnia 1: C2 = 0 + B2.\n2. W D2 napisz formule: jezeli zapas >= 100, to \"TAK\", w przeciwnym razie \"NIE\".\n3. W E2 napisz formule: jezeli transport = \"TAK\", to zapas - 100, w przeciwnym razie zapas (bez zmian).\n4. Na koncu podaj formule zliczajaca laczna liczbe transportow.",
+  "wskazowki": [
+    "**Wskazowka 1**: To zadanie wymaga trzech kolumn obliczeniowych, ktore tworza lancuch: C (zapas przed) -> D (decyzja) -> E (zapas po). Kolumna E jednego wiersza zasila kolumne C nastepnego.",
+    "**Wskazowka 2**: Pierwszy wiersz jest specjalny — zapas startowy wynosi 0, wiec C2 = 0 + B2 = B2. Od wiersza 3 formula C odwoluje sie do E poprzedniego wiersza. Formula D to prosty IF z progiem 100. Formula E to IF sprawdzajacy D i odejmujacy 100 lub nie.",
+    "**Wskazowka 3**: C2: `=B2`, C3: `=E2+B3` (kopiowane w dol). D2: `=IF(C2>=100;\"TAK\";\"NIE\")`. E2: `=IF(D2=\"TAK\";C2-100;C2)`. Liczba transportow: `=COUNTIF(D2:D11;\"TAK\")`."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nC2: =B2                    (pierwszy dzien, zapas startowy = 0)\nC3: =E2+B3                 (kopiowane w dol od wiersza 3)\nD2: =IF(C2>=100;\"TAK\";\"NIE\")\nE2: =IF(D2=\"TAK\";C2-100;C2)\nLaczna liczba transportow: =COUNTIF(D2:D11;\"TAK\")\n```\n\n**Wypelniona tabela:**\n\n| Dzien | Wydobycie | Zapas przed | Transport? | Zapas po |\n|-------|-----------|-------------|-----------|----------|\n| 1 | 35 | 35 | NIE | 35 |\n| 2 | 42 | 77 | NIE | 77 |\n| 3 | 28 | 105 | TAK | 5 |\n| 4 | 50 | 55 | NIE | 55 |\n| 5 | 15 | 70 | NIE | 70 |\n| 6 | 45 | 115 | TAK | 15 |\n| 7 | 38 | 53 | NIE | 53 |\n| 8 | 55 | 108 | TAK | 8 |\n| 9 | 22 | 30 | NIE | 30 |\n| 10 | 48 | 78 | NIE | 78 |\n\nLaczna liczba transportow: **3**\n\n**Weryfikacja krok po kroku:**\n- Dzien 1: C=0+35=35, <100 -> NIE, E=35\n- Dzien 2: C=35+42=77, <100 -> NIE, E=77\n- Dzien 3: C=77+28=105, >=100 -> TAK, E=105-100=5\n- Dzien 4: C=5+50=55, <100 -> NIE, E=55\n- Dzien 5: C=55+15=70, <100 -> NIE, E=70\n- Dzien 6: C=70+45=115, >=100 -> TAK, E=115-100=15\n- Dzien 7: C=15+38=53, <100 -> NIE, E=53\n- Dzien 8: C=53+55=108, >=100 -> TAK, E=108-100=8\n- Dzien 9: C=8+22=30, <100 -> NIE, E=30\n- Dzien 10: C=30+48=78, <100 -> NIE, E=78\n\n**Wyjasnienie**: To typowa symulacja z akumulatorem i warunkiem resetowania. Kolumna E \"przenosi\" stan do nastepnego dnia — odwolanie E2 w formule C3 tworzy lancuch zaleznosci. Kazdy dzien zalezy od wyniku poprzedniego dnia. COUNTIF na koncu zlicza ile razy wyslano transport. Na maturze tego typu zadania wymagaja dokladnego sledzenia stanu wiersz po wierszu.",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwolanie do C zamiast E w nastepnym wierszu**: Napisanie `C3: =C2+B3` zamiast `=E2+B3` — pominiecie transportu powoduje, ze zapas nigdy nie jest zmniejszany o 100 ton, co daje bledne wyniki od wiersza z pierwszym transportem.",
+      "kara": ""
+    },
+    {
+      "opis": "**Porownanie tekstu bez cudzyslowow**: Napisanie `=IF(D2=TAK;...)` zamiast `=IF(D2=\"TAK\";...)` — bez cudzyslowow arkusz traktuje TAK jako nazwe zakresu lub zmiennej, nie jako tekst.",
+      "kara": ""
+    },
+    {
+      "opis": "**Zapomnienie o osobnej formule dla pierwszego wiersza**: Proste skopiowanie `=E1+B2` do C2 odwoluje sie do E1, ktore jest naglowkiem (tekst), co daje blad #WARTOSC!.",
+      "kara": ""
+    }
+  ]
+}

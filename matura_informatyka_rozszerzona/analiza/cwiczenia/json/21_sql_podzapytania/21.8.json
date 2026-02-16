@@ -1,0 +1,29 @@
+{
+  "id": "21.8",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2017 (Pilka reczna)",
+  "tagi": [
+    "podzapytanie-skalarne",
+    "MIN",
+    "MAX",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Zawodnicy**:\n\n| id | imie | nazwisko | druzyna | wiek | wzrost |\n|----|------|----------|---------|------|--------|\n| 1 | Adam | Kowalski | Orly | 25 | 185 |\n| 2 | Jan | Nowak | Wilki | 30 | 192 |\n| 3 | Ewa | Maj | Orly | 22 | 175 |\n| 4 | Piotr | Lis | Rysie | 28 | 188 |\n| 5 | Kasia | Zak | Wilki | 24 | 170 |\n| 6 | Tomek | Bak | Rysie | 32 | 195 |\n| 7 | Ola | Wrobel | Orly | 26 | 178 |\n| 8 | Marek | Krol | Wilki | 21 | 180 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko i druzyne zawodnikow, ktorych wzrost jest wiekszy niz najwyzszy wzrost wsrod zawodnikow druzyny 'Wilki'.",
+  "wskazowki": [
+    "**Kierunek**: Podzapytanie z MAX ograniczone do jednej druzyny.",
+    "**Podejscie**: `(SELECT MAX(wzrost) FROM Zawodnicy WHERE druzyna = 'Wilki')` daje najwyzszy wzrost Wilkow.",
+    "**Kluczowy krok**: Porownaj wzrost kazdego zawodnika z tym wynikiem."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko, druzyna\nFROM Zawodnicy\nWHERE wzrost > (SELECT MAX(wzrost) FROM Zawodnicy WHERE druzyna = 'Wilki');\n```\n\n**Weryfikacja**:\n- MAX wzrost Wilkow: Jan (192), Kasia (170), Marek (180) → MAX = **192**\n- Zawodnicy z wzrostem > 192:\n  - Tomek Bak: 195 > 192 ✓\n\n| imie | nazwisko | druzyna |\n|------|----------|---------|\n| Tomek | Bak | Rysie |\n\n**Wyjasnienie**: Podzapytanie z WHERE ogranicza MAX do jednej druzyny. Wynik (192) jest porownywany ze wzrostem WSZYSTKICH zawodnikow (nie tylko Wilkow). Gdybys chcial wykluczyc samych Wilkow z wynikow, dodalbys `AND druzyna != 'Wilki'` w zapytaniu zewnetrznym.",
+  "typowe_bledy": [
+    {
+      "opis": "**MAX bez WHERE**: `(SELECT MAX(wzrost) FROM Zawodnicy)` daje MAX ze wszystkich — wynik bylby pusty (nikt nie jest wyzszy niz najwyzszy)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**`>=` zamiast `>`**: \"Wiekszy niz\" to `>`, nie `>=`. Z `>=` Jan Nowak (192) tez bylby w wynikach",
+      "kara": "-1 pkt"
+    }
+  ]
+}

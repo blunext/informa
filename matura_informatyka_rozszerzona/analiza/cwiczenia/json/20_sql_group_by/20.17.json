@@ -1,0 +1,37 @@
+{
+  "id": "20.17",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2021 (Gra strategiczna)",
+  "tagi": [
+    "GROUP-BY",
+    "MIN",
+    "MAX",
+    "AVG",
+    "ROUND",
+    "aliasy",
+    "ORDER-BY",
+    "obliczenia-w-SELECT"
+  ],
+  "tresc": "Tabela **Wyniki** zawiera dane o wynikach testow uczniow:\n\n| id | uczen | przedmiot | wynik | pkt_max |\n|----|-------|-----------|-------|---------|\n| 1 | Anna | Matematyka | 85 | 100 |\n| 2 | Jan | Matematyka | 72 | 100 |\n| 3 | Ewa | Matematyka | 91 | 100 |\n| 4 | Anna | Fizyka | 60 | 80 |\n| 5 | Jan | Fizyka | 55 | 80 |\n| 6 | Ewa | Fizyka | 78 | 80 |\n| 7 | Anna | Chemia | 45 | 60 |\n| 8 | Jan | Chemia | 52 | 60 |\n| 9 | Ewa | Chemia | 58 | 60 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego przedmiotu wyswietli:\n- minimalny wynik,\n- maksymalny wynik,\n- sredni wynik (zaokraglony do 1 m.p.),\n- sredni procent wyniku: `ROUND(AVG(wynik * 100.0 / pkt_max), 1)`.\n\nPosortuj malejaco wg sredniego procentu.",
+  "wskazowki": [
+    "**Kierunek**: Jedno zapytanie z wieloma funkcjami agregujacymi i obliczeniem w SELECT.",
+    "**Podejscie**: MIN, MAX, AVG, oraz AVG(wyrazenie) — wszystko w jednym SELECT.",
+    "**Kluczowy krok**: `wynik * 100.0 / pkt_max` oblicza procent per wiersz, AVG uśrednia go w grupie. Uzyj 100.0 (nie 100) aby wymusic dzielenie zmiennoprzecinkowe."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT przedmiot,\n       MIN(wynik) AS min_wynik,\n       MAX(wynik) AS max_wynik,\n       ROUND(AVG(wynik), 1) AS sredni_wynik,\n       ROUND(AVG(wynik * 100.0 / pkt_max), 1) AS sredni_procent\nFROM Wyniki\nGROUP BY przedmiot\nORDER BY sredni_procent DESC;\n```\n\n**Weryfikacja**:\nChemia (pkt_max=60): wyniki 45, 52, 58\n- MIN=45, MAX=58, AVG=(45+52+58)/3=51.7\n- procenty: 75.0, 86.67, 96.67 → AVG=86.1\n\nMatematyka (pkt_max=100): wyniki 85, 72, 91\n- MIN=72, MAX=91, AVG=(85+72+91)/3=82.7\n- procenty: 85.0, 72.0, 91.0 → AVG=82.7\n\nFizyka (pkt_max=80): wyniki 60, 55, 78\n- MIN=55, MAX=78, AVG=(60+55+78)/3=64.3\n- procenty: 75.0, 68.75, 97.5 → AVG=80.4\n\n| przedmiot | min_wynik | max_wynik | sredni_wynik | sredni_procent |\n|-----------|-----------|-----------|-------------|----------------|\n| Chemia | 45 | 58 | 51.7 | 86.1 |\n| Matematyka | 72 | 91 | 82.7 | 82.7 |\n| Fizyka | 55 | 78 | 64.3 | 80.4 |\n\n**Wyjasnienie**: Mozna stosowac wiele funkcji agregujacych jednoczesnie. `AVG(wynik * 100.0 / pkt_max)` to obliczenie per wiersz wewnatrz agregatu — najpierw oblicza procent dla kazdego ucznia, potem usrednia w grupie. Uzycie `100.0` (a nie `100`) wymusza dzielenie zmiennoprzecinkowe.",
+  "typowe_bledy": [
+    {
+      "opis": "**Dzielenie calkowite**: `wynik * 100 / pkt_max` w SQLite daje dzielenie calkowite (np. 45*100/60=75, ale 55*100/80=68 zamiast 68.75). Uzyj 100.0",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**AVG(wynik) / AVG(pkt_max) * 100**: To nie to samo co AVG(wynik/pkt_max*100) — inna kolejnosc operacji",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pomylenie MIN/MAX kolumn**: Np. MIN(pkt_max) zamiast MIN(wynik)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

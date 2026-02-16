@@ -1,0 +1,29 @@
+{
+  "id": "16.2",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2015 (Demografia)",
+  "tagi": [
+    "akumulator",
+    "odwolanie-bezwzgledne",
+    "kopiowanie-formul",
+    "mnozenie"
+  ],
+  "tresc": "Populacja miasta wynosi 50000 mieszkancow. Kazdego roku populacja rosnie o 2.5%.\n\n| | A | B |\n|---|---|---|\n| 1 | **Rok** | **Populacja** |\n| 2 | 2024 | 50000 |\n| 3 | 2025 | ? |\n| 4 | 2026 | ? |\n| 5 | 2027 | ? |\n| 6 | 2028 | ? |\n| 7 | 2029 | ? |\n\nWspolczynnik wzrostu podany jest w komorce D1: 1.025 (czyli +2.5%).\n\n**Polecenie**: Napisz formule w B3, ktora mnozy poprzednia populacje przez wspolczynnik z D1 (z odniesieniem bezwzglednym). Formula musi dzialac po skopiowaniu w dol.",
+  "wskazowki": [
+    "**Wskazowka 1**: Nowa populacja = stara populacja razy wspolczynnik wzrostu. Zastanow sie, czy odwolanie do wspolczynnika powinno sie zmieniac przy kopiowaniu.",
+    "**Wskazowka 2**: Odwolanie do B2 (poprzednia populacja) powinno byc wzgledne (zmienia sie przy kopiowaniu), ale odwolanie do D1 (wspolczynnik) musi byc bezwzgledne (znak `$`).",
+    "**Wskazowka 3**: Formula to `=B2*$D$1`. Po skopiowaniu do B4 stanie sie `=B3*$D$1` — B2 zmienilo sie na B3, ale $D$1 zostalo bez zmian."
+  ],
+  "odpowiedz": "**Formula (B3, kopiowana w dol):**\n```\nB3: =B2*$D$1\n```\n\n**Wypelniona tabela (zaokraglone do calkowitych):**\n\n| Rok | Populacja |\n|-----|-----------|\n| 2024 | 50000 |\n| 2025 | 51250 |\n| 2026 | 52531 |\n| 2027 | 53845 |\n| 2028 | 55191 |\n| 2029 | 56570 |\n\n**Weryfikacja:**\n- B3: 50000 x 1.025 = 51250.00\n- B4: 51250 x 1.025 = 52531.25 ~ 52531\n- B5: 52531.25 x 1.025 = 53844.53 ~ 53845\n- B6: 53844.53 x 1.025 = 55190.64 ~ 55191\n- B7: 55190.64 x 1.025 = 56570.41 ~ 56570\n\n**Wyjasnienie**: Znak `$` przed D i 1 (`$D$1`) sprawia, ze odwolanie jest bezwzgledne — nie zmienia sie przy kopiowaniu formuly. Bez `$` kopiowanie z B3 do B4 zmieniloby D1 na D2, co daloby bledny wynik.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak znaku $ przy wspolczynniku**: Napisanie `=B2*D1` zamiast `=B2*$D$1` — po skopiowaniu do B4 formula zmieni sie na `=B3*D2`, a komorka D2 jest pusta (wynik = 0).",
+      "kara": ""
+    },
+    {
+      "opis": "**Zakotwiczenie obu odwolan**: Napisanie `=$B$2*$D$1` — kazdy rok mnozy poczatkowa populacje (50000) zamiast poprzedniej, co daje ten sam wynik 51250 w kazdym wierszu.",
+      "kara": ""
+    }
+  ]
+}

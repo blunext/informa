@@ -1,0 +1,32 @@
+{
+  "id": "1.1",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2024 zad. 2 (Cyfry)",
+  "tagi": [
+    "mod-div",
+    "cyfry-liczby",
+    "sledzenie-iteracyjne"
+  ],
+  "tresc": "Dana jest funkcja:\n\n```\nfunkcja przetworzCyfry(n)\n    wynik := 0\n    mnoznik := 1\n    dopoki n > 0:\n        cyfra := n mod 10\n        jezeli cyfra mod 2 = 0:\n            wynik := wynik + (cyfra / 2) * mnoznik\n        w przeciwnym razie:\n            wynik := wynik + 1 * mnoznik\n        mnoznik := mnoznik * 10\n        n := n div 10\n    zwroc wynik\n```\n\nFunkcja przetwarza cyfry liczby od prawej strony: cyfry parzyste dzieli przez 2, a nieparzyste zamienia na 1.\n\n**Polecenie**: Oblicz wartosc `przetworzCyfry(n)` dla kazdej z podanych liczb. Dla jednej wybranej liczby wypelnij tabele wartosci zmiennych w kazdym kroku petli.\n\n| Lp. | n |\n|-----|---|\n| a)  | 4826 |\n| b)  | 1357 |\n| c)  | 9042 |",
+  "wskazowki": [
+    "**Kierunek**: Zastanow sie, co robi `n mod 10` i `n div 10` — wyodrebniaja cyfry od konca.",
+    "**Podejscie**: Dla kazdej cyfry sprawdz parzystosc i zastosuj odpowiednia regule. Pamietaj o mnozniku pozycyjnym.",
+    "**Kluczowy krok**: Przerob kazda cyfre osobno: parzysta -> /2, nieparzysta -> 1. Zlozyc wynik uzywajac mnoznika (1, 10, 100, ...)."
+  ],
+  "odpowiedz": "**a) przetworzCyfry(4826)**\n\n| Krok | n (poczatek) | cyfra | cyfra%2=0? | wynik | mnoznik | n (koniec) |\n|------|-------------|-------|------------|-------|---------|-----------|\n| 1 | 4826 | 6 | tak (6/2=3) | 0+3*1=3 | 10 | 482 |\n| 2 | 482 | 2 | tak (2/2=1) | 3+1*10=13 | 100 | 48 |\n| 3 | 48 | 8 | tak (8/2=4) | 13+4*100=413 | 1000 | 4 |\n| 4 | 4 | 4 | tak (4/2=2) | 413+2*1000=2413 | 10000 | 0 |\n\nWynik: **2413**\n\n**b) przetworzCyfry(1357)**\n\n- cyfra 7 (nieparzysta) -> 1, wynik = 1\n- cyfra 5 (nieparzysta) -> 1, wynik = 11\n- cyfra 3 (nieparzysta) -> 1, wynik = 111\n- cyfra 1 (nieparzysta) -> 1, wynik = 1111\n\nWynik: **1111**\n\n**c) przetworzCyfry(9042)**\n\n- cyfra 2 (parzysta, 2/2=1) -> wynik = 1\n- cyfra 4 (parzysta, 4/2=2) -> wynik = 21\n- cyfra 0 (parzysta, 0/2=0) -> wynik = 021 = 21\n- cyfra 9 (nieparzysta) -> 1, wynik = 1021\n\nWynik: **1021**",
+  "typowe_bledy": [
+    {
+      "opis": "**Przetwarzanie cyfr od lewej zamiast od prawej**: Algorytm uzywa mod 10, wiec zaczyna od ostatniej cyfry",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o mnozniku**: Wynik sklada sie z cyfr na odpowiednich pozycjach — bez mnoznika cyfry sie nakladaja",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Cyfra 0 jako nieparzysta**: 0 mod 2 = 0, wiec 0 jest parzysta (0/2 = 0)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

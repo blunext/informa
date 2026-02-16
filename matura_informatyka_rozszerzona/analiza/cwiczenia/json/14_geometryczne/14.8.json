@@ -1,0 +1,33 @@
+{
+  "id": "14.8",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2025 zad. 3 (obwod wielokata)",
+  "tagi": [
+    "wielokat",
+    "obwod",
+    "odleglosc-euklidesowa",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `punkty.txt` znajduje sie 6 punktow tworzacych wielokat wypukly (podane w kolejnosci obejscia). Napisz program, ktory:\na) Obliczy obwod wielokata (suma dlugosci bokow, wlaczajac odcinek zamykajacy od ostatniego do pierwszego punktu).\nb) Obliczy pole wielokata (wzor sznurowadla: P = |sum(x_i * y_{i+1} - x_{i+1} * y_i)| / 2).\nc) Obliczy srodek ciezkosci (centroid): (srednia x, srednia y).\n\n**Dane** (`punkty.txt`):\n```\n0 0\n6 0\n8 3\n6 6\n2 6\n0 3\n```\n\n**Oczekiwany wynik**:\n```\na) Obwod: 23.82\n\nb) Pole: 39.00\n\nc) Centroid: (3.67, 3.00)\n```",
+  "wskazowki": [
+    "**Kierunek**: Obwod = suma odleglosci kolejnych par + odleglosc ostatni->pierwszy. Pole = wzor sznurowadla.",
+    "**Podejscie**: Wzor sznurowadla (Shoelace): `P = |sum(x[i]*y[i+1] - x[i+1]*y[i])| / 2` (indeksy modulo n).",
+    "**Kluczowy krok**: Centroid = (sum(x)/n, sum(y)/n) — prosta srednia wspolrzednych wierzcholkow."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    vector<pair<int,int>> P;\n    int x, y;\n    while (plik >> x >> y) P.push_back({x, y});\n    int n = P.size();\n\n    // a) Obwod\n    double obwod = 0;\n    for (int i = 0; i < n; i++) {\n        int j = (i + 1) % n;\n        double dx = P[j].first - P[i].first;\n        double dy = P[j].second - P[i].second;\n        obwod += sqrt(dx * dx + dy * dy);\n    }\n    cout << fixed << setprecision(2);\n    cout << \"a) Obwod: \" << obwod << endl;\n\n    // b) Pole (wzor sznurowadla)\n    int sum = 0;\n    for (int i = 0; i < n; i++) {\n        int j = (i + 1) % n;\n        sum += P[i].first * P[j].second - P[j].first * P[i].second;\n    }\n    double pole = abs(sum) / 2.0;\n    cout << endl << \"b) Pole: \" << pole << endl;\n\n    // c) Centroid\n    double cx = 0, cy = 0;\n    for (auto &p : P) { cx += p.first; cy += p.second; }\n    cx /= n; cy /= n;\n    cout << endl << \"c) Centroid: (\" << cx << \", \" << cy << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Obwod to suma odleglosci kolejnych wierzcholkow (z zamknieciem). Pole przez wzor sznurowadla. Centroid to srednia arytmetyczna wspolrzednych.\n\nWeryfikacja:\n- Obwod: (0,0)->(6,0): 6. (6,0)->(8,3): sqrt(4+9)=sqrt(13)=3.61. (8,3)->(6,6): sqrt(4+9)=3.61. (6,6)->(2,6): 4. (2,6)->(0,3): sqrt(4+9)=3.61. (0,3)->(0,0): 3. Suma: 6+3.61+3.61+4+3.61+3 = 23.83\n\nKorekta: (0,3)->(0,0) to sqrt(0+9)=3. Suma: 6+3.61+3.61+4+3.61+3 = 23.83, nie 22.65.\n\nKorekta oczekiwanego wyniku:\n```\na) Obwod: 23.83\n```\n\nPole (sznurowadlo):\n- (0*0 - 6*0) + (6*3 - 8*0) + (8*6 - 6*3) + (6*6 - 2*6) + (2*3 - 0*6) + (0*0 - 0*3)\n= 0 + 18 + 30 + 24 + 6 + 0 = 78. |78|/2 = 39.\n\nKorekta: Pole = 39.00\n\nCentroid: ((0+6+8+6+2+0)/6, (0+0+3+6+6+3)/6) = (22/6, 18/6) = (3.67, 3.00)",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o zamknieciu wielokata**: Ostatni bok laczy punkt n z punktem 1. Uzyj `(i+1) % n`",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak `abs()` we wzorze sznurowadla**: Wynik moze byc ujemny w zaleznosci od kierunku obejscia",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Centroid != srodek wielokata wazonego polem**: Prosta srednia wspolrzednych to centroid wierzcholkow, nie pole-wazony centroid. Dla wielu zadan maturalnych prosta srednia wystarczy.",
+      "kara": ""
+    }
+  ]
+}

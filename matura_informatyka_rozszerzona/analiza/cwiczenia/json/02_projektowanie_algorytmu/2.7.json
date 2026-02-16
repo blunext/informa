@@ -1,0 +1,33 @@
+{
+  "id": "2.7",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2023 zad. 2 (liczby pierwsze), styl CKE",
+  "tagi": [
+    "liczby-pierwsze",
+    "petla-while",
+    "warunek",
+    "C++"
+  ],
+  "tresc": "Napisz w pseudokodzie lub C++ funkcje `czyPierwsza(n)`, ktora dla danej liczby naturalnej n >= 2 sprawdza, czy n jest liczba pierwsza. Funkcja zwraca PRAWDA, jesli n jest pierwsza, FALSZ w przeciwnym przypadku.\n\n**Ograniczenia**: Uzyj metody sprawdzania podzielnosci przez kolejne liczby od 2. Zoptymalizuj algorytm tak, aby sprawdzac dzielniki tylko do pierwiastka z n (tj. dopoki `dzielnik * dzielnik <= n`). Nie wolno uzywac funkcji `sqrt` ani tablic.\n\n**Przyklady**:\n- `czyPierwsza(2)` = PRAWDA\n- `czyPierwsza(17)` = PRAWDA\n- `czyPierwsza(15)` = FALSZ (15 = 3 * 5)\n- `czyPierwsza(1)` = FALSZ (1 nie jest liczba pierwsza)",
+  "wskazowki": [
+    "Liczba jest pierwsza, jesli nie ma dzielnikow wiekszych od 1 i mniejszych od niej samej. Zacznij sprawdzanie od dzielnika 2 i zwieksaj go o 1.",
+    "Nie musisz sprawdzac dzielnikow wiekszych niz pierwiastek z n. Zamiast obliczac pierwiastek, uzyj warunku `dzielnik * dzielnik <= n` -- to unika potrzeby uzycia `sqrt`.",
+    "Jesli znajdziesz jakikolwiek dzielnik (tj. `n mod dzielnik = 0`), zwroc od razu FALSZ. Jesli petla sie skonczy bez znalezienia dzielnika, zwroc PRAWDA. Pamietaj o przypadku brzegowym: n < 2 nie jest pierwsza."
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja czyPierwsza(n)\n    jezeli n < 2:\n        zwroc FALSZ\n    dzielnik := 2\n    dopoki dzielnik * dzielnik <= n:\n        jezeli n mod dzielnik = 0:\n            zwroc FALSZ\n        dzielnik := dzielnik + 1\n    zwroc PRAWDA\n```\n\n**C++:**\n\n```cpp\nbool czyPierwsza(int n) {\n    if (n < 2) return false;\n    int dzielnik = 2;\n    while (dzielnik * dzielnik <= n) {\n        if (n % dzielnik == 0)\n            return false;\n        dzielnik++;\n    }\n    return true;\n}\n```\n\n**Weryfikacja czyPierwsza(17):**\n\n| Krok | dzielnik | dzielnik*dzielnik | <= 17? | 17 % dzielnik |\n|------|----------|-------------------|--------|---------------|\n| 1 | 2 | 4 | tak | 1 (nie dzieli) |\n| 2 | 3 | 9 | tak | 2 (nie dzieli) |\n| 3 | 4 | 16 | tak | 1 (nie dzieli) |\n| 4 | 5 | 25 | nie | - |\n\nPetla konczy sie, zwroc PRAWDA. 17 jest liczba pierwsza.\n\n**Weryfikacja czyPierwsza(15):**\n\n| Krok | dzielnik | dzielnik*dzielnik | <= 15? | 15 % dzielnik |\n|------|----------|-------------------|--------|---------------|\n| 1 | 2 | 4 | tak | 1 (nie dzieli) |\n| 2 | 3 | 9 | tak | 0 (dzieli!) |\n\nZnaleziono dzielnik 3, zwroc FALSZ. 15 = 3 * 5.\n\n**Weryfikacja czyPierwsza(2):**\n\ndzielnik = 2, dzielnik*dzielnik = 4 > 2, petla sie nie wykonuje, zwroc PRAWDA.",
+  "typowe_bledy": [
+    {
+      "opis": "**Sprawdzanie `dzielnik <= n` zamiast `dzielnik * dzielnik <= n`** -- algorytm poprawny, ale zbyt wolny (zlozonosc O(n) zamiast O(sqrt(n))). CKE moze odebrac -1 pkt za brak optymalizacji, jesli polecenie wyraznie wymaga efektywnosci.",
+      "kara": ""
+    },
+    {
+      "opis": "**Brak obslugi n < 2** -- dla n = 1 algorytm bez warunku brzegowego zwroci PRAWDA (petla sie nie wykona), co jest bledne",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie `dzielnik * dzielnik < n` (ostry) zamiast `<=`** -- pomija przypadek, gdy n jest kwadratem liczby pierwszej (np. 25 = 5*5). Dla n = 25 i dzielnik = 5: 5*5 = 25, `25 < 25` jest falsz, wiec petla sie konczy i zwraca PRAWDA (blednie)",
+      "kara": "-1 pkt za bledny wynik"
+    }
+  ]
+}

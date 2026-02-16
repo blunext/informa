@@ -1,0 +1,33 @@
+{
+  "id": "6.3",
+  "trudnosc": "srednie",
+  "punkty": 2,
+  "zrodlo": "Matura 2023 zad. 4 (szyfrowanie asymetryczne)",
+  "tagi": [
+    "szyfrowanie-symetryczne",
+    "szyfrowanie-asymetryczne",
+    "podpis-cyfrowy",
+    "HTTPS"
+  ],
+  "tresc": "Ocen prawdziwosc ponizszych zdan dotyczacych kryptografii. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | W szyfrowaniu asymetrycznym do szyfrowania i deszyfrowania uzywa sie tego samego klucza. | |\n| b) | Podpis cyfrowy jest tworzony z uzyciem klucza prywatnego nadawcy. | |\n| c) | AES (Advanced Encryption Standard) jest algorytmem szyfrowania asymetrycznego. | |\n| d) | Protokol HTTPS wykorzystuje polaczenie szyfrowania symetrycznego (do przesylania danych) i asymetrycznego (do uzgodnienia klucza sesji). | |",
+  "wskazowki": [
+    "**Kierunek**: Asymetryczne = dwa klucze (publiczny + prywatny). Symetryczne = jeden klucz.",
+    "**Podejscie**: Podpis cyfrowy: tworzymy kluczem prywatnym, weryfikujemy publicznym. AES = symetryczny.",
+    "**Kluczowy krok**: HTTPS = kryptografia hybrydowa: asymetryczna do uzgodnienia klucza, symetryczna do danych."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | W szyfrowaniu asymetrycznym uzywa sie pary kluczy: klucza publicznego (do szyfrowania) i klucza prywatnego (do deszyfrowania). To wlasnie szyfrowanie SYMETRYCZNE uzywa jednego wspolnego klucza do obu operacji. |\n| b) | **P** | Podpis cyfrowy jest tworzony przez nadawce za pomoca jego klucza prywatnego. Odbiorca weryfikuje podpis uzywajac klucza publicznego nadawcy. Gwarantuje to autentycznosc i niezmiennosc wiadomosci. |\n| c) | **F** | AES jest algorytmem szyfrowania SYMETRYCZNEGO (ten sam klucz do szyfrowania i deszyfrowania). Przykladami algorytmow asymetrycznych sa RSA i ECC. |\n| d) | **P** | HTTPS (TLS) stosuje kryptografie hybrydowa: najpierw uzgadnia klucz sesji za pomoca algorytmu asymetrycznego (np. RSA, ECDH), a nastepnie szyfruje wlosciwa komunikacje szybszym algorytmem symetrycznym (np. AES). |\n\nOdpowiedzi: a) F, b) P, c) F, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Asymetryczne = jeden klucz**: Asymetryczne = DWA klucze. Symetryczne = JEDEN klucz",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**AES = asymetryczny**: AES jest SYMETRYCZNY. RSA i ECC sa asymetryczne",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Podpis cyfrowy = klucz publiczny**: Podpis TWORZYMY kluczem prywatnym, WERYFIKUJEMY publicznym",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "5.6",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "styl CKE, konwersja hex->dec i dec->hex",
+  "tagi": [
+    "hex-bin",
+    "dec-bin",
+    "dzielenie-z-reszta"
+  ],
+  "tresc": "**Polecenie A**: Zamien podane liczby z systemu szesnastkowego na dziesietny.\n\n| Lp. | Liczba hex |\n|-----|------------|\n| a)  | 2A(16) |\n| b)  | FF(16) |\n| c)  | 1C8(16) |\n\n**Polecenie B**: Zamien podane liczby z systemu dziesietnego na szesnastkowy (metoda dzielenia przez 16).\n\n| Lp. | Liczba dziesietna |\n|-----|-------------------|\n| d)  | 200 |\n| e)  | 500 |",
+  "wskazowki": [
+    "**Kierunek**: Hex -> dec: cyfra * potega 16. Dec -> hex: dziel przez 16, zapisuj reszty.",
+    "**Podejscie**: Potegi 16: 16^0=1, 16^1=16, 16^2=256. Reszty 10-15 zapisuj jako A-F.",
+    "**Kluczowy krok**: 1C8(16) = 1*256 + C*16 + 8 = 256 + 12*16 + 8."
+  ],
+  "odpowiedz": "**a) 2A(16) -> dziesietny:**\n2*16 + 10*1 = 32 + 10 = **42**\n\n**b) FF(16) -> dziesietny:**\n15*16 + 15*1 = 240 + 15 = **255**\n\n**c) 1C8(16) -> dziesietny:**\n1*256 + 12*16 + 8*1 = 256 + 192 + 8 = **456**\n\n**d) 200(10) -> szesnastkowy:**\n\n| Dzielenie | Iloraz | Reszta |\n|-----------|--------|--------|\n| 200 / 16 | 12 | 8 |\n| 12 / 16 | 0 | 12 = C |\n\nWynik: **C8(16)**\n\nSprawdzenie: 12*16 + 8 = 200.\n\n**e) 500(10) -> szesnastkowy:**\n\n| Dzielenie | Iloraz | Reszta |\n|-----------|--------|--------|\n| 500 / 16 | 31 | 4 |\n| 31 / 16 | 1 | 15 = F |\n| 1 / 16 | 0 | 1 |\n\nWynik: **1F4(16)**\n\nSprawdzenie: 1*256 + 15*16 + 4 = 256 + 240 + 4 = 500.",
+  "typowe_bledy": [
+    {
+      "opis": "**Reszta 12 zapisana jako \"12\" zamiast \"C\"**: W hex reszty >= 10 zapisuj jako A-F",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledna potega 16**: 16^2 = 256, nie 160",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

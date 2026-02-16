@@ -1,0 +1,28 @@
+{
+  "id": "22.16",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2019",
+  "tagi": [
+    "self-JOIN",
+    "aliasy-tabel",
+    "WHERE-z-JOIN"
+  ],
+  "tresc": "Tabela **Pracownicy**:\n\n| id | imie | nazwisko | id_szefa | dzial |\n|----|------|----------|----------|-------|\n| 1 | Anna | Kowalska | NULL | IT |\n| 2 | Jan | Nowak | 1 | IT |\n| 3 | Ewa | Maj | 1 | HR |\n| 4 | Piotr | Lis | 2 | IT |\n| 5 | Kasia | Zak | 3 | HR |\n| 6 | Tomek | Bak | 2 | IT |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko kazdego pracownika z dzialu 'IT' oraz imie jego szefa. Pokaz tylko pracownikow, ktorzy MAJA szefa (Anna nie ma). Uzyj self-JOIN.",
+  "wskazowki": [
+    "**Kierunek**: Tabela odwoluje sie sama do siebie — potrzebujesz self-JOIN.",
+    "**Podejscie**: JOIN Pracownicy P z Pracownicy S (szef), ROZNE aliasy.",
+    "**Kluczowy krok**: `JOIN Pracownicy S ON P.id_szefa = S.id` + `WHERE P.dzial = 'IT'`."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT P.imie, P.nazwisko, S.imie AS imie_szefa\nFROM Pracownicy P\nJOIN Pracownicy S ON P.id_szefa = S.id\nWHERE P.dzial = 'IT';\n```\n\n**Weryfikacja**:\n- Pracownicy IT: Anna (1, szef=NULL), Jan (2, szef=1), Piotr (4, szef=2), Tomek (6, szef=2)\n- INNER JOIN pomija Anna (NULL) → 3 wyniki\n\n| imie | nazwisko | imie_szefa |\n|------|----------|------------|\n| Jan | Nowak | Anna |\n| Piotr | Lis | Jan |\n| Tomek | Bak | Jan |\n\n**Wyjasnienie**: Self-JOIN laczy tabele z sama soba. P to pracownik, S to jego szef. INNER JOIN automatycznie wyklucza wiersze z id_szefa = NULL (Anna).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak aliasow**: Bez P i S nie mozna odroznic kolumn pracownika od szefa",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Odwrotny warunek ON**: `ON P.id = S.id_szefa` — zamiast szefa, dostajemy podwladnych",
+      "kara": "-2 pkt"
+    }
+  ]
+}

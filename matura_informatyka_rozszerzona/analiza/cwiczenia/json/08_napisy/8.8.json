@@ -1,0 +1,32 @@
+{
+  "id": "8.8",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2016 zad. 6 + 2025 zad. 2 (kompresja RLE)",
+  "tagi": [
+    "operacje-na-string",
+    "zliczanie-znakow",
+    "podciagi"
+  ],
+  "tresc": "Kompresja RLE (Run-Length Encoding) koduje ciag identycznych znakow jako \"znak + liczba powtorzen\". Np. \"aaabbc\" -> \"a3b2c1\".\n\nNapisz program, ktory:\na) Zakoduje 5 podanych napisow metoda RLE.\nb) Dla kazdego poda wspolczynnik kompresji (dlugosc zakodowanego / dlugosc oryginalnego).\n\n**Dane**:\n```\naaabbbcccc\naabbccddee\nabcde\nzzzzzzzzz\naabbaabb\n```\n\n**Oczekiwany wynik**:\n```\na) Kodowanie RLE:\n   aaabbbcccc -> a3b3c4 (oryg: 10, zakod: 6, kompresja: 0.60)\n   aabbccddee -> a2b2c2d2e2 (oryg: 10, zakod: 10, kompresja: 1.00)\n   abcde -> a1b1c1d1e1 (oryg: 5, zakod: 10, kompresja: 2.00)\n   zzzzzzzzz -> z9 (oryg: 9, zakod: 2, kompresja: 0.22)\n   aabbaabb -> a2b2a2b2 (oryg: 8, zakod: 8, kompresja: 1.00)\n```",
+  "wskazowki": [
+    "**Kierunek**: Iteruj po napisie, zliczaj kolejne powtorzenia tego samego znaku.",
+    "**Podejscie**: Gdy napotkasz inny znak, zapisz \"poprzedni_znak + licznik\" do wyniku i resetuj.",
+    "**Kluczowy krok**: Po petli nie zapomnij dodac ostatniego ciagu. Wspolczynnik = (float)zakod / oryg."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <string>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nstring rle(string s) {\n    if (s.empty()) return \"\";\n    string wynik = \"\";\n    char prev = s[0];\n    int cnt = 1;\n    for (int i = 1; i < s.length(); i++) {\n        if (s[i] == prev) {\n            cnt++;\n        } else {\n            wynik += prev;\n            wynik += to_string(cnt);\n            prev = s[i];\n            cnt = 1;\n        }\n    }\n    wynik += prev;\n    wynik += to_string(cnt);\n    return wynik;\n}\n\nint main() {\n    vector<string> dane = {\"aaabbbcccc\", \"aabbccddee\", \"abcde\", \"zzzzzzzzz\", \"aabbaabb\"};\n\n    cout << \"a) Kodowanie RLE:\" << endl;\n    cout << fixed << setprecision(2);\n    for (string &s : dane) {\n        string zakod = rle(s);\n        double kompresja = (double)zakod.length() / s.length();\n        cout << \"   \" << s << \" -> \" << zakod\n             << \" (oryg: \" << s.length() << \", zakod: \" << zakod.length()\n             << \", kompresja: \" << kompresja << \")\" << endl;\n    }\n    return 0;\n}\n```\n\nWeryfikacja:\n- aaabbbcccc: a(3),b(3),c(4) -> \"a3b3c4\" (dl.6), 6/10 = 0.60\n- aabbccddee: a(2),b(2),c(2),d(2),e(2) -> \"a2b2c2d2e2\" (dl.10), 10/10 = 1.00\n- abcde: a(1),b(1),c(1),d(1),e(1) -> \"a1b1c1d1e1\" (dl.10), 10/5 = 2.00\n- zzzzzzzzz: z(9) -> \"z9\" (dl.2), 2/9 = 0.22\n- aabbaabb: a(2),b(2),a(2),b(2) -> \"a2b2a2b2\" (dl.8), 8/8 = 1.00",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o ostatnim ciagu po petli**: Bez `wynik += prev + to_string(cnt)` na koncu, ostatni blok jest pomijany",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak konwersji `cnt` na string**: `wynik += cnt` dodaje znak o kodzie ASCII = cnt, nie cyfre",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Liczniki > 9 przy `to_string`**: Dla \"z12\" wynik ma 3 znaki, nie 2. `to_string` radzi sobie z tym poprawnie.",
+      "kara": ""
+    }
+  ]
+}

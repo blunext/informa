@@ -1,0 +1,27 @@
+{
+  "id": "1.6",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2017 zad. 1 (Algorytm Euklidesa)",
+  "tagi": [
+    "NWD-Euklidesa",
+    "sledzenie-iteracyjne"
+  ],
+  "tresc": "Dany jest algorytm Euklidesa:\n\n```\nfunkcja NWD(a, b)\n    dopoki b <> 0:\n        r := a mod b\n        a := b\n        b := r\n    zwroc a\n```\n\n**Polecenie**: Dla kazdej pary (a, b) przesled algorytm, wypelniajac tabele wartosci zmiennych w kazdym kroku petli. Podaj wynik (NWD).\n\n| Lp. | a | b |\n|-----|---|---|\n| a)  | 48 | 18 |\n| b)  | 105 | 42 |\n| c)  | 121 | 33 |",
+  "wskazowki": [
+    "**Kierunek**: W kazdym kroku oblicz reszte z dzielenia a przez b, potem przesun: a←b, b←r.",
+    "**Podejscie**: Kontynuuj az b = 0. Wtedy a to NWD.",
+    "**Kluczowy krok**: Przyklad: 48 mod 18 = 12, potem 18 mod 12 = 6, potem 12 mod 6 = 0 — NWD = 6."
+  ],
+  "odpowiedz": "**a) NWD(48, 18)**\n\n| Krok | a | b | r = a mod b |\n|------|---|---|-------------|\n| 1 | 48 | 18 | 12 |\n| 2 | 18 | 12 | 6 |\n| 3 | 12 | 6 | 0 |\n\nb = 0, NWD = **6**\n\n**b) NWD(105, 42)**\n\n| Krok | a | b | r = a mod b |\n|------|---|---|-------------|\n| 1 | 105 | 42 | 21 |\n| 2 | 42 | 21 | 0 |\n\nb = 0, NWD = **21**\n\n**c) NWD(121, 33)**\n\n| Krok | a | b | r = a mod b |\n|------|---|---|-------------|\n| 1 | 121 | 33 | 22 |\n| 2 | 33 | 22 | 11 |\n| 3 | 22 | 11 | 0 |\n\nb = 0, NWD = **11**",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledna kolejnosc przypisamien a←b, b←r**: Trzeba najpierw obliczyc r, POTEM przypisac a:=b, b:=r",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie, ze wynik to a (nie b) po zakonczeniu petli**: Petla konczy sie gdy b=0, wynik jest w a",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

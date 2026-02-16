@@ -1,0 +1,32 @@
+{
+  "id": "3.8",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2024 zad. 3 (analiza kosztu)",
+  "tagi": [
+    "zlozonosc-czasowa",
+    "O-notacja",
+    "niezmiennik-petli"
+  ],
+  "tresc": "Dany jest algorytm:\n\n```\nfunkcja tajemnicza(n)\n    wynik := 0\n    i := 1\n    dopoki i <= n:\n        dla j := 1, 2, ..., i:\n            wynik := wynik + 1\n        i := i * 2\n    zwroc wynik\n```\n\n**Polecenie**:\n- a) Przesled algorytm dla n = 16. Podaj wartosci i w kazdej iteracji petli zewnetrznej i ile razy wykonuje sie petla wewnetrzna.\n- b) Jaki jest wynik `tajemnicza(16)`?\n- c) Podaj zlozonosc czasowa algorytmu. Uzasadnij.",
+  "wskazowki": [
+    "**Kierunek**: Petla zewnetrzna podwaja i (i*=2), wiec i przechodzi wartosci 1, 2, 4, 8, 16, ... Ile razy to sie zdarzy?",
+    "**Podejscie**: Petla wewnetrzna wykonuje i iteracji. Suma iteracji = 1 + 2 + 4 + 8 + 16 = ?",
+    "**Kluczowy krok**: Suma poteg dwojki 1+2+4+...+2^k = 2^(k+1) - 1. Ile jest takich wyrazow dla i <= n?"
+  ],
+  "odpowiedz": "**a) Sledzenie dla n = 16:**\n\n| Iteracja zew. | i | Petla wew. j=1..i | wynik += |\n|---------------|---|-------------------|----------|\n| 1 | 1 | j=1..1 -> 1 raz | wynik = 1 |\n| 2 | 2 | j=1..2 -> 2 razy | wynik = 3 |\n| 3 | 4 | j=1..4 -> 4 razy | wynik = 7 |\n| 4 | 8 | j=1..8 -> 8 razy | wynik = 15 |\n| 5 | 16 | j=1..16 -> 16 razy | wynik = 31 |\n| (koniec) | 32 | 32 > 16, petla konczy sie | |\n\n**b) Wynik: tajemnicza(16) = 1 + 2 + 4 + 8 + 16 = **31****\n\n**c) Zlozonosc: O(n)**\n\nUzasadnienie:\n- Petla zewnetrzna wykonuje sie log2(n) + 1 razy (bo i podwaja sie: 1, 2, 4, ..., n)\n- Petla wewnetrzna w k-tej iteracji robi 2^(k-1) operacji\n- Suma: 1 + 2 + 4 + ... + n = 2n - 1 = O(n)\n\nMimo ze mamy zagniezdzne petle, zlozonosc to O(n), nie O(n log n) ani O(n^2)! Petla wewnetrzna robi rozna liczbe iteracji, a ich suma to szereg geometryczny.\n\n**Wzor ogolny**: tajemnicza(n) = 2n - 1 (dla n bedacych potega 2).",
+  "typowe_bledy": [
+    {
+      "opis": "**Zlozonosc O(n^2) lub O(n log n)**: Pozornie zagniezdzne petle, ale suma 1+2+4+...+n = 2n-1 = O(n)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zapomnienie ze i podwaja sie, a nie rosnie o 1**: i := i*2, nie i := i+1. Petla zewnetrzna ma log2(n) iteracji",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledna suma szeregu**: 1+2+4+...+2^k = 2^(k+1)-1, nie 2^k",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

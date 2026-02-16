@@ -1,0 +1,30 @@
+{
+  "id": "23.2",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2016 (Uniwersytet)",
+  "tagi": [
+    "SELECT",
+    "WHERE",
+    "LIKE",
+    "OR",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Produkty**:\n\n| id | nazwa | kategoria | producent | cena |\n|----|-------|-----------|-----------|------|\n| 1 | Laptop Pro 15 | elektronika | TechCorp | 4599 |\n| 2 | Mysz bezprzewodowa | elektronika | ClickMax | 89 |\n| 3 | Klawiatura mechaniczna | elektronika | KeyMaster | 349 |\n| 4 | Monitor 27 cali | elektronika | ViewPro | 1299 |\n| 5 | Sluchawki Bluetooth | elektronika | SoundWave | 199 |\n| 6 | Pendrive 64GB | elektronika | DataStore | 39 |\n| 7 | Kabel USB-C | akcesoria | CablePlus | 29 |\n| 8 | Ladowarka szybka | akcesoria | PowerUp | 79 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe i cene produktow, ktorych nazwa zaczyna sie od 'K' lub konczy sie na 'a'. Posortuj alfabetycznie.",
+  "wskazowki": [
+    "**Kierunek**: Dwa wzorce do sprawdzenia — poczatek i koniec nazwy.",
+    "**Podejscie**: LIKE z `%` — `'K%'` = zaczyna sie od K, `'%a'` = konczy sie na 'a'.",
+    "**Kluczowy krok**: OR laczy dwa warunki — wystarczy spelnienie jednego."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, cena\nFROM Produkty\nWHERE nazwa LIKE 'K%' OR nazwa LIKE '%a'\nORDER BY nazwa;\n```\n\n**Weryfikacja**:\n- Zaczyna sie od 'K': Klawiatura mechaniczna ✓, Kabel USB-C ✓\n- Konczy sie na 'a': Mysz bezprzewodowa ✓, Klawiatura mechaniczna ✓, Ladowarka szybka ✓\n\n| nazwa | cena |\n|-------|------|\n| Kabel USB-C | 29 |\n| Klawiatura mechaniczna | 349 |\n| Ladowarka szybka | 79 |\n| Mysz bezprzewodowa | 89 |\n\n**Wyjasnienie**: LIKE pozwala na wyszukiwanie wzorcow: `%` zastepuje dowolny ciag znakow, `_` zastepuje dokladnie jeden znak. OR oznacza, ze wystarczy spelnienie jednego z warunkow.",
+  "typowe_bledy": [
+    {
+      "opis": "**`=` zamiast LIKE**: `nazwa = 'K%'` szukalyby dokladnego tekstu \"K%\" — nie znajdzie zadnych wynikow",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**AND zamiast OR**: Z AND oba warunki musza byc spelnione — tylko Klawiatura mechaniczna (zaczyna sie od K i konczy na 'a')",
+      "kara": "-1 pkt"
+    }
+  ]
+}

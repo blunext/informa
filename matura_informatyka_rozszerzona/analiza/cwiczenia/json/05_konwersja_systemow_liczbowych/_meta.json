@@ -1,0 +1,126 @@
+{
+  "typ": "05_konwersja_systemow_liczbowych",
+  "nazwa": "Konwersja systemow liczbowych",
+  "kategoria": "TEORIA",
+  "czestotliwosc": "9/11 lat",
+  "punkty_lacznie": 25,
+  "tagi_globalne": [
+    "dec-bin",
+    "bin-dec",
+    "bin-hex",
+    "hex-bin",
+    "grupowanie-bitow",
+    "dodawanie-binarne",
+    "odejmowanie-binarne",
+    "przeniesienia",
+    "system-osemkowy",
+    "system-trojkowy",
+    "porownywanie-systemow",
+    "potegi-dwojki",
+    "dzielenie-z-reszta",
+    "uzupelnienie-do-2"
+  ],
+  "cwiczenia": [
+    {
+      "id": "5.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "dec-bin",
+        "bin-dec",
+        "dzielenie-z-reszta",
+        "potegi-dwojki"
+      ]
+    },
+    {
+      "id": "5.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "bin-hex",
+        "grupowanie-bitow"
+      ]
+    },
+    {
+      "id": "5.3",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "dodawanie-binarne",
+        "odejmowanie-binarne",
+        "przeniesienia"
+      ]
+    },
+    {
+      "id": "5.4",
+      "trudnosc": "srednie",
+      "punkty": 2,
+      "tagi": [
+        "system-osemkowy",
+        "porownywanie-systemow",
+        "grupowanie-bitow"
+      ]
+    },
+    {
+      "id": "5.5",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": [
+        "system-trojkowy",
+        "dodawanie-binarne",
+        "przeniesienia"
+      ]
+    },
+    {
+      "id": "5.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "hex-bin",
+        "dec-bin",
+        "dzielenie-z-reszta"
+      ]
+    },
+    {
+      "id": "5.7",
+      "trudnosc": "srednie",
+      "punkty": 2,
+      "tagi": [
+        "bin-hex",
+        "hex-bin",
+        "system-osemkowy",
+        "grupowanie-bitow"
+      ]
+    },
+    {
+      "id": "5.8",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "dodawanie-binarne",
+        "hex-bin",
+        "przeniesienia"
+      ]
+    },
+    {
+      "id": "5.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": [
+        "potegi-dwojki",
+        "bin-dec",
+        "porownywanie-systemow"
+      ]
+    },
+    {
+      "id": "5.10",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": [
+        "uzupelnienie-do-2",
+        "dodawanie-binarne",
+        "potegi-dwojki"
+      ]
+    }
+  ]
+}

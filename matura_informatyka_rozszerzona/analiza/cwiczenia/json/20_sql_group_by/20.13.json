@@ -1,0 +1,30 @@
+{
+  "id": "20.13",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2022 (Ewidencja uczniow)",
+  "tagi": [
+    "GROUP-BY",
+    "AVG",
+    "ROUND",
+    "HAVING",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Pracownicy** zawiera dane o pracownikach firmy:\n\n| id | imie | dzial | pensja |\n|----|------|-------|--------|\n| 1 | Anna | IT | 8500 |\n| 2 | Jan | HR | 5200 |\n| 3 | Ewa | IT | 9200 |\n| 4 | Piotr | Sprzedaz | 4800 |\n| 5 | Kasia | HR | 5800 |\n| 6 | Tomek | Sprzedaz | 5100 |\n| 7 | Ola | IT | 7800 |\n| 8 | Marek | Sprzedaz | 4500 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe dzialu i srednia pensje (zaokraglona do 2 miejsc po przecinku), ale tylko dla dzialow, w ktorych srednia pensja jest wieksza niz 5000. Posortuj malejaco wg sredniej pensji.",
+  "wskazowki": [
+    "**Kierunek**: Grupuj po dziale, oblicz srednia, odfiltruj grupy.",
+    "**Podejscie**: GROUP BY dzial + ROUND(AVG(pensja), 2) + HAVING na sredniej.",
+    "**Kluczowy krok**: W HAVING powtorz wyrazenie AVG(pensja) — nie uzywaj aliasu (bezpieczniej w roznych silnikach SQL)."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT dzial, ROUND(AVG(pensja), 2) AS srednia_pensja\nFROM Pracownicy\nGROUP BY dzial\nHAVING AVG(pensja) > 5000\nORDER BY srednia_pensja DESC;\n```\n\n**Weryfikacja**:\n- IT: (8500+9200+7800)/3 = 25500/3 = **8500.00** (>5000 ✓)\n- HR: (5200+5800)/2 = 11000/2 = **5500.00** (>5000 ✓)\n- Sprzedaz: (4800+5100+4500)/3 = 14400/3 = **4800.00** (>5000 ✗)\n\n| dzial | srednia_pensja |\n|-------|---------------|\n| IT | 8500.0 |\n| HR | 5500.0 |",
+  "typowe_bledy": [
+    {
+      "opis": "**WHERE AVG(pensja) > 5000**: Funkcje agregujace nie dzialaja w WHERE — to blad skladniowy",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak ROUND**: Srednia moze miec wiele miejsc dziesietnych (tutaj akurat wychodzi rowno, ale nie zawsze)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

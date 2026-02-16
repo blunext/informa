@@ -1,0 +1,34 @@
+{
+  "id": "16.8",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "ogolna (logistyka magazynowa)",
+  "tagi": [
+    "akumulator",
+    "IF-warunkowy",
+    "symulacja-krokowa",
+    "lancuch-zaleznosci",
+    "prog-warunkowy"
+  ],
+  "tresc": "Hurtownia zarzadza zapasem produktu. Codziennie sa zamowienia klientow (wydania). Gdy zapas spadnie ponizej progu zamowienia (30 szt.), hurtownia sklada zamowienie u dostawcy na 100 szt. Dostawa przychodzi dokladnie po 3 dniach od zlozenia zamowienia (czas realizacji = 3 dni). Poczatkowy zapas wynosi 80 szt.\n\n| | A | B | C | D | E | F |\n|---|---|---|---|---|---|---|\n| 1 | **Dzien** | **Wydania** | **Dostawa** | **Zapas** | **Zamowiono?** | **Dzien dostawy** |\n| 2 | 1 | 20 | 0 | ? | ? | ? |\n| 3 | 2 | 15 | 0 | ? | ? | ? |\n| 4 | 3 | 25 | 0 | ? | ? | ? |\n| 5 | 4 | 10 | ? | ? | ? | ? |\n| 6 | 5 | 18 | ? | ? | ? | ? |\n| 7 | 6 | 12 | ? | ? | ? | ? |\n| 8 | 7 | 22 | ? | ? | ? | ? |\n| 9 | 8 | 8 | ? | ? | ? | ? |\n| 10 | 9 | 30 | ? | ? | ? | ? |\n| 11 | 10 | 14 | ? | ? | ? | ? |\n\nProg zamowienia: komorka H1 = 30. Wielkosc zamowienia: komorka H2 = 100. Czas realizacji: komorka H3 = 3.\n\n**Polecenie**:\n1. W D2 oblicz zapas = poprzedni zapas (poczatkowy 80) + dostawa - wydania.\n2. W E2 wpisz \"TAK\" jezeli zapas < prog zamowienia, w przeciwnym razie \"NIE\".\n3. W F2 oblicz dzien dostawy = biezacy dzien + czas realizacji (jezeli zamowiono, w przeciwnym razie \"—\").\n4. W C2 i dalej uzupelnij kolumne dostaw — dostawa wynosi 100 w dniu, ktory odpowiada dniowi dostawy z jakiegos wczesniejszego wiersza.\n5. Wypelnij tabele recznie, sledzac stan krok po kroku.",
+  "wskazowki": [
+    "**Wskazowka 1**: To zadanie wymaga recznego sledzenia, bo dostawa w danym dniu zalezy od zamowienia sprzed 3 dni. Zacznij od dnia 1: zapas = 80 - 20 = 60, to >= 30 wiec nie zamawiamy. Kontynuuj dzien po dniu.",
+    "**Wskazowka 2**: Gdy zapas spadnie ponizej 30, zanotuj dzien dostawy (biezacy dzien + 3). Gdy dojdziesz do tego dnia, dodaj 100 do zapasu. Formula dostawy: `=IF(COUNTIF($F$2:$F$11;A2)>0;$H$2;0)` — sprawdza, czy biezacy dzien jest dniem dostawy.",
+    "**Wskazowka 3**: Dzien 1: 80-20=60 (>=30, NIE). Dzien 2: 60-15=45 (>=30, NIE). Dzien 3: 45-25=20 (<30, TAK, dostawa w dniu 6). Dzien 4-5: brak dostawy. Dzien 6: dostawa +100."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nC2: =IF(COUNTIF($F$2:$F$11;A2)>0;$H$2;0)\nD2: =80+C2-B2                     (pierwszy dzien, zapas poczatkowy=80)\nD3: =D2+C3-B3                     (kopiowane w dol od wiersza 3)\nE2: =IF(D2<$H$1;\"TAK\";\"NIE\")\nF2: =IF(E2=\"TAK\";A2+$H$3;\"---\")\n```\n\nUwaga: W praktyce te formuly tworza zaleznosc cykliczna (C zalezy od F, a F od D, D od C). Na maturze tego typu zadanie rozwiazuje sie recznym sledzeniem krok po kroku, a formuly pisze sie uproszczone lub opisowo.\n\n**Reczne sledzenie krok po kroku:**\n\n- Dzien 1: zapas = 80 + 0 - 20 = 60 (>=30 -> NIE)\n- Dzien 2: zapas = 60 + 0 - 15 = 45 (>=30 -> NIE)\n- Dzien 3: zapas = 45 + 0 - 25 = 20 (<30 -> TAK, dostawa w dniu 6)\n- Dzien 4: zapas = 20 + 0 - 10 = 10 (<30 -> TAK, dostawa w dniu 7)\n- Dzien 5: zapas = 10 + 0 - 18 = -8 (<30 -> TAK, dostawa w dniu 8)\n- Dzien 6: zapas = -8 + 100 - 12 = 80 (>=30 -> NIE) [dostawa z dnia 3]\n- Dzien 7: zapas = 80 + 100 - 22 = 158 (>=30 -> NIE) [dostawa z dnia 4]\n- Dzien 8: zapas = 158 + 100 - 8 = 250 (>=30 -> NIE) [dostawa z dnia 5]\n- Dzien 9: zapas = 250 + 0 - 30 = 220 (>=30 -> NIE)\n- Dzien 10: zapas = 220 + 0 - 14 = 206 (>=30 -> NIE)\n\n**Wypelniona tabela:**\n\n| Dzien | Wydania | Dostawa | Zapas | Zamowiono? | Dzien dostawy |\n|-------|---------|---------|-------|------------|---------------|\n| 1 | 20 | 0 | 60 | NIE | --- |\n| 2 | 15 | 0 | 45 | NIE | --- |\n| 3 | 25 | 0 | 20 | TAK | 6 |\n| 4 | 10 | 0 | 10 | TAK | 7 |\n| 5 | 18 | 0 | -8 | TAK | 8 |\n| 6 | 12 | 100 | 80 | NIE | --- |\n| 7 | 22 | 100 | 158 | NIE | --- |\n| 8 | 8 | 100 | 250 | NIE | --- |\n| 9 | 30 | 0 | 220 | NIE | --- |\n| 10 | 14 | 0 | 206 | NIE | --- |\n\n**Wyjasnienie**: To klasyczna symulacja logistyczna z opoznieniem dostawy. Kluczowe obserwacje: (1) zapas moze byc ujemny (dzien 5: -8), co oznacza niezrealizowane zamowienia; (2) wielokrotne zamowienia moga sie nakladac — zamowiono w dniach 3, 4 i 5, wiec dostawy przyszly kolejno w dniach 6, 7 i 8; (3) po serii dostaw zapas jest bardzo wysoki (250), co jest typowe dla systemu z opoznieniem (efekt byczego bicza). Na maturze tego typu zadanie rozwiazuje sie recznym sledzeniem — krok po kroku.",
+  "typowe_bledy": [
+    {
+      "opis": "**Ignorowanie opoznienia dostawy**: Dodanie 100 do zapasu natychmiast po zamowieniu (tego samego dnia) zamiast po 3 dniach — calkowicie zmienia dynamike symulacji.",
+      "kara": ""
+    },
+    {
+      "opis": "**Zamowienie tylko raz**: Zalozenie, ze hurtownia zamawia tylko przy pierwszym spadku ponizej progu i czeka na dostawe — w rzeczywistosci kazdy dzien z zapasem <30 generuje nowe zamowienie.",
+      "kara": ""
+    },
+    {
+      "opis": "**Pominiecie ujemnego zapasu**: Zapas moze byc ujemny (niedobor), co jest prawidlowe w modelu. Nie nalezy zastepowac go zerem.",
+      "kara": ""
+    }
+  ]
+}

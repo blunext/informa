@@ -1,0 +1,33 @@
+{
+  "id": "10.3",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2023 zad. 3.2",
+  "tagi": [
+    "cyfry-mod-div",
+    "suma-cyfr",
+    "podzielnosc",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb 5-cyfrowych (kazda w osobnym wierszu). Napisz program, ktory:\na) Zliczy ile z nich ma sume cyfr wieksza od 20.\nb) Zliczy ile ma pierwsza cyfre wieksza od ostatniej.\nc) Zliczy ile jest podzielnych przez sume swoich cyfr.\n\n**Dane** (`dane.txt`):\n```\n12345\n99876\n54321\n11111\n87654\n33333\n76543\n44444\n65432\n28916\n55555\n19827\n```\n\n**Oczekiwany wynik**:\n```\na) Suma cyfr > 20:\n   99876 (suma=39)\n   87654 (suma=30)\n   76543 (suma=25)\n   28916 (suma=26)\n   55555 (suma=25)\n   19827 (suma=27)\n   Ilosc: 6\n\nb) Pierwsza cyfra > ostatnia:\n   99876 (9>6)\n   54321 (5>1)\n   87654 (8>4)\n   76543 (7>3)\n   65432 (6>2)\n   Ilosc: 5\n\nc) Podzielne przez sume cyfr:\n   12345 (suma cyfr=15, 12345/15=823)\n   Ilosc: 1\n```",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz funkcji `sumaCyfr` — petla `while(n > 0)` z `n % 10` i `n /= 10`.",
+    "**Podejscie**: Pierwsza cyfra 5-cyfrowej liczby to wynik dzielenia przez 10 az n < 10. Ostatnia cyfra to `n % 10`.",
+    "**Kluczowy krok**: W punkcie (c) pamietaj o sprawdzeniu `s > 0` przed dzieleniem — unikasz dzielenia przez zero."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint sumaCyfr(int n) {\n    int s = 0;\n    while (n > 0) { s += n % 10; n /= 10; }\n    return s;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> tab;\n    int x;\n    while (plik >> x) tab.push_back(x);\n\n    // a)\n    cout << \"a) Suma cyfr > 20:\" << endl;\n    int ileA = 0;\n    for (int n : tab) {\n        int s = sumaCyfr(n);\n        if (s > 20) {\n            cout << \"   \" << n << \" (suma=\" << s << \")\" << endl;\n            ileA++;\n        }\n    }\n    cout << \"   Ilosc: \" << ileA << endl;\n\n    // b)\n    cout << endl << \"b) Pierwsza cyfra > ostatnia:\" << endl;\n    int ileB = 0;\n    for (int n : tab) {\n        int pierwsza = n;\n        while (pierwsza >= 10) pierwsza /= 10;\n        int ostatnia = n % 10;\n        if (pierwsza > ostatnia) {\n            cout << \"   \" << n << \" (\" << pierwsza << \">\" << ostatnia << \")\" << endl;\n            ileB++;\n        }\n    }\n    cout << \"   Ilosc: \" << ileB << endl;\n\n    // c)\n    cout << endl << \"c) Podzielne przez sume cyfr:\" << endl;\n    int ileC = 0;\n    for (int n : tab) {\n        int s = sumaCyfr(n);\n        if (s > 0 && n % s == 0) {\n            cout << \"   \" << n << \" (suma cyfr=\" << s << \", \" << n << \"/\" << s << \"=\" << n/s << \")\" << endl;\n            ileC++;\n        }\n    }\n    cout << \"   Ilosc: \" << ileC << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Trzy niezalezne zliczania. (a) Sumujemy cyfry petla mod/div i porownujemy z 20. (b) Pierwsza cyfra: dzielimy przez 10 dopoki n >= 10. Ostatnia cyfra: n % 10. (c) Sprawdzamy podzielnosc liczby przez sume jej cyfr.\n\nWeryfikacja:\na) Sumy cyfr: 12345(15), 99876(39), 54321(15), 11111(5), 87654(30), 33333(15), 76543(25), 44444(20), 65432(20), 28916(26), 55555(25), 19827(27)\n   Wieksze od 20: 99876(39), 87654(30), 76543(25), 28916(26), 55555(25), 19827(27) = 6",
+  "typowe_bledy": [
+    {
+      "opis": "**Modyfikacja oryginalnej liczby w sumaCyfr**: Jesli nie uzywasz kopii, oryginalna wartosc zostanie zniszczona",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak warunku `s > 0` w punkcie (c)**: Dzielenie przez 0 powoduje crash programu",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**`while(n > 0)` pomija n=0**: Jezeli liczba to 0, petla sie nie wykona i suma cyfr bedzie 0. Dla tego zestawu danych to nie problem (5-cyfrowe), ale warto pamietac.",
+      "kara": ""
+    }
+  ]
+}

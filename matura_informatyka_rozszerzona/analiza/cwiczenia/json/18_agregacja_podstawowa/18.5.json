@@ -1,0 +1,34 @@
+{
+  "id": "18.5",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "AVERAGE",
+    "ABS",
+    "odchylenie-od-sredniej",
+    "AVERAGEIF",
+    "zakres-bezwzgledny"
+  ],
+  "tresc": "Firma ma 10 pracownikow w 3 dzialach. Dane o pensjach:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Pracownik** | **Dzial** | **Pensja** |\n| 2 | P1 | IT | 8500 |\n| 3 | P2 | HR | 6200 |\n| 4 | P3 | IT | 9200 |\n| 5 | P4 | Sprzedaz | 7100 |\n| 6 | P5 | HR | 5800 |\n| 7 | P6 | IT | 10500 |\n| 8 | P7 | Sprzedaz | 6800 |\n| 9 | P8 | HR | 6500 |\n| 10 | P9 | Sprzedaz | 7500 |\n| 11 | P10 | IT | 8800 |\n\n**Polecenie**:\n1. Oblicz laczna pensje wszystkich pracownikow.\n2. Oblicz srednia pensje w calej firmie.\n3. W kolumnie D oblicz odchylenie kazdego pracownika od sredniej firmy (pensja - srednia).\n4. W kolumnie E oblicz wartosc bezwzgledna odchylenia (ABS).\n5. Oblicz srednia pensje osobno dla kazdego dzialu (IT, HR, Sprzedaz).",
+  "wskazowki": [
+    "**Kierunek**: Oblicz srednia w komorce pomocniczej, a potem uzyj jej z adresem bezwzglednym w kolumnie D.",
+    "**Podejscie**: ABS usuwa znak minus — dzieki temu mozna uśrednić odchylenia (bo suma odchylen od sredniej = 0).",
+    "**Kluczowy krok**: AVERAGEIF oblicza srednia warunkowo — uzyj go do srednich na dzial."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nLaczna pensja:    =SUM(C2:C11)\nSrednia firmy:    =AVERAGE(C2:C11)     (wynik w komorce G1)\n\nD2: =C2-$G$1                           (kopiowana w dol)\nE2: =ABS(D2)                           (kopiowana w dol)\n\nSrednia IT:       =AVERAGEIF(B2:B11;\"IT\";C2:C11)\nSrednia HR:       =AVERAGEIF(B2:B11;\"HR\";C2:C11)\nSrednia Sprzedaz: =AVERAGEIF(B2:B11;\"Sprzedaz\";C2:C11)\n```\n\n**Obliczenia:**\n\nLaczna pensja: 8500+6200+9200+7100+5800+10500+6800+6500+7500+8800 = **76900**\nSrednia firmy: 76900/10 = **7690.00**\n\n| Pracownik | Dzial | Pensja | Odchylenie (D) | |Odchylenie| (E) |\n|-----------|-------|--------|----------------|-------------------|\n| P1 | IT | 8500 | +810.00 | 810.00 |\n| P2 | HR | 6200 | -1490.00 | 1490.00 |\n| P3 | IT | 9200 | +1510.00 | 1510.00 |\n| P4 | Sprzedaz | 7100 | -590.00 | 590.00 |\n| P5 | HR | 5800 | -1890.00 | 1890.00 |\n| P6 | IT | 10500 | +2810.00 | 2810.00 |\n| P7 | Sprzedaz | 6800 | -890.00 | 890.00 |\n| P8 | HR | 6500 | -1190.00 | 1190.00 |\n| P9 | Sprzedaz | 7500 | -190.00 | 190.00 |\n| P10 | IT | 8800 | +1110.00 | 1110.00 |\n\n**Srednie na dzial:**\n- IT: (8500+9200+10500+8800)/4 = 37000/4 = **9250.00**\n- HR: (6200+5800+6500)/3 = 18500/3 = **6166.67**\n- Sprzedaz: (7100+6800+7500)/3 = 21400/3 = **7133.33**\n\n**Weryfikacja kontrolna:**\n- Suma odchylen: 810+(-1490)+1510+(-590)+(-1890)+2810+(-890)+(-1190)+(-190)+1110 = 0 ✓ (suma odchylen od sredniej zawsze = 0)\n- Srednia |odchylen|: (810+1490+1510+590+1890+2810+890+1190+190+1110)/10 = 12480/10 = 1248.00\n\n**Wyjasnienie**: Odchylenie od sredniej to miara rozproszenia — pokazuje, jak daleko dana wartosc jest od sredniej. ABS (wartosc bezwzgledna) usuwa znak, dzieki czemu mozna uśrednić odchylenia (inaczej suma odchylen = 0). AVERAGEIF laczy agregacje ze srednia warunkowa — przydatne do porownywania dzialow. Odwolanie `$G$1` jest bezwzgledne, bo srednia jest jedna dla calej firmy.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak $ w odwolaniu do sredniej**: =C2-G1 po skopiowaniu do wiersza 3 stanie sie =C3-G2, co jest bledem",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o ABS**: Bez ABS srednia odchylen wyniesie 0, co jest bezuzyteczne",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pomieszanie AVERAGE z AVERAGEIF**: AVERAGE(C2:C11) to srednia wszystkich, AVERAGEIF filtruje po dziale",
+      "kara": "-2 pkt"
+    }
+  ]
+}

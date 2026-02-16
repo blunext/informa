@@ -1,0 +1,32 @@
+{
+  "id": "8.1",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2025 zad. 2.1 (palindromy)",
+  "tagi": [
+    "palindrom",
+    "wczytywanie-pliku",
+    "operacje-na-string"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 10 napisow skladajacych sie z malych liter alfabetu lacinskiego (kazdy w osobnym wierszu). Napisz program, ktory wypisze te napisy, ktore sa palindromami (czytane od lewej i od prawej daja ten sam napis).\n\n**Dane** (`napisy.txt`):\n```\nkajak\nprogramowanie\nabcba\nlevel\nkotek\nracecar\nanna\npython\nala\nrotor\n```\n\n**Oczekiwany wynik**:\n```\nkajak - palindrom\nabcba - palindrom\nlevel - palindrom\nracecar - palindrom\nanna - palindrom\nala - palindrom\nrotor - palindrom\nLiczba palindromow: 7\n```",
+  "wskazowki": [
+    "**Kierunek**: Porownuj znaki od poczatku i konca napisu, zbiegajac sie do srodka.",
+    "**Podejscie**: Petla `for(i = 0; i < n/2; i++)` porownujaca `s[i]` z `s[n-1-i]`.",
+    "**Kluczowy krok**: Jesli ktorykolwiek par znakow sie nie zgadza, napis nie jest palindromem — uzyj flagi lub `return false`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nbool czyPalindrom(string s) {\n    int n = s.length();\n    for (int i = 0; i < n / 2; i++) {\n        if (s[i] != s[n - 1 - i]) return false;\n    }\n    return true;\n}\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    int ile = 0;\n    while (plik >> s) {\n        if (czyPalindrom(s)) {\n            cout << s << \" - palindrom\" << endl;\n            ile++;\n        }\n    }\n    cout << \"Liczba palindromow: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Palindrom sprawdzamy porownujac znaki od poczatku i konca napisu, zbiegajac sie do srodka. Jesli wszystkie pary s[i] i s[n-1-i] sa rowne, napis jest palindromem.\n\nWeryfikacja:\n- kajak: k=k, a=a, j (srodek) -> palindrom\n- programowanie: p!=e -> nie\n- abcba: a=a, b=b, c (srodek) -> palindrom\n- level: l=l, e=e, v (srodek) -> palindrom\n- kotek: k=k, o!=e -> nie\n- racecar: r=r, a=a, c=c, e (srodek) -> palindrom\n- anna: a=a, n=n -> palindrom\n- python: p!=n -> nie\n- ala: a=a, l (srodek) -> palindrom\n- rotor: r=r, o=o, t (srodek) -> palindrom",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownanie `s[i] != s[n-i]` zamiast `s[n-1-i]`**: Wyjscie poza zakres tablicy (indeksy od 0)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Petla do `i < n` zamiast `i < n/2`**: Porownujesz kazdy znak dwa razy — dziala, ale nieoptymalne",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Uzycie `reverse` i porownanie calych stringow**: Poprawne ale wolniejsze (tworzy kopie). Na maturze akceptowalne.",
+      "kara": ""
+    }
+  ]
+}

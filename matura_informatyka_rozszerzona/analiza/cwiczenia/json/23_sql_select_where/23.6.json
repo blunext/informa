@@ -1,0 +1,29 @@
+{
+  "id": "23.6",
+  "trudnosc": "latwe",
+  "punkty": 1,
+  "zrodlo": "Matura 2025 (Woda na Marsie)",
+  "tagi": [
+    "SELECT",
+    "WHERE",
+    "ORDER-BY",
+    "operatory-porownania"
+  ],
+  "tresc": "Tabela **Planety**:\n\n| id | nazwa | srednica_km | odleglosc_au | liczba_ksiezycow | typ |\n|----|-------|-------------|-------------|-----------------|-----|\n| 1 | Merkury | 4879 | 0.39 | 0 | skalista |\n| 2 | Wenus | 12104 | 0.72 | 0 | skalista |\n| 3 | Ziemia | 12756 | 1.00 | 1 | skalista |\n| 4 | Mars | 6792 | 1.52 | 2 | skalista |\n| 5 | Jowisz | 142984 | 5.20 | 95 | gazowa |\n| 6 | Saturn | 120536 | 9.54 | 146 | gazowa |\n| 7 | Uran | 51118 | 19.19 | 27 | lodowa |\n| 8 | Neptun | 49528 | 30.07 | 16 | lodowa |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe i liczbe ksiezycow planet, ktore maja wiecej niz 10 ksiezycow. Posortuj malejaco wg liczby ksiezycow.",
+  "wskazowki": [
+    "**Kierunek**: Prosty filtr WHERE z jednym warunkiem.",
+    "**Podejscie**: `WHERE liczba_ksiezycow > 10` + ORDER BY DESC.",
+    "**Kluczowy krok**: Pamietaj, ze `> 10` nie obejmuje 10."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, liczba_ksiezycow\nFROM Planety\nWHERE liczba_ksiezycow > 10\nORDER BY liczba_ksiezycow DESC;\n```\n\n**Weryfikacja**:\n- Saturn: 146 > 10 ✓\n- Jowisz: 95 > 10 ✓\n- Uran: 27 > 10 ✓\n- Neptun: 16 > 10 ✓\n\n| nazwa | liczba_ksiezycow |\n|-------|-----------------|\n| Saturn | 146 |\n| Jowisz | 95 |\n| Uran | 27 |\n| Neptun | 16 |\n\n**Wyjasnienie**: Prosty SELECT z WHERE i ORDER BY DESC. To podstawowy wzorzec filtrowania danych w SQL.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak DESC w ORDER BY**: Domyslnie ORDER BY sortuje rosnaco (ASC)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**`>= 10` zamiast `> 10`**: Gdyby jakas planeta miala 10 ksiezycow, bylaby wlaczona blednie",
+      "kara": "-0.5 pkt (zalezy od danych)"
+    }
+  ]
+}

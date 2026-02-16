@@ -1,0 +1,32 @@
+{
+  "id": "5.5",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Matura 2024 zad. 6 (system trojkowy)",
+  "tagi": [
+    "system-trojkowy",
+    "dodawanie-binarne",
+    "przeniesienia"
+  ],
+  "tresc": "Wykonaj nastepujace dzialania w systemie trojkowym (o podstawie 3). Przeniesienie nastepuje przy sumie >= 3. Pokaz szczegolowe obliczenia kolumna po kolumnie. Sprawdz wynik konwertujac na system dziesietny.\n\n| Lp. | Dzialanie |\n|-----|-----------|\n| a)  | 2012(3) + 1221(3) |\n| b)  | 10000(3) - 122(3) |",
+  "wskazowki": [
+    "**Kierunek**: W systemie trojkowym: cyfry 0, 1, 2. Przeniesienie gdy suma >= 3 (dzielisz przez 3, reszta zostaje).",
+    "**Podejscie**: Tak jak dodawanie binarne, ale podstawa to 3. Np. 2+1=3=1*3+0, zapisz 0 i przenies 1.",
+    "**Kluczowy krok**: Potegi trojki: 3^0=1, 3^1=3, 3^2=9, 3^3=27, 3^4=81."
+  ],
+  "odpowiedz": "**a) 2012(3) + 1221(3):**\n\n```\n  przeniesienie: 1 1 1 0\n                 2 0 1 2\n               + 1 2 2 1\n               ---------\n               1 1 0 1 0\n```\n\nObliczenia kolumna po kolumnie (od prawej):\n- kol. 0: 2+1 = 3 = 1*3 + 0, zapisz 0, przeniesienie 1\n- kol. 1: 1+2+1 = 4 = 1*3 + 1, zapisz 1, przeniesienie 1\n- kol. 2: 0+2+1 = 3 = 1*3 + 0, zapisz 0, przeniesienie 1\n- kol. 3: 2+1+1 = 4 = 1*3 + 1, zapisz 1, przeniesienie 1\n- kol. 4: 1 (przeniesienie)\n\nWynik: **11010(3)**\n\nSprawdzenie:\n- 2012(3) = 2*27 + 0*9 + 1*3 + 2*1 = 54 + 3 + 2 = 59\n- 1221(3) = 1*27 + 2*9 + 2*3 + 1*1 = 27 + 18 + 6 + 1 = 52\n- Suma: 59 + 52 = 111\n- 11010(3) = 1*81 + 1*27 + 0*9 + 1*3 + 0*1 = 81 + 27 + 3 = 111\n\n**b) 10000(3) - 122(3):**\n\nUzupelniamy: 10000 - 00122\n\n```\n  10000\n- 00122\n```\n\nObliczenia kolumna po kolumnie (od prawej) z pozyczkami:\n- kol. 0: 0-2: nie mozna, pozyczamy z kol.1\n  - kol.1 = 0, kaskada pozyczek:\n  - kol.4: 1 -> 0, daje 1 do kol.3, kol.3 staje sie 10(3)=3\n  - kol.3: 3 -> 2, daje 1 do kol.2, kol.2 staje sie 10(3)=3\n  - kol.2: 3 -> 2, daje 1 do kol.1, kol.1 staje sie 10(3)=3\n  - kol.1: 3 -> 2, daje 1 do kol.0, kol.0 staje sie 10(3)=3\n  - kol.0: 3-2 = 1\n- kol.1: 2-2 = 0\n- kol.2: 2-1 = 1\n- kol.3: 2-0 = 2\n- kol.4: 0-0 = 0\n\nWynik: **02101(3) = 2101(3)**\n\nSprawdzenie:\n- 10000(3) = 1*81 = 81\n- 122(3) = 1*9 + 2*3 + 2*1 = 9 + 6 + 2 = 17\n- Roznica: 81 - 17 = 64\n- 2101(3) = 2*27 + 1*9 + 0*3 + 1*1 = 54 + 9 + 1 = 64",
+  "typowe_bledy": [
+    {
+      "opis": "**Przeniesienie przy >= 2 zamiast >= 3**: W systemie trojkowym przeniesienie nastepuje przy sumie >= 3, nie >= 2 (to binarny)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Cyfra 3 w zapisie trojkowym**: W systemie trojkowym dopuszczalne cyfry to 0, 1, 2. Cyfra 3 nie istnieje!",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne potegi trojki**: 3^0=1, 3^1=3, 3^2=9, 3^3=27, 3^4=81, 3^5=243",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "23.17",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2021",
+  "tagi": [
+    "CASE-WHEN",
+    "obliczenia-w-SELECT",
+    "AND",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Uczniowie**:\n\n| id | imie | nazwisko | klasa | punkty_matematyka | punkty_polski |\n|----|------|----------|-------|-------------------|---------------|\n| 1 | Anna | Kowalska | 3A | 85 | 78 |\n| 2 | Jan | Nowak | 3B | 45 | 52 |\n| 3 | Ewa | Maj | 3A | 92 | 88 |\n| 4 | Piotr | Lis | 3B | 38 | 41 |\n| 5 | Kasia | Zak | 3A | 70 | 65 |\n| 6 | Tomek | Bak | 3B | 55 | 48 |\n\nProg zdawalnosci: 50 punktow na 100 mozliwych z kazdego przedmiotu.\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko oraz status:\n- 'zdal/a' jezeli OBA przedmioty >= 50\n- 'nie zdal/a' w przeciwnym razie\n\nPosortuj wg nazwiska.",
+  "wskazowki": [
+    "**Kierunek**: CASE WHEN do klasyfikacji na podstawie warunkow.",
+    "**Podejscie**: `CASE WHEN pkt_mat >= 50 AND pkt_pol >= 50 THEN 'zdal/a' ELSE 'nie zdal/a' END`.",
+    "**Kluczowy krok**: OBA warunki musza byc spelnione — uzyj AND wewnatrz CASE WHEN."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko,\n  CASE\n    WHEN punkty_matematyka >= 50 AND punkty_polski >= 50 THEN 'zdal/a'\n    ELSE 'nie zdal/a'\n  END AS status\nFROM Uczniowie\nORDER BY nazwisko;\n```\n\n**Weryfikacja**:\n- Anna: mat=85 ✓, pol=78 ✓ → zdal/a\n- Jan: mat=45 ✗ → nie zdal/a\n- Ewa: mat=92 ✓, pol=88 ✓ → zdal/a\n- Piotr: mat=38 ✗ → nie zdal/a\n- Kasia: mat=70 ✓, pol=65 ✓ → zdal/a\n- Tomek: mat=55 ✓, pol=48 ✗ → nie zdal/a\n\n| imie | nazwisko | status |\n|------|----------|--------|\n| Tomek | Bak | nie zdal/a |\n| Anna | Kowalska | zdal/a |\n| Piotr | Lis | nie zdal/a |\n| Ewa | Maj | zdal/a |\n| Jan | Nowak | nie zdal/a |\n| Kasia | Zak | zdal/a |\n\n**Wyjasnienie**: CASE WHEN dziala jak if/else. AND wewnatrz warunku wymaga spelnienia OBU podwarunkow. Tomek zdal matematyke (55>=50), ale nie zdal polskiego (48<50).",
+  "typowe_bledy": [
+    {
+      "opis": "**OR zamiast AND**: `WHEN mat >= 50 OR pol >= 50` — wystarczy zdac jeden przedmiot, co jest niezgodne z poleceniem",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak ELSE**: Osoby niezdajace dostana NULL zamiast 'nie zdal/a'",
+      "kara": "-1 pkt"
+    }
+  ]
+}

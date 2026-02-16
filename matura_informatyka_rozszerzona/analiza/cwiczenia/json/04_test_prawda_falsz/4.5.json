@@ -1,0 +1,34 @@
+{
+  "id": "4.5",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Matura 2016 zad. 3 (DNS), Matura 2018 zad. 3",
+  "tagi": [
+    "sieci-komputerowe",
+    "HTTPS-szyfrowanie",
+    "IPv4",
+    "DNS",
+    "formaty-danych"
+  ],
+  "tresc": "Ocen prawdziwosc ponizszych zdan z zakresu sieci komputerowych, grafiki i formatow danych. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Protokol HTTPS szyfruje dane za pomoca klucza symetrycznego, ktory jest uzgadniany z wykorzystaniem kryptografii asymetrycznej (klucza publicznego). | |\n| b) | Format BMP przechowuje obrazy z kompresja stratna, podobnie jak JPEG. | |\n| c) | Adres IPv4 sklada sie z 4 oktetow (grup po 8 bitow), co daje lacznie 32 bity. | |\n| d) | Serwer DNS zamienia nazwy domen (np. www.example.com) na adresy MAC urzadzen sieciowych. | |",
+  "wskazowki": [
+    "**Kierunek**: HTTPS uzywa kryptografii hybrydowej. BMP to format bezstratny. DNS zamienia domeny na adresy IP.",
+    "**Podejscie**: Rozroznij: BMP (bezstratny), JPEG (stratny), PNG (bezstratny). Rozroznij: IP (warstwa sieciowa) vs MAC (warstwa lacza).",
+    "**Kluczowy krok**: DNS -> IP, ARP -> MAC. IPv4 = 32 bity, IPv6 = 128 bitow."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | HTTPS (TLS/SSL) korzysta z kryptografii hybrydowej: klucz asymetryczny (RSA/ECDH) sluzy do bezpiecznego uzgodnienia wspolnego klucza sesji (symetrycznego, np. AES), ktory nastepnie szyfruje wlasciwa komunikacje. |\n| b) | **F** | Format BMP przechowuje obrazy BEZ kompresji (lub z kompresja bezstratna, np. RLE). BMP zachowuje pelna informacje o kazdym pikselu, w przeciwienstwie do JPEG, ktory uzywa kompresji stratnej (DCT). |\n| c) | **P** | Adres IPv4 to 32-bitowa liczba zapisywana jako 4 liczby dziesietne oddzielone kropkami (np. 192.168.1.1), kazda odpowiadajaca jednemu oktetowi (8 bitow). 4 * 8 = 32 bity. |\n| d) | **F** | DNS (Domain Name System) zamienia nazwy domen na adresy IP (np. 93.184.216.34), NIE na adresy MAC. Adresy MAC sa adresami warstwy lacza danych (fizycznymi) i sa rozwiazywane przez protokol ARP. |\n\nOdpowiedzi: a) P, b) F, c) P, d) F",
+  "typowe_bledy": [
+    {
+      "opis": "**DNS -> MAC**: DNS zamienia domeny na IP, nie MAC. MAC to warstwa lacza danych (ARP)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**BMP = kompresja stratna**: BMP jest bezstratny. Stratny = JPEG, bezstratny = BMP, PNG, TIFF",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**HTTPS = tylko szyfrowanie asymetryczne**: HTTPS uzywa asymetrycznego TYLKO do uzgodnienia klucza. Dane sa szyfrowane symetrycznie (AES)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

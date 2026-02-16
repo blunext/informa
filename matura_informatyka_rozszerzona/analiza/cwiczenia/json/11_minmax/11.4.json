@@ -1,0 +1,33 @@
+{
+  "id": "11.4",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2015 zad. 4.3 (min/max w wierszu tablicy)",
+  "tagi": [
+    "tablica-2D",
+    "min-max",
+    "srednia",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Dana jest tablica 4x6 (4 wiersze, 6 kolumn) zapisana w pliku `tablica.txt` (kazdy wiersz tablicy w osobnym wierszu, wartosci oddzielone spacjami). Napisz program, ktory:\na) Znajdzie wiersz zawierajacy wartosc maksymalna calej tablicy.\nb) W tym wierszu poda wartosc minimalna.\nc) Znajdzie kolumne z najmniejsza srednia.\n\n**Dane** (`tablica.txt`):\n```\n12 45 7 23 56 31\n89 14 67 42 8 53\n38 71 19 94 26 60\n5 33 82 17 48 11\n```\n\n**Oczekiwany wynik**:\n```\na) Wiersz z wartoscia max: wiersz 3 (wartosc max: 94)\nb) Minimum w wierszu 3: 19\nc) Kolumna z najmniejsza srednia: kolumna 5 (srednia: 34.50)\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj tablice 2D, potem przetwarzaj wierszami i kolumnami.",
+    "**Podejscie**: (a) Podwojna petla szukajaca globalnego max + zapamietanie wiersza. (b) Petla po kolumnach jednego wiersza. (c) Petla po kolumnach z obliczeniem sredniej.",
+    "**Kluczowy krok**: Srednia kolumny = suma elementow w kolumnie / liczba wierszy. Pamietaj o dzieleniu zmiennoprzecinkowym."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"tablica.txt\");\n    int tab[4][6];\n    for (int i = 0; i < 4; i++)\n        for (int j = 0; j < 6; j++)\n            plik >> tab[i][j];\n\n    // a) Wiersz z wartoscia max\n    int maxVal = tab[0][0], maxWiersz = 0;\n    for (int i = 0; i < 4; i++)\n        for (int j = 0; j < 6; j++)\n            if (tab[i][j] > maxVal) { maxVal = tab[i][j]; maxWiersz = i; }\n\n    cout << \"a) Wiersz z wartoscia max: wiersz \" << maxWiersz + 1\n         << \" (wartosc max: \" << maxVal << \")\" << endl;\n\n    // b) Min w tym wierszu\n    int minVal = tab[maxWiersz][0];\n    for (int j = 1; j < 6; j++)\n        if (tab[maxWiersz][j] < minVal) minVal = tab[maxWiersz][j];\n    cout << \"b) Minimum w wierszu \" << maxWiersz + 1 << \": \" << minVal << endl;\n\n    // c) Kolumna z najmniejsza srednia\n    double minSr = 1e9;\n    int minKol = 0;\n    for (int j = 0; j < 6; j++) {\n        double suma = 0;\n        for (int i = 0; i < 4; i++) suma += tab[i][j];\n        double sr = suma / 4;\n        if (sr < minSr) { minSr = sr; minKol = j; }\n    }\n    cout << \"c) Kolumna z najmniejsza srednia: kolumna \" << minKol + 1\n         << \" (srednia: \" << fixed << setprecision(2) << minSr << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Klasyczne operacje na tablicy 2D. (a) Podwojna petla po calej tablicy szukajac max. (b) Petla po jednym wierszu szukajac min. (c) Petla po kolumnach liczac srednie.\n\nWeryfikacja:\na) Max tablicy: 94 w wierszu 3 (indeks 2), pozycja [2][3]\nb) Wiersz 3: 38,71,19,94,26,60 -> min=19\nc) Srednie kolumn:\n   - kol.1: (12+89+38+5)/4 = 144/4 = 36.00\n   - kol.2: (45+14+71+33)/4 = 163/4 = 40.75\n   - kol.3: (7+67+19+82)/4 = 175/4 = 43.75\n   - kol.4: (23+42+94+17)/4 = 176/4 = 44.00\n   - kol.5: (56+8+26+48)/4 = 138/4 = 34.50\n   - kol.6: (31+53+60+11)/4 = 155/4 = 38.75\n   Najmniejsza srednia: kolumna 5 (34.50)",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie wierszy i kolumn**: Indeks `[i][j]` — i to wiersz, j to kolumna. Zamiana powoduje transponowanie",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Dzielenie calkowite w sredniej**: `suma/4` zamiast `suma/4.0`",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Numerowanie od 0**: Wypisanie \"wiersz 2\" zamiast \"wiersz 3\"",
+      "kara": "-1 pkt"
+    }
+  ]
+}

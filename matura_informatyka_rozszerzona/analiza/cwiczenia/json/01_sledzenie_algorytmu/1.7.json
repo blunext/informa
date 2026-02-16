@@ -1,0 +1,32 @@
+{
+  "id": "1.7",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2023 zad. 1 (sledzenie sortowania)",
+  "tagi": [
+    "sortowanie",
+    "sledzenie-iteracyjne",
+    "tablica-pomocnicza"
+  ],
+  "tresc": "Dany jest algorytm sortowania babelkowego:\n\n```\nfunkcja babelkowe(T, n)\n    // T - tablica o indeksach 0..n-1\n    dla i := 0, 1, ..., n-2:\n        dla j := 0, 1, ..., n-2-i:\n            jezeli T[j] > T[j+1]:\n                zamien(T[j], T[j+1])\n```\n\n**Polecenie**: Przesled algorytm dla tablicy T = [5, 3, 8, 1, 4] (n=5). Podaj:\n- a) Stan tablicy po kazdym pelnym przebiegu petli zewnetrznej (i=0, i=1, ...).\n- b) Laczna liczbe wykonanych zamian (swap).\n- c) Po ktorym przebiegu petli zewnetrznej tablica jest juz posortowana?",
+  "wskazowki": [
+    "**Kierunek**: W kazdym przebiegu petli zewnetrznej najwiekszy nieposortowany element \"wyplywa\" na koniec.",
+    "**Podejscie**: Dla i=0 porownujesz sasiednie pary j=0..3; dla i=1 j=0..2 (ostatni juz na miejscu) itd.",
+    "**Kluczowy krok**: Zapisz stan tablicy po KAZDYM przebiegu i licz zamiany. Sortowanie moze skonczyc sie wczesniej niz n-1 przebiegow."
+  ],
+  "odpowiedz": "Poczatkowo: T = [5, 3, 8, 1, 4]\n\n**Przebieg i=0** (porownania j=0..3):\n- j=0: T[0]=5 > T[1]=3? TAK -> zamien -> [**3**, **5**, 8, 1, 4] (zamiana 1)\n- j=1: T[1]=5 > T[2]=8? NIE\n- j=2: T[2]=8 > T[3]=1? TAK -> zamien -> [3, 5, **1**, **8**, 4] (zamiana 2)\n- j=3: T[3]=8 > T[4]=4? TAK -> zamien -> [3, 5, 1, **4**, **8**] (zamiana 3)\n\nStan po i=0: [3, 5, 1, 4, 8] — element 8 na swoim miejscu.\n\n**Przebieg i=1** (porownania j=0..2):\n- j=0: T[0]=3 > T[1]=5? NIE\n- j=1: T[1]=5 > T[2]=1? TAK -> zamien -> [3, **1**, **5**, 4, 8] (zamiana 4)\n- j=2: T[2]=5 > T[3]=4? TAK -> zamien -> [3, 1, **4**, **5**, 8] (zamiana 5)\n\nStan po i=1: [3, 1, 4, 5, 8] — elementy 5, 8 na swoich miejscach.\n\n**Przebieg i=2** (porownania j=0..1):\n- j=0: T[0]=3 > T[1]=1? TAK -> zamien -> [**1**, **3**, 4, 5, 8] (zamiana 6)\n- j=1: T[1]=3 > T[2]=4? NIE\n\nStan po i=2: [1, 3, 4, 5, 8] — **tablica posortowana!**\n\n**Przebieg i=3** (porownania j=0..0):\n- j=0: T[0]=1 > T[1]=3? NIE\n\nStan po i=3: [1, 3, 4, 5, 8] — bez zmian.\n\n**a)** Stany po przebiegach: [3,5,1,4,8] → [3,1,4,5,8] → [1,3,4,5,8] → [1,3,4,5,8]\n\n**b)** Laczna liczba zamian: **6**\n\n**c)** Tablica jest posortowana po przebiegu **i=2** (trzecim przebiegu).",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledny zakres petli wewnetrznej**: j idzie do n-2-i (nie n-2 ani n-1)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o dalszych porownaniach po zamianie**: Po zamianie T[j] i T[j+1] kontynuujemy z j+1",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Mylenie sortowania rosnacego z malejacym**: Warunek T[j]>T[j+1] daje sortowanie rosnace",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

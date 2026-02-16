@@ -1,0 +1,141 @@
+{
+  "typ": "11_minmax",
+  "nazwa": "Wyszukiwanie min/max",
+  "kategoria": "IMPLEMENTACJA",
+  "czestotliwosc": "5/11 lat",
+  "punkty_lacznie": 34,
+  "tagi_globalne": [
+    "filtrowanie",
+    "k-ty-element",
+    "mediana",
+    "min-max",
+    "pary-elementow",
+    "podwojna-petla",
+    "pozycja-elementu",
+    "rekordy",
+    "roznica-bezwzgledna",
+    "skan-liniowy",
+    "sortowanie",
+    "spojny-fragment",
+    "srednia",
+    "struct",
+    "tablica-2D",
+    "vector-par",
+    "warunkowe-min-max",
+    "wczytywanie-pliku",
+    "wielokryterialne"
+  ],
+  "cwiczenia": [
+    {
+      "id": "11.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "min-max",
+        "pozycja-elementu",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "min-max",
+        "rekordy",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.3",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "sortowanie",
+        "k-ty-element",
+        "mediana",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "tablica-2D",
+        "min-max",
+        "srednia",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "roznica-bezwzgledna",
+        "spojny-fragment",
+        "min-max",
+        "podwojna-petla"
+      ]
+    },
+    {
+      "id": "11.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "min-max",
+        "filtrowanie",
+        "wczytywanie-pliku",
+        "warunkowe-min-max"
+      ]
+    },
+    {
+      "id": "11.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "sortowanie",
+        "rekordy",
+        "vector-par",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "roznica-bezwzgledna",
+        "pary-elementow",
+        "min-max",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "struct",
+        "wielokryterialne",
+        "sortowanie",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "min-max",
+        "spojny-fragment",
+        "podwojna-petla",
+        "sortowanie",
+        "wczytywanie-pliku"
+      ]
+    }
+  ]
+}

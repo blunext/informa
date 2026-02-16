@@ -1,0 +1,34 @@
+{
+  "id": "20.15",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2023 (Gry planszowe)",
+  "tagi": [
+    "GROUP-BY",
+    "SUM",
+    "HAVING",
+    "WHERE-vs-HAVING",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Transakcje** zawiera dane o sprzedazy w sieci sklepow:\n\n| id | sklep | produkt | kwota | status |\n|----|-------|---------|-------|--------|\n| 1 | Alfa | Laptop | 3500 | zakonczona |\n| 2 | Alfa | Mysz | 80 | zakonczona |\n| 3 | Beta | Monitor | 1200 | anulowana |\n| 4 | Beta | Laptop | 3200 | zakonczona |\n| 5 | Alfa | Monitor | 1100 | zakonczona |\n| 6 | Gamma | Laptop | 3800 | zakonczona |\n| 7 | Beta | Klawiatura | 150 | zakonczona |\n| 8 | Gamma | Mysz | 90 | anulowana |\n| 9 | Alfa | Klawiatura | 120 | anulowana |\n| 10 | Gamma | Monitor | 1300 | zakonczona |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe sklepu i laczna kwote ZAKONCZONYCH transakcji, ale tylko dla sklepow, w ktorych ta kwota przekracza 4000. Posortuj malejaco wg kwoty.",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz dwoch etapow filtrowania: wiersze (WHERE) i grupy (HAVING).",
+    "**Podejscie**: WHERE status = 'zakonczona' filtruje przed grupowaniem. HAVING SUM(...) > 4000 filtruje po grupowaniu.",
+    "**Kluczowy krok**: Kolejnosc w SQL: WHERE → GROUP BY → HAVING. Nie mozna zamienic."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT sklep, SUM(kwota) AS suma_kwot\nFROM Transakcje\nWHERE status = 'zakonczona'\nGROUP BY sklep\nHAVING SUM(kwota) > 4000\nORDER BY suma_kwot DESC;\n```\n\n**Weryfikacja** (tylko status = 'zakonczona'):\n- Alfa: 3500+80+1100 = **4680** (>4000 ✓)\n- Beta: 3200+150 = **3350** (>4000 ✗)\n- Gamma: 3800+1300 = **5100** (>4000 ✓)\n\n| sklep | suma_kwot |\n|-------|-----------|\n| Gamma | 5100 |\n| Alfa | 4680 |\n\n**Wyjasnienie**: WHERE i HAVING dzialaja na ROZNYCH etapach:\n1. WHERE filtruje wiersze (tu: usuwa anulowane transakcje)\n2. GROUP BY grupuje przefiltrowane wiersze\n3. HAVING filtruje grupy (tu: tylko sklepy z suma > 4000)\n\nBez WHERE: Alfa mialoby 3500+80+1100+120=4800, a Beta 1200+3200+150=4550 — bledne wyniki.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak WHERE — filtrowanie statusu w HAVING**: `HAVING status = 'zakonczona'` nie dziala, bo status nie jest funkcja agregujaca. Wiersze filtrujemy w WHERE",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pominiecie anulowanych**: Bez WHERE suma Alfa wynosi 4800 (wlicza anulowana 120), co zmienia wynik",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak HAVING**: Beta (3350) pojawia sie w wyniku mimo ze < 4000",
+      "kara": "-1 pkt"
+    }
+  ]
+}

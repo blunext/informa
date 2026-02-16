@@ -1,0 +1,34 @@
+{
+  "id": "14.5",
+  "trudnosc": "trudne",
+  "punkty": 4,
+  "zrodlo": "Matura 2025 zad. 3",
+  "tagi": [
+    "pole-trojkata",
+    "punkt-w-trojkacie",
+    "struct",
+    "sortowanie",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `punkty.txt` znajduje sie 6 punktow o wspolrzednych calkowitych. Napisz program, ktory:\na) Obliczy pole trojkata dla kazdej mozliwej trojki punktow (uzyj wzoru z wspolrzednych: P = |x1(y2-y3) + x2(y3-y1) + x3(y1-y2)| / 2).\nb) Znajdzie trojkat o najwiekszym polu.\nc) Sprawdzi, czy punkt D=(4,3) lezy wewnatrz trojkata o najwiekszym polu (metoda: punkt lezy wewnatrz trojkata ABC jesli suma pol trojkatow ABD + ACD + BCD = pole ABC).\n\n**Dane** (`punkty.txt`):\n```\n0 0\n8 0\n0 6\n4 3\n7 5\n2 8\n```\n\n**Oczekiwany wynik**:\n```\na) Najwieksze trojkaty (top 3):\n   (0,0)-(8,0)-(2,8): pole = 32.00\n   (0,0)-(8,0)-(0,6): pole = 24.00\n   (0,0)-(7,5)-(2,8): pole = 23.00\n\nb) Trojkat o max polu: (0,0)-(8,0)-(2,8), pole = 32.00\n\nc) Czy D=(4,3) lezy wewnatrz trojkata (0,0)-(8,0)-(2,8)?\n   Pole ABD = 12.00, pole ACD = 13.00, pole BCD = 7.00\n   Suma = 32.00, pole ABC = 32.00\n   Suma == pole -> D lezy wewnatrz: TAK\n```",
+  "wskazowki": [
+    "**Kierunek**: Wzor na pole: `P = |x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2)| / 2.0`.",
+    "**Podejscie**: Potrojna petla po trojkach. Sortuj po polu malejaco.",
+    "**Kluczowy krok**: Punkt wewnatrz trojkata: suma pol 3 pod-trojkatow = pole calego trojkata (z dokladnoscia do epsilon)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\n#include <algorithm>\nusing namespace std;\n\nstruct Pt { int x, y; };\n\ndouble pole(Pt a, Pt b, Pt c) {\n    return abs(a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)) / 2.0;\n}\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    vector<Pt> P;\n    int x, y;\n    while (plik >> x >> y) P.push_back({x, y});\n    int n = P.size();\n\n    // a) i b) Oblicz pola wszystkich trojkatow\n    struct Tri { int i, j, k; double p; };\n    vector<Tri> trojkaty;\n    for (int i = 0; i < n; i++)\n        for (int j = i+1; j < n; j++)\n            for (int k = j+1; k < n; k++) {\n                double p = pole(P[i], P[j], P[k]);\n                trojkaty.push_back({i, j, k, p});\n            }\n    sort(trojkaty.begin(), trojkaty.end(), [](Tri &a, Tri &b) { return a.p > b.p; });\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Najwieksze trojkaty (top 3):\" << endl;\n    for (int t = 0; t < 3 && t < (int)trojkaty.size(); t++) {\n        auto &tr = trojkaty[t];\n        cout << \"   (\" << P[tr.i].x << \",\" << P[tr.i].y << \")-(\"\n             << P[tr.j].x << \",\" << P[tr.j].y << \")-(\"\n             << P[tr.k].x << \",\" << P[tr.k].y << \"): pole = \"\n             << tr.p << endl;\n    }\n\n    auto &best = trojkaty[0];\n    cout << endl << \"b) Trojkat o max polu: (\"\n         << P[best.i].x << \",\" << P[best.i].y << \")-(\"\n         << P[best.j].x << \",\" << P[best.j].y << \")-(\"\n         << P[best.k].x << \",\" << P[best.k].y << \"), pole = \"\n         << best.p << endl;\n\n    // c) Punkt D wewnatrz?\n    Pt D = {4, 3};\n    Pt A = P[best.i], B = P[best.j], C = P[best.k];\n    double pABC = pole(A, B, C);\n    double pABD = pole(A, B, D);\n    double pACD = pole(A, C, D);\n    double pBCD = pole(B, C, D);\n    double sumaP = pABD + pACD + pBCD;\n\n    cout << endl << \"c) Czy D=(\" << D.x << \",\" << D.y << \") lezy wewnatrz trojkata (\"\n         << A.x << \",\" << A.y << \")-(\" << B.x << \",\" << B.y << \")-(\"\n         << C.x << \",\" << C.y << \")?\" << endl;\n    cout << \"   Pole ABD = \" << pABD << \", pole ACD = \" << pACD\n         << \", pole BCD = \" << pBCD << endl;\n    cout << \"   Suma = \" << sumaP << \", pole ABC = \" << pABC << endl;\n    if (abs(sumaP - pABC) < 0.001)\n        cout << \"   Suma == pole -> D lezy wewnatrz: TAK\" << endl;\n    else\n        cout << \"   Suma != pole -> D lezy na zewnatrz: NIE\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Pole trojkata z wspolrzednych: P = |x1(y2-y3) + x2(y3-y1) + x3(y1-y2)| / 2. Punkt D lezy wewnatrz ABC wtedy i tylko wtedy, gdy pole(ABD) + pole(ACD) + pole(BCD) = pole(ABC).\n\nWeryfikacja:\n- Trojkat (0,0)-(8,0)-(2,8): |0*(0-8) + 8*(8-0) + 2*(0-0)| / 2 = |0+64+0| / 2 = 32.00\n- D=(4,3):\n  - pole ABD: |0*(0-3)+8*(3-0)+4*(0-0)|/2 = 24/2 = 12.00\n  - pole ACD: |0*(8-3)+2*(3-0)+4*(0-8)|/2 = |0+6-32|/2 = 26/2 = 13.00\n  - pole BCD: |8*(8-3)+2*(3-0)+4*(0-8)|/2 = |40+6-32|/2 = 14/2 = 7.00\n  - Suma: 12+13+7 = 32.00 = pole ABC -> D wewnatrz: TAK",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak `abs()` we wzorze na pole**: Iloczyn wektorowy moze byc ujemny — bez wartosci bezwzglednej pole bedzie ujemne",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Porownanie double z `==`**: `sumaP == pABC` moze nie zadzialac przez bledy zmiennoprzecinkowe. Uzyj `abs(a-b) < epsilon`",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie `/2.0`**: Pole jest polowa iloczynu wektorowego",
+      "kara": "-1 pkt"
+    }
+  ]
+}

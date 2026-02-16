@@ -1,0 +1,27 @@
+{
+  "id": "21.2",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2021 (Gra strategiczna)",
+  "tagi": [
+    "NOT-IN",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Kursy**:\n\n| id_kursu | nazwa_kursu | kategoria |\n|----------|-------------|-----------|\n| 1 | Python basics | programowanie |\n| 2 | SQL dla poczatkujacych | bazy_danych |\n| 3 | Excel zaawansowany | arkusze |\n| 4 | HTML i CSS | webdev |\n| 5 | Algorytmy | programowanie |\n\nTabela **Zapisy**:\n\n| id_zapisu | id_kursu | id_ucznia | data_zapisu |\n|-----------|----------|-----------|-------------|\n| 1 | 1 | 101 | 2024-01-10 |\n| 2 | 1 | 102 | 2024-01-12 |\n| 3 | 2 | 103 | 2024-01-15 |\n| 4 | 3 | 101 | 2024-02-01 |\n| 5 | 5 | 104 | 2024-02-10 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwy kursow, na ktore nikt sie nie zapisal.",
+  "wskazowki": [
+    "**Kierunek**: Szukasz kursow, ktorych id NIE wystepuje w tabeli Zapisy.",
+    "**Podejscie**: Podzapytanie zwraca zbior id_kursu z Zapisy, a NOT IN wyklucza je.",
+    "**Kluczowy krok**: `WHERE id_kursu NOT IN (SELECT id_kursu FROM Zapisy)`."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa_kursu\nFROM Kursy\nWHERE id_kursu NOT IN (SELECT id_kursu FROM Zapisy);\n```\n\n**Weryfikacja**:\n- Kursy z zapisami (id_kursu w tabeli Zapisy): 1, 2, 3, 5\n- Kursy bez zapisow: id=4 (HTML i CSS)\n\n| nazwa_kursu |\n|-------------|\n| HTML i CSS |\n\n**Rozwiazanie alternatywne z LEFT JOIN:**\n```sql\nSELECT K.nazwa_kursu\nFROM Kursy K\nLEFT JOIN Zapisy Z ON K.id_kursu = Z.id_kursu\nWHERE Z.id_zapisu IS NULL;\n```\n\n**Wyjasnienie**: Podzapytanie `(SELECT id_kursu FROM Zapisy)` zwraca zbior {1, 2, 3, 5}. NOT IN sprawdza, ktore id_kursu z tabeli Kursy NIE naleza do tego zbioru.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak NOT**: Samo `IN` daloby kursy z zapisami, czyli odwrotnosc oczekiwanego wyniku",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**NOT IN z NULL**: Jesli podzapytanie zwraca NULL wsrod wynikow, NOT IN zwraca pusty zbior. Np. gdyby Zapisy mialy wiersz z id_kursu = NULL, wynik bylby pusty",
+      "kara": ""
+    }
+  ]
+}

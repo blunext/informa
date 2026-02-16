@@ -1,0 +1,33 @@
+{
+  "id": "4.4",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2016 zad. 3, Matura 2021 zad. 3",
+  "tagi": [
+    "rekurencja",
+    "struktury-danych",
+    "LIFO-FIFO",
+    "BST"
+  ],
+  "tresc": "Ocen prawdziwosc ponizszych zdan dotyczacych rekurencji i struktur danych. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Kazda funkcje rekurencyjna mozna zapisac w postaci iteracyjnej (z uzyciem petli). | |\n| b) | Stos (stack) dziala na zasadzie FIFO (First In First Out). | |\n| c) | Rekurencja ogonowa (tail recursion) moze byc zawsze zamieniona na petle. | |\n| d) | Drzewo BST (Binary Search Tree) gwarantuje wyszukiwanie elementu w czasie O(log n) dla dowolnych danych wejsciowych. | |",
+  "wskazowki": [
+    "**Kierunek**: Kazda rekurencja mozna zamienic na iteracje (ewentualnie z jawnym stosem). Stos to LIFO, kolejka to FIFO.",
+    "**Podejscie**: BST moze sie zdegenerowac do listy — kiedy to sie zdarza?",
+    "**Kluczowy krok**: BST ma O(log n) tylko gdy jest zrownowazony. Wstawianie posortowanych danych daje drzewo-liste z O(n)."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | Kazda funkcja rekurencyjna moze byc przeksztalcona na iteracyjna — w najgorszym przypadku symulujemy stos wywolan explicite za pomoca struktury stosu. |\n| b) | **F** | Stos dziala na zasadzie LIFO (Last In First Out), nie FIFO. Struktura FIFO to kolejka (queue). |\n| c) | **P** | Rekurencja ogonowa (gdy wywolanie rekurencyjne jest ostatnia operacja) moze byc mechanicznie zamieniona na petle. Kompilatory czesto dokonuja tej optymalizacji automatycznie (tail call optimization). |\n| d) | **F** | BST gwarantuje O(log n) tylko gdy drzewo jest zrownowazne. W najgorszym przypadku (np. wstawianie elementow w kolejnosci rosnacej) drzewo degeneruje sie do listy i wyszukiwanie ma zlozonosc O(n). Gwarancje O(log n) daja drzewa zrownowazone, np. AVL lub czerwono-czarne. |\n\nOdpowiedzi: a) P, b) F, c) P, d) F",
+  "typowe_bledy": [
+    {
+      "opis": "**Stos = FIFO**: CZESTY blad! Stos = LIFO (ostatni wchodzi, pierwszy wychodzi). Kolejka = FIFO",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**BST zawsze O(log n)**: BST moze degenerowac do listy! Tylko zrownowazony BST (AVL, czerwono-czarny) gwarantuje O(log n)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Nie kazda rekurencja da sie zamienic na iteracje**: To falszywe twierdzenie — kazda rekurencja DA sie zamienic (z jawnym stosem)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

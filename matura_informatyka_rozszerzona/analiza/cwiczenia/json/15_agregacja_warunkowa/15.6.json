@@ -1,0 +1,27 @@
+{
+  "id": "15.6",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "SUMIF",
+    "warunek-tekstowy"
+  ],
+  "tresc": "Sklep prowadzi ewidencje sprzedazy owocow w ciagu tygodnia:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Dzien** | **Owoc** | **Sprzedaz (kg)** |\n| 2 | Pon | Jabłka | 25 |\n| 3 | Pon | Banany | 15 |\n| 4 | Wt | Jabłka | 30 |\n| 5 | Wt | Banany | 20 |\n| 6 | Sr | Jabłka | 18 |\n| 7 | Sr | Banany | 22 |\n| 8 | Czw | Jabłka | 35 |\n| 9 | Czw | Banany | 12 |\n| 10 | Pt | Jabłka | 40 |\n| 11 | Pt | Banany | 28 |\n\n**Polecenie**: Napisz formuly obliczajace:\n1. Laczna sprzedaz jablek w calym tygodniu.\n2. Laczna sprzedaz bananow w calym tygodniu.\n3. Ktory owoc mial wieksza laczna sprzedaz?",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz funkcji sumujacej z warunkiem — SUMIF.",
+    "**Podejscie**: SUMIF(zakres_kryterium; kryterium; zakres_sumy) — filtruj po kolumnie B, sumuj kolumne C.",
+    "**Kluczowy krok**: Porownaj wyniki obu SUMIF, aby odpowiedziec na punkt 3."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nJabłka: =SUMIF(B2:B11;\"Jabłka\";C2:C11)\nBanany: =SUMIF(B2:B11;\"Banany\";C2:C11)\n```\n\n**Weryfikacja:**\n- Jabłka: 25 + 30 + 18 + 35 + 40 = **148 kg**\n- Banany: 15 + 20 + 22 + 12 + 28 = **97 kg**\n- Wieksza sprzedaz: **Jabłka (148 kg)**\n\n**Wyjasnienie**: SUMIF(zakres_kryterium; kryterium; zakres_sumy) sumuje wartosci z kolumny C tylko dla wierszy, gdzie kolumna B zawiera podany tekst. Roznica SUMIF vs SUMIFS: SUMIF obsluguje jeden warunek, SUMIFS — wiele.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zamiana zakresow**: =SUMIF(C2:C11;\"Jabłka\";B2:B11) — zakres kryterium (B) i zakres sumy (C) sa zamienione",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie COUNTIF zamiast SUMIF**: COUNTIF zlicza ILOSC wierszy, a nie sumuje wartosci sprzedazy",
+      "kara": "-2 pkt"
+    }
+  ]
+}

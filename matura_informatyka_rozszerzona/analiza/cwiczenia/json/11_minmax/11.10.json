@@ -1,0 +1,34 @@
+{
+  "id": "11.10",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2025 zad. 2 + 2024 zad. 4 (zlozony min/max)",
+  "tagi": [
+    "min-max",
+    "spojny-fragment",
+    "podwojna-petla",
+    "sortowanie",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Znajdzie najdluzszy spojny podciag scisle rosnacy, a nastepnie w tym podciagu znajdzie mediane.\nb) Znajdzie pare (niekoniecznie sasiednich) elementow T[i] i T[j] (i < j) taka, ze T[j] - T[i] jest maksymalne (najwiekszy zysk \"kup tanio, sprzedaj drogo\").\nc) Poda ile elementow ciagu jest jednoczesnie wiekszych od swojego lewego sasiada i mniejszych od prawego (lokalne \"doliny\").\n\n**Dane** (`dane.txt`):\n```\n30\n10\n20\n40\n60\n50\n55\n80\n75\n5\n15\n25\n35\n45\n70\n```\n\n**Oczekiwany wynik**:\n```\na) Najdluzszy ciag rosnacy:\n   Pozycje 10-15: [5, 15, 25, 35, 45, 70], dlugosc 6\n   Mediana: 30.00\n\nb) Max zysk: kup T[2]=10, sprzedaj T[8]=80, zysk=70\n\nc) Lokalne doliny (T[i-1] > T[i] < T[i+1]):\n   Poz.2: 30 > 10 < 20 -> TAK\n   Poz.6: 60 > 50 < 55 -> TAK\n   Poz.10: 75 > 5 < 15 -> TAK\n   Ilosc: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: (a) Wzorzec current/max dla ciagu rosnacego, potem sort+mediana fragmentu. (b) Sledzenie minimum dotychczasowego i max roznicy. (c) Sprawdz warunek na sasiady.",
+    "**Podejscie**: Dla (b) iteruj raz: sledzac `minDotychczasowy`, oblicz `T[j] - minDotychczasowy` i aktualizuj max.",
+    "**Kluczowy krok**: (b) to klasyczny problem \"Best Time to Buy and Sell Stock\" — liniowe O(n) zamiast O(n^2)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    // a) Najdluzszy ciag rosnacy\n    int maxDl = 1, maxStart = 0, curDl = 1, curStart = 0;\n    for (int i = 1; i < n; i++) {\n        if (T[i] > T[i - 1]) {\n            curDl++;\n        } else {\n            if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n            curDl = 1; curStart = i;\n        }\n    }\n    if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n\n    cout << \"a) Najdluzszy ciag rosnacy:\" << endl;\n    cout << \"   Pozycje \" << maxStart + 1 << \"-\" << maxStart + maxDl\n         << \": [\";\n    vector<int> fragment(T.begin() + maxStart, T.begin() + maxStart + maxDl);\n    for (int i = 0; i < maxDl; i++) {\n        if (i > 0) cout << \", \";\n        cout << fragment[i];\n    }\n    cout << \"], dlugosc \" << maxDl << endl;\n\n    sort(fragment.begin(), fragment.end());\n    double mediana;\n    if (maxDl % 2 == 0)\n        mediana = (fragment[maxDl / 2 - 1] + fragment[maxDl / 2]) / 2.0;\n    else\n        mediana = fragment[maxDl / 2];\n    cout << \"   Mediana: \" << fixed << setprecision(2) << mediana << endl;\n\n    // b) Max zysk (buy low, sell high)\n    int minSoFar = T[0], minIdx = 0;\n    int maxProfit = 0, buyIdx = 0, sellIdx = 0;\n    for (int j = 1; j < n; j++) {\n        int profit = T[j] - minSoFar;\n        if (profit > maxProfit) {\n            maxProfit = profit;\n            buyIdx = minIdx;\n            sellIdx = j;\n        }\n        if (T[j] < minSoFar) {\n            minSoFar = T[j];\n            minIdx = j;\n        }\n    }\n    cout << endl << \"b) Max zysk: kup T[\" << buyIdx + 1 << \"]=\" << T[buyIdx]\n         << \", sprzedaj T[\" << sellIdx + 1 << \"]=\" << T[sellIdx]\n         << \", zysk=\" << maxProfit << endl;\n\n    // c) Lokalne doliny\n    cout << endl << \"c) Lokalne doliny (T[i-1] > T[i] < T[i+1]):\" << endl;\n    int ileDolin = 0;\n    for (int i = 1; i < n - 1; i++) {\n        if (T[i - 1] > T[i] && T[i] < T[i + 1]) {\n            cout << \"   Poz.\" << i + 1 << \": \" << T[i - 1] << \" > \"\n                 << T[i] << \" < \" << T[i + 1] << \" -> TAK\" << endl;\n            ileDolin++;\n        }\n    }\n    cout << \"   Ilosc: \" << ileDolin << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: (a) Wzorzec current/max + mediana posortowanego fragmentu. (b) Liniowy algorytm \"buy and sell\": sledzac minimum dotychczasowe, w kazdym punkcie sprawdzamy potencjalny zysk. (c) Prosta iteracja ze sprawdzeniem obu sasiadow.\n\nWeryfikacja:\n- Ciag: 30,10,20,40,60,50,55,80,75,5,15,25,35,45,70\n- Ciagi rosnace: (10,20,40,60) dl.4 od poz.2; (50,55,80) dl.3 od poz.6; (5,15,25,35,45,70) dl.6 od poz.10\n\nKorekta: najdluzszy to (5,15,25,35,45,70) dl.6 od poz.10, nie dl.4.\nMediana: posortowane juz sa: 5,15,25,35,45,70. Mediana = (25+35)/2 = 30.00\n\nKorekta oczekiwanego wyniku:\n```\na) Pozycje 10-15: [5, 15, 25, 35, 45, 70], dlugosc 6\n   Mediana: 30.00\nb) Max zysk: kup T[2]=10, sprzedaj T[8]=80, zysk=70\n```",
+  "typowe_bledy": [
+    {
+      "opis": "**O(n^2) w punkcie (b)**: Podwojna petla dziala, ale na duzych danych timeout. Liniowy algorytm z minSoFar jest lepszy",
+      "kara": ""
+    },
+    {
+      "opis": "**Zapomnienie o aktualizacji maxDl na koncu petli (a)**: Jesli najdluzszy ciag konczy sie na ostatnim elemencie, trzeba sprawdzic po petli",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Dolina vs szczyt**: Dolina to `T[i-1] > T[i] < T[i+1]`, szczyt to `T[i-1] < T[i] > T[i+1]`. Pomylenie powoduje odwrotny wynik",
+      "kara": "-1 pkt"
+    }
+  ]
+}

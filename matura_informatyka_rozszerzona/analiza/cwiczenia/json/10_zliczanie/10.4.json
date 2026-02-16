@@ -1,0 +1,32 @@
+{
+  "id": "10.4",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2024 zad. 3.1",
+  "tagi": [
+    "map-zliczanie",
+    "moda-statystyczna",
+    "unikalnosc"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 20 liczb calkowitych (kazda w osobnym wierszu, wartosci z zakresu 1-50, moga sie powtarzac). Napisz program, ktory:\na) Zliczy ile jest roznych wartosci.\nb) Znajdzie wartosc wystepujaca najczesciej (mode).\nc) Zliczy ile wartosci wystepuje dokladnie raz.\n\n**Dane** (`dane.txt`):\n```\n7\n15\n3\n7\n22\n15\n3\n41\n7\n15\n22\n3\n7\n50\n15\n3\n22\n7\n41\n15\n```\n\n**Oczekiwany wynik**:\n```\na) Roznych wartosci: 6\n\nb) Najczesciej wystepujaca wartosc: 7 (5 razy)\n   Rowniez: 15 (5 razy)\n\nc) Wartosci wystepujace dokladnie raz: 1 (wartosc: 50)\n```",
+  "wskazowki": [
+    "**Kierunek**: `map<int,int>` to idealny kontener do zliczania czestotliwosci — klucz to wartosc, wartosc to licznik.",
+    "**Podejscie**: `freq[x]++` automatycznie tworzy nowy wpis jesli klucz nie istnieje. Rozmiar mapy = liczba roznych wartosci.",
+    "**Kluczowy krok**: Mode to wartosc z maksymalnym licznikiem — moze byc wieksza niz 1, wiec przejrzyj mape dwukrotnie (raz po max, raz po elementach z max)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int x;\n    map<int, int> freq;\n    while (plik >> x) freq[x]++;\n\n    // a)\n    cout << \"a) Roznych wartosci: \" << freq.size() << endl;\n\n    // b)\n    int maxFreq = 0;\n    for (auto &p : freq)\n        if (p.second > maxFreq) maxFreq = p.second;\n\n    cout << endl << \"b) Najczesciej wystepujaca wartosc: \";\n    bool first = true;\n    for (auto &p : freq) {\n        if (p.second == maxFreq) {\n            if (!first) cout << \"   Rowniez: \";\n            cout << p.first << \" (\" << maxFreq << \" razy)\" << endl;\n            first = false;\n        }\n    }\n\n    // c)\n    int ileRaz = 0;\n    cout << endl << \"c) Wartosci wystepujace dokladnie raz: \";\n    for (auto &p : freq)\n        if (p.second == 1) ileRaz++;\n    cout << ileRaz << \" (wartosc: \";\n    first = true;\n    for (auto &p : freq) {\n        if (p.second == 1) {\n            if (!first) cout << \", \";\n            cout << p.first;\n            first = false;\n        }\n    }\n    cout << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Mapa czestotliwosci `map<int, int>` zlicza ile razy kazda wartosc wystepuje. Rozmiar mapy to liczba roznych wartosci. Mode to wartosc z maksymalna czestotliwoscia. Wartosci unikalne maja czestotliwosc 1.\n\nWeryfikacja:\n- 3: wystepuje 4 razy (poz. 3,7,12,16)\n- 7: wystepuje 5 razy (poz. 1,4,9,13,18)\n- 15: wystepuje 5 razy (poz. 2,6,10,15,20)\n- 22: wystepuje 3 razy (poz. 5,11,17)\n- 41: wystepuje 2 razy (poz. 8,19)\n- 50: wystepuje 1 raz (poz. 14)\nRoznych: 6, max: 7 i 15 (po 5), dokladnie raz: 50",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie tablicy zamiast mapy przy nieznanym zakresie**: Tablica wymaga z gory znanego zakresu wartosci",
+      "kara": "-1 pkt (jesli zakres sie nie miesci)"
+    },
+    {
+      "opis": "**Zapomnienie o kilku modach**: Moze byc wiecej niz jedna wartosc z max czestotliwoscia — wypisanie tylko pierwszej to niepelna odpowiedz",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**`freq.size()` przed wstawieniem elementow**: Upewnij sie, ze mapa jest juz wypelniona",
+      "kara": "-1 pkt"
+    }
+  ]
+}

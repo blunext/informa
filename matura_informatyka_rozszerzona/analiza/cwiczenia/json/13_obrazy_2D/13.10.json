@@ -1,0 +1,34 @@
+{
+  "id": "13.10",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2017 zad. 6 (zaawansowane BFS)",
+  "tagi": [
+    "BFS",
+    "spojne-obszary",
+    "4-spojnosc",
+    "tablica-2D",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Dana jest siatka 8x8 zer i jedynek zapisana w pliku `siatka.txt`. Napisz program, ktory:\na) Zliczy spojne obszary jedynek.\nb) Dla kazdego obszaru poda obwod (liczba krawedzi graniczacych z zerem lub brzegiem siatki).\nc) Znajdzie obszar o najwiekszym stosunku obwod/pole.\n\n**Dane** (`siatka.txt`):\n```\n0 0 0 0 0 0 0 0\n0 1 1 0 0 0 0 0\n0 1 1 0 0 1 0 0\n0 0 0 0 0 0 0 0\n0 0 0 1 1 1 0 0\n0 0 0 1 0 1 0 0\n0 0 0 1 1 1 0 0\n0 0 0 0 0 0 0 0\n```\n\n**Oczekiwany wynik**:\n```\na) Liczba spojnych obszarow: 3\n\nb) Obszary:\n   Obszar 1: pole=4, obwod=8\n   Obszar 2: pole=1, obwod=4\n   Obszar 3: pole=8, obwod=16\n\nc) Max obwod/pole: Obszar 2 (obwod/pole = 4.00)\n```",
+  "wskazowki": [
+    "**Kierunek**: BFS jak w 13.4. Obwod = liczba krawedzi jedynki graniczacych z zerem lub brzegiem.",
+    "**Podejscie**: Podczas BFS, dla kazdej jedynki sprawdz 4 sasiadow. Jesli sasiad to zero lub brzeg, dodaj 1 do obwodu.",
+    "**Kluczowy krok**: Pole = rozmiar obszaru (ile komorek). Obwod = suma krawedzi zewnetrznych."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <queue>\n#include <iomanip>\nusing namespace std;\n\nint tab[8][8];\nbool visited[8][8];\nint dx[] = {-1, 1, 0, 0};\nint dy[] = {0, 0, -1, 1};\n\nstruct Area { int pole, obwod; };\n\nArea bfs(int si, int sj) {\n    Area a = {0, 0};\n    queue<pair<int,int>> q;\n    q.push({si, sj});\n    visited[si][sj] = true;\n\n    while (!q.empty()) {\n        auto [i, j] = q.front(); q.pop();\n        a.pole++;\n        for (int d = 0; d < 4; d++) {\n            int ni = i + dx[d], nj = j + dy[d];\n            if (ni < 0 || ni >= 8 || nj < 0 || nj >= 8 || tab[ni][nj] == 0) {\n                a.obwod++; // krawedz graniczaca z zerem lub brzegiem\n            } else if (!visited[ni][nj]) {\n                visited[ni][nj] = true;\n                q.push({ni, nj});\n            }\n        }\n    }\n    return a;\n}\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    for (int i = 0; i < 8; i++)\n        for (int j = 0; j < 8; j++)\n            plik >> tab[i][j];\n\n    vector<Area> areas;\n    for (int i = 0; i < 8; i++)\n        for (int j = 0; j < 8; j++)\n            if (tab[i][j] == 1 && !visited[i][j])\n                areas.push_back(bfs(i, j));\n\n    cout << \"a) Liczba spojnych obszarow: \" << areas.size() << endl;\n\n    cout << endl << \"b) Obszary:\" << endl;\n    double maxRatio = 0; int bestIdx = 0;\n    for (int k = 0; k < (int)areas.size(); k++) {\n        cout << \"   Obszar \" << k + 1 << \": pole=\" << areas[k].pole\n             << \", obwod=\" << areas[k].obwod << endl;\n        double ratio = (double)areas[k].obwod / areas[k].pole;\n        if (ratio > maxRatio) { maxRatio = ratio; bestIdx = k; }\n    }\n\n    cout << endl << \"c) Max obwod/pole: Obszar \" << bestIdx + 1\n         << \" (obwod/pole = \" << fixed << setprecision(2) << maxRatio << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: BFS z dodatkowym zliczaniem obwodu. Dla kazdej jedynki, kazdy sasiad bedacy zerem lub poza granica dodaje 1 do obwodu. Pole to rozmiar obszaru.\n\nWeryfikacja:\n- Obszar 1 (kwadrat 2x2 w rogach (1,1)-(2,2)): pole=4, obwod: kazda jedynka ma 2 krawedzie zewn. (narozne) -> 4*4=16? Nie. Sprawdzmy: (1,1): gora=0, lewo=0, dol=1, prawo=1 -> 2 zewn. (1,2): gora=0, prawo=0, dol=1, lewo=1 -> 2 zewn. (2,1): dol=0, lewo=0, gora=1, prawo=1 -> 2 zewn. (2,2): dol=0, prawo=0, gora=1, lewo=1 -> 2 zewn. Obwod = 2*4 = 8. Pole = 4.\n- Obszar 2 (pojedyncza jedynka (2,5)): pole=1, obwod=4.\n- Obszar 3 (pierscien w rogach (4,3)-(6,5)): pole=8, obwod: 8 jedynek * po 2 zewnetrzne krawedzie = 16. Dokladniej: (4,3): g=0,l=0,d=1,p=1 -> 2; (4,4): g=0,d=0,l=1,p=1 -> 2; (4,5): g=0,p=0,d=1,l=1 -> 2; (5,3): l=0,g=1,d=1,p=0 -> 2; (5,5): p=0,g=1,d=1,l=0 -> 2; (6,3): d=0,l=0,g=1,p=1 -> 2; (6,4): d=0,g=0,l=1,p=1 -> 2; (6,5): d=0,p=0,g=1,l=1 -> 2. Obwod = 16.\n- Max obwod/pole: Obszar 2 (4/1=4.00), Obszar 1 (8/4=2.00), Obszar 3 (16/8=2.00).",
+  "typowe_bledy": [
+    {
+      "opis": "**Zliczanie obwodu po BFS zamiast w trakcie**: Mozliwe, ale mniej eleganckie i trzeba iterowac po tablicy label",
+      "kara": ""
+    },
+    {
+      "opis": "**Pomylenie pola z obwodem**: Pole = liczba komorek (=1), obwod = liczba krawedzi zewnetrznych",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak uwzglednienia brzegu siatki**: Krawedz przy brzegu siatki tez jest zewnetrzna",
+      "kara": "-1 pkt"
+    }
+  ]
+}

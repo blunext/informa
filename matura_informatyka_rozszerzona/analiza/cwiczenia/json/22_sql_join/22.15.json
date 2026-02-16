@@ -1,0 +1,29 @@
+{
+  "id": "22.15",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2021",
+  "tagi": [
+    "LEFT-JOIN",
+    "COUNT-z-LEFT-JOIN",
+    "GROUP-BY-z-JOIN",
+    "ORDER-BY-wielokolumnowy"
+  ],
+  "tresc": "Tabela **Produkty**:\n\n| id_prod | nazwa | cena |\n|---------|-------|------|\n| 1 | Laptop | 3500 |\n| 2 | Smartfon | 2500 |\n| 3 | Wiedzmin | 45 |\n| 4 | Pilka | 80 |\n| 5 | Monitor | 1200 |\n\nTabela **Opinie**:\n\n| id_op | id_prod | ocena | uzytkownik |\n|-------|---------|-------|------------|\n| 1 | 1 | 5 | Jan |\n| 2 | 1 | 4 | Anna |\n| 3 | 2 | 3 | Ewa |\n| 4 | 3 | 5 | Jan |\n| 5 | 4 | 4 | Piotr |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe produktu i liczbe opinii. Pokaz WSZYSTKIE produkty, nawet te bez opinii (dla nich liczba = 0). Posortuj malejaco wg liczby opinii, potem alfabetycznie wg nazwy.",
+  "wskazowki": [
+    "**Kierunek**: LEFT JOIN zachowuje produkty bez opinii.",
+    "**Podejscie**: LEFT JOIN Produkty z Opinie, GROUP BY produkt, COUNT kolumny z prawej tabeli.",
+    "**Kluczowy krok**: COUNT(O.id_op) zamiast COUNT(*) — dla produktow bez opinii COUNT(*) daje 1."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT P.nazwa, COUNT(O.id_op) AS liczba_opinii\nFROM Produkty P\nLEFT JOIN Opinie O ON P.id_prod = O.id_prod\nGROUP BY P.nazwa\nORDER BY liczba_opinii DESC, P.nazwa;\n```\n\n**Weryfikacja**:\n- Laptop (id=1): opinie 1, 2 → **2**\n- Smartfon (id=2): opinia 3 → **1**\n- Wiedzmin (id=3): opinia 4 → **1**\n- Pilka (id=4): opinia 5 → **1**\n- Monitor (id=5): brak opinii → **0**\n\n| nazwa | liczba_opinii |\n|-------|--------------|\n| Laptop | 2 |\n| Pilka | 1 |\n| Smartfon | 1 |\n| Wiedzmin | 1 |\n| Monitor | 0 |\n\n**Wyjasnienie**: LEFT JOIN + COUNT(kolumna z prawej) to kluczowy wzorzec. Sortowanie po 2 kolumnach: najpierw malejaco wg opinii, potem alfabetycznie w ramach tej samej liczby.",
+  "typowe_bledy": [
+    {
+      "opis": "**COUNT(*)**: Monitor bez opinii daje 1 zamiast 0",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**INNER JOIN**: Monitor nie pojawi sie w wyniku",
+      "kara": "-2 pkt"
+    }
+  ]
+}

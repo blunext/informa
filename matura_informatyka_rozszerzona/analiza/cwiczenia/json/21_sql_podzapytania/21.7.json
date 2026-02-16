@@ -1,0 +1,28 @@
+{
+  "id": "21.7",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2022 (Ewidencja uczniow)",
+  "tagi": [
+    "IN",
+    "podzapytanie-w-WHERE",
+    "NOT-IN"
+  ],
+  "tresc": "Tabela **Pracownicy**:\n\n| id | imie | nazwisko | dzial | stanowisko |\n|----|------|----------|-------|------------|\n| 1 | Anna | Maj | IT | programista |\n| 2 | Jan | Krol | IT | tester |\n| 3 | Ewa | Lis | HR | rekruter |\n| 4 | Piotr | Zak | IT | programista |\n| 5 | Kasia | Wrobel | HR | kierownik |\n| 6 | Tomek | Bak | Finanse | analityk |\n\nTabela **Szkolenia**:\n\n| id | id_pracownika | nazwa_szkolenia | data |\n|----|---------------|-----------------|------|\n| 1 | 1 | SQL zaawansowany | 2024-03-10 |\n| 2 | 2 | Testowanie | 2024-03-15 |\n| 3 | 1 | Python | 2024-04-01 |\n| 4 | 4 | SQL zaawansowany | 2024-03-10 |\n| 5 | 6 | Excel | 2024-04-05 |\n\n**Polecenie**:\n1. Wyswietl imiona i nazwiska pracownikow, ktorzy ukonczyli szkolenie 'SQL zaawansowany'.\n2. Wyswietl imiona i nazwiska pracownikow z dzialu 'IT', ktorzy NIE ukonczyli zadnego szkolenia.",
+  "wskazowki": [
+    "**Kierunek**: Dwa osobne zapytania — jedno z IN, drugie z NOT IN.",
+    "**Podejscie**: Podzapytanie zwraca zbior id_pracownika spelniajacych warunek.",
+    "**Kluczowy krok**: W zapytaniu 2 laczysz warunek na dzial (WHERE) z NOT IN."
+  ],
+  "odpowiedz": "**Zapytania SQL:**\n```sql\n-- 1. Pracownicy ze szkoleniem SQL zaawansowany\nSELECT imie, nazwisko\nFROM Pracownicy\nWHERE id IN (SELECT id_pracownika FROM Szkolenia WHERE nazwa_szkolenia = 'SQL zaawansowany');\n\n-- 2. Pracownicy IT bez zadnego szkolenia\nSELECT imie, nazwisko\nFROM Pracownicy\nWHERE dzial = 'IT'\n  AND id NOT IN (SELECT id_pracownika FROM Szkolenia);\n```\n\n**Weryfikacja**:\n\n1. Szkolenie 'SQL zaawansowany' ukonczyli: id=1 (Anna), id=4 (Piotr)\n\n| imie | nazwisko |\n|------|----------|\n| Anna | Maj |\n| Piotr | Zak |\n\n2. Pracownicy IT: id=1 (Anna), id=2 (Jan), id=4 (Piotr). Z nich w Szkoleniach: id=1, id=2, id=4 — wszyscy maja szkolenia. Brak wynikow.\n\n| imie | nazwisko |\n|------|----------|\n| (pusty wynik) | |\n\n**Wyjasnienie**: IN z podzapytaniem sprawdza przynaleznosc do zbioru. NOT IN wyklucza elementy zbioru. Mozna laczyc NOT IN z innymi warunkami w WHERE za pomoca AND.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak WHERE w podzapytaniu (zad. 1)**: `SELECT id_pracownika FROM Szkolenia` zwraca wszystkich — bez filtrowania po nazwie szkolenia",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**OR zamiast AND (zad. 2)**: `WHERE dzial = 'IT' OR id NOT IN (...)` daje pracownikow IT PLUS pracownikow bez szkolen z innych dzialow",
+      "kara": "-2 pkt"
+    }
+  ]
+}

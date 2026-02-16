@@ -1,0 +1,32 @@
+{
+  "id": "1.3",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2022 zad. 1 (n-permutacja)",
+  "tagi": [
+    "tablica-zliczanie",
+    "sledzenie-iteracyjne",
+    "tablica-pomocnicza"
+  ],
+  "tresc": "Dany jest algorytm operujacy na tablicy T o elementach ze zbioru {0, 1, 2, 3}:\n\n```\nfunkcja sprawdz(T, n)\n    // T - tablica o indeksach 0..n-1\n    // tworzymy tablice C o indeksach 0..3, wypelniona zerami\n    C[0] := 0; C[1] := 0; C[2] := 0; C[3] := 0\n\n    dla i := 0, 1, ..., n-1:\n        C[T[i]] := C[T[i]] + 1\n\n    dla j := 0, 1, 2, 3:\n        jezeli C[j] <> j:\n            zwroc FALSZ\n\n    zwroc PRAWDA\n```\n\n**Polecenie**: Przesled algorytm krok po kroku dla tablicy T = [3, 1, 2, 1, 3, 2]. Podaj:\n- a) Stan tablicy C po kazdej iteracji pierwszej petli.\n- b) Wynik koncowy funkcji (PRAWDA lub FALSZ).\n- c) Podaj przyklad tablicy 6-elementowej (z wartosciami ze zbioru {0, 1, 2, 3}), dla ktorej funkcja zwroci PRAWDA.",
+  "wskazowki": [
+    "**Kierunek**: Tablica C to tablica zliczajaca — liczy ile razy kazda wartosc wystapila w T.",
+    "**Podejscie**: Iteruj po T element po elemencie, zwiekszajac odpowiedni licznik w C. Potem sprawdz warunek C[j]=j.",
+    "**Kluczowy krok**: Funkcja zwraca PRAWDA gdy: wartosc 0 wystepuje 0 razy, wartosc 1 — 1 raz, wartosc 2 — 2 razy, wartosc 3 — 3 razy. Razem 0+1+2+3=6 elementow."
+  ],
+  "odpowiedz": "**a) Stan tablicy C po kazdej iteracji:**\n\nTablica T = [3, 1, 2, 1, 3, 2], n = 6\n\n| Krok (i) | T[i] | Operacja | C[0] | C[1] | C[2] | C[3] |\n|-----------|-------|----------|------|------|------|------|\n| poczatek  | -     | -        | 0    | 0    | 0    | 0    |\n| i=0       | 3     | C[3]++   | 0    | 0    | 0    | 1    |\n| i=1       | 1     | C[1]++   | 0    | 1    | 0    | 1    |\n| i=2       | 2     | C[2]++   | 0    | 1    | 1    | 1    |\n| i=3       | 1     | C[1]++   | 0    | 2    | 1    | 1    |\n| i=4       | 3     | C[3]++   | 0    | 2    | 1    | 2    |\n| i=5       | 2     | C[2]++   | 0    | 2    | 2    | 2    |\n\nStan koncowy C: [0, 2, 2, 2]\n\n**b) Sprawdzenie warunku C[j] = j:**\n\n| j | C[j] | j | C[j] = j? |\n|---|------|---|-----------|\n| 0 | 0    | 0 | TAK       |\n| 1 | 2    | 1 | NIE       |\n\nFunkcja zwraca **FALSZ** (bo C[1] = 2, a powinno byc 1).\n\n**c) Przyklad tablicy, dla ktorej funkcja zwraca PRAWDA:**\n\nPotrzebujemy: C[0]=0, C[1]=1, C[2]=2, C[3]=3.\nCzyli: 0 wystapien 0, 1 wystapienie 1, 2 wystapienia 2, 3 wystapienia 3.\nRazem: 0+1+2+3 = 6 elementow.\n\nPrzyklad: T = **[3, 2, 3, 1, 2, 3]**\n\nSprawdzenie: C = [0, 1, 2, 3] -- C[j] = j dla kazdego j, PRAWDA.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie ze indeksowanie C zaczyna sie od 0**: C[T[i]] to indeksowanie wartoscia elementu, nie pozycja",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Blad w zliczaniu**: Np. pominiecie jednego kroku iteracji. Sprawdz, ze suma C[0]+...+C[3] = n",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Niepoprawny przyklad w c)**: Tablica musi miec dokladnie 6 elementow i spelnic C[j]=j",
+      "kara": "-1 pkt"
+    }
+  ]
+}

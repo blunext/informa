@@ -1,0 +1,228 @@
+{
+  "typ": "22_sql_join",
+  "nazwa": "SQL — JOIN (laczenie tabel)",
+  "kategoria": "SQL",
+  "czestotliwosc": "8/11 lat",
+  "punkty_lacznie": 70,
+  "tagi_globalne": [
+    "INNER-JOIN",
+    "LEFT-JOIN",
+    "JOIN-wielotabelowy",
+    "aliasy-tabel",
+    "ON-warunek",
+    "COUNT-z-LEFT-JOIN",
+    "self-JOIN",
+    "GROUP-BY-z-JOIN",
+    "WHERE-z-JOIN",
+    "ORDER-BY-wielokolumnowy",
+    "DISTINCT"
+  ],
+  "cwiczenia": [
+    {
+      "id": "22.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "INNER-JOIN",
+        "aliasy-tabel",
+        "ORDER-BY-wielokolumnowy"
+      ]
+    },
+    {
+      "id": "22.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "aliasy-tabel",
+        "ORDER-BY-wielokolumnowy"
+      ]
+    },
+    {
+      "id": "22.3",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "LEFT-JOIN",
+        "COUNT-z-LEFT-JOIN",
+        "GROUP-BY-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "WHERE-z-JOIN",
+        "ORDER-BY-wielokolumnowy"
+      ]
+    },
+    {
+      "id": "22.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "DISTINCT",
+        "WHERE-z-JOIN",
+        "ORDER-BY-wielokolumnowy"
+      ]
+    },
+    {
+      "id": "22.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "INNER-JOIN",
+        "aliasy-tabel",
+        "WHERE-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "LEFT-JOIN",
+        "COUNT-z-LEFT-JOIN",
+        "GROUP-BY-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.8",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "self-JOIN",
+        "aliasy-tabel",
+        "WHERE-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "GROUP-BY-z-JOIN",
+        "LEFT-JOIN",
+        "COUNT-z-LEFT-JOIN"
+      ]
+    },
+    {
+      "id": "22.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "self-JOIN",
+        "GROUP-BY-z-JOIN",
+        "DISTINCT",
+        "WHERE-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.11",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "INNER-JOIN",
+        "aliasy-tabel",
+        "ON-warunek"
+      ]
+    },
+    {
+      "id": "22.12",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "INNER-JOIN",
+        "WHERE-z-JOIN",
+        "aliasy-tabel"
+      ]
+    },
+    {
+      "id": "22.13",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "LEFT-JOIN",
+        "COUNT-z-LEFT-JOIN",
+        "GROUP-BY-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.14",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "WHERE-z-JOIN",
+        "GROUP-BY-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.15",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "LEFT-JOIN",
+        "COUNT-z-LEFT-JOIN",
+        "GROUP-BY-z-JOIN",
+        "ORDER-BY-wielokolumnowy"
+      ]
+    },
+    {
+      "id": "22.16",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "self-JOIN",
+        "aliasy-tabel",
+        "WHERE-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.17",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "GROUP-BY-z-JOIN",
+        "DISTINCT"
+      ]
+    },
+    {
+      "id": "22.18",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "LEFT-JOIN",
+        "COUNT-z-LEFT-JOIN",
+        "GROUP-BY-z-JOIN",
+        "DISTINCT"
+      ]
+    },
+    {
+      "id": "22.19",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "WHERE-z-JOIN",
+        "GROUP-BY-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.20",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "self-JOIN",
+        "aliasy-tabel",
+        "GROUP-BY-z-JOIN"
+      ]
+    }
+  ]
+}

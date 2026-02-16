@@ -1,0 +1,137 @@
+{
+  "typ": "12_sekwencje",
+  "nazwa": "Przetwarzanie sekwencji",
+  "kategoria": "IMPLEMENTACJA",
+  "czestotliwosc": "3/11 lat",
+  "punkty_lacznie": 36,
+  "tagi_globalne": [
+    "ciag-rownych",
+    "ciag-rosnacy",
+    "current-max",
+    "gorka",
+    "NWD-Euklidesa",
+    "spojny-podciag",
+    "srednia-segmentu",
+    "sumy-prefiksowe",
+    "wczytywanie-pliku",
+    "ciag-malejacy",
+    "plateau",
+    "oscylacja",
+    "roznica-sasiadow",
+    "skan-liniowy",
+    "ciag-stalej-roznicy"
+  ],
+  "cwiczenia": [
+    {
+      "id": "12.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "ciag-rownych",
+        "current-max",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.2",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "ciag-rosnacy",
+        "current-max",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.3",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "gorka",
+        "ciag-rosnacy",
+        "ciag-malejacy",
+        "skan-liniowy"
+      ]
+    },
+    {
+      "id": "12.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "NWD-Euklidesa",
+        "spojny-podciag",
+        "current-max",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "srednia-segmentu",
+        "sumy-prefiksowe",
+        "spojny-podciag",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "ciag-malejacy",
+        "current-max",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "plateau",
+        "ciag-rownych",
+        "ciag-rosnacy",
+        "current-max"
+      ]
+    },
+    {
+      "id": "12.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "oscylacja",
+        "roznica-sasiadow",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "ciag-stalej-roznicy",
+        "roznica-sasiadow",
+        "current-max",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "spojny-podciag",
+        "NWD-Euklidesa",
+        "skan-liniowy",
+        "wczytywanie-pliku",
+        "gorka"
+      ]
+    }
+  ]
+}

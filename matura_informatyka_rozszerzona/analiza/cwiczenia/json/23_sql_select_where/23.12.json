@@ -1,0 +1,29 @@
+{
+  "id": "23.12",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2016",
+  "tagi": [
+    "SELECT",
+    "WHERE",
+    "LIKE",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Pracownicy**:\n\n| id | imie | nazwisko | email | dzial |\n|----|------|----------|-------|-------|\n| 1 | Anna | Kowalska | anna.k@firma.pl | IT |\n| 2 | Jan | Kowalski | jan.k@firma.pl | HR |\n| 3 | Ewa | Majewska | ewa.m@firma.pl | IT |\n| 4 | Piotr | Lisowski | piotr.l@firma.pl | Finanse |\n| 5 | Kasia | Zakowska | kasia.z@firma.pl | IT |\n| 6 | Tomek | Bakiewicz | tomek.b@firma.pl | HR |\n| 7 | Ola | Kowalczyk | ola.k@firma.pl | Finanse |\n| 8 | Marek | Krolewski | marek.k@firma.pl | IT |\n\n**Polecenie**:\n1. Wyswietl imie i nazwisko pracownikow, ktorych nazwisko zaczyna sie od litery 'K'. Posortuj wg nazwiska.\n2. Wyswietl imie, nazwisko i email pracownikow, ktorych email zawiera '.k@'. Posortuj wg imienia.",
+  "wskazowki": [
+    "**Kierunek**: LIKE z wzorcami — `'K%'` = zaczyna sie od K, `'%.k@%'` = zawiera .k@.",
+    "**Podejscie**: Dwa osobne zapytania, kazde z jednym wzorcem LIKE.",
+    "**Kluczowy krok**: `%` zastepuje dowolny ciag znakow (w tym pusty)."
+  ],
+  "odpowiedz": "**Zapytania SQL:**\n```sql\n-- 1. Nazwisko zaczynajace sie od K\nSELECT imie, nazwisko\nFROM Pracownicy\nWHERE nazwisko LIKE 'K%'\nORDER BY nazwisko;\n\n-- 2. Email zawierajacy .k@\nSELECT imie, nazwisko, email\nFROM Pracownicy\nWHERE email LIKE '%.k@%'\nORDER BY imie;\n```\n\n**Weryfikacja zad. 1**:\n- Kowalska ✓, Kowalski ✓, Kowalczyk ✓, Krolewski ✓\n\n| imie | nazwisko |\n|------|----------|\n| Anna | Kowalska |\n| Jan | Kowalski |\n| Ola | Kowalczyk |\n| Marek | Krolewski |\n\n**Weryfikacja zad. 2**:\n- anna.k@ ✓, jan.k@ ✓, ola.k@ ✓, marek.k@ ✓\n\n| imie | nazwisko | email |\n|------|----------|-------|\n| Anna | Kowalska | anna.k@firma.pl |\n| Jan | Kowalski | jan.k@firma.pl |\n| Marek | Krolewski | marek.k@firma.pl |\n| Ola | Kowalczyk | ola.k@firma.pl |",
+  "typowe_bledy": [
+    {
+      "opis": "**`=` zamiast LIKE**: `WHERE nazwisko = 'K%'` szuka dokladnego tekstu 'K%' — nie znajdzie wynikow",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak `%` na koncu**: `LIKE 'K'` szuka dokladnie jednoliterowego 'K', nie nazwisk zaczynajacych sie od K",
+      "kara": "-1 pkt"
+    }
+  ]
+}

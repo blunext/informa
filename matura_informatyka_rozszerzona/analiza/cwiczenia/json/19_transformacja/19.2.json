@@ -1,0 +1,28 @@
+{
+  "id": "19.2",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "SUMIFS",
+    "tabela-krzyzowa",
+    "odwolania-mieszane"
+  ],
+  "tresc": "W arkuszu mamy liste ocen w formacie: uczen, przedmiot, ocena:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Uczen** | **Przedmiot** | **Ocena** |\n| 2 | Anna | Matematyka | 4 |\n| 3 | Anna | Polski | 5 |\n| 4 | Anna | Angielski | 4 |\n| 5 | Bartek | Matematyka | 3 |\n| 6 | Bartek | Polski | 4 |\n| 7 | Bartek | Angielski | 5 |\n| 8 | Celina | Matematyka | 5 |\n| 9 | Celina | Polski | 3 |\n| 10 | Celina | Angielski | 4 |\n\nChcemy utworzyc tabele: uczen (wiersz) × przedmiot (kolumna):\n\n| | E | F | G | H |\n|---|---|---|---|---|\n| 1 | | **Matematyka** | **Polski** | **Angielski** |\n| 2 | **Anna** | ? | ? | ? |\n| 3 | **Bartek** | ? | ? | ? |\n| 4 | **Celina** | ? | ? | ? |\n\n**Polecenie**: Napisz formule w F2, ktora znajdzie ocene ucznia z wiersza 2 (Anna) z przedmiotu z wiersza 1 (Matematyka). Formula powinna dzialac po skopiowaniu w prawo i w dol.",
+  "wskazowki": [
+    "**Kierunek**: SUMIFS z dwoma warunkami (uczen i przedmiot). Odwolania musza byc mieszane ($ na kolumnie LUB wierszu).",
+    "**Podejscie**: $E2 zakotwicza kolumne E (uczen), F$1 zakotwicza wiersz 1 (przedmiot).",
+    "**Kluczowy krok**: Zakresy danych (A, B, C) musza miec $ na wierszach, aby nie przesuway sie przy kopiowaniu."
+  ],
+  "odpowiedz": "**Formula (F2, kopiowana w prawo i w dol):**\n```\nF2: =SUMIFS(C$1:C$10;A$1:A$10;$E2;B$1:B$10;F$1)\n```\n\nAlternatywnie z INDEX-MATCH (bardziej zaawansowane):\n```\nF2: =INDEX(C$2:C$10;MATCH($E2&F$1;A$2:A$10&B$2:B$10;0))\n```\n(Uwaga: formula INDEX-MATCH z konkatenacja wymaga zatwierdzenia Ctrl+Shift+Enter w starszych wersjach Excela)\n\n**Weryfikacja (uzycie SUMIFS):**\n\nSUMIFS sumuje wartosci C, gdzie A=uczen ORAZ B=przedmiot. Poniewaz kazda kombinacja uczen-przedmiot wystepuje dokladnie raz, SUMIFS zwroci te jedna ocene.\n\n| | Matematyka | Polski | Angielski |\n|---|---|---|---|\n| Anna | 4 | 5 | 4 |\n| Bartek | 3 | 4 | 5 |\n| Celina | 5 | 3 | 4 |\n\nSprawdzenie F2: SUMIFS szuka wierszy gdzie A=\"Anna\" i B=\"Matematyka\" → wiersz 2, C=4 ✓\nSprawdzenie G3: SUMIFS szuka wierszy gdzie A=\"Bartek\" i B=\"Polski\" → wiersz 6, C=4 ✓\nSprawdzenie H4: SUMIFS szuka wierszy gdzie A=\"Celina\" i B=\"Angielski\" → wiersz 10, C=4 ✓\n\n**Wyjasnienie odniesien:**\n- `$E2` — kolumna E zakotwiczona ($E), wiersz wzgledny → po skopiowaniu w prawo nadal czyta z E (imie ucznia)\n- `F$1` — wiersz 1 zakotwiczony ($1), kolumna wzgledna → po skopiowaniu w dol nadal czyta z wiersza 1 (nazwa przedmiotu)\n- `C$1:C$10` — zakresy danych zakotwiczone (wiersze z $), nie zmieniaja sie przy kopiowaniu\n\nTo jest transformacja z listy \"plaskiej\" (flat list) do tabeli krzyzowej (cross-tab / pivot).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak $ lub zle $**: =SUMIFS(C2:C10;A2:A10;E2;B2:B10;F1) — bez $ kopiowanie przesunie zakresy i komorki z kryteriami",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**$ na zlym elemencie**: $E$2 (oba zakotwiczone) — nie zmieni sie przy kopiowaniu w dol, wiec kazdy wiersz pokaże dane Anny",
+      "kara": "-2 pkt"
+    }
+  ]
+}

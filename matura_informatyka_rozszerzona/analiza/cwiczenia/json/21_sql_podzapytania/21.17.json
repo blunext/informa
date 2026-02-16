@@ -1,0 +1,29 @@
+{
+  "id": "21.17",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2025",
+  "tagi": [
+    "korelacja-podzapytan",
+    "podzapytanie-skalarne",
+    "AVG",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Nauczyciele**:\n\n| id | imie | nazwisko | przedmiot | staz_lat |\n|----|------|----------|-----------|----------|\n| 1 | Anna | Kowalska | matematyka | 15 |\n| 2 | Jan | Nowak | fizyka | 8 |\n| 3 | Ewa | Maj | matematyka | 20 |\n| 4 | Piotr | Lis | chemia | 5 |\n| 5 | Kasia | Zak | fizyka | 12 |\n| 6 | Tomek | Bak | chemia | 3 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko, przedmiot i staz nauczycieli, ktorych staz jest dluzszy niz sredni staz nauczycieli uczacych TEGO SAMEGO przedmiotu. Uzyj podzapytania skorelowanego.",
+  "wskazowki": [
+    "**Kierunek**: Podzapytanie musi odwolywac sie do przedmiotu z zapytania zewnetrznego.",
+    "**Podejscie**: `WHERE N.staz_lat > (SELECT AVG(N2.staz_lat) FROM Nauczyciele N2 WHERE N2.przedmiot = N.przedmiot)`.",
+    "**Kluczowy krok**: Alias N2 w podzapytaniu musi byc INNY niz N w zapytaniu glownym."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT N.imie, N.nazwisko, N.przedmiot, N.staz_lat\nFROM Nauczyciele N\nWHERE N.staz_lat > (\n  SELECT AVG(N2.staz_lat)\n  FROM Nauczyciele N2\n  WHERE N2.przedmiot = N.przedmiot\n);\n```\n\n**Weryfikacja**:\n\nSredni staz per przedmiot:\n- matematyka: (15+20)/2 = **17.5**\n- fizyka: (8+12)/2 = **10.0**\n- chemia: (5+3)/2 = **4.0**\n\nPorownanie:\n- Anna: 15 > 17.5? ✗\n- Jan: 8 > 10.0? ✗\n- Ewa: 20 > 17.5? ✓\n- Piotr: 5 > 4.0? ✓\n- Kasia: 12 > 10.0? ✓\n- Tomek: 3 > 4.0? ✗\n\n| imie | nazwisko | przedmiot | staz_lat |\n|------|----------|-----------|----------|\n| Ewa | Maj | matematyka | 20 |\n| Piotr | Lis | chemia | 5 |\n| Kasia | Zak | fizyka | 12 |\n\n**Wyjasnienie**: Podzapytanie skorelowane jest wykonywane dla KAZDEGO wiersza z zapytania zewnetrznego. `N2.przedmiot = N.przedmiot` powoduje, ze srednia jest obliczana osobno per przedmiot.",
+  "typowe_bledy": [
+    {
+      "opis": "**Nieskorelowane podzapytanie**: `(SELECT AVG(staz_lat) FROM Nauczyciele)` daje srednia globalna (10.5) zamiast per przedmiot",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Ten sam alias**: `N` w obu zapytaniach — niejednoznacznosc i potencjalny blad",
+      "kara": "-1 pkt"
+    }
+  ]
+}

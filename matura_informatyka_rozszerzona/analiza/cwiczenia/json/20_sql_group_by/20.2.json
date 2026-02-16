@@ -1,0 +1,30 @@
+{
+  "id": "20.2",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2024 (Hurtownia)",
+  "tagi": [
+    "GROUP-BY",
+    "COUNT",
+    "AVG",
+    "ROUND",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Produkty** zawiera dane o produktach w sklepie z odzieza:\n\n| id | nazwa | kategoria | cena | rozmiar |\n|----|-------|-----------|------|---------|\n| 1 | Koszulka polo | meska | 89.99 | M |\n| 2 | Sukienka letnia | damska | 149.99 | S |\n| 3 | Spodnie jeans | meska | 179.99 | L |\n| 4 | Bluzka jedwabna | damska | 199.99 | M |\n| 5 | T-shirt basic | meska | 39.99 | S |\n| 6 | Spodnica midi | damska | 129.99 | L |\n| 7 | Koszula flanelowa | meska | 119.99 | M |\n| 8 | Tunika | damska | 89.99 | S |\n| 9 | Polo sportowe | meska | 69.99 | L |\n| 10 | Sukienka koktajlowa | damska | 249.99 | M |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdej kategorii wyswietli: liczbe produktow, srednia cene zaokraglona do 2 miejsc po przecinku. Posortuj alfabetycznie wg kategorii.",
+  "wskazowki": [
+    "**Kierunek**: Grupuj po kategorii i zastosuj dwie funkcje agregujace jednoczesnie.",
+    "**Podejscie**: COUNT(*) i AVG(cena) w jednym SELECT, pamietaj o ROUND.",
+    "**Kluczowy krok**: Skladnia ROUND to ROUND(wartosc, liczba_miejsc_dziesietnych)."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT kategoria, COUNT(*) AS liczba, ROUND(AVG(cena), 2) AS srednia_cena\nFROM Produkty\nGROUP BY kategoria\nORDER BY kategoria;\n```\n\n**Weryfikacja**:\n- damska: Sukienka letnia (149.99), Bluzka jedwabna (199.99), Spodnica midi (129.99), Tunika (89.99), Sukienka koktajlowa (249.99) → 5 produktow, srednia = (149.99+199.99+129.99+89.99+249.99)/5 = 819.95/5 = **163.99**\n- meska: Koszulka polo (89.99), Spodnie jeans (179.99), T-shirt basic (39.99), Koszula flanelowa (119.99), Polo sportowe (69.99) → 5 produktow, srednia = (89.99+179.99+39.99+119.99+69.99)/5 = 499.95/5 = **99.99**\n\n| kategoria | liczba | srednia_cena |\n|-----------|--------|-------------|\n| damska | 5 | 163.99 |\n| meska | 5 | 99.99 |\n\n**Wyjasnienie**: ROUND(AVG(cena), 2) oblicza srednia i zaokragla do 2 miejsc po przecinku. Bez ROUND wynik moze miec wiele miejsc dziesietnych. Na maturze czesto wymagane jest zaokraglanie — warto pamietac skladnie ROUND(wartosc, liczba_miejsc).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak ROUND**: Wynik sredniej moze miec wiele cyfr po przecinku",
+      "kara": "-1 pkt jesli polecenie wymaga zaokraglenia"
+    },
+    {
+      "opis": "**ROUND z jednym argumentem**: `ROUND(AVG(cena))` zaokragla do calkowitej — nie do 2 miejsc",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "typ": "18_agregacja_podstawowa",
+  "nazwa": "Agregacja podstawowa w arkuszu kalkulacyjnym",
+  "kategoria": "ARKUSZ",
+  "czestotliwosc": "3/11 lat",
+  "punkty_lacznie": 33,
+  "tagi_globalne": [
+    "ABS",
+    "AVERAGE",
+    "AVERAGEIF",
+    "COUNT",
+    "COUNTA",
+    "COUNTBLANK",
+    "MAX",
+    "MEDIAN",
+    "MIN",
+    "RANK",
+    "ROUND",
+    "SUM",
+    "mnozenie-komorek",
+    "odchylenie-od-sredniej",
+    "procent",
+    "rozstep",
+    "zakres-bezwzgledny",
+    "zaokraglanie"
+  ],
+  "cwiczenia": [
+    {
+      "id": "18.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "AVERAGE",
+        "MAX",
+        "MIN",
+        "rozstep"
+      ]
+    },
+    {
+      "id": "18.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "mnozenie-komorek",
+        "SUM"
+      ]
+    },
+    {
+      "id": "18.3",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "COUNTA",
+        "COUNTBLANK",
+        "COUNT",
+        "procent"
+      ]
+    },
+    {
+      "id": "18.4",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "SUM",
+        "RANK",
+        "zakres-bezwzgledny"
+      ]
+    },
+    {
+      "id": "18.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "AVERAGE",
+        "ABS",
+        "odchylenie-od-sredniej",
+        "AVERAGEIF",
+        "zakres-bezwzgledny"
+      ]
+    },
+    {
+      "id": "18.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "SUM",
+        "AVERAGE",
+        "procent"
+      ]
+    },
+    {
+      "id": "18.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "ROUND",
+        "zaokraglanie",
+        "AVERAGE",
+        "MAX",
+        "MIN"
+      ]
+    },
+    {
+      "id": "18.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "MEDIAN",
+        "AVERAGE",
+        "MAX",
+        "MIN",
+        "COUNT",
+        "procent"
+      ]
+    },
+    {
+      "id": "18.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "AVERAGE",
+        "MAX",
+        "MIN",
+        "mnozenie-komorek",
+        "ROUND",
+        "procent"
+      ]
+    },
+    {
+      "id": "18.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "AVERAGE",
+        "MAX",
+        "MIN",
+        "RANK",
+        "ROUND",
+        "odchylenie-od-sredniej",
+        "ABS",
+        "zakres-bezwzgledny"
+      ]
+    }
+  ]
+}

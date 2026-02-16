@@ -1,0 +1,34 @@
+{
+  "id": "23.19",
+  "trudnosc": "trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2019",
+  "tagi": [
+    "DISTINCT",
+    "CASE-WHEN",
+    "obliczenia-w-SELECT",
+    "WHERE",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Transakcje**:\n\n| id | klient | produkt | ilosc | cena_jdn | data | typ |\n|----|--------|---------|-------|----------|------|-----|\n| 1 | Anna | Laptop | 1 | 3500 | 2024-01-10 | zakup |\n| 2 | Jan | Telefon | 2 | 1500 | 2024-01-15 | zakup |\n| 3 | Anna | Tablet | 1 | 1200 | 2024-02-01 | zakup |\n| 4 | Ewa | Laptop | 1 | 3500 | 2024-02-10 | zakup |\n| 5 | Jan | Laptop | 1 | 3500 | 2024-02-15 | zwrot |\n| 6 | Anna | Telefon | 1 | 1500 | 2024-03-01 | zakup |\n| 7 | Piotr | Tablet | 2 | 1200 | 2024-03-05 | zakup |\n| 8 | Ewa | Telefon | 1 | 1500 | 2024-03-10 | zwrot |\n\n**Polecenie**:\n1. Wyswietl UNIKALNE nazwy produktow, ktore zostaly zwrocone (typ = 'zwrot'). Posortuj alfabetycznie.\n2. Wyswietl klienta, wartosc transakcji (ilosc * cena_jdn) oraz opis: 'PRZYCHOD' dla zakupu, 'KOSZT' dla zwrotu (CASE WHEN). Pokaz tylko transakcje o wartosci powyzej 2000. Posortuj malejaco wg wartosci, potem wg klienta.",
+  "wskazowki": [
+    "**Kierunek**: DISTINCT eliminuje powtorzenia. CASE WHEN mapuje typ na opis.",
+    "**Podejscie**: Zad. 1: DISTINCT + WHERE. Zad. 2: obliczenia w SELECT + CASE + WHERE.",
+    "**Kluczowy krok**: W zad. 2 warunek `(ilosc * cena_jdn) > 2000` musi uzyc wyrazenia, nie aliasu."
+  ],
+  "odpowiedz": "**Zapytania SQL:**\n```sql\n-- 1. Unikalne zwrocone produkty\nSELECT DISTINCT produkt\nFROM Transakcje\nWHERE typ = 'zwrot'\nORDER BY produkt;\n\n-- 2. Transakcje powyzej 2000 z opisem\nSELECT klient, (ilosc * cena_jdn) AS wartosc,\n  CASE typ\n    WHEN 'zakup' THEN 'PRZYCHOD'\n    WHEN 'zwrot' THEN 'KOSZT'\n  END AS opis\nFROM Transakcje\nWHERE (ilosc * cena_jdn) > 2000\nORDER BY wartosc DESC, klient;\n```\n\n**Weryfikacja zad. 1**:\n- Zwroty: Laptop (id=5), Telefon (id=8)\n- DISTINCT: Laptop, Telefon\n\n| produkt |\n|---------|\n| Laptop |\n| Telefon |\n\n**Weryfikacja zad. 2** (wartosc > 2000):\n- Anna, Laptop: 1*3500=3500 ✓ → PRZYCHOD\n- Jan, Telefon: 2*1500=3000 ✓ → PRZYCHOD\n- Ewa, Laptop: 1*3500=3500 ✓ → PRZYCHOD\n- Jan, Laptop zwrot: 1*3500=3500 ✓ → KOSZT\n- Piotr, Tablet: 2*1200=2400 ✓ → PRZYCHOD\n\n| klient | wartosc | opis |\n|--------|---------|------|\n| Anna | 3500 | PRZYCHOD |\n| Ewa | 3500 | PRZYCHOD |\n| Jan | 3500 | KOSZT |\n| Jan | 3000 | PRZYCHOD |\n| Piotr | 2400 | PRZYCHOD |",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak DISTINCT (zad. 1)**: Gdyby Laptop byl zwrocony 2 razy, pojawilyby sie duplikaty",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Alias w WHERE (zad. 2)**: `WHERE wartosc > 2000` — w wielu bazach alias z SELECT nie jest dostepny w WHERE",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak CASE dla zwrotu**: Jezeli CASE nie obsluguje 'zwrot', opis bedzie NULL",
+      "kara": "-1 pkt"
+    }
+  ]
+}

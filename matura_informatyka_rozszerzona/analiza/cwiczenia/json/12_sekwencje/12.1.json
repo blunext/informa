@@ -1,0 +1,29 @@
+{
+  "id": "12.1",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2019 zad. 4.3",
+  "tagi": [
+    "ciag-rownych",
+    "current-max",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 20 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie najdluzszy spojny fragment ciagu, w ktorym wszystkie elementy sa rowne. Podaj dlugosc tego fragmentu, wartosc i pozycje poczatkowa.\n\n**Dane** (`dane.txt`):\n```\n5\n3\n3\n3\n7\n7\n2\n2\n2\n2\n4\n4\n4\n1\n6\n6\n6\n6\n6\n8\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy ciag rownych elementow:\nWartosc: 6, dlugosc: 5, pozycja poczatkowa: 15\n```",
+  "wskazowki": [
+    "**Kierunek**: Wzorzec current/max — sledz biezacy ciag rownych i najdluzszy znaleziony.",
+    "**Podejscie**: Jesli `T[i] == T[i-1]` to curDl++, w przeciwnym razie porownaj z max i zresetuj.",
+    "**Kluczowy krok**: Nie zapomnij sprawdzic po petli — najdluzszy ciag moze konczyc sie na ostatnim elemencie."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int maxDl = 1, maxStart = 0;\n    int curDl = 1, curStart = 0;\n\n    for (int i = 1; i < n; i++) {\n        if (T[i] == T[i - 1]) {\n            curDl++;\n        } else {\n            if (curDl > maxDl) {\n                maxDl = curDl;\n                maxStart = curStart;\n            }\n            curDl = 1;\n            curStart = i;\n        }\n    }\n    if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n\n    cout << \"Najdluzszy ciag rownych elementow:\" << endl;\n    cout << \"Wartosc: \" << T[maxStart] << \", dlugosc: \" << maxDl\n         << \", pozycja poczatkowa: \" << maxStart + 1 << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Wzorzec current/max: sledzony jest biezacy ciag rownych elementow. Gdy element rozni sie od poprzedniego, porownujemy biezaca dlugosc z najdluzsza i resetujemy.\n\nWeryfikacja:\n- 5 (dl.1), 3,3,3 (dl.3, poz.2), 7,7 (dl.2), 2,2,2,2 (dl.4, poz.7), 4,4,4 (dl.3), 1 (dl.1), 6,6,6,6,6 (dl.5, poz.15), 8 (dl.1)\nNajdluzszy: 6 powtorzone 5 razy od pozycji 15.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak sprawdzenia po petli**: Jesli najdluzszy ciag konczy tablice, `curDl > maxDl` nigdy nie zostanie sprawdzone w petli",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Inicjalizacja curDl=0**: Pierwszy element sam w sobie tworzy ciag dlugosci 1, nie 0",
+      "kara": "-1 pkt"
+    }
+  ]
+}

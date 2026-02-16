@@ -1,0 +1,27 @@
+{
+  "id": "21.13",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2022",
+  "tagi": [
+    "IN",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Studenci**:\n\n| id | imie | nazwisko | kierunek |\n|----|------|----------|----------|\n| 1 | Anna | Kowalska | informatyka |\n| 2 | Jan | Nowak | matematyka |\n| 3 | Ewa | Maj | informatyka |\n| 4 | Piotr | Lis | fizyka |\n| 5 | Kasia | Zak | matematyka |\n| 6 | Tomek | Bak | informatyka |\n\nTabela **Egzaminy**:\n\n| id | id_studenta | przedmiot | ocena |\n|----|-------------|-----------|-------|\n| 1 | 1 | Algorytmy | 5 |\n| 2 | 1 | Bazy danych | 4 |\n| 3 | 2 | Analiza | 3 |\n| 4 | 3 | Algorytmy | 5 |\n| 5 | 3 | Bazy danych | 5 |\n| 6 | 4 | Mechanika | 4 |\n| 7 | 5 | Analiza | 5 |\n| 8 | 6 | Algorytmy | 3 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imiona i nazwiska studentow z kierunku 'informatyka', ktorzy uzyskali ocene 5 z przedmiotu 'Algorytmy'. Uzyj podzapytania z IN.",
+  "wskazowki": [
+    "**Kierunek**: Dwa warunki: kierunek w zapytaniu glownym, ocena i przedmiot w podzapytaniu.",
+    "**Podejscie**: Podzapytanie zwraca id studentow z piatkq z Algorytmow. WHERE kierunek + IN.",
+    "**Kluczowy krok**: `WHERE kierunek = 'informatyka' AND id IN (SELECT id_studenta FROM Egzaminy WHERE ...)`."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko\nFROM Studenci\nWHERE kierunek = 'informatyka'\n  AND id IN (SELECT id_studenta FROM Egzaminy WHERE przedmiot = 'Algorytmy' AND ocena = 5);\n```\n\n**Weryfikacja**:\n- Studenci informatyki: Anna (1), Ewa (3), Tomek (6)\n- Studenci z 5 z Algorytmow: Anna (1), Ewa (3)\n- Czesc wspolna: Anna (1), Ewa (3)\n\n| imie | nazwisko |\n|------|----------|\n| Anna | Kowalska |\n| Ewa | Maj |\n\n**Wyjasnienie**: Laczenie warunku na kierunek (WHERE) z podzapytaniem (IN) pozwala filtrowac po danych z dwoch tabel bez uzycia JOIN.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak filtra na przedmiot w podzapytaniu**: `SELECT id_studenta FROM Egzaminy WHERE ocena = 5` — daje tez studentow z piatka z innych przedmiotow",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**OR zamiast AND**: `WHERE kierunek = 'informatyka' OR id IN (...)` — daje wszystkich informatykow PLUS studentow z piatka z innych kierunkow",
+      "kara": "-2 pkt"
+    }
+  ]
+}

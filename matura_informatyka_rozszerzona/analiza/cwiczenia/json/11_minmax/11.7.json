@@ -1,0 +1,33 @@
+{
+  "id": "11.7",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2024 zad. 4 (k-najlepszych)",
+  "tagi": [
+    "sortowanie",
+    "rekordy",
+    "vector-par",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `wyniki.txt` znajduje sie 10 rekordow w formacie: imie wynik (oddzielone spacja, wynik to int). Napisz program, ktory:\na) Wypisze 3 najlepsze wyniki (najwyzsze) z imionami.\nb) Wypisze najgorszy wynik z imieniem.\nc) Wypisze sredni wynik calego zestawu.\n\n**Dane** (`wyniki.txt`):\n```\nAnna 85\nBartek 72\nCelina 93\nDamian 61\nEwa 88\nFilip 77\nGrazyna 95\nHubert 69\nIrena 91\nJan 84\n```\n\n**Oczekiwany wynik**:\n```\na) Top 3:\n   1. Grazyna (95)\n   2. Celina (93)\n   3. Irena (91)\n\nb) Najgorszy: Damian (61)\n\nc) Sredni wynik: 81.50\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj do vectora par `{wynik, imie}`, posortuj malejaco po wyniku.",
+    "**Podejscie**: `sort` z lambda `[](auto &a, auto &b) { return a.first > b.first; }`.",
+    "**Kluczowy krok**: Po sortowaniu: top 3 to pierwsze 3 elementy, najgorszy to ostatni. Srednia = suma / n."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <string>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"wyniki.txt\");\n    vector<pair<int, string>> dane;\n    string imie;\n    int wynik;\n    while (plik >> imie >> wynik)\n        dane.push_back({wynik, imie});\n\n    sort(dane.begin(), dane.end(), [](auto &a, auto &b) {\n        return a.first > b.first;\n    });\n\n    cout << \"a) Top 3:\" << endl;\n    for (int i = 0; i < 3; i++)\n        cout << \"   \" << i + 1 << \". \" << dane[i].second\n             << \" (\" << dane[i].first << \")\" << endl;\n\n    cout << endl << \"b) Najgorszy: \" << dane.back().second\n         << \" (\" << dane.back().first << \")\" << endl;\n\n    int suma = 0;\n    for (auto &p : dane) suma += p.first;\n    cout << endl << \"c) Sredni wynik: \" << fixed << setprecision(2)\n         << (double)suma / dane.size() << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Sortowanie malejace pozwala latwo wyciagnac top k i najgorszy. Srednia = suma / n.\n\nWeryfikacja:\n- Posortowane malejaco: 95(Grazyna), 93(Celina), 91(Irena), 88(Ewa), 85(Anna), 84(Jan), 77(Filip), 72(Bartek), 69(Hubert), 61(Damian)\n- Top 3: Grazyna(95), Celina(93), Irena(91)\n- Najgorszy: Damian(61)\n- Suma: 95+93+91+88+85+84+77+72+69+61 = 815. Srednia: 815/10 = 81.50",
+  "typowe_bledy": [
+    {
+      "opis": "**Sortowanie rosnace zamiast malejacego**: Top 3 bedzie na koncu, nie na poczatku",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak `(double)` w sredniej**: 815/10 = 81 (calkowite), nie 81.50",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pomylenie kolejnosci w parze**: `{imie, wynik}` zamiast `{wynik, imie}` — sortowanie po imieniu zamiast po wyniku",
+      "kara": "-2 pkt"
+    }
+  ]
+}

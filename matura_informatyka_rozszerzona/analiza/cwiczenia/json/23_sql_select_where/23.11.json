@@ -1,0 +1,24 @@
+{
+  "id": "23.11",
+  "trudnosc": "latwe",
+  "punkty": 1,
+  "zrodlo": "Inspirowane matura 2025",
+  "tagi": [
+    "SELECT",
+    "WHERE",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Ksiazki**:\n\n| id | tytul | autor | rok | cena | gatunek |\n|----|-------|-------|-----|------|---------|\n| 1 | Wiedzmin | Sapkowski | 1993 | 39.90 | fantasy |\n| 2 | Solaris | Lem | 1961 | 29.90 | sci-fi |\n| 3 | Lalka | Prus | 1890 | 24.50 | klasyka |\n| 4 | Hobbit | Tolkien | 1937 | 34.90 | fantasy |\n| 5 | Dune | Herbert | 1965 | 44.90 | sci-fi |\n| 6 | Potop | Sienkiewicz | 1886 | 27.00 | klasyka |\n| 7 | Harry Potter | Rowling | 1997 | 49.90 | fantasy |\n| 8 | Fundacja | Asimov | 1951 | 32.00 | sci-fi |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli tytul i cene ksiazek z gatunku 'fantasy'. Posortuj rosnaco wg ceny.",
+  "wskazowki": [
+    "**Kierunek**: Prosty filtr WHERE z jednym warunkiem na gatunek.",
+    "**Podejscie**: `WHERE gatunek = 'fantasy'` + ORDER BY cena.",
+    "**Kluczowy krok**: Domyslnie ORDER BY sortuje rosnaco (ASC) — nie trzeba pisac ASC."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT tytul, cena\nFROM Ksiazki\nWHERE gatunek = 'fantasy'\nORDER BY cena;\n```\n\n**Weryfikacja**:\n- Wiedzmin: fantasy ✓, cena 39.90\n- Hobbit: fantasy ✓, cena 34.90\n- Harry Potter: fantasy ✓, cena 49.90\n\n| tytul | cena |\n|-------|------|\n| Hobbit | 34.9 |\n| Wiedzmin | 39.9 |\n| Harry Potter | 49.9 |\n\n**Wyjasnienie**: Prosty SELECT z WHERE i ORDER BY. ORDER BY bez slowa DESC sortuje rosnaco (od najtanszej).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak apostrofow**: `WHERE gatunek = fantasy` — bez apostrofow SQL szuka kolumny o nazwie fantasy",
+      "kara": "-1 pkt"
+    }
+  ]
+}

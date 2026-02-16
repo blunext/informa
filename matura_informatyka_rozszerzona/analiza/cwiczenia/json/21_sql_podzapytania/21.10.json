@@ -1,0 +1,35 @@
+{
+  "id": "21.10",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2023 (Gry planszowe)",
+  "tagi": [
+    "podzapytanie-w-HAVING",
+    "podzapytanie-skalarne",
+    "COUNT-DISTINCT",
+    "AVG",
+    "ROUND",
+    "IN"
+  ],
+  "tresc": "Tabela **Biblioteki**:\n\n| id_bib | nazwa | miasto |\n|--------|-------|--------|\n| 1 | Miejska | Warszawa |\n| 2 | Akademicka | Krakow |\n| 3 | Dzielnicowa | Warszawa |\n| 4 | Uczelniana | Gdansk |\n\nTabela **Ksiazki**:\n\n| id_ks | tytul | gatunek | id_bib |\n|-------|-------|---------|--------|\n| 1 | Pan Tadeusz | poezja | 1 |\n| 2 | Lalka | proza | 1 |\n| 3 | Quo Vadis | proza | 2 |\n| 4 | Potop | proza | 1 |\n| 5 | Ferdydurke | proza | 3 |\n| 6 | Dziady | poezja | 2 |\n| 7 | Zbrodnia i kara | proza | 4 |\n| 8 | Trans-Atlantyk | proza | 3 |\n\nTabela **Wypozyczenia**:\n\n| id_wyp | id_ks | czytelnik | data_wyp | data_zwrotu |\n|--------|-------|-----------|----------|-------------|\n| 1 | 1 | Jan | 2024-01-10 | 2024-01-25 |\n| 2 | 2 | Anna | 2024-01-15 | 2024-02-01 |\n| 3 | 3 | Ewa | 2024-02-01 | 2024-02-15 |\n| 4 | 1 | Piotr | 2024-02-10 | 2024-02-28 |\n| 5 | 5 | Anna | 2024-03-01 | 2024-03-20 |\n| 6 | 4 | Jan | 2024-03-05 | NULL |\n| 7 | 6 | Ewa | 2024-03-10 | 2024-03-25 |\n| 8 | 2 | Kasia | 2024-03-15 | NULL |\n| 9 | 7 | Tomek | 2024-04-01 | 2024-04-10 |\n| 10 | 8 | Anna | 2024-04-05 | NULL |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe i miasto bibliotek, w ktorych liczba wypozyczen (zakonczonych — data_zwrotu IS NOT NULL) jest wieksza niz srednia liczba zakonczonych wypozyczen na biblioteke. Dla kazdej takiej biblioteki podaj tez te liczbe.",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz: (a) policzyc zakonczone wypozyczenia per biblioteka, (b) obliczyc srednia z tych liczb, (c) porownac.",
+    "**Podejscie**: JOIN trzech tabel, WHERE data_zwrotu IS NOT NULL, GROUP BY po bibliotece, HAVING z podzapytaniem.",
+    "**Kluczowy krok**: Podzapytanie w HAVING musi obliczac srednia liczbe wypozyczen na biblioteke — to wymaga zagniezdzonego podzapytania ze swoim GROUP BY."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT B.nazwa, B.miasto, COUNT(*) AS liczba_wypozyczen\nFROM Biblioteki B\nJOIN Ksiazki K ON B.id_bib = K.id_bib\nJOIN Wypozyczenia W ON K.id_ks = W.id_ks\nWHERE W.data_zwrotu IS NOT NULL\nGROUP BY B.id_bib, B.nazwa, B.miasto\nHAVING COUNT(*) > (\n  SELECT AVG(cnt) FROM (\n    SELECT COUNT(*) AS cnt\n    FROM Ksiazki K2\n    JOIN Wypozyczenia W2 ON K2.id_ks = W2.id_ks\n    WHERE W2.data_zwrotu IS NOT NULL\n    GROUP BY K2.id_bib\n  )\n);\n```\n\n**Weryfikacja**:\n\nZakonczone wypozyczenia per biblioteka:\n- Miejska (id=1): ks.1 (wyp.1 ✓, wyp.4 ✓), ks.2 (wyp.2 ✓, wyp.8 ✗ NULL), ks.4 (wyp.6 ✗ NULL) → **3**\n- Akademicka (id=2): ks.3 (wyp.3 ✓), ks.6 (wyp.7 ✓) → **2**\n- Dzielnicowa (id=3): ks.5 (wyp.5 ✓), ks.8 (wyp.10 ✗ NULL) → **1**\n- Uczelniana (id=4): ks.7 (wyp.9 ✓) → **1**\n\nSrednia: (3+2+1+1)/4 = 7/4 = **1.75**\n\nBiblioteki z liczba > 1.75:\n- Miejska: 3 > 1.75 ✓\n- Akademicka: 2 > 1.75 ✓\n\n| nazwa | miasto | liczba_wypozyczen |\n|-------|--------|-------------------|\n| Miejska | Warszawa | 3 |\n| Akademicka | Krakow | 2 |\n\n**Wyjasnienie**: Zagniezdzone podzapytanie (podzapytanie w podzapytaniu) najpierw oblicza COUNT per biblioteka, potem AVG z tych COUNT-ow. Wewnetrzne podzapytanie zwraca tabele (cnt per biblioteka), a zewnetrzne oblicza srednia z tych wartosci. To jeden z najtrudniejszych wzorcow SQL na maturze.",
+  "typowe_bledy": [
+    {
+      "opis": "**AVG(COUNT(*))**: Nie mozna zagniezdzyc funkcji agregujacych bezposrednio — `AVG(COUNT(*))` to blad. Potrzeba podzapytania",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak WHERE data_zwrotu IS NOT NULL w podzapytaniu**: Podzapytanie liczyloby tez niezakonczone wypozyczenia",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak filtra na data_zwrotu w zapytaniu glownym**: Policzyloby wszystkie wypozyczenia (zakonczenia i niezakonczone)",
+      "kara": "-2 pkt"
+    }
+  ]
+}

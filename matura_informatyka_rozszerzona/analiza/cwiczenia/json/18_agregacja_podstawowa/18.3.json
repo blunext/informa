@@ -1,0 +1,33 @@
+{
+  "id": "18.3",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "COUNTA",
+    "COUNTBLANK",
+    "COUNT",
+    "procent"
+  ],
+  "tresc": "Przeprowadzono ankiete wsrod 10 osob. Kazda osoba mogla udzielic odpowiedzi lub zostawic puste pole:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Osoba** | **Pyt. 1** | **Pyt. 2** | **Pyt. 3** |\n| 2 | O1 | Tak | Nie | Tak |\n| 3 | O2 | Tak | | Nie |\n| 4 | O3 | | Tak | Tak |\n| 5 | O4 | Nie | Nie | |\n| 6 | O5 | Tak | Tak | Tak |\n| 7 | O6 | | | Nie |\n| 8 | O7 | Tak | Nie | Tak |\n| 9 | O8 | Nie | Tak | |\n| 10 | O9 | Tak | | Tak |\n| 11 | O10 | Tak | Tak | Nie |\n\n**Polecenie**: Dla pytania 1 (kolumna B) napisz formuly obliczajace:\n1. Ile osob odpowiedzialo (komorki niepuste)?\n2. Ile osob nie odpowiedzialo (komorki puste)?\n3. Procent wypelnienia (ile odpowiedzialo / ile osob ogolnie × 100%).\n4. Ile osob odpowiedzialo \"Tak\" na pytanie 1?",
+  "wskazowki": [
+    "**Kierunek**: COUNTA zlicza niepuste komorki, COUNTBLANK — puste. Roznica miedzy COUNT (tylko liczby) a COUNTA (tekst i liczby) jest kluczowa.",
+    "**Podejscie**: Procent = niepuste / calkowita liczba osob × 100. Zliczenie \"Tak\" wymaga COUNTIF.",
+    "**Kluczowy krok**: Calkowita liczba osob mozna uzyskac z COUNTA kolumny A (imiona) lub wpisac recznie (10)."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nOdpowiedzialo:         =COUNTA(B2:B11)\nNie odpowiedzialo:     =COUNTBLANK(B2:B11)\nProcent wypelnienia:   =COUNTA(B2:B11)/COUNTA(A2:A11)*100\n   lub prosciej:       =COUNTA(B2:B11)/10*100\nOdpowiedzi \"Tak\":     =COUNTIF(B2:B11;\"Tak\")\n```\n\n**Weryfikacja (kolumna B — Pytanie 1):**\n\nWartosci w B2:B11: Tak, Tak, (puste), Nie, Tak, (puste), Tak, Nie, Tak, Tak\n- Niepuste (COUNTA): Tak, Tak, Nie, Tak, Tak, Nie, Tak, Tak = **8**\n- Puste (COUNTBLANK): O3, O6 = **2**\n- Procent: 8/10 × 100 = **80%**\n- \"Tak\": O1, O2, O5, O7, O9, O10 = **6**\n\n**Wyjasnienie**:\n- `COUNTA` zlicza komorki niepuste (zarowno tekst, jak i liczby).\n- `COUNTBLANK` zlicza komorki puste.\n- `COUNTIF` zlicza komorki spelniajace podane kryterium.\n- Roznica: COUNT zlicza tylko komorki z liczbami, COUNTA zlicza wszystkie niepuste (wlacznie z tekstem).",
+  "typowe_bledy": [
+    {
+      "opis": "**COUNT zamiast COUNTA**: COUNT zlicza tylko LICZBY — dla komorek z tekstem (\"Tak\", \"Nie\") zwroci 0",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pomieszanie COUNTBLANK z COUNTA**: COUNTBLANK zlicza puste, COUNTA — niepuste. Sa komplementarne",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak mnozenia razy 100 w procencie**: 8/10 = 0.8, a nie 80%",
+      "kara": "-1 pkt (chyba ze komorka jest sformatowana jako procent)"
+    }
+  ]
+}

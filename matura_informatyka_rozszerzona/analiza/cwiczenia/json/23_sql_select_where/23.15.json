@@ -1,0 +1,29 @@
+{
+  "id": "23.15",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2022",
+  "tagi": [
+    "WHERE",
+    "IS-NULL",
+    "IS-NOT-NULL",
+    "AND"
+  ],
+  "tresc": "Tabela **Zadania**:\n\n| id | tytul | priorytet | przypisany_do | data_zakonczenia |\n|----|-------|-----------|---------------|------------------|\n| 1 | Migracja bazy | wysoki | Anna | 2024-01-15 |\n| 2 | Testy jednostkowe | sredni | Jan | NULL |\n| 3 | Dokumentacja API | niski | NULL | NULL |\n| 4 | Naprawa bledu | wysoki | Ewa | 2024-02-01 |\n| 5 | Refaktoryzacja | sredni | Anna | NULL |\n| 6 | Deploy produkcyjny | wysoki | NULL | NULL |\n| 7 | Code review | niski | Jan | 2024-01-20 |\n| 8 | Optymalizacja SQL | sredni | Ewa | 2024-02-10 |\n\n**Polecenie**:\n1. Wyswietl tytul i priorytet zadan, ktore NIE SA zakonczone (data_zakonczenia IS NULL).\n2. Wyswietl tytul i priorytet zadan o priorytecie 'wysoki', ktore SA przypisane do kogos (przypisany_do IS NOT NULL).",
+  "wskazowki": [
+    "**Kierunek**: IS NULL sprawdza brak wartosci, IS NOT NULL sprawdza jej obecnosc.",
+    "**Podejscie**: Dwa osobne zapytania — jedno z IS NULL, drugie z IS NOT NULL i AND.",
+    "**Kluczowy krok**: `!= NULL` NIE DZIALA — jedyny poprawny sposob to `IS NULL` / `IS NOT NULL`."
+  ],
+  "odpowiedz": "**Zapytania SQL:**\n```sql\n-- 1. Niezakonczone zadania\nSELECT tytul, priorytet\nFROM Zadania\nWHERE data_zakonczenia IS NULL;\n\n-- 2. Wysokopriorytetowe i przypisane\nSELECT tytul, priorytet\nFROM Zadania\nWHERE priorytet = 'wysoki' AND przypisany_do IS NOT NULL;\n```\n\n**Weryfikacja zad. 1** (data_zakonczenia IS NULL):\n\n| tytul | priorytet |\n|-------|-----------|\n| Testy jednostkowe | sredni |\n| Dokumentacja API | niski |\n| Refaktoryzacja | sredni |\n| Deploy produkcyjny | wysoki |\n\n**Weryfikacja zad. 2** (wysoki AND przypisany):\n- Migracja bazy: wysoki ✓, Anna ✓ → ✓\n- Naprawa bledu: wysoki ✓, Ewa ✓ → ✓\n- Deploy produkcyjny: wysoki ✓, NULL ✗ → ✗\n\n| tytul | priorytet |\n|-------|-----------|\n| Migracja bazy | wysoki |\n| Naprawa bledu | wysoki |",
+  "typowe_bledy": [
+    {
+      "opis": "**`= NULL` zamiast `IS NULL`**: `WHERE data_zakonczenia = NULL` zawsze daje FALSE — nic nie przejdzie filtra",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**OR zamiast AND (zad. 2)**: `WHERE priorytet = 'wysoki' OR przypisany_do IS NOT NULL` daje tez zadania z innym priorytetem, jesli sa przypisane",
+      "kara": "-2 pkt"
+    }
+  ]
+}

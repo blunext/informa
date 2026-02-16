@@ -1,0 +1,33 @@
+{
+  "id": "3.5",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2022 zad. 2 (ab-slowo)",
+  "tagi": [
+    "zlozonosc-czasowa",
+    "sortowanie",
+    "przeszukiwanie-binarne",
+    "analiza-srednia"
+  ],
+  "tresc": "Problem: Dany zbior n liczb calkowitych. Zlicz ile jest par (i, j), gdzie i < j, takich ze |T[i] - T[j]| <= k (roznica bezwzgledna co najwyzej k).\n\n**Algorytm A** (brute force):\n\n```\nfunkcja zliczA(T, n, k)\n    wynik := 0\n    dla i := 1, 2, ..., n-1:\n        dla j := i+1, i+2, ..., n:\n            jezeli |T[i] - T[j]| <= k:\n                wynik := wynik + 1\n    zwroc wynik\n```\n\n**Algorytm B** (z sortowaniem):\n\n```\nfunkcja zliczB(T, n, k)\n    posortuj(T)   // sortowanie rosnace, koszt O(n log n)\n    wynik := 0\n    dla i := 1, 2, ..., n:\n        // szukaj binarnie ostatniego j takiego ze T[j] <= T[i] + k\n        j := szukajBinarnie(T, i+1, n, T[i] + k)\n        wynik := wynik + (j - i)\n    zwroc wynik\n```\n\nW algorytmie B, `szukajBinarnie(T, lo, hi, x)` zwraca indeks ostatniego elementu <= x w zakresie [lo, hi] (lub lo-1 jezeli brak). Koszt jednego wyszukiwania: O(log n).\n\n**Polecenie**:\n- a) Podaj zlozonosc czasowa algorytmu A i algorytmu B.\n- b) Dla T = [1, 5, 3, 8, 2] i k = 2, oblicz wynik obu algorytmow (powinny byc identyczne).\n- c) Oblicz dokladna liczbe operacji porownania dla obu algorytmow przy n = 1000. Przyjmij, ze szukanie binarne wykonuje dokladnie ceil(log2(n)) porownan, a sortowanie n*ceil(log2(n)) porownan.",
+  "wskazowki": [
+    "**Kierunek**: Algorytm A sprawdza kazda pare — ile jest par? Algorytm B sortuje i uzywa binsearch — ile razy?",
+    "**Podejscie**: A: dwie petle => O(n^2). B: sortowanie + n wyszukiwan binarnych => O(n log n) + O(n log n).",
+    "**Kluczowy krok**: Dla b) posortuj tablice i recznie przesled oba algorytmy. Wyniki musza sie zgadzac."
+  ],
+  "odpowiedz": "**a) Zlozonosc:**\n\n- Algorytm A: **O(n^2)** -- dwie zagniezdzne petle, kazda do n\n- Algorytm B: **O(n log n)** -- sortowanie O(n log n) + n wyszukiwan binarnych O(n log n) = O(n log n)\n\n**b) Dla T = [1, 5, 3, 8, 2], k = 2:**\n\n**Algorytm A** (sprawdzamy wszystkie pary i < j):\n\n| Para (i,j) | T[i] | T[j] | |T[i]-T[j]| | <= 2? |\n|------------|------|------|------------|-------|\n| (1,2) | 1 | 5 | 4 | nie |\n| (1,3) | 1 | 3 | 2 | tak |\n| (1,4) | 1 | 8 | 7 | nie |\n| (1,5) | 1 | 2 | 1 | tak |\n| (2,3) | 5 | 3 | 2 | tak |\n| (2,4) | 5 | 8 | 3 | nie |\n| (2,5) | 5 | 2 | 3 | nie |\n| (3,4) | 3 | 8 | 5 | nie |\n| (3,5) | 3 | 2 | 1 | tak |\n| (4,5) | 8 | 2 | 6 | nie |\n\nWynik A: **4 pary**\n\n**Algorytm B** (po posortowaniu):\n\nT posortowane: [1, 2, 3, 5, 8]\n\n| i | T[i] | T[i]+k | szukaj ostatni <= T[i]+k | j | wynik += j-i |\n|---|------|--------|--------------------------|---|-------------|\n| 1 | 1 | 3 | T[3]=3 <= 3 | 3 | 3-1 = 2 |\n| 2 | 2 | 4 | T[3]=3 <= 4 | 3 | 3-2 = 1 |\n| 3 | 3 | 5 | T[4]=5 <= 5 | 4 | 4-3 = 1 |\n| 4 | 5 | 7 | T[4]=5 <= 7, T[5]=8 > 7 | 4 | 4-4 = 0 |\n| 5 | 8 | 10 | brak elementow po i=5 | 5 | 5-5 = 0 |\n\nWynik B: 2 + 1 + 1 + 0 + 0 = **4 pary**\n\nWyniki sie zgadzaja.\n\n**c) Dokladna liczba porownan dla n = 1000:**\n\nceil(log2(1000)) = 10\n\nAlgorytm A:\n- Porownania w petlach: n*(n-1)/2 = 1000*999/2 = **499 500 porownan**\n\nAlgorytm B:\n- Sortowanie: n * ceil(log2(n)) = 1000 * 10 = 10 000 porownan\n- Wyszukiwania binarne: n * ceil(log2(n)) = 1000 * 10 = 10 000 porownan\n- Razem: **20 000 porownan**\n\nAlgorytm B jest 499500/20000 = **~25 razy szybszy** dla n = 1000.\n\nProg oplacalnosci: Algorytm B jest lepszy gdy n*(n-1)/2 > 2*n*log2(n), czyli w przyblizeniu n > 4*log2(n), co zachodzi juz dla n >= 16.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o koszcie sortowania**: Algorytm B ma O(n log n) za sortowanie — to nie jest \"za darmo\"",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledna liczba par w algorytmie A**: Liczba par to n*(n-1)/2, nie n^2",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pominecie warunku i < j**: Pary (i,j) i (j,i) to ta sama para. Liczymy kazda raz",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

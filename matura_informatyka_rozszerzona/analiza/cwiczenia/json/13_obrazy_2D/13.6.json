@@ -1,0 +1,28 @@
+{
+  "id": "13.6",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2017 zad. 6 (zliczanie po kolumnach)",
+  "tagi": [
+    "tablica-2D",
+    "zliczanie-komorek",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Dana jest siatka 5x8 zer i jedynek zapisana w pliku `siatka.txt`. Napisz program, ktory:\na) Dla kazdej kolumny policzy ile jedynek zawiera.\nb) Poda numer kolumny z najwieksza liczba jedynek.\n\n**Dane** (`siatka.txt`):\n```\n1 0 1 1 0 0 1 0\n0 1 1 0 1 0 0 1\n1 1 0 1 1 1 0 0\n0 0 1 1 0 1 1 0\n1 1 0 0 1 0 1 1\n```\n\n**Oczekiwany wynik**:\n```\na) Jedynki w kolumnach:\n   Kolumna 1: 3\n   Kolumna 2: 3\n   Kolumna 3: 3\n   Kolumna 4: 3\n   Kolumna 5: 3\n   Kolumna 6: 2\n   Kolumna 7: 3\n   Kolumna 8: 2\n\nb) Kolumna z max jedynkami: 1 (3 jedynki)\n```",
+  "wskazowki": [
+    "**Kierunek**: Petla po kolumnach (zewnetrzna), wewnatrz petla po wierszach.",
+    "**Podejscie**: Dla kazdej kolumny j: `for (int i = 0; i < rows; i++) if (tab[i][j] == 1) cnt++`.",
+    "**Kluczowy krok**: Sledzac max, zapamietaj numer kolumny z max jedynkami."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    int tab[5][8];\n    for (int i = 0; i < 5; i++)\n        for (int j = 0; j < 8; j++)\n            plik >> tab[i][j];\n\n    cout << \"a) Jedynki w kolumnach:\" << endl;\n    int maxCnt = 0, maxKol = 0;\n    for (int j = 0; j < 8; j++) {\n        int cnt = 0;\n        for (int i = 0; i < 5; i++)\n            if (tab[i][j] == 1) cnt++;\n        cout << \"   Kolumna \" << j + 1 << \": \" << cnt << endl;\n        if (cnt > maxCnt) { maxCnt = cnt; maxKol = j; }\n    }\n\n    cout << endl << \"b) Kolumna z max jedynkami: \" << maxKol + 1\n         << \" (\" << maxCnt << \" jedynki)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Petla po kolumnach z wewnetrzna petla po wierszach. Sledzac maximum, zapamietujemy numer kolumny.\n\nWeryfikacja:\n- Kol.1: 1+0+1+0+1=3, Kol.2: 0+1+1+0+1=3, Kol.3: 1+1+0+1+0=3, Kol.4: 1+0+1+1+0=3\n- Kol.5: 0+1+1+0+1=3, Kol.6: 0+0+1+1+0=2, Kol.7: 1+0+0+1+1=3, Kol.8: 0+1+0+0+1=2\n- Max: 3 (wiele kolumn). Pierwsza z max: kolumna 1.",
+  "typowe_bledy": [
+    {
+      "opis": "**Petla wierszowa zamiast kolumnowej**: Aby iterowac po kolumnie, petla zewnetrzna musi byc po j (kolumnach), wewnetrzna po i (wierszach)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Wielokrotne maximum**: Jesli kilka kolumn ma tyle samo, program raportuje pierwsza — to poprawne, ale mozna tez wypisac wszystkie.",
+      "kara": ""
+    }
+  ]
+}

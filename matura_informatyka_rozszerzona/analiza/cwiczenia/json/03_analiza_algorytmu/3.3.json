@@ -1,0 +1,32 @@
+{
+  "id": "3.3",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2014 zad. 1b (Korale)",
+  "tagi": [
+    "zlozonosc-czasowa",
+    "analiza-srednia",
+    "przeszukiwanie-binarne"
+  ],
+  "tresc": "Dany jest algorytm przeszukujacy tablice T o n elementach calkowitych w poszukiwaniu wartosci x:\n\n```\nfunkcja szukaj(T, n, x)\n    dla i := 1, 2, ..., n:\n        jezeli T[i] = x:\n            zwroc i\n    zwroc -1\n```\n\n**Polecenie**:\n- a) Jaka jest minimalna liczba porownan `T[i] = x` wykonywanych przez algorytm? Podaj dane wejsciowe, dla ktorych to minimum jest osiagane.\n- b) Jaka jest maksymalna liczba porownan? Podaj dane wejsciowe, dla ktorych to maksimum jest osiagane.\n- c) Jaka jest srednia liczba porownan przy zalozeniu, ze x na pewno znajduje sie w tablicy i z rownym prawdopodobienstwem moze byc na kazdej pozycji?",
+  "wskazowki": [
+    "**Kierunek**: Minimum = najlepszy przypadek, maksimum = najgorszy przypadek. Kiedy algorytm konczy sie najszybciej/najwolniej?",
+    "**Podejscie**: Najlepszy: x jest na poczatku. Najgorszy: x jest na koncu lub go nie ma. Srednia: policz oczekiwana wartosc.",
+    "**Kluczowy krok**: Srednia = (1+2+...+n)/n = n(n+1)/(2n) = (n+1)/2."
+  ],
+  "odpowiedz": "**a) Minimalna liczba porownan: 1**\n\nOsiagana, gdy szukany element x znajduje sie na pierwszej pozycji tablicy.\n\nPrzyklad: T = [5, 3, 7, 1, 9], x = 5\nAlgorytm: i=1, T[1]=5=x -> zwraca 1. Jedno porownanie.\n\n**b) Maksymalna liczba porownan: n**\n\nOsiagana w dwoch przypadkach:\n1. Element x jest na ostatniej pozycji: T = [3, 7, 1, 9, 5], x = 5\n   Algorytm sprawdza wszystkie n pozycji, znajduje na ostatniej.\n2. Element x nie wystepuje w tablicy: T = [3, 7, 1, 9, 2], x = 5\n   Algorytm sprawdza wszystkie n pozycji, zwraca -1.\n\n**c) Srednia liczba porownan (x na pewno w tablicy):**\n\nJezeli x jest na pozycji k (z rownym prawdopodobienstwem 1/n dla k = 1, 2, ..., n), to liczba porownan wynosi k.\n\nSrednia = (1 + 2 + 3 + ... + n) / n = n(n+1)/2 / n = **(n+1)/2**\n\nPrzyklad: Dla n = 100 srednia liczba porownan wynosi 50.5.",
+  "typowe_bledy": [
+    {
+      "opis": "**Srednia != mediana**: Srednia to (n+1)/2, nie n/2. Czesta pomylka",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pomieszanie \"element nie istnieje\" z \"element na koncu\"**: Oba daja n porownan, ale to rozne sytuacje",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Brak zalozenia w c)**: Trzeba jasno okreslic, ze x jest w tablicy. Jezeli x moze nie byc, srednia jest inna",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

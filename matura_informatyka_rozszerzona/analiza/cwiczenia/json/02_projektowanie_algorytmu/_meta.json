@@ -1,0 +1,140 @@
+{
+  "typ": "02_projektowanie_algorytmu",
+  "nazwa": "Projektowanie algorytmu",
+  "kategoria": "TEORIA",
+  "czestotliwosc": "11/11 lat",
+  "punkty_lacznie": 32,
+  "tagi_globalne": [
+    "mod-div",
+    "cyfry",
+    "petla-while",
+    "pseudokod",
+    "C++",
+    "warunek",
+    "rekurencja",
+    "stos",
+    "drzewo",
+    "konwersja-systemow",
+    "palindrom",
+    "NWD",
+    "liczby-pierwsze",
+    "napisy",
+    "tablica",
+    "podciag",
+    "iteracja",
+    "zlozonosc"
+  ],
+  "cwiczenia": [
+    {
+      "id": "2.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "mod-div",
+        "cyfry",
+        "petla-while",
+        "warunek"
+      ]
+    },
+    {
+      "id": "2.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "rekurencja",
+        "petla-while",
+        "cyfry",
+        "pseudokod"
+      ]
+    },
+    {
+      "id": "2.3",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "palindrom",
+        "mod-div",
+        "cyfry",
+        "C++"
+      ]
+    },
+    {
+      "id": "2.4",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "konwersja-systemow",
+        "mod-div",
+        "petla-while",
+        "pseudokod"
+      ]
+    },
+    {
+      "id": "2.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "rekurencja",
+        "stos",
+        "drzewo",
+        "C++"
+      ]
+    },
+    {
+      "id": "2.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "NWD",
+        "petla-while",
+        "mod-div",
+        "pseudokod"
+      ]
+    },
+    {
+      "id": "2.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "liczby-pierwsze",
+        "petla-while",
+        "warunek",
+        "C++"
+      ]
+    },
+    {
+      "id": "2.8",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "napisy",
+        "petla-while",
+        "warunek",
+        "C++"
+      ]
+    },
+    {
+      "id": "2.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "tablica",
+        "podciag",
+        "iteracja",
+        "C++"
+      ]
+    },
+    {
+      "id": "2.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "rekurencja",
+        "iteracja",
+        "cyfry",
+        "zlozonosc",
+        "C++"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "typ": "08_napisy",
+  "nazwa": "Przetwarzanie napisow",
+  "kategoria": "IMPLEMENTACJA",
+  "czestotliwosc": "4/11 lat",
+  "punkty_lacznie": 36,
+  "tagi_globalne": [
+    "getline",
+    "kody-ASCII",
+    "operacje-na-string",
+    "palindrom",
+    "podciagi",
+    "set-unikalnosc",
+    "symulacja-operacji",
+    "szyfr-Cezara",
+    "tolower",
+    "wczytywanie-pliku",
+    "zliczanie-znakow"
+  ],
+  "cwiczenia": [
+    {
+      "id": "8.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "palindrom",
+        "wczytywanie-pliku",
+        "operacje-na-string"
+      ]
+    },
+    {
+      "id": "8.2",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "kody-ASCII",
+        "operacje-na-string",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.3",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "szyfr-Cezara",
+        "kody-ASCII",
+        "operacje-na-string",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "symulacja-operacji",
+        "operacje-na-string",
+        "podciagi"
+      ]
+    },
+    {
+      "id": "8.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "zliczanie-znakow",
+        "palindrom",
+        "tolower",
+        "set-unikalnosc",
+        "operacje-na-string"
+      ]
+    },
+    {
+      "id": "8.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "zliczanie-znakow",
+        "operacje-na-string",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "podciagi",
+        "operacje-na-string",
+        "wczytywanie-pliku",
+        "zliczanie-znakow"
+      ]
+    },
+    {
+      "id": "8.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "operacje-na-string",
+        "zliczanie-znakow",
+        "podciagi"
+      ]
+    },
+    {
+      "id": "8.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "zliczanie-znakow",
+        "operacje-na-string",
+        "getline",
+        "podciagi"
+      ]
+    },
+    {
+      "id": "8.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "szyfr-Cezara",
+        "kody-ASCII",
+        "operacje-na-string",
+        "zliczanie-znakow"
+      ]
+    }
+  ]
+}

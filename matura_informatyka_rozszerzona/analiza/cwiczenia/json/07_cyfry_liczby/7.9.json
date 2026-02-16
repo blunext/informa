@@ -1,0 +1,33 @@
+{
+  "id": "7.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Matura 2019 zad. 4 + 2022 zad. 4 (NWW i NWD)",
+  "tagi": [
+    "NWD-Euklidesa",
+    "NWW",
+    "faktoryzacja",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `trojki.txt` znajduje sie 8 trojek liczb calkowitych dodatnich (kazda trojka w osobnym wierszu, liczby oddzielone spacjami). Napisz program, ktory:\na) Dla kazdej trojki (a, b, c) obliczy NWD(a, b, c) i NWW(a, b, c).\nb) Zliczy ile trojek spelnia warunek: NWD(a,b,c) * NWW(a,b,c) == a * b * c (to zachodzi tylko dla par, nie trojek — sprawdz ktore trojki nie spelniaja).\n\nPrzypomnienie: NWD(a,b,c) = NWD(NWD(a,b), c), NWW(a,b) = a*b / NWD(a,b), NWW(a,b,c) = NWW(NWW(a,b), c).\n\n**Dane** (`trojki.txt`):\n```\n12 18 24\n5 7 11\n6 10 15\n8 12 16\n3 9 27\n14 21 35\n4 6 8\n20 30 50\n```\n\n**Oczekiwany wynik**:\n```\n12 18 24: NWD=6, NWW=72, NWD*NWW=432, a*b*c=5184, rowne: NIE\n5 7 11: NWD=1, NWW=385, NWD*NWW=385, a*b*c=385, rowne: TAK\n6 10 15: NWD=1, NWW=30, NWD*NWW=30, a*b*c=900, rowne: NIE\n8 12 16: NWD=4, NWW=48, NWD*NWW=192, a*b*c=1536, rowne: NIE\n3 9 27: NWD=3, NWW=27, NWD*NWW=81, a*b*c=729, rowne: NIE\n14 21 35: NWD=7, NWW=210, NWD*NWW=1470, a*b*c=10290, rowne: NIE\n4 6 8: NWD=2, NWW=24, NWD*NWW=48, a*b*c=192, rowne: NIE\n20 30 50: NWD=10, NWW=300, NWD*NWW=3000, a*b*c=30000, rowne: NIE\nTrojki spelniajace NWD*NWW == a*b*c: 1\n```",
+  "wskazowki": [
+    "**Kierunek**: NWD trzech liczb to NWD(NWD(a,b), c). NWW trzech to NWW(NWW(a,b), c).",
+    "**Podejscie**: NWW(a,b) = a / NWD(a,b) * b (dziel przed mnozeniem, zeby uniknac overflow).",
+    "**Kluczowy krok**: Wlasnosc NWD*NWW = a*b zachodzi TYLKO dla par. Dla trojek to nie jest regula — jedyny przypadek to gdy wszystkie trzy sa parami wzglednie pierwsze."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint nwd(int a, int b) {\n    while (b != 0) { int t = b; b = a % b; a = t; }\n    return a;\n}\n\nint nww(int a, int b) {\n    return a / nwd(a, b) * b;\n}\n\nint main() {\n    ifstream plik(\"trojki.txt\");\n    int a, b, c;\n    int ile = 0;\n\n    while (plik >> a >> b >> c) {\n        int g = nwd(nwd(a, b), c);\n        int l = nww(nww(a, b), c);\n        long long prod = (long long)a * b * c;\n        long long gl = (long long)g * l;\n        cout << a << \" \" << b << \" \" << c << \": NWD=\" << g << \", NWW=\" << l\n             << \", NWD*NWW=\" << gl << \", a*b*c=\" << prod\n             << \", rowne: \" << (gl == prod ? \"TAK\" : \"NIE\") << endl;\n        if (gl == prod) ile++;\n    }\n    cout << \"Trojki spelniajace NWD*NWW == a*b*c: \" << ile << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- 12,18,24: NWD(12,18)=6, NWD(6,24)=6. NWW(12,18)=36, NWW(36,24)=72. 6*72=432, 12*18*24=5184 -> NIE\n- 5,7,11: NWD=1, NWW(5,7)=35, NWW(35,11)=385. 1*385=385, 5*7*11=385 -> TAK (parami wzglednie pierwsze)\n- 6,10,15: NWD(6,10)=2, NWD(2,15)=1. NWW(6,10)=30, NWW(30,15)=30. 1*30=30, 6*10*15=900 -> NIE\n- 8,12,16: NWD(8,12)=4, NWD(4,16)=4. NWW(8,12)=24, NWW(24,16)=48. 4*48=192, 8*12*16=1536 -> NIE\n- 3,9,27: NWD=3, NWW(3,9)=9, NWW(9,27)=27. 3*27=81, 3*9*27=729 -> NIE\n- 14,21,35: NWD(14,21)=7, NWD(7,35)=7. NWW(14,21)=42, NWW(42,35)=210. 7*210=1470, 14*21*35=10290 -> NIE\n- 4,6,8: NWD=2, NWW(4,6)=12, NWW(12,8)=24. 2*24=48, 4*6*8=192 -> NIE\n- 20,30,50: NWD=10, NWW(20,30)=60, NWW(60,50)=300. 10*300=3000, 20*30*50=30000 -> NIE",
+  "typowe_bledy": [
+    {
+      "opis": "**Overflow przy a*b*c**: Iloczyn trzech liczb moze przekroczyc `int`. Uzyj `long long`",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**NWW obliczane jako a*b/NWD**: Przy duzych a*b moze byc overflow. Lepiej `a / NWD(a,b) * b`",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne NWW trojki**: NWW(a,b,c) != a*b*c / NWD(a,b,c). Trzeba obliczac narastajaco",
+      "kara": "-2 pkt"
+    }
+  ]
+}

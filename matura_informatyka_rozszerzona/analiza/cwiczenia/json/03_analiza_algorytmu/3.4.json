@@ -1,0 +1,32 @@
+{
+  "id": "3.4",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2016 zad. 1 (liczby skojarzone)",
+  "tagi": [
+    "dzielniki",
+    "optymalizacja-sqrt",
+    "zlozonosc-czasowa"
+  ],
+  "tresc": "Dany jest algorytm szukajacy liczby dzielnikow liczby n:\n\n```\nfunkcja liczbaDzielnikow(n)\n    licznik := 0\n    dla i := 1, 2, ..., n:\n        jezeli n mod i = 0:\n            licznik := licznik + 1\n    zwroc licznik\n```\n\n**Polecenie**:\n- a) Czy algorytm jest poprawny (daje prawidlowy wynik dla kazdego n >= 1)?\n- b) Napisz zoptymalizowana wersje algorytmu o zlozonosci O(sqrt(n)). Wyjasnij, na czym polega optymalizacja.\n- c) Ile operacji `n mod i` zaoszczedzisz dla n = 10000, porownujac oryginalna wersje z zoptymalizowana?",
+  "wskazowki": [
+    "**Kierunek**: Dzielniki wystepuja w parach (i, n/i). Jesli i jest dzielnikiem, to n/i tez.",
+    "**Podejscie**: Wystarczy sprawdzic i od 1 do sqrt(n). Dla kazdego dzielnika i, dodaj 2 (lub 1 jesli i=sqrt(n)).",
+    "**Kluczowy krok**: sqrt(10000)=100, wiec zamiast 10000 operacji wystarczy 100."
+  ],
+  "odpowiedz": "**a) Tak, algorytm jest poprawny.**\n\nSprawdza kazda liczbe od 1 do n jako potencjalny dzielnik. Jezeli n mod i = 0, to i jest dzielnikiem n. Wszystkie dzielniki zostana znalezione, poniewaz kazdy dzielnik d liczby n spelnia 1 <= d <= n.\n\n**b) Zoptymalizowana wersja O(sqrt(n)):**\n\n```\nfunkcja liczbaDzielnikowOpt(n)\n    licznik := 0\n    i := 1\n    dopoki i * i <= n:\n        jezeli n mod i = 0:\n            licznik := licznik + 1\n            jezeli i <> n / i:\n                licznik := licznik + 1\n        i := i + 1\n    zwroc licznik\n```\n\n**Optymalizacja polega na:**\n\nJezeli i jest dzielnikiem n (n mod i = 0), to n/i tez jest dzielnikiem n.\nDzielniki wystepuja w parach (i, n/i), gdzie i <= sqrt(n) i n/i >= sqrt(n).\nWystarczy wiec sprawdzic kandydatow tylko do sqrt(n) i liczyc oba dzielniki z pary.\n\nWyjatkowy przypadek: jezeli i = n/i (czyli i = sqrt(n)), liczymy dzielnik tylko raz.\n\n**c) Oszczednosc dla n = 10000:**\n\n- Oryginalna wersja: 10000 operacji mod (i od 1 do 10000)\n- Zoptymalizowana wersja: sqrt(10000) = 100 operacji mod (i od 1 do 100)\n- Oszczednosc: 10000 - 100 = **9900 operacji**\n\nStosunek: 100x szybciej!\n\n**Weryfikacja dla n = 12:**\n- Oryginalna: sprawdza 1..12, dzielniki: 1,2,3,4,6,12 -> 6\n- Zoptymalizowana: sqrt(12) ~ 3.46, sprawdza i=1,2,3\n  - i=1: 12%1=0, para (1,12), licznik=2\n  - i=2: 12%2=0, para (2,6), licznik=4\n  - i=3: 12%3=0, para (3,4), licznik=6\n  - i=4: 4*4=16>12, koniec\n  - Wynik: 6. Poprawnie!",
+  "typowe_bledy": [
+    {
+      "opis": "**Podwojne liczenie sqrt(n)**: Dla n=16, i=4: 4*4=16=n, wiec n/i=4=i. Liczymy dzielnik raz, nie dwa razy",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Warunek i*i <= n zamiast i <= sqrt(n)**: Oba sa poprawne, ale i*i unika bledu zaokraglania sqrt",
+      "kara": ""
+    },
+    {
+      "opis": "**Zapomnienie o parze**: Liczyc tylko i bez n/i daje polowe dzielnikow",
+      "kara": "-2 pkt"
+    }
+  ]
+}

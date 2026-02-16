@@ -1,0 +1,138 @@
+{
+  "typ": "04_test_prawda_falsz",
+  "nazwa": "Test prawda/falsz",
+  "kategoria": "TEORIA",
+  "czestotliwosc": "10/11 lat",
+  "punkty_lacznie": 27,
+  "tagi_globalne": [
+    "BST",
+    "DNS",
+    "HTTPS-szyfrowanie",
+    "IPv4",
+    "JOIN",
+    "LIFO-FIFO",
+    "ORDER-BY",
+    "SQL-skladnia",
+    "WHERE-vs-HAVING",
+    "drzewa",
+    "formaty-danych",
+    "grafy",
+    "kompresja",
+    "konwersja-bin-hex-oct",
+    "rekurencja",
+    "sieci-komputerowe",
+    "sortowanie-zlozonosc",
+    "stabilnosc-sortowania",
+    "struktury-danych",
+    "systemy-liczbowe",
+    "tablice-haszujace",
+    "zlozonosc-czasowa"
+  ],
+  "cwiczenia": [
+    {
+      "id": "4.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "systemy-liczbowe",
+        "konwersja-bin-hex-oct"
+      ]
+    },
+    {
+      "id": "4.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "SQL-skladnia",
+        "WHERE-vs-HAVING",
+        "JOIN",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "4.3",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "sortowanie-zlozonosc",
+        "stabilnosc-sortowania"
+      ]
+    },
+    {
+      "id": "4.4",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "rekurencja",
+        "struktury-danych",
+        "LIFO-FIFO",
+        "BST"
+      ]
+    },
+    {
+      "id": "4.5",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": [
+        "sieci-komputerowe",
+        "HTTPS-szyfrowanie",
+        "IPv4",
+        "DNS",
+        "formaty-danych"
+      ]
+    },
+    {
+      "id": "4.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "kompresja",
+        "formaty-danych",
+        "systemy-liczbowe"
+      ]
+    },
+    {
+      "id": "4.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "sortowanie-zlozonosc",
+        "drzewa",
+        "grafy",
+        "struktury-danych"
+      ]
+    },
+    {
+      "id": "4.8",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "rekurencja",
+        "zlozonosc-czasowa",
+        "tablice-haszujace",
+        "struktury-danych"
+      ]
+    },
+    {
+      "id": "4.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": [
+        "HTTPS-szyfrowanie",
+        "sieci-komputerowe",
+        "formaty-danych"
+      ]
+    },
+    {
+      "id": "4.10",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": [
+        "zlozonosc-czasowa",
+        "rekurencja",
+        "struktury-danych",
+        "grafy"
+      ]
+    }
+  ]
+}

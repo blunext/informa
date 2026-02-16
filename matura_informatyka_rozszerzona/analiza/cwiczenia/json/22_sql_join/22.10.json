@@ -1,0 +1,34 @@
+{
+  "id": "22.10",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2015 (Formula 1)",
+  "tagi": [
+    "JOIN-wielotabelowy",
+    "self-JOIN",
+    "GROUP-BY-z-JOIN",
+    "DISTINCT",
+    "WHERE-z-JOIN"
+  ],
+  "tresc": "Tabela **Kraje**:\n\n| id_kraju | nazwa_kraju | kontynent |\n|----------|-------------|-----------|\n| 1 | Polska | Europa |\n| 2 | Niemcy | Europa |\n| 3 | Brazylia | Ameryka |\n| 4 | Japonia | Azja |\n\nTabela **Kierowcy**:\n\n| id_kier | imie | nazwisko | id_kraju |\n|---------|------|----------|----------|\n| 1 | Robert | Kubica | 1 |\n| 2 | Sebastian | Vettel | 2 |\n| 3 | Ayrton | Senna | 3 |\n| 4 | Yuki | Tsunoda | 4 |\n| 5 | Mick | Schumacher | 2 |\n| 6 | Felipe | Massa | 3 |\n\nTabela **Wyscigi**:\n\n| id_wysc | nazwa | tor | data |\n|---------|-------|-----|------|\n| 1 | GP Monako | Monte Carlo | 2024-05-26 |\n| 2 | GP Japonii | Suzuka | 2024-04-07 |\n| 3 | GP Brazylii | Interlagos | 2024-11-03 |\n\nTabela **Wyniki**:\n\n| id | id_kier | id_wysc | pozycja | punkty |\n|----|---------|---------|---------|--------|\n| 1 | 1 | 1 | 8 | 4 |\n| 2 | 2 | 1 | 1 | 25 |\n| 3 | 3 | 1 | 3 | 15 |\n| 4 | 4 | 2 | 5 | 10 |\n| 5 | 2 | 2 | 2 | 18 |\n| 6 | 5 | 2 | 10 | 1 |\n| 7 | 3 | 3 | 1 | 25 |\n| 8 | 6 | 3 | 4 | 12 |\n| 9 | 1 | 3 | 6 | 8 |\n| 10 | 2 | 3 | 3 | 15 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego kontynentu wyswietli:\n- nazwe kontynentu\n- liczbe roznych kierowcow, ktorzy zdobyli punkty\n- laczna sume punktow\n\nPokaz tylko kontynenty z lacza suma punktow > 20. Posortuj malejaco wg sumy.",
+  "wskazowki": [
+    "**Kierunek**: Cztery tabele: Kraje → Kierowcy → Wyniki (← Wyscigi nie jest potrzebna).",
+    "**Podejscie**: JOIN trzech tabel, GROUP BY kontynent, HAVING na SUM.",
+    "**Kluczowy krok**: COUNT(DISTINCT K.id_kier) liczy unikalnych kierowcow, bo jeden moze miec wiele wynikow."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT KR.kontynent,\n       COUNT(DISTINCT K.id_kier) AS liczba_kierowcow,\n       SUM(W.punkty) AS suma_punktow\nFROM Kraje KR\nJOIN Kierowcy K ON KR.id_kraju = K.id_kraju\nJOIN Wyniki W ON K.id_kier = W.id_kier\nGROUP BY KR.kontynent\nHAVING SUM(W.punkty) > 20\nORDER BY suma_punktow DESC;\n```\n\n**Weryfikacja**:\n\nEuropa:\n- Kubica: 4 + 8 = 12 pkt\n- Vettel: 25 + 18 + 15 = 58 pkt\n- Schumacher: 1 pkt\n- Kierowcy: 3, Suma: 12 + 58 + 1 = **71** (>20 ✓)\n\nAmeryka:\n- Senna: 15 + 25 = 40 pkt\n- Massa: 12 pkt\n- Kierowcy: 2, Suma: 40 + 12 = **52** (>20 ✓)\n\nAzja:\n- Tsunoda: 10 pkt\n- Kierowcy: 1, Suma: **10** (>20 ✗)\n\n| kontynent | liczba_kierowcow | suma_punktow |\n|-----------|------------------|-------------|\n| Europa | 3 | 71 |\n| Ameryka | 2 | 52 |\n\n**Wyjasnienie**: Lancuch JOIN-ow: Kraje → Kierowcy → Wyniki. Tabela Wyscigi nie jest potrzebna — nie pytamy o nazwy wyscigow. COUNT(DISTINCT) zapewnia poprawne zliczanie kierowcow. HAVING filtruje grupy po agregacji.",
+  "typowe_bledy": [
+    {
+      "opis": "**Dodatkowy JOIN z Wyscigi**: Niepotrzebny — powieksza wynik (wiele wierszy per wynik), ale COUNT(DISTINCT) i SUM daja ten sam rezultat. Jednak spowalnia zapytanie",
+      "kara": ""
+    },
+    {
+      "opis": "**COUNT(*) zamiast COUNT(DISTINCT)**: Vettel z 3 wynikami bylby policzony 3 razy. Europa daje 6 zamiast 3",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak HAVING**: Azja (10 pkt) pojawia sie w wyniku",
+      "kara": "-1 pkt"
+    }
+  ]
+}

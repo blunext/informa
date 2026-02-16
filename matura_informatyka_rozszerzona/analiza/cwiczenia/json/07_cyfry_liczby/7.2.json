@@ -1,0 +1,33 @@
+{
+  "id": "7.2",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2019 zad. 4 (NWD)",
+  "tagi": [
+    "NWD-Euklidesa",
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "podzielnosc"
+  ],
+  "tresc": "W pliku `pary.txt` znajduje sie 8 par liczb calkowitych dodatnich (kazda para w osobnym wierszu, liczby oddzielone spacja). Napisz program, ktory obliczy NWD kazdej pary algorytmem Euklidesa i wypisze te pary, ktore nie sa wzglednie pierwsze (NWD > 1).\n\n**Dane** (`pary.txt`):\n```\n48 18\n35 22\n120 45\n17 13\n56 42\n99 55\n64 24\n31 29\n```\n\n**Oczekiwany wynik**:\n```\n48 18 -> NWD = 6\n35 22 -> NWD = 1\n120 45 -> NWD = 15\n17 13 -> NWD = 1\n56 42 -> NWD = 14\n99 55 -> NWD = 11\n64 24 -> NWD = 8\n31 29 -> NWD = 1\nPary nie wzglednie pierwsze: 5\n```",
+  "wskazowki": [
+    "**Kierunek**: Przypomnij sobie algorytm Euklidesa — zamieniaj pare (a, b) na (b, a mod b).",
+    "**Podejscie**: Petla `while(b != 0)` z zamiana: temp = b, b = a % b, a = temp.",
+    "**Kluczowy krok**: Para jest wzglednie pierwsza gdy NWD = 1. Zliczaj te z NWD > 1."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint nwd(int a, int b) {\n    while (b != 0) {\n        int temp = b;\n        b = a % b;\n        a = temp;\n    }\n    return a;\n}\n\nint main() {\n    ifstream plik(\"pary.txt\");\n    int a, b;\n    int ile = 0;\n    while (plik >> a >> b) {\n        int g = nwd(a, b);\n        cout << a << \" \" << b << \" -> NWD = \" << g << endl;\n        if (g > 1) ile++;\n    }\n    cout << \"Pary nie wzglednie pierwsze: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Algorytm Euklidesa oblicza NWD zamieniajac pare (a, b) na (b, a mod b) dopoki b != 0. Para jest wzglednie pierwsza gdy NWD = 1.\n\nWeryfikacja:\n- 48, 18: 48%18=12, 18%12=6, 12%6=0 -> NWD=6\n- 35, 22: 35%22=13, 22%13=9, 13%9=4, 9%4=1, 4%1=0 -> NWD=1\n- 120, 45: 120%45=30, 45%30=15, 30%15=0 -> NWD=15\n- 17, 13: 17%13=4, 13%4=1, 4%1=0 -> NWD=1\n- 56, 42: 56%42=14, 42%14=0 -> NWD=14\n- 99, 55: 99%55=44, 55%44=11, 44%11=0 -> NWD=11\n- 64, 24: 64%24=16, 24%16=8, 16%8=0 -> NWD=8\n- 31, 29: 31%29=2, 29%2=1, 2%1=0 -> NWD=1",
+  "typowe_bledy": [
+    {
+      "opis": "**Zamiana a i b w zlej kolejnosci**: `a = b; b = a % b;` — po pierwszym przypisaniu stare `a` jest stracone. Trzeba uzyc zmiennej tymczasowej",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Warunek `b > 0` zamiast `b != 0`**: Dla liczb dodatnich to samo, ale dla ogolnosci `!= 0` jest bezpieczniejsze.",
+      "kara": ""
+    },
+    {
+      "opis": "**Porownanie NWD >= 1 zamiast > 1**: Kazda para ma NWD >= 1, wiec warunek bylby zawsze spelniony",
+      "kara": "-1 pkt"
+    }
+  ]
+}

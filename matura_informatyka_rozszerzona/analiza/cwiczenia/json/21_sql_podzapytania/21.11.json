@@ -1,0 +1,28 @@
+{
+  "id": "21.11",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2023",
+  "tagi": [
+    "podzapytanie-skalarne",
+    "AVG",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Owoce**:\n\n| id | nazwa | kategoria | cena_za_kg | kalorie |\n|----|-------|-----------|------------|--------|\n| 1 | Jablko | krajowe | 4.50 | 52 |\n| 2 | Banan | tropikalne | 5.90 | 89 |\n| 3 | Truskawka | krajowe | 12.00 | 33 |\n| 4 | Mango | tropikalne | 18.50 | 60 |\n| 5 | Gruszka | krajowe | 5.00 | 57 |\n| 6 | Ananas | tropikalne | 8.00 | 50 |\n| 7 | Malina | krajowe | 25.00 | 52 |\n| 8 | Kiwi | tropikalne | 9.50 | 61 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe i cene za kg owocow tanszych niz srednia cena wszystkich owocow.",
+  "wskazowki": [
+    "**Kierunek**: Nie mozesz uzyc AVG bezposrednio w WHERE — potrzebujesz podzapytania.",
+    "**Podejscie**: Podzapytanie `(SELECT AVG(cena_za_kg) FROM Owoce)` zwraca jedna wartosc.",
+    "**Kluczowy krok**: `WHERE cena_za_kg < (SELECT AVG(cena_za_kg) FROM Owoce)` porownuje kazdy owoc ze srednia."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, cena_za_kg\nFROM Owoce\nWHERE cena_za_kg < (SELECT AVG(cena_za_kg) FROM Owoce);\n```\n\n**Weryfikacja**:\n- Srednia cena: (4.50+5.90+12.00+18.50+5.00+8.00+25.00+9.50)/8 = 88.40/8 = **11.05**\n- Owoce tansze niz 11.05: Jablko (4.50), Banan (5.90), Gruszka (5.00), Ananas (8.00), Kiwi (9.50)\n\n| nazwa | cena_za_kg |\n|-------|------------|\n| Jablko | 4.5 |\n| Banan | 5.9 |\n| Gruszka | 5.0 |\n| Ananas | 8.0 |\n| Kiwi | 9.5 |",
+  "typowe_bledy": [
+    {
+      "opis": "**AVG w WHERE**: `WHERE cena_za_kg < AVG(cena_za_kg)` — blad skladni, funkcje agregujace nie dzialaja w WHERE",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**`>` zamiast `<`**: Odwrotny wynik — owoce drozsze zamiast tanszych",
+      "kara": "-2 pkt"
+    }
+  ]
+}

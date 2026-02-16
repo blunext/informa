@@ -1,0 +1,35 @@
+{
+  "id": "14.10",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2025 zad. 3 (pelna geometria)",
+  "tagi": [
+    "wielokat",
+    "pole-trojkata",
+    "punkt-w-trojkacie",
+    "obwod",
+    "struct",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `wielokat.txt` znajduje sie n (pierwsza linia) oraz n punktow (wspolrzedne calkowite) tworzacych wielokat wypukly podanych w kolejnosci obejscia. W pliku `zapytania.txt` znajduje sie m (pierwsza linia) oraz m punktow-zapytan. Napisz program, ktory:\na) Obliczy pole i obwod wielokata.\nb) Dla kazdego punktu-zapytania sprawdzi, czy lezy wewnatrz wielokata (metoda: punkt lezy wewnatrz wielokata wypuklego jesli lezy po tej samej stronie kazdego boku).\nc) Poda ile punktow-zapytan lezy wewnatrz.\n\n**Dane** (`wielokat.txt`):\n```\n4\n0 0\n8 0\n8 6\n0 6\n```\n\n**Dane** (`zapytania.txt`):\n```\n5\n4 3\n9 3\n0 0\n8 6\n4 7\n```\n\n**Oczekiwany wynik**:\n```\na) Wielokat: 4 wierzcholkow\n   Pole: 48.00\n   Obwod: 28.00\n\nb) Zapytania:\n   (4,3): WEWNATRZ\n   (9,3): NA ZEWNATRZ\n   (0,0): NA BRZEGU\n   (8,6): NA BRZEGU\n   (4,7): NA ZEWNATRZ\n\nc) Wewnatrz (scisle): 1\n```",
+  "wskazowki": [
+    "**Kierunek**: Pole = wzor sznurowadla. Obwod = suma dlugosci bokow. Punkt wewnatrz wielokata = po tej samej stronie kazdego boku.",
+    "**Podejscie**: Iloczyn wektorowy boku (A->B) i wektora do punktu (A->P) mowi po ktorej stronie lezy P. Jesli wszystkie iloczyny maja ten sam znak, punkt jest wewnatrz.",
+    "**Kluczowy krok**: Jesli iloczyn = 0, punkt lezy na boku (brzeg). Jesli znaki sa rozne, punkt jest na zewnatrz."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nstruct Pt { int x, y; };\n\nint cross(Pt a, Pt b, Pt p) {\n    return (b.x - a.x) * (p.y - a.y) - (b.y - a.y) * (p.x - a.x);\n}\n\nint main() {\n    ifstream f1(\"wielokat.txt\"), f2(\"zapytania.txt\");\n    int n;\n    f1 >> n;\n    vector<Pt> W(n);\n    for (int i = 0; i < n; i++) f1 >> W[i].x >> W[i].y;\n\n    // a) Pole i obwod\n    int sumPole = 0;\n    double obwod = 0;\n    for (int i = 0; i < n; i++) {\n        int j = (i + 1) % n;\n        sumPole += W[i].x * W[j].y - W[j].x * W[i].y;\n        double dx = W[j].x - W[i].x;\n        double dy = W[j].y - W[i].y;\n        obwod += sqrt(dx * dx + dy * dy);\n    }\n    double pole = abs(sumPole) / 2.0;\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Wielokat: \" << n << \" wierzcholkow\" << endl;\n    cout << \"   Pole: \" << pole << endl;\n    cout << \"   Obwod: \" << obwod << endl;\n\n    // b) Zapytania\n    int m;\n    f2 >> m;\n    cout << endl << \"b) Zapytania:\" << endl;\n    int ileWewnatrz = 0;\n\n    for (int q = 0; q < m; q++) {\n        Pt P;\n        f2 >> P.x >> P.y;\n\n        bool naBrzegu = false;\n        bool wewnatrz = true;\n        int firstSign = 0;\n\n        for (int i = 0; i < n; i++) {\n            int j = (i + 1) % n;\n            int c = cross(W[i], W[j], P);\n            if (c == 0) { naBrzegu = true; break; }\n            if (firstSign == 0) firstSign = (c > 0) ? 1 : -1;\n            else if ((c > 0 ? 1 : -1) != firstSign) { wewnatrz = false; break; }\n        }\n\n        cout << \"   (\" << P.x << \",\" << P.y << \"): \";\n        if (naBrzegu) cout << \"NA BRZEGU\" << endl;\n        else if (wewnatrz) { cout << \"WEWNATRZ\" << endl; ileWewnatrz++; }\n        else cout << \"NA ZEWNATRZ\" << endl;\n    }\n\n    cout << endl << \"c) Wewnatrz (scisle): \" << ileWewnatrz << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Iloczyn wektorowy boku i wektora do punktu mowi po ktorej stronie lezy punkt. Jesli punkt jest po tej samej stronie kazdego boku (wszystkie iloczyny tego samego znaku), jest wewnatrz. Jesli iloczyn = 0, punkt lezy na boku.\n\nWeryfikacja (prostokat (0,0)-(8,0)-(8,6)-(0,6)):\n- Pole: |0*0-8*0 + 8*6-8*0 + 8*6-0*6 + 0*0-0*6| / 2 = |0+48+48-0+0-0+0-0|... Sznurowadlo:\n  (0*0 - 8*0) + (8*6 - 8*0) + (8*6 - 0*6) + (0*0 - 0*6) = 0+48+48+0 = 96? /2 = 48. OK.\n- Obwod: 8+6+8+6 = 28.\n- (4,3): wewnatrz prostokata -> TAK\n- (9,3): x=9 > 8 -> NA ZEWNATRZ\n- (0,0): naroznik -> NA BRZEGU\n- (8,6): naroznik -> NA BRZEGU\n- (4,7): y=7 > 6 -> NA ZEWNATRZ",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak obslugi brzegu (cross == 0)**: Punkt na boku nie jest ani scisle wewnatrz, ani na zewnatrz",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o zamknieciu wielokata w petli**: Ostatni bok laczy punkt n z punktem 1",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zly kierunek obejscia**: Jesli punkty sa podane w odwrotnej kolejnosci, wszystkie iloczyny zmienia znak — algorytm dalej dziala, bo sprawdzamy stalosc znaku.",
+      "kara": ""
+    }
+  ]
+}

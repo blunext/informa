@@ -1,0 +1,32 @@
+{
+  "id": "6.6",
+  "trudnosc": "latwe",
+  "punkty": 1,
+  "zrodlo": "styl CKE, dopasowywanie pojec",
+  "tagi": [
+    "socjotechnika",
+    "phishing",
+    "ransomware"
+  ],
+  "tresc": "Dopasuj rodzaj ataku do opisu. Wybierz ze zbioru: {DDoS, man-in-the-middle, SQL injection, brute force}.\n\n| Lp. | Opis ataku | Rodzaj |\n|-----|-----------|--------|\n| a) | Atakujacy wysyla ogromna liczbe zapytan do serwera, aby go przeciazyc i uniemozliwic dostep innym uzytkownikom. | |\n| b) | Atakujacy przechwytuje komunikacje miedzy dwoma stronami (np. uzytkownikiem i bankiem) i moze ja odczytywac lub modyfikowac. | |\n| c) | Atakujacy wstawia do formularza na stronie internetowej fragment kodu SQL, ktory pozwala mu odczytac dane z bazy danych serwera. | |\n| d) | Atakujacy probuje wszystkie mozliwe kombinacje hasel po kolei, az znajdzie poprawne haslo. | |",
+  "wskazowki": [
+    "**Kierunek**: DDoS = przeciazenie serwera. MITM = przechwycenie komunikacji. SQLi = atak na baze danych. Brute force = probowanie hasel.",
+    "**Podejscie**: Slowa kluczowe: \"ogromna liczba zapytan\" = DDoS, \"przechwytuje\" = MITM, \"kod SQL\" = SQL injection, \"wszystkie kombinacje\" = brute force.",
+    "**Kluczowy krok**: SQL injection to atak na APLIKACJE WEBOWE (formularze). DDoS to atak na DOSTEPNOSC (nie kradziezy danych)."
+  ],
+  "odpowiedz": "| Lp. | Rodzaj ataku | Uzasadnienie |\n|-----|-------------|-------------|\n| a) | **DDoS** | Distributed Denial of Service — rozproszony atak polegajacy na zalaniu serwera ogromna liczba zapytan z wielu zrodel, co prowadzi do odmowy uslugi (serwer nie moze obslugiwac prawdziwych uzytkownikow). |\n| b) | **man-in-the-middle** | Atak \"czlowiek posrodku\" — atakujacy umieszcza sie miedzy komunikujacymi sie stronami, przechwytujac i potencjalnie modyfikujac przesylane dane. Chroni przed tym szyfrowanie HTTPS. |\n| c) | **SQL injection** | Wstrzykniecie SQL — atakujacy umieszcza zlosliwy kod SQL w polu formularza (np. login), ktory jest wykonywany przez baze danych serwera, umozliwiajac odczyt lub modyfikacje danych. |\n| d) | **brute force** | Atak silowy — systematyczne probowanie wszystkich mozliwych kombinacji hasel. Dla hasla 4-cyfrowego to 10000 prob. Ochrona: blokada konta po kilku blednych probach, dluzsze hasla. |",
+  "typowe_bledy": [
+    {
+      "opis": "**DDoS = kradzez danych**: DDoS atakuje DOSTEPNOSC, nie poufnosc danych",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**SQL injection = atak na siec**: SQLi to atak na APLIKACJE (warstwe oprogramowania), nie na siec",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**MITM = phishing**: MITM przechwytuje istniejaca komunikacje. Phishing wyludza dane podszywajac sie",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

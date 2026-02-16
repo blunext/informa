@@ -1,0 +1,32 @@
+{
+  "id": "22.8",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Matura 2019 (Perfumy)",
+  "tagi": [
+    "self-JOIN",
+    "aliasy-tabel",
+    "WHERE-z-JOIN"
+  ],
+  "tresc": "Tabela **Pracownicy**:\n\n| id | imie | nazwisko | id_przelozonego | stanowisko |\n|----|------|----------|-----------------|------------|\n| 1 | Jan | Kowalski | NULL | dyrektor |\n| 2 | Anna | Nowak | 1 | kierownik |\n| 3 | Piotr | Maj | 1 | kierownik |\n| 4 | Ewa | Lis | 2 | specjalista |\n| 5 | Kasia | Zak | 2 | specjalista |\n| 6 | Tomek | Bak | 3 | specjalista |\n| 7 | Ola | Wrobel | 3 | stazystka |\n| 8 | Marek | Krol | 3 | specjalista |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko kazdego pracownika oraz imie i nazwisko jego przelozonego. Pokaz tylko pracownikow, ktorzy MAJA przelozonego (dyrektor nie ma).",
+  "wskazowki": [
+    "**Kierunek**: Tabela odwoluje sie sama do siebie — potrzebujesz self-JOIN.",
+    "**Podejscie**: JOIN tabeli Pracownicy z nia sama, uzywajac ROZNYCH aliasow.",
+    "**Kluczowy krok**: `JOIN Pracownicy P2 ON P.id_przelozonego = P2.id` — P to pracownik, P2 to jego przelozony."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT P.imie, P.nazwisko, P2.imie AS imie_przelozonego, P2.nazwisko AS nazwisko_przelozonego\nFROM Pracownicy P\nJOIN Pracownicy P2 ON P.id_przelozonego = P2.id;\n```\n\n**Weryfikacja**:\n\n| imie | nazwisko | imie_przelozonego | nazwisko_przelozonego |\n|------|----------|-------------------|-----------------------|\n| Anna | Nowak | Jan | Kowalski |\n| Piotr | Maj | Jan | Kowalski |\n| Ewa | Lis | Anna | Nowak |\n| Kasia | Zak | Anna | Nowak |\n| Tomek | Bak | Piotr | Maj |\n| Ola | Wrobel | Piotr | Maj |\n| Marek | Krol | Piotr | Maj |\n\nJan Kowalski (id_przelozonego = NULL) nie pojawia sie — INNER JOIN pomija NULL.\n\n**Wyjasnienie**: Self-JOIN laczy tabele z sama soba. Kluczowe sa aliasy (P i P2) pozwalajace odroznic \"pracownika\" od \"przelozonego\". INNER JOIN automatycznie wyklucza pracownikow z id_przelozonego = NULL.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak aliasow**: Bez roznych aliasow (P, P2) nie mozna odroznic kolumn pracownika od przelozonego",
+      "kara": "-2 pkt (blad skladni)"
+    },
+    {
+      "opis": "**Odwrotny warunek ON**: `ON P.id = P2.id_przelozonego` — zamiast przelozonego, dostajemy podwladnych",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**LEFT JOIN bez potrzeby**: Gdyby polecenie mowilo \"WSZYSTKICH pracownikow\", potrzebny bylby LEFT JOIN — tu wystarczy INNER JOIN",
+      "kara": ""
+    }
+  ]
+}

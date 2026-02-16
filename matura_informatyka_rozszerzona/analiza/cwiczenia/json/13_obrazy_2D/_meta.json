@@ -1,0 +1,135 @@
+{
+  "typ": "13_obrazy_2D",
+  "nazwa": "Przetwarzanie siatek 2D",
+  "kategoria": "IMPLEMENTACJA",
+  "czestotliwosc": "2/11 lat",
+  "punkty_lacznie": 36,
+  "tagi_globalne": [
+    "tablica-2D",
+    "zliczanie-komorek",
+    "wczytywanie-pliku",
+    "kwadraty",
+    "4-spojnosc",
+    "sasiedztwo",
+    "BFS",
+    "spojne-obszary",
+    "visited",
+    "queue",
+    "struct",
+    "brzeg-siatki",
+    "symetria",
+    "transponowanie",
+    "obrot"
+  ],
+  "cwiczenia": [
+    {
+      "id": "13.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "tablica-2D",
+        "zliczanie-komorek",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "13.2",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "kwadraty",
+        "tablica-2D",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "13.3",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "4-spojnosc",
+        "sasiedztwo",
+        "tablica-2D",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "13.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "BFS",
+        "spojne-obszary",
+        "visited",
+        "queue",
+        "4-spojnosc"
+      ]
+    },
+    {
+      "id": "13.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "BFS",
+        "spojne-obszary",
+        "struct",
+        "brzeg-siatki",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "13.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "tablica-2D",
+        "zliczanie-komorek",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "13.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "symetria",
+        "tablica-2D",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "13.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "kwadraty",
+        "tablica-2D",
+        "zliczanie-komorek",
+        "4-spojnosc"
+      ]
+    },
+    {
+      "id": "13.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "transponowanie",
+        "obrot",
+        "tablica-2D",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "13.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "BFS",
+        "spojne-obszary",
+        "4-spojnosc",
+        "tablica-2D",
+        "wczytywanie-pliku"
+      ]
+    }
+  ]
+}

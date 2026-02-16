@@ -1,0 +1,34 @@
+{
+  "id": "23.20",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2025",
+  "tagi": [
+    "CASE-WHEN",
+    "obliczenia-w-SELECT",
+    "WHERE",
+    "ORDER-BY",
+    "operatory-porownania"
+  ],
+  "tresc": "Tabela **Pracownicy**:\n\n| id | imie | nazwisko | dzial | stanowisko | pensja | data_zatrudnienia |\n|----|------|----------|-------|------------|--------|-------------------|\n| 1 | Anna | Kowalska | IT | programista | 9500 | 2019-03-15 |\n| 2 | Jan | Nowak | HR | rekruter | 6200 | 2020-07-01 |\n| 3 | Ewa | Maj | IT | tester | 7800 | 2021-01-10 |\n| 4 | Piotr | Lis | Finanse | analityk | 8500 | 2018-11-20 |\n| 5 | Kasia | Zak | IT | programista | 11000 | 2017-05-01 |\n| 6 | Tomek | Bak | HR | kierownik | 9000 | 2016-02-15 |\n| 7 | Ola | Wrobel | Finanse | analityk | 7500 | 2022-06-01 |\n| 8 | Marek | Krol | IT | tester | 7200 | 2023-01-15 |\n| 9 | Zofia | Ptak | HR | rekruter | 5800 | 2023-09-01 |\n| 10 | Adam | Wilk | Finanse | kierownik | 12000 | 2015-04-10 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko, dzial, pensje i kategorie stazowa:\n- zatrudniony przed '2018-01-01' → 'senior'\n- zatrudniony '2018-01-01' do '2020-12-31' → 'mid'\n- zatrudniony po '2020-12-31' → 'junior'\n\nPokaz tylko pracownikow z pensja powyzej 7000. Posortuj wg kategorii (senior najpierw — uzyj CASE WHEN w ORDER BY), a w ramach kategorii wg pensji malejaco.",
+  "wskazowki": [
+    "**Kierunek**: CASE WHEN w SELECT (kategoria) i w ORDER BY (sortowanie niestandardowe).",
+    "**Podejscie**: CASE WHEN z porownaniem dat. W ORDER BY mapuj kategorie na liczby: senior=1, mid=2, junior=3.",
+    "**Kluczowy krok**: Daty w formacie ISO mozna porownywac tekstowo: `data_zatrudnienia < '2018-01-01'`."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko, dzial, pensja,\n  CASE\n    WHEN data_zatrudnienia < '2018-01-01' THEN 'senior'\n    WHEN data_zatrudnienia < '2021-01-01' THEN 'mid'\n    ELSE 'junior'\n  END AS kategoria\nFROM Pracownicy\nWHERE pensja > 7000\nORDER BY\n  CASE\n    WHEN data_zatrudnienia < '2018-01-01' THEN 1\n    WHEN data_zatrudnienia < '2021-01-01' THEN 2\n    ELSE 3\n  END,\n  pensja DESC;\n```\n\n**Weryfikacja** (pensja > 7000):\n\n| imie | data | kategoria | pensja |\n|------|------|-----------|--------|\n| Kasia | 2017-05-01 | senior | 11000 |\n| Tomek | 2016-02-15 | senior | 9000 |\n| Adam | 2015-04-10 | senior | 12000 |\n| Anna | 2019-03-15 | mid | 9500 |\n| Piotr | 2018-11-20 | mid | 8500 |\n| Ewa | 2021-01-10 | junior | 7800 |\n| Ola | 2022-06-01 | junior | 7500 |\n| Marek | 2023-01-15 | junior | 7200 |\n\n| imie | nazwisko | dzial | pensja | kategoria |\n|------|----------|-------|--------|-----------|\n| Adam | Wilk | Finanse | 12000 | senior |\n| Kasia | Zak | IT | 11000 | senior |\n| Tomek | Bak | HR | 9000 | senior |\n| Anna | Kowalska | IT | 9500 | mid |\n| Piotr | Lis | Finanse | 8500 | mid |\n| Ewa | Maj | IT | 7800 | junior |\n| Ola | Wrobel | Finanse | 7500 | junior |\n| Marek | Krol | IT | 7200 | junior |\n\n**Wyjasnienie**: CASE WHEN w SELECT tworzy kolumne tekstowa. CASE WHEN w ORDER BY mapuje tekst na liczby (1,2,3) — bez tego SQL sortowaloby alfabetycznie: junior < mid < senior (odwrotna kolejnosc). To zaawansowany wzorzec czesto spotykany na maturze.",
+  "typowe_bledy": [
+    {
+      "opis": "**Sortowanie tekstowe**: Bez CASE w ORDER BY: alfabetycznie junior < mid < senior — juniorzy na gorze",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Odwrotna kolejnosc warunkow CASE**: Jezeli pierwszy warunek to `< '2021-01-01'`, wszyscy sprzed 2021 dostana 'mid' (senior tez)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Alias w WHERE**: `WHERE kategoria = 'senior'` — alias z SELECT nie jest dostepny w WHERE",
+      "kara": "-1 pkt"
+    }
+  ]
+}

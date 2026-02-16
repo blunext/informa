@@ -1,0 +1,34 @@
+{
+  "id": "9.5",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Matura 2025 zad. 7 (przetwarzanie wieloplikowe)",
+  "tagi": [
+    "wiele-plikow",
+    "JOIN-tabel",
+    "map-zliczanie",
+    "grupowanie",
+    "iomanip"
+  ],
+  "tresc": "Dane sa 3 tabele (podane inline w kodzie lub w osobnych plikach):\n\n**Dane** (`uczestnicy.txt`):\n```\n1 Anna\n2 Jan\n3 Ewa\n4 Piotr\n5 Maria\n```\n\n**Dane** (`kursy.txt`):\n```\n101 Matematyka\n102 Fizyka\n103 Informatyka\n```\n\n**Dane** (`zapisy.txt`):\n```\n1 101 4\n1 102 5\n1 103 4\n2 101 3\n2 103 5\n3 101 5\n3 102 4\n3 103 5\n4 102 3\n5 101 4\n5 102 5\n5 103 3\n```\n\nNapisz program, ktory:\na) Obliczy srednia ocene kazdego uczestnika.\nb) Znajdzie kurs z najwyzsza srednia ocena.\nc) Wypisze uczestnikow zapisanych na wszystkie 3 kursy.\n\n**Oczekiwany wynik**:\n```\na) Srednia ocena kazdego uczestnika:\n   Anna: 4.33\n   Jan: 4.00\n   Ewa: 4.67\n   Piotr: 3.00\n   Maria: 4.00\n\nb) Kurs z najwyzsza srednia ocena:\n   Fizyka (srednia: 4.25)\n\nc) Uczestnicy zapisani na wszystkie 3 kursy:\n   Anna (kursy: 3)\n   Ewa (kursy: 3)\n   Maria (kursy: 3)\n```",
+  "wskazowki": [
+    "**Kierunek**: Trzy mapy: uczniowie, kursy, zapisy. Polacz je po kluczach id.",
+    "**Podejscie**: Agreguj oceny wg uczestnika (srednia) i wg kursu (srednia). Zlicz kursy kazdego uczestnika za pomoca `set`.",
+    "**Kluczowy krok**: Uczestnik na wszystkich kursach = `kursyUcz[id].size() == liczbaKursow`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <set>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream f1(\"uczestnicy.txt\");\n    map<int, string> uczestnicy;\n    int id; string imie;\n    while (f1 >> id >> imie) uczestnicy[id] = imie;\n\n    ifstream f2(\"kursy.txt\");\n    map<int, string> kursy;\n    string nazwa;\n    while (f2 >> id >> nazwa) kursy[id] = nazwa;\n\n    int liczbaKursow = kursy.size();\n\n    ifstream f3(\"zapisy.txt\");\n    map<int, vector<int>> ocenyUcz;\n    map<int, vector<int>> ocenyKurs;\n    map<int, set<int>> kursyUcz;\n    int uid, kid, ocena;\n    while (f3 >> uid >> kid >> ocena) {\n        ocenyUcz[uid].push_back(ocena);\n        ocenyKurs[kid].push_back(ocena);\n        kursyUcz[uid].insert(kid);\n    }\n\n    cout << \"a) Srednia ocena kazdego uczestnika:\" << endl;\n    cout << fixed << setprecision(2);\n    for (auto &u : uczestnicy) {\n        double suma = 0;\n        for (int o : ocenyUcz[u.first]) suma += o;\n        cout << \"   \" << u.second << \": \"\n             << suma / ocenyUcz[u.first].size() << endl;\n    }\n\n    cout << endl << \"b) Kurs z najwyzsza srednia ocena:\" << endl;\n    double maxSr = 0;\n    string maxKurs;\n    for (auto &k : kursy) {\n        double suma = 0;\n        for (int o : ocenyKurs[k.first]) suma += o;\n        double sr = suma / ocenyKurs[k.first].size();\n        if (sr > maxSr) { maxSr = sr; maxKurs = k.second; }\n    }\n    cout << \"   \" << maxKurs << \" (srednia: \" << maxSr << \")\" << endl;\n\n    cout << endl << \"c) Uczestnicy zapisani na wszystkie \" << liczbaKursow << \" kursy:\" << endl;\n    for (auto &u : uczestnicy) {\n        if ((int)kursyUcz[u.first].size() == liczbaKursow) {\n            cout << \"   \" << u.second << \" (kursy: \" << kursyUcz[u.first].size() << \")\" << endl;\n        }\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: Trzy tabele laczony sa przez klucze id. Uzywamy map do przechowywania danych i grupowania ocen wg uczestnika i kursu. Zbior kursow kazdego uczestnika pozwala sprawdzic, kto jest zapisany na wszystkie.\n\nWeryfikacja:\na) Srednie:\n- Anna (id=1): 4+5+4=13, 13/3=4.33\n- Jan (id=2): 3+5=8, 8/2=4.00\n- Ewa (id=3): 5+4+5=14, 14/3=4.67\n- Piotr (id=4): 3, 3/1=3.00\n- Maria (id=5): 4+5+3=12, 12/3=4.00\n\nb) Srednie kursow:\n- Matematyka (101): Anna(4)+Jan(3)+Ewa(5)+Maria(4)=16, 16/4=4.00\n- Fizyka (102): Anna(5)+Ewa(4)+Piotr(3)+Maria(5)=17, 17/4=4.25\n- Informatyka (103): Anna(4)+Jan(5)+Ewa(5)+Maria(3)=17, 17/4=4.25\nFizyka i Informatyka maja ta sama srednia 4.25. Fizyka zostanie znaleziona jako pierwsza.\n\nc) Uczestnicy na wszystkich 3 kursach:\n- Anna: {101,102,103} -> 3 kursy -> TAK\n- Jan: {101,103} -> 2 kursy -> NIE\n- Ewa: {101,102,103} -> 3 kursy -> TAK\n- Piotr: {102} -> 1 kurs -> NIE\n- Maria: {101,102,103} -> 3 kursy -> TAK",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomieszanie kluczy ucz_id i kurs_id**: Oba to int, latwo pomylic ktory jest ktory",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak `set` do sledzenia unikalnych kursow**: Uzywajac `vector` zamiast `set`, ten sam kurs moze byc policzony wielokrotnie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o zamknieciu plikow**: `ifstream` zamyka plik automatycznie w destruktorze. Nie jest bledem, ale dobra praktyka.",
+      "kara": ""
+    }
+  ]
+}

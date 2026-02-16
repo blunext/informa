@@ -1,0 +1,34 @@
+{
+  "id": "10.10",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2024 zad. 4 (wielokryterialne zliczanie)",
+  "tagi": [
+    "map-zliczanie",
+    "podwojna-petla",
+    "sortowanie",
+    "filtrowanie",
+    "struct"
+  ],
+  "tresc": "W pliku `zamowienia.txt` znajduje sie 12 rekordow w formacie: klient produkt ilosc cena_jednostkowa (oddzielone spacjami). Napisz program, ktory:\na) Zliczy laczna wartosc zamowien (ilosc * cena) dla kazdego klienta.\nb) Poda klienta z najwieksza laczna wartoscia.\nc) Zliczy ile roznych produktow zamowil kazdy klient.\nd) Znajdzie produkt zamawiany przez najwiecej roznych klientow.\n\n**Dane** (`zamowienia.txt`):\n```\nKowalski Laptop 1 3500\nKowalski Mysz 2 50\nNowak Laptop 1 3500\nNowak Klawiatura 1 200\nNowak Monitor 2 1200\nWisniewski Mysz 5 50\nWisniewski Klawiatura 2 200\nKowalski Monitor 1 1200\nNowak Mysz 3 50\nWisniewski Laptop 1 3500\nKowalski Klawiatura 1 200\nWisniewski Monitor 1 1200\n```\n\n**Oczekiwany wynik**:\n```\na) Wartosc zamowien:\n   Kowalski: 5000\n   Nowak: 6250\n   Wisniewski: 5350\n\nb) Klient z max wartoscia: Nowak (6250)\n\nc) Rozne produkty:\n   Kowalski: 4\n   Nowak: 4\n   Wisniewski: 4\n\nd) Produkt zamawiany przez najwiecej klientow: Klawiatura (3 klientow)\n   Rowniez: Laptop (3 klientow)\n   Rowniez: Monitor (3 klientow)\n   Rowniez: Mysz (3 klientow)\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj rekordy do vectora structow, potem przetwarzaj wielokrotnie.",
+    "**Podejscie**: (a) `map<string,int>` wartosc_klienta. (c) `map<string, set<string>>` produkty_klienta. (d) `map<string, set<string>>` klienci_produktu.",
+    "**Kluczowy krok**: `set` automatycznie usuwa duplikaty — rozmiar seta to liczba unikalnych elementow."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <set>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"zamowienia.txt\");\n    string klient, produkt;\n    int ilosc, cena;\n\n    map<string, int> wartosc;\n    map<string, set<string>> prodKlienta;\n    map<string, set<string>> kliProduktu;\n\n    while (plik >> klient >> produkt >> ilosc >> cena) {\n        wartosc[klient] += ilosc * cena;\n        prodKlienta[klient].insert(produkt);\n        kliProduktu[produkt].insert(klient);\n    }\n\n    // a)\n    cout << \"a) Wartosc zamowien:\" << endl;\n    string bestKli; int bestVal = 0;\n    for (auto &p : wartosc) {\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n        if (p.second > bestVal) { bestVal = p.second; bestKli = p.first; }\n    }\n\n    // b)\n    cout << endl << \"b) Klient z max wartoscia: \" << bestKli\n         << \" (\" << bestVal << \")\" << endl;\n\n    // c)\n    cout << endl << \"c) Rozne produkty:\" << endl;\n    for (auto &p : prodKlienta)\n        cout << \"   \" << p.first << \": \" << p.second.size() << endl;\n\n    // d)\n    int maxKli = 0;\n    for (auto &p : kliProduktu)\n        if ((int)p.second.size() > maxKli) maxKli = p.second.size();\n\n    cout << endl << \"d) Produkt zamawiany przez najwiecej klientow: \";\n    bool first = true;\n    for (auto &p : kliProduktu) {\n        if ((int)p.second.size() == maxKli) {\n            if (!first) cout << \"   Rowniez: \";\n            cout << p.first << \" (\" << maxKli << \" klientow)\" << endl;\n            first = false;\n        }\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: Trzy mapy robia ciezka prace: `wartosc` sumuje kwoty, `prodKlienta` zbiera unikalne produkty per klient, `kliProduktu` zbiera unikalnych klientow per produkt. `set` gwarantuje unikalnosc.\n\nWeryfikacja:\n- Kowalski: 1*3500 + 2*50 + 1*1200 + 1*200 = 3500+100+1200+200 = 5000. Sprawdzmy: Laptop 3500, Mysz 100, Monitor 1200, Klawiatura 200 = 5000\n- Nowak: 3500 + 200 + 2400 + 150 = 6250? Laptop 3500, Klawiatura 200, Monitor 2*1200=2400, Mysz 3*50=150 = 6250. Hmm, to nie zgadza sie z oczekiwanym wynikiem.\n\nKorekta weryfikacji:\n- Kowalski: 3500 + 100 + 1200 + 200 = 5000\n- Nowak: 3500 + 200 + 2400 + 150 = 6250\n- Wisniewski: 250 + 400 + 3500 + 1200 = 5350\n\nKorekta oczekiwanego wyniku:\n```\na) Wartosc zamowien:\n   Kowalski: 5000\n   Nowak: 6250\n   Wisniewski: 5350\n\nb) Klient z max wartoscia: Nowak (6250)\n```",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o mnozeniu ilosc*cena**: Dodawanie samej ceny zamiast wartosci",
+      "kara": "-2 pkt (zly wynik we wszystkich podpunktach)"
+    },
+    {
+      "opis": "**Brak `set` — uzycie wektora bez usuwania duplikatow**: Jesli klient zamowil ten sam produkt dwa razy, vector go zliczy dwukrotnie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne wczytywanie**: Format \"klient produkt ilosc cena\" wymaga dokladnie 4 operacji >> na wiersz",
+      "kara": "-1 pkt"
+    }
+  ]
+}

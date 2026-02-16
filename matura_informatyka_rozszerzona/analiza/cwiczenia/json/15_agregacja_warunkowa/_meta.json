@@ -1,0 +1,133 @@
+{
+  "typ": "15_agregacja_warunkowa",
+  "nazwa": "Agregacja warunkowa w arkuszu kalkulacyjnym",
+  "kategoria": "ARKUSZ",
+  "czestotliwosc": "9/11 lat",
+  "punkty_lacznie": 38,
+  "tagi_globalne": [
+    "AVERAGEIF",
+    "AVERAGEIFS",
+    "COUNTIF",
+    "COUNTIFS",
+    "IF-AND-OR",
+    "MAXIFS-MINIFS",
+    "SUMIF",
+    "SUMIFS",
+    "kolumna-pomocnicza",
+    "operator-konkatenacji",
+    "warunek-liczbowy",
+    "warunek-tekstowy",
+    "wiele-warunkow",
+    "zagniezdzone-funkcje",
+    "zakres-bezwzgledny"
+  ],
+  "cwiczenia": [
+    {
+      "id": "15.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "COUNTIF",
+        "warunek-tekstowy"
+      ]
+    },
+    {
+      "id": "15.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "AVERAGEIF",
+        "warunek-tekstowy"
+      ]
+    },
+    {
+      "id": "15.3",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "SUMIFS",
+        "warunek-tekstowy",
+        "wiele-warunkow"
+      ]
+    },
+    {
+      "id": "15.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "AVERAGEIF",
+        "COUNTIFS",
+        "operator-konkatenacji",
+        "warunek-liczbowy"
+      ]
+    },
+    {
+      "id": "15.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "SUMIFS",
+        "kolumna-pomocnicza",
+        "IF-AND-OR",
+        "AVERAGEIF",
+        "zagniezdzone-funkcje"
+      ]
+    },
+    {
+      "id": "15.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "SUMIF",
+        "warunek-tekstowy"
+      ]
+    },
+    {
+      "id": "15.7",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "COUNTIFS",
+        "warunek-liczbowy",
+        "operator-konkatenacji",
+        "wiele-warunkow"
+      ]
+    },
+    {
+      "id": "15.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "SUMIFS",
+        "AVERAGEIFS",
+        "warunek-liczbowy",
+        "wiele-warunkow"
+      ]
+    },
+    {
+      "id": "15.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "COUNTIFS",
+        "SUMIFS",
+        "kolumna-pomocnicza",
+        "IF-AND-OR",
+        "zakres-bezwzgledny"
+      ]
+    },
+    {
+      "id": "15.10",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "SUMIFS",
+        "COUNTIFS",
+        "MAXIFS-MINIFS",
+        "kolumna-pomocnicza",
+        "zagniezdzone-funkcje",
+        "zakres-bezwzgledny"
+      ]
+    }
+  ]
+}

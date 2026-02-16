@@ -1,0 +1,29 @@
+{
+  "id": "20.14",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2019 (Perfumy)",
+  "tagi": [
+    "GROUP-BY",
+    "COUNT-DISTINCT",
+    "JOIN-z-GROUP-BY",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Nauczyciele**:\n\n| id | imie | nazwisko | przedmiot |\n|----|------|----------|----------|\n| 1 | Anna | Kowalska | Matematyka |\n| 2 | Jan | Nowak | Fizyka |\n| 3 | Ewa | Maj | Matematyka |\n| 4 | Piotr | Lis | Informatyka |\n\nTabela **Lekcje**:\n\n| id | id_nauczyciela | klasa | data |\n|----|----------------|-------|------|\n| 1 | 1 | 1A | 2024-09-02 |\n| 2 | 1 | 1B | 2024-09-02 |\n| 3 | 2 | 1A | 2024-09-02 |\n| 4 | 1 | 1A | 2024-09-03 |\n| 5 | 3 | 2A | 2024-09-02 |\n| 6 | 3 | 2B | 2024-09-03 |\n| 7 | 4 | 1A | 2024-09-02 |\n| 8 | 4 | 1B | 2024-09-03 |\n| 9 | 2 | 1B | 2024-09-03 |\n| 10 | 3 | 2A | 2024-09-03 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego przedmiotu wyswietli liczbe ROZNYCH klas, w ktorych ten przedmiot jest nauczany. Posortuj malejaco wg liczby klas.",
+  "wskazowki": [
+    "**Kierunek**: Musisz polaczyc tabele i policzyc unikalne klasy per przedmiot.",
+    "**Podejscie**: JOIN Nauczyciele z Lekcjami, GROUP BY przedmiot, COUNT(DISTINCT klasa).",
+    "**Kluczowy krok**: COUNT(DISTINCT L.klasa) liczy unikalne wartosci — ta sama klasa nauczana wielokrotnie liczy sie raz."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT N.przedmiot, COUNT(DISTINCT L.klasa) AS liczba_klas\nFROM Nauczyciele N\nJOIN Lekcje L ON N.id = L.id_nauczyciela\nGROUP BY N.przedmiot\nORDER BY liczba_klas DESC;\n```\n\n**Weryfikacja**:\n- Matematyka (nauczyciele 1, 3): klasy 1A, 1B (Anna) + 2A, 2B (Ewa) → DISTINCT: 1A, 1B, 2A, 2B = **4**\n- Fizyka (nauczyciel 2): klasy 1A, 1B → DISTINCT: 1A, 1B = **2**\n- Informatyka (nauczyciel 4): klasy 1A, 1B → DISTINCT: 1A, 1B = **2**\n\n| przedmiot | liczba_klas |\n|-----------|-------------|\n| Matematyka | 4 |\n| Fizyka | 2 |\n| Informatyka | 2 |\n\n**Wyjasnienie**: COUNT(DISTINCT klasa) zlicza kazda klase tylko RAZ, nawet jesli w danej klasie odbylo sie wiele lekcji z tego przedmiotu. Bez DISTINCT: Matematyka mialoby 5 (bo 5 wierszy lekcji), a nie 4 unikalne klasy.",
+  "typowe_bledy": [
+    {
+      "opis": "**COUNT(*) zamiast COUNT(DISTINCT)**: Zlicza WSZYSTKIE lekcje, nie unikalne klasy. Matematyka dostaje 5 zamiast 4",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak JOIN**: Bez polaczenia tabel nie mozna pogrupowac wg przedmiotu",
+      "kara": "-3 pkt"
+    }
+  ]
+}

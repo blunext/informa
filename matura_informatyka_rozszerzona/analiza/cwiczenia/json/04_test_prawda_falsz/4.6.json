@@ -1,0 +1,32 @@
+{
+  "id": "4.6",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2023 zad. 3, styl nowej formuly",
+  "tagi": [
+    "kompresja",
+    "formaty-danych",
+    "systemy-liczbowe"
+  ],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Format PNG wykorzystuje kompresje stratna, dlatego pliki PNG sa mniejsze niz BMP. | |\n| b) | Liczba FF(16) jest rowna 256(10). | |\n| c) | Kodowanie UTF-8 moze uzywac od 1 do 4 bajtow na jeden znak. | |\n| d) | Kompresja bezstratna pozwala odtworzyc oryginalne dane w 100% bez utraty informacji. | |",
+  "wskazowki": [
+    "**Kierunek**: PNG to kompresja BEZstratna (nie stratna). FF(16) = 15*16 + 15 = ?",
+    "**Podejscie**: UTF-8: znaki ASCII to 1 bajt, polskie znaki 2 bajty, emoji do 4 bajtow.",
+    "**Kluczowy krok**: FF(16) = 255, nie 256. 256(10) = 100(16)."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | PNG wykorzystuje kompresje BEZstratna (algorytm Deflate = LZ77 + Huffman). Pliki PNG sa mniejsze niz BMP dzieki kompresji, ale jest to kompresja bezstratna, nie stratna. |\n| b) | **F** | FF(16) = 15*16 + 15 = 240 + 15 = 255, nie 256. Liczba 256(10) = 100(16). |\n| c) | **P** | UTF-8 jest kodowaniem o zmiennej dlugosci: znaki ASCII (0-127) zajmuja 1 bajt, wieksznosc znakow europejskich 2 bajty, znaki azjatyckie 3 bajty, emoji i rzadkie znaki 4 bajty. |\n| d) | **P** | Kompresja bezstratna (np. ZIP, PNG, FLAC) pozwala odtworzyc identyczna kopie oryginalnych danych. W przeciwienstwie do stratnej (JPEG, MP3), ktora traci czesc informacji. |\n\nOdpowiedzi: a) F, b) F, c) P, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**PNG = kompresja stratna**: PNG to BEZstratna kompresja! Stratna = JPEG, MP3, MP4",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**FF(16) = 256**: FF(16) = 255 = 2^8 - 1. Liczba 256 = 2^8 = 100(16)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**UTF-8 = zawsze 1 bajt na znak**: To dotyczy tylko ASCII. UTF-8 ma zmienna dlugosc (1-4 bajty)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

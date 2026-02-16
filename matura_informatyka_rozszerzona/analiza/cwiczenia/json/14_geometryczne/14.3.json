@@ -1,0 +1,29 @@
+{
+  "id": "14.3",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2018 zad. 2 (Krajobraz)",
+  "tagi": [
+    "najblizsze-punkty",
+    "odleglosc-euklidesowa",
+    "podwojna-petla",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `punkty.txt` znajduje sie 8 punktow (x, y) o wspolrzednych calkowitych. Napisz program, ktory:\na) Znajdzie pare punktow o najmniejszej odleglosci euklidesowej.\nb) Znajdzie pare punktow o najwiekszej odleglosci.\n\n**Dane** (`punkty.txt`):\n```\n1 2\n4 6\n7 1\n3 5\n10 3\n8 8\n2 9\n6 4\n```\n\n**Oczekiwany wynik**:\n```\na) Najblizsze punkty: (4,6) i (3,5), odleglosc: 1.41\n\nb) Najdalsze punkty: (10,3) i (2,9), odleglosc: 10.00\n```",
+  "wskazowki": [
+    "**Kierunek**: Podwojna petla O(n^2) po wszystkich parach.",
+    "**Podejscie**: Sledzac min i max odleglosc, zapamietaj indeksy odpowiednich par.",
+    "**Kluczowy krok**: Mozna porownywac kwadraty odleglosci (bez sqrt) dla szybkosci, a sqrt obliczyc tylko na koncu."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    vector<pair<int,int>> P;\n    int x, y;\n    while (plik >> x >> y) P.push_back({x, y});\n    int n = P.size();\n\n    double minDist = 1e18, maxDist = 0;\n    int mi1, mi2, ma1, ma2;\n\n    for (int i = 0; i < n; i++) {\n        for (int j = i + 1; j < n; j++) {\n            double dx = P[i].first - P[j].first;\n            double dy = P[i].second - P[j].second;\n            double d = sqrt(dx*dx + dy*dy);\n            if (d < minDist) { minDist = d; mi1 = i; mi2 = j; }\n            if (d > maxDist) { maxDist = d; ma1 = i; ma2 = j; }\n        }\n    }\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Najblizsze punkty: (\" << P[mi1].first << \",\" << P[mi1].second\n         << \") i (\" << P[mi2].first << \",\" << P[mi2].second\n         << \"), odleglosc: \" << minDist << endl;\n    cout << endl << \"b) Najdalsze punkty: (\" << P[ma1].first << \",\" << P[ma1].second\n         << \") i (\" << P[ma2].first << \",\" << P[ma2].second\n         << \"), odleglosc: \" << maxDist << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Podwojna petla O(n^2) sprawdzajaca odleglosci miedzy wszystkimi parami punktow.\n\nWeryfikacja:\n- (3,5)-(4,6): sqrt(1+1) = sqrt(2) = 1.41\n- (2,9)-(10,3): sqrt(64+36) = sqrt(100) = 10.00",
+  "typowe_bledy": [
+    {
+      "opis": "**Niezainicjalizowane zmienne mi1, mi2**: Jesli zaden if nie jest spelniony (niemozliwe dla n >= 2), wynik bezsensowny. Dobra praktyka: zainicjalizuj",
+      "kara": ""
+    },
+    {
+      "opis": "**Porownywanie odleglosci z `==`**: Odleglosci sa double — unikaj `==` przez epsilony",
+      "kara": ""
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "23.7",
+  "trudnosc": "srednie",
+  "punkty": 2,
+  "zrodlo": "Matura 2017 (Pilka reczna)",
+  "tagi": [
+    "WHERE",
+    "LIKE",
+    "NOT",
+    "AND",
+    "OR"
+  ],
+  "tresc": "Tabela **Miasta**:\n\n| id | nazwa | kraj | populacja | powierzchnia_km2 | stolica |\n|----|-------|------|-----------|------------------|---------|\n| 1 | Warszawa | Polska | 1790658 | 517 | tak |\n| 2 | Krakow | Polska | 779115 | 327 | nie |\n| 3 | Berlin | Niemcy | 3644826 | 892 | tak |\n| 4 | Monachium | Niemcy | 1471508 | 311 | nie |\n| 5 | Praga | Czechy | 1309000 | 496 | tak |\n| 6 | Brno | Czechy | 382405 | 230 | nie |\n| 7 | Gdansk | Polska | 470907 | 262 | nie |\n| 8 | Wroclaw | Polska | 641928 | 293 | nie |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe i populacje miast spelniajacych warunki:\n- nazwa NIE konczy sie na 'w'\n- populacja > 500000\n- miasto jest z Polski LUB jest stolica",
+  "wskazowki": [
+    "**Kierunek**: Trzy warunki, trzeci jest zlozony (OR).",
+    "**Podejscie**: NOT LIKE '%w' + warunek na populacje + nawiasy wokol OR.",
+    "**Kluczowy krok**: Nawiasy: `AND (kraj = 'Polska' OR stolica = 'tak')`."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, populacja\nFROM Miasta\nWHERE nazwa NOT LIKE '%w'\n  AND populacja > 500000\n  AND (kraj = 'Polska' OR stolica = 'tak');\n```\n\n**Weryfikacja**:\n\n| id | nazwa | NOT LIKE '%w'? | pop > 500k? | Polska OR stolica? | Wynik |\n|----|-------|----------------|-------------|-------------------|-------|\n| 1 | Warszawa | ✓ (konczy na 'a') | ✓ (1.79M) | Polska ✓ | ✓ |\n| 3 | Berlin | ✓ (konczy na 'n') | ✓ (3.64M) | stolica ✓ | ✓ |\n| 4 | Monachium | ✓ (konczy na 'm') | ✓ (1.47M) | ani Polska, ani stolica ✗ | ✗ |\n| 5 | Praga | ✓ (konczy na 'a') | ✓ (1.31M) | stolica ✓ | ✓ |\n| 2 | Krakow | ✗ (konczy na 'w') | — | — | ✗ |\n| 8 | Wroclaw | ✗ (konczy na 'w') | — | — | ✗ |\n\n| nazwa | populacja |\n|-------|-----------|\n| Warszawa | 1790658 |\n| Berlin | 3644826 |\n| Praga | 1309000 |\n\n**Wyjasnienie**: NOT LIKE '%w' wyklucza nazwy konczace sie na 'w' (Krakow, Wroclaw). Nawiasy wokol OR zapewniaja poprawna logike — bez nich AND bedzie mialo priorytet.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak nawiasow wokol OR**: `AND kraj = 'Polska' OR stolica = 'tak'` zmienia logike — Praga przejdzie nawet bez spelnienia warunkow populacji i NOT LIKE",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**LIKE zamiast NOT LIKE**: Odwrotny wynik — tylko miasta konczace sie na 'w'",
+      "kara": "-2 pkt"
+    }
+  ]
+}

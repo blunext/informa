@@ -1,0 +1,33 @@
+{
+  "id": "8.10",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2016 zad. 6 + 2025 zad. 2 (zaawansowane szyfrowanie)",
+  "tagi": [
+    "szyfr-Cezara",
+    "kody-ASCII",
+    "operacje-na-string",
+    "zliczanie-znakow"
+  ],
+  "tresc": "W pliku `szyfrogramy.txt` znajduje sie 5 napisow zaszyfrowanych szyfrem Cezara z nieznanym kluczem (kazdy w osobnym wierszu, duze litery A-Z). Napisz program, ktory dla kazdego napisu:\na) Sprobuje wszystkie 26 mozliwych kluczy (0-25) i wypisze wynik dla kazdego.\nb) Zastosuje heurystyke \"najczesciej E\" — wsrod odszyfrowanych tekstow wybierze ten, w ktorym litera E wystepuje najczesciej (bo E jest najczesciej wystepujaca litera w angielskim).\nc) Wypisze odgadniety klucz i odszyfrowany tekst.\n\n**Dane** (`szyfrogramy.txt`):\n```\nYMJXJHWJYRJXXFLJNXMJWJ\nCYRNFRYRNIRGURXRLFURER\nAOLDLHAOLYDHZLEJLSSLUA\nYPYLSXYWYGVYLQYWYFYVLUNY\nXPPEXPLEESPPYECLYNPSPCP\n```\n\n**Oczekiwany wynik**:\n```\nYMJXJHWJYRJXXFLJNXMJWJ: klucz=5, odszyfrowane: THESECRETMESSAGEISHERE\nCYRNFRYRNIRGURXRLFURER: klucz=13, odszyfrowane: PLEASELEAVETHEKEYSHERE\nAOLDLHAOLYDHZLEJLSSLUA: klucz=7, odszyfrowane: THEWEATHERWASEXCELLENT\nYPYLSXYWYGVYLQYWYFYVLUNY: klucz=20, odszyfrowane: EVERYDECEMBERWECELEBRATE\nXPPEXPLEESPPYECLYNPSPCP: klucz=11, odszyfrowane: MEETMEATTHEENTRANCEHERE\n```",
+  "wskazowki": [
+    "**Kierunek**: Brute-force — sprawdz kazdy klucz od 0 do 25.",
+    "**Podejscie**: Dla kazdego klucza odszyfruj tekst i policz wystapienia litery E.",
+    "**Kluczowy krok**: Klucz z najwieksza liczba liter E jest najlepszym kandydatem. Dla dluzszych tekstow (20+ znakow) heurystyka zazwyczaj dziala poprawnie."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nstring deszyfruj(string s, int k) {\n    string wynik = \"\";\n    for (char c : s) {\n        wynik += (char)((c - 'A' - k + 26) % 26 + 'A');\n    }\n    return wynik;\n}\n\nint countE(string s) {\n    int cnt = 0;\n    for (char c : s)\n        if (c == 'E') cnt++;\n    return cnt;\n}\n\nint main() {\n    ifstream plik(\"szyfrogramy.txt\");\n    string napis;\n\n    while (plik >> napis) {\n        int bestK = 0;\n        int bestE = -1;\n        string bestTekst = \"\";\n\n        for (int k = 0; k < 26; k++) {\n            string odsz = deszyfruj(napis, k);\n            int e = countE(odsz);\n            if (e > bestE) {\n                bestE = e;\n                bestK = k;\n                bestTekst = odsz;\n            }\n        }\n\n        cout << napis << \": klucz=\" << bestK\n             << \", odszyfrowane: \" << bestTekst << endl;\n    }\n    return 0;\n}\n```\n\nWeryfikacja (dluzsze teksty — heurystyka dziala poprawnie):\n- YMJXJHWJYRJXXFLJNXMJWJ: J pojawia sie 7x w szyfrze. k=5: J->E (7 E's) -> THESECRETMESSAGEISHERE ✓\n- CYRNFRYRNIRGURIXRLFURER: R pojawia sie 8x. k=13: R->E (8 E's) -> PLEASELEAVETHEKEYSHERE ✓\n- AOLDLHAOLYDHZLEJLSSLUA: L pojawia sie 6x. k=7: L->E (6 E's) -> THEWEATHERWASEXCELLENT ✓\n- YPYLSXYWYGVYLQYWYFYVLUNY: Y pojawia sie 9x. k=20: Y->E (9 E's) -> EVERYDECEMBERWECELEBRATE ✓\n- XPPEXPLEESPPYECLYNPSPCP: P pojawia sie 8x. k=11: P->E (8 E's) -> MEETMEATTHEENTRANCEHERE ✓\n\n**Wniosek dydaktyczny**: Heurystyka \"najczesciej E\" wymaga dluzszych tekstow (20+ znakow). Dla krotkich slow (5 znakow) rozkad czestotliwosci jest za maly i heurystyka czesto sie myli.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zakladanie ze heurystyka zawsze dziala**: Dla krotkich tekstow (5 znakow) rozkad czestotliwosci jest za maly. Przy dluzszych tekstach (20+ znakow) heurystyka dziala dobrze",
+      "kara": ""
+    },
+    {
+      "opis": "**Petla po kluczach 1-26 zamiast 0-25**: Klucz 0 = brak szyfrowania (identycznosc). Klucz 26 == klucz 0",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak obslugi remisu (kilka kluczy z ta sama liczba E)**: Trzeba wybrac pierwszy lub dodac dodatkowa heurystyke",
+      "kara": "-0 pkt"
+    }
+  ]
+}

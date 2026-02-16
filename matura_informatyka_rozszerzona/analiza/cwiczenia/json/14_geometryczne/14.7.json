@@ -1,0 +1,28 @@
+{
+  "id": "14.7",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2025 zad. 3 (wspolliniowosc)",
+  "tagi": [
+    "collinear",
+    "pole-trojkata",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `punkty.txt` znajduje sie 8 punktow (x, y) o wspolrzednych calkowitych. Napisz program, ktory:\na) Sprawdzi, ktore trojki punktow sa wspollinowe (leza na jednej prostej).\nb) Znajdzie najdluzsza grupe punktow wspollinowych.\n\n**Dane** (`punkty.txt`):\n```\n0 0\n1 2\n2 4\n3 6\n5 1\n7 3\n9 5\n4 8\n```\n\n**Oczekiwany wynik**:\n```\na) Trojki wspollinowe (pole trojkata = 0):\n   (0,0)-(1,2)-(2,4): wspollinowe\n   (0,0)-(1,2)-(3,6): wspollinowe\n   (0,0)-(1,2)-(4,8): wspollinowe\n   (0,0)-(2,4)-(3,6): wspollinowe\n   (0,0)-(2,4)-(4,8): wspollinowe\n   (0,0)-(3,6)-(4,8): wspollinowe\n   (1,2)-(2,4)-(3,6): wspollinowe\n   (1,2)-(2,4)-(4,8): wspollinowe\n   (1,2)-(3,6)-(4,8): wspollinowe\n   (2,4)-(3,6)-(4,8): wspollinowe\n   (5,1)-(7,3)-(9,5): wspollinowe\n\nb) Najdluzsza grupa wspollinowa: 5 punkty\n   Punkty: (0,0), (1,2), (2,4), (3,6), (4,8)\n```",
+  "wskazowki": [
+    "**Kierunek**: Trzy punkty sa wspollinowe gdy pole trojkata = 0. Wzor: `x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2) == 0`.",
+    "**Podejscie**: Dla kazdej pary (A, B) policz ile innych punktow lezy na prostej AB (pole = 0).",
+    "**Kluczowy krok**: Najdluzsza grupa wspollinowa = max(ile punktow na jednej prostej)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\nusing namespace std;\n\nstruct Pt { int x, y; };\n\nint iloczyn(Pt a, Pt b, Pt c) {\n    return a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y);\n}\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    vector<Pt> P;\n    int x, y;\n    while (plik >> x >> y) P.push_back({x, y});\n    int n = P.size();\n\n    // a) Trojki wspollinowe\n    cout << \"a) Trojki wspollinowe (pole trojkata = 0):\" << endl;\n    for (int i = 0; i < n; i++)\n        for (int j = i + 1; j < n; j++)\n            for (int k = j + 1; k < n; k++)\n                if (iloczyn(P[i], P[j], P[k]) == 0)\n                    cout << \"   (\" << P[i].x << \",\" << P[i].y << \")-(\"\n                         << P[j].x << \",\" << P[j].y << \")-(\"\n                         << P[k].x << \",\" << P[k].y << \"): wspollinowe\" << endl;\n\n    // b) Najdluzsza grupa wspollinowa\n    int maxGrupa = 2;\n    int bestI = 0, bestJ = 1;\n    for (int i = 0; i < n; i++) {\n        for (int j = i + 1; j < n; j++) {\n            int cnt = 2;\n            for (int k = 0; k < n; k++) {\n                if (k == i || k == j) continue;\n                if (iloczyn(P[i], P[j], P[k]) == 0) cnt++;\n            }\n            if (cnt > maxGrupa) { maxGrupa = cnt; bestI = i; bestJ = j; }\n        }\n    }\n\n    cout << endl << \"b) Najdluzsza grupa wspollinowa: \" << maxGrupa << \" punkty\" << endl;\n    cout << \"   Punkty: \";\n    bool first = true;\n    for (int k = 0; k < n; k++) {\n        if (k == bestI || k == bestJ || iloczyn(P[bestI], P[bestJ], P[k]) == 0) {\n            if (!first) cout << \", \";\n            cout << \"(\" << P[k].x << \",\" << P[k].y << \")\";\n            first = false;\n        }\n    }\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Wspolliniowosc trojki = iloczyn wektorowy == 0 (pole trojkata = 0). Dla najdluzszej grupy: dla kazdej pary (A,B) sprawdzamy ile punktow lezy na prostej AB.\n\nWeryfikacja:\n- (0,0),(1,2),(2,4),(3,6): kazda trojka ma pole 0. Rownanie prostej: y = 2x. Sprawdzmy: (5,1) y!=2*5, (7,3) y!=2*7. Ale (5,1),(7,3),(9,5): 5*(3-5)+7*(5-1)+9*(1-3) = -10+28-18 = 0 -> wspollinowe na innej prostej (y = x-4).\n- Najdluzsza grupa: 4 punkty na prostej y=2x.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie double zamiast int w iloczynie**: Dla wspolrzednych calkowitych iloczyn wektorowy jest dokladny. Double moze wprowadzic bledy zaokraglen",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o parze (bestI, bestJ)**: Para definiujaca prosta musi byc zawarta w wyniku",
+      "kara": "-1 pkt"
+    }
+  ]
+}

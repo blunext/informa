@@ -1,0 +1,32 @@
+{
+  "id": "5.10",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Matura 2022 zad. 5 (wzorce bitowe, system niestandadowy)",
+  "tagi": [
+    "uzupelnienie-do-2",
+    "dodawanie-binarne",
+    "potegi-dwojki"
+  ],
+  "tresc": "**Polecenie**: Rozwiaz nastepujace problemy:\n\n- a) Zapisz liczbe -45 w kodzie uzupelnienia do 2 (U2) na 8 bitach.\n- b) Wykonaj dodawanie w U2 na 8 bitach: (-45) + 30. Sprawdz wynik.\n- c) Dana jest liczba binarna 10110100(2) interpretowana w kodzie U2 na 8 bitach. Jaka wartosc dziesietna ona reprezentuje?",
+  "wskazowki": [
+    "**Kierunek**: Aby zapisac -x w U2: zapisz x binarnie, zaneguj wszystkie bity, dodaj 1.",
+    "**Podejscie**: Dodawanie w U2 dziala tak samo jak zwykle dodawanie binarne — po prostu ignorujemy ostatnie przeniesienie.",
+    "**Kluczowy krok**: Interpretacja U2: jesli najstarszy bit = 1, to liczba ujemna. Wartosc = -(zaneguj bity + 1) lub -2^7 + reszta."
+  ],
+  "odpowiedz": "**a) -45 w U2 na 8 bitach:**\n\nKrok 1: 45(10) w binarnym = 00101101(2)\nKrok 2: Negacja bitow: 11010010\nKrok 3: Dodaj 1: 11010010 + 1 = **11010011(2)**\n\nSprawdzenie: -128+64+16+2+1 = -128+83 = -45. Poprawne.\n\n**b) (-45) + 30 w U2 na 8 bitach:**\n\n-45 = 11010011(2)\n30 = 00011110(2)\n\n```\n  przeniesienie: 1 1 1 1 1 0 0 0\n                 1 1 0 1 0 0 1 1\n               + 0 0 0 1 1 1 1 0\n               -------------------\n               (1)1 1 1 1 0 0 0 1\n```\n\nOdrzucamy przeniesienie poza 8 bitow.\n\nWynik: **11110001(2)**\n\nInterpretacja U2: -128+64+32+16+1 = -128+113 = **-15**\n\nSprawdzenie: -45 + 30 = -15. Poprawne.\n\n**c) 10110100(2) w U2:**\n\nNajstarszy bit = 1, wiec liczba jest ujemna.\n\nMetoda 1 (wagi pozycyjne):\n-1*128 + 0*64 + 1*32 + 1*16 + 0*8 + 1*4 + 0*2 + 0*1\n= -128 + 32 + 16 + 4 = **-76**\n\nMetoda 2 (negacja + 1):\nNegacja: 01001011\nDodaj 1: 01001100\n01001100(2) = 64+8+4 = 76\nWiec oryginalna wartosc = **-76**",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o +1 po negacji**: U2 = negacja + 1, nie sama negacja (ta daje uzupelnienie do 1)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Nieodrzucenie przeniesienia**: W U2 na n bitach przeniesienie poza n-ty bit ignorujemy",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledna interpretacja U2**: Jezeli MSB=1, to wartosc = -2^(n-1) + reszta, NIE po prostu zamien na dec",
+      "kara": "-2 pkt"
+    }
+  ]
+}

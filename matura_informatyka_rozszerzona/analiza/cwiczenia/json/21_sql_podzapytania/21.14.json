@@ -1,0 +1,28 @@
+{
+  "id": "21.14",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2024",
+  "tagi": [
+    "podzapytanie-skalarne",
+    "MAX",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Samochody**:\n\n| id | marka | model | rok | cena |\n|----|-------|-------|-----|------|\n| 1 | Toyota | Corolla | 2020 | 85000 |\n| 2 | Fiat | 500 | 2019 | 45000 |\n| 3 | BMW | 320i | 2021 | 150000 |\n| 4 | Fiat | Tipo | 2020 | 62000 |\n| 5 | Audi | A3 | 2022 | 130000 |\n| 6 | Toyota | Yaris | 2021 | 65000 |\n| 7 | Fiat | Panda | 2018 | 35000 |\n| 8 | Volkswagen | Golf | 2020 | 95000 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli marke, model i cene samochodow drozszych niz najdrozszy samochod marki 'Fiat'.",
+  "wskazowki": [
+    "**Kierunek**: Podzapytanie z MAX ograniczone do jednej marki.",
+    "**Podejscie**: `(SELECT MAX(cena) FROM Samochody WHERE marka = 'Fiat')` daje najwyzsza cene Fiata.",
+    "**Kluczowy krok**: Porownaj cene kazdego samochodu z tym wynikiem: `WHERE cena > (SELECT ...)`."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT marka, model, cena\nFROM Samochody\nWHERE cena > (SELECT MAX(cena) FROM Samochody WHERE marka = 'Fiat');\n```\n\n**Weryfikacja**:\n- MAX cena Fiatow: max(45000, 62000, 35000) = **62000**\n- Samochody z cena > 62000:\n  - Toyota Corolla (85000 ✓)\n  - BMW 320i (150000 ✓)\n  - Audi A3 (130000 ✓)\n  - Toyota Yaris (65000 ✓)\n  - VW Golf (95000 ✓)\n\n| marka | model | cena |\n|-------|-------|------|\n| Toyota | Corolla | 85000 |\n| BMW | 320i | 150000 |\n| Audi | A3 | 130000 |\n| Toyota | Yaris | 65000 |\n| Volkswagen | Golf | 95000 |",
+  "typowe_bledy": [
+    {
+      "opis": "**MAX bez WHERE**: `(SELECT MAX(cena) FROM Samochody)` daje MAX ze wszystkich marek (150000) — wynik bylby pusty",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**`>=` zamiast `>`**: Fiat Tipo (62000) tez bylby w wyniku, choc nie jest drozszy",
+      "kara": "-1 pkt"
+    }
+  ]
+}

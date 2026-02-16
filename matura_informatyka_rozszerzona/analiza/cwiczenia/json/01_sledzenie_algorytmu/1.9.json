@@ -1,0 +1,32 @@
+{
+  "id": "1.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Matura 2018 zad. 1 (stos/odwrotna notacja polska)",
+  "tagi": [
+    "stos",
+    "sledzenie-iteracyjne",
+    "tablica-pomocnicza"
+  ],
+  "tresc": "Dany jest algorytm obliczajacy wartosc wyrazenia w odwrotnej notacji polskiej (ONP) z uzyciem stosu:\n\n```\nfunkcja obliczONP(wyrazenie)\n    // wyrazenie to tablica tokenow (liczb i operatorow)\n    stos := pusty stos\n    dla kazdego tokenu t w wyrazeniu:\n        jezeli t jest liczba:\n            poloz(stos, t)\n        w przeciwnym razie:  // t jest operatorem (+, -, *, /)\n            b := zdejmij(stos)\n            a := zdejmij(stos)\n            wynik := a (operator t) b\n            poloz(stos, wynik)\n    zwroc zdejmij(stos)\n```\n\n**Polecenie**: Przesled algorytm dla wyrazenia ONP: `3 4 2 * + 7 1 - /`\n\nPodaj:\n- a) Stan stosu po przetworzeniu kazdego tokenu.\n- b) Wynik koncowy.\n- c) Zapisz to wyrazenie w notacji infiksowej (standardowej, ze nawiasami).",
+  "wskazowki": [
+    "**Kierunek**: Liczby kladziemy na stos. Operator zdejmuje dwa elementy (uwaga na kolejnosc: a to glabszy, b to wierzcholek), oblicza wynik i kladzie go z powrotem.",
+    "**Podejscie**: Przerob token po tokenie, rysujac stan stosu po kazdym kroku.",
+    "**Kluczowy krok**: Przy dzieleniu i odejmowaniu kolejnosc ma znaczenie: a-b i a/b, gdzie a zdejmujemy drugie, b pierwsze."
+  ],
+  "odpowiedz": "Wyrazenie: `3 4 2 * + 7 1 - /`\n\n| Token | Operacja | Stos (dol → gora) |\n|-------|----------|-------------------|\n| 3 | poloz 3 | [3] |\n| 4 | poloz 4 | [3, 4] |\n| 2 | poloz 2 | [3, 4, 2] |\n| * | b=2, a=4; 4*2=8; poloz 8 | [3, 8] |\n| + | b=8, a=3; 3+8=11; poloz 11 | [11] |\n| 7 | poloz 7 | [11, 7] |\n| 1 | poloz 1 | [11, 7, 1] |\n| - | b=1, a=7; 7-1=6; poloz 6 | [11, 6] |\n| / | b=6, a=11; 11/6=1 (dzielenie calkowite); poloz 1 | [1] |\n\n**a)** Stany stosu — jak w tabeli powyzej.\n\n**b)** Wynik koncowy: **1** (przy dzieleniu calkowitym) lub **11/6 ≈ 1.83** (przy dzieleniu rzeczywistym).\n\n**c)** Notacja infiksowa: **(3 + 4 * 2) / (7 - 1)**\n\nWeryfikacja: (3 + 8) / 6 = 11 / 6 = 1 (calkowite) lub ~1.83 (rzeczywiste).",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwrocona kolejnosc operandow**: Przy `-` i `/` kolejnosc ma znaczenie! Najpierw zdejmujemy b (wierzcholek), potem a (glabszy). Obliczamy a op b, nie b op a",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak informacji o typie dzielenia**: Na maturze CKE wymaga zaznaczenia czy dzielenie calkowite czy rzeczywiste",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Bledne odczytanie ONP**: Tokeny czytamy od lewej do prawej, nie od prawej",
+      "kara": "-1 pkt"
+    }
+  ]
+}

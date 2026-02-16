@@ -1,0 +1,28 @@
+{
+  "id": "14.2",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2025 zad. 3.2a",
+  "tagi": [
+    "punkt-w-prostokacie",
+    "wczytywanie-pliku",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `punkty.txt` znajduje sie 10 punktow (x, y) o wspolrzednych calkowitych. Dany jest prostokat o wierzcholkach (1, 1) i (99, 99). Napisz program, ktory zliczy ile punktow lezy scisle wewnatrz prostokata (brzegi nie licza sie).\n\n**Dane** (`punkty.txt`):\n```\n50 50\n1 1\n0 45\n99 99\n100 50\n30 70\n1 50\n50 99\n15 85\n60 0\n```\n\n**Oczekiwany wynik**:\n```\nPunkty wewnatrz prostokata (1,1)-(99,99) (bez brzegu):\n(50,50) - wewnatrz\n(30,70) - wewnatrz\n(15,85) - wewnatrz\nIlosc: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: \"Scisle wewnatrz\" = ostro: `x > 1 && x < 99 && y > 1 && y < 99`.",
+    "**Podejscie**: Wczytuj punkty w petli i sprawdzaj warunek.",
+    "**Kluczowy krok**: Brzegi nie licza sie — uzyj `>` i `<`, nie `>=` i `<=`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    int x, y;\n    cout << \"Punkty wewnatrz prostokata (1,1)-(99,99) (bez brzegu):\" << endl;\n    int ile = 0;\n    while (plik >> x >> y) {\n        if (x > 1 && x < 99 && y > 1 && y < 99) {\n            cout << \"(\" << x << \",\" << y << \") - wewnatrz\" << endl;\n            ile++;\n        }\n    }\n    cout << \"Ilosc: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Punkt lezy scisle wewnatrz prostokata gdy 1 < x < 99 i 1 < y < 99 (ostro, bez rownosci).\n\nWeryfikacja:\n- (50,50): 1<50<99, 1<50<99 -> TAK\n- (1,1): nie, na brzegu\n- (0,45): nie, x=0 < 1\n- (99,99): nie, na brzegu\n- (100,50): nie, x=100 > 99\n- (30,70): 1<30<99, 1<70<99 -> TAK\n- (1,50): nie, x=1 na brzegu\n- (50,99): nie, y=99 na brzegu\n- (15,85): 1<15<99, 1<85<99 -> TAK\n- (60,0): nie, y=0 < 1",
+  "typowe_bledy": [
+    {
+      "opis": "**`>=` zamiast `>`**: Punkt na brzegu nie jest \"scisle wewnatrz\"",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pomylenie wspolrzednych prostokata**: (1,1)-(99,99) to lewy dolny i prawy gorny rog",
+      "kara": "-1 pkt"
+    }
+  ]
+}

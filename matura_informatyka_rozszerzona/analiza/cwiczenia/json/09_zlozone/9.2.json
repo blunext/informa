@@ -1,0 +1,33 @@
+{
+  "id": "9.2",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Matura 2022 zad. 4",
+  "tagi": [
+    "map-zliczanie",
+    "grupowanie",
+    "iomanip",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `produkty.txt` znajduje sie 10 rekordow w formacie: nazwa kategoria cena (oddzielone spacja). Napisz program, ktory:\na) Obliczy srednia cene w kazdej kategorii.\nb) Znajdzie najdrozszy produkt w kazdej kategorii.\n\n**Dane** (`produkty.txt`):\n```\nChleb Pieczywo 5\nBulka Pieczywo 2\nMleko Nabialy 4\nSer Nabialy 12\nJogurt Nabialy 3\nJablko Owoce 3\nBanan Owoce 6\nMaslo Nabialy 8\nBagietka Pieczywo 4\nGruszka Owoce 4\n```\n\n**Oczekiwany wynik**:\n```\na) Srednia cena w kazdej kategorii:\n   Nabialy: 6.75\n   Owoce: 4.33\n   Pieczywo: 3.67\n\nb) Najdrozszy produkt w kazdej kategorii:\n   Nabialy: Ser (12)\n   Owoce: Banan (6)\n   Pieczywo: Chleb (5)\n```",
+  "wskazowki": [
+    "**Kierunek**: Grupuj ceny i nazwy wg kategorii uzywajac `map`.",
+    "**Podejscie**: `map<string, vector<int>>` dla cen, `map<string, pair<string,int>>` dla max.",
+    "**Kluczowy krok**: Srednia = suma / ilosc. Uzywaj `fixed << setprecision(2)` do formatowania."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"produkty.txt\");\n    string nazwa, kategoria;\n    int cena;\n\n    map<string, vector<int>> cenywKat;\n    map<string, pair<string, int>> maxwKat;\n\n    while (plik >> nazwa >> kategoria >> cena) {\n        cenywKat[kategoria].push_back(cena);\n        if (maxwKat.find(kategoria) == maxwKat.end() || cena > maxwKat[kategoria].second) {\n            maxwKat[kategoria] = {nazwa, cena};\n        }\n    }\n\n    cout << \"a) Srednia cena w kazdej kategorii:\" << endl;\n    cout << fixed << setprecision(2);\n    for (auto &p : cenywKat) {\n        double suma = 0;\n        for (int c : p.second) suma += c;\n        cout << \"   \" << p.first << \": \" << suma / p.second.size() << endl;\n    }\n\n    cout << endl << \"b) Najdrozszy produkt w kazdej kategorii:\" << endl;\n    for (auto &p : maxwKat) {\n        cout << \"   \" << p.first << \": \" << p.second.first\n             << \" (\" << p.second.second << \")\" << endl;\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: Grupujemy ceny i produkty wg kategorii uzywajac `map`. Dla sredniej sumujemy ceny w kazdej grupie i dzielimy przez liczbe produktow. Dla max sledzony jest najdrozszy produkt w kazdej kategorii.\n\nWeryfikacja:\n- Nabialy: Mleko(4), Ser(12), Jogurt(3), Maslo(8) -> suma=27, srednia=27/4=6.75, max=Ser(12)\n- Owoce: Jablko(3), Banan(6), Gruszka(4) -> suma=13, srednia=13/3=4.33, max=Banan(6)\n- Pieczywo: Chleb(5), Bulka(2), Bagietka(4) -> suma=11, srednia=11/3=3.67, max=Chleb(5)",
+  "typowe_bledy": [
+    {
+      "opis": "**Dzielenie calkowite zamiast zmiennoprzecinkowego**: `27/4 = 6` zamiast 6.75. Rzutuj na double: `suma / (double)rozmiar`",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak `setprecision`**: Domyslne formatowanie double moze dac zbyt wiele miejsc po przecinku",
+      "kara": "-0 pkt (ale nieczytelne)"
+    },
+    {
+      "opis": "**Uzycie `map[kat]` bez sprawdzenia czy istnieje**: Przy `maxwKat[kat].second` jesli wpis nie istnieje, tworzy domyslny (pusty string, 0)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

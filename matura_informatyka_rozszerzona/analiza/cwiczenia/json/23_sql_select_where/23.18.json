@@ -1,0 +1,30 @@
+{
+  "id": "23.18",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2024",
+  "tagi": [
+    "WHERE",
+    "AND",
+    "OR",
+    "NOT",
+    "operatory-porownania"
+  ],
+  "tresc": "Tabela **Loty**:\n\n| id | nr_lotu | linia | skad | dokad | cena | status | data |\n|----|---------|-------|------|-------|------|--------|------|\n| 1 | WZ101 | Wizz | Warszawa | Londyn | 250 | planowy | 2024-06-15 |\n| 2 | LO201 | LOT | Warszawa | Paryz | 680 | planowy | 2024-06-15 |\n| 3 | RY301 | Ryanair | Krakow | Barcelona | 180 | planowy | 2024-06-16 |\n| 4 | WZ102 | Wizz | Gdansk | Londyn | 220 | opozniony | 2024-06-16 |\n| 5 | LO202 | LOT | Warszawa | Berlin | 450 | planowy | 2024-06-17 |\n| 6 | RY302 | Ryanair | Krakow | Rzym | 150 | odwolany | 2024-06-17 |\n| 7 | WZ103 | Wizz | Warszawa | Mediolan | 280 | planowy | 2024-06-18 |\n| 8 | LO203 | LOT | Krakow | Londyn | 720 | planowy | 2024-06-18 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nr lotu, trase (skad -> dokad), cene i status lotow spelniajacych warunki:\n- linia lotnicza to 'LOT' LUB cena ponizej 300\n- status NIE jest 'odwolany'\n- data jest po '2024-06-15'\n\nUWAGA: nawiasy wokol OR sa kluczowe! Posortuj wg daty.",
+  "wskazowki": [
+    "**Kierunek**: Trzy warunki, pierwszy jest zlozony (OR). Nawiasy obowiazkowe.",
+    "**Podejscie**: `WHERE (linia = 'LOT' OR cena < 300) AND status != 'odwolany' AND data > '...'`.",
+    "**Kluczowy krok**: Bez nawiasow `AND` ma wyzszy priorytet niz `OR` — wyrazenie bedzie interpretowane inaczej."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nr_lotu, skad || ' -> ' || dokad AS trasa, cena, status\nFROM Loty\nWHERE (linia = 'LOT' OR cena < 300)\n  AND status != 'odwolany'\n  AND data > '2024-06-15'\nORDER BY data;\n```\n\n**Weryfikacja**:\n\n| id | nr_lotu | LOT or <300? | nie odwolany? | po 06-15? | Wynik |\n|----|---------|-------------|--------------|-----------|-------|\n| 3 | RY301 | 180<300 ✓ | planowy ✓ | 06-16 ✓ | ✓ |\n| 4 | WZ102 | 220<300 ✓ | opozniony ✓ | 06-16 ✓ | ✓ |\n| 5 | LO202 | LOT ✓ | planowy ✓ | 06-17 ✓ | ✓ |\n| 6 | RY302 | 150<300 ✓ | odwolany ✗ | — | ✗ |\n| 7 | WZ103 | 280<300 ✓ | planowy ✓ | 06-18 ✓ | ✓ |\n| 8 | LO203 | LOT ✓ | planowy ✓ | 06-18 ✓ | ✓ |\n\n| nr_lotu | trasa | cena | status |\n|---------|-------|------|--------|\n| RY301 | Krakow -> Barcelona | 180 | planowy |\n| WZ102 | Gdansk -> Londyn | 220 | opozniony |\n| LO202 | Warszawa -> Berlin | 450 | planowy |\n| WZ103 | Warszawa -> Mediolan | 280 | planowy |\n| LO203 | Krakow -> Londyn | 720 | planowy |\n\n**Wyjasnienie**: Nawiasy `(linia = 'LOT' OR cena < 300)` sa KLUCZOWE. Bez nawiasow: `linia = 'LOT' OR (cena < 300 AND status != 'odwolany' AND ...)` — OR bylby interpretowany inaczej.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak nawiasow wokol OR**: Bez nawiasow AND ma priorytet — logika zmienia sie calkowicie",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**`<>` zamiast `!=`**: Oba sa poprawne w SQL — `<>` to standard, `!=` to rozszerzenie",
+      "kara": ""
+    }
+  ]
+}

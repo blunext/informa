@@ -1,0 +1,29 @@
+{
+  "id": "20.6",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2025 (Woda na Marsie)",
+  "tagi": [
+    "GROUP-BY",
+    "MIN",
+    "MAX",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Stacje** zawiera dane o stacjach meteorologicznych:\n\n| id | nazwa | region | wysokosc_npm | rok_zalozenia |\n|----|-------|--------|-------------|---------------|\n| 1 | Kasprowy Wierch | gory | 1991 | 1936 |\n| 2 | Zakopane | gory | 844 | 1950 |\n| 3 | Warszawa | niziny | 106 | 1921 |\n| 4 | Suwalki | niziny | 184 | 1945 |\n| 5 | Sniezka | gory | 1603 | 1900 |\n| 6 | Wroclaw | niziny | 120 | 1948 |\n| 7 | Hala Gasienicowa | gory | 1520 | 1965 |\n| 8 | Poznan | niziny | 86 | 1953 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego regionu wyswietli minimalna i maksymalna wysokosc n.p.m. stacji. Posortuj alfabetycznie wg regionu.",
+  "wskazowki": [
+    "**Kierunek**: Grupuj po regionie i zastosuj funkcje agregujace MIN i MAX.",
+    "**Podejscie**: SELECT region, MIN(wysokosc_npm), MAX(wysokosc_npm) z GROUP BY.",
+    "**Kluczowy krok**: Pamietaj o aliasach — `AS min_wysokosc` i `AS max_wysokosc`."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT region, MIN(wysokosc_npm) AS min_wysokosc, MAX(wysokosc_npm) AS max_wysokosc\nFROM Stacje\nGROUP BY region\nORDER BY region;\n```\n\n**Weryfikacja**:\n- gory: Kasprowy (1991), Zakopane (844), Sniezka (1603), Hala Gasienicowa (1520) → MIN=**844**, MAX=**1991**\n- niziny: Warszawa (106), Suwalki (184), Wroclaw (120), Poznan (86) → MIN=**86**, MAX=**184**\n\n| region | min_wysokosc | max_wysokosc |\n|--------|-------------|-------------|\n| gory | 844 | 1991 |\n| niziny | 86 | 184 |\n\n**Wyjasnienie**: MIN i MAX to funkcje agregujace — dzialaja na grupach wierszy. Mozna je laczyc w jednym zapytaniu z innymi funkcjami (COUNT, SUM, AVG). Kazda kolumna w SELECT musi albo byc w GROUP BY, albo byc funkcja agregujaca.",
+  "typowe_bledy": [
+    {
+      "opis": "**Dodanie kolumny nie-agregatowej do SELECT bez GROUP BY**: np. `SELECT region, nazwa, MIN(wysokosc_npm)` — ktora nazwa stacji powinna sie wyswietlic? SQLite wybiera losowo, inne bazy zglaszaja blad",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pomylenie MIN/MAX**: Odwrotne nazwy kolumn wynikowych",
+      "kara": "-1 pkt"
+    }
+  ]
+}

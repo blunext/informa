@@ -1,0 +1,35 @@
+{
+  "id": "20.8",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Matura 2023 (Gry planszowe)",
+  "tagi": [
+    "GROUP-BY",
+    "AVG",
+    "ROUND",
+    "HAVING",
+    "JOIN-z-GROUP-BY",
+    "WHERE-vs-HAVING"
+  ],
+  "tresc": "Tabela **Uczniowie**:\n\n| id | imie | nazwisko | klasa |\n|----|------|----------|-------|\n| 1 | Anna | Maj | 3A |\n| 2 | Jan | Krol | 3A |\n| 3 | Ewa | Lis | 3B |\n| 4 | Piotr | Zak | 3B |\n| 5 | Kasia | Wrobel | 3A |\n| 6 | Tomek | Bak | 3C |\n\nTabela **Oceny**:\n\n| id | id_ucznia | przedmiot | ocena |\n|----|-----------|-----------|-------|\n| 1 | 1 | Matematyka | 5 |\n| 2 | 1 | Fizyka | 4 |\n| 3 | 2 | Matematyka | 3 |\n| 4 | 2 | Fizyka | 3 |\n| 5 | 3 | Matematyka | 5 |\n| 6 | 3 | Fizyka | 5 |\n| 7 | 4 | Matematyka | 4 |\n| 8 | 4 | Fizyka | 3 |\n| 9 | 5 | Matematyka | 4 |\n| 10 | 5 | Fizyka | 5 |\n| 11 | 6 | Matematyka | 2 |\n| 12 | 6 | Fizyka | 3 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego przedmiotu i kazdej klasy wyswietli srednia ocene (zaokraglona do 1 miejsca po przecinku). Pokaz tylko te kombinacje, w ktorych srednia jest wieksza lub rowna 4.0. Posortuj wg przedmiotu, potem malejaco wg sredniej.",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz JOIN dwoch tabel, potem GROUP BY po dwoch kolumnach.",
+    "**Podejscie**: JOIN Uczniowie z Ocenami, GROUP BY (przedmiot, klasa), HAVING na AVG.",
+    "**Kluczowy krok**: Grupujesz po dwoch kolumnach — kazda unikalna para (przedmiot, klasa) to osobna grupa."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT O.przedmiot, U.klasa, ROUND(AVG(O.ocena), 1) AS srednia\nFROM Uczniowie U\nJOIN Oceny O ON U.id = O.id_ucznia\nGROUP BY O.przedmiot, U.klasa\nHAVING AVG(O.ocena) >= 4.0\nORDER BY O.przedmiot, srednia DESC;\n```\n\n**Weryfikacja** (grupowanie przedmiot + klasa):\n\nFizyka:\n- 3A: Anna (4), Jan (3), Kasia (5) → (4+3+5)/3 = **4.0** (>=4.0 ✓)\n- 3B: Ewa (5), Piotr (3) → (5+3)/2 = **4.0** (>=4.0 ✓)\n- 3C: Tomek (3) → **3.0** (>=4.0 ✗)\n\nMatematyka:\n- 3A: Anna (5), Jan (3), Kasia (4) → (5+3+4)/3 = **4.0** (>=4.0 ✓)\n- 3B: Ewa (5), Piotr (4) → (5+4)/2 = **4.5** (>=4.0 ✓)\n- 3C: Tomek (2) → **2.0** (>=4.0 ✗)\n\n| przedmiot | klasa | srednia |\n|-----------|-------|---------|\n| Fizyka | 3A | 4.0 |\n| Fizyka | 3B | 4.0 |\n| Matematyka | 3B | 4.5 |\n| Matematyka | 3A | 4.0 |\n\n**Wyjasnienie**: Wielokolumnowe GROUP BY tworzy grupe dla kazdej unikalnej pary (przedmiot, klasa). HAVING z `>=` obejmuje rowniez srednia rowna dokladnie 4.0. ROUND(..., 1) zaokragla do 1 miejsca po przecinku.",
+  "typowe_bledy": [
+    {
+      "opis": "**`>` zamiast `>=`**: Pominiecie grup ze srednia rowna 4.0. Przy tych danych eliminuje 3 z 4 wynikow",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**GROUP BY po jednej kolumnie**: Grupowanie tylko po przedmiocie mieszalby klasy razem",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak JOIN**: Tabela Oceny nie ma kolumny klasa — bez JOIN nie mozna pogrupowac wg klas",
+      "kara": "-3 pkt"
+    }
+  ]
+}

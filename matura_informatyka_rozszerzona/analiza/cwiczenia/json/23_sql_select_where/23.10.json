@@ -1,0 +1,37 @@
+{
+  "id": "23.10",
+  "trudnosc": "trudne",
+  "punkty": 4,
+  "zrodlo": "Matura 2024 (Rejestr wykroczen)",
+  "tagi": [
+    "IS-NULL",
+    "IS-NOT-NULL",
+    "CASE-WHEN",
+    "obliczenia-w-SELECT",
+    "SUBSTR",
+    "LENGTH",
+    "LIKE",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Zgloszenia**:\n\n| id | nr_sprawy | kategoria | data_zgloszenia | data_zamkniecia | priorytet | opis |\n|----|-----------|-----------|-----------------|-----------------|-----------|------|\n| 1 | ZG-2024-001 | awaria | 2024-01-10 | 2024-01-12 | wysoki | Wyciek wody |\n| 2 | ZG-2024-002 | reklamacja | 2024-01-15 | NULL | niski | Uszkodzony produkt |\n| 3 | ZG-2024-003 | awaria | 2024-02-01 | 2024-02-03 | wysoki | Brak pradu |\n| 4 | ZG-2024-004 | zapytanie | 2024-02-10 | 2024-02-10 | niski | Pytanie o cene |\n| 5 | ZG-2024-005 | awaria | 2024-03-01 | NULL | wysoki | Zepsuta rura |\n| 6 | ZG-2024-006 | reklamacja | 2024-03-05 | 2024-03-15 | sredni | Bledne zamowienie |\n| 7 | ZG-2024-007 | zapytanie | 2024-03-10 | 2024-03-10 | niski | Godziny otwarcia |\n| 8 | ZG-2024-008 | awaria | 2024-04-01 | NULL | wysoki | Brak ogrzewania |\n| 9 | ZG-2024-009 | reklamacja | 2024-04-10 | 2024-04-20 | sredni | Wadliwy towar |\n| 10 | ZG-2024-010 | zapytanie | 2024-04-15 | 2024-04-15 | niski | Regulamin |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli:\n- nr sprawy\n- kategorie\n- miesiac zgloszenia (numer, uzyj SUBSTR)\n- status: 'otwarte' jezeli data_zamkniecia IS NULL, 'zamkniete' w przeciwnym razie\n- dlugosc opisu (LENGTH)\n\nPokaz tylko zgloszenia, ktore sa OTWARTE lub ktorych opis ma wiecej niz 15 znakow. Posortuj wg miesiaca, potem wg priorytetu (wysoki najpierw — uzyj CASE WHEN w ORDER BY).",
+  "wskazowki": [
+    "**Kierunek**: CASE WHEN w SELECT (status) i w ORDER BY (priorytet).",
+    "**Podejscie**: CASE WHEN data_zamkniecia IS NULL THEN 'otwarte' ELSE 'zamkniete'. SUBSTR(data, 6, 2) wyciaga miesiac.",
+    "**Kluczowy krok**: ORDER BY CASE WHEN priorytet = 'wysoki' THEN 1 ... END — mapuje tekst na liczby do sortowania."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nr_sprawy, kategoria,\n       SUBSTR(data_zgloszenia, 6, 2) AS miesiac,\n       CASE WHEN data_zamkniecia IS NULL THEN 'otwarte' ELSE 'zamkniete' END AS status,\n       LENGTH(opis) AS dl_opisu\nFROM Zgloszenia\nWHERE data_zamkniecia IS NULL\n   OR LENGTH(opis) > 15\nORDER BY miesiac,\n         CASE priorytet\n           WHEN 'wysoki' THEN 1\n           WHEN 'sredni' THEN 2\n           WHEN 'niski' THEN 3\n         END;\n```\n\n**Weryfikacja**:\n\n| id | nr_sprawy | otwarte? | dl_opisu > 15? | Wynik |\n|----|-----------|----------|----------------|-------|\n| 1 | ZG-2024-001 | zamkniete | 'Wyciek wody'=11 ✗ | ✗ |\n| 2 | ZG-2024-002 | otwarte ✓ | — | ✓ |\n| 3 | ZG-2024-003 | zamkniete | 'Brak pradu'=10 ✗ | ✗ |\n| 4 | ZG-2024-004 | zamkniete | 'Pytanie o cene'=14 ✗ | ✗ |\n| 5 | ZG-2024-005 | otwarte ✓ | — | ✓ |\n| 6 | ZG-2024-006 | zamkniete | 'Bledne zamowienie'=17 ✓ | ✓ |\n| 7 | ZG-2024-007 | zamkniete | 'Godziny otwarcia'=16 ✓ | ✓ |\n| 8 | ZG-2024-008 | otwarte ✓ | — | ✓ |\n| 9 | ZG-2024-009 | zamkniete | 'Wadliwy towar'=13 ✗ | ✗ |\n| 10 | ZG-2024-010 | zamkniete | 'Regulamin'=9 ✗ | ✗ |\n\n| nr_sprawy | kategoria | miesiac | status | dl_opisu |\n|-----------|-----------|---------|--------|----------|\n| ZG-2024-002 | reklamacja | 01 | otwarte | 18 |\n| ZG-2024-005 | awaria | 03 | otwarte | 12 |\n| ZG-2024-006 | reklamacja | 03 | zamkniete | 17 |\n| ZG-2024-007 | zapytanie | 03 | zamkniete | 16 |\n| ZG-2024-008 | awaria | 04 | otwarte | 15 |\n\n**Wyjasnienie**: CASE WHEN w SELECT tworzy kolumne obliczana na podstawie warunku. CASE WHEN w ORDER BY pozwala mapowac wartosci tekstowe na liczby — dzieki temu 'wysoki' jest sortowany przed 'sredni' i 'niski'. SUBSTR i LENGTH to funkcje tekstowe uzyte jednoczesnie w roznych celach.",
+  "typowe_bledy": [
+    {
+      "opis": "**`= NULL` zamiast `IS NULL`**: Porownanie z NULL zawsze daje NULL. Trzeba uzyc IS NULL / IS NOT NULL",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Sortowanie tekstowe po priorytecie**: Alfabetycznie 'niski' < 'sredni' < 'wysoki' — odwrotna kolejnosc niz zamierzona",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak CASE WHEN w ORDER BY**: Nie ma innego sposobu na posortowanie priorytetu w niestandardowej kolejnosci bez dodatkowej kolumny",
+      "kara": "-1 pkt"
+    }
+  ]
+}

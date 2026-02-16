@@ -1,0 +1,33 @@
+{
+  "id": "14.1",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2025 zad. 3 (Dron)",
+  "tagi": [
+    "odleglosc-euklidesowa",
+    "sqrt",
+    "wczytywanie-pliku",
+    "vector-par"
+  ],
+  "tresc": "W pliku `punkty.txt` znajduje sie 6 punktow na plaszczyznie (kazdy w osobnym wierszu w formacie: x y, wspolrzedne calkowite). Punkty tworzą sciezke (lamanę) od pierwszego do ostatniego. Napisz program, ktory obliczy odleglosc miedzy kazdymi dwoma kolejnymi punktami i poda laczna dlugosc sciezki.\n\n**Dane** (`punkty.txt`):\n```\n0 0\n3 4\n6 0\n6 8\n10 8\n10 0\n```\n\n**Oczekiwany wynik**:\n```\nOdleglosci miedzy kolejnymi punktami:\n(0,0) -> (3,4): 5.00\n(3,4) -> (6,0): 5.00\n(6,0) -> (6,8): 8.00\n(6,8) -> (10,8): 4.00\n(10,8) -> (10,0): 8.00\nLaczna dlugosc sciezki: 30.00\n```",
+  "wskazowki": [
+    "**Kierunek**: Wzor na odleglosc euklidesowa: `sqrt((x2-x1)^2 + (y2-y1)^2)`.",
+    "**Podejscie**: Wczytaj punkty do `vector<pair<int,int>>`, iteruj po parach sasiadow.",
+    "**Kluczowy krok**: Uzyj `#include <cmath>` dla `sqrt`. Sumuj odleglosci."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    vector<pair<int,int>> P;\n    int x, y;\n    while (plik >> x >> y) P.push_back({x, y});\n\n    cout << \"Odleglosci miedzy kolejnymi punktami:\" << endl;\n    cout << fixed << setprecision(2);\n    double suma = 0;\n    for (int i = 0; i < (int)P.size() - 1; i++) {\n        double dx = P[i+1].first - P[i].first;\n        double dy = P[i+1].second - P[i].second;\n        double d = sqrt(dx*dx + dy*dy);\n        cout << \"(\" << P[i].first << \",\" << P[i].second << \") -> (\"\n             << P[i+1].first << \",\" << P[i+1].second << \"): \" << d << endl;\n        suma += d;\n    }\n    cout << \"Laczna dlugosc sciezki: \" << suma << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Odleglosc euklidesowa miedzy punktami (x1,y1) i (x2,y2) to sqrt((x2-x1)^2 + (y2-y1)^2). Sumujemy odleglosci kolejnych par.\n\nWeryfikacja:\n- (0,0)->(3,4): sqrt(9+16) = sqrt(25) = 5.00\n- (3,4)->(6,0): sqrt(9+16) = sqrt(25) = 5.00\n- (6,0)->(6,8): sqrt(0+64) = 8.00\n- (6,8)->(10,8): sqrt(16+0) = 4.00\n- (10,8)->(10,0): sqrt(0+64) = 8.00\nSuma: 5+5+8+4+8 = 30.00",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak `#include <cmath>`**: Funkcja `sqrt` wymaga tego naglowka",
+      "kara": ""
+    },
+    {
+      "opis": "**Uzycie int zamiast double dla odleglosci**: `sqrt` zwraca double — przypisanie do int obcina czesc ulamkowa",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Petla do `P.size()` zamiast `P.size()-1`**: Dostep do P[i+1] poza zakresem",
+      "kara": ""
+    }
+  ]
+}

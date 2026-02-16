@@ -1,0 +1,33 @@
+{
+  "id": "16.4",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2024 (Hurtownia)",
+  "tagi": [
+    "SUM-kumulacyjna",
+    "IF-zagniezdzony",
+    "odwolanie-bezwzgledne",
+    "prog-warunkowy"
+  ],
+  "tresc": "Sklep internetowy stosuje rabaty kumulacyjne — rabat zalezy od lacznej kwoty wszystkich dotychczasowych zakupow klienta:\n- laczna kwota < 500 zl -> rabat 0%\n- laczna kwota 500-999 zl -> rabat 5%\n- laczna kwota 1000-1999 zl -> rabat 10%\n- laczna kwota >= 2000 zl -> rabat 15%\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Zakup nr** | **Kwota** | **Suma kumulacyjna** | **Prog rabatu** | **Cena po rabacie** |\n| 2 | 1 | 350 | ? | ? | ? |\n| 3 | 2 | 280 | ? | ? | ? |\n| 4 | 3 | 420 | ? | ? | ? |\n| 5 | 4 | 150 | ? | ? | ? |\n| 6 | 5 | 600 | ? | ? | ? |\n| 7 | 6 | 300 | ? | ? | ? |\n\n**Polecenie**:\n1. W C2 oblicz sume kumulacyjna (SUM z zakotwiczonym poczatkiem).\n2. W D2 wyznacz procent rabatu na podstawie sumy kumulacyjnej (zagniezdzony IF).\n3. W E2 oblicz cene po rabacie = kwota x (1 - rabat).",
+  "wskazowki": [
+    "**Wskazowka 1**: Suma kumulacyjna to SUM z zakresu, w ktorym poczatek jest zakotwiczony (bezwzgledny), a koniec jest wzgledny. Rabat to zagniezdzony IF sprawdzajacy progi od najwyzszego.",
+    "**Wskazowka 2**: Zakres w SUM to `$B$2:B2` — po skopiowaniu do wiersza 4 stanie sie `$B$2:B4`. W zagniezdzoym IF sprawdzaj najpierw >=2000, potem >=1000, potem >=500, a w ostatnim ELSE daj 0%.",
+    "**Wskazowka 3**: C2: `=SUM($B$2:B2)`, D2: `=IF(C2>=2000;15%;IF(C2>=1000;10%;IF(C2>=500;5%;0%)))`, E2: `=B2*(1-D2)`."
+  ],
+  "odpowiedz": "**Formuly (wiersz 2, kopiowane w dol):**\n```\nC2: =SUM($B$2:B2)\nD2: =IF(C2>=2000;15%;IF(C2>=1000;10%;IF(C2>=500;5%;0%)))\nE2: =B2*(1-D2)\n```\n\n**Wypelniona tabela:**\n\n| Zakup nr | Kwota | Suma kum. | Rabat | Cena po rabacie |\n|----------|-------|-----------|-------|-----------------|\n| 1 | 350 | 350 | 0% | 350.00 |\n| 2 | 280 | 630 | 5% | 266.00 |\n| 3 | 420 | 1050 | 10% | 378.00 |\n| 4 | 150 | 1200 | 10% | 135.00 |\n| 5 | 600 | 1800 | 10% | 540.00 |\n| 6 | 300 | 2100 | 15% | 255.00 |\n\n**Weryfikacja:**\n- C2: SUM(B2:B2) = 350 -> prog 0% -> E2: 350 x 1.00 = 350.00\n- C3: SUM(B2:B3) = 350+280 = 630 -> prog 5% -> E3: 280 x 0.95 = 266.00\n- C4: SUM(B2:B4) = 630+420 = 1050 -> prog 10% -> E4: 420 x 0.90 = 378.00\n- C5: SUM(B2:B5) = 1050+150 = 1200 -> prog 10% -> E5: 150 x 0.90 = 135.00\n- C6: SUM(B2:B6) = 1200+600 = 1800 -> prog 10% -> E6: 600 x 0.90 = 540.00\n- C7: SUM(B2:B7) = 1800+300 = 2100 -> prog 15% -> E7: 300 x 0.85 = 255.00\n\n**Wyjasnienie**: Kluczowy jest zakres `$B$2:B2` — poczatek jest zakotwiczony ($B$2), ale koniec (B2) jest wzgledny. Po skopiowaniu do wiersza 5 formula staje sie `=SUM($B$2:B5)`, co daje sume od poczatku do biezacego wiersza. Zagniezdzony IF sprawdza progi od najwiekszego, bo pierwszy speliony warunek konczy ewaluacje.",
+  "typowe_bledy": [
+    {
+      "opis": "**Sprawdzanie progow od najnizszego**: Napisanie `=IF(C2>=500;5%;IF(C2>=1000;10%;...))` — warunek C2>=500 jest spelniony takze dla 1000 i 2000, wiec rabat nigdy nie przekroczy 5%. Progi nalezy sprawdzac od najwyzszego.",
+      "kara": ""
+    },
+    {
+      "opis": "**Brak zakotwiczenia poczatku SUM**: Napisanie `=SUM(B2:B2)` bez znaku `$` — po skopiowaniu do wiersza 5 formula stanie sie `=SUM(B5:B5)`, czyli sumuje tylko biezacy wiersz zamiast calego zakresu od poczatku.",
+      "kara": ""
+    },
+    {
+      "opis": "**Uzycie przecinka zamiast srednika**: W polskiej wersji Excela separator argumentow to srednik (`;`), nie przecinek (`,`). Przecinek jest traktowany jako separator dziesietny.",
+      "kara": ""
+    }
+  ]
+}

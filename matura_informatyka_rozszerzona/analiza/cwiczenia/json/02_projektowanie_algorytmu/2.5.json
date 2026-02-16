@@ -1,0 +1,33 @@
+{
+  "id": "2.5",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2025 zad. 1.3 (rozszerzony)",
+  "tagi": [
+    "rekurencja",
+    "stos",
+    "drzewo",
+    "C++"
+  ],
+  "tresc": "Dana jest funkcja rekurencyjna przetwarzajaca drzewo binarne w porzadku preorder. Kazdy wezel drzewa ma: wartosc calkowita `w`, lewy potomek `L` i prawy potomek `R` (mogace byc puste, oznaczone jako NULL).\n\n```\nfunkcja suma_preorder(wezel)\n    jezeli wezel = NULL:\n        zwroc 0\n    lewy := suma_preorder(wezel.L)\n    prawy := suma_preorder(wezel.R)\n    zwroc wezel.w + lewy + prawy\n```\n\n**Polecenie**: Napisz iteracyjna wersje funkcji `suma_preorder` z uzyciem stosu. Stos przechowuje wezly do odwiedzenia. Nie uzywaj rekurencji.\n\nWskazowka: W porzadku preorder najpierw przetwarzamy wezel, potem lewe poddrzewo, potem prawe. Na stos wkladamy potomkow w odwrotnej kolejnosci (najpierw prawy, potem lewy).",
+  "wskazowki": [
+    "Stos sluzy do zapamietywania wezlow, ktore jeszcze musimy odwiedzic. Zacznij od wlozenia korzenia na stos. W kazdej iteracji zdejmij wezel z wierzcholka stosu.",
+    "Po zdjeciu wezla ze stosu dodaj jego wartosc do sumy, a nastepnie wloz jego potomkow na stos. Pamietaj o kolejnosci: najpierw PRAWY, potem LEWY (bo stos jest LIFO -- ostatni wlozony bedzie pierwszy zdjety).",
+    "Petla konczy sie, gdy stos jest pusty. Nie wkladaj na stos pustych wezlow (NULL). Caly algorytm: `push(korzen)`, potem `while(!empty): wezel=pop(), suma+=w, push(R), push(L)`."
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja suma_preorder_iter(korzen)\n    jezeli korzen = NULL:\n        zwroc 0\n    suma := 0\n    stos := nowy pusty stos\n    stos.push(korzen)\n    dopoki stos nie jest pusty:\n        wezel := stos.pop()\n        suma := suma + wezel.w\n        jezeli wezel.R <> NULL:\n            stos.push(wezel.R)\n        jezeli wezel.L <> NULL:\n            stos.push(wezel.L)\n    zwroc suma\n```\n\n**C++:**\n\n```cpp\nstruct Wezel {\n    int w;\n    Wezel* L;\n    Wezel* R;\n};\n\nint suma_preorder_iter(Wezel* korzen) {\n    if (korzen == nullptr) return 0;\n    int suma = 0;\n    stack<Wezel*> stos;\n    stos.push(korzen);\n    while (!stos.empty()) {\n        Wezel* wezel = stos.top();\n        stos.pop();\n        suma += wezel->w;\n        if (wezel->R != nullptr)\n            stos.push(wezel->R);\n        if (wezel->L != nullptr)\n            stos.push(wezel->L);\n    }\n    return suma;\n}\n```\n\n**Wyjasinienie:**\n\n1. Stos symuluje stos wywolan rekurencji. Zamiast wywolywac funkcje rekurencyjnie, wkladamy wezly na stos.\n\n2. Kolejnosc wkladania na stos jest ODWROTNA do porzadku przetwarzania:\n   - Chcemy przetworzyc: wezel, lewy, prawy (preorder)\n   - Wkladamy na stos: prawy, lewy (bo stos jest LIFO)\n   - Sciagamy ze stosu: lewy (przetwarzany jako pierwszy potomek)\n\n3. Dodajemy wartosc wezla natychmiast po sciagnieciu ze stosu (preorder = wezel przed potomkami).\n\n**Weryfikacja na przykladowym drzewie:**\n\n```\n       5\n      / \\\n     3   8\n    / \\   \\\n   1   4   9\n```\n\nStos (od dolu):\n1. push(5). Stos: [5]\n2. pop(5), suma=5. push(8), push(3). Stos: [8, 3]\n3. pop(3), suma=8. push(4), push(1). Stos: [8, 4, 1]\n4. pop(1), suma=9. (brak potomkow). Stos: [8, 4]\n5. pop(4), suma=13. (brak potomkow). Stos: [8]\n6. pop(8), suma=21. push(9). Stos: [9]\n7. pop(9), suma=30. (brak potomkow). Stos: []\n\nWynik: 30. Sprawdzenie: 5+3+1+4+8+9 = 30.",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledna kolejnosc push na stos** -- wkladanie najpierw lewego, potem prawego powoduje przetwarzanie w kolejnosci wezel-prawy-lewy zamiast preorder (wezel-lewy-prawy)",
+      "kara": "-1 pkt za bledna kolejnosc przejscia"
+    },
+    {
+      "opis": "**Brak sprawdzenia NULL przed push** -- wkladanie pustych wezlow na stos powoduje blad wykonania (dereferencja nullptr)",
+      "kara": ""
+    },
+    {
+      "opis": "**Uzycie `stos.front()` zamiast `stos.top()`** -- pomylenie stosu z kolejka. W C++ `stack` nie ma metody `front()`",
+      "kara": "-1 pkt za blad skladniowy"
+    }
+  ]
+}

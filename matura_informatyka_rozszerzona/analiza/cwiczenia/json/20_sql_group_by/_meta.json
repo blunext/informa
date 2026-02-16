@@ -1,0 +1,281 @@
+{
+  "typ": "20_sql_group_by",
+  "nazwa": "SQL — GROUP BY z agregacjami",
+  "kategoria": "SQL",
+  "czestotliwosc": "8/11 lat",
+  "punkty_lacznie": 74,
+  "tagi_globalne": [
+    "AVG",
+    "COUNT",
+    "COUNT-DISTINCT",
+    "GROUP-BY",
+    "HAVING",
+    "JOIN-z-GROUP-BY",
+    "MAX",
+    "MIN",
+    "ORDER-BY",
+    "ROUND",
+    "SUBSTR",
+    "SUM",
+    "WHERE-vs-HAVING",
+    "aliasy",
+    "funkcje-daty",
+    "obliczenia-w-SELECT",
+    "wielokolumnowe-grupowanie"
+  ],
+  "cwiczenia": [
+    {
+      "id": "20.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "GROUP-BY",
+        "COUNT",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "GROUP-BY",
+        "COUNT",
+        "AVG",
+        "ROUND",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.3",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "GROUP-BY",
+        "AVG",
+        "ROUND",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "WHERE-vs-HAVING"
+      ]
+    },
+    {
+      "id": "20.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "GROUP-BY",
+        "SUM",
+        "HAVING",
+        "JOIN-z-GROUP-BY"
+      ]
+    },
+    {
+      "id": "20.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "GROUP-BY",
+        "SUM",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "wielokolumnowe-grupowanie",
+        "SUBSTR",
+        "funkcje-daty"
+      ]
+    },
+    {
+      "id": "20.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "GROUP-BY",
+        "MIN",
+        "MAX",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.7",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "GROUP-BY",
+        "COUNT",
+        "HAVING",
+        "WHERE-vs-HAVING"
+      ]
+    },
+    {
+      "id": "20.8",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "GROUP-BY",
+        "AVG",
+        "ROUND",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "WHERE-vs-HAVING"
+      ]
+    },
+    {
+      "id": "20.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "GROUP-BY",
+        "COUNT",
+        "SUM",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "aliasy"
+      ]
+    },
+    {
+      "id": "20.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "GROUP-BY",
+        "COUNT",
+        "AVG",
+        "ROUND",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "wielokolumnowe-grupowanie",
+        "aliasy"
+      ]
+    },
+    {
+      "id": "20.11",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "GROUP-BY",
+        "SUM",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.12",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "GROUP-BY",
+        "COUNT",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.13",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "GROUP-BY",
+        "AVG",
+        "ROUND",
+        "HAVING",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.14",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "GROUP-BY",
+        "COUNT-DISTINCT",
+        "JOIN-z-GROUP-BY",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.15",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "GROUP-BY",
+        "SUM",
+        "HAVING",
+        "WHERE-vs-HAVING",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.16",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "GROUP-BY",
+        "SUM",
+        "JOIN-z-GROUP-BY",
+        "wielokolumnowe-grupowanie",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.17",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "GROUP-BY",
+        "MIN",
+        "MAX",
+        "AVG",
+        "ROUND",
+        "aliasy",
+        "ORDER-BY",
+        "obliczenia-w-SELECT"
+      ]
+    },
+    {
+      "id": "20.18",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "GROUP-BY",
+        "SUM",
+        "COUNT",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "WHERE-vs-HAVING",
+        "obliczenia-w-SELECT",
+        "aliasy",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.19",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "GROUP-BY",
+        "COUNT",
+        "COUNT-DISTINCT",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "wielokolumnowe-grupowanie",
+        "ORDER-BY",
+        "aliasy"
+      ]
+    },
+    {
+      "id": "20.20",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "GROUP-BY",
+        "SUM",
+        "COUNT",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "wielokolumnowe-grupowanie",
+        "SUBSTR",
+        "obliczenia-w-SELECT",
+        "ORDER-BY",
+        "aliasy"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "17.5",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2019 (Pogoda)",
+  "tagi": [
+    "wykres-kombinowany",
+    "dwie-osie-Y",
+    "wykres-liniowy",
+    "wykres-kolumnowy",
+    "odczyt-z-wykresu"
+  ],
+  "tresc": "Dane pogodowe z 10 dni:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Dzien** | **Temp. max (°C)** | **Temp. min (°C)** | **Opady (mm)** |\n| 2 | 1 | 22 | 12 | 0 |\n| 3 | 2 | 25 | 15 | 0 |\n| 4 | 3 | 20 | 14 | 8 |\n| 5 | 4 | 18 | 11 | 15 |\n| 6 | 5 | 16 | 9 | 22 |\n| 7 | 6 | 19 | 10 | 5 |\n| 8 | 7 | 23 | 13 | 0 |\n| 9 | 8 | 27 | 16 | 0 |\n| 10 | 9 | 24 | 14 | 3 |\n| 11 | 10 | 21 | 12 | 12 |\n\n**Polecenie**: Opisz, jak utworzyc wykres kombinowany (liniowo-kolumnowy) z dwiema osiami Y:\n- Os lewa (Y1): temperatura — dwie linie (max i min)\n- Os prawa (Y2): opady — slupki\nPodaj pelna specyfikacje i odpowiedz: w ktorych dniach opady przekroczyly 10mm, a temperatura maksymalna spadla ponizej 20°C?",
+  "wskazowki": [
+    "**Kierunek**: Wykres kombinowany laczy dwa typy wykresow (liniowy + kolumnowy) z dwiema osiami Y.",
+    "**Podejscie**: Temperatura i opady maja rozne jednostki i skale — potrzebna os dodatkowa. Linie = temperatura, slupki = opady.",
+    "**Kluczowy krok**: W arkuszu: wstaw wykres, zmien serie temperatur na liniowe, przesuń opady na os prawa."
+  ],
+  "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kombinowany (combo chart) — liniowy + kolumnowy z dwiema osiami Y\n2. **Dane**:\n   - Os X: A2:A11 (numery dni)\n   - Seria 1 (linia, os lewa): B2:B11 — Temp. max, kolor czerwony, linia ciagla z markerami\n   - Seria 2 (linia, os lewa): C2:C11 — Temp. min, kolor niebieski, linia ciagla z markerami\n   - Seria 3 (slupki, os prawa): D2:D11 — Opady, kolor jasnoniebieski, slupki\n3. **Osie**:\n   - Os lewa (Y1): \"Temperatura (°C)\", zakres np. 0-30\n   - Os prawa (Y2): \"Opady (mm)\", zakres np. 0-25\n   - Os X: \"Dzien\"\n4. **Formatowanie**:\n   - Tytul: \"Temperatura i opady w ciagu 10 dni\"\n   - Legenda u gory: Temp. max, Temp. min, Opady\n   - Linie siatki poziomej dla osi lewej\n   - Slupki opadow sa \"za\" liniami temperatury (na drugim planie)\n\n**Tworzenie w arkuszu (krok po kroku):**\n1. Zaznacz dane A1:D11\n2. Wstaw wykres kolumnowy\n3. Zmien serie Temp. max i Temp. min na typ \"liniowy\"\n4. Przesuń serie Opady na os dodatkowa (prawa)\n5. Dodaj tytuly osi i legende\n\n**Odpowiedz na pytanie:**\n\n| Dzien | Temp. max | Opady | Opady>10 i Temp<20? |\n|-------|-----------|-------|---------------------|\n| 4 | 18 | 15 | TAK (18<20 i 15>10) |\n| 5 | 16 | 22 | TAK (16<20 i 22>10) |\n| 10 | 21 | 12 | NIE (21≥20) |\n\nDni spelniajace oba warunki: **dzien 4 i dzien 5**\n\n**Wyjasnienie**: Wykres z dwiema osiami Y jest potrzebny, gdy serie maja rozne jednostki lub skale (°C vs mm). Bez osobnej osi slupki opadow (0-22) bylyby nieczytelne na skali temperatury (0-30). Na maturze nalezy precyzyjnie opisac: ktore serie sa na ktorej osi, jaki typ (linia/slupek), kolory i legende.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak drugiej osi Y**: Umieszczenie temperatury i opadow na jednej osi — skale sa rozne, wykres bedzie nieczytelny",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Wszystkie serie jako slupki**: Temperatura powinna byc linia (trend), opady slupkami (pojedyncze zdarzenia)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne przypisanie serii do osi**: Opady na osi lewej, temperatura na prawej — odwrocona logika",
+      "kara": "-1 pkt"
+    }
+  ]
+}

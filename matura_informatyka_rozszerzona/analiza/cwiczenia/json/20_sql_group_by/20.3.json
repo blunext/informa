@@ -1,0 +1,35 @@
+{
+  "id": "20.3",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2022 (Ewidencja uczniow)",
+  "tagi": [
+    "GROUP-BY",
+    "AVG",
+    "ROUND",
+    "HAVING",
+    "JOIN-z-GROUP-BY",
+    "WHERE-vs-HAVING"
+  ],
+  "tresc": "Tabela **Klasy**:\n\n| id_klasy | nazwa_klasy | wychowawca |\n|----------|-------------|------------|\n| 1 | 1A | Kowalski |\n| 2 | 1B | Nowak |\n| 3 | 2A | Wisniewski |\n| 4 | 2B | Lewandowska |\n\nTabela **Uczniowie**:\n\n| id_ucznia | imie | nazwisko | id_klasy | srednia_ocen |\n|-----------|------|----------|----------|-------------|\n| 1 | Anna | Maj | 1 | 4.8 |\n| 2 | Jan | Krol | 1 | 3.5 |\n| 3 | Ewa | Lis | 2 | 5.0 |\n| 4 | Piotr | Zak | 2 | 4.2 |\n| 5 | Kasia | Wrobel | 3 | 4.6 |\n| 6 | Tomek | Bak | 3 | 3.9 |\n| 7 | Ola | Rak | 3 | 4.1 |\n| 8 | Marek | Duda | 4 | 2.8 |\n| 9 | Zofia | Ptak | 1 | 4.3 |\n| 10 | Adam | Wilk | 4 | 3.6 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe klasy oraz srednia ocen uczniow w tej klasie (zaokraglona do 2 miejsc), ale tylko dla klas, w ktorych srednia ocen jest wieksza niz 4.0.",
+  "wskazowki": [
+    "**Kierunek**: Musisz polaczyc dwie tabele, pogrupowac i odfiltrowac grupy.",
+    "**Podejscie**: JOIN laczy Klasy z Uczniami, GROUP BY grupuje wg klasy, a filtrowanie grup wymaga HAVING (nie WHERE).",
+    "**Kluczowy krok**: HAVING AVG(...) > 4.0 — uzyj funkcji agregajacej bezposrednio w HAVING, nie aliasu."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.nazwa_klasy, ROUND(AVG(U.srednia_ocen), 2) AS srednia_klasy\nFROM Klasy K\nJOIN Uczniowie U ON K.id_klasy = U.id_klasy\nGROUP BY K.nazwa_klasy\nHAVING AVG(U.srednia_ocen) > 4.0\nORDER BY srednia_klasy DESC;\n```\n\n**Weryfikacja**:\n- 1A: Anna (4.8), Jan (3.5), Zofia (4.3) → (4.8+3.5+4.3)/3 = 12.6/3 = **4.20** (>4.0 ✓)\n- 1B: Ewa (5.0), Piotr (4.2) → (5.0+4.2)/2 = 9.2/2 = **4.60** (>4.0 ✓)\n- 2A: Kasia (4.6), Tomek (3.9), Ola (4.1) → (4.6+3.9+4.1)/3 = 12.6/3 = **4.20** (>4.0 ✓)\n- 2B: Marek (2.8), Adam (3.6) → (2.8+3.6)/2 = 6.4/2 = **3.20** (>4.0 ✗)\n\n| nazwa_klasy | srednia_klasy |\n|-------------|--------------|\n| 1B | 4.60 |\n| 1A | 4.20 |\n| 2A | 4.20 |\n\n**Wyjasnienie**: Kluczowa roznica: WHERE filtruje wiersze PRZED grupowaniem, HAVING filtruje grupy PO grupowaniu. Tutaj nie mozna uzyc `WHERE AVG(...) > 4.0`, bo AVG wymaga juz zgrupowanych danych.",
+  "typowe_bledy": [
+    {
+      "opis": "**WHERE zamiast HAVING**: `WHERE AVG(srednia_ocen) > 4.0` powoduje blad skladni — funkcje agregujace nie dzialaja w WHERE",
+      "kara": "-2 pkt (blad logiczny)"
+    },
+    {
+      "opis": "**Alias w HAVING**: `HAVING srednia_klasy > 4.0` — w SQLite dziala, ale w wielu bazach nie. Bezpieczniej powtorzyc: `HAVING AVG(U.srednia_ocen) > 4.0`",
+      "kara": ""
+    },
+    {
+      "opis": "**Brak JOIN**: Proba grupowania bez polaczenia tabel — nie uzyskamy nazwy klasy",
+      "kara": "-2 pkt"
+    }
+  ]
+}

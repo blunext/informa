@@ -1,0 +1,32 @@
+{
+  "id": "5.4",
+  "trudnosc": "srednie",
+  "punkty": 2,
+  "zrodlo": "Matura 2023 zad. 5 (porownywanie miedzy systemami)",
+  "tagi": [
+    "system-osemkowy",
+    "porownywanie-systemow",
+    "grupowanie-bitow"
+  ],
+  "tresc": "Dane sa trzy liczby zapisane w roznych systemach liczbowych:\n\n- A = 157(8)\n- B = 6F(16)\n- C = 1101111(2)\n\n**Polecenie**:\n- a) Zamien wszystkie trzy liczby na system dziesietny. Pokaz obliczenia.\n- b) Ktora z liczb A, B, C jest najwieksza?\n- c) Zamien najwieksza liczbe na system osemkowy.",
+  "wskazowki": [
+    "**Kierunek**: Kazda liczbe najpierw przelicz na dziesietny. Porownaj wyniki.",
+    "**Podejscie**: Osemkowy: cyfra*potega_8. Hex: cyfra*potega_16. Binarny: suma poteg 2.",
+    "**Kluczowy krok**: Bin -> osemkowy: grupuj po 3 bity od prawej."
+  ],
+  "odpowiedz": "**a) Konwersja na system dziesietny:**\n\nA = 157(8):\nA = 1*64 + 5*8 + 7*1 = 64 + 40 + 7 = **111(10)**\n\nB = 6F(16):\nB = 6*16 + 15*1 = 96 + 15 = **111(10)**\n\nC = 1101111(2):\nC = 64 + 32 + 8 + 4 + 2 + 1 = **111(10)**\n\n**b) Wszystkie trzy liczby sa rowne: A = B = C = 111(10).**\n\nZaden z nich nie jest \"najwiekszy\" — sa identyczne.\n\n**c) 111(10) w systemie osemkowym:**\n\n| Dzielenie | Iloraz | Reszta |\n|-----------|--------|--------|\n| 111 / 8 | 13 | 7 |\n| 13 / 8 | 1 | 5 |\n| 1 / 8 | 0 | 1 |\n\n111(10) = **157(8)** (co potwierdza wartosc A)\n\nAlternatywna konwersja C -> osemkowy przez grupowanie po 3 bity:\n1101111(2) = 001 | 101 | 111 = 1 | 5 | 7 = 157(8)",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledne potegi 8**: 8^0=1, 8^1=8, 8^2=64, 8^3=512. Czesty blad: 8^2=80",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**F=16 zamiast F=15**: W hex: F=15, nie 16",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Brak dopelnienia przy grupowaniu**: 1101111 -> dopelnij: 001|101|111, nie 110|111|1",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

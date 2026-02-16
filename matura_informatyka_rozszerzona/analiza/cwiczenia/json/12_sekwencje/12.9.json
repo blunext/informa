@@ -1,0 +1,29 @@
+{
+  "id": "12.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Matura 2024 zad. 4 (ciag arytmetyczny)",
+  "tagi": [
+    "ciag-stalej-roznicy",
+    "roznica-sasiadow",
+    "current-max",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie najdluzszy spojny podciag bedacy ciagiem arytmetycznym (stala roznica miedzy sasiadami). Podaj pozycje, dlugosc, elementy i roznice ciagu.\n\n**Dane** (`dane.txt`):\n```\n5\n8\n11\n14\n17\n20\n3\n7\n11\n15\n12\n10\n8\n6\n4\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy ciag arytmetyczny:\nPozycja poczatkowa: 1, dlugosc: 6\nElementy: 5 8 11 14 17 20\nRoznica: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Ciag arytmetyczny ma stala roznice: `d[i] == d[i-1]` dla kazdej pary sasiadnich roznic.",
+    "**Podejscie**: Oblicz roznice, potem szukaj najdluzszego ciagu rownych roznic (wzorzec z 12.1!).",
+    "**Kluczowy krok**: Dlugosc ciagu arytmetycznego = dlugosc ciagu rownych roznic + 1."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    if (n < 2) { cout << \"Za malo danych\" << endl; return 0; }\n\n    vector<int> d(n - 1);\n    for (int i = 0; i < n - 1; i++)\n        d[i] = T[i + 1] - T[i];\n\n    // Najdluzszy ciag rownych roznic\n    int maxDl = 1, maxStart = 0;\n    int curDl = 1, curStart = 0;\n\n    for (int i = 1; i < (int)d.size(); i++) {\n        if (d[i] == d[i - 1]) {\n            curDl++;\n        } else {\n            if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n            curDl = 1; curStart = i;\n        }\n    }\n    if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n\n    // Ciag arytmetyczny ma dlugosc = ciag roznic + 1\n    int arDl = maxDl + 1;\n\n    cout << \"Najdluzszy ciag arytmetyczny:\" << endl;\n    cout << \"Pozycja poczatkowa: \" << maxStart + 1 << \", dlugosc: \" << arDl << endl;\n    cout << \"Elementy: \";\n    for (int i = maxStart; i < maxStart + arDl; i++)\n        cout << T[i] << \" \";\n    cout << endl;\n    cout << \"Roznica: \" << d[maxStart] << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Ciag arytmetyczny to ciag o stalej roznicy. Sprowadzamy problem do szukania najdluzszego ciagu rownych w tablicy roznic (cwiczenie 12.1). Dlugosc ciagu arytmetycznego = dlugosc ciagu rownych roznic + 1.\n\nWeryfikacja:\n- Roznice: 3,3,3,3,3,(-17),4,4,4,(-3),(-2),(-2),(-2),(-2)\n- Ciagi rownych roznic: 3,3,3,3,3 (dl.5, poz.1), 4,4,4 (dl.3, poz.7), -2,-2,-2,-2 (dl.4, poz.11)\n- Najdluzszy: dl.5 (roznice) -> dl.6 (elementy) od poz.1: 5,8,11,14,17,20, roznica=3",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o +1 przy przeliczaniu dlugosci**: n roznic = n+1 elementow",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak obslugi ciagu 2-elementowego**: Kazda para jest ciagiem arytmetycznym. Minimalny ciag arytmetyczny ma dlugosc 2.",
+      "kara": ""
+    }
+  ]
+}

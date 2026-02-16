@@ -1,0 +1,32 @@
+{
+  "id": "5.3",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2025 zad. 5 (Dodawanie binarne)",
+  "tagi": [
+    "dodawanie-binarne",
+    "odejmowanie-binarne",
+    "przeniesienia"
+  ],
+  "tresc": "Wykonaj nastepujace dzialania w systemie binarnym. Pokaz przeniesienia/pozyczki w kazdej kolumnie. Sprawdz wynik konwertujac na system dziesietny.\n\n| Lp. | Dzialanie |\n|-----|-----------|\n| a)  | 10110(2) + 11011(2) |\n| b)  | 11111(2) + 1(2) |\n| c)  | 100000(2) - 10011(2) |",
+  "wskazowki": [
+    "**Kierunek**: Dodawanie binarne: 0+0=0, 0+1=1, 1+1=10 (zapisz 0, przenosisz 1), 1+1+1=11 (zapisz 1, przenosisz 1).",
+    "**Podejscie**: Pracuj kolumna po kolumnie od prawej. Nie zapomnij o przeniesieniach.",
+    "**Kluczowy krok**: Odejmowanie: jezeli gorna cyfra < dolna, musisz pozyczyc z sasiedniej kolumny (jak w dec, ale pozyczka = 2, nie 10)."
+  ],
+  "odpowiedz": "**a) 10110(2) + 11011(2):**\n\n```\n  przeniesienie: 1 1 1 1 0\n                 1 0 1 1 0\n               + 1 1 0 1 1\n               ---------\n               1 1 0 0 0 1\n```\n\nObliczenia kolumna po kolumnie (od prawej):\n- kol. 0: 0+1=1, przeniesienie 0\n- kol. 1: 1+1=10, zapisz 0, przeniesienie 1\n- kol. 2: 1+0+1=10, zapisz 0, przeniesienie 1\n- kol. 3: 0+1+1=10, zapisz 0, przeniesienie 1\n- kol. 4: 1+1+1=11, zapisz 1, przeniesienie 1\n- kol. 5: 1 (przeniesienie)\n\nWynik: **110001(2)**\n\nSprawdzenie: 10110(2) = 22, 11011(2) = 27, suma = 49.\n110001(2) = 32+16+1 = 49.\n\n**b) 11111(2) + 1(2):**\n\n```\n  przeniesienie: 1 1 1 1 1\n                 1 1 1 1 1\n               +         1\n               ---------\n               1 0 0 0 0 0\n```\n\nObliczenia:\n- kol. 0: 1+1=10, zapisz 0, przeniesienie 1\n- kol. 1: 1+0+1=10, zapisz 0, przeniesienie 1\n- kol. 2: 1+0+1=10, zapisz 0, przeniesienie 1\n- kol. 3: 1+0+1=10, zapisz 0, przeniesienie 1\n- kol. 4: 1+0+1=10, zapisz 0, przeniesienie 1\n- kol. 5: 1 (przeniesienie)\n\nWynik: **100000(2)**\n\nSprawdzenie: 11111(2) = 31, 1(2) = 1, suma = 32.\n100000(2) = 32.\n\n**c) 100000(2) - 10011(2):**\n\n```\n  10000\n- 00122\n```\n\nUzupelniamy: 100000 - 010011\n\nObliczenia kolumna po kolumnie (od prawej) z pozyczkami:\n- kol. 0: 0-1: nie mozna, pozyczamy z kol.1\n  - kol.1 = 0, kaskada pozyczek:\n  - kol.5: 1 -> 0, daje 1 do kol.4, kol.4 staje sie 10(2)=2\n  - kol.4: 2 -> 1, daje 1 do kol.3, kol.3 staje sie 10(2)=2\n  - kol.3: 2 -> 1, daje 1 do kol.2, kol.2 staje sie 10(2)=2\n  - kol.2: 2 -> 1, daje 1 do kol.1, kol.1 staje sie 10(2)=2\n  - kol.1: 2 -> 1, daje 1 do kol.0, kol.0 staje sie 10(2)=2\n  - kol.0: 2-1 = 1\n- kol.1: 1-1 = 0\n- kol.2: 1-0 = 1\n- kol.3: 1-0 = 1\n- kol.4: 1-1 = 0\n- kol.5: 0-0 = 0\n\nWynik: **001101(2) = 1101(2)**\n\nSprawdzenie: 100000(2) = 32, 10011(2) = 19, roznica = 13.\n1101(2) = 8+4+1 = 13.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o przeniesieniu**: 1+1 w binarnym to 10, nie 2!",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Kaskada pozyczek**: Przy odejmowaniu z zerami (np. 100000-10011) trzeba pozyczyc przez wiele kolumn",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak sprawdzenia w dziesietnym**: ZAWSZE konwertuj na dziesietny i sprawdz",
+      "kara": ""
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "16.10",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "ogolna (symulacja kolejki)",
+  "tagi": [
+    "akumulator",
+    "IF-warunkowy",
+    "MIN",
+    "MAX",
+    "lancuch-zaleznosci",
+    "symulacja-krokowa",
+    "prog-warunkowy"
+  ],
+  "tresc": "Parking ma pojemnosc maksymalna 40 miejsc. W kazdej godzinie przybywa pewna liczba samochodow (chcacych wjechac) i pewna liczba samochodow opuszcza parking. Samochody, ktore nie zmieszcza sie na parkingu (brak miejsc), odjeżdżaja i sa liczone jako \"odrzucone\". Poczatkowo na parkingu jest 15 samochodow.\n\n| | A | B | C | D | E | F | G |\n|---|---|---|---|---|---|---|---|\n| 1 | **Godz** | **Przyjazdy** | **Wyjazdy** | **Na parkingu przed** | **Faktyczne przyjecia** | **Odrzucone** | **Na parkingu po** |\n| 2 | 8:00 | 12 | 3 | ? | ? | ? | ? |\n| 3 | 9:00 | 18 | 5 | ? | ? | ? | ? |\n| 4 | 10:00 | 8 | 10 | ? | ? | ? | ? |\n| 5 | 11:00 | 6 | 7 | ? | ? | ? | ? |\n| 6 | 12:00 | 15 | 12 | ? | ? | ? | ? |\n| 7 | 13:00 | 20 | 8 | ? | ? | ? | ? |\n| 8 | 14:00 | 10 | 14 | ? | ? | ? | ? |\n| 9 | 15:00 | 5 | 9 | ? | ? | ? | ? |\n| 10 | 16:00 | 3 | 15 | ? | ? | ? | ? |\n| 11 | 17:00 | 2 | 12 | ? | ? | ? | ? |\n\nPojemnosc parkingu: komorka I1 = 40. Poczatkowa liczba samochodow: komorka I2 = 15.\n\n**Polecenie**:\n1. W D2 oblicz stan parkingu przed operacjami godziny: poprzedni stan po operacjach (dla godz. 8:00 uzyj I2) minus wyjazdy (ale stan nie moze byc ujemny — uzyj MAX(...;0)).\n2. W E2 oblicz faktyczne przyjecia = MIN(przyjazdy; pojemnosc - stan po wyjazdach). To znaczy: przyjmij tyle samochodow, ile sie zmiesci.\n3. W F2 oblicz odrzucone = przyjazdy - faktyczne przyjecia.\n4. W G2 oblicz stan po operacjach = stan po wyjazdach + faktyczne przyjecia.\n5. Wypelnij tabele. Podaj laczna liczbe odrzuconych samochodow i godzine szczytu (najwiecej aut na parkingu).",
+  "wskazowki": [
+    "**Wskazowka 1**: Kolejnosc operacji w kazdej godzinie: najpierw wyjazdy (zwalniaja miejsca), potem przyjazdy (zajmuja miejsca). Stan po wyjazdach nie moze byc ujemny. Faktyczne przyjecia sa ograniczone dostepnymi miejscami.",
+    "**Wskazowka 2**: Stan po wyjazdach = MAX(poprzedni stan - wyjazdy; 0). Wolne miejsca = pojemnosc - stan po wyjazdach. Faktyczne przyjecia = MIN(przyjazdy; wolne miejsca). Odrzucone = przyjazdy - faktyczne przyjecia.",
+    "**Wskazowka 3**: Formuly: D2 (stan po wyjazdach): `=MAX($I$2-C2;0)` (dla godz. 8:00), od D3: `=MAX(G2-C3;0)`. E2: `=MIN(B2;$I$1-D2)`. F2: `=B2-E2`. G2: `=D2+E2`. Godz. 8:00: stan po wyjazdach = MAX(15-3;0)=12, wolne=40-12=28, przyjecia=MIN(12;28)=12, odrzucone=0, stan=24."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nD2: =MAX($I$2-C2;0)               (godz. 8:00, poczatkowy stan z I2)\nD3: =MAX(G2-C3;0)                 (kopiowane w dol od wiersza 3)\nE2: =MIN(B2;$I$1-D2)              (kopiowane w dol)\nF2: =B2-E2                        (kopiowane w dol)\nG2: =D2+E2                        (kopiowane w dol)\nLaczna liczba odrzuconych: =SUM(F2:F11)\n```\n\n**Reczne sledzenie krok po kroku:**\n\nGodz. 8:00: stan_przed=15, po_wyjazdach=MAX(15-3;0)=12, wolne=40-12=28, przyjecia=MIN(12;28)=12, odrzucone=0, stan_po=12+12=24\nGodz. 9:00: stan_przed=24, po_wyjazdach=MAX(24-5;0)=19, wolne=40-19=21, przyjecia=MIN(18;21)=18, odrzucone=0, stan_po=19+18=37\nGodz. 10:00: stan_przed=37, po_wyjazdach=MAX(37-10;0)=27, wolne=40-27=13, przyjecia=MIN(8;13)=8, odrzucone=0, stan_po=27+8=35\nGodz. 11:00: stan_przed=35, po_wyjazdach=MAX(35-7;0)=28, wolne=40-28=12, przyjecia=MIN(6;12)=6, odrzucone=0, stan_po=28+6=34\nGodz. 12:00: stan_przed=34, po_wyjazdach=MAX(34-12;0)=22, wolne=40-22=18, przyjecia=MIN(15;18)=15, odrzucone=0, stan_po=22+15=37\nGodz. 13:00: stan_przed=37, po_wyjazdach=MAX(37-8;0)=29, wolne=40-29=11, przyjecia=MIN(20;11)=11, odrzucone=9, stan_po=29+11=40\nGodz. 14:00: stan_przed=40, po_wyjazdach=MAX(40-14;0)=26, wolne=40-26=14, przyjecia=MIN(10;14)=10, odrzucone=0, stan_po=26+10=36\nGodz. 15:00: stan_przed=36, po_wyjazdach=MAX(36-9;0)=27, wolne=40-27=13, przyjecia=MIN(5;13)=5, odrzucone=0, stan_po=27+5=32\nGodz. 16:00: stan_przed=32, po_wyjazdach=MAX(32-15;0)=17, wolne=40-17=23, przyjecia=MIN(3;23)=3, odrzucone=0, stan_po=17+3=20\nGodz. 17:00: stan_przed=20, po_wyjazdach=MAX(20-12;0)=8, wolne=40-8=32, przyjecia=MIN(2;32)=2, odrzucone=0, stan_po=8+2=10\n\n**Wypelniona tabela:**\n\n| Godz | Przyjazdy | Wyjazdy | Po wyjazdach | Fakt. przyjecia | Odrzucone | Po operacjach |\n|------|-----------|---------|--------------|-----------------|-----------|---------------|\n| 8:00 | 12 | 3 | 12 | 12 | 0 | 24 |\n| 9:00 | 18 | 5 | 19 | 18 | 0 | 37 |\n| 10:00 | 8 | 10 | 27 | 8 | 0 | 35 |\n| 11:00 | 6 | 7 | 28 | 6 | 0 | 34 |\n| 12:00 | 15 | 12 | 22 | 15 | 0 | 37 |\n| 13:00 | 20 | 8 | 29 | 11 | 9 | 40 |\n| 14:00 | 10 | 14 | 26 | 10 | 0 | 36 |\n| 15:00 | 5 | 9 | 27 | 5 | 0 | 32 |\n| 16:00 | 3 | 15 | 17 | 3 | 0 | 20 |\n| 17:00 | 2 | 12 | 8 | 2 | 0 | 10 |\n\nLaczna liczba odrzuconych samochodow: **9** (wszystkie o godz. 13:00)\nGodzina szczytu (najwiecej aut): **13:00** (40 samochodow — pelny parking)\n\n**Weryfikacja szczytu (godz. 13:00):**\n- Stan przed = 37 (z poprzedniej godziny)\n- Po wyjazdach: MAX(37-8;0) = 29\n- Wolne miejsca: 40-29 = 11\n- Chce wjechac 20, ale zmiesci sie tylko 11\n- Odrzucone: 20-11 = 9\n- Stan po: 29+11 = 40 (pelny parking)\n\n**Wyjasnienie**: Symulacja kolejkowa z ograniczeniem pojemnosci to zaawansowane zadanie laczace kilka technik: (1) akumulator z dwoma zrodlami zmian, (2) ograniczenie dolne przez MAX(...;0) — stan nie moze byc ujemny, (3) ograniczenie gorne przez MIN(przyjazdy; wolne_miejsca) — nie mozna przyjac wiecej niz jest miejsc, (4) obliczenie odrzuconych jako roznica. Na maturze kluczowe jest prawidlowe okreslenie kolejnosci operacji (najpierw wyjazdy, potem przyjazdy) oraz uzycie MIN/MAX do modelowania ograniczen fizycznych. Tego typu zadanie laczy umiejetnosci z wielu prostszych cwiczen w jedna spójna symulacje.",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwrotna kolejnosc operacji**: Najpierw dodanie przyjazdow, potem odjecie wyjazdow — moze doprowadzic do sytuacji, ze parking \"przekracza\" pojemnosc na chwile, co daje inne wyniki odrzucen.",
+      "kara": ""
+    },
+    {
+      "opis": "**Brak ograniczenia MIN dla przyjazdow**: Napisanie `E2: =B2` zamiast `=MIN(B2;$I$1-D2)` — pozwala na przekroczenie pojemnosci parkingu (np. 45 aut na 40 miejscach).",
+      "kara": ""
+    },
+    {
+      "opis": "**Brak ograniczenia MAX dla wyjazdow**: Jezeli wyjazdy > stan parkingu, bez MAX stan staje sie ujemny, co daje sztuczne \"wolne miejsca\" powyzej pojemnosci. Nalezy uzywac `MAX(stan-wyjazdy;0)`.",
+      "kara": ""
+    }
+  ]
+}

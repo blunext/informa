@@ -1,0 +1,37 @@
+{
+  "id": "18.10",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2025 (Martianeum)",
+  "tagi": [
+    "AVERAGE",
+    "MAX",
+    "MIN",
+    "RANK",
+    "ROUND",
+    "odchylenie-od-sredniej",
+    "ABS",
+    "zakres-bezwzgledny"
+  ],
+  "tresc": "Uczniowie brali udzial w 5 konkursach przedmiotowych. Punkty (0-100):\n\n| | A | B | C | D | E | F |\n|---|---|---|---|---|---|---|\n| 1 | **Uczen** | **Mat** | **Fiz** | **Inf** | **Bio** | **Chem** |\n| 2 | Alicja | 78 | 65 | 92 | 54 | 71 |\n| 3 | Borys | 85 | 72 | 88 | 61 | 68 |\n| 4 | Celina | 62 | 91 | 45 | 83 | 77 |\n| 5 | Daniel | 95 | 58 | 97 | 42 | 55 |\n| 6 | Ewa | 71 | 80 | 76 | 79 | 82 |\n| 7 | Filip | 88 | 69 | 84 | 57 | 63 |\n| 8 | Gosia | 55 | 87 | 51 | 90 | 85 |\n\n**Polecenie**:\n1. W kolumnie G oblicz srednia punktow kazdego ucznia (ze wszystkich 5 konkursow), zaokraglona do 1 miejsca.\n2. W kolumnie H oblicz rozstep punktow kazdego ucznia (MAX - MIN z jego wynikow).\n3. W kolumnie I wpisz ranking na podstawie sredniej (1 = najlepsza srednia).\n4. Oblicz srednia klasy dla kazdego przedmiotu osobno.\n5. Ktory uczen ma najbardziej wyrownane wyniki (najmniejszy rozstep)?\n6. Ktory uczen ma najwyzsza srednia, ale jednoczesnie duzy rozstep (>30)?",
+  "wskazowki": [
+    "**Kierunek**: Kazdy uczen to jeden wiersz — AVERAGE, MAX, MIN operuja na B:F danego wiersza.",
+    "**Podejscie**: Rozstep = MAX(wiersz) - MIN(wiersz). RANK operuje na kolumnie G (srednie).",
+    "**Kluczowy krok**: Porownaj ranking ze rozstepem — wysoka srednia z duzym rozstepem oznacza nierownomierne wyniki."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nG2: =ROUND(AVERAGE(B2:F2);1)     (kopiowana w dol)\nH2: =MAX(B2:F2)-MIN(B2:F2)       (kopiowana w dol)\nI2: =RANK(G2;$G$2:$G$8;0)        (kopiowana w dol)\n\nSrednia klasy Mat: =AVERAGE(B2:B8)\nSrednia klasy Fiz: =AVERAGE(C2:C8)\n(analogicznie dla Inf, Bio, Chem)\n```\n\n**Obliczenia:**\n\n| Uczen | Mat | Fiz | Inf | Bio | Chem | G: Sred. | H: Rozstep | I: Rank |\n|-------|-----|-----|-----|-----|------|---------|-----------|---------|\n| Alicja | 78 | 65 | 92 | 54 | 71 | 72.0 | 38 | 4 |\n| Borys | 85 | 72 | 88 | 61 | 68 | 74.8 | 27 | 2 |\n| Celina | 62 | 91 | 45 | 83 | 77 | 71.6 | 46 | 5 |\n| Daniel | 95 | 58 | 97 | 42 | 55 | 69.4 | 55 | 6 |\n| Ewa | 71 | 80 | 76 | 79 | 82 | 77.6 | 11 | 1 |\n| Filip | 88 | 69 | 84 | 57 | 63 | 72.2 | 31 | 3 |\n| Gosia | 55 | 87 | 51 | 90 | 85 | 73.6 | 39 | — |\n\nWeryfikacja G:\n- Alicja: (78+65+92+54+71)/5 = 360/5 = 72.0 ✓\n- Borys: (85+72+88+61+68)/5 = 374/5 = 74.8 ✓\n- Ewa: (71+80+76+79+82)/5 = 388/5 = 77.6 ✓\n- Daniel: (95+58+97+42+55)/5 = 347/5 = 69.4 ✓\n- Gosia: (55+87+51+90+85)/5 = 368/5 = 73.6\n\nRanking: 77.6 (1.), 74.8 (2.), 73.6 (3.), 72.2 (4.), 72.0 (5.), 71.6 (6.), 69.4 (7.)\n\nKorekta rankingu:\n| Uczen | Srednia | Ranking |\n|-------|---------|---------|\n| Ewa | 77.6 | 1 |\n| Borys | 74.8 | 2 |\n| Gosia | 73.6 | 3 |\n| Filip | 72.2 | 4 |\n| Alicja | 72.0 | 5 |\n| Celina | 71.6 | 6 |\n| Daniel | 69.4 | 7 |\n\n**Srednie na przedmiot:**\n- Mat: (78+85+62+95+71+88+55)/7 = 534/7 = **76.3**\n- Fiz: (65+72+91+58+80+69+87)/7 = 522/7 = **74.6**\n- Inf: (92+88+45+97+76+84+51)/7 = 533/7 = **76.1**\n- Bio: (54+61+83+42+79+57+90)/7 = 466/7 = **66.6**\n- Chem: (71+68+77+55+82+63+85)/7 = 501/7 = **71.6**\n\n**5. Najbardziej wyrownane wyniki:**\n**Ewa** — rozstep = 11 (wyniki 71-82, wszystkie zblizone)\n\n**6. Najwyzsza srednia z duzym rozstepem (>30):**\nOsoby z rozstepem >30: Alicja (38), Celina (46), Daniel (55), Filip (31), Gosia (39)\nNajwyzsza srednia wsrod nich: **Gosia** (73.6, rozstep 39) lub **Borys** (74.8, rozstep 27 — nie spelnia >30)\nOdpowiedz: **Gosia** (srednia 73.6, rozstep 39)\n\n**Wyjasnienie**: Rozstep (MAX-MIN) mierzy rozrzut wynikow ucznia. Maly rozstep = wyrownane wyniki (Ewa: 11), duzy = duza zmiennosc (Daniel: 55 — swietny z Mat/Inf, slaby z Bio). Na maturze analiza rozstepu pozwala interpretowac profile uczniow.",
+  "typowe_bledy": [
+    {
+      "opis": "**AVERAGE z kolumny zamiast wiersza**: =AVERAGE(B2:B8) to srednia wszystkich uczniow z matematyki, nie srednia jednego ucznia",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak ROUND w sredniej**: Bez zaokraglenia srednia moze miec wiele miejsc po przecinku",
+      "kara": "-1 pkt jesli wymagane"
+    },
+    {
+      "opis": "**Pomieszanie rozstepu z odchyleniem standardowym**: Rozstep = MAX-MIN, odchylenie standardowe to inna miara (STDEV)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

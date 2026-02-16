@@ -1,0 +1,29 @@
+{
+  "id": "11.1",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2015 zad. 4.3",
+  "tagi": [
+    "min-max",
+    "pozycja-elementu",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie wartosc minimalna i maksymalna oraz poda ich pozycje (numerowane od 1).\n\n**Dane** (`dane.txt`):\n```\n45\n12\n78\n34\n91\n23\n67\n8\n56\n82\n15\n39\n```\n\n**Oczekiwany wynik**:\n```\nMinimum: 8 (pozycja: 8)\nMaksimum: 91 (pozycja: 5)\n```",
+  "wskazowki": [
+    "**Kierunek**: Inicjalizuj min/max pierwszym elementem, potem skanuj reszte.",
+    "**Podejscie**: Sledzac min/max, pamietaj tez ich pozycje (indeks + 1).",
+    "**Kluczowy krok**: Warunki aktualizacji: `tab[i] < minVal` i `tab[i] > maxVal`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> tab;\n    int x;\n    while (plik >> x) tab.push_back(x);\n\n    int minVal = tab[0], maxVal = tab[0];\n    int minPos = 1, maxPos = 1;\n    for (int i = 1; i < tab.size(); i++) {\n        if (tab[i] < minVal) { minVal = tab[i]; minPos = i + 1; }\n        if (tab[i] > maxVal) { maxVal = tab[i]; maxPos = i + 1; }\n    }\n    cout << \"Minimum: \" << minVal << \" (pozycja: \" << minPos << \")\" << endl;\n    cout << \"Maksimum: \" << maxVal << \" (pozycja: \" << maxPos << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Klasyczny skan liniowy — inicjalizujemy min/max pierwszym elementem, potem iterujemy i aktualizujemy przy znalezieniu mniejszego/wiekszego.\n\nWeryfikacja: Ciag: 45,12,78,34,91,23,67,8,56,82,15,39. Min=8 (poz.8), Max=91 (poz.5).",
+  "typowe_bledy": [
+    {
+      "opis": "**Inicjalizacja min=0**: Jesli wszystkie liczby sa dodatnie, min=0 nigdy nie zostanie nadpisane. Inicjalizuj pierwszym elementem lub `INT_MAX`",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Indeks od 0 zamiast od 1**: CKE numeruje pozycje od 1",
+      "kara": "-1 pkt (za kazda bledna pozycje)"
+    }
+  ]
+}

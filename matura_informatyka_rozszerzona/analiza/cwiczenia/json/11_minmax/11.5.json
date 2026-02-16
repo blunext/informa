@@ -1,0 +1,33 @@
+{
+  "id": "11.5",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2025 zad. 2.3 + 2024 zad. 4",
+  "tagi": [
+    "roznica-bezwzgledna",
+    "spojny-fragment",
+    "min-max",
+    "podwojna-petla"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Znajdzie pare indeksow (i, j), gdzie i < j, dla ktorej |T[i] - T[j]| jest maksymalne.\nb) Znajdzie pare sasiadujacych elementow (indeksy i, i+1) o najmniejszej roznicy bezwzglednej.\nc) Znajdzie najdluzszy spojny fragment tablicy, w ktorym roznica miedzy max a min nie przekracza 10.\n\n**Dane** (`dane.txt`):\n```\n25\n18\n22\n20\n19\n24\n21\n50\n45\n48\n47\n46\n3\n80\n5\n```\n\n**Oczekiwany wynik**:\n```\na) Max roznica: |T[13]-T[14]| = |3-80| = 77 (pozycje 13, 14)\n\nb) Min roznica sasiadow: |T[4]-T[5]| = |20-19| = 1 (pozycje 4, 5)\n\nc) Najdluzszy fragment z max-min <= 10:\n   Pozycje 1-7: [25,18,22,20,19,24,21], max=25, min=18, roznica=7 <= 10\n   Dlugosc: 7\n```",
+  "wskazowki": [
+    "**Kierunek**: (a) Max roznica = max_element - min_element calego ciagu. (b) Skan par sasiadow. (c) Podwojna petla z sledzeniem min/max fragmentu.",
+    "**Podejscie**: Dla (a) wystarczy znalezc globalne min i max. Dla (c) rozszerzaj fragment od kazdej pozycji i, sledzac min/max — przerwij gdy roznica > 10.",
+    "**Kluczowy krok**: W (c) `break` przy roznica > 10 jest OK, bo dodanie kolejnych elementow nie zmniejszy roznicy."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    // a) Max |T[i]-T[j]|, i<j\n    int maxDiff = 0, ai = 0, aj = 0;\n    for (int i = 0; i < n; i++)\n        for (int j = i + 1; j < n; j++)\n            if (abs(T[i] - T[j]) > maxDiff) {\n                maxDiff = abs(T[i] - T[j]);\n                ai = i; aj = j;\n            }\n    cout << \"a) Max roznica: |T[\" << ai+1 << \"]-T[\" << aj+1 << \"]| = |\"\n         << T[ai] << \"-\" << T[aj] << \"| = \" << maxDiff\n         << \" (pozycje \" << ai+1 << \", \" << aj+1 << \")\" << endl;\n\n    // b) Min roznica sasiadow\n    int minDiff = abs(T[0] - T[1]);\n    int bi = 0;\n    for (int i = 1; i < n - 1; i++) {\n        int d = abs(T[i] - T[i + 1]);\n        if (d < minDiff) { minDiff = d; bi = i; }\n    }\n    cout << endl << \"b) Min roznica sasiadow: |T[\" << bi+1 << \"]-T[\" << bi+2\n         << \"]| = |\" << T[bi] << \"-\" << T[bi+1] << \"| = \" << minDiff\n         << \" (pozycje \" << bi+1 << \", \" << bi+2 << \")\" << endl;\n\n    // c) Najdluzszy fragment z max-min <= 10\n    int bestLen = 0, bestStart = 0;\n    for (int i = 0; i < n; i++) {\n        int curMin = T[i], curMax = T[i];\n        for (int j = i; j < n; j++) {\n            curMin = min(curMin, T[j]);\n            curMax = max(curMax, T[j]);\n            if (curMax - curMin <= 10) {\n                if (j - i + 1 > bestLen) {\n                    bestLen = j - i + 1;\n                    bestStart = i;\n                }\n            } else break;\n        }\n    }\n    cout << endl << \"c) Najdluzszy fragment z max-min <= 10:\" << endl;\n    cout << \"   Pozycje \" << bestStart+1 << \"-\" << bestStart+bestLen\n         << \": [\";\n    for (int i = bestStart; i < bestStart + bestLen; i++) {\n        if (i > bestStart) cout << \",\";\n        cout << T[i];\n    }\n    int fMin = *min_element(T.begin()+bestStart, T.begin()+bestStart+bestLen);\n    int fMax = *max_element(T.begin()+bestStart, T.begin()+bestStart+bestLen);\n    cout << \"], max=\" << fMax << \", min=\" << fMin\n         << \", roznica=\" << fMax-fMin << \" <= 10\" << endl;\n    cout << \"   Dlugosc: \" << bestLen << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: (a) Podwojna petla O(n^2) sprawdzajaca wszystkie pary — mozna tez znalezc globalne min i max. (b) Petla po parach sasiadow. (c) Podwojna petla — dla kazdego poczatku rozszerzamy fragment aktualizujac min/max, dopoki roznica <= 10.\n\nWeryfikacja:\na) Globalne min=3 (poz.13), max=80 (poz.14). Para (13,14): |3-80|=77.\nb) Roznice sasiadow: |25-18|=7, |18-22|=4, |22-20|=2, |20-19|=1, |19-24|=5, |24-21|=3, |21-50|=29, |50-45|=5, |45-48|=3, |48-47|=1, |47-46|=1, |46-3|=43, |3-80|=77, |80-5|=75\n   Min=1 (pozycje 4,5 lub 10,11 lub 11,12). Pierwsza: pozycje 4,5 (20,19).\nc) Fragment 1-7: [25,18,22,20,19,24,21], min=18, max=25, diff=7. Element 8 (50) sprawia ze diff=32. Dlugosc 7.\n   Fragment 8-12: [50,45,48,47,46], min=45, max=50, diff=5. Dlugosc 5.\n   Najdluzszy: 7 (pozycje 1-7).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak `abs()` w roznicy**: Bez wartosci bezwzglednej, ujemne roznice nie beda porownywane poprawnie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Inicjalizacja minDiff=0 w punkcie (b)**: Roznica 0 jest mniejsza niz kazda inna, wiec min nigdy nie zostanie nadpisane",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak `break` w punkcie (c)**: Bez break program dziala poprawnie ale wolniej (O(n^3) zamiast O(n^2) w praktyce). Nie jest to blad logiczny, ale moze powodowac timeout na duzych danych.",
+      "kara": ""
+    }
+  ]
+}

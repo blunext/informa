@@ -1,0 +1,27 @@
+{
+  "id": "21.12",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2017",
+  "tagi": [
+    "NOT-IN",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Druzyny**:\n\n| id_druzyny | nazwa | miasto |\n|------------|-------|--------|\n| 1 | Orly | Warszawa |\n| 2 | Wilki | Krakow |\n| 3 | Lwy | Gdansk |\n| 4 | Rysie | Poznan |\n\nTabela **Mecze**:\n\n| id_meczu | id_druzyny | przeciwnik | wynik |\n|----------|------------|------------|-------|\n| 1 | 1 | Tygrysy | wygrana |\n| 2 | 2 | Jaguary | przegrana |\n| 3 | 1 | Pantery | wygrana |\n| 4 | 3 | Tygrysy | remis |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwy druzyn, ktore NIE rozegraly zadnego meczu.",
+  "wskazowki": [
+    "**Kierunek**: Szukasz druzyn, ktorych id NIE wystepuje w tabeli Mecze.",
+    "**Podejscie**: Podzapytanie zwraca zbior id_druzyny z Mecze, a NOT IN wyklucza je.",
+    "**Kluczowy krok**: `WHERE id_druzyny NOT IN (SELECT id_druzyny FROM Mecze)`."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa\nFROM Druzyny\nWHERE id_druzyny NOT IN (SELECT id_druzyny FROM Mecze);\n```\n\n**Weryfikacja**:\n- Druzyny z meczami (id_druzyny w Mecze): 1, 2, 3\n- Druzyny bez meczy: id=4 (Rysie)\n\n| nazwa |\n|-------|\n| Rysie |\n\n**Wyjasnienie**: NOT IN sprawdza, czy id_druzyny NIE nalezy do zbioru zwroconego przez podzapytanie. Alternatywa: LEFT JOIN + IS NULL.",
+  "typowe_bledy": [
+    {
+      "opis": "**IN zamiast NOT IN**: Daje druzyny Z meczami — odwrotnosc oczekiwanego wyniku",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak nawiasow wokol podzapytania**: Podzapytanie musi byc w nawiasach",
+      "kara": "-1 pkt"
+    }
+  ]
+}

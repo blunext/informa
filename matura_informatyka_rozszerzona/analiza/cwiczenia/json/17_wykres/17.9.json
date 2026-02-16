@@ -1,0 +1,34 @@
+{
+  "id": "17.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2024 (Hurtownia)",
+  "tagi": [
+    "wykres-liniowy",
+    "wykres-kombinowany",
+    "dwie-osie-Y",
+    "odczyt-z-wykresu",
+    "formatowanie-wykresu"
+  ],
+  "tresc": "Dane o ruchu na stronie internetowej i sprzedazy online w 8 tygodniach:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Tydzien** | **Odwiedziny** | **Zamowienia** | **Konwersja (%)** |\n| 2 | 1 | 5200 | 156 | 3.0 |\n| 3 | 2 | 4800 | 168 | 3.5 |\n| 4 | 3 | 6100 | 183 | 3.0 |\n| 5 | 4 | 7500 | 300 | 4.0 |\n| 6 | 5 | 6800 | 238 | 3.5 |\n| 7 | 6 | 8200 | 410 | 5.0 |\n| 8 | 7 | 7100 | 284 | 4.0 |\n| 9 | 8 | 9000 | 450 | 5.0 |\n\n**Polecenie**:\n1. Opisz wykres kombinowany: linia odwiedzin (os lewa) + slupki zamowien (os prawa).\n2. Opisz osobny wykres liniowy konwersji z linia trendu.\n3. Czy wzrost odwiedzin zawsze przekladal sie na wzrost zamowien? Uzasadnij na podstawie danych.\n4. W ktorym tygodniu konwersja byla najwyzsza?",
+  "wskazowki": [
+    "**Kierunek**: Dwa wykresy — kombinowany (odwiedziny + zamowienia) i liniowy (konwersja). Skale sa rozne, wiec potrzebne dwie osie Y.",
+    "**Podejscie**: Porownaj tygodnie, w ktorych odwiedziny rosna, a zamowienia spadaja (lub odwrotnie) — to dowod na brak idealnej korelacji.",
+    "**Kluczowy krok**: Linia trendu (regresja liniowa) na wykresie konwersji pokazuje ogolny kierunek zmian."
+  ],
+  "odpowiedz": "**1. Wykres kombinowany (odwiedziny + zamowienia):**\n- Typ: Combo chart (linia + slupki)\n- Os X: A2:A9 (tygodnie)\n- Seria 1 (linia, os lewa): B2:B9 — Odwiedziny, kolor niebieski, skala 0-10000\n- Seria 2 (slupki, os prawa): C2:C9 — Zamowienia, kolor zielony, skala 0-500\n- Tytul: \"Odwiedziny i zamowienia wg tygodni\"\n- Legenda, tytuly osi\n\n**2. Wykres liniowy konwersji:**\n- Typ: Liniowy z markerami + linia trendu (regresja liniowa)\n- Os X: tygodnie, Os Y: D2:D9 (konwersja %)\n- Tytul: \"Wskaznik konwersji — trend\"\n- Linia trendu: rosnaca (konwersja rosnie z 3.0% do 5.0%)\n\n**3. Analiza korelacji odwiedzin vs zamowien:**\n\n| Tydzien | Odwiedziny | Zmiana | Zamowienia | Zmiana | Zgodnosc? |\n|---------|------------|--------|------------|--------|-----------|\n| 1→2 | 5200→4800 | spadek | 156→168 | wzrost | NIE |\n| 2→3 | 4800→6100 | wzrost | 168→183 | wzrost | TAK |\n| 3→4 | 6100→7500 | wzrost | 183→300 | wzrost | TAK |\n| 4→5 | 7500→6800 | spadek | 300→238 | spadek | TAK |\n| 5→6 | 6800→8200 | wzrost | 238→410 | wzrost | TAK |\n| 6→7 | 8200→7100 | spadek | 410→284 | spadek | TAK |\n| 7→8 | 7100→9000 | wzrost | 284→450 | wzrost | TAK |\n\nOdpowiedz: **Nie zawsze** — w tygodniu 1→2 odwiedziny spadly, a zamowienia wzrosly. Ale w wiekszosci przypadkow (6 z 7) kierunki zmian sa zgodne.\n\n**4. Najwyzsza konwersja**: **5.0% w tygodniach 6 i 8**\n\n**Wyjasnienie**: Wykres kombinowany z dwiema osiami pozwala wizualnie porownac dwie wielkosc o roznych skalach. Linia trendu pomaga dostrzec ogolny kierunek zmian. Na maturze czesto trzeba przeanalizowac, czy dwie wielkosci sa skorelowane.",
+  "typowe_bledy": [
+    {
+      "opis": "**Obie serie na jednej osi**: Odwiedziny (tysiace) i zamowienia (setki) na jednej skali — zamowienia beda niewidoczne",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Stwierdzenie \"zawsze rosna razem\" bez analizy**: Trzeba sprawdzic kazda pare tygodni, nie zakladac korelacji",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak linii trendu**: Jesli polecenie wymaga linii trendu, trzeba ja dodac",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "23.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "Matura 2021 (Gra strategiczna)",
+  "tagi": [
+    "CASE-WHEN",
+    "obliczenia-w-SELECT",
+    "WHERE",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Wyniki_egzaminu**:\n\n| id | imie | nazwisko | teoria | praktyka | projekt |\n|----|------|----------|--------|----------|---------|\n| 1 | Anna | Maj | 38 | 42 | 15 |\n| 2 | Jan | Krol | 25 | 30 | 10 |\n| 3 | Ewa | Lis | 45 | 48 | 18 |\n| 4 | Piotr | Zak | 30 | 35 | 12 |\n| 5 | Kasia | Wrobel | 20 | 25 | 8 |\n| 6 | Tomek | Bak | 42 | 45 | 17 |\n| 7 | Ola | Rak | 35 | 38 | 14 |\n| 8 | Marek | Duda | 15 | 20 | 5 |\n\nMaksymalne punkty: teoria 50, praktyka 50, projekt 20. Lacznie 120.\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko, sume punktow oraz ocene slowna wg schematu:\n- suma >= 96 (80%): 'celujacy'\n- suma >= 72 (60%): 'bardzo dobry'\n- suma >= 48 (40%): 'dostateczny'\n- suma < 48: 'niedostateczny'\n\nPosortuj malejaco wg sumy.",
+  "wskazowki": [
+    "**Kierunek**: Obliczenia w SELECT i CASE WHEN do klasyfikacji.",
+    "**Podejscie**: `(teoria + praktyka + projekt) AS suma` i CASE WHEN z progami.",
+    "**Kluczowy krok**: CASE WHEN sprawdza warunki PO KOLEI — pierwszy spelniony wygrywa. Zacznij od najwyzszego progu."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko,\n       (teoria + praktyka + projekt) AS suma,\n       CASE\n         WHEN (teoria + praktyka + projekt) >= 96 THEN 'celujacy'\n         WHEN (teoria + praktyka + projekt) >= 72 THEN 'bardzo dobry'\n         WHEN (teoria + praktyka + projekt) >= 48 THEN 'dostateczny'\n         ELSE 'niedostateczny'\n       END AS ocena\nFROM Wyniki_egzaminu\nORDER BY suma DESC;\n```\n\n**Weryfikacja**:\n- Ewa: 45+48+18 = **111** → celujacy (>=96)\n- Tomek: 42+45+17 = **104** → celujacy (>=96)\n- Anna: 38+42+15 = **95** → bardzo dobry (>=72, <96)\n- Ola: 35+38+14 = **87** → bardzo dobry (>=72)\n- Piotr: 30+35+12 = **77** → bardzo dobry (>=72)\n- Jan: 25+30+10 = **65** → dostateczny (>=48, <72)\n- Kasia: 20+25+8 = **53** → dostateczny (>=48)\n- Marek: 15+20+5 = **40** → niedostateczny (<48)\n\n| imie | nazwisko | suma | ocena |\n|------|----------|------|-------|\n| Ewa | Lis | 111 | celujacy |\n| Tomek | Bak | 104 | celujacy |\n| Anna | Maj | 95 | bardzo dobry |\n| Ola | Rak | 87 | bardzo dobry |\n| Piotr | Zak | 77 | bardzo dobry |\n| Jan | Krol | 65 | dostateczny |\n| Kasia | Wrobel | 53 | dostateczny |\n| Marek | Duda | 40 | niedostateczny |\n\n**Wyjasnienie**: CASE WHEN dziala jak if/else — sprawdza warunki po kolei, pierwszy spelniony determinuje wynik. Dlatego kolejnosc warunkow jest wazna (od najwyzszego progu do najnizszego). ELSE obsluguje wszystkie przypadki nie spelniajace zadnego warunku.",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwrotna kolejnosc warunkow**: Jesli pierwszy warunek to `>= 48`, WSZYSTKIE osoby poza Markiem dostana 'dostateczny'",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Brak ELSE**: Osoby z suma < 48 dostana NULL zamiast 'niedostateczny'",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Alias w CASE WHEN**: `WHEN suma >= 96` — w wielu bazach alias nie jest dostepny w tej samej klauzuli SELECT. Trzeba powtorzyc wyrazenie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

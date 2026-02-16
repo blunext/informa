@@ -1,0 +1,28 @@
+{
+  "id": "21.6",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2016 (Uniwersytet)",
+  "tagi": [
+    "podzapytanie-skalarne",
+    "MAX",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Produkty**:\n\n| id | nazwa | kategoria | cena | na_stanie |\n|----|-------|-----------|------|-----------|\n| 1 | Laptop | elektronika | 3500 | 12 |\n| 2 | Mysz | akcesoria | 80 | 150 |\n| 3 | Monitor | elektronika | 1200 | 30 |\n| 4 | Klawiatura | akcesoria | 250 | 85 |\n| 5 | Tablet | elektronika | 2800 | 20 |\n| 6 | Sluchawki | akcesoria | 350 | 60 |\n| 7 | Drukarka | elektronika | 900 | 15 |\n| 8 | Pendrive | akcesoria | 40 | 200 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe i cene najdrozszego produktu. Uzyj podzapytania z MAX.",
+  "wskazowki": [
+    "**Kierunek**: Nie mozesz uzyc MAX bezposrednio z innymi kolumnami bez GROUP BY.",
+    "**Podejscie**: Podzapytanie `(SELECT MAX(cena) FROM Produkty)` zwraca najwyzsza cene.",
+    "**Kluczowy krok**: `WHERE cena = (SELECT MAX(cena) FROM Produkty)`."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, cena\nFROM Produkty\nWHERE cena = (SELECT MAX(cena) FROM Produkty);\n```\n\n**Weryfikacja**:\n- MAX(cena) = 3500 (Laptop)\n- Produkty z cena = 3500: Laptop\n\n| nazwa | cena |\n|-------|------|\n| Laptop | 3500 |\n\n**Wyjasnienie**: Podzapytanie skalarne zwraca jedna wartosc (3500). WHERE porownuje cene kazdego produktu z ta wartoscia. Gdyby kilka produktow mialo te sama maksymalna cene, wszystkie bylyby wyswietlone.",
+  "typowe_bledy": [
+    {
+      "opis": "**SELECT nazwa, MAX(cena)**: Bez GROUP BY — SQLite wybierze losowa nazwe, inne bazy zglasza blad",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**ORDER BY cena DESC LIMIT 1**: Poprawna alternatywa, ale LIMIT nie jest czescia standardu SQL i na maturze podzapytanie jest bezpieczniejsze",
+      "kara": ""
+    }
+  ]
+}

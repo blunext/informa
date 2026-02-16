@@ -1,0 +1,148 @@
+{
+  "typ": "16_symulacja",
+  "nazwa": "Symulacja w arkuszu kalkulacyjnym",
+  "kategoria": "ARKUSZ",
+  "czestotliwosc": "9/11 lat",
+  "punkty_lacznie": 37,
+  "tagi_globalne": [
+    "COUNTIF",
+    "IF-warunkowy",
+    "IF-zagniezdzony",
+    "INT",
+    "MAX",
+    "MIN",
+    "ROUND",
+    "SUM-kumulacyjna",
+    "ZAOKR",
+    "akumulator",
+    "amortyzacja",
+    "formatowanie-wyniku",
+    "kopiowanie-formul",
+    "lancuch-zaleznosci",
+    "mnozenie",
+    "odwolanie-bezwzgledne",
+    "odwolanie-wzgledne",
+    "prog-warunkowy",
+    "rata-annuitetowa",
+    "symulacja-krokowa"
+  ],
+  "cwiczenia": [
+    {
+      "id": "16.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "akumulator",
+        "kopiowanie-formul",
+        "odwolanie-wzgledne"
+      ]
+    },
+    {
+      "id": "16.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "akumulator",
+        "odwolanie-bezwzgledne",
+        "kopiowanie-formul",
+        "mnozenie"
+      ]
+    },
+    {
+      "id": "16.3",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "akumulator",
+        "IF-warunkowy",
+        "symulacja-krokowa",
+        "prog-warunkowy"
+      ]
+    },
+    {
+      "id": "16.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "SUM-kumulacyjna",
+        "IF-zagniezdzony",
+        "odwolanie-bezwzgledne",
+        "prog-warunkowy"
+      ]
+    },
+    {
+      "id": "16.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "akumulator",
+        "IF-warunkowy",
+        "lancuch-zaleznosci",
+        "COUNTIF",
+        "symulacja-krokowa"
+      ]
+    },
+    {
+      "id": "16.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "akumulator",
+        "odwolanie-bezwzgledne",
+        "kopiowanie-formul",
+        "ROUND"
+      ]
+    },
+    {
+      "id": "16.7",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "akumulator",
+        "IF-warunkowy",
+        "odwolanie-bezwzgledne",
+        "symulacja-krokowa",
+        "ROUND"
+      ]
+    },
+    {
+      "id": "16.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "akumulator",
+        "IF-warunkowy",
+        "symulacja-krokowa",
+        "lancuch-zaleznosci",
+        "prog-warunkowy"
+      ]
+    },
+    {
+      "id": "16.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "rata-annuitetowa",
+        "akumulator",
+        "ROUND",
+        "odwolanie-bezwzgledne",
+        "amortyzacja",
+        "symulacja-krokowa"
+      ]
+    },
+    {
+      "id": "16.10",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "akumulator",
+        "IF-warunkowy",
+        "MIN",
+        "MAX",
+        "lancuch-zaleznosci",
+        "symulacja-krokowa",
+        "prog-warunkowy"
+      ]
+    }
+  ]
+}

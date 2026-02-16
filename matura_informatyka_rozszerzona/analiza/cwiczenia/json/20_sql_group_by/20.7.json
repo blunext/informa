@@ -1,0 +1,29 @@
+{
+  "id": "20.7",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2019 (Perfumy)",
+  "tagi": [
+    "GROUP-BY",
+    "COUNT",
+    "HAVING",
+    "WHERE-vs-HAVING"
+  ],
+  "tresc": "Tabela **Zamowienia** zawiera dane o zamowieniach w restauracji:\n\n| id | stolik | kelner | danie | cena | data |\n|----|--------|--------|-------|------|------|\n| 1 | 3 | Anna | Pizza | 32 | 2024-05-01 |\n| 2 | 1 | Jan | Spaghetti | 28 | 2024-05-01 |\n| 3 | 3 | Anna | Tiramisu | 18 | 2024-05-01 |\n| 4 | 2 | Anna | Pizza | 32 | 2024-05-02 |\n| 5 | 1 | Jan | Risotto | 35 | 2024-05-02 |\n| 6 | 4 | Ewa | Spaghetti | 28 | 2024-05-02 |\n| 7 | 3 | Anna | Risotto | 35 | 2024-05-02 |\n| 8 | 2 | Jan | Tiramisu | 18 | 2024-05-03 |\n| 9 | 4 | Ewa | Pizza | 32 | 2024-05-03 |\n| 10 | 1 | Jan | Pizza | 32 | 2024-05-03 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie kelnera oraz liczbe obslugionych zamowien, ale tylko dla kelnerow, ktorzy obsluzyli wiecej niz 2 zamowienia. Posortuj malejaco wg liczby zamowien.",
+  "wskazowki": [
+    "**Kierunek**: Grupuj po kelnerze, policz zamowienia, odfiltruj grupy.",
+    "**Podejscie**: GROUP BY kelner + COUNT(*) + HAVING.",
+    "**Kluczowy krok**: HAVING COUNT(*) > 2 — nie mozesz uzyc WHERE do filtrowania wynikow agregacji."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT kelner, COUNT(*) AS liczba_zamowien\nFROM Zamowienia\nGROUP BY kelner\nHAVING COUNT(*) > 2\nORDER BY liczba_zamowien DESC;\n```\n\n**Weryfikacja**:\n- Anna: zamowienia 1, 3, 4, 7 → **4** (>2 ✓)\n- Jan: zamowienia 2, 5, 8, 10 → **4** (>2 ✓)\n- Ewa: zamowienia 6, 9 → **2** (>2 ✗)\n\n| kelner | liczba_zamowien |\n|--------|----------------|\n| Anna | 4 |\n| Jan | 4 |\n\n**Wyjasnienie**: HAVING filtruje grupy po agregacji. Ewa ma dokladnie 2 zamowienia — warunek `> 2` ja wyklucza. Gdyby polecenie mowilo \"co najmniej 2\", nalezaloby uzyc `>= 2`.",
+  "typowe_bledy": [
+    {
+      "opis": "**`> 2` vs `>= 2`**: \"Wiecej niz 2\" to `> 2`, a \"co najmniej 2\" to `>= 2`. Czesta pomylka na maturze",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**WHERE COUNT(*) > 2**: Blad skladni — COUNT nie dziala w WHERE",
+      "kara": "-2 pkt"
+    }
+  ]
+}

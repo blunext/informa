@@ -1,0 +1,35 @@
+{
+  "id": "16.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "ogolna (finanse, raty kredytu)",
+  "tagi": [
+    "rata-annuitetowa",
+    "akumulator",
+    "ROUND",
+    "odwolanie-bezwzgledne",
+    "amortyzacja",
+    "symulacja-krokowa"
+  ],
+  "tresc": "Bank udzielil kredytu na kwote 50000 zl z roczna stopa procentowa 6% (miesieczna stopa = 6%/12 = 0.5%). Kredyt jest splacany w 10 rownych ratach miesiecznych (annuitetowych). Rata annuitetowa obliczana jest wedlug wzoru:\n\n```\nR = K * r / (1 - (1+r)^(-n))\n```\n\ngdzie K = kwota kredytu, r = miesieczna stopa procentowa, n = liczba rat.\n\nParametry: F1 = 50000 (kwota), F2 = 0,005 (stopa miesieczna), F3 = 10 (liczba rat).\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Rata nr** | **Saldo poczatkowe** | **Odsetki** | **Czesc kapitalowa** | **Saldo koncowe** |\n| 2 | 1 | ? | ? | ? | ? |\n| 3 | 2 | ? | ? | ? | ? |\n| 4 | 3 | ? | ? | ? | ? |\n| 5 | 4 | ? | ? | ? | ? |\n| 6 | 5 | ? | ? | ? | ? |\n| 7 | 6 | ? | ? | ? | ? |\n| 8 | 7 | ? | ? | ? | ? |\n| 9 | 8 | ? | ? | ? | ? |\n| 10 | 9 | ? | ? | ? | ? |\n| 11 | 10 | ? | ? | ? | ? |\n\nRata miesieczna (stala, obliczona wedlug wzoru) zapisana jest w komorce F4.\n\n**Polecenie**:\n1. W F4 oblicz rate miesieczna wedlug wzoru.\n2. W B2 wpisz kwote kredytu (=F1). Od B3: saldo poczatkowe = saldo koncowe z poprzedniej raty.\n3. W C2 oblicz odsetki = saldo poczatkowe x stopa miesieczna (zaokraglij do 2 miejsc).\n4. W D2 oblicz czesc kapitalowa = rata - odsetki.\n5. W E2 oblicz saldo koncowe = saldo poczatkowe - czesc kapitalowa.\n6. Wypelnij cala tabele. Sprawdz, czy saldo koncowe po ostatniej racie wynosi 0 (lub blisko 0).",
+  "wskazowki": [
+    "**Wskazowka 1**: Rata annuitetowa jest stala przez caly okres splacania. W kazdej racie zmienia sie proporcja miedzy odsetkami a czescia kapitalowa — na poczatku wiecej idzie na odsetki, pod koniec wiecej na kapital.",
+    "**Wskazowka 2**: Formula raty: `=F1*F2/(1-(1+F2)^(-F3))`. Odsetki: `=ZAOKR(B2*$F$2;2)`. Czesc kapitalowa: `=$F$4-C2`. Saldo koncowe: `=B2-D2`. Nastepny wiersz: B3=E2.",
+    "**Wskazowka 3**: Rata = 50000*0.005/(1-(1.005)^(-10)) = 250/( 1 - 0.95135) = 250/0.04865 = 5138.83 zl (w przyblizeniu). Pierwsza rata: odsetki = 50000*0.005 = 250.00, kapital = 5138.83 - 250.00 = 4888.83, saldo = 50000 - 4888.83 = 45111.17."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nF4: =ZAOKR($F$1*$F$2/(1-(1+$F$2)^(-$F$3));2)\nB2: =$F$1\nB3: =E2                           (kopiowane w dol)\nC2: =ZAOKR(B2*$F$2;2)             (kopiowane w dol)\nD2: =$F$4-C2                      (kopiowane w dol)\nE2: =B2-D2                        (kopiowane w dol)\n```\n\n**Obliczenie raty:**\nR = 50000 * 0.005 / (1 - (1.005)^(-10))\n\nObliczenie (1.005)^10 krok po kroku:\n- (1.005)^1 = 1.005\n- (1.005)^2 = 1.010025\n- (1.005)^3 = 1.015075125\n- (1.005)^4 = 1.020150500625\n- (1.005)^5 = 1.025251253128\n- (1.005)^6 = 1.030377509384\n- (1.005)^7 = 1.035529446931\n- (1.005)^8 = 1.040707094165\n- (1.005)^9 = 1.045910629636\n- (1.005)^10 = 1.051140132184\n\n(1.005)^(-10) = 1/1.051140132184 = 0.951348404866\n\nR = 250 / (1 - 0.951348404866) = 250 / 0.048651595134 = **5138.53 zl**\n\n**Wypelniona tabela:**\n\n| Rata nr | Saldo poczatkowe | Odsetki | Czesc kapitalowa | Saldo koncowe |\n|---------|------------------|---------|------------------|---------------|\n| 1 | 50000.00 | 250.00 | 4888.53 | 45111.47 |\n| 2 | 45111.47 | 225.56 | 4912.97 | 40198.50 |\n| 3 | 40198.50 | 200.99 | 4937.54 | 35260.96 |\n| 4 | 35260.96 | 176.30 | 4962.23 | 30298.73 |\n| 5 | 30298.73 | 151.49 | 4987.04 | 25311.69 |\n| 6 | 25311.69 | 126.56 | 5011.97 | 20299.72 |\n| 7 | 20299.72 | 101.50 | 5037.03 | 15262.69 |\n| 8 | 15262.69 | 76.31 | 5062.22 | 10200.47 |\n| 9 | 10200.47 | 51.00 | 5087.53 | 5112.94 |\n| 10 | 5112.94 | 25.56 | 5112.97 | -0.03 |\n\n**Weryfikacja (pierwsze 3 raty):**\n- Rata 1: odsetki = ZAOKR(50000*0.005;2) = 250.00, kapital = 5138.53-250.00 = 4888.53, saldo = 50000-4888.53 = 45111.47\n- Rata 2: odsetki = ZAOKR(45111.47*0.005;2) = 225.56, kapital = 5138.53-225.56 = 4912.97, saldo = 45111.47-4912.97 = 40198.50\n- Rata 3: odsetki = ZAOKR(40198.50*0.005;2) = 200.99, kapital = 5138.53-200.99 = 4937.54, saldo = 40198.50-4937.54 = 35260.96\n\nSaldo koncowe po 10. racie wynosi -0.03 zl (blisko zera). Drobna roznica wynika z zaokraglen. W praktyce ostatnia rata jest korygowana, aby saldo wynioslo dokladnie 0.\n\n**Wyjasnienie**: Harmonogram amortyzacji to klasyczna symulacja finansowa. Rata jest stala (annuitetowa), ale proporcja odsetki/kapital zmienia sie: na poczatku odsetki stanowia wieksza czesc raty (bo saldo jest duze), a pod koniec prawie cala rata idzie na kapital. Kluczowe elementy: (1) formula potegowa dla raty, (2) zaokraglanie do 2 miejsc, (3) lancuch zaleznosci wiersz po wierszu. Na maturze tego typu zadanie moze pojawic sie z uproszczonym wzorem lub z podana wartoscia raty.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie stopy rocznej z miesieczna**: Uzycie 6% (0.06) zamiast 0.5% (0.005) jako stopy miesiecznej — daje absurdalnie wysokie odsetki i rate.",
+      "kara": ""
+    },
+    {
+      "opis": "**Bledna formula potegowa**: Napisanie `(1+F2)*(-F3)` zamiast `(1+F2)^(-F3)` — mnozenie zamiast potegowania daje calkowicie inny wynik.",
+      "kara": ""
+    },
+    {
+      "opis": "**Brak zaokraglenia odsetek**: Bez ZAOKR odsetki maja wiele miejsc po przecinku, co powoduje narastajace rozbieznosci — saldo koncowe moze roznic sie o kilka zlotych od zera.",
+      "kara": ""
+    }
+  ]
+}

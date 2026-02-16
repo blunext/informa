@@ -1,0 +1,32 @@
+{
+  "id": "9.1",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Matura 2021 zad. 4",
+  "tagi": [
+    "map-zliczanie",
+    "grupowanie",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `osoby.txt` znajduje sie 12 rekordow w formacie: imie miasto (oddzielone spacja, kazdy rekord w osobnym wierszu). Napisz program, ktory:\na) Wypisze ile osob pochodzi z kazdego miasta.\nb) Poda miasto, z ktorego pochodzi najwiecej osob.\n\n**Dane** (`osoby.txt`):\n```\nAnna Krakow\nJan Warszawa\nEwa Krakow\nPiotr Gdansk\nMaria Warszawa\nTomek Krakow\nKasia Gdansk\nAdam Warszawa\nOla Krakow\nMarek Poznan\nZofia Warszawa\nPawel Gdansk\n```\n\n**Oczekiwany wynik**:\n```\na) Liczba osob z kazdego miasta:\n   Gdansk: 3\n   Krakow: 4\n   Poznan: 1\n   Warszawa: 4\n\nb) Miasto z najwieksza liczba osob: Krakow (4)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj `map<string, int>` do zliczania wystapien kazdego miasta.",
+    "**Podejscie**: Wczytuj pary (imie, miasto), inkrementuj `mapa[miasto]++`.",
+    "**Kluczowy krok**: `map` automatycznie sortuje klucze alfabetycznie. Iteruj po mapie szukajac max."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"osoby.txt\");\n    string imie, miasto;\n    map<string, int> zlicz;\n\n    while (plik >> imie >> miasto) {\n        zlicz[miasto]++;\n    }\n\n    cout << \"a) Liczba osob z kazdego miasta:\" << endl;\n    string maxMiasto;\n    int maxIle = 0;\n    for (auto &p : zlicz) {\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n        if (p.second > maxIle) {\n            maxIle = p.second;\n            maxMiasto = p.first;\n        }\n    }\n\n    cout << endl << \"b) Miasto z najwieksza liczba osob: \"\n         << maxMiasto << \" (\" << maxIle << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Uzywamy `map<string, int>` do zliczania wystapien kazdego miasta. Mapa automatycznie sortuje klucze alfabetycznie. Nastepnie szukamy miasta o maksymalnej wartosci.\n\nWeryfikacja:\n- Krakow: Anna, Ewa, Tomek, Ola = 4\n- Warszawa: Jan, Maria, Adam, Zofia = 4\n- Gdansk: Piotr, Kasia, Pawel = 3\n- Poznan: Marek = 1\n\nUwaga: Krakow i Warszawa maja po 4 osoby. Map iteruje alfabetycznie, wiec Krakow zostanie znaleziony jako pierwszy z maxIle=4.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie `unordered_map` gdy wymagane sortowanie**: `unordered_map` nie gwarantuje kolejnosci kluczy",
+      "kara": "-1 pkt jesli wymaga alfabetycznej"
+    },
+    {
+      "opis": "**Zapomnienie o inicjalizacji mapy**: `map[klucz]++` automatycznie tworzy wpis z wartoscia 0 i inkrementuje. OK.",
+      "kara": ""
+    },
+    {
+      "opis": "**Porownanie stringow z `==` przy szukaniu max**: To poprawne — `==` na stringach dziala w C++",
+      "kara": "-0 pkt"
+    }
+  ]
+}

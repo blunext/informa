@@ -1,0 +1,32 @@
+{
+  "id": "22.19",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2017",
+  "tagi": [
+    "JOIN-wielotabelowy",
+    "WHERE-z-JOIN",
+    "GROUP-BY-z-JOIN"
+  ],
+  "tresc": "Tabela **Miasta**:\n\n| id_miasta | nazwa | kraj |\n|-----------|-------|------|\n| 1 | Warszawa | Polska |\n| 2 | Krakow | Polska |\n| 3 | Berlin | Niemcy |\n\nTabela **Stadiony**:\n\n| id_stadionu | nazwa | id_miasta | pojemnosc |\n|-------------|-------|-----------|-----------|\n| 1 | Narodowy | 1 | 58000 |\n| 2 | Wisla | 2 | 33000 |\n| 3 | Olympia | 3 | 74000 |\n\nTabela **Druzyny**:\n\n| id_druzyny | nazwa | liga |\n|------------|-------|------|\n| 1 | Legia | ekstraklasa |\n| 2 | Cracovia | ekstraklasa |\n| 3 | Hertha | bundesliga |\n| 4 | Rakow | ekstraklasa |\n\nTabela **Mecze**:\n\n| id_meczu | id_druzyny | id_stadionu | data | bramki |\n|----------|------------|-------------|------|--------|\n| 1 | 1 | 1 | 2024-03-10 | 2 |\n| 2 | 2 | 2 | 2024-03-10 | 1 |\n| 3 | 3 | 3 | 2024-03-11 | 3 |\n| 4 | 1 | 1 | 2024-03-17 | 0 |\n| 5 | 2 | 2 | 2024-03-17 | 2 |\n| 6 | 4 | 1 | 2024-03-24 | 1 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe druzyny, nazwe miasta (w ktorym rozegrala mecz) i laczna liczbe bramek strzelonych na danym stadionie. Pokaz tylko druzyny z ligi 'ekstraklasa'. Posortuj malejaco wg lacznej liczby bramek.",
+  "wskazowki": [
+    "**Kierunek**: Cztery tabele — potrzebujesz trzech JOIN-ow tworzacych lancuch.",
+    "**Podejscie**: Druzyny → Mecze → Stadiony → Miasta, WHERE na lige, GROUP BY druzyna+miasto.",
+    "**Kluczowy krok**: GROUP BY po dwoch kolumnach: D.nazwa i MI.nazwa — bo ta sama druzyna moze grac w roznych miastach."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT D.nazwa AS druzyna, MI.nazwa AS miasto,\n       SUM(ME.bramki) AS bramki_lacznie\nFROM Druzyny D\nJOIN Mecze ME ON D.id_druzyny = ME.id_druzyny\nJOIN Stadiony S ON ME.id_stadionu = S.id_stadionu\nJOIN Miasta MI ON S.id_miasta = MI.id_miasta\nWHERE D.liga = 'ekstraklasa'\nGROUP BY D.nazwa, MI.nazwa\nORDER BY bramki_lacznie DESC;\n```\n\n**Weryfikacja**:\n\nEkstraklasa:\n- Legia, Narodowy (Warszawa): mecz 1 (2) + mecz 4 (0) = **2**\n- Cracovia, Wisla (Krakow): mecz 2 (1) + mecz 5 (2) = **3**\n- Rakow, Narodowy (Warszawa): mecz 6 (1) = **1**\n\n| druzyna | miasto | bramki_lacznie |\n|---------|--------|---------------|\n| Cracovia | Krakow | 3 |\n| Legia | Warszawa | 2 |\n| Rakow | Warszawa | 1 |\n\n**Wyjasnienie**: 4-table JOIN tworzy lancuch: Druzyny → Mecze → Stadiony → Miasta. GROUP BY po druzyna+miasto pozwala zliczac bramki per lokalizacja. Hertha (bundesliga) jest odfiltrowana przez WHERE.",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledna kolejnosc JOIN-ow**: Proba polaczenia Druzyny z Miasta bezposrednio — brak wspolnej kolumny",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Brak GROUP BY po miescie**: Legia i Rakow grajace w Warszawie zostana zlaczone w jedna grupe",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak WHERE na lige**: Hertha (bundesliga) tez pojawi sie w wyniku",
+      "kara": "-1 pkt"
+    }
+  ]
+}

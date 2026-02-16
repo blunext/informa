@@ -1,0 +1,32 @@
+{
+  "id": "4.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "Matura 2021 zad. 3 (szyfrowanie), Matura 2018 zad. 3",
+  "tagi": [
+    "HTTPS-szyfrowanie",
+    "sieci-komputerowe",
+    "formaty-danych"
+  ],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | W szyfrowaniu asymetrycznym ten sam klucz sluzy do szyfrowania i deszyfrowania. | |\n| b) | Adres IPv6 sklada sie z 128 bitow, co daje ponad 3.4 * 10^38 mozliwych adresow. | |\n| c) | Protokol TCP gwarantuje dostarczenie pakietow w kolejnosci i bez strat, w przeciwienstwie do UDP. | |\n| d) | Maska podsieci 255.255.255.0 oznacza, ze ostatni oktet adresu IP identyfikuje urzadzenie w sieci. | |",
+  "wskazowki": [
+    "**Kierunek**: Szyfrowanie asymetryczne = dwa rozne klucze (publiczny + prywatny). Symetryczne = ten sam klucz.",
+    "**Podejscie**: IPv6 = 128 bitow. TCP = niezawodny (z potwierdzeniami), UDP = szybki (bez gwarancji).",
+    "**Kluczowy krok**: Maska /24 (255.255.255.0) = 24 bity sieci + 8 bitow hosta = do 254 urzadzen."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | W szyfrowaniu ASYMETRYCZNYM sa DWA rozne klucze: publiczny (do szyfrowania) i prywatny (do deszyfrowania). To w szyfrowaniu SYMETRYCZNYM ten sam klucz sluzy do obu operacji. |\n| b) | **P** | IPv6 uzywa adresow 128-bitowych. 2^128 ≈ 3.4 * 10^38, co jest ogromna przestrzenia adresowa (w porownaniu z IPv4: 2^32 ≈ 4.3 * 10^9). |\n| c) | **P** | TCP (Transmission Control Protocol) zapewnia niezawodna, uporzadkowana i kontrolowana dostarke danych. UDP (User Datagram Protocol) jest szybszy, ale nie gwarantuje dostarczenia ani kolejnosci. |\n| d) | **P** | Maska 255.255.255.0 (/24) oznacza, ze pierwsze 3 oktety identyfikuja siec, a ostatni oktet (8 bitow) identyfikuje urzadzenie (hosta) w tej sieci. Daje to do 254 adresow dla urzadzen (2^8 - 2, odejmujemy adres sieci i broadcast). |\n\nOdpowiedzi: a) F, b) P, c) P, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Asymetryczne = jeden klucz**: Asymetryczne = DWA klucze. Symetryczne = jeden klucz",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**TCP vs UDP odwrotnie**: TCP = niezawodny, UDP = szybki ale bez gwarancji",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Maska /24 = 256 urzadzen**: Odejmujemy 2 (adres sieci + broadcast), wiec 254",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

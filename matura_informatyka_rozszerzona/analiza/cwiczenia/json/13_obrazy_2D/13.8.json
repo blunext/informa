@@ -1,0 +1,29 @@
+{
+  "id": "13.8",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2025 zad. 2 (kwadraty 3x3)",
+  "tagi": [
+    "kwadraty",
+    "tablica-2D",
+    "zliczanie-komorek",
+    "4-spojnosc"
+  ],
+  "tresc": "Dana jest siatka 8x8 zer i jedynek zapisana w pliku `siatka.txt`. Napisz program, ktory:\na) Znajdzie wszystkie kwadraty 3x3 zawierajace dokladnie 5 jedynek.\nb) Dla kazdego takiego kwadratu sprawdzi, czy jedynki tworzą wzorzec \"krzyz\" (jedynka w centrum i 4 sasiady w 4-spojnosci).\n\n**Dane** (`siatka.txt`):\n```\n0 0 0 0 0 0 0 0\n0 0 1 0 0 1 0 0\n0 1 1 1 0 0 1 0\n0 0 1 0 0 1 1 1\n0 0 0 0 0 0 1 0\n0 1 0 0 0 0 0 0\n1 1 1 0 0 0 0 0\n0 1 0 0 0 0 0 0\n```\n\n**Oczekiwany wynik**:\n```\nKwadraty 3x3 z dokladnie 5 jedynkami:\n   Rog (2,2): krzyz\n   Rog (2,6): nie krzyz\n   Rog (3,6): krzyz\n   Rog (6,1): krzyz\nKwadraty z 5 jedynkami: 4\nZ nich krzyz: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Iteruj po lewych gornych rogach kwadratow 3x3 (0..rows-3, 0..cols-3).",
+    "**Podejscie**: Dla kazdego kwadratu policz jedynki (podwojna petla 3x3). Jesli rowne 5, sprawdz wzorzec krzyz.",
+    "**Kluczowy krok**: Krzyz: centrum = (r+1, c+1), sasiedzi: (r,c+1), (r+2,c+1), (r+1,c), (r+1,c+2). Wszystkie musza byc 1, reszta 0."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    int tab[8][8];\n    for (int i = 0; i < 8; i++)\n        for (int j = 0; j < 8; j++)\n            plik >> tab[i][j];\n\n    cout << \"Kwadraty 3x3 z dokladnie 5 jedynkami:\" << endl;\n    int ileKw = 0, ileKrzyz = 0;\n    for (int r = 0; r <= 5; r++) {\n        for (int c = 0; c <= 5; c++) {\n            int cnt = 0;\n            for (int di = 0; di < 3; di++)\n                for (int dj = 0; dj < 3; dj++)\n                    cnt += tab[r + di][c + dj];\n\n            if (cnt == 5) {\n                ileKw++;\n                // Sprawdz krzyz: centrum + 4 sasiady\n                int cr = r + 1, cc = c + 1;\n                bool krzyz = tab[cr][cc] == 1\n                    && tab[cr - 1][cc] == 1 && tab[cr + 1][cc] == 1\n                    && tab[cr][cc - 1] == 1 && tab[cr][cc + 1] == 1;\n                cout << \"   Rog (\" << r + 1 << \",\" << c + 1 << \"): \"\n                     << (krzyz ? \"krzyz\" : \"nie krzyz\") << endl;\n                if (krzyz) ileKrzyz++;\n            }\n        }\n    }\n    cout << \"Kwadraty z 5 jedynkami: \" << ileKw << endl;\n    cout << \"Z nich krzyz: \" << ileKrzyz << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Iterujemy po lewych gornych rogach kwadratow 3x3. Liczymy jedynki. Jesli 5, sprawdzamy czy centrum + 4 sasiedzi (krzyz). Krzyz z 5 jedynkami = dokladnie jedynki na pozycjach krzyza, zera na rogach.\n\nWeryfikacja:\nSiatka:\n```\n0 0 0 0 0 0 0 0\n0 0 1 0 0 1 0 0\n0 1 1 1 0 0 1 0\n0 0 1 0 0 1 1 1\n0 0 0 0 0 0 1 0\n0 1 0 0 0 0 0 0\n1 1 1 0 0 0 0 0\n0 1 0 0 0 0 0 0\n```\nKwadraty 3x3 z 5 jedynkami:\n- Rog (0,1): {0,0,0 / 0,1,0 / 1,1,1} -> 4, nie 5\n- Rog (1,1): {0,1,0 / 1,1,1 / 0,1,0} -> 5, krzyz TAK\n- Rog (2,4): {0,1,0 / 0,1,1 / 0,0,1} -> 4\n- Rog (2,5): {1,0,0 / 1,1,1 / 0,1,0} -> 5, krzyz? Centrum (3,6)=1, gora(2,6)=1, dol(4,6)=1, lewo(3,5)=1, prawo(3,7)=1. Tak, to tez krzyz.\n- Rog (5,0): {0,1,0 / 1,1,1 / 0,1,0} -> 5, krzyz TAK",
+  "typowe_bledy": [
+    {
+      "opis": "**Petla `r <= 7` zamiast `r <= 5`**: Kwadrat 3x3 z rogiem w wierszu 6 konczy sie w wierszu 8, co jest poza tablica",
+      "kara": ""
+    },
+    {
+      "opis": "**Zliczanie zamiast wzorca**: 5 jedynek w 3x3 nie oznacza krzyza — moga byc rozmieszczone inaczej",
+      "kara": "-1 pkt"
+    }
+  ]
+}

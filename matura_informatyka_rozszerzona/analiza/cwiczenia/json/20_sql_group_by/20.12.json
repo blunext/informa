@@ -1,0 +1,28 @@
+{
+  "id": "20.12",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2023 (Gry planszowe)",
+  "tagi": [
+    "GROUP-BY",
+    "COUNT",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Produkty** zawiera dane o asortymencie sklepu:\n\n| id | nazwa | kategoria | cena | dostepny |\n|----|-------|-----------|------|----------|\n| 1 | Laptop X1 | elektronika | 3500 | tak |\n| 2 | Mysz M2 | elektronika | 80 | tak |\n| 3 | Koszulka | odziez | 59 | nie |\n| 4 | Spodnie | odziez | 120 | tak |\n| 5 | Monitor | elektronika | 1200 | nie |\n| 6 | Bluza | odziez | 89 | tak |\n| 7 | Sluchawki | elektronika | 250 | tak |\n| 8 | Kurtka | odziez | 350 | nie |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe kategorii i liczbe **dostepnych** produktow (dostepny = 'tak') w kazdej kategorii. Posortuj malejaco wg liczby.",
+  "wskazowki": [
+    "**Kierunek**: Najpierw musisz odfiltrowac produkty — tylko dostepne. Potem pogrupowac.",
+    "**Podejscie**: WHERE dostepny = 'tak' filtruje PRZED grupowaniem, potem GROUP BY + COUNT.",
+    "**Kluczowy krok**: WHERE dziala na wierszach (przed GROUP BY), HAVING na grupach (po GROUP BY). Tu potrzebujesz WHERE."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT kategoria, COUNT(*) AS liczba_dostepnych\nFROM Produkty\nWHERE dostepny = 'tak'\nGROUP BY kategoria\nORDER BY liczba_dostepnych DESC;\n```\n\n**Weryfikacja** (tylko dostepny = 'tak'):\n- elektronika: Laptop X1, Mysz M2, Sluchawki = **3**\n- odziez: Spodnie, Bluza = **2**\n\n| kategoria | liczba_dostepnych |\n|-----------|-------------------|\n| elektronika | 3 |\n| odziez | 2 |\n\n**Wyjasnienie**: WHERE filtruje wiersze PRZED grupowaniem — najpierw usuwamy niedostepne produkty, potem liczymy w kazdej kategorii. Gdybysmy chcieli odfiltrowac kategorie PO pogrupowaniu (np. \"tylko kategorie z > 2 produktami\"), uzylibysmy HAVING.",
+  "typowe_bledy": [
+    {
+      "opis": "**HAVING zamiast WHERE**: `HAVING dostepny = 'tak'` — blad logiczny, bo dostepny nie jest funkcja agregujaca. Filtrowanie wierszy wymaga WHERE",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak warunku WHERE**: Liczy WSZYSTKIE produkty (4+4=8) zamiast dostepnych (3+2=5)",
+      "kara": "-2 pkt"
+    }
+  ]
+}

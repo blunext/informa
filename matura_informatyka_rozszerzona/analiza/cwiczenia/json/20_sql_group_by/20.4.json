@@ -1,0 +1,33 @@
+{
+  "id": "20.4",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2017 (Pilka reczna)",
+  "tagi": [
+    "GROUP-BY",
+    "SUM",
+    "HAVING",
+    "JOIN-z-GROUP-BY"
+  ],
+  "tresc": "Tabela **Druzyny**:\n\n| id_druzyny | nazwa | miasto |\n|------------|-------|--------|\n| 1 | Orly | Warszawa |\n| 2 | Wilki | Krakow |\n| 3 | Rysie | Gdansk |\n| 4 | Sokoly | Poznan |\n\nTabela **Mecze**:\n\n| id_meczu | id_gospodarzy | id_gosci | bramki_gosp | bramki_gosci |\n|----------|---------------|----------|-------------|-------------|\n| 1 | 1 | 2 | 3 | 1 |\n| 2 | 3 | 4 | 2 | 2 |\n| 3 | 2 | 3 | 4 | 0 |\n| 4 | 4 | 1 | 1 | 3 |\n| 5 | 1 | 3 | 2 | 1 |\n| 6 | 2 | 4 | 0 | 2 |\n| 7 | 3 | 1 | 1 | 1 |\n| 8 | 4 | 2 | 3 | 3 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe kazdej druzyny oraz laczna liczbe bramek strzelonych jako gospodarze (SUM bramki_gosp). Pokaz tylko druzyny, ktore strzelily jako gospodarze wiecej niz 3 bramki lacznie. Posortuj malejaco.",
+  "wskazowki": [
+    "**Kierunek**: Musisz polaczyc Druzyny z Meczami, ale po odpowiedniej kolumnie (gospodarze).",
+    "**Podejscie**: JOIN na `id_druzyny = id_gospodarzy`, potem GROUP BY i SUM.",
+    "**Kluczowy krok**: Filtrowanie po SUM wymaga HAVING, nie WHERE."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT D.nazwa, SUM(M.bramki_gosp) AS bramki_u_siebie\nFROM Druzyny D\nJOIN Mecze M ON D.id_druzyny = M.id_gospodarzy\nGROUP BY D.nazwa\nHAVING SUM(M.bramki_gosp) > 3\nORDER BY bramki_u_siebie DESC;\n```\n\n**Weryfikacja**:\n- Orly (id=1) jako gospodarze: mecz 1 (3), mecz 5 (2) → suma = **5** (>3 ✓)\n- Wilki (id=2) jako gospodarze: mecz 3 (4), mecz 6 (0) → suma = **4** (>3 ✓)\n- Rysie (id=3) jako gospodarze: mecz 2 (2), mecz 7 (1) → suma = **3** (>3 ✗)\n- Sokoly (id=4) jako gospodarze: mecz 4 (1), mecz 8 (3) → suma = **4** (>3 ✓)\n\n| nazwa | bramki_u_siebie |\n|-------|----------------|\n| Orly | 5 |\n| Wilki | 4 |\n| Sokoly | 4 |\n\n**Wyjasnienie**: JOIN laczy druzyny z meczami po id_gospodarzy — to kluczowy element, bo kazda druzyna gra raz jako gospodarz, raz jako gosc. Uzywamy `M.id_gospodarzy` (nie `id_gosci`), bo interesuja nas tylko bramki strzelone u siebie.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie id_gospodarzy z id_gosci**: Daje bramki stracone zamiast strzelonych u siebie",
+      "kara": "-3 pkt (bledny wynik)"
+    },
+    {
+      "opis": "**Uzycie bramki_gosci zamiast bramki_gosp**: Analogiczny blad — bramki_gosci to bramki strzelone przez gosci, nie przez gospodarzy",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Brak HAVING**: Bez filtrowania Rysie (3 bramki) tez pojawia sie w wyniku",
+      "kara": "-1 pkt"
+    }
+  ]
+}

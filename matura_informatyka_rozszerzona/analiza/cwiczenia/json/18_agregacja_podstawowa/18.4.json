@@ -1,0 +1,32 @@
+{
+  "id": "18.4",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "SUM",
+    "RANK",
+    "zakres-bezwzgledny"
+  ],
+  "tresc": "W zawodach sportowych 6 zawodnikow rywalizowalo w 4 konkurencjach. Punkty za kazda konkurencje:\n\n| | A | B | C | D | E | F | G |\n|---|---|---|---|---|---|---|---|\n| 1 | **Zawodnik** | **K1** | **K2** | **K3** | **K4** | **Suma** | **Ranking** |\n| 2 | Adam | 8 | 6 | 9 | 7 | ? | ? |\n| 3 | Beata | 9 | 8 | 7 | 9 | ? | ? |\n| 4 | Czarek | 6 | 9 | 8 | 5 | ? | ? |\n| 5 | Diana | 7 | 7 | 10 | 8 | ? | ? |\n| 6 | Emil | 10 | 5 | 6 | 10 | ? | ? |\n| 7 | Fiona | 5 | 10 | 9 | 6 | ? | ? |\n\n**Polecenie**:\n1. Napisz formule w F2 obliczajaca sume punktow zawodnika.\n2. Napisz formule w G2 obliczajaca pozycje w rankingu (1 = najwyzszy wynik).\n3. Podaj najwyzsza sume i srednia sume.",
+  "wskazowki": [
+    "**Kierunek**: SUM sumuje wiersz (B2:E2). RANK zwraca pozycje wartosci w rankingu.",
+    "**Podejscie**: RANK(wartosc; zakres; kolejnosc) — zakres musi byc bezwzgledny ($F$2:$F$7), bo formula bedzie kopiowana.",
+    "**Kluczowy krok**: Trzeci argument RANK: 0 = malejaco (najwieksza = pozycja 1)."
+  ],
+  "odpowiedz": "**Formuly (wiersz 2, kopiowane w dol):**\n```\nF2: =SUM(B2:E2)\nG2: =RANK(F2;$F$2:$F$7;0)\n```\n\n**Wypelniona tabela:**\n\n| Zawodnik | K1 | K2 | K3 | K4 | Suma | Ranking |\n|----------|----|----|----|-----|------|---------|\n| Adam | 8 | 6 | 9 | 7 | 30 | 4 |\n| Beata | 9 | 8 | 7 | 9 | 33 | 1 |\n| Czarek | 6 | 9 | 8 | 5 | 28 | 6 |\n| Diana | 7 | 7 | 10 | 8 | 32 | 2 |\n| Emil | 10 | 5 | 6 | 10 | 31 | 3 |\n| Fiona | 5 | 10 | 9 | 6 | 30 | 4 |\n\n**Weryfikacja:**\n- Adam: 8+6+9+7 = 30\n- Beata: 9+8+7+9 = 33\n- Czarek: 6+9+8+5 = 28\n- Diana: 7+7+10+8 = 32\n- Emil: 10+5+6+10 = 31\n- Fiona: 5+10+9+6 = 30\n\nRanking (malejaco): 33 (1.), 32 (2.), 31 (3.), 30 (4.), 30 (4.), 28 (6.)\n- Uwaga: Adam i Fiona maja taki sam wynik (30), wiec obie maja ranking 4. Czarek z 28 ma ranking 6 (nie 5!). Tak dziala RANK — przy remisach pomija kolejne pozycje.\n\n- Najwyzsza suma: =MAX(F2:F7) = **33** (Beata)\n- Srednia suma: =AVERAGE(F2:F7) = (30+33+28+32+31+30)/6 = 184/6 = **30.67**\n\n**Wyjasnienie**: RANK(wartosc; zakres; kolejnosc) zwraca pozycje wartosci w rankingu. Trzeci argument: 0 = malejaco (najwieksza = 1), 1 = rosnaco. Zakres `$F$2:$F$7` musi byc bezwzgledny (z $), aby po skopiowaniu formuly zawsze odwolywal sie do calej kolumny sum.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak $ w zakresie RANK**: =RANK(F2;F2:F7;0) — po skopiowaniu do wiersza 3 zakres przesunie sie na F3:F8, dajac bledne wyniki",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Trzeci argument = 1 zamiast 0**: RANK(...;1) daje ranking rosnacy (najnizsza wartosc = 1)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Oczekiwanie rang 1-6 bez przerw**: Przy remisach RANK pomija pozycje (4, 4, 6 zamiast 4, 5, 6). To jest poprawne zachowanie.",
+      "kara": ""
+    }
+  ]
+}

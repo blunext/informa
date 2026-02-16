@@ -1,0 +1,28 @@
+{
+  "id": "16.1",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna (akumulator prosty)",
+  "tagi": [
+    "akumulator",
+    "kopiowanie-formul",
+    "odwolanie-wzgledne"
+  ],
+  "tresc": "Na koncie bankowym poczatkowe saldo wynosi 1000 zl. W kolejnych miesiacach dokonywano wplat (+) i wyplat (-):\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Miesiac** | **Operacja** | **Saldo** |\n| 2 | 0 (start) | — | 1000 |\n| 3 | 1 | +500 | ? |\n| 4 | 2 | -200 | ? |\n| 5 | 3 | +300 | ? |\n| 6 | 4 | -800 | ? |\n| 7 | 5 | +150 | ? |\n| 8 | 6 | -100 | ? |\n\n**Polecenie**: Napisz formule w komorce C3, ktora oblicza nowe saldo jako poprzednie saldo plus operacja. Formula powinna dzialac po skopiowaniu w dol az do C8. Wypelnij tabele.",
+  "wskazowki": [
+    "**Wskazowka 1**: Nowe saldo to suma poprzedniego salda i biezacej operacji. Zastanow sie, ktore komorki powinny byc w formule.",
+    "**Wskazowka 2**: Formula w C3 powinna odwolywac sie do C2 (poprzednie saldo) i B3 (biezaca operacja). Oba odwolania sa wzgledne.",
+    "**Wskazowka 3**: Wpisz `=C2+B3` w komorce C3. Po skopiowaniu w dol do C4 formula automatycznie zmieni sie na `=C3+B4` — dokladnie to, czego potrzebujemy."
+  ],
+  "odpowiedz": "**Formula (C3, kopiowana w dol):**\n```\nC3: =C2+B3\n```\n\n**Wypelniona tabela:**\n\n| Miesiac | Operacja | Saldo |\n|---------|----------|-------|\n| 0 (start) | — | 1000 |\n| 1 | +500 | 1500 |\n| 2 | -200 | 1300 |\n| 3 | +300 | 1600 |\n| 4 | -800 | 800 |\n| 5 | +150 | 950 |\n| 6 | -100 | 850 |\n\n**Weryfikacja krok po kroku:**\n- C3: 1000 + 500 = 1500\n- C4: 1500 + (-200) = 1300\n- C5: 1300 + 300 = 1600\n- C6: 1600 + (-800) = 800\n- C7: 800 + 150 = 950\n- C8: 950 + (-100) = 850\n\n**Wyjasnienie**: Jest to prosty akumulator — kazdy wiersz odwoluje sie do poprzedniego wyniku. Odwolanie C2 jest wzgledne, wiec po skopiowaniu formuly w dol automatycznie zmienia sie na C3, C4 itd.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie stalej zamiast odwolania**: Wpisanie `=1000+B3` zamiast `=C2+B3` — formula dziala tylko dla pierwszego wiersza, po skopiowaniu w dol dalej dodaje do 1000 zamiast do biezacego salda.",
+      "kara": ""
+    },
+    {
+      "opis": "**Pominiecie znaku minus w operacji**: Trzeba pamietac, ze wyplaty sa juz zapisane jako liczby ujemne — wystarczy dodawanie, nie trzeba osobno odejmowac.",
+      "kara": ""
+    }
+  ]
+}

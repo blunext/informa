@@ -1,0 +1,29 @@
+{
+  "id": "17.2",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2017 (Cukier)",
+  "tagi": [
+    "wykres-kolowy",
+    "procent-udzialu",
+    "legenda",
+    "etykiety-danych"
+  ],
+  "tresc": "Rodzina prowadzi budzet domowy. Wydatki miesieczne wg kategorii:\n\n| | A | B |\n|---|---|---|\n| 1 | **Kategoria** | **Kwota (zl)** |\n| 2 | Zywnosc | 1800 |\n| 3 | Mieszkanie | 2200 |\n| 4 | Transport | 600 |\n| 5 | Rozrywka | 400 |\n| 6 | Oszczednosci | 1000 |\n\n**Polecenie**: Opisz, jak utworzyc wykres kolowy z etykietami procentowymi pokazujacy udzial kazdej kategorii w budzecie. Oblicz udzialy procentowe.",
+  "wskazowki": [
+    "**Kierunek**: Wykres kolowy najlepiej pokazuje udzial czesci w calosci. Kazdy wycinek = jedna kategoria.",
+    "**Podejscie**: Oblicz sume wszystkich wydatkow, potem udzial kazdej kategorii (kwota/suma × 100%).",
+    "**Kluczowy krok**: Etykiety na wykresie: nazwa kategorii + procent. Legenda po prawej stronie."
+  ],
+  "odpowiedz": "**Obliczenia:**\n\nSuma wydatkow: 1800 + 2200 + 600 + 400 + 1000 = 6000 zl\n\n| Kategoria | Kwota | Udzial |\n|-----------|-------|--------|\n| Zywnosc | 1800 | 30.0% |\n| Mieszkanie | 2200 | 36.7% |\n| Transport | 600 | 10.0% |\n| Rozrywka | 400 | 6.7% |\n| Oszczednosci | 1000 | 16.7% |\n\n**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kolowy (pie chart)\n2. **Dane**:\n   - Etykiety (kategorie): zakres A2:A6\n   - Wartosci: zakres B2:B6\n3. **Tytul**: \"Struktura wydatkow miesiecznych\"\n4. **Formatowanie**:\n   - Etykiety na kazdym wycinku: nazwa kategorii + procent (np. \"Zywnosc 30.0%\")\n   - Rozne kolory dla kazdej kategorii\n   - Legenda po prawej stronie wykresu\n   - Procenty zaokraglone do 1 miejsca po przecinku\n\n**Wyjasnienie**: Wykres kolowy przedstawia czesci calosci — idealny do pokazania struktury wydatkow. Etykiety procentowe sa obliczane automatycznie przez arkusz (opcja \"Pokaz wartosci jako procenty\"). Suma wycinkow zawsze = 100%.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak etykiet procentowych**: Wykres kolowy bez procentow jest nieczytelny — nie wiadomo, jaki udzial ma kazda kategoria",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zbyt wiele kategorii**: Wykres kolowy jest czytelny dla 3-7 kategorii. Dla wiekszej liczby lepszy jest kolumnowy",
+      "kara": ""
+    }
+  ]
+}

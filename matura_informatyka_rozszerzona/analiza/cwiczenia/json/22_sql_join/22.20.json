@@ -1,0 +1,32 @@
+{
+  "id": "22.20",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2024",
+  "tagi": [
+    "self-JOIN",
+    "aliasy-tabel",
+    "GROUP-BY-z-JOIN"
+  ],
+  "tresc": "Tabela **Pracownicy**:\n\n| id | imie | nazwisko | id_kierownika | stanowisko | pensja |\n|----|------|----------|---------------|------------|--------|\n| 1 | Anna | Kowalska | NULL | dyrektor | 15000 |\n| 2 | Jan | Nowak | 1 | kierownik | 10000 |\n| 3 | Ewa | Maj | 1 | kierownik | 11000 |\n| 4 | Piotr | Lis | 2 | specjalista | 7000 |\n| 5 | Kasia | Zak | 2 | specjalista | 7500 |\n| 6 | Tomek | Bak | 3 | specjalista | 8000 |\n| 7 | Ola | Wrobel | 3 | stazystka | 4500 |\n| 8 | Marek | Krol | 3 | specjalista | 6500 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko kazdego kierownika oraz liczbe jego bezposrednich podwladnych i srednia pensje podwladnych (zaokraglona do 0 miejsc po przecinku). Pokaz tylko kierownikow (stanowisko = 'kierownik'). Posortuj malejaco wg liczby podwladnych.",
+  "wskazowki": [
+    "**Kierunek**: Self-JOIN — tabela odwoluje sie sama do siebie.",
+    "**Podejscie**: JOIN Pracownicy P (podwladni) z Pracownicy K (kierownicy), GROUP BY kierownik.",
+    "**Kluczowy krok**: `ON P.id_kierownika = K.id WHERE K.stanowisko = 'kierownik'` — K to kierownik, P to jego podwladny."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.imie, K.nazwisko,\n       COUNT(P.id) AS liczba_podwladnych,\n       ROUND(AVG(P.pensja), 0) AS srednia_pensja\nFROM Pracownicy P\nJOIN Pracownicy K ON P.id_kierownika = K.id\nWHERE K.stanowisko = 'kierownik'\nGROUP BY K.id, K.imie, K.nazwisko\nORDER BY liczba_podwladnych DESC;\n```\n\n**Weryfikacja**:\n\nPodwladni kierownikow:\n- Jan Nowak (id=2): Piotr (7000), Kasia (7500) → 2 osoby, AVG=7250.0\n- Ewa Maj (id=3): Tomek (8000), Ola (4500), Marek (6500) → 3 osoby, AVG=6333.33→6333.0\n\n| imie | nazwisko | liczba_podwladnych | srednia_pensja |\n|------|----------|--------------------|---------------|\n| Ewa | Maj | 3 | 6333.0 |\n| Jan | Nowak | 2 | 7250.0 |\n\n**Wyjasnienie**: Self-JOIN z GROUP BY liczy podwladnych per kierownik. P to podwladni, K to kierownicy. WHERE filtruje tylko kierownikow (nie dyrektora). ROUND(..., 0) zaokragla do 0 miejsc.",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwrotny warunek ON**: `ON P.id = K.id_kierownika` — zamiast podwladnych kierownika, dostajemy kierownikow podwladnego",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Brak WHERE na stanowisko**: Dyrektor (Anna) tez bylby w wyniku z podwladnymi Jan i Ewa",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**COUNT(*)**: Tu dziala tak samo jak COUNT(P.id), bo INNER JOIN nie daje NULL — ale nawyk COUNT(kolumna) jest bezpieczniejszy",
+      "kara": ""
+    }
+  ]
+}

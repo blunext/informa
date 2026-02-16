@@ -1,0 +1,30 @@
+{
+  "id": "23.14",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2024",
+  "tagi": [
+    "WHERE",
+    "BETWEEN",
+    "AND",
+    "NOT",
+    "operatory-porownania"
+  ],
+  "tresc": "Tabela **Samochody**:\n\n| id | marka | model | rok | cena | kolor |\n|----|-------|-------|-----|------|-------|\n| 1 | Toyota | Corolla | 2020 | 85000 | bialy |\n| 2 | Ford | Focus | 2018 | 55000 | czarny |\n| 3 | BMW | 320i | 2022 | 150000 | srebrny |\n| 4 | Fiat | 500 | 2019 | 42000 | czerwony |\n| 5 | Audi | A3 | 2021 | 130000 | bialy |\n| 6 | Toyota | Yaris | 2020 | 65000 | czarny |\n| 7 | Skoda | Octavia | 2019 | 72000 | srebrny |\n| 8 | Renault | Clio | 2017 | 38000 | bialy |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli marke, model i cene samochodow spelniajacych WSZYSTKIE warunki:\n- rok produkcji miedzy 2019 a 2021 (wlacznie)\n- cena ponizej 100000\n- kolor NIE jest 'czarny'",
+  "wskazowki": [
+    "**Kierunek**: Trzy warunki polaczone AND — wszystkie musza byc spelnione.",
+    "**Podejscie**: BETWEEN dla zakresu, `<` dla ceny, `!=` dla koloru.",
+    "**Kluczowy krok**: BETWEEN jest wlaczajace — `BETWEEN 2019 AND 2021` obejmuje 2019 i 2021."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT marka, model, cena\nFROM Samochody\nWHERE rok BETWEEN 2019 AND 2021\n  AND cena < 100000\n  AND kolor != 'czarny';\n```\n\n**Weryfikacja**:\n\n| id | marka | model | rok OK? | cena OK? | kolor OK? | Wynik |\n|----|-------|-------|---------|----------|-----------|-------|\n| 1 | Toyota | Corolla | 2020 ✓ | 85000 ✓ | bialy ✓ | ✓ |\n| 4 | Fiat | 500 | 2019 ✓ | 42000 ✓ | czerwony ✓ | ✓ |\n| 6 | Toyota | Yaris | 2020 ✓ | 65000 ✓ | czarny ✗ | ✗ |\n| 7 | Skoda | Octavia | 2019 ✓ | 72000 ✓ | srebrny ✓ | ✓ |\n\n| marka | model | cena |\n|-------|-------|------|\n| Toyota | Corolla | 85000 |\n| Fiat | 500 | 42000 |\n| Skoda | Octavia | 72000 |\n\n**Wyjasnienie**: Trzy warunki polaczone AND — samochod musi spelnic WSZYSTKIE naraz. BETWEEN 2019 AND 2021 jest rownowazne z `rok >= 2019 AND rok <= 2021`.",
+  "typowe_bledy": [
+    {
+      "opis": "**OR zamiast AND**: Zmienia logike — wystarczyloby spelnienie jednego warunku",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**`= NULL` zamiast `!= 'czarny'`**: Porownanie z czarny nie wymaga IS NULL — to zwykly tekst",
+      "kara": ""
+    }
+  ]
+}

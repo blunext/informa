@@ -1,0 +1,34 @@
+{
+  "id": "13.4",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2017 zad. 6 (spojne obszary)",
+  "tagi": [
+    "BFS",
+    "spojne-obszary",
+    "visited",
+    "queue",
+    "4-spojnosc"
+  ],
+  "tresc": "Dana jest siatka 8x8 zer i jedynek zapisana w pliku `siatka.txt`. Napisz program, ktory zliczy liczbe spojnych obszarow jedynek (w 4-spojnosci: dwie jedynki naleza do tego samego obszaru jesli mozna przejsc od jednej do drugiej krokami gora/dol/lewo/prawo po jedynkach). Podaj liczbe obszarow i rozmiar kazdego.\n\n**Dane** (`siatka.txt`):\n```\n1 1 0 0 0 1 1 1\n1 0 0 0 0 0 0 1\n0 0 1 1 0 0 0 0\n0 0 1 1 0 0 0 0\n0 0 0 0 0 1 0 0\n1 0 0 0 1 1 0 0\n1 1 0 0 0 0 0 1\n1 1 0 0 0 0 1 1\n```\n\n**Oczekiwany wynik**:\n```\nLiczba spojnych obszarow: 6\nRozmiary obszarow: 3 4 4 3 5 3\n```",
+  "wskazowki": [
+    "**Kierunek**: BFS (przeszukiwanie wszerz) uruchamiany dla kazdej nieodwiedzonej jedynki.",
+    "**Podejscie**: Tablica `visited[8][8]`. Dla kazdej jedynki z `!visited` — uruchom BFS, ktory odwiedzi caly spojny obszar.",
+    "**Kluczowy krok**: BFS uzywa kolejki `queue<pair<int,int>>`. Kazdy odwiedzony element oznacz w `visited`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <queue>\nusing namespace std;\n\nint tab[8][8];\nbool visited[8][8];\n\nint bfs(int si, int sj) {\n    queue<pair<int,int>> q;\n    q.push({si, sj});\n    visited[si][sj] = true;\n    int rozmiar = 0;\n    int dx[] = {-1, 1, 0, 0};\n    int dy[] = {0, 0, -1, 1};\n    while (!q.empty()) {\n        auto [i, j] = q.front(); q.pop();\n        rozmiar++;\n        for (int d = 0; d < 4; d++) {\n            int ni = i + dx[d], nj = j + dy[d];\n            if (ni >= 0 && ni < 8 && nj >= 0 && nj < 8\n                && !visited[ni][nj] && tab[ni][nj] == 1) {\n                visited[ni][nj] = true;\n                q.push({ni, nj});\n            }\n        }\n    }\n    return rozmiar;\n}\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    for (int i = 0; i < 8; i++)\n        for (int j = 0; j < 8; j++)\n            plik >> tab[i][j];\n\n    vector<int> rozmiary;\n    for (int i = 0; i < 8; i++)\n        for (int j = 0; j < 8; j++)\n            if (tab[i][j] == 1 && !visited[i][j])\n                rozmiary.push_back(bfs(i, j));\n\n    cout << \"Liczba spojnych obszarow: \" << rozmiary.size() << endl;\n    cout << \"Rozmiary obszarow: \";\n    for (int r : rozmiary) cout << r << \" \";\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Algorytm BFS (przeszukiwanie wszerz) uruchamiany dla kazdej nieodwiedzonej jedynki. BFS odwiedza wszystkie polaczone jedynki (4-spojnosc), tworzac jeden spojny obszar. Tablica `visited` zapobiega ponownemu odwiedzaniu.\n\nWeryfikacja (siatka 8x8):\nObszary:\n1. (0,0),(0,1),(1,0) -> rozmiar 3\n2. (0,5),(0,6),(0,7),(1,7) -> rozmiar 4\n3. (2,2),(2,3),(3,2),(3,3) -> rozmiar 4\n4. (4,5),(5,4),(5,5) -> rozmiar 3\n5. (5,0),(6,0),(6,1),(7,0),(7,1) -> rozmiar 5\n6. (6,7),(7,6),(7,7) -> rozmiar 3\nRozmiary: 3, 4, 4, 3, 5, 3 = 6 obszarow.",
+  "typowe_bledy": [
+    {
+      "opis": "**Oznaczanie visited po wyjsciu z kolejki**: Moze powodowac wielokrotne dodanie tego samego wezla do kolejki. Oznaczaj przy dodawaniu do kolejki",
+      "kara": ""
+    },
+    {
+      "opis": "**Brak `visited` w ogole**: BFS wchodzi w nieskonczona petle",
+      "kara": ""
+    },
+    {
+      "opis": "**Uzycie DFS rekurencyjnego na duzej siatce**: Stack overflow dla siatek > ~100x100. BFS jest bezpieczniejszy",
+      "kara": ""
+    }
+  ]
+}

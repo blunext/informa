@@ -1,0 +1,33 @@
+{
+  "id": "10.8",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2019 zad. 4 (pary elementow)",
+  "tagi": [
+    "pary-elementow",
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "podzielnosc"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Zliczy ile par sasiadujacych elementow (T[i], T[i+1]) ma te same parzystosc (oba parzyste lub oba nieparzyste).\nb) Zliczy ile par sasiadujacych elementow ma sume podzielna przez 5.\n\n**Dane** (`dane.txt`):\n```\n14\n27\n35\n22\n18\n41\n60\n55\n32\n49\n10\n73\n```\n\n**Oczekiwany wynik**:\n```\na) Pary o tej samej parzystosci:\n   (27,35) - oba nieparzyste\n   (22,18) - oba parzyste\n   Ilosc: 2\n\nb) Pary z suma podzielna przez 5:\n   (22,18) - suma=40\n   (60,55) - suma=115\n   Ilosc: 2\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj wszystko do wektora, potem iteruj po parach sasiadow (i, i+1).",
+    "**Podejscie**: \"Ta sama parzystosc\" to `T[i] % 2 == T[i+1] % 2`. Suma podzielna przez 5 to `(T[i] + T[i+1]) % 5 == 0`.",
+    "**Kluczowy krok**: Petla od 0 do n-2 (wlacznie), nie do n-1 — bo sprawdzamy element i+1."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    // a)\n    cout << \"a) Pary o tej samej parzystosci:\" << endl;\n    int ileA = 0;\n    for (int i = 0; i < n - 1; i++) {\n        if (T[i] % 2 == T[i + 1] % 2) {\n            string typ = (T[i] % 2 == 0) ? \"oba parzyste\" : \"oba nieparzyste\";\n            cout << \"   (\" << T[i] << \",\" << T[i + 1] << \") - \" << typ << endl;\n            ileA++;\n        }\n    }\n    cout << \"   Ilosc: \" << ileA << endl;\n\n    // b)\n    cout << endl << \"b) Pary z suma podzielna przez 5:\" << endl;\n    int ileB = 0;\n    for (int i = 0; i < n - 1; i++) {\n        int s = T[i] + T[i + 1];\n        if (s % 5 == 0) {\n            cout << \"   (\" << T[i] << \",\" << T[i + 1] << \") - suma=\" << s << endl;\n            ileB++;\n        }\n    }\n    cout << \"   Ilosc: \" << ileB << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Iterujemy po parach sasiadow. Parzystosc sprawdzamy operatorem modulo. Suma podzielna przez 5 to warunek `(a+b) % 5 == 0`.\n\nWeryfikacja:\n- Ta sama parzystosc: (27,35)=N+N, (22,18)=P+P -> 2\n- Suma % 5 == 0: (22,18)=40, (60,55)=115 -> 2",
+  "typowe_bledy": [
+    {
+      "opis": "**Petla do `n` zamiast `n-1`**: Dostep do `T[n]` poza zakresem",
+      "kara": "-1 pkt (crash)"
+    },
+    {
+      "opis": "**Sprawdzanie `T[i] % 2 == 0 && T[i+1] % 2 == 0`**: To znajdzie tylko pary parzyste, pomijajac pary nieparzyste",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o liczbach ujemnych**: `(-3) % 2` moze zwrocic -1 w C++. Dla tego zestawu nie ma ujemnych, ale generalnie lepiej porownywac `% 2` obu stron.",
+      "kara": ""
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "23.1",
+  "trudnosc": "latwe",
+  "punkty": 1,
+  "zrodlo": "Matura 2023 (Gry planszowe)",
+  "tagi": [
+    "SELECT",
+    "WHERE",
+    "AND",
+    "operatory-porownania"
+  ],
+  "tresc": "Tabela **Uczniowie**:\n\n| id | imie | nazwisko | klasa | wiek | srednia_ocen |\n|----|------|----------|-------|------|-------------|\n| 1 | Anna | Kowalska | 3A | 18 | 4.8 |\n| 2 | Jan | Nowak | 2B | 17 | 3.5 |\n| 3 | Ewa | Maj | 3A | 18 | 5.0 |\n| 4 | Piotr | Lis | 1C | 16 | 4.2 |\n| 5 | Kasia | Zak | 2B | 17 | 3.9 |\n| 6 | Tomek | Bak | 3A | 19 | 4.5 |\n| 7 | Ola | Wrobel | 1C | 15 | 4.1 |\n| 8 | Marek | Krol | 2B | 17 | 2.8 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko uczniow z klasy '3A', ktorych srednia ocen jest wieksza lub rowna 4.5.",
+  "wskazowki": [
+    "**Kierunek**: Dwa warunki do polaczenia — klasa i srednia ocen.",
+    "**Podejscie**: WHERE z dwoma warunkami polaczonymi AND.",
+    "**Kluczowy krok**: `>=` oznacza \"wieksze lub rowne\" — uwzglednia tez dokladnie 4.5."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko\nFROM Uczniowie\nWHERE klasa = '3A' AND srednia_ocen >= 4.5;\n```\n\n**Weryfikacja**:\n- Anna Kowalska: klasa=3A ✓, srednia=4.8 ≥ 4.5 ✓\n- Ewa Maj: klasa=3A ✓, srednia=5.0 ≥ 4.5 ✓\n- Tomek Bak: klasa=3A ✓, srednia=4.5 ≥ 4.5 ✓\n\n| imie | nazwisko |\n|------|----------|\n| Anna | Kowalska |\n| Ewa | Maj |\n| Tomek | Bak |\n\n**Wyjasnienie**: WHERE laczy dwa warunki operatorem AND — oba musza byc spelnione jednoczesnie. Operator `>=` oznacza \"wieksze lub rowne\".",
+  "typowe_bledy": [
+    {
+      "opis": "**`>` zamiast `>=`**: Tomek Bak (srednia = 4.5) zostalby pominiiety",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak apostrofow wokol '3A'**: `WHERE klasa = 3A` — blad skladni, tekst wymaga apostrofow",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "5.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "Matura 2023 zad. 6 (wzorce bitowe, maski)",
+  "tagi": [
+    "potegi-dwojki",
+    "bin-dec",
+    "porownywanie-systemow"
+  ],
+  "tresc": "**Polecenie**: Odpowiedz na ponizsze pytania, uzasadniajac odpowiedz:\n\n- a) Jaka jest najwieksza liczba, ktora mozna zapisac na 16 bitach (bez znaku)?\n- b) Jaka jest najwieksza liczba, ktora mozna zapisac na 16 bitach w kodzie uzupelnienia do 2 (ze znakiem)?\n- c) Ile roznych wartosci mozna przedstawic za pomoca 3 cyfr szesnastkowych?\n- d) Jaki jest zakres wartosci 8-bitowej liczby ze znakiem w kodzie uzupelnienia do 2?",
+  "wskazowki": [
+    "**Kierunek**: n bitow bez znaku: zakres 0 do 2^n - 1. Ze znakiem (U2): -2^(n-1) do 2^(n-1) - 1.",
+    "**Podejscie**: 3 cyfry hex = 12 bitow. 16 bitow bez znaku: max = 2^16 - 1.",
+    "**Kluczowy krok**: U2 na 8 bitach: -128 do 127. Na 16 bitach: -32768 do 32767."
+  ],
+  "odpowiedz": "**a) Najwieksza na 16 bitach (bez znaku):**\n\n16 bitow moze przechowac wartosci od 0 do 2^16 - 1.\n2^16 = 65536, wiec max = **65535** = FFFF(16) = 1111111111111111(2)\n\n**b) Najwieksza na 16 bitach (ze znakiem, U2):**\n\nW kodzie U2 na n bitach: zakres od -2^(n-1) do 2^(n-1) - 1.\nDla n=16: od -2^15 do 2^15 - 1 = od -32768 do **32767**.\n\nNajstarszy bit to bit znaku (0 = dodatnia, 1 = ujemna).\nNajwieksza dodatnia: 0111111111111111(2) = 7FFF(16) = 32767.\n\n**c) 3 cyfry hex:**\n\nKazda cyfra hex moze przyjac 16 wartosci (0-F).\n3 cyfry: 16^3 = **4096** roznych wartosci (od 000 do FFF, czyli od 0 do 4095).\n\n**d) 8-bitowa U2:**\n\nZakres: od -2^7 do 2^7 - 1 = od **-128 do 127**.\n\n- Najmniejsza: 10000000(2) = -128\n- Najwieksza: 01111111(2) = 127\n- Lacznie: 256 wartosci (128 ujemnych + zero + 127 dodatnich)",
+  "typowe_bledy": [
+    {
+      "opis": "**Max bez znaku = 2^n zamiast 2^n - 1**: Na 8 bitach max to 255, nie 256",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**U2: zakres symetryczny**: W U2 jest o 1 wiexcej liczb ujemnych niz dodatnich (-128..127, nie -127..127)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**3 cyfry hex = 3*16 = 48**: Nie! 16^3 = 4096 (iloczyn, nie suma)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

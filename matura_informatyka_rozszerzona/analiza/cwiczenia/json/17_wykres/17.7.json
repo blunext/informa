@@ -1,0 +1,33 @@
+{
+  "id": "17.7",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2018 (Szkolna biblioteka)",
+  "tagi": [
+    "wykres-kolumnowy",
+    "wykres-kolowy",
+    "procent-udzialu",
+    "odczyt-z-wykresu"
+  ],
+  "tresc": "Wyniki ankiety \"Ulubiony sport\" wsrod 200 uczniow:\n\n| | A | B |\n|---|---|---|\n| 1 | **Sport** | **Liczba glosow** |\n| 2 | Piłka nożna | 68 |\n| 3 | Koszykówka | 42 |\n| 4 | Siatkówka | 35 |\n| 5 | Tenis | 25 |\n| 6 | Pływanie | 18 |\n| 7 | Inne | 12 |\n\n**Polecenie**:\n1. Opisz, jak utworzyc wykres kolowy z etykietami (nazwa + procent).\n2. Oblicz udzial procentowy kazdego sportu.\n3. Ktory typ wykresu lepiej nada sie do porownania liczby glosow: kolowy czy kolumnowy? Uzasadnij.\n4. Jaki procent uczniow wybralo sport druzynowy (piłka nożna, koszykówka, siatkówka)?",
+  "wskazowki": [
+    "**Kierunek**: Wykres kolowy — struktura (udzialy), kolumnowy — porownanie wartosci bezwzglednych.",
+    "**Podejscie**: Udzial = glosy/200 × 100%. Sport druzynowy to suma trzech kategorii.",
+    "**Kluczowy krok**: Oba typy wykresow sa poprawne w roznych kontekstach — uzasadnij wybor na podstawie celu prezentacji."
+  ],
+  "odpowiedz": "**1. Specyfikacja wykresu kolowego:**\n- Etykiety: A2:A7, Wartosci: B2:B7\n- Etykiety na wycinkach: \"Piłka nożna 34.0%\", \"Koszykówka 21.0%\" itd.\n- Legenda po prawej, tytul: \"Ulubiony sport — wyniki ankiety\"\n\n**2. Udzialy procentowe:**\n\n| Sport | Glosy | Udzial |\n|-------|-------|--------|\n| Piłka nożna | 68 | 34.0% |\n| Koszykówka | 42 | 21.0% |\n| Siatkówka | 35 | 17.5% |\n| Tenis | 25 | 12.5% |\n| Pływanie | 18 | 9.0% |\n| Inne | 12 | 6.0% |\n\nWeryfikacja: 34.0+21.0+17.5+12.5+9.0+6.0 = 100.0% ✓\n\n**3. Porownanie typow wykresow:**\n- **Kolowy** — lepszy do pokazania **struktury** (jaki procent calosci stanowi kazdy sport). Czytelny przy 6 kategoriach.\n- **Kolumnowy** — lepszy do **porownania wartosci** (latwiej zobaczyc roznice miedzy slupkami niz miedzy wycinkami). Lepsza precyzja odczytu.\n- **Rekomendacja**: Jesli celem jest porownanie popularnosci — **kolumnowy**. Jesli celem jest pokazanie udzialow — **kolowy**.\n\n**4. Sport druzynowy:**\nPiłka nożna + Koszykówka + Siatkówka = 68 + 42 + 35 = 145\nProcent: 145/200 × 100 = **72.5%**\n\n**Wyjasnienie**: Na maturze czesto pojawia sie pytanie o wybor typu wykresu. Klucz: kolowy = czesc z calosci, kolumnowy = porownanie, liniowy = trend w czasie.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak uzasadnienia wyboru typu**: Na maturze nie wystarczy napisac \"kolumnowy\" — trzeba wyjaśnic DLACZEGO",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne obliczenie procentu**: 68/200 = 0.34, nie 0.34% — pamietaj o mnozeniu razy 100",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Nieuwzglednienie kategorii \"Inne\"**: Suma procentow musi = 100%",
+      "kara": "-1 pkt jesli brakuje"
+    }
+  ]
+}

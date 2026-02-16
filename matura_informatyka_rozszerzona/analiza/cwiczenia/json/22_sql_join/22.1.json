@@ -1,0 +1,28 @@
+{
+  "id": "22.1",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2016 (Uniwersytet)",
+  "tagi": [
+    "INNER-JOIN",
+    "aliasy-tabel",
+    "ORDER-BY-wielokolumnowy"
+  ],
+  "tresc": "Tabela **Autorzy**:\n\n| id_autora | imie | nazwisko | kraj |\n|-----------|------|----------|------|\n| 1 | Adam | Mickiewicz | Polska |\n| 2 | Juliusz | Slowacki | Polska |\n| 3 | Fiodor | Dostojewski | Rosja |\n| 4 | Victor | Hugo | Francja |\n\nTabela **Ksiazki**:\n\n| id_ksiazki | tytul | id_autora | rok | cena |\n|------------|-------|-----------|-----|------|\n| 1 | Pan Tadeusz | 1 | 1834 | 29.90 |\n| 2 | Dziady | 1 | 1823 | 24.50 |\n| 3 | Balladyna | 2 | 1839 | 19.90 |\n| 4 | Zbrodnia i kara | 3 | 1866 | 34.90 |\n| 5 | Kordian | 2 | 1834 | 22.00 |\n| 6 | Nedznicy | 4 | 1862 | 39.90 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli tytul ksiazki oraz imie i nazwisko jej autora. Posortuj alfabetycznie wg nazwiska autora, a nastepnie wg tytulu.",
+  "wskazowki": [
+    "**Kierunek**: Dane autora sa w innej tabeli niz dane ksiazki — musisz je polaczyc.",
+    "**Podejscie**: JOIN na wspolnej kolumnie id_autora.",
+    "**Kluczowy krok**: ORDER BY z dwoma kolumnami: najpierw nazwisko, potem tytul."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.tytul, A.imie, A.nazwisko\nFROM Ksiazki K\nJOIN Autorzy A ON K.id_autora = A.id_autora\nORDER BY A.nazwisko, K.tytul;\n```\n\n**Weryfikacja**:\n\n| tytul | imie | nazwisko |\n|-------|------|----------|\n| Zbrodnia i kara | Fiodor | Dostojewski |\n| Nedznicy | Victor | Hugo |\n| Dziady | Adam | Mickiewicz |\n| Pan Tadeusz | Adam | Mickiewicz |\n| Balladyna | Juliusz | Slowacki |\n| Kordian | Juliusz | Slowacki |\n\n**Wyjasnienie**: INNER JOIN (lub samo JOIN) laczy kazdy wiersz z Ksiazki z wierszem z Autorzy, gdzie id_autora sie zgadza. ORDER BY z dwoma kolumnami sortuje najpierw wg nazwiska, a w ramach tego samego nazwiska — wg tytulu.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak aliasow przy niejednoznacznych kolumnach**: Jesli obie tabele maja kolumne `id_autora`, trzeba uzyc prefiksu (K.id_autora lub A.id_autora)",
+      "kara": "-1 pkt (blad skladni)"
+    },
+    {
+      "opis": "**Brak ON**: `FROM Ksiazki JOIN Autorzy` bez ON tworzy iloczyn kartezjanski (kazda ksiazka z kazdym autorem)",
+      "kara": "-3 pkt"
+    }
+  ]
+}

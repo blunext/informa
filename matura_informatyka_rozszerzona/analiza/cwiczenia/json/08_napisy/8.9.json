@@ -1,0 +1,37 @@
+{
+  "id": "8.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Matura 2021 zad. 4 + 2014 zad. 5 (analiza tekstu)",
+  "tagi": [
+    "zliczanie-znakow",
+    "operacje-na-string",
+    "getline",
+    "podciagi"
+  ],
+  "tresc": "W pliku `tekst.txt` znajduje sie 6 wierszy tekstu (kazdy wiersz moze zawierac spacje, male/duze litery i cyfry). Napisz program, ktory:\na) Dla kazdego wiersza poda liczbe slow (slowa oddzielone spacjami).\nb) Znajdzie najdluzsze slowo w calym tekscie.\nc) Poda ile roznych liter (bez wzgledu na wielkosc) wystepuje w calym tekscie.\n\n**Dane** (`tekst.txt`):\n```\nAla ma kota\nJan i Ewa ida do kina\nProgramowanie jest super\nA B C\nInformatyka rozszerzona matura 2025\nTest\n```\n\n**Oczekiwany wynik**:\n```\na) Liczba slow w kazdym wierszu:\n   \"Ala ma kota\" -> 3 slowa\n   \"Jan i Ewa ida do kina\" -> 6 slow\n   \"Programowanie jest super\" -> 3 slowa\n   \"A B C\" -> 3 slowa\n   \"Informatyka rozszerzona matura 2025\" -> 4 slowa\n   \"Test\" -> 1 slowo\n\nb) Najdluzsze slowo: \"Programowanie\" (dlugosc: 13)\n\nc) Rozne litery w calym tekscie: 22\n```",
+  "wskazowki": [
+    "**Kierunek**: `getline` do wczytywania wierszy ze spacjami. `istringstream` do dzielenia na slowa.",
+    "**Podejscie**: (a) wczytuj slowa z istringstream i zliczaj. (b) Sledz najdluzsze slowo globalnie. (c) `set<char>` po konwersji na male.",
+    "**Kluczowy krok**: Cyfry nie sa literami — w (c) zliczaj tylko litery `isalpha(c)`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <sstream>\n#include <set>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"tekst.txt\");\n    string linia;\n    string najdlSlowo = \"\";\n    set<char> litery;\n\n    cout << \"a) Liczba slow w kazdym wierszu:\" << endl;\n    while (getline(plik, linia)) {\n        istringstream ss(linia);\n        string slowo;\n        int ile = 0;\n        while (ss >> slowo) {\n            ile++;\n            if (slowo.length() > najdlSlowo.length())\n                najdlSlowo = slowo;\n            for (char c : slowo) {\n                if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {\n                    litery.insert(tolower(c));\n                }\n            }\n        }\n        string forma = (ile == 1) ? \"slowo\" : (ile >= 2 && ile <= 4) ? \"slowa\" : \"slow\";\n        cout << \"   \\\"\" << linia << \"\\\" -> \" << ile << \" \" << forma << endl;\n    }\n\n    cout << endl << \"b) Najdluzsze slowo: \\\"\" << najdlSlowo\n         << \"\\\" (dlugosc: \" << najdlSlowo.length() << \")\" << endl;\n\n    cout << endl << \"c) Rozne litery w calym tekscie: \" << litery.size() << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Wiersz 1: \"Ala ma kota\" -> 3 slowa\n- Wiersz 2: \"Jan i Ewa ida do kina\" -> 6 slow\n- Wiersz 3: \"Programowanie jest super\" -> 3 slowa (Programowanie dl.13)\n- Wiersz 4: \"A B C\" -> 3 slowa\n- Wiersz 5: \"Informatyka rozszerzona matura 2025\" -> 4 slowa\n- Wiersz 6: \"Test\" -> 1 slowo\n- Najdluzsze: \"Programowanie\" (13)\n- Litery: a,b,c,d,e,f,g,i,j,k,l,m,n,o,p,r,s,t,u,w,z -> 21 roznych",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie `plik >> linia` zamiast `getline`**: Traci spacje — kazde slowo jest osobnym \"wierszem\"",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zliczanie '2','0','5' jako liter**: `isalpha('2')` jest false. Trzeba filtrowac cyfry",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak `tolower` w (c)**: 'A' i 'a' to ta sama litera — bez konwersji zliczysz je osobno",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pusty wiersz -> 0 slow**: `istringstream` na pustym stringu nie wyciagnie zadnego slowa, co jest poprawne.",
+      "kara": ""
+    }
+  ]
+}

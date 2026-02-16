@@ -94,10 +94,12 @@ analiza/
 │   │   ├── README.md              # Index with difficulty levels and self-assessment
 │   │   ├── 01_sledzenie_algorytmu.md ... 23_sql_select_where.md
 │   │   └── (each has: skill tags, 3-level hints, full answer, common CKE mistakes)
-│   ├── json/                      # 23 JSON files — same 230 exercises, machine-readable
+│   ├── json/                      # 23 directories — 270 exercises, machine-readable
 │   │   ├── README.md              # **Schema, format danych, checklist dodawania cwiczen**
 │   │   ├── tagi_rejestr.json      # **Central tag registry (290 tags, enforced by validator)**
-│   │   └── 01_sledzenie_algorytmu.json ... 23_sql_select_where.json
+│   │   └── NN_nazwa_typu/         # 23 directories, each with:
+│   │       ├── _meta.json         #   Lightweight index (~2KB): metadata + exercise list
+│   │       └── {id}.json          #   Individual exercise (~3-5KB each)
 │   └── verify/                    # Automated verification system
 │       ├── verify_all.py          # Main runner (--file, --id, --category, --verbose)
 │       └── verifiers/             # cpp, sql, numconv, manual_sanity verifiers
@@ -180,7 +182,7 @@ unzip -q zalaczniki.zip
 Full documentation: **`analiza/cwiczenia/json/README.md`** — JSON schema, required data format patterns, verification commands, and a step-by-step checklist for adding new exercises.
 
 Key points:
-- Exercises live in `json/NN_nazwa.json` files (23 files, 230 exercises total)
+- Exercises live in `json/NN_nazwa/` directories (23 dirs, 270 exercises total)
 - **C++ exercises (07-14)**: input data in `tresc` must use `**Dane** (\`plik.txt\`):` format or verifier won't find it
 - **SQL exercises (20-23)**: tables in `tresc` via `Tabela **Name**:`, last non-verification markdown table in `odpowiedz` = expected result
 
@@ -188,17 +190,17 @@ Key points:
 
 ```bash
 # 1. Schema validation (structure, tags, points):
-python3 analiza/cwiczenia/validate_json.py              # all files
-python3 analiza/cwiczenia/validate_json.py --file NN     # one file
+python3 analiza/cwiczenia/validate_json.py              # all directories
+python3 analiza/cwiczenia/validate_json.py --file NN     # one directory
 
 # 2. Content verification (C++ compile+run, SQL exec, sanity checks):
-python3 analiza/cwiczenia/verify/verify_all.py           # all files
-python3 analiza/cwiczenia/verify/verify_all.py --file NN_nazwa --verbose  # one file
+python3 analiza/cwiczenia/verify/verify_all.py           # all directories
+python3 analiza/cwiczenia/verify/verify_all.py --file NN_nazwa --verbose  # one directory
 ```
 
 **Expected results:**
 - `validate_json.py`: **0 ERRORS**
-- `verify_all.py`: **130 PASS, 0 FAIL, 0 ERROR, 100 MANUAL_REVIEW**
+- `verify_all.py`: **170 PASS, 0 FAIL, 0 ERROR, 100 MANUAL_REVIEW**
 
 ### Tag registry (`json/tagi_rejestr.json`)
 

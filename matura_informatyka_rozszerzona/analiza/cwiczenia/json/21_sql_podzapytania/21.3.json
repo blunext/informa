@@ -1,0 +1,32 @@
+{
+  "id": "21.3",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2024 (Rejestr wykroczen)",
+  "tagi": [
+    "LEFT-JOIN-IS-NULL",
+    "NOT-IN",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Klienci**:\n\n| id_klienta | imie | nazwisko | miasto |\n|------------|------|----------|--------|\n| 1 | Anna | Kowalska | Warszawa |\n| 2 | Jan | Nowak | Krakow |\n| 3 | Ewa | Maj | Gdansk |\n| 4 | Piotr | Lis | Warszawa |\n| 5 | Kasia | Zak | Poznan |\n| 6 | Tomek | Bak | Krakow |\n\nTabela **Zamowienia**:\n\n| id_zamowienia | id_klienta | data | kwota |\n|---------------|------------|------|-------|\n| 1 | 1 | 2024-01-10 | 250 |\n| 2 | 2 | 2024-01-15 | 180 |\n| 3 | 1 | 2024-02-20 | 340 |\n| 4 | 3 | 2024-03-05 | 120 |\n| 5 | 6 | 2024-03-10 | 95 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko klientow, ktorzy nigdy nie zlozyli zamowienia. Uzyj LEFT JOIN.",
+  "wskazowki": [
+    "**Kierunek**: LEFT JOIN zachowuje wszystkie wiersze z lewej tabeli, nawet bez dopasowania.",
+    "**Podejscie**: LEFT JOIN Klienci z Zamowienia, potem szukaj wierszy, gdzie Zamowienia daje NULL.",
+    "**Kluczowy krok**: `WHERE Z.id_zamowienia IS NULL` — to wylapuje klientow bez zamowien."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.imie, K.nazwisko\nFROM Klienci K\nLEFT JOIN Zamowienia Z ON K.id_klienta = Z.id_klienta\nWHERE Z.id_zamowienia IS NULL;\n```\n\n**Weryfikacja**:\n- Klienci z zamowieniami: Anna (id=1), Jan (id=2), Ewa (id=3), Tomek (id=6)\n- Klienci BEZ zamowien: Piotr (id=4), Kasia (id=5)\n\n| imie | nazwisko |\n|------|----------|\n| Piotr | Lis |\n| Kasia | Zak |\n\n**Rozwiazanie alternatywne z NOT IN:**\n```sql\nSELECT imie, nazwisko\nFROM Klienci\nWHERE id_klienta NOT IN (SELECT id_klienta FROM Zamowienia);\n```\n\n**Wyjasnienie**: LEFT JOIN zachowuje WSZYSTKIE wiersze z lewej tabeli (Klienci), nawet jezeli nie maja dopasowania w prawej tabeli (Zamowienia). Dla niedopasowanych wierszy kolumny z Zamowienia maja wartosc NULL.",
+  "typowe_bledy": [
+    {
+      "opis": "**INNER JOIN zamiast LEFT JOIN**: Odrzuca wiersze bez dopasowania — nigdy nie pokaze klientow bez zamowien",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**IS NULL na zlej kolumnie**: `WHERE Z.kwota IS NULL` tez zadziala, ale `WHERE Z.id_klienta IS NULL` jest bezpieczniejsze",
+      "kara": ""
+    },
+    {
+      "opis": "**= NULL zamiast IS NULL**: `WHERE Z.id_zamowienia = NULL` zawsze daje FALSE",
+      "kara": "-2 pkt"
+    }
+  ]
+}

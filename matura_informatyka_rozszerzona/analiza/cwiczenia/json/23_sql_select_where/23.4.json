@@ -1,0 +1,29 @@
+{
+  "id": "23.4",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2016 (Uniwersytet — LENGTH)",
+  "tagi": [
+    "LENGTH",
+    "SUBSTR",
+    "WHERE",
+    "operatory-porownania"
+  ],
+  "tresc": "Tabela **Filmy**:\n\n| id | tytul | rezyser | rok | ocena | kraj |\n|----|-------|---------|-----|-------|------|\n| 1 | Ogniem i mieczem | Hoffman | 1999 | 7.2 | Polska |\n| 2 | Ida | Pawlikowski | 2013 | 7.8 | Polska |\n| 3 | Kler | Smarzowski | 2018 | 6.5 | Polska |\n| 4 | Parasite | Bong | 2019 | 8.6 | Korea |\n| 5 | Zimna wojna | Pawlikowski | 2018 | 7.9 | Polska |\n| 6 | Boze Cialo | Komasa | 2019 | 7.6 | Polska |\n| 7 | Quo Vadis | Kawalerowicz | 2001 | 5.8 | Polska |\n| 8 | Komornik | Smarzowski | 2005 | 6.9 | Polska |\n\n**Polecenie**:\n1. Napisz zapytanie, ktore wyswietli tytul i dlugosc tytulu (funkcja LENGTH) dla filmow, ktorych tytul ma wiecej niz 10 znakow.\n2. Napisz zapytanie, ktore wyswietli tytul, rezyser oraz pierwsze 3 litery tytulu (funkcja SUBSTR) dla filmow rezysera 'Pawlikowski'.",
+  "wskazowki": [
+    "**Kierunek**: Funkcje tekstowe LENGTH i SUBSTR dzialaja na stringach.",
+    "**Podejscie**: LENGTH(tekst) zwraca liczbe znakow. SUBSTR(tekst, start, dlugosc) wyciaga fragment.",
+    "**Kluczowy krok**: W SQL pozycje w SUBSTR liczymy od 1 (nie od 0 jak w C++)."
+  ],
+  "odpowiedz": "**Zapytania SQL:**\n\n```sql\n-- 1. Filmy z dlugim tytulem\nSELECT tytul, LENGTH(tytul) AS dlugosc\nFROM Filmy\nWHERE LENGTH(tytul) > 10;\n\n-- 2. Filmy Pawlikowskiego z poczatkiem tytulu\nSELECT tytul, rezyser, SUBSTR(tytul, 1, 3) AS poczatek\nFROM Filmy\nWHERE rezyser = 'Pawlikowski';\n```\n\n**Weryfikacja**:\n\n1. Dlugosci tytulow:\n   - 'Ogniem i mieczem' = 16 znakow (>10 ✓)\n   - 'Ida' = 3 (✗), 'Kler' = 4 (✗), 'Parasite' = 8 (✗)\n   - 'Zimna wojna' = 11 (>10 ✓)\n   - 'Boze Cialo' = 10 (>10 ✗, rowne 10, nie wiecej)\n\n| tytul | dlugosc |\n|-------|---------|\n| Ogniem i mieczem | 16 |\n| Zimna wojna | 11 |\n\n2. Filmy Pawlikowskiego:\n\n| tytul | rezyser | poczatek |\n|-------|---------|----------|\n| Ida | Pawlikowski | Ida |\n| Zimna wojna | Pawlikowski | Zim |\n\n**Wyjasnienie**: LENGTH liczy znaki (wliczajac spacje). SUBSTR(tekst, 1, 3) wyciaga znaki od pozycji 1 do 3. Pozycje w SQL liczymy od 1. 'Boze Cialo' ma dokladnie 10 znakow — `> 10` go nie obejmuje.",
+  "typowe_bledy": [
+    {
+      "opis": "**SUBSTR od pozycji 0**: `SUBSTR(tytul, 0, 3)` — w SQLite dziala (traktuje 0 jak 1), ale w standardzie SQL to blad",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**`>= 10` zamiast `> 10`**: Dodaje 'Boze Cialo' (10 znakow) do wyniku, niezgodnie z poleceniem \"wiecej niz 10\"",
+      "kara": "-1 pkt"
+    }
+  ]
+}

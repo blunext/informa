@@ -1,0 +1,33 @@
+{
+  "id": "2.4",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2024 zad. 3 (pseudokod), Matura 2024 zad. 6 (systemy)",
+  "tagi": [
+    "konwersja-systemow",
+    "mod-div",
+    "petla-while",
+    "pseudokod"
+  ],
+  "tresc": "Napisz pseudokod funkcji `konwertuj(n, k)`, ktora zwraca zapis liczby naturalnej n > 0 w systemie o podstawie k (2 <= k <= 9) jako liczbe calkowita.\n\nNa przyklad: `konwertuj(13, 2)` zwraca 1101, bo 13 w systemie dwojkowym to 1101.\n\n**Ograniczenia**: Uzyj tylko zmiennych calkowitych i operatorow arytmetycznych. Wynik ma byc liczba calkowita (nie string). Zakladamy, ze wynik miesci sie w zakresie typu calkowitego.\n\n**Przyklady**:\n- `konwertuj(13, 2)` = 1101\n- `konwertuj(100, 8)` = 144\n- `konwertuj(25, 3)` = 221",
+  "wskazowki": [
+    "Reszta z dzielenia `n mod k` daje kolejne cyfry wyniku (od najmniej znaczacej). Jak \"dostawic\" te cyfre na odpowiednia pozycje w wyniku?",
+    "Uzyj zmiennej `mnoznik` (startowo 1), ktora mnozy reszte i przesuwa ja na wlasciwa pozycje. Po kazdej iteracji `mnoznik = mnoznik * 10`.",
+    "W kazdym kroku: `wynik = wynik + (n mod k) * mnoznik`, potem `n = n div k` i `mnoznik = mnoznik * 10`. Kontynuuj az `n = 0`."
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja konwertuj(n, k)\n    wynik := 0\n    mnoznik := 1\n    dopoki n > 0:\n        reszta := n mod k\n        wynik := wynik + reszta * mnoznik\n        mnoznik := mnoznik * 10\n        n := n div k\n    zwroc wynik\n```\n\n**C++:**\n\n```cpp\nint konwertuj(int n, int k) {\n    int wynik = 0;\n    int mnoznik = 1;\n    while (n > 0) {\n        int reszta = n % k;\n        wynik += reszta * mnoznik;\n        mnoznik *= 10;\n        n /= k;\n    }\n    return wynik;\n}\n```\n\n**Weryfikacja konwertuj(13, 2):**\n\n| Krok | n | n%2 | wynik | mnoznik | n (po /2) |\n|------|---|-----|-------|---------|-----------|\n| 1 | 13 | 1 | 0+1*1=1 | 10 | 6 |\n| 2 | 6 | 0 | 1+0*10=1 | 100 | 3 |\n| 3 | 3 | 1 | 1+1*100=101 | 1000 | 1 |\n| 4 | 1 | 1 | 101+1*1000=1101 | 10000 | 0 |\n\nWynik: 1101. Sprawdzenie: 1*8 + 1*4 + 0*2 + 1*1 = 13.\n\n**Weryfikacja konwertuj(100, 8):**\n\n| Krok | n | n%8 | wynik | mnoznik | n (po /8) |\n|------|---|-----|-------|---------|-----------|\n| 1 | 100 | 4 | 4 | 10 | 12 |\n| 2 | 12 | 4 | 44 | 100 | 1 |\n| 3 | 1 | 1 | 144 | 1000 | 0 |\n\nWynik: 144. Sprawdzenie: 1*64 + 4*8 + 4*1 = 100.\n\n**Weryfikacja konwertuj(25, 3):**\n\n| Krok | n | n%3 | wynik | mnoznik | n (po /3) |\n|------|---|-----|-------|---------|-----------|\n| 1 | 25 | 1 | 1 | 10 | 8 |\n| 2 | 8 | 2 | 21 | 100 | 2 |\n| 3 | 2 | 2 | 221 | 1000 | 0 |\n\nWynik: 221. Sprawdzenie: 2*9 + 2*3 + 1*1 = 25.",
+  "typowe_bledy": [
+    {
+      "opis": "**Inicjalizacja `mnoznik := 0` zamiast `mnoznik := 1`** -- pierwsza cyfra zostaje pomnozona przez 0 i znika",
+      "kara": "-2 pkt za blad w algorytmie"
+    },
+    {
+      "opis": "**Uzycie `n mod 10` zamiast `n mod k`** -- skopiowanie szablonu z cwiczen na cyfrach dziesietnych bez zmiany podstawy",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Proba konwersji dla k >= 10** -- algorytm z wynikiem calkowitym nie dziala dla systemow o podstawie >= 10 (np. szesnastkowy), bo cyfry >= 10 nie maja jednoznacznej reprezentacji w liczbie calkowitej. To nie jest blad, jesli polecenie wymaga k <= 9, ale warto byc swiadomym ograniczenia.",
+      "kara": ""
+    }
+  ]
+}

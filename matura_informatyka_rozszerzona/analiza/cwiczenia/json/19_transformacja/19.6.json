@@ -1,0 +1,28 @@
+{
+  "id": "19.6",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "LEFT-RIGHT-MID",
+    "konkatenacja",
+    "TEXT"
+  ],
+  "tresc": "W arkuszu mamy dane w formacie wymagajacym transformacji tekstowej:\n\n| | A | B |\n|---|---|---|\n| 1 | **Kod produktu** | **Cena** |\n| 2 | EL-001-2024 | 299.90 |\n| 3 | OD-015-2024 | 89.50 |\n| 4 | ZY-102-2024 | 12.30 |\n| 5 | EL-042-2023 | 450.00 |\n| 6 | OD-008-2023 | 65.00 |\n| 7 | ZY-055-2024 | 8.90 |\n\nKody produktow maja format: XX-NNN-RRRR (kategoria-numer-rok).\n\n**Polecenie**:\n1. W kolumnie C wyodrebnij kategorie (pierwsze 2 znaki).\n2. W kolumnie D wyodrebnij numer produktu (znaki 4-6).\n3. W kolumnie E wyodrebnij rok (ostatnie 4 znaki).\n4. W kolumnie F utworz nowy format: \"Kategoria: XX, Nr: NNN (RRRR)\".",
+  "wskazowki": [
+    "**Kierunek**: LEFT wyciaga znaki od lewej, RIGHT od prawej, MID ze srodka.",
+    "**Podejscie**: LEFT(A2;2) = kategoria, MID(A2;4;3) = numer, RIGHT(A2;4) = rok.",
+    "**Kluczowy krok**: Konkatenacja operatorem & laczy teksty: \"Kategoria: \"&C2&\", Nr: \"&D2&\" (\"&E2&\")\"."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nC2: =LEFT(A2;2)\nD2: =MID(A2;4;3)\nE2: =RIGHT(A2;4)\nF2: =\"Kategoria: \"&C2&\", Nr: \"&D2&\" (\"&E2&\")\"\n```\n\n**Wyniki:**\n\n| Kod | Cena | C: Kat. | D: Nr | E: Rok | F: Nowy format |\n|-----|------|---------|-------|--------|----------------|\n| EL-001-2024 | 299.90 | EL | 001 | 2024 | Kategoria: EL, Nr: 001 (2024) |\n| OD-015-2024 | 89.50 | OD | 015 | 2024 | Kategoria: OD, Nr: 015 (2024) |\n| ZY-102-2024 | 12.30 | ZY | 102 | 2024 | Kategoria: ZY, Nr: 102 (2024) |\n| EL-042-2023 | 450.00 | EL | 042 | 2023 | Kategoria: EL, Nr: 042 (2023) |\n| OD-008-2023 | 65.00 | OD | 008 | 2023 | Kategoria: OD, Nr: 008 (2023) |\n| ZY-055-2024 | 8.90 | ZY | 055 | 2024 | Kategoria: ZY, Nr: 055 (2024) |\n\n**Wyjasnienie**: LEFT(tekst; n) zwraca n znakow od lewej. MID(tekst; start; n) zwraca n znakow od pozycji start (numerowane od 1). RIGHT(tekst; n) zwraca n znakow od prawej. Operator & laczy (konkatenuje) teksty. Na maturze te funkcje pojawiaja sie przy przetwarzaniu kodow, dat i identyfikatorow.",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledna pozycja poczatkowa w MID**: MID(A2;3;3) zaczyna od myślnika, nie od numeru. Pozycja 4 to pierwszy znak numeru",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o & miedzy fragmentami**: \"Kategoria: \" C2 bez & nie zadziala — trzeba \"Kategoria: \"&C2",
+      "kara": "-1 pkt"
+    }
+  ]
+}

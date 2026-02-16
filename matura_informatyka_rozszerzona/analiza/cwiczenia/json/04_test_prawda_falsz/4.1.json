@@ -1,0 +1,27 @@
+{
+  "id": "4.1",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2022 zad. 3.2, Matura 2019 zad. 3.1",
+  "tagi": [
+    "systemy-liczbowe",
+    "konwersja-bin-hex-oct"
+  ],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Kazda liczba w systemie osemkowym zawiera wylacznie cyfry 0-7. | |\n| b) | Liczba 1111(2) jest rowna 16(10). | |\n| c) | Jedna cyfra szesnastkowa odpowiada dokladnie 4 bitom. | |\n| d) | Liczba A3(16) jest mniejsza niz 200(10). | |",
+  "wskazowki": [
+    "**Kierunek**: Przypomnij sobie zasady systemow pozycyjnych — jakie cyfry sa dopuszczalne w systemie o podstawie p?",
+    "**Podejscie**: Dla b) oblicz 1111(2) recznie: 1*8+1*4+1*2+1*1. Dla d) przelicz A3(16) na dziesietny.",
+    "**Kluczowy krok**: A(16) = 10(10). Wiec A3(16) = 10*16 + 3 = 163."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | W systemie o podstawie 8 dopuszczalne cyfry to 0, 1, 2, 3, 4, 5, 6, 7. |\n| b) | **F** | 1111(2) = 1*8 + 1*4 + 1*2 + 1*1 = 15, nie 16. Liczba 10000(2) = 16. |\n| c) | **P** | 4 bity moga reprezentowac wartosci 0-15, co odpowiada dokladnie jednej cyfrze szesnastkowej (0-9, A-F). |\n| d) | **P** | A3(16) = 10*16 + 3 = 163(10). Poniewaz 163 < 200, zdanie jest prawdziwe — A3(16) jest rzeczywiscie mniejsza niz 200(10). |\n\nOdpowiedzi: a) P, b) F, c) P, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**1111(2) = 16**: Czesty blad — 1111(2) = 15 (2^4 - 1). Liczba 16 to 10000(2) = 2^4",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Zapomnienie ze A=10 w hex**: W systemie szesnastkowym: A=10, B=11, C=12, D=13, E=14, F=15",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

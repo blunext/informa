@@ -1,0 +1,33 @@
+{
+  "id": "4.8",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2025 zad. 3 (logika, twierdzenia)",
+  "tagi": [
+    "rekurencja",
+    "zlozonosc-czasowa",
+    "tablice-haszujace",
+    "struktury-danych"
+  ],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Rekurencyjna implementacja obliczania n-tej liczby Fibonacciego ma zlozonosc O(n). | |\n| b) | Tablica haszujaca (hash table) gwarantuje wyszukiwanie elementu w czasie O(1) w najgorszym przypadku. | |\n| c) | Algorytm Dijkstry znajduje najkrotsze sciezki w grafie z wagami ujemnymi. | |\n| d) | Przeszukiwanie binarne wymaga, aby tablica byla posortowana. | |",
+  "wskazowki": [
+    "**Kierunek**: Fibonacci rekurencyjnie (bez memoizacji) to O(2^n), nie O(n). Hash table moze miec kolizje.",
+    "**Podejscie**: Dijkstra NIE dziala z wagami ujemnymi (do tego sluzy Bellman-Ford). Binsearch wymaga posortowania.",
+    "**Kluczowy krok**: Hash table: sredni O(1), pesymistyczny O(n) (gdy wszystkie klucze trafiaja do jednego kubla)."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | Naiwna rekurencyjna implementacja Fibonacciego ma zlozonosc O(2^n) (wykladnicza), bo wielokrotnie oblicza te same wartosci. Zlozonosc O(n) ma wersja iteracyjna lub rekurencyjna z memoizacja. |\n| b) | **F** | Hash table ma O(1) SREDNIO (amortyzowane), ale w najgorszym przypadku (wiele kolizji) O(n). Gwarancja O(1) pesymistycznego wymaga doskonalej funkcji haszujacej (perfect hashing), co jest rzadkie w praktyce. |\n| c) | **F** | Algorytm Dijkstry NIE dziala poprawnie z ujemnymi wagami krawedzi. Do grafow z ujemnymi wagami nalezy uzyc algorytmu Bellmana-Forda. |\n| d) | **P** | Przeszukiwanie binarne (binary search) wymaga, aby elementy byly posortowane. Algorytm porownuje element srodkowy z szukanym i odrzuca polowe zakresu — to dziala TYLKO gdy dane sa uporzadkowane. |\n\nOdpowiedzi: a) F, b) F, c) F, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Fibonacci rekurencyjnie O(n)**: To O(2^n)! Iteracyjnie lub z memoizacja = O(n)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Hash table zawsze O(1)**: Tylko srednio. Pesymistycznie O(n) przez kolizje",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Dijkstra z ujemnymi wagami**: NIE dziala! Uzyj Bellmana-Forda",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

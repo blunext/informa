@@ -1,0 +1,29 @@
+{
+  "id": "17.3",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2023 (Konfitury)",
+  "tagi": [
+    "wykres-grupowany",
+    "legenda",
+    "seria-danych",
+    "odczyt-z-wykresu"
+  ],
+  "tresc": "Firma sprzedaje 3 produkty. Dane miesiecznej sprzedazy (w tys. zl):\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Miesiac** | **Produkt A** | **Produkt B** | **Produkt C** |\n| 2 | Styczen | 45 | 30 | 20 |\n| 3 | Luty | 38 | 35 | 25 |\n| 4 | Marzec | 52 | 28 | 30 |\n| 5 | Kwiecien | 41 | 42 | 22 |\n| 6 | Maj | 55 | 38 | 35 |\n| 7 | Czerwiec | 48 | 45 | 28 |\n\n**Polecenie**: Opisz, jak utworzyc wykres kolumnowy grupowany (3 serie danych obok siebie) z legenda. Podaj pelna specyfikacje wykresu i odpowiedz na pytanie: w ktorym miesiacu laczna sprzedaz wszystkich produktow byla najwyzsza?",
+  "wskazowki": [
+    "**Kierunek**: Wykres grupowany — kazdy miesiac ma 3 slupki obok siebie (po jednym na produkt).",
+    "**Podejscie**: 3 serie danych = 3 kolumny (B, C, D). Os X = miesiace. Legenda rozroznia serie.",
+    "**Kluczowy krok**: Aby znalezc najwyzsza laczna sprzedaz, zsumuj B+C+D w kazdym wierszu."
+  ],
+  "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kolumnowy grupowany (clustered column)\n2. **Dane**:\n   - Os X (kategorie): zakres A2:A7 (miesiace)\n   - Seria 1: B2:B7 (Produkt A) — np. kolor niebieski\n   - Seria 2: C2:C7 (Produkt B) — np. kolor pomaranczowy\n   - Seria 3: D2:D7 (Produkt C) — np. kolor zielony\n3. **Tytuly**:\n   - Tytul: \"Miesieczna sprzedaz produktow (tys. zl)\"\n   - Os X: \"Miesiac\"\n   - Os Y: \"Sprzedaz (tys. zl)\"\n4. **Formatowanie**:\n   - Legenda u gory lub po prawej: Produkt A, Produkt B, Produkt C\n   - 3 slupki obok siebie w kazdym miesiacu\n   - Linie siatki poziomej\n   - Os Y od 0 do 60\n\n**Laczna sprzedaz:**\n\n| Miesiac | A + B + C | Suma |\n|---------|-----------|------|\n| Styczen | 45+30+20 | 95 |\n| Luty | 38+35+25 | 98 |\n| Marzec | 52+28+30 | 110 |\n| Kwiecien | 41+42+22 | 105 |\n| Maj | 55+38+35 | **128** |\n| Czerwiec | 48+45+28 | 121 |\n\nNajwyzsza laczna sprzedaz: **Maj (128 tys. zl)**\n\n**Wyjasnienie**: Wykres grupowany pozwala porownywac wartosci miedzy seriami w ramach jednej kategorii (np. ktory produkt sprzedal sie najlepiej w marcu) oraz miedzy kategoriami (np. trend sprzedazy Produktu A w czasie). Legenda jest niezbedna, gdy jest wiecej niz jedna seria danych.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak legendy**: Przy 3 seriach danych bez legendy nie wiadomo, ktory slupek odpowiada ktoremu produktowi",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie wykresu skumulowanego zamiast grupowanego**: Skumulowany uklada serie jedna na drugiej — nie pozwala porownac poszczegolnych produktow",
+      "kara": "-2 pkt jesli zadanie wymaga porownania"
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "typ": "17_wykres",
+  "nazwa": "Wykresy w arkuszu kalkulacyjnym",
+  "kategoria": "ARKUSZ",
+  "czestotliwosc": "8/11 lat",
+  "punkty_lacznie": 38,
+  "tagi_globalne": [
+    "wykres-kolumnowy",
+    "wykres-kolowy",
+    "wykres-liniowy",
+    "wykres-grupowany",
+    "wykres-skumulowany",
+    "wykres-kombinowany",
+    "dwie-osie-Y",
+    "etykiety-danych",
+    "legenda",
+    "tytuly-osi",
+    "odczyt-z-wykresu",
+    "procent-udzialu",
+    "formatowanie-wykresu",
+    "seria-danych"
+  ],
+  "cwiczenia": [
+    {
+      "id": "17.1",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wykres-kolumnowy",
+        "etykiety-danych",
+        "tytuly-osi"
+      ]
+    },
+    {
+      "id": "17.2",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wykres-kolowy",
+        "procent-udzialu",
+        "legenda",
+        "etykiety-danych"
+      ]
+    },
+    {
+      "id": "17.3",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "wykres-grupowany",
+        "legenda",
+        "seria-danych",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.4",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "wykres-skumulowany",
+        "procent-udzialu",
+        "seria-danych",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.5",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "wykres-kombinowany",
+        "dwie-osie-Y",
+        "wykres-liniowy",
+        "wykres-kolumnowy",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.6",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wykres-liniowy",
+        "etykiety-danych",
+        "tytuly-osi",
+        "formatowanie-wykresu"
+      ]
+    },
+    {
+      "id": "17.7",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "wykres-kolumnowy",
+        "wykres-kolowy",
+        "procent-udzialu",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.8",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "wykres-grupowany",
+        "wykres-skumulowany",
+        "seria-danych",
+        "legenda",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.9",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "wykres-liniowy",
+        "wykres-kombinowany",
+        "dwie-osie-Y",
+        "odczyt-z-wykresu",
+        "formatowanie-wykresu"
+      ]
+    },
+    {
+      "id": "17.10",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "wykres-kolumnowy",
+        "wykres-kolowy",
+        "wykres-liniowy",
+        "procent-udzialu",
+        "odczyt-z-wykresu",
+        "formatowanie-wykresu"
+      ]
+    }
+  ]
+}

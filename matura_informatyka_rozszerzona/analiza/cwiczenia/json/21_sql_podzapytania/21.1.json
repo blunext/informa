@@ -1,0 +1,28 @@
+{
+  "id": "21.1",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2019 (Perfumy)",
+  "tagi": [
+    "podzapytanie-skalarne",
+    "AVG",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Pracownicy** zawiera dane o pracownikach firmy:\n\n| id | imie | nazwisko | dzial | wynagrodzenie |\n|----|------|----------|-------|--------------|\n| 1 | Anna | Kowalska | IT | 8500 |\n| 2 | Jan | Nowak | HR | 5200 |\n| 3 | Ewa | Maj | IT | 9200 |\n| 4 | Piotr | Lis | Sprzedaz | 6100 |\n| 5 | Kasia | Zak | HR | 5800 |\n| 6 | Tomek | Bak | IT | 7800 |\n| 7 | Ola | Wrobel | Sprzedaz | 7200 |\n| 8 | Marek | Krol | Sprzedaz | 5500 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko pracownikow, ktorych wynagrodzenie jest wyzsze niz srednie wynagrodzenie wszystkich pracownikow.",
+  "wskazowki": [
+    "**Kierunek**: Nie mozesz uzyc AVG bezposrednio w WHERE — potrzebujesz podzapytania.",
+    "**Podejscie**: Podzapytanie `(SELECT AVG(wynagrodzenie) FROM Pracownicy)` zwraca jedna wartosc (skalarne).",
+    "**Kluczowy krok**: Porownaj wynagrodzenie kazdego pracownika z ta wartoscia: `WHERE wynagrodzenie > (SELECT ...)`."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko, wynagrodzenie\nFROM Pracownicy\nWHERE wynagrodzenie > (SELECT AVG(wynagrodzenie) FROM Pracownicy);\n```\n\n**Weryfikacja**:\n- Srednia wynagrodzen: (8500+5200+9200+6100+5800+7800+7200+5500)/8 = 55300/8 = **6912.50**\n- Pracownicy z wynagrodzeniem > 6912.50:\n  - Anna Kowalska (8500 ✓)\n  - Ewa Maj (9200 ✓)\n  - Tomek Bak (7800 ✓)\n  - Ola Wrobel (7200 ✓)\n\n| imie | nazwisko | wynagrodzenie |\n|------|----------|--------------|\n| Anna | Kowalska | 8500 |\n| Ewa | Maj | 9200 |\n| Tomek | Bak | 7800 |\n| Ola | Wrobel | 7200 |\n\n**Wyjasnienie**: Podzapytanie `(SELECT AVG(wynagrodzenie) FROM Pracownicy)` zwraca pojedyncza wartosc (6912.50), ktora jest uzywana w warunku WHERE. To tzw. podzapytanie skalarne — zwraca dokladnie jedna wartosc.",
+  "typowe_bledy": [
+    {
+      "opis": "**AVG bezposrednio w WHERE**: `WHERE wynagrodzenie > AVG(wynagrodzenie)` — blad skladni, funkcje agregujace nie moga byc uzywane w WHERE",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak nawiasow wokol podzapytania**: Podzapytanie musi byc w nawiasach",
+      "kara": "-1 pkt (blad skladni)"
+    }
+  ]
+}

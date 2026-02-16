@@ -1,0 +1,29 @@
+{
+  "id": "2.2",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2025 zad. 1.3 (przestaw iteracyjnie)",
+  "tagi": [
+    "rekurencja",
+    "petla-while",
+    "cyfry",
+    "pseudokod"
+  ],
+  "tresc": "Dana jest funkcja rekurencyjna obliczajaca sume cyfr liczby:\n\n```\nfunkcja sumaCyfr(n)\n    jezeli n = 0:\n        zwroc 0\n    zwroc sumaCyfr(n div 10) + n mod 10\n```\n\n**Polecenie**: Napisz iteracyjna wersje tej funkcji. Uzyj petli `dopoki` (while). Nie uzywaj rekurencji.",
+  "wskazowki": [
+    "Przeanalizuj, co robi rekurencja: w kazdym wywolaniu dodaje ostatnia cyfre (`n mod 10`) i przechodzi do liczby bez ostatniej cyfry (`n div 10`). Jak to przelozyc na petle?",
+    "Potrzebujesz zmiennej akumulujacej sume. W kazdej iteracji petli dodajesz `n mod 10` do sumy i zmniejszasz `n` przez `n div 10`.",
+    "Warunek konca petli to `n > 0` (odpowiada warunkowi bazowemu rekurencji `n = 0`). Przed petla zainicjuj `suma := 0`."
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja sumaCyfrIter(n)\n    suma := 0\n    dopoki n > 0:\n        suma := suma + n mod 10\n        n := n div 10\n    zwroc suma\n```\n\n**C++:**\n\n```cpp\nint sumaCyfrIter(int n) {\n    int suma = 0;\n    while (n > 0) {\n        suma += n % 10;\n        n /= 10;\n    }\n    return suma;\n}\n```\n\n**Wyjasinienie konwersji**:\n\nKonwersja rekurencji na iteracje -- kazde wywolanie przetwarza jedna cyfre (n mod 10) i przechodzi do mniejszej liczby (n div 10). Zamieniamy mechanicznie na petle z akumulatorem:\n1. Warunek bazowy `n = 0` staje sie warunkiem konca petli `n > 0`\n2. Akumulator (suma) przechowuje wynik czesciowy\n3. Zmiana argumentu `n div 10` staje sie aktualizacja zmiennej `n := n div 10`\n4. Dodawanie `n mod 10` odbywa sie w kazdej iteracji\n\n**Weryfikacja**:\n- sumaCyfrIter(47): 7 + 4 = 11\n- sumaCyfrIter(305): 5 + 0 + 3 = 8\n- sumaCyfrIter(1234): 4 + 3 + 2 + 1 = 10",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie inicjalizacji akumulatora** -- zmienna `suma` musi byc zainicjowana na 0 przed petla. Brak inicjalizacji w C++ daje niezdefiniowane zachowanie",
+      "kara": "-1 pkt za brak inicjalizacji"
+    },
+    {
+      "opis": "**Zamiana kolejnosci operacji** -- pisanie `n := n div 10` PRZED `suma := suma + n mod 10` powoduje utrate ostatniej cyfry",
+      "kara": "blad logiczny, -1 pkt"
+    }
+  ]
+}

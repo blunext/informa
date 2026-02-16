@@ -1,0 +1,37 @@
+{
+  "id": "3.10",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2023 zad. 2 (analiza zlozonosci rekurencji)",
+  "tagi": [
+    "rekurencja",
+    "rownanie-rekurencyjne",
+    "zlozonosc-czasowa",
+    "indukcja"
+  ],
+  "tresc": "Dany jest algorytm sortowania przez scalanie:\n\n```\nfunkcja mergeSort(T, lewy, prawy)\n    jezeli lewy >= prawy:\n        zakoncz\n    srodek := (lewy + prawy) div 2\n    mergeSort(T, lewy, srodek)\n    mergeSort(T, srodek + 1, prawy)\n    scal(T, lewy, srodek, prawy)   // koszt scalania: prawy - lewy + 1 porownan\n```\n\n**Polecenie**:\n- a) Dla n = 8 elementow narysuj drzewo rekursji (jakie zakresy sa przetwarzane na kazdym poziomie).\n- b) Ile razy jest wywolywana funkcja mergeSort (wliczajac wywolania bazowe, gdy lewy >= prawy)?\n- c) Ile lacznie porownan wykonuje operacja `scal` na kazdym poziomie drzewa? Jaka jest laczna liczba porownan?\n- d) Udowodnij ze zlozonosc T(n) = O(n log n), uzywajac rownania rekurencyjnego T(n) = 2T(n/2) + n.",
+  "wskazowki": [
+    "**Kierunek**: Kazdy poziom drzewa przerabia lacznie n elementow (rozne fragmenty tablicy). Ile jest poziomow?",
+    "**Podejscie**: Drzewo ma log2(n) + 1 poziomow. Na kazdym poziomie laczny koszt scalania = n.",
+    "**Kluczowy krok**: Razem: n * (log2(n) + 1) = O(n log n). Rownanie T(n) = 2T(n/2) + n rozwiazuje sie przez rozwijanie."
+  ],
+  "odpowiedz": "**a) Drzewo rekursji dla n=8 (indeksy 0..7):**\n\n```\nPoziom 0: mergeSort(0,7)               -> scal 8 elem.\n          /                  \\\nPoziom 1: mergeSort(0,3)     mergeSort(4,7)     -> scal 4+4=8 elem.\n         /          \\        /          \\\nPoziom 2: mS(0,1)  mS(2,3)  mS(4,5)  mS(6,7)   -> scal 2+2+2+2=8 elem.\n         / \\       / \\       / \\       / \\\nPoziom 3: mS(0) mS(1) mS(2) mS(3) mS(4) mS(5) mS(6) mS(7) -> bazy (brak scalania)\n```\n\n**b) Liczba wywolan mergeSort:**\n\n- Poziom 0: 1\n- Poziom 1: 2\n- Poziom 2: 4\n- Poziom 3 (bazowe): 8\n\nRazem: 1 + 2 + 4 + 8 = **15 wywolan**\n\nOgolnie: 2n - 1 wywolan (dla n bedacego potega 2).\n\n**c) Porownania na kazdym poziomie:**\n\nKoszt scalania = liczba elementow w zakresie.\n\n| Poziom | Zakresy | Laczna liczba elementow do scalenia | Porownania |\n|--------|---------|--------------------------------------|------------|\n| 0 | (0,7) | 8 | 8 |\n| 1 | (0,3), (4,7) | 4 + 4 = 8 | 8 |\n| 2 | (0,1), (2,3), (4,5), (6,7) | 2+2+2+2 = 8 | 8 |\n| 3 | bazowe | 0 | 0 |\n\nLaczna liczba porownan: 8 + 8 + 8 = 8 * 3 = **24 porownania**\n\nOgolnie: n * log2(n) (dla n bedacego potega 2). Tu: 8 * 3 = 24.\n\n**d) Dowod O(n log n) przez rozwijanie rownania:**\n\nT(n) = 2T(n/2) + n\n     = 2[2T(n/4) + n/2] + n = 4T(n/4) + 2n\n     = 4[2T(n/8) + n/4] + 2n = 8T(n/8) + 3n\n     = ...\n     = 2^k * T(n/2^k) + k*n\n\nDla k = log2(n): 2^k = n, T(1) = O(1)\n\nT(n) = n * O(1) + log2(n) * n = **O(n log n)**\n\nJest to najlepsza mozliwa zlozonosc dla sortowania opartego na porownaniach (dolna granica to Omega(n log n)).",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o koszcie scalania**: scal() kosztuje O(rozmiar zakresu), nie O(1)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledna liczba poziomow**: Dla n=8 sa 4 poziomy (0,1,2,3), nie 3. Poziom 3 to bazy (bez scalania)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne rozwijanie rownania**: Kazdy krok podstawia T(n/2^k), a koszt rosnie o n na poziom",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak warunku bazowego T(1)**: Rozwijanie musi dojsc do T(1) = stala",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

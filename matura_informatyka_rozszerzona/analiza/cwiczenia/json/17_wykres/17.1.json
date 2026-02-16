@@ -1,0 +1,28 @@
+{
+  "id": "17.1",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "wykres-kolumnowy",
+    "etykiety-danych",
+    "tytuly-osi"
+  ],
+  "tresc": "Uczniowie klasy pisali test z matematyki. Wyniki pogrupowano w przedzialy:\n\n| | A | B |\n|---|---|---|\n| 1 | **Przedzial punktow** | **Liczba uczniow** |\n| 2 | 0-20% | 2 |\n| 3 | 21-40% | 5 |\n| 4 | 41-60% | 8 |\n| 5 | 61-80% | 7 |\n| 6 | 81-100% | 3 |\n\n**Polecenie**: Opisz, jak utworzyc wykres kolumnowy (histogram) przedstawiajacy rozklad wynikow testu. Podaj:\n1. Typ wykresu\n2. Dane dla osi X i Y\n3. Tytul wykresu i osi\n4. Dodatkowe formatowanie",
+  "wskazowki": [
+    "**Kierunek**: Wykres kolumnowy (slupkowy pionowy) jest najlepszy dla danych kategorycznych z wartosciami liczbowymi.",
+    "**Podejscie**: Os X to kategorie (przedzialy), os Y to wartosci (liczba uczniow). Jedna seria danych.",
+    "**Kluczowy krok**: Pamietaj o: tytule wykresu, podpisach osi, etykietach danych, odpowiedniej skali osi Y."
+  ],
+  "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kolumnowy (slupkowy pionowy)\n2. **Dane**:\n   - Os X (kategorie): zakres A2:A6 (przedzialy punktow)\n   - Os Y (wartosci): zakres B2:B6 (liczba uczniow)\n3. **Tytuly**:\n   - Tytul wykresu: \"Rozklad wynikow testu z matematyki\"\n   - Os X: \"Przedzial punktow\"\n   - Os Y: \"Liczba uczniow\"\n4. **Formatowanie**:\n   - Kolumny w jednym kolorze (jedna seria danych)\n   - Etykiety danych nad kazdym slupkiem (2, 5, 8, 7, 3)\n   - Linie siatki poziomej dla latwiejszego odczytu\n   - Os Y od 0 do 10 (z krokiem co 2)\n\n**Wyjasnienie**: Wykres kolumnowy jest najwlasciwszy, bo os X zawiera kategorie (przedzialy), a os Y wartosci liczbowe. Kazdy slupek reprezentuje jedna kategorie. Na maturze nalezy zadbac o: czytelny tytul, podpisy osi, etykiety danych.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak tytulu wykresu lub podpisow osi**: Na maturze za brakujace elementy opisowe odejmuje sie punkty",
+      "kara": "-1 pkt za kazdy brakujacy element"
+    },
+    {
+      "opis": "**Wybor zlego typu wykresu**: Wykres kolowy dla rozkladu wynikow jest niewlasciwy — kolumnowy lepiej pokazuje porownanie miedzy przedzialami",
+      "kara": "-1 pkt"
+    }
+  ]
+}

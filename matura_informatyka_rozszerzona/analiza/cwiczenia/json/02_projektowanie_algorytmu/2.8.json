@@ -1,0 +1,33 @@
+{
+  "id": "2.8",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Matura 2022 zad. 5 (napisy), styl CKE",
+  "tagi": [
+    "napisy",
+    "petla-while",
+    "warunek",
+    "C++"
+  ],
+  "tresc": "Napisz w pseudokodzie lub C++ funkcje `najdluzsza_seria(s)`, ktora dla danego napisu `s` (ciagu znakow o dlugosci >= 1) zwraca dlugosc najdluzszej serii identycznych kolejnych znakow.\n\nNa przyklad, w napisie \"aaabbcdddd\" najdluzsza seria to \"dddd\" o dlugosci 4.\n\n**Ograniczenia**: Uzyj petli i porownywania znakow. Nie wolno uzywac funkcji wbudowanych do wyszukiwania wzorcow. Zakladamy indeksowanie od 0.\n\n**Przyklady**:\n- `najdluzsza_seria(\"aaabbcdddd\")` = 4 (seria 'd')\n- `najdluzsza_seria(\"abcdef\")` = 1 (brak powtorzen)\n- `najdluzsza_seria(\"aaa\")` = 3\n- `najdluzsza_seria(\"x\")` = 1",
+  "wskazowki": [
+    "Przejdz po napisie od drugiego znaku (indeks 1). Porownuj kazdy znak z poprzednim. Jesli sa takie same, zwieksz biezacy licznik serii; jesli rozne, zacznij nowa serie.",
+    "Potrzebujesz dwoch zmiennych: `biezaca` (dlugosc aktualnej serii) i `najdluzsza` (dotychczasowe maksimum). Gdy `biezaca` staje sie wieksza niz `najdluzsza`, zaktualizuj `najdluzsza`.",
+    "Na poczatku ustaw `biezaca = 1` i `najdluzsza = 1` (pierwszy znak tworzy serie dlugosci 1). Iteruj od indeksu 1 do konca napisu."
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja najdluzsza_seria(s)\n    n := dlugosc(s)\n    najdluzsza := 1\n    biezaca := 1\n    dla i := 1, 2, ..., n-1:\n        jezeli s[i] = s[i-1]:\n            biezaca := biezaca + 1\n        w przeciwnym razie:\n            biezaca := 1\n        jezeli biezaca > najdluzsza:\n            najdluzsza := biezaca\n    zwroc najdluzsza\n```\n\n**C++:**\n\n```cpp\nint najdluzsza_seria(const string& s) {\n    int n = s.size();\n    int najdluzsza = 1;\n    int biezaca = 1;\n    for (int i = 1; i < n; i++) {\n        if (s[i] == s[i - 1])\n            biezaca++;\n        else\n            biezaca = 1;\n        if (biezaca > najdluzsza)\n            najdluzsza = biezaca;\n    }\n    return najdluzsza;\n}\n```\n\n**Weryfikacja najdluzsza_seria(\"aaabbcdddd\"):**\n\n| i | s[i] | s[i-1] | rowne? | biezaca | najdluzsza |\n|---|------|--------|--------|---------|------------|\n| 1 | a | a | tak | 2 | 2 |\n| 2 | a | a | tak | 3 | 3 |\n| 3 | b | a | nie | 1 | 3 |\n| 4 | b | b | tak | 2 | 3 |\n| 5 | c | b | nie | 1 | 3 |\n| 6 | d | c | nie | 1 | 3 |\n| 7 | d | d | tak | 2 | 3 |\n| 8 | d | d | tak | 3 | 3 |\n| 9 | d | d | tak | 4 | 4 |\n\nWynik: 4 (seria 'd').\n\n**Weryfikacja najdluzsza_seria(\"abcdef\"):**\n\nKazdy znak rozny od poprzedniego, `biezaca` resetuje sie do 1 w kazdym kroku. Wynik: 1.\n\n**Weryfikacja najdluzsza_seria(\"x\"):**\n\nPetla sie nie wykonuje (n=1, i=1 < 1 falsz). Wynik: 1 (wartosc poczatkowa).",
+  "typowe_bledy": [
+    {
+      "opis": "**Aktualizacja `najdluzsza` tylko w galezi `else`** -- jesli najdluzsza seria konczy sie na koncu napisu (np. \"abcdddd\"), wartosc `biezaca` nigdy nie jest porownana z `najdluzsza` po ostatnim znaku",
+      "kara": "-1 pkt za bledny wynik"
+    },
+    {
+      "opis": "**Inicjalizacja `biezaca = 0` i `najdluzsza = 0`** -- dla jednoelementowego napisu petla sie nie wykona i wynik bedzie 0 zamiast 1",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Iteracja od i = 0 z porownaniem `s[i] == s[i-1]`** -- dostep do `s[-1]` powoduje odczyt poza zakresem tablicy",
+      "kara": "blad wykonania, -2 pkt"
+    }
+  ]
+}

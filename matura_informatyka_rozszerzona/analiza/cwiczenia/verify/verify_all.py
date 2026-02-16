@@ -68,18 +68,32 @@ def run_verification(exercise: dict, file_typ: str, verifier_type: str) -> Verif
 
 
 def load_all_exercises(json_dir: str) -> list[tuple[str, dict, dict]]:
-    """Load all exercises from JSON files.
+    """Load all exercises from directory structure.
 
-    Returns list of (file_typ, file_data, exercise) tuples.
+    Each exercise type is a directory with _meta.json + individual exercise files.
+    Returns list of (file_typ, meta_data, exercise) tuples.
     """
     exercises = []
-    json_files = sorted(globmod.glob(os.path.join(json_dir, '[0-9]*.json')))
-    for jpath in json_files:
-        basename = os.path.basename(jpath).replace('.json', '')
-        with open(jpath, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        for ex in data.get('cwiczenia', []):
-            exercises.append((basename, data, ex))
+    # Find exercise directories (start with digit)
+    all_dirs = sorted([
+        d for d in os.listdir(json_dir)
+        if os.path.isdir(os.path.join(json_dir, d)) and d[0].isdigit()
+    ])
+    for dirname in all_dirs:
+        dir_path = os.path.join(json_dir, dirname)
+        meta_path = os.path.join(dir_path, '_meta.json')
+        if not os.path.exists(meta_path):
+            continue
+        with open(meta_path, 'r', encoding='utf-8') as f:
+            meta = json.load(f)
+        for ex_entry in meta.get('cwiczenia', []):
+            eid = ex_entry['id']
+            ex_path = os.path.join(dir_path, f'{eid}.json')
+            if not os.path.exists(ex_path):
+                continue
+            with open(ex_path, 'r', encoding='utf-8') as f:
+                ex = json.load(f)
+            exercises.append((dirname, meta, ex))
     return exercises
 
 

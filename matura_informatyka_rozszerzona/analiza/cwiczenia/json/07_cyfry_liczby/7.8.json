@@ -1,0 +1,33 @@
+{
+  "id": "7.8",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2022 zad. 4 (palindromy liczbowe)",
+  "tagi": [
+    "cyfry-mod-div",
+    "odwracanie-liczby",
+    "test-pierwszosci",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych wiekszych od 10 (kazda w osobnym wierszu). Napisz program, ktory:\na) Sprawdzi, ktore z nich sa palindromami (czytane od lewej i prawej daja ta sama liczbe).\nb) Sposrod palindromow znajdzie te, ktore sa jednoczesnie liczbami pierwszymi.\n\n**Dane** (`dane.txt`):\n```\n121\n131\n245\n1001\n353\n789\n11\n4884\n929\n1234\n101\n500\n```\n\n**Oczekiwany wynik**:\n```\na) Palindromy liczbowe:\n   121 (odwrocone: 121) - palindrom\n   131 (odwrocone: 131) - palindrom\n   1001 (odwrocone: 1001) - palindrom\n   353 (odwrocone: 353) - palindrom\n   11 (odwrocone: 11) - palindrom\n   4884 (odwrocone: 4884) - palindrom\n   929 (odwrocone: 929) - palindrom\n   101 (odwrocone: 101) - palindrom\n   Ilosc palindromow: 8\n\nb) Palindromy pierwsze:\n   131 - palindrom i pierwsza\n   353 - palindrom i pierwsza\n   11 - palindrom i pierwsza\n   929 - palindrom i pierwsza\n   101 - palindrom i pierwsza\n   Ilosc: 5\n```",
+  "wskazowki": [
+    "**Kierunek**: Odwroc liczbe cyframi (mod/div) i porownaj z oryginalem.",
+    "**Podejscie**: `while(tmp > 0) { odwr = odwr * 10 + tmp % 10; tmp /= 10; }`. Jesli odwr == oryg, to palindrom.",
+    "**Kluczowy krok**: Polacz dwa testy — palindrom i pierwszosc — w jednej petli."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint odwroc(int n) {\n    int wynik = 0;\n    while (n > 0) {\n        wynik = wynik * 10 + n % 10;\n        n /= 10;\n    }\n    return wynik;\n}\n\nbool czyPierwsza(int n) {\n    if (n < 2) return false;\n    if (n == 2) return true;\n    if (n % 2 == 0) return false;\n    for (int i = 3; i * i <= n; i += 2)\n        if (n % i == 0) return false;\n    return true;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    vector<int> tab;\n    while (plik >> n) tab.push_back(n);\n\n    cout << \"a) Palindromy liczbowe:\" << endl;\n    vector<int> palindromy;\n    for (int x : tab) {\n        int odwr = odwroc(x);\n        if (odwr == x) {\n            cout << \"   \" << x << \" (odwrocone: \" << odwr << \") - palindrom\" << endl;\n            palindromy.push_back(x);\n        }\n    }\n    cout << \"   Ilosc palindromow: \" << palindromy.size() << endl;\n\n    cout << endl << \"b) Palindromy pierwsze:\" << endl;\n    int ile = 0;\n    for (int x : palindromy) {\n        if (czyPierwsza(x)) {\n            cout << \"   \" << x << \" - palindrom i pierwsza\" << endl;\n            ile++;\n        }\n    }\n    cout << \"   Ilosc: \" << ile << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- 121: odwrocone 121 -> palindrom. 121 = 11*11 -> nie pierwsza\n- 131: palindrom. 131 -> sprawdzamy: 131%2!=0, 131%3!=0, ..., 11*11=121<131, 11*12>131 -> pierwsza\n- 245: odwrocone 542 -> nie palindrom\n- 1001: palindrom. 1001 = 7*143 = 7*11*13 -> nie pierwsza\n- 353: palindrom. 353 -> 353%2!=0, 353%3!=0, ..., 18*18=324<353, 19*19=361>353 -> pierwsza\n- 789: odwrocone 987 -> nie palindrom\n- 11: palindrom. 11 -> pierwsza\n- 4884: palindrom. 4884 = 2*2442 -> nie pierwsza\n- 929: palindrom. 929 -> sprawdzamy do sqrt(929)~30: nie dzieli sie -> pierwsza\n- 1234: odwrocone 4321 -> nie palindrom\n- 101: palindrom. 101 -> pierwsza\n- 500: odwrocone 5 (005) -> nie palindrom",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownywanie stringow zamiast liczb**: String \"500\" odwrocony to \"005\" co jako string != \"500\", ale `stoi(\"005\") == 5 != 500`. Obie metody dzialaja, ale trzeba byc konsekwentnym",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Zapomnienie ze 1 nie jest pierwsza**: `czyPierwsza(1)` powinno zwracac false",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Overflow przy odwracaniu duzych liczb**: Dla 10-cyfrowych liczb odwrocona wartosc moze przekroczyc `int`. Tu nie dotyczy (male dane)",
+      "kara": "-1 pkt na duzych danych"
+    }
+  ]
+}

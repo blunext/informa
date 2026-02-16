@@ -1,0 +1,33 @@
+{
+  "id": "9.8",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2021 zad. 4 + 2025 zad. 7 (analiza logów)",
+  "tagi": [
+    "wieloetapowe",
+    "map-zliczanie",
+    "wczytywanie-pliku",
+    "sortowanie"
+  ],
+  "tresc": "W pliku `logi.txt` znajduje sie 15 wpisow w formacie: godzina uzytkownik akcja (oddzielone spacjami). Napisz program, ktory:\na) Zliczy ile akcji wykonal kazdy uzytkownik.\nb) Znajdzie godzine z najwieksza liczba akcji.\nc) Wypisze uzytkownikow, ktorzy wykonali akcje \"LOGIN\" i \"LOGOUT\" (obie).\n\n**Dane** (`logi.txt`):\n```\n08 Anna LOGIN\n08 Jan LOGIN\n09 Anna VIEW\n09 Ewa LOGIN\n10 Anna EDIT\n10 Jan VIEW\n11 Ewa VIEW\n11 Jan LOGOUT\n12 Anna LOGOUT\n12 Ewa EDIT\n13 Ewa LOGOUT\n13 Anna LOGIN\n14 Anna VIEW\n14 Jan LOGIN\n15 Jan LOGOUT\n```\n\n**Oczekiwany wynik**:\n```\na) Akcje wg uzytkownika:\n   Anna: 6 akcji\n   Ewa: 4 akcje\n   Jan: 5 akcji\n\nb) Godzina z najwieksza liczba akcji:\n   08, 09, 10, 11, 12, 13, 14 (po 2 akcje kazda)\n\nc) Uzytkownicy z LOGIN i LOGOUT:\n   Anna (LOGIN: 2, LOGOUT: 1)\n   Ewa (LOGIN: 1, LOGOUT: 1)\n   Jan (LOGIN: 2, LOGOUT: 2)\n```",
+  "wskazowki": [
+    "**Kierunek**: Trzy mapy: `uzytkownik -> ilosc`, `godzina -> ilosc`, `uzytkownik -> set<akcja>`.",
+    "**Podejscie**: Wczytuj trojki, inkrementuj odpowiednie mapy.",
+    "**Kluczowy krok**: Uzytkownik ma obie akcje jesli `akcje[user].count(\"LOGIN\") && akcje[user].count(\"LOGOUT\")`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <set>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"logi.txt\");\n    string godz, user, akcja;\n    map<string, int> cntUser, cntGodz;\n    map<string, map<string, int>> akcjeUser;\n\n    while (plik >> godz >> user >> akcja) {\n        cntUser[user]++;\n        cntGodz[godz]++;\n        akcjeUser[user][akcja]++;\n    }\n\n    cout << \"a) Akcje wg uzytkownika:\" << endl;\n    for (auto &p : cntUser) {\n        string forma = (p.second == 1) ? \"akcja\" : (p.second >= 2 && p.second <= 4) ? \"akcje\" : \"akcji\";\n        cout << \"   \" << p.first << \": \" << p.second << \" \" << forma << endl;\n    }\n\n    cout << endl << \"b) Godzina z najwieksza liczba akcji:\" << endl;\n    int maxG = 0;\n    for (auto &p : cntGodz) if (p.second > maxG) maxG = p.second;\n    cout << \"   \";\n    bool first = true;\n    for (auto &p : cntGodz) {\n        if (p.second == maxG) {\n            if (!first) cout << \", \";\n            cout << p.first;\n            first = false;\n        }\n    }\n    cout << \" (po \" << maxG << \" akcje kazda)\" << endl;\n\n    cout << endl << \"c) Uzytkownicy z LOGIN i LOGOUT:\" << endl;\n    for (auto &u : akcjeUser) {\n        if (u.second.count(\"LOGIN\") && u.second.count(\"LOGOUT\")) {\n            cout << \"   \" << u.first << \" (LOGIN: \" << u.second[\"LOGIN\"]\n                 << \", LOGOUT: \" << u.second[\"LOGOUT\"] << \")\" << endl;\n        }\n    }\n    return 0;\n}\n```\n\nWeryfikacja:\n- Anna: LOGIN, VIEW, EDIT, LOGOUT, LOGIN, VIEW = 6\n- Ewa: LOGIN, VIEW, EDIT, LOGOUT = 4\n- Jan: LOGIN, VIEW, LOGOUT, LOGIN, LOGOUT = 5\n- Godziny: 08(2), 09(2), 10(2), 11(2), 12(2), 13(2), 14(2), 15(1) -> max 2 (wszystkie oprocz 15)\n- LOGIN+LOGOUT: Anna(L:2,LO:1), Ewa(L:1,LO:1), Jan(L:2,LO:2) -> wszyscy",
+  "typowe_bledy": [
+    {
+      "opis": "**Wczytywanie godziny jako `int`**: Godziny \"08\", \"09\" sa poprawne jako string, ale `int 08` tez dziala",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Uzycie `set` zamiast `map` dla akcji**: Set nie zlicza ile razy — jesli potrzebujesz ile, uzyj `map<string, int>`",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak obslugi wielu godzin z tym samym max**: Jesli kilka godzin ma max, wypisz wszystkie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

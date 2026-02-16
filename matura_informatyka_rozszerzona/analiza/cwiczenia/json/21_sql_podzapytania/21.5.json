@@ -1,0 +1,34 @@
+{
+  "id": "21.5",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2019 (Perfumy)",
+  "tagi": [
+    "podzapytanie-w-HAVING",
+    "COUNT-DISTINCT",
+    "AVG",
+    "ROUND",
+    "IN"
+  ],
+  "tresc": "Tabela **Filmy**:\n\n| id_filmu | tytul | rok | gatunek |\n|----------|-------|-----|---------|\n| 1 | Zielona mila | 1999 | dramat |\n| 2 | Gladiator | 2000 | akcja |\n| 3 | Incepcja | 2010 | sci-fi |\n| 4 | Interstellar | 2014 | sci-fi |\n| 5 | Joker | 2019 | dramat |\n| 6 | Avengers | 2012 | akcja |\n| 7 | Matrix | 1999 | sci-fi |\n| 8 | Titanic | 1997 | dramat |\n\nTabela **Oceny**:\n\n| id_oceny | id_filmu | uzytkownik | ocena |\n|----------|----------|------------|-------|\n| 1 | 1 | user_A | 9 |\n| 2 | 1 | user_B | 8 |\n| 3 | 2 | user_A | 7 |\n| 4 | 3 | user_C | 10 |\n| 5 | 3 | user_A | 9 |\n| 6 | 4 | user_B | 10 |\n| 7 | 4 | user_C | 9 |\n| 8 | 5 | user_A | 8 |\n| 9 | 6 | user_B | 6 |\n| 10 | 7 | user_C | 9 |\n| 11 | 7 | user_A | 8 |\n| 12 | 8 | user_A | 7 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli gatunki filmow, w ktorych srednia ocena jest wyzsza niz ogolna srednia ocena ze wszystkich filmow. Dla kazdego takiego gatunku pokaz srednia ocene zaokraglona do 2 miejsc i liczbe ocenionych filmow.",
+  "wskazowki": [
+    "**Kierunek**: GROUP BY po gatunku, filtrowanie grup z HAVING i podzapytaniem.",
+    "**Podejscie**: JOIN Filmy z Ocenami, GROUP BY gatunek, HAVING AVG(ocena) > (SELECT AVG(ocena) FROM Oceny).",
+    "**Kluczowy krok**: COUNT(DISTINCT id_filmu) liczy unikalne filmy, nie unikalne oceny."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT F.gatunek,\n       ROUND(AVG(O.ocena), 2) AS srednia_ocena,\n       COUNT(DISTINCT F.id_filmu) AS liczba_filmow\nFROM Filmy F\nJOIN Oceny O ON F.id_filmu = O.id_filmu\nGROUP BY F.gatunek\nHAVING AVG(O.ocena) > (SELECT AVG(ocena) FROM Oceny);\n```\n\n**Weryfikacja**:\n\nOgolna srednia ocen: (9+8+7+10+9+10+9+8+6+9+8+7)/12 = 100/12 = **8.33**\n\nSrednia wg gatunku:\n- dramat: filmy 1,5,8 → oceny: 9,8,8,7 → srednia = 32/4 = **8.00** (>8.33? ✗)\n- akcja: filmy 2,6 → oceny: 7,6 → srednia = 13/2 = **6.50** (>8.33? ✗)\n- sci-fi: filmy 3,4,7 → oceny: 10,9,10,9,9,8 → srednia = 55/6 = **9.17** (>8.33? ✓)\n\n| gatunek | srednia_ocena | liczba_filmow |\n|---------|---------------|---------------|\n| sci-fi | 9.17 | 3 |\n\n**Wyjasnienie**: Podzapytanie w klauzuli HAVING pozwala porownac wynik agregacji grupy ze srednia globalna. COUNT(DISTINCT F.id_filmu) liczy unikalne filmy, a nie unikalne oceny.",
+  "typowe_bledy": [
+    {
+      "opis": "**COUNT(*) zamiast COUNT(DISTINCT id_filmu)**: Policzyloby 6 ocen zamiast 3 filmow",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Podzapytanie w WHERE zamiast HAVING**: `WHERE AVG(O.ocena) > (...)` — blad skladni",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Podzapytanie ze srednia per gatunek**: Gdyby podzapytanie filtrowalo po gatunku, porownywaloby grupe z nia sama",
+      "kara": "-2 pkt"
+    }
+  ]
+}

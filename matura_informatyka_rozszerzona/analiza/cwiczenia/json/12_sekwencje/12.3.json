@@ -1,0 +1,33 @@
+{
+  "id": "12.3",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2023 zad. 3.3 (rosnaco-malejacy)",
+  "tagi": [
+    "gorka",
+    "ciag-rosnacy",
+    "ciag-malejacy",
+    "skan-liniowy"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 20 liczb calkowitych (kazda w osobnym wierszu). Fragment ciagu nazywamy \"gorka\" jesli najpierw scisle rosnie, a potem scisle maleje (czesc rosnaca i malejaca musza miec co najmniej po 2 elementy, wiec minimalna gorka ma dlugosc 3). Napisz program, ktory znajdzie najdluzsza gorke w ciagu. Podaj pozycje poczatkowa, dlugosc i elementy.\n\n**Dane** (`dane.txt`):\n```\n3\n5\n8\n6\n4\n10\n15\n20\n25\n22\n18\n12\n7\n1\n9\n13\n11\n6\n2\n14\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzsza gorka:\nPozycja poczatkowa: 5, dlugosc: 10\nElementy: 4 10 15 20 25 22 18 12 7 1\nSzczyt: 25 (pozycja 9)\n```",
+  "wskazowki": [
+    "**Kierunek**: Szukaj faz: najpierw wzrost, potem spadek. Gorka to przejscie wzrost->spadek.",
+    "**Podejscie**: Dla kazdej pozycji startowej szukaj konca fazy rosnacej (szczyt), potem konca fazy malejacej.",
+    "**Kluczowy krok**: Minimalna gorka: 2 elementy w fazie rosnacej + 1 dodatkowy w malejacej = 3 elementy lacznie."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int bestLen = 0, bestStart = 0, bestPeak = 0;\n\n    for (int i = 0; i < n - 2; i++) {\n        // Szukaj wzrostu od pozycji i\n        int j = i;\n        while (j + 1 < n && T[j + 1] > T[j]) j++;\n        if (j == i) continue; // brak wzrostu\n        int peak = j;\n        // Szukaj spadku od szczytu\n        while (j + 1 < n && T[j + 1] < T[j]) j++;\n        if (j == peak) continue; // brak spadku\n        int len = j - i + 1;\n        if (len > bestLen) {\n            bestLen = len;\n            bestStart = i;\n            bestPeak = peak;\n        }\n    }\n\n    cout << \"Najdluzsza gorka:\" << endl;\n    cout << \"Pozycja poczatkowa: \" << bestStart + 1\n         << \", dlugosc: \" << bestLen << endl;\n    cout << \"Elementy: \";\n    for (int i = bestStart; i < bestStart + bestLen; i++)\n        cout << T[i] << \" \";\n    cout << endl;\n    cout << \"Szczyt: \" << T[bestPeak]\n         << \" (pozycja \" << bestPeak + 1 << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdej pozycji startowej szukamy fazy rosnacej (dopoki nastepny > biezacy), nastepnie fazy malejacej (dopoki nastepny < biezacy). Jezeli obie fazy maja co najmniej 1 krok (czesc rosnaca >= 2 elementy, malejaca >= 2), mamy gorke.\n\nWeryfikacja:\n- Poz.1: 3,5,8,6,4 -> rosnaco: 3,5,8 (szczyt poz.3), malejaco: 8,6,4. Gorka dl.5 (poz.1-5).\n- Poz.6: 10,15,20,25,22,18,12,7,1 -> rosnaco: 10,15,20,25 (szczyt poz.9), malejaco: 25,22,18,12,7,1. Gorka dl.9 (poz.6-14).\n- Poz.15: 9,13,11,6,2 -> rosnaco: 9,13 (szczyt poz.16), malejaco: 13,11,6,2. Gorka dl.5 (poz.15-19).\nNajdluzsza: dl.9 (poz.6-14), szczyt=25 (poz.9).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak sprawdzenia fazy malejacej**: Ciag tylko rosnacy (bez spadku) nie jest gorka",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zliczanie elementow plateau jako gorki**: `T[j+1] == T[j]` nie jest ani wzrostem, ani spadkiem — przerywamy faze",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Szukanie gorek od kazdej pozycji**: Mozna zoptymalizowac, ale na danych maturalnych (20-1000 elementow) O(n^2) jest OK.",
+      "kara": ""
+    }
+  ]
+}

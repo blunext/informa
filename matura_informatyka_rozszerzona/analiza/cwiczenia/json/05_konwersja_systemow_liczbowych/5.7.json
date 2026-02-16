@@ -1,0 +1,33 @@
+{
+  "id": "5.7",
+  "trudnosc": "srednie",
+  "punkty": 2,
+  "zrodlo": "Matura 2021 zad. 5, konwersja wieloetapowa",
+  "tagi": [
+    "bin-hex",
+    "hex-bin",
+    "system-osemkowy",
+    "grupowanie-bitow"
+  ],
+  "tresc": "Wykonaj nastepujace konwersje, uzywajac metod grupowania bitow (bez przechodzenia przez system dziesietny).\n\n| Lp. | Konwersja |\n|-----|-----------|\n| a)  | 3A7(16) -> binarny |\n| b)  | 101110011(2) -> osemkowy |\n| c)  | 372(8) -> szesnastkowy |",
+  "wskazowki": [
+    "**Kierunek**: Hex -> bin: kazda cyfre hex zamien na 4 bity. Bin -> oct: grupuj po 3 bity od prawej.",
+    "**Podejscie**: Oct -> hex: najpierw oct -> bin (grupuj po 3), potem bin -> hex (grupuj po 4).",
+    "**Kluczowy krok**: 3=0011, A=1010, 7=0111. Dla oct: 3=011, 7=111, 2=010."
+  ],
+  "odpowiedz": "**a) 3A7(16) -> binarny:**\n\nKazda cyfre hex zamieniamy na 4 bity:\n- 3 = 0011\n- A = 1010\n- 7 = 0111\n\nWynik: **001110100111(2)** = 1110100111(2) (bez wiodacych zer)\n\nSprawdzenie: 3A7(16) = 3*256 + 10*16 + 7 = 768+160+7 = 935\n1110100111(2) = 512+256+128+32+4+2+1 = 935\n\n**b) 101110011(2) -> osemkowy:**\n\nGrupujemy po 3 bity od prawej:\n101 | 110 | 011\n- 101 = 5\n- 110 = 6\n- 011 = 3\n\nWynik: **563(8)**\n\nSprawdzenie: 101110011(2) = 256+64+32+16+2+1 = 371\n563(8) = 5*64 + 6*8 + 3 = 320+48+3 = 371\n\n**c) 372(8) -> szesnastkowy:**\n\nKrok 1: Oct -> bin (grupowanie po 3 bity):\n- 3 = 011\n- 7 = 111\n- 2 = 010\n\nBinarnie: 011111010(2)\n\nKrok 2: Bin -> hex (grupowanie po 4 bity od prawej):\n0 | 1111 | 1010\n- 0000 (dopelniamy) + 0 = 0\n- 1111 = F\n- 1010 = A\n\nWynik: **FA(16)** (pomijamy wiodace zero)\n\nSprawdzenie: 372(8) = 3*64+7*8+2 = 192+56+2 = 250\nFA(16) = 15*16+10 = 250",
+  "typowe_bledy": [
+    {
+      "opis": "**Grupowanie od lewej zamiast od prawej**: Przy bin->oct i bin->hex grupuj ZAWSZE od prawej",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pominiety krok posredni (oct->hex)**: Nie da sie bezposrednio. Trzeba isc przez binarny",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Bledne grupy 3-bitowe**: 5=101, 6=110, 7=111 (nie myliz z 4-bitowymi)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

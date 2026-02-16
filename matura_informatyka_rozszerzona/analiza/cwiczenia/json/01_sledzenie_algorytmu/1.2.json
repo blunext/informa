@@ -1,0 +1,28 @@
+{
+  "id": "1.2",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Matura 2025 zad. 1.1 (uproszczony)",
+  "tagi": [
+    "rekurencja",
+    "mod-div",
+    "drzewo-wywolan"
+  ],
+  "tresc": "Dana jest funkcja rekurencyjna:\n\n```\nfunkcja sumaCyfr(n)\n    jezeli n = 0:\n        zwroc 0\n    zwroc sumaCyfr(n div 10) + n mod 10\n```\n\n**Polecenie**: Dla kazdej z podanych wartosci n:\n- podaj wynik funkcji `sumaCyfr(n)`,\n- podaj calkowita liczbe wywolan funkcji (wliczajac wywolanie poczatkowe).\n\n| Lp. | n |\n|-----|---|\n| a)  | 47 |\n| b)  | 305 |\n| c)  | 1234 |",
+  "wskazowki": [
+    "**Kierunek**: To rekurencja liniowa — kazde wywolanie generuje dokladnie jedno kolejne.",
+    "**Podejscie**: Rozpisz stos wywolan: sumaCyfr(1234) -> sumaCyfr(123) + 4 -> sumaCyfr(12) + 3 -> ...",
+    "**Kluczowy krok**: Warunek bazowy to n=0 (zwraca 0). Liczba wywolan = liczba cyfr + 1 (jedno dodatkowe dla n=0)."
+  ],
+  "odpowiedz": "**a) sumaCyfr(47)**\n\nStos wywolan:\n1. sumaCyfr(47) -> sumaCyfr(4) + 7\n2. sumaCyfr(4) -> sumaCyfr(0) + 4\n3. sumaCyfr(0) -> 0 (warunek bazowy)\n\nPowrot: 0 + 4 + 7 = **11**\nLiczba wywolan: **3**\n\n**b) sumaCyfr(305)**\n\nStos wywolan:\n1. sumaCyfr(305) -> sumaCyfr(30) + 5\n2. sumaCyfr(30) -> sumaCyfr(3) + 0\n3. sumaCyfr(3) -> sumaCyfr(0) + 3\n4. sumaCyfr(0) -> 0 (warunek bazowy)\n\nPowrot: 0 + 3 + 0 + 5 = **8**\nLiczba wywolan: **4**\n\n**c) sumaCyfr(1234)**\n\nStos wywolan:\n1. sumaCyfr(1234) -> sumaCyfr(123) + 4\n2. sumaCyfr(123) -> sumaCyfr(12) + 3\n3. sumaCyfr(12) -> sumaCyfr(1) + 2\n4. sumaCyfr(1) -> sumaCyfr(0) + 1\n5. sumaCyfr(0) -> 0 (warunek bazowy)\n\nPowrot: 0 + 1 + 2 + 3 + 4 = **10**\nLiczba wywolan: **5**\n\n**Regula**: Dla liczby o k cyfrach funkcja jest wywolywana k+1 razy (k wywolan z niezerowym n + 1 wywolanie bazowe z n=0).",
+  "typowe_bledy": [
+    {
+      "opis": "**Pominiecie wywolania bazowego (n=0)**: Czesto uczniowie licza tylko wywolania z n>0. Dla n=47 to 3, nie 2 wywolania",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Mylenie div i mod**: `n div 10` obcina ostatnia cyfre, `n mod 10` ja wyodrebnia",
+      "kara": "-1 pkt"
+    }
+  ]
+}

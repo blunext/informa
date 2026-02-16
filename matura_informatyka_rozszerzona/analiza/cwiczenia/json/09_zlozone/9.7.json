@@ -1,0 +1,33 @@
+{
+  "id": "9.7",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2024 zad. 5 (macierz + statystyki)",
+  "tagi": [
+    "wieloetapowe",
+    "grupowanie",
+    "struct",
+    "sortowanie"
+  ],
+  "tresc": "W pliku `oceny.txt` znajduje sie 8 rekordow w formacie: imie przedmiot ocena. Uczen moze miec kilka ocen z roznych przedmiotow. Napisz program, ktory:\na) Dla kazdego ucznia wypisze wszystkie przedmioty i oceny.\nb) Wypisze uczniow posortowanych wg sredniej oceny (malejaco).\nc) Znajdzie przedmiot z najwyzsza srednia ocen.\n\n**Dane** (`oceny.txt`):\n```\nAnna Matematyka 5\nAnna Fizyka 4\nJan Matematyka 3\nJan Informatyka 5\nEwa Matematyka 4\nEwa Fizyka 5\nEwa Informatyka 5\nJan Fizyka 2\n```\n\n**Oczekiwany wynik**:\n```\na) Oceny uczniow:\n   Anna: Matematyka(5), Fizyka(4) -> srednia: 4.50\n   Ewa: Matematyka(4), Fizyka(5), Informatyka(5) -> srednia: 4.67\n   Jan: Matematyka(3), Informatyka(5), Fizyka(2) -> srednia: 3.33\n\nb) Ranking wg sredniej:\n   1. Ewa (4.67)\n   2. Anna (4.50)\n   3. Jan (3.33)\n\nc) Przedmiot z najwyzsza srednia:\n   Informatyka (srednia: 5.00)\n```",
+  "wskazowki": [
+    "**Kierunek**: Grupuj po uczniu i po przedmiocie osobno.",
+    "**Podejscie**: `map<string, vector<pair<string,int>>>` dla uczniow (imie -> lista (przedmiot, ocena)).",
+    "**Kluczowy krok**: Aby posortowac uczniow wg sredniej, przenies dane do wektora par (srednia, imie) i posortuj malejaco."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"oceny.txt\");\n    string imie, przedmiot;\n    int ocena;\n    map<string, vector<pair<string,int>>> uczniowie;\n    map<string, vector<int>> przedmioty;\n\n    while (plik >> imie >> przedmiot >> ocena) {\n        uczniowie[imie].push_back({przedmiot, ocena});\n        przedmioty[przedmiot].push_back(ocena);\n    }\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Oceny uczniow:\" << endl;\n    vector<pair<double, string>> ranking;\n    for (auto &u : uczniowie) {\n        cout << \"   \" << u.first << \": \";\n        double suma = 0;\n        for (int i = 0; i < u.second.size(); i++) {\n            if (i > 0) cout << \", \";\n            cout << u.second[i].first << \"(\" << u.second[i].second << \")\";\n            suma += u.second[i].second;\n        }\n        double sr = suma / u.second.size();\n        cout << \" -> srednia: \" << sr << endl;\n        ranking.push_back({sr, u.first});\n    }\n\n    sort(ranking.begin(), ranking.end(), [](auto &a, auto &b) {\n        return a.first > b.first;\n    });\n    cout << endl << \"b) Ranking wg sredniej:\" << endl;\n    for (int i = 0; i < ranking.size(); i++) {\n        cout << \"   \" << i+1 << \". \" << ranking[i].second\n             << \" (\" << ranking[i].first << \")\" << endl;\n    }\n\n    cout << endl << \"c) Przedmiot z najwyzsza srednia:\" << endl;\n    double maxSr = 0;\n    string maxPrz;\n    for (auto &p : przedmioty) {\n        double suma = 0;\n        for (int o : p.second) suma += o;\n        double sr = suma / p.second.size();\n        if (sr > maxSr) { maxSr = sr; maxPrz = p.first; }\n    }\n    cout << \"   \" << maxPrz << \" (srednia: \" << maxSr << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Anna: Mat(5), Fiz(4) -> 9/2 = 4.50\n- Jan: Mat(3), Inf(5), Fiz(2) -> 10/3 = 3.33\n- Ewa: Mat(4), Fiz(5), Inf(5) -> 14/3 = 4.67\n- Ranking: Ewa(4.67), Anna(4.50), Jan(3.33)\n- Przedmioty: Matematyka (5+3+4)/3=4.00, Fizyka (4+5+2)/3=3.67, Informatyka (5+5)/2=5.00\n- Max: Informatyka (5.00)",
+  "typowe_bledy": [
+    {
+      "opis": "**Sortowanie stringa zamiast double**: `sort` na `pair<string, double>` sortuje po stringu. Trzeba `pair<double, string>`",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o odwroceniu kolejnosci sortowania**: Domyslne `sort` jest rosnace. Dla malejacego uzyj `>` w komparatorze",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pomylenie sredniej ucznia ze srednia przedmiotu**: To dwie rozne agregacje na tych samych danych",
+      "kara": "-2 pkt"
+    }
+  ]
+}

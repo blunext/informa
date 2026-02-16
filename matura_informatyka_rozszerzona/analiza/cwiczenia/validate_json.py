@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 """Standalone JSON schema validator for exercise files.
 
-Validates all 23 JSON exercise files against the schema, tag registry,
-and category-specific rules — without needing MD files.
+Validates all 23 exercise directories (each with _meta.json + per-exercise files)
+against the schema, tag registry, and category-specific rules.
+
+Directory structure:
+    json/NN_nazwa/
+        _meta.json      — metadata + exercise index
+        NN.1.json       — individual exercise
+        NN.2.json
+        ...
 
 Usage:
     python3 validate_json.py                  # validate all
-    python3 validate_json.py --file 07_cyfry  # one file (prefix match)
+    python3 validate_json.py --file 07_cyfry  # one directory (prefix match)
 """
 import re
 import json
@@ -46,50 +53,50 @@ def load_tag_registry(path: str) -> set[str] | None:
     return set(data.get('tagi', []))
 
 
-def validate_header(data: dict, basename: str, report: ValidationReport,
+def validate_header(meta: dict, basename: str, report: ValidationReport,
                     registry: set[str] | None):
-    """Validate file-level (header) fields."""
-    # typ must match filename
-    typ = data.get('typ', '')
+    """Validate _meta.json header fields."""
+    # typ must match directory name
+    typ = meta.get('typ', '')
     if typ != basename:
-        report.error(basename, 'header', f"typ='{typ}' != filename '{basename}'")
+        report.error(basename, '_meta', f"typ='{typ}' != dirname '{basename}'")
 
     # nazwa non-empty
-    if not data.get('nazwa'):
-        report.error(basename, 'header', "empty nazwa")
+    if not meta.get('nazwa'):
+        report.error(basename, '_meta', "empty nazwa")
 
     # kategoria
-    kat = data.get('kategoria', '')
+    kat = meta.get('kategoria', '')
     if kat not in VALID_KATEGORIA:
-        report.error(basename, 'header', f"invalid kategoria: '{kat}'")
+        report.error(basename, '_meta', f"invalid kategoria: '{kat}'")
 
     # czestotliwosc format
-    czest = data.get('czestotliwosc', '')
+    czest = meta.get('czestotliwosc', '')
     if not re.match(r'\d+/\d+ lat', czest):
-        report.error(basename, 'header', f"bad czestotliwosc format: '{czest}'")
+        report.error(basename, '_meta', f"bad czestotliwosc format: '{czest}'")
 
     # punkty_lacznie > 0
-    punkty_lacznie = data.get('punkty_lacznie', 0)
+    punkty_lacznie = meta.get('punkty_lacznie', 0)
     if punkty_lacznie <= 0:
-        report.error(basename, 'header', f"punkty_lacznie={punkty_lacznie} (must be >0)")
+        report.error(basename, '_meta', f"punkty_lacznie={punkty_lacznie} (must be >0)")
 
-    # punkty_lacznie == sum of exercise points
-    cwiczenia = data.get('cwiczenia', [])
-    suma = sum(ex.get('punkty', 0) for ex in cwiczenia)
+    # punkty_lacznie == sum of exercise points (from meta index)
+    cwiczenia_index = meta.get('cwiczenia', [])
+    suma = sum(ex.get('punkty', 0) for ex in cwiczenia_index)
     if suma != punkty_lacznie:
-        report.error(basename, 'header',
+        report.error(basename, '_meta',
                      f"punkty_lacznie={punkty_lacznie} != sum(cwiczenia.punkty)={suma}")
 
     # tagi_globalne non-empty
-    tagi_globalne = data.get('tagi_globalne', [])
+    tagi_globalne = meta.get('tagi_globalne', [])
     if not tagi_globalne:
-        report.error(basename, 'header', "empty tagi_globalne")
+        report.error(basename, '_meta', "empty tagi_globalne")
 
     # tagi_globalne in registry
     if registry is not None:
         for tag in tagi_globalne:
             if tag not in registry:
-                report.error(basename, 'header',
+                report.error(basename, '_meta',
                              f"tag '{tag}' in tagi_globalne not in registry")
 
 
@@ -109,9 +116,9 @@ def validate_exercise(ex: dict, basename: str, file_prefix: int,
             report.error(basename, eid,
                          f"id prefix {id_prefix} != file prefix {file_prefix}")
 
-    # unique id within file
+    # unique id within directory
     if eid in seen_ids:
-        report.error(basename, eid, "duplicate id within file")
+        report.error(basename, eid, "duplicate id within directory")
     seen_ids.add(eid)
 
     # trudnosc
@@ -207,26 +214,54 @@ def validate_category_rules(ex: dict, basename: str, file_prefix: int,
 
     elif file_prefix == 5:
         # TEORIA/konwersje: odpowiedz should contain conversion patterns
-        # Look for patterns like digits(base) or base-conversion notation
         has_conv = bool(re.search(r'\d+\(\d+\)', odpowiedz))
         if not has_conv:
             report.warn(basename, eid,
                         "konwersje (05): odpowiedz has no conversion pattern like '101(2)'")
 
 
-def validate_file(basename: str, report: ValidationReport,
-                  registry: set[str] | None):
-    """Validate a single JSON file."""
-    json_path = os.path.join(JSON_DIR, basename + '.json')
-    if not os.path.exists(json_path):
-        report.error(basename, '-', f"file not found: {json_path}")
+def validate_meta_consistency(meta: dict, basename: str, dir_path: str,
+                              report: ValidationReport):
+    """Check that _meta.json index matches actual exercise files on disk."""
+    meta_ids = {ex['id'] for ex in meta.get('cwiczenia', [])}
+
+    # Find all exercise JSON files (exclude _meta.json)
+    disk_files = glob.glob(os.path.join(dir_path, '[0-9]*.json'))
+    disk_ids = set()
+    for fp in disk_files:
+        fname = os.path.basename(fp).replace('.json', '')
+        disk_ids.add(fname)
+
+    # IDs in meta but not on disk
+    missing_on_disk = meta_ids - disk_ids
+    for mid in sorted(missing_on_disk):
+        report.error(basename, mid, f"listed in _meta.json but file {mid}.json not found")
+
+    # Files on disk but not in meta
+    extra_on_disk = disk_ids - meta_ids
+    for eid in sorted(extra_on_disk):
+        report.error(basename, eid, f"file {eid}.json exists but not listed in _meta.json")
+
+
+def validate_directory(basename: str, report: ValidationReport,
+                       registry: set[str] | None):
+    """Validate a single exercise directory."""
+    dir_path = os.path.join(JSON_DIR, basename)
+    meta_path = os.path.join(dir_path, '_meta.json')
+
+    if not os.path.isdir(dir_path):
+        report.error(basename, '-', f"directory not found: {dir_path}")
+        return
+
+    if not os.path.exists(meta_path):
+        report.error(basename, '-', f"_meta.json not found in {dir_path}")
         return
 
     try:
-        with open(json_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
+        with open(meta_path, 'r', encoding='utf-8') as f:
+            meta = json.load(f)
     except json.JSONDecodeError as e:
-        report.error(basename, '-', f"invalid JSON: {e}")
+        report.error(basename, '_meta', f"invalid JSON: {e}")
         return
 
     report.files += 1
@@ -238,21 +273,45 @@ def validate_file(basename: str, report: ValidationReport,
         report.error(basename, '-', f"cannot extract numeric prefix from '{basename}'")
         return
 
-    kategoria = data.get('kategoria', '')
-    tagi_globalne = data.get('tagi_globalne', [])
+    kategoria = meta.get('kategoria', '')
+    tagi_globalne = meta.get('tagi_globalne', [])
 
     # Header validation
-    validate_header(data, basename, report, registry)
+    validate_header(meta, basename, report, registry)
+
+    # Meta-disk consistency check
+    validate_meta_consistency(meta, basename, dir_path, report)
 
     # Per-exercise validation
-    cwiczenia = data.get('cwiczenia', [])
-    if not cwiczenia:
-        report.error(basename, '-', "no cwiczenia found")
+    cwiczenia_index = meta.get('cwiczenia', [])
+    if not cwiczenia_index:
+        report.error(basename, '-', "no cwiczenia found in _meta.json")
         return
 
     seen_ids = set()
-    for ex in cwiczenia:
+    for ex_entry in cwiczenia_index:
+        eid = ex_entry.get('id', '???')
+        ex_path = os.path.join(dir_path, f'{eid}.json')
+
+        if not os.path.exists(ex_path):
+            # Already reported in consistency check
+            continue
+
+        try:
+            with open(ex_path, 'r', encoding='utf-8') as f:
+                ex = json.load(f)
+        except json.JSONDecodeError as e:
+            report.error(basename, eid, f"invalid JSON in {eid}.json: {e}")
+            continue
+
         report.exercises += 1
+
+        # Check that meta index fields match exercise file
+        for field in ('trudnosc', 'punkty', 'tagi'):
+            if field in ex_entry and ex.get(field) != ex_entry[field]:
+                report.error(basename, eid,
+                             f"_meta.cwiczenia.{field} != {eid}.json.{field}")
+
         validate_exercise(ex, basename, file_prefix, tagi_globalne,
                           report, registry, seen_ids)
         validate_category_rules(ex, basename, file_prefix, kategoria, report)
@@ -260,8 +319,8 @@ def validate_file(basename: str, report: ValidationReport,
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Standalone JSON schema validator for exercise files')
-    parser.add_argument('--file', help='Validate only files matching this prefix (e.g., 07_cyfry)')
+        description='Standalone JSON schema validator for exercise directories')
+    parser.add_argument('--file', help='Validate only directories matching this prefix (e.g., 07_cyfry)')
     args = parser.parse_args()
 
     # Load tag registry
@@ -272,23 +331,25 @@ def main():
     else:
         print(f"Tag registry loaded: {len(registry)} tags")
 
-    # Find JSON files
-    all_files = sorted(glob.glob(os.path.join(JSON_DIR, '[0-9]*.json')))
-    basenames = [os.path.basename(f).replace('.json', '') for f in all_files]
+    # Find exercise directories
+    all_dirs = sorted([
+        d for d in os.listdir(JSON_DIR)
+        if os.path.isdir(os.path.join(JSON_DIR, d)) and d[0].isdigit()
+    ])
 
     if args.file:
-        basenames = [b for b in basenames if args.file in b]
+        all_dirs = [d for d in all_dirs if args.file in d]
 
-    print(f"Validating {len(basenames)} files...")
+    print(f"Validating {len(all_dirs)} directories...")
     print()
 
     report = ValidationReport()
 
-    for basename in basenames:
-        validate_file(basename, report, registry)
+    for dirname in all_dirs:
+        validate_directory(dirname, report, registry)
 
     # --- Report ---
-    print(f"Validated: {report.files} files, {report.exercises} exercises")
+    print(f"Validated: {report.files} directories, {report.exercises} exercises")
 
     if report.errors:
         print(f"\n{'=' * 60}")
@@ -305,7 +366,7 @@ def main():
             print(w)
 
     if not report.errors and not report.warnings:
-        print("\nPERFECT — all JSON files pass schema validation, zero issues.")
+        print("\nPERFECT — all exercise directories pass schema validation, zero issues.")
     elif not report.errors:
         print(f"\nNo errors. {len(report.warnings)} warnings (see above).")
     else:

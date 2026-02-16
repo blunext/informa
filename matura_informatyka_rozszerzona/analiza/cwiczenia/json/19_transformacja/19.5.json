@@ -1,0 +1,33 @@
+{
+  "id": "19.5",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2024 (Hurtownia)",
+  "tagi": [
+    "SUMIFS",
+    "tabela-krzyzowa",
+    "odwolania-mieszane",
+    "pivot-reczny"
+  ],
+  "tresc": "Sklep ma dane sprzedazy z calego roku:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Kategoria** | **Kwartal** | **Wartosc** |\n| 2 | Elektronika | Q1 | 15000 |\n| 3 | Odziez | Q1 | 8000 |\n| 4 | Zywnosc | Q1 | 12000 |\n| 5 | Elektronika | Q2 | 18000 |\n| 6 | Odziez | Q2 | 9500 |\n| 7 | Zywnosc | Q2 | 11000 |\n| 8 | Elektronika | Q1 | 13000 |\n| 9 | Odziez | Q3 | 11000 |\n| 10 | Zywnosc | Q3 | 13500 |\n| 11 | Elektronika | Q3 | 20000 |\n| 12 | Odziez | Q1 | 7500 |\n| 13 | Zywnosc | Q4 | 14000 |\n| 14 | Elektronika | Q4 | 22000 |\n| 15 | Odziez | Q4 | 10000 |\n| 16 | Zywnosc | Q2 | 10500 |\n| 17 | Elektronika | Q2 | 16000 |\n| 18 | Odziez | Q3 | 8500 |\n| 19 | Zywnosc | Q4 | 12500 |\n| 20 | Elektronika | Q3 | 19000 |\n| 21 | Odziez | Q4 | 9000 |\n\nChcemy utworzyc tabele pivot — sumy sprzedazy wg kategorii (wiersze) i kwartalow (kolumny):\n\n| | E | F | G | H | I | J |\n|---|---|---|---|---|---|---|\n| 1 | | **Q1** | **Q2** | **Q3** | **Q4** | **Razem** |\n| 2 | **Elektronika** | ? | ? | ? | ? | ? |\n| 3 | **Odziez** | ? | ? | ? | ? | ? |\n| 4 | **Zywnosc** | ? | ? | ? | ? | ? |\n| 5 | **Razem** | ? | ? | ? | ? | ? |\n\n**Polecenie**:\n1. Napisz formule w F2 (suma Elektroniki w Q1) uzywajac SUMIFS — z odniesieniami, ktore pozwola na kopiowanie w prawo i w dol.\n2. Napisz formule w J2 (razem dla wiersza) i F5 (razem dla kolumny).\n3. Wypelnij cala tabele i zweryfikuj, ze sumy wierszy i kolumn sie zgadzaja.",
+  "wskazowki": [
+    "**Kierunek**: SUMIFS z $E2 (kategoria) i F$1 (kwartal) — klasyczne odwolania mieszane do tabeli krzyzowej.",
+    "**Podejscie**: Wiersz \"Razem\" to SUM kolumny, kolumna \"Razem\" to SUM wiersza. Punkt kontrolny: J5 = suma wszystkich zrodlowych.",
+    "**Kluczowy krok**: Weryfikacja krzyzowa — suma wierszow Razem = suma kolumn Razem = SUM(C2:C21)."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nF2: =SUMIFS(C$2:C$21;A$2:A$21;$E2;B$2:B$21;F$1)\n    (kopiowana w prawo do I2 i w dol do I4)\n\nJ2: =SUM(F2:I2)          (suma wiersza, kopiowana w dol)\nF5: =SUM(F2:F4)          (suma kolumny, kopiowana w prawo)\nJ5: =SUM(J2:J4)          (suma calosci, lub =SUM(F5:I5) — te same)\n```\n\n**Wypelniona tabela:**\n\nElektronika w Q1: wiersze 2 (15000) i 8 (13000) = 28000\nElektronika w Q2: wiersze 5 (18000) i 17 (16000) = 34000\nElektronika w Q3: wiersze 11 (20000) i 20 (19000) = 39000\nElektronika w Q4: wiersz 14 (22000) = 22000\n\nOdziez w Q1: wiersze 3 (8000) i 12 (7500) = 15500\nOdziez w Q2: wiersz 6 (9500) = 9500\nOdziez w Q3: wiersze 9 (11000) i 18 (8500) = 19500\nOdziez w Q4: wiersze 15 (10000) i 21 (9000) = 19000\n\nZywnosc w Q1: wiersz 4 (12000) = 12000\nZywnosc w Q2: wiersze 7 (11000) i 16 (10500) = 21500\nZywnosc w Q3: wiersz 10 (13500) = 13500\nZywnosc w Q4: wiersze 13 (14000) i 19 (12500) = 26500\n\n| | Q1 | Q2 | Q3 | Q4 | Razem |\n|---|---|---|---|---|---|\n| Elektronika | 28000 | 34000 | 39000 | 22000 | 123000 |\n| Odziez | 15500 | 9500 | 19500 | 19000 | 63500 |\n| Zywnosc | 12000 | 21500 | 13500 | 26500 | 73500 |\n| Razem | 55500 | 65000 | 72000 | 67500 | **260000** |\n\n**Weryfikacja krzyzowa:**\n- Suma wierszow: 123000 + 63500 + 73500 = 260000 ✓\n- Suma kolumn: 55500 + 65000 + 72000 + 67500 = 260000 ✓\n- Suma wszystkich wartosci zrodlowych: =SUM(C2:C21) = 260000 ✓\n\n**Wyjasnienie odniesien w SUMIFS:**\n- `$E2` — zakotwiczona kolumna E (kategoria), wiersz wzgledny → kopiowanie w dol zmienia E2→E3→E4\n- `F$1` — zakotwiczony wiersz 1 (kwartal), kolumna wzgledna → kopiowanie w prawo zmienia F→G→H→I\n- `C$2:C$21`, `A$2:A$21`, `B$2:B$21` — zakresy danych z $ na wierszach, nie zmieniaja sie\n\nTo jest reczna tabela przestawna (pivot table) zbudowana z formul. Na maturze dane zrodlowe czesto maja wiele wierszy z ta sama kombinacja kategorii — SUMIFS poprawnie je sumuje. Kluczowe jest prawidlowe uzycie $ w odniesieniach, aby jedna formula dzialala po skopiowaniu w cala tabele.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomieszanie $ w odwolaniach**: Najczestszy blad — $ na zlym elemencie powoduje, ze formula nie kopiuje sie poprawnie",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak weryfikacji krzyzowej**: Suma wiersza Razem musi = suma kolumny Razem. Jesli nie, gdzies jest blad",
+      "kara": "-1 pkt jesli wynik bledny"
+    },
+    {
+      "opis": "**Uzycie SUMIF zamiast SUMIFS**: SUMIF obsluguje tylko 1 warunek — tu potrzebne sa 2 (kategoria i kwartal)",
+      "kara": "-2 pkt"
+    }
+  ]
+}

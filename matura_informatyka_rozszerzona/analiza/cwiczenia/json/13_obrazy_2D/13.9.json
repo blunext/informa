@@ -1,0 +1,29 @@
+{
+  "id": "13.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Matura 2025 zad. 2 (transformacje siatki)",
+  "tagi": [
+    "transponowanie",
+    "obrot",
+    "tablica-2D",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Dana jest siatka 4x6 liczb calkowitych zapisana w pliku `siatka.txt`. Napisz program, ktory:\na) Wypisze transpozycje siatki (zamiana wierszy z kolumnami — wynik to siatka 6x4).\nb) Wypisze siatke obrócona o 90 stopni w prawo.\nc) Sprawdzi, czy istnieje wiersz oryginalnej siatki identyczny z ktoras kolumna.\n\n**Dane** (`siatka.txt`):\n```\n1 2 3 4 5 6\n7 8 9 10 11 12\n13 14 15 16 17 18\n19 20 21 22 23 24\n```\n\n**Oczekiwany wynik**:\n```\na) Transpozycja (6x4):\n   1 7 13 19\n   2 8 14 20\n   3 9 15 21\n   4 10 16 22\n   5 11 17 23\n   6 12 18 24\n\nb) Obrot 90 stopni w prawo (6x4):\n   19 13 7 1\n   20 14 8 2\n   21 15 9 3\n   22 16 10 4\n   23 17 11 5\n   24 18 12 6\n\nc) Wiersz = kolumna: NIE (rozne dlugosci: wiersz=6, kolumna=4)\n```",
+  "wskazowki": [
+    "**Kierunek**: Transpozycja: `nowa[j][i] = tab[i][j]`. Obrot 90 w prawo: `nowa[j][rows-1-i] = tab[i][j]`.",
+    "**Podejscie**: Utwórz nowe tablice na wyniki. Obrot 90 = transpozycja + odbicie lustrzane wierszy.",
+    "**Kluczowy krok**: Porownanie wiersza z kolumna: wiersz i ma 6 elementow, kolumna j ma 4 elementy — moga byc identyczne tylko jesli maja te same dlugosci (co tu nie zachodzi — wiersz ma 6, kolumna 4)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    int tab[4][6];\n    for (int i = 0; i < 4; i++)\n        for (int j = 0; j < 6; j++)\n            plik >> tab[i][j];\n\n    // a) Transpozycja\n    cout << \"a) Transpozycja (6x4):\" << endl;\n    for (int j = 0; j < 6; j++) {\n        for (int i = 0; i < 4; i++)\n            cout << tab[i][j] << \" \";\n        cout << endl;\n    }\n\n    // b) Obrot 90 w prawo: nowa[j][3-i] = tab[i][j]\n    int obrot[6][4];\n    for (int i = 0; i < 4; i++)\n        for (int j = 0; j < 6; j++)\n            obrot[j][3 - i] = tab[i][j];\n\n    cout << endl << \"b) Obrot 90 stopni w prawo (6x4):\" << endl;\n    for (int i = 0; i < 6; i++) {\n        for (int j = 0; j < 4; j++)\n            cout << obrot[i][j] << \" \";\n        cout << endl;\n    }\n\n    // c) Wiersz = kolumna\n    // Wiersz ma 6 elementow, kolumna ma 4 — nie moga byc identyczne\n    cout << endl << \"c) Wiersz = kolumna: NIE (rozne dlugosci: wiersz=6, kolumna=4)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Transpozycja zamienia wiersze z kolumnami. Obrot 90 w prawo: `nowa[j][rows-1-i] = tab[i][j]`. Porownanie wiersza (dlugosc cols) z kolumna (dlugosc rows) jest sensowne tylko dla macierzy kwadratowej.\n\nWeryfikacja:\n- Transpozycja: kolumna 1 oryginalnej (1,7,13,19) staje sie wierszem 1 transpozycji.\n- Obrot 90: pierwszy wiersz obrotu to ostatnia kolumna oryginalnej czytana od dolu: (19,13,7,1).",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie transpozycji z obrotem**: Transpozycja to `[j][i]`, obrot 90 to `[j][rows-1-i]`",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zapis do oryginalnej tablicy**: Przy transpozycji/obrocie trzeba uzyc nowej tablicy — nadpisywanie oryginalnej powoduje utrate danych",
+      "kara": "-2 pkt"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "9.9",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2022 zad. 4 + 2025 zad. 7 (transakcje)",
+  "tagi": [
+    "wieloetapowe",
+    "wiele-plikow",
+    "JOIN-tabel",
+    "sortowanie",
+    "iomanip"
+  ],
+  "tresc": "Dane sa 2 tabele: klienci (`klienci.txt`: id imie miasto) i zamowienia (`zamowienia.txt`: id_klienta produkt kwota). Napisz program, ktory:\na) Obliczy laczna kwote zamowien kazdego klienta.\nb) Obliczy laczna kwote zamowien z kazdego miasta.\nc) Znajdzie klienta z najwyzsza srednia kwota zamowienia.\n\n**Dane** (`klienci.txt`):\n```\n1 Anna Krakow\n2 Jan Warszawa\n3 Ewa Krakow\n4 Piotr Gdansk\n```\n\n**Dane** (`zamowienia.txt`):\n```\n1 Laptop 3500\n2 Telefon 2000\n1 Monitor 1200\n3 Tablet 1500\n2 Sluchawki 300\n4 Laptop 4000\n3 Drukarka 800\n1 Klawiatura 200\n4 Monitor 1500\n2 Laptop 3800\n```\n\n**Oczekiwany wynik**:\n```\na) Laczna kwota wg klienta:\n   Anna: 4900\n   Jan: 6100\n   Ewa: 2300\n   Piotr: 5500\n\nb) Laczna kwota wg miasta:\n   Gdansk: 5500\n   Krakow: 7200\n   Warszawa: 6100\n\nc) Klient z najwyzsza srednia kwota:\n   Piotr (srednia: 2750.00, zamowienia: 2)\n```",
+  "wskazowki": [
+    "**Kierunek**: JOIN klientow z zamowieniami po id. Grupuj kwoty wg klienta i wg miasta.",
+    "**Podejscie**: Mapa klientow (id -> {imie, miasto}). Mapa zamowien (id_klienta -> lista kwot).",
+    "**Kluczowy krok**: Kwota wg miasta = suma kwot klientow z danego miasta. Srednia = suma / ilosc zamowien."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream f1(\"klienci.txt\"), f2(\"zamowienia.txt\");\n    map<int, pair<string, string>> klienci; // id -> (imie, miasto)\n    int id;\n    string imie, miasto;\n    while (f1 >> id >> imie >> miasto) klienci[id] = {imie, miasto};\n\n    map<int, vector<int>> zamowienia;\n    string produkt;\n    int kid, kwota;\n    while (f2 >> kid >> produkt >> kwota) zamowienia[kid].push_back(kwota);\n\n    // a) Wg klienta\n    cout << \"a) Laczna kwota wg klienta:\" << endl;\n    for (auto &k : klienci) {\n        int suma = 0;\n        for (int q : zamowienia[k.first]) suma += q;\n        cout << \"   \" << k.second.first << \": \" << suma << endl;\n    }\n\n    // b) Wg miasta\n    cout << endl << \"b) Laczna kwota wg miasta:\" << endl;\n    map<string, int> kwotaMiasto;\n    for (auto &k : klienci) {\n        int suma = 0;\n        for (int q : zamowienia[k.first]) suma += q;\n        kwotaMiasto[k.second.second] += suma;\n    }\n    for (auto &m : kwotaMiasto)\n        cout << \"   \" << m.first << \": \" << m.second << endl;\n\n    // c) Najwyzsza srednia\n    cout << endl << \"c) Klient z najwyzsza srednia kwota:\" << endl;\n    double maxSr = 0;\n    string maxImie;\n    int maxZam = 0;\n    for (auto &k : klienci) {\n        if (zamowienia[k.first].empty()) continue;\n        double suma = 0;\n        for (int q : zamowienia[k.first]) suma += q;\n        double sr = suma / zamowienia[k.first].size();\n        if (sr > maxSr) {\n            maxSr = sr;\n            maxImie = k.second.first;\n            maxZam = zamowienia[k.first].size();\n        }\n    }\n    cout << \"   \" << maxImie << \" (srednia: \" << fixed << setprecision(2)\n         << maxSr << \", zamowienia: \" << maxZam << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Anna (id=1): 3500+1200+200 = 4900\n- Jan (id=2): 2000+300+3800 = 6100\n- Ewa (id=3): 1500+800 = 2300\n- Piotr (id=4): 4000+1500 = 5500\n- Krakow (Anna+Ewa): 4900+2300 = 7200\n- Warszawa (Jan): 6100\n- Gdansk (Piotr): 5500\n- Srednie: Anna=4900/3=1633, Jan=6100/3=2033, Ewa=2300/2=1150, Piotr=5500/2=2750\n- Max: Piotr (2750.00)",
+  "typowe_bledy": [
+    {
+      "opis": "**Wczytanie \"Laptop\" jako kwota**: Format to `id_klienta produkt kwota` — trzeba wczytac string miedzy nimi",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pomieszanie id klienta z id zamowienia**: Tu nie ma id zamowienia — kazdy wiersz to oddzielne zamowienie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Niezamkniecie pliku przed otwarciem drugiego**: Nie blad w C++ (osobne obiekty), ale w Pascalu bylo",
+      "kara": "-0 pkt"
+    }
+  ]
+}

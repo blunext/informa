@@ -1,0 +1,30 @@
+{
+  "id": "17.8",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Matura 2022 (Wybory)",
+  "tagi": [
+    "wykres-grupowany",
+    "wykres-skumulowany",
+    "seria-danych",
+    "legenda",
+    "odczyt-z-wykresu"
+  ],
+  "tresc": "Wyniki egzaminu w 4 klasach:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Klasa** | **Celujacy/Bdb** | **Dobry/Dst** | **Dop/Ndst** |\n| 2 | 3A | 8 | 14 | 3 |\n| 3 | 3B | 5 | 12 | 8 |\n| 4 | 3C | 10 | 11 | 4 |\n| 5 | 3D | 3 | 9 | 13 |\n\n**Polecenie**:\n1. Jaki typ wykresu (grupowany czy skumulowany) lepiej pokaze: (a) liczebnosc klas, (b) rozklad ocen w klasach? Uzasadnij.\n2. Opisz specyfikacje wykresu skumulowanego procentowego (100% stacked) dla tych danych.\n3. Oblicz rozmiar kazdej klasy i procentowy udzial kazdej grupy ocen.",
+  "wskazowki": [
+    "**Kierunek**: Skumulowany pokazuje sume (liczebnosc klasy), grupowany pozwala porownac poszczegolne kategorie ocen. Skumulowany 100% normalizuje do procentow.",
+    "**Podejscie**: Dla wykresu 100% stacked — kazdy slupek ma ta sama wysokosc (100%), a proporcje wewnatrz pokazuja strukture.",
+    "**Kluczowy krok**: Rozmiar klasy = suma trzech grup. Procent = grupa/rozmiar × 100%."
+  ],
+  "odpowiedz": "**1. Wybor typu wykresu:**\n\n(a) **Liczebnosc klas** — wykres **skumulowany** (stacked): calkowita wysokosc slupka = liczba uczniow w klasie. Latwiej porownac rozmiary klas.\n\n(b) **Rozklad ocen** — wykres **skumulowany 100%** (100% stacked): kazdy slupek ma taka sama wysokosc (100%), wiec widac proporcje ocen niezaleznie od wielkosci klasy. Alternatywnie: **grupowany** pozwala dokladniej porownac wartosci bezwzgledne.\n\n**2. Specyfikacja wykresu 100% stacked:**\n- Typ: Kolumnowy skumulowany 100%\n- Os X: A2:A5 (klasy)\n- Serie: Celujacy/Bdb (zielony), Dobry/Dst (zolty), Dop/Ndst (czerwony)\n- Kazdy slupek = 100%, podzielony na 3 czesci\n- Tytul: \"Rozklad ocen w klasach (%)\"\n- Legenda u gory\n\n**3. Obliczenia:**\n\n| Klasa | Cel/Bdb | Db/Dst | Dop/Ndst | Razem | %Cel/Bdb | %Db/Dst | %Dop/Ndst |\n|-------|---------|--------|----------|-------|----------|---------|-----------|\n| 3A | 8 | 14 | 3 | 25 | 32.0% | 56.0% | 12.0% |\n| 3B | 5 | 12 | 8 | 25 | 20.0% | 48.0% | 32.0% |\n| 3C | 10 | 11 | 4 | 25 | 40.0% | 44.0% | 16.0% |\n| 3D | 3 | 9 | 13 | 25 | 12.0% | 36.0% | 52.0% |\n\nKazda klasa ma 25 uczniow. Klasa 3C ma najlepszy rozklad (40% cel/bdb), klasa 3D — najgorszy (52% dop/ndst).\n\n**Wyjasnienie**: Wykres 100% stacked jest idealny do porownywania struktury miedzy grupami o roznych rozmiarach. Na maturze pojawia sie czesto przy analizie ankiet lub rozkladow.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomieszanie skumulowanego z 100% skumulowanym**: Zwykly skumulowany pokazuje wartosci bezwzgledne, 100% — udzialy procentowe",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak uzasadnienia**: \"Wybieram kolumnowy\" bez wyjaśnienia dlaczego — na maturze wymagane jest uzasadnienie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

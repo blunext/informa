@@ -1,0 +1,28 @@
+{
+  "id": "22.17",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2023",
+  "tagi": [
+    "JOIN-wielotabelowy",
+    "GROUP-BY-z-JOIN",
+    "DISTINCT"
+  ],
+  "tresc": "Tabela **Gatunki**:\n\n| id_gatunku | nazwa |\n|------------|-------|\n| 1 | Akcja |\n| 2 | Komedia |\n| 3 | Horror |\n| 4 | Dramat |\n\nTabela **Filmy**:\n\n| id_filmu | tytul | id_gatunku | rok |\n|----------|-------|------------|-----|\n| 1 | Film A | 1 | 2020 |\n| 2 | Film B | 1 | 2021 |\n| 3 | Film C | 2 | 2022 |\n| 4 | Film D | 3 | 2020 |\n| 5 | Film E | 2 | 2023 |\n| 6 | Film F | 1 | 2022 |\n\nTabela **Oceny**:\n\n| id | id_filmu | ocena | uzytkownik |\n|----|----------|-------|------------|\n| 1 | 1 | 8 | Jan |\n| 2 | 1 | 7 | Anna |\n| 3 | 2 | 9 | Ewa |\n| 4 | 3 | 6 | Jan |\n| 5 | 4 | 5 | Anna |\n| 6 | 5 | 7 | Ewa |\n| 7 | 6 | 8 | Jan |\n| 8 | 2 | 8 | Piotr |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe gatunku, liczbe ocenionych filmow (COUNT DISTINCT) i srednia ocene (zaokraglona do 1 miejsca). Pokaz tylko gatunki z wiecej niz 1 ocenionym filmem. Posortuj malejaco wg sredniej.",
+  "wskazowki": [
+    "**Kierunek**: Trzy tabele laczone dwoma JOIN-ami, GROUP BY gatunek, HAVING na COUNT.",
+    "**Podejscie**: Gatunki → Filmy → Oceny, GROUP BY gatunek, HAVING COUNT(DISTINCT) > 1.",
+    "**Kluczowy krok**: COUNT(DISTINCT F.id_filmu) liczy unikalne filmy, nie unikalne oceny."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT G.nazwa, COUNT(DISTINCT F.id_filmu) AS liczba_filmow,\n       ROUND(AVG(O.ocena), 1) AS srednia\nFROM Gatunki G\nJOIN Filmy F ON G.id_gatunku = F.id_gatunku\nJOIN Oceny O ON F.id_filmu = O.id_filmu\nGROUP BY G.nazwa\nHAVING COUNT(DISTINCT F.id_filmu) > 1\nORDER BY srednia DESC;\n```\n\n**Weryfikacja**:\n\nAkcja (filmy 1,2,6): oceny 8,7,9,8,8 → 3 filmy, AVG=40/5=**8.0** (>1 ✓)\nKomedia (filmy 3,5): oceny 6,7 → 2 filmy, AVG=13/2=**6.5** (>1 ✓)\nHorror (film 4): ocena 5 → 1 film (>1 ✗)\nDramat: brak filmow z ocenami\n\n| nazwa | liczba_filmow | srednia |\n|-------|---------------|--------|\n| Akcja | 3 | 8.0 |\n| Komedia | 2 | 6.5 |\n\n**Wyjasnienie**: COUNT(DISTINCT F.id_filmu) liczy unikalne filmy (Film B z 2 ocenami = 1 film, nie 2). HAVING filtruje grupy PO agregacji.",
+  "typowe_bledy": [
+    {
+      "opis": "**COUNT(*) zamiast COUNT(DISTINCT)**: Film B (id=2) ma 2 oceny — COUNT(*) daje 5 zamiast 3 dla Akcji",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**WHERE COUNT(...) > 1**: Funkcje agregujace nie dzialaja w WHERE — trzeba HAVING",
+      "kara": "-2 pkt"
+    }
+  ]
+}
