@@ -1,0 +1,36 @@
+{
+  "id": "20.30",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2015 (Formula 1)",
+  "tagi": [
+    "GROUP-BY",
+    "COUNT",
+    "COUNT-DISTINCT",
+    "HAVING",
+    "JOIN-z-GROUP-BY",
+    "aliasy",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Biblioteki**:\n\n| id | nazwa | miasto |\n|----|-------|--------|\n| 1 | Centralna | Warszawa |\n| 2 | Miejska | Krakow |\n| 3 | Akademicka | Warszawa |\n\nTabela **Czytelnicy**:\n\n| id | imie | id_biblioteki |\n|----|------|---------------|\n| 1 | Anna | 1 |\n| 2 | Jan | 2 |\n| 3 | Ewa | 1 |\n| 4 | Piotr | 3 |\n| 5 | Kasia | 2 |\n| 6 | Marek | 3 |\n\nTabela **Wypozyczenia**:\n\n| id | id_czytelnika | tytul | gatunek |\n|----|--------------|-------|--------|\n| 1 | 1 | Potop | historyczna |\n| 2 | 1 | Lalka | realistyczna |\n| 3 | 2 | Hobbit | fantasy |\n| 4 | 3 | Potop | historyczna |\n| 5 | 4 | Lalka | realistyczna |\n| 6 | 5 | Wiedzmin | fantasy |\n| 7 | 5 | Hobbit | fantasy |\n| 8 | 6 | Potop | historyczna |\n| 9 | 2 | Wiedzmin | fantasy |\n| 10 | 3 | Wiedzmin | fantasy |\n| 11 | 1 | Wiedzmin | fantasy |\n| 12 | 6 | Lalka | realistyczna |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdej biblioteki wyswietli:\n- nazwe biblioteki,\n- calkowita liczbe wypozyczen,\n- liczbe ROZNYCH gatunkow wypozyczonych ksiazek.\n\nPokaz tylko biblioteki z co najmniej 2 roznymi gatunkami. Posortuj malejaco wg liczby wypozyczen.",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz dwoch JOIN-ow (Biblioteki → Czytelnicy → Wypozyczenia) i dwoch funkcji: COUNT(*) oraz COUNT(DISTINCT ...).",
+    "**Podejscie**: JOIN lancuchowy + GROUP BY nazwa + COUNT(*) + COUNT(DISTINCT gatunek) + HAVING >= 2.",
+    "**Kluczowy krok**: COUNT(*) liczy WSZYSTKIE wypozyczenia, COUNT(DISTINCT gatunek) liczy UNIKALNE gatunki — to kluczowa roznica."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT B.nazwa AS biblioteka,\n       COUNT(*) AS wypozyczenia,\n       COUNT(DISTINCT W.gatunek) AS rozne_gatunki\nFROM Biblioteki B\nJOIN Czytelnicy C ON B.id = C.id_biblioteki\nJOIN Wypozyczenia W ON C.id = W.id_czytelnika\nGROUP BY B.nazwa\nHAVING COUNT(DISTINCT W.gatunek) >= 2\nORDER BY wypozyczenia DESC;\n```\n\n**Weryfikacja**:\n- Centralna (czytelnicy 1,3): wyp. 1(hist)+2(real)+4(hist)+10(fant)+11(fant) = 5 wyp., gatunki: historyczna,realistyczna,fantasy = **3** (>=2 ✓)\n- Miejska (czytelnicy 2,5): wyp. 3(fant)+6(fant)+7(fant)+9(fant) = 4 wyp., gatunki: fantasy = **1** (>=2 ✗)\n- Akademicka (czytelnicy 4,6): wyp. 5(real)+8(hist)+12(real) = 3 wyp., gatunki: realistyczna,historyczna = **2** (>=2 ✓)\n\n| biblioteka | wypozyczenia | rozne_gatunki |\n|------------|-------------|---------------|\n| Centralna | 5 | 3 |\n| Akademicka | 3 | 2 |\n\n**Wyjasnienie**: Dwa JOIN-y lacza 3 tabele. COUNT(*) zlicza wszystkie wypozyczenia, a COUNT(DISTINCT gatunek) zlicza unikalne gatunki. Miejska (tylko fantasy) ma 1 gatunek i zostaje odfiltrowana przez HAVING.",
+  "typowe_bledy": [
+    {
+      "opis": "**COUNT(gatunek) zamiast COUNT(DISTINCT gatunek)**: Bez DISTINCT liczy sie WSZYSTKIE wypozyczenia, nie unikalne gatunki — Centralna mialoby 5 zamiast 3",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak jednego JOIN**: Z jednym JOIN-em brakuje polaczenia miedzy Biblioteki a Wypozyczenia (potrzeba lancucha Biblioteki→Czytelnicy→Wypozyczenia)",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**HAVING >= 2 na COUNT(*)**: Filtr powinien dotyczyc COUNT(DISTINCT gatunek), nie calkowitej liczby wypozyczen",
+      "kara": "-2 pkt"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "21.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2023 (Gry planszowe)",
+  "tagi": [
+    "EXISTS",
+    "korelacja-podzapytan",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Nauczyciele**:\n\n| id | imie | przedmiot |\n|----|------|-----------|\n| 1 | Kowalska | Matematyka |\n| 2 | Nowak | Fizyka |\n| 3 | Maj | Chemia |\n| 4 | Lis | Biologia |\n\nTabela **Lekcje**:\n\n| id | id_nauczyciela | klasa | ocena_srednia |\n|----|---------------|-------|---------------|\n| 1 | 1 | 3A | 4.2 |\n| 2 | 1 | 3B | 3.8 |\n| 3 | 2 | 3A | 4.5 |\n| 4 | 3 | 3B | 3.5 |\n| 5 | 2 | 3C | 3.9 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imiona i przedmioty nauczycieli, ktorzy prowadza przynajmniej jedna klase ze srednia ocen powyzej 4.0. Uzyj EXISTS z podzapytaniem skorelowanym.",
+  "wskazowki": [
+    "**Kierunek**: EXISTS sprawdza czy podzapytanie zwraca jakikolwiek wynik — tu: czy nauczyciel ma klase ze srednia > 4.0.",
+    "**Podejscie**: `WHERE EXISTS (SELECT 1 FROM Lekcje L WHERE L.id_nauczyciela = N.id AND L.ocena_srednia > 4.0)`.",
+    "**Kluczowy krok**: EXISTS zwraca TRUE/FALSE — nie potrzebuje konkretnych kolumn, dlatego SELECT 1."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT N.imie, N.przedmiot\nFROM Nauczyciele N\nWHERE EXISTS (\n  SELECT 1\n  FROM Lekcje L\n  WHERE L.id_nauczyciela = N.id\n    AND L.ocena_srednia > 4.0\n);\n```\n\n**Weryfikacja**:\n- Kowalska: klasy 3A(4.2>4.0 ✓), 3B(3.8) → EXISTS = TRUE ✓\n- Nowak: klasy 3A(4.5>4.0 ✓), 3C(3.9) → EXISTS = TRUE ✓\n- Maj: klasa 3B(3.5) → EXISTS = FALSE ✗\n- Lis: brak klas → EXISTS = FALSE ✗\n\n| imie | przedmiot |\n|------|-----------|\n| Kowalska | Matematyka |\n| Nowak | Fizyka |\n\n**Wyjasnienie**: EXISTS jest prawdziwe gdy podzapytanie zwraca przynajmniej jeden wiersz. Podzapytanie jest skorelowane — dla kazdego nauczyciela szuka lekcji z ocena_srednia > 4.0. EXISTS jest wydajniejsze niz IN gdy podzapytanie moze zwrocic duzo wierszy (zatrzymuje sie po pierwszym dopasowaniu).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak korelacji w EXISTS**: `WHERE EXISTS (SELECT 1 FROM Lekcje WHERE ocena_srednia > 4.0)` — bez N.id kazdy nauczyciel przejdzie test",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**NOT EXISTS zamiast EXISTS**: Odwrotnosc polecenia — Maj i Lis byliby w wyniku",
+      "kara": "-2 pkt"
+    }
+  ]
+}

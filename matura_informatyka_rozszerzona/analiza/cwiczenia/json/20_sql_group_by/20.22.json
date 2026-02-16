@@ -1,0 +1,28 @@
+{
+  "id": "20.22",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2024 (Wykroczenia drogowe)",
+  "tagi": [
+    "GROUP-BY",
+    "COUNT",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Wypozyczenia** zawiera dane o wypozyczeniach w bibliotece:\n\n| id | czytelnik | gatunek | rok |\n|----|-----------|---------|-----|\n| 1 | Anna | kryminal | 2023 |\n| 2 | Jan | fantasy | 2023 |\n| 3 | Anna | fantasy | 2024 |\n| 4 | Ewa | kryminal | 2024 |\n| 5 | Jan | kryminal | 2024 |\n| 6 | Anna | romans | 2024 |\n| 7 | Ewa | fantasy | 2024 |\n| 8 | Jan | fantasy | 2024 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli ile ksiazek kazdego gatunku wypozyczono w roku 2024. Posortuj malejaco wg liczby wypozyczen.",
+  "wskazowki": [
+    "**Kierunek**: Najpierw odfiltruj wiersze z odpowiednim rokiem, potem pogrupuj i policz.",
+    "**Podejscie**: WHERE rok = 2024 filtruje przed grupowaniem, COUNT(*) zlicza w kazdej grupie.",
+    "**Kluczowy krok**: WHERE filtruje WIERSZE (przed GROUP BY), nie grupy — to kluczowa roznica."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT gatunek, COUNT(*) AS liczba\nFROM Wypozyczenia\nWHERE rok = 2024\nGROUP BY gatunek\nORDER BY liczba DESC;\n```\n\n**Weryfikacja** (rok = 2024):\n- fantasy: Anna(3), Ewa(7), Jan(8) = **3**\n- kryminal: Ewa(4), Jan(5) = **2**\n- romans: Anna(6) = **1**\n\n| gatunek | liczba |\n|---------|--------|\n| fantasy | 3 |\n| kryminal | 2 |\n| romans | 1 |\n\n**Wyjasnienie**: WHERE rok = 2024 usuwa wiersze z 2023 PRZED grupowaniem. Bez WHERE policzyloby wszystkie lata: fantasy=4, kryminal=3, romans=1.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak WHERE — liczenie wszystkich lat**: Bez filtra rok=2024 wynik jest bledny (np. fantasy=4 zamiast 3)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**HAVING rok = 2024 zamiast WHERE**: rok nie jest funkcja agregujaca — filtrowanie wierszy robi sie w WHERE, nie HAVING",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "23.23",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2023 (Gry planszowe)",
+  "tagi": [
+    "WHERE",
+    "AND",
+    "OR",
+    "IS-NOT-NULL",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Pomiary** zawiera dane meteorologiczne:\n\n| id | stacja | data | temperatura | opady |\n|----|--------|------|-------------|-------|\n| 1 | Warszawa | 2024-01-15 | -5.2 | 3.0 |\n| 2 | Krakow | 2024-01-15 | -7.1 | NULL |\n| 3 | Gdansk | 2024-01-15 | -2.8 | 5.5 |\n| 4 | Warszawa | 2024-01-16 | 0.5 | NULL |\n| 5 | Krakow | 2024-01-16 | 1.3 | 2.0 |\n| 6 | Gdansk | 2024-01-16 | -0.5 | 4.0 |\n| 7 | Poznan | 2024-01-16 | 2.0 | 1.5 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli pomiary gdzie opady sa znane (IS NOT NULL) ORAZ (temperatura jest ponizej 0 LUB opady przekraczaja 3). Posortuj wg daty, potem wg stacji.",
+  "wskazowki": [
+    "**Kierunek**: Trzy warunki: IS NOT NULL + zlozony OR w nawiasach.",
+    "**Podejscie**: `WHERE opady IS NOT NULL AND (temperatura < 0 OR opady > 3)`.",
+    "**Kluczowy krok**: Nawiasy wokol OR sa KLUCZOWE — bez nich AND ma wyzszy priorytet."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT stacja, data, temperatura, opady\nFROM Pomiary\nWHERE opady IS NOT NULL\n  AND (temperatura < 0 OR opady > 3)\nORDER BY data, stacja;\n```\n\n**Weryfikacja** (opady IS NOT NULL: wiersze 1,3,5,6,7):\n- Warszawa 01-15: temp=-5.2<0 ✓ → PASS\n- Gdansk 01-15: temp=-2.8<0 ✓ → PASS\n- Krakow 01-16: temp=1.3>=0, opady=2.0<=3 → FAIL\n- Gdansk 01-16: temp=-0.5<0 ✓ → PASS\n- Poznan 01-16: temp=2.0>=0, opady=1.5<=3 → FAIL\n\n| stacja | data | temperatura | opady |\n|--------|------|-------------|-------|\n| Gdansk | 2024-01-15 | -2.8 | 5.5 |\n| Warszawa | 2024-01-15 | -5.2 | 3.0 |\n| Gdansk | 2024-01-16 | -0.5 | 4.0 |\n\n**Wyjasnienie**: IS NOT NULL eliminuje pomiary bez danych o opadach. Nawiasy `(temp < 0 OR opady > 3)` lacza dwa alternatywne warunki. AND wymaga spelnienia OBU czesci.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak nawiasow wokol OR**: `opady IS NOT NULL AND temperatura < 0 OR opady > 3` — AND ma priorytet, wiec OR bylby zastosowany osobno",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**opady != NULL zamiast IS NOT NULL**: Porownanie z NULL przez `!=` NIGDY nie dziala w SQL — uzyj IS NOT NULL",
+      "kara": "-2 pkt"
+    }
+  ]
+}

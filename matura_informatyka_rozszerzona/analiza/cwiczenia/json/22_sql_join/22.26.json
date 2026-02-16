@@ -1,0 +1,28 @@
+{
+  "id": "22.26",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2017 (Pilka reczna)",
+  "tagi": [
+    "self-JOIN",
+    "aliasy-tabel",
+    "WHERE-z-JOIN"
+  ],
+  "tresc": "Tabela **Pracownicy**:\n\n| id | imie | stanowisko | id_przelozonego |\n|----|------|------------|----------------|\n| 1 | Kowalski | Dyrektor | NULL |\n| 2 | Nowak | Kierownik | 1 |\n| 3 | Maj | Specjalista | 2 |\n| 4 | Lis | Specjalista | 2 |\n| 5 | Zak | Kierownik | 1 |\n| 6 | Bak | Asystent | 5 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imiona specjalistow oraz imiona ich bezposrednich przelozonych. Uzyj self-JOIN. Posortuj alfabetycznie wg imienia specjalisty.",
+  "wskazowki": [
+    "**Kierunek**: Self-JOIN laczy tabele sama ze soba — jedna instancja to pracownik, druga to przelozony.",
+    "**Podejscie**: `FROM Pracownicy P JOIN Pracownicy P2 ON P.id_przelozonego = P2.id` + WHERE stanowisko = 'Specjalista'.",
+    "**Kluczowy krok**: Aliasy P i P2 rozrozniaja dwie instancje tej samej tabeli."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT P.imie AS specjalista, P2.imie AS przelozony\nFROM Pracownicy P\nJOIN Pracownicy P2 ON P.id_przelozonego = P2.id\nWHERE P.stanowisko = 'Specjalista'\nORDER BY P.imie;\n```\n\n**Weryfikacja**:\n- Specjalisci: Maj (id 3, przelozony 2=Nowak), Lis (id 4, przelozony 2=Nowak)\n\n| specjalista | przelozony |\n|-------------|------------|\n| Lis | Nowak |\n| Maj | Nowak |\n\n**Wyjasnienie**: Self-JOIN laczy tabele sama ze soba. P to pracownik, P2 to przelozony. ON P.id_przelozonego = P2.id laczy pracownika z jego przelozonym. WHERE filtruje tylko specjalistow.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak aliasow**: Bez P i P2 baza danych nie wie, z ktorej instancji tabeli brac kolumny — blad skladniowy",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**ON P.id = P2.id**: Laczy pracownika z samym soba zamiast z przelozonym — trzeba P.id_przelozonego = P2.id",
+      "kara": "-3 pkt"
+    }
+  ]
+}

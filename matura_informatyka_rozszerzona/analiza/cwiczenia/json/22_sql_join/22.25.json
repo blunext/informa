@@ -1,0 +1,29 @@
+{
+  "id": "22.25",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2025 (Woda na Marsie)",
+  "tagi": [
+    "LEFT-JOIN",
+    "COUNT-z-LEFT-JOIN",
+    "GROUP-BY-z-JOIN",
+    "ORDER-BY-wielokolumnowy"
+  ],
+  "tresc": "Tabela **Kategorie**:\n\n| id | nazwa |\n|----|-------|\n| 1 | Elektronika |\n| 2 | Odziez |\n| 3 | Sport |\n| 4 | Dom |\n\nTabela **Produkty**:\n\n| id | id_kategorii | nazwa |\n|----|-------------|-------|\n| 1 | 1 | Laptop |\n| 2 | 1 | Tablet |\n| 3 | 2 | Koszulka |\n| 4 | 3 | Pilka |\n| 5 | 1 | Monitor |\n| 6 | 3 | Rower |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdej kategorii wyswietli nazwe kategorii i liczbe produktow. Uwzglednij kategorie z zerem produktow (np. Dom). Posortuj malejaco wg liczby, a przy rownej liczbie — alfabetycznie wg nazwy.",
+  "wskazowki": [
+    "**Kierunek**: LEFT JOIN zachowuje WSZYSTKIE kategorie, nawet te bez produktow.",
+    "**Podejscie**: LEFT JOIN Kategorie z Produkty + GROUP BY + COUNT(P.id) — nie COUNT(*)!",
+    "**Kluczowy krok**: COUNT(P.id) daje 0 dla kategorii bez produktow, COUNT(*) daloby 1."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.nazwa, COUNT(P.id) AS liczba_produktow\nFROM Kategorie K\nLEFT JOIN Produkty P ON K.id = P.id_kategorii\nGROUP BY K.nazwa\nORDER BY liczba_produktow DESC, K.nazwa;\n```\n\n**Weryfikacja**:\n- Elektronika: Laptop, Tablet, Monitor = **3**\n- Sport: Pilka, Rower = **2**\n- Odziez: Koszulka = **1**\n- Dom: brak = **0**\n\n| nazwa | liczba_produktow |\n|-------|-----------------|\n| Elektronika | 3 |\n| Sport | 2 |\n| Odziez | 1 |\n| Dom | 0 |\n\n**Wyjasnienie**: LEFT JOIN zachowuje kategorie Dom mimo braku produktow. COUNT(P.id) zlicza nie-NULL wartosci — dla Dom daje 0. INNER JOIN pominalby Dom calkowicie.",
+  "typowe_bledy": [
+    {
+      "opis": "**COUNT(*) zamiast COUNT(P.id)**: COUNT(*) liczy WIERSZE (wlacznie z NULL), wiec Dom daloby 1 zamiast 0",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**INNER JOIN zamiast LEFT JOIN**: Kategoria Dom (bez produktow) nie pojawiloby sie w wyniku",
+      "kara": "-2 pkt"
+    }
+  ]
+}

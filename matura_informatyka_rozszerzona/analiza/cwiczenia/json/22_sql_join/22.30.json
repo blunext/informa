@@ -1,0 +1,34 @@
+{
+  "id": "22.30",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2024 (Wykroczenia drogowe)",
+  "tagi": [
+    "JOIN-wielotabelowy",
+    "LEFT-JOIN",
+    "COUNT-z-LEFT-JOIN",
+    "GROUP-BY-z-JOIN",
+    "ORDER-BY-wielokolumnowy"
+  ],
+  "tresc": "Tabela **Wydzialy**:\n\n| id | nazwa |\n|----|-------|\n| 1 | IT |\n| 2 | HR |\n| 3 | Marketing |\n\nTabela **Zespoly**:\n\n| id | nazwa | id_wydzialu |\n|----|-------|-------------|\n| 1 | Backend | 1 |\n| 2 | Frontend | 1 |\n| 3 | Rekrutacja | 2 |\n| 4 | Branding | 3 |\n| 5 | DevOps | 1 |\n\nTabela **Pracownicy**:\n\n| id | imie | id_zespolu |\n|----|------|-----------|\n| 1 | Anna | 1 |\n| 2 | Jan | 1 |\n| 3 | Ewa | 2 |\n| 4 | Piotr | 3 |\n| 5 | Kasia | 2 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego zespolu wyswietli nazwe zespolu, nazwe wydzialu i liczbe pracownikow. Uwzglednij zespoly z zerem pracownikow (np. DevOps, Branding). Posortuj wg nazwy wydzialu, potem malejaco wg liczby pracownikow, potem wg nazwy zespolu.",
+  "wskazowki": [
+    "**Kierunek**: Trzy tabele, ale LEFT JOIN potrzebny tylko miedzy Zespoly a Pracownicy (aby zachowac puste zespoly).",
+    "**Podejscie**: JOIN Zespoly z Wydzialy (INNER) + LEFT JOIN z Pracownicy + GROUP BY zespol i wydzial.",
+    "**Kluczowy krok**: INNER JOIN z Wydzialy (kazdy zespol ma wydzial), LEFT JOIN z Pracownicy (nie kazdy zespol ma pracownikow). COUNT(P.id) daje 0 dla pustych."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT Z.nazwa AS zespol, W.nazwa AS wydzial, COUNT(P.id) AS liczba\nFROM Zespoly Z\nJOIN Wydzialy W ON Z.id_wydzialu = W.id\nLEFT JOIN Pracownicy P ON Z.id = P.id_zespolu\nGROUP BY Z.nazwa, W.nazwa\nORDER BY W.nazwa, liczba DESC, Z.nazwa;\n```\n\n**Weryfikacja**:\n- Backend (IT): Anna, Jan → **2**\n- Frontend (IT): Ewa, Kasia → **2**\n- DevOps (IT): brak → **0**\n- Rekrutacja (HR): Piotr → **1**\n- Branding (Marketing): brak → **0**\n\n| zespol | wydzial | liczba |\n|--------|---------|--------|\n| Rekrutacja | HR | 1 |\n| Backend | IT | 2 |\n| Frontend | IT | 2 |\n| DevOps | IT | 0 |\n| Branding | Marketing | 0 |\n\n**Wyjasnienie**: Mieszanka JOIN-ow: INNER JOIN z Wydzialy (kazdy zespol nalezy do wydzialu) + LEFT JOIN z Pracownicy (zachowuje puste zespoly). COUNT(P.id) poprawnie daje 0 dla zespolow bez pracownikow.",
+  "typowe_bledy": [
+    {
+      "opis": "**INNER JOIN z Pracownicy**: DevOps i Branding (0 pracownikow) znikaja z wyniku",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**COUNT(*) z LEFT JOIN**: Puste zespoly dostalyby 1 zamiast 0 — COUNT(*) liczy wiersze z NULL",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak GROUP BY po wydzial**: Bez wydzialu w GROUP BY mogloby dojsc do blednej agregacji",
+      "kara": "-1 pkt"
+    }
+  ]
+}

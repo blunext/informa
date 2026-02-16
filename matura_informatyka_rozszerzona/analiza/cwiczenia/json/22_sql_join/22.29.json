@@ -1,0 +1,28 @@
+{
+  "id": "22.29",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2017 (Pilka reczna)",
+  "tagi": [
+    "self-JOIN",
+    "aliasy-tabel",
+    "GROUP-BY-z-JOIN"
+  ],
+  "tresc": "Tabela **Pracownicy**:\n\n| id | imie | stanowisko | id_przelozonego | pensja |\n|----|------|------------|----------------|--------|\n| 1 | Kowalski | Dyrektor | NULL | 15000 |\n| 2 | Nowak | Kierownik | 1 | 10000 |\n| 3 | Maj | Specjalista | 2 | 7000 |\n| 4 | Lis | Specjalista | 2 | 7500 |\n| 5 | Zak | Kierownik | 1 | 9500 |\n| 6 | Bak | Specjalista | 5 | 6500 |\n| 7 | Wrobel | Specjalista | 5 | 7000 |\n| 8 | Krol | Stazysta | 2 | 4000 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego przelozonego wyswietli jego imie i liczbe bezposrednich podwladnych. Pokaz tylko przelozonych z wiecej niz 1 podwladnym. Posortuj malejaco wg liczby podwladnych, potem alfabetycznie wg imienia.",
+  "wskazowki": [
+    "**Kierunek**: Self-JOIN: tabela laczona sama ze soba — pracownik.id_przelozonego = przelozony.id.",
+    "**Podejscie**: JOIN Pracownicy P z Pracownicy P2 ON P.id_przelozonego = P2.id + GROUP BY P2.imie + HAVING COUNT > 1.",
+    "**Kluczowy krok**: GROUP BY przelozony (P2) i COUNT(*) zlicza podwladnych (P). HAVING > 1 filtruje grupy."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT P2.imie AS przelozony, COUNT(*) AS podwladni\nFROM Pracownicy P\nJOIN Pracownicy P2 ON P.id_przelozonego = P2.id\nGROUP BY P2.imie\nHAVING COUNT(*) > 1\nORDER BY podwladni DESC, P2.imie;\n```\n\n**Weryfikacja**:\n- Kowalski (id=1): podwladni: Nowak(2), Zak(5) → **2**\n- Nowak (id=2): podwladni: Maj(3), Lis(4), Krol(8) → **3**\n- Zak (id=5): podwladni: Bak(6), Wrobel(7) → **2**\n\nWszyscy maja > 1. Sortowanie: 3 DESC, potem alfabet.\n\n| przelozony | podwladni |\n|------------|-----------|\n| Nowak | 3 |\n| Kowalski | 2 |\n| Zak | 2 |\n\n**Wyjasnienie**: Self-JOIN laczy pracownika (P) z jego przelozonym (P2). GROUP BY P2.imie grupuje podwladnych per przelozony. COUNT(*) zlicza podwladnych w kazdej grupie. Dyrektor (Kowalski) nie ma przelozonego (NULL) — nie pojawi sie jako podwladny.",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwrotna relacja w ON**: `ON P.id = P2.id_przelozonego` — zamienia role: zliczaloby przelozonych per pracownik",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Brak aliasow P i P2**: Bez aliasow baza nie wie, ktora instancje tabeli referencjujemy",
+      "kara": "-2 pkt"
+    }
+  ]
+}

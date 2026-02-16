@@ -1,0 +1,27 @@
+{
+  "id": "21.23",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2024 (Wykroczenia drogowe)",
+  "tagi": [
+    "NOT-IN",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Zawodnicy**:\n\n| id | imie | klub |\n|----|------|------|\n| 1 | Anna | Orly |\n| 2 | Jan | Wilki |\n| 3 | Ewa | Orly |\n| 4 | Piotr | Wilki |\n| 5 | Kasia | Orly |\n\nTabela **Mecze**:\n\n| id | id_zawodnika | data | wynik |\n|----|-------------|------|-------|\n| 1 | 1 | 2024-01-15 | wygrana |\n| 2 | 2 | 2024-01-20 | przegrana |\n| 3 | 1 | 2024-02-10 | przegrana |\n| 4 | 4 | 2024-02-15 | wygrana |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imiona i kluby zawodnikow, ktorzy NIE uczestniczyli w zadnym meczu. Uzyj podzapytania z NOT IN.",
+  "wskazowki": [
+    "**Kierunek**: Podzapytanie zbiera id zawodnikow, ktorzy grali w meczach. NOT IN wyklucza ich.",
+    "**Podejscie**: `WHERE id NOT IN (SELECT id_zawodnika FROM Mecze)` — NOT IN = 'nie nalezy do zbioru'.",
+    "**Kluczowy krok**: Upewnij sie, ze podzapytanie nie zwraca NULL — jesli id_zawodnika moze byc NULL, NOT IN da pusty wynik!"
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, klub\nFROM Zawodnicy\nWHERE id NOT IN (SELECT id_zawodnika FROM Mecze);\n```\n\n**Weryfikacja**:\n- Podzapytanie zwraca: {1, 2, 4} (zawodnicy z meczami)\n- NOT IN {1, 2, 4} → id: {3, 5} → Ewa (Orly), Kasia (Orly)\n\n| imie | klub |\n|------|------|\n| Ewa | Orly |\n| Kasia | Orly |\n\n**Wyjasnienie**: NOT IN wyklucza zawodnikow, ktorych id pojawia sie w wynikach podzapytania. UWAGA: jesli podzapytanie zwroci wartosc NULL, cale NOT IN da pusty wynik — w tym zadaniu NULL nie wystepuje.",
+  "typowe_bledy": [
+    {
+      "opis": "**NOT IN z mozliwym NULL**: Jesli Mecze.id_zawodnika moglby byc NULL, cale NOT IN zwroiloby pusty wynik. Bezpieczniejsza alternatywa: LEFT JOIN + IS NULL",
+      "kara": "-1 pkt (potencjalny blad)"
+    },
+    {
+      "opis": "**Pomylenie IN z NOT IN**: `WHERE id IN (...)` zwroci zawodnikow Z meczami — odwrotnosc polecenia",
+      "kara": "-2 pkt"
+    }
+  ]
+}

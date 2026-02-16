@@ -1,0 +1,28 @@
+{
+  "id": "22.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2019 (Perfumy)",
+  "tagi": [
+    "JOIN-wielotabelowy",
+    "DISTINCT",
+    "WHERE-z-JOIN"
+  ],
+  "tresc": "Tabela **Gatunki**:\n\n| id | nazwa |\n|----|-------|\n| 1 | Akcja |\n| 2 | Komedia |\n| 3 | Dramat |\n\nTabela **Filmy**:\n\n| id | tytul | id_gatunku |\n|----|-------|------------|\n| 1 | Film A | 1 |\n| 2 | Film B | 2 |\n| 3 | Film C | 1 |\n| 4 | Film D | 3 |\n| 5 | Film E | 2 |\n\nTabela **Aktorzy**:\n\n| id | imie |\n|----|------|\n| 1 | Anna |\n| 2 | Jan |\n| 3 | Ewa |\n\nTabela **Obsada**:\n\n| id_filmu | id_aktora |\n|----------|-----------|\n| 1 | 1 |\n| 1 | 2 |\n| 2 | 1 |\n| 3 | 3 |\n| 4 | 2 |\n| 5 | 1 |\n| 5 | 3 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli ROZNE nazwy gatunkow, w ktorych wystapila aktorka Anna. Posortuj alfabetycznie.",
+  "wskazowki": [
+    "**Kierunek**: Cztery tabele — lancuch: Gatunki → Filmy → Obsada → Aktorzy.",
+    "**Podejscie**: Cztery JOIN-y + WHERE imie = 'Anna' + DISTINCT na nazwie gatunku.",
+    "**Kluczowy krok**: DISTINCT eliminuje duplikaty — Anna grala w 2 filmach Komedia, ale gatunek pojawia sie raz."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT DISTINCT G.nazwa\nFROM Gatunki G\nJOIN Filmy F ON G.id = F.id_gatunku\nJOIN Obsada O ON F.id = O.id_filmu\nJOIN Aktorzy A ON O.id_aktora = A.id\nWHERE A.imie = 'Anna'\nORDER BY G.nazwa;\n```\n\n**Weryfikacja**:\n- Anna (id=1) w Obsadzie: Film A(1), Film B(2), Film E(5)\n- Gatunki tych filmow: Akcja(Film A), Komedia(Film B), Komedia(Film E)\n- DISTINCT: **Akcja, Komedia**\n\n| nazwa |\n|-------|\n| Akcja |\n| Komedia |\n\n**Wyjasnienie**: 4-table JOIN tworzy lancuch od Gatunkow do Aktorow. DISTINCT eliminuje duplikaty — Anna grala w dwoch komediach, ale gatunek pojawia sie raz. Bez DISTINCT Komedia byloby dwa razy.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak DISTINCT**: Komedia pojawiloby sie 2 razy (raz za Film B, raz za Film E)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledna kolejnosc JOIN**: Proba polaczenia Gatunki z Aktorzy bezposrednio — brak wspolnej kolumny",
+      "kara": "-3 pkt"
+    }
+  ]
+}

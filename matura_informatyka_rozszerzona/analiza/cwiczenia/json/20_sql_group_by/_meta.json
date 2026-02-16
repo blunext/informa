@@ -3,7 +3,7 @@
   "nazwa": "SQL — GROUP BY z agregacjami",
   "kategoria": "SQL",
   "czestotliwosc": "8/11 lat",
-  "punkty_lacznie": 74,
+  "punkty_lacznie": 113,
   "tagi_globalne": [
     "AVG",
     "COUNT",
@@ -275,6 +275,135 @@
         "obliczenia-w-SELECT",
         "ORDER-BY",
         "aliasy"
+      ]
+    },
+    {
+      "id": "20.21",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "GROUP-BY",
+        "MIN",
+        "MAX",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.22",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "GROUP-BY",
+        "COUNT",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.23",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "GROUP-BY",
+        "AVG",
+        "ROUND",
+        "HAVING",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.24",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "GROUP-BY",
+        "SUM",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.25",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "GROUP-BY",
+        "COUNT-DISTINCT",
+        "JOIN-z-GROUP-BY",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "GROUP-BY",
+        "SUM",
+        "HAVING",
+        "WHERE-vs-HAVING",
+        "wielokolumnowe-grupowanie",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "GROUP-BY",
+        "COUNT",
+        "AVG",
+        "ROUND",
+        "obliczenia-w-SELECT",
+        "aliasy",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.28",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "GROUP-BY",
+        "COUNT",
+        "SUM",
+        "AVG",
+        "ROUND",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "aliasy",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.29",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "GROUP-BY",
+        "SUM",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "SUBSTR",
+        "wielokolumnowe-grupowanie",
+        "funkcje-daty",
+        "aliasy",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "20.30",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "GROUP-BY",
+        "COUNT",
+        "COUNT-DISTINCT",
+        "HAVING",
+        "JOIN-z-GROUP-BY",
+        "aliasy",
+        "ORDER-BY"
       ]
     }
   ]

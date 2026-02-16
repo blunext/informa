@@ -1,0 +1,29 @@
+{
+  "id": "20.25",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2025 (Woda na Marsie)",
+  "tagi": [
+    "GROUP-BY",
+    "COUNT-DISTINCT",
+    "JOIN-z-GROUP-BY",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Kategorie**:\n\n| id | nazwa |\n|----|-------|\n| 1 | Elektronika |\n| 2 | Odziez |\n| 3 | Sport |\n\nTabela **Produkty**:\n\n| id | id_kategorii | nazwa | marka |\n|----|-------------|-------|-------|\n| 1 | 1 | Laptop | Dell |\n| 2 | 1 | Laptop | HP |\n| 3 | 1 | Tablet | Samsung |\n| 4 | 2 | Koszulka | Nike |\n| 5 | 2 | Bluza | Adidas |\n| 6 | 3 | Pilka | Adidas |\n| 7 | 3 | Rower | Trek |\n| 8 | 1 | Tablet | Apple |\n| 9 | 2 | Koszulka | Adidas |\n| 10 | 3 | Buty | Nike |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdej kategorii wyswietli jej nazwe oraz liczbe ROZNYCH marek produktow w tej kategorii. Posortuj malejaco wg liczby marek.",
+  "wskazowki": [
+    "**Kierunek**: Zliczasz unikalne wartosci w kolumnie — potrzebujesz COUNT z DISTINCT.",
+    "**Podejscie**: JOIN Kategorie z Produkty + GROUP BY nazwa + COUNT(DISTINCT marka).",
+    "**Kluczowy krok**: COUNT(DISTINCT marka) liczy unikalne marki, COUNT(marka) liczyloby wszystkie produkty."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.nazwa, COUNT(DISTINCT P.marka) AS liczba_marek\nFROM Kategorie K\nJOIN Produkty P ON K.id = P.id_kategorii\nGROUP BY K.nazwa\nORDER BY liczba_marek DESC;\n```\n\n**Weryfikacja**:\n- Elektronika: Dell, HP, Samsung, Apple = **4** rozne marki\n- Sport: Adidas, Trek, Nike = **3** rozne marki\n- Odziez: Nike, Adidas = **2** rozne marki\n\n| nazwa | liczba_marek |\n|-------|--------------|\n| Elektronika | 4 |\n| Sport | 3 |\n| Odziez | 2 |\n\n**Wyjasnienie**: COUNT(DISTINCT P.marka) zlicza unikalne wartosci. Bez DISTINCT, Odziez mialoby 3 (dwie Koszulki roznych marek + Bluza), a nie 2 (Nike, Adidas).",
+  "typowe_bledy": [
+    {
+      "opis": "**COUNT(*) zamiast COUNT(DISTINCT marka)**: COUNT(*) policzy WSZYSTKIE produkty (Elektronika=4, Odziez=3, Sport=3) — nie odpowiada na pytanie o rozne marki",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak JOIN**: Bez polaczenia tabel nie mamy nazwy kategorii, tylko id_kategorii",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "20.24",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2015 (Formula 1)",
+  "tagi": [
+    "GROUP-BY",
+    "SUM",
+    "HAVING",
+    "JOIN-z-GROUP-BY",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Uczniowie**:\n\n| id | imie | klasa |\n|----|------|-------|\n| 1 | Anna | 3A |\n| 2 | Jan | 3B |\n| 3 | Ewa | 3A |\n| 4 | Piotr | 3B |\n| 5 | Kasia | 3A |\n\nTabela **Egzaminy**:\n\n| id | id_ucznia | przedmiot | wynik |\n|----|-----------|-----------|-------|\n| 1 | 1 | Matematyka | 85 |\n| 2 | 1 | Fizyka | 78 |\n| 3 | 2 | Matematyka | 92 |\n| 4 | 3 | Matematyka | 67 |\n| 5 | 4 | Fizyka | 88 |\n| 6 | 2 | Fizyka | 75 |\n| 7 | 5 | Matematyka | 71 |\n| 8 | 4 | Matematyka | 90 |\n| 9 | 3 | Fizyka | 60 |\n| 10 | 5 | Fizyka | 65 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdej klasy wyswietli sume wszystkich wynikow egzaminow. Pokaz tylko klasy z suma powyzej 300 punktow. Posortuj malejaco wg sumy.",
+  "wskazowki": [
+    "**Kierunek**: Dane o klasie sa w innej tabeli niz wyniki — potrzebujesz JOIN.",
+    "**Podejscie**: JOIN Uczniowie z Egzaminy po id, GROUP BY klasa, SUM(wynik), HAVING > 300.",
+    "**Kluczowy krok**: JOIN laczy tabele, GROUP BY grupuje po klasie, SUM sumuje wyniki w grupie."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT U.klasa, SUM(E.wynik) AS suma_wynikow\nFROM Uczniowie U\nJOIN Egzaminy E ON U.id = E.id_ucznia\nGROUP BY U.klasa\nHAVING SUM(E.wynik) > 300\nORDER BY suma_wynikow DESC;\n```\n\n**Weryfikacja**:\n- 3A: Anna(85+78) + Ewa(67+60) + Kasia(71+65) = 163+127+136 = **426** (>300 ✓)\n- 3B: Jan(92+75) + Piotr(88+90) = 167+178 = **345** (>300 ✓)\n\n| klasa | suma_wynikow |\n|-------|-------------|\n| 3A | 426 |\n| 3B | 345 |\n\n**Wyjasnienie**: JOIN laczy ucznia z jego egzaminami. GROUP BY klasa tworzy grupy per klasa, a SUM sumuje wyniki w kazdej grupie. HAVING filtruje grupy (tu: >=300).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak JOIN**: Bez polaczenia tabel nie mamy dostepu do kolumny klasa przy wynikach egzaminow",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**WHERE SUM(wynik) > 300**: Funkcje agregujace nie moga byc w WHERE — uzyj HAVING",
+      "kara": "-2 pkt"
+    }
+  ]
+}

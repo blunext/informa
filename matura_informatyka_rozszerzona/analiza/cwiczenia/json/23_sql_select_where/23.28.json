@@ -1,0 +1,34 @@
+{
+  "id": "23.28",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2021 (Szyfr plotkowy)",
+  "tagi": [
+    "CASE-WHEN",
+    "SUBSTR",
+    "obliczenia-w-SELECT",
+    "WHERE",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Produkty** zawiera dane o produktach z kodami kategorii:\n\n| id | kod | nazwa | cena_netto | stawka_vat |\n|----|-----|-------|-----------|------------|\n| 1 | A-001 | Chleb | 4 | 5 |\n| 2 | B-002 | Laptop | 4000 | 23 |\n| 3 | A-003 | Maslo | 8 | 5 |\n| 4 | C-004 | Ksiazka | 40 | 5 |\n| 5 | B-005 | Telefon | 2500 | 23 |\n| 6 | A-006 | Mleko | 3 | 5 |\n| 7 | C-007 | Zeszyt | 6 | 23 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli kod, nazwe, cene brutto obliczona jako `cena_netto * (100 + stawka_vat) / 100` oraz kolumne 'grupa' na podstawie pierwszej litery kodu (uzywajac SUBSTR):\n- 'A' → 'spozywcze'\n- 'B' → 'elektronika'\n- w pozostalych przypadkach → 'inne'\nPokaz tylko produkty z cena brutto > 6. Posortuj wg ceny brutto malejaco.",
+  "wskazowki": [
+    "**Kierunek**: Laczysz obliczenia (cena brutto), CASE WHEN (klasyfikacja) i SUBSTR (wyciaganie litery z kodu).",
+    "**Podejscie**: SELECT z `cena_netto * (100 + stawka_vat) / 100` + `CASE SUBSTR(kod,1,1) WHEN 'A' THEN ... END`.",
+    "**Kluczowy krok**: W WHERE powtorz formule na cene brutto — alias z SELECT nie dziala w WHERE. SUBSTR(kod,1,1) wyciaga pierwsza litere."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT kod, nazwa,\n  cena_netto * (100 + stawka_vat) / 100 AS cena_brutto,\n  CASE SUBSTR(kod, 1, 1)\n    WHEN 'A' THEN 'spozywcze'\n    WHEN 'B' THEN 'elektronika'\n    ELSE 'inne'\n  END AS grupa\nFROM Produkty\nWHERE cena_netto * (100 + stawka_vat) / 100 > 6\nORDER BY cena_brutto DESC;\n```\n\n**Weryfikacja** (cena_brutto = cena_netto * (100+vat) / 100):\n- Chleb: 4*105/100 = 4 (int div: 420/100=4). >6? Nie ✗\n- Laptop: 4000*123/100 = 4920. >6? Tak ✓ grupa=elektronika\n- Maslo: 8*105/100 = 8 (840/100=8). >6? Tak ✓ grupa=spozywcze\n- Ksiazka: 40*105/100 = 42. >6? Tak ✓ grupa=inne\n- Telefon: 2500*123/100 = 3075. >6? Tak ✓ grupa=elektronika\n- Mleko: 3*105/100 = 3 (315/100=3). >6? Nie ✗\n- Zeszyt: 6*123/100 = 7 (738/100=7). >6? Tak ✓ grupa=inne\n\n| kod | nazwa | cena_brutto | grupa |\n|-----|-------|------------|-------|\n| B-002 | Laptop | 4920 | elektronika |\n| B-005 | Telefon | 3075 | elektronika |\n| C-004 | Ksiazka | 42 | inne |\n| A-003 | Maslo | 8 | spozywcze |\n| C-007 | Zeszyt | 7 | inne |\n\n**Wyjasnienie**: Formule `cena_netto * (100 + stawka_vat) / 100` trzeba powtorzyc w WHERE (aliasy SELECT nie dzialaja w WHERE). CASE SUBSTR(kod,1,1) to skrocona forma CASE — porownuje wynik SUBSTR z wartosciami po WHEN.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie aliasu w WHERE**: `WHERE cena_brutto > 6` — SQL nie pozwala uzywac aliasow z SELECT w WHERE (alias jeszcze nie istnieje)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**SUBSTR(kod, 0, 1) zamiast SUBSTR(kod, 1, 1)**: W SQL pozycje liczymy od 1 — SUBSTR(kod,0,1) da pusty string lub bledny wynik",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak nawiasow w formule VAT**: `cena_netto * 100 + stawka_vat / 100` — kolejnosc dzialan zmienia wynik drastycznie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

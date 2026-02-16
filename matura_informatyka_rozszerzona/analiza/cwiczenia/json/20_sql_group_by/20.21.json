@@ -1,0 +1,29 @@
+{
+  "id": "20.21",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2023 (Gry planszowe)",
+  "tagi": [
+    "GROUP-BY",
+    "MIN",
+    "MAX",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Oceny** zawiera dane o ocenach uczniow z roznych przedmiotow:\n\n| id | uczen | przedmiot | ocena |\n|----|-------|-----------|-------|\n| 1 | Anna | Matematyka | 5 |\n| 2 | Jan | Matematyka | 3 |\n| 3 | Anna | Fizyka | 4 |\n| 4 | Ewa | Matematyka | 4 |\n| 5 | Jan | Fizyka | 5 |\n| 6 | Ewa | Fizyka | 3 |\n| 7 | Anna | Chemia | 5 |\n| 8 | Jan | Chemia | 4 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego przedmiotu wyswietli najnizsza i najwyzsza ocene. Posortuj alfabetycznie wg nazwy przedmiotu.",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz pogrupowac oceny wg jednej kolumny i uzyc dwoch funkcji agregujacych.",
+    "**Podejscie**: GROUP BY przedmiot + MIN(ocena) i MAX(ocena) w SELECT.",
+    "**Kluczowy krok**: ORDER BY przedmiot sortuje alfabetycznie (domyslnie ASC)."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT przedmiot, MIN(ocena) AS najnizsza, MAX(ocena) AS najwyzsza\nFROM Oceny\nGROUP BY przedmiot\nORDER BY przedmiot;\n```\n\n**Weryfikacja**:\n- Chemia: MIN(5,4)=4, MAX(5,4)=5\n- Fizyka: MIN(4,5,3)=3, MAX(4,5,3)=5\n- Matematyka: MIN(5,3,4)=3, MAX(5,3,4)=5\n\n| przedmiot | najnizsza | najwyzsza |\n|-----------|-----------|----------|\n| Chemia | 4 | 5 |\n| Fizyka | 3 | 5 |\n| Matematyka | 3 | 5 |\n\n**Wyjasnienie**: MIN i MAX to funkcje agregujace — dzialaja na zbiorze wartosci w kazdej grupie. ORDER BY bez DESC sortuje rosnaco (ASC jest domyslne).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak GROUP BY**: Bez GROUP BY MIN/MAX zwroca jedną wartosc dla calej tabeli zamiast per przedmiot",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Sortowanie DESC zamiast ASC**: Polecenie mowi 'alfabetycznie', co oznacza rosnaco (A→Z), nie malejaco",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

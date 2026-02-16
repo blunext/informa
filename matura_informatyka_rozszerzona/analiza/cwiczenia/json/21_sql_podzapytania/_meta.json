@@ -3,7 +3,7 @@
   "nazwa": "SQL — Podzapytania (subqueries)",
   "kategoria": "SQL",
   "czestotliwosc": "7/11 lat",
-  "punkty_lacznie": 71,
+  "punkty_lacznie": 110,
   "tagi_globalne": [
     "AVG",
     "COUNT-DISTINCT",
@@ -226,6 +226,107 @@
         "korelacja-podzapytan",
         "AVG",
         "podzapytanie-w-WHERE"
+      ]
+    },
+    {
+      "id": "21.21",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "podzapytanie-skalarne",
+        "MIN",
+        "podzapytanie-w-WHERE"
+      ]
+    },
+    {
+      "id": "21.22",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "IN",
+        "podzapytanie-w-WHERE"
+      ]
+    },
+    {
+      "id": "21.23",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "NOT-IN",
+        "podzapytanie-w-WHERE"
+      ]
+    },
+    {
+      "id": "21.24",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "podzapytanie-skalarne",
+        "AVG",
+        "podzapytanie-w-WHERE",
+        "IN"
+      ]
+    },
+    {
+      "id": "21.25",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "LEFT-JOIN-IS-NULL",
+        "NOT-IN",
+        "podzapytanie-w-WHERE"
+      ]
+    },
+    {
+      "id": "21.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "korelacja-podzapytan",
+        "podzapytanie-skalarne",
+        "MIN",
+        "podzapytanie-w-WHERE"
+      ]
+    },
+    {
+      "id": "21.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "EXISTS",
+        "korelacja-podzapytan",
+        "podzapytanie-w-WHERE"
+      ]
+    },
+    {
+      "id": "21.28",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "podzapytanie-w-HAVING",
+        "AVG",
+        "ROUND",
+        "podzapytanie-skalarne"
+      ]
+    },
+    {
+      "id": "21.29",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "korelacja-podzapytan",
+        "AVG",
+        "podzapytanie-w-HAVING"
+      ]
+    },
+    {
+      "id": "21.30",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "podzapytanie-w-HAVING",
+        "podzapytanie-skalarne",
+        "AVG"
       ]
     }
   ]

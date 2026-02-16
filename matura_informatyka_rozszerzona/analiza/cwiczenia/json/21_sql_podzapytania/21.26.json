@@ -1,0 +1,29 @@
+{
+  "id": "21.26",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2017 (Pilka reczna)",
+  "tagi": [
+    "korelacja-podzapytan",
+    "podzapytanie-skalarne",
+    "MIN",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Pracownicy** zawiera dane o pracownikach firmy:\n\n| id | imie | dzial | staz_lat |\n|----|------|-------|----------|\n| 1 | Anna | Sprzedaz | 12 |\n| 2 | Jan | Sprzedaz | 5 |\n| 3 | Ewa | Produkcja | 8 |\n| 4 | Piotr | Produkcja | 3 |\n| 5 | Kasia | Sprzedaz | 9 |\n| 6 | Marek | Produkcja | 15 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, dzial i staz pracownikow, ktorych staz jest NAJKROTSZY w ich dziale. Uzyj podzapytania skorelowanego z MIN.",
+  "wskazowki": [
+    "**Kierunek**: Podzapytanie musi odwolywac sie do dzialu z zapytania zewnetrznego — to podzapytanie skorelowane.",
+    "**Podejscie**: `WHERE staz_lat = (SELECT MIN(P2.staz_lat) FROM Pracownicy P2 WHERE P2.dzial = P.dzial)`.",
+    "**Kluczowy krok**: Dla kazdego wiersza podzapytanie oblicza MIN stazu w TYM SAMYM dziale (korelacja przez P.dzial)."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT P.imie, P.dzial, P.staz_lat\nFROM Pracownicy P\nWHERE P.staz_lat = (\n  SELECT MIN(P2.staz_lat)\n  FROM Pracownicy P2\n  WHERE P2.dzial = P.dzial\n);\n```\n\n**Weryfikacja**:\n- MIN staz per dzial:\n  - Sprzedaz: min(12, 5, 9) = **5** → Jan\n  - Produkcja: min(8, 3, 15) = **3** → Piotr\n\n| imie | dzial | staz_lat |\n|------|-------|----------|\n| Jan | Sprzedaz | 5 |\n| Piotr | Produkcja | 3 |\n\n**Wyjasnienie**: Podzapytanie jest SKORELOWANE — dla kazdego pracownika P oblicza MIN(staz_lat) wsrod pracownikow tego samego dzialu. `=` oznacza 'dokladnie rowny minimum', nie 'mniejszy niz'.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak korelacji**: `(SELECT MIN(staz_lat) FROM Pracownicy)` oblicza globalne MIN (3) — tylko Piotr bylby w wyniku, brakuje Jana",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**`<` zamiast `=`**: `WHERE staz_lat < MIN(...)` — nikt nie ma stazu mniejszego niz MIN, wynik pusty",
+      "kara": "-2 pkt"
+    }
+  ]
+}

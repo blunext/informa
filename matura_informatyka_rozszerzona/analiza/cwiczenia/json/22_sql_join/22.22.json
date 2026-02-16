@@ -1,0 +1,27 @@
+{
+  "id": "22.22",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2023 (Gry planszowe)",
+  "tagi": [
+    "JOIN-wielotabelowy",
+    "aliasy-tabel"
+  ],
+  "tresc": "Tabela **Autorzy**:\n\n| id | imie | nazwisko |\n|----|------|----------|\n| 1 | Adam | Mickiewicz |\n| 2 | Henryk | Sienkiewicz |\n\nTabela **Ksiazki**:\n\n| id | tytul | id_autora |\n|----|-------|-----------|\n| 1 | Potop | 2 |\n| 2 | Pan Tadeusz | 1 |\n| 3 | Ogniem i mieczem | 2 |\n| 4 | Dziady | 1 |\n\nTabela **Wypozyczenia**:\n\n| id | id_ksiazki | data |\n|----|-----------|------|\n| 1 | 1 | 2024-01-10 |\n| 2 | 2 | 2024-01-15 |\n| 3 | 1 | 2024-02-05 |\n| 4 | 4 | 2024-02-10 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli tytul ksiazki, nazwisko autora i date wypozyczenia. Posortuj wg daty wypozyczenia.",
+  "wskazowki": [
+    "**Kierunek**: Dane sa w 3 tabelach — potrzebujesz dwoch JOIN-ow tworzacych lancuch.",
+    "**Podejscie**: Wypozyczenia → Ksiazki (po id_ksiazki) → Autorzy (po id_autora).",
+    "**Kluczowy krok**: Kazdy JOIN laczy dwie tabele po wspolnym kluczu. Kolejnosc JOIN-ow podazaj za kluczami obcymi."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.tytul, A.nazwisko, W.data\nFROM Wypozyczenia W\nJOIN Ksiazki K ON W.id_ksiazki = K.id\nJOIN Autorzy A ON K.id_autora = A.id\nORDER BY W.data;\n```\n\n**Weryfikacja**:\n- Wyp. 1: Potop → Sienkiewicz, 2024-01-10\n- Wyp. 2: Pan Tadeusz → Mickiewicz, 2024-01-15\n- Wyp. 3: Potop → Sienkiewicz, 2024-02-05\n- Wyp. 4: Dziady → Mickiewicz, 2024-02-10\n\n| tytul | nazwisko | data |\n|-------|----------|------|\n| Potop | Sienkiewicz | 2024-01-10 |\n| Pan Tadeusz | Mickiewicz | 2024-01-15 |\n| Potop | Sienkiewicz | 2024-02-05 |\n| Dziady | Mickiewicz | 2024-02-10 |\n\n**Wyjasnienie**: Dwa JOIN-y tworzą lancuch: Wypozyczenia → Ksiazki → Autorzy. Kazdy JOIN dodaje kolumny z kolejnej tabeli. Potop pojawia sie dwukrotnie, bo byla wypozyczona 2 razy.",
+  "typowe_bledy": [
+    {
+      "opis": "**Proba bezposredniego laczenia Wypozyczenia z Autorzy**: Te tabele nie maja wspolnej kolumny — trzeba przez Ksiazki",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak jednego JOIN**: Z jednym JOIN-em brakuje informacji z trzeciej tabeli",
+      "kara": "-2 pkt"
+    }
+  ]
+}

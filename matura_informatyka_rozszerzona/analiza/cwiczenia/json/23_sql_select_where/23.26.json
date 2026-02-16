@@ -1,0 +1,28 @@
+{
+  "id": "23.26",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2023 (Gry planszowe)",
+  "tagi": [
+    "CASE-WHEN",
+    "obliczenia-w-SELECT",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Uczniowie** zawiera dane o uczniach:\n\n| id | imie | nazwisko | srednia |\n|----|------|----------|--------|\n| 1 | Anna | Nowak | 5.2 |\n| 2 | Jan | Kowal | 3.8 |\n| 3 | Ewa | Lis | 4.5 |\n| 4 | Piotr | Maj | 2.9 |\n| 5 | Kasia | Zak | 4.75 |\n| 6 | Tomek | Gil | 3.2 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko, srednia oraz dodatkowa kolumne 'kategoria', ktora przyjmuje wartosc:\n- 'wyroznienie' gdy srednia >= 4.75\n- 'dobry' gdy srednia >= 4.0 (ale < 4.75)\n- 'dostateczny' w pozostalych przypadkach\nPosortuj wg sredniej malejaco.",
+  "wskazowki": [
+    "**Kierunek**: CASE WHEN pozwala tworzyc nowe kolumny na podstawie warunkow — jak if-else w programowaniu.",
+    "**Podejscie**: `CASE WHEN srednia >= 4.75 THEN 'wyroznienie' WHEN srednia >= 4.0 THEN 'dobry' ELSE 'dostateczny' END`.",
+    "**Kluczowy krok**: Kolejnosc WHEN ma znaczenie — najpierw sprawdzamy >= 4.75, potem >= 4.0. Odwrotnie: >= 4.0 zlapalaby tez >= 4.75."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko, srednia,\n  CASE\n    WHEN srednia >= 4.75 THEN 'wyroznienie'\n    WHEN srednia >= 4.0 THEN 'dobry'\n    ELSE 'dostateczny'\n  END AS kategoria\nFROM Uczniowie\nORDER BY srednia DESC;\n```\n\n**Weryfikacja**:\n- Anna 5.2 >= 4.75 → wyroznienie ✓\n- Kasia 4.75 >= 4.75 → wyroznienie ✓\n- Ewa 4.5 >= 4.0 → dobry ✓\n- Jan 3.8 < 4.0 → dostateczny ✓\n- Tomek 3.2 < 4.0 → dostateczny ✓\n- Piotr 2.9 < 4.0 → dostateczny ✓\n\n| imie | nazwisko | srednia | kategoria |\n|------|----------|--------|-----------|\n| Anna | Nowak | 5.2 | wyroznienie |\n| Kasia | Zak | 4.75 | wyroznienie |\n| Ewa | Lis | 4.5 | dobry |\n| Jan | Kowal | 3.8 | dostateczny |\n| Tomek | Gil | 3.2 | dostateczny |\n| Piotr | Maj | 2.9 | dostateczny |\n\n**Wyjasnienie**: CASE WHEN dziala jak kaskadowy if-else. Warunki sa sprawdzane od gory — pierwszy pasujacy WHEN okresla wynik. END AS kategoria nadaje nazwe kolumnie.",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwrocona kolejnosc WHEN**: Najpierw `>= 4.0` potem `>= 4.75` — srednia 5.2 zostanie zakwalifikowana jako 'dobry' bo >= 4.0 jest sprawdzane wczesniej",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak END**: CASE bez END — blad skladniowy SQL",
+      "kara": "-1 pkt"
+    }
+  ]
+}

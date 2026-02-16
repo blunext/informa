@@ -1,0 +1,28 @@
+{
+  "id": "21.25",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2015 (Formula 1)",
+  "tagi": [
+    "LEFT-JOIN-IS-NULL",
+    "NOT-IN",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Kursy**:\n\n| id | nazwa | prowadzacy |\n|----|-------|------------|\n| 1 | Python | Kowalski |\n| 2 | Java | Nowak |\n| 3 | SQL | Kowalski |\n| 4 | HTML | Maj |\n| 5 | C++ | Lis |\n\nTabela **Zapisy**:\n\n| id | id_kursu | id_studenta |\n|----|---------|-------------|\n| 1 | 1 | 101 |\n| 2 | 1 | 102 |\n| 3 | 3 | 101 |\n| 4 | 2 | 103 |\n| 5 | 3 | 104 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwy i prowadzacych kursow, na ktore nie zapisal sie zaden student. Uzyj LEFT JOIN z IS NULL. Posortuj alfabetycznie wg nazwy kursu.",
+  "wskazowki": [
+    "**Kierunek**: LEFT JOIN zachowuje WSZYSTKIE kursy — kursy bez zapisow beda miec NULL w kolumnach z Zapisy.",
+    "**Podejscie**: `LEFT JOIN Zapisy ON ... WHERE Z.id IS NULL` — filtruje kursy bez dopasowania.",
+    "**Kluczowy krok**: WHERE sprawdza IS NULL na kolumnie z PRAWEJ tabeli (Zapisy), nie lewej (Kursy)."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.nazwa, K.prowadzacy\nFROM Kursy K\nLEFT JOIN Zapisy Z ON K.id = Z.id_kursu\nWHERE Z.id IS NULL\nORDER BY K.nazwa;\n```\n\n**Weryfikacja**:\n- Kursy z zapisami: Python(1), Java(2), SQL(3)\n- Kursy BEZ zapisow: HTML(4), C++(5)\n\n| nazwa | prowadzacy |\n|-------|------------|\n| C++ | Lis |\n| HTML | Maj |\n\n**Wyjasnienie**: LEFT JOIN zachowuje wszystkie wiersze z lewej tabeli (Kursy). Kursy bez dopasowania w Zapisy maja NULL w kolumnach z Zapisy. `WHERE Z.id IS NULL` wybiera wlasnie te kursy.\n\nAlternatywa z NOT IN:\n```sql\nSELECT nazwa, prowadzacy FROM Kursy\nWHERE id NOT IN (SELECT id_kursu FROM Zapisy)\nORDER BY nazwa;\n```",
+  "typowe_bledy": [
+    {
+      "opis": "**INNER JOIN zamiast LEFT JOIN**: Zwykly JOIN usunie kursy bez zapisow — wynik bedzie pusty (odwrotnosc polecenia)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**WHERE K.id IS NULL zamiast Z.id IS NULL**: Sprawdzamy NULL na kolumnie z PRAWEJ tabeli (Zapisy), nie lewej (Kursy) — K.id nigdy nie jest NULL",
+      "kara": "-2 pkt"
+    }
+  ]
+}

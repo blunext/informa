@@ -1,0 +1,38 @@
+{
+  "id": "20.29",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2025 (Woda na Marsie)",
+  "tagi": [
+    "GROUP-BY",
+    "SUM",
+    "HAVING",
+    "JOIN-z-GROUP-BY",
+    "SUBSTR",
+    "wielokolumnowe-grupowanie",
+    "funkcje-daty",
+    "aliasy",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Klienci**:\n\n| id | imie | miasto |\n|----|------|--------|\n| 1 | Anna | Warszawa |\n| 2 | Jan | Krakow |\n| 3 | Ewa | Warszawa |\n| 4 | Piotr | Krakow |\n\nTabela **Zakupy**:\n\n| id | id_klienta | data | kwota |\n|----|-----------|------|-------|\n| 1 | 1 | 2024-01-10 | 150 |\n| 2 | 2 | 2024-01-15 | 200 |\n| 3 | 3 | 2024-01-20 | 180 |\n| 4 | 1 | 2024-02-05 | 300 |\n| 5 | 4 | 2024-01-25 | 120 |\n| 6 | 2 | 2024-02-10 | 250 |\n| 7 | 3 | 2024-02-15 | 270 |\n| 8 | 4 | 2024-02-20 | 190 |\n| 9 | 1 | 2024-02-25 | 160 |\n| 10 | 2 | 2024-01-30 | 100 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego miasta i miesiaca (wyciagnietego z daty) wyswietli laczna kwote zakupow. Pokaz tylko grupy z suma powyzej 400. Posortuj wg miasta, potem wg miesiaca.",
+  "wskazowki": [
+    "**Kierunek**: Miesiac trzeba wyciagnac z daty za pomoca SUBSTR. Grupowanie po dwoch kolumnach (miasto + miesiac).",
+    "**Podejscie**: JOIN Klienci z Zakupy + SUBSTR(data, 6, 2) + GROUP BY miasto, SUBSTR(...) + HAVING > 400.",
+    "**Kluczowy krok**: SUBSTR(data, 6, 2) wyciaga pozycje 6-7 z daty '2024-01-10' → '01'. W GROUP BY uzyj tego samego wyrazenia co w SELECT."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.miasto,\n       SUBSTR(Z.data, 6, 2) AS miesiac,\n       SUM(Z.kwota) AS suma\nFROM Klienci K\nJOIN Zakupy Z ON K.id = Z.id_klienta\nGROUP BY K.miasto, SUBSTR(Z.data, 6, 2)\nHAVING SUM(Z.kwota) > 400\nORDER BY K.miasto, miesiac;\n```\n\n**Weryfikacja**:\n- Krakow, 01: Jan(200)+Piotr(120)+Jan(100) = **420** (>400 ✓)\n- Krakow, 02: Jan(250)+Piotr(190) = **440** (>400 ✓)\n- Warszawa, 01: Anna(150)+Ewa(180) = **330** (>400 ✗)\n- Warszawa, 02: Anna(300)+Ewa(270)+Anna(160) = **730** (>400 ✓)\n\n| miasto | miesiac | suma |\n|--------|---------|------|\n| Krakow | 01 | 420 |\n| Krakow | 02 | 440 |\n| Warszawa | 02 | 730 |\n\n**Wyjasnienie**: SUBSTR(data, 6, 2) wyciaga miesiac z formatu ISO 'RRRR-MM-DD'. Grupowanie po miastcie I miesiacu tworzy osobne grupy (np. Krakow-styczen, Krakow-luty). Warszawa-01 (suma=330) zostaje odfiltrowana przez HAVING.",
+  "typowe_bledy": [
+    {
+      "opis": "**SUBSTR(data, 5, 2) zamiast SUBSTR(data, 6, 2)**: Pozycja 5 to '-' (myslnik), nie poczatek miesiaca. W SQL pozycje liczymy od 1",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**GROUP BY tylko po miasto**: Bez miesiaca suma per miasto laczy wszystkie miesiace — Krakow=860, Warszawa=1060",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak HAVING**: Warszawa-01 (330) pojawia sie w wyniku mimo ze < 400",
+      "kara": "-1 pkt"
+    }
+  ]
+}

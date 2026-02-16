@@ -1,0 +1,35 @@
+{
+  "id": "20.26",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2017 (Pilka reczna)",
+  "tagi": [
+    "GROUP-BY",
+    "SUM",
+    "HAVING",
+    "WHERE-vs-HAVING",
+    "wielokolumnowe-grupowanie",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Sprzedaz** zawiera dane o transakcjach handlowych:\n\n| id | region | kwartal | produkt | wartosc | status |\n|----|--------|---------|---------|---------|--------|\n| 1 | Polnoc | Q1 | A | 500 | zrealizowana |\n| 2 | Polnoc | Q1 | B | 300 | zrealizowana |\n| 3 | Polnoc | Q2 | A | 700 | zrealizowana |\n| 4 | Poludnie | Q1 | A | 600 | anulowana |\n| 5 | Poludnie | Q1 | B | 400 | zrealizowana |\n| 6 | Poludnie | Q2 | A | 800 | zrealizowana |\n| 7 | Polnoc | Q2 | B | 250 | anulowana |\n| 8 | Poludnie | Q2 | B | 350 | zrealizowana |\n| 9 | Polnoc | Q1 | A | 450 | zrealizowana |\n| 10 | Poludnie | Q1 | A | 550 | zrealizowana |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego regionu i kwartalu wyswietli laczna wartosc ZREALIZOWANYCH transakcji. Pokaz tylko grupy z suma powyzej 800. Posortuj malejaco wg sumy.",
+  "wskazowki": [
+    "**Kierunek**: Grupujesz po DWOCH kolumnach (region + kwartal), a filtrowanie wierszy (status) i grup (suma) to dwa rozne etapy.",
+    "**Podejscie**: WHERE status + GROUP BY region, kwartal + SUM + HAVING > 800.",
+    "**Kluczowy krok**: GROUP BY region, kwartal tworzy osobna grupe dla kazdej kombinacji (np. Polnoc-Q1, Polnoc-Q2, ...)."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT region, kwartal, SUM(wartosc) AS suma\nFROM Sprzedaz\nWHERE status = 'zrealizowana'\nGROUP BY region, kwartal\nHAVING SUM(wartosc) > 800\nORDER BY suma DESC;\n```\n\n**Weryfikacja** (tylko zrealizowana):\n- Polnoc, Q1: 500+300+450 = **1250** (>800 ✓)\n- Polnoc, Q2: 700 = **700** (anulowana 250 wykluczona) (>800 ✗)\n- Poludnie, Q1: 400+550 = **950** (anulowana 600 wykluczona) (>800 ✓)\n- Poludnie, Q2: 800+350 = **1150** (>800 ✓)\n\n| region | kwartal | suma |\n|--------|---------|------|\n| Polnoc | Q1 | 1250 |\n| Poludnie | Q2 | 1150 |\n| Poludnie | Q1 | 950 |\n\n**Wyjasnienie**: WHERE filtruje wiersze (anulowane), GROUP BY tworzy grupy per region+kwartal, HAVING filtruje grupy (suma > 800). Polnoc-Q2 ma tylko 700 po wykluczeniu anulowanej transakcji.",
+  "typowe_bledy": [
+    {
+      "opis": "**GROUP BY tylko po region**: Bez kwartalu Polnoc zlicza Q1+Q2 razem (1250+700=1950) — nie odpowiada na pytanie 'per region i kwartal'",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak WHERE na status**: Anulowane transakcje sa wliczone — Poludnie-Q1 ma 600+400+550=1550 zamiast 950",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**HAVING status = 'zrealizowana'**: Status nie jest funkcja agregujaca — filtr wierszy idzie do WHERE",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "23.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2022 (Gwiazdy)",
+  "tagi": [
+    "AND",
+    "OR",
+    "NOT",
+    "LIKE",
+    "operatory-porownania"
+  ],
+  "tresc": "Tabela **Ksiazki** zawiera dane o ksiazkach:\n\n| id | tytul | autor | rok | gatunek |\n|----|-------|-------|-----|---------|\n| 1 | Pan Tadeusz | Mickiewicz | 1834 | epopeja |\n| 2 | Lalka | Prus | 1890 | powiesc |\n| 3 | Potop | Sienkiewicz | 1886 | powiesc |\n| 4 | Quo Vadis | Sienkiewicz | 1896 | powiesc |\n| 5 | Ferdydurke | Gombrowicz | 1937 | powiesc |\n| 6 | Przedwiosnie | Zeromski | 1925 | powiesc |\n| 7 | Pan Wolodyjowski | Sienkiewicz | 1888 | powiesc |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli tytul, autora i rok ksiazek spelniajacych WSZYSTKIE warunki:\n- gatunek NIE jest 'epopeja'\n- autor to 'Sienkiewicz' LUB rok > 1900\n- tytul NIE zaczyna sie od 'Pan'\nPosortuj wg roku rosnaco.",
+  "wskazowki": [
+    "**Kierunek**: Trzy warunki polaczone AND — jeden z nich zawiera OR (wymaga nawiasow!).",
+    "**Podejscie**: `WHERE gatunek != 'epopeja' AND (autor = 'Sienkiewicz' OR rok > 1900) AND tytul NOT LIKE 'Pan%'`.",
+    "**Kluczowy krok**: Nawiasy wokol OR sa KLUCZOWE — bez nich AND ma wyzszy priorytet i wynik bedzie inny."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT tytul, autor, rok\nFROM Ksiazki\nWHERE gatunek != 'epopeja'\n  AND (autor = 'Sienkiewicz' OR rok > 1900)\n  AND tytul NOT LIKE 'Pan%'\nORDER BY rok;\n```\n\n**Weryfikacja** (krok po kroku):\n- gatunek != 'epopeja': id 2,3,4,5,6,7 (Pan Tadeusz odpada)\n- (Sienkiewicz OR rok>1900): Lalka(Prus,1890) ✗, Potop(Sienk.) ✓, Quo Vadis(Sienk.) ✓, Ferdydurke(1937) ✓, Przedwiosnie(1925) ✓, Pan Wolodyjowski(Sienk.) ✓\n- NOT LIKE 'Pan%': Potop ✓, Quo Vadis ✓, Ferdydurke ✓, Przedwiosnie ✓, Pan Wolodyjowski ✗\n\n| tytul | autor | rok |\n|-------|-------|-----|\n| Potop | Sienkiewicz | 1886 |\n| Quo Vadis | Sienkiewicz | 1896 |\n| Przedwiosnie | Zeromski | 1925 |\n| Ferdydurke | Gombrowicz | 1937 |\n\n**Wyjasnienie**: AND laczy warunki — wszystkie musza byc spelnione. Nawiasy wokol OR zapewniaja, ze alternatywa (Sienkiewicz LUB rok>1900) jest traktowana jako jeden warunek. NOT LIKE 'Pan%' wyklucza tytuly zaczynajace sie od 'Pan'.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak nawiasow wokol OR**: `gatunek != 'epopeja' AND autor = 'Sienkiewicz' OR rok > 1900 AND ...` — AND wiaze silniej, OR zostanie zastosowany do calego lewego wyrażenia",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**LIKE 'Pan' zamiast NOT LIKE 'Pan%'**: LIKE bez % szuka dokladnego tekstu, a brak NOT odwraca logike — podwojna pomylka",
+      "kara": "-2 pkt"
+    }
+  ]
+}

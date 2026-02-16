@@ -1,0 +1,28 @@
+{
+  "id": "21.21",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2019 (Perfumy)",
+  "tagi": [
+    "podzapytanie-skalarne",
+    "MIN",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Produkty** zawiera dane o produktach w sklepie:\n\n| id | nazwa | cena |\n|----|-------|------|\n| 1 | Laptop | 3500 |\n| 2 | Mysz | 80 |\n| 3 | Monitor | 1200 |\n| 4 | Klawiatura | 150 |\n| 5 | Sluchawki | 200 |\n| 6 | Kamera | 80 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwy i ceny produktow, ktorych cena jest rowna najnizszej cenie wsrod wszystkich produktow. Uzyj podzapytania.",
+  "wskazowki": [
+    "**Kierunek**: Nie mozesz uzyc MIN bezposrednio w WHERE — potrzebujesz podzapytania skalarnego.",
+    "**Podejscie**: `WHERE cena = (SELECT MIN(cena) FROM Produkty)` — podzapytanie zwraca jedna wartosc.",
+    "**Kluczowy krok**: Uzyj `=` a nie `<` — szukamy produktow ROWNYCH minimum, nie tanszych."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, cena\nFROM Produkty\nWHERE cena = (SELECT MIN(cena) FROM Produkty);\n```\n\n**Weryfikacja**:\n- MIN(cena) = min(3500, 80, 1200, 150, 200, 80) = **80**\n- Produkty z cena = 80: Mysz (80 ✓), Kamera (80 ✓)\n\n| nazwa | cena |\n|-------|------|\n| Mysz | 80 |\n| Kamera | 80 |\n\n**Wyjasnienie**: Podzapytanie `(SELECT MIN(cena) FROM Produkty)` zwraca 80. Zapytanie zewnetrzne porownuje cene kazdego produktu z ta wartoscia. Uwaga: moze byc wiecej niz jeden produkt z cena minimalna!",
+  "typowe_bledy": [
+    {
+      "opis": "**WHERE cena = MIN(cena)**: Funkcje agregujace nie moga byc uzywane bezposrednio w WHERE — potrzeba podzapytania",
+      "kara": "-2 pkt (blad skladni)"
+    },
+    {
+      "opis": "**LIMIT 1 zamiast podzapytania**: `ORDER BY cena LIMIT 1` zwroci tylko JEDEN produkt, a moze byc kilka z ta sama minimalna cena",
+      "kara": "-1 pkt"
+    }
+  ]
+}

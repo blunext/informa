@@ -1,0 +1,28 @@
+{
+  "id": "21.29",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2015 (Formula 1)",
+  "tagi": [
+    "korelacja-podzapytan",
+    "AVG",
+    "podzapytanie-w-HAVING"
+  ],
+  "tresc": "Tabela **Studenci**:\n\n| id | imie | kierunek |\n|----|------|----------|\n| 1 | Anna | Informatyka |\n| 2 | Jan | Matematyka |\n| 3 | Ewa | Informatyka |\n| 4 | Piotr | Matematyka |\n| 5 | Kasia | Informatyka |\n\nTabela **Egzaminy**:\n\n| id | id_studenta | przedmiot | ocena |\n|----|-----------|-----------|-------|\n| 1 | 1 | Algebra | 4 |\n| 2 | 1 | Analiza | 5 |\n| 3 | 2 | Algebra | 3 |\n| 4 | 3 | Algebra | 2 |\n| 5 | 3 | Analiza | 3 |\n| 6 | 4 | Algebra | 5 |\n| 7 | 5 | Algebra | 4 |\n| 8 | 5 | Analiza | 4 |\n| 9 | 2 | Analiza | 4 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i kierunek studentow, ktorych srednia ocen jest wyzsza niz srednia ocen wszystkich studentow z tego samego kierunku. Uzyj podzapytania skorelowanego w HAVING. Posortuj alfabetycznie wg imienia.",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz: (1) srednia per student (GROUP BY), (2) srednia per kierunek (podzapytanie skorelowane w HAVING).",
+    "**Podejscie**: JOIN + GROUP BY student + HAVING AVG(ocena) > (podzapytanie ze srednia kierunku, skorelowane po S.kierunek).",
+    "**Kluczowy krok**: Podzapytanie w HAVING laczy Studenci i Egzaminy ponownie, filtrujac po tym samym kierunku co zapytanie zewnetrzne."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT S.imie, S.kierunek\nFROM Studenci S\nJOIN Egzaminy E ON S.id = E.id_studenta\nGROUP BY S.id, S.imie, S.kierunek\nHAVING AVG(E.ocena) > (\n  SELECT AVG(E2.ocena)\n  FROM Studenci S2\n  JOIN Egzaminy E2 ON S2.id = E2.id_studenta\n  WHERE S2.kierunek = S.kierunek\n)\nORDER BY S.imie;\n```\n\n**Weryfikacja**:\nSrednia per student:\n- Anna: (4+5)/2 = **4.5**\n- Jan: (3+4)/2 = **3.5**\n- Ewa: (2+3)/2 = **2.5**\n- Piotr: 5/1 = **5.0**\n- Kasia: (4+4)/2 = **4.0**\n\nSrednia per kierunek:\n- Informatyka (Anna+Ewa+Kasia): (4+5+2+3+4+4)/6 = 22/6 = **3.667**\n- Matematyka (Jan+Piotr): (3+4+5)/3 = 12/3 = **4.0**\n\nPorownanie:\n- Anna: 4.5 > 3.667 ✓\n- Jan: 3.5 > 4.0 ✗\n- Ewa: 2.5 > 3.667 ✗\n- Piotr: 5.0 > 4.0 ✓\n- Kasia: 4.0 > 3.667 ✓\n\n| imie | kierunek |\n|------|----------|\n| Anna | Informatyka |\n| Kasia | Informatyka |\n| Piotr | Matematyka |\n\n**Wyjasnienie**: Podzapytanie w HAVING oblicza srednia ocen WSZYSTKICH studentow danego kierunku. Jest skorelowane — `WHERE S2.kierunek = S.kierunek` odwoluje sie do kierunku z zapytania zewnetrznego. Kazdy student jest porownywany ze srednia swojego kierunku.",
+  "typowe_bledy": [
+    {
+      "opis": "**Nieskorelowane podzapytanie**: `(SELECT AVG(ocena) FROM Egzaminy)` oblicza srednia globalna (22+12=34, /9=3.78) — nie per kierunek",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Brak JOIN w podzapytaniu**: Podzapytanie musi laczyc Studenci z Egzaminy aby filtrowac po kierunku",
+      "kara": "-2 pkt"
+    }
+  ]
+}

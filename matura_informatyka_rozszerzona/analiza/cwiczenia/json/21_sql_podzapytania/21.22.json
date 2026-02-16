@@ -1,0 +1,27 @@
+{
+  "id": "21.22",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2023 (Gry planszowe)",
+  "tagi": [
+    "IN",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Uczniowie**:\n\n| id | imie | klasa |\n|----|------|-------|\n| 1 | Anna | 3A |\n| 2 | Jan | 3B |\n| 3 | Ewa | 3A |\n| 4 | Piotr | 3B |\n| 5 | Kasia | 3C |\n\nTabela **Nagrody**:\n\n| id | id_ucznia | typ |\n|----|-----------|-----|\n| 1 | 1 | sportowa |\n| 2 | 3 | naukowa |\n| 3 | 1 | naukowa |\n| 4 | 4 | sportowa |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imiona i klasy uczniow, ktorzy otrzymali przynajmniej jedna nagrode. Uzyj podzapytania z IN.",
+  "wskazowki": [
+    "**Kierunek**: Podzapytanie powinno zwrocic zbior id uczniow, ktorzy maja nagrody.",
+    "**Podejscie**: `WHERE id IN (SELECT id_ucznia FROM Nagrody)` — IN sprawdza czy wartosc nalezy do zbioru.",
+    "**Kluczowy krok**: IN zwraca zbior unikalnych wartosci — Anna z 2 nagrodami pojawi sie raz."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, klasa\nFROM Uczniowie\nWHERE id IN (SELECT id_ucznia FROM Nagrody);\n```\n\n**Weryfikacja**:\n- Podzapytanie zwraca: {1, 3, 4} (id uczniow z nagrodami)\n- Uczniowie z id IN {1, 3, 4}: Anna(3A), Ewa(3A), Piotr(3B)\n\n| imie | klasa |\n|------|-------|\n| Anna | 3A |\n| Ewa | 3A |\n| Piotr | 3B |\n\n**Wyjasnienie**: Podzapytanie `SELECT id_ucznia FROM Nagrody` zwraca {1, 3, 1, 4}, ale IN traktuje to jako zbior {1, 3, 4}. Anna pojawia sie raz mimo 2 nagrod — IN sprawdza przynaleznosc do zbioru.",
+  "typowe_bledy": [
+    {
+      "opis": "**JOIN zamiast IN**: JOIN daloby duplikaty — Anna pojawiloby sie 2 razy (raz na kazda nagrode), trzeba by dodac DISTINCT",
+      "kara": "-1 pkt (bledny wynik bez DISTINCT)"
+    },
+    {
+      "opis": "**Brak podzapytania**: `WHERE id_ucznia IS NOT NULL` w Nagrody nie odpowiada na pytanie — potrzeba polaczenia z tabela Uczniowie",
+      "kara": "-2 pkt"
+    }
+  ]
+}

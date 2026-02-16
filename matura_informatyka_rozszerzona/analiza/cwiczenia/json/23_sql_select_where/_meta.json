@@ -3,7 +3,7 @@
   "nazwa": "SQL — SELECT z WHERE",
   "kategoria": "SQL",
   "czestotliwosc": "4/11 lat",
-  "punkty_lacznie": 56,
+  "punkty_lacznie": 92,
   "tagi_globalne": [
     "SELECT",
     "WHERE",
@@ -256,6 +256,119 @@
         "WHERE",
         "ORDER-BY",
         "operatory-porownania"
+      ]
+    },
+    {
+      "id": "23.21",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "SELECT",
+        "WHERE",
+        "BETWEEN",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "23.22",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "SELECT",
+        "WHERE",
+        "LIKE",
+        "AND"
+      ]
+    },
+    {
+      "id": "23.23",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "WHERE",
+        "AND",
+        "OR",
+        "IS-NOT-NULL",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "23.24",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "LENGTH",
+        "SUBSTR",
+        "WHERE",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "23.25",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "DISTINCT",
+        "IN",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "23.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "CASE-WHEN",
+        "obliczenia-w-SELECT",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "23.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "AND",
+        "OR",
+        "NOT",
+        "LIKE",
+        "operatory-porownania"
+      ]
+    },
+    {
+      "id": "23.28",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "CASE-WHEN",
+        "SUBSTR",
+        "obliczenia-w-SELECT",
+        "WHERE",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "23.29",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "IS-NULL",
+        "IS-NOT-NULL",
+        "CASE-WHEN",
+        "obliczenia-w-SELECT",
+        "ORDER-BY"
+      ]
+    },
+    {
+      "id": "23.30",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "SUBSTR",
+        "BETWEEN",
+        "obliczenia-w-SELECT",
+        "WHERE",
+        "ORDER-BY"
       ]
     }
   ]

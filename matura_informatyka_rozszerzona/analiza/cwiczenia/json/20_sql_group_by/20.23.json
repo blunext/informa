@@ -1,0 +1,30 @@
+{
+  "id": "20.23",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2019 (Perfumy)",
+  "tagi": [
+    "GROUP-BY",
+    "AVG",
+    "ROUND",
+    "HAVING",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Dania** zawiera menu restauracji:\n\n| id | kuchnia | nazwa | cena |\n|----|---------|-------|------|\n| 1 | wloska | Pizza | 32 |\n| 2 | wloska | Pasta | 28 |\n| 3 | polska | Bigos | 25 |\n| 4 | azjatycka | Ramen | 35 |\n| 5 | wloska | Risotto | 38 |\n| 6 | polska | Zurek | 18 |\n| 7 | azjatycka | Sushi | 45 |\n| 8 | polska | Pierogi | 22 |\n| 9 | azjatycka | Pad Thai | 30 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdej kuchni wyswietli srednia cene dania zaokraglona do 1 miejsca po przecinku. Pokaz tylko kuchnie ze srednia cena powyzej 25 zl. Posortuj malejaco wg sredniej ceny.",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz agregacji (AVG) z zaokragleniem (ROUND) i filtrowania grup (HAVING).",
+    "**Podejscie**: GROUP BY kuchnia + ROUND(AVG(cena), 1) + HAVING AVG(cena) > 25.",
+    "**Kluczowy krok**: W HAVING porownuj AVG(cena) > 25, nie alias — HAVING wykonuje sie przed SELECT."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT kuchnia, ROUND(AVG(cena), 1) AS srednia_cena\nFROM Dania\nGROUP BY kuchnia\nHAVING AVG(cena) > 25\nORDER BY srednia_cena DESC;\n```\n\n**Weryfikacja**:\n- azjatycka: (35+45+30)/3 = 36.666... → ROUND(1) = **36.7** (>25 ✓)\n- wloska: (32+28+38)/3 = 32.666... → ROUND(1) = **32.7** (>25 ✓)\n- polska: (25+18+22)/3 = 21.666... → ROUND(1) = 21.7 (>25 ✗)\n\n| kuchnia | srednia_cena |\n|---------|--------------|\n| azjatycka | 36.7 |\n| wloska | 32.7 |\n\n**Wyjasnienie**: HAVING filtruje GRUPY (po GROUP BY), nie wiersze. Polska kuchnia ze srednia 21.7 zostaje odrzucona. ROUND(AVG(...), 1) zaokragla do 1 miejsca po przecinku.",
+  "typowe_bledy": [
+    {
+      "opis": "**WHERE AVG(cena) > 25**: Funkcje agregujace nie moga byc w WHERE — trzeba uzyc HAVING",
+      "kara": "-2 pkt (blad skladniowy)"
+    },
+    {
+      "opis": "**Brak ROUND**: Wynik 36.666... zamiast 36.7 — niedokladny format",
+      "kara": "-1 pkt"
+    }
+  ]
+}

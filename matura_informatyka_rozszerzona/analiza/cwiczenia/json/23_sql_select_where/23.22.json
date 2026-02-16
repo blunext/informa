@@ -1,0 +1,29 @@
+{
+  "id": "23.22",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2019 (Perfumy)",
+  "tagi": [
+    "SELECT",
+    "WHERE",
+    "LIKE",
+    "AND"
+  ],
+  "tresc": "Tabela **Produkty** zawiera dane o artykulach spozywczych:\n\n| id | nazwa | kategoria | cena |\n|----|-------|-----------|------|\n| 1 | Czekolada mleczna | Slodycze | 5.50 |\n| 2 | Chleb pszenny | Pieczywo | 4.20 |\n| 3 | Czekolada gorzka | Slodycze | 7.80 |\n| 4 | Chipsy solone | Przekaski | 6.90 |\n| 5 | Czekolada biala | Slodycze | 6.30 |\n| 6 | Ciastka owsiane | Przekaski | 8.50 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwy i ceny produktow, ktorych nazwa zaczyna sie od 'Cze' i cena jest mniejsza niz 7 zl. Posortuj wg ceny.",
+  "wskazowki": [
+    "**Kierunek**: Wzorzec tekstowy (poczatek nazwy) + warunek liczbowy — dwa warunki polaczone AND.",
+    "**Podejscie**: `WHERE nazwa LIKE 'Cze%' AND cena < 7` — LIKE z % na koncu oznacza 'zaczyna sie od'.",
+    "**Kluczowy krok**: `%` w LIKE zastepuje dowolna liczbe znakow. `Cze%` = wszystko co zaczyna sie od 'Cze'."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, cena\nFROM Produkty\nWHERE nazwa LIKE 'Cze%' AND cena < 7\nORDER BY cena;\n```\n\n**Weryfikacja**:\n- Cze%: Czekolada mleczna(5.50), Czekolada gorzka(7.80), Czekolada biala(6.30)\n- cena < 7: mleczna(5.50 ✓), gorzka(7.80 ✗), biala(6.30 ✓)\n\n| nazwa | cena |\n|-------|------|\n| Czekolada mleczna | 5.50 |\n| Czekolada biala | 6.30 |\n\n**Wyjasnienie**: LIKE 'Cze%' filtruje po poczatku nazwy. AND wymaga spelnienia obu warunkow. Czekolada gorzka (7.80) nie przechodzi warunku ceny.",
+  "typowe_bledy": [
+    {
+      "opis": "**LIKE 'Cze' bez %**: Bez `%` LIKE szuka dokladnego tekstu 'Cze' — zadna nazwa nie jest rowna 'Cze'",
+      "kara": "-2 pkt (pusty wynik)"
+    },
+    {
+      "opis": "**OR zamiast AND**: `LIKE 'Cze%' OR cena < 7` — wlaczyloby wszystkie tanie produkty (Chleb 4.20) i wszystkie czekolady",
+      "kara": "-1 pkt"
+    }
+  ]
+}

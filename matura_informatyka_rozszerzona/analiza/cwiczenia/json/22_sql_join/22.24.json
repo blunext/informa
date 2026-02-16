@@ -1,0 +1,28 @@
+{
+  "id": "22.24",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2024 (Wykroczenia drogowe)",
+  "tagi": [
+    "INNER-JOIN",
+    "WHERE-z-JOIN",
+    "GROUP-BY-z-JOIN"
+  ],
+  "tresc": "Tabela **Sklepy**:\n\n| id | nazwa | miasto |\n|----|-------|--------|\n| 1 | Alfa | Warszawa |\n| 2 | Beta | Krakow |\n| 3 | Gamma | Warszawa |\n\nTabela **Produkty**:\n\n| id | id_sklepu | nazwa | kategoria | cena |\n|----|----------|-------|-----------|------|\n| 1 | 1 | Laptop | Elektronika | 3500 |\n| 2 | 1 | Tablet | Elektronika | 2000 |\n| 3 | 2 | Monitor | Elektronika | 1200 |\n| 4 | 3 | Klawiatura | Akcesoria | 150 |\n| 5 | 2 | Laptop | Elektronika | 3200 |\n| 6 | 3 | Mysz | Elektronika | 800 |\n| 7 | 1 | Kamera | Elektronika | 1500 |\n| 8 | 3 | Monitor | Elektronika | 1100 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego sklepu z Warszawy wyswietli nazwe sklepu i liczbe produktow z kategorii 'Elektronika'. Posortuj malejaco wg liczby produktow.",
+  "wskazowki": [
+    "**Kierunek**: Dwa warunki filtrowania: miasto sklepu i kategoria produktu — oba w WHERE.",
+    "**Podejscie**: JOIN Sklepy z Produkty + WHERE miasto i kategoria + GROUP BY nazwa sklepu.",
+    "**Kluczowy krok**: WHERE z dwoma warunkami (AND) filtruje wiersze PRZED grupowaniem."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT S.nazwa, COUNT(*) AS liczba\nFROM Sklepy S\nJOIN Produkty P ON S.id = P.id_sklepu\nWHERE S.miasto = 'Warszawa' AND P.kategoria = 'Elektronika'\nGROUP BY S.nazwa\nORDER BY liczba DESC;\n```\n\n**Weryfikacja** (Warszawa + Elektronika):\n- Alfa (id=1): Laptop(3500), Tablet(2000), Kamera(1500) → **3**\n- Gamma (id=3): Mysz(800), Monitor(1100) → **2**\n- Klawiatura(Gamma) jest Akcesoria → pominięta\n- Beta jest z Krakowa → pominięty\n\n| nazwa | liczba |\n|-------|--------|\n| Alfa | 3 |\n| Gamma | 2 |\n\n**Wyjasnienie**: JOIN laczy sklepy z produktami. WHERE filtruje jednoczesnie po miescie i kategorii. GROUP BY nazwa grupuje wyniki per sklep. COUNT(*) zlicza przefiltrowane produkty.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak warunku na kategorie**: Klawiatura (Akcesoria) z Gammy zostanie policzona — Gamma mialoby 3 zamiast 2",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**OR zamiast AND**: `WHERE miasto = 'Warszawa' OR kategoria = 'Elektronika'` — wlaczyloby produkty z Krakowa (Elektronika) i Akcesoria z Warszawy",
+      "kara": "-2 pkt"
+    }
+  ]
+}

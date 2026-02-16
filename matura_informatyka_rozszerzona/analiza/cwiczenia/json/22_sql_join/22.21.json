@@ -1,0 +1,28 @@
+{
+  "id": "22.21",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2016 (Uniwersytet)",
+  "tagi": [
+    "INNER-JOIN",
+    "aliasy-tabel",
+    "WHERE-z-JOIN"
+  ],
+  "tresc": "Tabela **Wydzialy**:\n\n| id | nazwa |\n|----|-------|\n| 1 | Informatyka |\n| 2 | Matematyka |\n\nTabela **Studenci**:\n\n| id | imie | id_wydzialu |\n|----|------|-------------|\n| 1 | Anna | 1 |\n| 2 | Jan | 2 |\n| 3 | Ewa | 1 |\n| 4 | Piotr | 2 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imiona studentow i nazwe ich wydzialu, ale tylko dla studentow z wydzialu Informatyka. Posortuj alfabetycznie wg imienia.",
+  "wskazowki": [
+    "**Kierunek**: Dane studenta i wydzialu sa w roznych tabelach — polacz je JOIN-em.",
+    "**Podejscie**: JOIN na wspolnej kolumnie id_wydzialu + WHERE filtruje po nazwie wydzialu.",
+    "**Kluczowy krok**: WHERE W.nazwa = 'Informatyka' filtruje wiersze PO polaczeniu tabel."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT S.imie, W.nazwa\nFROM Studenci S\nJOIN Wydzialy W ON S.id_wydzialu = W.id\nWHERE W.nazwa = 'Informatyka'\nORDER BY S.imie;\n```\n\n**Weryfikacja**:\n- Informatyka (id=1): Anna, Ewa\n- Matematyka (id=2): Jan, Piotr — odfiltrowane przez WHERE\n\n| imie | nazwa |\n|------|-------|\n| Anna | Informatyka |\n| Ewa | Informatyka |\n\n**Wyjasnienie**: JOIN laczy kazdy wiersz ze Studenci z wierszem z Wydzialy, gdzie id_wydzialu = id. WHERE filtruje polaczone wiersze po nazwie wydzialu.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak ON w JOIN**: `FROM Studenci JOIN Wydzialy` bez ON tworzy iloczyn kartezjanski — kazdy student z kazdym wydzialem",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**WHERE id_wydzialu = 'Informatyka'**: id_wydzialu to liczba (1), nie tekst — trzeba uzyc nazwy z tabeli Wydzialy",
+      "kara": "-1 pkt"
+    }
+  ]
+}

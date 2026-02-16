@@ -1,0 +1,33 @@
+{
+  "id": "21.28",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2017 (Pilka reczna)",
+  "tagi": [
+    "podzapytanie-w-HAVING",
+    "AVG",
+    "ROUND",
+    "podzapytanie-skalarne"
+  ],
+  "tresc": "Tabela **Dzialy**:\n\n| id | nazwa |\n|----|-------|\n| 1 | IT |\n| 2 | HR |\n| 3 | Marketing |\n\nTabela **Pracownicy**:\n\n| id | imie | id_dzialu | wynagrodzenie |\n|----|------|----------|---------------|\n| 1 | Anna | 1 | 9000 |\n| 2 | Jan | 1 | 7500 |\n| 3 | Ewa | 2 | 5500 |\n| 4 | Piotr | 2 | 6000 |\n| 5 | Kasia | 3 | 8000 |\n| 6 | Marek | 1 | 8500 |\n| 7 | Ola | 3 | 7200 |\n| 8 | Tomek | 2 | 5000 |\n| 9 | Iga | 3 | 7100 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego dzialu wyswietli nazwe i srednie wynagrodzenie zaokraglone do 2 miejsc po przecinku, ale TYLKO dla dzialow, ktorych srednia przewyzsza srednia calej firmy. Uzyj podzapytania w HAVING. Posortuj malejaco wg sredniej.",
+  "wskazowki": [
+    "**Kierunek**: HAVING moze zawierac podzapytanie — porownujesz srednia grupy ze srednia globalna.",
+    "**Podejscie**: GROUP BY dzial + HAVING AVG(...) > (SELECT AVG(...) FROM Pracownicy).",
+    "**Kluczowy krok**: Podzapytanie w HAVING oblicza srednia GLOBALNA (calej firmy), nie per dzial."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT D.nazwa, ROUND(AVG(P.wynagrodzenie), 2) AS srednia\nFROM Dzialy D\nJOIN Pracownicy P ON D.id = P.id_dzialu\nGROUP BY D.nazwa\nHAVING AVG(P.wynagrodzenie) > (SELECT AVG(wynagrodzenie) FROM Pracownicy)\nORDER BY srednia DESC;\n```\n\n**Weryfikacja**:\n- Srednia firmy: (9000+7500+5500+6000+8000+8500+7200+5000+7100)/9 = 63800/9 = **7088.89**\n- IT: (9000+7500+8500)/3 = 8333.33 > 7088.89 ✓\n- HR: (5500+6000+5000)/3 = 5500.0 > 7088.89 ✗\n- Marketing: (8000+7200+7100)/3 = 7433.33 > 7088.89 ✓\n\n| nazwa | srednia |\n|-------|---------|\n| IT | 8333.33 |\n| Marketing | 7433.33 |\n\n**Wyjasnienie**: Podzapytanie `(SELECT AVG(wynagrodzenie) FROM Pracownicy)` w HAVING oblicza srednia calej firmy (7088.89). HAVING porownuje srednia KAZDEJ GRUPY z ta globalna wartoscia. HR ze srednia 5500 nie przechodzi filtra.",
+  "typowe_bledy": [
+    {
+      "opis": "**WHERE zamiast HAVING**: `WHERE AVG(...) > (...)` — WHERE nie moze uzywac funkcji agregujacych, bo dziala przed GROUP BY",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak JOIN z Dzialy**: Bez JOIN mamy tylko id_dzialu, nie nazwe — wynik jest mniej czytelny",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Srednia per dzial zamiast globalnej**: `HAVING AVG(P.wynagrodzenie) > AVG(P.wynagrodzenie)` — zawsze FALSE!",
+      "kara": "-3 pkt"
+    }
+  ]
+}

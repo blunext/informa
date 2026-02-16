@@ -1,0 +1,30 @@
+{
+  "id": "23.29",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2018 (Szyfrowanie)",
+  "tagi": [
+    "IS-NULL",
+    "IS-NOT-NULL",
+    "CASE-WHEN",
+    "obliczenia-w-SELECT",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Pracownicy** zawiera dane o pracownikach firmy:\n\n| id | imie | stanowisko | pensja | premia |\n|----|------|-----------|--------|--------|\n| 1 | Anna | kierownik | 8000 | 1500 |\n| 2 | Jan | programista | 7000 | NULL |\n| 3 | Ewa | analityk | 6500 | 800 |\n| 4 | Piotr | programista | 7500 | 1000 |\n| 5 | Kasia | tester | 5000 | NULL |\n| 6 | Tomek | kierownik | 8500 | 2000 |\n| 7 | Ola | analityk | 6000 | NULL |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, stanowisko, pensje oraz:\n- kolumne 'wynagrodzenie' obliczona jako pensja + premia (gdy premia IS NOT NULL) lub sama pensja (gdy premia IS NULL)\n- kolumne 'ma_premie' o wartosci 'tak' (gdy premia IS NOT NULL) lub 'brak' (gdy premia IS NULL)\nPokaz tylko pracownikow z wynagrodzeniem > 6500. Posortuj wg wynagrodzenia malejaco.",
+  "wskazowki": [
+    "**Kierunek**: Dwa CASE WHEN w SELECT — jeden oblicza wynagrodzenie, drugi klasyfikuje premie. Oba oparte o IS NULL / IS NOT NULL.",
+    "**Podejscie**: `CASE WHEN premia IS NOT NULL THEN pensja + premia ELSE pensja END` + analogiczny CASE dla 'tak'/'brak'.",
+    "**Kluczowy krok**: W WHERE uzyj tego samego CASE co w SELECT (alias nie dziala w WHERE). NULL + liczba = NULL, wiec bez CASE pensja + premia da NULL!"
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, stanowisko, pensja,\n  CASE WHEN premia IS NOT NULL THEN pensja + premia ELSE pensja END AS wynagrodzenie,\n  CASE WHEN premia IS NOT NULL THEN 'tak' ELSE 'brak' END AS ma_premie\nFROM Pracownicy\nWHERE CASE WHEN premia IS NOT NULL THEN pensja + premia ELSE pensja END > 6500\nORDER BY wynagrodzenie DESC;\n```\n\n**Weryfikacja**:\n- Anna: 8000+1500=9500, >6500 ✓, tak\n- Jan: 7000 (NULL), >6500 ✓, brak\n- Ewa: 6500+800=7300, >6500 ✓, tak\n- Piotr: 7500+1000=8500, >6500 ✓, tak\n- Kasia: 5000 (NULL), >6500 ✗\n- Tomek: 8500+2000=10500, >6500 ✓, tak\n- Ola: 6000 (NULL), >6500 ✗\n\n| imie | stanowisko | pensja | wynagrodzenie | ma_premie |\n|------|-----------|--------|--------------|----------|\n| Tomek | kierownik | 8500 | 10500 | tak |\n| Anna | kierownik | 8000 | 9500 | tak |\n| Piotr | programista | 7500 | 8500 | tak |\n| Ewa | analityk | 6500 | 7300 | tak |\n| Jan | programista | 7000 | 7000 | brak |\n\n**Wyjasnienie**: NULL w SQL jest zarazliwe: pensja + NULL = NULL. Dlatego CASE WHEN sprawdza IS NOT NULL przed dodaniem. Dwa niezalezne CASE w SELECT tworza dwie kolumny. W WHERE trzeba powtorzyc CASE (alias z SELECT nie dziala).",
+  "typowe_bledy": [
+    {
+      "opis": "**pensja + premia bez CASE**: Gdy premia IS NULL, wynik to NULL — pracownik 'znika' z wynikow (NULL > 6500 jest UNKNOWN, nie TRUE)",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**premia = NULL zamiast IS NULL**: Porownanie `= NULL` NIGDY nie zwraca TRUE w SQL — zawsze uzyj IS NULL / IS NOT NULL",
+      "kara": "-2 pkt"
+    }
+  ]
+}

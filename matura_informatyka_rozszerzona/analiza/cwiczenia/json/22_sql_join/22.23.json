@@ -1,0 +1,27 @@
+{
+  "id": "22.23",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2015 (Formula 1)",
+  "tagi": [
+    "LEFT-JOIN",
+    "aliasy-tabel"
+  ],
+  "tresc": "Tabela **Trenerzy**:\n\n| id | imie | specjalizacja |\n|----|------|---------------|\n| 1 | Kowalski | fitness |\n| 2 | Nowak | plywanie |\n| 3 | Maj | tenis |\n| 4 | Lis | boks |\n\nTabela **Zajecia**:\n\n| id | id_trenera | dzien | godzina |\n|----|-----------|-------|--------|\n| 1 | 1 | poniedzialek | 10:00 |\n| 2 | 1 | sroda | 12:00 |\n| 3 | 3 | wtorek | 14:00 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imiona i specjalizacje trenerow, ktorzy NIE maja zadnych zaplanowanych zajec. Uzyj LEFT JOIN. Posortuj alfabetycznie wg imienia.",
+  "wskazowki": [
+    "**Kierunek**: LEFT JOIN zachowuje WSZYSTKIE wiersze z lewej tabeli — trenerzy bez zajec maja NULL w kolumnach Zajecia.",
+    "**Podejscie**: LEFT JOIN + WHERE Z.id IS NULL — filtruje trenerow bez dopasowania.",
+    "**Kluczowy krok**: IS NULL sprawdzamy na kolumnie z PRAWEJ tabeli (Zajecia), nie lewej (Trenerzy)."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT T.imie, T.specjalizacja\nFROM Trenerzy T\nLEFT JOIN Zajecia Z ON T.id = Z.id_trenera\nWHERE Z.id IS NULL\nORDER BY T.imie;\n```\n\n**Weryfikacja**:\n- Trenerzy z zajeciami: Kowalski(1), Maj(3)\n- Trenerzy BEZ zajec: Nowak(2), Lis(4)\n\n| imie | specjalizacja |\n|------|---------------|\n| Lis | boks |\n| Nowak | plywanie |\n\n**Wyjasnienie**: LEFT JOIN zachowuje wszystkie wiersze z tabeli Trenerzy. Dla Nowaka i Lisa kolumny z Zajecia maja NULL (brak dopasowania). `WHERE Z.id IS NULL` wybiera wlasnie te wiersze.",
+  "typowe_bledy": [
+    {
+      "opis": "**INNER JOIN zamiast LEFT JOIN**: Zwykly JOIN usunie trenerow bez zajec — wynik pusty (odwrotnosc polecenia)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**WHERE T.id IS NULL**: Sprawdzamy kolumne z PRAWEJ tabeli (Z.id), nie lewej — T.id nigdy nie jest NULL",
+      "kara": "-2 pkt"
+    }
+  ]
+}

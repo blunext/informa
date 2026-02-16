@@ -3,7 +3,7 @@
   "nazwa": "SQL — JOIN (laczenie tabel)",
   "kategoria": "SQL",
   "czestotliwosc": "8/11 lat",
-  "punkty_lacznie": 70,
+  "punkty_lacznie": 109,
   "tagi_globalne": [
     "INNER-JOIN",
     "LEFT-JOIN",
@@ -222,6 +222,106 @@
         "self-JOIN",
         "aliasy-tabel",
         "GROUP-BY-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.21",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "INNER-JOIN",
+        "aliasy-tabel",
+        "WHERE-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.22",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "aliasy-tabel"
+      ]
+    },
+    {
+      "id": "22.23",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "LEFT-JOIN",
+        "aliasy-tabel"
+      ]
+    },
+    {
+      "id": "22.24",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "INNER-JOIN",
+        "WHERE-z-JOIN",
+        "GROUP-BY-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.25",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "LEFT-JOIN",
+        "COUNT-z-LEFT-JOIN",
+        "GROUP-BY-z-JOIN",
+        "ORDER-BY-wielokolumnowy"
+      ]
+    },
+    {
+      "id": "22.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "self-JOIN",
+        "aliasy-tabel",
+        "WHERE-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "DISTINCT",
+        "WHERE-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.28",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "GROUP-BY-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.29",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "self-JOIN",
+        "aliasy-tabel",
+        "GROUP-BY-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.30",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "LEFT-JOIN",
+        "COUNT-z-LEFT-JOIN",
+        "GROUP-BY-z-JOIN",
+        "ORDER-BY-wielokolumnowy"
       ]
     }
   ]

@@ -1,0 +1,29 @@
+{
+  "id": "23.24",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2025 (Woda na Marsie)",
+  "tagi": [
+    "LENGTH",
+    "SUBSTR",
+    "WHERE",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Produkty** zawiera dane o produktach z kodami:\n\n| id | kod | nazwa | cena |\n|----|-----|-------|------|\n| 1 | PL-001 | Laptop | 3500 |\n| 2 | DE-002 | Monitor | 1200 |\n| 3 | PL-003 | Tablet | 2000 |\n| 4 | FR-004 | Kamera | 800 |\n| 5 | PL-005 | Drukarka | 650 |\n| 6 | DE-006 | Mysz | 80 |\n| 7 | PL-007 | Sluchawki | 200 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli kod, nazwe i cene produktow, ktorych kod zaczyna sie od 'PL' (uzywajac SUBSTR) i nazwa ma co najmniej 7 znakow (uzywajac LENGTH). Posortuj wg nazwy.",
+  "wskazowki": [
+    "**Kierunek**: SUBSTR wyciaga fragment tekstu, LENGTH mierzy dlugosc — oba w WHERE.",
+    "**Podejscie**: `WHERE SUBSTR(kod, 1, 2) = 'PL' AND LENGTH(nazwa) >= 7`.",
+    "**Kluczowy krok**: W SQL pozycje liczymy od 1 (nie od 0). SUBSTR(kod, 1, 2) = pierwsze 2 znaki."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT kod, nazwa, cena\nFROM Produkty\nWHERE SUBSTR(kod, 1, 2) = 'PL' AND LENGTH(nazwa) >= 7\nORDER BY nazwa;\n```\n\n**Weryfikacja**:\n- Produkty PL: Laptop(6 zn.), Tablet(6 zn.), Drukarka(8 zn.), Sluchawki(9 zn.)\n- LENGTH >= 7: Laptop(6 ✗), Tablet(6 ✗), Drukarka(8 ✓), Sluchawki(9 ✓)\n\n| kod | nazwa | cena |\n|-----|-------|------|\n| PL-005 | Drukarka | 650 |\n| PL-007 | Sluchawki | 200 |\n\n**Wyjasnienie**: SUBSTR(kod, 1, 2) wyciaga pozycje 1-2 z kodu (np. 'PL' z 'PL-001'). LENGTH(nazwa) zwraca liczbe znakow w nazwie. Oba warunki musza byc spelnione (AND).",
+  "typowe_bledy": [
+    {
+      "opis": "**SUBSTR(kod, 0, 2)**: W SQL pozycje liczymy od 1, nie od 0 — SUBSTR(kod, 0, 2) daloby inny wynik",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**LENGTH(nazwa) > 7 zamiast >= 7**: Drukarka(8>7 ✓) przejdzie, ale gdyby byla nazwa z dokladnie 7 znakami, zostaloby pominieta",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "23.21",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2024 (Wykroczenia drogowe)",
+  "tagi": [
+    "SELECT",
+    "WHERE",
+    "BETWEEN",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Samochody** zawiera dane o pojazdach na sprzedaz:\n\n| id | marka | model | rok | cena |\n|----|-------|-------|-----|------|\n| 1 | Toyota | Corolla | 2018 | 45000 |\n| 2 | Honda | Civic | 2020 | 62000 |\n| 3 | Ford | Focus | 2019 | 38000 |\n| 4 | Toyota | Yaris | 2021 | 55000 |\n| 5 | Honda | Jazz | 2017 | 32000 |\n| 6 | Ford | Fiesta | 2020 | 42000 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli marke, model i rok produkcji samochodow z lat 2019-2020 (wlacznie). Posortuj wg roku, a nastepnie wg marki.",
+  "wskazowki": [
+    "**Kierunek**: Zakres lat mozna wyrazic jednym operatorem zamiast dwoch warunkow.",
+    "**Podejscie**: `WHERE rok BETWEEN 2019 AND 2020` — BETWEEN obejmuje obie granice.",
+    "**Kluczowy krok**: BETWEEN jest wlaczajace — 2019 i 2020 sa uwzgledniane."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT marka, model, rok\nFROM Samochody\nWHERE rok BETWEEN 2019 AND 2020\nORDER BY rok, marka;\n```\n\n**Weryfikacja**:\n- rok 2019: Ford Focus ✓\n- rok 2020: Honda Civic ✓, Ford Fiesta ✓\n- rok 2018, 2021, 2017: pominięte\n\n| marka | model | rok |\n|-------|-------|-----|\n| Ford | Focus | 2019 |\n| Ford | Fiesta | 2020 |\n| Honda | Civic | 2020 |\n\n**Wyjasnienie**: BETWEEN 2019 AND 2020 jest rownowazne `rok >= 2019 AND rok <= 2020`. Obejmuje obie granice zakresu.",
+  "typowe_bledy": [
+    {
+      "opis": "**BETWEEN 2020 AND 2019**: Odwrocona kolejnosc — BETWEEN wymaga mniejszej wartosci po lewej, wiekszej po prawej",
+      "kara": "-2 pkt (pusty wynik)"
+    },
+    {
+      "opis": "**rok > 2019 AND rok < 2020**: To wyklucza 2019 i 2020 — zostawia tylko wartosci miedzy nimi (nie calkowite)",
+      "kara": "-2 pkt"
+    }
+  ]
+}

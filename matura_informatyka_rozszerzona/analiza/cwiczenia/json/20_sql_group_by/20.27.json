@@ -1,0 +1,32 @@
+{
+  "id": "20.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2024 (Wykroczenia drogowe)",
+  "tagi": [
+    "GROUP-BY",
+    "COUNT",
+    "AVG",
+    "ROUND",
+    "obliczenia-w-SELECT",
+    "aliasy",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Pracownicy** zawiera dane o wynagrodzeniach:\n\n| id | imie | dzial | wynagrodzenie |\n|----|------|-------|---------------|\n| 1 | Anna | IT | 8000 |\n| 2 | Jan | HR | 6100 |\n| 3 | Ewa | IT | 7500 |\n| 4 | Piotr | HR | 5500 |\n| 5 | Kasia | IT | 9200 |\n| 6 | Marek | HR | 6800 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego dzialu wyswietli:\n- liczbe pracownikow,\n- srednie wynagrodzenie zaokraglone do 2 miejsc po przecinku,\n- rozstep wynagrodzen (MAX - MIN).\n\nPosortuj malejaco wg sredniego wynagrodzenia.",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz trzech roznych agregacji w jednym zapytaniu — COUNT, AVG i obliczenie MAX-MIN.",
+    "**Podejscie**: SELECT z COUNT(*), ROUND(AVG(...), 2) i MAX(...) - MIN(...) + GROUP BY dzial.",
+    "**Kluczowy krok**: MAX(wynagrodzenie) - MIN(wynagrodzenie) to obliczenie na dwoch agregatach — mozna je robic bezposrednio w SELECT."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT dzial,\n       COUNT(*) AS liczba,\n       ROUND(AVG(wynagrodzenie), 2) AS srednie_wyn,\n       MAX(wynagrodzenie) - MIN(wynagrodzenie) AS rozstep\nFROM Pracownicy\nGROUP BY dzial\nORDER BY srednie_wyn DESC;\n```\n\n**Weryfikacja**:\n- IT: COUNT=3, AVG=(8000+7500+9200)/3=24700/3=8233.33, MAX-MIN=9200-7500=**1700**\n- HR: COUNT=3, AVG=(6100+5500+6800)/3=18400/3=6133.33, MAX-MIN=6800-5500=**1300**\n\n| dzial | liczba | srednie_wyn | rozstep |\n|-------|--------|-------------|--------|\n| IT | 3 | 8233.33 | 1700 |\n| HR | 3 | 6133.33 | 1300 |\n\n**Wyjasnienie**: Mozna uzywac wielu funkcji agregujacych w jednym SELECT. MAX(...) - MIN(...) oblicza rozstep (roznice miedzy najwieksza a najmniejsza wartoscia w grupie).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak ROUND**: AVG zwraca 8233.333... — bez ROUND wynik ma zbyt wiele miejsc po przecinku",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**MAX - MIN bez GROUP BY**: Bez grupowania rozstep byloby obliczony dla calej tabeli (9200-5500=3700) zamiast per dzial",
+      "kara": "-2 pkt"
+    }
+  ]
+}

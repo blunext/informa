@@ -1,0 +1,32 @@
+{
+  "id": "21.30",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2024 (Wykroczenia drogowe)",
+  "tagi": [
+    "podzapytanie-w-HAVING",
+    "podzapytanie-skalarne",
+    "AVG"
+  ],
+  "tresc": "Tabela **Filmy** zawiera dane o filmach:\n\n| id | tytul | gatunek | ocena |\n|----|-------|---------|-------|\n| 1 | Gladiator | akcja | 8.5 |\n| 2 | Incepcja | scifi | 9.0 |\n| 3 | Joker | dramat | 8.4 |\n| 4 | Obcy | scifi | 8.6 |\n| 5 | Pulp Fiction | dramat | 8.9 |\n| 6 | Rocky | akcja | 8.1 |\n| 7 | Dune | scifi | 8.3 |\n| 8 | Ojciec chrzestny | dramat | 9.2 |\n| 9 | Matrix | scifi | 8.9 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore dla kazdego gatunku wyswietli nazwe gatunku i liczbe filmow, ale TYLKO dla gatunkow, w ktorych srednia ocena filmow jest wyzsza niz ogolna srednia ocena wszystkich filmow. Posortuj malejaco wg liczby filmow.",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz porownac srednia grupy ze srednia globalna — podzapytanie skalarne w HAVING.",
+    "**Podejscie**: GROUP BY gatunek + HAVING AVG(ocena) > (SELECT AVG(ocena) FROM Filmy).",
+    "**Kluczowy krok**: Podzapytanie oblicza srednia calej tabeli, HAVING porownuje z nia srednia kazdej grupy."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT gatunek, COUNT(*) AS liczba\nFROM Filmy\nGROUP BY gatunek\nHAVING AVG(ocena) > (SELECT AVG(ocena) FROM Filmy)\nORDER BY liczba DESC;\n```\n\n**Weryfikacja**:\n- Ogolna srednia: (8.5+9.0+8.4+8.6+8.9+8.1+8.3+9.2+8.9)/9 = 77.9/9 = **8.656**\n- Per gatunek:\n  - akcja: (8.5+8.1)/2 = 8.3 > 8.656 ✗\n  - scifi: (9.0+8.6+8.3+8.9)/4 = 8.7 > 8.656 ✓\n  - dramat: (8.4+8.9+9.2)/3 = 8.833 > 8.656 ✓\n\n| gatunek | liczba |\n|---------|--------|\n| scifi | 4 |\n| dramat | 3 |\n\n**Wyjasnienie**: Podzapytanie `(SELECT AVG(ocena) FROM Filmy)` oblicza srednia ocen calej tabeli (8.656). HAVING filtruje grupy (gatunki), ktorych srednia jest wyzsza. Akcja (8.3) nie spelnia warunku i zostaje odfiltrowana.",
+  "typowe_bledy": [
+    {
+      "opis": "**WHERE AVG(ocena) > ...**: WHERE nie moze uzywac funkcji agregujacych — trzeba HAVING",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Porownanie z hardcoded wartoscia**: `HAVING AVG(ocena) > 8.6` — dziala, ale nie jest dynamiczne. Jesli dane sie zmienia, wartosc tez musi",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak GROUP BY**: Bez GROUP BY, COUNT(*) policzy calkowitą liczbe filmow, nie per gatunek",
+      "kara": "-2 pkt"
+    }
+  ]
+}
