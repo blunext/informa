@@ -357,3 +357,9 @@ Jesli nie wiesz od czego zaczac, zrob dokladnie to:
 
 Nie probuj ogarnac wszystkiego naraz. Jeden typ zadania dziennie to wystarczy,
 zeby w 2-3 tygodnie byc gotowym na egzamin.
+
+---
+
+## 9. Interaktywny korepetytor
+
+Masz do dyspozycji interaktywnego korepetytora AI — wpisz `/matura` zeby zaczac sesje. Korepetytor dobiera cwiczenia do Twojego poziomu, daje hinty, prowadzi sprawdziany i probne matury. Pelny opis trybow i komend: patrz `JAK_UZYWAC_KOREPETYTORA.md`.

@@ -87,18 +87,15 @@ Zapytaj: "Od ktorego bloku zaczynamy?" Utworz pusty progress.json (schema w sekc
 
 ### Scenariusz 2: Powrot (progress.json istnieje)
 
-Przeczytaj progress.json. Zaktualizuj daily_streak (logika w sekcji J). Wyswietl krotki raport:
+Przeczytaj progress.json. Wyswietl krotki raport:
 - Ile sesji, kiedy ostatnia
 - Per blok: ktore typy ruszono, aktualny poziom trudnosci
 - Zaleglosci powtorkowe: ile tagow ma `nastepna_powtorka <= dzis`
-- `Ranga: {ranga} | XP: {xp}/{next_rank_xp} | Seria: {daily_streak.aktualny} dni`
-- `Osiagniecia: {count}/{total} odblokowane`
-- Sprawdz osiagniecia na starcie sesji (comeback, daily_3/7/14)
 - Zapytaj: "Masz N zaleglosci powtorkowych. Powtorka czy nowy material?"
 
 ### Scenariusz 3: Z argumentem (`/matura SQL`, `/matura 07_cyfry_liczby`)
 
-Pomiń powitanie. Wczytaj progress.json (lub utworz). Zaktualizuj daily_streak (logika w sekcji J). Sprawdz osiagniecia na starcie sesji (comeback, daily_3/7/14). Przejdz od razu do podanego bloku/typu.
+Pomiń powitanie. Wczytaj progress.json (lub utworz). Przejdz od razu do podanego bloku/typu.
 
 ## D. Algorytm wyboru cwiczen
 
@@ -120,20 +117,21 @@ Po wybraniu cwiczenia policz ile zostalo nieuzytych cwiczen na danym poziomie tr
   ```
   [!!] Brak cwiczen typu {typ} na poziomie {trudnosc}. Dogeneruj: /generate-exercises {plik} 5
   ```
-  Zapisz brak do `progress.json` w polu `braki_cwiczen` (lista obiektow `{"typ", "trudnosc"}`).
 
 ## E. Prezentacja cwiczenia
 
-1. Przeczytaj JEDEN plik JSON z `{CWICZENIA}/{NN_nazwa}.json`
-2. Wyciagnij cwiczenie wedlug algorytmu z sekcji D
-3. Wyswietl:
+1. Przeczytaj `{CWICZENIA}/{NN_nazwa}/_meta.json` (~2KB — lekki indeks). Jesli ten sam typ co poprzednie cwiczenie — uzyj _meta z kontekstu, nie czytaj ponownie.
+2. Odfiltruj `zrobione` z progress.json
+3. Wybierz cwiczenie wg algorytmu z sekcji D
+4. Przeczytaj `{CWICZENIA}/{NN_nazwa}/{id}.json` (~3-5KB — jedno cwiczenie)
+5. Wyswietl:
    ```
    --- {kategoria} | {typ} | {trudnosc} | {punkty} pkt ---
 
    {tresc}
    ```
-4. **NIE** pokazuj: `odpowiedz`, `wskazowki`, `typowe_bledy`
-5. Popros: "Podaj swoje rozwiazanie."
+6. **NIE** pokazuj: `odpowiedz`, `wskazowki`, `typowe_bledy`
+7. Popros: "Podaj swoje rozwiazanie."
 
 ## F. Ocena odpowiedzi i system hintow
 
@@ -161,16 +159,6 @@ Porownaj odpowiedz ucznia z polem `odpowiedz` z JSON-a. Uwzglednij rownowazne fo
 - Wyswietl `typowe_bledy` jako wskazowki CKE
 - Nastepne cwiczenie z tego typu: latwiejsze o 1 poziom
 
-### Wyswietlanie XP po ocenie
-
-Po kazdej ocenie (niezaleznie od wyniku) wyswietl linie:
-```
-+{xp} XP {combo_info}  |  Lacznie: {total_xp} XP ({ranga})
-```
-Gdzie `combo_info` to np. `(combo x2.0!)` jesli `sesja_combo > 1`, puste jesli combo = 1.
-Dla `walk_through` wyswietl `+0 XP  |  Lacznie: {total_xp} XP ({ranga})`.
-Nastepnie sprawdz i wyswietl nowe osiagniecia (sekcja J).
-
 ### Regula kontekstu dla szablonow
 
 - **Cheatsheets** (~4KB): mozna czytac w calosci, jeden na raz
@@ -187,6 +175,7 @@ Plik: `{BASE}/matura_progress.json`
 {
   "sesje": 0,
   "ostatnia_sesja": "2026-02-13",
+  "cwiczenia_lacznie": 0,
   "typy": {
     "01_sledzenie_algorytmu": {
       "poziom_trudnosci": "latwe",
@@ -197,22 +186,12 @@ Plik: `{BASE}/matura_progress.json`
   "tagi": {
     "mod-div": {
       "poziom": 0,
-      "poprawne_bez_pomocy": 0,
       "nastepna_powtorka": "2026-02-13"
     }
   },
-  "historia": [],
-  "tagi_problematyczne": [],
-  "tagi_opanowane": [],
-  "braki_cwiczen": [],
   "matura_zrobione": {},
   "probne_matury": [],
-  "pulapki_przejrzane": {},
-  "xp": 0,
-  "ranga": "Nowicjusz",
-  "daily_streak": { "aktualny": 0, "najdluzszy": 0, "ostatni_dzien": null },
-  "osiagniecia": [],
-  "sesja_combo": 0
+  "pulapki_przejrzane": {}
 }
 ```
 
@@ -220,30 +199,22 @@ Inicjalizacja: przy tworzeniu `typy` — dodaj wpis dla kazdego z 23 typow z `po
 
 ### Aktualizacja po kazdym cwiczeniu
 
-Zapisuj do `historia`:
-```json
-{
-  "id": "20.3",
-  "data": "2026-02-13",
-  "wynik": "poprawne_bez_pomocy",
-  "czas_hintow": 0
-}
-```
-
 Wynik to jedno z: `poprawne_bez_pomocy` | `poprawne_z_pomoca` | `walk_through`
 
 - `poprawne_bez_pomocy`: odpowiedz poprawna bez zadnego hintu
 - `poprawne_z_pomoca`: odpowiedz poprawna po 1-3 hintach
 - `walk_through`: uczen nie rozwiazal (poddal sie / 3 bledne proby)
 
-Zawsze dodaj id cwiczenia do `typy[typ].zrobione`.
+Zawsze:
+1. Dodaj id cwiczenia do `typy[typ].zrobione`
+2. Inkrementuj `cwiczenia_lacznie += 1`
 
 ### Progresja trudnosci
 
 - **Awans**: 3 `poprawne_bez_pomocy` z rzedu w typie (min. 1 na "srednie"+) → poziom wyzej
 - **Cofniecie**: `walk_through` → cofnij `poziom_trudnosci` o 1 stopien (min. "latwe")
 - Poziomy: `latwe` → `srednie` → `srednie-trudne` → `trudne`
-- **Awans na `trudne`**: dodatkowo odblokuj sprawdzian typu (sekcja H3) — wyswietl komunikat
+- **Awans na `trudne`**: dodatkowo odblokuj sprawdzian typu (sekcja H2) — wyswietl komunikat
 
 ### Kara per TAG (nie per typ)
 
@@ -255,8 +226,12 @@ Kazde cwiczenie ma pole `tagi` (lista). Aktualizuj KAZDY tag z cwiczenia:
 
 Jesli tag nie istnieje w `tagi` — dodaj go z `poziom: 0`.
 
-Tag z `poziom >= 4` dodaj do `tagi_opanowane`.
-Tag z `poziom <= 1` po `walk_through` dodaj do `tagi_problematyczne`.
+### Klasyfikacja tagow (dla komendy `status`)
+
+- **Opanowane**: tagi z `poziom >= 4`
+- **Problematyczne**: tagi z `poziom <= 1` (po co najmniej 1 cwiczeniu z tym tagiem)
+
+Obliczaj na biezaco z `progress.tagi` — nie przechowuj osobnych list.
 
 ### Interwaly czasowe (daty ISO)
 
@@ -270,26 +245,13 @@ Tag z `poziom <= 1` po `walk_through` dodaj do `tagi_problematyczne`.
 
 Daty liczymy od DZIS (nie od daty ostatniej powtorki).
 
-### Naliczanie XP
+### Backup progress.json
 
-Po kazdym cwiczeniu:
-1. Oblicz baze XP wg trudnosci cwiczenia (tabela w sekcji J)
-2. Zastosuj mnoznik wyniku (sekcja J)
-3. Jesli `poprawne_bez_pomocy`: `sesja_combo += 1`, oblicz combo_mnoznik (sekcja J)
-4. Jesli inny wynik: `sesja_combo = 0`
-5. Jesli cwiczenie powtorkowe: dodaj +5 XP bonus
-6. `XP = floor(baza * mnoznik_wyniku * combo_mnoznik) + bonus_powtorka`
-7. Dodaj XP do `progress.xp`
-8. Sprawdz range (sekcja J) — jesli zmiana, wyswietl awans
-9. Sprawdz osiagniecia (sekcja J)
-
-### Rangi
-
-Po kazdym naliczeniu XP porownaj `progress.xp` z tabela rang (sekcja J). Jesli ranga sie zmienila, zaktualizuj `progress.ranga` i wyswietl komunikat awansu.
-
-### Daily streak
-
-Aktualizacja na poczatku sesji — logika w sekcji J. Zapisz zaktualizowane wartosci do `progress.daily_streak`.
+Przed kazdym zapisem progress.json wykonaj backup:
+```bash
+cp {PROGRESS} {BASE}/matura_progress.backup.json
+```
+Jesli progress.json uszkodzony — przywroc z backupu.
 
 ## H. Komendy ucznia
 
@@ -302,72 +264,15 @@ W trakcie sesji uczen moze wpisac poniższe komendy ale też rozmawiać naturaln
 | `wyjasniej [temat]` | Sokratejskie wyjasnienie z odpowiedniego cheatsheet |
 | `nastepny` / `dalej` | Zapisz biezace cwiczenie (jesli nie zapisano), przejdz do nastepnego |
 | `zmien temat` | Wyswietl 4 kategorie + 23 typy, uczen wybiera |
-| `podsumowanie` | Postep w biezacej sesji: ile cwiczen, wyniki, serie, XP zdobyte w sesji, combo, nowe osiagniecia |
+| `podsumowanie` | Postep w biezacej sesji: ile cwiczen, wyniki |
 | `strategia` | Porady egzaminacyjne z `podczas_egzaminu.md` |
 | `powtorka` | Pokaz zaleglosci powtorkowe (tagi z `nastepna_powtorka <= dzis`) |
-| `status` | Pelny raport: ranga, XP (z progresem do nastepnej rangi), daily streak, per blok (poziomy, zrobione/wszystkie), tagi opanowane/problematyczne, osiagniecia odblokowane |
-| `osiagniecia` | Lista wszystkich 20 osiagniec: odblokowane (z data) + zablokowane (z warunkiem) |
-| `radiografia` | Analiza statystyczna: ROI typow zadan, mocne/slabe strony vs czestotliwosc CKE |
+| `status` | Per blok: typy/poziomy/zrobione, tagi opanowane/problematyczne |
 | `sprawdzian [typ]` | Prawdziwe zadanie CKE z archiwum jako test mistrzostwa (odblokowane po osiagnieciu `trudne`) |
 | `probna [rok]` | Symulacja pelnego egzaminu maturalnego z wybranego roku pod presja czasu |
 | `pulapki [typ\|kategoria]` | Tryb quizowy: rozpoznawanie pulapek CKE z prawdziwych egzaminow |
 
-## H2. Komenda "radiografia" — analiza statystyczna i rekomendacje
-
-### Wyzwalanie
-
-Komenda `radiografia` (lub `statystyki`, `analiza`). Bez argumentow = pelna analiza. Opcjonalnie: `radiografia IMPLEMENTACJA` — tylko dany blok.
-
-### Zrodla danych
-
-1. **`{RANKING_CSV}`** (~1.5KB) — macierz czestotliwosci: 23 typy × 11 lat + laczne punkty. Czytaj w calosci (maly plik).
-2. **`{PROGRESS}`** — postep ucznia: `typy[typ].poziom_trudnosci`, `typy[typ].zrobione`, `historia`.
-
-### Algorytm
-
-1. Przeczytaj `{RANKING_CSV}` i `{PROGRESS}`
-2. Dla kazdego z 23 typow oblicz:
-   - **Waga CKE** = `Laczne_pkt` z CSV (ile punktow laczne za typ na 11 egzaminach)
-   - **Poziom ucznia** = `typy[typ].poziom_trudnosci` z progressu (`latwe`=1, `srednie`=2, `srednie-trudne`=3, `trudne`=4; brak wpisu=0)
-   - **Zrobione** = dlugosc `typy[typ].zrobione`
-   - **ROI** = `Waga_CKE * (4 - Poziom_ucznia)` — im wiecej punktow CKE i im nizszy poziom ucznia, tym wyzsze ROI
-3. Posortuj typy po ROI malejaco
-
-### Wyswietlanie
-
-```
-=== RADIOGRAFIA EGZAMINACYJNA ===
-
-TOP 5 — najwiekszy zwrot z nauki:
- 1. sql_group_by       | CKE: 36 pkt (8/11 lat) | Twoj poziom: latwe    | ROI: ████████░░ 108
- 2. arkusz_symulacja   | CKE: 37 pkt (9/11 lat) | Twoj poziom: srednie  | ROI: ██████░░░░  74
- ...
-
-Per kategoria:
-  TEORIA (164 pkt na CKE):
-    sledzenie_algorytmu    — Twoj: srednie (3 zrobione) ██░░
-    projektowanie_algorytmu — Twoj: latwe (0 zrobione) █░░░
-    ...
-  IMPLEMENTACJA (147 pkt na CKE):
-    ...
-  ARKUSZ (112 pkt na CKE):
-    ...
-  SQL (92 pkt na CKE):
-    ...
-
-Rekomendacja: Skup sie na sql_group_by i arkusz_symulacja — lacznie 73 pkt na CKE, a Twoj poziom jest niski.
-```
-
-Pasek postępu: `█` za kazdy osiagniety poziom (max 4), `░` za brakujace.
-
-### Rekomendacja
-
-Na koniec wygeneruj 1-2 zdania rekomendacji:
-- Znajdz 2-3 typy z najwyzszym ROI
-- Jesli uczen ma typ na `trudne` a typ ma malo punktow CKE — pochwal ale zasugeruj przesuniecie uwagi
-- Jesli uczen nie ruszyl typow z TIER 1 (>30 pkt lacznie) — ostrzez priorytetowo
-
-## H3. Sprawdzian typu — prawdziwe zadania CKE
+## H2. Sprawdzian typu — prawdziwe zadania CKE
 
 ### Cel
 
@@ -455,11 +360,6 @@ Pulapki CKE w tym zadaniu:
 
 Wynik: `poprawne_bez_pomocy` (pelne pkt), `poprawne_z_pomoca` (czesciowe pkt), `walk_through` (0 pkt).
 
-Zapisz do `historia` z ID w formacie CKE:
-```json
-{ "id": "2024.3.1", "data": "2026-02-14", "wynik": "poprawne_bez_pomocy", "czas_hintow": 0, "zrodlo": "matura" }
-```
-
 Zapisz ID do `matura_zrobione`:
 ```json
 {
@@ -470,15 +370,13 @@ Zapisz ID do `matura_zrobione`:
 }
 ```
 
-XP: bazowe jak za `trudne` (50 XP), mnoznik wyniku jak w sekcji J, combo sie liczy. Bonus +10 XP za sprawdzian (zamiast +5 za powtorke).
-
 ### Zarzadzanie kontekstem
 
 - `{MATURA_INDEKS}`: TYLKO Grep, nigdy czytaj w calosci (75KB)
 - `{MATURA_JSON}`: czytaj JEDEN plik na raz (33-46KB) — zajmuje slot JSON-a z sekcji I
 - Kontekst zadania nadrzednego (`kontekst`) jest juz w pliku — nie trzeba dodatkowych odczytow
 
-## H4. Probna matura — symulacja egzaminu
+## H3. Probna matura — symulacja egzaminu
 
 ### Cel
 
@@ -594,7 +492,7 @@ Gdzie `{status}` to: `v` (pelne pkt), `~` (czesciowe), `x` (0 pkt), `-` (pominie
 ### Pelne rozwiazania
 
 Po podsumowaniu zapytaj: "Chcesz zobaczyc pelne rozwiazania? (tak / konkretne zadanie / nie)"
-- **tak**: wyswietl `odpowiedz` i `zasady_oceniania` dla kazdego podzadania
+- **tak**: wyswietlaj rozwiazania po 3 zadania na raz. Po kazdej porcji pytaj: "Dalej? (tak / konkretne zadanie / nie)"
 - **numer** (np. "1.2"): tylko to podzadanie
 - **nie**: zakoncz
 
@@ -618,9 +516,7 @@ Zapisz do `probne_matury`:
 }
 ```
 
-Kazde podzadanie zapisz tez do `historia` (z `"zrodlo": "probna_matura"`) i `matura_zrobione` (jak w H3).
-
-XP za probna mature: suma XP za kazde podzadanie (bazowe wg inferowanej trudnosci z punktow CKE: 1pkt=latwe, 2pkt=srednie, 3pkt=srednie-trudne, 4+pkt=trudne) + bonus **+25 XP** za ukonczenie calej probnej (nie przerwano). Combo NIE dziala w trybie probnej.
+Kazde podzadanie zapisz tez do `matura_zrobione` (jak w H2).
 
 ### Zarzadzanie kontekstem
 
@@ -628,7 +524,7 @@ XP za probna mature: suma XP za kazde podzadanie (bazowe wg inferowanej trudnosc
 - **NIE** czytaj cheatsheetow ani szablonow w trakcie probnej (symulacja egzaminu)
 - Po zakonczeniu — zwolnij slot JSON-a
 
-## H5. Pulapki CKE — tryb rozpoznawania pulapek
+## H4. Pulapki CKE — tryb rozpoznawania pulapek
 
 ### Cel
 
@@ -700,8 +596,6 @@ Zapisz do `pulapki_przejrzane`:
 }
 ```
 
-XP: +5 XP za kazde zadanie w trybie quizowym (niezaleznie od trafien). Bonus +5 XP jesli uczen zidentyfikowal wszystkie pulapki w zadaniu. Combo NIE dziala w trybie pulapek.
-
 ### Zarzadzanie kontekstem
 
 - Czytaj JEDEN `matura_YYYY.json` na raz — lub uzyj Grep jesli potrzebujesz pulapek z wielu lat
@@ -711,134 +605,26 @@ XP: +5 XP za kazde zadanie w trybie quizowym (niezaleznie od trafien). Bonus +5 
 
 Zasady minimalizacji zuzycia kontekstu:
 
-1. **Exercise JSON**: czytaj JEDEN plik na raz (ten z ktorego bierzesz cwiczenie)
-2. **Cheatsheets** (~4KB): mozna czytac w calosci, ale tylko jeden na raz
-3. **Szablony** (15-27KB): NIGDY w calosci — Grep po naglowku sekcji, potem Read max 50 linii
-4. **strategia_egzaminacyjna.md** (46KB): NIGDY — uzywaj `podczas_egzaminu.md` (~4KB)
-5. **Progress**: czytaj na starcie sesji, zapisuj po kazdym cwiczeniu
-6. **Ranking CSV** (~1.5KB): mozna czytac w calosci (maly plik), uzywany przez `radiografia`
-7. **Matura JSON** (33-46KB): czytaj JEDEN `matura_YYYY.json` na raz — zajmuje slot JSON-a (zamiast cwiczen)
-8. **Matura indeks** (75KB): NIGDY w calosci — TYLKO Grep po `typ_zadania` lub `id`
-9. **Zasada ogolna**: max 1 JSON (cwiczen LUB matura) + 1 cheatsheet + progress w kontekscie jednoczesnie
+1. **Exercise _meta.json** (~2KB): czytaj zeby wybrac cwiczenie
+2. **Exercise {id}.json** (~3-5KB): czytaj JEDNO cwiczenie na raz
+3. **Cheatsheets** (~4KB): mozna czytac w calosci, ale tylko jeden na raz
+4. **Szablony** (15-27KB): NIGDY w calosci — Grep po naglowku sekcji, potem Read max 50 linii
+5. **strategia_egzaminacyjna.md** (46KB): NIGDY — uzywaj `podczas_egzaminu.md` (~4KB)
+6. **Progress**: czytaj na starcie sesji, zapisuj po kazdym cwiczeniu
+7. **Ranking CSV** (~1.5KB): mozna czytac w calosci (maly plik)
+8. **Matura JSON** (33-46KB): czytaj JEDEN `matura_YYYY.json` na raz — zajmuje slot JSON-a (zamiast cwiczen)
+9. **Matura indeks** (75KB): NIGDY w calosci — TYLKO Grep po `typ_zadania` lub `id`
+10. **Zasada ogolna**: max 1 _meta + 1 cwiczenie + 1 cheatsheet + progress w kontekscie jednoczesnie
 
-## J. System grywalizacji
+### Reset kontekstu
 
-### System XP
-
-#### Bazowe XP za cwiczenie (wg trudnosci)
-
-| Trudnosc | Baza XP |
-|----------|---------|
-| latwe | 10 |
-| srednie | 20 |
-| srednie-trudne | 35 |
-| trudne | 50 |
-
-#### Mnozniki wyniku
-
-| Wynik | Mnoznik |
-|-------|---------|
-| poprawne_bez_pomocy | x1.0 |
-| poprawne_z_pomoca | x0.5 |
-| walk_through | 0 XP |
-
-#### Combo w sesji
-
-Kolejne `poprawne_bez_pomocy` w jednej sesji buduja combo (pole `sesja_combo` w progress.json):
-- 1. poprawne: x1.0
-- 2. z rzedu: x1.5
-- 3. z rzedu: x2.0
-- 4+ z rzedu: x2.5 (max)
-
-Combo resetuje sie na: `poprawne_z_pomoca` lub `walk_through`.
-Na start sesji: `sesja_combo = 0`.
-
-#### Bonus za powtorke
-
-Cwiczenie powtorkowe (z tagow z `nastepna_powtorka <= dzis`): +5 XP bonus.
-
-#### Formula
-
+Po **8 cwiczeniach** w sesji wyswietl mini-podsumowanie i zasugeruj reset:
 ```
-XP = floor(baza_trudnosci * mnoznik_wyniku * combo_mnoznik) + bonus_powtorka
+Swietna sesja — 8 cwiczen! Poprawne: N, z pomoca: M.
+Twoj postep jest zapisany. Wpisz /clear a potem /matura — wroce dokladnie tam, gdzie skonczylismy.
 ```
+Komunikat pojawia sie co 8 cwiczen (8, 16, 24...). Uczen moze go zignorowac, ale wtedy jakosc korepetycji moze sie stopniowo obnizac.
 
-### Rangi
+Reset kontekstu NIE dotyczy trybow specjalnych: probna matura (H3), sprawdzian (H2), pulapki (H4).
+W tych trybach kontekst jest zarzadzany osobno (patrz sekcje H2-H4).
 
-| Min XP | Ranga |
-|--------|-------|
-| 0 | Nowicjusz |
-| 50 | Uczen |
-| 150 | Praktykant |
-| 350 | Adept |
-| 600 | Kandydat |
-| 1000 | Maturzysta |
-| 1500 | Ekspert |
-| 2500 | Mistrz |
-
-Po kazdym naliczeniu XP — sprawdz czy ranga sie zmienila. Jesli tak, wyswietl:
-```
-*** AWANS! Nowa ranga: {ranga} ***
-```
-
-### Daily streak
-
-Na poczatku sesji (sekcja C):
-1. Odczytaj `daily_streak.ostatni_dzien`
-2. Jesli `ostatni_dzien == dzis` — nic nie rob (sesja juz liczona)
-3. Jesli `ostatni_dzien == wczoraj` — `aktualny += 1`
-4. Jesli `ostatni_dzien` to wczesniej niz wczoraj (lub null) — `aktualny = 1`
-5. Zaktualizuj `najdluzszy = max(najdluzszy, aktualny)`
-6. Ustaw `ostatni_dzien = dzis`
-
-### Osiagniecia
-
-Po kazdym cwiczeniu i na starcie sesji — sprawdz warunki osiagniec jeszcze nie odblokowanych. Jesli nowe osiagniecie odblokowane, wyswietl:
-```
->>> Osiagniecie odblokowane: {nazwa}! (+{xp_bonus} XP) <<<
-{opis}
-```
-XP za osiagniecie dodawane do lacznego XP (moze tez wywolac awans rangi).
-
-#### Lista osiagniec
-
-| ID | Nazwa | Warunek | Bonus XP |
-|----|-------|---------|----------|
-| first_step | Pierwszy krok | Ukonczenie 1. cwiczenia | 10 |
-| streak_3 | Trzy z rzedu | 3 poprawne bez pomocy z rzedu w sesji | 15 |
-| streak_5 | Piatka! | 5 poprawne bez pomocy z rzedu w sesji | 25 |
-| streak_10 | Niepokonany | 10 poprawne bez pomocy z rzedu w sesji | 50 |
-| daily_3 | Wytrwaly | 3 dni nauki z rzedu | 20 |
-| daily_7 | Tygodniowy maraton | 7 dni nauki z rzedu | 50 |
-| daily_14 | Zelazna dyscyplina | 14 dni nauki z rzedu | 100 |
-| all_blocks | Renesansowy umysl | Cwiczenie z kazdej z 4 kategorii | 30 |
-| first_medium | Powyzej podstaw | 1. cwiczenie na poziomie "srednie" | 15 |
-| first_hard | Twardziel | 1. cwiczenie na poziomie "trudne" | 30 |
-| ten_exercises | Pierwsza dziesiatka | 10 cwiczen ukonczone | 20 |
-| fifty_exercises | Polowka | 50 cwiczen ukonczone | 75 |
-| tag_mastered | Pierwszy tag opanowany | 1. tag z poziomem 4 | 25 |
-| five_tags_mastered | Piec opanowanych | 5 tagow z poziomem 4 | 50 |
-| review_done | Powtorkowy uczen | 1. cwiczenie powtorkowe | 15 |
-| ten_reviews | Mistrz powtorki | 10 cwiczen powtorkowych | 40 |
-| sql_all_types | SQL kompletny | Cwiczenie z kazdego z 4 typow SQL | 25 |
-| cpp_all_types | C++ kompletny | Cwiczenie z kazdego z 8 typow IMPLEMENTACJA | 40 |
-| perfect_session_5 | Idealna sesja | 5+ cwiczen w sesji, wszystkie bez pomocy | 35 |
-| comeback | Powrot do gry | Sesja po >= 3 dniach przerwy | 10 |
-
-#### Sprawdzanie warunkow
-
-- **first_step**: `len(historia) >= 1`
-- **streak_3/5/10**: `sesja_combo >= 3/5/10`
-- **daily_3/7/14**: `daily_streak.aktualny >= 3/7/14`
-- **all_blocks**: historia zawiera cwiczenia z typow 01-06 (TEORIA) ORAZ 07-14 (IMPL) ORAZ 15-19 (ARKUSZ) ORAZ 20-23 (SQL)
-- **first_medium**: jakiekolwiek cwiczenie o trudnosci "srednie" w historii
-- **first_hard**: jakiekolwiek cwiczenie o trudnosci "trudne" w historii
-- **ten_exercises/fifty_exercises**: `len(historia) >= 10/50`
-- **tag_mastered**: `len(tagi_opanowane) >= 1`
-- **five_tags_mastered**: `len(tagi_opanowane) >= 5`
-- **review_done**: historia zawiera cwiczenie ktore bylo powtorka (id juz wczesniej w historia)
-- **ten_reviews**: >= 10 takich cwiczen w historii
-- **sql_all_types**: historia zawiera cwiczenia z typow 20, 21, 22, 23
-- **cpp_all_types**: historia zawiera cwiczenia z typow 07, 08, 09, 10, 11, 12, 13, 14
-- **perfect_session_5**: na koniec sesji >= 5 cwiczen i wszystkie `poprawne_bez_pomocy`
-- **comeback**: `daily_streak.ostatni_dzien` byl >= 3 dni temu (sprawdzane na starcie sesji)
