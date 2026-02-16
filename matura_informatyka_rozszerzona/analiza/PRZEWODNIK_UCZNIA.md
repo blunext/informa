@@ -3,7 +3,7 @@
 > Ten dokument to Twoj punkt startu. Masz przed soba kompletny zestaw
 > materialow do nauki, oparty na analizie 11 lat prawdziwych egzaminow CKE
 > (2014-2025). Znajdziesz tu arkusze egzaminacyjne, sciagawki, szablony kodu,
-> 115 cwiczen i rozwiazania wzorcowe. Wszystko poukładane tak, zebys nie tracil
+> 310 cwiczen i rozwiazania wzorcowe. Wszystko poukładane tak, zebys nie tracil
 > czasu na szukanie — tylko na nauke.
 >
 > Przeczytaj ten przewodnik od poczatku do konca (10-15 minut). Potem zacznij
@@ -112,12 +112,16 @@ Katalog `analiza/szablony/` — gotowy kod do skopiowania i modyfikacji.
 | `wzorce_2014.md` | Wzorce specyficzne dla matury 2014 |
 | `wzorce_2015.md` | Wzorce specyficzne dla matury 2015 |
 
-### Cwiczenia (23 pliki, 115 cwiczen)
+### Cwiczenia (310 cwiczen w 23 typach)
 
-Katalog `analiza/cwiczenia/wg_typu/` — po 5 cwiczen na kazdy typ zadania
-maturalnego. Kazdy plik ma uklad: 2 latwe + 2 srednie + 1 trudne.
+Katalog `analiza/cwiczenia/json/` — 10-20 cwiczen na kazdy typ zadania
+maturalnego, w formacie JSON z 3-poziomowymi hintami i tagami umiejetnosci.
 
-Pelna lista z priorytetami w `analiza/cwiczenia/wg_typu/README.md`.
+Najwygodniej korzystac przez korepetytora `/matura` — automatycznie dobiera
+trudnosc, prowadzi powtorki rozlozone w czasie i sledzi postep.
+
+Stare pliki MD w `analiza/cwiczenia/wg_typu/` wciaz istnieja, ale system JSON
+je zastapil. Pelna lista z priorytetami w `analiza/cwiczenia/wg_typu/README.md`.
 
 Najwazniejsze pliki (posortowane wg punktow na maturach):
 
@@ -167,7 +171,9 @@ z procesom myslowym: tresc --> podejscie --> kod --> weryfikacja --> pulapki.
 
 **Tydzien 2 — Cwiczenia (najczestsze typy)**
 
-Rob cwiczenia z katalogu `analiza/cwiczenia/wg_typu/` w tej kolejnosci:
+Zalecana sciezka: wpisz `/matura` — korepetytor sam dobierze cwiczenia do
+Twojego poziomu, da hinty i bedzie sledzil postep. Mozesz tez robic cwiczenia
+recznie z katalogu `analiza/cwiczenia/wg_typu/` w tej kolejnosci:
 
 1. `01_sledzenie_algorytmu.md` — sledzenie (45 pkt lacznie na maturach)
 2. `02_projektowanie_algorytmu.md` — projektowanie (43 pkt)
@@ -219,12 +225,17 @@ Nie masz czasu na wszystko. Skup sie na tym, co da najwiecej punktow:
 
 ## 5. Jak korzystac z poszczegolnych materialow
 
-### Cwiczenia (`analiza/cwiczenia/wg_typu/`)
+### Cwiczenia (310 cwiczen w 23 typach)
 
-Kazdy plik to 5 cwiczen: 2 latwe, 2 srednie, 1 trudne. Pod kazdym cwiczeniem
-jest rozwiazanie (rozwin "Odpowiedz").
+Baza cwiczen zawiera 310 zadan (10-20 na typ) z 3-poziomowymi hintami, tagami
+umiejetnosci i wzorcowymi odpowiedziami. Cwiczenia sa w formacie JSON
+w katalogu `analiza/cwiczenia/json/`.
 
-Zasady pracy:
+**Zalecana sciezka**: wpisz `/matura` — korepetytor automatycznie dobiera
+trudnosc, daje hinty metoda sokratejska i prowadzi powtorki rozlozone w czasie.
+Nie musisz recznie wybierac cwiczen ani szukac plikow.
+
+Zasady pracy (niezaleznie od metody):
 - Zawsze najpierw rozwiaz sam — na kartce albo w IDE. Dopiero potem sprawdz.
 - Latwe cwiczenia powinny zajac 3-5 minut. Jesli zajmuja dluzej, wroc do
   odpowiedniego cheatsheet'a i powtorz teorie.
@@ -353,7 +364,11 @@ Jesli nie wiesz od czego zaczac, zrob dokladnie to:
 1. Otworz `analiza/strategia_egzaminacyjna.md` i przeczytaj rozdzialy 1-6.
 2. Otworz `analiza/drzewo_decyzyjne.md` i przejrzyj schemat.
 3. Wydrukuj 4 sciagawki z `analiza/cheatsheets/`.
-4. Zacznij cwiczenia od pliku `analiza/cwiczenia/wg_typu/01_sledzenie_algorytmu.md`.
+4. Wpisz `/matura` — korepetytor poprowadzi Cie sam: dobierze cwiczenia,
+   da hinty i bedzie sledzil Twoj postep.
+
+Alternatywnie, mozesz zaczac recznie od pliku
+`analiza/cwiczenia/wg_typu/01_sledzenie_algorytmu.md`.
 
 Nie probuj ogarnac wszystkiego naraz. Jeden typ zadania dziennie to wystarczy,
 zeby w 2-3 tygodnie byc gotowym na egzamin.
@@ -362,4 +377,18 @@ zeby w 2-3 tygodnie byc gotowym na egzamin.
 
 ## 9. Interaktywny korepetytor
 
-Masz do dyspozycji interaktywnego korepetytora AI — wpisz `/matura` zeby zaczac sesje. Korepetytor dobiera cwiczenia do Twojego poziomu, daje hinty, prowadzi sprawdziany i probne matury. Pelny opis trybow i komend: patrz `JAK_UZYWAC_KOREPETYTORA.md`.
+Masz do dyspozycji interaktywnego korepetytora AI — wpisz `/matura` zeby zaczac
+sesje. Co oferuje:
+
+- **310 cwiczen** z 23 typow zadan (10-20 na typ) z 3-poziomowymi hintami
+- **230 prawdziwych zadan CKE** z 11 lat egzaminow (sprawdziany typu)
+- **11 probnych matur** — pelna symulacja egzaminu z ocena wg zasad CKE
+- **Spaced repetition** — automatyczne powtorki rozlozone w czasie (1/3/7/21 dni)
+- **Auto-trudnosc** — poziom rosnie z kazdym sukcesem, spada po porazce
+- **Metoda sokratejska** — naprowadza pytaniami, nie podaje gotowych odpowiedzi
+- **Tryb pulapek CKE** — trening rozpoznawania typowych pulapek egzaminacyjnych
+
+Postep zapisuje sie automatycznie — mozesz przerwac i wrocic w dowolnym
+momencie.
+
+Pelny opis trybow i komend: patrz `JAK_UZYWAC_KOREPETYTORA.md`.

@@ -27,7 +27,7 @@ To glowny tryb pracy. Korepetytor wybiera cwiczenia dopasowane do Twojego
 poziomu i prowadzi Cie metoda sokratejska — nie podaje gotowych odpowiedzi,
 tylko naprowadza pytaniami.
 
-- **270 cwiczen** z 23 typow zadan, pogrupowanych w 4 kategorie
+- **310 cwiczen** z 23 typow zadan, pogrupowanych w 4 kategorie
 - **System hintow** — 3 poziomy wskazowek:
   - Poziom 1: pytanie sokratejskie naprowadzajace na poprawny tok myslenia
   - Poziom 2: cytat z odpowiedniej sciagawki + konkretne pojecie
@@ -190,7 +190,7 @@ rozmawiac naturalnie — korepetytor zrozumie.
 ## FAQ
 
 **Jak zresetowac postep?**
-Usun plik `analiza/matura_progress.json`. Przy nastepnym uruchomieniu `/matura`
+Usun plik `analiza/cli/matura_progress.db`. Przy nastepnym uruchomieniu `/matura`
 korepetytor zacznie od zera.
 
 **Co jesli cwiczenia sie skoncza?**
