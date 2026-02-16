@@ -9,7 +9,7 @@ import (
 	_ "modernc.org/sqlite"
 )
 
-const currentSchemaVersion = 2
+const currentSchemaVersion = 3
 
 // OpenDB opens progress DB as main, attaches matura.db as "data" read-only.
 func OpenDB(dbDir string) (*sql.DB, error) {
@@ -68,6 +68,7 @@ func CreateDataSchema(db *sql.DB) error {
 	DROP TABLE IF EXISTS cwiczenia;
 	DROP TABLE IF EXISTS egzamin;
 	DROP TABLE IF EXISTS cheatsheets;
+	DROP TABLE IF EXISTS benchmarki;
 
 	CREATE TABLE cwiczenia (
 		id TEXT PRIMARY KEY,
@@ -105,6 +106,12 @@ func CreateDataSchema(db *sql.DB) error {
 	CREATE TABLE cheatsheets (
 		kategoria TEXT PRIMARY KEY,
 		content TEXT
+	);
+
+	CREATE TABLE benchmarki (
+		typ TEXT PRIMARY KEY,
+		benchmark_sek INTEGER,
+		zrodlo TEXT
 	);
 
 	CREATE INDEX idx_cwiczenia_typ ON cwiczenia(typ_nazwa, trudnosc);
@@ -167,7 +174,18 @@ func createProgressSchema(db *sql.DB) error {
 		id TEXT PRIMARY KEY,
 		typ TEXT,
 		data TEXT,
-		wynik TEXT
+		wynik TEXT,
+		czas_sek INTEGER
+	);
+
+	CREATE TABLE IF NOT EXISTS progress_bledy (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		exercise_id TEXT NOT NULL,
+		typ TEXT NOT NULL,
+		blad_kod TEXT NOT NULL,
+		blad_opis TEXT,
+		hint_level INTEGER DEFAULT 0,
+		data TEXT NOT NULL
 	);
 
 	CREATE TABLE IF NOT EXISTS progress_tagi (
@@ -206,6 +224,8 @@ func createProgressSchema(db *sql.DB) error {
 
 	CREATE INDEX IF NOT EXISTS idx_tagi_powtorka ON progress_tagi(nastepna_powtorka);
 	CREATE INDEX IF NOT EXISTS idx_pulapki_typ ON pulapki_przejrzane(typ);
+	CREATE INDEX IF NOT EXISTS idx_bledy_kod ON progress_bledy(blad_kod);
+	CREATE INDEX IF NOT EXISTS idx_bledy_typ ON progress_bledy(typ);
 	`
 	_, err := db.Exec(schema, currentSchemaVersion)
 	return err
@@ -227,6 +247,20 @@ var migrations = []Migration{
 			total INTEGER
 		);
 		CREATE INDEX IF NOT EXISTS idx_pulapki_typ ON pulapki_przejrzane(typ);
+	`},
+	{Version: 3, SQL: `
+		ALTER TABLE progress_zrobione ADD COLUMN czas_sek INTEGER;
+		CREATE TABLE IF NOT EXISTS progress_bledy (
+			id INTEGER PRIMARY KEY AUTOINCREMENT,
+			exercise_id TEXT NOT NULL,
+			typ TEXT NOT NULL,
+			blad_kod TEXT NOT NULL,
+			blad_opis TEXT,
+			hint_level INTEGER DEFAULT 0,
+			data TEXT NOT NULL
+		);
+		CREATE INDEX IF NOT EXISTS idx_bledy_kod ON progress_bledy(blad_kod);
+		CREATE INDEX IF NOT EXISTS idx_bledy_typ ON progress_bledy(typ);
 	`},
 }
 

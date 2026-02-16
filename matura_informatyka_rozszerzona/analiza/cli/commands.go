@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"sort"
 	"strings"
 	"time"
 
@@ -35,6 +36,53 @@ func exitError(msg string) {
 func db() *sql.DB { return mainDB }
 
 // === helpers ===
+
+func calculateTempo(elapsed, benchmark int) string {
+	if benchmark <= 0 {
+		return ""
+	}
+	ratio := float64(elapsed) / float64(benchmark)
+	switch {
+	case ratio < 0.6:
+		return "szybko"
+	case ratio <= 1.2:
+		return "ok"
+	case ratio <= 2.0:
+		return "wolno"
+	default:
+		return "za_wolno"
+	}
+}
+
+func exerciseTypToCKETypes(typ, kat string) []string {
+	switch kat {
+	case "ARKUSZ":
+		return []string{"arkusz_" + typ}
+	case "IMPLEMENTACJA":
+		if typ == "geometryczne" {
+			return []string{"obliczenia_" + typ}
+		}
+		return []string{"przetwarzanie_" + typ}
+	default:
+		return []string{typ} // SQL i TEORIA — bez prefiksu
+	}
+}
+
+func placeholders(n int) string {
+	ph := make([]string, n)
+	for i := range ph {
+		ph[i] = "?"
+	}
+	return strings.Join(ph, ",")
+}
+
+func toAny(ss []string) []any {
+	a := make([]any, len(ss))
+	for i, s := range ss {
+		a[i] = s
+	}
+	return a
+}
 
 const exerciseColumns = `c.id, c.typ_nazwa, c.kategoria, c.trudnosc, c.punkty, c.zrodlo, c.tagi, c.tresc, c.wskazowki, c.odpowiedz, c.typowe_bledy`
 
@@ -295,6 +343,7 @@ func exerciseReviewCmd() *cobra.Command {
 
 func progressUpdateCmd() *cobra.Command {
 	var id, wynik string
+	var czas int
 
 	cmd := &cobra.Command{
 		Use:   "update",
@@ -327,8 +376,12 @@ func progressUpdateCmd() *cobra.Command {
 			json.Unmarshal([]byte(tagiJSON), &tagi)
 
 			// Record done exercise
-			_, err = db().Exec(`INSERT OR REPLACE INTO progress_zrobione (id, typ, data, wynik) VALUES (?, ?, ?, ?)`,
-				id, typNazwa, today, wynik)
+			var czasSekVal *int
+			if czas > 0 {
+				czasSekVal = &czas
+			}
+			_, err = db().Exec(`INSERT OR REPLACE INTO progress_zrobione (id, typ, data, wynik, czas_sek) VALUES (?, ?, ?, ?, ?)`,
+				id, typNazwa, today, wynik, czasSekVal)
 			if err != nil {
 				exitError(fmt.Sprintf("save progress: %v", err))
 			}
@@ -370,12 +423,29 @@ func progressUpdateCmd() *cobra.Command {
 				TagsUpdated:     tagi,
 				NextReviewDates: nextReviewDates,
 			}
+
+			// Time tracking
+			if czas > 0 {
+				out.CzasSek = &czas
+				var benchmarkSek sql.NullInt64
+				db().QueryRow("SELECT benchmark_sek FROM data.benchmarki WHERE typ = ?", typNazwa).Scan(&benchmarkSek)
+				if benchmarkSek.Valid {
+					b := int(benchmarkSek.Int64)
+					out.BenchmarkSek = &b
+					tempo := calculateTempo(czas, b)
+					if tempo != "" {
+						out.Tempo = &tempo
+					}
+				}
+			}
+
 			jsonOut(out)
 		},
 	}
 
 	cmd.Flags().StringVar(&id, "id", "", "Exercise ID (e.g. 7.3)")
 	cmd.Flags().StringVar(&wynik, "wynik", "", "Result: poprawne_bez_pomocy, poprawne_z_pomoca_1, poprawne_z_pomoca_2, walk_through")
+	cmd.Flags().IntVar(&czas, "czas", 0, "Time spent in seconds")
 	return cmd
 }
 
@@ -497,6 +567,31 @@ func progressStatusCmd() *cobra.Command {
 				out.PerTyp = []TypStatusOut{}
 			}
 
+			// Enrich per-typ with avg_czas_sek and benchmark
+			avgCzasMap := map[string]int{}
+			avgRows, _ := db().Query(`SELECT typ, CAST(AVG(czas_sek) AS INTEGER) FROM progress_zrobione WHERE czas_sek IS NOT NULL GROUP BY typ`)
+			if avgRows != nil {
+				for avgRows.Next() {
+					var t string
+					var avg int
+					avgRows.Scan(&t, &avg)
+					avgCzasMap[t] = avg
+				}
+				avgRows.Close()
+			}
+
+			for i := range out.PerTyp {
+				if avg, ok := avgCzasMap[out.PerTyp[i].Typ]; ok {
+					out.PerTyp[i].AvgCzasSek = &avg
+				}
+				var benchSek sql.NullInt64
+				db().QueryRow("SELECT benchmark_sek FROM data.benchmarki WHERE typ = ?", out.PerTyp[i].Typ).Scan(&benchSek)
+				if benchSek.Valid {
+					b := int(benchSek.Int64)
+					out.PerTyp[i].BenchmarkSek = &b
+				}
+			}
+
 			// Per-kategoria aggregation
 			typKatMap := map[string]string{}
 			katRows, _ := db().Query("SELECT DISTINCT typ_nazwa, kategoria FROM data.cwiczenia")
@@ -576,6 +671,117 @@ func progressStatusCmd() *cobra.Command {
 	}
 
 	cmd.Flags().StringVar(&typ, "typ", "", "Filter by type (e.g. sql_group_by)")
+	return cmd
+}
+
+// === progress blad ===
+
+func progressBladCmd() *cobra.Command {
+	var exerciseID, typ, kod, opis string
+	var hint int
+
+	cmd := &cobra.Command{
+		Use:   "blad",
+		Short: "Record an error/mistake for diagnosis",
+		Run: func(cmd *cobra.Command, args []string) {
+			if exerciseID == "" || typ == "" || kod == "" {
+				exitError("--exercise-id, --typ, and --kod are required")
+			}
+
+			// Validate exercise exists
+			var exists int
+			db().QueryRow("SELECT COUNT(*) FROM data.cwiczenia WHERE id = ?", exerciseID).Scan(&exists)
+			if exists == 0 {
+				exitError(fmt.Sprintf("exercise %s not found", exerciseID))
+			}
+
+			today := time.Now().Format("2006-01-02")
+
+			result, err := db().Exec(
+				`INSERT INTO progress_bledy (exercise_id, typ, blad_kod, blad_opis, hint_level, data) VALUES (?, ?, ?, ?, ?, ?)`,
+				exerciseID, typ, kod, opis, hint, today)
+			if err != nil {
+				exitError(fmt.Sprintf("save error: %v", err))
+			}
+
+			lastID, _ := result.LastInsertId()
+			jsonOut(BladOut{
+				ID:         int(lastID),
+				ExerciseID: exerciseID,
+				Typ:        typ,
+				BladKod:    kod,
+				BladOpis:   opis,
+				HintLevel:  hint,
+				Data:       today,
+			})
+		},
+	}
+
+	cmd.Flags().StringVar(&exerciseID, "exercise-id", "", "Exercise ID (e.g. 7.3)")
+	cmd.Flags().StringVar(&typ, "typ", "", "Exercise type")
+	cmd.Flags().StringVar(&kod, "kod", "", "Short error code (e.g. brak_group_by)")
+	cmd.Flags().StringVar(&opis, "opis", "", "Full error description")
+	cmd.Flags().IntVar(&hint, "hint", 0, "Hint level at which error was identified")
+	return cmd
+}
+
+// === progress diagnose ===
+
+func progressDiagnoseCmd() *cobra.Command {
+	var typ string
+	var limit int
+
+	cmd := &cobra.Command{
+		Use:   "diagnose",
+		Short: "Analyze recurring errors",
+		Run: func(cmd *cobra.Command, args []string) {
+			// Get total count first
+			totalQuery := "SELECT COUNT(*) FROM progress_bledy"
+			var totalParams []any
+			if typ != "" {
+				totalQuery += " WHERE typ = ?"
+				totalParams = append(totalParams, typ)
+			}
+			out := DiagnoseOut{}
+			db().QueryRow(totalQuery, totalParams...).Scan(&out.Total)
+
+			query := `SELECT blad_kod, COUNT(*) as cnt,
+				GROUP_CONCAT(DISTINCT typ) as typy,
+				MAX(data) as ostatnio
+				FROM progress_bledy`
+			var params []any
+
+			if typ != "" {
+				query += " WHERE typ = ?"
+				params = append(params, typ)
+			}
+			query += " GROUP BY blad_kod ORDER BY cnt DESC LIMIT ?"
+			params = append(params, limit)
+
+			rows, err := db().Query(query, params...)
+			if err != nil {
+				exitError(fmt.Sprintf("query error: %v", err))
+			}
+			defer rows.Close()
+
+			for rows.Next() {
+				var entry DiagnoseEntry
+				var typyStr string
+				rows.Scan(&entry.BladKod, &entry.Count, &typyStr, &entry.Ostatnio)
+				entry.Typy = strings.Split(typyStr, ",")
+				out.TopBledy = append(out.TopBledy, entry)
+			}
+
+			if out.TopBledy == nil {
+				out.TopBledy = []DiagnoseEntry{}
+			}
+
+			jsonOut(out)
+		},
+	}
+
+	cmd.Flags().StringVar(&typ, "typ", "", "Filter by type")
+	cmd.Flags().IntVar(&limit, "limit", 5, "Max number of error codes to return")
 	return cmd
 }
 
@@ -1064,6 +1270,97 @@ func typIntroCmd() *cobra.Command {
 			out.Available = available
 
 			out.SprawdzianUnlocked = out.Level == "trudne"
+
+			// CKE stats
+			ckeNames := exerciseTypToCKETypes(typ, kat)
+			var ckeStats CKETypStats
+			ckeStats.LatTotal = 11
+			err := db().QueryRow(
+				`SELECT COUNT(DISTINCT rok), COALESCE(AVG(punkty), 0), COALESCE(SUM(punkty), 0)
+				FROM data.egzamin WHERE typ_zadania IN (`+placeholders(len(ckeNames))+`)`,
+				toAny(ckeNames)...).
+				Scan(&ckeStats.Wystapienia, &ckeStats.AvgPunkty, &ckeStats.TotalPunkty)
+			if err == nil && ckeStats.Wystapienia > 0 {
+				out.CKEStats = &ckeStats
+			}
+
+			// Top pulapki — single pass: count + preserve first-seen casing
+			trapRows, _ := db().Query(
+				`SELECT pulapki FROM data.egzamin
+				WHERE typ_zadania IN (`+placeholders(len(ckeNames))+`)
+				AND pulapki != '[]' AND pulapki != 'null'`, toAny(ckeNames)...)
+			if trapRows != nil {
+				type pulapkaEntry struct {
+					Original string
+					Count    int
+				}
+				pulapkiMap := map[string]*pulapkaEntry{} // lowercase -> entry
+
+				for trapRows.Next() {
+					var pJSON string
+					trapRows.Scan(&pJSON)
+					var pulapki []string
+					json.Unmarshal([]byte(pJSON), &pulapki)
+					for _, p := range pulapki {
+						p = strings.TrimSpace(p)
+						if p == "" {
+							continue
+						}
+						lp := strings.ToLower(p)
+						if e, ok := pulapkiMap[lp]; ok {
+							e.Count++
+						} else {
+							pulapkiMap[lp] = &pulapkaEntry{Original: p, Count: 1}
+						}
+					}
+				}
+				trapRows.Close()
+
+				// Sort by frequency descending, then alphabetically for stability
+				sorted := make([]*pulapkaEntry, 0, len(pulapkiMap))
+				for _, e := range pulapkiMap {
+					sorted = append(sorted, e)
+				}
+				sort.Slice(sorted, func(i, j int) bool {
+					if sorted[i].Count != sorted[j].Count {
+						return sorted[i].Count > sorted[j].Count
+					}
+					return sorted[i].Original < sorted[j].Original
+				})
+
+				topN := 3
+				if len(sorted) < topN {
+					topN = len(sorted)
+				}
+				for i := 0; i < topN; i++ {
+					out.TopPulapki = append(out.TopPulapki, sorted[i].Original)
+				}
+			}
+
+			// Przyklad (shortest easy exercise)
+			var brief ExerciseBrief
+			err = db().QueryRow(
+				`SELECT id, tresc, odpowiedz FROM data.cwiczenia
+				WHERE typ_nazwa = ? AND trudnosc = 'latwe'
+				ORDER BY LENGTH(tresc) ASC LIMIT 1`, typ).
+				Scan(&brief.ID, &brief.Tresc, &brief.Odpowiedz)
+			if err == nil {
+				out.Przyklad = &brief
+			}
+
+			// Cheatsheet excerpt
+			var fullContent string
+			db().QueryRow("SELECT content FROM data.cheatsheets WHERE kategoria = ?", kat).
+				Scan(&fullContent)
+			if len(fullContent) > 500 {
+				cutoff := strings.LastIndex(fullContent[:500], ".")
+				if cutoff > 200 {
+					fullContent = fullContent[:cutoff+1]
+				} else {
+					fullContent = fullContent[:500] + "..."
+				}
+			}
+			out.CheatsheetExcerpt = fullContent
 
 			jsonOut(out)
 		},

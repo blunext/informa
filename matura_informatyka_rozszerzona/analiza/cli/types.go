@@ -117,6 +117,9 @@ type ProgressUpdateOut struct {
 	Streak          int      `json:"streak"`
 	TagsUpdated     []string `json:"tags_updated"`
 	NextReviewDates []string `json:"next_review_dates"`
+	CzasSek         *int     `json:"czas_sek,omitempty"`
+	BenchmarkSek    *int     `json:"benchmark_sek,omitempty"`
+	Tempo           *string  `json:"tempo,omitempty"`
 }
 
 // ProgressStatusOut is what progress status returns
@@ -137,6 +140,8 @@ type TypStatusOut struct {
 	Streak          int    `json:"streak"`
 	Zrobione        int    `json:"zrobione"`
 	Dostepne        int    `json:"dostepne"`
+	AvgCzasSek      *int   `json:"avg_czas_sek,omitempty"`
+	BenchmarkSek    *int   `json:"benchmark_sek,omitempty"`
 }
 
 // CKEOut is what cke get returns
@@ -234,16 +239,56 @@ type ExerciseNextOut struct {
 
 // TypIntroOut is what typ intro returns
 type TypIntroOut struct {
-	Typ                      string   `json:"typ"`
-	Kategoria                string   `json:"kategoria"`
-	FirstInType              bool     `json:"first_in_type"`
-	FirstInCategory          bool     `json:"first_in_category"`
-	OtherTypesDoneInCategory []string `json:"other_types_done_in_category"`
-	Level                    string   `json:"level"`
-	Streak                   int      `json:"streak"`
-	Available                int      `json:"available"`
-	Done                     int      `json:"done"`
-	SprawdzianUnlocked       bool     `json:"sprawdzian_unlocked"`
+	Typ                      string         `json:"typ"`
+	Kategoria                string         `json:"kategoria"`
+	FirstInType              bool           `json:"first_in_type"`
+	FirstInCategory          bool           `json:"first_in_category"`
+	OtherTypesDoneInCategory []string       `json:"other_types_done_in_category"`
+	Level                    string         `json:"level"`
+	Streak                   int            `json:"streak"`
+	Available                int            `json:"available"`
+	Done                     int            `json:"done"`
+	SprawdzianUnlocked       bool           `json:"sprawdzian_unlocked"`
+	CKEStats                 *CKETypStats   `json:"cke_stats,omitempty"`
+	TopPulapki               []string       `json:"top_pulapki,omitempty"`
+	Przyklad                 *ExerciseBrief `json:"przyklad,omitempty"`
+	CheatsheetExcerpt        string         `json:"cheatsheet_excerpt,omitempty"`
+}
+
+type CKETypStats struct {
+	Wystapienia int     `json:"wystapienia"`
+	LatTotal    int     `json:"lat_total"`
+	AvgPunkty   float64 `json:"avg_punkty"`
+	TotalPunkty int     `json:"total_punkty"`
+}
+
+type ExerciseBrief struct {
+	ID        string `json:"id"`
+	Tresc     string `json:"tresc"`
+	Odpowiedz string `json:"odpowiedz"`
+}
+
+// BladOut is what progress blad returns
+type BladOut struct {
+	ID         int    `json:"id"`
+	ExerciseID string `json:"exercise_id"`
+	Typ        string `json:"typ"`
+	BladKod    string `json:"blad_kod"`
+	BladOpis   string `json:"blad_opis"`
+	HintLevel  int    `json:"hint_level"`
+	Data       string `json:"data"`
+}
+
+type DiagnoseEntry struct {
+	BladKod  string   `json:"blad_kod"`
+	Count    int      `json:"count"`
+	Typy     []string `json:"typy"`
+	Ostatnio string   `json:"ostatnio"`
+}
+
+type DiagnoseOut struct {
+	TopBledy []DiagnoseEntry `json:"top_bledy"`
+	Total    int             `json:"total"`
 }
 
 // KategoriaStatusOut is per-category status

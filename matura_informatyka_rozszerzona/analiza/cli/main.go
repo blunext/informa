@@ -62,7 +62,7 @@ func main() {
 
 	// === progress ===
 	progressCmd := &cobra.Command{Use: "progress", Short: "Progress tracking"}
-	progressCmd.AddCommand(progressUpdateCmd(), progressStatusCmd())
+	progressCmd.AddCommand(progressUpdateCmd(), progressStatusCmd(), progressBladCmd(), progressDiagnoseCmd())
 
 	// === cke ===
 	ckeCmd := &cobra.Command{Use: "cke", Short: "CKE exam subtasks"}

@@ -2,8 +2,11 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
@@ -621,5 +624,405 @@ func TestDataImportCreatesDBFile(t *testing.T) {
 	}
 	if info.Size() < 1000 {
 		t.Errorf("matura.db too small: %d bytes", info.Size())
+	}
+}
+
+// === Feature 1: Time Tracking ===
+
+func TestMigrationV3(t *testing.T) {
+	dir := t.TempDir()
+
+	// Create v2 DB (simulating old schema without czas_sek)
+	progressPath := filepath.Join(dir, "matura_progress.db")
+	db, err := sql.Open("sqlite", progressPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Create v2 schema manually (no czas_sek, no progress_bledy)
+	db.Exec(`CREATE TABLE schema_version (version INTEGER PRIMARY KEY)`)
+	db.Exec(`INSERT INTO schema_version VALUES (2)`)
+	db.Exec(`CREATE TABLE progress_meta (key TEXT PRIMARY KEY, value TEXT)`)
+	db.Exec(`CREATE TABLE progress_typy (typ TEXT PRIMARY KEY, poziom_trudnosci TEXT DEFAULT 'latwe', streak INTEGER DEFAULT 0)`)
+	db.Exec(`CREATE TABLE progress_zrobione (id TEXT PRIMARY KEY, typ TEXT, data TEXT, wynik TEXT)`)
+	db.Exec(`CREATE TABLE progress_tagi (tag TEXT PRIMARY KEY, poziom INTEGER DEFAULT 0, nastepna_powtorka TEXT)`)
+	db.Exec(`CREATE TABLE matura_zrobione (id TEXT PRIMARY KEY, typ TEXT, data TEXT, punkty INTEGER, max_punkty INTEGER)`)
+	db.Exec(`CREATE TABLE probne_matury (id INTEGER PRIMARY KEY AUTOINCREMENT, rok INTEGER, data TEXT, czas_min INTEGER, wynik_pkt INTEGER, max_pkt INTEGER, procent REAL, per_kategoria TEXT, przerwany BOOLEAN DEFAULT 0)`)
+	db.Exec(`CREATE TABLE pulapki_przejrzane (id TEXT PRIMARY KEY, typ TEXT, data TEXT, trafienia INTEGER, total INTEGER)`)
+	db.Exec(`INSERT INTO progress_zrobione (id, typ, data, wynik) VALUES ('test.1', 'test', '2026-01-01', 'poprawne_bez_pomocy')`)
+	db.Close()
+
+	// Reopen — should migrate to v3
+	db, err = sql.Open("sqlite", progressPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	err = initProgressSchema(db)
+	if err != nil {
+		t.Fatalf("migration to v3 failed: %v", err)
+	}
+
+	// Verify czas_sek column exists
+	_, err = db.Exec("UPDATE progress_zrobione SET czas_sek = 120 WHERE id = 'test.1'")
+	if err != nil {
+		t.Errorf("czas_sek column missing after migration: %v", err)
+	}
+
+	// Verify progress_bledy table exists
+	_, err = db.Exec("INSERT INTO progress_bledy (exercise_id, typ, blad_kod, data) VALUES ('test.1', 'test', 'test_err', '2026-01-01')")
+	if err != nil {
+		t.Errorf("progress_bledy table missing after migration: %v", err)
+	}
+
+	// Verify existing data preserved
+	var wynik string
+	db.QueryRow("SELECT wynik FROM progress_zrobione WHERE id = 'test.1'").Scan(&wynik)
+	if wynik != "poprawne_bez_pomocy" {
+		t.Errorf("data not preserved: got %q", wynik)
+	}
+
+	// Verify version
+	var version int
+	db.QueryRow("SELECT version FROM schema_version").Scan(&version)
+	if version != 3 {
+		t.Errorf("version after migration: got %d, want 3", version)
+	}
+}
+
+func TestProgressUpdateWithCzas(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+	mainDB = db
+
+	// Simulate what progressUpdateCmd does with --czas
+	id := "7.1"
+	wynik := "poprawne_bez_pomocy"
+	czas := 145
+	today := time.Now().Format("2006-01-02")
+
+	var typNazwa string
+	err := db.QueryRow("SELECT typ_nazwa FROM data.cwiczenia WHERE id = ?", id).Scan(&typNazwa)
+	if err != nil {
+		t.Fatalf("exercise not found: %v", err)
+	}
+
+	var czasSekVal *int
+	if czas > 0 {
+		czasSekVal = &czas
+	}
+	_, err = db.Exec(`INSERT OR REPLACE INTO progress_zrobione (id, typ, data, wynik, czas_sek) VALUES (?, ?, ?, ?, ?)`,
+		id, typNazwa, today, wynik, czasSekVal)
+	if err != nil {
+		t.Fatalf("insert: %v", err)
+	}
+
+	// Verify czas_sek stored
+	var czasSek sql.NullInt64
+	db.QueryRow("SELECT czas_sek FROM progress_zrobione WHERE id = ?", id).Scan(&czasSek)
+	if !czasSek.Valid || czasSek.Int64 != 145 {
+		t.Errorf("czas_sek: got %v, want 145", czasSek)
+	}
+
+	// Verify tempo calculation with benchmark
+	var benchmarkSek sql.NullInt64
+	db.QueryRow("SELECT benchmark_sek FROM data.benchmarki WHERE typ = ?", typNazwa).Scan(&benchmarkSek)
+	if benchmarkSek.Valid {
+		tempo := calculateTempo(czas, int(benchmarkSek.Int64))
+		if tempo == "" {
+			t.Error("expected non-empty tempo with valid benchmark")
+		}
+	}
+}
+
+func TestProgressUpdateWithoutCzas(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Insert without czas (backward compatibility)
+	_, err := db.Exec(`INSERT OR REPLACE INTO progress_zrobione (id, typ, data, wynik) VALUES ('7.2', 'cyfry_liczby', '2026-01-01', 'poprawne_bez_pomocy')`)
+	if err != nil {
+		t.Fatalf("insert without czas: %v", err)
+	}
+
+	var czasSek sql.NullInt64
+	db.QueryRow("SELECT czas_sek FROM progress_zrobione WHERE id = '7.2'").Scan(&czasSek)
+	if czasSek.Valid {
+		t.Errorf("czas_sek should be NULL, got %d", czasSek.Int64)
+	}
+}
+
+func TestTempoCalculation(t *testing.T) {
+	cases := []struct {
+		elapsed, benchmark int
+		want               string
+	}{
+		{50, 100, "szybko"},    // 0.5 < 0.6
+		{59, 100, "szybko"},    // 0.59 < 0.6
+		{60, 100, "ok"},        // 0.6 — boundary: NOT < 0.6, so "ok"
+		{100, 100, "ok"},       // 1.0
+		{120, 100, "ok"},       // 1.2 — boundary: <= 1.2
+		{121, 100, "wolno"},    // 1.21 > 1.2
+		{150, 100, "wolno"},    // 1.5
+		{200, 100, "wolno"},    // 2.0 — boundary: <= 2.0
+		{201, 100, "za_wolno"}, // 2.01 > 2.0
+		{250, 100, "za_wolno"},
+		{100, 0, ""},       // zero benchmark
+		{0, 100, "szybko"}, // zero elapsed
+		{100, -1, ""},      // negative benchmark
+	}
+	for _, tc := range cases {
+		got := calculateTempo(tc.elapsed, tc.benchmark)
+		if got != tc.want {
+			t.Errorf("calculateTempo(%d, %d): got %q, want %q", tc.elapsed, tc.benchmark, got, tc.want)
+		}
+	}
+}
+
+// === Feature 2: Error Diagnosis ===
+
+func TestProgressBlad(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	result, err := db.Exec(
+		`INSERT INTO progress_bledy (exercise_id, typ, blad_kod, blad_opis, hint_level, data)
+		VALUES ('7.1', 'cyfry_liczby', 'off_by_one', 'Pomylka o 1', 1, '2026-01-15')`)
+	if err != nil {
+		t.Fatalf("insert blad: %v", err)
+	}
+
+	lastID, _ := result.LastInsertId()
+	if lastID < 1 {
+		t.Errorf("lastID: got %d, want >= 1", lastID)
+	}
+
+	var blad BladOut
+	err = db.QueryRow(`SELECT id, exercise_id, typ, blad_kod, blad_opis, hint_level, data FROM progress_bledy WHERE id = ?`, lastID).
+		Scan(&blad.ID, &blad.ExerciseID, &blad.Typ, &blad.BladKod, &blad.BladOpis, &blad.HintLevel, &blad.Data)
+	if err != nil {
+		t.Fatalf("query blad: %v", err)
+	}
+	if blad.ExerciseID != "7.1" {
+		t.Errorf("exercise_id: got %q", blad.ExerciseID)
+	}
+	if blad.BladKod != "off_by_one" {
+		t.Errorf("blad_kod: got %q", blad.BladKod)
+	}
+	if blad.HintLevel != 1 {
+		t.Errorf("hint_level: got %d", blad.HintLevel)
+	}
+}
+
+func TestProgressDiagnose(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Insert 5 errors: 3x brak_group_by, 2x off_by_one
+	for i := 0; i < 3; i++ {
+		db.Exec(`INSERT INTO progress_bledy (exercise_id, typ, blad_kod, data) VALUES (?, 'sql_group_by', 'brak_group_by', '2026-01-15')`,
+			fmt.Sprintf("20.%d", i+1))
+	}
+	for i := 0; i < 2; i++ {
+		db.Exec(`INSERT INTO progress_bledy (exercise_id, typ, blad_kod, data) VALUES (?, 'cyfry_liczby', 'off_by_one', '2026-01-14')`,
+			fmt.Sprintf("7.%d", i+1))
+	}
+
+	var bladKod string
+	var cnt int
+	err := db.QueryRow(`SELECT blad_kod, COUNT(*) as cnt FROM progress_bledy GROUP BY blad_kod ORDER BY cnt DESC LIMIT 1`).
+		Scan(&bladKod, &cnt)
+	if err != nil {
+		t.Fatalf("query diagnose: %v", err)
+	}
+	if bladKod != "brak_group_by" {
+		t.Errorf("top blad_kod: got %q, want brak_group_by", bladKod)
+	}
+	if cnt != 3 {
+		t.Errorf("top count: got %d, want 3", cnt)
+	}
+}
+
+func TestProgressDiagnoseByTyp(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	db.Exec(`INSERT INTO progress_bledy (exercise_id, typ, blad_kod, data) VALUES ('20.1', 'sql_group_by', 'brak_group_by', '2026-01-15')`)
+	db.Exec(`INSERT INTO progress_bledy (exercise_id, typ, blad_kod, data) VALUES ('20.2', 'sql_group_by', 'brak_group_by', '2026-01-15')`)
+	db.Exec(`INSERT INTO progress_bledy (exercise_id, typ, blad_kod, data) VALUES ('7.1', 'cyfry_liczby', 'off_by_one', '2026-01-14')`)
+
+	// Filter by sql_group_by — should only see brak_group_by
+	var cnt int
+	db.QueryRow(`SELECT COUNT(DISTINCT blad_kod) FROM progress_bledy WHERE typ = 'sql_group_by'`).Scan(&cnt)
+	if cnt != 1 {
+		t.Errorf("distinct blad_kod for sql_group_by: got %d, want 1", cnt)
+	}
+
+	// Filter by cyfry_liczby — should only see off_by_one
+	db.QueryRow(`SELECT COUNT(DISTINCT blad_kod) FROM progress_bledy WHERE typ = 'cyfry_liczby'`).Scan(&cnt)
+	if cnt != 1 {
+		t.Errorf("distinct blad_kod for cyfry_liczby: got %d, want 1", cnt)
+	}
+}
+
+func TestProgressDiagnoseEmpty(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	var cnt int
+	db.QueryRow(`SELECT COUNT(*) FROM progress_bledy`).Scan(&cnt)
+	if cnt != 0 {
+		t.Errorf("fresh DB: got %d errors, want 0", cnt)
+	}
+
+	// Diagnose query should return no rows
+	rows, err := db.Query(`SELECT blad_kod, COUNT(*) FROM progress_bledy GROUP BY blad_kod ORDER BY COUNT(*) DESC LIMIT 5`)
+	if err != nil {
+		t.Fatalf("query: %v", err)
+	}
+	defer rows.Close()
+	rowCount := 0
+	for rows.Next() {
+		rowCount++
+	}
+	if rowCount != 0 {
+		t.Errorf("empty diagnose: got %d rows, want 0", rowCount)
+	}
+}
+
+// === Feature 3: Rich Type Intro ===
+
+func TestTypIntroWithCKEStats(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+	mainDB = db
+
+	// sledzenie_algorytmu appears in every year (11/11)
+	ckeNames := exerciseTypToCKETypes("sledzenie_algorytmu", "TEORIA")
+	var wystapienia int
+	db.QueryRow(
+		`SELECT COUNT(DISTINCT rok) FROM data.egzamin WHERE typ_zadania IN (`+placeholders(len(ckeNames))+`)`,
+		toAny(ckeNames)...).Scan(&wystapienia)
+
+	if wystapienia != 11 {
+		t.Errorf("sledzenie_algorytmu wystapienia: got %d, want 11", wystapienia)
+	}
+}
+
+func TestTypIntroTopPulapki(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+	mainDB = db
+
+	// Check that sledzenie_algorytmu has pulapki
+	ckeNames := exerciseTypToCKETypes("sledzenie_algorytmu", "TEORIA")
+	var pulapkiCount int
+	db.QueryRow(
+		`SELECT COUNT(*) FROM data.egzamin WHERE typ_zadania IN (`+placeholders(len(ckeNames))+`)
+		AND pulapki != '[]' AND pulapki != 'null'`, toAny(ckeNames)...).Scan(&pulapkiCount)
+
+	if pulapkiCount == 0 {
+		t.Skip("no pulapki found for sledzenie_algorytmu — skipping")
+	}
+
+	// Collect unique pulapki
+	rows, _ := db.Query(
+		`SELECT pulapki FROM data.egzamin WHERE typ_zadania IN (`+placeholders(len(ckeNames))+`)
+		AND pulapki != '[]' AND pulapki != 'null'`, toAny(ckeNames)...)
+	unique := map[string]bool{}
+	for rows.Next() {
+		var pJSON string
+		rows.Scan(&pJSON)
+		var pulapki []string
+		json.Unmarshal([]byte(pJSON), &pulapki)
+		for _, p := range pulapki {
+			if p != "" {
+				unique[p] = true
+			}
+		}
+	}
+	rows.Close()
+
+	if len(unique) == 0 {
+		t.Error("expected non-empty pulapki")
+	}
+}
+
+func TestTypIntroPrzyklad(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Every type should have at least one "latwe" exercise
+	var id, tresc string
+	err := db.QueryRow(
+		`SELECT id, tresc FROM data.cwiczenia WHERE typ_nazwa = 'sledzenie_algorytmu' AND trudnosc = 'latwe'
+		ORDER BY LENGTH(tresc) ASC LIMIT 1`).Scan(&id, &tresc)
+	if err != nil {
+		t.Fatalf("no latwe exercise for sledzenie_algorytmu: %v", err)
+	}
+	if id == "" {
+		t.Error("przyklad id empty")
+	}
+	if tresc == "" {
+		t.Error("przyklad tresc empty")
+	}
+}
+
+func TestTypIntroCheatsheetExcerpt(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	var fullContent string
+	err := db.QueryRow("SELECT content FROM data.cheatsheets WHERE kategoria = 'SQL'").Scan(&fullContent)
+	if err != nil {
+		t.Fatalf("cheatsheet SQL: %v", err)
+	}
+	if len(fullContent) == 0 {
+		t.Fatal("cheatsheet content empty")
+	}
+
+	// Replicate the exact excerpt logic from typIntroCmd
+	excerpt := fullContent
+	if len(excerpt) > 500 {
+		cutoff := strings.LastIndex(excerpt[:500], ".")
+		if cutoff > 200 {
+			excerpt = excerpt[:cutoff+1]
+		} else {
+			excerpt = excerpt[:500] + "..."
+		}
+	}
+
+	// Excerpt must be non-empty and bounded
+	if len(excerpt) == 0 {
+		t.Error("excerpt empty")
+	}
+	if len(excerpt) > 501 { // 500 + "..." would be 503, but "." cutoff keeps it <= 500+1
+		t.Errorf("excerpt too long: %d chars", len(excerpt))
+	}
+	// Must be shorter than full content (SQL cheatsheet is >500)
+	if len(fullContent) > 500 && len(excerpt) >= len(fullContent) {
+		t.Error("excerpt not truncated")
+	}
+}
+
+func TestImportBenchmarks(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	var count int
+	db.QueryRow("SELECT COUNT(*) FROM data.benchmarki").Scan(&count)
+	if count == 0 {
+		t.Error("no benchmarks imported")
+	}
+
+	// sledzenie_algorytmu should have a benchmark
+	var benchSek sql.NullInt64
+	db.QueryRow("SELECT benchmark_sek FROM data.benchmarki WHERE typ = 'sledzenie_algorytmu'").Scan(&benchSek)
+	if !benchSek.Valid {
+		t.Error("no benchmark for sledzenie_algorytmu")
+	}
+	if benchSek.Valid && benchSek.Int64 <= 0 {
+		t.Errorf("benchmark for sledzenie_algorytmu: got %d, want > 0", benchSek.Int64)
 	}
 }

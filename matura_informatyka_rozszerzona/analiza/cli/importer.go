@@ -36,6 +36,12 @@ func ImportAll(db *sql.DB, sourceDir string) error {
 	}
 	fmt.Fprintf(os.Stderr, "Imported %d cheatsheets\n", nCS)
 
+	nBench, err := ImportBenchmarks(db, sourceDir)
+	if err != nil {
+		return fmt.Errorf("import benchmarks: %w", err)
+	}
+	fmt.Fprintf(os.Stderr, "Imported %d benchmarks\n", nBench)
+
 	return nil
 }
 
@@ -208,6 +214,87 @@ func ImportExams(db *sql.DB, sourceDir string) (int, error) {
 	}
 
 	return count, tx.Commit()
+}
+
+// ckeTypToExerciseTyp converts CKE typ_zadania names to exercise typ_nazwa.
+func ckeTypToExerciseTyp(ckeTyp string) string {
+	for _, p := range []string{"arkusz_", "przetwarzanie_", "obliczenia_"} {
+		if strings.HasPrefix(ckeTyp, p) {
+			return strings.TrimPrefix(ckeTyp, p)
+		}
+	}
+	return ckeTyp
+}
+
+// ImportBenchmarks reads matura_*.json files, extracts wymiary.czasowy_min,
+// distributes time proportionally to subtasks by punkty, and aggregates per typ.
+func ImportBenchmarks(db *sql.DB, sourceDir string) (int, error) {
+	jsonDir := filepath.Join(sourceDir, "json")
+
+	pattern := filepath.Join(jsonDir, "matura_*.json")
+	files, err := filepath.Glob(pattern)
+	if err != nil {
+		return 0, err
+	}
+
+	// Collect per-typ seconds
+	benchmarks := map[string][]int{} // exercise typ_nazwa -> []seconds
+
+	for _, f := range files {
+		base := filepath.Base(f)
+		if base == "matura_indeks.json" {
+			continue
+		}
+
+		data, err := os.ReadFile(f)
+		if err != nil {
+			return 0, fmt.Errorf("read %s: %w", f, err)
+		}
+
+		var exam MaturaExam
+		if err := json.Unmarshal(data, &exam); err != nil {
+			return 0, fmt.Errorf("parse %s: %w", f, err)
+		}
+
+		for _, task := range exam.Zadania {
+			if task.Wymiary == nil || task.Wymiary.CzasowyMin == 0 {
+				continue
+			}
+
+			taskTotalPkt := 0
+			for _, sub := range task.Podzadania {
+				taskTotalPkt += sub.Punkty
+			}
+			if taskTotalPkt == 0 {
+				continue
+			}
+
+			for _, sub := range task.Podzadania {
+				subSek := task.Wymiary.CzasowyMin * 60 * sub.Punkty / taskTotalPkt
+				exTyp := ckeTypToExerciseTyp(sub.TypZadania)
+				benchmarks[exTyp] = append(benchmarks[exTyp], subSek)
+			}
+		}
+	}
+
+	// Insert averages
+	count := 0
+	for typ, secs := range benchmarks {
+		total := 0
+		for _, s := range secs {
+			total += s
+		}
+		avg := total / len(secs)
+
+		_, err := db.Exec("INSERT OR REPLACE INTO benchmarki (typ, benchmark_sek, zrodlo) VALUES (?, ?, 'cke_avg')",
+			typ, avg)
+		if err != nil {
+			return 0, fmt.Errorf("insert benchmark %s: %w", typ, err)
+		}
+		count++
+	}
+
+	return count, nil
 }
 
 // ImportCheatsheets reads cheatsheet MD files into cheatsheets table.
