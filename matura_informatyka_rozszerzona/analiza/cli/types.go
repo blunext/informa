@@ -205,6 +205,14 @@ type TrapOut struct {
 	Pulapki  []string `json:"pulapki"`
 }
 
+// TrapSaveOut is what trap save returns
+type TrapSaveOut struct {
+	ID        string `json:"id"`
+	Typ       string `json:"typ"`
+	Trafienia int    `json:"trafienia"`
+	Total     int    `json:"total"`
+}
+
 // DataStatsOut is what data stats returns
 type DataStatsOut struct {
 	Cwiczenia   int `json:"cwiczenia"`

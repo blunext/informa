@@ -835,6 +835,42 @@ func trapListCmd() *cobra.Command {
 	return cmd
 }
 
+// === trap save ===
+
+func trapSaveCmd() *cobra.Command {
+	var id, typ string
+	var trafienia, total int
+
+	cmd := &cobra.Command{
+		Use:   "save",
+		Short: "Save trap quiz result",
+		Run: func(cmd *cobra.Command, args []string) {
+			if id == "" || typ == "" {
+				exitError("--id and --typ are required")
+			}
+			if total <= 0 {
+				exitError("--total must be > 0")
+			}
+
+			today := time.Now().Format("2006-01-02")
+			_, err := db().Exec(
+				`INSERT OR REPLACE INTO pulapki_przejrzane (id, typ, data, trafienia, total) VALUES (?, ?, ?, ?, ?)`,
+				id, typ, today, trafienia, total)
+			if err != nil {
+				exitError(fmt.Sprintf("save trap result: %v", err))
+			}
+
+			jsonOut(TrapSaveOut{ID: id, Typ: typ, Trafienia: trafienia, Total: total})
+		},
+	}
+
+	cmd.Flags().StringVar(&id, "id", "", "CKE subtask ID (e.g. 2024.1.1)")
+	cmd.Flags().StringVar(&typ, "typ", "", "Task type")
+	cmd.Flags().IntVar(&trafienia, "trafienia", 0, "Number of traps correctly identified")
+	cmd.Flags().IntVar(&total, "total", 0, "Total number of traps in the task")
+	return cmd
+}
+
 // === cheatsheet get ===
 
 func cheatsheetGetCmd() *cobra.Command {

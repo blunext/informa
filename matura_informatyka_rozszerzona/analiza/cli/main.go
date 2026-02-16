@@ -74,7 +74,7 @@ func main() {
 
 	// === trap ===
 	trapCmd := &cobra.Command{Use: "trap", Short: "Exam traps/gotchas"}
-	trapCmd.AddCommand(trapListCmd())
+	trapCmd.AddCommand(trapListCmd(), trapSaveCmd())
 
 	// === cheatsheet ===
 	cheatsheetCmd := &cobra.Command{Use: "cheatsheet", Short: "Study cheatsheets"}

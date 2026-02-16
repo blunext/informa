@@ -9,7 +9,7 @@ import (
 	_ "modernc.org/sqlite"
 )
 
-const currentSchemaVersion = 1
+const currentSchemaVersion = 2
 
 // OpenDB opens progress DB as main, attaches matura.db as "data" read-only.
 func OpenDB(dbDir string) (*sql.DB, error) {
@@ -196,7 +196,16 @@ func createProgressSchema(db *sql.DB) error {
 		przerwany BOOLEAN DEFAULT 0
 	);
 
+	CREATE TABLE IF NOT EXISTS pulapki_przejrzane (
+		id TEXT PRIMARY KEY,
+		typ TEXT,
+		data TEXT,
+		trafienia INTEGER,
+		total INTEGER
+	);
+
 	CREATE INDEX IF NOT EXISTS idx_tagi_powtorka ON progress_tagi(nastepna_powtorka);
+	CREATE INDEX IF NOT EXISTS idx_pulapki_typ ON pulapki_przejrzane(typ);
 	`
 	_, err := db.Exec(schema, currentSchemaVersion)
 	return err
@@ -209,8 +218,16 @@ type Migration struct {
 }
 
 var migrations = []Migration{
-	// Future migrations go here:
-	// {Version: 2, SQL: "ALTER TABLE ..."},
+	{Version: 2, SQL: `
+		CREATE TABLE IF NOT EXISTS pulapki_przejrzane (
+			id TEXT PRIMARY KEY,
+			typ TEXT,
+			data TEXT,
+			trafienia INTEGER,
+			total INTEGER
+		);
+		CREATE INDEX IF NOT EXISTS idx_pulapki_typ ON pulapki_przejrzane(typ);
+	`},
 }
 
 func migrateProgress(db *sql.DB, fromVersion int) error {
