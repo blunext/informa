@@ -1,0 +1,213 @@
+package main
+
+// === JSON import types (match source files exactly) ===
+
+// ExerciseMeta matches _meta.json in exercise directories
+type ExerciseMeta struct {
+	Typ           string        `json:"typ"`
+	Nazwa         string        `json:"nazwa"`
+	Kategoria     string        `json:"kategoria"`
+	Czestotliwosc string        `json:"czestotliwosc"`
+	PunktyLacznie int           `json:"punkty_lacznie"`
+	TagiGlobalne  []string      `json:"tagi_globalne"`
+	Cwiczenia     []ExerciseRef `json:"cwiczenia"`
+}
+
+type ExerciseRef struct {
+	ID       string   `json:"id"`
+	Trudnosc string   `json:"trudnosc"`
+	Punkty   int      `json:"punkty"`
+	Tagi     []string `json:"tagi"`
+}
+
+// ExerciseJSON matches individual exercise {id}.json files
+type ExerciseJSON struct {
+	ID          string        `json:"id"`
+	Trudnosc    string        `json:"trudnosc"`
+	Punkty      int           `json:"punkty"`
+	Zrodlo      string        `json:"zrodlo"`
+	Tagi        []string      `json:"tagi"`
+	Tresc       string        `json:"tresc"`
+	Wskazowki   []string      `json:"wskazowki"`
+	Odpowiedz   string        `json:"odpowiedz"`
+	TypoweBledy []CommonError `json:"typowe_bledy"`
+}
+
+type CommonError struct {
+	Opis string `json:"opis"`
+	Kara string `json:"kara"`
+}
+
+// MaturaExam matches matura_YYYY.json top-level
+type MaturaExam struct {
+	Rok         int        `json:"rok"`
+	Formula     string     `json:"formula"`
+	CzasMinuty  int        `json:"czas_minuty"`
+	TotalPunkty int        `json:"total_punkty"`
+	LiczbaZadan int        `json:"liczba_zadan"`
+	Czesci      []ExamPart `json:"czesci"`
+	Zadania     []ExamTask `json:"zadania"`
+}
+
+type ExamPart struct {
+	Czesc      int    `json:"czesc"`
+	CzasMinuty int    `json:"czas_minuty"`
+	Punkty     int    `json:"punkty"`
+	Opis       string `json:"opis"`
+}
+
+type ExamTask struct {
+	Numer         int             `json:"numer"`
+	Tytul         string          `json:"tytul"`
+	Punkty        int             `json:"punkty"`
+	Czesc         int             `json:"czesc"`
+	Kontekst      *string         `json:"kontekst"`
+	Podzadania    []ExamSubtask   `json:"podzadania"`
+	SciezkaDanych *string         `json:"sciezka_danych"`
+	PlikiDanych   []string        `json:"pliki_danych"`
+	Wymiary       *TaskDimensions `json:"wymiary"`
+}
+
+type ExamSubtask struct {
+	ID              string   `json:"id"`
+	Numer           string   `json:"numer"`
+	Punkty          int      `json:"punkty"`
+	TypZadania      string   `json:"typ_zadania"`
+	Kategoria       string   `json:"kategoria"`
+	Tresc           string   `json:"tresc"`
+	Odpowiedz       string   `json:"odpowiedz"`
+	ZasadyOceniania string   `json:"zasady_oceniania"`
+	Pulapki         []string `json:"pulapki"`
+}
+
+type TaskDimensions struct {
+	Tematyczny    []string `json:"tematyczny"`
+	Algorytmiczny []string `json:"algorytmiczny"`
+	CzasowyMin    int      `json:"czasowy_min"`
+}
+
+// === Output types (returned as JSON on stdout) ===
+
+// ExerciseOut is what exercise get returns
+type ExerciseOut struct {
+	ID          string        `json:"id"`
+	TypNazwa    string        `json:"typ_nazwa"`
+	Kategoria   string        `json:"kategoria"`
+	Trudnosc    string        `json:"trudnosc"`
+	Punkty      int           `json:"punkty"`
+	Zrodlo      string        `json:"zrodlo"`
+	Tagi        []string      `json:"tagi"`
+	Tresc       string        `json:"tresc"`
+	Wskazowki   []string      `json:"wskazowki"`
+	Odpowiedz   string        `json:"odpowiedz"`
+	TypoweBledy []CommonError `json:"typowe_bledy"`
+}
+
+// ReviewOut is what exercise review returns
+type ReviewOut struct {
+	Exercise    ExerciseOut `json:"exercise"`
+	Tag         string      `json:"tag"`
+	DaysOverdue int         `json:"days_overdue"`
+}
+
+// ProgressUpdateOut is what progress update returns
+type ProgressUpdateOut struct {
+	ID              string   `json:"id"`
+	NewLevel        string   `json:"new_level"`
+	Streak          int      `json:"streak"`
+	TagsUpdated     []string `json:"tags_updated"`
+	NextReviewDates []string `json:"next_review_dates"`
+}
+
+// ProgressStatusOut is what progress status returns
+type ProgressStatusOut struct {
+	Sesje              int            `json:"sesje"`
+	OstatniaSesja      string         `json:"ostatnia_sesja"`
+	CwiczeniaLacznie   int            `json:"cwiczenia_lacznie"`
+	PerTyp             []TypStatusOut `json:"per_typ"`
+	Zaleglosci         int            `json:"zaleglosci"`
+	TagiOpanowane      []string       `json:"tagi_opanowane"`
+	TagiProblematyczne []string       `json:"tagi_problematyczne"`
+}
+
+type TypStatusOut struct {
+	Typ             string `json:"typ"`
+	PoziomTrudnosci string `json:"poziom_trudnosci"`
+	Streak          int    `json:"streak"`
+	Zrobione        int    `json:"zrobione"`
+	Dostepne        int    `json:"dostepne"`
+}
+
+// CKEOut is what cke get returns
+type CKEOut struct {
+	ID              string   `json:"id"`
+	Rok             int      `json:"rok"`
+	NumerZadania    int      `json:"numer_zadania"`
+	Tytul           string   `json:"tytul"`
+	Kontekst        string   `json:"kontekst"`
+	TypZadania      string   `json:"typ_zadania"`
+	Kategoria       string   `json:"kategoria"`
+	Punkty          int      `json:"punkty"`
+	Tresc           string   `json:"tresc"`
+	Odpowiedz       string   `json:"odpowiedz"`
+	ZasadyOceniania string   `json:"zasady_oceniania"`
+	Pulapki         []string `json:"pulapki"`
+	SciezkaDanych   string   `json:"sciezka_danych"`
+	PlikiDanych     []string `json:"pliki_danych"`
+}
+
+// ExamMetaOut is what exam meta returns
+type ExamMetaOut struct {
+	Rok         int             `json:"rok"`
+	Formula     string          `json:"formula"`
+	CzasMinuty  int             `json:"czas_minuty"`
+	TotalPunkty int             `json:"total_punkty"`
+	LiczbaZadan int             `json:"liczba_zadan"`
+	Czesci      []ExamPart      `json:"czesci"`
+	Zadania     []ExamTaskBrief `json:"zadania"`
+}
+
+type ExamTaskBrief struct {
+	Numer  int    `json:"numer"`
+	Tytul  string `json:"tytul"`
+	Punkty int    `json:"punkty"`
+	Czesc  int    `json:"czesc"`
+}
+
+// ExamTaskOut is what exam task returns (with full content)
+type ExamTaskOut struct {
+	Numer         int              `json:"numer"`
+	Tytul         string           `json:"tytul"`
+	Punkty        int              `json:"punkty"`
+	Kontekst      string           `json:"kontekst"`
+	Podzadania    []ExamSubtaskOut `json:"podzadania"`
+	SciezkaDanych string           `json:"sciezka_danych"`
+	PlikiDanych   []string         `json:"pliki_danych"`
+}
+
+type ExamSubtaskOut struct {
+	ID              string   `json:"id"`
+	Numer           string   `json:"numer"`
+	Punkty          int      `json:"punkty"`
+	TypZadania      string   `json:"typ_zadania"`
+	Kategoria       string   `json:"kategoria"`
+	Tresc           string   `json:"tresc"`
+	Odpowiedz       string   `json:"odpowiedz"`
+	ZasadyOceniania string   `json:"zasady_oceniania"`
+	Pulapki         []string `json:"pulapki"`
+}
+
+// TrapOut is what trap list returns
+type TrapOut struct {
+	SourceID string   `json:"source_id"`
+	Rok      int      `json:"rok"`
+	Tytul    string   `json:"tytul"`
+	Pulapki  []string `json:"pulapki"`
+}
+
+// DataStatsOut is what data stats returns
+type DataStatsOut struct {
+	Cwiczenia   int `json:"cwiczenia"`
+	Podzadania  int `json:"podzadania"`
+	Cheatsheets int `json:"cheatsheets"`
+}

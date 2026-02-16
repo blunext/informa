@@ -94,7 +94,7 @@ analiza/
 │   │   ├── README.md              # Index with difficulty levels and self-assessment
 │   │   ├── 01_sledzenie_algorytmu.md ... 23_sql_select_where.md
 │   │   └── (each has: skill tags, 3-level hints, full answer, common CKE mistakes)
-│   ├── json/                      # 23 directories — 270 exercises, machine-readable
+│   ├── json/                      # 23 directories — 310 exercises, machine-readable
 │   │   ├── README.md              # **Schema, format danych, checklist dodawania cwiczen**
 │   │   ├── tagi_rejestr.json      # **Central tag registry (290 tags, enforced by validator)**
 │   │   └── NN_nazwa_typu/         # 23 directories, each with:
@@ -103,6 +103,16 @@ analiza/
 │   └── verify/                    # Automated verification system
 │       ├── verify_all.py          # Main runner (--file, --id, --category, --verbose)
 │       └── verifiers/             # cpp, sql, numconv, manual_sanity verifiers
+│
+├── cli/                          # **Go CLI binary + SQLite backend**
+│   ├── matura                    # macOS/Linux binary (pure Go, zero deps)
+│   ├── matura.exe                # Windows binary
+│   ├── matura.db                 # SQLite DB: 310 exercises + 230 CKE + 4 cheatsheets
+│   ├── main.go, commands.go, database.go, importer.go, types.go
+│   ├── main_test.go              # 13 tests
+│   ├── build.sh                  # build macOS + Windows + import
+│   ├── go.mod, go.sum
+│   └── matura_progress.db        # Student progress (auto-created, .gitignore)
 │
 └── rozwiazania_wzorcowe/          # Model solutions for real past exam problems
     ├── implementacja_cpp.md       # C++ implementations (e.g., 2024 Zad.3)
@@ -119,6 +129,17 @@ analiza/
 - **Topic frequency tiers**: TIER 1 (100%): SQL, number ops, file processing, spreadsheet; TIER 2 (73-82%): number systems, recursion, sorting, GCD
 - **`analiza_YYYY.json`**: Older per-year summaries (less detailed than `matura_YYYY.json`). Known gap: `analiza_2018.json` only has Part I data.
 - **No code files** exist in the year directories — the repo is documentation and reference material only
+
+### Go CLI (`matura`)
+
+Binary in `analiza/cli/` — provides fast SQLite-backed access to all data. JSON files remain the source of truth; the CLI imports from them.
+
+```bash
+# Build + import (macOS + Windows + matura.db):
+analiza/cli/build.sh
+```
+
+Key commands: `exercise get`, `progress update`, `cke get`, `exam meta/task`, `trap list`, `cheatsheet get`, `data stats`. See `./matura --help` for full reference.
 
 ## Important Context
 
@@ -182,7 +203,7 @@ unzip -q zalaczniki.zip
 Full documentation: **`analiza/cwiczenia/json/README.md`** — JSON schema, required data format patterns, verification commands, and a step-by-step checklist for adding new exercises.
 
 Key points:
-- Exercises live in `json/NN_nazwa/` directories (23 dirs, 270 exercises total)
+- Exercises live in `json/NN_nazwa/` directories (23 dirs, 310 exercises total)
 - **C++ exercises (07-14)**: input data in `tresc` must use `**Dane** (\`plik.txt\`):` format or verifier won't find it
 - **SQL exercises (20-23)**: tables in `tresc` via `Tabela **Name**:`, last non-verification markdown table in `odpowiedz` = expected result
 
@@ -200,7 +221,7 @@ python3 analiza/cwiczenia/verify/verify_all.py --file NN_nazwa --verbose  # one 
 
 **Expected results:**
 - `validate_json.py`: **0 ERRORS**
-- `verify_all.py`: **170 PASS, 0 FAIL, 0 ERROR, 100 MANUAL_REVIEW**
+- `verify_all.py`: **210 PASS, 0 FAIL, 0 ERROR, 100 MANUAL_REVIEW**
 
 ### Tag registry (`json/tagi_rejestr.json`)
 
