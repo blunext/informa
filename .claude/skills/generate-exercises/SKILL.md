@@ -19,23 +19,27 @@ Zapytaj uzytkownika (jezeli nie podal):
 
 Przed generacja ZAWSZE przeczytaj:
 
-1. **Istniejace cwiczenia** z docelowego pliku JSON:
+1. **Metadane typu** (indeks cwiczen, tagi globalne):
    ```
-   analiza/cwiczenia/json/NN_nazwa.json
+   analiza/cwiczenia/json/NN_nazwa/_meta.json
    ```
-2. **Schema i format danych** (kluczowe reguly formatowania):
+2. **Istniejace cwiczenia** — przeczytaj 2-3 przykladowe pliki z katalogu:
+   ```
+   analiza/cwiczenia/json/NN_nazwa/{id}.json
+   ```
+3. **Schema i format danych** (kluczowe reguly formatowania):
    ```
    analiza/cwiczenia/json/README.md
    ```
-3. **Rejestr tagow** (dozwolone tagi):
+4. **Rejestr tagow** (dozwolone tagi):
    ```
    analiza/cwiczenia/json/tagi_rejestr.json
    ```
 4. **Szablony i wzorce** odpowiednie dla kategorii:
-   - IMPLEMENTACJA (07-14): `analiza/szablony/cpp_szablony.md`
-   - SQL (20-23): `analiza/szablony/sql_szablony.md`
-   - ARKUSZ (15-19): `analiza/szablony/arkusz_formuly.md`
-   - TEORIA (01-06): `analiza/szablony/pseudokod_wzorce.md`
+    - IMPLEMENTACJA (07-14): `analiza/szablony/cpp_szablony.md`
+    - SQL (20-23): `analiza/szablony/sql_szablony.md`
+    - ARKUSZ (15-19): `analiza/szablony/arkusz_formuly.md`
+    - TEORIA (01-06): `analiza/szablony/pseudokod_wzorce.md`
 
 ## Krok 3: Generuj cwiczenia
 
@@ -163,11 +167,13 @@ Dla kazdego wygenerowanego cwiczenia sprawdz:
 - `typowe_bledy` — realistyczne, z poprawna kara punktowa
 - Brak literowek w kluczowych terminach (nazwy algorytmow, funkcji, protokolow)
 
-## Krok 4: Wstaw do pliku JSON
+## Krok 4: Wstaw do katalogu
 
-Dodaj wygenerowane cwiczenia do tablicy `cwiczenia` w docelowym pliku.
-Zaktualizuj `punkty_lacznie` = suma wszystkich punktow.
-Jezeli uzyles nowych tagow — dodaj je do `tagi_globalne` i do `tagi_rejestr.json`.
+Dla kazdego wygenerowanego cwiczenia:
+1. Utworz nowy plik `{id}.json` w katalogu `analiza/cwiczenia/json/NN_nazwa/`
+2. Dodaj wpis do `_meta.json` w tablicy `cwiczenia`: `{"id", "trudnosc", "punkty", "tagi"}`
+3. Zaktualizuj `punkty_lacznie` w `_meta.json` = suma wszystkich punktow
+   Jezeli uzyles nowych tagow — dodaj je do `tagi_globalne` w `_meta.json` i do `tagi_rejestr.json`.
 
 ## Krok 5: Walidacja (OBOWIAZKOWA)
 

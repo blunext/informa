@@ -1,6 +1,7 @@
 {
   "sesje": 0,
   "ostatnia_sesja": null,
+  "cwiczenia_lacznie": 0,
   "typy": {
     "01_sledzenie_algorytmu": { "poziom_trudnosci": "latwe", "poprawne_bez_pomocy_streak": 0, "zrobione": [] },
     "02_projektowanie_algorytmu": { "poziom_trudnosci": "latwe", "poprawne_bez_pomocy_streak": 0, "zrobione": [] },
@@ -27,13 +28,7 @@
     "23_sql_select_where": { "poziom_trudnosci": "latwe", "poprawne_bez_pomocy_streak": 0, "zrobione": [] }
   },
   "tagi": {},
-  "historia": [],
-  "tagi_problematyczne": [],
-  "tagi_opanowane": [],
-  "braki_cwiczen": [],
-  "xp": 0,
-  "ranga": "Nowicjusz",
-  "daily_streak": { "aktualny": 0, "najdluzszy": 0, "ostatni_dzien": null },
-  "osiagniecia": [],
-  "sesja_combo": 0
+  "matura_zrobione": {},
+  "probne_matury": [],
+  "pulapki_przejrzane": {}
 }

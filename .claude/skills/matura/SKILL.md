@@ -135,7 +135,7 @@ Po wybraniu cwiczenia policz ile zostalo nieuzytych cwiczen na danym poziomie tr
 
 ## F. Ocena odpowiedzi i system hintow
 
-Porownaj odpowiedz ucznia z polem `odpowiedz` z JSON-a. Uwzglednij rownowazne formy (np. alias SQL, inna kolejnosc kolumn jesli nie wymagana).
+Porownaj odpowiedz ucznia z polem `odpowiedz` z JSON-a. Uwzglednij rownowazne formy (np. alias SQL, inna kolejnosc kolumn jesli nie wymagana). Jesli odpowiedz czesciowo poprawna — potwierdz co jest dobrze, naprowadz na brakujace elementy (nie licz jako bledna proba).
 
 ### 3-poziomowy system hintow
 
@@ -157,6 +157,10 @@ Porownaj odpowiedz ucznia z polem `odpowiedz` z JSON-a. Uwzglednij rownowazne fo
 **Po 3 probach bez sukcesu** (lub komenda "poddaje sie"):
 - Wyswietl pelna `odpowiedz` z JSON-a
 - Wyswietl `typowe_bledy` jako wskazowki CKE
+- **Konsolidacja**: zanim przejdziesz dalej, zapytaj: "Wyjasniej swoimi slowami, dlaczego to rozwiazanie dziala."
+    - Jesli uczen wyjasni poprawnie → krotki pozytywny feedback ("Dokladnie tak — dobrze to uchwyciłes/as.")
+    - Jesli wyjasnienie bledne/niepelne → doprecyzuj krotko (2-3 zdania), ale BEZ dodatkowej kary na tagi
+    - Jesli uczen wpisze `dalej`/`nastepny` → pomin konsolidacje, przejdz do cwiczenia
 - Nastepne cwiczenie z tego typu: latwiejsze o 1 poziom
 
 ### Regula kontekstu dla szablonow
@@ -221,8 +225,9 @@ Zawsze:
 Kazde cwiczenie ma pole `tagi` (lista). Aktualizuj KAZDY tag z cwiczenia:
 
 - **`poprawne_bez_pomocy`**: `tag.poziom += 1` (max 4), ustaw `nastepna_powtorka` wg tabeli interwalow
-- **`poprawne_z_pomoca`**: bez zmian poziomu tagu
-- **`walk_through`**: TYLKO tagi danego cwiczenia → `tag.poziom = 1`, `nastepna_powtorka = jutro`
+- **`poprawne_z_pomoca`** (1 hint): `tag.poziom += 1` (jak bez pomocy), ale interwal o 1 poziom nizej (np. jesli nowy poziom=3, uzyj interwal poziomu 2 = +3 dni)
+- **`poprawne_z_pomoca`** (2-3 hinty): bez zmian poziomu tagu
+- **`walk_through`**: TYLKO tagi danego cwiczenia → `tag.poziom = max(tag.poziom - 1, 1)`, `nastepna_powtorka = jutro`. Cap: max 5 zaleglosci powtorkowych per sesja — nadmiar kolejkuj na nastepna.
 
 Jesli tag nie istnieje w `tagi` — dodaj go z `poziom: 0`.
 
@@ -252,6 +257,12 @@ Przed kazdym zapisem progress.json wykonaj backup:
 cp {PROGRESS} {BASE}/matura_progress.backup.json
 ```
 Jesli progress.json uszkodzony — przywroc z backupu.
+
+### Kompaktowanie progress.json
+
+Przy zapisie sprawdz rozmiar i kompaktuj:
+- **tagi**: usun tagi z `poziom >= 4` i `nastepna_powtorka > dzis + 30 dni` (dawno opanowane). Reaktywuj automatycznie przy napotkaniu tagu w nowym cwiczeniu.
+- **probne_matury**: przechowuj max 5 ostatnich wpisow. Starsze przytnij do `{rok, wynik_pkt, max_pkt}`.
 
 ## H. Komendy ucznia
 
@@ -306,8 +317,10 @@ Jesli bez argumentu — pokaz liste odblokowanych typow z iloscia dostepnych/zro
 2. Uzyj Grep na `{MATURA_INDEKS}` z wzorcem `"typ_zadania": "{typ}"` — dostaniesz linie z ID-kami i rokami
 3. Odflitruj ID-ki juz obecne w `progress.matura_zrobione[typ]`
 4. Wybierz losowo jedno z pozostalych (preferuj nowsza formule 2023-2025)
-5. Przeczytaj odpowiedni `{MATURA_JSON}` (np. `matura_2024.json`) — JEDEN plik na raz
-6. Wyciagnij podzadanie po `id`
+5. Uzyj Grep na `{MATURA_JSON}` (np. `matura_2024.json`) z wzorcem `"id": "{id}"`, potem Read ~40 linii — zaladuj jedno podzadanie + kontekst zadania nadrzednego
+6. NIE czytaj calego pliku
+
+**Fallback**: jesli Grep zwraca 0 wynikow lub plik nie znaleziony — wyswietl komunikat diagnostyczny (`Nie znaleziono zadan typu {typ} w indeksie. Sprawdz nazwe typu.`) zamiast cichego bledu.
 
 ### Rozroznianie ID
 
@@ -373,8 +386,8 @@ Zapisz ID do `matura_zrobione`:
 ### Zarzadzanie kontekstem
 
 - `{MATURA_INDEKS}`: TYLKO Grep, nigdy czytaj w calosci (75KB)
-- `{MATURA_JSON}`: czytaj JEDEN plik na raz (33-46KB) — zajmuje slot JSON-a z sekcji I
-- Kontekst zadania nadrzednego (`kontekst`) jest juz w pliku — nie trzeba dodatkowych odczytow
+- `{MATURA_JSON}`: NIE czytaj calego pliku — uzyj Grep po `id` podzadania, potem Read ~40 linii (jedno podzadanie + kontekst)
+- Kontekst zadania nadrzednego (`kontekst`) jest w pliku — Grep `"numer": N` (zadanie nadrzedne) + Read ~20 linii
 
 ## H3. Probna matura — symulacja egzaminu
 
@@ -402,8 +415,12 @@ Formuly:
 
 ### Start symulacji
 
-1. Przeczytaj `{MATURA_JSON}` dla wybranego roku (JEDEN plik, 33-46KB)
-2. Wyswietl:
+1. **Zapisz timestamp startu**: wykonaj `date +%s` przez Bash — zapisz wynik jako `start_timestamp`
+2. **NIE czytaj calego `matura_YYYY.json`** — zaladuj tylko metadane startu:
+    - Uzyj Grep na `{MATURA_JSON}` z wzorcem `"rok"|"formula"|"czas_minuty"|"total_punkty"|"numer"` — wyciagnij rok, formule, czas, punkty, liste zadan
+    - Alternatywnie: Read pierwszych ~30 linii pliku (naglowek + poczatek `zadania[]`)
+    - Zapisz liste zadan (numery + tytuly) do bufora sesji
+3. Wyswietl:
 ```
 ╔══════════════════════════════════════════╗
 ║     PROBNA MATURA — {rok}               ║
@@ -421,6 +438,11 @@ Zaczynamy? (tak / nie)
 ```
 
 ### Przebieg egzaminu
+
+**Ladowanie zadania po zadaniu** (kluczowe dla kontekstu):
+- Przed kazdym zadaniem: uzyj Grep na `matura_YYYY.json` z wzorcem `"numer": N` (gdzie N = numer zadania), potem Read ~80 linii od znalezionego miejsca — to zaladuje aktualne zadanie z podzadaniami
+- Po ocenie wszystkich podzadan zadania — "zapomnij" tresc (nie odwoluj sie do niej pozniej)
+- Prowadz bufor wynikow jako tekst: `Zad 1.1: 2/3 pkt | Zad 1.2: 1/1 pkt | ...`
 
 Dla kazdego zadania (`zadania[]`) i kazdego podzadania (`podzadania[]`) po kolei:
 
@@ -458,12 +480,15 @@ Dane: {sciezka_danych} (pliki: {pliki_danych})
 
 ### Podsumowanie po egzaminie
 
-Po ostatnim podzadaniu (lub `przerwij`) wyswietl:
+Po ostatnim podzadaniu (lub `przerwij`):
+1. Oblicz czas: wykonaj `date +%s` przez Bash, odejmij `start_timestamp`, przelicz na minuty
+2. Wyswietl:
 
 ```
 ╔══════════════════════════════════════════╗
 ║     WYNIK PROBNEJ MATURY — {rok}        ║
 ║     {zdobyte} / {total_punkty} pkt ({procent}%)           ║
+║     Czas: {elapsed_min} min / {limit_min} min             ║
 ╚══════════════════════════════════════════╝
 
 Per zadanie:
@@ -503,6 +528,7 @@ Zapisz do `probne_matury`:
 {
   "rok": 2024,
   "data": "2026-02-14",
+  "czas_min": 185,
   "wynik_pkt": 35,
   "max_pkt": 50,
   "procent": 70,
@@ -520,9 +546,13 @@ Kazde podzadanie zapisz tez do `matura_zrobione` (jak w H2).
 
 ### Zarzadzanie kontekstem
 
-- Czytaj JEDEN `matura_YYYY.json` na starcie — trzymaj w kontekscie przez cala probna
+- **NIGDY nie czytaj calego `matura_YYYY.json`** — laduj zadanie po zadaniu przez Grep+Read (~80 linii per zadanie)
+- Na starcie: tylko metadane (rok, formula, czas, lista zadan) — Read max 30 linii
+- Przed kazdym zadaniem: Grep `"numer": N` + Read ~80 linii
 - **NIE** czytaj cheatsheetow ani szablonow w trakcie probnej (symulacja egzaminu)
-- Po zakonczeniu — zwolnij slot JSON-a
+- **Bufor wynikow**: prowadz jako tekst inline (np. `Zad 1.1: 2/3 pkt | Zad 1.2: 1/1 pkt`) — nie polegaj na pamieci z poczatku konwersacji
+- **Niezaleznosc podzadan**: po ocenie NIE odwoluj sie do poprzednich podzadan — traktuj kazde osobno
+- **Porcjowanie**: co 3 zadania (nie podzadania) wyswietl mini-podsumowanie z dotychczasowymi punktami
 
 ## H4. Pulapki CKE — tryb rozpoznawania pulapek
 
@@ -540,8 +570,9 @@ Komenda `pulapki [argument]`. Argument:
 ### Zbieranie danych
 
 1. Uzyj Grep na plikach `{MATURA_JSON}` (wzorzec: `"pulapki"`) — szukaj po typie/kategorii
-2. Alternatywnie: przeczytaj JEDEN `matura_YYYY.json` i wyciagnij `pulapki` z podzadan pasujacych do filtra
-3. Zbierz unikalne pulapki (usun duplikaty), pogrupuj tematycznie
+2. Dla kazdego trafienia: Read ~10 linii od znalezionego miejsca (wyciagnij pulapki + id zadania)
+3. NIE czytaj calego `matura_YYYY.json` — TYLKO Grep+Read fragmentow
+4. Zbierz unikalne pulapki (usun duplikaty), pogrupuj tematycznie
 
 ### Przebieg quizu
 
@@ -599,7 +630,8 @@ Zapisz do `pulapki_przejrzane`:
 ### Zarzadzanie kontekstem
 
 - Czytaj JEDEN `matura_YYYY.json` na raz — lub uzyj Grep jesli potrzebujesz pulapek z wielu lat
-- Dla trybu przegladowego: Grep po `"pulapki"` w wielu plikach, nie czytaj calosci
+- Dla trybu przegladowego: czytaj max 2 pliki `matura_YYYY.json` (preferuj lata z nowa formula)
+- **Fallback**: jesli Grep/Read nie zwraca wynikow — wyswietl `Nie znaleziono pulapek dla {typ/kategoria}. Sprawdz nazwe.`
 
 ## I. Zarzadzanie kontekstem
 
@@ -612,7 +644,7 @@ Zasady minimalizacji zuzycia kontekstu:
 5. **strategia_egzaminacyjna.md** (46KB): NIGDY — uzywaj `podczas_egzaminu.md` (~4KB)
 6. **Progress**: czytaj na starcie sesji, zapisuj po kazdym cwiczeniu
 7. **Ranking CSV** (~1.5KB): mozna czytac w calosci (maly plik)
-8. **Matura JSON** (33-46KB): czytaj JEDEN `matura_YYYY.json` na raz — zajmuje slot JSON-a (zamiast cwiczen)
+8. **Matura JSON** (33-46KB): NIGDY w calosci — laduj zadanie po zadaniu przez Grep+Read (~80 linii). Dla sprawdzianu (H2): czytaj jedno podzadanie. Dla probnej (H3): Grep `"numer": N` + Read ~80 linii per zadanie
 9. **Matura indeks** (75KB): NIGDY w calosci — TYLKO Grep po `typ_zadania` lub `id`
 10. **Zasada ogolna**: max 1 _meta + 1 cwiczenie + 1 cheatsheet + progress w kontekscie jednoczesnie
 
