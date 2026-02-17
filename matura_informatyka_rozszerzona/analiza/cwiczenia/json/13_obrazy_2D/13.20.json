@@ -1,0 +1,33 @@
+{
+  "id": "13.20",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Wzor: Matura 2023 zad. 5 (analiza spojnych obszarow)",
+  "tagi": [
+    "tablica-2D",
+    "BFS",
+    "spojne-obszary",
+    "4-spojnosc",
+    "brzeg-siatki",
+    "visited",
+    "queue",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `siatka.txt` znajduje sie siatka 6x6 zer i jedynek. Napisz program, ktory:\na) Zliczy liczbe spojnych obszarow jedynek (4-spojnosc).\nb) Znajdzie rozmiar najwiekszego spojnego obszaru.\nc) Obliczy obwod najwiekszego obszaru (liczba krawedzi komorek stykajacych sie z zerem lub brzegiem siatki).\n\n**Dane** (`siatka.txt`):\n```\n1 1 0 0 0 0\n1 1 1 0 0 0\n0 1 1 0 0 0\n0 0 0 1 0 0\n0 0 0 0 1 1\n0 0 0 0 0 1\n```\n\n**Oczekiwany wynik**:\n```\nLiczba obszarow: 3\nNajwiekszy obszar: 7 komorek\nObwod najwiekszego: 12\n```",
+  "wskazowki": [
+    "**Kierunek**: BFS z kolejka — dla kazdej komorki zlicz krawedzie stykajace sie z 0 lub brzegiem.",
+    "**Podejscie**: Obwod = suma po wszystkich komorkach obszaru: ile z 4 sasiadow jest poza siatka lub rowne 0.",
+    "**Kluczowy krok**: W petli BFS, jesli sasiad jest poza siatka lub m[nx][ny]==0, zwieksz obwod. Jesli to nieodwiedzona jedynka, dodaj do kolejki."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <queue>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    int m[6][6];\n    for (int i = 0; i < 6; i++)\n        for (int j = 0; j < 6; j++)\n            plik >> m[i][j];\n    bool visited[6][6] = {};\n    int dx[] = {-1, 1, 0, 0};\n    int dy[] = {0, 0, -1, 1};\n    int comp = 0, maxSize = 0, maxPerim = 0;\n    for (int i = 0; i < 6; i++) {\n        for (int j = 0; j < 6; j++) {\n            if (m[i][j] == 1 && !visited[i][j]) {\n                comp++;\n                int size = 0, perim = 0;\n                queue<pair<int,int>> q;\n                q.push(make_pair(i, j));\n                visited[i][j] = true;\n                while (!q.empty()) {\n                    int x = q.front().first;\n                    int y = q.front().second;\n                    q.pop();\n                    size++;\n                    for (int d = 0; d < 4; d++) {\n                        int nx = x + dx[d];\n                        int ny = y + dy[d];\n                        if (nx < 0 || nx >= 6 || ny < 0 || ny >= 6 || m[nx][ny] == 0)\n                            perim++;\n                        else if (!visited[nx][ny]) {\n                            visited[nx][ny] = true;\n                            q.push(make_pair(nx, ny));\n                        }\n                    }\n                }\n                if (size > maxSize) {\n                    maxSize = size;\n                    maxPerim = perim;\n                }\n            }\n        }\n    }\n    cout << \"Liczba obszarow: \" << comp << endl;\n    cout << \"Najwiekszy obszar: \" << maxSize << \" komorek\" << endl;\n    cout << \"Obwod najwiekszego: \" << maxPerim << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Obszar 1: (0,0),(0,1),(1,0),(1,1),(1,2),(2,1),(2,2) = 7 komorek\n- Obszar 2: (3,3) = 1 komorka\n- Obszar 3: (4,4),(4,5),(5,5) = 3 komorki\n- Obwod obszaru 1: (0,0):2 + (0,1):2 + (1,0):2 + (1,1):0 + (1,2):2 + (2,1):2 + (2,2):2 = 12",
+  "typowe_bledy": [
+    {
+      "opis": "**Liczenie obwodu po zakonczeniu BFS**: Trzeba liczyc obwod w trakcie BFS, sprawdzajac sasiadow kazdej komorki",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pominiecie brzegu siatki w obwodzie**: Komorka na brzegu siatki ma krawedzie stykajace sie z 'pustka' — tez liczone",
+      "kara": "-2 pkt"
+    }
+  ]
+}

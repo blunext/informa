@@ -1,0 +1,28 @@
+{
+  "id": "12.13",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2021 zad. 3 (zmiany kierunku)",
+  "tagi": [
+    "roznica-sasiadow",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `ciag.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory zliczy ile razy ciag zmienia kierunek (z rosnacego na malejacy lub odwrotnie). Elementy rowne traktuj jako kontynuacje poprzedniego kierunku.\n\n**Dane** (`ciag.txt`):\n```\n3\n7\n9\n5\n2\n4\n8\n6\n1\n3\n5\n2\n8\n7\n4\n```\n\n**Oczekiwany wynik**:\n```\nLiczba zmian kierunku: 7\n```",
+  "wskazowki": [
+    "**Kierunek**: Sledzac poprzedni kierunek (+1 lub -1), zliczaj momenty gdy sie zmienia.",
+    "**Podejscie**: `prevDir` przechowuje kierunek. Jesli nowy kierunek jest rozny od prevDir (i oba != 0), to zmiana.",
+    "**Kluczowy krok**: Elementy rowne (roznica 0) nie zmieniaja kierunku — ignoruj je."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"ciag.txt\");\n    vector<int> dane;\n    int x;\n    while (plik >> x) dane.push_back(x);\n    int zmiany = 0;\n    int prevDir = 0;\n    for (int i = 1; i < (int)dane.size(); i++) {\n        int dir = 0;\n        if (dane[i] > dane[i - 1]) dir = 1;\n        else if (dane[i] < dane[i - 1]) dir = -1;\n        if (dir != 0 && prevDir != 0 && dir != prevDir) zmiany++;\n        if (dir != 0) prevDir = dir;\n    }\n    cout << \"Liczba zmian kierunku: \" << zmiany << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Kierunki: +,+,-,-,+,+,-,-,+,+,-,+,-,-\n- Zmiany: (++)→(--) pos3, (--)→(++) pos5, (++)→(--) pos7, (--)→(++) pos9, (++)→(-) pos11, (-)→(+) pos12, (+)→(--) pos13\n- Razem: 7",
+  "typowe_bledy": [
+    {
+      "opis": "**Ignorowanie rownych elementow**: Rowne elementy nie powinny byc traktowane jako zmiana kierunku",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zliczanie samych kierunkow zamiast zmian**: Kierunkow jest n-1, ale zmian jest mniej",
+      "kara": "-2 pkt"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "11.12",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzor: Matura 2014 zad. 3 (k-ty element)",
+  "tagi": [
+    "min-max",
+    "skan-liniowy",
+    "wczytywanie-pliku",
+    "k-ty-element"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 roznych liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory znajdzie najwieksza i druga co do wielkosci wartosc.\n\n**Dane** (`dane.txt`):\n```\n45\n12\n78\n34\n89\n23\n67\n56\n41\n15\n```\n\n**Oczekiwany wynik**:\n```\nNajwieksza wartosc: 89\nDruga co do wielkosci: 78\n```",
+  "wskazowki": [
+    "**Kierunek**: Utrzymuj dwie zmienne: max1 (najwieksza) i max2 (druga).",
+    "**Podejscie**: Jesli nowy element > max1: max2 = max1, max1 = nowy. Jesli > max2: max2 = nowy.",
+    "**Kluczowy krok**: Inicjalizuj max1 i max2 pierwszym elementem, potem iteruj od drugiego."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    plik >> n;\n    int max1 = n, max2 = n;\n    while (plik >> n) {\n        if (n > max1) {\n            max2 = max1;\n            max1 = n;\n        } else if (n > max2) {\n            max2 = n;\n        }\n    }\n    cout << \"Najwieksza wartosc: \" << max1 << endl;\n    cout << \"Druga co do wielkosci: \" << max2 << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Po wczytaniu 45: max1=45, max2=45\n- 12<45: bez zmian\n- 78>45: max2=45, max1=78\n- 34<78, 34<45: bez zmian\n- 89>78: max2=78, max1=89\n- Reszta < 78: bez zmian\n- Wynik: max1=89, max2=78",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak `else if`**: Bez `else`, po przesunięciu max1→max2 nowy element moze od razu zastapic max2",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Inicjalizacja max2=0**: Jesli wszystkie wartosci sa duze, max2 moze zostac 0",
+      "kara": "-1 pkt"
+    }
+  ]
+}

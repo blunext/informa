@@ -1,0 +1,23 @@
+{
+  "id": "13.13",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2021 zad. 4 (sumy wierszy i kolumn)",
+  "tagi": [
+    "tablica-2D",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `macierz.txt` znajduje sie macierz 4x4 liczb calkowitych. Napisz program, ktory obliczy sume kazdego wiersza i kazdej kolumny.\n\n**Dane** (`macierz.txt`):\n```\n3 7 1 4\n2 8 6 3\n9 4 2 7\n5 1 3 6\n```\n\n**Oczekiwany wynik**:\n```\nSumy wierszy:\n   Wiersz 1: 15\n   Wiersz 2: 19\n   Wiersz 3: 22\n   Wiersz 4: 15\nSumy kolumn:\n   Kolumna 1: 19\n   Kolumna 2: 20\n   Kolumna 3: 12\n   Kolumna 4: 20\n```",
+  "wskazowki": [
+    "**Kierunek**: Dwie oddzielne petle: jedna po wierszach, druga po kolumnach.",
+    "**Podejscie**: Suma wiersza i: wewnetrzna petla po j. Suma kolumny j: wewnetrzna petla po i.",
+    "**Kluczowy krok**: Najpierw wczytaj cala macierz do tablicy 2D, potem przetwarzaj."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"macierz.txt\");\n    int m[4][4];\n    for (int i = 0; i < 4; i++)\n        for (int j = 0; j < 4; j++)\n            plik >> m[i][j];\n    cout << \"Sumy wierszy:\" << endl;\n    for (int i = 0; i < 4; i++) {\n        int s = 0;\n        for (int j = 0; j < 4; j++) s += m[i][j];\n        cout << \"   Wiersz \" << i + 1 << \": \" << s << endl;\n    }\n    cout << \"Sumy kolumn:\" << endl;\n    for (int j = 0; j < 4; j++) {\n        int s = 0;\n        for (int i = 0; i < 4; i++) s += m[i][j];\n        cout << \"   Kolumna \" << j + 1 << \": \" << s << endl;\n    }\n    return 0;\n}\n```\n\nWeryfikacja:\n- Wiersze: 3+7+1+4=15, 2+8+6+3=19, 9+4+2+7=22, 5+1+3+6=15\n- Kolumny: 3+2+9+5=19, 7+8+4+1=20, 1+6+2+3=12, 4+3+7+6=20",
+  "typowe_bledy": [
+    {
+      "opis": "**Ta sama petla na wiersze i kolumny**: Potrzebne sa dwie rozne struktury petli (i->j vs j->i)",
+      "kara": "-2 pkt"
+    }
+  ]
+}

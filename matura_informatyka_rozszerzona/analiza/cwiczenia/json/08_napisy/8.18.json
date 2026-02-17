@@ -1,0 +1,28 @@
+{
+  "id": "8.18",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2024 zad. 2 (transformacje napisow)",
+  "tagi": [
+    "operacje-na-string",
+    "set-unikalnosc",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 8 napisow skladajacych sie z malych liter (kazdy w osobnym wierszu). Napisz program, ktory z kazdego napisu usunie powtorzone znaki, zachowujac tylko pierwsze wystapienie kazdego. Na przyklad: `abracadabra` -> `abrcd` (zachowujemy pierwsze a, pierwsze b, pierwsze r, itd.).\n\nWypisz oryginol i wynik, a na koniec wskazuj napis z najwieksza redukcja (najwieksza liczba usunietych znakow).\n\n**Dane** (`napisy.txt`):\n```\nabracadabra\nprogramming\nmississippi\nbanana\nhello\naabbccdd\nunique\nabcdefabc\n```\n\n**Oczekiwany wynik**:\n```\nabracadabra -> abrcd (11 -> 5)\nprogramming -> progamin (11 -> 8)\nmississippi -> misp (11 -> 4)\nbanana -> ban (6 -> 3)\nhello -> helo (5 -> 4)\naabbccdd -> abcd (8 -> 4)\nunique -> uniqe (6 -> 5)\nabcdefabc -> abcdef (9 -> 6)\nNapis z najwieksza redukcja: mississippi (usunieto 7 znakow)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj struktury `set<char>` do sledzenia juz widzianych znakow.",
+    "**Podejscie**: Iteruj po znakach: jesli znak nie jest w secie, dodaj go do wyniku i do setu. Jesli jest — pomin.",
+    "**Kluczowy krok**: Kolejnosc zachowana — pierwszy wystapienie kazdego znaku trafia do wyniku."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <set>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    string maxNapis;\n    int maxRedukcja = 0;\n    while (plik >> s) {\n        set<char> seen;\n        string wynik = \"\";\n        for (char c : s) {\n            if (seen.find(c) == seen.end()) {\n                wynik += c;\n                seen.insert(c);\n            }\n        }\n        int redukcja = s.length() - wynik.length();\n        cout << s << \" -> \" << wynik << \" (\" << s.length() << \" -> \" << wynik.length() << \")\" << endl;\n        if (redukcja > maxRedukcja) {\n            maxRedukcja = redukcja;\n            maxNapis = s;\n        }\n    }\n    cout << \"Napis z najwieksza redukcja: \" << maxNapis << \" (usunieto \" << maxRedukcja << \" znakow)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: `set<char>` przechowuje unikalne znaki. Sprawdzenie `find() == end()` gwarantuje dodanie tylko pierwszego wystapienia.\n\nWeryfikacja:\n- abracadabra: a(keep),b(keep),r(keep),a(dup),c(keep),a(dup),d(keep),a(dup),b(dup),r(dup),a(dup) -> abrcd (11->5, -6)\n- programming: p,r,o,g,a,m,i,n (8 unique) -> progamin (11->8, -3)\n- mississippi: m,i,s,p (4 unique) -> misp (11->4, -7)\n- banana: b,a,n -> ban (6->3, -3)\n- hello: h,e,l,o -> helo (5->4, -1)\n- aabbccdd: a,b,c,d -> abcd (8->4, -4)\n- unique: u,n,i,q,e -> uniqe (6->5, -1)\n- abcdefabc: a,b,c,d,e,f -> abcdef (9->6, -3)\nRedukcje: 6, 3, 7, 3, 1, 4, 1, 3. Max: mississippi (7)",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie `count` zamiast `find` w set**: `set::count` jest poprawne (zwraca 0 lub 1), ale `find` jest idiomatyczne. Oba dzialaja",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Uzywanie bool tablicy zamiast set**: `bool seen[256]` dziala i jest szybsze, ale wymaga inicjalizacji",
+      "kara": "-0 pkt"
+    }
+  ]
+}

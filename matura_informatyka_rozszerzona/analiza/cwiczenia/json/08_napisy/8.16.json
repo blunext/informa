@@ -1,0 +1,28 @@
+{
+  "id": "8.16",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2019 zad. 5 (porownywanie napisow)",
+  "tagi": [
+    "operacje-na-string",
+    "sortowanie",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Dwa napisy sa anagramami, jesli skladaja sie z dokladnie tych samych liter (w tej samej liczbie), ale w roznej kolejnosci. Na przyklad \"listen\" i \"silent\" sa anagramami.\n\nW pliku `pary.txt` znajduje sie 8 par napisow (kazda para w jednym wierszu, oddzielona spacja). Wszystkie napisy skladaja sie z malych liter. Napisz program, ktory sprawdzi, ktore pary sa anagramami i zliczy ich liczbe.\n\n**Dane** (`pary.txt`):\n```\nlisten silent\nhello world\ncinema iceman\nabc cab\npython typhon\nroma amor\naab abb\nbaba abba\n```\n\n**Oczekiwany wynik**:\n```\nlisten i silent: ANAGRAM\nhello i world: NIE\ncinema i iceman: ANAGRAM\nabc i cab: ANAGRAM\npython i typhon: ANAGRAM\nroma i amor: ANAGRAM\naab i abb: NIE\nbaba i abba: ANAGRAM\nPar bedacych anagramami: 6\n```",
+  "wskazowki": [
+    "**Kierunek**: Anagramy maja te same litery — posortuj znaki obu napisow i porownaj.",
+    "**Podejscie**: `sort(s.begin(), s.end())` sortuje znaki napisu. Dwa posortowane napisy sa rowne <=> oryginaly sa anagramami.",
+    "**Kluczowy krok**: Alternatywa: tablica czestotliwosci `freq[26]` dla obu napisow — porownaj tablice."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"pary.txt\");\n    string a, b;\n    int ile = 0;\n    while (plik >> a >> b) {\n        string sa = a, sb = b;\n        sort(sa.begin(), sa.end());\n        sort(sb.begin(), sb.end());\n        bool anagram = (sa == sb);\n        cout << a << \" i \" << b << \": \" << (anagram ? \"ANAGRAM\" : \"NIE\") << endl;\n        if (anagram) ile++;\n    }\n    cout << \"Par bedacych anagramami: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Sortowanie znakow sprowadza anagramy do tej samej postaci kanonicznej. Porownanie posortowanych napisow rozstrzyga.\n\nWeryfikacja:\n- listen/silent: posortowane: eilnst/eilnst -> ANAGRAM\n- hello/world: posortowane: ehllo/dlorw -> NIE (rozne litery)\n- cinema/iceman: posortowane: aceimn/aceimn -> ANAGRAM\n- abc/cab: posortowane: abc/abc -> ANAGRAM\n- python/typhon: posortowane: hnopty/hnopty -> ANAGRAM\n- roma/amor: posortowane: amor/amor -> ANAGRAM\n- aab/abb: posortowane: aab/abb -> NIE (rozna czestotliwosc a i b)\n- baba/abba: posortowane: aabb/aabb -> ANAGRAM\nRazem: 6",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak sprawdzenia dlugosci**: Jezeli napisy maja rozna dlugosc, nie moga byc anagramami. Sortowanie tez to wykrywa, ale sprawdzenie dlugosci jest szybsze",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Sortowanie oryginalnych napisow zamiast kopii**: Modyfikacja oryginolu uniemozliwia wypisanie go pozniej",
+      "kara": "-1 pkt"
+    }
+  ]
+}

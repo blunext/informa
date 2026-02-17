@@ -1,0 +1,29 @@
+{
+  "id": "9.13",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2024 zad. 4 (ranking z sortowaniem)",
+  "tagi": [
+    "struct",
+    "sortowanie",
+    "wczytywanie-pliku",
+    "vector-par"
+  ],
+  "tresc": "W pliku `uczniowie.txt` znajduje sie 10 rekordow w formacie: imie wynik (oddzielone spacja). Napisz program, ktory posortuje uczniow malejaco wg wyniku (przy remisie — rosnaco wg imienia) i wypisze ranking z numerami pozycji. Na koniec podaj najlepszego ucznia.\n\n**Dane** (`uczniowie.txt`):\n```\nAnna 85\nJan 72\nEwa 95\nPiotr 68\nMaria 91\nTomek 85\nKasia 78\nAdam 91\nOla 82\nMarek 95\n```\n\n**Oczekiwany wynik**:\n```\nRanking uczniow:\n 1. Ewa: 95\n 2. Marek: 95\n 3. Adam: 91\n 4. Maria: 91\n 5. Anna: 85\n 6. Tomek: 85\n 7. Ola: 82\n 8. Kasia: 78\n 9. Jan: 72\n10. Piotr: 68\nNajlepsza osoba: Ewa (95)\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj dane do wektora par, posortuj z wlasnym komparatorem.",
+    "**Podejscie**: `vector<pair<int,string>>` z sort i lambda: najpierw malejaco wg int, potem rosnaco wg string.",
+    "**Kluczowy krok**: Formatowanie numeru pozycji: `if (i+1 < 10) cout << \" \";` dla wyrownania jednocyfrowych."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"uczniowie.txt\");\n    string imie;\n    int wynik;\n    vector<pair<int, string>> dane;\n    while (plik >> imie >> wynik) {\n        dane.push_back({wynik, imie});\n    }\n    sort(dane.begin(), dane.end(), [](auto& a, auto& b) {\n        if (a.first != b.first) return a.first > b.first;\n        return a.second < b.second;\n    });\n    cout << \"Ranking uczniow:\" << endl;\n    for (int i = 0; i < (int)dane.size(); i++) {\n        if (i + 1 < 10) cout << \" \";\n        cout << i + 1 << \". \" << dane[i].second << \": \" << dane[i].first << endl;\n    }\n    cout << \"Najlepsza osoba: \" << dane[0].second << \" (\" << dane[0].first << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja sortowania (wynik malej., imie rosnaco):\n- 95: Ewa, Marek\n- 91: Adam, Maria\n- 85: Anna, Tomek\n- 82: Ola\n- 78: Kasia\n- 72: Jan\n- 68: Piotr\nPierwszy: Ewa (95)",
+  "typowe_bledy": [
+    {
+      "opis": "**Sortowanie rosnaco zamiast malejaco**: Domyslne `sort` sortuje rosnaco. Trzeba odwrocic warunek lub uzyc `greater`",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak drugiego kryterium sortowania**: Bez sortowania po imieniu przy remisie, kolejnosc jest nieokreslona",
+      "kara": "-1 pkt"
+    }
+  ]
+}

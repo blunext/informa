@@ -1,0 +1,32 @@
+{
+  "id": "7.18",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2022 zad. 4 (faktoryzacja + zliczanie)",
+  "tagi": [
+    "faktoryzacja",
+    "podzielnosc",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych wiekszych od 1 (kazda w osobnym wierszu). Napisz program, ktory:\na) Dla kazdej liczby wypisze jej rozklad na czynniki pierwsze w postaci np. `2^3 * 5 * 7`.\nb) Zliczy ile z tych liczb ma dokladnie 2 rozne czynniki pierwsze.\n\n**Dane** (`dane.txt`):\n```\n84\n45\n97\n120\n63\n256\n175\n310\n441\n198\n```\n\n**Oczekiwany wynik**:\n```\n84 = 2^2 * 3 * 7 (3 czynniki pierwsze)\n45 = 3^2 * 5 (2 czynniki pierwsze)\n97 = 97 (1 czynnik pierwszy)\n120 = 2^3 * 3 * 5 (3 czynniki pierwsze)\n63 = 3^2 * 7 (2 czynniki pierwsze)\n256 = 2^8 (1 czynnik pierwszy)\n175 = 5^2 * 7 (2 czynniki pierwsze)\n310 = 2 * 5 * 31 (3 czynniki pierwsze)\n441 = 3^2 * 7^2 (2 czynniki pierwsze)\n198 = 2 * 3^2 * 11 (3 czynniki pierwsze)\nLiczby z dokladnie 2 roznymi czynnikami pierwszymi: 4\n```",
+  "wskazowki": [
+    "**Kierunek**: Iteruj po potencjalnych dzielnikach od 2, wyciagaj je az do konca.",
+    "**Podejscie**: Dla kazdego d od 2: dopoki `n % d == 0`, dziel i licz potege. Jezeli po petli `n > 1`, to zostal ostatni czynnik pierwszy.",
+    "**Kluczowy krok**: Licz rozne czynniki (nie sumaryczna liczbe dzielnikow!). Warunek `d * d <= n` optymalizuje petle."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int ile = 0;\n    while (plik >> n) {\n        cout << n << \" = \";\n        int tmp = n;\n        int liczbaCzynnikow = 0;\n        bool first = true;\n        for (int d = 2; d * d <= tmp; d++) {\n            if (tmp % d == 0) {\n                int cnt = 0;\n                while (tmp % d == 0) {\n                    cnt++;\n                    tmp /= d;\n                }\n                liczbaCzynnikow++;\n                if (!first) cout << \" * \";\n                first = false;\n                if (cnt > 1) cout << d << \"^\" << cnt;\n                else cout << d;\n            }\n        }\n        if (tmp > 1) {\n            if (!first) cout << \" * \";\n            cout << tmp;\n            liczbaCzynnikow++;\n        }\n        cout << \" (\" << liczbaCzynnikow;\n        if (liczbaCzynnikow == 1) cout << \" czynnik pierwszy)\" << endl;\n        else cout << \" czynniki pierwsze)\" << endl;\n        if (liczbaCzynnikow == 2) ile++;\n    }\n    cout << \"Liczby z dokladnie 2 roznymi czynnikami pierwszymi: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Algorytm faktoryzacji: iteruj od d=2, wyciagaj czynnik az n niepodzielne, przejdz do d+1. Warunek `d*d <= tmp` gwarantuje, ze po petli `tmp > 1` jest czynnikiem pierwszym.\n\nWeryfikacja:\n- 84: 84/2=42/2=21, 21/3=7 -> 2^2 * 3 * 7 (3 czynniki)\n- 45: 45/3=15/3=5 -> 3^2 * 5 (2 czynniki)\n- 97: pierwsza -> 97 (1 czynnik)\n- 120: 120/2=60/2=30/2=15, 15/3=5 -> 2^3 * 3 * 5 (3 czynniki)\n- 63: 63/3=21/3=7 -> 3^2 * 7 (2 czynniki)\n- 256: 256/2^8=1 -> 2^8 (1 czynnik)\n- 175: 175/5=35/5=7 -> 5^2 * 7 (2 czynniki)\n- 310: 310/2=155, 155/5=31 -> 2 * 5 * 31 (3 czynniki)\n- 441: 441/3=147/3=49, 49/7=7/7=1 -> 3^2 * 7^2 (2 czynniki)\n- 198: 198/2=99, 99/3=33/3=11 -> 2 * 3^2 * 11 (3 czynniki)\nZ 2 czynnikami: 45, 63, 175, 441 = 4",
+  "typowe_bledy": [
+    {
+      "opis": "**Iteracja do sqrt(n poczatkowego) zamiast sqrt(tmp aktualnego)**: Warunek musi uzywac aktualnej wartosci `tmp`, nie oryginalnego `n`",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o reszcie tmp > 1**: Po petli moze zostac jeden duzy czynnik pierwszy (np. 31 w 310 = 2*5*31)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zliczanie poteg zamiast roznych czynnikow**: 2^3 to 1 rozny czynnik, nie 3",
+      "kara": "-1 pkt"
+    }
+  ]
+}

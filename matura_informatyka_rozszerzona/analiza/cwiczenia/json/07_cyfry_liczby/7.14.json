@@ -1,0 +1,29 @@
+{
+  "id": "7.14",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2023 zad. 3 (wlasnosci liczb)",
+  "tagi": [
+    "cyfry-mod-div",
+    "odwracanie-liczby",
+    "palindrom",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych dodatnich (kazda w osobnym wierszu). Palindromem liczbowym nazywamy liczbe, ktora czytana od lewej do prawej i od prawej do lewej daje ta sama wartosc (np. 12321, 4554). Napisz program, ktory:\na) Dla kazdej liczby wypisze jej odwrocenie i stwierdzi, czy jest palindromem.\nb) Poda laczna liczbe palindromow.\n\n**Dane** (`dane.txt`):\n```\n12321\n45654\n13579\n11211\n90709\n24682\n33433\n78901\n55555\n41014\n67876\n10201\n```\n\n**Oczekiwany wynik**:\n```\n12321: odwrocona = 12321 -> palindrom\n45654: odwrocona = 45654 -> palindrom\n13579: odwrocona = 97531\n11211: odwrocona = 11211 -> palindrom\n90709: odwrocona = 90709 -> palindrom\n24682: odwrocona = 28642\n33433: odwrocona = 33433 -> palindrom\n78901: odwrocona = 10987\n55555: odwrocona = 55555 -> palindrom\n41014: odwrocona = 41014 -> palindrom\n67876: odwrocona = 67876 -> palindrom\n10201: odwrocona = 10201 -> palindrom\nPalindromow: 9\n```",
+  "wskazowki": [
+    "**Kierunek**: Odwroc liczbe i porownaj z oryginalem — jesli rowne, to palindrom.",
+    "**Podejscie**: Buduj odwrocona liczbe: `wynik = wynik * 10 + n % 10; n /= 10;` w petli.",
+    "**Kluczowy krok**: Porownanie `oryginalna == odwrocona` daje odpowiedz. Uwaga: odwracanie nie traci zer wewnetrznych (np. 90709 -> 90709)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint odwroc(int n) {\n    int wynik = 0;\n    while (n > 0) {\n        wynik = wynik * 10 + n % 10;\n        n /= 10;\n    }\n    return wynik;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int ile = 0;\n    while (plik >> n) {\n        int odw = odwroc(n);\n        cout << n << \": odwrocona = \" << odw;\n        if (n == odw) {\n            cout << \" -> palindrom\" << endl;\n            ile++;\n        } else {\n            cout << endl;\n        }\n    }\n    cout << \"Palindromow: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Odwracanie liczby poprzez wielokrotne pobranie ostatniej cyfry (`n%10`) i doklejenie do wyniku (`wynik*10 + cyfra`). Palindrom <=> liczba == odwrocona.\n\nWeryfikacja:\n- 12321 -> odwrocona 12321 (palindrom)\n- 45654 -> odwrocona 45654 (palindrom)\n- 13579 -> odwrocona 97531\n- 11211 -> odwrocona 11211 (palindrom)\n- 90709 -> odwrocona 90709 (palindrom)\n- 24682 -> odwrocona 28642\n- 33433 -> odwrocona 33433 (palindrom)\n- 78901 -> odwrocona 10987\n- 55555 -> odwrocona 55555 (palindrom)\n- 41014 -> odwrocona 41014 (palindrom)\n- 67876 -> odwrocona 67876 (palindrom)\n- 10201 -> odwrocona 10201 (palindrom)\nPalindromow: 9",
+  "typowe_bledy": [
+    {
+      "opis": "**Utrata zer koncowych przy odwracaniu**: Liczba 78901 odwrocona to 10987 (nie 1098700). Zera na koncu oryginalnej staja sie zerami wiodacymi — int je pomija, co jest poprawne",
+      "kara": "-0 pkt (poprawne zachowanie)"
+    },
+    {
+      "opis": "**Modyfikacja oryginalnej zmiennej**: Jezeli odwracasz n w miejscu (bez kopii), tracisz oryginalna wartosc do porownania",
+      "kara": "-2 pkt"
+    }
+  ]
+}

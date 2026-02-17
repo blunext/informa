@@ -1,0 +1,30 @@
+{
+  "id": "14.19",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2015 zad. 3 (najdalsza i najblizsza para)",
+  "tagi": [
+    "odleglosc-euklidesowa",
+    "najblizsze-punkty",
+    "podwojna-petla",
+    "sqrt",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `punkty.txt` w pierwszej linii jest n, a w kolejnych n liniach wspolrzedne punktow (x y, calkowite). Napisz program, ktory znajdzie pare najblizszych i pare najdalszych punktow (odleglosc euklidesowa).\n\n**Dane** (`punkty.txt`):\n```\n8\n1 1\n4 5\n7 2\n2 8\n6 6\n3 3\n0 4\n5 0\n```\n\n**Oczekiwany wynik**:\n```\nNajdalsza para: (2,8) i (5,0), odleglosc: 8.54\nNajblizsza para: (4,5) i (6,6), odleglosc: 2.24\n```",
+  "wskazowki": [
+    "**Kierunek**: Porownuj d^2 zamiast d — unikasz sqrt w petli. sqrt() tylko na koncu do wypisania.",
+    "**Podejscie**: Podwojna petla po parach (i,j), j>i. Sledzenie min i max d^2 z indeksami.",
+    "**Kluczowy krok**: Inicjalizuj maxD2=0 i minD2 = d^2 pierwszej pary (i=0, j=1)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    int n;\n    plik >> n;\n    int x[100], y[100];\n    for (int i = 0; i < n; i++)\n        plik >> x[i] >> y[i];\n    int maxI = 0, maxJ = 1, minI = 0, minJ = 1;\n    int maxD2 = 0;\n    int minD2 = (x[0] - x[1]) * (x[0] - x[1]) + (y[0] - y[1]) * (y[0] - y[1]);\n    for (int i = 0; i < n; i++) {\n        for (int j = i + 1; j < n; j++) {\n            int d2 = (x[i] - x[j]) * (x[i] - x[j]) + (y[i] - y[j]) * (y[i] - y[j]);\n            if (d2 > maxD2) { maxD2 = d2; maxI = i; maxJ = j; }\n            if (d2 < minD2) { minD2 = d2; minI = i; minJ = j; }\n        }\n    }\n    cout << fixed << setprecision(2);\n    cout << \"Najdalsza para: (\" << x[maxI] << \",\" << y[maxI] << \") i (\" << x[maxJ] << \",\" << y[maxJ] << \"), odleglosc: \" << sqrt((double)maxD2) << endl;\n    cout << \"Najblizsza para: (\" << x[minI] << \",\" << y[minI] << \") i (\" << x[minJ] << \",\" << y[minJ] << \"), odleglosc: \" << sqrt((double)minD2) << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Najdalsza: (2,8)-(5,0): d^2 = 9+64 = 73, d = 8.54\n- Najblizsza: (4,5)-(6,6): d^2 = 4+1 = 5, d = 2.24\n- Inne duze: (7,2)-(2,8): d^2=61, (0,4)-(7,2): d^2=53\n- Inne male: (4,5)-(3,3): d^2=5, (1,1)-(3,3): d^2=8",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie sqrt w petli**: Powoduje bledy precyzji i jest wolniejsze — lepiej porownywac d^2",
+      "kara": "0 pkt"
+    },
+    {
+      "opis": "**Petla j=0 zamiast j=i+1**: Liczy kazda pare dwa razy i porownuje punkt z samym soba (d=0)",
+      "kara": "-2 pkt"
+    }
+  ]
+}

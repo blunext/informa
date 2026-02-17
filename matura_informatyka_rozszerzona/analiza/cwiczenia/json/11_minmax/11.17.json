@@ -1,0 +1,29 @@
+{
+  "id": "11.17",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2024 zad. 3 (min/max per grupa)",
+  "tagi": [
+    "min-max",
+    "rekordy",
+    "wczytywanie-pliku",
+    "grupowanie"
+  ],
+  "tresc": "W pliku `wyniki.txt` znajduje sie 10 rekordow w formacie: imie grupa wynik (oddzielone spacja). Napisz program, ktory dla kazdej grupy znajdzie ucznia z najnizszym i najwyzszym wynikiem.\n\n**Dane** (`wyniki.txt`):\n```\nAnna A 85\nJan B 72\nEwa A 93\nPiotr B 68\nKasia A 78\nTomek B 81\nMarek A 90\nOla B 65\nAdam A 88\nZosia B 77\n```\n\n**Oczekiwany wynik**:\n```\nGrupa A:\n   Min: Kasia (78)\n   Max: Ewa (93)\nGrupa B:\n   Min: Ola (65)\n   Max: Tomek (81)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj dwoch map do sledzenia min i max per grupa.",
+    "**Podejscie**: `map<string, pair<int,string>>` na minG i maxG — przechowuj wynik + imie.",
+    "**Kluczowy krok**: Przy pierwszym elemencie grupy (brak w mapie) inicjalizuj. Potem porownuj `<` dla min, `>` dla max."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"wyniki.txt\");\n    string imie, grupa;\n    int wynik;\n    map<string, pair<int, string>> minG, maxG;\n    while (plik >> imie >> grupa >> wynik) {\n        if (minG.find(grupa) == minG.end() || wynik < minG[grupa].first) {\n            minG[grupa] = {wynik, imie};\n        }\n        if (maxG.find(grupa) == maxG.end() || wynik > maxG[grupa].first) {\n            maxG[grupa] = {wynik, imie};\n        }\n    }\n    for (auto& g : minG) {\n        cout << \"Grupa \" << g.first << \":\" << endl;\n        cout << \"   Min: \" << g.second.second << \" (\" << g.second.first << \")\" << endl;\n        cout << \"   Max: \" << maxG[g.first].second << \" (\" << maxG[g.first].first << \")\" << endl;\n    }\n    return 0;\n}\n```\n\nWeryfikacja:\n- Grupa A: Anna(85), Ewa(93), Kasia(78), Marek(90), Adam(88) → Min=Kasia(78), Max=Ewa(93)\n- Grupa B: Jan(72), Piotr(68), Tomek(81), Ola(65), Zosia(77) → Min=Ola(65), Max=Tomek(81)",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak inicjalizacji przy pierwszym elemencie grupy**: Trzeba sprawdzic czy grupa juz istnieje w mapie",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Jedna mapa zamiast dwoch**: Min i max musza byc sledzeni osobno — jedna mapa nie wystarczy",
+      "kara": "-1 pkt"
+    }
+  ]
+}

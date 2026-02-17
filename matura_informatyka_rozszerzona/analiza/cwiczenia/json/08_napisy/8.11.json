@@ -1,0 +1,28 @@
+{
+  "id": "8.11",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzor: Matura 2025 zad. 2 (analiza znakow w napisach)",
+  "tagi": [
+    "zliczanie-znakow",
+    "operacje-na-string",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 10 napisow skladajacych sie z malych liter (kazdy w osobnym wierszu). Napisz program, ktory dla kazdego napisu zliczy samogloski (a, e, i, o, u) i wypisze wynik. Na koniec podaj, ile napisow ma co najmniej 3 samogloski.\n\n**Dane** (`napisy.txt`):\n```\nalgorytm\ninformatyka\nmatura\nprogramowanie\nekran\nkomputer\nbaza\nserwer\nszyfrowanie\nplik\n```\n\n**Oczekiwany wynik**:\n```\nalgorytm: samoglosek = 2\ninformatyka: samoglosek = 4 (>= 3)\nmatura: samoglosek = 3 (>= 3)\nprogramowanie: samoglosek = 6 (>= 3)\nekran: samoglosek = 2\nkomputer: samoglosek = 3 (>= 3)\nbaza: samoglosek = 2\nserwer: samoglosek = 2\nszyfrowanie: samoglosek = 4 (>= 3)\nplik: samoglosek = 1\nNapisow z >= 3 samogloskami: 5\n```",
+  "wskazowki": [
+    "**Kierunek**: Iteruj po znakach napisu i sprawdzaj, czy dany znak jest samogloska.",
+    "**Podejscie**: Warunek: `c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'`. Zliczaj trafienia.",
+    "**Kluczowy krok**: Pamietaj ze 'y' NIE jest samogloska w tym zadaniu (choć w polskim bywa)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    int ile = 0;\n    while (plik >> s) {\n        int sam = 0;\n        for (char c : s) {\n            if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')\n                sam++;\n        }\n        cout << s << \": samoglosek = \" << sam;\n        if (sam >= 3) {\n            cout << \" (>= 3)\" << endl;\n            ile++;\n        } else {\n            cout << endl;\n        }\n    }\n    cout << \"Napisow z >= 3 samogloskami: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Prosta iteracja po znakach z warunkiem logicznym. Samogloski to 5 liter: a, e, i, o, u.\n\nWeryfikacja:\n- algorytm: a,o -> 2\n- informatyka: i,o,a,a -> 4 (y nie jest samogloska)\n- matura: a,u,a -> 3\n- programowanie: o,a,o,a,i,e -> 6\n- ekran: e,a -> 2\n- komputer: o,u,e -> 3\n- baza: a,a -> 2\n- serwer: e,e -> 2\n- szyfrowanie: o,a,i,e -> 4\n- plik: i -> 1\nRazem >= 3: informatyka, matura, programowanie, komputer, szyfrowanie = 5",
+  "typowe_bledy": [
+    {
+      "opis": "**Wlaczenie 'y' jako samogloski**: W tym zadaniu y nie jest samogloska. Dodanie y zmieni wyniki",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak obslugi duzych liter**: Tu dane sa male, ale w ogolnym przypadku trzeba by dodac || c == 'A' itd.",
+      "kara": "-0 pkt (tu nie dotyczy)"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "10.13",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2023 zad. 3 (histogram)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "map-zliczanie",
+    "napisy"
+  ],
+  "tresc": "W pliku `teksty.txt` znajduje sie 15 slow (kazde w osobnym wierszu). Napisz program, ktory utworzy histogram dlugosci slow (ile slow ma kazda dlugosc) i wskazze najczestsza dlugosc.\n\n**Dane** (`teksty.txt`):\n```\nkot\nsamochod\ndom\nprogramowanie\nja\ninformatyka\nto\nmapa\nkomputer\nok\nalgorytm\nze\ndo\nstruktura\nbit\n```\n\n**Oczekiwany wynik**:\n```\nHistogram dlugosci slow:\n   Dlugosc 2: 5\n   Dlugosc 3: 3\n   Dlugosc 4: 1\n   Dlugosc 8: 3\n   Dlugosc 9: 1\n   Dlugosc 11: 1\n   Dlugosc 13: 1\nNajczestsza dlugosc: 2 (5 slow)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj `map<int,int>` do zliczania wystapien kazdej dlugosci.",
+    "**Podejscie**: Dla kazdego slowa: `hist[s.length()]++`. Map sortuje po kluczu (dlugosc rosnaco).",
+    "**Kluczowy krok**: Najczestsza dlugosc = klucz z max wartoscia. Iteruj po mapie szukajac max."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"teksty.txt\");\n    string s;\n    map<int, int> hist;\n    while (plik >> s) hist[s.length()]++;\n    cout << \"Histogram dlugosci slow:\" << endl;\n    int maxLen = 0, maxCnt = 0;\n    for (auto& p : hist) {\n        cout << \"   Dlugosc \" << p.first << \": \" << p.second << endl;\n        if (p.second > maxCnt) {\n            maxCnt = p.second;\n            maxLen = p.first;\n        }\n    }\n    cout << \"Najczestsza dlugosc: \" << maxLen << \" (\" << maxCnt << \" slow)\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Dlugosc 2: ja, to, ok, ze, do = 5\n- Dlugosc 3: kot, dom, bit = 3\n- Dlugosc 4: mapa = 1\n- Dlugosc 8: samochod, komputer, algorytm = 3\n- Dlugosc 9: struktura = 1\n- Dlugosc 11: informatyka = 1\n- Dlugosc 13: programowanie = 1\nMax: dlugosc 2 (5 slow)",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie tablicy zamiast mapy**: Tablica wymaga znajomosci max dlugosci z gory. Mapa jest elastyczniejsza",
+      "kara": "-0 pkt (nie blad, ale nieeleganckie)"
+    },
+    {
+      "opis": "**Liczenie znakow zamiast dlugosci slowa**: Reczne liczenie w petli zamiast `s.length()` moze pomijac znaki",
+      "kara": "-1 pkt"
+    }
+  ]
+}

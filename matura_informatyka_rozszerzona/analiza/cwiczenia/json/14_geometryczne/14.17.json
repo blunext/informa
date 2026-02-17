@@ -1,0 +1,27 @@
+{
+  "id": "14.17",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2021 zad. 3 (pola wielokatow)",
+  "tagi": [
+    "wielokat",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `wielokaty.txt` w pierwszej linii jest k (liczba wielokatow). Dla kazdego wielokata: pierwsza linia zawiera n (liczbe wierzcholkow), a kolejne n linii wspolrzedne wierzcholkow w kolejnosci obejscia. Napisz program, ktory obliczy pole kazdego wielokata (wzor sznurowadla) i wskazze najwiekszy.\n\n**Dane** (`wielokaty.txt`):\n```\n3\n4\n0 0\n4 0\n4 3\n0 3\n3\n0 0\n6 0\n3 4\n5\n0 0\n5 0\n5 3\n3 5\n0 3\n```\n\n**Oczekiwany wynik**:\n```\nWielokat 1 (4 wierzch.): pole = 12.00\nWielokat 2 (3 wierzch.): pole = 12.00\nWielokat 3 (5 wierzch.): pole = 20.00\nLaczne pole: 44.00\nNajwiekszy: wielokat 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Wzor sznurowadla: pole = |sum(x_i*y_{i+1} - x_{i+1}*y_i)| / 2.",
+    "**Podejscie**: Indeks (i+1) % n zamyka wielokat — ostatni wierzcholek laczy sie z pierwszym.",
+    "**Kluczowy krok**: Sumuj iloczyny calkowite, abs() na koncu, potem dziel przez 2.0."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <iomanip>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"wielokaty.txt\");\n    int k;\n    plik >> k;\n    cout << fixed << setprecision(2);\n    double suma = 0;\n    int maxIdx = 1;\n    double maxPole = 0;\n    for (int w = 0; w < k; w++) {\n        int n;\n        plik >> n;\n        vector<int> x(n), y(n);\n        for (int i = 0; i < n; i++)\n            plik >> x[i] >> y[i];\n        int s = 0;\n        for (int i = 0; i < n; i++) {\n            int j = (i + 1) % n;\n            s += x[i] * y[j] - x[j] * y[i];\n        }\n        double pole = abs(s) / 2.0;\n        cout << \"Wielokat \" << w + 1 << \" (\" << n << \" wierzch.): pole = \" << pole << endl;\n        suma += pole;\n        if (pole > maxPole) {\n            maxPole = pole;\n            maxIdx = w + 1;\n        }\n    }\n    cout << \"Laczne pole: \" << suma << endl;\n    cout << \"Najwiekszy: wielokat \" << maxIdx << endl;\n    return 0;\n}\n```\n\nWeryfikacja (wzor sznurowadla):\n- W1 (prostokat 4x3): |0*0-4*0 + 4*3-4*0 + 4*3-0*3 + 0*0-0*3|/2 = 24/2 = 12.00\n- W2 (trojkat): |0*0-6*0 + 6*4-3*0 + 3*0-0*4|/2 = 24/2 = 12.00\n- W3 (pieciobok): |0+15+16+9+0|/2 = 40/2 = 20.00\n- Suma: 44.00, Max: wielokat 3",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak zamkniecia wielokata**: Zapomnienie o krawedzi od ostatniego wierzcholka do pierwszego (i+1)%n",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak abs()**: Wzor sznurowadla daje wartosc ujemna przy obejsciu w lewo",
+      "kara": "-1 pkt"
+    }
+  ]
+}

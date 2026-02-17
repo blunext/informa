@@ -1,0 +1,30 @@
+{
+  "id": "11.14",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2019 zad. 3 (warunkowe min/max)",
+  "tagi": [
+    "min-max",
+    "warunkowe-min-max",
+    "filtrowanie",
+    "wczytywanie-pliku",
+    "parzystosc"
+  ],
+  "tresc": "W pliku `liczby.txt` znajduje sie 10 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory znajdzie:\na) Minimum wsrod liczb parzystych (i poda ile ich jest).\nb) Maksimum wsrod liczb nieparzystych (i poda ile ich jest).\n\n**Dane** (`liczby.txt`):\n```\n42\n17\n28\n63\n10\n55\n36\n71\n24\n39\n```\n\n**Oczekiwany wynik**:\n```\nMin wsrod parzystych: 10 (z 5 parzystych)\nMax wsrod nieparzystych: 71 (z 5 nieparzystych)\n```",
+  "wskazowki": [
+    "**Kierunek**: Dwa oddzielne szukania min/max — jedno dla parzystych, jedno dla nieparzystych.",
+    "**Podejscie**: Uzyj flag `bool znalezionoP = false` i sprawdzaj `!znalezionoP || n < minP`.",
+    "**Kluczowy krok**: `n%2==0` to parzyste. Pamietaj o osobnych licznikach dla obu grup."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"liczby.txt\");\n    int n;\n    int minP = 1000000, maxN = -1;\n    int ileP = 0, ileN = 0;\n    while (plik >> n) {\n        if (n % 2 == 0) {\n            if (n < minP) minP = n;\n            ileP++;\n        } else {\n            if (n > maxN) maxN = n;\n            ileN++;\n        }\n    }\n    cout << \"Min wsrod parzystych: \" << minP << \" (z \" << ileP << \" parzystych)\" << endl;\n    cout << \"Max wsrod nieparzystych: \" << maxN << \" (z \" << ileN << \" nieparzystych)\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Parzyste: 42, 28, 10, 36, 24 → min = 10, ilosc = 5\n- Nieparzyste: 17, 63, 55, 71, 39 → max = 71, ilosc = 5",
+  "typowe_bledy": [
+    {
+      "opis": "**Inicjalizacja minP=0**: Min parzyste nigdy nie bedzie mniejsze od 0 dla danych dodatnich, ale to zla praktyka",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Szukanie min/max wsrod wszystkich bez filtrowania**: Ignorowanie warunku parzystosci",
+      "kara": "-2 pkt"
+    }
+  ]
+}

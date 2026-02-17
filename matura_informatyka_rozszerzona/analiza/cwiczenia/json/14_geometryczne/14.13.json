@@ -1,0 +1,23 @@
+{
+  "id": "14.13",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2019 zad. 3 (odleglosc Manhattan)",
+  "tagi": [
+    "podwojna-petla",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `punkty.txt` w pierwszej linii jest n, a w kolejnych n liniach wspolrzedne punktow (x y). Napisz program, ktory znajdzie pare punktow o najwiekszej odleglosci Manhattan (|x1-x2| + |y1-y2|).\n\n**Dane** (`punkty.txt`):\n```\n6\n1 2\n5 8\n3 1\n7 3\n0 5\n4 6\n```\n\n**Oczekiwany wynik**:\n```\nMax odleglosc Manhattan: 10\nPara: (1,2) i (5,8)\n```",
+  "wskazowki": [
+    "**Kierunek**: Odleglosc Manhattan = |x1-x2| + |y1-y2|. Operuje na liczbach calkowitych.",
+    "**Podejscie**: Podwojna petla po wszystkich parach (i,j) gdzie j>i, szukaj maksimum.",
+    "**Kluczowy krok**: Uzyj abs() z <cstdlib> lub oblicz wartosc bezwzgledna recznie."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    int n;\n    plik >> n;\n    int x[100], y[100];\n    for (int i = 0; i < n; i++)\n        plik >> x[i] >> y[i];\n    int maxD = 0, pi = 0, pj = 1;\n    for (int i = 0; i < n; i++) {\n        for (int j = i + 1; j < n; j++) {\n            int d = abs(x[i] - x[j]) + abs(y[i] - y[j]);\n            if (d > maxD) {\n                maxD = d;\n                pi = i;\n                pj = j;\n            }\n        }\n    }\n    cout << \"Max odleglosc Manhattan: \" << maxD << endl;\n    cout << \"Para: (\" << x[pi] << \",\" << y[pi] << \") i (\" << x[pj] << \",\" << y[pj] << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- (1,2)-(5,8): |4|+|6|=10 ← max\n- (5,8)-(3,1): 2+7=9\n- (7,3)-(0,5): 7+2=9\n- Pozostale pary < 10",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak wartosci bezwzglednej**: Roznica wspolrzednych moze byc ujemna — bez abs() wynik bledny",
+      "kara": "-2 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "13.12",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzor: Matura 2019 zad. 4 (siatka binarna)",
+  "tagi": [
+    "tablica-2D",
+    "zliczanie-komorek",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `siatka.txt` znajduje sie siatka 5x6 zer i jedynek (5 wierszy po 6 liczb oddzielonych spacjami). Napisz program, ktory zliczy ile jest jedynek i ile zer.\n\n**Dane** (`siatka.txt`):\n```\n1 0 1 1 0 1\n0 1 0 1 1 0\n1 1 1 0 0 1\n0 0 1 1 0 0\n1 0 0 1 1 1\n```\n\n**Oczekiwany wynik**:\n```\nJedynki: 17\nZera: 13\n```",
+  "wskazowki": [
+    "**Kierunek**: Prosta petla wczytujaca wszystkie elementy i zliczajaca.",
+    "**Podejscie**: Nie musisz przechowywac tablicy — wystarczy `while (plik >> x)` z dwoma licznikami.",
+    "**Kluczowy krok**: Lacznie elementow = wiersze * kolumny = 5*6 = 30. Zera = 30 - jedynki."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    int x;\n    int ones = 0, zeros = 0;\n    while (plik >> x) {\n        if (x == 1) ones++;\n        else zeros++;\n    }\n    cout << \"Jedynki: \" << ones << endl;\n    cout << \"Zera: \" << zeros << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Wiersz 1: 1,0,1,1,0,1 → 4 jedynki, 2 zera\n- Wiersz 2: 0,1,0,1,1,0 → 3 jedynki, 3 zera\n- Wiersz 3: 1,1,1,0,0,1 → 4 jedynki, 2 zera\n- Wiersz 4: 0,0,1,1,0,0 → 2 jedynki, 4 zera\n- Wiersz 5: 1,0,0,1,1,1 → 4 jedynki, 2 zera\n- Razem: 17 jedynek, 13 zer",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o zerach**: Zliczanie tylko jedynek bez podawania liczby zer",
+      "kara": "-1 pkt"
+    }
+  ]
+}

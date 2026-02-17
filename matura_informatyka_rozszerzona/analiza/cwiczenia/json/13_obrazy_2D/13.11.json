@@ -1,0 +1,24 @@
+{
+  "id": "13.11",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzor: Matura 2017 zad. 4 (sumy wierszy macierzy)",
+  "tagi": [
+    "tablica-2D",
+    "zliczanie-komorek",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `macierz.txt` znajduje sie macierz 4x5 liczb calkowitych (4 wiersze po 5 liczb oddzielonych spacjami). Napisz program, ktory obliczy sume kazdego wiersza i wskazze wiersz z najwieksza i najmniejsza suma.\n\n**Dane** (`macierz.txt`):\n```\n3 7 1 4 5\n2 8 6 3 1\n9 4 2 7 8\n5 1 3 6 4\n```\n\n**Oczekiwany wynik**:\n```\nSuma wierszy:\n   Wiersz 1: 20\n   Wiersz 2: 20\n   Wiersz 3: 30\n   Wiersz 4: 19\nWiersz z max suma: 3 (30)\nWiersz z min suma: 4 (19)\n```",
+  "wskazowki": [
+    "**Kierunek**: Podwojna petla: zewnetrzna po wierszach, wewnetrzna po kolumnach.",
+    "**Podejscie**: Dla kazdego wiersza sumuj elementy. Porownuj z dotychczasowym max/min.",
+    "**Kluczowy krok**: Numery wierszy 1-indeksowane w wypisywaniu, ale 0-indeksowane w tablicy."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"macierz.txt\");\n    int m[4][5];\n    for (int i = 0; i < 4; i++)\n        for (int j = 0; j < 5; j++)\n            plik >> m[i][j];\n    cout << \"Suma wierszy:\" << endl;\n    int maxS = 0, maxR = 0, minS = 1000000, minR = 0;\n    for (int i = 0; i < 4; i++) {\n        int s = 0;\n        for (int j = 0; j < 5; j++) s += m[i][j];\n        cout << \"   Wiersz \" << i + 1 << \": \" << s << endl;\n        if (s > maxS) { maxS = s; maxR = i + 1; }\n        if (s < minS) { minS = s; minR = i + 1; }\n    }\n    cout << \"Wiersz z max suma: \" << maxR << \" (\" << maxS << \")\" << endl;\n    cout << \"Wiersz z min suma: \" << minR << \" (\" << minS << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Wiersz 1: 3+7+1+4+5 = 20\n- Wiersz 2: 2+8+6+3+1 = 20\n- Wiersz 3: 9+4+2+7+8 = 30\n- Wiersz 4: 5+1+3+6+4 = 19\n- Max: wiersz 3 (30), Min: wiersz 4 (19)",
+  "typowe_bledy": [
+    {
+      "opis": "**Zamiana wierszy z kolumnami**: Iteracja po kolumnach jako zewnetrzna petla daje sumy kolumn zamiast wierszy",
+      "kara": "-2 pkt"
+    }
+  ]
+}

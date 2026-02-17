@@ -1,0 +1,28 @@
+{
+  "id": "8.17",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2022 zad. 5 (segmentacja napisow)",
+  "tagi": [
+    "operacje-na-string",
+    "wczytywanie-pliku",
+    "zliczanie-znakow"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 8 napisow skladajacych sie z malych liter i cyfr (kazdy w osobnym wierszu). Napisz program, ktory podzieli kazdy napis na spojne fragmenty — ciagi samych liter lub ciagi samych cyfr. Wypisz fragmenty w nawiasach kwadratowych. Na koniec wskazuj napis z najwieksza liczba fragmentow.\n\nNa przyklad: `abc123def456` -> `[abc] [123] [def] [456]` (4 fragmenty: 2 literowe, 2 cyfrowe).\n\n**Dane** (`napisy.txt`):\n```\nabc123def456\na1b2c3\nhello\n12345\nkod2024matura\nx9y8z7w6\npro100gramy200\ntest\n```\n\n**Oczekiwany wynik**:\n```\nabc123def456: [abc] [123] [def] [456] -> 2 literowe, 2 cyfrowe\na1b2c3: [a] [1] [b] [2] [c] [3] -> 3 literowe, 3 cyfrowe\nhello: [hello] -> 1 literowe, 0 cyfrowe\n12345: [12345] -> 0 literowe, 1 cyfrowe\nkod2024matura: [kod] [2024] [matura] -> 2 literowe, 1 cyfrowe\nx9y8z7w6: [x] [9] [y] [8] [z] [7] [w] [6] -> 4 literowe, 4 cyfrowe\npro100gramy200: [pro] [100] [gramy] [200] -> 2 literowe, 2 cyfrowe\ntest: [test] -> 1 literowe, 0 cyfrowe\nNapis z najwieksza liczba fragmentow: x9y8z7w6 (8)\n```",
+  "wskazowki": [
+    "**Kierunek**: Iteruj po napisie, grupuj kolejne znaki tego samego typu (litera/cyfra).",
+    "**Podejscie**: Petla z dwoma indeksami: `i` = poczatek fragmentu, `j` = koniec. Dopoki typ znaku sie nie zmieni, przesuwaj j.",
+    "**Kluczowy krok**: Sprawdzaj typ znaku: `isdigit(c)` lub `c >= '0' && c <= '9'` dla cyfr, reszta to litery."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nbool jestCyfra(char c) { return c >= '0' && c <= '9'; }\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    string maxNapis;\n    int maxFragm = 0;\n    while (plik >> s) {\n        cout << s << \": \";\n        int lit = 0, cyf = 0;\n        int i = 0;\n        bool first = true;\n        while (i < (int)s.length()) {\n            int j = i;\n            if (jestCyfra(s[i])) {\n                while (j < (int)s.length() && jestCyfra(s[j])) j++;\n                cyf++;\n            } else {\n                while (j < (int)s.length() && !jestCyfra(s[j])) j++;\n                lit++;\n            }\n            if (!first) cout << \" \";\n            first = false;\n            cout << \"[\" << s.substr(i, j - i) << \"]\";\n            i = j;\n        }\n        int total = lit + cyf;\n        cout << \" -> \" << lit << \" literowe, \" << cyf << \" cyfrowe\" << endl;\n        if (total > maxFragm) {\n            maxFragm = total;\n            maxNapis = s;\n        }\n    }\n    cout << \"Napis z najwieksza liczba fragmentow: \" << maxNapis << \" (\" << maxFragm << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Algorytm \"two-pointer\": i to poczatek biezacego fragmentu, j przesuwa sie dopoki typ znaku jest taki sam. Fragment = `s.substr(i, j-i)`.\n\nWeryfikacja:\n- abc123def456: [abc][123][def][456] -> 2 lit, 2 cyf, total 4\n- a1b2c3: [a][1][b][2][c][3] -> 3 lit, 3 cyf, total 6\n- hello: [hello] -> 1 lit, 0 cyf, total 1\n- 12345: [12345] -> 0 lit, 1 cyf, total 1\n- kod2024matura: [kod][2024][matura] -> 2 lit, 1 cyf, total 3\n- x9y8z7w6: [x][9][y][8][z][7][w][6] -> 4 lit, 4 cyf, total 8\n- pro100gramy200: [pro][100][gramy][200] -> 2 lit, 2 cyf, total 4\n- test: [test] -> 1 lit, 0 cyf, total 1\nMax: x9y8z7w6 (8)",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak przesuwania indeksu i**: Jezeli zapomnisz `i = j` po przetworzeniu fragmentu, petla sie zapetle",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak sprawdzenia granicy tablicy w petli wewnetrznej**: `j < s.length()` musi byc warunkiem — bez tego wyjdziesz poza napis",
+      "kara": "-1 pkt"
+    }
+  ]
+}

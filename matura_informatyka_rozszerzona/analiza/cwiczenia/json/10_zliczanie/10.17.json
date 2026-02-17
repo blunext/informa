@@ -1,0 +1,29 @@
+{
+  "id": "10.17",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2022 zad. 3 (histogram ocen)",
+  "tagi": [
+    "map-zliczanie",
+    "wczytywanie-pliku",
+    "tablica-czestotliwosci",
+    "iomanip"
+  ],
+  "tresc": "W pliku `dziennik.txt` znajduje sie 15 rekordow w formacie: imie ocena (oddzielone spacja). Napisz program, ktory:\na) Utworzy histogram ocen (ile razy wystepuje kazda ocena).\nb) Wskazze najczestsza ocene.\nc) Obliczy srednia ocen (2 miejsca po przecinku).\n\n**Dane** (`dziennik.txt`):\n```\nAnna 5\nJan 3\nEwa 4\nPiotr 2\nKasia 5\nTomek 4\nMarek 3\nOla 5\nAdam 4\nZosia 3\nBartek 4\nIwona 5\nDarek 2\nMagda 4\nFilip 3\n```\n\n**Oczekiwany wynik**:\n```\nHistogram ocen:\n   Ocena 2: 2\n   Ocena 3: 4\n   Ocena 4: 5\n   Ocena 5: 4\nNajczestsza ocena: 4 (5 razy)\nSrednia ocen: 3.73\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj mapy do zliczania wystapien kazdej oceny. Jednoczesnie sumuj na srednia.",
+    "**Podejscie**: `map<int,int>` na histogram, plus `suma` i `cnt` na srednia.",
+    "**Kluczowy krok**: Map sortuje po kluczu, wiec oceny beda w kolejnosci rosnacej. Srednia = (double)suma/cnt."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dziennik.txt\");\n    string imie;\n    int ocena;\n    map<int, int> hist;\n    int suma = 0, cnt = 0;\n    while (plik >> imie >> ocena) {\n        hist[ocena]++;\n        suma += ocena;\n        cnt++;\n    }\n    cout << \"Histogram ocen:\" << endl;\n    int maxOcena = 0, maxCnt = 0;\n    for (auto& p : hist) {\n        cout << \"   Ocena \" << p.first << \": \" << p.second << endl;\n        if (p.second > maxCnt) {\n            maxCnt = p.second;\n            maxOcena = p.first;\n        }\n    }\n    cout << \"Najczestsza ocena: \" << maxOcena << \" (\" << maxCnt << \" razy)\" << endl;\n    cout << fixed << setprecision(2);\n    cout << \"Srednia ocen: \" << (double)suma / cnt << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Ocena 2: Piotr, Darek = 2\n- Ocena 3: Jan, Marek, Zosia, Filip = 4\n- Ocena 4: Ewa, Tomek, Adam, Bartek, Magda = 5\n- Ocena 5: Anna, Kasia, Ola, Iwona = 4\n- Najczestsza: 4 (5 razy)\n- Suma: 5+3+4+2+5+4+3+5+4+3+4+5+2+4+3 = 56\n- Srednia: 56/15 = 3.7333... ≈ 3.73",
+  "typowe_bledy": [
+    {
+      "opis": "**Pominiecie imienia przy wczytywaniu**: `plik >> ocena` bez wczesniejszego `plik >> imie` wczyta imie jako ocene i zglosi blad",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Dzielenie calkowite przy sredniej**: `suma/cnt` bez castowania daje 3 zamiast 3.73",
+      "kara": "-1 pkt"
+    }
+  ]
+}

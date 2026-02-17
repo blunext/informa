@@ -1,0 +1,28 @@
+{
+  "id": "10.18",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2024 zad. 3 (analiza temperatur)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "iomanip"
+  ],
+  "tresc": "W pliku `temperatury.txt` znajduje sie 7 rekordow w formacie: dzien rano wieczor (oddzielone spacja). Napisz program, ktory:\na) Zliczy ile dni bylo mroznych rano (temperatura < 0).\nb) Zliczy ile dni roznica miedzy wieczorem a ranem przekroczyla 10 stopni.\nc) Obliczy srednia temperature ranna (2 miejsca po przecinku).\nd) Wskazze dzien z najwieksza roznica temperatur.\n\n**Dane** (`temperatury.txt`):\n```\nPoniedzialek 5 12\nWtorek 3 10\nSroda -2 8\nCzwartek 0 7\nPiatek 4 15\nSobota 6 18\nNiedziela 2 11\n```\n\n**Oczekiwany wynik**:\n```\nDni z mrozem rano: 1\nDni z roznica > 10: 2\nSrednia rano: 2.57\nNajwieksza roznica: Sobota (12)\n```",
+  "wskazowki": [
+    "**Kierunek**: W jednej petli wczytuj rekord (dzien, rano, wieczor) i sprawdzaj kilka warunkow.",
+    "**Podejscie**: `roznica = wieczor - rano`. Sprawdzaj `rano < 0`, `roznica > 10`, szukaj max.",
+    "**Kluczowy krok**: Srednia ranna = suma temperatur rannych / 7. Uzyj `fixed << setprecision(2)`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"temperatury.txt\");\n    string dzien;\n    int rano, wieczor;\n    int mroz = 0, duzeRoznice = 0;\n    int sumaRano = 0, cnt = 0;\n    string maxDzien;\n    int maxRoznica = 0;\n    while (plik >> dzien >> rano >> wieczor) {\n        if (rano < 0) mroz++;\n        int roznica = wieczor - rano;\n        if (roznica > 10) duzeRoznice++;\n        sumaRano += rano;\n        cnt++;\n        if (roznica > maxRoznica) {\n            maxRoznica = roznica;\n            maxDzien = dzien;\n        }\n    }\n    cout << \"Dni z mrozem rano: \" << mroz << endl;\n    cout << \"Dni z roznica > 10: \" << duzeRoznice << endl;\n    cout << fixed << setprecision(2);\n    cout << \"Srednia rano: \" << (double)sumaRano / cnt << endl;\n    cout << \"Najwieksza roznica: \" << maxDzien << \" (\" << maxRoznica << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Mroz rano: Sroda(-2) = 1\n- Roznice: Pon=7, Wt=7, Sr=10, Czw=7, Pt=11, Sob=12, Nd=9\n- Roznica > 10: Piatek(11), Sobota(12) = 2\n- Suma rano: 5+3-2+0+4+6+2 = 18\n- Srednia: 18/7 = 2.5714... ≈ 2.57\n- Max roznica: Sobota (12)",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie abs() na roznicy**: Roznica wieczor-rano powinna byc zawsze dodatnia. abs() zmienilby sens przy odwrotnej kolejnosci",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pominiecie ujemnych temperatur przy sredniej**: -2 musi byc wlaczone do sumy (dodawanie ujemnej wartosci)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

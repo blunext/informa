@@ -1,0 +1,29 @@
+{
+  "id": "10.20",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Wzor: Matura 2023 zad. 4 (zliczanie z dwoch plikow)",
+  "tagi": [
+    "wiele-plikow",
+    "map-zliczanie",
+    "filtrowanie",
+    "grupowanie"
+  ],
+  "tresc": "Dane sa w dwoch plikach. W pliku `produkty.txt` znajduje sie 6 rekordow w formacie: id nazwa kategoria (oddzielone spacja). W pliku `sprzedaz.txt` znajduje sie 12 rekordow w formacie: id_produktu ilosc (oddzielone spacja). Napisz program, ktory:\na) Obliczy laczna sprzedaz per kategoria.\nb) Zliczy ile produktow sprzedano wiecej niz 5 sztuk lacznie.\nc) Wskazze kategorie z najwyzsza laczna sprzedaza.\n\n**Dane** (`produkty.txt`):\n```\n1 Laptop Elektronika\n2 Koszula Odziez\n3 Myszka Elektronika\n4 Buty Odziez\n5 Monitor Elektronika\n6 Spodnie Odziez\n```\n\n**Dane** (`sprzedaz.txt`):\n```\n1 3\n3 10\n2 5\n5 2\n1 2\n4 8\n3 5\n6 3\n2 4\n5 1\n1 1\n4 2\n```\n\n**Oczekiwany wynik**:\n```\nSprzedaz per kategoria:\n   Elektronika: 24\n   Odziez: 22\nProdukty sprzedane wiecej niz 5 sztuk: 4\nKategoria z najwyzsza sprzedaza: Elektronika (24)\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj produkty (id->kategoria), zsumuj sprzedaz per produkt, potem agreguj per kategoria.",
+    "**Podejscie**: `map<int,string>` na kategorie produktow. `map<int,int>` na sume ilosci. Potem iteruj i sumuj per kategoria.",
+    "**Kluczowy krok**: Laczenie danych: iteruj po mapie sprzedazy, pobieraj kategorie z mapy produktow, sumuj do `map<string,int>`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream f1(\"produkty.txt\");\n    int id;\n    string nazwa, kategoria;\n    map<int, string> katProduktu;\n    while (f1 >> id >> nazwa >> kategoria) {\n        katProduktu[id] = kategoria;\n    }\n    ifstream f2(\"sprzedaz.txt\");\n    int idProd, ilosc;\n    map<int, int> sumaProd;\n    while (f2 >> idProd >> ilosc) {\n        sumaProd[idProd] += ilosc;\n    }\n    map<string, int> perKat;\n    int powyzej5 = 0;\n    for (auto& s : sumaProd) {\n        perKat[katProduktu[s.first]] += s.second;\n        if (s.second > 5) powyzej5++;\n    }\n    cout << \"Sprzedaz per kategoria:\" << endl;\n    string bestKat;\n    int bestVal = 0;\n    for (auto& p : perKat) {\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n        if (p.second > bestVal) {\n            bestVal = p.second;\n            bestKat = p.first;\n        }\n    }\n    cout << \"Produkty sprzedane wiecej niz 5 sztuk: \" << powyzej5 << endl;\n    cout << \"Kategoria z najwyzsza sprzedaza: \" << bestKat << \" (\" << bestVal << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Prod 1 (Laptop, Elektronika): 3+2+1 = 6 (>5 ✓)\n- Prod 2 (Koszula, Odziez): 5+4 = 9 (>5 ✓)\n- Prod 3 (Myszka, Elektronika): 10+5 = 15 (>5 ✓)\n- Prod 4 (Buty, Odziez): 8+2 = 10 (>5 ✓)\n- Prod 5 (Monitor, Elektronika): 2+1 = 3 (>5 ✗)\n- Prod 6 (Spodnie, Odziez): 3 (>5 ✗)\n- Elektronika: 6+15+3 = 24\n- Odziez: 9+10+3 = 22\n- Powyzej 5: 4 produkty\n- Najwyzsza: Elektronika (24)",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak sumowania ilosci z wielu wpisow**: Kazdy produkt moze miec wiele wierszy w sprzedaz.txt — trzeba zsumowac",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledne laczenie plikow**: Uzycie nazwy produktu zamiast id do laczenia danych",
+      "kara": "-2 pkt"
+    }
+  ]
+}

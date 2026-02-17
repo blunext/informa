@@ -1,0 +1,29 @@
+{
+  "id": "13.17",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2021 zad. 4 (symetria macierzy)",
+  "tagi": [
+    "tablica-2D",
+    "symetria",
+    "palindrom",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `siatka.txt` znajduje sie siatka 5x5 zer i jedynek. Napisz program, ktory sprawdzi:\na) Czy siatka jest symetryczna poziomo (wiersz i-ty = wiersz (n-1-i)-ty).\nb) Czy siatka jest symetryczna pionowo (kolumna j-ta = kolumna (n-1-j)-ta).\nc) Ile wierszy jest palindromami (czytane od lewej = od prawej).\n\n**Dane** (`siatka.txt`):\n```\n1 0 1 0 0\n0 1 0 1 1\n1 0 0 0 1\n0 1 0 1 1\n1 0 1 0 0\n```\n\n**Oczekiwany wynik**:\n```\nSymetria pozioma: TAK\nSymetria pionowa: NIE\nWiersze palindromy: 1\n```",
+  "wskazowki": [
+    "**Kierunek**: Symetria pozioma: porownaj wiersz i z wierszem n-1-i dla i=0..1.",
+    "**Podejscie**: Symetria pionowa: porownaj kolumne j z kolumna n-1-j. Palindrom wiersza: porownaj m[i][j] z m[i][n-1-j].",
+    "**Kluczowy krok**: Wystarczy sprawdzac polowe (i<n/2 lub j<n/2) — jesli polowa sie zgadza, calosc tez."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    int m[5][5];\n    for (int i = 0; i < 5; i++)\n        for (int j = 0; j < 5; j++)\n            plik >> m[i][j];\n    bool horiz = true;\n    for (int i = 0; i < 2; i++)\n        for (int j = 0; j < 5; j++)\n            if (m[i][j] != m[4 - i][j]) horiz = false;\n    cout << \"Symetria pozioma: \" << (horiz ? \"TAK\" : \"NIE\") << endl;\n    bool vert = true;\n    for (int i = 0; i < 5; i++)\n        for (int j = 0; j < 2; j++)\n            if (m[i][j] != m[i][4 - j]) vert = false;\n    cout << \"Symetria pionowa: \" << (vert ? \"TAK\" : \"NIE\") << endl;\n    int pal = 0;\n    for (int i = 0; i < 5; i++) {\n        bool ok = true;\n        for (int j = 0; j < 2; j++)\n            if (m[i][j] != m[i][4 - j]) ok = false;\n        if (ok) pal++;\n    }\n    cout << \"Wiersze palindromy: \" << pal << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Pozioma: wiersz 0=[1,0,1,0,0]=wiersz 4, wiersz 1=[0,1,0,1,1]=wiersz 3 → TAK\n- Pionowa: kol 0=[1,0,1,0,1] vs kol 4=[0,1,1,1,0] → rozne → NIE\n- Palindromy: tylko wiersz 2=[1,0,0,0,1] czytany od lewej=od prawej → 1",
+  "typowe_bledy": [
+    {
+      "opis": "**Sprawdzanie calej macierzy zamiast polowy**: Porownywanie i=0..4 zamiast i=0..1 nie jest bledem, ale jest nieefektywne",
+      "kara": "0 pkt"
+    },
+    {
+      "opis": "**Mylenie osi symetrii**: Symetria pozioma = odbicie wzgledem osi poziomej (zamiana wierszy), nie kolumn",
+      "kara": "-2 pkt"
+    }
+  ]
+}

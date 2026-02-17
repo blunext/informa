@@ -1,0 +1,24 @@
+{
+  "id": "14.11",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzor: Matura 2025 zad. 3 (punkt w kole)",
+  "tagi": [
+    "odleglosc-euklidesowa",
+    "filtrowanie",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `punkty.txt` w pierwszej linii jest n, a w kolejnych n liniach wspolrzedne punktow (x y). Kolo ma srodek (3,3) i promien r=3. Napisz program, ktory policzy ile punktow lezy wewnatrz kola (lub na jego brzegu) i ile na zewnatrz.\n\n**Dane** (`punkty.txt`):\n```\n8\n1 2\n3 4\n5 1\n0 0\n7 7\n2 3\n4 4\n6 2\n```\n\n**Oczekiwany wynik**:\n```\nWewnatrz kola: 5\nNa zewnatrz kola: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Punkt lezy w kole gdy odleglosc od srodka <= promien.",
+    "**Podejscie**: Porownuj d^2 <= r^2 zamiast d <= r — unikasz sqrt i bledow zmiennoprzecinkowych.",
+    "**Kluczowy krok**: d^2 = (x-cx)^2 + (y-cy)^2, r^2 = 9."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    int n;\n    plik >> n;\n    int cx = 3, cy = 3, r = 3;\n    int wew = 0, zew = 0;\n    for (int i = 0; i < n; i++) {\n        int x, y;\n        plik >> x >> y;\n        int dd = (x - cx) * (x - cx) + (y - cy) * (y - cy);\n        if (dd <= r * r) wew++;\n        else zew++;\n    }\n    cout << \"Wewnatrz kola: \" << wew << endl;\n    cout << \"Na zewnatrz kola: \" << zew << endl;\n    return 0;\n}\n```\n\nWeryfikacja (d^2 vs r^2=9):\n- (1,2): 4+1=5 <= 9 → wewnatrz\n- (3,4): 0+1=1 <= 9 → wewnatrz\n- (5,1): 4+4=8 <= 9 → wewnatrz\n- (0,0): 9+9=18 > 9 → zewnatrz\n- (7,7): 16+16=32 > 9 → zewnatrz\n- (2,3): 1+0=1 <= 9 → wewnatrz\n- (4,4): 1+1=2 <= 9 → wewnatrz\n- (6,2): 9+1=10 > 9 → zewnatrz",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie sqrt zamiast d^2**: Porownywanie odleglosci zamiast kwadratow prowadzi do bledow precyzji",
+      "kara": "-1 pkt"
+    }
+  ]
+}

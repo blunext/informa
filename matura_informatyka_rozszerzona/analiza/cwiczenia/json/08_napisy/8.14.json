@@ -1,0 +1,28 @@
+{
+  "id": "8.14",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2016 zad. 5 (kodowanie napisow)",
+  "tagi": [
+    "operacje-na-string",
+    "kompresja",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Kompresja RLE (Run-Length Encoding) polega na zastepowaniu ciagu powtarzajacych sie znakow para: znak + liczba powtorzen. Na przyklad: `aaabbc` -> `a3b2c1`.\n\nW pliku `napisy.txt` znajduje sie 8 napisow (kazdy w osobnym wierszu). Napisz program, ktory dla kazdego napisu wykona kompresje RLE i wypisze wynik. Porownaj dlugosci — jesli skompresowany jest krotszy, napisz \"kompresja\", jesli dluzszy — \"rozszerzenie\", jesli rowny — \"bez zmian\". Na koniec zlicz ile napisow zostalo skompresowanych (krotszy wynik).\n\n**Dane** (`napisy.txt`):\n```\naaabbbcc\nabcdefg\naabbccdd\nxxxyyyzzz\nhello\naaaaaa\nabababab\nxyzxyz\n```\n\n**Oczekiwany wynik**:\n```\naaabbbcc -> a3b3c2 (8 -> 6, kompresja)\nabcdefg -> a1b1c1d1e1f1g1 (7 -> 14, rozszerzenie)\naabbccdd -> a2b2c2d2 (8 -> 8, bez zmian)\nxxxyyyzzz -> x3y3z3 (9 -> 6, kompresja)\nhello -> h1e1l2o1 (5 -> 8, rozszerzenie)\naaaaaa -> a6 (6 -> 2, kompresja)\nabababab -> a1b1a1b1a1b1a1b1 (8 -> 16, rozszerzenie)\nxyzxyz -> x1y1z1x1y1z1 (6 -> 12, rozszerzenie)\nNapisy skompresowane (krotszy wynik): 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Iteruj po napisie, sledzac biezacy znak i liczbe jego powtorzen.",
+    "**Podejscie**: Petla `while` z indeksem. Dopoki `s[j] == s[i]`, zwieksz j. Dopisz `s[i]` i `to_string(j-i)` do wyniku.",
+    "**Kluczowy krok**: RLE nie zawsze kompresuje — dla napisow bez powtorzen (np. `abcdefg`) wynik jest dluzszy niz oryginol."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nstring rle(const string& s) {\n    string wynik = \"\";\n    int i = 0;\n    while (i < (int)s.length()) {\n        char c = s[i];\n        int cnt = 0;\n        while (i < (int)s.length() && s[i] == c) {\n            cnt++;\n            i++;\n        }\n        wynik += c;\n        wynik += to_string(cnt);\n    }\n    return wynik;\n}\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    int ile = 0;\n    while (plik >> s) {\n        string compressed = rle(s);\n        int origLen = s.length();\n        int compLen = compressed.length();\n        cout << s << \" -> \" << compressed << \" (\" << origLen << \" -> \" << compLen << \", \";\n        if (compLen < origLen) {\n            cout << \"kompresja)\" << endl;\n            ile++;\n        } else if (compLen == origLen) {\n            cout << \"bez zmian)\" << endl;\n        } else {\n            cout << \"rozszerzenie)\" << endl;\n        }\n    }\n    cout << \"Napisy skompresowane (krotszy wynik): \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: RLE grupuje identyczne sasiednie znaki. Wynik jest krotszy gdy sa dlugie serie (np. `aaaaaa` -> `a6`), ale dluzszy gdy znaki sie nie powtarzaja.\n\nWeryfikacja:\n- aaabbbcc: a*3, b*3, c*2 -> a3b3c2 (8->6 kompresja)\n- abcdefg: kazdy*1 -> a1b1c1d1e1f1g1 (7->14 rozszerzenie)\n- aabbccdd: kazdy*2 -> a2b2c2d2 (8->8 bez zmian)\n- xxxyyyzzz: kazdy*3 -> x3y3z3 (9->6 kompresja)\n- hello: h*1,e*1,l*2,o*1 -> h1e1l2o1 (5->8 rozszerzenie)\n- aaaaaa: a*6 -> a6 (6->2 kompresja)\n- abababab: kazdy*1 -> a1b1a1b1a1b1a1b1 (8->16 rozszerzenie)\n- xyzxyz: kazdy*1 -> x1y1z1x1y1z1 (6->12 rozszerzenie)\nSkompresowane: aaabbbcc, xxxyyyzzz, aaaaaa = 3",
+  "typowe_bledy": [
+    {
+      "opis": "**Pominecie znakow niepowtarzajacych sie**: Kazdy znak musi byc zakodowany, nawet jesli wystepuje raz (np. `c1`)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne zliczanie — off-by-one**: Jezeli cnt zaczyna od 1, pierwsza iteracja liczy podwojnie. Zainicjalizuj cnt=0 i licz w petli",
+      "kara": "-2 pkt"
+    }
+  ]
+}

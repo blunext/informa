@@ -1,0 +1,28 @@
+{
+  "id": "12.18",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2025 zad. 3 (podciag bez powtorzen)",
+  "tagi": [
+    "spojny-podciag",
+    "current-max",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu, wartosci 1-15). Napisz program, ktory znajdzie najdluzszy spojny podciag, w ktorym wszystkie elementy sa rozne. Wypisze jego dlugosc, pozycje poczatkowa (1-indeksowana) i elementy.\n\n**Dane** (`dane.txt`):\n```\n3\n7\n2\n7\n5\n3\n8\n5\n1\n4\n8\n6\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy podciag bez powtorzen: 5 elementow\nPoczatek: pozycja 3\nElementy: 2 7 5 3 8\n```",
+  "wskazowki": [
+    "**Kierunek**: Podwojna petla: dla kazdego poczatku rozszerzaj podciag dopoki elementy sa unikalne.",
+    "**Podejscie**: Uzyj `set<int>` do sledzenia unikalnych elementow. Gdy znajdziesz powtorke — przerwij wewnetrzna petle.",
+    "**Kluczowy krok**: O(n^2) rozwiazanie jest OK dla malych danych. Set automatycznie sprawdza duplikaty."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <set>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> dane;\n    int x;\n    while (plik >> x) dane.push_back(x);\n    int maxLen = 0, maxStart = 0;\n    for (int i = 0; i < (int)dane.size(); i++) {\n        set<int> seen;\n        int j;\n        for (j = i; j < (int)dane.size(); j++) {\n            if (seen.count(dane[j])) break;\n            seen.insert(dane[j]);\n        }\n        int len = j - i;\n        if (len > maxLen) {\n            maxLen = len;\n            maxStart = i;\n        }\n    }\n    cout << \"Najdluzszy podciag bez powtorzen: \" << maxLen << \" elementow\" << endl;\n    cout << \"Poczatek: pozycja \" << maxStart + 1 << endl;\n    cout << \"Elementy:\";\n    for (int i = maxStart; i < maxStart + maxLen; i++) {\n        cout << \" \" << dane[i];\n    }\n    cout << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Od poz 1 (3): 3,7,2 → 7 powtorka w poz 4. Dl=3.\n- Od poz 2 (7): 7,2 → 7 w poz 4. Dl=2.\n- Od poz 3 (2): 2,7,5,3,8 → 5 w poz 8. Dl=5.\n- Od poz 4 (7): 7,5,3,8 → 5 w poz 8... wait: dane[4]=7, dane[5]=5, dane[6]=3, dane[7]=8, dane[8]=5 → 5 powtorka. Dl=4.\n- Od poz 5 (5): 5,3,8 → 5 w poz 8... dane[5]=5, dane[6]=3, dane[7]=8, dane[8]=5 → 5 powtorka. Dl=3.\n- Od poz 8 (5): 5,1,4,8,6. Dl=5.\n- Najdluzszy (pierwszy): 5, poczatek pozycja 3, elementy: 2 7 5 3 8",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak set — reczne szukanie duplikatow**: Bez seta trzeba porownywac z kazdym elementem, latwo o bledy",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Szukanie od poczatku zamiast od kazdej pozycji**: Pominiecie podciagu zaczynajacego sie w srodku ciagu",
+      "kara": "-2 pkt"
+    }
+  ]
+}

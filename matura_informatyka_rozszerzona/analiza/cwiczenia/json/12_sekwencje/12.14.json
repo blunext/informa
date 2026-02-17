@@ -1,0 +1,28 @@
+{
+  "id": "12.14",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2022 zad. 3 (okno przesuwne)",
+  "tagi": [
+    "spojny-podciag",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie okno (spojny fragment) o rozmiarze 4 z najwieksza suma. Wypisze sume i pozycje poczatkowa okna (1-indeksowana).\n\n**Dane** (`dane.txt`):\n```\n3\n4\n2\n7\n1\n5\n8\n6\n3\n1\n2\n9\n```\n\n**Oczekiwany wynik**:\n```\nMax suma 4 kolejnych: 22\nPoczatek: pozycja 6\n```",
+  "wskazowki": [
+    "**Kierunek**: Oblicz sume pierwszego okna, potem przesuwaj dodajac nowy i odejmujac stary element.",
+    "**Podejscie**: `suma += dane[i] - dane[i-k]` — stala zlozonosc na okno (zamiast O(k) za kazdym razem).",
+    "**Kluczowy krok**: Okien jest n-k+1 = 9. Pozycja poczatkowa = indeks + 1 (1-indeksowanie)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> dane;\n    int x;\n    while (plik >> x) dane.push_back(x);\n    int k = 4;\n    int suma = 0;\n    for (int i = 0; i < k; i++) suma += dane[i];\n    int maxSuma = suma, maxPos = 1;\n    for (int i = k; i < (int)dane.size(); i++) {\n        suma += dane[i] - dane[i - k];\n        if (suma > maxSuma) {\n            maxSuma = suma;\n            maxPos = i - k + 2;\n        }\n    }\n    cout << \"Max suma \" << k << \" kolejnych: \" << maxSuma << endl;\n    cout << \"Poczatek: pozycja \" << maxPos << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Okna: [3,4,2,7]=16, [4,2,7,1]=14, [2,7,1,5]=15, [7,1,5,8]=21\n- [1,5,8,6]=20, [5,8,6,3]=22, [8,6,3,1]=18, [6,3,1,2]=12, [3,1,2,9]=15\n- Max: 22 (okno [5,8,6,3], pozycja 6)",
+  "typowe_bledy": [
+    {
+      "opis": "**Przeliczanie sumy od zera w kazdym oknie**: Dziala, ale ma zlozonosc O(n*k) zamiast O(n)",
+      "kara": "-0 pkt (poprawne ale wolne)"
+    },
+    {
+      "opis": "**Bledne indeksowanie pozycji**: Off-by-one blad przy konwersji 0-indeks na 1-indeks",
+      "kara": "-1 pkt"
+    }
+  ]
+}

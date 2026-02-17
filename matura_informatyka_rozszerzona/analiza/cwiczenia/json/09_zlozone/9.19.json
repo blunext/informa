@@ -1,0 +1,31 @@
+{
+  "id": "9.19",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2024 zad. 4 (analiza druzyn)",
+  "tagi": [
+    "grupowanie",
+    "map-zliczanie",
+    "wieloetapowe",
+    "wczytywanie-pliku",
+    "struct",
+    "iomanip"
+  ],
+  "tresc": "W pliku `wyniki.txt` znajduje sie 10 rekordow w formacie: imie druzyna wynik (oddzielone spacja). Napisz program, ktory:\na) Obliczy sredni wynik dla kazdej druzyny (2 miejsca po przecinku).\nb) Wskazze najlepszego zawodnika w kazdej druzynie.\nc) Obliczy srednia ogolna i zliczy ilu zawodnikow ma wynik wyzszy od sredniej ogolnej.\n\n**Dane** (`wyniki.txt`):\n```\nAnna A 92\nJan B 78\nEwa A 88\nPiotr B 65\nKasia A 85\nTomek B 82\nMarek A 76\nOla B 71\nAdam A 90\nZosia B 85\n```\n\n**Oczekiwany wynik**:\n```\nSrednia per druzyna:\n   Druzyna A: 86.20\n   Druzyna B: 76.20\nNajlepszy w kazdej druzynie:\n   Druzyna A: Anna (92)\n   Druzyna B: Zosia (85)\nSrednia ogolna: 81.20\nZawodnikow powyzej sredniej: 6\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj dane do wektora struktur. Uzyj map do grupowania po druzynie.",
+    "**Podejscie**: Struktura {imie, druzyna, wynik}. Mapy: `map<string, pair<int,int>>` na sume/ilosc, `map<string, pair<int,string>>` na best.",
+    "**Kluczowy krok**: Srednia ogolna = suma wszystkich / 10. Osobna petla do zliczenia powyzej sredniej (lub ta sama, jesli srednia juz obliczona)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"wyniki.txt\");\n    string imie, druzyna;\n    int wynik;\n    struct Gracz { string imie; string druzyna; int wynik; };\n    vector<Gracz> gracze;\n    while (plik >> imie >> druzyna >> wynik) {\n        gracze.push_back({imie, druzyna, wynik});\n    }\n    map<string, pair<int,int>> druzynyDane;\n    map<string, pair<int,string>> best;\n    int sumaAll = 0;\n    for (auto& g : gracze) {\n        druzynyDane[g.druzyna].first += g.wynik;\n        druzynyDane[g.druzyna].second++;\n        sumaAll += g.wynik;\n        if (g.wynik > best[g.druzyna].first) {\n            best[g.druzyna] = {g.wynik, g.imie};\n        }\n    }\n    cout << fixed << setprecision(2);\n    cout << \"Srednia per druzyna:\" << endl;\n    for (auto& d : druzynyDane) {\n        double avg = (double)d.second.first / d.second.second;\n        cout << \"   Druzyna \" << d.first << \": \" << avg << endl;\n    }\n    cout << \"Najlepszy w kazdej druzynie:\" << endl;\n    for (auto& b : best) {\n        cout << \"   Druzyna \" << b.first << \": \" << b.second.second << \" (\" << b.second.first << \")\" << endl;\n    }\n    double avgAll = (double)sumaAll / gracze.size();\n    int powyzej = 0;\n    for (auto& g : gracze) {\n        if (g.wynik > avgAll) powyzej++;\n    }\n    cout << \"Srednia ogolna: \" << avgAll << endl;\n    cout << \"Zawodnikow powyzej sredniej: \" << powyzej << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Druzyna A: 92+88+85+76+90 = 431, cnt=5, avg=86.20\n- Druzyna B: 78+65+82+71+85 = 381, cnt=5, avg=76.20\n- Best A: Anna (92), Best B: Zosia (85)\n- Ogolna: (431+381)/10 = 81.20\n- Powyzej 81.20: Anna(92), Ewa(88), Kasia(85), Tomek(82), Adam(90), Zosia(85) → 6",
+  "typowe_bledy": [
+    {
+      "opis": "**Osobne petle zamiast jednej struktury**: Bez wczytania wszystkich danych najpierw, trudno obliczyc srednia ogolna i porownac",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pomylenie >= z > przy zliczaniu powyzej sredniej**: Rowna sredniej nie jest 'powyzej' sredniej",
+      "kara": "-1 pkt"
+    }
+  ]
+}

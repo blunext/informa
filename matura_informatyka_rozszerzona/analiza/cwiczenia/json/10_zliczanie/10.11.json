@@ -1,0 +1,28 @@
+{
+  "id": "10.11",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzor: Matura 2017 zad. 3 (wielokrotnosci)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "podzielnosc"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Zliczy ile sposrod nich jest wielokrotnosciami 3.\nb) Zliczy ile jest wielokrotnosciami 5.\nc) Zliczy ile jest wielokrotnosciami zarowno 3, jak i 5.\n\n**Dane** (`dane.txt`):\n```\n12\n25\n33\n40\n51\n15\n28\n60\n17\n45\n22\n35\n9\n100\n7\n```\n\n**Oczekiwany wynik**:\n```\nWielokrotnosci 3: 7\nWielokrotnosci 5: 7\nWielokrotnosci obu (3 i 5): 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Trzy niezalezne liczniki, kazdy sprawdza inny warunek podzielnosci.",
+    "**Podejscie**: W petli while czytaj liczby i testuj: `n % 3 == 0`, `n % 5 == 0`, oba naraz.",
+    "**Kluczowy krok**: Wielokrotnosc obu to `n % 3 == 0 && n % 5 == 0` (rownowazne `n % 15 == 0`)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int w3 = 0, w5 = 0, obu = 0;\n    while (plik >> n) {\n        if (n % 3 == 0) w3++;\n        if (n % 5 == 0) w5++;\n        if (n % 3 == 0 && n % 5 == 0) obu++;\n    }\n    cout << \"Wielokrotnosci 3: \" << w3 << endl;\n    cout << \"Wielokrotnosci 5: \" << w5 << endl;\n    cout << \"Wielokrotnosci obu (3 i 5): \" << obu << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Wielokr. 3: 12,33,51,15,60,45,9 = 7\n- Wielokr. 5: 25,40,15,60,45,35,100 = 7\n- Wielokr. obu: 15,60,45 = 3",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie `||` zamiast `&&` dla wspolnych wielokrotnosci**: `n%3==0 || n%5==0` liczy wielokrotnosci 3 LUB 5, nie obu",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Niesprawdzanie warunku n%15==0 oddzielnie**: Nie jest bledem, ale brak oddzielnego licznika 'obu' powoduje pominiecie podpunktu c",
+      "kara": "-1 pkt"
+    }
+  ]
+}

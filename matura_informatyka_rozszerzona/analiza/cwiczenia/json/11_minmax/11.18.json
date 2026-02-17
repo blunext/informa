@@ -1,0 +1,30 @@
+{
+  "id": "11.18",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2023 zad. 3 (ciag niemalejacy)",
+  "tagi": [
+    "min-max",
+    "spojny-fragment",
+    "skan-liniowy",
+    "wczytywanie-pliku",
+    "srednia"
+  ],
+  "tresc": "W pliku `pomiary.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Znajdzie najdluzszy spojny ciag niemalejacy (kazdy nastepny >= poprzedni).\nb) Wypisze jego dlugosc, pozycje poczatkowa (1-indeksowana) i elementy.\nc) Obliczy srednia arytmetyczna tego ciagu (2 miejsca po przecinku).\n\n**Dane** (`pomiary.txt`):\n```\n5\n8\n8\n3\n6\n9\n15\n15\n4\n7\n10\n10\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy ciag niemalejacy: 5 elementow\nPoczatek: pozycja 4\nElementy: 3 6 9 15 15\nSrednia tego ciagu: 9.60\n```",
+  "wskazowki": [
+    "**Kierunek**: Analogicznie do ciagu rosnacego, ale warunek to `>=` zamiast `>`.",
+    "**Podejscie**: Skanuj liniowo, sledzac curLen/curStart. Po znalezieniu najdluzszego oblicz srednia.",
+    "**Kluczowy krok**: Niemalejacy = `dane[i] >= dane[i-1]`. Srednia = suma elementow ciagu / dlugosc."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"pomiary.txt\");\n    vector<int> dane;\n    int x;\n    while (plik >> x) dane.push_back(x);\n    int maxLen = 1, maxStart = 0;\n    int curLen = 1, curStart = 0;\n    for (int i = 1; i < (int)dane.size(); i++) {\n        if (dane[i] >= dane[i - 1]) {\n            curLen++;\n        } else {\n            if (curLen > maxLen) {\n                maxLen = curLen;\n                maxStart = curStart;\n            }\n            curLen = 1;\n            curStart = i;\n        }\n    }\n    if (curLen > maxLen) {\n        maxLen = curLen;\n        maxStart = curStart;\n    }\n    cout << \"Najdluzszy ciag niemalejacy: \" << maxLen << \" elementow\" << endl;\n    cout << \"Poczatek: pozycja \" << maxStart + 1 << endl;\n    cout << \"Elementy:\";\n    double suma = 0;\n    for (int i = maxStart; i < maxStart + maxLen; i++) {\n        cout << \" \" << dane[i];\n        suma += dane[i];\n    }\n    cout << endl;\n    cout << fixed << setprecision(2);\n    cout << \"Srednia tego ciagu: \" << suma / maxLen << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Ciagi niemalejace: (5,8,8) dl=3, (3,6,9,15,15) dl=5, (4,7,10,10) dl=4\n- Najdluzszy: (3,6,9,15,15) od poz. 4, dl. 5\n- Srednia: (3+6+9+15+15)/5 = 48/5 = 9.60",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie > zamiast >=**: Ciag niemalejacy dopuszcza rowne elementy, scisle rosnacy nie",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o sprawdzeniu po petli**: Ciag konczacy sie na koncu danych nie zostanie uwzgledniony",
+      "kara": "-2 pkt"
+    }
+  ]
+}

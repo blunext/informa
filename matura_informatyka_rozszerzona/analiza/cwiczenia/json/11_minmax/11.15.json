@@ -1,0 +1,29 @@
+{
+  "id": "11.15",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2021 zad. 3 (najblizsza para)",
+  "tagi": [
+    "roznica-bezwzgledna",
+    "pary-elementow",
+    "podwojna-petla",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 roznych liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory znajdzie pare elementow (i < j) o najmniejszej roznicy bezwzglednej i wypisze te elementy oraz roznice.\n\n**Dane** (`dane.txt`):\n```\n45\n12\n78\n34\n89\n23\n67\n56\n41\n15\n```\n\n**Oczekiwany wynik**:\n```\nNajblizsza para: (12, 15)\nRoznica: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Podwojna petla po wszystkich parach (i,j) z i < j.",
+    "**Podejscie**: Oblicz `|dane[i]-dane[j]|` dla kazdej pary, szukaj minimum.",
+    "**Kluczowy krok**: Inicjalizuj minDiff duzym numerem (np. 1000000). Wartosc bezwzgledna: `diff < 0 ? -diff : diff`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> dane;\n    int x;\n    while (plik >> x) dane.push_back(x);\n    int minDiff = 1000000;\n    int a = 0, b = 0;\n    for (int i = 0; i < (int)dane.size(); i++) {\n        for (int j = i + 1; j < (int)dane.size(); j++) {\n            int diff = dane[i] - dane[j];\n            if (diff < 0) diff = -diff;\n            if (diff < minDiff) {\n                minDiff = diff;\n                a = dane[i];\n                b = dane[j];\n            }\n        }\n    }\n    cout << \"Najblizsza para: (\" << a << \", \" << b << \")\" << endl;\n    cout << \"Roznica: \" << minDiff << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Posortowane: 12, 15, 23, 34, 41, 45, 56, 67, 78, 89\n- Roznice sasiadow: 3, 8, 11, 7, 4, 11, 11, 11, 11\n- Min roznica: 3 (miedzy 12 a 15)\n- W oryginalnej kolejnosci: i=1(12), j=9(15) → para (12, 15)",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak wartosci bezwzglednej**: `dane[i]-dane[j]` moze byc ujemne, trzeba abs()",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Szukanie max zamiast min roznicy**: Pomylenie '>' z '<' w warunku aktualizacji",
+      "kara": "-2 pkt"
+    }
+  ]
+}

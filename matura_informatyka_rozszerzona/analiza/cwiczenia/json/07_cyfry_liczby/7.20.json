@@ -1,0 +1,32 @@
+{
+  "id": "7.20",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Wzor: Matura 2025 zad. 3 (zaawansowane wlasnosci liczbowe)",
+  "tagi": [
+    "cyfry-mod-div",
+    "potegi",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Liczba Armstronga (narcystyczna) to liczba n-cyfrowa, ktora jest rowna sumie swoich cyfr podniesionych do potegi n (liczby cyfr). Na przyklad:\n- 153 jest 3-cyfrowa: 1^3 + 5^3 + 3^3 = 1 + 125 + 27 = 153 -> TAK\n- 275 jest 3-cyfrowa: 2^3 + 7^3 + 5^3 = 8 + 343 + 125 = 476 -> NIE\n\nW pliku `dane.txt` znajduje sie 12 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory:\na) Dla kazdej liczby sprawdzi, czy jest liczba Armstronga, wypisujac rozklad obliczen.\nb) Wsrod znalezionych liczb Armstronga znajdzie te z najwieksza suma cyfr.\n\n**Dane** (`dane.txt`):\n```\n153\n275\n371\n500\n9474\n8208\n2000\n12345\n54748\n9275\n92727\n407\n```\n\n**Oczekiwany wynik**:\n```\na) Sprawdzenie Armstronga:\n153 (3 cyfry): 1^3 + 5^3 + 3^3 = 153 -> TAK\n275 (3 cyfry): 2^3 + 7^3 + 5^3 = 476 -> NIE\n371 (3 cyfry): 3^3 + 7^3 + 1^3 = 371 -> TAK\n500 (3 cyfry): 5^3 + 0^3 + 0^3 = 125 -> NIE\n9474 (4 cyfry): 9^4 + 4^4 + 7^4 + 4^4 = 9474 -> TAK\n8208 (4 cyfry): 8^4 + 2^4 + 0^4 + 8^4 = 8208 -> TAK\n2000 (4 cyfry): 2^4 + 0^4 + 0^4 + 0^4 = 16 -> NIE\n12345 (5 cyfr): 1^5 + 2^5 + 3^5 + 4^5 + 5^5 = 4425 -> NIE\n54748 (5 cyfr): 5^5 + 4^5 + 7^5 + 4^5 + 8^5 = 54748 -> TAK\n9275 (4 cyfry): 9^4 + 2^4 + 7^4 + 5^4 = 9603 -> NIE\n92727 (5 cyfr): 9^5 + 2^5 + 7^5 + 2^5 + 7^5 = 92727 -> TAK\n407 (3 cyfry): 4^3 + 0^3 + 7^3 = 407 -> TAK\n\nb) Armstrong z najwieksza suma cyfr: 54748, suma cyfr = 28\nLiczb Armstronga: 7\n```",
+  "wskazowki": [
+    "**Kierunek**: Policz cyfry (np. przez `to_string`), potem podnes kazda do potegi rownej liczbie cyfr i zsumuj.",
+    "**Podejscie**: Konwertuj na string, pobierz dlugosc k. Iteruj po znakach, obliczaj d^k recznie (petla mnozaca k razy), sumuj.",
+    "**Kluczowy krok**: Uzyj `long long` — dla 5-cyfrowych liczb potegi moga byc duze (np. 9^5 = 59049). Porownaj sume z oryginalem."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\nusing namespace std;\n\nint sumaCyfr(int n) {\n    int s = 0;\n    while (n > 0) { s += n % 10; n /= 10; }\n    return s;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    vector<int> armstrong;\n    cout << \"a) Sprawdzenie Armstronga:\" << endl;\n    while (plik >> n) {\n        string s = to_string(n);\n        int k = s.length();\n        long long suma = 0;\n        for (char c : s) {\n            int d = c - '0';\n            long long p = 1;\n            for (int i = 0; i < k; i++) p *= d;\n            suma += p;\n        }\n        cout << n << \" (\" << k;\n        if (k >= 5) cout << \" cyfr): \";\n        else cout << \" cyfry): \";\n        for (int i = 0; i < k; i++) {\n            if (i > 0) cout << \" + \";\n            cout << s[i] << \"^\" << k;\n        }\n        cout << \" = \" << suma << \" -> \" << (suma == n ? \"TAK\" : \"NIE\") << endl;\n        if (suma == n) armstrong.push_back(n);\n    }\n    cout << endl << \"b) Armstrong z najwieksza suma cyfr: \";\n    int maxSuma = -1, maxN = -1;\n    for (int a : armstrong) {\n        int sc = sumaCyfr(a);\n        if (sc > maxSuma) { maxSuma = sc; maxN = a; }\n    }\n    cout << maxN << \", suma cyfr = \" << maxSuma << endl;\n    cout << \"Liczb Armstronga: \" << armstrong.size() << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Wieloetapowe: (1) konwersja na string dla policzenia cyfr, (2) potegowanie kazdej cyfry, (3) porownanie sumy z oryginalem. Dodatkowe wyzwanie: znalezienie Armstronga z max suma cyfr.\n\nWeryfikacja:\n- 153: 1+125+27=153 TAK (sc=9)\n- 275: 8+343+125=476 NIE\n- 371: 27+343+1=371 TAK (sc=11)\n- 500: 125+0+0=125 NIE\n- 9474: 6561+256+2401+256=9474 TAK (sc=24)\n- 8208: 4096+16+0+4096=8208 TAK (sc=18)\n- 2000: 16+0+0+0=16 NIE\n- 12345: 1+32+243+1024+3125=4425 NIE\n- 54748: 3125+1024+16807+1024+32768=54748 TAK (sc=5+4+7+4+8=28)\n- 9275: 6561+16+2401+625=9603 NIE\n- 92727: 59049+32+16807+32+16807=92727 TAK (sc=27)\n- 407: 64+0+343=407 TAK (sc=11)\nNajwieksza suma cyfr: 54748, sc=28. Liczb Armstronga: 7",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie `pow()` z double**: `pow(9, 5)` moze zwrocic 59048.999... zamiast 59049. Uzyj petli mnozenia lub `long long`",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Stala potega zamiast zmiennej k**: Podnoszenie do potegi 3 zamiast do dlugosci liczby — bledne dla 4- i 5-cyfrowych",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Overflow przy duzych potegach**: 9^5 = 59049 miesci sie w `int`, ale bezpieczniej uzywac `long long` dla wiekszych danych",
+      "kara": "-1 pkt"
+    }
+  ]
+}

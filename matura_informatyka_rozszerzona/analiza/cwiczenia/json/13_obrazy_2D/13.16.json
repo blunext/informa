@@ -1,0 +1,28 @@
+{
+  "id": "13.16",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2024 zad. 4 (brzeg macierzy)",
+  "tagi": [
+    "tablica-2D",
+    "brzeg-siatki",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `macierz.txt` znajduje sie macierz 5x5 liczb calkowitych. Napisz program, ktory obliczy:\na) Sume elementow brzegowych (lezacych na ramce macierzy).\nb) Sume elementow wewnetrznych.\nc) Maksymalny element brzegowy i minimalny element wewnetrzny.\n\n**Dane** (`macierz.txt`):\n```\n3 7 1 4 5\n6 2 8 3 9\n4 5 1 7 2\n8 3 6 4 1\n2 9 3 5 7\n```\n\n**Oczekiwany wynik**:\n```\nSuma brzegowych: 76\nSuma wewnetrznych: 39\nMax brzegowy: 9\nMin wewnetrzny: 1\n```",
+  "wskazowki": [
+    "**Kierunek**: Element jest brzegowy gdy i==0, i==4, j==0 lub j==4.",
+    "**Podejscie**: Jedna podwojna petla z warunkiem if/else na brzeg vs wnetrze.",
+    "**Kluczowy krok**: Inicjalizuj maxB i minI pierwszymi odpowiednimi elementami (np. m[0][0] i m[1][1])."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"macierz.txt\");\n    int m[5][5];\n    for (int i = 0; i < 5; i++)\n        for (int j = 0; j < 5; j++)\n            plik >> m[i][j];\n    int sumB = 0, sumI = 0;\n    int maxB = m[0][0], minI = m[1][1];\n    for (int i = 0; i < 5; i++) {\n        for (int j = 0; j < 5; j++) {\n            if (i == 0 || i == 4 || j == 0 || j == 4) {\n                sumB += m[i][j];\n                if (m[i][j] > maxB) maxB = m[i][j];\n            } else {\n                sumI += m[i][j];\n                if (m[i][j] < minI) minI = m[i][j];\n            }\n        }\n    }\n    cout << \"Suma brzegowych: \" << sumB << endl;\n    cout << \"Suma wewnetrznych: \" << sumI << endl;\n    cout << \"Max brzegowy: \" << maxB << endl;\n    cout << \"Min wewnetrzny: \" << minI << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Brzegowe: 3+7+1+4+5+6+9+4+2+8+1+2+9+3+5+7 = 76\n- Wewnetrzne (3x3): 2+8+3+5+1+7+3+6+4 = 39\n- Max brzegowy: 9, Min wewnetrzny: 1",
+  "typowe_bledy": [
+    {
+      "opis": "**Pominicie naroznikow**: Narozniki naleza do brzegu — warunek i==0||i==4||j==0||j==4 poprawnie je obejmuje",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zla inicjalizacja min/max**: Inicjalizacja minI=0 zamiast pierwszego elementu wewnetrznego",
+      "kara": "-1 pkt"
+    }
+  ]
+}

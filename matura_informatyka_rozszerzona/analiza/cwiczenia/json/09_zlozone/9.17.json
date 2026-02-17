@@ -1,0 +1,29 @@
+{
+  "id": "9.17",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2022 zad. 5 (laczenie danych z dwoch plikow)",
+  "tagi": [
+    "wiele-plikow",
+    "JOIN-tabel",
+    "iomanip",
+    "map-zliczanie"
+  ],
+  "tresc": "Dane sa w dwoch plikach. W pliku `uczniowie.txt` znajduje sie 5 rekordow w formacie: id imie (oddzielone spacja). W pliku `oceny.txt` znajduje sie 10 rekordow w formacie: id przedmiot ocena (oddzielone spacja). Napisz program, ktory:\na) Polaczy dane z obu plikow (wg id) i obliczy srednia ocen kazdego ucznia (2 miejsca po przecinku).\nb) Wskazze ucznia z najwyzsza i najnizsza srednia.\n\n**Dane** (`uczniowie.txt`):\n```\n1 Anna\n2 Jan\n3 Ewa\n4 Piotr\n5 Kasia\n```\n\n**Dane** (`oceny.txt`):\n```\n1 Matematyka 4\n1 Polski 5\n2 Matematyka 3\n2 Polski 4\n3 Matematyka 5\n3 Polski 5\n4 Matematyka 2\n4 Polski 4\n5 Matematyka 4\n5 Polski 5\n```\n\n**Oczekiwany wynik**:\n```\nSrednie ocen:\n   Anna: 4.50\n   Jan: 3.50\n   Ewa: 5.00\n   Piotr: 3.00\n   Kasia: 4.50\nNajlepsza srednia: Ewa (5.00)\nNajslabsza srednia: Piotr (3.00)\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj uczniow do mapy id->imie, oceny do mapy id->(suma,ilosc), potem polacz.",
+    "**Podejscie**: `map<int,string>` dla uczniow, `map<int,pair<int,int>>` dla sum i ilosci ocen.",
+    "**Kluczowy krok**: JOIN = iteracja po mapie ocen z odwolaniem do mapy uczniow. Srednia = (double)suma/ilosc."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream f1(\"uczniowie.txt\");\n    map<int, string> uczniowie;\n    int id; string imie;\n    while (f1 >> id >> imie) uczniowie[id] = imie;\n    ifstream f2(\"oceny.txt\");\n    string przedmiot;\n    int ocena;\n    map<int, pair<int,int>> dane;\n    while (f2 >> id >> przedmiot >> ocena) {\n        dane[id].first += ocena;\n        dane[id].second++;\n    }\n    cout << fixed << setprecision(2);\n    cout << \"Srednie ocen:\" << endl;\n    string bestP, worstP;\n    double bestA = -1, worstA = 100;\n    for (auto& p : dane) {\n        double avg = (double)p.second.first / p.second.second;\n        cout << \"   \" << uczniowie[p.first] << \": \" << avg << endl;\n        if (avg > bestA) { bestA = avg; bestP = uczniowie[p.first]; }\n        if (avg < worstA) { worstA = avg; worstP = uczniowie[p.first]; }\n    }\n    cout << \"Najlepsza srednia: \" << bestP << \" (\" << bestA << \")\" << endl;\n    cout << \"Najslabsza srednia: \" << worstP << \" (\" << worstA << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Anna (id=1): (4+5)/2 = 4.50\n- Jan (id=2): (3+4)/2 = 3.50\n- Ewa (id=3): (5+5)/2 = 5.00\n- Piotr (id=4): (2+4)/2 = 3.00\n- Kasia (id=5): (4+5)/2 = 4.50\nNajlepsza: Ewa (5.00), Najslabsza: Piotr (3.00)",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak laczenia plikow**: Czytanie tylko jednego pliku pomija imiona lub oceny",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Dzielenie calkowite**: `suma/ilosc` bez castowania na double daje obciete srednie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

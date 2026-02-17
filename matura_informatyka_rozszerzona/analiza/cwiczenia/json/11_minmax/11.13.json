@@ -1,0 +1,29 @@
+{
+  "id": "11.13",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2017 zad. 3 (min/max z pozycja)",
+  "tagi": [
+    "min-max",
+    "pozycja-elementu",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `pomiary.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Znajdzie minimum i maksimum.\nb) Poda pozycje (1-indeksowane) na ktorych te wartosci wystepuja.\nc) Obliczy rozstep (maksimum - minimum).\n\n**Dane** (`pomiary.txt`):\n```\n34\n67\n12\n89\n45\n23\n78\n56\n91\n41\n15\n73\n28\n62\n50\n```\n\n**Oczekiwany wynik**:\n```\nMinimum: 12 (pozycja 3)\nMaksimum: 91 (pozycja 9)\nRozstep: 79\n```",
+  "wskazowki": [
+    "**Kierunek**: Utrzymuj min/max i ich pozycje. Numeruj elementy od 1.",
+    "**Podejscie**: Licznik pozycji zaczyna od 1, rosnie z kazdym wczytanym elementem.",
+    "**Kluczowy krok**: `if (pos == 1 || n < mn)` — warunek `pos==1` inicjalizuje bez oddzielnego wczytania."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"pomiary.txt\");\n    int n;\n    int mn, mx, mnPos, mxPos, pos = 0;\n    while (plik >> n) {\n        pos++;\n        if (pos == 1 || n < mn) { mn = n; mnPos = pos; }\n        if (pos == 1 || n > mx) { mx = n; mxPos = pos; }\n    }\n    cout << \"Minimum: \" << mn << \" (pozycja \" << mnPos << \")\" << endl;\n    cout << \"Maksimum: \" << mx << \" (pozycja \" << mxPos << \")\" << endl;\n    cout << \"Rozstep: \" << mx - mn << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Pozycje: 34(1), 67(2), 12(3), 89(4), 45(5), 23(6), 78(7), 56(8), 91(9), 41(10), 15(11), 73(12), 28(13), 62(14), 50(15)\n- Min: 12 na pozycji 3\n- Max: 91 na pozycji 9\n- Rozstep: 91-12 = 79",
+  "typowe_bledy": [
+    {
+      "opis": "**Indeksowanie od 0 zamiast od 1**: Pozycja 3 (1-indeks.) to indeks 2 (0-indeks.). Zadanie prosi o 1-indeksowanie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Niezainicjalizowane mn/mx**: Bez `pos==1` lub osobnego pierwszego odczytu, mn/mx maja smieci",
+      "kara": "-2 pkt"
+    }
+  ]
+}

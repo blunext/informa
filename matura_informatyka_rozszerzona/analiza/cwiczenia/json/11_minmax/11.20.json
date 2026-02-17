@@ -1,0 +1,34 @@
+{
+  "id": "11.20",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Wzor: Matura 2023 zad. 4 (ranking z wagami)",
+  "tagi": [
+    "min-max",
+    "wielokryterialne",
+    "sortowanie",
+    "vector-par",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `kandydaci.txt` znajduje sie 10 rekordow w formacie: imie wynik_pisemny wynik_ustny (oddzielone spacja). Napisz program, ktory:\na) Obliczy srednia wazona kazdego kandydata: 0.6 * pisemny + 0.4 * ustny.\nb) Posortuje kandydatow malejaco wg sredniej (2 miejsca po przecinku).\nc) Wypisze ranking i poda top 3 ze srednia ich wynikow.\n\n**Dane** (`kandydaci.txt`):\n```\nAnna 85 90\nJan 72 88\nEwa 95 82\nPiotr 68 75\nKasia 91 85\nTomek 78 92\nMarek 82 79\nOla 88 94\nAdam 90 86\nZosia 76 81\n```\n\n**Oczekiwany wynik**:\n```\nRanking kandydatow:\n 1. Ola: 90.40\n 2. Ewa: 89.80\n 3. Kasia: 88.60\n 4. Adam: 88.40\n 5. Anna: 87.00\n 6. Tomek: 83.60\n 7. Marek: 80.80\n 8. Jan: 78.40\n 9. Zosia: 78.00\n10. Piotr: 70.80\nTop 3:\n   Ola (90.40)\n   Ewa (89.80)\n   Kasia (88.60)\nSrednia top 3: 89.60\n```",
+  "wskazowki": [
+    "**Kierunek**: Oblicz srednia wazona, zapisz do wektora par (wynik, imie), posortuj malejaco.",
+    "**Podejscie**: `vector<pair<double,string>>`. Sort z lambda: malejaco po first, rosnaco po second przy remisie.",
+    "**Kluczowy krok**: Top 3 to pierwsze 3 elementy po sortowaniu. Srednia top 3 = suma trzech / 3."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"kandydaci.txt\");\n    string imie;\n    int pisemny, ustny;\n    vector<pair<double, string>> ranking;\n    while (plik >> imie >> pisemny >> ustny) {\n        double sr = 0.6 * pisemny + 0.4 * ustny;\n        ranking.push_back({sr, imie});\n    }\n    sort(ranking.begin(), ranking.end(), [](auto& a, auto& b) {\n        if (a.first != b.first) return a.first > b.first;\n        return a.second < b.second;\n    });\n    cout << fixed << setprecision(2);\n    cout << \"Ranking kandydatow:\" << endl;\n    for (int i = 0; i < (int)ranking.size(); i++) {\n        if (i + 1 < 10) cout << \" \";\n        cout << i + 1 << \". \" << ranking[i].second << \": \" << ranking[i].first << endl;\n    }\n    cout << \"Top 3:\" << endl;\n    double sumaTop = 0;\n    for (int i = 0; i < 3; i++) {\n        cout << \"   \" << ranking[i].second << \" (\" << ranking[i].first << \")\" << endl;\n        sumaTop += ranking[i].first;\n    }\n    cout << \"Srednia top 3: \" << sumaTop / 3 << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Anna: 0.6*85+0.4*90=51+36=87.00\n- Jan: 0.6*72+0.4*88=43.2+35.2=78.40\n- Ewa: 0.6*95+0.4*82=57+32.8=89.80\n- Piotr: 0.6*68+0.4*75=40.8+30=70.80\n- Kasia: 0.6*91+0.4*85=54.6+34=88.60\n- Tomek: 0.6*78+0.4*92=46.8+36.8=83.60\n- Marek: 0.6*82+0.4*79=49.2+31.6=80.80\n- Ola: 0.6*88+0.4*94=52.8+37.6=90.40\n- Adam: 0.6*90+0.4*86=54+34.4=88.40\n- Zosia: 0.6*76+0.4*81=45.6+32.4=78.00\n- Top 3 srednia: (90.40+89.80+88.60)/3=268.80/3=89.60",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledne wagi (np. 0.5/0.5 zamiast 0.6/0.4)**: Zmienia caly ranking",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Sortowanie rosnaco zamiast malejaco**: Top 3 beda najslabszymi zamiast najlepszymi",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak formatowania setprecision(2)**: Wyniki moga miec rozna liczbe cyfr po przecinku",
+      "kara": "-1 pkt"
+    }
+  ]
+}

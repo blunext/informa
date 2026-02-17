@@ -3,10 +3,11 @@
   "nazwa": "Zliczanie i filtrowanie",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "5/11 lat",
-  "punkty_lacznie": 33,
+  "punkty_lacznie": 72,
   "tagi_globalne": [
     "wczytywanie-pliku",
     "filtrowanie",
+    "iomanip",
     "parzystosc",
     "tablica-czestotliwosci",
     "kody-ASCII",
@@ -133,6 +134,112 @@
         "sortowanie",
         "filtrowanie",
         "struct"
+      ]
+    },
+    {
+      "id": "10.11",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "podzielnosc"
+      ]
+    },
+    {
+      "id": "10.12",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "napisy"
+      ]
+    },
+    {
+      "id": "10.13",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "wczytywanie-pliku",
+        "map-zliczanie",
+        "napisy"
+      ]
+    },
+    {
+      "id": "10.14",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "cyfry-mod-div"
+      ]
+    },
+    {
+      "id": "10.15",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "wczytywanie-pliku",
+        "pary-elementow",
+        "podwojna-petla"
+      ]
+    },
+    {
+      "id": "10.16",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "wczytywanie-pliku",
+        "cyfry-mod-div",
+        "filtrowanie",
+        "parzystosc"
+      ]
+    },
+    {
+      "id": "10.17",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "map-zliczanie",
+        "wczytywanie-pliku",
+        "tablica-czestotliwosci",
+        "iomanip"
+      ]
+    },
+    {
+      "id": "10.18",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "iomanip"
+      ]
+    },
+    {
+      "id": "10.19",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "wczytywanie-pliku",
+        "struct",
+        "filtrowanie",
+        "map-zliczanie",
+        "grupowanie",
+        "iomanip"
+      ]
+    },
+    {
+      "id": "10.20",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "wiele-plikow",
+        "map-zliczanie",
+        "filtrowanie",
+        "grupowanie"
       ]
     }
   ]

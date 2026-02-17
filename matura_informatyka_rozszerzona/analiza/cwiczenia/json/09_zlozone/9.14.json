@@ -1,0 +1,29 @@
+{
+  "id": "9.14",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2022 zad. 4 (srednie grupowane)",
+  "tagi": [
+    "map-zliczanie",
+    "grupowanie",
+    "iomanip",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `oceny.txt` znajduje sie 12 rekordow w formacie: przedmiot ocena (oddzielone spacja). Ten sam przedmiot moze wystepowac wielokrotnie. Napisz program, ktory obliczy srednia ocene dla kazdego przedmiotu (z dokladnoscia do 2 miejsc po przecinku) i wskazze przedmiot z najwyzsza i najnizsza srednia.\n\n**Dane** (`oceny.txt`):\n```\nMatematyka 4\nPolski 3\nAngielski 5\nMatematyka 5\nPolski 4\nAngielski 3\nMatematyka 3\nPolski 5\nAngielski 4\nMatematyka 4\nPolski 3\nAngielski 5\n```\n\n**Oczekiwany wynik**:\n```\nSrednia ocen per przedmiot:\n   Angielski: 4.25\n   Matematyka: 4.00\n   Polski: 3.75\nPrzedmiot z najwyzsza srednia: Angielski (4.25)\nPrzedmiot z najnizsza srednia: Polski (3.75)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj mapy do sumowania ocen i zliczania ilosci per przedmiot.",
+    "**Podejscie**: `map<string, pair<int,int>>` — first = suma ocen, second = liczba ocen.",
+    "**Kluczowy krok**: Srednia = (double)suma / ilosc. Uzyj `fixed << setprecision(2)` do formatowania."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"oceny.txt\");\n    string przedmiot;\n    int ocena;\n    map<string, pair<int, int>> dane;\n    while (plik >> przedmiot >> ocena) {\n        dane[przedmiot].first += ocena;\n        dane[przedmiot].second++;\n    }\n    cout << \"Srednia ocen per przedmiot:\" << endl;\n    cout << fixed << setprecision(2);\n    string bestP, worstP;\n    double bestA = -1, worstA = 100;\n    for (auto& p : dane) {\n        double avg = (double)p.second.first / p.second.second;\n        cout << \"   \" << p.first << \": \" << avg << endl;\n        if (avg > bestA) { bestA = avg; bestP = p.first; }\n        if (avg < worstA) { worstA = avg; worstP = p.first; }\n    }\n    cout << \"Przedmiot z najwyzsza srednia: \" << bestP << \" (\" << bestA << \")\" << endl;\n    cout << \"Przedmiot z najnizsza srednia: \" << worstP << \" (\" << worstA << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Angielski: 5+3+4+5=17, cnt=4, avg=4.25\n- Matematyka: 4+5+3+4=16, cnt=4, avg=4.00\n- Polski: 3+4+5+3=15, cnt=4, avg=3.75\nNajwyzsza: Angielski (4.25), najnizsza: Polski (3.75)",
+  "typowe_bledy": [
+    {
+      "opis": "**Dzielenie calkowite zamiast zmiennoprzecinkowego**: `suma / ilosc` bez castowania na double daje obcieta wartosc",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak formatowania**: Bez `setprecision(2)` wyniki moga miec rozna liczbe cyfr po przecinku",
+      "kara": "-1 pkt"
+    }
+  ]
+}

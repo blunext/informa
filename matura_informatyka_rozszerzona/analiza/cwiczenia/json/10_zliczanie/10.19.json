@@ -1,0 +1,31 @@
+{
+  "id": "10.19",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2025 zad. 3 (wielokryterialne filtrowanie)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "struct",
+    "filtrowanie",
+    "map-zliczanie",
+    "grupowanie",
+    "iomanip"
+  ],
+  "tresc": "W pliku `uczniowie.txt` znajduje sie 12 rekordow w formacie: imie wiek ocena (oddzielone spacja). Napisz program, ktory:\na) Zliczy uczniow w wieku 17 lat.\nb) Zliczy uczniow z ocena >= 4 i wiekiem <= 18.\nc) Obliczy srednia ocene per wiek (2 miejsca po przecinku).\nd) Wskazze wiek z najwyzsza srednia ocen.\n\n**Dane** (`uczniowie.txt`):\n```\nAnna 17 5\nJan 18 3\nEwa 17 4\nPiotr 19 2\nKasia 17 5\nTomek 18 4\nMarek 16 3\nOla 18 5\nAdam 17 4\nZosia 19 3\nBartek 16 5\nMagda 18 4\n```\n\n**Oczekiwany wynik**:\n```\nUczniowie w wieku 17: 4\nUczniowie z ocena >= 4 i wiek <= 18: 8\nSrednia ocen per wiek:\n   16: 4.00\n   17: 4.50\n   18: 4.00\n   19: 2.50\nWiek z najwyzsza srednia: 17 (4.50)\n```",
+  "wskazowki": [
+    "**Kierunek**: W jednej petli zliczaj warunki proste (a, b) i zbieraj dane do mapy (c, d).",
+    "**Podejscie**: `map<int, pair<int,int>>` na sume ocen i ilosc per wiek. Dwa dodatkowe liczniki na (a) i (b).",
+    "**Kluczowy krok**: Srednia per wiek = (double)suma/ilosc. Szukaj max sredniej iterujac po mapie."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"uczniowie.txt\");\n    string imie;\n    int wiek, ocena;\n    int w17 = 0, dobrzy = 0;\n    map<int, pair<int,int>> perWiek;\n    while (plik >> imie >> wiek >> ocena) {\n        if (wiek == 17) w17++;\n        if (ocena >= 4 && wiek <= 18) dobrzy++;\n        perWiek[wiek].first += ocena;\n        perWiek[wiek].second++;\n    }\n    cout << \"Uczniowie w wieku 17: \" << w17 << endl;\n    cout << \"Uczniowie z ocena >= 4 i wiek <= 18: \" << dobrzy << endl;\n    cout << fixed << setprecision(2);\n    cout << \"Srednia ocen per wiek:\" << endl;\n    int bestWiek = 0;\n    double bestAvg = -1;\n    for (auto& p : perWiek) {\n        double avg = (double)p.second.first / p.second.second;\n        cout << \"   \" << p.first << \": \" << avg << endl;\n        if (avg > bestAvg) {\n            bestAvg = avg;\n            bestWiek = p.first;\n        }\n    }\n    cout << \"Wiek z najwyzsza srednia: \" << bestWiek << \" (\" << bestAvg << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Wiek 17: Anna, Ewa, Kasia, Adam = 4\n- Ocena>=4 && wiek<=18: Anna(17,5)✓, Ewa(17,4)✓, Kasia(17,5)✓, Tomek(18,4)✓, Ola(18,5)✓, Adam(17,4)✓, Bartek(16,5)✓, Magda(18,4)✓ = 8\n- Wiek 16: (3+5)/2 = 4.00\n- Wiek 17: (5+4+5+4)/4 = 18/4 = 4.50\n- Wiek 18: (3+4+5+4)/4 = 16/4 = 4.00\n- Wiek 19: (2+3)/2 = 5/2 = 2.50\n- Najwyzsza: wiek 17 (4.50)",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie `>` zamiast `>=` w warunku ocena**: `ocena > 4` pomija uczniow z ocena 4",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Osobna petla na kazdy podpunkt**: Mozna, ale czytanie pliku wielokrotnie jest wolniejsze i wymaga seekg()",
+      "kara": "-0 pkt (poprawne ale nieeleganckie)"
+    }
+  ]
+}

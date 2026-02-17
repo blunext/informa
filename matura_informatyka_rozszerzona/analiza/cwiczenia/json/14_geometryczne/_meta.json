@@ -3,7 +3,7 @@
   "nazwa": "Obliczenia geometryczne",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "1/11 lat",
-  "punkty_lacznie": 32,
+  "punkty_lacznie": 71,
   "tagi_globalne": [
     "collinear",
     "filtrowanie",
@@ -133,6 +133,106 @@
         "punkt-w-trojkacie",
         "obwod",
         "struct",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.11",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "odleglosc-euklidesowa",
+        "filtrowanie",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.12",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "filtrowanie",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.13",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "podwojna-petla",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.14",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "pole-trojkata",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.15",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "sortowanie",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.16",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "filtrowanie",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.17",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "wielokat",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.18",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "collinear",
+        "odleglosc-euklidesowa",
+        "sqrt",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.19",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "odleglosc-euklidesowa",
+        "najblizsze-punkty",
+        "podwojna-petla",
+        "sqrt",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.20",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "wielokat",
+        "obwod",
+        "collinear",
+        "odleglosc-euklidesowa",
+        "sqrt",
         "wczytywanie-pliku"
       ]
     }

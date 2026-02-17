@@ -1,0 +1,29 @@
+{
+  "id": "8.15",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2023 zad. 2 (operacje na znakach ASCII)",
+  "tagi": [
+    "kody-ASCII",
+    "operacje-na-string",
+    "tolower",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 8 napisow skladajacych sie z liter (malych i duzych) — kazdy w osobnym wierszu. Napisz program, ktory dla kazdego napisu zamieni male litery na duze i duze na male (tzw. toggle case) i wypisze wynik. Na koniec zlicz, ile napisow po zamianie zaczyna sie od malej litery.\n\n**Dane** (`napisy.txt`):\n```\nAlgorytm\nPROGRAMOWANIE\ninformatyka\nMaTuRa\nKodJestSuper\nAbCdEf\ntest\nSZYFR\n```\n\n**Oczekiwany wynik**:\n```\nAlgorytm -> aLGORYTM\nPROGRAMOWANIE -> programowanie\ninformatyka -> INFORMATYKA\nMaTuRa -> mAtUrA\nKodJestSuper -> kODjESTsUPER\nAbCdEf -> aBcDeF\ntest -> TEST\nSZYFR -> szyfr\nNapisow zaczynajacych sie od malej litery po zamianie: 6\n```",
+  "wskazowki": [
+    "**Kierunek**: Dla kazdego znaku sprawdz czy jest mala czy duza litera i zamien na przeciwna.",
+    "**Podejscie**: Male litery: `c >= 'a' && c <= 'z'` -> `c - 'a' + 'A'`. Duze: `c >= 'A' && c <= 'Z'` -> `c - 'A' + 'a'`.",
+    "**Kluczowy krok**: Sprawdz pierwszy znak wyniku — jesli maly (a-z), zwieksz licznik."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nstring toggleCase(const string& s) {\n    string wynik = s;\n    for (char& c : wynik) {\n        if (c >= 'a' && c <= 'z') c = c - 'a' + 'A';\n        else if (c >= 'A' && c <= 'Z') c = c - 'A' + 'a';\n    }\n    return wynik;\n}\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    int ile = 0;\n    while (plik >> s) {\n        string t = toggleCase(s);\n        cout << s << \" -> \" << t << endl;\n        if (t[0] >= 'a' && t[0] <= 'z') ile++;\n    }\n    cout << \"Napisow zaczynajacych sie od malej litery po zamianie: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Toggle case zamienia kazda litere na przeciwna wielkosc. Uzywamy roznic kodow ASCII: 'a'-'A' = 32.\n\nWeryfikacja:\n- Algorytm: A->a, l->L, g->G, o->O, r->R, y->Y, t->T, m->M -> aLGORYTM (zaczyna od malej)\n- PROGRAMOWANIE: wszystko duze -> male -> programowanie (zaczyna od malej)\n- informatyka: wszystko male -> duze -> INFORMATYKA (zaczyna od duzej)\n- MaTuRa: M->m, a->A, T->t, u->U, R->r, a->A -> mAtUrA (zaczyna od malej)\n- KodJestSuper: K->k, o->O, d->D, J->j, e->E, s->S, t->T, S->s, u->U, p->P, e->E, r->R -> kODjESTsUPER (zaczyna od malej)\n- AbCdEf: A->a, b->B, C->c, d->D, E->e, f->F -> aBcDeF (zaczyna od malej)\n- test: wszystko male -> duze -> TEST (zaczyna od duzej)\n- SZYFR: wszystko duze -> male -> szyfr (zaczyna od malej)\nOd malej: aLGORYTM, programowanie, mAtUrA, kODjESTsUPER, aBcDeF, szyfr = 6",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie `tolower`/`toupper` zamiast toggle**: Te funkcje zmieniaja w jedna strone. Toggle wymaga sprawdzenia wielkosci i zamiany na przeciwna",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o znakach niealfabetycznych**: W tym zadaniu sa tylko litery, ale ogolnie toggle powinien ignorowac cyfry/spacje",
+      "kara": "-0 pkt"
+    }
+  ]
+}

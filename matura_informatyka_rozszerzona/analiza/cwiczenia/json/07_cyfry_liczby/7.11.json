@@ -1,0 +1,28 @@
+{
+  "id": "7.11",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzor: Matura 2015 zad. 4 (operacje na cyfrach)",
+  "tagi": [
+    "cyfry-mod-div",
+    "wczytywanie-pliku",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory dla kazdej liczby obliczy iloczyn jej cyfr i wypisze wynik. Na koniec podaj, ile sposrod tych iloczynow jest podzielnych przez 12.\n\n**Dane** (`dane.txt`):\n```\n234\n157\n892\n431\n625\n718\n311\n549\n276\n1234\n```\n\n**Oczekiwany wynik**:\n```\n234: iloczyn cyfr = 24 (podzielny przez 12)\n157: iloczyn cyfr = 35\n892: iloczyn cyfr = 144 (podzielny przez 12)\n431: iloczyn cyfr = 12 (podzielny przez 12)\n625: iloczyn cyfr = 60 (podzielny przez 12)\n718: iloczyn cyfr = 56\n311: iloczyn cyfr = 3\n549: iloczyn cyfr = 180 (podzielny przez 12)\n276: iloczyn cyfr = 84 (podzielny przez 12)\n1234: iloczyn cyfr = 24 (podzielny przez 12)\nLiczb z iloczynem cyfr podzielnym przez 12: 7\n```",
+  "wskazowki": [
+    "**Kierunek**: Wyodrebnij kolejne cyfry z liczby uzywajac operacji modulo i dzielenia.",
+    "**Podejscie**: Uzyj petli `while(n > 0)` z `n % 10` (ostatnia cyfra) i `n /= 10`. Zamiast sumowac cyfry, mnoz je (inicjalizuj iloczyn = 1).",
+    "**Kluczowy krok**: Po obliczeniu iloczynu sprawdz podzielnosc przez 12: `iloczyn % 12 == 0`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint iloczynCyfr(int n) {\n    int il = 1;\n    while (n > 0) {\n        il *= n % 10;\n        n /= 10;\n    }\n    return il;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int ile = 0;\n    while (plik >> n) {\n        int il = iloczynCyfr(n);\n        cout << n << \": iloczyn cyfr = \" << il;\n        if (il % 12 == 0) {\n            cout << \" (podzielny przez 12)\" << endl;\n            ile++;\n        } else {\n            cout << endl;\n        }\n    }\n    cout << \"Liczb z iloczynem cyfr podzielnym przez 12: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Funkcja `iloczynCyfr` mnozy kolejne cyfry (zamiast dodawac jak w sumie cyfr). Inicjalizacja `il = 1` (element neutralny mnozenia).\n\nWeryfikacja:\n- 234: 2*3*4 = 24, 24%12=0 -> podzielny\n- 157: 1*5*7 = 35, 35%12=11\n- 892: 8*9*2 = 144, 144%12=0 -> podzielny\n- 431: 4*3*1 = 12, 12%12=0 -> podzielny\n- 625: 6*2*5 = 60, 60%12=0 -> podzielny\n- 718: 7*1*8 = 56, 56%12=8\n- 311: 3*1*1 = 3\n- 549: 5*4*9 = 180, 180%12=0 -> podzielny\n- 276: 2*7*6 = 84, 84%12=0 -> podzielny\n- 1234: 1*2*3*4 = 24, 24%12=0 -> podzielny\nRazem podzielnych: 7",
+  "typowe_bledy": [
+    {
+      "opis": "**Inicjalizacja iloczynu na 0 zamiast 1**: `il = 0` powoduje, ze kazdy iloczyn wynosi 0 (element pochlanajacy mnozenia)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Liczba z cyfra 0**: Jesli w danych bylaby np. 1507, iloczyn = 0 (bo 0 pochania). W tym zbiorze nie ma takich liczb, ale warto pamietac",
+      "kara": "-0 pkt (tu nie dotyczy)"
+    }
+  ]
+}

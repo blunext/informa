@@ -1,0 +1,29 @@
+{
+  "id": "7.17",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2021 zad. 1 (konwersje systemow liczbowych)",
+  "tagi": [
+    "systemy-liczbowe",
+    "system-osemkowy",
+    "cyfry-mod-div",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory:\na) Dla kazdej liczby wypisze jej reprezentacje w systemie osemkowym (oktalnym).\nb) Dla kazdej liczby obliczy sume cyfr jej reprezentacji osemkowej i wskazuje te z najwieksza suma.\n\nPrzypomnienie: Aby zamienic liczbe na system osemkowy, wielokrotnie dziel przez 8 i zapisuj reszty (odczytaj od konca).\n\n**Dane** (`dane.txt`):\n```\n255\n100\n64\n511\n200\n73\n128\n47\n350\n999\n```\n\n**Oczekiwany wynik**:\n```\na) Reprezentacja osemkowa:\n255 -> 377\n100 -> 144\n64 -> 100\n511 -> 777\n200 -> 310\n73 -> 111\n128 -> 200\n47 -> 57\n350 -> 536\n999 -> 1747\n\nb) Suma cyfr osemkowych:\n255 (377): suma = 17\n100 (144): suma = 9\n64 (100): suma = 1\n511 (777): suma = 21\n200 (310): suma = 4\n73 (111): suma = 3\n128 (200): suma = 2\n47 (57): suma = 12\n350 (536): suma = 14\n999 (1747): suma = 19\nNajwieksza suma cyfr osemkowych: 511 (777), suma = 21\n```",
+  "wskazowki": [
+    "**Kierunek**: Konwersja na system osemkowy to wielokrotne dzielenie przez 8 z zapisywaniem reszt.",
+    "**Podejscie**: Buduj string od konca: `wynik = char('0' + n%8) + wynik; n /= 8;`. Suma cyfr to suma znakow wyniku.",
+    "**Kluczowy krok**: Pamietaj o kolejnosci reszt — sa odwrotne! Dlatego dopisuj na poczatek stringa lub odwroc na koncu."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\nusing namespace std;\n\nstring naOsemkowy(int n) {\n    if (n == 0) return \"0\";\n    string wynik = \"\";\n    while (n > 0) {\n        wynik = char('0' + n % 8) + wynik;\n        n /= 8;\n    }\n    return wynik;\n}\n\nint sumaCyfr(const string& s) {\n    int suma = 0;\n    for (char c : s) suma += c - '0';\n    return suma;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    vector<int> liczby;\n    vector<string> osemkowe;\n    while (plik >> n) {\n        liczby.push_back(n);\n        osemkowe.push_back(naOsemkowy(n));\n    }\n\n    cout << \"a) Reprezentacja osemkowa:\" << endl;\n    for (int i = 0; i < (int)liczby.size(); i++) {\n        cout << liczby[i] << \" -> \" << osemkowe[i] << endl;\n    }\n\n    cout << endl << \"b) Suma cyfr osemkowych:\" << endl;\n    int maxSuma = -1, maxIdx = -1;\n    for (int i = 0; i < (int)liczby.size(); i++) {\n        int s = sumaCyfr(osemkowe[i]);\n        cout << liczby[i] << \" (\" << osemkowe[i] << \"): suma = \" << s << endl;\n        if (s > maxSuma) {\n            maxSuma = s;\n            maxIdx = i;\n        }\n    }\n    cout << \"Najwieksza suma cyfr osemkowych: \" << liczby[maxIdx] << \" (\" << osemkowe[maxIdx] << \"), suma = \" << maxSuma << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Konwersja na system osemkowy = wielokrotne modulo 8 z budowa stringa od lewej. Suma cyfr osemkowych to suma wartosci znakow.\n\nWeryfikacja:\n- 255: 255/8=31 r7, 31/8=3 r7, 3/8=0 r3 -> 377, suma=17\n- 100: 100/8=12 r4, 12/8=1 r4, 1/8=0 r1 -> 144, suma=9\n- 64: 64/8=8 r0, 8/8=1 r0, 1/8=0 r1 -> 100, suma=1\n- 511: 511/8=63 r7, 63/8=7 r7, 7/8=0 r7 -> 777, suma=21\n- 200: 200/8=25 r0, 25/8=3 r1, 3/8=0 r3 -> 310, suma=4\n- 73: 73/8=9 r1, 9/8=1 r1, 1/8=0 r1 -> 111, suma=3\n- 128: 128/8=16 r0, 16/8=2 r0, 2/8=0 r2 -> 200, suma=2\n- 47: 47/8=5 r7, 5/8=0 r5 -> 57, suma=12\n- 350: 350/8=43 r6, 43/8=5 r3, 5/8=0 r5 -> 536, suma=14\n- 999: 999/8=124 r7, 124/8=15 r4, 15/8=1 r7, 1/8=0 r1 -> 1747, suma=19\nMaksimum: 511 (777), suma=21",
+  "typowe_bledy": [
+    {
+      "opis": "**Reszty zapisane w odwrotnej kolejnosci**: Reszty z modulo 8 wychodza od cyfr najmniej znaczacych. Trzeba budowac string od lewej lub odwrocic na koncu",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak obslugi n=0**: Dla n=0 petla while(n>0) nie wchodzi i zwraca pusty string. Trzeba osobny przypadek",
+      "kara": "-1 pkt"
+    }
+  ]
+}

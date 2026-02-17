@@ -1,0 +1,28 @@
+{
+  "id": "10.12",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzor: Matura 2015 zad. 3 (zliczanie znakow)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "napisy"
+  ],
+  "tresc": "W pliku `slowa.txt` znajduje sie 12 slow (kazde w osobnym wierszu, male litery). Napisz program, ktory zliczy ile slow zaczyna sie na samogloske (a, e, i, o, u) i ile na spolgoske.\n\n**Dane** (`slowa.txt`):\n```\nalgorytm\nekran\ninformatyka\nokno\nurzadzenie\nbaza\ndane\negzamin\nsystem\nobliczenia\narkusz\nelement\n```\n\n**Oczekiwany wynik**:\n```\nSlowa zaczynajace sie na samogloske: 9\nSlowa zaczynajace sie na spolgoske: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Sprawdz pierwszy znak kazdego slowa.",
+    "**Podejscie**: Wczytaj slowo, sprawdz `s[0]` — czy jest jednym z 'a','e','i','o','u'.",
+    "**Kluczowy krok**: Mozesz uzyc `string samogloski = \"aeiou\";` i `samogloski.find(s[0]) != string::npos`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"slowa.txt\");\n    string s;\n    int samogloski = 0, spolgloski = 0;\n    while (plik >> s) {\n        char c = s[0];\n        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')\n            samogloski++;\n        else\n            spolgloski++;\n    }\n    cout << \"Slowa zaczynajace sie na samogloske: \" << samogloski << endl;\n    cout << \"Slowa zaczynajace sie na spolgoske: \" << spolgloski << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Samogloska: algorytm(a), ekran(e), informatyka(i), okno(o), urzadzenie(u), egzamin(e), obliczenia(o), arkusz(a), element(e) = 9\n- Spolgoska: baza(b), dane(d), system(s) = 3",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o samoglosce 'u'**: Czesto uczniowie pamietaja a,e,i,o ale pomijaja u",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie s[1] zamiast s[0]**: Indeksowanie od 1 zamiast od 0 sprawdza drugi znak",
+      "kara": "-1 pkt"
+    }
+  ]
+}

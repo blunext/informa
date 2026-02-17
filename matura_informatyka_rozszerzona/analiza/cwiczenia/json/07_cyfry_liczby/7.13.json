@@ -1,0 +1,28 @@
+{
+  "id": "7.13",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2016 zad. 4 (analiza cyfr liczb)",
+  "tagi": [
+    "cyfry-mod-div",
+    "wczytywanie-pliku",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory dla kazdej liczby znajdzie jej najwieksza i najmniejsza cyfre, obliczy ich roznice i wypisze te liczby, dla ktorych roznica miedzy najwieksza a najmniejsza cyfra wynosi co najmniej 7.\n\n**Dane** (`dane.txt`):\n```\n4729\n1583\n9046\n3217\n8654\n2091\n7368\n5412\n6835\n4190\n2573\n8041\n```\n\n**Oczekiwany wynik**:\n```\n4729: max=9, min=2, roznica=7 -> TAK\n1583: max=8, min=1, roznica=7 -> TAK\n9046: max=9, min=0, roznica=9 -> TAK\n3217: max=7, min=1, roznica=6\n8654: max=8, min=4, roznica=4\n2091: max=9, min=0, roznica=9 -> TAK\n7368: max=8, min=3, roznica=5\n5412: max=5, min=1, roznica=4\n6835: max=8, min=3, roznica=5\n4190: max=9, min=0, roznica=9 -> TAK\n2573: max=7, min=2, roznica=5\n8041: max=8, min=0, roznica=8 -> TAK\nLiczby z roznica cyfr >= 7: 6\n```",
+  "wskazowki": [
+    "**Kierunek**: Przeszukaj cyfry kazdej liczby, sledzac dotychczasowe maksimum i minimum.",
+    "**Podejscie**: Inicjalizuj `mx = 0` i `mn = 9`, iteruj po cyfrach uzywajac % 10 i / 10, aktualizuj max/min.",
+    "**Kluczowy krok**: Roznica `mx - mn` przy progu >= 7 daje warunek filtrowania. Uwaga na cyfre 0 — moze byc najmniejsza!"
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int ile = 0;\n    while (plik >> n) {\n        int mx = 0, mn = 9;\n        int tmp = n;\n        while (tmp > 0) {\n            int c = tmp % 10;\n            if (c > mx) mx = c;\n            if (c < mn) mn = c;\n            tmp /= 10;\n        }\n        int roznica = mx - mn;\n        cout << n << \": max=\" << mx << \", min=\" << mn << \", roznica=\" << roznica;\n        if (roznica >= 7) {\n            cout << \" -> TAK\" << endl;\n            ile++;\n        } else {\n            cout << endl;\n        }\n    }\n    cout << \"Liczby z roznica cyfr >= 7: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Inicjalizacja `mx=0, mn=9` gwarantuje poprawna aktualizacje przy pierwszej cyfrze. Roznica max-min mierzy \"rozpietosc\" cyfr.\n\nWeryfikacja:\n- 4729: cyfry 4,7,2,9 -> max=9, min=2, roznica=7 >= 7 TAK\n- 1583: cyfry 1,5,8,3 -> max=8, min=1, roznica=7 >= 7 TAK\n- 9046: cyfry 9,0,4,6 -> max=9, min=0, roznica=9 >= 7 TAK\n- 3217: cyfry 3,2,1,7 -> max=7, min=1, roznica=6\n- 8654: cyfry 8,6,5,4 -> max=8, min=4, roznica=4\n- 2091: cyfry 2,0,9,1 -> max=9, min=0, roznica=9 >= 7 TAK\n- 7368: cyfry 7,3,6,8 -> max=8, min=3, roznica=5\n- 5412: cyfry 5,4,1,2 -> max=5, min=1, roznica=4\n- 6835: cyfry 6,8,3,5 -> max=8, min=3, roznica=5\n- 4190: cyfry 4,1,9,0 -> max=9, min=0, roznica=9 >= 7 TAK\n- 2573: cyfry 2,5,7,3 -> max=7, min=2, roznica=5\n- 8041: cyfry 8,0,4,1 -> max=8, min=0, roznica=8 >= 7 TAK\nRazem: 6",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledna inicjalizacja min/max**: Uzycie `mn = 0` spowoduje, ze minimum zawsze bedzie 0. Trzeba `mn = 9` (lub cyfra startowa)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pominiecie cyfry 0 w minimum**: Cyfra 0 jest prawidlowa cyfra i moze byc minimum (np. w 9046)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

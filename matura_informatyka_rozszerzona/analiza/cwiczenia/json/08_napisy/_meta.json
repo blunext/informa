@@ -3,16 +3,19 @@
   "nazwa": "Przetwarzanie napisow",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "4/11 lat",
-  "punkty_lacznie": 36,
+  "punkty_lacznie": 75,
   "tagi_globalne": [
     "getline",
     "kody-ASCII",
+    "kompresja",
     "operacje-na-string",
     "palindrom",
     "podciagi",
     "set-unikalnosc",
+    "sortowanie",
     "symulacja-operacji",
     "szyfr-Cezara",
+    "tablica-czestotliwosci",
     "tolower",
     "wczytywanie-pliku",
     "zliczanie-znakow"
@@ -122,6 +125,109 @@
         "kody-ASCII",
         "operacje-na-string",
         "zliczanie-znakow"
+      ]
+    },
+    {
+      "id": "8.11",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "zliczanie-znakow",
+        "operacje-na-string",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.12",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "operacje-na-string",
+        "wczytywanie-pliku",
+        "zliczanie-znakow"
+      ]
+    },
+    {
+      "id": "8.13",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "operacje-na-string",
+        "tablica-czestotliwosci",
+        "wczytywanie-pliku",
+        "zliczanie-znakow"
+      ]
+    },
+    {
+      "id": "8.14",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "operacje-na-string",
+        "kompresja",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.15",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "kody-ASCII",
+        "operacje-na-string",
+        "tolower",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.16",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "operacje-na-string",
+        "sortowanie",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.17",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "operacje-na-string",
+        "wczytywanie-pliku",
+        "zliczanie-znakow"
+      ]
+    },
+    {
+      "id": "8.18",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "operacje-na-string",
+        "set-unikalnosc",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.19",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "szyfr-Cezara",
+        "kody-ASCII",
+        "operacje-na-string",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.20",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "zliczanie-znakow",
+        "operacje-na-string",
+        "wczytywanie-pliku"
       ]
     }
   ]

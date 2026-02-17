@@ -3,7 +3,7 @@
   "nazwa": "Przetwarzanie zlozone (wieloetapowe)",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "4/11 lat",
-  "punkty_lacznie": 43,
+  "punkty_lacznie": 83,
   "tagi_globalne": [
     "JOIN-tabel",
     "grupowanie",
@@ -128,6 +128,115 @@
         "grupowanie",
         "sortowanie",
         "iomanip"
+      ]
+    },
+    {
+      "id": "9.11",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "map-zliczanie",
+        "grupowanie",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "9.12",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "map-zliczanie",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "9.13",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "struct",
+        "sortowanie",
+        "wczytywanie-pliku",
+        "vector-par"
+      ]
+    },
+    {
+      "id": "9.14",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "map-zliczanie",
+        "grupowanie",
+        "iomanip",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "9.15",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "map-zliczanie",
+        "grupowanie",
+        "wieloetapowe",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "9.16",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "wieloetapowe",
+        "wczytywanie-pliku",
+        "iomanip"
+      ]
+    },
+    {
+      "id": "9.17",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "wiele-plikow",
+        "JOIN-tabel",
+        "iomanip",
+        "map-zliczanie"
+      ]
+    },
+    {
+      "id": "9.18",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "map-zliczanie",
+        "sortowanie",
+        "wczytywanie-pliku",
+        "vector-par"
+      ]
+    },
+    {
+      "id": "9.19",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "grupowanie",
+        "map-zliczanie",
+        "wieloetapowe",
+        "wczytywanie-pliku",
+        "struct",
+        "iomanip"
+      ]
+    },
+    {
+      "id": "9.20",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "wiele-plikow",
+        "JOIN-tabel",
+        "wieloetapowe",
+        "sortowanie",
+        "struct"
       ]
     }
   ]

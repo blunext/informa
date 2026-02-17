@@ -1,0 +1,29 @@
+{
+  "id": "10.16",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2021 zad. 3 (filtrowanie wg cyfr)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "cyfry-mod-div",
+    "filtrowanie",
+    "parzystosc"
+  ],
+  "tresc": "W pliku `liczby.txt` znajduje sie 12 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory znajdzie i wypisze te liczby, w ktorych wszystkie cyfry sa parzyste. Poda tez ich ilosc i sume.\n\n**Dane** (`liczby.txt`):\n```\n246\n135\n802\n444\n219\n660\n357\n288\n912\n480\n624\n753\n```\n\n**Oczekiwany wynik**:\n```\nLiczby ze wszystkimi cyframi parzystymi:\n   246\n   802\n   444\n   660\n   288\n   480\n   624\nIlosc: 7\nSuma: 3544\n```",
+  "wskazowki": [
+    "**Kierunek**: Napisz funkcje sprawdzajaca, czy kazda cyfra liczby jest parzysta.",
+    "**Podejscie**: Wyciagaj cyfry `n%10`, sprawdzaj `cyfra%2==0`. Jesli ktoras jest nieparzysta — zwroc false.",
+    "**Kluczowy krok**: Cyfra 0 jest parzysta (0%2==0). Uwazaj na przypadek n=0."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nbool wszystkieParzyste(int n) {\n    while (n > 0) {\n        if ((n % 10) % 2 != 0) return false;\n        n /= 10;\n    }\n    return true;\n}\n\nint main() {\n    ifstream plik(\"liczby.txt\");\n    int n;\n    int ile = 0, suma = 0;\n    cout << \"Liczby ze wszystkimi cyframi parzystymi:\" << endl;\n    while (plik >> n) {\n        if (wszystkieParzyste(n)) {\n            cout << \"   \" << n << endl;\n            ile++;\n            suma += n;\n        }\n    }\n    cout << \"Ilosc: \" << ile << endl;\n    cout << \"Suma: \" << suma << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- 246: 2,4,6 parzyste ✓\n- 135: 1 nieparzysta ✗\n- 802: 8,0,2 parzyste ✓\n- 444: 4,4,4 parzyste ✓\n- 219: 2,1,9 → 1 nieparzysta ✗\n- 660: 6,6,0 parzyste ✓\n- 357: 3 nieparzysta ✗\n- 288: 2,8,8 parzyste ✓\n- 912: 9 nieparzysta ✗\n- 480: 4,8,0 parzyste ✓\n- 624: 6,2,4 parzyste ✓\n- 753: 7 nieparzysta ✗\nIlosc: 7, Suma: 246+802+444+660+288+480+624 = 3544",
+  "typowe_bledy": [
+    {
+      "opis": "**Sprawdzanie tylko pierwszej/ostatniej cyfry**: Trzeba sprawdzic WSZYSTKIE cyfry, nie tylko jedna",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o cyfrze 0**: 0 jest parzysta, ale `n==0` moze przerwac petle za wczesnie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

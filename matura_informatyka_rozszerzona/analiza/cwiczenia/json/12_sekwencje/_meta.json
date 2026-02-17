@@ -3,12 +3,13 @@
   "nazwa": "Przetwarzanie sekwencji",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "3/11 lat",
-  "punkty_lacznie": 36,
+  "punkty_lacznie": 75,
   "tagi_globalne": [
     "ciag-rownych",
     "ciag-rosnacy",
     "current-max",
     "gorka",
+    "iomanip",
     "NWD-Euklidesa",
     "spojny-podciag",
     "srednia-segmentu",
@@ -131,6 +132,112 @@
         "skan-liniowy",
         "wczytywanie-pliku",
         "gorka"
+      ]
+    },
+    {
+      "id": "12.11",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "roznica-sasiadow",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.12",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "current-max",
+        "skan-liniowy",
+        "wczytywanie-pliku",
+        "srednia-segmentu"
+      ]
+    },
+    {
+      "id": "12.13",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "roznica-sasiadow",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.14",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "spojny-podciag",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.15",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "ciag-rosnacy",
+        "skan-liniowy",
+        "current-max",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.16",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "ciag-rosnacy",
+        "ciag-malejacy",
+        "current-max",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.17",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "srednia-segmentu",
+        "spojny-podciag",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.18",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "spojny-podciag",
+        "current-max",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.19",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "spojny-podciag",
+        "skan-liniowy",
+        "wczytywanie-pliku",
+        "current-max"
+      ]
+    },
+    {
+      "id": "12.20",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "spojny-podciag",
+        "sumy-prefiksowe",
+        "wczytywanie-pliku"
       ]
     }
   ]

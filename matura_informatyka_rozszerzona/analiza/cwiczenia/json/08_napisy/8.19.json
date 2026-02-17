@@ -1,0 +1,33 @@
+{
+  "id": "8.19",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2021 zad. 5 (szyfrowanie z kluczem)",
+  "tagi": [
+    "szyfr-Cezara",
+    "kody-ASCII",
+    "operacje-na-string",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Szyfr Vigenere'a to rozszerzenie szyfru Cezara, w ktorym kazda litera tekstu jest przesuwana o wartosc odpowiedniej litery klucza (a=0, b=1, ..., z=25). Klucz jest powtarzany cyklicznie.\n\nNa przyklad: tekst \"atak\", klucz \"klucz\" -> a+k(10)=k, t+l(11)=e, a+u(20)=u, k+c(2)=m -> \"keum\".\n\nW pliku `dane.txt` pierwszy wiersz zawiera klucz (male litery), a kolejne wiersze — napisy do zaszyfrowania (male litery). Napisz program, ktory:\na) Zaszyfruje kazdy napis szyfrem Vigenere'a.\nb) Zliczy ile szyfrogramow ma co najmniej 5 roznych liter.\n\n**Dane** (`dane.txt`):\n```\nklucz\natak\nobrona\nszyfr\nhaslo\nprogramowanie\n```\n\n**Oczekiwany wynik**:\n```\nKlucz: klucz\n\na) Szyfrowanie Vigenere'a:\natak -> keum\nobrona -> ymlqmk\nszyfr -> ckshq\nhaslo -> rlmnn\nprogramowanie -> zciiqkxiyzxty\n\nb) Unikalne litery w szyfrogramie:\nkeum: 4 roznych liter\nymlqmk: 5 roznych liter\nckshq: 5 roznych liter\nrlmnn: 4 roznych liter\nzciiqkxiyzxty: 8 roznych liter\nSzyfrogramy z >= 5 roznymi literami: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Kazda litera tekstu przesuwana o wartosc litery klucza. Klucz powtarza sie cyklicznie (operator %).",
+    "**Podejscie**: `shift = klucz[i % dlKlucza] - 'a'`, `zaszyfrowana = (tekst[i] - 'a' + shift) % 26 + 'a'`.",
+    "**Kluczowy krok**: Modulo 26 zapewnia zawijanie alfabetu (np. z + 1 = a). Uzyj `set<char>` do zliczenia unikalnych liter."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n#include <set>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    string klucz;\n    plik >> klucz;\n\n    cout << \"Klucz: \" << klucz << endl;\n    cout << endl << \"a) Szyfrowanie Vigenere'a:\" << endl;\n\n    string s;\n    vector<string> szyfrogramy;\n    while (plik >> s) {\n        string wynik = \"\";\n        for (int i = 0; i < (int)s.length(); i++) {\n            int shift = klucz[i % klucz.length()] - 'a';\n            char c = (s[i] - 'a' + shift) % 26 + 'a';\n            wynik += c;\n        }\n        cout << s << \" -> \" << wynik << endl;\n        szyfrogramy.push_back(wynik);\n    }\n\n    cout << endl << \"b) Unikalne litery w szyfrogramie:\" << endl;\n    int ile = 0;\n    for (const string& sz : szyfrogramy) {\n        set<char> unik(sz.begin(), sz.end());\n        cout << sz << \": \" << unik.size() << \" roznych liter\" << endl;\n        if ((int)unik.size() >= 5) ile++;\n    }\n    cout << \"Szyfrogramy z >= 5 roznymi literami: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Vigenere = Cezar ze zmiennym przesunieciem. Klucz powtarza sie cyklicznie dzieki `i % dlKlucza`. Modulo 26 zawijaka alfabet.\n\nWeryfikacja szyfrowania (klucz: k=10,l=11,u=20,c=2,z=25):\n- atak: a(0)+10=k, t(19)+11=e(4), a(0)+20=u, k(10)+2=m -> keum\n- obrona: o+k=y, b+l=m, r+u=l, o+c=q, n+z=m, a+k=k -> ymlqmk\n- szyfr: s+k=c, z+l=k, y+u=s, f+c=h, r+z=q -> ckshq\n- haslo: h+k=r, a+l=l, s+u=m, l+c=n, o+z=n -> rlmnn\n- programowanie: p+k=z, r+l=c, o+u=i, g+c=i, r+z=q, a+k=k, m+l=x, o+u=i, w+c=y, a+z=z, n+k=x, i+l=t, e+u=y -> zciiqkxiyzxty\n\nUnikalne litery: keum(4), ymlqmk(5:{y,m,l,q,k}), ckshq(5:{c,k,s,h,q}), rlmnn(4:{r,l,m,n}), zciiqkxiyzxty(8:{z,c,i,q,k,x,y,t})\nZ >= 5: ymlqmk, ckshq, zciiqkxiyzxty = 3",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak modulo 26**: Bez `% 26` wynik moze wyjsc poza zakres liter (np. z+5 = 127, co nie jest litera)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledny indeks klucza**: Uzycie `klucz[i]` zamiast `klucz[i % klucz.length()]` powoduje wyjscie poza klucz dla dluzszych tekstow",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o odjeciu 'a'**: Bezposrednie dodawanie kodow ASCII daje zleczne wyniki. Trzeba najpierw odjac 'a' od obu",
+      "kara": "-1 pkt"
+    }
+  ]
+}

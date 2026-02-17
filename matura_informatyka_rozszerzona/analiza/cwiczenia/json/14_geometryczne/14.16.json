@@ -1,0 +1,27 @@
+{
+  "id": "14.16",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2024 zad. 3 (bounding box)",
+  "tagi": [
+    "filtrowanie",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `punkty.txt` w pierwszej linii jest n, a w kolejnych n liniach wspolrzedne punktow (x y, calkowite). Napisz program, ktory:\na) Znajdzie bounding box (prostokat ograniczajacy) — minimalne i maksymalne x oraz y.\nb) Obliczy pole i obwod bounding boxa.\nc) Policzy ile punktow lezy na brzegu bounding boxa.\n\n**Dane** (`punkty.txt`):\n```\n8\n2 3\n7 1\n1 6\n5 5\n3 2\n6 6\n4 1\n1 3\n```\n\n**Oczekiwany wynik**:\n```\nBounding box: (1,1) - (7,6)\nPole: 30\nObwod: 22\nPunkty na brzegu: 5\n```",
+  "wskazowki": [
+    "**Kierunek**: Bounding box: minX, maxX, minY, maxY sposrod wszystkich punktow.",
+    "**Podejscie**: Punkt na brzegu bounding boxa to taki, ze x==minX lub x==maxX lub y==minY lub y==maxY.",
+    "**Kluczowy krok**: Pole = (maxX-minX)*(maxY-minY), Obwod = 2*((maxX-minX)+(maxY-minY))."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    int n;\n    plik >> n;\n    int x[100], y[100];\n    for (int i = 0; i < n; i++)\n        plik >> x[i] >> y[i];\n    int minX = x[0], maxX = x[0], minY = y[0], maxY = y[0];\n    for (int i = 1; i < n; i++) {\n        if (x[i] < minX) minX = x[i];\n        if (x[i] > maxX) maxX = x[i];\n        if (y[i] < minY) minY = y[i];\n        if (y[i] > maxY) maxY = y[i];\n    }\n    int pole = (maxX - minX) * (maxY - minY);\n    int obwod = 2 * ((maxX - minX) + (maxY - minY));\n    int naBrzegu = 0;\n    for (int i = 0; i < n; i++) {\n        if (x[i] == minX || x[i] == maxX || y[i] == minY || y[i] == maxY)\n            naBrzegu++;\n    }\n    cout << \"Bounding box: (\" << minX << \",\" << minY << \") - (\" << maxX << \",\" << maxY << \")\" << endl;\n    cout << \"Pole: \" << pole << endl;\n    cout << \"Obwod: \" << obwod << endl;\n    cout << \"Punkty na brzegu: \" << naBrzegu << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- minX=1, maxX=7, minY=1, maxY=6\n- Pole: 6*5=30, Obwod: 2*(6+5)=22\n- Na brzegu: (7,1)x=7,y=1; (1,6)x=1,y=6; (6,6)y=6; (4,1)y=1; (1,3)x=1 = 5 punktow",
+  "typowe_bledy": [
+    {
+      "opis": "**Inicjalizacja min/max stala wartoscia**: Uzycie minX=0 zamiast x[0] daje bledny wynik gdy wszystkie x>0",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pominiencie warunku na y przy brzegu**: Punkt na gornej/dolnej krawedzi tez jest na brzegu",
+      "kara": "-1 pkt"
+    }
+  ]
+}

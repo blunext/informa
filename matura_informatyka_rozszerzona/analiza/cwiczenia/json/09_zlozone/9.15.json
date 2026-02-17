@@ -1,0 +1,29 @@
+{
+  "id": "9.15",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2019 zad. 4 (grupowanie transakcji)",
+  "tagi": [
+    "map-zliczanie",
+    "grupowanie",
+    "wieloetapowe",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `transakcje.txt` znajduje sie 12 rekordow w formacie: typ kwota (oddzielone spacja). Typ to \"Wplata\" lub \"Wyplata\". Napisz program, ktory:\na) Zliczy liczbe transakcji i sume kwot dla kazdego typu.\nb) Obliczy saldo (suma wplat - suma wyplat).\n\n**Dane** (`transakcje.txt`):\n```\nWplata 500\nWyplata 200\nWplata 300\nWyplata 150\nWplata 1000\nWyplata 400\nWplata 250\nWyplata 100\nWplata 800\nWyplata 350\nWplata 600\nWyplata 500\n```\n\n**Oczekiwany wynik**:\n```\nPodsumowanie transakcji:\n   Wplata: 6 transakcji, suma: 3450\n   Wyplata: 6 transakcji, suma: 1700\nSaldo: 1750\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj mapy do osobnego sumowania wplat i wyplat.",
+    "**Podejscie**: `map<string, pair<int,int>>` — first = liczba transakcji, second = suma kwot.",
+    "**Kluczowy krok**: Saldo = suma(Wplata) - suma(Wyplata). Moze byc ujemne!"
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"transakcje.txt\");\n    string typ;\n    int kwota;\n    map<string, pair<int, int>> dane;\n    while (plik >> typ >> kwota) {\n        dane[typ].first++;\n        dane[typ].second += kwota;\n    }\n    cout << \"Podsumowanie transakcji:\" << endl;\n    for (auto& p : dane) {\n        cout << \"   \" << p.first << \": \" << p.second.first << \" transakcji, suma: \" << p.second.second << endl;\n    }\n    int saldo = dane[\"Wplata\"].second - dane[\"Wyplata\"].second;\n    cout << \"Saldo: \" << saldo << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Wplata: 500+300+1000+250+800+600 = 3450 (6 transakcji)\n- Wyplata: 200+150+400+100+350+500 = 1700 (6 transakcji)\n- Saldo: 3450-1700 = 1750",
+  "typowe_bledy": [
+    {
+      "opis": "**Sumowanie kwot bez rozrozniania typu**: Zliczanie wszystkiego razem nie pozwala obliczyc salda",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Odwrocone saldo (wyplaty - wplaty)**: Saldo powinno byc wplaty minus wyplaty",
+      "kara": "-1 pkt"
+    }
+  ]
+}

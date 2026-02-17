@@ -1,0 +1,29 @@
+{
+  "id": "12.19",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2022 zad. 4 (max suma podciagu)",
+  "tagi": [
+    "spojny-podciag",
+    "skan-liniowy",
+    "wczytywanie-pliku",
+    "current-max"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu, moga byc ujemne). Napisz program, ktory znajdzie spojny podciag o najwiekszej sumie (algorytm Kadane'a). Wypisze sume, pozycje poczatkowa i koncowa (1-indeksowane) oraz elementy.\n\n**Dane** (`dane.txt`):\n```\n-2\n3\n5\n-1\n4\n-7\n2\n8\n-3\n6\n-4\n1\n```\n\n**Oczekiwany wynik**:\n```\nMax suma spojnego podciagu: 17\nOd pozycji 2 do 10\nElementy: 3 5 -1 4 -7 2 8 -3 6\n```",
+  "wskazowki": [
+    "**Kierunek**: Algorytm Kadane'a: maxEnd = max(dane[i], maxEnd + dane[i]).",
+    "**Podejscie**: Sledzisz maxEnd (suma konczaca sie na i) i maxSoFar (globalne max). Resetuj maxEnd gdy < 0.",
+    "**Kluczowy krok**: Gdy maxEnd spada ponizej 0 — zacznij nowy podciag. Gdy maxEnd > maxSoFar — aktualizuj wynik."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> dane;\n    int x;\n    while (plik >> x) dane.push_back(x);\n    int maxEnd = 0, maxSoFar = dane[0];\n    int start = 0, end = 0, tempStart = 0;\n    for (int i = 0; i < (int)dane.size(); i++) {\n        maxEnd += dane[i];\n        if (maxEnd > maxSoFar) {\n            maxSoFar = maxEnd;\n            start = tempStart;\n            end = i;\n        }\n        if (maxEnd < 0) {\n            maxEnd = 0;\n            tempStart = i + 1;\n        }\n    }\n    cout << \"Max suma spojnego podciagu: \" << maxSoFar << endl;\n    cout << \"Od pozycji \" << start + 1 << \" do \" << end + 1 << endl;\n    cout << \"Elementy:\";\n    for (int i = start; i <= end; i++) {\n        cout << \" \" << dane[i];\n    }\n    cout << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Podciag od pos 2 do 10: 3+5-1+4-7+2+8-3+6 = 17\n- Sprawdzenie: 3+5=8, -1→7, +4=11, -7→4, +2=6, +8=14, -3→11, +6=17\n- Alternatywy: caly ciag: -2+3+5-1+4-7+2+8-3+6-4+1 = 12 (mniej)\n- Podciag jest optymalny: suma 17",
+  "typowe_bledy": [
+    {
+      "opis": "**Brute-force O(n^3) zamiast Kadane O(n)**: Dziala ale jest wolne i trudniejsze do implementacji poprawnie",
+      "kara": "-0 pkt (poprawne jesli dziala)"
+    },
+    {
+      "opis": "**Brak sledzenia pozycji**: Sam algorytm Kadane'a daje tylko sume, sledzenie start/end wymaga dodatkowych zmiennych",
+      "kara": "-1 pkt (jesli pominiety podpunkt)"
+    }
+  ]
+}

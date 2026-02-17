@@ -1,0 +1,29 @@
+{
+  "id": "7.15",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2019 zad. 4 (wlasnosci liczbowe)",
+  "tagi": [
+    "dzielniki",
+    "podzielnosc",
+    "wczytywanie-pliku",
+    "filtrowanie"
+  ],
+  "tresc": "Suma dzielnikow wlasciwych liczby n to suma wszystkich dzielnikow n mniejszych od n. Liczba jest \"doskonala\" gdy ta suma rowna sie n, \"nadmiarowa\" gdy suma > n, \"niedostateczna\" gdy suma < n.\n\nW pliku `dane.txt` znajduje sie 10 liczb calkowitych wiekszych od 1 (kazda w osobnym wierszu). Napisz program, ktory dla kazdej liczby obliczy sume jej dzielnikow wlasciwych i okresli, czy jest doskonala, nadmiarowa, czy niedostateczna. Na koniec podaj liczbe kazdego typu.\n\n**Dane** (`dane.txt`):\n```\n28\n12\n15\n6\n20\n16\n24\n10\n18\n30\n```\n\n**Oczekiwany wynik**:\n```\n28: suma dzielnikow = 28 -> doskonala\n12: suma dzielnikow = 16 -> nadmiarowa\n15: suma dzielnikow = 9 -> niedostateczna\n6: suma dzielnikow = 6 -> doskonala\n20: suma dzielnikow = 22 -> nadmiarowa\n16: suma dzielnikow = 15 -> niedostateczna\n24: suma dzielnikow = 36 -> nadmiarowa\n10: suma dzielnikow = 8 -> niedostateczna\n18: suma dzielnikow = 21 -> nadmiarowa\n30: suma dzielnikow = 42 -> nadmiarowa\nDoskonale: 2, nadmiarowe: 5, niedostateczne: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Iteruj po potencjalnych dzielnikach od 1 do n/2 i sumuj te, ktore dziela n.",
+    "**Podejscie**: Petla `for (int i = 1; i <= n/2; i++)` z warunkiem `n % i == 0` — jesli tak, dodaj i do sumy.",
+    "**Kluczowy krok**: Porownanie sumy z n daje klasyfikacje: rowna = doskonala, wieksza = nadmiarowa, mniejsza = niedostateczna."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint sumaDzielnikow(int n) {\n    int suma = 0;\n    for (int i = 1; i <= n / 2; i++) {\n        if (n % i == 0) suma += i;\n    }\n    return suma;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int dosk = 0, nadm = 0, nied = 0;\n    while (plik >> n) {\n        int s = sumaDzielnikow(n);\n        cout << n << \": suma dzielnikow = \" << s << \" -> \";\n        if (s == n) { cout << \"doskonala\" << endl; dosk++; }\n        else if (s > n) { cout << \"nadmiarowa\" << endl; nadm++; }\n        else { cout << \"niedostateczna\" << endl; nied++; }\n    }\n    cout << \"Doskonale: \" << dosk << \", nadmiarowe: \" << nadm << \", niedostateczne: \" << nied << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dzielniki wlasciwe to dzielniki < n. Wystarczy iterowac do n/2 (wiekszy dzielnik wlasciwy niz n/2 nie istnieje). Liczby doskonale sa bardzo rzadkie (6, 28, 496, 8128...).\n\nWeryfikacja:\n- 28: dzielniki 1,2,4,7,14 -> suma 28 = 28 -> doskonala\n- 12: dzielniki 1,2,3,4,6 -> suma 16 > 12 -> nadmiarowa\n- 15: dzielniki 1,3,5 -> suma 9 < 15 -> niedostateczna\n- 6: dzielniki 1,2,3 -> suma 6 = 6 -> doskonala\n- 20: dzielniki 1,2,4,5,10 -> suma 22 > 20 -> nadmiarowa\n- 16: dzielniki 1,2,4,8 -> suma 15 < 16 -> niedostateczna\n- 24: dzielniki 1,2,3,4,6,8,12 -> suma 36 > 24 -> nadmiarowa\n- 10: dzielniki 1,2,5 -> suma 8 < 10 -> niedostateczna\n- 18: dzielniki 1,2,3,6,9 -> suma 21 > 18 -> nadmiarowa\n- 30: dzielniki 1,2,3,5,6,10,15 -> suma 42 > 30 -> nadmiarowa",
+  "typowe_bledy": [
+    {
+      "opis": "**Iteracja do n zamiast n/2**: Wlaczenie samego n do sumy sprawia, ze suma jest zawsze >= n, co daje bledna klasyfikacje",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pominecie dzielnika 1**: Kazda liczba > 1 ma dzielnik 1 — pominecie go zrealizuje sume o 1 za mala",
+      "kara": "-1 pkt"
+    }
+  ]
+}

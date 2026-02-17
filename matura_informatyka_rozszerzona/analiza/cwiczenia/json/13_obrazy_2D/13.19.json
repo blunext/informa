@@ -1,0 +1,32 @@
+{
+  "id": "13.19",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2025 zad. 4 (spojne obszary)",
+  "tagi": [
+    "tablica-2D",
+    "BFS",
+    "spojne-obszary",
+    "4-spojnosc",
+    "visited",
+    "queue",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `siatka.txt` znajduje sie siatka 6x6 zer i jedynek. Napisz program, ktory:\na) Zliczy liczbe jedynek.\nb) Zliczy liczbe spojnych obszarow jedynek (4-spojnosc: gora, dol, lewo, prawo).\nc) Znajdzie rozmiar najwiekszego spojnego obszaru.\n\n**Dane** (`siatka.txt`):\n```\n1 1 0 0 0 0\n1 1 1 0 1 0\n0 1 0 0 0 0\n0 0 0 1 1 0\n0 0 0 1 0 0\n1 0 0 0 0 1\n```\n\n**Oczekiwany wynik**:\n```\nLiczba jedynek: 12\nLiczba spojnych obszarow: 5\nNajwiekszy obszar: 6\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj BFS (przeszukiwanie wszerz) z kolejka do znajdowania spojnych obszarow.",
+    "**Podejscie**: Iteruj po siatce. Gdy napotkasz nieodwiedzona jedynke, uruchom BFS i zlicz rozmiar obszaru.",
+    "**Kluczowy krok**: Tablica visited[6][6] zapobiega wielokrotnemu odwiedzaniu tych samych komorek."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <queue>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    int m[6][6];\n    for (int i = 0; i < 6; i++)\n        for (int j = 0; j < 6; j++)\n            plik >> m[i][j];\n    int ones = 0;\n    for (int i = 0; i < 6; i++)\n        for (int j = 0; j < 6; j++)\n            if (m[i][j] == 1) ones++;\n    bool visited[6][6] = {};\n    int dx[] = {-1, 1, 0, 0};\n    int dy[] = {0, 0, -1, 1};\n    int comp = 0, maxSize = 0;\n    for (int i = 0; i < 6; i++) {\n        for (int j = 0; j < 6; j++) {\n            if (m[i][j] == 1 && !visited[i][j]) {\n                comp++;\n                int size = 0;\n                queue<pair<int,int>> q;\n                q.push(make_pair(i, j));\n                visited[i][j] = true;\n                while (!q.empty()) {\n                    int x = q.front().first;\n                    int y = q.front().second;\n                    q.pop();\n                    size++;\n                    for (int d = 0; d < 4; d++) {\n                        int nx = x + dx[d];\n                        int ny = y + dy[d];\n                        if (nx >= 0 && nx < 6 && ny >= 0 && ny < 6 && m[nx][ny] == 1 && !visited[nx][ny]) {\n                            visited[nx][ny] = true;\n                            q.push(make_pair(nx, ny));\n                        }\n                    }\n                }\n                if (size > maxSize) maxSize = size;\n            }\n        }\n    }\n    cout << \"Liczba jedynek: \" << ones << endl;\n    cout << \"Liczba spojnych obszarow: \" << comp << endl;\n    cout << \"Najwiekszy obszar: \" << maxSize << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Jedynki: 2+4+1+2+1+2 = 12\n- Obszar 1: (0,0),(0,1),(1,0),(1,1),(1,2),(2,1) = 6\n- Obszar 2: (1,4) = 1\n- Obszar 3: (3,3),(3,4),(4,3) = 3\n- Obszar 4: (5,0) = 1\n- Obszar 5: (5,5) = 1\n- Najwiekszy: 6",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak tablicy visited**: Bez oznaczania odwiedzonych komorek BFS zapetla sie",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Sprawdzanie 8-spojnosci zamiast 4**: Dodanie sasiadow po przekatnej zmienia wynik",
+      "kara": "-2 pkt"
+    }
+  ]
+}

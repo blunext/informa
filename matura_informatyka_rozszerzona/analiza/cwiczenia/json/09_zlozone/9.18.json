@@ -1,0 +1,29 @@
+{
+  "id": "9.18",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2023 zad. 5 (analiza logow)",
+  "tagi": [
+    "map-zliczanie",
+    "sortowanie",
+    "wczytywanie-pliku",
+    "vector-par"
+  ],
+  "tresc": "W pliku `logi.txt` znajduje sie 12 rekordow w formacie: adres_ip godzina (oddzielone spacja). Ten sam adres IP moze wystepowac wielokrotnie. Napisz program, ktory:\na) Zliczy ile razy kazdy adres IP pojawil sie w logach.\nb) Wypisze ranking adresow IP malejaco wg liczby wystapien (przy remisie — rosnaco wg IP).\nc) Poda liczbe unikalnych adresow i laczna liczbe wpisow.\n\n**Dane** (`logi.txt`):\n```\n192.168.1.1 08:15\n10.0.0.5 08:20\n192.168.1.1 08:25\n172.16.0.3 08:30\n10.0.0.5 08:35\n192.168.1.1 08:40\n10.0.0.5 08:45\n172.16.0.3 08:50\n192.168.1.1 08:55\n192.168.1.1 09:00\n10.0.0.5 09:05\n172.16.0.3 09:10\n```\n\n**Oczekiwany wynik**:\n```\nRanking adresow IP:\n1. 192.168.1.1: 5\n2. 10.0.0.5: 4\n3. 172.16.0.3: 3\nUnikalne adresy: 3\nLacznie wpisow: 12\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj mapy do zliczania, potem przenies do wektora par i posortuj.",
+    "**Podejscie**: `map<string,int>` do zliczania, `vector<pair<int,string>>` do sortowania malejaco wg count.",
+    "**Kluczowy krok**: Sortowanie: najpierw malejaco wg ilosci, przy remisie rosnaco wg IP (leksykograficznie)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"logi.txt\");\n    string ip, czas;\n    map<string, int> cnt;\n    int total = 0;\n    while (plik >> ip >> czas) {\n        cnt[ip]++;\n        total++;\n    }\n    vector<pair<int, string>> ranking;\n    for (auto& p : cnt) ranking.push_back({p.second, p.first});\n    sort(ranking.begin(), ranking.end(), [](auto& a, auto& b) {\n        if (a.first != b.first) return a.first > b.first;\n        return a.second < b.second;\n    });\n    cout << \"Ranking adresow IP:\" << endl;\n    for (int i = 0; i < (int)ranking.size(); i++) {\n        cout << i+1 << \". \" << ranking[i].second << \": \" << ranking[i].first << endl;\n    }\n    cout << \"Unikalne adresy: \" << cnt.size() << endl;\n    cout << \"Lacznie wpisow: \" << total << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- 192.168.1.1: 08:15, 08:25, 08:40, 08:55, 09:00 → 5\n- 10.0.0.5: 08:20, 08:35, 08:45, 09:05 → 4\n- 172.16.0.3: 08:30, 08:50, 09:10 → 3\nUnikalne: 3, lacznie: 12",
+  "typowe_bledy": [
+    {
+      "opis": "**Sortowanie rosnace zamiast malejacego**: Domyslne sort daje rosnaco — ranking powinien byc od najczestszego",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pominiecie godziny przy wczytywaniu**: `plik >> ip` wczyta IP, ale godzina zostanie w buforze i zaburzy nastepne odczyty",
+      "kara": "-2 pkt"
+    }
+  ]
+}

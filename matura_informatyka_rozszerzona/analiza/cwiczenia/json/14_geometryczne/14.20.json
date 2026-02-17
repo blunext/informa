@@ -1,0 +1,31 @@
+{
+  "id": "14.20",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Wzor: Matura 2023 zad. 3 (analiza wielokata)",
+  "tagi": [
+    "wielokat",
+    "obwod",
+    "collinear",
+    "odleglosc-euklidesowa",
+    "sqrt",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `wielokat.txt` w pierwszej linii jest n, a w kolejnych n liniach wspolrzedne wierzcholkow wielokata w kolejnosci obejscia. Napisz program, ktory:\na) Obliczy pole (wzor sznurowadla) i obwod wielokata.\nb) Znajdzie najdluzszy i najkrotszy bok.\nc) Sprawdzi ile trojek kolejnych wierzcholkow jest wspoliniowych.\n\n**Dane** (`wielokat.txt`):\n```\n6\n0 0\n6 0\n8 3\n6 6\n3 7\n0 4\n```\n\n**Oczekiwany wynik**:\n```\nPole: 42.00\nObwod: 24.62\nNajdluzszy bok: 1 (6.00)\nNajkrotszy bok: 4 (3.16)\nWspoliniowe trojki: 0\n```",
+  "wskazowki": [
+    "**Kierunek**: Pole = sznurowadlo, obwod = suma dlugosci bokow, wspolliniowosc = iloczyn wektorowy == 0.",
+    "**Podejscie**: W jednej petli oblicz pole i obwod. W drugiej petli sprawdzaj trojki (i, i+1, i+2) % n.",
+    "**Kluczowy krok**: Numeracja bokow od 1. Bok i laczy wierzcholek i z i+1 (modulo n)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <cmath>\n#include <cstdlib>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"wielokat.txt\");\n    int n;\n    plik >> n;\n    int x[100], y[100];\n    for (int i = 0; i < n; i++)\n        plik >> x[i] >> y[i];\n    int sumPole = 0;\n    double obwod = 0;\n    double maxBok = 0, minBok = 1e9;\n    int maxBokIdx = 1, minBokIdx = 1;\n    for (int i = 0; i < n; i++) {\n        int j = (i + 1) % n;\n        sumPole += x[i] * y[j] - x[j] * y[i];\n        double dx = x[j] - x[i], dy = y[j] - y[i];\n        double d = sqrt(dx * dx + dy * dy);\n        obwod += d;\n        if (d > maxBok) { maxBok = d; maxBokIdx = i + 1; }\n        if (d < minBok) { minBok = d; minBokIdx = i + 1; }\n    }\n    double pole = abs(sumPole) / 2.0;\n    int collinear = 0;\n    for (int i = 0; i < n; i++) {\n        int j = (i + 1) % n;\n        int k = (i + 2) % n;\n        int cross = (x[j] - x[i]) * (y[k] - y[i]) - (y[j] - y[i]) * (x[k] - x[i]);\n        if (cross == 0) collinear++;\n    }\n    cout << fixed << setprecision(2);\n    cout << \"Pole: \" << pole << endl;\n    cout << \"Obwod: \" << obwod << endl;\n    cout << \"Najdluzszy bok: \" << maxBokIdx << \" (\" << maxBok << \")\" << endl;\n    cout << \"Najkrotszy bok: \" << minBokIdx << \" (\" << minBok << \")\" << endl;\n    cout << \"Wspoliniowe trojki: \" << collinear << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Sznurowadlo: (0*0-6*0)+(6*3-8*0)+(8*6-6*3)+(6*7-3*6)+(3*4-0*7)+(0*0-0*4) = 0+18+30+24+12+0 = 84, pole=42.00\n- Boki: sqrt(36)=6.00, sqrt(13)=3.61, sqrt(13)=3.61, sqrt(10)=3.16, sqrt(18)=4.24, sqrt(16)=4.00\n- Obwod: 6.00+3.61+3.61+3.16+4.24+4.00 = 24.62\n- Najdluzszy: bok 1 (6.00), Najkrotszy: bok 4 (3.16)\n- Wspoliniowe: wszystkie cross != 0 → 0",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak modulo n**: Indeks (i+1)%n i (i+2)%n sa konieczne do zamkniecia wielokata",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Dzielenie int/int w polu**: abs(sumPole)/2 daje int — uzyj 2.0",
+      "kara": "-1 pkt"
+    }
+  ]
+}

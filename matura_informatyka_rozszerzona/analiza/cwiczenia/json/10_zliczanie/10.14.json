@@ -1,0 +1,28 @@
+{
+  "id": "10.14",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2018 zad. 3 (analiza cyfr liczby)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "cyfry-mod-div"
+  ],
+  "tresc": "W pliku `liczby.txt` znajduje sie 10 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory zliczy ile sposrod nich zawiera cyfre 7, i obliczy sume tych liczb.\n\n**Dane** (`liczby.txt`):\n```\n127\n450\n73\n891\n174\n567\n203\n700\n42\n371\n```\n\n**Oczekiwany wynik**:\n```\nLiczby zawierajace cyfre 7: 6\nSuma tych liczb: 2012\n```",
+  "wskazowki": [
+    "**Kierunek**: Dla kazdej liczby sprawdz, czy ktoras cyfra to 7.",
+    "**Podejscie**: Napisz funkcje `zawieraCyfre(n, c)` ktora w petli while wyciaga cyfry `n%10` i porownuje z `c`.",
+    "**Kluczowy krok**: `n /= 10` zmniejsza liczbe o ostatnia cyfre. Petla trwa dopoki `n > 0`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nbool zawieraCyfre(int n, int c) {\n    while (n > 0) {\n        if (n % 10 == c) return true;\n        n /= 10;\n    }\n    return false;\n}\n\nint main() {\n    ifstream plik(\"liczby.txt\");\n    int n;\n    int ile = 0, suma = 0;\n    while (plik >> n) {\n        if (zawieraCyfre(n, 7)) {\n            ile++;\n            suma += n;\n        }\n    }\n    cout << \"Liczby zawierajace cyfre 7: \" << ile << endl;\n    cout << \"Suma tych liczb: \" << suma << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- 127: cyfry 1,2,7 → tak\n- 450: cyfry 4,5,0 → nie\n- 73: cyfry 7,3 → tak\n- 891: cyfry 8,9,1 → nie\n- 174: cyfry 1,7,4 → tak\n- 567: cyfry 5,6,7 → tak\n- 203: cyfry 2,0,3 → nie\n- 700: cyfry 7,0,0 → tak\n- 42: cyfry 4,2 → nie\n- 371: cyfry 3,7,1 → tak\nIle: 6, Suma: 127+73+174+567+700+371 = 2012",
+  "typowe_bledy": [
+    {
+      "opis": "**Sprawdzanie tylko pierwszej lub ostatniej cyfry**: `n%10==7` sprawdza tylko ostatnia cyfre, trzeba petli",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Konwersja na string zamiast mod/div**: Dziala, ale jest wolniejsza i nie pokazuje umiejetnosci algorytmicznej",
+      "kara": "-0 pkt (poprawne, ale CKE preferuje podejscie numeryczne)"
+    }
+  ]
+}

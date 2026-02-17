@@ -1,0 +1,29 @@
+{
+  "id": "11.16",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2022 zad. 3 (ciag rosnacy)",
+  "tagi": [
+    "min-max",
+    "spojny-fragment",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `ciag.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie najdluzszy spojny (bez przerw) ciag scisle rosnacy i wypisze jego dlugosc, pozycje poczatkowa (1-indeksowana) i elementy.\n\n**Dane** (`ciag.txt`):\n```\n3\n5\n7\n2\n4\n8\n12\n6\n1\n9\n11\n14\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy ciag rosnacy: 4 elementow\nPoczatek: pozycja 4\nElementy: 2 4 8 12\n```",
+  "wskazowki": [
+    "**Kierunek**: Skanuj ciag liniowo, sledzac aktualna dlugosc ciagu rosnacego.",
+    "**Podejscie**: Jesli `dane[i] > dane[i-1]`: `curLen++`. Inaczej: porownaj z max i zacznij nowy ciag.",
+    "**Kluczowy krok**: Po petli sprawdz jeszcze raz, czy ostatni ciag nie jest najdluzszy (moze konczyc sie na koncu danych)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"ciag.txt\");\n    vector<int> dane;\n    int x;\n    while (plik >> x) dane.push_back(x);\n    int maxLen = 1, maxStart = 0;\n    int curLen = 1, curStart = 0;\n    for (int i = 1; i < (int)dane.size(); i++) {\n        if (dane[i] > dane[i - 1]) {\n            curLen++;\n        } else {\n            if (curLen > maxLen) {\n                maxLen = curLen;\n                maxStart = curStart;\n            }\n            curLen = 1;\n            curStart = i;\n        }\n    }\n    if (curLen > maxLen) {\n        maxLen = curLen;\n        maxStart = curStart;\n    }\n    cout << \"Najdluzszy ciag rosnacy: \" << maxLen << \" elementow\" << endl;\n    cout << \"Poczatek: pozycja \" << maxStart + 1 << endl;\n    cout << \"Elementy:\";\n    for (int i = maxStart; i < maxStart + maxLen; i++) {\n        cout << \" \" << dane[i];\n    }\n    cout << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Ciagi rosnace: (3,5,7) dl=3, (2,4,8,12) dl=4, (1,9,11,14) dl=4\n- Najdluzszy pierwszy: (2,4,8,12) od pozycji 4, dlugosc 4",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak sprawdzenia po petli**: Jesli najdluzszy ciag konczy sie na koncu danych, nie zostanie zapisany",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**>= zamiast >**: Ciag SCISLE rosnacy wymaga `dane[i] > dane[i-1]`, nie `>=`",
+      "kara": "-1 pkt"
+    }
+  ]
+}

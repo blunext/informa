@@ -1,0 +1,28 @@
+{
+  "id": "9.16",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2021 zad. 5 (analiza odchylen)",
+  "tagi": [
+    "wieloetapowe",
+    "wczytywanie-pliku",
+    "iomanip"
+  ],
+  "tresc": "W pliku `pomiary.txt` znajduje sie 10 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Obliczy srednia arytmetyczna pomiarow (z dokladnoscia do 2 miejsc po przecinku).\nb) Znajdzie pomiar o najwiekszym odchyleniu od sredniej (bezwzgledna roznica).\nc) Zliczy ile pomiarow jest wyzszych od sredniej.\n\n**Dane** (`pomiary.txt`):\n```\n23\n45\n31\n67\n29\n52\n38\n74\n41\n50\n```\n\n**Oczekiwany wynik**:\n```\nSrednia: 45.00\nPomiar o max odchyleniu: 74 (odchylenie: 29.00)\nPomiarow powyzej sredniej: 4\n```",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz dwoch przejsc: pierwsze liczy srednia, drugie analizuje odchylenia.",
+    "**Podejscie**: Wczytaj dane do `vector<int>`, oblicz sume/srednia, potem iteruj ponownie szukajac max |x - avg| i zliczajac x > avg.",
+    "**Kluczowy krok**: Odchylenie = wartosc bezwzgledna roznicy. Uzyj `fabs()` z `<cmath>` lub oblicz recznie: `(v > avg) ? (v - avg) : (avg - v)`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"pomiary.txt\");\n    vector<int> dane;\n    int x;\n    while (plik >> x) dane.push_back(x);\n    double suma = 0;\n    for (int v : dane) suma += v;\n    double avg = suma / dane.size();\n    cout << fixed << setprecision(2);\n    cout << \"Srednia: \" << avg << endl;\n    double maxOdch = 0;\n    int maxVal = 0;\n    int powyzej = 0;\n    for (int v : dane) {\n        double odch = (v > avg) ? (v - avg) : (avg - v);\n        if (odch > maxOdch) {\n            maxOdch = odch;\n            maxVal = v;\n        }\n        if (v > avg) powyzej++;\n    }\n    cout << \"Pomiar o max odchyleniu: \" << maxVal << \" (odchylenie: \" << maxOdch << \")\" << endl;\n    cout << \"Pomiarow powyzej sredniej: \" << powyzej << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Suma: 23+45+31+67+29+52+38+74+41+50 = 450\n- Srednia: 450/10 = 45.00\n- Odchylenia: |23-45|=22, |45-45|=0, |31-45|=14, |67-45|=22, |29-45|=16, |52-45|=7, |38-45|=7, |74-45|=29, |41-45|=4, |50-45|=5\n- Max odchylenie: 74 (29.00)\n- Powyzej 45: 67, 52, 74, 50 → 4",
+  "typowe_bledy": [
+    {
+      "opis": "**Jedno przejscie zamiast dwoch**: Nie mozna obliczyc odchylenia od sredniej bez wczesniejszego poznania sredniej",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak wartosci bezwzglednej**: Odchylenie moze byc ujemne bez abs(), wiec min zamiast max zostanie znalezione",
+      "kara": "-1 pkt"
+    }
+  ]
+}

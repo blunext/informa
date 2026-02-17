@@ -1,0 +1,23 @@
+{
+  "id": "9.12",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzor: Matura 2023 zad. 3 (zliczanie elementow)",
+  "tagi": [
+    "map-zliczanie",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `slowa.txt` znajduje sie 10 slow (kazde w osobnym wierszu). Niektore slowa moga sie powtarzac. Napisz program, ktory zliczy ile razy wystepuje kazde slowo i wypisze wyniki. Na koniec podaj najczesciej wystepujace slowo (w przypadku remisu — pierwsze alfabetycznie).\n\n**Dane** (`slowa.txt`):\n```\nkot\npies\nkot\nryba\npies\nkot\nryba\npies\nkot\npies\n```\n\n**Oczekiwany wynik**:\n```\nLiczba wystapien kazdego slowa:\n   kot: 4\n   pies: 4\n   ryba: 2\nNajczesciej wystepujace slowo: kot (4)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj `map<string, int>` do zliczania wystapien.",
+    "**Podejscie**: Dla kazdego slowa: `mapa[slowo]++`.",
+    "**Kluczowy krok**: Iteracja po mapie (alfabetycznie) z warunkiem `>` (nie `>=`) daje pierwsze alfabetycznie przy remisie."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"slowa.txt\");\n    string s;\n    map<string, int> cnt;\n    while (plik >> s) cnt[s]++;\n    cout << \"Liczba wystapien kazdego slowa:\" << endl;\n    string maxS;\n    int maxC = 0;\n    for (auto& p : cnt) {\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n        if (p.second > maxC) {\n            maxC = p.second;\n            maxS = p.first;\n        }\n    }\n    cout << \"Najczesciej wystepujace slowo: \" << maxS << \" (\" << maxC << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- kot: 4 razy\n- pies: 4 razy\n- ryba: 2 razy\nRemis kot/pies po 4: map iteruje alfabet., kot < pies, wiec kot wygrywa (warunek >)",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie `>=` zamiast `>` przy szukaniu max**: Przy remisie wygra ostatnie alfabetycznie zamiast pierwszego",
+      "kara": "-1 pkt"
+    }
+  ]
+}

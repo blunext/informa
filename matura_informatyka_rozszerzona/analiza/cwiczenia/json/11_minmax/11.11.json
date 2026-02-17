@@ -1,0 +1,29 @@
+{
+  "id": "11.11",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzor: Matura 2016 zad. 3 (wartosci bezwzgledne)",
+  "tagi": [
+    "min-max",
+    "skan-liniowy",
+    "wczytywanie-pliku",
+    "roznica-bezwzgledna"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych (kazda w osobnym wierszu), wlaczajac ujemne. Napisz program, ktory znajdzie liczbe o najwiekszej wartosci bezwzglednej i liczbe o najmniejszej wartosci bezwzglednej.\n\n**Dane** (`dane.txt`):\n```\n-15\n23\n-8\n42\n-31\n17\n-5\n36\n-22\n10\n```\n\n**Oczekiwany wynik**:\n```\nLiczba o max |x|: 42 (|42| = 42)\nLiczba o min |x|: -5 (|-5| = 5)\n```",
+  "wskazowki": [
+    "**Kierunek**: Porownuj wartosci bezwzgledne, ale zapamietaj oryginalna liczbe.",
+    "**Podejscie**: Oblicz `abs = (n<0) ? -n : n` i porownuj z dotychczasowym max/min abs.",
+    "**Kluczowy krok**: Pamietaj oryginalna wartosc (ze znakiem) do wypisania, nie sama wartosc bezwzgledna."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    plik >> n;\n    int maxVal = n, minVal = n;\n    int maxAbs = (n < 0) ? -n : n;\n    int minAbs = maxAbs;\n    while (plik >> n) {\n        int a = (n < 0) ? -n : n;\n        if (a > maxAbs) { maxAbs = a; maxVal = n; }\n        if (a < minAbs) { minAbs = a; minVal = n; }\n    }\n    cout << \"Liczba o max |x|: \" << maxVal << \" (|\" << maxVal << \"| = \" << maxAbs << \")\" << endl;\n    cout << \"Liczba o min |x|: \" << minVal << \" (|\" << minVal << \"| = \" << minAbs << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- |−15|=15, |23|=23, |−8|=8, |42|=42, |−31|=31, |17|=17, |−5|=5, |36|=36, |−22|=22, |10|=10\n- Max |x|: 42 (|42|=42)\n- Min |x|: -5 (|-5|=5)",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownywanie oryginalnych wartosci zamiast bezwzglednych**: min(-31) to nie to samo co min(|-31|)=31",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Wypisanie abs zamiast oryginalnej liczby**: Powinno byc -5, nie 5",
+      "kara": "-1 pkt"
+    }
+  ]
+}

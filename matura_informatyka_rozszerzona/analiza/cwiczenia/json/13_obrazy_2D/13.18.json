@@ -1,0 +1,28 @@
+{
+  "id": "13.18",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2017 zad. 4 (transformacje macierzy)",
+  "tagi": [
+    "tablica-2D",
+    "obrot",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `macierz.txt` znajduje sie macierz 4x4 liczb calkowitych. Napisz program, ktory:\na) Wypisze macierz obrocona o 90 stopni w prawo (zgodnie z ruchem wskazowek zegara).\nb) Policzy ile elementow zostalo na tej samej pozycji po obrocie.\nc) Wypisze sumy wierszy obroconej macierzy.\n\n**Dane** (`macierz.txt`):\n```\n1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16\n```\n\n**Oczekiwany wynik**:\n```\n13 9 5 1\n14 10 6 2\n15 11 7 3\n16 12 8 4\nStale elementy: 0\nSumy wierszy: 28 32 36 40\n```",
+  "wskazowki": [
+    "**Kierunek**: Obrot 90 w prawo: nowy[i][j] = stary[n-1-j][i], gdzie n=4.",
+    "**Podejscie**: Uzyj dwoch tablic: oryginalnej i obroconej. Wypelnij obrocona wzorem, potem wypisz.",
+    "**Kluczowy krok**: Staly element to taki, gdzie m[i][j] == r[i][j] po obrocie. Porownuj tablice element po elemencie."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"macierz.txt\");\n    int m[4][4], r[4][4];\n    for (int i = 0; i < 4; i++)\n        for (int j = 0; j < 4; j++)\n            plik >> m[i][j];\n    for (int i = 0; i < 4; i++)\n        for (int j = 0; j < 4; j++)\n            r[i][j] = m[3 - j][i];\n    for (int i = 0; i < 4; i++) {\n        for (int j = 0; j < 4; j++) {\n            if (j > 0) cout << \" \";\n            cout << r[i][j];\n        }\n        cout << endl;\n    }\n    int stale = 0;\n    for (int i = 0; i < 4; i++)\n        for (int j = 0; j < 4; j++)\n            if (m[i][j] == r[i][j]) stale++;\n    cout << \"Stale elementy: \" << stale << endl;\n    cout << \"Sumy wierszy:\";\n    for (int i = 0; i < 4; i++) {\n        int s = 0;\n        for (int j = 0; j < 4; j++) s += r[i][j];\n        cout << \" \" << s;\n    }\n    cout << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- r[0]=[13,9,5,1], r[1]=[14,10,6,2], r[2]=[15,11,7,3], r[3]=[16,12,8,4]\n- Zaden element nie pozostaje na tej samej pozycji: stale=0\n- Sumy: 13+9+5+1=28, 14+10+6+2=32, 15+11+7+3=36, 16+12+8+4=40",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledny wzor obrotu**: Uzycie r[i][j]=m[j][n-1-i] zamiast m[n-1-j][i] daje obrot w lewo",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Nadpisanie oryginalnej tablicy**: Obrot in-place bez kopii psuje kolejne elementy",
+      "kara": "-2 pkt"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "12.16",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2023 zad. 3 (monotoniczny podciag)",
+  "tagi": [
+    "ciag-rosnacy",
+    "ciag-malejacy",
+    "current-max",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `ciag.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie najdluzszy spojny fragment monotoniczny (scisle rosnacy LUB scisle malejacy). Wypisze dlugosc, typ (rosnacy/malejacy) i elementy.\n\n**Dane** (`ciag.txt`):\n```\n5\n8\n12\n9\n7\n3\n4\n6\n10\n11\n8\n2\n1\n5\n9\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy monotoniczny: 5 elementow (rosnacy)\nElementy: 3 4 6 10 11\n```",
+  "wskazowki": [
+    "**Kierunek**: Sledzac dwa ciagi (rosnacy i malejacy) rownolegle, szukaj dluzszego.",
+    "**Podejscie**: Oddzielne zmienne `incLen` i `decLen`. Aktualizuj je niezaleznie na kazdym kroku.",
+    "**Kluczowy krok**: Jesli `dane[i] > dane[i-1]`: `incLen++`, `decLen=1`. Odwrotnie dla malejacego. Porownuj z globalnym max."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"ciag.txt\");\n    vector<int> dane;\n    int x;\n    while (plik >> x) dane.push_back(x);\n    int maxLen = 1, maxStart = 0;\n    string maxTyp = \"\";\n    int incLen = 1, incStart = 0;\n    int decLen = 1, decStart = 0;\n    for (int i = 1; i < (int)dane.size(); i++) {\n        if (dane[i] > dane[i - 1]) {\n            incLen++;\n            decLen = 1;\n            decStart = i;\n        } else if (dane[i] < dane[i - 1]) {\n            decLen++;\n            incLen = 1;\n            incStart = i;\n        } else {\n            incLen = 1;\n            incStart = i;\n            decLen = 1;\n            decStart = i;\n        }\n        if (incLen > maxLen) {\n            maxLen = incLen;\n            maxStart = incStart;\n            maxTyp = \"rosnacy\";\n        }\n        if (decLen > maxLen) {\n            maxLen = decLen;\n            maxStart = decStart;\n            maxTyp = \"malejacy\";\n        }\n    }\n    cout << \"Najdluzszy monotoniczny: \" << maxLen << \" elementow (\" << maxTyp << \")\" << endl;\n    cout << \"Elementy:\";\n    for (int i = maxStart; i < maxStart + maxLen; i++) {\n        cout << \" \" << dane[i];\n    }\n    cout << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Rosnace: (5,8,12) dl=3, (3,4,6,10,11) dl=5, (1,5,9) dl=3\n- Malejace: (12,9,7,3) dl=4, (11,8,2,1) dl=4\n- Najdluzszy: rosnacy dl=5 (3,4,6,10,11), od pozycji 6",
+  "typowe_bledy": [
+    {
+      "opis": "**Szukanie tylko rosnacego LUB tylko malejacego**: Trzeba sledzic oba kierunki rownolegle",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak resetowania drugiego licznika**: Gdy ciag rosnie, licznik malejacy musi sie resetowac do 1",
+      "kara": "-1 pkt"
+    }
+  ]
+}

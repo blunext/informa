@@ -1,0 +1,29 @@
+{
+  "id": "8.13",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2014 zad. 5 (analiza czestotliwosci znakow)",
+  "tagi": [
+    "operacje-na-string",
+    "tablica-czestotliwosci",
+    "wczytywanie-pliku",
+    "zliczanie-znakow"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 8 napisow skladajacych sie z malych liter (kazdy w osobnym wierszu). Napisz program, ktory dla kazdego napisu znajdzie najczesciej wystepujaca litere (w przypadku remisu — pierwsza alfabetycznie) oraz liczbe jej wystapien. Na koniec zlicz, ile napisow ma litere wystepujaca 3 lub wiecej razy.\n\n**Dane** (`napisy.txt`):\n```\nszyfr\nbbbcc\nabcabc\nhello\nmississippi\ndekoderzy\nxxyzzy\ntestttt\n```\n\n**Oczekiwany wynik**:\n```\nszyfr: najczestsza = f (1 raz)\nbbbcc: najczestsza = b (3 razy)\nabcabc: najczestsza = a (2 razy)\nhello: najczestsza = l (2 razy)\nmississippi: najczestsza = i (4 razy)\ndekoderzy: najczestsza = d (2 razy)\nxxyzzy: najczestsza = x (2 razy)\ntestttt: najczestsza = t (5 razy)\nNapisow z litera wystepujaca >= 3 razy: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj tablicy czestotliwosci `int freq[26]` do zliczenia wystapien kazdej litery.",
+    "**Podejscie**: Iteruj po tablicy od `a` do `z` — to naturalnie daje pierwsza alfabetycznie w przypadku remisu.",
+    "**Kluczowy krok**: Warunek `freq[i] > maxFreq` (nie `>=`) zapewnia ze remis rozstrzygany na rzecz wczesniejszej litery."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    int ile = 0;\n    while (plik >> s) {\n        int freq[26] = {};\n        for (char c : s) {\n            if (c >= 'a' && c <= 'z') freq[c - 'a']++;\n        }\n        int maxFreq = 0;\n        char maxChar = 'a';\n        for (int i = 0; i < 26; i++) {\n            if (freq[i] > maxFreq) {\n                maxFreq = freq[i];\n                maxChar = 'a' + i;\n            }\n        }\n        cout << s << \": najczestsza = \" << maxChar << \" (\" << maxFreq;\n        if (maxFreq == 1) cout << \" raz)\" << endl;\n        else cout << \" razy)\" << endl;\n        if (maxFreq >= 3) ile++;\n    }\n    cout << \"Napisow z litera wystepujaca >= 3 razy: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Tablica `freq[26]` mapuje litere na indeks (a=0, b=1, ..., z=25). Iteracja od a do z daje pierwsza alfabetycznie przy remisie.\n\nWeryfikacja:\n- szyfr: f(1),r(1),s(1),y(1),z(1) -> max=1, litera f (pierwsza alfab.)\n- bbbcc: b(3),c(2) -> max=3, litera b >= 3 TAK\n- abcabc: a(2),b(2),c(2) -> max=2, litera a (pierwsza alfab.)\n- hello: e(1),h(1),l(2),o(1) -> max=2, litera l\n- mississippi: i(4),m(1),p(2),s(4) -> max=4, litera i (przed s) >= 3 TAK\n- dekoderzy: d(2),e(2),k(1),o(1),r(1),y(1),z(1) -> max=2, litera d\n- xxyzzy: x(2),y(2),z(2) -> max=2, litera x (pierwsza alfab.)\n- testttt: e(1),s(1),t(5) -> max=5, litera t >= 3 TAK\nRazem >= 3: bbbcc, mississippi, testttt = 3",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie `>=` zamiast `>` przy szukaniu max**: `>=` powoduje ze przy remisie wygrywa ostatnia litera (np. z zamiast a)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Niezainicjalizowana tablica freq**: Bez `= {}` wartosci moga byc losowe. C++ nie zeruje tablic automatycznie",
+      "kara": "-2 pkt"
+    }
+  ]
+}

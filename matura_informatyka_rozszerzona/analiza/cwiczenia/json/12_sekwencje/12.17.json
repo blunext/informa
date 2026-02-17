@@ -1,0 +1,29 @@
+{
+  "id": "12.17",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2024 zad. 3 (srednie ruchome)",
+  "tagi": [
+    "srednia-segmentu",
+    "spojny-podciag",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory obliczy srednie ruchome dla okna K=3 (2 miejsca po przecinku), zliczy ile okien ma srednia powyzej 7.00 i znajdzie okno z najwyzsza srednia.\n\n**Dane** (`dane.txt`):\n```\n4\n6\n9\n3\n8\n5\n11\n7\n2\n10\n6\n8\n```\n\n**Oczekiwany wynik**:\n```\nSrednie ruchome (K=3):\n   Okno 1: 6.33\n   Okno 2: 6.00\n   Okno 3: 6.67\n   Okno 4: 5.33\n   Okno 5: 8.00\n   Okno 6: 7.67\n   Okno 7: 6.67\n   Okno 8: 6.33\n   Okno 9: 6.00\n   Okno 10: 8.00\nOkna powyzej 7.00: 3\nNajwyzsza srednia: 8.00 (okno 5)\n```",
+  "wskazowki": [
+    "**Kierunek**: Okno przesuwne: oblicz sume pierwszych K elementow, potem przesuwaj dodajac/odejmujac.",
+    "**Podejscie**: Srednia = suma_okna / K. Zliczaj srednie > 7.0, szukaj max.",
+    "**Kluczowy krok**: Okien jest n-K+1 = 10. Formatowanie: `fixed << setprecision(2)`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> dane;\n    int x;\n    while (plik >> x) dane.push_back(x);\n    int k = 3;\n    double prog = 7.0;\n    int suma = 0;\n    for (int i = 0; i < k; i++) suma += dane[i];\n    cout << fixed << setprecision(2);\n    cout << \"Srednie ruchome (K=\" << k << \"):\" << endl;\n    int powyzej = 0;\n    double maxAvg = 0;\n    int maxOkno = 0;\n    for (int i = 0; i <= (int)dane.size() - k; i++) {\n        if (i > 0) suma += dane[i + k - 1] - dane[i - 1];\n        double avg = (double)suma / k;\n        cout << \"   Okno \" << i + 1 << \": \" << avg << endl;\n        if (avg > prog) powyzej++;\n        if (avg > maxAvg) { maxAvg = avg; maxOkno = i + 1; }\n    }\n    cout << \"Okna powyzej \" << prog << \": \" << powyzej << endl;\n    cout << \"Najwyzsza srednia: \" << maxAvg << \" (okno \" << maxOkno << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Okno 1: (4+6+9)/3=19/3=6.33\n- Okno 2: (6+9+3)/3=18/3=6.00\n- Okno 3: (9+3+8)/3=20/3=6.67\n- Okno 4: (3+8+5)/3=16/3=5.33\n- Okno 5: (8+5+11)/3=24/3=8.00 >7 ✓\n- Okno 6: (5+11+7)/3=23/3=7.67 >7 ✓\n- Okno 7: (11+7+2)/3=20/3=6.67\n- Okno 8: (7+2+10)/3=19/3=6.33\n- Okno 9: (2+10+6)/3=18/3=6.00\n- Okno 10: (10+6+8)/3=24/3=8.00 >7 ✓\n- Powyzej 7: 3. Max: 8.00 (okno 5)",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledne przesuwanie okna**: Dodanie dane[i+k] zamiast dane[i+k-1] przesuwa okno za daleko",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Dzielenie calkowite**: `suma/k` zamiast `(double)suma/k` obcina czesc ulamkowa",
+      "kara": "-1 pkt"
+    }
+  ]
+}

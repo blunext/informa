@@ -1,0 +1,32 @@
+{
+  "id": "8.20",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Wzor: Matura 2023 zad. 3 + 2025 zad. 2 (wieloetapowa analiza napisow)",
+  "tagi": [
+    "zliczanie-znakow",
+    "operacje-na-string",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 10 napisow skladajacych sie z malych liter (kazdy w osobnym wierszu). Napisz program, ktory:\n\na) Dla kazdego napisu zliczy samogloski (a,e,i,o,u) i spolgloski (pozostale litery) i wypisze wynik.\nb) Wypisze napisy, w ktorych samoglosek jest wiecej niz spolgloskow.\nc) Dla kazdego napisu znajdzie najdluzszy ciag kolejnych samoglosek (np. w \"audio\" ciag \"au\" i \"io\" maja dlugosc 2) i wskazuje rekord.\n\n**Dane** (`napisy.txt`):\n```\naula\nprogramowanie\neee\ninformatyka\nszyfr\noaza\naudiobook\nkryptografia\nauto\nrekurencja\n```\n\n**Oczekiwany wynik**:\n```\na) Samogloski i spolgloski:\naula: samoglosek=3, spolgloski=1\nprogramowanie: samoglosek=6, spolgloski=7\neee: samoglosek=3, spolgloski=0\ninformatyka: samoglosek=4, spolgloski=7\nszyfr: samoglosek=0, spolgloski=5\noaza: samoglosek=3, spolgloski=1\naudiobook: samoglosek=6, spolgloski=3\nkryptografia: samoglosek=4, spolgloski=8\nauto: samoglosek=3, spolgloski=1\nrekurencja: samoglosek=4, spolgloski=6\n\nb) Napisy z przewaga samoglosek:\naula (3 > 1)\neee (3 > 0)\noaza (3 > 1)\naudiobook (6 > 3)\nauto (3 > 1)\nIlosc: 5\n\nc) Najdluzszy ciag samoglosek:\naula: najdluzszy ciag = 2\nprogramowanie: najdluzszy ciag = 2\neee: najdluzszy ciag = 3\ninformatyka: najdluzszy ciag = 1\nszyfr: najdluzszy ciag = 0\noaza: najdluzszy ciag = 2\naudiobook: najdluzszy ciag = 2\nkryptografia: najdluzszy ciag = 2\nauto: najdluzszy ciag = 2\nrekurencja: najdluzszy ciag = 1\nRekord: eee (ciag 3 samoglosek)\n```",
+  "wskazowki": [
+    "**Kierunek**: Trzy niezalezne analizy — wczytaj napisy do wektora i przetworz trzykrotnie.",
+    "**Podejscie**: (a) zlicz samogloski/spolgloski, (b) filtruj wg warunku sam > spo, (c) sledzenie biezacego ciagu samoglosek z aktualizacja max.",
+    "**Kluczowy krok**: W (c) resetuj licznik do 0 gdy napotkasz spolgloeske, aktualizuj `best = max(best, cur)` przy kazdej samoglosce."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\nusing namespace std;\n\nbool samogloska(char c) {\n    return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';\n}\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    vector<string> napisy;\n    while (plik >> s) napisy.push_back(s);\n\n    // a)\n    cout << \"a) Samogloski i spolgloski:\" << endl;\n    vector<int> vSam, vSpo;\n    for (const string& n : napisy) {\n        int sam = 0, spo = 0;\n        for (char c : n) {\n            if (samogloska(c)) sam++;\n            else spo++;\n        }\n        vSam.push_back(sam);\n        vSpo.push_back(spo);\n        cout << n << \": samoglosek=\" << sam << \", spolgloski=\" << spo << endl;\n    }\n\n    // b)\n    cout << endl << \"b) Napisy z przewaga samoglosek:\" << endl;\n    int ile = 0;\n    for (int i = 0; i < (int)napisy.size(); i++) {\n        if (vSam[i] > vSpo[i]) {\n            cout << napisy[i] << \" (\" << vSam[i] << \" > \" << vSpo[i] << \")\" << endl;\n            ile++;\n        }\n    }\n    cout << \"Ilosc: \" << ile << endl;\n\n    // c)\n    cout << endl << \"c) Najdluzszy ciag samoglosek:\" << endl;\n    int maxCiag = 0;\n    string maxNapis;\n    for (const string& n : napisy) {\n        int best = 0, cur = 0;\n        for (char c : n) {\n            if (samogloska(c)) {\n                cur++;\n                if (cur > best) best = cur;\n            } else {\n                cur = 0;\n            }\n        }\n        cout << n << \": najdluzszy ciag = \" << best << endl;\n        if (best > maxCiag) {\n            maxCiag = best;\n            maxNapis = n;\n        }\n    }\n    cout << \"Rekord: \" << maxNapis << \" (ciag \" << maxCiag << \" samoglosek)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Wieloetapowa analiza: (a) klasyfikacja znakow, (b) filtrowanie warunkowe, (c) algorytm \"biezacego ciagu\" z resettowaniem licznika.\n\nWeryfikacja:\na) Samogloski (a,e,i,o,u):\n- aula: a,u,a=3 spo: l=1\n- programowanie: o,a,o,a,i,e=6 spo: p,r,g,r,m,w,n=7\n- eee: e,e,e=3 spo: 0\n- informatyka: i,o,a,a=4 spo: n,f,r,m,t,y,k=7\n- szyfr: 0 spo: s,z,y,f,r=5\n- oaza: o,a,a=3 spo: z=1\n- audiobook: a,u,i,o,o,o=6 spo: d,b,k=3\n- kryptografia: o,a,i,a=4 spo: k,r,y,p,t,g,r,f=8\n- auto: a,u,o=3 spo: t=1\n- rekurencja: e,u,e,a=4 spo: r,k,r,n,c,j=6\n\nb) sam > spo: aula(3>1), eee(3>0), oaza(3>1), audiobook(6>3), auto(3>1) = 5\n\nc) Najdluzsze ciagi samoglosek:\n- aula: au(2),a(1) -> 2\n- programowanie: o(1),a(1),o(1),a(1),ie(2) -> 2\n- eee: eee(3) -> 3\n- informatyka: i(1),o(1),a(1),a(1) -> 1\n- szyfr: brak samoglosek -> 0\n- oaza: oa(2),a(1) -> 2\n- audiobook: au(2),io(2),oo(2) -> 2\n- kryptografia: o(1),a(1),ia(2) -> 2\n- auto: au(2),o(1) -> 2\n- rekurencja: e(1),u(1),e(1),a(1) -> 1\nRekord: eee (3)",
+  "typowe_bledy": [
+    {
+      "opis": "**Niezresetowanie licznika ciagu**: Po spotkaniu spolgloski trzeba ustawic `cur = 0`. Bez tego ciag jest kumulowany z poprzednim",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Aktualizacja best dopiero po petli**: Jesli napis konczy sie samoglgloska, ostatni ciag moze nie zostac porownany z best. Lepiej aktualizowac w petli",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Wliczenie 'y' jako samogloski**: W polskim 'y' bywa samogloska, ale w tym zadaniu nie jest — zmieni wynik informatyka (4 vs 5) i szyfr (0 vs 1)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

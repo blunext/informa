@@ -1,0 +1,25 @@
+{
+  "id": "12.12",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzor: Matura 2019 zad. 3 (ciag powyzej sredniej)",
+  "tagi": [
+    "current-max",
+    "skan-liniowy",
+    "wczytywanie-pliku",
+    "srednia-segmentu"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Obliczy srednia arytmetyczna (2 miejsca po przecinku).\nb) Znajdzie najdluzszy spojny podciag elementow wiekszych od sredniej i poda jego dlugosc i pozycje poczatkowa (1-indeksowana).\n\n**Dane** (`dane.txt`):\n```\n3\n8\n12\n7\n5\n10\n4\n6\n1\n9\n```\n\n**Oczekiwany wynik**:\n```\nSrednia: 6.50\nNajdluzszy ciag powyzej sredniej: 3 elementow\nPoczatek: pozycja 2\n```",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz dwoch przejsc: pierwsze liczy srednia, drugie szuka ciagu.",
+    "**Podejscie**: Wczytaj do wektora, oblicz avg. Potem skanuj szukajac najdluzszego ciagu elementow > avg.",
+    "**Kluczowy krok**: Warunek `> avg`, nie `>= avg`. Pamietaj o sprawdzeniu po petli."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> dane;\n    int x;\n    while (plik >> x) dane.push_back(x);\n    double suma = 0;\n    for (int v : dane) suma += v;\n    double avg = suma / dane.size();\n    int maxLen = 0, maxStart = 0;\n    int curLen = 0, curStart = 0;\n    for (int i = 0; i < (int)dane.size(); i++) {\n        if (dane[i] > avg) {\n            if (curLen == 0) curStart = i;\n            curLen++;\n        } else {\n            if (curLen > maxLen) {\n                maxLen = curLen;\n                maxStart = curStart;\n            }\n            curLen = 0;\n        }\n    }\n    if (curLen > maxLen) {\n        maxLen = curLen;\n        maxStart = curStart;\n    }\n    cout << fixed << setprecision(2);\n    cout << \"Srednia: \" << avg << endl;\n    cout << \"Najdluzszy ciag powyzej sredniej: \" << maxLen << \" elementow\" << endl;\n    cout << \"Poczatek: pozycja \" << maxStart + 1 << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Suma: 3+8+12+7+5+10+4+6+1+9 = 65, srednia = 6.50\n- Elementy > 6.50: 8(pos2), 12(pos3), 7(pos4), 10(pos6), 9(pos10)\n- Ciagi powyzej: (8,12,7) dl=3, (10) dl=1, (9) dl=1\n- Najdluzszy: 3, poczatek pozycja 2",
+  "typowe_bledy": [
+    {
+      "opis": "**Jedno przejscie zamiast dwoch**: Nie mozna porownywac ze srednia bez jej wczesniejszego obliczenia",
+      "kara": "-2 pkt"
+    }
+  ]
+}

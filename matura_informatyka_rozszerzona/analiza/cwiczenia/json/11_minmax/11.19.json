@@ -1,0 +1,28 @@
+{
+  "id": "11.19",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2025 zad. 3 (punkt siodlowy macierzy)",
+  "tagi": [
+    "min-max",
+    "tablica-2D",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `macierz.txt` znajduje sie macierz 4x4 liczb calkowitych (4 wiersze po 4 liczby oddzielone spacjami). Napisz program, ktory:\na) Znajdzie minimum w kazdym wierszu (i poda numer kolumny).\nb) Znajdzie maksimum w kazdej kolumnie (i poda numer wiersza).\nc) Znajdzie punkty siodlowe — elementy, ktore sa jednoczesnie minimum w swoim wierszu i maksimum w swojej kolumnie.\n\n**Dane** (`macierz.txt`):\n```\n3 7 4 8\n5 6 7 9\n2 3 1 6\n4 8 5 2\n```\n\n**Oczekiwany wynik**:\n```\nMinimum w kazdym wierszu:\n   Wiersz 1: 3 (kolumna 1)\n   Wiersz 2: 5 (kolumna 1)\n   Wiersz 3: 1 (kolumna 3)\n   Wiersz 4: 2 (kolumna 4)\nMaksimum w kazdej kolumnie:\n   Kolumna 1: 5 (wiersz 2)\n   Kolumna 2: 8 (wiersz 4)\n   Kolumna 3: 7 (wiersz 2)\n   Kolumna 4: 9 (wiersz 2)\nPunkty siodlowe:\n   (2, 1) = 5\n```",
+  "wskazowki": [
+    "**Kierunek**: Oddzielne petle na min per wiersz i max per kolumne. Potem sprawdz punkty siodlowe.",
+    "**Podejscie**: Znajdz min w kazdym wierszu (i jego kolumne). Dla tej kolumny sprawdz, czy min == max kolumny.",
+    "**Kluczowy krok**: Punkt siodlowy: element = min w wierszu AND max w kolumnie. Takich elementow moze byc 0, 1 lub wiecej."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"macierz.txt\");\n    int m[4][4];\n    for (int i = 0; i < 4; i++)\n        for (int j = 0; j < 4; j++)\n            plik >> m[i][j];\n    cout << \"Minimum w kazdym wierszu:\" << endl;\n    for (int i = 0; i < 4; i++) {\n        int mn = m[i][0], mnJ = 0;\n        for (int j = 1; j < 4; j++) {\n            if (m[i][j] < mn) { mn = m[i][j]; mnJ = j; }\n        }\n        cout << \"   Wiersz \" << i + 1 << \": \" << mn << \" (kolumna \" << mnJ + 1 << \")\" << endl;\n    }\n    cout << \"Maksimum w kazdej kolumnie:\" << endl;\n    for (int j = 0; j < 4; j++) {\n        int mx = m[0][j], mxI = 0;\n        for (int i = 1; i < 4; i++) {\n            if (m[i][j] > mx) { mx = m[i][j]; mxI = i; }\n        }\n        cout << \"   Kolumna \" << j + 1 << \": \" << mx << \" (wiersz \" << mxI + 1 << \")\" << endl;\n    }\n    cout << \"Punkty siodlowe:\" << endl;\n    bool found = false;\n    for (int i = 0; i < 4; i++) {\n        int mn = m[i][0], mnJ = 0;\n        for (int j = 1; j < 4; j++) {\n            if (m[i][j] < mn) { mn = m[i][j]; mnJ = j; }\n        }\n        int mx = m[0][mnJ];\n        for (int ii = 1; ii < 4; ii++) {\n            if (m[ii][mnJ] > mx) mx = m[ii][mnJ];\n        }\n        if (mn == mx) {\n            cout << \"   (\" << i + 1 << \", \" << mnJ + 1 << \") = \" << mn << endl;\n            found = true;\n        }\n    }\n    if (!found) cout << \"   Brak\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Wiersz 1 min: 3 (kol 1). Kol 1 max: 5 (w2). 3≠5.\n- Wiersz 2 min: 5 (kol 1). Kol 1 max: 5 (w2). 5==5 → punkt siodlowy (2,1)=5!\n- Wiersz 3 min: 1 (kol 3). Kol 3 max: 7 (w2). 1≠7.\n- Wiersz 4 min: 2 (kol 4). Kol 4 max: 9 (w2). 2≠9.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zamiana wierszy z kolumnami**: Min w wierszu to iteracja po kolumnach (j), max w kolumnie to iteracja po wierszach (i)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Sprawdzanie min==max globalnego zamiast kolumnowego**: Punkt siodlowy wymaga max W TEJ SAMEJ KOLUMNIE, nie globalnego max",
+      "kara": "-2 pkt"
+    }
+  ]
+}

@@ -3,12 +3,15 @@
   "nazwa": "Wyszukiwanie min/max",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "5/11 lat",
-  "punkty_lacznie": 34,
+  "punkty_lacznie": 73,
   "tagi_globalne": [
     "filtrowanie",
+    "grupowanie",
+    "iomanip",
     "k-ty-element",
     "mediana",
     "min-max",
+    "parzystosc",
     "pary-elementow",
     "podwojna-petla",
     "pozycja-elementu",
@@ -134,6 +137,118 @@
         "spojny-fragment",
         "podwojna-petla",
         "sortowanie",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.11",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "min-max",
+        "skan-liniowy",
+        "wczytywanie-pliku",
+        "roznica-bezwzgledna"
+      ]
+    },
+    {
+      "id": "11.12",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "min-max",
+        "skan-liniowy",
+        "wczytywanie-pliku",
+        "k-ty-element"
+      ]
+    },
+    {
+      "id": "11.13",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "min-max",
+        "pozycja-elementu",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.14",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "min-max",
+        "warunkowe-min-max",
+        "filtrowanie",
+        "wczytywanie-pliku",
+        "parzystosc"
+      ]
+    },
+    {
+      "id": "11.15",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "roznica-bezwzgledna",
+        "pary-elementow",
+        "podwojna-petla",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.16",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "min-max",
+        "spojny-fragment",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.17",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "min-max",
+        "rekordy",
+        "wczytywanie-pliku",
+        "grupowanie"
+      ]
+    },
+    {
+      "id": "11.18",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "min-max",
+        "spojny-fragment",
+        "skan-liniowy",
+        "wczytywanie-pliku",
+        "srednia"
+      ]
+    },
+    {
+      "id": "11.19",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "min-max",
+        "tablica-2D",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.20",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "min-max",
+        "wielokryterialne",
+        "sortowanie",
+        "vector-par",
         "wczytywanie-pliku"
       ]
     }

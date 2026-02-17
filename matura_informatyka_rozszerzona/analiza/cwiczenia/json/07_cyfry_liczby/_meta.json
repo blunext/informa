@@ -3,7 +3,7 @@
   "nazwa": "Przetwarzanie cyfr i liczb",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "6/11 lat",
-  "punkty_lacznie": 35,
+  "punkty_lacznie": 74,
   "tagi_globalne": [
     "cyfry-mod-div",
     "suma-cyfr",
@@ -16,7 +16,10 @@
     "potegi",
     "odwracanie-liczby",
     "NWW",
-    "podzielnosc"
+    "podzielnosc",
+    "palindrom",
+    "dzielniki",
+    "system-osemkowy"
   ],
   "cwiczenia": [
     {
@@ -125,6 +128,111 @@
         "cyfry-mod-div",
         "suma-cyfr",
         "test-pierwszosci",
+        "potegi",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "7.11",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "cyfry-mod-div",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.12",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "cyfry-mod-div",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.13",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "cyfry-mod-div",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.14",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "cyfry-mod-div",
+        "odwracanie-liczby",
+        "palindrom",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "7.15",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "dzielniki",
+        "podzielnosc",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.16",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "cyfry-mod-div",
+        "test-pierwszosci",
+        "potegi",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "7.17",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "systemy-liczbowe",
+        "system-osemkowy",
+        "cyfry-mod-div",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "7.18",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "faktoryzacja",
+        "podzielnosc",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "7.19",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "suma-cyfr",
+        "NWD-Euklidesa",
+        "cyfry-mod-div",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "7.20",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "cyfry-mod-div",
         "potegi",
         "wczytywanie-pliku"
       ]

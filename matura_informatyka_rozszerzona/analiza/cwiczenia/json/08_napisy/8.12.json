@@ -1,0 +1,28 @@
+{
+  "id": "8.12",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzor: Matura 2017 zad. 5 (transformacja znakow)",
+  "tagi": [
+    "operacje-na-string",
+    "wczytywanie-pliku",
+    "zliczanie-znakow"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 8 napisow skladajacych sie z malych liter (kazdy w osobnym wierszu). Napisz program, ktory w kazdym napisie zamieni kazda samogloske (a, e, i, o, u) na znak `*` i wypisze zmodyfikowany napis. Na koniec podaj laczna liczbe zamienionych samoglosek we wszystkich napisach.\n\n**Dane** (`napisy.txt`):\n```\nprogramowanie\nalgorytm\nmatura\nbaza\nserwer\nkomputer\nekran\nplik\n```\n\n**Oczekiwany wynik**:\n```\nprogramowanie -> pr*gr*m*w*n** (zamieniono: 6)\nalgorytm -> *lg*rytm (zamieniono: 2)\nmatura -> m*t*r* (zamieniono: 3)\nbaza -> b*z* (zamieniono: 2)\nserwer -> s*rw*r (zamieniono: 2)\nkomputer -> k*mp*t*r (zamieniono: 3)\nekran -> *kr*n (zamieniono: 2)\nplik -> pl*k (zamieniono: 1)\nLaczna liczba zamienionych samoglosek: 21\n```",
+  "wskazowki": [
+    "**Kierunek**: Iteruj po znakach napisu, sprawdzaj czy samogloska, jesli tak — zamien na '*'.",
+    "**Podejscie**: Pracuj na kopii napisu. Petla `for(char& c : kopia)` pozwala modyfikowac w miejscu.",
+    "**Kluczowy krok**: Zliczaj zamiany lokalnie (per napis) i globalnie (laczna suma)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nbool samogloska(char c) {\n    return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';\n}\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    int lacznie = 0;\n    while (plik >> s) {\n        string wynik = s;\n        int cnt = 0;\n        for (int i = 0; i < (int)wynik.size(); i++) {\n            if (samogloska(wynik[i])) {\n                wynik[i] = '*';\n                cnt++;\n            }\n        }\n        cout << s << \" -> \" << wynik << \" (zamieniono: \" << cnt << \")\" << endl;\n        lacznie += cnt;\n    }\n    cout << \"Laczna liczba zamienionych samoglosek: \" << lacznie << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Kopia napisu pozwala wypisac oryginol i zmodyfikowana wersje. Kazda samogloska zastepowana gwiazdka.\n\nWeryfikacja:\n- programowanie: o,a,o,a,i,e -> 6 zamian -> pr*gr*m*w*n**\n- algorytm: a,o -> 2 zamian -> *lg*rytm\n- matura: a,u,a -> 3 zamiany -> m*t*r*\n- baza: a,a -> 2 zamiany -> b*z*\n- serwer: e,e -> 2 zamiany -> s*rw*r\n- komputer: o,u,e -> 3 zamiany -> k*mp*t*r\n- ekran: e,a -> 2 zamiany -> *kr*n\n- plik: i -> 1 zamiana -> pl*k\nLacznie: 6+2+3+2+2+3+2+1 = 21",
+  "typowe_bledy": [
+    {
+      "opis": "**Modyfikacja oryginalnego napisu**: Jesli zamieniasz w oryginale, nie mozesz wypisac obu wersji. Zrob kopie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak zliczania zamian**: Samo zamienienie bez liczenia daje niepelna odpowiedz",
+      "kara": "-1 pkt"
+    }
+  ]
+}

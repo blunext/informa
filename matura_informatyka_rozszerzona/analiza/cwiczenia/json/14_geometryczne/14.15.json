@@ -1,0 +1,27 @@
+{
+  "id": "14.15",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2018 zad. 3 (klasyfikacja trojkatow)",
+  "tagi": [
+    "sortowanie",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `boki.txt` w pierwszej linii jest n (liczba zestawow). W kolejnych n liniach sa trzy dlugosci bokow (a b c). Napisz program, ktory dla kazdego zestawu sprawdzi:\n- Czy tworzy trojkat (warunek: suma dwoch krotszych bokow > najdluzszy).\n- Jesli tak, jakiego typu: prostokatny (a^2+b^2==c^2), ostrokatny (a^2+b^2>c^2), rozwartokatny (a^2+b^2<c^2).\n\n**Dane** (`boki.txt`):\n```\n5\n3 4 5\n5 5 5\n3 4 6\n7 7 5\n1 2 4\n```\n\n**Oczekiwany wynik**:\n```\nTrojkat 1 (3,4,5): prostokatny\nTrojkat 2 (5,5,5): ostrokatny\nTrojkat 3 (3,4,6): rozwartokatny\nTrojkat 4 (5,7,7): ostrokatny\nTrojkat 5 (1,2,4): nie jest trojkatem\n```",
+  "wskazowki": [
+    "**Kierunek**: Posortuj boki rosnaco (a<=b<=c). Warunek trojkata: a+b>c.",
+    "**Podejscie**: Porownaj a^2+b^2 z c^2: rowne → prostokatny, wieksze → ostrokatny, mniejsze → rozwartokatny.",
+    "**Kluczowy krok**: Sortowanie bokow jest kluczowe — bez niego nie wiadomo ktory bok jest najdluzszy."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"boki.txt\");\n    int n;\n    plik >> n;\n    for (int i = 0; i < n; i++) {\n        int s[3];\n        plik >> s[0] >> s[1] >> s[2];\n        sort(s, s + 3);\n        cout << \"Trojkat \" << i + 1 << \" (\" << s[0] << \",\" << s[1] << \",\" << s[2] << \"): \";\n        if (s[0] + s[1] <= s[2]) {\n            cout << \"nie jest trojkatem\" << endl;\n        } else if (s[0] * s[0] + s[1] * s[1] == s[2] * s[2]) {\n            cout << \"prostokatny\" << endl;\n        } else if (s[0] * s[0] + s[1] * s[1] > s[2] * s[2]) {\n            cout << \"ostrokatny\" << endl;\n        } else {\n            cout << \"rozwartokatny\" << endl;\n        }\n    }\n    return 0;\n}\n```\n\nWeryfikacja:\n- (3,4,5): 3+4=7>5 ✓, 9+16=25==25 → prostokatny\n- (5,5,5): 5+5=10>5 ✓, 25+25=50>25 → ostrokatny\n- (3,4,6): 3+4=7>6 ✓, 9+16=25<36 → rozwartokatny\n- (5,7,7): 5+7=12>7 ✓, 25+49=74>49 → ostrokatny\n- (1,2,4): 1+2=3<=4 → nie jest trojkatem",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak sortowania bokow**: Bez posortowania nie wiadomo ktory bok jest najdluzszy — porownanie a^2+b^2 vs c^2 daje bledne wyniki",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pominiecie warunku trojkata**: Dla (1,2,4) wynik a^2+b^2 < c^2 dalby 'rozwartokatny' zamiast 'nie jest trojkatem'",
+      "kara": "-1 pkt"
+    }
+  ]
+}

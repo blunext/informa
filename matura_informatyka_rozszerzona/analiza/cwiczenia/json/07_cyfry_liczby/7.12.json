@@ -1,0 +1,28 @@
+{
+  "id": "7.12",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzor: Matura 2017 zad. 4 (klasyfikacja cyfr)",
+  "tagi": [
+    "cyfry-mod-div",
+    "wczytywanie-pliku",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory dla kazdej liczby zliczy, ile ma cyfr parzystych i ile nieparzystych. Wypisz te liczby, w ktorych cyfr parzystych jest wiecej niz nieparzystych.\n\n**Dane** (`dane.txt`):\n```\n3847\n19206\n5531\n72648\n4005\n81923\n6174\n20587\n93412\n76150\n```\n\n**Oczekiwany wynik**:\n```\n3847: parzyste=2, nieparzyste=2\n19206: parzyste=3, nieparzyste=2 -> wiecej parzystych\n5531: parzyste=0, nieparzyste=4\n72648: parzyste=4, nieparzyste=1 -> wiecej parzystych\n4005: parzyste=3, nieparzyste=1 -> wiecej parzystych\n81923: parzyste=2, nieparzyste=3\n6174: parzyste=2, nieparzyste=2\n20587: parzyste=3, nieparzyste=2 -> wiecej parzystych\n93412: parzyste=2, nieparzyste=3\n76150: parzyste=2, nieparzyste=3\nLiczby z wiecej cyframi parzystymi: 4\n```",
+  "wskazowki": [
+    "**Kierunek**: Wyodrebnij cyfry operacjami % 10 i / 10, klasyfikuj kazda jako parzysta lub nieparzysta.",
+    "**Podejscie**: Dla kazdej cyfry sprawdz `c % 2 == 0` (parzysta) lub `c % 2 == 1` (nieparzysta). Utrzymuj dwa liczniki.",
+    "**Kluczowy krok**: Porownaj liczniki: `parzyste > nieparzyste` — wypisz dodatkowy komunikat i zwieksz globalny licznik."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int ile = 0;\n    while (plik >> n) {\n        int parzyste = 0, nieparzyste = 0;\n        int tmp = n;\n        while (tmp > 0) {\n            int c = tmp % 10;\n            if (c % 2 == 0) parzyste++;\n            else nieparzyste++;\n            tmp /= 10;\n        }\n        cout << n << \": parzyste=\" << parzyste << \", nieparzyste=\" << nieparzyste;\n        if (parzyste > nieparzyste) {\n            cout << \" -> wiecej parzystych\" << endl;\n            ile++;\n        } else {\n            cout << endl;\n        }\n    }\n    cout << \"Liczby z wiecej cyframi parzystymi: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Petla wyodrebnia cyfry od konca. Cyfra 0 jest parzysta (0%2==0). Porownanie licznikow decyduje o klasyfikacji.\n\nWeryfikacja:\n- 3847: cyfry 3,8,4,7 -> parzyste 8,4 (2), nieparzyste 3,7 (2) -> rowne\n- 19206: cyfry 1,9,2,0,6 -> parzyste 2,0,6 (3), nieparzyste 1,9 (2) -> wiecej parzystych\n- 5531: cyfry 5,5,3,1 -> parzyste 0, nieparzyste 4\n- 72648: cyfry 7,2,6,4,8 -> parzyste 2,6,4,8 (4), nieparzyste 7 (1) -> wiecej parzystych\n- 4005: cyfry 4,0,0,5 -> parzyste 4,0,0 (3), nieparzyste 5 (1) -> wiecej parzystych\n- 81923: cyfry 8,1,9,2,3 -> parzyste 8,2 (2), nieparzyste 1,9,3 (3)\n- 6174: cyfry 6,1,7,4 -> parzyste 6,4 (2), nieparzyste 1,7 (2) -> rowne\n- 20587: cyfry 2,0,5,8,7 -> parzyste 2,0,8 (3), nieparzyste 5,7 (2) -> wiecej parzystych\n- 93412: cyfry 9,3,4,1,2 -> parzyste 4,2 (2), nieparzyste 9,3,1 (3)\n- 76150: cyfry 7,6,1,5,0 -> parzyste 6,0 (2), nieparzyste 7,1,5 (3)\nRazem z wiecej parzystymi: 4",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie ze 0 jest cyfra parzysta**: Jezeli 0 nie jest liczona jako parzysta, wynik dla liczb typu 4005 bedzie bledny",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Petla while(tmp > 0) pomija sama liczbe 0**: Dla n=0 petla nie wejdzie — ale tu wszystkie liczby sa dodatnie wiec OK",
+      "kara": "-0 pkt"
+    }
+  ]
+}

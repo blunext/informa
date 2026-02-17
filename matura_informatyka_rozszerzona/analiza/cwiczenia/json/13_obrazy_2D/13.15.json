@@ -1,0 +1,29 @@
+{
+  "id": "13.15",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2023 zad. 4 (sasiedztwo w siatce)",
+  "tagi": [
+    "tablica-2D",
+    "4-spojnosc",
+    "sasiedztwo",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `siatka.txt` znajduje sie siatka 5x5 zer i jedynek. Napisz program, ktory zliczy:\na) Liczbe jedynek.\nb) Liczbe par sasiadujacych jedynek (4-spojnosc: gora, dol, lewo, prawo). Kazda para liczona raz.\n\n**Dane** (`siatka.txt`):\n```\n1 1 0 0 1\n1 1 1 0 0\n0 1 1 1 0\n0 0 1 1 1\n1 0 0 1 1\n```\n\n**Oczekiwany wynik**:\n```\nJedynki: 15\nPary sasiadujacych jedynek: 16\n```",
+  "wskazowki": [
+    "**Kierunek**: Zliczaj pary patrzac tylko w prawo i w dol (unikasz podwojnego liczenia).",
+    "**Podejscie**: Jesli m[i][j]==1 i m[i][j+1]==1 → para horyzontalna. Jesli m[i][j]==1 i m[i+1][j]==1 → para wertykalna.",
+    "**Kluczowy krok**: Sprawdzaj granice: j+1 < 5 dla horyzontalnych, i+1 < 5 dla wertykalnych."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    int m[5][5];\n    for (int i = 0; i < 5; i++)\n        for (int j = 0; j < 5; j++)\n            plik >> m[i][j];\n    int ones = 0, pairs = 0;\n    for (int i = 0; i < 5; i++) {\n        for (int j = 0; j < 5; j++) {\n            if (m[i][j] == 1) ones++;\n            if (j < 4 && m[i][j] == 1 && m[i][j + 1] == 1) pairs++;\n            if (i < 4 && m[i][j] == 1 && m[i + 1][j] == 1) pairs++;\n        }\n    }\n    cout << \"Jedynki: \" << ones << endl;\n    cout << \"Pary sasiadujacych jedynek: \" << pairs << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Jedynki per wiersz: 3+3+3+3+3 = 15\n- Pary horyzontalne: (0,0)-(0,1), (1,0)-(1,1), (1,1)-(1,2), (2,1)-(2,2), (2,2)-(2,3), (3,2)-(3,3), (3,3)-(3,4), (4,3)-(4,4) = 8\n- Pary wertykalne: (0,0)-(1,0), (0,1)-(1,1), (1,1)-(2,1), (1,2)-(2,2), (2,2)-(3,2), (2,3)-(3,3), (3,3)-(4,3), (3,4)-(4,4) = 8\n- Razem: 16",
+  "typowe_bledy": [
+    {
+      "opis": "**Liczenie par w obu kierunkach**: Patrzenie w prawo I w lewo liczy kazda pare dwa razy",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak sprawdzania granic**: Dostep do m[i][5] lub m[5][j] powoduje niezdefiniowane zachowanie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

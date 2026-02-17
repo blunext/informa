@@ -1,0 +1,32 @@
+{
+  "id": "12.20",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Wzor: Matura 2023 zad. 4 (podciag z ograniczeniem sumy)",
+  "tagi": [
+    "spojny-podciag",
+    "sumy-prefiksowe",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory znajdzie najdluzszy spojny podciag, ktorego suma miesci sie w przedziale [10, 20]. Wypisze dlugosc, pozycje poczatkowa (1-indeksowana), elementy i sume.\n\n**Dane** (`dane.txt`):\n```\n4\n3\n7\n2\n5\n1\n8\n6\n3\n1\n2\n9\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy podciag ze suma w [10, 20]: 5 elementow\nPoczatek: pozycja 2\nElementy: 3 7 2 5 1\nSuma: 18\n```",
+  "wskazowki": [
+    "**Kierunek**: Podwojna petla: dla kazdego poczatku sumuj elementy az suma > 20 lub koniec danych.",
+    "**Podejscie**: Jesli suma w [10,20] i dlugosc > maxLen — aktualizuj wynik. Przerwij wewnetrzna petle gdy suma > 20.",
+    "**Kluczowy krok**: Dane sa dodatnie, wiec suma rosnie — po przekroczeniu 20 nie warto kontynuowac."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> dane;\n    int x;\n    while (plik >> x) dane.push_back(x);\n    int lo = 10, hi = 20;\n    int maxLen = 0, maxStart = 0, maxSum = 0;\n    for (int i = 0; i < (int)dane.size(); i++) {\n        int suma = 0;\n        for (int j = i; j < (int)dane.size(); j++) {\n            suma += dane[j];\n            if (suma > hi) break;\n            int len = j - i + 1;\n            if (suma >= lo && len > maxLen) {\n                maxLen = len;\n                maxStart = i;\n                maxSum = suma;\n            }\n        }\n    }\n    cout << \"Najdluzszy podciag ze suma w [\" << lo << \", \" << hi << \"]: \" << maxLen << \" elementow\" << endl;\n    cout << \"Poczatek: pozycja \" << maxStart + 1 << endl;\n    cout << \"Elementy:\";\n    for (int i = maxStart; i < maxStart + maxLen; i++) {\n        cout << \" \" << dane[i];\n    }\n    cout << endl;\n    cout << \"Suma: \" << maxSum << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Od poz 2 (3): [3,7]=10✓ dl=2, [3,7,2]=12✓ dl=3, [3,7,2,5]=17✓ dl=4, [3,7,2,5,1]=18✓ dl=5, [3,7,2,5,1,8]=26>20 stop\n- Od poz 6 (1): [1,8]=9, [1,8,6]=15✓ dl=3, [1,8,6,3]=18✓ dl=4, [1,8,6,3,1]=19✓ dl=5, [1,8,6,3,1,2]=21>20 stop\n- Dwa podciagi dl=5: poz 2 (suma 18) i poz 6 (suma 19). Pierwszy wygrywa.\n- Wynik: dl=5, poz 2, elementy: 3 7 2 5 1, suma 18",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak warunku break gdy suma > 20**: Bez wczesnego przerwania sprawdzamy niepotrzebne podciagi",
+      "kara": "-0 pkt (wolne ale poprawne)"
+    },
+    {
+      "opis": "**Szukanie max sumy zamiast max dlugosci**: Zadanie prosi o najDLUZSZY podciag, nie o max sume",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pomylenie < z <= w warunku [10,20]**: Przedzial domkniety oznacza >= 10 i <= 20",
+      "kara": "-1 pkt"
+    }
+  ]
+}

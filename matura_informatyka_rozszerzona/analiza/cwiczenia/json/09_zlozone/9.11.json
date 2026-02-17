@@ -1,0 +1,28 @@
+{
+  "id": "9.11",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzor: Matura 2021 zad. 4 (grupowanie danych)",
+  "tagi": [
+    "map-zliczanie",
+    "grupowanie",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `sprzedaz.txt` znajduje sie 10 rekordow w formacie: nazwa_produktu ilosc (oddzielone spacja, kazdy w osobnym wierszu). Ten sam produkt moze wystepowac wielokrotnie. Napisz program, ktory zsumuje ilosc sprzedana dla kazdego produktu i wskazuje najpopularniejszy.\n\n**Dane** (`sprzedaz.txt`):\n```\nJablko 5\nBanan 3\nJablko 2\nGruszka 4\nBanan 6\nJablko 3\nGruszka 2\nBanan 1\nJablko 4\nGruszka 3\n```\n\n**Oczekiwany wynik**:\n```\na) Sprzedaz per produkt:\n   Banan: 10\n   Gruszka: 9\n   Jablko: 14\n\nb) Najpopularniejszy produkt: Jablko (14)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj `map<string, int>` do sumowania ilosci per produkt.",
+    "**Podejscie**: Wczytuj pary (produkt, ilosc), dodawaj: `mapa[produkt] += ilosc`.",
+    "**Kluczowy krok**: `map` sortuje klucze alfabetycznie. Iteruj szukajac max wartosci."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"sprzedaz.txt\");\n    string produkt;\n    int ilosc;\n    map<string, int> suma;\n    while (plik >> produkt >> ilosc) {\n        suma[produkt] += ilosc;\n    }\n    cout << \"a) Sprzedaz per produkt:\" << endl;\n    string maxProd;\n    int maxIle = 0;\n    for (auto& p : suma) {\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n        if (p.second > maxIle) {\n            maxIle = p.second;\n            maxProd = p.first;\n        }\n    }\n    cout << endl << \"b) Najpopularniejszy produkt: \" << maxProd << \" (\" << maxIle << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Banan: 3+6+1 = 10\n- Gruszka: 4+2+3 = 9\n- Jablko: 5+2+3+4 = 14\nMax: Jablko (14)",
+  "typowe_bledy": [
+    {
+      "opis": "**Zliczanie wystapien zamiast sumowania ilosci**: `mapa[p]++` liczy ile razy produkt wystepuje, nie sume ilosci",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Uzycie unordered_map**: Wyniki bylyby w losowej kolejnosci zamiast alfabetycznej",
+      "kara": "-1 pkt"
+    }
+  ]
+}

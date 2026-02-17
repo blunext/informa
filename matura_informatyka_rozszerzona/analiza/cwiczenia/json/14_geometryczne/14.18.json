@@ -1,0 +1,29 @@
+{
+  "id": "14.18",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2017 zad. 3 (punkt a prosta)",
+  "tagi": [
+    "collinear",
+    "odleglosc-euklidesowa",
+    "sqrt",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` w pierwszej linii sa wspolrzedne dwoch punktow definiujacych prosta (x1 y1 x2 y2). W drugiej linii jest n, a w kolejnych n liniach wspolrzedne punktow-zapytan. Napisz program, ktory:\na) Dla kazdego punktu okresli czy lezy na lewo, na prawo, czy na prostej (iloczyn wektorowy).\nb) Znajdzie punkt najdalszy od prostej.\n\n**Dane** (`dane.txt`):\n```\n0 0 6 3\n6\n2 1\n4 3\n1 3\n5 1\n3 2\n0 4\n```\n\n**Oczekiwany wynik**:\n```\nNa lewo: 4\nNa prawo: 1\nNa prostej: 1\nNajdalszy punkt: (0,4), odleglosc: 3.58\n```",
+  "wskazowki": [
+    "**Kierunek**: Iloczyn wektorowy (B-A) x (P-A) > 0 → P na lewo, < 0 → na prawo, = 0 → na prostej.",
+    "**Podejscie**: Odleglosc punktu od prostej = |cross| / |AB|, gdzie |AB| = sqrt(dx^2+dy^2).",
+    "**Kluczowy krok**: Sledzenie maxDist i odpowiedniego punktu — inicjalizuj maxDist = -1."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <cmath>\n#include <cstdlib>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int ax, ay, bx, by;\n    plik >> ax >> ay >> bx >> by;\n    int n;\n    plik >> n;\n    int dx = bx - ax, dy = by - ay;\n    double dAB = sqrt((double)(dx * dx + dy * dy));\n    int lewo = 0, prawo = 0, na = 0;\n    double maxDist = -1;\n    int maxX = 0, maxY = 0;\n    for (int i = 0; i < n; i++) {\n        int px, py;\n        plik >> px >> py;\n        int cross = dx * (py - ay) - dy * (px - ax);\n        if (cross > 0) lewo++;\n        else if (cross < 0) prawo++;\n        else na++;\n        double dist = abs(cross) / dAB;\n        if (dist > maxDist) {\n            maxDist = dist;\n            maxX = px;\n            maxY = py;\n        }\n    }\n    cout << \"Na lewo: \" << lewo << endl;\n    cout << \"Na prawo: \" << prawo << endl;\n    cout << \"Na prostej: \" << na << endl;\n    cout << fixed << setprecision(2);\n    cout << \"Najdalszy punkt: (\" << maxX << \",\" << maxY << \"), odleglosc: \" << maxDist << endl;\n    return 0;\n}\n```\n\nWeryfikacja (prosta (0,0)-(6,3), dx=6, dy=3, |AB|=sqrt(45)):\n- (2,1): cross = 6*1-3*2 = 0 → na prostej\n- (4,3): cross = 6*3-3*4 = 6 → na lewo, d=6/6.71=0.89\n- (1,3): cross = 18-3 = 15 → na lewo, d=15/6.71=2.24\n- (5,1): cross = 6-15 = -9 → na prawo, d=9/6.71=1.34\n- (3,2): cross = 12-9 = 3 → na lewo, d=3/6.71=0.45\n- (0,4): cross = 24 → na lewo, d=24/6.71=3.58 ← max",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledny wzor na iloczyn wektorowy**: Zamiana skladnikow dx*(py-ay) z dy*(px-ax) odwraca strony",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Dzielenie int/int w odleglosci**: abs(cross)/dAB wymaga rzutowania lub dAB jako double",
+      "kara": "-1 pkt"
+    }
+  ]
+}

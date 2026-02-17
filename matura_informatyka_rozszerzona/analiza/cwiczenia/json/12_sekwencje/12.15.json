@@ -1,0 +1,29 @@
+{
+  "id": "12.15",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2018 zad. 3 (ciagi rosnace)",
+  "tagi": [
+    "ciag-rosnacy",
+    "skan-liniowy",
+    "current-max",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `ciag.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory zliczy ile jest w ciagu maksymalnych spojnych fragmentow scisle rosnacych o dlugosci >= 3.\n\n**Dane** (`ciag.txt`):\n```\n3\n7\n9\n5\n2\n4\n8\n6\n1\n3\n5\n2\n8\n7\n4\n```\n\n**Oczekiwany wynik**:\n```\nCiagi rosnace dlugosci >= 3: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Skanuj ciag sledzac aktualna dlugosc ciagu rosnacego. Gdy ciag sie konczy (lub dane), sprawdz >= 3.",
+    "**Podejscie**: `curLen` rosnie gdy `dane[i] > dane[i-1]`. Gdy nie — jesli `curLen >= 3` to `cnt++`, reset `curLen=1`.",
+    "**Kluczowy krok**: Po petli sprawdz ostatni ciag! Moze sie konczyc na koncu danych."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"ciag.txt\");\n    vector<int> dane;\n    int x;\n    while (plik >> x) dane.push_back(x);\n    int cnt = 0, curLen = 1;\n    for (int i = 1; i < (int)dane.size(); i++) {\n        if (dane[i] > dane[i - 1]) {\n            curLen++;\n        } else {\n            if (curLen >= 3) cnt++;\n            curLen = 1;\n        }\n    }\n    if (curLen >= 3) cnt++;\n    cout << \"Ciagi rosnace dlugosci >= 3: \" << cnt << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Ciagi rosnace: (3,7,9) dl=3 ✓, (2,4,8) dl=3 ✓, (1,3,5) dl=3 ✓\n- Krotsze: (2,8) dl=2 ✗\n- Razem: 3",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak sprawdzenia po petli**: Ostatni ciag (1,3,5) nie zostanie policzony jesli nie sprawdzimy po petli",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zliczanie wszystkich ciagów rosnacych (dl >= 1)**: Warunek dl >= 3 pomija krotsze fragmenty",
+      "kara": "-1 pkt"
+    }
+  ]
+}

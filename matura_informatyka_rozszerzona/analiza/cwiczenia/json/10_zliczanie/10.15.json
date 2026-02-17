@@ -1,0 +1,28 @@
+{
+  "id": "10.15",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2019 zad. 3 (pary elementow)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "pary-elementow",
+    "podwojna-petla"
+  ],
+  "tresc": "W pliku `wartosci.txt` znajduje sie 10 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie wszystkie pary (i, j) takie ze i < j i wartosci[i] + wartosci[j] = 11, wypisze te pary i poda ich liczbe.\n\n**Dane** (`wartosci.txt`):\n```\n3\n7\n1\n9\n5\n2\n8\n4\n6\n10\n```\n\n**Oczekiwany wynik**:\n```\nPary o sumie 11:\n   (3, 8)\n   (7, 4)\n   (1, 10)\n   (9, 2)\n   (5, 6)\nLiczba par: 5\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj dane do wektora, potem podwojna petla po parach (i,j) z i < j.",
+    "**Podejscie**: `for (int i=0; i<n; i++) for (int j=i+1; j<n; j++)` — sprawdz sume.",
+    "**Kluczowy krok**: Pamietaj ze `j` zaczyna od `i+1`, nie od `0` — inaczej policzysz pary podwojnie."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"wartosci.txt\");\n    vector<int> dane;\n    int x;\n    while (plik >> x) dane.push_back(x);\n    int cel = 11;\n    int cnt = 0;\n    cout << \"Pary o sumie \" << cel << \":\" << endl;\n    for (int i = 0; i < (int)dane.size(); i++) {\n        for (int j = i + 1; j < (int)dane.size(); j++) {\n            if (dane[i] + dane[j] == cel) {\n                cout << \"   (\" << dane[i] << \", \" << dane[j] << \")\" << endl;\n                cnt++;\n            }\n        }\n    }\n    cout << \"Liczba par: \" << cnt << endl;\n    return 0;\n}\n```\n\nWeryfikacja par o sumie 11:\n- i=0(3), j=6(8): 3+8=11 ✓\n- i=1(7), j=7(4): 7+4=11 ✓\n- i=2(1), j=9(10): 1+10=11 ✓\n- i=3(9), j=5(2): 9+2=11 ✓\n- i=4(5), j=8(6): 5+6=11 ✓\nLiczba par: 5",
+  "typowe_bledy": [
+    {
+      "opis": "**Petla j od 0 zamiast i+1**: Para (3,8) i (8,3) zostana policzone podwojnie",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Hardkodowanie wartosci 11**: Powinno byc w zmiennej `cel` lub stalej, ale w tym zadaniu dopuszczalne",
+      "kara": "-0 pkt"
+    }
+  ]
+}
