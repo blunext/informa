@@ -7,3 +7,4 @@ matura_informatyka_rozszerzona/analiza/cli/matura.db-shm
 matura_informatyka_rozszerzona/analiza/cli/dist/
 __pycache__/
 .DS_Store
+matura_informatyka_rozszerzona/analiza/test_pedagogical/reports/

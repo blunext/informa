@@ -3,12 +3,13 @@
 # test_qa.sh — Regression test suite for matura tutoring system
 #
 # Usage:
-#   ./test_qa.sh                    # Run all 5 layers
+#   ./test_qa.sh                    # Run all 6 layers
 #   ./test_qa.sh --layer 1          # Run only layer 1 (CLI smoke)
 #   ./test_qa.sh --layer 2          # Run only layer 2 (import round-trip)
 #   ./test_qa.sh --layer 3          # Run only layer 3 (SKILL lint)
 #   ./test_qa.sh --layer 4          # Run only layer 4 (baseline snapshot)
 #   ./test_qa.sh --layer 5          # Run only layer 5 (Go unit tests)
+#   ./test_qa.sh --layer 6          # Run only layer 6 (pedagogical journey)
 #   ./test_qa.sh --update-baseline  # Update baseline (runs only layer 4)
 # =============================================================================
 
@@ -518,6 +519,205 @@ run_layer_5() {
 }
 
 # =============================================================================
+# Layer 6: Pedagogical Journey (deterministic CLI flow tests)
+# =============================================================================
+
+run_layer_6() {
+  header 6 "Pedagogical Journey"
+
+  # Each test uses an isolated temp DB to simulate student journeys
+
+  # Shared fresh DB for read-only L6 tests (separate from global matura_tmp)
+  local l6_fresh
+  l6_fresh=$(mktemp -d)
+  CLEANUP_DIRS+=("$l6_fresh")
+  cp "$CLI_DIR/matura.db" "$l6_fresh/matura.db"
+
+  # --- 6a: Fresh DB has cwiczenia_lacznie == 0 ---
+  echo "  -- 6a: Fresh DB progress status --"
+  local status_out
+  status_out=$("$MATURA" --db-dir "$l6_fresh" progress status 2>&1)
+  local cwicz_total
+  cwicz_total=$(echo "$status_out" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['cwiczenia_lacznie'])" 2>/dev/null) || cwicz_total=""
+  if [ "$cwicz_total" = "0" ]; then
+    pass "6a: fresh DB cwiczenia_lacznie == 0"
+  else
+    fail "6a: fresh DB cwiczenia_lacznie == 0 (got: $cwicz_total)"
+  fi
+
+  # --- 6b: typ intro returns first_in_type == true on fresh DB ---
+  echo "  -- 6b: typ intro first_in_type --"
+  local intro_out first_in
+  intro_out=$("$MATURA" --db-dir "$l6_fresh" typ intro --typ cyfry_liczby 2>&1)
+  first_in=$(echo "$intro_out" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['first_in_type'])" 2>/dev/null) || first_in=""
+  if [ "$first_in" = "True" ]; then
+    pass "6b: typ intro --typ cyfry_liczby → first_in_type=true"
+  else
+    fail "6b: typ intro first_in_type (got: $first_in)"
+  fi
+
+  # --- 6c: 3x poprawne_bez_pomocy → poziom srednie ---
+  echo "  -- 6c: Streak 3 → poziom srednie --"
+  # Create a second temp dir for this multi-step journey
+  local journey_dir
+  journey_dir=$(mktemp -d)
+  CLEANUP_DIRS+=("$journey_dir")
+  cp "$CLI_DIR/matura.db" "$journey_dir/matura.db"
+
+  # Get 3 distinct exercises of the same type
+  local ex_ids=()
+  local ex_json
+  for i in 1 2 3; do
+    local exclude_arg=""
+    if [ ${#ex_ids[@]} -gt 0 ]; then
+      exclude_arg=$(IFS=,; echo "${ex_ids[*]}")
+    fi
+    ex_json=$("$MATURA" --db-dir "$journey_dir" exercise get --typ cyfry_liczby --trudnosc latwe ${exclude_arg:+--exclude "$exclude_arg"} 2>/dev/null)
+    local eid
+    eid=$(echo "$ex_json" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])" 2>/dev/null) || eid=""
+    if [ -n "$eid" ]; then
+      ex_ids+=("$eid")
+      "$MATURA" --db-dir "$journey_dir" progress update --id "$eid" --wynik poprawne_bez_pomocy --czas 60 >/dev/null 2>&1
+    fi
+  done
+
+  local new_level
+  new_level=$("$MATURA" --db-dir "$journey_dir" progress status --typ cyfry_liczby 2>/dev/null \
+    | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print(d['per_typ'][0]['poziom_trudnosci'])" 2>/dev/null) || new_level=""
+  if [ "$new_level" = "srednie" ]; then
+    pass "6c: 3x poprawne_bez_pomocy → poziom srednie"
+  else
+    fail "6c: 3x poprawne_bez_pomocy → poziom srednie (got: $new_level)"
+  fi
+
+  # --- 6d: 3x progress blad with same code → diagnose returns that code ---
+  echo "  -- 6d: Error diagnosis --"
+  local diag_dir
+  diag_dir=$(mktemp -d)
+  CLEANUP_DIRS+=("$diag_dir")
+  cp "$CLI_DIR/matura.db" "$diag_dir/matura.db"
+
+  local blad_eid
+  blad_eid=$("$MATURA" exercise get --typ cyfry_liczby 2>/dev/null \
+    | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])" 2>/dev/null) || blad_eid="7.1"
+  for i in 1 2 3; do
+    "$MATURA" --db-dir "$diag_dir" progress blad --exercise-id "$blad_eid" --typ cyfry_liczby --kod mylenie_div_mod >/dev/null 2>&1
+  done
+
+  local top_blad
+  top_blad=$("$MATURA" --db-dir "$diag_dir" progress diagnose --typ cyfry_liczby --limit 1 2>/dev/null \
+    | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print(d['top_bledy'][0]['blad_kod'] if d['top_bledy'] else '')" 2>/dev/null) || top_blad=""
+  if [ "$top_blad" = "mylenie_div_mod" ]; then
+    pass "6d: 3x blad mylenie_div_mod → diagnose returns it"
+  else
+    fail "6d: diagnose top blad (expected mylenie_div_mod, got: $top_blad)"
+  fi
+
+  # --- 6e: cke get without --force at latwe level → exit 1 ---
+  echo "  -- 6e: CKE unlock gate --"
+  local cke_exit=0
+  "$MATURA" --db-dir "$l6_fresh" cke get --typ sledzenie_algorytmu >/dev/null 2>&1 || cke_exit=$?
+  if [ "$cke_exit" -eq 1 ]; then
+    pass "6e: cke get without --force at latwe → exit 1"
+  else
+    fail "6e: cke get without --force (expected exit 1, got $cke_exit)"
+  fi
+
+  # --- 6f: cke get --force → exit 0, valid JSON ---
+  echo "  -- 6f: CKE force bypass --"
+  test_json_cmd "6f: cke get --force → valid JSON" \
+    "$MATURA" --db-dir "$l6_fresh" cke get --typ sledzenie_algorytmu --force
+
+  # --- 6g: exercise next on fresh DB → mode == new ---
+  echo "  -- 6g: exercise next fresh → mode new --"
+  local next_out next_mode
+  next_out=$("$MATURA" --db-dir "$l6_fresh" exercise next --typ cyfry_liczby 2>&1)
+  next_mode=$(echo "$next_out" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['mode'])" 2>/dev/null) || next_mode=""
+  if [ "$next_mode" = "new" ]; then
+    pass "6g: exercise next fresh DB → mode=new"
+  else
+    fail "6g: exercise next mode (expected new, got: $next_mode)"
+  fi
+
+  # --- 6h: exam meta + exam task → correct structure ---
+  echo "  -- 6h: Exam meta + task structure --"
+  local meta_out meta_ok=true
+  meta_out=$("$MATURA" exam meta --rok 2024 2>&1)
+  local meta_rok meta_formula meta_zadania
+  meta_rok=$(echo "$meta_out" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['rok'])" 2>/dev/null) || meta_rok=""
+  meta_formula=$(echo "$meta_out" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['formula'])" 2>/dev/null) || meta_formula=""
+  meta_zadania=$(echo "$meta_out" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['liczba_zadan'])" 2>/dev/null) || meta_zadania=""
+
+  [ "$meta_rok" = "2024" ] || meta_ok=false
+  [ "$meta_formula" = "2023" ] || meta_ok=false
+  [ -n "$meta_zadania" ] && [ "$meta_zadania" -gt 0 ] 2>/dev/null || meta_ok=false
+
+  local task_out task_podzadania
+  task_out=$("$MATURA" exam task --rok 2024 --zadanie 1 2>&1)
+  task_podzadania=$(echo "$task_out" | python3 -c "import sys,json; print(len(json.loads(sys.stdin.read())['podzadania']))" 2>/dev/null) || task_podzadania=""
+  [ -n "$task_podzadania" ] && [ "$task_podzadania" -gt 0 ] 2>/dev/null || meta_ok=false
+
+  if $meta_ok; then
+    pass "6h: exam meta 2024 + exam task 2024.1 → valid structure"
+  else
+    fail "6h: exam meta/task structure (rok=$meta_rok formula=$meta_formula zadania=$meta_zadania podzadania=$task_podzadania)"
+  fi
+
+  # --- 6i: exam save → succeeds ---
+  echo "  -- 6i: exam save --"
+  local save_dir
+  save_dir=$(mktemp -d)
+  CLEANUP_DIRS+=("$save_dir")
+  cp "$CLI_DIR/matura.db" "$save_dir/matura.db"
+
+  local save_task_id save_max
+  save_task_id=$("$MATURA" exam task --rok 2024 --zadanie 1 2>/dev/null \
+    | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['podzadania'][0]['id'])" 2>/dev/null) || save_task_id=""
+  save_max=$("$MATURA" exam task --rok 2024 --zadanie 1 2>/dev/null \
+    | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['podzadania'][0]['punkty'])" 2>/dev/null) || save_max="3"
+
+  if [ -n "$save_task_id" ]; then
+    local save_out save_ok
+    save_out=$("$MATURA" --db-dir "$save_dir" exam save --rok 2024 \
+      --results "[{\"id\":\"$save_task_id\",\"pkt\":2,\"max\":$save_max}]" --czas 30 2>&1)
+    save_ok=$(echo "$save_out" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['saved'])" 2>/dev/null) || save_ok=""
+    if [ "$save_ok" = "True" ]; then
+      pass "6i: exam save → saved=true"
+    else
+      fail "6i: exam save (saved=$save_ok)"
+    fi
+  else
+    warn "6i: exam save (skipped — could not get task id)"
+  fi
+
+  # --- 6j: exercise next after 2 exercises → session tracking works ---
+  echo "  -- 6j: exercise next session tracking --"
+  local sess_dir
+  sess_dir=$(mktemp -d)
+  CLEANUP_DIRS+=("$sess_dir")
+  cp "$CLI_DIR/matura.db" "$sess_dir/matura.db"
+
+  # Do 2 exercises to build session_count
+  for i in 1 2; do
+    local sess_eid
+    sess_eid=$("$MATURA" --db-dir "$sess_dir" exercise get --typ napisy --trudnosc latwe 2>/dev/null \
+      | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])" 2>/dev/null) || sess_eid=""
+    if [ -n "$sess_eid" ]; then
+      "$MATURA" --db-dir "$sess_dir" progress update --id "$sess_eid" --wynik poprawne_bez_pomocy --czas 45 >/dev/null 2>&1
+    fi
+  done
+
+  local sess_next sess_count
+  sess_next=$("$MATURA" --db-dir "$sess_dir" exercise next --typ napisy 2>&1)
+  sess_count=$(echo "$sess_next" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['session_count'])" 2>/dev/null) || sess_count=""
+  if [ -n "$sess_count" ] && [ "$sess_count" -ge 2 ] 2>/dev/null; then
+    pass "6j: exercise next after 2 exercises → session_count=$sess_count"
+  else
+    fail "6j: exercise next session_count (expected >= 2, got: $sess_count)"
+  fi
+}
+
+# =============================================================================
 # Main
 # =============================================================================
 
@@ -531,6 +731,7 @@ elif [ -n "$RUN_LAYER" ]; then
     3) run_layer_3 ;;
     4) run_layer_4 ;;
     5) run_layer_5 ;;
+    6) run_layer_6 ;;
     *) echo "Unknown layer: $RUN_LAYER"; exit 2 ;;
   esac
 else
@@ -539,6 +740,7 @@ else
   run_layer_2
   run_layer_3
   run_layer_4
+  run_layer_6
 fi
 
 # --- Summary ----------------------------------------------------------------
