@@ -41,32 +41,30 @@ MATURA="$CLI_DIR/matura"
 # Testowany skill
 SKILL_CONTENT=$(cat .claude/skills/matura/SKILL.md)
 
+# Utworz temp DB (izolacja od user progress)
+mkdir -p /tmp/test-tutor-$$
+cp "$CLI_DIR/matura.db" /tmp/test-tutor-$$/matura.db
+
 # Przykladowe cwiczenia (po 1 na typ)
-EX_TEORIA=$($MATURA exercise get --typ sledzenie_algorytmu --trudnosc latwe)
-EX_IMPL=$($MATURA exercise get --typ cyfry_liczby --trudnosc latwe)
-EX_SQL=$($MATURA exercise get --typ sql_group_by --trudnosc latwe)
-EX_ARKUSZ=$($MATURA exercise get --typ agregacja_warunkowa --trudnosc latwe)
+EX_TEORIA=$($MATURA --db-dir /tmp/test-tutor-$$ exercise get --typ sledzenie_algorytmu --trudnosc latwe)
+EX_IMPL=$($MATURA --db-dir /tmp/test-tutor-$$ exercise get --typ cyfry_liczby --trudnosc latwe)
+EX_SQL=$($MATURA --db-dir /tmp/test-tutor-$$ exercise get --typ sql_group_by --trudnosc latwe)
+EX_ARKUSZ=$($MATURA --db-dir /tmp/test-tutor-$$ exercise get --typ agregacja_warunkowa --trudnosc latwe)
 
 # Typ intro
-INTRO_TEORIA=$($MATURA typ intro --typ sledzenie_algorytmu)
+INTRO_TEORIA=$($MATURA --db-dir /tmp/test-tutor-$$ typ intro --typ sledzenie_algorytmu)
 
 # Progress status (fresh)
 STATUS=$($MATURA --db-dir /tmp/test-tutor-$$ progress status)
 
 # Cheatsheet excerpt
-CHEAT_TEORIA=$($MATURA cheatsheet get --kategoria TEORIA --sekcja "archetyp")
+CHEAT_TEORIA=$($MATURA --db-dir /tmp/test-tutor-$$ cheatsheet get --kategoria TEORIA --sekcja "archetyp")
 
 # Raport metadata
 REPORT_DATE=$(date +%Y-%m-%d)
 COMMIT_HASH=$(git -C /Users/blt1wz/priv/informa rev-parse --short HEAD)
 REPORT_DIR="matura_informatyka_rozszerzona/analiza/test_pedagogical/reports"
 REPORT_FILE="${REPORT_DIR}/${REPORT_DATE}_${COMMIT_HASH}.md"
-```
-
-Utworz temp DB dla kazdego agenta (izolacja):
-```bash
-mkdir -p /tmp/test-tutor-$$
-cp "$CLI_DIR/matura.db" /tmp/test-tutor-$$/matura.db
 ```
 
 ## 3. Persony
