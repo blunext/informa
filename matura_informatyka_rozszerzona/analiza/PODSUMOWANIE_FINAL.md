@@ -331,41 +331,6 @@ sort(arr, arr+n, [](auto& a, auto& b) {
 
 ---
 
-## TODO: Materialy do Stworzenia
-
-### Priorytet WYSOKI:
-- [x] C++ Templates — `cpp_szablony.md` (samowystarczalna sciagawka: wczytywanie plikow CKE, cyfry/liczby, napisy, zliczanie, sortowanie, DP, BFS/DFS, systemy liczbowe, pulapki)
-- [x] SQL Templates — `sql_szablony.md` (samowystarczalna sciagawka: kolejnosc klauzul, SELECT/WHERE, JOIN 2-4 tabel, LEFT JOIN, GROUP BY + agregacje, podzapytania, CASE WHEN, daty, schematy baz CKE, 10 pulapek)
-- [x] Checklisty (`cheatsheets/przed_egzaminem.md`, `cheatsheets/podczas_egzaminu.md`, `cheatsheets/debug_checklist.md`)
-- [x] Arkusz kalkulacyjny templates (`arkusz_formuly.md` — SUMIF/SUMIFS, COUNTIF, odniesienia $, wykresy, symulacje, VLOOKUP, pulapki)
-- [x] Wzorce pseudokodu CKE (`pseudokod_wzorce.md` — slowniczek CKE, 7 archetypow z tabelkami sledzenia, struktury danych, ograniczenia, pulapki)
-- [x] Cwiczenia ze sledzenia algorytmow (`cwiczenia_sledzenie.md` — tabelki krok-po-kroku)
-- [x] Schemat decyzyjny / drzewko rozwiazywania (`drzewo_decyzyjne.md` — "widzisz X w zadaniu → uzyj algorytmu Y", szybkie rozpoznawanie typu)
-- [x] Wzorce wczytywania plikow — wlaczone w `cpp_szablony.md` sekcja 1 (8 szablonow: spacje, linia-po-linii, CSV srednik, TSV tab, pary/trojki, wiele plikow, przecinek europejski, siatka 2D)
-
-### Priorytet SREDNI:
-- [ ] Wzorce dla lat 2018-2025
-- [ ] Zestaw cwiczen dla TOP 10 algorytmow
-- [ ] Probny egzamin w nowej formule 2023+ (`probny_egzamin.md` — 210 min / 50 pkt / 7 zadan)
-- [ ] Karta bledow z odpowiedzi CKE (`typowe_bledy_cke.md` — za co traca punkty)
-- [x] Zadania treningowe wg 23 typow zadan (`cwiczenia_wg_typu/` — po 10 zadan na typ, 230 lacznie, z tagami umiejetnosci, wskazowkami, typowymi bledami i samoocena)
-  - [x] Etap 1: TEORIA (6 typow, 60 cwiczen) — pliki 01-06
-  - [x] Etap 2: IMPLEMENTACJA (8 typow, 80 cwiczen) — pliki 07-14
-  - [x] Etap 3: ARKUSZ (5 typow, 50 cwiczen) — pliki 15-19
-  - [x] Etap 4: SQL (4 typy, 40 cwiczen) — pliki 20-23
-- [x] Rozwiazania wzorcowe z komentarzami (`rozwiazania_wzorcowe/` — 10 rozwiazanych zadan: 3 implementacja C++, 2 SQL, 3 teoria/algorytmy, 2 arkusz)
-- [ ] Fiszki / active recall (`fiszki/` — pytanie-odpowiedz: zlozonosci, wzorce, SQL, formuly arkuszowe)
-
-### Priorytet NISKI:
-- [x] Karty szybkiego dostepu / cheat sheets (4 pliki po ~1-2 strony A4):
-  - [x] `cheatsheet_teoria.md` — pseudokod CKE, 7 archetypow, zlozonosci, pulapki sledzenia
-  - [x] `cheatsheet_cpp.md` — wczytywanie plikow, cyfry, NWD/sito, napisy, sortowanie, STL
-  - [x] `cheatsheet_arkusz.md` — odniesienia $, SUMIF/SUMIFS, symulacja, wykresy, pulapki
-  - [x] `cheatsheet_sql.md` — kolejnosc klauzul, JOIN, GROUP BY, podzapytania, 10 pulapek
-- [ ] Plan nauki z harmonogramem (`plan_nauki.md` — rozklad tygodniowy wg priorytetow TIER 1-5)
-
----
-
-*Ostatnia aktualizacja: 2026-02-10*
+*Ostatnia aktualizacja: 2026-02-17*
 *Przeanalizowane lata: 11 (2014-2019, 2021-2025)*
 *Zidentyfikowane tematy: 21, Zidentyfikowane typy zadan: 23*

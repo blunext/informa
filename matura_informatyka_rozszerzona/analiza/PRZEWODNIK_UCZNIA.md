@@ -3,7 +3,7 @@
 > Ten dokument to Twoj punkt startu. Masz przed soba kompletny zestaw
 > materialow do nauki, oparty na analizie 11 lat prawdziwych egzaminow CKE
 > (2014-2025). Znajdziesz tu arkusze egzaminacyjne, sciagawki, szablony kodu,
-> 310 cwiczen i rozwiazania wzorcowe. Wszystko poukładane tak, zebys nie tracil
+> 407 cwiczen i rozwiazania wzorcowe. Wszystko poukładane tak, zebys nie tracil
 > czasu na szukanie — tylko na nauke.
 >
 > Przeczytaj ten przewodnik od poczatku do konca (10-15 minut). Potem zacznij
@@ -112,7 +112,7 @@ Katalog `analiza/szablony/` — gotowy kod do skopiowania i modyfikacji.
 | `wzorce_2014.md` | Wzorce specyficzne dla matury 2014 |
 | `wzorce_2015.md` | Wzorce specyficzne dla matury 2015 |
 
-### Cwiczenia (310 cwiczen w 23 typach)
+### Cwiczenia (407 cwiczen w 23 typach)
 
 Katalog `analiza/cwiczenia/json/` — 10-20 cwiczen na kazdy typ zadania
 maturalnego, w formacie JSON z 3-poziomowymi hintami i tagami umiejetnosci.
@@ -225,9 +225,9 @@ Nie masz czasu na wszystko. Skup sie na tym, co da najwiecej punktow:
 
 ## 5. Jak korzystac z poszczegolnych materialow
 
-### Cwiczenia (310 cwiczen w 23 typach)
+### Cwiczenia (407 cwiczen w 23 typach)
 
-Baza cwiczen zawiera 310 zadan (10-20 na typ) z 3-poziomowymi hintami, tagami
+Baza cwiczen zawiera 407 zadan (10-20 na typ) z 3-poziomowymi hintami, tagami
 umiejetnosci i wzorcowymi odpowiedziami. Cwiczenia sa w formacie JSON
 w katalogu `analiza/cwiczenia/json/`.
 
@@ -380,7 +380,7 @@ zeby w 2-3 tygodnie byc gotowym na egzamin.
 Masz do dyspozycji interaktywnego korepetytora AI — wpisz `/matura` zeby zaczac
 sesje. Co oferuje:
 
-- **310 cwiczen** z 23 typow zadan (10-20 na typ) z 3-poziomowymi hintami
+- **407 cwiczen** z 23 typow zadan (10-20 na typ) z 3-poziomowymi hintami
 - **230 prawdziwych zadan CKE** z 11 lat egzaminow (sprawdziany typu)
 - **11 probnych matur** — pelna symulacja egzaminu z ocena wg zasad CKE
 - **Spaced repetition** — automatyczne powtorki rozlozone w czasie (1/3/7/21 dni)

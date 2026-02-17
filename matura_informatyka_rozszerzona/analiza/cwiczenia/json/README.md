@@ -201,7 +201,7 @@ Weryfikacja: Python `int(digits, base)` porownuje wartosci.
 ## Uruchamianie weryfikacji
 
 ```bash
-# Calosc (270 cwiczen):
+# Calosc (407 cwiczen):
 python3 analiza/cwiczenia/verify/verify_all.py
 
 # Jeden katalog:
@@ -216,7 +216,7 @@ python3 analiza/cwiczenia/verify/verify_all.py --id 23.4 --verbose
 
 Raporty: `verify/report/verification_report.{md,json}`
 
-Docelowy wynik: **170 PASS, 0 FAIL, 0 ERROR, 100 MANUAL_REVIEW**.
+Docelowy wynik: **291 PASS, 0 FAIL, 0 ERROR, 116 MANUAL_REVIEW**.
 
 ## Dodawanie nowego cwiczenia — checklist
 

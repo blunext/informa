@@ -27,7 +27,7 @@ To glowny tryb pracy. Korepetytor wybiera cwiczenia dopasowane do Twojego
 poziomu i prowadzi Cie metoda sokratejska — nie podaje gotowych odpowiedzi,
 tylko naprowadza pytaniami.
 
-- **310 cwiczen** z 23 typow zadan, pogrupowanych w 4 kategorie
+- **407 cwiczen** z 23 typow zadan, pogrupowanych w 4 kategorie
 - **System hintow** — 3 poziomy wskazowek:
   - Poziom 1: pytanie sokratejskie naprowadzajace na poprawny tok myslenia
   - Poziom 2: cytat z odpowiedniej sciagawki + konkretne pojecie

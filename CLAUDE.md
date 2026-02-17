@@ -69,7 +69,6 @@ analiza/
 │   │                              # No PDF needed — each subtask is standalone and solvable
 │   ├── matura_indeks.json         # **Cross-reference index** for all 230 subtasks across 11 years
 │   │                              # Filter by typ_zadania, kategoria, rok — instant access
-│   ├── analiza_YYYY.json          # 11 files, per-year analysis summaries (older, less detailed)
 │   ├── ranking_tematow.csv        # Topic frequency matrix: 21 topics × 11 years
 │   └── ranking_typow_zadan.csv    # Task type frequency: 23 types × 11 years + total points
 │
@@ -90,11 +89,11 @@ analiza/
 ├── cwiczenia/                     # Training exercises
 │   ├── cwiczenia_sledzenie.md     # 24 algorithm-tracing exercises (7 archetypes + bonus)
 │   ├── validate_json.py           # **Standalone JSON schema validator** (no MD needed)
-│   ├── wg_typu/                   # 23 files × 10 exercises = 230 total (markdown)
+│   ├── wg_typu/                   # 230 ćwiczeń w formie czytelnej markdown (referencja dla ucznia)
 │   │   ├── README.md              # Index with difficulty levels and self-assessment
 │   │   ├── 01_sledzenie_algorytmu.md ... 23_sql_select_where.md
 │   │   └── (each has: skill tags, 3-level hints, full answer, common CKE mistakes)
-│   ├── json/                      # 23 directories — 310 exercises, machine-readable
+│   ├── json/                      # 23 directories — 407 exercises, machine-readable
 │   │   ├── README.md              # **Schema, format danych, checklist dodawania cwiczen**
 │   │   ├── tagi_rejestr.json      # **Central tag registry (290 tags, enforced by validator)**
 │   │   └── NN_nazwa_typu/         # 23 directories, each with:
@@ -107,7 +106,7 @@ analiza/
 ├── cli/                          # **Go CLI binary + SQLite backend**
 │   ├── matura                    # macOS/Linux binary (pure Go, zero deps)
 │   ├── matura.exe                # Windows binary
-│   ├── matura.db                 # SQLite DB: 310 exercises + 230 CKE + 4 cheatsheets
+│   ├── matura.db                 # SQLite DB: 407 exercises + 230 CKE + 4 cheatsheets
 │   ├── main.go, commands.go, database.go, importer.go, types.go
 │   ├── main_test.go              # 13 tests
 │   ├── build.sh                  # build macOS + Windows + import
@@ -127,7 +126,6 @@ analiza/
 - **Cross-reference index**: `matura_indeks.json` — all 230 subtasks indexed by typ_zadania, kategoria, rok. Supports filtering for cross-year practice (e.g., "all SQL tasks" or "all 2025 tasks").
 - **23 task types** in 4 categories: TEORIA (6), IMPLEMENTACJA (8), ARKUSZ (5), SQL (4). All types use canonical prefixed names (e.g., `przetwarzanie_napisy`, `arkusz_symulacja`, `sql_group_by`).
 - **Topic frequency tiers**: TIER 1 (100%): SQL, number ops, file processing, spreadsheet; TIER 2 (73-82%): number systems, recursion, sorting, GCD
-- **`analiza_YYYY.json`**: Older per-year summaries (less detailed than `matura_YYYY.json`). Known gap: `analiza_2018.json` only has Part I data.
 - **No code files** exist in the year directories — the repo is documentation and reference material only
 
 ### Go CLI (`matura`)
@@ -203,7 +201,7 @@ unzip -q zalaczniki.zip
 Full documentation: **`analiza/cwiczenia/json/README.md`** — JSON schema, required data format patterns, verification commands, and a step-by-step checklist for adding new exercises.
 
 Key points:
-- Exercises live in `json/NN_nazwa/` directories (23 dirs, 310 exercises total)
+- Exercises live in `json/NN_nazwa/` directories (23 dirs, 407 exercises total)
 - **C++ exercises (07-14)**: input data in `tresc` must use `**Dane** (\`plik.txt\`):` format or verifier won't find it
 - **SQL exercises (20-23)**: tables in `tresc` via `Tabela **Name**:`, last non-verification markdown table in `odpowiedz` = expected result
 
@@ -221,7 +219,7 @@ python3 analiza/cwiczenia/verify/verify_all.py --file NN_nazwa --verbose  # one 
 
 **Expected results:**
 - `validate_json.py`: **0 ERRORS**
-- `verify_all.py`: **210 PASS, 0 FAIL, 0 ERROR, 100 MANUAL_REVIEW**
+- `verify_all.py`: **291 PASS, 0 FAIL, 0 ERROR, 116 MANUAL_REVIEW**
 
 ### Tag registry (`json/tagi_rejestr.json`)
 
