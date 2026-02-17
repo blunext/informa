@@ -3,7 +3,7 @@
   "nazwa": "Sledzenie algorytmu",
   "kategoria": "TEORIA",
   "czestotliwosc": "11/11 lat",
-  "punkty_lacznie": 34,
+  "punkty_lacznie": 41,
   "tagi_globalne": [
     "mod-div",
     "cyfry-liczby",
@@ -119,6 +119,26 @@
         "drzewo-wywolan",
         "tablica-pomocnicza",
         "sledzenie-iteracyjne"
+      ]
+    },
+    {
+      "id": "1.11",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "rekurencja",
+        "sledzenie-iteracyjne",
+        "mod-div",
+        "cyfry-liczby"
+      ]
+    },
+    {
+      "id": "1.12",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "sledzenie-iteracyjne",
+        "tablica-pomocnicza"
       ]
     }
   ]

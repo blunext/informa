@@ -1278,17 +1278,26 @@ func examSaveCmd() *cobra.Command {
 // === exercise next ===
 
 func exerciseNextCmd() *cobra.Command {
-	var typ string
+	var typ, kategoria string
 
 	cmd := &cobra.Command{
 		Use:   "next",
 		Short: "Get next exercise with smart priority (review > interleave > new)",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if typ == "" {
-				return fatal("--typ is required")
+			d := db(cmd)
+
+			// If --kategoria given (and --typ not), auto-select the weakest type in that category
+			if typ == "" && kategoria != "" {
+				chosen, err := chooseWeakestType(d, kategoria)
+				if err != nil {
+					return err
+				}
+				typ = chosen
 			}
 
-			d := db(cmd)
+			if typ == "" {
+				return fatal("--typ or --kategoria is required")
+			}
 
 			sessionCount, _, err := getSessionState(d)
 			if err != nil {
@@ -1297,6 +1306,11 @@ func exerciseNextCmd() *cobra.Command {
 			out := ExerciseNextOut{
 				SessionCount:   sessionCount,
 				ResetSuggested: sessionCount > 0 && sessionCount%16 == 0,
+			}
+
+			// If type was auto-chosen from kategoria, include it in output
+			if cmd.Flags().Changed("kategoria") {
+				out.ChosenTyp = typ
 			}
 
 			today := time.Now().Format("2006-01-02")
@@ -1356,7 +1370,40 @@ func exerciseNextCmd() *cobra.Command {
 	}
 
 	cmd.Flags().StringVar(&typ, "typ", "", "Exercise type")
+	cmd.Flags().StringVar(&kategoria, "kategoria", "", "Category (TEORIA/IMPLEMENTACJA/ARKUSZ/SQL) — auto-selects weakest type")
 	return cmd
+}
+
+// chooseWeakestType picks the type with lowest streak (or oldest review) within a category.
+func chooseWeakestType(d *sql.DB, kategoria string) (string, error) {
+	rows, err := d.Query(`
+		SELECT DISTINCT c.typ_nazwa, COALESCE(p.streak, 0) as streak,
+			COALESCE(MAX(z.data), '1970-01-01') as last_done
+		FROM data.cwiczenia c
+		LEFT JOIN progress_typy p ON p.typ = c.typ_nazwa
+		LEFT JOIN progress_zrobione z ON z.typ = c.typ_nazwa
+		WHERE c.kategoria = ?
+		GROUP BY c.typ_nazwa
+		ORDER BY streak ASC, last_done ASC
+		LIMIT 1`, kategoria)
+	if err != nil {
+		return "", fatal(fmt.Sprintf("query types for kategoria=%s: %v", kategoria, err))
+	}
+	defer rows.Close()
+
+	if rows.Next() {
+		var typ string
+		var streak int
+		var lastDone string
+		if err := rows.Scan(&typ, &streak, &lastDone); err != nil {
+			return "", fatal(fmt.Sprintf("scan type: %v", err))
+		}
+		return typ, nil
+	}
+	if err := rows.Err(); err != nil {
+		return "", fatal(fmt.Sprintf("rows error: %v", err))
+	}
+	return "", notFound(fmt.Sprintf("no types found for kategoria=%s", kategoria))
 }
 
 // === typ intro ===
@@ -1824,7 +1871,7 @@ func trapSaveCmd() *cobra.Command {
 // === cheatsheet get ===
 
 func cheatsheetGetCmd() *cobra.Command {
-	var kategoria string
+	var kategoria, sekcja string
 
 	cmd := &cobra.Command{
 		Use:   "get",
@@ -1842,6 +1889,14 @@ func cheatsheetGetCmd() *cobra.Command {
 				return notFound(fmt.Sprintf("cheatsheet for kategoria=%s not found", kategoria))
 			}
 
+			// If --sekcja given, extract only the matching section
+			if sekcja != "" {
+				if extracted := extractSection(content, sekcja); extracted != "" {
+					content = extracted
+				}
+				// fallback: if not found, return full content
+			}
+
 			// Raw markdown output (not jsonOut) — intentional.
 			// SKILL.md expects plain text for direct citation by the AI tutor.
 			fmt.Print(content)
@@ -1850,7 +1905,52 @@ func cheatsheetGetCmd() *cobra.Command {
 	}
 
 	cmd.Flags().StringVar(&kategoria, "kategoria", "", "Category: TEORIA, IMPLEMENTACJA, ARKUSZ, SQL")
+	cmd.Flags().StringVar(&sekcja, "sekcja", "", "Section header (partial match, case-insensitive)")
 	return cmd
+}
+
+// extractSection finds a ## section whose title contains query (case-insensitive)
+// and returns its content up to the next ## or EOF.
+// Uses prefix matching (min 5 chars) to handle Polish inflection (e.g. "pulapki" matches "pulapek").
+func extractSection(markdown, query string) string {
+	queryLower := strings.ToLower(query)
+	sections := strings.Split("\n"+markdown, "\n## ")
+	for i, sec := range sections {
+		if i == 0 {
+			continue // skip content before first ##
+		}
+		newlineIdx := strings.Index(sec, "\n")
+		if newlineIdx < 0 {
+			newlineIdx = len(sec)
+		}
+		heading := strings.ToLower(sec[:newlineIdx])
+		if strings.Contains(heading, queryLower) {
+			return "## " + sec
+		}
+		// Prefix matching: check if any word in heading shares a common prefix (>=5 chars) with query
+		if len(queryLower) >= 5 {
+			for _, word := range strings.Fields(heading) {
+				cp := commonPrefix(word, queryLower)
+				if cp >= 5 {
+					return "## " + sec
+				}
+			}
+		}
+	}
+	return ""
+}
+
+func commonPrefix(a, b string) int {
+	n := len(a)
+	if len(b) < n {
+		n = len(b)
+	}
+	for i := 0; i < n; i++ {
+		if a[i] != b[i] {
+			return i
+		}
+	}
+	return n
 }
 
 // === data import ===

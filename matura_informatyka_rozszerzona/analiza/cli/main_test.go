@@ -88,8 +88,8 @@ func TestImportCounts(t *testing.T) {
 	db.QueryRow("SELECT COUNT(*) FROM data.egzamin").Scan(&exams)
 	db.QueryRow("SELECT COUNT(*) FROM data.cheatsheets").Scan(&cheatsheets)
 
-	if exercises != 310 {
-		t.Errorf("exercises: got %d, want 310", exercises)
+	if exercises != 407 {
+		t.Errorf("exercises: got %d, want 407", exercises)
 	}
 	if exams != 230 {
 		t.Errorf("exams: got %d, want 230", exams)
@@ -189,8 +189,8 @@ func TestImportIdempotent(t *testing.T) {
 	db := openTestDB(t, dir)
 	var count int
 	db.QueryRow("SELECT COUNT(*) FROM data.cwiczenia").Scan(&count)
-	if count != 310 {
-		t.Errorf("after re-import: got %d exercises, want 310", count)
+	if count != 407 {
+		t.Errorf("after re-import: got %d exercises, want 407", count)
 	}
 }
 
@@ -1265,5 +1265,191 @@ func TestExamSaveTransaction(t *testing.T) {
 	db.QueryRow("SELECT COUNT(*) FROM probne_matury").Scan(&probneCount)
 	if probneCount != 1 {
 		t.Errorf("probne_matury after rollback: got %d, want 1", probneCount)
+	}
+}
+
+// === Feature: extractSection ===
+
+func TestExtractSectionExactMatch(t *testing.T) {
+	md := "# Title\n\n## First section\n\nContent of first.\n\n## Second section\n\nContent of second.\n\n## Third section\n\nContent of third."
+	got := extractSection(md, "Second")
+	if !strings.HasPrefix(got, "## Second section") {
+		t.Errorf("exact match: got %q", got)
+	}
+	if strings.Contains(got, "## Third") {
+		t.Error("should not include next section")
+	}
+	if strings.Contains(got, "## First") {
+		t.Error("should not include previous section")
+	}
+}
+
+func TestExtractSectionCaseInsensitive(t *testing.T) {
+	md := "## ABC Heading\n\nSome content.\n\n## DEF Heading\n\nOther content."
+	got := extractSection(md, "abc")
+	if !strings.HasPrefix(got, "## ABC Heading") {
+		t.Errorf("case insensitive: got %q", got)
+	}
+}
+
+func TestExtractSectionPolishInflection(t *testing.T) {
+	// "pulapki" should match "pulapek" via prefix matching (common prefix "pulap" >= 5)
+	md := "## 7 archetypow\n\nContent.\n\n## 6 pulapek sledzenia\n\n1. First trap.\n2. Second trap."
+	got := extractSection(md, "pulapki")
+	if !strings.Contains(got, "pulapek sledzenia") {
+		t.Errorf("Polish inflection: expected 'pulapek sledzenia' section, got %q", got)
+	}
+}
+
+func TestExtractSectionNotFound(t *testing.T) {
+	md := "## One\n\nContent.\n\n## Two\n\nMore content."
+	got := extractSection(md, "nonexistent_section_xyz")
+	if got != "" {
+		t.Errorf("not found: expected empty, got %q", got)
+	}
+}
+
+func TestExtractSectionLastSection(t *testing.T) {
+	md := "## First\n\nContent.\n\n## Last section\n\nFinal content here."
+	got := extractSection(md, "Last")
+	if !strings.HasPrefix(got, "## Last section") {
+		t.Errorf("last section: got %q", got)
+	}
+	if !strings.Contains(got, "Final content here.") {
+		t.Error("should include content of last section")
+	}
+}
+
+// === Feature: commonPrefix ===
+
+func TestCommonPrefix(t *testing.T) {
+	cases := []struct {
+		a, b string
+		want int
+	}{
+		{"pulapki", "pulapek", 5},
+		{"abc", "abd", 2},
+		{"", "abc", 0},
+		{"abc", "", 0},
+		{"same", "same", 4},
+		{"abcdef", "abcxyz", 3},
+	}
+	for _, tc := range cases {
+		got := commonPrefix(tc.a, tc.b)
+		if got != tc.want {
+			t.Errorf("commonPrefix(%q, %q): got %d, want %d", tc.a, tc.b, got, tc.want)
+		}
+	}
+}
+
+// === Feature: chooseWeakestType ===
+
+func TestChooseWeakestTypeFreshDB(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Fresh DB — all types have streak 0, should return one of the TEORIA types
+	typ, err := chooseWeakestType(db, "TEORIA")
+	if err != nil {
+		t.Fatalf("chooseWeakestType TEORIA: %v", err)
+	}
+	if typ == "" {
+		t.Error("expected non-empty type")
+	}
+
+	// Verify it's actually a TEORIA type
+	kat := getKategoria(db, typ)
+	if kat != "TEORIA" {
+		t.Errorf("chosen type %q has kategoria %q, want TEORIA", typ, kat)
+	}
+}
+
+func TestChooseWeakestTypePicksLowestStreak(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Set high streak for all TEORIA types except teoria_bezpieczenstwa
+	teoriaTypes := []string{
+		"sledzenie_algorytmu", "projektowanie_algorytmu", "analiza_algorytmu",
+		"test_prawda_falsz", "konwersja_systemow_liczbowych",
+	}
+	for _, tt := range teoriaTypes {
+		db.Exec("INSERT INTO progress_typy (typ, poziom_trudnosci, streak) VALUES (?, 'trudne', 10)", tt)
+	}
+	// teoria_bezpieczenstwa has streak 0 (not inserted) — should be chosen
+	typ, err := chooseWeakestType(db, "TEORIA")
+	if err != nil {
+		t.Fatalf("chooseWeakestType: %v", err)
+	}
+	if typ != "teoria_bezpieczenstwa" {
+		t.Errorf("expected teoria_bezpieczenstwa (lowest streak), got %q", typ)
+	}
+}
+
+func TestChooseWeakestTypeInvalidKategoria(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	_, err := chooseWeakestType(db, "NONEXISTENT")
+	if err == nil {
+		t.Error("expected error for nonexistent kategoria")
+	}
+}
+
+func TestChooseWeakestTypeAllCategories(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	for _, kat := range []string{"TEORIA", "IMPLEMENTACJA", "ARKUSZ", "SQL"} {
+		typ, err := chooseWeakestType(db, kat)
+		if err != nil {
+			t.Errorf("chooseWeakestType(%s): %v", kat, err)
+			continue
+		}
+		gotKat := getKategoria(db, typ)
+		if gotKat != kat {
+			t.Errorf("chooseWeakestType(%s) returned %q with kategoria %q", kat, typ, gotKat)
+		}
+	}
+}
+
+// === Feature: cheatsheet --sekcja integration ===
+
+func TestCheatsheetSekcjaIntegration(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Get full TEORIA cheatsheet
+	var full string
+	err := db.QueryRow("SELECT content FROM data.cheatsheets WHERE kategoria = 'TEORIA'").Scan(&full)
+	if err != nil {
+		t.Fatalf("cheatsheet TEORIA: %v", err)
+	}
+
+	// Extract "archetyp" section
+	section := extractSection(full, "archetyp")
+	if section == "" {
+		t.Fatal("archetyp section not found in TEORIA cheatsheet")
+	}
+	if !strings.Contains(section, "archetyp") {
+		t.Error("section does not contain 'archetyp'")
+	}
+	if len(section) >= len(full) {
+		t.Error("section should be shorter than full cheatsheet")
+	}
+
+	// Extract "bezpieczen" section (new addition)
+	section = extractSection(full, "bezpieczen")
+	if section == "" {
+		t.Fatal("bezpieczenstwo section not found in TEORIA cheatsheet")
+	}
+	if !strings.Contains(section, "Phishing") {
+		t.Error("bezpieczenstwo section should contain 'Phishing'")
+	}
+
+	// Extract "zlozonosc" section
+	section = extractSection(full, "zlozonosc")
+	if section == "" {
+		t.Fatal("zlozonosc section not found in TEORIA cheatsheet")
 	}
 }

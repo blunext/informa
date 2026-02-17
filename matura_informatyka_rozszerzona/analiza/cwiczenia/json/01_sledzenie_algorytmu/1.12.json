@@ -1,0 +1,31 @@
+{
+  "id": "1.12",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "porownanie dwoch algorytmow na min/max",
+  "tagi": [
+    "sledzenie-iteracyjne",
+    "tablica-pomocnicza"
+  ],
+  "tresc": "Dane sa dwa algorytmy szukajace jednoczesnie minimum i maksimum w tablicy.\n\nTablica T = [5, 2, 8, 1, 9, 3]\n\n**Algorytm A:**\n```\nmin := T[0]\nmax := T[0]\ndla i := 1, 2, ..., 5:\n  jezeli T[i] < min:\n    min := T[i]\n  jezeli T[i] > max:\n    max := T[i]\nzwroc min, max\n```\n\n**Algorytm B:**\n```\nmin := T[0]\nmax := T[0]\ndla i := 1, 2, ..., 5:\n  jezeli T[i] < min:\n    min := T[i]\n  w przeciwnym razie jezeli T[i] > max:\n    max := T[i]\nzwroc min, max\n```\n\n**a)** Prześledz oba algorytmy — ile porownan wykonuje kazdy? (2 pkt)\n\n**b)** Czy oba algorytmy daja poprawny wynik? Jezeli nie — podaj kontrprzyklad. (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Roznica: A ma dwa niezalezne 'jezeli', B ma 'jezeli... w przeciwnym razie'. Kiedy to sie rozni?",
+    "**Podejscie**: Policz porownania: A robi zawsze 2 porownania na element, B robi 1 lub 2 (jezeli pierwszy warunek spelniony, drugi pomijany).",
+    "**Kluczowy krok**: Oba daja poprawne wyniki (min=1, max=9). A: 10 porownan, B: 7-8 porownan (mniej, bo else-if)."
+  ],
+  "odpowiedz": "**a) Sledzenie algorytmu A:**\n\n| i | T[i] | T[i]<min? | min | T[i]>max? | max | porownania |\n|---|------|-----------|-----|-----------|-----|------------|\n| - | -    | -         | 5   | -         | 5   | 0          |\n| 1 | 2    | tak       | 2   | nie       | 5   | 2          |\n| 2 | 8    | nie       | 2   | tak       | 8   | 2          |\n| 3 | 1    | tak       | 1   | nie       | 8   | 2          |\n| 4 | 9    | nie       | 1   | tak       | 9   | 2          |\n| 5 | 3    | nie       | 1   | nie       | 9   | 2          |\n\nAlgorytm A: **10 porownan** (zawsze 2 na element)\n\n**Sledzenie algorytmu B:**\n\n| i | T[i] | T[i]<min? | min | T[i]>max? | max | porownania |\n|---|------|-----------|-----|-----------|-----|------------|\n| - | -    | -         | 5   | -         | 5   | 0          |\n| 1 | 2    | tak       | 2   | (pominiety) | 5 | 1          |\n| 2 | 8    | nie       | 2   | tak       | 8   | 2          |\n| 3 | 1    | tak       | 1   | (pominiety) | 8 | 1          |\n| 4 | 9    | nie       | 1   | tak       | 9   | 2          |\n| 5 | 3    | nie       | 1   | nie       | 9   | 2          |\n\nAlgorytm B: **8 porownan** (1 gdy element < min, 2 gdy nie)\n\n**b)** Tak, **oba algorytmy daja poprawny wynik**: min = 1, max = 9.\n\nB jest poprawny, bo jezeli T[i] < min, to T[i] na pewno nie jest > max (obecny max >= obecny min, a T[i] < min). Wiec pominiecie drugiego porownania nie traci informacji.",
+  "typowe_bledy": [
+    {
+      "opis": "Nierozroznienie 'jezeli-jezeli' od 'jezeli-w przeciwnym razie' (oba traktowane tak samo)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "Twierdzenie, ze B daje bledny wynik (B jest poprawny — pominiete porownanie jest zbedne)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "Bledne zliczenie porownan (np. liczenie inicjalizacji jako porownanie)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

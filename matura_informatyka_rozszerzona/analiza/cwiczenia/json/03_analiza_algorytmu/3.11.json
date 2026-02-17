@@ -1,0 +1,33 @@
+{
+  "id": "3.11",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "porownanie zlozonosci dwoch algorytmow",
+  "tagi": [
+    "zlozonosc-czasowa",
+    "O-notacja",
+    "petle-zagniezdzne",
+    "kontrprzyklad"
+  ],
+  "tresc": "Dane sa dwa algorytmy szukajace, czy w tablicy n-elementowej istnieje para elementow o sumie rownej S.\n\n**Algorytm A (brute-force):**\n```\ndla i := 0, 1, ..., n-2:\n  dla j := i+1, i+2, ..., n-1:\n    jezeli T[i] + T[j] = S:\n      zwroc PRAWDA\nzwroc FALSZ\n```\n\n**Algorytm B (z sortowaniem):**\n```\nposortuj(T)\nlewy := 0\nprawy := n - 1\ndopoki lewy < prawy:\n  suma := T[lewy] + T[prawy]\n  jezeli suma = S:\n    zwroc PRAWDA\n  jezeli suma < S:\n    lewy := lewy + 1\n  w przeciwnym razie:\n    prawy := prawy - 1\nzwroc FALSZ\n```\n\n**a)** Podaj zlozonosc czasowa kazdego algorytmu i uzasadnij. (2 pkt)\n\n**b)** Dla n = 10000 — ile razy szybszy jest algorytm B? Podaj przyblizony stosunek operacji. (1 pkt)\n\n**c)** Czy istnieje sytuacja, w ktorej A byloby lepsze od B? (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: A = dwie zagniezdzonepetle, B = sort + jedna petla z dwoma wskaznikami.",
+    "**Podejscie**: A: n*(n-1)/2 porownań → O(n^2). B: sort O(n log n) + petla O(n) → O(n log n).",
+    "**Kluczowy krok**: c) A moze byc lepsze gdy n jest male (stale), lub gdy tablica jest juz posortowana i szukamy PIERWSZEJ pary (A: early exit)."
+  ],
+  "odpowiedz": "**a) Zlozonosci:**\n\n**Algorytm A**: O(n^2)\nDwie zagniezdzonepetle: zewnetrzna i=0..n-2, wewnetrzna j=i+1..n-1.\nLaczna liczba porownan: n*(n-1)/2 = O(n^2).\n\n**Algorytm B**: O(n log n)\nSortowanie: O(n log n). Petla z dwoma wskaznikami: kazdy wskaznik przesuwa sie co najwyzej n razy → O(n).\nDominuje sortowanie: O(n log n) + O(n) = **O(n log n)**.\n\n**b) Stosunek dla n = 10000:**\n\n```\nA: n^2 = 10000^2 = 100 000 000 (10^8)\nB: n*log2(n) = 10000 * ~13.3 ≈ 133 000 (~1.3 * 10^5)\nStosunek: 10^8 / 1.3*10^5 ≈ 750\n```\n\nAlgorytm B jest **~750 razy szybszy** dla n = 10000.\n\n**c) Kiedy A lepsze?**\n\nTak — gdy:\n- **n jest bardzo male** (np. n < 50): stala z sortowania jest wieksza niz narzut prostej podwojnej petli\n- **Nie chcemy modyfikowac tablicy**: A nie zmienia kolejnosci elementow, B wymaga sortowania (co zmienia tablice lub wymaga kopii)\n- **Szukamy WSZYSTKICH par** (a nie tylko pierwszej): A naturalnie przeszukuje wszystkie, B musialby byc zmodyfikowany",
+  "typowe_bledy": [
+    {
+      "opis": "Podanie O(n^2) dla B (policzenie dwoch wskaznikow jako zagniezdzone petle)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "Zapomnienie o sortowaniu w zlozonosci B (podanie O(n) zamiast O(n log n))",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "Twierdzenie, ze A NIGDY nie moze byc lepsze od B",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

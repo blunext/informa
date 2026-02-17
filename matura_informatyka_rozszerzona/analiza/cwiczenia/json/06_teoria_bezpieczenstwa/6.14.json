@@ -1,0 +1,33 @@
+{
+  "id": "6.14",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "tabela porownawcza mechanizmow ochrony, styl CKE",
+  "tagi": [
+    "VPN",
+    "firewall",
+    "2FA",
+    "szyfrowanie-symetryczne"
+  ],
+  "tresc": "Ponizej wymieniono cztery mechanizmy ochrony i cztery scenariusze zagrozen.\n\n**Mechanizmy**: VPN, firewall, 2FA, szyfrowanie dysku (AES)\n\n**Scenariusze zagrozen**:\n1. Pracownik laczy sie z firmowa siecia z kawiarni przez publiczne Wi-Fi. Atakujacy podsluchuje ruch sieciowy.\n2. Hakerzy probuja dostac sie do serwera firmy z zewnatrz, skanujac otwarte porty.\n3. Atakujacy zdobyl haslo pracownika przez phishing i probuje zalogowac sie do systemu.\n4. Zlodziej ukradl sluzbowy laptop pracownika i probuje odczytac dane z dysku.\n\n**a)** Przypisz kazdy mechanizm do scenariusza, przed ktorym chroni NAJSKUTECZNIEJ. (2 pkt)\n\n**b)** Wybierz JEDEN mechanizm i wyjasniej, dlaczego nie chroni on przed pozostalymi trzema scenariuszami. (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: VPN szyfruje tunel, firewall filtruje porty, 2FA dodaje drugi czynnik, AES chroni dane w spoczynku.",
+    "**Podejscie**: Kazdy mechanizm ma waska specjalizacje — dopasuj precyzyjnie.",
+    "**Kluczowy krok**: 1→VPN (szyfrowany tunel), 2→firewall (blokuje porty), 3→2FA (haslo nie wystarczy), 4→szyfrowanie dysku (dane nieczytelne bez klucza)."
+  ],
+  "odpowiedz": "**a) Przypisanie:**\n\n| Scenariusz | Mechanizm | Uzasadnienie |\n|------------|-----------|-------------|\n| 1. Podsluch Wi-Fi | **VPN** | Szyfruje caly ruch miedzy laptopem a firma — atakujacy widzi tylko zaszyfrowane dane |\n| 2. Skanowanie portow | **Firewall** | Blokuje nieautoryzowane polaczenia przychodzace, zamyka niepotrzebne porty |\n| 3. Skradzione haslo | **2FA** | Nawet z haslem atakujacy potrzebuje drugiego czynnika (np. kod z aplikacji) |\n| 4. Kradzież laptopa | **Szyfrowanie dysku (AES)** | Dane na dysku sa zaszyfrowane — bez klucza/hasla zlodziej nie odczyta zawartosci |\n\n**b) Przyklad — Firewall:**\n\nFirewall NIE chroni przed:\n- **Scenariusz 1** (podsluch Wi-Fi) — firewall filtruje polaczenia, ale nie szyfruje ruchu sieciowego\n- **Scenariusz 3** (skradzione haslo) — firewall nie weryfikuje tozsamosci uzytkownikow, tylko filtruje ruch\n- **Scenariusz 4** (kradzież laptopa) — firewall dziala na poziomie sieci, nie chroni danych fizycznie na dysku",
+  "typowe_bledy": [
+    {
+      "opis": "Zamiana VPN z firewallem (VPN = szyfrowanie tunelu, firewall = filtrowanie portow)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "Twierdzenie, ze 2FA chroni przed podsłuchem Wi-Fi",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "Brak uzasadnienia w czesci b) — sam opis mechanizmu bez odniesienia do scenariuszy",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

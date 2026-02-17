@@ -1,0 +1,33 @@
+{
+  "id": "3.12",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "porownanie liniowego vs binarnego wyszukiwania",
+  "tagi": [
+    "zlozonosc-czasowa",
+    "przeszukiwanie-binarne",
+    "sortowanie",
+    "analiza-srednia"
+  ],
+  "tresc": "Mamy posortowana tablice n = 1 000 000 elementow. Szukamy elementu x.\n\n**Algorytm A (liniowe):**\n```\ndla i := 0, 1, ..., n-1:\n  jezeli T[i] = x:\n    zwroc i\n  jezeli T[i] > x:\n    zwroc -1\nzwroc -1\n```\n\n**Algorytm B (binarne):**\n```\nlewy := 0\nprawy := n - 1\ndopoki lewy <= prawy:\n  srodek := (lewy + prawy) div 2\n  jezeli T[srodek] = x:\n    zwroc srodek\n  jezeli T[srodek] < x:\n    lewy := srodek + 1\n  w przeciwnym razie:\n    prawy := srodek - 1\nzwroc -1\n```\n\n**a)** Podaj pesymistyczna zlozonosc obu algorytmow. Ile porownan wykonaja w najgorszym przypadku dla n = 1 000 000? (2 pkt)\n\n**b)** Algorytm A ma optymalizacje — konczy wczesniej gdy T[i] > x. W jakim przypadku A jest szybsze od B? Podaj konkretny przyklad. (1 pkt)\n\n**c)** Jezeli tablica NIE jest posortowana — ktory algorytm nadal dziala poprawnie? (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: A: O(n), B: O(log n). Ale A z early exit moze skonczyc po 1 porownaniu jesli x jest bliski poczatku.",
+    "**Podejscie**: Pesymistycznie: A = n porownan, B = log2(n) ≈ 20 porownan.",
+    "**Kluczowy krok**: b) A szybsze gdy x jest bliski T[0] — np. x=T[5] → A: 6 porownan, B: ~20 porownan. c) Tylko A (liniowe) — binarne WYMAGA posortowanej tablicy."
+  ],
+  "odpowiedz": "**a) Zlozonosci pesymistyczne:**\n\n| Algorytm | Zlozonosc | Porownania (n=10^6) |\n|----------|-----------|--------------------|\n| A (liniowe) | **O(n)** | do **1 000 000** (x nie istnieje lub na koncu) |\n| B (binarne) | **O(log n)** | do **ceil(log2(1000000)) = 20** porownan |\n\nAlgorytm B jest ~50 000 razy szybszy w najgorszym przypadku.\n\n**b) Kiedy A szybsze od B:**\n\nGdy szukany element jest **bliski poczatku tablicy**.\n\nPrzyklad: x = T[3] (czwarty element tablicy).\n- A: 4 porownania (sprawdza T[0], T[1], T[2], T[3] — znalezione!)\n- B: ~20 porownan (polowi przedzial 20 razy niezaleznie od pozycji)\n\nA jest szybsze zawsze gdy pozycja x < log2(n), czyli x jest wsrod pierwszych ~20 elementow.\n\n**c) Bez sortowania:**\n\nTylko **algorytm A (liniowe)** dziala poprawnie na nieposortowanej tablicy — przechodzi element po elemencie i nie zaklada zadnej kolejnosci.\n\nAlgorytm B (binarne) **wymaga posortowanej tablicy** — porownanie z elementem srodkowym pozwala odrzucic polowe tylko jesli elementy sa uporzadkowane. Na nieposortowanej tablicy B moze pominac szukany element.",
+  "typowe_bledy": [
+    {
+      "opis": "Podanie log2(10^6) = 6 zamiast ~20 (pomylenie log10 z log2)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "Twierdzenie, ze A NIGDY nie moze byc szybsze od B (ignorowanie early exit i malych pozycji)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "Twierdzenie, ze wyszukiwanie binarne dziala na nieposortowanych danych",
+      "kara": "-1 pkt"
+    }
+  ]
+}

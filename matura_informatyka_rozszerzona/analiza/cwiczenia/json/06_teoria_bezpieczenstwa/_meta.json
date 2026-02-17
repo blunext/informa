@@ -3,7 +3,7 @@
   "nazwa": "Teoria bezpieczenstwa",
   "kategoria": "TEORIA",
   "czestotliwosc": "2/11 lat",
-  "punkty_lacznie": 19,
+  "punkty_lacznie": 32,
   "tagi_globalne": [
     "phishing",
     "ransomware",
@@ -132,6 +132,59 @@
         "socjotechnika",
         "szyfrowanie-asymetryczne",
         "phishing",
+        "2FA"
+      ]
+    },
+    {
+      "id": "6.11",
+      "trudnosc": "srednie",
+      "punkty": 2,
+      "tagi": [
+        "atak-brute-force",
+        "2FA",
+        "socjotechnika"
+      ]
+    },
+    {
+      "id": "6.12",
+      "trudnosc": "srednie",
+      "punkty": 2,
+      "tagi": [
+        "phishing",
+        "socjotechnika",
+        "HTTPS"
+      ]
+    },
+    {
+      "id": "6.13",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": [
+        "HTTPS",
+        "szyfrowanie-asymetryczne",
+        "szyfrowanie-symetryczne",
+        "certyfikat-SSL"
+      ]
+    },
+    {
+      "id": "6.14",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": [
+        "VPN",
+        "firewall",
+        "2FA",
+        "szyfrowanie-symetryczne"
+      ]
+    },
+    {
+      "id": "6.15",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": [
+        "ransomware",
+        "firewall",
+        "socjotechnika",
         "2FA"
       ]
     }

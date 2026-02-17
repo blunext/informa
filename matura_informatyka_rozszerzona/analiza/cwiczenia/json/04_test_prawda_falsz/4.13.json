@@ -1,0 +1,33 @@
+{
+  "id": "4.13",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "podchwytliwe stwierdzenia, rekurencja + zlozonosc",
+  "tagi": [
+    "rekurencja",
+    "zlozonosc-czasowa",
+    "sortowanie-zlozonosc",
+    "grafy"
+  ],
+  "tresc": "Okresl, czy ponizsze stwierdzenia sa prawdziwe (P) czy falszywe (F). **Kazda odpowiedz wymaga uzasadnienia** (1-2 zdania).\n\n| # | Stwierdzenie | P/F |\n|---|-------------|-----|\n| a | Kazdy algorytm rekurencyjny mozna zapisac iteracyjnie (bez rekurencji) | |\n| b | Algorytm o zlozonosci O(2^n) moze byc szybszy od algorytmu O(n^3) dla pewnych wartosci n | |\n| c | BFS (przeszukiwanie wszerz) zawsze znajduje najkrotsza sciezke w grafie wazonym | |\n| d | Algorytm sortowania bubble sort w najlepszym przypadku (dane juz posortowane) ma zlozonosc O(n) | |",
+  "wskazowki": [
+    "**Kierunek**: a) stos jawny symuluje stos rekurencji. b) stale maja znaczenie przy malym n. c) BFS = najkrotsza pod wzgledem LICZBY krawedzi, nie wag.",
+    "**Podejscie**: Dla d) — czy bubble sort z flaga 'swapped' wychodzi wczesniej gdy nic nie zamieniono?",
+    "**Kluczowy krok**: a) P — stos jawny, b) P — male n, stale, c) F — wazony graf wymaga Dijkstry, d) P — z optymalizacja flaga, jedno przejscie = O(n)."
+  ],
+  "odpowiedz": "| # | P/F | Uzasadnienie |\n|---|-----|-------------|\n| a | **P** | Kazda rekurencje mozna zamienic na iteracje z jawnym stosem (lub kolejka). Stos wywolan rekurencyjnych jest symulowany przez stos w pamieci. To fundamentalne twierdzenie informatyki. |\n| b | **P** | Dla **malych n** algorytm O(2^n) moze byc szybszy — np. jesli O(2^n) z mala stala (np. 2^n) vs O(n^3) z duza stala (np. 1000*n^3). Dla n=5: 2^5=32 < 1000*125=125000. Notacja O() nie uwzglednia stalych. |\n| c | **F** | BFS znajduje najkrotsza sciezke pod wzgledem **liczby krawedzi** (minimalna liczba krokow). W grafie **wazonym** (z wagami na krawedziach) najkrotsza sciezka pod wzgledem sumy wag wymaga algorytmu **Dijkstry** (lub Bellmana-Forda dla ujemnych wag). |\n| d | **P** | Bubble sort z optymalizacja (flaga `swapped`): jesli w przejsciu nie dokonano zadnej zamiany, tablica jest posortowana i algorytm konczy prace. Dla danych juz posortowanych = jedno przejscie bez zamian = O(n). |",
+  "typowe_bledy": [
+    {
+      "opis": "Twierdzenie, ze nie kazda rekurencje mozna zamienic na iteracje (mylenie z 'trudne' a 'niemozliwe')",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "Uznanie c) za prawdziwe — brak rozroznienia miedzy grafem wazonym i niewazonym",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "Uznanie d) za falszywe — brak swiadomosci optymalizacji bubble sort z flaga",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

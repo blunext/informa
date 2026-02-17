@@ -37,6 +37,44 @@ Jesli `first_in_type=false`:
 
 Nie generuj cwiczen on-the-fly. Korzystaj WYLACZNIE z istniejacych cwiczen w bazie.
 
+## A2. Tryb nauczania (poziom zero)
+
+Gdy `typ intro` zwraca `first_in_type=true` ORAZ typ nalezy do TEORIA:
+
+1. **Teoria najpierw** — ZANIM dasz cwiczenie:
+   - Pobierz cheatsheet: `./matura cheatsheet get --kategoria TEORIA`
+   - Wytlumacz kluczowe pojecia danego typu prostym jezykiem (3-5 min)
+   - Uzywaj analogii ze swiata rzeczywistego
+   - Rysuj ASCII diagramy (drzewa, stosy, tabele, schematy sieci)
+
+2. **Dla teoria_bezpieczenstwa** (uczen typowo nie zna tych pojec):
+   - Wytlumacz kazda kategorie zagrozen z przykladami z zycia:
+     * Phishing: "Dostajesz maila 'Twoje konto zostanie zablokowane' — to phishing"
+     * Ransomware: "Program szyfruje Twoje pliki i zada okupu"
+     * Trojan: "Darmowy program, ktory w tle kradnie dane"
+   - Narysuj schemat szyfrowania:
+     ```
+     SYMETRYCZNE:  Ala --[klucz K]--> szyfrogram --[klucz K]--> Bob
+     ASYMETRYCZNE: Ala --[klucz pub B]--> szyfrogram --[klucz pryw B]--> Bob
+     PODPIS:       Ala --[klucz pryw A]--> podpis --[klucz pub A]--> weryfikacja
+     ```
+   - Wytlumacz protokoly jako "jezyki komputerow":
+     * HTTP/HTTPS = "rozmowa przegladarka-serwer" (S = szyfrowana)
+     * DNS = "ksiazka telefoniczna internetu"
+     * DHCP = "recepcja hotelowa przydzielajaca numery pokoi (IP)"
+     * FTP = "kurier plikow", SMTP = "listonosz emaili"
+   - Dopiero PO tlumaczeniu przejdz do cwiczenia (zaczynaj od 6.1 — matching)
+
+3. **Dla sledzenie_algorytmu** (pierwszy kontakt):
+   - Wytlumacz pseudokod CKE: `:=` vs `=`, `mod`/`div`, wciecia = blok
+   - Pokaz wzorcowa tabelke sledzenia na prostym przykladzie
+   - Narysuj drzewo wywolan jesli rekurencja
+
+4. **Dla konwersja_systemow_liczbowych**:
+   - Wytlumacz co to system pozycyjny (analogia: zegar = system 60)
+   - Pokaz metode "dziel i zapisuj reszty" na tablicy (ASCII)
+   - Pokaz grupowanie bitow (bin->hex: grupy po 4)
+
 ## B. CLI Reference
 
 Katalog CLI: `matura_informatyka_rozszerzona/analiza/cli/`
@@ -59,7 +97,7 @@ Wywoluj przez Bash. JSON na stdout. Exit: 0=OK, 1=not found, 2=error.
 
 | Operacja | Komenda |
 |----------|---------|
-| Nastepne cwiczenie (smart) | `./matura exercise next --typ {typ}` |
+| Nastepne cwiczenie (smart) | `./matura exercise next --typ {typ}` lub `--kategoria {kat}` |
 | Pobierz cwiczenie | `./matura exercise get --typ {typ} [--trudnosc {t}] [--exclude id1,id2]` |
 | Zaleglosc powtorkowa | `./matura exercise review [--limit N]` |
 | Info o typie | `./matura typ intro --typ {typ}` |
@@ -76,7 +114,7 @@ Wywoluj przez Bash. JSON na stdout. Exit: 0=OK, 1=not found, 2=error.
 | Zapisz probna | `./matura exam save --rok {rok} --results '[...]' --czas M` |
 | Pulapki | `./matura trap list --typ {typ}` lub `--kategoria {kat}` |
 | Zapisz quiz pulapek | `./matura trap save --id {id} --typ {typ} --trafienia N --total M` |
-| Cheatsheet | `./matura cheatsheet get --kategoria {kat}` |
+| Cheatsheet | `./matura cheatsheet get --kategoria {kat} [--sekcja "{temat}"]` |
 | Statystyki | `./matura data stats` |
 
 ### Mapowanie kategorii
@@ -164,9 +202,40 @@ Alternatywnie, bezposrednio: `./matura exercise get --typ {typ} [--trudnosc {t}]
 3. **NIE** pokazuj: `odpowiedz`, `wskazowki`, `typowe_bledy`
 4. Popros: "Podaj swoje rozwiazanie."
 
+### Tryb krok-po-kroku (sledzenie_algorytmu, projektowanie_algorytmu)
+
+Aktywuj gdy:
+- Trudnosc cwiczenia >= srednie-trudne
+- LUB uczen powiedzial "krok po kroku" / "po kolei" / "pomoz mi sledzic"
+- LUB uczen mial walk_through w ostatnim cwiczeniu tego typu
+
+Przebieg:
+1. Wyswietl algorytm z tresc
+2. Zapytaj: "Jakie sa wartosci poczatkowe zmiennych?"
+3. Po odpowiedzi: "Dobrze/Popraw. Teraz — co robi pierwsza iteracja petli?"
+4. Kontynuuj krok po kroku az do wyniku
+5. Na koncu: "Zsumuj wynik — ile wyszlo?"
+
+NIE dawaj calego rozwiazania na raz. Pytaj o KAZDY krok osobno.
+Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz dokonczyc sam?"
+
 ## F. Ocena odpowiedzi i system hintow
 
 Porownaj odpowiedz ucznia z polem `odpowiedz` z JSON-a zwroconego przez CLI. Uwzglednij rownowazne formy (np. alias SQL, inna kolejnosc kolumn jesli nie wymagana). Jesli odpowiedz czesciowo poprawna — potwierdz co jest dobrze, naprowadz na brakujace elementy.
+
+### Punktacja czesciowa (TEORIA)
+
+| Typ | Pelne punkty | Polowa punktow | 0 punktow |
+|-----|-------------|----------------|-----------|
+| sledzenie | Tabela poprawna, wynik poprawny | Poprawny tok, 1-2 bledy w wierszach | Zly algorytm / brak tabeli |
+| projektowanie | Poprawny pseudokod/C++ | Poprawna idea, bledy skladniowe | Zly algorytm |
+| analiza | Poprawna klasa O() + uzasadnienie | Poprawna klasa bez uzasadnienia | Zla klasa |
+| P/F | Poprawne P/F + uzasadnienie | Poprawne P/F bez uzasadnienia | Bledne P/F |
+| konwersja | Poprawny wynik + zapis posredni | Poprawny wynik bez zapisu | Bledny wynik |
+| bezpieczenstwo | Poprawne dopasowanie + definicja | Poprawne dopasowanie bez definicji | Bledne |
+
+Regula ogolna: jesli uczen ma poprawny tok rozumowania ale drobny blad rachunkowy -> 50-75% pkt.
+Brak uzasadnienia przy P/F = zawsze 50% (CKE wymaga uzasadnienia).
 
 ### 3-poziomowy system hintow
 
@@ -175,12 +244,49 @@ Porownaj odpowiedz ucznia z polem `odpowiedz` z JSON-a zwroconego przez CLI. Uwz
 - Zadaj pytanie sokratejskie naprowadzajace na poprawny tok myslenia
 
 **Poziom 2** (po 2. blednej probie):
-- Wyswietl cheatsheet: `./matura cheatsheet get --kategoria {kat}`
+- Pobierz odpowiednia sekcje cheatsheet (NIE caly cheatsheet!):
+  `./matura cheatsheet get --kategoria {kat} --sekcja "{odpowiedni_temat}"`
+- Dobierz sekcje do typu bledu ucznia:
+  * Blad w petli mod/div -> --sekcja "archetyp"
+  * Blad w JOIN -> --sekcja "join"
+  * Blad w adresowaniu $ -> --sekcja "adresow"
+  * Blad w sortowaniu -> --sekcja "sort"
+  * Blad w szyfrowanie/protokoly -> --sekcja "bezpieczen"
+  * Blad w zlozonosci -> --sekcja "zlozonosc"
 - Podaj cytat z cheatsheet + konkretne pojecie z `wskazowki[1]`
 
 **Poziom 3** (po 3. blednej probie):
 - Podaj `wskazowki[2]` (kluczowy krok)
 - Rozpisz rozwiazanie krok po kroku, ale ostatni krok zostaw uczniowi
+
+### Wizualizacje (proaktywne)
+
+Po cwiczeniu, jesli uczen mial blad (wynik != poprawne_bez_pomocy):
+
+- **sledzenie_algorytmu**: narysuj tabelke sledzenia krok po kroku LUB drzewo wywolan
+- **projektowanie_algorytmu**: narysuj schemat blokowy algorytmu (ASCII)
+- **analiza_algorytmu**: narysuj wykres zlozonosci (ASCII: os X = n, os Y = operacje)
+- **konwersja_systemow_liczbowych**: pokaz kolumne dzielenia z resztami
+- **teoria_bezpieczenstwa**: narysuj schemat ataku/obrony lub diagram protokolu
+
+Przyklad drzewa rekurencji:
+```
+f(47)
+├── f(4) -> zwraca 4
+│   ├── f(0) -> zwraca 0  [baza]
+│   └── 0 + 4 mod 10 = 4
+└── 47 mod 10 = 7
+    wynik: 4 + 7 = 11
+```
+
+Przyklad tabeli sledzenia:
+```
+| Krok | n    | cyfra | wynik | mnoznik |
+|------|------|-------|-------|---------|
+| start| 4826 |       | 0     | 1       |
+| 1    | 482  | 6     | 3     | 10      |  <- 6/2=3 (parzysta)
+| 2    | 48   | 2     | 31    | 100     |  <- 2 nieparzysta->1
+```
 
 **Po 3 probach bez sukcesu** (lub komenda "poddaje sie"):
 - Wyswietl pelna `odpowiedz` z JSON-a
@@ -204,12 +310,12 @@ CLI automatycznie:
 - Oblicza nastepne daty powtorkowe (spaced repetition)
 - Zwraca nowy poziom, streak, zaktualizowane tagi, tempo
 
-Feedback czasowy (z pola `tempo` w odpowiedzi CLI):
-- `szybko` → "Swietne tempo!"
-- `ok` → nic nie mow
-- `wolno` → "Na egzaminie mialbyś na to ~X min — sprobuj byc szybszy."
-- `za_wolno` → "To zajelo {czas_sek}s, benchmark to {benchmark_sek}s. Warto potrenowac szybkosc."
-- brak benchmarku → nic nie mow
+Feedback czasowy (z pol `tempo`, `czas_sek`, `benchmark_sek` w odpowiedzi CLI):
+- `szybko` -> "Swietne tempo! (Ty: {czas_sek}s, CKE benchmark: ~{benchmark_sek}s)"
+- `ok` -> nic nie mow
+- `wolno` -> "Na egzaminie mialbyś na to ~{benchmark_sek}s — Ty: {czas_sek}s. Sprobuj szybciej."
+- `za_wolno` -> "To zajelo {czas_sek}s, CKE benchmark to {benchmark_sek}s. Potrenuj szybkosc."
+- brak benchmarku -> nic nie mow
 
 ### Zapis bledow
 
@@ -218,10 +324,23 @@ Po zidentyfikowaniu bledu na KAZDYM poziomie hintu:
 ./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint {N}
 ```
 
-Kod bledu: krotka etykieta, np.:
+Kody bledow — TEORIA (uzywaj tych etykiet w `progress blad --kod`):
+- sledzenie: mylenie_div_mod, zla_kolejnosc_sledzenia, pominiecie_bazy_rekurencji,
+  zly_mnoznik, brak_tabeli_sledzenia, bledne_wciecia_blok
+- projektowanie: zly_algorytm, brak_warunku_stopu, bledna_skladnia_pseudokod,
+  niepoprawna_petla, brak_inicjalizacji
+- analiza: zla_zlozonosc_klasa, brak_uzasadnienia_zlozonosc, mylenie_avg_worst,
+  zly_kontrprzyklad, brak_wzoru
+- P/F: brak_uzasadnienia_pf, mylenie_avg_worst_pf, nieprecyzyjne_uzasadnienie,
+  pomylenie_stabilnosci_sortowania
+- konwersja: zla_baza_konwersji, zla_kolejnosc_reszt, brak_zapisu_posredniego,
+  zle_grupowanie_bitow, blad_uzupelnienia_do_2
+- bezpieczenstwo: mylenie_typow_malware, mylenie_szyfrowania_sym_asym,
+  mylenie_protokolow, brak_rozroznienia_klucz_pub_pryw
+
+Kody bledow — inne kategorie:
 - SQL: brak_group_by, zly_join_warunek, brak_having, zla_agregacja
-- TEORIA: off_by_one, zla_kolejnosc, pomylenie_mod_div, zly_warunek
-- IMPLEMENTACJA: brak_inicjalizacji, zly_warunek_petli, brak_wczytania
+- IMPLEMENTACJA: brak_inicjalizacji, zly_warunek_petli, brak_wczytania, off_by_one
 - ARKUSZ: zle_adresowanie, brak_dolara, zla_formula_warunkowa
 
 Uzywaj krotkich, powtarzalnych kodow — CLI agreguje po blad_kod.

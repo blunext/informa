@@ -3,7 +3,7 @@
   "nazwa": "Konwersja systemow liczbowych",
   "kategoria": "TEORIA",
   "czestotliwosc": "9/11 lat",
-  "punkty_lacznie": 25,
+  "punkty_lacznie": 34,
   "tagi_globalne": [
     "dec-bin",
     "bin-dec",
@@ -119,6 +119,36 @@
       "tagi": [
         "uzupelnienie-do-2",
         "dodawanie-binarne",
+        "potegi-dwojki"
+      ]
+    },
+    {
+      "id": "5.11",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "system-trojkowy",
+        "dzielenie-z-reszta",
+        "porownywanie-systemow"
+      ]
+    },
+    {
+      "id": "5.12",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": [
+        "system-trojkowy",
+        "przeniesienia",
+        "dzielenie-z-reszta"
+      ]
+    },
+    {
+      "id": "5.13",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": [
+        "dzielenie-z-reszta",
+        "porownywanie-systemow",
         "potegi-dwojki"
       ]
     }

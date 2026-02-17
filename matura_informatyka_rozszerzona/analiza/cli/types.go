@@ -235,6 +235,7 @@ type ExerciseNextOut struct {
 	PoolWarning    *string     `json:"pool_warning"`
 	SessionCount   int         `json:"session_count"`
 	ResetSuggested bool        `json:"reset_suggested"`
+	ChosenTyp      string      `json:"chosen_typ,omitempty"`
 }
 
 // TypIntroOut is what typ intro returns

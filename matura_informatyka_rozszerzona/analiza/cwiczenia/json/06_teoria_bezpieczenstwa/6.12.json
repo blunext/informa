@@ -1,0 +1,28 @@
+{
+  "id": "6.12",
+  "trudnosc": "srednie",
+  "punkty": 2,
+  "zrodlo": "procedura weryfikacji, styl CKE",
+  "tagi": [
+    "phishing",
+    "socjotechnika",
+    "HTTPS"
+  ],
+  "tresc": "**Scenariusz**: Pracownik firmy otrzymal email o tresci:\n\n> Od: admin@firmaa-update.com\n> Temat: PILNE — Wymagana aktualizacja systemu\n>\n> Drogi Pracowniku,\n> Twoje konto wymaga natychmiastowej aktualizacji zabezpieczen.\n> Kliknij ponizszy link i zaloguj sie swoimi danymi firmowymi:\n> https://firmaa-update.com/login\n>\n> Brak aktualizacji spowoduje zablokowanie konta w ciagu 24h.\n\n**a)** Wskazz **trzy elementy** tego emaila, ktore sugeruja, ze to moze byc phishing. (1 pkt)\n\n**b)** Opisz **procedure weryfikacji** — jakie kroki powinien podjac pracownik, zanim kliknie link lub poda dane? (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Przyjrzyj sie dokladnie domenie nadawcy i porownaj z prawdziwa domena firmy.",
+    "**Podejscie**: Phishing czesto uzywa: pilnosci, podrobionej domeny, grozby zablokowania.",
+    "**Kluczowy krok**: Weryfikacja = (1) sprawdz nadawce, (2) nie klikaj linku — wejdz recznie, (3) skontaktuj sie z IT."
+  ],
+  "odpowiedz": "**a) Trzy elementy phishingowe:**\n\n1. **Podrobiona domena**: \"firmaa-update.com\" — podwojne 'a' i dodatkowy czlon '-update' sugeruja falszywa strone (prawdziwa domena firmy bylaby inna)\n2. **Wywieranie presji czasowej**: \"natychmiastowa aktualizacja\", \"zablokowanie konta w ciagu 24h\" — typowa taktyka phishingowa wymuszajaca pospieszne dzialanie\n3. **Prosba o dane logowania przez link w emailu**: Prawdziwy dzial IT nigdy nie prosi o haslo przez email ani nie kieruje do logowania przez link w wiadomosci\n\n**b) Procedura weryfikacji:**\n\n1. **NIE klikac linku** w emailu — zamiast tego otworzyc przegladarke i recznie wpisac znany adres firmowy\n2. **Sprawdzic nadawce** — porownac domene z oficjalna domena firmy (tu: \"firmaa\" vs prawdziwa nazwa)\n3. **Skontaktowac sie z dzialem IT** telefonicznie lub osobiscie — potwierdzic, czy wysylali taka wiadomosc\n4. **Zglosic email** jako podejrzany do dzialu IT / oznaczysz jako spam",
+  "typowe_bledy": [
+    {
+      "opis": "Wskazanie tylko 1-2 elementow zamiast 3",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "W procedurze brak kroku 'nie klikaj linku' — sugerowanie np. 'sprawdz link klikajac'",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

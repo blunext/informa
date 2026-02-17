@@ -1,0 +1,28 @@
+{
+  "id": "6.11",
+  "trudnosc": "srednie",
+  "punkty": 2,
+  "zrodlo": "scenariusz decyzyjny, styl CKE",
+  "tagi": [
+    "atak-brute-force",
+    "2FA",
+    "socjotechnika"
+  ],
+  "tresc": "**Scenariusz**: Firma X uzywa jednego wspolnego hasla do wszystkich systemow (poczta, baza danych, panel administracyjny). Haslo to \"Firma2024!\" i znaja je wszyscy pracownicy.\n\n**a)** Opisz **dwa rozne zagrozenia** bezpieczenstwa wynikajace z takiej praktyki. (1 pkt)\n\n**b)** Zaproponuj **konkretne rozwiazanie** eliminujace oba zagrozenia. Uzasadnij, dlaczego Twoje rozwiazanie jest skuteczne. (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Pomysl, co sie stanie jesli jedno haslo wycieknie — kto ma dostep?",
+    "**Podejscie**: Rozważ atak brute-force na proste haslo i sytuacje odejscia pracownika.",
+    "**Kluczowy krok**: Indywidualne hasla + 2FA = kazdy pracownik ma wlasne dane logowania i drugi czynnik."
+  ],
+  "odpowiedz": "**a) Zagrozenia:**\n\n1. **Wyciek jednego hasla = dostep do wszystkiego** — jesli dowolny pracownik padnie ofiara phishingu lub socjotechniki, atakujacy uzyskuje dostep do WSZYSTKICH systemow firmy (poczta, baza danych, panel admin).\n\n2. **Brak kontroli dostepu po odejsciu pracownika** — gdy pracownik odchodzi z firmy, nadal zna haslo. Zmiana hasla wymaga poinformowania wszystkich pozostalych, co jest niepraktyczne i czesto pomijane.\n\n**b) Rozwiazanie:**\n\nWprowadzic **indywidualne konta z unikalnymi haslami** + **uwierzytelnianie dwuskladnikowe (2FA)**:\n- Kazdy pracownik ma wlasne dane logowania — wyciek jednego konta nie kompromituje pozostalych\n- 2FA (np. aplikacja TOTP lub klucz sprzetowy) chroni nawet jesli haslo wycieknie\n- Odejscie pracownika = dezaktywacja jednego konta, bez wplywu na reszty zespolu",
+  "typowe_bledy": [
+    {
+      "opis": "Podanie tylko jednego zagrozenia zamiast dwoch",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "Zaproponowanie 'silniejszego hasla' bez zmiany modelu (dalej jedno wspolne haslo)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

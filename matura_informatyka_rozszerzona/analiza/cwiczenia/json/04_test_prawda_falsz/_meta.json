@@ -3,7 +3,7 @@
   "nazwa": "Test prawda/falsz",
   "kategoria": "TEORIA",
   "czestotliwosc": "10/11 lat",
-  "punkty_lacznie": 27,
+  "punkty_lacznie": 42,
   "tagi_globalne": [
     "BST",
     "DNS",
@@ -132,6 +132,61 @@
         "rekurencja",
         "struktury-danych",
         "grafy"
+      ]
+    },
+    {
+      "id": "4.11",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": [
+        "sortowanie-zlozonosc",
+        "stabilnosc-sortowania",
+        "zlozonosc-czasowa",
+        "rekurencja"
+      ]
+    },
+    {
+      "id": "4.12",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": [
+        "struktury-danych",
+        "BST",
+        "tablice-haszujace",
+        "LIFO-FIFO"
+      ]
+    },
+    {
+      "id": "4.13",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": [
+        "rekurencja",
+        "zlozonosc-czasowa",
+        "sortowanie-zlozonosc",
+        "grafy"
+      ]
+    },
+    {
+      "id": "4.14",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "sortowanie-zlozonosc",
+        "rekurencja",
+        "struktury-danych",
+        "zlozonosc-czasowa"
+      ]
+    },
+    {
+      "id": "4.15",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": [
+        "sieci-komputerowe",
+        "SQL-skladnia",
+        "DNS",
+        "JOIN"
       ]
     }
   ]

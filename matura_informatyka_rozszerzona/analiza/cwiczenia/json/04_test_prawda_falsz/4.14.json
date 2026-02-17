@@ -1,0 +1,33 @@
+{
+  "id": "4.14",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "popraw stwierdzenie — algorytmy i struktury",
+  "tagi": [
+    "sortowanie-zlozonosc",
+    "rekurencja",
+    "struktury-danych",
+    "zlozonosc-czasowa"
+  ],
+  "tresc": "Ponizsze stwierdzenia sa **falszywe**. Dla kazdego:\n- Wyjasniej **dlaczego jest falszywe** (1 zdanie)\n- **Popraw** stwierdzenie tak, zeby stalo sie prawdziwe (1 zdanie)\n\n**a)** \"Algorytm sortowania babelkowego (bubble sort) ma zlozonosc O(n log n).\"\n\n**b)** \"Rekurencja zawsze zuzywa mniej pamieci niz iteracja.\"\n\n**c)** \"Kolejka (FIFO) zwraca elementy w kolejnosci od ostatnio dodanego.\"",
+  "wskazowki": [
+    "**Kierunek**: a) Bubble sort ma O(n^2), nie O(n log n). b) Rekurencja zuzywa pamiec na stos wywolan. c) FIFO = First In, First Out.",
+    "**Podejscie**: Kazde stwierdzenie ma konkretny blad — zidentyfikuj go i zmien minimalna poprawke.",
+    "**Kluczowy krok**: a) O(n^2), b) rekurencja zuzywa WIECEJ pamieci (stos), c) kolejka zwraca od NAJWCZESNIEJ dodanego."
+  ],
+  "odpowiedz": "Wszystkie stwierdzenia sa FALSZ. Ponizej poprawki:\n\n**a)** FALSZ — \"Bubble sort ma zlozonosc O(n log n)\"\n\n- **Dlaczego falszywe**: Bubble sort porownuje i zamienia sasiednie elementy w zagniezdzonej petli — ma zlozonosc **O(n^2)**, nie O(n log n). O(n log n) to zlozonosc algorytmow takich jak merge sort.\n- **Poprawione**: \"Algorytm sortowania babelkowego (bubble sort) ma zlozonosc **O(n^2)**.\"\n\n**b)** FALSZ — \"Rekurencja zawsze zuzywa mniej pamieci niz iteracja\"\n\n- **Dlaczego falszywe**: Kazde wywolanie rekurencyjne tworzy nowa ramke na stosie wywolan (zmienne lokalne, adres powrotu). Iteracja zuzywa stala pamiec. Rekurencja zuzywa **wiecej**, nie mniej pamieci.\n- **Poprawione**: \"Rekurencja zazwyczaj zuzywa **wiecej** pamieci niz iteracja, ze wzgledu na stos wywolan.\"\n\n**c)** FALSZ — \"Kolejka (FIFO) zwraca elementy od ostatnio dodanego\"\n\n- **Dlaczego falszywe**: FIFO = First In, First Out. Kolejka zwraca elementy w kolejnosci od **najwczesniej** dodanego (kto pierwszy wszedl, ten pierwszy wychodzi). Opis w stwierdzeniu pasuje do stosu (LIFO).\n- **Poprawione**: \"Kolejka (FIFO) zwraca elementy w kolejnosci od **najwczesniej dodanego** (First In, First Out).\"",
+  "typowe_bledy": [
+    {
+      "opis": "Poprawienie stwierdzenia b) na 'rekurencja uzywa tyle samo pamieci' (powinno byc 'wiecej')",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "Pomylenie FIFO z LIFO (kolejka vs stos)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "Podanie poprawionej wersji bez uzasadnienia dlaczego oryginalne stwierdzenie jest falszywe",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

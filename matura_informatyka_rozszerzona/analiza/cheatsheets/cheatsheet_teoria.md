@@ -73,6 +73,22 @@
 
 ---
 
+## Jak CKE chce odpowiedz — per typ
+
+| Typ zadania | Wymagany format | Przyklad |
+|-------------|----------------|----------|
+| Sledzenie algorytmu | Tabela krok-po-kroku (kolumny: zmienne + warunek + wynik) | Patrz szablon nizej |
+| Projektowanie algorytmu | Pseudokod CKE LUB C++ (oba akceptowane) | `dopoki n > 0:` ... |
+| Analiza algorytmu | Klasa O() + uzasadnienie slowne (1-2 zdania) | "O(n^2), bo 2 zagniezd. petle" |
+| Test P/F | P lub F + uzasadnienie (1 zdanie per stwierdzenie!) | "F — QuickSort ma worst case O(n^2)" |
+| Konwersja systemow | Zapis posredni (reszty z dzielen / grupy bitow) + wynik | "255 div 2 = 127 r 1, ..." |
+| Teoria bezpieczenstwa | Dopasowanie + krotka definicja lub scenariusz | "Phishing — wyludzanie danych przez falszywe strony" |
+
+> UWAGA: Brak uzasadnienia w P/F = automatycznie 50% punktow (nawet jesli P/F poprawne!)
+> UWAGA: Brak zapisu posredniego w konwersji = -1 pkt (nawet jesli wynik poprawny!)
+
+---
+
 ## Tabelka sledzenia — szablon
 
 ```
@@ -84,3 +100,55 @@
 
 Zasady: kolumny = zmienne, wiersze = iteracje, warunek = osobna kolumna.
 Dla rekurencji: rysuj drzewo wywolan (argument -> wartosc zwracana).
+
+---
+
+## Bezpieczenstwo informatyczne — kompendium CKE
+
+### Zagrozenia (4 kategorie)
+
+| Typ | Co robi | Przyklad |
+|-----|---------|----------|
+| Phishing | Wyludza dane przez falszywe strony/maile | "Twoje konto zostanie zablokowane — kliknij tutaj" |
+| Ransomware | Szyfruje pliki, zada okupu | WannaCry (2017) |
+| Trojan | Ukryty w "normalnym" programie | Darmowy edytor z keyloggerem |
+| Keylogger | Rejestruje nacisniecia klawiszy | Hasla, numery kart |
+
+### Szyfrowanie
+
+```
+SYMETRYCZNE (1 klucz):    AES, DES
+  Ala ——[K]——> szyfrogram ——[K]——> Bob
+  Szybkie, ale: jak bezpiecznie przekazac klucz?
+
+ASYMETRYCZNE (2 klucze):  RSA
+  Ala ——[pub_B]——> szyfrogram ——[pryw_B]——> Bob
+  Wolne, ale: klucz publiczny mozna wyslac jawnie
+
+PODPIS CYFROWY:
+  Ala ——[pryw_A]——> podpis  ->  ktokolwiek ——[pub_A]——> weryfikacja
+  Dowodzi: wiadomosc pochodzi od Ali i nie zostala zmieniona
+
+HTTPS = HTTP + TLS = symetryczne + asymetryczne (hybrid)
+```
+
+### Protokoly sieciowe
+
+| Protokol | Funkcja | Analogia |
+|----------|---------|----------|
+| HTTP/HTTPS | Przesylanie stron WWW | Rozmowa przegladarka-serwer (S=szyfrowana) |
+| DNS | Zamiana nazw na adresy IP | Ksiazka telefoniczna internetu |
+| DHCP | Automatyczne przydzielanie IP | Recepcja hotelowa — przydzial pokoi |
+| FTP | Transfer plikow | Kurier plikow |
+| SMTP | Wysylanie emaili | Listonosz |
+| POP3/IMAP | Odbieranie emaili | Skrzynka pocztowa |
+
+### Ochrona
+
+| Mechanizm | Chroni przed | Jak dziala |
+|-----------|-------------|------------|
+| Firewall | Nieautoryzowanym dostepem | Filtruje ruch sieciowy wg regul |
+| VPN | Podsluchem w sieci | Szyfrowany tunel miedzy uzytkownikiem a serwerem |
+| 2FA | Kradziezy hasla | Drugi czynnik (SMS, aplikacja) obok hasla |
+| Certyfikat SSL | Podszywalnictwem | Potwierdza tozsamosc serwera (klodka w przegladarce) |
+| RODO | Naruszeniem prywatnosci | Regulacja prawna — prawo do usuniecia danych |

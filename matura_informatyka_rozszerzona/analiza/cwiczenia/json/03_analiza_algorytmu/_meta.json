@@ -3,7 +3,7 @@
   "nazwa": "Analiza algorytmu",
   "kategoria": "TEORIA",
   "czestotliwosc": "10/11 lat",
-  "punkty_lacznie": 35,
+  "punkty_lacznie": 43,
   "tagi_globalne": [
     "zlozonosc-czasowa",
     "O-notacja",
@@ -123,6 +123,28 @@
         "rownanie-rekurencyjne",
         "zlozonosc-czasowa",
         "indukcja"
+      ]
+    },
+    {
+      "id": "3.11",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "zlozonosc-czasowa",
+        "O-notacja",
+        "petle-zagniezdzne",
+        "kontrprzyklad"
+      ]
+    },
+    {
+      "id": "3.12",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "zlozonosc-czasowa",
+        "przeszukiwanie-binarne",
+        "sortowanie",
+        "analiza-srednia"
       ]
     }
   ]

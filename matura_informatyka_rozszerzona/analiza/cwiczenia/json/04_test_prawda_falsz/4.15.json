@@ -1,0 +1,33 @@
+{
+  "id": "4.15",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "popraw stwierdzenie — sieci i SQL",
+  "tagi": [
+    "sieci-komputerowe",
+    "SQL-skladnia",
+    "DNS",
+    "JOIN"
+  ],
+  "tresc": "Ponizsze stwierdzenia sa **falszywe**. Dla kazdego:\n- Wyjasniej **dlaczego jest falszywe** (1 zdanie)\n- **Popraw** stwierdzenie tak, zeby stalo sie prawdziwe (1 zdanie)\n\n**a)** \"Protokol DNS sluzy do automatycznego przydzielania adresow IP urzadzeniom w sieci.\"\n\n**b)** \"Klauzula WHERE w SQL moze uzywac funkcji agregujacych, np. WHERE COUNT(*) > 5.\"\n\n**c)** \"INNER JOIN zwraca wszystkie rekordy z obu tabel, nawet jesli nie maja odpowiednikow.\"",
+  "wskazowki": [
+    "**Kierunek**: a) DNS = nazwy → IP, nie przydzielanie. b) WHERE filtruje wiersze przed agregacja. c) INNER JOIN = tylko dopasowane.",
+    "**Podejscie**: a) mylenie DNS z DHCP. b) mylenie WHERE z HAVING. c) mylenie INNER JOIN z FULL OUTER JOIN.",
+    "**Kluczowy krok**: a) DNS = tlumaczenie nazw domen na IP, DHCP przydziela IP. b) Zamiast WHERE uzyj HAVING. c) INNER JOIN zwraca TYLKO dopasowane."
+  ],
+  "odpowiedz": "Wszystkie stwierdzenia sa FALSZ. Ponizej poprawki:\n\n**a)** FALSZ — \"DNS sluzy do automatycznego przydzielania adresow IP\"\n\n- **Dlaczego falszywe**: DNS (Domain Name System) sluzy do **tlumaczenia nazw domen na adresy IP** (np. google.com → 142.250.74.46). Automatyczne przydzielanie adresow IP to rola protokolu **DHCP** (Dynamic Host Configuration Protocol).\n- **Poprawione**: \"Protokol **DHCP** sluzy do automatycznego przydzielania adresow IP urzadzeniom w sieci.\" LUB \"Protokol DNS sluzy do **tlumaczenia nazw domen na adresy IP**.\"\n\n**b)** FALSZ — \"WHERE moze uzywac funkcji agregujacych\"\n\n- **Dlaczego falszywe**: Klauzula WHERE filtruje wiersze **przed** agregacja (GROUP BY), wiec nie moze uzywac funkcji agregujacych. Do filtrowania po agregacji sluzy klauzula **HAVING**.\n- **Poprawione**: \"Klauzula **HAVING** w SQL moze uzywac funkcji agregujacych, np. HAVING COUNT(*) > 5.\"\n\n**c)** FALSZ — \"INNER JOIN zwraca wszystkie rekordy z obu tabel\"\n\n- **Dlaczego falszywe**: INNER JOIN zwraca **tylko rekordy z dopasowaniem** w obu tabelach. Rekordy bez odpowiednikow sa pomijane. Zeby dostac wszystkie rekordy (z i bez dopasowania), nalezy uzyc FULL OUTER JOIN lub LEFT/RIGHT JOIN.\n- **Poprawione**: \"INNER JOIN zwraca **tylko te rekordy z obu tabel, ktore maja odpowiedniki** w drugiej tabeli.\"",
+  "typowe_bledy": [
+    {
+      "opis": "Pomylenie DNS z DHCP (oba dotycza adresow IP, ale w rozny sposob)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "Twierdzenie, ze WHERE moze uzywac agregatow (pomylenie z HAVING)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "Pomylenie INNER JOIN z LEFT JOIN (LEFT zwraca wszystko z lewej tabeli + dopasowania)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

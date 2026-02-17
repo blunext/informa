@@ -1,0 +1,33 @@
+{
+  "id": "6.13",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "diagram HTTPS handshake, styl CKE",
+  "tagi": [
+    "HTTPS",
+    "szyfrowanie-asymetryczne",
+    "szyfrowanie-symetryczne",
+    "certyfikat-SSL"
+  ],
+  "tresc": "Ponizej przedstawiono uproszczony schemat nawiazywania polaczenia HTTPS (TLS handshake). Uzupelnij brakujace kroki oznaczone [A], [B], [C].\n\n```\nPrzegladarka                                      Serwer\n    |                                                |\n    |--- 1. ClientHello (wersja TLS, szyfry) ------->|\n    |                                                |\n    |<-- 2. ServerHello + [A] -----------------------|\n    |                                                |\n    |--- 3. Przegladarka weryfikuje [A] za pomoca ---|\n    |       urzedu certyfikacji (CA)                 |\n    |                                                |\n    |--- 4. [B] ------------------------------------>|\n    |       (zaszyfrowany kluczem publicznym         |\n    |        z certyfikatu serwera)                  |\n    |                                                |\n    |<-> 5. [C] <----------------------------------->|\n    |       (obie strony znaja ten sam klucz)        |\n```\n\n**a)** Co kryje sie pod [A]? (1 pkt)\n**b)** Co kryje sie pod [B]? (1 pkt)\n**c)** Jakiego typu szyfrowanie jest uzywane w kroku 5 i dlaczego nie uzywano go od poczatku? (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: [A] to cos, co potwierdza tozsamosc serwera. [B] to cos, co tylko serwer moze odczytac.",
+    "**Podejscie**: W TLS handshake przegladarka weryfikuje certyfikat, potem generuje klucz sesji.",
+    "**Kluczowy krok**: [A]=certyfikat SSL, [B]=klucz sesji (pre-master secret), [C]=komunikacja szyfrowana symetrycznie (AES), bo szyfrowanie symetryczne jest szybsze."
+  ],
+  "odpowiedz": "**a) [A] = Certyfikat SSL serwera**\nCertyfikat zawiera klucz publiczny serwera i jest podpisany przez zaufany urzad certyfikacji (CA). Przegladarka weryfikuje, czy certyfikat jest wazny i czy serwer jest tym, za kogo sie podaje.\n\n**b) [B] = Klucz sesji (pre-master secret)**\nPrzegladarka generuje losowy klucz sesji i szyfruje go kluczem publicznym serwera (z certyfikatu). Tylko serwer moze go odszyfrowac swoim kluczem prywatnym. Na podstawie tego klucza obie strony obliczaja wspolny klucz symetryczny.\n\n**c) [C] = Komunikacja zaszyfrowana symetrycznie (np. AES)**\nW kroku 5 uzywane jest **szyfrowanie symetryczne**, poniewaz:\n- Jest **znacznie szybsze** niz asymetryczne (nawet 100-1000x)\n- Szyfrowanie asymetryczne (kroki 2-4) sluzy tylko do **bezpiecznej wymiany klucza symetrycznego**\n- To podejscie hybrydowe laczy zalety obu metod: bezpieczna wymiane klucza (asymetryczne) z szybka komunikacja (symetryczne)",
+  "typowe_bledy": [
+    {
+      "opis": "Mylenie certyfikatu SSL z kluczem publicznym — certyfikat ZAWIERA klucz publiczny, ale to nie to samo",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "Twierdzenie, ze w kroku 5 uzywane jest szyfrowanie asymetryczne",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "Brak uzasadnienia dlaczego symetryczne a nie asymetryczne (brak argumentu o szybkosci)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

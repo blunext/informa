@@ -1,0 +1,33 @@
+{
+  "id": "1.11",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "porownanie iteracyjna vs rekurencyjna wersja",
+  "tagi": [
+    "rekurencja",
+    "sledzenie-iteracyjne",
+    "mod-div",
+    "cyfry-liczby"
+  ],
+  "tresc": "Dane sa dwa algorytmy obliczajace sume cyfr liczby:\n\n**Algorytm A (iteracyjny):**\n```\nfunkcja sumaA(n):\n  wynik := 0\n  dopoki n > 0:\n    wynik := wynik + (n mod 10)\n    n := n div 10\n  zwroc wynik\n```\n\n**Algorytm B (rekurencyjny):**\n```\nfunkcja sumaB(n):\n  jezeli n = 0:\n    zwroc 0\n  zwroc (n mod 10) + sumaB(n div 10)\n```\n\n**a)** Prześledz dzialanie OBU algorytmow dla n = 4826. Dla algorytmu A wykonaj tabelke sledzenia. Dla algorytmu B narysuj drzewo wywolan. (3 pkt)\n\n**b)** Czy oba algorytmy zwroca ten sam wynik? Jezeli tak — jaki? Jezeli nie — wyjasnij roznice. (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Oba algorytmy robia to samo (suma cyfr), ale w rozny sposob — iteracja od prawej vs rekurencja w glab.",
+    "**Podejscie**: A: tabela z kolumnami n, n mod 10, wynik. B: drzewo z galęziami sumaB(482), sumaB(48), sumaB(4), sumaB(0).",
+    "**Kluczowy krok**: Oba zwracaja 20 (4+8+2+6=20). B: sumaB(4826) = 6 + sumaB(482) = 6 + 2 + sumaB(48) = ... = 6+2+8+4+0 = 20."
+  ],
+  "odpowiedz": "**a) Algorytm A — tabelka sledzenia:**\n\n| Krok | n    | n mod 10 | wynik |\n|------|------|----------|-------|\n| start| 4826 |          | 0     |\n| 1    | 482  | 6        | 6     |\n| 2    | 48   | 2        | 8     |\n| 3    | 4    | 8        | 16    |\n| 4    | 0    | 4        | 20    |\n| koniec | n=0, petla sie konczy, zwroc 20 |\n\n**Algorytm B — drzewo wywolan:**\n```\nsumaB(4826)\n  = 6 + sumaB(482)\n         = 2 + sumaB(48)\n                = 8 + sumaB(4)\n                       = 4 + sumaB(0)\n                              = 0  [baza]\n                       = 4 + 0 = 4\n                = 8 + 4 = 12\n         = 2 + 12 = 14\n  = 6 + 14 = 20\n```\n\n**b)** Tak, **oba algorytmy zwracaja 20**.\n\nOba obliczaja sume cyfr liczby 4826 (4+8+2+6 = 20). Roznica jest tylko w sposobie:\n- A: iteracyjnie zbiera cyfry od prawej (jednosci) i dodaje do akumulatora\n- B: rekurencyjnie rozbija problem na \"ostatnia cyfra + suma reszty\"",
+  "typowe_bledy": [
+    {
+      "opis": "Bledna kolejnosc cyfr w drzewie rekurencji (dodawanie od lewej zamiast od prawej)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "Brak bazy rekurencji sumaB(0) = 0 w drzewie wywolan",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "Bledne obliczenie n mod 10 lub n div 10 (np. 4826 mod 10 = 4 zamiast 6)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

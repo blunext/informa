@@ -1,0 +1,32 @@
+{
+  "id": "5.11",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "konwersje miedzy nietypowymi bazami",
+  "tagi": [
+    "system-trojkowy",
+    "dzielenie-z-reszta",
+    "porownywanie-systemow"
+  ],
+  "tresc": "**a)** Przekonwertuj liczbe 47(10) na system trojkowy (o podstawie 3). Pokaz zapis posredni (dzielenia z resztami). (1 pkt)\n\n**b)** Przekonwertuj liczbe 1202(3) na system dziesietny. Pokaz obliczenia z wykorzystaniem schematu Hornera lub poteg. (1 pkt)\n\n**c)** Ktora z liczb jest wieksza: 222(3) czy 32(5)? Uzasadnij obliczeniami. (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Metoda 'dziel przez baze i zapisuj reszty' dziala dla KAZDEJ bazy, nie tylko 2.",
+    "**Podejscie**: a) 47 div 3 = 15 r 2, 15 div 3 = 5 r 0, ... b) 1*27 + 2*9 + 0*3 + 2*1",
+    "**Kluczowy krok**: a) 47(10) = 1202(3), b) 1202(3) = 47(10), c) 222(3) = 26(10), 32(5) = 17(10), wiec 222(3) > 32(5)."
+  ],
+  "odpowiedz": "**a) 47(10) -> system trojkowy:**\n```\n47 div 3 = 15  reszta 2\n15 div 3 = 5   reszta 0\n5  div 3 = 1   reszta 2\n1  div 3 = 0   reszta 1\n```\nCzytamy reszty od dolu: **47(10) = 1202(3)**\n\n**b) 1202(3) -> system dziesietny:**\n```\n1202(3) = 1*3^3 + 2*3^2 + 0*3^1 + 2*3^0\n        = 1*27 + 2*9 + 0*3 + 2*1\n        = 27 + 18 + 0 + 2\n        = 47(10)\n```\n\n**c) Porownanie:**\n```\n222(3) = 2*9 + 2*3 + 2*1 = 18 + 6 + 2 = 26(10)\n32(5)  = 3*5 + 2*1 = 15 + 2 = 17(10)\n```\n**222(3) > 32(5)**, poniewaz 26 > 17.",
+  "typowe_bledy": [
+    {
+      "opis": "Zla kolejnosc reszt — czytanie od gory zamiast od dolu",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "Uzycie poteg 2 zamiast poteg 3 (nawyk z systemu binarnego)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "Brak zapisu posredniego — podanie samego wyniku bez dzielen/poteg",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

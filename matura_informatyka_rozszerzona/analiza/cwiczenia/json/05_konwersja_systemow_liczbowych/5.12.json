@@ -1,0 +1,32 @@
+{
+  "id": "5.12",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "arytmetyka w systemie trojkowym",
+  "tagi": [
+    "system-trojkowy",
+    "przeniesienia",
+    "dzielenie-z-reszta"
+  ],
+  "tresc": "**a)** Wykonaj dodawanie w systemie trojkowym: 1221(3) + 2012(3). Pokaz obliczenia kolumna po kolumnie z przeniesieniami. (2 pkt)\n\n**b)** Zweryfikuj wynik, konwertujac oba skladniki i sume na system dziesietny. (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Dodawanie w systemie trojkowym: gdy suma cyfr >= 3, zapisz reszte z dzielenia przez 3 i przenies 1.",
+    "**Podejscie**: Kolumna po kolumnie od prawej: 1+2=3 → zapis 0, przeniesienie 1. Pamietaj, ze w systemie 3 cyfry to 0, 1, 2.",
+    "**Kluczowy krok**: 1221(3) + 2012(3) = 10310(3). Weryfikacja: 52 + 59 = 111."
+  ],
+  "odpowiedz": "**a) Dodawanie kolumnowe w systemie trojkowym:**\n\n```\n  przeniesienie:  1 1 1 0\n                  1 2 2 1\n                + 2 0 1 2\n                --------\n              1 0 3 1 0    ← 3 -> zapisz 0, przenies 1 (w kolumnie 3 od prawej)\n```\n\nKolumna po kolumnie (od prawej):\n- Jednosci: 1+2 = 3 → zapis **0**, przeniesienie **1**\n- Trojki: 2+1+1(przen.) = 4 → 4 mod 3 = **1**, przeniesienie **1**\n- Dziewiatki: 2+0+1(przen.) = 3 → zapis **0**, przeniesienie **1**\n- Dwudziestki-siodemki: 1+2+1(przen.) = 4 → 4 mod 3 = **1**, przeniesienie **1**\n- Przeniesienie: **1**\n\nWynik: **1221(3) + 2012(3) = 10310(3)**\n\n**b) Weryfikacja dziesietna:**\n```\n1221(3) = 1*27 + 2*9 + 2*3 + 1*1 = 27 + 18 + 6 + 1 = 52\n2012(3) = 2*27 + 0*9 + 1*3 + 2*1 = 54 + 0 + 3 + 2 = 59\nSuma: 52 + 59 = 111\n\n10310(3) = 1*81 + 0*27 + 3*9 + 1*3 + 0*1 = 81 + 0 + 27 + 3 + 0 = 111 ✓\n```",
+  "typowe_bledy": [
+    {
+      "opis": "Uzycie progu 10 (system dziesietny) zamiast 3 przy przeniesieniu",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "Zapisanie cyfry 3 w wyniku (system trojkowy uzywa tylko 0, 1, 2)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "Brak weryfikacji dziesietnej lub bledna weryfikacja",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

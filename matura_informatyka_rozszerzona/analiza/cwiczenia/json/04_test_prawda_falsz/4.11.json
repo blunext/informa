@@ -1,0 +1,33 @@
+{
+  "id": "4.11",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "podchwytliwe stwierdzenia, sortowanie + stabilnosc",
+  "tagi": [
+    "sortowanie-zlozonosc",
+    "stabilnosc-sortowania",
+    "zlozonosc-czasowa",
+    "rekurencja"
+  ],
+  "tresc": "Okresl, czy ponizsze stwierdzenia sa prawdziwe (P) czy falszywe (F). **Kazda odpowiedz wymaga uzasadnienia** (1-2 zdania).\n\n| # | Stwierdzenie | P/F |\n|---|-------------|-----|\n| a | Merge sort jest stabilnym algorytmem sortowania | |\n| b | QuickSort jest stabilnym algorytmem sortowania | |\n| c | Kazdy algorytm o zlozonosci O(n log n) jest szybszy od algorytmu O(n^2) dla kazdego n | |\n| d | Algorytm sortowania przez wstawianie (insertion sort) moze dzialac szybciej niz merge sort dla malych danych | |",
+  "wskazowki": [
+    "**Kierunek**: 'Stabilny' = zachowuje kolejnosc elementow o tej samej wartosci. Merge sort — tak, QuickSort — nie (w wersji in-place).",
+    "**Podejscie**: Zlozonosc O() opisuje zachowanie asymptotyczne — dla DUZYCH n. Dla malych n stale maja znaczenie.",
+    "**Kluczowy krok**: c) to pulapka — O(n log n) vs O(n^2) to asymptotyka. Np. 1000*n*log(n) > n^2 dla n < ok. 1000."
+  ],
+  "odpowiedz": "| # | P/F | Uzasadnienie |\n|---|-----|-------------|\n| a | **P** | Merge sort zachowuje kolejnosc elementow o rownych kluczach — elementy z tej samej wartoscia sa lączone w kolejnosci z oryginalnej tablicy |\n| b | **F** | QuickSort w standardowej implementacji (in-place, z partycjonowaniem Lomuto/Hoare) NIE jest stabilny — zamiana elementow moze zmienic kolejnosc rownych wartosci |\n| c | **F** | Notacja O() opisuje zachowanie asymptotyczne (dla duzych n). Dla **malych n** algorytm O(n^2) moze byc szybszy, jesli ma mniejsza stala. Np. insertion sort O(n^2) bije merge sort O(n log n) dla n < ~50 ze wzgledu na mniejszy narzut |\n| d | **P** | Insertion sort ma maly narzut stalych (brak rekurencji, brak dodatkowej pamieci), dlatego dla malych n (np. n < 50) jest szybszy niz merge sort. Dlatego wiele implementacji (np. Timsort) uzywa insertion sort dla malych podtablic |",
+  "typowe_bledy": [
+    {
+      "opis": "Twierdzenie, ze QuickSort jest stabilny (pomylenie z merge sort)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "Uznanie c) za prawdziwe — brak swiadomosci, ze O() to asymptotyka, nie gwarancja dla kazdego n",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "Brak uzasadnienia przy poprawnej odpowiedzi P/F — CKE wymaga uzasadnienia",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

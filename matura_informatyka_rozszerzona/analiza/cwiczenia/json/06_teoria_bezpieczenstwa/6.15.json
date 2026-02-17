@@ -1,0 +1,33 @@
+{
+  "id": "6.15",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "scenariusz ataku ransomware, plan ochrony",
+  "tagi": [
+    "ransomware",
+    "firewall",
+    "socjotechnika",
+    "2FA"
+  ],
+  "tresc": "**Scenariusz**: Firma zostala zaatakowana ransomware. Przebieg ataku:\n1. Pracownik otrzymal email z zalacznikiem \"faktura.pdf.exe\"\n2. Po uruchomieniu pliku, program zaszyfrował wszystkie pliki na dysku sieciowym\n3. Pojawiła sie wiadomosc: \"Zaplac 2 BTC w ciagu 48h albo stracisz dane\"\n4. Okazalo sie, ze ostatnia kopia zapasowa ma 3 miesiace\n\n**a)** Na ktorym etapie (1-4) mozna bylo zapobiec atakowi? Wskazz **dwa rozne etapy** i opisz konkretne srodki zapobiegawcze. (1 pkt)\n\n**b)** Zaprojektuj **plan ochrony** (3 punkty), ktory zabezpieczy firme przed podobnym atakiem w przyszlosci. Kazdy punkt musi adresowac INNY aspekt bezpieczenstwa. (1 pkt)\n\n**c)** Czy firma powinna zaplacic okup? Podaj argument ZA i argument PRZECIW. (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Etap 1 = filtrowanie emaili/szkolenie, etap 2 = antywirus/uprawnienia, etap 4 = backup.",
+    "**Podejscie**: Plan powinien miec warstwy: ludzie (szkolenia), technologia (backup, antywirus), procedury (regularne kopie).",
+    "**Kluczowy krok**: Regularne backupy (codzienne, offline) = najlepsza obrona. Platenie nie gwarantuje odszyfrowania."
+  ],
+  "odpowiedz": "**a) Zapobieganie:**\n\n**Etap 1** (email z zalacznikiem): Filtrowanie zalacznikow .exe na serwerze pocztowym + **szkolenie pracownikow** z rozpoznawania podejrzanych zalacznikow (plik .pdf.exe to oczywisty sygnał — podwojne rozszerzenie)\n\n**Etap 4** (stara kopia zapasowa): **Regularne kopie zapasowe** — codzienne/tygodniowe, przechowywane offline (odlaczone od sieci), testowane pod katem mozliwosci przywrocenia. Kopia sprzed 3 miesiecy to zdecydowanie za rzadko.\n\n**b) Plan ochrony (3 warstwy):**\n\n1. **Ludzie**: Regularne szkolenia z cyberbezpieczenstwa — rozpoznawanie phishingu, podejrzanych zalacznikow, socjotechniki. Symulowane ataki phishingowe co kwartal.\n\n2. **Technologia**: Aktualny antywirus + firewall z filtracja tresci + system wykrywania wlaman (IDS). Blokowanie uruchamiania plikow .exe z zalacznikow emaili.\n\n3. **Procedury**: Automatyczne kopie zapasowe codziennie, przechowywane offline (np. tasmy, odlaczone dyski). Testowanie przywracania danych co miesiac. Zasada 3-2-1 (3 kopie, 2 nosniki, 1 poza biurem).\n\n**c) Platenie okupu:**\n\n**Argument ZA**: Jesli dane sa krytyczne dla firmy (np. dane medyczne pacjentow) i nie ma kopii zapasowej, zaplacenie moze byc jedynym sposobem na odzyskanie danych.\n\n**Argument PRZECIW**: Platenie nie gwarantuje odszyfrowania (przestepcy moga nie dotrzymac slowa), finansuje dalsze ataki i czyni firme celem ponownych atakow (\"wiemy, ze placa\").",
+  "typowe_bledy": [
+    {
+      "opis": "Podanie dwoch srodkow z tego samego etapu zamiast dwoch roznych etapow",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "Plan ochrony z 3 punktami, ale wszystkie technologiczne (brak warstwy ludzkie/proceduralne)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "Jednoznaczne 'nie plac' bez argumentu za LUB 'plac' bez argumentu przeciw",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

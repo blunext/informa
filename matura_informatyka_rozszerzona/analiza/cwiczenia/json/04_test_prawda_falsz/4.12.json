@@ -1,0 +1,33 @@
+{
+  "id": "4.12",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "podchwytliwe stwierdzenia, struktury danych",
+  "tagi": [
+    "struktury-danych",
+    "BST",
+    "tablice-haszujace",
+    "LIFO-FIFO"
+  ],
+  "tresc": "Okresl, czy ponizsze stwierdzenia sa prawdziwe (P) czy falszywe (F). **Kazda odpowiedz wymaga uzasadnienia** (1-2 zdania).\n\n| # | Stwierdzenie | P/F |\n|---|-------------|-----|\n| a | Wyszukiwanie w drzewie BST zawsze ma zlozonosc O(log n) | |\n| b | Stos (LIFO) pozwala na dostep do dowolnego elementu w O(1) | |\n| c | Tablica haszujaca z dobra funkcja haszujaca gwarantuje O(1) wstawiania w kazdym przypadku | |\n| d | Wyszukiwanie binarne wymaga posortowanej tablicy | |",
+  "wskazowki": [
+    "**Kierunek**: BST moze byc zdegenerowane (lancuch). Stos = dostep tylko do wierzcholka. Tablica haszujaca — kolizje!",
+    "**Podejscie**: Rozrozniaj zlozonosc srednia vs pesymistyczna (worst case).",
+    "**Kluczowy krok**: a) BST zdegenerowane → O(n), b) stos = tylko top, c) kolizje → O(n) w worst case, d) TAK — to warunek konieczny."
+  ],
+  "odpowiedz": "| # | P/F | Uzasadnienie |\n|---|-----|-------------|\n| a | **F** | BST ma O(log n) tylko jesli jest **zrownowazone**. Zdegenerowane BST (np. wstawianie posortowanych danych) tworzy lancuch i wyszukiwanie ma O(n). Gwarancje O(log n) daja drzewa AVL lub czerwono-czarne. |\n| b | **F** | Stos (LIFO) daje dostep **tylko do elementu na wierzchu** w O(1). Dostep do elementu w srodku stosu wymaga sciagniecia wszystkich elementow nad nim — w najgorszym przypadku O(n). |\n| c | **F** | Nawet z dobra funkcja haszujaca moga wystapic **kolizje** (dwa rozne klucze → ten sam indeks). W worst case (wszystkie klucze w jednym kubełku) wstawianie to O(n). Srednia zlozonosc to O(1), ale nie gwarancja. |\n| d | **P** | Wyszukiwanie binarne dzieli przedzial na pol w kazdym kroku — wymaga to, aby elementy byly posortowane. Bez posortowania porownanie z elementem srodkowym nie pozwala odrzucic polowy danych. |",
+  "typowe_bledy": [
+    {
+      "opis": "Uznanie BST za zawsze O(log n) — brak swiadomosci degeneracji",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "Twierdzenie, ze stos daje dostep do dowolnego elementu (pomylenie z tablica)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "Mylenie zlozonosci sredniej z pesymistyczna (O(1) srednie != O(1) worst case)",
+      "kara": "-1 pkt"
+    }
+  ]
+}
