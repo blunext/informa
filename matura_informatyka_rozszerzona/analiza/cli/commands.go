@@ -1234,8 +1234,10 @@ func examSaveCmd() *cobra.Command {
 				wynikPkt += r.Pkt
 				maxPkt += r.Max
 
+				// Use tx.QueryRow (not d.QueryRow) — d.QueryRow may get a new
+				// connection from the pool that lacks the ATTACH data alias.
 				var typ string
-				if err := d.QueryRow("SELECT typ_zadania FROM data.egzamin WHERE id = ?", r.ID).Scan(&typ); err != nil {
+				if err := tx.QueryRow("SELECT typ_zadania FROM data.egzamin WHERE id = ?", r.ID).Scan(&typ); err != nil {
 					return fatal(fmt.Sprintf("CKE subtask %s not found: %v", r.ID, err))
 				}
 				if _, err := tx.Exec(`INSERT OR REPLACE INTO matura_zrobione (id, typ, data, punkty, max_punkty) VALUES (?, ?, ?, ?, ?)`,

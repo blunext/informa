@@ -1268,6 +1268,29 @@ func TestExamSaveTransaction(t *testing.T) {
 	}
 }
 
+// Regression: tx.QueryRow must see ATTACH'ed data.egzamin inside a transaction.
+// Bug: d.QueryRow during active tx gets a new connection without ATTACH.
+func TestExamSaveAttachedQueryInTx(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	tx, err := db.Begin()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer tx.Rollback()
+
+	// This query must succeed — it reads from the ATTACH'ed data alias
+	var typ string
+	err = tx.QueryRow("SELECT typ_zadania FROM data.egzamin WHERE id = '2024.1.1'").Scan(&typ)
+	if err != nil {
+		t.Fatalf("tx.QueryRow on data.egzamin failed (ATTACH not visible in tx?): %v", err)
+	}
+	if typ == "" {
+		t.Error("typ_zadania should not be empty")
+	}
+}
+
 // === Feature: extractSection ===
 
 func TestExtractSectionExactMatch(t *testing.T) {
