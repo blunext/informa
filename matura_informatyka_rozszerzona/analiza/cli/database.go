@@ -21,6 +21,7 @@ func OpenDB(dbDir string) (*sql.DB, bool, error) {
 	if err != nil {
 		return nil, false, fmt.Errorf("open progress db: %w", err)
 	}
+	db.SetMaxOpenConns(1)
 
 	// Enable WAL mode for better concurrency
 	if _, err := db.Exec("PRAGMA journal_mode=WAL"); err != nil {

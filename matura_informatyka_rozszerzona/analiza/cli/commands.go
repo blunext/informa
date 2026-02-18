@@ -20,7 +20,10 @@ func jsonOut(v any) {
 	enc := json.NewEncoder(os.Stdout)
 	enc.SetIndent("", "  ")
 	enc.SetEscapeHTML(false)
-	enc.Encode(v)
+	if err := enc.Encode(v); err != nil {
+		fmt.Fprintf(os.Stderr, "jsonOut encode error: %v\n", err)
+		os.Exit(2)
+	}
 }
 
 // Error types for proper exit codes (1=not found, 2=fatal)
@@ -241,14 +244,16 @@ func incrementSession(d dbExecer, typ string) error {
 
 func findExerciseByTag(d *sql.DB, tag string) (ExerciseOut, error) {
 	row := d.QueryRow(`SELECT `+exerciseColumns+` FROM data.cwiczenia c
-		WHERE INSTR(c.tagi, ?) > 0 AND c.id NOT IN (SELECT id FROM progress_zrobione)
+		WHERE EXISTS (SELECT 1 FROM json_each(c.tagi) WHERE value = ?)
+		AND c.id NOT IN (SELECT id FROM progress_zrobione)
 		ORDER BY RANDOM() LIMIT 1`, tag)
 	ex, err := scanExercise(row)
 	if err == nil {
 		return ex, nil
 	}
 	row = d.QueryRow(`SELECT `+exerciseColumns+` FROM data.cwiczenia c
-		WHERE INSTR(c.tagi, ?) > 0 ORDER BY RANDOM() LIMIT 1`, tag)
+		WHERE EXISTS (SELECT 1 FROM json_each(c.tagi) WHERE value = ?)
+		ORDER BY RANDOM() LIMIT 1`, tag)
 	return scanExercise(row)
 }
 
@@ -351,31 +356,40 @@ func exerciseReviewCmd() *cobra.Command {
 			if err != nil {
 				return fatal(fmt.Sprintf("query error: %v", err))
 			}
-			defer rows.Close()
 
-			var results []ReviewOut
+			type tagEntry struct {
+				tag, powtorka string
+			}
+			var tags []tagEntry
 			for rows.Next() {
-				var tag, powtorka string
-				if err := rows.Scan(&tag, &powtorka); err != nil {
+				var te tagEntry
+				if err := rows.Scan(&te.tag, &te.powtorka); err != nil {
+					rows.Close()
 					return fatal(fmt.Sprintf("scan error: %v", err))
 				}
+				tags = append(tags, te)
+			}
+			if err := rows.Err(); err != nil {
+				rows.Close()
+				return fatal(fmt.Sprintf("rows error: %v", err))
+			}
+			rows.Close()
 
-				powtorkaDate, _ := time.Parse("2006-01-02", powtorka)
+			var results []ReviewOut
+			for _, te := range tags {
+				powtorkaDate, _ := time.Parse("2006-01-02", te.powtorka)
 				daysOverdue := int(time.Since(powtorkaDate).Hours() / 24)
 
-				ex, err := findExerciseByTag(d, tag)
+				ex, err := findExerciseByTag(d, te.tag)
 				if err != nil {
 					continue
 				}
 
 				results = append(results, ReviewOut{
 					Exercise:    ex,
-					Tag:         tag,
+					Tag:         te.tag,
 					DaysOverdue: daysOverdue,
 				})
-			}
-			if err := rows.Err(); err != nil {
-				return fatal(fmt.Sprintf("rows error: %v", err))
 			}
 
 			if len(results) == 0 {
@@ -1632,29 +1646,33 @@ func ckeStatusCmd() *cobra.Command {
 			if err != nil {
 				return fatal(fmt.Sprintf("query error: %v", err))
 			}
-			defer rows.Close()
 
 			var results []CKEStatusOut
 			for rows.Next() {
 				var out CKEStatusOut
 				var total int
 				if err := rows.Scan(&out.Typ, &out.Kategoria, &total); err != nil {
+					rows.Close()
 					return fatal(fmt.Sprintf("scan error: %v", err))
 				}
 				out.CKEAvailable = total
-
-				out.Level = getLevel(d, out.Typ)
-				out.Unlocked = out.Level == "trudne"
-
-				var done int
-				d.QueryRow("SELECT COUNT(*) FROM matura_zrobione WHERE typ = ?", out.Typ).Scan(&done)
-				out.CKEDone = done
-				out.CKEAvailable = total - done
-
 				results = append(results, out)
 			}
 			if err := rows.Err(); err != nil {
+				rows.Close()
 				return fatal(fmt.Sprintf("rows error: %v", err))
+			}
+			rows.Close()
+
+			// Enrich after rows closed to avoid deadlock with MaxOpenConns(1)
+			for i := range results {
+				results[i].Level = getLevel(d, results[i].Typ)
+				results[i].Unlocked = results[i].Level == "trudne"
+
+				var done int
+				d.QueryRow("SELECT COUNT(*) FROM matura_zrobione WHERE typ = ?", results[i].Typ).Scan(&done)
+				results[i].CKEDone = done
+				results[i].CKEAvailable = results[i].CKEAvailable - done
 			}
 
 			if results == nil {
@@ -1686,12 +1704,12 @@ func examListCmd() *cobra.Command {
 			if err != nil {
 				return fatal(fmt.Sprintf("query error: %v", err))
 			}
-			defer rows.Close()
 
-			var entries []ExamListEntry
+			var rawEntries []ExamListEntry
 			for rows.Next() {
 				var e ExamListEntry
 				if err := rows.Scan(&e.Rok, &e.TotalPkt); err != nil {
+					rows.Close()
 					return fatal(fmt.Sprintf("scan error: %v", err))
 				}
 
@@ -1706,6 +1724,17 @@ func examListCmd() *cobra.Command {
 					e.CzasMin = 210
 				}
 
+				rawEntries = append(rawEntries, e)
+			}
+			if err := rows.Err(); err != nil {
+				rows.Close()
+				return fatal(fmt.Sprintf("rows error: %v", err))
+			}
+			rows.Close()
+
+			// Enrich after rows closed to avoid deadlock with MaxOpenConns(1)
+			var entries []ExamListEntry
+			for _, e := range rawEntries {
 				// Check if done (has a non-interrupted mock exam)
 				var procent sql.NullFloat64
 				d.QueryRow("SELECT procent FROM probne_matury WHERE rok = ? AND przerwany = 0 ORDER BY procent DESC LIMIT 1", e.Rok).Scan(&procent)
@@ -1726,9 +1755,6 @@ func examListCmd() *cobra.Command {
 				}
 
 				entries = append(entries, e)
-			}
-			if err := rows.Err(); err != nil {
-				return fatal(fmt.Sprintf("rows error: %v", err))
 			}
 
 			if len(entries) == 0 {

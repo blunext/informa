@@ -19,7 +19,10 @@
       "Bash(chmod 777 *)",
       "Bash(pkill *)",
       "Bash(kill -9 *)",
-      "Bash(wget *)"
+      "Bash(wget *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git push)"
     ]
   }
 }

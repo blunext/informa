@@ -1556,6 +1556,32 @@ func TestExerciseNextWeight(t *testing.T) {
 	}
 }
 
+// === Fix: findExerciseByTag exact matching ===
+
+func TestFindExerciseByTag(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// "suma-cyfr" is a real tag; "suma" is a substring but not an exact tag.
+	// With INSTR, searching for "suma" would match "suma-cyfr" — a false positive.
+	// With json_each exact matching, "suma" must NOT match.
+
+	// Exact match: "suma-cyfr" should find exercises
+	ex, err := findExerciseByTag(db, "suma-cyfr")
+	if err != nil {
+		t.Fatalf("findExerciseByTag('suma-cyfr') failed: %v", err)
+	}
+	if ex.ID == "" {
+		t.Error("expected non-empty exercise for tag 'suma-cyfr'")
+	}
+
+	// Substring "suma" should NOT match (no exercise has bare "suma" as a tag)
+	_, err = findExerciseByTag(db, "suma")
+	if err == nil {
+		t.Error("findExerciseByTag('suma') should fail — no exact tag match, only 'suma-cyfr' exists")
+	}
+}
+
 // === Feature: cheatsheet --sekcja integration ===
 
 func TestCheatsheetSekcjaIntegration(t *testing.T) {

@@ -278,7 +278,13 @@ func ImportBenchmarks(db *sql.DB, sourceDir string) (int, error) {
 		}
 	}
 
-	// Insert averages
+	// Insert averages in a transaction
+	tx, err := db.Begin()
+	if err != nil {
+		return 0, fmt.Errorf("begin benchmark tx: %w", err)
+	}
+	defer tx.Rollback()
+
 	count := 0
 	for typ, secs := range benchmarks {
 		total := 0
@@ -287,7 +293,7 @@ func ImportBenchmarks(db *sql.DB, sourceDir string) (int, error) {
 		}
 		avg := total / len(secs)
 
-		_, err := db.Exec("INSERT OR REPLACE INTO benchmarki (typ, benchmark_sek, zrodlo) VALUES (?, ?, 'cke_avg')",
+		_, err := tx.Exec("INSERT OR REPLACE INTO benchmarki (typ, benchmark_sek, zrodlo) VALUES (?, ?, 'cke_avg')",
 			typ, avg)
 		if err != nil {
 			return 0, fmt.Errorf("insert benchmark %s: %w", typ, err)
@@ -295,7 +301,7 @@ func ImportBenchmarks(db *sql.DB, sourceDir string) (int, error) {
 		count++
 	}
 
-	return count, nil
+	return count, tx.Commit()
 }
 
 // ImportCheatsheets reads cheatsheet MD files into cheatsheets table.
