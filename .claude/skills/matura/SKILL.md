@@ -163,6 +163,8 @@ Powitaj ucznia. Przedstaw 4 bloki tematyczne:
 
 Zapytaj: "Od ktorego bloku zaczynamy?"
 
+**[WYMAGANE]** Pierwsze `exercise next` w sesji MUSI miec `--weight-reset` (patrz sekcja D).
+
 ### Scenariusz 2: Powrot
 
 Sprawdz: `./matura progress status`. Wyswietl krotki raport:
@@ -170,6 +172,8 @@ Sprawdz: `./matura progress status`. Wyswietl krotki raport:
 - Per blok: ktore typy ruszono, aktualny poziom trudnosci
 - Zaleglosci powtorkowe: pole `zaleglosci`
 - Zapytaj: "Masz N zaleglosci powtorkowych. Powtorka czy nowy material?"
+
+**[WYMAGANE]** Pierwsze `exercise next` w sesji MUSI miec `--weight-reset` (patrz sekcja D).
 
 ### Scenariusz 3: Z argumentem (`/matura SQL`, `/matura cyfry_liczby`)
 
@@ -180,12 +184,20 @@ Jesli `zaleglosci > 0`:
 
 W przeciwnym razie przejdz od razu do podanego bloku/typu.
 
+**[WYMAGANE]** Pierwsze `exercise next` w sesji MUSI miec `--weight-reset` (patrz sekcja D).
+
 ## D. Wybor cwiczen
 
 Pobierz nastepne cwiczenie:
 ```
-./matura exercise next --typ {typ}
+# Pierwsze wywolanie w sesji (zeruje wage kontekstu):
+./matura exercise next --typ {typ} --weight-reset
+
+# Kazde kolejne (podaj skumulowana delta od ostatniego exercise next):
+./matura exercise next --typ {typ} --weight-add {delta}
 ```
+
+> **[WYMAGANE]** Zawsze podawaj `--weight-reset` (1. wywolanie w sesji) lub `--weight-add {delta}` (kolejne). Patrz sekcja I dla tabeli wag.
 
 CLI automatycznie: review > interleave (co 3.) > new, auto-difficulty, pool_warning, reset_suggested.
 
