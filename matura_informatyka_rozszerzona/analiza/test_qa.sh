@@ -270,14 +270,14 @@ print(d['podzadania'][0]['punkty'])
   test_json_cmd "exercise next --weight-reset" \
     matura_tmp exercise next --typ sql_group_by --weight-reset
 
-  # --weight-add 30 → reset_suggested should be true
+  # --weight-add 80 → reset_suggested should be true (threshold=80)
   local weight_out weight_reset
-  weight_out=$(matura_tmp exercise next --typ sql_group_by --weight-add 30 2>&1)
+  weight_out=$(matura_tmp exercise next --typ sql_group_by --weight-add 80 2>&1)
   weight_reset=$(echo "$weight_out" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['reset_suggested'])" 2>/dev/null) || weight_reset=""
   if [ "$weight_reset" = "True" ]; then
-    pass "exercise next --weight-add 30 → reset_suggested=true"
+    pass "exercise next --weight-add 80 → reset_suggested=true"
   else
-    fail "exercise next --weight-add 30 → reset_suggested (expected True, got: $weight_reset)"
+    fail "exercise next --weight-add 80 → reset_suggested (expected True, got: $weight_reset)"
   fi
 
   echo "  -- Error handling --"

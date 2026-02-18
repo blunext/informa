@@ -207,7 +207,7 @@ Pola odpowiedzi:
 - `pool_warning`: ostrzezenie gdy <= 2 cwiczenia dostepne
 - `session_count`: ile cwiczen w dzisiejszej sesji
 - `session_weight`: aktualna waga kontekstu sesji
-- `reset_suggested`: true gdy session_weight >= 30 (patrz sekcja I)
+- `reset_suggested`: true gdy session_weight >= 80 (patrz sekcja I)
 
 Alternatywnie, bezposrednio: `./matura exercise get --typ {typ} [--trudnosc {t}]` (auto-difficulty gdy bez --trudnosc).
 
@@ -453,20 +453,20 @@ CLI akumuluje wage kontekstu. Model podaje delta do `exercise next`.
 
 ### Tabela wag
 
-| Operacja | Waga |
+| Operacja | Waga (~1K tokenow) |
 |----------|------|
-| Cwiczenie (pelny cykl: tresc + ocena + zapis) | 2 |
+| Cwiczenie (pelny cykl: tresc + ocena + zapis) | 4 |
 | Hint poz. 1 (pytanie sokratejskie) | 0 |
-| Hint poz. 2 (cytat z cheatsheet sekcji) | 1 |
-| Hint poz. 3 (rozpisanie rozwiazania) | 2 |
-| Walk-through (pelna odpowiedz + wyjasnienie) | 3 |
-| `wyjasniej [temat]` (dlugi opis > 300 slow) | 3 |
-| Cheatsheet pelny (bez --sekcja) | 4 |
-| Cheatsheet sekcja (--sekcja) | 1 |
-| Intro nowy typ (z przykladem) | 2 |
-| Intro nowa kategoria (z cheatsheet) | 5 |
-| Sprawdzian CKE (cke get + ocena) | 2 |
-| Pulapki quiz (1 zadanie) | 1 |
+| Hint poz. 2 (cytat z cheatsheet sekcji) | 2 |
+| Hint poz. 3 (rozpisanie rozwiazania) | 3 |
+| Walk-through (pelna odpowiedz + wyjasnienie) | 5 |
+| `wyjasniej [temat]` (dlugi opis > 300 slow) | 4 |
+| Cheatsheet pelny (bez --sekcja) | 8 |
+| Cheatsheet sekcja (--sekcja) | 2 |
+| Intro nowy typ (z przykladem) | 4 |
+| Intro nowa kategoria (z cheatsheet) | 10 |
+| Sprawdzian CKE (cke get + ocena) | 5 |
+| Pulapki quiz (1 zadanie) | 2 |
 
 ### Reguly
 
@@ -479,6 +479,6 @@ CLI akumuluje wage kontekstu. Model podaje delta do `exercise next`.
    zeby przeladowac instrukcje korepetytora.
    ```
 4. **Sesja bez cwiczen** (same wyjasnienia, brak `exercise next`):
-   sumuj wage mentalnie. Gdy >= 30, sugeruj reset bezposrednio.
+   sumuj wage mentalnie. Gdy >= 80, sugeruj reset bezposrednio.
 5. Uczen moze zignorowac. Reset NIE dotyczy: probna matura (H3),
    sprawdzian (H2), pulapki (H4).

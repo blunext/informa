@@ -1529,24 +1529,24 @@ func TestExerciseNextWeight(t *testing.T) {
 		t.Errorf("after reset: got weight %d, want 0", w)
 	}
 
-	// 2. weight-add 15 → weight=15, reset_suggested=false
+	// 2. weight-add 40 → weight=40, reset_suggested=false
 	db.Exec(`INSERT INTO progress_meta (key, value) VALUES ('session_context_weight', ?)
-		ON CONFLICT(key) DO UPDATE SET value = CAST(CAST(value AS INTEGER) + ? AS TEXT)`, 15, 15)
-	if w := readWeight(); w != 15 {
-		t.Errorf("after +15: got weight %d, want 15", w)
+		ON CONFLICT(key) DO UPDATE SET value = CAST(CAST(value AS INTEGER) + ? AS TEXT)`, 40, 40)
+	if w := readWeight(); w != 40 {
+		t.Errorf("after +40: got weight %d, want 40", w)
 	}
-	if readWeight() >= 30 {
-		t.Error("weight 15: reset_suggested should be false")
+	if readWeight() >= 80 {
+		t.Error("weight 40: reset_suggested should be false")
 	}
 
-	// 3. weight-add 16 → weight=31, reset_suggested=true
+	// 3. weight-add 41 → weight=81, reset_suggested=true
 	db.Exec(`INSERT INTO progress_meta (key, value) VALUES ('session_context_weight', ?)
-		ON CONFLICT(key) DO UPDATE SET value = CAST(CAST(value AS INTEGER) + ? AS TEXT)`, 16, 16)
-	if w := readWeight(); w != 31 {
-		t.Errorf("after +16: got weight %d, want 31", w)
+		ON CONFLICT(key) DO UPDATE SET value = CAST(CAST(value AS INTEGER) + ? AS TEXT)`, 41, 41)
+	if w := readWeight(); w != 81 {
+		t.Errorf("after +41: got weight %d, want 81", w)
 	}
-	if readWeight() < 30 {
-		t.Error("weight 31: reset_suggested should be true")
+	if readWeight() < 80 {
+		t.Error("weight 81: reset_suggested should be true")
 	}
 
 	// 4. weight-reset again → back to 0

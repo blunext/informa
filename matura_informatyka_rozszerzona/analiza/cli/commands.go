@@ -1336,7 +1336,7 @@ func exerciseNextCmd() *cobra.Command {
 			out := ExerciseNextOut{
 				SessionCount:   sessionCount,
 				SessionWeight:  currentWeight,
-				ResetSuggested: currentWeight >= 30,
+				ResetSuggested: currentWeight >= 80,
 			}
 
 			// If type was auto-chosen from kategoria, include it in output
