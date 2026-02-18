@@ -1292,6 +1292,8 @@ func examSaveCmd() *cobra.Command {
 
 func exerciseNextCmd() *cobra.Command {
 	var typ, kategoria string
+	var weightAdd int
+	var weightReset bool
 
 	cmd := &cobra.Command{
 		Use:   "next",
@@ -1312,13 +1314,29 @@ func exerciseNextCmd() *cobra.Command {
 				return fatal("--typ or --kategoria is required")
 			}
 
+			// Handle context weight tracking
+			if weightReset {
+				d.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
+			}
+			if weightAdd > 0 {
+				d.Exec(`INSERT INTO progress_meta (key, value) VALUES ('session_context_weight', ?)
+					ON CONFLICT(key) DO UPDATE SET value = CAST(CAST(value AS INTEGER) + ? AS TEXT)`,
+					weightAdd, weightAdd)
+			}
+			var currentWeight int
+			var wStr string
+			if err := d.QueryRow(`SELECT value FROM progress_meta WHERE key = 'session_context_weight'`).Scan(&wStr); err == nil {
+				fmt.Sscanf(wStr, "%d", &currentWeight)
+			}
+
 			sessionCount, _, err := getSessionState(d)
 			if err != nil {
 				return fatal(fmt.Sprintf("session state: %v", err))
 			}
 			out := ExerciseNextOut{
 				SessionCount:   sessionCount,
-				ResetSuggested: sessionCount > 0 && sessionCount%16 == 0,
+				SessionWeight:  currentWeight,
+				ResetSuggested: currentWeight >= 30,
 			}
 
 			// If type was auto-chosen from kategoria, include it in output
@@ -1384,6 +1402,8 @@ func exerciseNextCmd() *cobra.Command {
 
 	cmd.Flags().StringVar(&typ, "typ", "", "Exercise type")
 	cmd.Flags().StringVar(&kategoria, "kategoria", "", "Category (TEORIA/IMPLEMENTACJA/ARKUSZ/SQL) — auto-selects weakest type")
+	cmd.Flags().IntVar(&weightAdd, "weight-add", 0, "Delta to add to session context weight")
+	cmd.Flags().BoolVar(&weightReset, "weight-reset", false, "Reset session context weight to 0")
 	return cmd
 }
 

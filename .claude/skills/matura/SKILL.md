@@ -194,7 +194,8 @@ Pola odpowiedzi:
 - `review_tag`, `days_overdue`: wypelnione przy mode=review
 - `pool_warning`: ostrzezenie gdy <= 2 cwiczenia dostepne
 - `session_count`: ile cwiczen w dzisiejszej sesji
-- `reset_suggested`: true co 16 cwiczen (patrz sekcja I)
+- `session_weight`: aktualna waga kontekstu sesji
+- `reset_suggested`: true gdy session_weight >= 30 (patrz sekcja I)
 
 Alternatywnie, bezposrednio: `./matura exercise get --typ {typ} [--trudnosc {t}]` (auto-difficulty gdy bez --trudnosc).
 
@@ -526,12 +527,45 @@ Twoje trafienia: {N}/{total}
 
 Komenda `pulapki lista [typ|kategoria]` — wyswietl zestawienie pulapek pogrupowane tematycznie.
 
-## I. Reset kontekstu
+## I. Reset kontekstu — wagi sesji
 
-`exercise next` zwraca `session_count` i `reset_suggested` (true co 16 cwiczen). Gdy `reset_suggested`:
-```
-Swietna sesja — {session_count} cwiczen!
-Twoj postep jest zapisany w bazie. Wpisz /clear a potem /matura zeby przeladowac instrukcje korepetytora.
-```
+CLI akumuluje wage kontekstu. Model podaje delta do `exercise next`.
 
-Uczen moze zignorowac. Reset NIE dotyczy trybow specjalnych: probna matura (H3), sprawdzian (H2), pulapki (H4).
+**Na starcie sesji** (sekcja C, po `progress status`):
+  `./matura exercise next --typ {typ} --weight-reset`
+  (zeruje wage — swiezy kontekst po /clear)
+
+**Przy kazdym `exercise next`**: podaj delta od ostatniego wywolania:
+  `./matura exercise next --typ {typ} --weight-add {delta}`
+
+### Tabela wag
+
+| Operacja | Waga |
+|----------|------|
+| Cwiczenie (pelny cykl: tresc + ocena + zapis) | 2 |
+| Hint poz. 1 (pytanie sokratejskie) | 0 |
+| Hint poz. 2 (cytat z cheatsheet sekcji) | 1 |
+| Hint poz. 3 (rozpisanie rozwiazania) | 2 |
+| Walk-through (pelna odpowiedz + wyjasnienie) | 3 |
+| `wyjasniej [temat]` (dlugi opis > 300 slow) | 3 |
+| Cheatsheet pelny (bez --sekcja) | 4 |
+| Cheatsheet sekcja (--sekcja) | 1 |
+| Intro nowy typ (z przykladem) | 2 |
+| Intro nowa kategoria (z cheatsheet) | 5 |
+| Sprawdzian CKE (cke get + ocena) | 2 |
+| Pulapki quiz (1 zadanie) | 1 |
+
+### Reguly
+
+1. Sumuj delta mentalnie miedzy wywolaniami `exercise next`.
+2. Podaj skumulowana delta w `--weight-add`.
+3. Gdy `reset_suggested == true` w odpowiedzi:
+   ```
+   Swietna sesja — {session_count} cwiczen!
+   Twoj postep jest zapisany w bazie. Wpisz /clear a potem /matura
+   zeby przeladowac instrukcje korepetytora.
+   ```
+4. **Sesja bez cwiczen** (same wyjasnienia, brak `exercise next`):
+   sumuj wage mentalnie. Gdy >= 30, sugeruj reset bezposrednio.
+5. Uczen moze zignorowac. Reset NIE dotyczy: probna matura (H3),
+   sprawdzian (H2), pulapki (H4).

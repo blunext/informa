@@ -1507,6 +1507,55 @@ func TestChooseWeakestTypeAllCategories(t *testing.T) {
 	}
 }
 
+// === Feature: Context Weight Tracking ===
+
+func TestExerciseNextWeight(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Helper: read current weight from progress_meta
+	readWeight := func() int {
+		var wStr string
+		var w int
+		if err := db.QueryRow(`SELECT value FROM progress_meta WHERE key = 'session_context_weight'`).Scan(&wStr); err == nil {
+			fmt.Sscanf(wStr, "%d", &w)
+		}
+		return w
+	}
+
+	// 1. weight-reset sets weight to 0
+	db.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
+	if w := readWeight(); w != 0 {
+		t.Errorf("after reset: got weight %d, want 0", w)
+	}
+
+	// 2. weight-add 15 → weight=15, reset_suggested=false
+	db.Exec(`INSERT INTO progress_meta (key, value) VALUES ('session_context_weight', ?)
+		ON CONFLICT(key) DO UPDATE SET value = CAST(CAST(value AS INTEGER) + ? AS TEXT)`, 15, 15)
+	if w := readWeight(); w != 15 {
+		t.Errorf("after +15: got weight %d, want 15", w)
+	}
+	if readWeight() >= 30 {
+		t.Error("weight 15: reset_suggested should be false")
+	}
+
+	// 3. weight-add 16 → weight=31, reset_suggested=true
+	db.Exec(`INSERT INTO progress_meta (key, value) VALUES ('session_context_weight', ?)
+		ON CONFLICT(key) DO UPDATE SET value = CAST(CAST(value AS INTEGER) + ? AS TEXT)`, 16, 16)
+	if w := readWeight(); w != 31 {
+		t.Errorf("after +16: got weight %d, want 31", w)
+	}
+	if readWeight() < 30 {
+		t.Error("weight 31: reset_suggested should be true")
+	}
+
+	// 4. weight-reset again → back to 0
+	db.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
+	if w := readWeight(); w != 0 {
+		t.Errorf("after second reset: got weight %d, want 0", w)
+	}
+}
+
 // === Feature: cheatsheet --sekcja integration ===
 
 func TestCheatsheetSekcjaIntegration(t *testing.T) {

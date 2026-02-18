@@ -235,6 +235,7 @@ type ExerciseNextOut struct {
 	DaysOverdue    *int        `json:"days_overdue"`
 	PoolWarning    *string     `json:"pool_warning"`
 	SessionCount   int         `json:"session_count"`
+	SessionWeight  int         `json:"session_weight"`
 	ResetSuggested bool        `json:"reset_suggested"`
 	ChosenTyp      string      `json:"chosen_typ,omitempty"`
 }
