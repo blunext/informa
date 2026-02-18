@@ -24,7 +24,7 @@
     },
     {
       "opis": "**`<>` zamiast `!=`**: Oba sa poprawne w SQL — `<>` to standard, `!=` to rozszerzenie",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

@@ -19,7 +19,7 @@
   "typowe_bledy": [
     {
       "opis": "**Zakladanie ze heurystyka zawsze dziala**: Dla krotkich tekstow (5 znakow) rozkad czestotliwosci jest za maly. Przy dluzszych tekstach (20+ znakow) heurystyka dziala dobrze",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Petla po kluczach 1-26 zamiast 0-25**: Klucz 0 = brak szyfrowania (identycznosc). Klucz 26 == klucz 0",

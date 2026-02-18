@@ -19,7 +19,7 @@
   "typowe_bledy": [
     {
       "opis": "**Brak sum prefiksowych (O(n^3) zamiast O(n^2))**: Obliczanie sumy w petli za kazdym razem od nowa. Dziala, ale moze timeout na duzych danych",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Dzielenie calkowite**: `suma / len` zamiast `(double)suma / len`",

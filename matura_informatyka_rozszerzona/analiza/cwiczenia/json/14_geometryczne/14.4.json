@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Uzycie wektora zamiast seta**: `find` w wektorze to O(n), w secie O(log n). Na 8 punktach nie ma roznicy, ale na duzych danych tak.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

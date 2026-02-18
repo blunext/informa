@@ -18,7 +18,7 @@
   "typowe_bledy": [
     {
       "opis": "**Brak tytulu wykresu lub podpisow osi**: Na maturze za brakujace elementy opisowe odejmuje sie punkty",
-      "kara": "-1 pkt za kazdy brakujacy element"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Wybor zlego typu wykresu**: Wykres kolowy dla rozkladu wynikow jest niewlasciwy — kolumnowy lepiej pokazuje porownanie miedzy przedzialami",

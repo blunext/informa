@@ -29,7 +29,7 @@
     },
     {
       "opis": "**Uzycie aliasu w HAVING**: `HAVING przychod > 5000` — w SQLite dziala, ale bezpieczniej powtorzyc wyrazenie",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

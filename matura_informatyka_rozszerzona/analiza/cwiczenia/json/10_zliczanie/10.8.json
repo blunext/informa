@@ -19,7 +19,7 @@
   "typowe_bledy": [
     {
       "opis": "**Petla do `n` zamiast `n-1`**: Dostep do `T[n]` poza zakresem",
-      "kara": "-1 pkt (crash)"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Sprawdzanie `T[i] % 2 == 0 && T[i+1] % 2 == 0`**: To znajdzie tylko pary parzyste, pomijajac pary nieparzyste",
@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Zapomnienie o liczbach ujemnych**: `(-3) % 2` moze zwrocic -1 w C++. Dla tego zestawu nie ma ujemnych, ale generalnie lepiej porownywac `% 2` obu stron.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

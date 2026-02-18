@@ -25,7 +25,7 @@
     },
     {
       "opis": "**Brak sprawdzenia wyniku**: Zawsze konwertuj hex na decimal i porownaj z bin na decimal",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

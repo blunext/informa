@@ -18,7 +18,7 @@
   "typowe_bledy": [
     {
       "opis": "**Przeliczanie sumy od zera w kazdym oknie**: Dziala, ale ma zlozonosc O(n*k) zamiast O(n)",
-      "kara": "-0 pkt (poprawne ale wolne)"
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Bledne indeksowanie pozycji**: Off-by-one blad przy konwersji 0-indeks na 1-indeks",

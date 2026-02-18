@@ -23,7 +23,7 @@
     },
     {
       "opis": "**Brak obslugi ciagu 2-elementowego**: Kazda para jest ciagiem arytmetycznym. Minimalny ciag arytmetyczny ma dlugosc 2.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

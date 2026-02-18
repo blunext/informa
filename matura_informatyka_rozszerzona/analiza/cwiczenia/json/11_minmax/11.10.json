@@ -20,7 +20,7 @@
   "typowe_bledy": [
     {
       "opis": "**O(n^2) w punkcie (b)**: Podwojna petla dziala, ale na duzych danych timeout. Liniowy algorytm z minSoFar jest lepszy",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Zapomnienie o aktualizacji maxDl na koncu petli (a)**: Jesli najdluzszy ciag konczy sie na ostatnim elemencie, trzeba sprawdzic po petli",

@@ -22,7 +22,7 @@
     },
     {
       "opis": "**Wielokrotne maximum**: Jesli kilka kolumn ma tyle samo, program raportuje pierwsza — to poprawne, ale mozna tez wypisac wszystkie.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

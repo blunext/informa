@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Brak `break` w punkcie (c)**: Bez break program dziala poprawnie ale wolniej (O(n^3) zamiast O(n^2) w praktyce). Nie jest to blad logiczny, ale moze powodowac timeout na duzych danych.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

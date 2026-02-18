@@ -19,15 +19,15 @@
   "typowe_bledy": [
     {
       "opis": "**Brak zapisu oryginalnej wartosci** -- porownywanie z `n` po petli (ktore jest juz rowne 0) zamiast z zapisana wartoscia poczatkowa",
-      "kara": "-2 pkt, bo wynik zawsze FALSZ (po petli n = 0, wiec porownanie odwrocona == n daje np. 12321 == 0, czyli zawsze FALSZ -- zadna liczba nie zostanie uznana za palindrom)"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**Bledna kolejnosc w budowaniu odwroconej** -- pisanie `odwrocona = cyfra * 10 + odwrocona` zamiast `odwrocona * 10 + cyfra` daje bledny wynik",
-      "kara": "-2 pkt za bledny algorytm"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**Pominiecie jednocyfrowych liczb** -- jednocyfrowa liczba jest zawsze palindromem. Algorytm poprawnie to obsluguje (po jednej iteracji odwrocona = cyfra = oryginal), ale uczniowie czasem dodaja niepotrzebny warunek brzegowy, ktory moze wprowadzic blad.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

@@ -19,7 +19,7 @@
   "typowe_bledy": [
     {
       "opis": "**Sprawdzanie calej macierzy zamiast polowy**: Porownywanie i=0..4 zamiast i=0..1 nie jest bledem, ale jest nieefektywne",
-      "kara": "0 pkt"
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Mylenie osi symetrii**: Symetria pozioma = odbicie wzgledem osi poziomej (zamiana wierszy), nie kolumn",

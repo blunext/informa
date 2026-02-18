@@ -19,11 +19,11 @@
   "typowe_bledy": [
     {
       "opis": "**Inicjalizacja `max_suma = 0`** -- jesli wszystkie elementy sa ujemne, wynik blednie wyniesie 0 (co nie odpowiada zadnemu podciagowi). Prawidlowa inicjalizacja to `max_suma = T[0]`",
-      "kara": "-1 pkt za bledny wynik dla danych ujemnych"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Uzycie zagniezdzonej petli (brute force O(n^2))** -- sprawdzanie kazdego mozliwego podciagu jest poprawne, ale nie spelnia wymagania zlozonosci O(n)",
-      "kara": "-1 do -2 pkt za brak optymalizacji, jesli polecenie tego wymaga"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**Zapomnienie o aktualizacji `max_suma` wewnatrz petli** -- obliczanie `biezaca_suma` bez porownywania z `max_suma` w kazdym kroku moze powodowac pominiecie optymalnego podciagu, ktory nie konczy sie na ostatnim elemencie",

@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Centroid != srodek wielokata wazonego polem**: Prosta srednia wspolrzednych to centroid wierzcholkow, nie pole-wazony centroid. Dla wielu zadan maturalnych prosta srednia wystarczy.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

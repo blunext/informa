@@ -20,15 +20,15 @@
   "typowe_bledy": [
     {
       "opis": "**Odwolanie do C zamiast E w nastepnym wierszu**: Napisanie `C3: =C2+B3` zamiast `=E2+B3` — pominiecie transportu powoduje, ze zapas nigdy nie jest zmniejszany o 100 ton, co daje bledne wyniki od wiersza z pierwszym transportem.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Porownanie tekstu bez cudzyslowow**: Napisanie `=IF(D2=TAK;...)` zamiast `=IF(D2=\"TAK\";...)` — bez cudzyslowow arkusz traktuje TAK jako nazwe zakresu lub zmiennej, nie jako tekst.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Zapomnienie o osobnej formule dla pierwszego wiersza**: Proste skopiowanie `=E1+B2` do C2 odwoluje sie do E1, ktore jest naglowkiem (tekst), co daje blad #WARTOSC!.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

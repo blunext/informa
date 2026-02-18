@@ -24,11 +24,11 @@
     },
     {
       "opis": "**Brak komorki pomocniczej ze srednia**: Wpisanie =COUNTIFS(E2:E11;\"Wyzsze\";D2:D11;\">\"&AVERAGE(D2:D11)) tez zadziala, ale jest mniej czytelne i trudniejsze do debugowania.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Zapomnienie o $ w odwolaniu do H1**: Jesli formula jest kopiowana, $H$1 zabezpiecza odwolanie",
-      "kara": "-1 pkt jesli kopiowanie jest wymagane"
+      "kara": "-1 pkt"
     }
   ]
 }

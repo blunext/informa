@@ -18,11 +18,11 @@
   "typowe_bledy": [
     {
       "opis": "**Uzycie stalej zamiast odwolania**: Wpisanie `=1000+B3` zamiast `=C2+B3` — formula dziala tylko dla pierwszego wiersza, po skopiowaniu w dol dalej dodaje do 1000 zamiast do biezacego salda.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Pominiecie znaku minus w operacji**: Trzeba pamietac, ze wyplaty sa juz zapisane jako liczby ujemne — wystarczy dodawanie, nie trzeba osobno odejmowac.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

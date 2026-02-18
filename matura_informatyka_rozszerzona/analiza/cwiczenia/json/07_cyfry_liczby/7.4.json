@@ -23,7 +23,7 @@
     },
     {
       "opis": "**Warunek `d <= n` zamiast `d*d <= n`**: Poprawne ale O(n) zamiast O(sqrt(n)). Na maturze dla malych danych nie przeszkadza.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Brak zapisu oryginalnej wartosci**: Zmienna n jest modyfikowana w petli — trzeba ja skopiowac przed faktoryzacja",

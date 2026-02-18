@@ -17,7 +17,7 @@
   "typowe_bledy": [
     {
       "opis": "**NOT IN z mozliwym NULL**: Jesli Mecze.id_zawodnika moglby byc NULL, cale NOT IN zwroiloby pusty wynik. Bezpieczniejsza alternatywa: LEFT JOIN + IS NULL",
-      "kara": "-1 pkt (potencjalny blad)"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Pomylenie IN z NOT IN**: `WHERE id IN (...)` zwroci zawodnikow Z meczami — odwrotnosc polecenia",

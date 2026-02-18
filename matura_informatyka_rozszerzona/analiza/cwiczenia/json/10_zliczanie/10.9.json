@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Bledne wczytywanie formatu**: Jesli imie zawiera spacje, `plik >> imie` nie wystarczy — ale w tym zadaniu imiona sa jednoczlonowe.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

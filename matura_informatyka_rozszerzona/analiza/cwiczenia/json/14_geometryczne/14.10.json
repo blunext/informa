@@ -29,7 +29,7 @@
     },
     {
       "opis": "**Zly kierunek obejscia**: Jesli punkty sa podane w odwrotnej kolejnosci, wszystkie iloczyny zmienia znak — algorytm dalej dziala, bo sprawdzamy stalosc znaku.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

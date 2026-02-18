@@ -21,15 +21,15 @@
   "typowe_bledy": [
     {
       "opis": "**Pomylenie stopy rocznej z miesieczna**: Uzycie 6% (0.06) zamiast 0.5% (0.005) jako stopy miesiecznej — daje absurdalnie wysokie odsetki i rate.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Bledna formula potegowa**: Napisanie `(1+F2)*(-F3)` zamiast `(1+F2)^(-F3)` — mnozenie zamiast potegowania daje calkowicie inny wynik.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Brak zaokraglenia odsetek**: Bez ZAOKR odsetki maja wiele miejsc po przecinku, co powoduje narastajace rozbieznosci — saldo koncowe moze roznic sie o kilka zlotych od zera.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

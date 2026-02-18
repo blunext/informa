@@ -19,7 +19,7 @@
   "typowe_bledy": [
     {
       "opis": "**Aktualizacja `najdluzsza` tylko w galezi `else`** -- jesli najdluzsza seria konczy sie na koncu napisu (np. \"abcdddd\"), wartosc `biezaca` nigdy nie jest porownana z `najdluzsza` po ostatnim znaku",
-      "kara": "-1 pkt za bledny wynik"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Inicjalizacja `biezaca = 0` i `najdluzsza = 0`** -- dla jednoelementowego napisu petla sie nie wykona i wynik bedzie 0 zamiast 1",
@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Iteracja od i = 0 z porownaniem `s[i] == s[i-1]`** -- dostep do `s[-1]` powoduje odczyt poza zakresem tablicy",
-      "kara": "blad wykonania, -2 pkt"
+      "kara": "-2 pkt"
     }
   ]
 }

@@ -18,7 +18,7 @@
   "typowe_bledy": [
     {
       "opis": "**Warunek w ON zamiast WHERE**: `JOIN ... ON ... AND klasa = '1A'` — przy INNER JOIN wynik ten sam, ale przy LEFT JOIN inny. Na maturze bezpieczniej filtrowac w WHERE",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Brak jednego JOIN**: Bez JOIN z Przedmioty nie uzyskamy nazwy przedmiotu",

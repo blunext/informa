@@ -19,7 +19,7 @@
   "typowe_bledy": [
     {
       "opis": "**Brak obslugi cyfry 0 jako parzystej** -- cyfra 0 jest parzysta (0 mod 2 = 0). Uczniowie czesto pomijaja ja w warunku lub traktuja jako nieparzysty przypadek brzegowy",
-      "kara": "-1 pkt za bledny wynik dla danych z cyfra 0"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Uzycie `n > 0` zamiast petli po cyfrach** -- sprawdzanie `n != 0` zadziala identycznie, ale jesli uczeń uzyje warunku `n >= 10` (myslac o \"cyfrach wielocyfrowych\"), pominie jednocyfrowe liczby",
@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Porownywanie przez wyliczenie `cyfra==0 || cyfra==2 || ...`** -- poprawne, ale CKE preferuje `cyfra mod 2 = 0` jako elegantsze rozwiazanie. Punktacja zwykle pelna, ale ryzyko bledu przy wyliczaniu.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

@@ -19,15 +19,15 @@
   "typowe_bledy": [
     {
       "opis": "**Sprawdzanie progow od najnizszego**: Napisanie `=IF(C2>=500;5%;IF(C2>=1000;10%;...))` — warunek C2>=500 jest spelniony takze dla 1000 i 2000, wiec rabat nigdy nie przekroczy 5%. Progi nalezy sprawdzac od najwyzszego.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Brak zakotwiczenia poczatku SUM**: Napisanie `=SUM(B2:B2)` bez znaku `$` — po skopiowaniu do wiersza 5 formula stanie sie `=SUM(B5:B5)`, czyli sumuje tylko biezacy wiersz zamiast calego zakresu od poczatku.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Uzycie przecinka zamiast srednika**: W polskiej wersji Excela separator argumentow to srednik (`;`), nie przecinek (`,`). Przecinek jest traktowany jako separator dziesietny.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

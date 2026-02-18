@@ -19,7 +19,7 @@
   "typowe_bledy": [
     {
       "opis": "**Sprawdzanie `dzielnik <= n` zamiast `dzielnik * dzielnik <= n`** -- algorytm poprawny, ale zbyt wolny (zlozonosc O(n) zamiast O(sqrt(n))). CKE moze odebrac -1 pkt za brak optymalizacji, jesli polecenie wyraznie wymaga efektywnosci.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Brak obslugi n < 2** -- dla n = 1 algorytm bez warunku brzegowego zwroci PRAWDA (petla sie nie wykona), co jest bledne",
@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Uzycie `dzielnik * dzielnik < n` (ostry) zamiast `<=`** -- pomija przypadek, gdy n jest kwadratem liczby pierwszej (np. 25 = 5*5). Dla n = 25 i dzielnik = 5: 5*5 = 25, `25 < 25` jest falsz, wiec petla sie konczy i zwraca PRAWDA (blednie)",
-      "kara": "-1 pkt za bledny wynik"
+      "kara": "-1 pkt"
     }
   ]
 }

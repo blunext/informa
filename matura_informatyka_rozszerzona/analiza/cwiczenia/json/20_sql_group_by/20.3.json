@@ -21,11 +21,11 @@
   "typowe_bledy": [
     {
       "opis": "**WHERE zamiast HAVING**: `WHERE AVG(srednia_ocen) > 4.0` powoduje blad skladni — funkcje agregujace nie dzialaja w WHERE",
-      "kara": "-2 pkt (blad logiczny)"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**Alias w HAVING**: `HAVING srednia_klasy > 4.0` — w SQLite dziala, ale w wielu bazach nie. Bezpieczniej powtorzyc: `HAVING AVG(U.srednia_ocen) > 4.0`",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Brak JOIN**: Proba grupowania bez polaczenia tabel — nie uzyskamy nazwy klasy",

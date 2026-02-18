@@ -22,7 +22,7 @@
     },
     {
       "opis": "**Konwersja na string zamiast mod/div**: Dziala, ale jest wolniejsza i nie pokazuje umiejetnosci algorytmicznej",
-      "kara": "-0 pkt (poprawne, ale CKE preferuje podejscie numeryczne)"
+      "kara": "-0 pkt"
     }
   ]
 }

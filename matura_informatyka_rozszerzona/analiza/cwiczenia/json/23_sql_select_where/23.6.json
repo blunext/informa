@@ -23,7 +23,7 @@
     },
     {
       "opis": "**`>= 10` zamiast `> 10`**: Gdyby jakas planeta miala 10 ksiezycow, bylaby wlaczona blednie",
-      "kara": "-0.5 pkt (zalezy od danych)"
+      "kara": "-0.5 pkt"
     }
   ]
 }

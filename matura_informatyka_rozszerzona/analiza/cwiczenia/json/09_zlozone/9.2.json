@@ -23,7 +23,7 @@
     },
     {
       "opis": "**Brak `setprecision`**: Domyslne formatowanie double moze dac zbyt wiele miejsc po przecinku",
-      "kara": "-0 pkt (ale nieczytelne)"
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Uzycie `map[kat]` bez sprawdzenia czy istnieje**: Przy `maxwKat[kat].second` jesli wpis nie istnieje, tworzy domyslny (pusty string, 0)",

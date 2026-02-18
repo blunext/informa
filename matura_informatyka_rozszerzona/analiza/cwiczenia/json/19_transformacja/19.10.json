@@ -21,11 +21,11 @@
   "typowe_bledy": [
     {
       "opis": "**Pominecie zerowych wartosci**: Gdańsk ma 0 przejazdow towarowych — SUMIFS zwroci 0, nie blad. Trzeba uwzglednic to w analizie",
-      "kara": "-1 pkt jesli wplywaja na srednia"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Dzielenie przez zero**: Jesli miasto ma 0 przejazdow danego typu, srednia nie istnieje. Na szczescie tu kazdy typ ma 6 przejazdow",
-      "kara": "-1 pkt w ogolnosci"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Pomieszanie kolumny B (Skad) z C (Dokad)**: Pytanie mowi o miescie poczatkowym — filtrujemy po B, nie C",

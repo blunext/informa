@@ -26,7 +26,7 @@
     },
     {
       "opis": "**Brak sprawdzenia w dziesietnym**: ZAWSZE konwertuj na dziesietny i sprawdz",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

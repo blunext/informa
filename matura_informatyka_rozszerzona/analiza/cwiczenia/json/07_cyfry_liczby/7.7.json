@@ -23,7 +23,7 @@
     },
     {
       "opis": "**Brak obslugi n=0**: `while(n > 0)` daje pusty string dla 0. Dodaj warunek specjalny",
-      "kara": "-1 pkt (tu nie dotyczy, n >= 1)"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Uzycie float/double przy dzieleniu**: `n / 2.0` daje double, traci dokladnosc. Uzywaj `n / 2` (int)",

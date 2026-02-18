@@ -20,7 +20,7 @@
   "typowe_bledy": [
     {
       "opis": "**Zliczanie obwodu po BFS zamiast w trakcie**: Mozliwe, ale mniej eleganckie i trzeba iterowac po tablicy label",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Pomylenie pola z obwodem**: Pole = liczba komorek (=1), obwod = liczba krawedzi zewnetrznych",

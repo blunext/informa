@@ -19,11 +19,11 @@
   "typowe_bledy": [
     {
       "opis": "**Zapomnienie o n=0**: Petla `while(n > 0)` pomija liczbe 0 (suma cyfr = 0, a nie pusta). Dla tego zadania to OK (liczby dodatnie), ale warto pamietac",
-      "kara": "-0 pkt (tu nie dotyczy)"
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Uzycie `int` zamiast wyodrebniania cyfr**: Proba operowania na string bez konwersji",
-      "kara": "-1 pkt za bledna metode"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Brak inicjalizacji licznika `ile`**: Niezainicjalizowana zmienna daje losowy wynik",

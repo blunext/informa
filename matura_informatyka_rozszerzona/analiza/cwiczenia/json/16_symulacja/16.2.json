@@ -19,11 +19,11 @@
   "typowe_bledy": [
     {
       "opis": "**Brak znaku $ przy wspolczynniku**: Napisanie `=B2*D1` zamiast `=B2*$D$1` — po skopiowaniu do B4 formula zmieni sie na `=B3*D2`, a komorka D2 jest pusta (wynik = 0).",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Zakotwiczenie obu odwolan**: Napisanie `=$B$2*$D$1` — kazdy rok mnozy poczatkowa populacje (50000) zamiast poprzedniej, co daje ten sam wynik 51250 w kazdym wierszu.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

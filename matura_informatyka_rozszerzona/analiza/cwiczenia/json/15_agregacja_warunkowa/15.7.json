@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Pomieszanie >= z >**: \">=50\" to zdali (50 tez zdal), \">50\" wyklucza osoby z dokladnie 50 punktami",
-      "kara": "-1 pkt jesli zmienia wynik"
+      "kara": "-1 pkt"
     }
   ]
 }

@@ -19,11 +19,11 @@
   "typowe_bledy": [
     {
       "opis": "**Niezainicjalizowane zmienne mi1, mi2**: Jesli zaden if nie jest spelniony (niemozliwe dla n >= 2), wynik bezsensowny. Dobra praktyka: zainicjalizuj",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Porownywanie odleglosci z `==`**: Odleglosci sa double — unikaj `==` przez epsilony",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

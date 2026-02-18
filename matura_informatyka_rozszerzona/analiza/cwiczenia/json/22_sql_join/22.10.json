@@ -20,7 +20,7 @@
   "typowe_bledy": [
     {
       "opis": "**Dodatkowy JOIN z Wyscigi**: Niepotrzebny — powieksza wynik (wiele wierszy per wynik), ale COUNT(DISTINCT) i SUM daja ten sam rezultat. Jednak spowalnia zapytanie",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**COUNT(*) zamiast COUNT(DISTINCT)**: Vettel z 3 wynikami bylby policzony 3 razy. Europa daje 6 zamiast 3",

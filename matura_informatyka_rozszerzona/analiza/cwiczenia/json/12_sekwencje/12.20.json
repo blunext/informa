@@ -18,7 +18,7 @@
   "typowe_bledy": [
     {
       "opis": "**Brak warunku break gdy suma > 20**: Bez wczesnego przerwania sprawdzamy niepotrzebne podciagi",
-      "kara": "-0 pkt (wolne ale poprawne)"
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Szukanie max sumy zamiast max dlugosci**: Zadanie prosi o najDLUZSZY podciag, nie o max sume",

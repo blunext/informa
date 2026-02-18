@@ -31,7 +31,7 @@
     },
     {
       "opis": "**Srednia ze srednich**: Osobne obliczenie sredniej per student, potem srednia z tych srednich — to inny wynik niz AVG ze wszystkich egzaminow",
-      "kara": "-2 pkt (zalezy od interpretacji polecenia)"
+      "kara": "-2 pkt"
     }
   ]
 }

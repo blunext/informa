@@ -27,7 +27,7 @@
     },
     {
       "opis": "**10^8 = duzo**: 100 mln kombinacji to bardzo malo. Brute-force to trwa ulamek sekundy na nowoczesnym komputerze",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

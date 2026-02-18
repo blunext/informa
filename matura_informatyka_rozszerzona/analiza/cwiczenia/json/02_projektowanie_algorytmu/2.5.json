@@ -19,15 +19,15 @@
   "typowe_bledy": [
     {
       "opis": "**Bledna kolejnosc push na stos** -- wkladanie najpierw lewego, potem prawego powoduje przetwarzanie w kolejnosci wezel-prawy-lewy zamiast preorder (wezel-lewy-prawy)",
-      "kara": "-1 pkt za bledna kolejnosc przejscia"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Brak sprawdzenia NULL przed push** -- wkladanie pustych wezlow na stos powoduje blad wykonania (dereferencja nullptr)",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Uzycie `stos.front()` zamiast `stos.top()`** -- pomylenie stosu z kolejka. W C++ `stack` nie ma metody `front()`",
-      "kara": "-1 pkt za blad skladniowy"
+      "kara": "-1 pkt"
     }
   ]
 }

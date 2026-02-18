@@ -19,15 +19,15 @@
   "typowe_bledy": [
     {
       "opis": "**Bledna implementacja NWD**: Klasyczny blad to `while (a != b)` zamiast algorytmu Euklidesa z modulo — dziala, ale jest wolny",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Brak `break` przy NWD==1**: Kontynuowanie po NWD=1 jest bezcelowe (NWD nigdy nie wzrosnie), ale nie jest bledem logicznym. Moze spowodowac timeout.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Zapomnienie o NWD == bestNwd przy rownej dlugosci**: Nie jest wymagane — wystarczy pierwszy znaleziony.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

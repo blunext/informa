@@ -22,7 +22,7 @@
     },
     {
       "opis": "**Brak obslugi duzych liter**: Tu dane sa male, ale w ogolnym przypadku trzeba by dodac || c == 'A' itd.",
-      "kara": "-0 pkt (tu nie dotyczy)"
+      "kara": "-0 pkt"
     }
   ]
 }

@@ -23,7 +23,7 @@
     },
     {
       "opis": "**Te same aliasy**: `U` w podzapytaniu i w zapytaniu glownym — niejednoznacznosc",
-      "kara": "-1 pkt (blad skladni)"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Brak filtra na przedmiot w podzapytaniu**: Gdyby tabela Wyniki miala tez inne przedmioty, srednia bylaby bledna",

@@ -23,7 +23,7 @@
     },
     {
       "opis": "**Brak obslugi przypadku gdy nie ma elementow spelniajacych warunek**: Jesli nie ma parzystych, maxP = INT_MIN to bezsensowny wynik. Trzeba sprawdzic.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

@@ -20,7 +20,7 @@
   "typowe_bledy": [
     {
       "opis": "**Brak ROUND**: Wynik sredniej moze miec wiele cyfr po przecinku",
-      "kara": "-1 pkt jesli polecenie wymaga zaokraglenia"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**ROUND z jednym argumentem**: `ROUND(AVG(cena))` zaokragla do calkowitej — nie do 2 miejsc",

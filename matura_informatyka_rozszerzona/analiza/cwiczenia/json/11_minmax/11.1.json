@@ -23,7 +23,7 @@
     },
     {
       "opis": "**Indeks od 0 zamiast od 1**: CKE numeruje pozycje od 1",
-      "kara": "-1 pkt (za kazda bledna pozycje)"
+      "kara": "-1 pkt"
     }
   ]
 }

@@ -19,7 +19,7 @@
   "typowe_bledy": [
     {
       "opis": "**Utrata zer koncowych przy odwracaniu**: Liczba 78901 odwrocona to 10987 (nie 1098700). Zera na koncu oryginalnej staja sie zerami wiodacymi — int je pomija, co jest poprawne",
-      "kara": "-0 pkt (poprawne zachowanie)"
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Modyfikacja oryginalnej zmiennej**: Jezeli odwracasz n w miejscu (bez kopii), tracisz oryginalna wartosc do porownania",

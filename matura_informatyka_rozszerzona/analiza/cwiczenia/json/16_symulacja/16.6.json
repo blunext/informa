@@ -19,11 +19,11 @@
   "typowe_bledy": [
     {
       "opis": "**Brak zaokraglenia odsetek**: Pominiecie ZAOKR powoduje, ze odsetki maja wiele miejsc po przecinku (np. 491.41125), co daje drobne roznice narastajace w kolejnych latach. W zadaniach maturalnych wyniki musza sie zgadzac co do grosza.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Procent prosty zamiast skladanego**: Uzycie `=10000*$F$1` (zawsze od poczatkowej kwoty) zamiast `=B2*$F$1` (od biezacego kapitalu) — daje stale odsetki 450 zl rocznie.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

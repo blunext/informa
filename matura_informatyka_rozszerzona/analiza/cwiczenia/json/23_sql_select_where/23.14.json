@@ -24,7 +24,7 @@
     },
     {
       "opis": "**`= NULL` zamiast `!= 'czarny'`**: Porownanie z czarny nie wymaga IS NULL — to zwykly tekst",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

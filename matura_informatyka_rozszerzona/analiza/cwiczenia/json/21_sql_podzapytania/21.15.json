@@ -22,7 +22,7 @@
     },
     {
       "opis": "**SELECT * zamiast SELECT 1**: Dziala poprawnie, ale SELECT 1 jest konwencja — EXISTS sprawdza tylko istnienie, nie wartosc",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

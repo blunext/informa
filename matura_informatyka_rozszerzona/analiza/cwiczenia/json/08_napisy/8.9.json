@@ -31,7 +31,7 @@
     },
     {
       "opis": "**Pusty wiersz -> 0 slow**: `istringstream` na pustym stringu nie wyciagnie zadnego slowa, co jest poprawne.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

@@ -21,7 +21,7 @@
   "typowe_bledy": [
     {
       "opis": "**Zapomnienie, ze BETWEEN jest wlaczajace**: Zarowno 2018 jak i 2021 sa uwzgledniane",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**OR zamiast AND**: Zmienia logike — wystarczyloby spelnienie jednego warunku",

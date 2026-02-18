@@ -19,11 +19,11 @@
   "typowe_bledy": [
     {
       "opis": "**Zapomnienie inicjalizacji akumulatora** -- zmienna `suma` musi byc zainicjowana na 0 przed petla. Brak inicjalizacji w C++ daje niezdefiniowane zachowanie",
-      "kara": "-1 pkt za brak inicjalizacji"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Zamiana kolejnosci operacji** -- pisanie `n := n div 10` PRZED `suma := suma + n mod 10` powoduje utrate ostatniej cyfry",
-      "kara": "blad logiczny, -1 pkt"
+      "kara": "-1 pkt"
     }
   ]
 }

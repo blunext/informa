@@ -18,7 +18,7 @@
   "typowe_bledy": [
     {
       "opis": "**Zapomnienie o konwersji 1-indexed -> 0-indexed**: `erase(k, 1)` zamiast `erase(k-1, 1)` usuwa zly znak",
-      "kara": "-2 pkt (efekt kaskadowy na reszcie)"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**Uzycie `erase(k-1)` bez drugiego argumentu**: `erase(pos)` bez dlugosci usuwa od pozycji do konca stringa!",

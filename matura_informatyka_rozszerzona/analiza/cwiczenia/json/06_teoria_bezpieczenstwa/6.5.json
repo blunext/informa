@@ -18,7 +18,7 @@
   "typowe_bledy": [
     {
       "opis": "**Phishing zamiast spear phishing**: CKE akceptuje \"phishing\", ale \"spear phishing\" jest dokladniejszy (ukierunkowany)",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Wirus zamiast trojan**: Trojan udaje legalne oprogramowanie. Wirus sie sam replikuje",

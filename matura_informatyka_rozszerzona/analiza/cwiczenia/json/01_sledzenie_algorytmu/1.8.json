@@ -22,7 +22,7 @@
     },
     {
       "opis": "**Blad przy n=0**: Algorytm nie obsluguje n=0 (petla sie nie wykona). Na maturze CKE nie sprawdza tego przypadku.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Pomylka div i mod**: n mod 2 to reszta (0 lub 1), n div 2 to czesc calkowita",

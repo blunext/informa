@@ -22,7 +22,7 @@
     },
     {
       "opis": "**Brak nawiasow wokol podzapytania**: Podzapytanie musi byc w nawiasach",
-      "kara": "-1 pkt (blad skladni)"
+      "kara": "-1 pkt"
     }
   ]
 }

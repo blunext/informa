@@ -26,7 +26,7 @@
     },
     {
       "opis": "**Liczniki > 9 przy `to_string`**: Dla \"z12\" wynik ma 3 znaki, nie 2. `to_string` radzi sobie z tym poprawnie.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

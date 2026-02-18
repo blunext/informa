@@ -28,7 +28,7 @@
     },
     {
       "opis": "**Zapomnienie o zamknieciu plikow**: `ifstream` zamyka plik automatycznie w destruktorze. Nie jest bledem, ale dobra praktyka.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

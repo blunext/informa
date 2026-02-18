@@ -18,7 +18,7 @@
   "typowe_bledy": [
     {
       "opis": "**Brak aliasow**: Bez roznych aliasow (P, P2) nie mozna odroznic kolumn pracownika od przelozonego",
-      "kara": "-2 pkt (blad skladni)"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**Odwrotny warunek ON**: `ON P.id = P2.id_przelozonego` — zamiast przelozonego, dostajemy podwladnych",
@@ -26,7 +26,7 @@
     },
     {
       "opis": "**LEFT JOIN bez potrzeby**: Gdyby polecenie mowilo \"WSZYSTKICH pracownikow\", potrzebny bylby LEFT JOIN — tu wystarczy INNER JOIN",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

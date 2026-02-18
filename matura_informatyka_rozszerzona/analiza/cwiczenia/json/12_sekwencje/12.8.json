@@ -19,11 +19,11 @@
   "typowe_bledy": [
     {
       "opis": "**Brak `(long long)` w mnozeniu**: `d[i] * d[i-1]` moze przekroczyc zakres int",
-      "kara": "-1 pkt (UB)"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Roznica == 0 nie jest ani + ani -**: Jesli `T[i+1] == T[i]`, to `d[i] = 0` i `d[i]*d[i-1] = 0`, co nie jest < 0. Oscylacja sie przerywa — to poprawne zachowanie.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Dlugosc w roznicach zamiast elementach**: n roznic = n+1 elementow",

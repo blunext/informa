@@ -27,7 +27,7 @@
     },
     {
       "opis": "**`while(n > 0)` pomija n=0**: Jezeli liczba to 0, petla sie nie wykona i suma cyfr bedzie 0. Dla tego zestawu danych to nie problem (5-cyfrowe), ale warto pamietac.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

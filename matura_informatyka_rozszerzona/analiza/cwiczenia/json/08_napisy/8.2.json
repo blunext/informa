@@ -18,7 +18,7 @@
   "typowe_bledy": [
     {
       "opis": "**Brak rzutowania na int**: W C++ `char + char` daje `int`, wiec tu nie problem, ale warto byc swiadomym typow.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Inicjalizacja min/max wartosciami 0**: maxSuma=0 jest OK (sumy sa dodatnie), ale minSuma=0 sprawi ze kazda suma > 0 nie przejdzie warunku",

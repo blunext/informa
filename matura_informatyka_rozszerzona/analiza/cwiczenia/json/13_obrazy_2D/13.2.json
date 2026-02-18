@@ -18,7 +18,7 @@
   "typowe_bledy": [
     {
       "opis": "**Petla do `<= 7` zamiast `< 7`**: Kwadrat 2x2 o rogu w (7,7) wychodzi poza tablice",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Sprawdzanie 3 z 4 komorek**: Zapomnienie o jednej z 4 komorek kwadratu",

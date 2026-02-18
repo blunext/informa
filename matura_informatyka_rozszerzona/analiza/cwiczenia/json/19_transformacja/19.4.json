@@ -26,7 +26,7 @@
     },
     {
       "opis": "**Brak weryfikacji sum**: Nie sprawdzenie, ze suma wiersza = liczba odpowiedzi na pytanie",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

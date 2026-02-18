@@ -19,7 +19,7 @@
   "typowe_bledy": [
     {
       "opis": "**LIKE 'Cze' bez %**: Bez `%` LIKE szuka dokladnego tekstu 'Cze' — zadna nazwa nie jest rowna 'Cze'",
-      "kara": "-2 pkt (pusty wynik)"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**OR zamiast AND**: `LIKE 'Cze%' OR cena < 7` — wlaczyloby wszystkie tanie produkty (Chleb 4.20) i wszystkie czekolady",

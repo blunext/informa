@@ -22,7 +22,7 @@
     },
     {
       "opis": "**ORDER BY cena DESC LIMIT 1**: Poprawna alternatywa, ale LIMIT nie jest czescia standardu SQL i na maturze podzapytanie jest bezpieczniejsze",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

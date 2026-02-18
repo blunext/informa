@@ -18,11 +18,11 @@
   "typowe_bledy": [
     {
       "opis": "**`cols-j` zamiast `cols-1-j`**: Indeksy od 0, wiec lustro kolumny 0 to kolumna 5 (nie 6)",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Sprawdzanie calej siatki zamiast polowy**: Nie jest bledem, ale jest 2x wolniejsze. Moze spowodowac timeout na duzych danych.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

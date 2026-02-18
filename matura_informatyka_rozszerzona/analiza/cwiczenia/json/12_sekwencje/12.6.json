@@ -23,7 +23,7 @@
     },
     {
       "opis": "**Brak aktualizacji po petli**: Ciag 20,18,16,14,11 konczy tablice — bez sprawdzenia po petli moze zostac pominiety.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

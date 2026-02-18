@@ -26,7 +26,7 @@
     },
     {
       "opis": "**SUBSTR z blednym offsetem**: `SUBSTR(data, 5, 2)` wyciaga '-M' zamiast 'MM'. W SQL pozycje liczymy od 1",
-      "kara": "-2 pkt (bledne grupowanie)"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**Brak HAVING**: Warszawa-01 (1200) pojawia sie w wyniku mimo ze < 2000",

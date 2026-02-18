@@ -19,7 +19,7 @@
   "typowe_bledy": [
     {
       "opis": "**Pomylenie id_gospodarzy z id_gosci**: Daje bramki stracone zamiast strzelonych u siebie",
-      "kara": "-3 pkt (bledny wynik)"
+      "kara": "-3 pkt"
     },
     {
       "opis": "**Uzycie bramki_gosci zamiast bramki_gosp**: Analogiczny blad — bramki_gosci to bramki strzelone przez gosci, nie przez gospodarzy",

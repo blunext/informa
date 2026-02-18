@@ -18,7 +18,7 @@
   "typowe_bledy": [
     {
       "opis": "**Uzycie tablicy zamiast mapy**: Tablica wymaga znajomosci max dlugosci z gory. Mapa jest elastyczniejsza",
-      "kara": "-0 pkt (nie blad, ale nieeleganckie)"
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Liczenie znakow zamiast dlugosci slowa**: Reczne liczenie w petli zamiast `s.length()` moze pomijac znaki",

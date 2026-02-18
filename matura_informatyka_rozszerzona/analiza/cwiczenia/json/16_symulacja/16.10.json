@@ -22,15 +22,15 @@
   "typowe_bledy": [
     {
       "opis": "**Odwrotna kolejnosc operacji**: Najpierw dodanie przyjazdow, potem odjecie wyjazdow — moze doprowadzic do sytuacji, ze parking \"przekracza\" pojemnosc na chwile, co daje inne wyniki odrzucen.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Brak ograniczenia MIN dla przyjazdow**: Napisanie `E2: =B2` zamiast `=MIN(B2;$I$1-D2)` — pozwala na przekroczenie pojemnosci parkingu (np. 45 aut na 40 miejscach).",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Brak ograniczenia MAX dla wyjazdow**: Jezeli wyjazdy > stan parkingu, bez MAX stan staje sie ujemny, co daje sztuczne \"wolne miejsca\" powyzej pojemnosci. Nalezy uzywac `MAX(stan-wyjazdy;0)`.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

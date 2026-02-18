@@ -18,11 +18,11 @@
   "typowe_bledy": [
     {
       "opis": "**Uzycie WHERE zamiast GROUP BY**: WHERE filtruje wiersze PRZED grupowaniem, a do filtrowania grup sluzy HAVING — tu jednak nie filtrujemy grup, wiec wystarczy GROUP BY",
-      "kara": "-2 pkt (brak wyniku)"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**Brak aliasu w COUNT(*)**: Bez `AS liczba` kolumna wynikowa moze miec niezrozumiala nazwe",
-      "kara": "dopuszczalne, ale -0.5 pkt za czytelnosc w niektorych schematach"
+      "kara": "-0.5 pkt"
     }
   ]
 }

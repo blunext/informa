@@ -21,7 +21,7 @@
     },
     {
       "opis": "**NOT IN z NULL**: Jesli podzapytanie zwraca NULL wsrod wynikow, NOT IN zwraca pusty zbior. Np. gdyby Zapisy mialy wiersz z id_kursu = NULL, wynik bylby pusty",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

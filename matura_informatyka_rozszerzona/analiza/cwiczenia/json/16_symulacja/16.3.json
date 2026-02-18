@@ -19,15 +19,15 @@
   "typowe_bledy": [
     {
       "opis": "**Odwrotna kolejnosc odejmowania**: Napisanie `=D2-B3+C3` (odjecie przyjecia i dodanie wydania) — odwrocona logika daje calkowicie bledne wyniki.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Porownanie alarmu z odwrotnym znakiem**: Napisanie `IF(D3>50;...)` zamiast `IF(D3<50;...)` — alarm pojawia sie gdy zapas jest wysoki, a znika gdy jest niski.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Puste pole jako spacja**: Napisanie `\" \"` (spacja) zamiast `\"\"` (pusty tekst) w trzecim argumencie IF — komorka wyglada na pusta, ale zawiera spacje, co moze zaklocic inne formuly (np. COUNTBLANK).",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

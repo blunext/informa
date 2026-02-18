@@ -20,7 +20,7 @@
   "typowe_bledy": [
     {
       "opis": "**Zapomnienie o `c * c` — uzycie `c` zamiast kwadratu**: Daje sume cyfr zamiast sumy kwadratow",
-      "kara": "-2 pkt (zupelnie inny wynik)"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**Szukanie par podwojna petla O(n^2) zamiast mapy**: Poprawne ale wolne. Na maturze OK dla malych n",

@@ -21,11 +21,11 @@
   "typowe_bledy": [
     {
       "opis": "**Dzielenie przez B+C+D zamiast E**: =B2/(B2+C2+D2)*100 zadziala, ale lepiej uzyc E2 (unika duplikacji obliczen)",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Zapomnienie o ROUND**: Bez zaokraglenia wyniki beda mialy wiele miejsc po przecinku (np. 33.333...)",
-      "kara": "-1 pkt jesli polecenie wymaga zaokraglenia"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Pomieszanie najwyzszej sprzedazy z najwyzszym udzialem**: Sob ma najwyzsza sprzedaz (13500), ale Pt ma najwyzszy udzial elektroniki (39.5%)",

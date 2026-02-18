@@ -20,7 +20,7 @@
   "typowe_bledy": [
     {
       "opis": "**Zapomnienie o mnozeniu ilosc*cena**: Dodawanie samej ceny zamiast wartosci",
-      "kara": "-2 pkt (zly wynik we wszystkich podpunktach)"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**Brak `set` — uzycie wektora bez usuwania duplikatow**: Jesli klient zamowil ten sam produkt dwa razy, vector go zliczy dwukrotnie",

@@ -24,7 +24,7 @@
     },
     {
       "opis": "**W (c) zapomnienie o konwersji cyfr**: Cyfry nie powinny byc zmieniane przez `tolower`. `tolower('5') == '5'` wiec nie problem, ale warto byc swiadomym.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Uzycie `plik >> s` zamiast `getline`**: `>>` dzieli po spacjach. Jesli napisy moga zawierac spacje, uzyj `getline`. Tu OK bo napisy sa jednoslowne",

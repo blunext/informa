@@ -20,7 +20,7 @@
   "typowe_bledy": [
     {
       "opis": "**WHERE AVG(cena) > 25**: Funkcje agregujace nie moga byc w WHERE — trzeba uzyc HAVING",
-      "kara": "-2 pkt (blad skladniowy)"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**Brak ROUND**: Wynik 36.666... zamiast 36.7 — niedokladny format",

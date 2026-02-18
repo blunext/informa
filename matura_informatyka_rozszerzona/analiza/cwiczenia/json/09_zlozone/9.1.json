@@ -18,11 +18,11 @@
   "typowe_bledy": [
     {
       "opis": "**Uzycie `unordered_map` gdy wymagane sortowanie**: `unordered_map` nie gwarantuje kolejnosci kluczy",
-      "kara": "-1 pkt jesli wymaga alfabetycznej"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Zapomnienie o inicjalizacji mapy**: `map[klucz]++` automatycznie tworzy wpis z wartoscia 0 i inkrementuje. OK.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Porownanie stringow z `==` przy szukaniu max**: To poprawne — `==` na stringach dziala w C++",

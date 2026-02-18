@@ -19,11 +19,11 @@
   "typowe_bledy": [
     {
       "opis": "**Bledna kolejnosc przypiasan** -- pisanie `a := reszta; b := a` zamiast uzycia zmiennej tymczasowej `reszta`. Bez zmiennej posredniej wartosc `a` jest nadpisana zanim zostanie przypisana do `b`",
-      "kara": "-2 pkt za bledny algorytm"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**Warunek petli `b >= 0` zamiast `b > 0`** -- powoduje dzielenie przez zero w nastepnej iteracji, gdy `b` osiagnie 0",
-      "kara": "-1 pkt za blad wykonania"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Zwracanie `b` zamiast `a`** -- po zakonczeniu petli `b = 0`, wiec wynik zawsze bylby 0",

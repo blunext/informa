@@ -18,11 +18,11 @@
   "typowe_bledy": [
     {
       "opis": "**Sortowanie z sqrt zamiast kwadratow**: Dziala, ale jest wolniejsze. Nie jest bledem.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Brak stabilnosci sortowania**: Punkty o tej samej odleglosci (3,4) i (5,0) moga byc w dowolnej kolejnosci — to OK.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

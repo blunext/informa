@@ -20,15 +20,15 @@
   "typowe_bledy": [
     {
       "opis": "**Oznaczanie visited po wyjsciu z kolejki**: Moze powodowac wielokrotne dodanie tego samego wezla do kolejki. Oznaczaj przy dodawaniu do kolejki",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Brak `visited` w ogole**: BFS wchodzi w nieskonczona petle",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Uzycie DFS rekurencyjnego na duzej siatce**: Stack overflow dla siatek > ~100x100. BFS jest bezpieczniejszy",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

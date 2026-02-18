@@ -23,7 +23,7 @@
     },
     {
       "opis": "**Brak IN — porownanie miasta na tabeli Sprzedaz**: Tabela Sprzedaz nie ma kolumny 'miasto', trzeba podzapytania na Sklepy",
-      "kara": "-2 pkt (blad skladni)"
+      "kara": "-2 pkt"
     }
   ]
 }

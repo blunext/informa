@@ -23,7 +23,7 @@
     },
     {
       "opis": "**Zapomnienie o kopii wektora**: `sort` modyfikuje in-place. Bez kopii drugie sortowanie traci oryginalna kolejnosc",
-      "kara": "-0 pkt (jesli nie potrzeba)"
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Porownanie `>=` zamiast `>` przy sredniej**: \"Powyzej sredniej\" to scisle wieksze",

@@ -19,7 +19,7 @@
   "typowe_bledy": [
     {
       "opis": "**Petla `i < s.length()` w maPodwojna**: Dostep do `s[i+1]` poza zakresem",
-      "kara": "-1 pkt (crash lub UB)"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Brak `y` w samogloskach polskich**: W jezyku polskim \"y\" to samogloska — pominiecie jej to blad",

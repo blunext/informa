@@ -25,7 +25,7 @@
     },
     {
       "opis": "**Brak MAXIFS — uzycie MAX z IF tablicowym**: =MAX(IF(B2:B11=\"Warszawa\";F2:F11)) wymaga Ctrl+Shift+Enter (formula tablicowa). MAXIFS jest prostsza",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Zapomnienie o kolumnie marzy w punkcie 6**: Bez kolumny G nie mozna filtrowac po marzy w SUMIFS",

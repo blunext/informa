@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Overflow przy odwracaniu duzych liczb**: Dla 10-cyfrowych liczb odwrocona wartosc moze przekroczyc `int`. Tu nie dotyczy (male dane)",
-      "kara": "-1 pkt na duzych danych"
+      "kara": "-1 pkt"
     }
   ]
 }

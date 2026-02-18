@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Uzycie VLOOKUP zamiast INDEX-MATCH**: VLOOKUP nie obsluguje wyszukiwania dwuwymiarowego bez kolumny pomocniczej",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

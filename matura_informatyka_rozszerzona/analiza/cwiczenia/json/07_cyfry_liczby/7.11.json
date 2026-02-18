@@ -22,7 +22,7 @@
     },
     {
       "opis": "**Liczba z cyfra 0**: Jesli w danych bylaby np. 1507, iloczyn = 0 (bo 0 pochania). W tym zbiorze nie ma takich liczb, ale warto pamietac",
-      "kara": "-0 pkt (tu nie dotyczy)"
+      "kara": "-0 pkt"
     }
   ]
 }

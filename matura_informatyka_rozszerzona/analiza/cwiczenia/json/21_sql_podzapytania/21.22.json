@@ -17,7 +17,7 @@
   "typowe_bledy": [
     {
       "opis": "**JOIN zamiast IN**: JOIN daloby duplikaty — Anna pojawiloby sie 2 razy (raz na kazda nagrode), trzeba by dodac DISTINCT",
-      "kara": "-1 pkt (bledny wynik bez DISTINCT)"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Brak podzapytania**: `WHERE id_ucznia IS NOT NULL` w Nagrody nie odpowiada na pytanie — potrzeba polaczenia z tabela Uczniowie",

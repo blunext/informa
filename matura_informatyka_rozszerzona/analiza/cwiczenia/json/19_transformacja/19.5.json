@@ -23,7 +23,7 @@
     },
     {
       "opis": "**Brak weryfikacji krzyzowej**: Suma wiersza Razem musi = suma kolumny Razem. Jesli nie, gdzies jest blad",
-      "kara": "-1 pkt jesli wynik bledny"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Uzycie SUMIF zamiast SUMIFS**: SUMIF obsluguje tylko 1 warunek — tu potrzebne sa 2 (kategoria i kwartal)",

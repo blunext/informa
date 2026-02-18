@@ -19,11 +19,11 @@
   "typowe_bledy": [
     {
       "opis": "**Pomylenie odleglosci od prostej z odlegloscia od odcinka**: Odleglosc od prostej jest zawsze prostopadla. Odleglosc od odcinka moze byc do konca odcinka",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Dzielenie przez 0**: Jesli A == B, |AB| = 0 i dzielenie sie nie powiedzie. Sprawdz dane.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

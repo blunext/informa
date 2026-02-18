@@ -18,7 +18,7 @@
   "typowe_bledy": [
     {
       "opis": "**WHERE cena = MIN(cena)**: Funkcje agregujace nie moga byc uzywane bezposrednio w WHERE — potrzeba podzapytania",
-      "kara": "-2 pkt (blad skladni)"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**LIMIT 1 zamiast podzapytania**: `ORDER BY cena LIMIT 1` zwroci tylko JEDEN produkt, a moze byc kilka z ta sama minimalna cena",

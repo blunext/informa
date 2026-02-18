@@ -18,7 +18,7 @@
   "typowe_bledy": [
     {
       "opis": "**Brak `{0}` w inicjalizacji tablicy**: `int freq[10];` nie zeruje tablicy — wynik bedzie losowy",
-      "kara": "-2 pkt (zly wynik)"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**Uzycie `c` zamiast `c - '0'`**: Indeksowanie tablicy kodem ASCII znaku (np. 48-57) zamiast cyfra 0-9",

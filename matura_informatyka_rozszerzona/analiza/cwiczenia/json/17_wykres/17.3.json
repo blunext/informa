@@ -23,7 +23,7 @@
     },
     {
       "opis": "**Uzycie wykresu skumulowanego zamiast grupowanego**: Skumulowany uklada serie jedna na drugiej — nie pozwala porownac poszczegolnych produktow",
-      "kara": "-2 pkt jesli zadanie wymaga porownania"
+      "kara": "-2 pkt"
     }
   ]
 }

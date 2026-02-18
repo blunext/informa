@@ -19,7 +19,7 @@
   "typowe_bledy": [
     {
       "opis": "**Brak sprawdzania granic**: `tab[-1][0]` to undefined behavior",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**8-spojnosc zamiast 4-spojnosci**: 8-spojnosc dodaje diagonalne (4 dodatkowe), ale zadanie wymaga 4-spojnosci",
@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Zliczanie sasiadow dla zer**: Zadanie dotyczy jedynek — pominiecie warunku `tab[i][j] == 1` daje bezsensowne wyniki.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

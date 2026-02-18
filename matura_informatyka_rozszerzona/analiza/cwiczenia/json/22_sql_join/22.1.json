@@ -18,7 +18,7 @@
   "typowe_bledy": [
     {
       "opis": "**Brak aliasow przy niejednoznacznych kolumnach**: Jesli obie tabele maja kolumne `id_autora`, trzeba uzyc prefiksu (K.id_autora lub A.id_autora)",
-      "kara": "-1 pkt (blad skladni)"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Brak ON**: `FROM Ksiazki JOIN Autorzy` bez ON tworzy iloczyn kartezjanski (kazda ksiazka z kazdym autorem)",

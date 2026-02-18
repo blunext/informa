@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Brak mnozenia razy 100 w procencie**: 8/10 = 0.8, a nie 80%",
-      "kara": "-1 pkt (chyba ze komorka jest sformatowana jako procent)"
+      "kara": "-1 pkt"
     }
   ]
 }

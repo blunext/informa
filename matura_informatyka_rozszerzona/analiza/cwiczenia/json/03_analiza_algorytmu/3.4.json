@@ -22,7 +22,7 @@
     },
     {
       "opis": "**Warunek i*i <= n zamiast i <= sqrt(n)**: Oba sa poprawne, ale i*i unika bledu zaokraglania sqrt",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Zapomnienie o parze**: Liczyc tylko i bez n/i daje polowe dzielnikow",

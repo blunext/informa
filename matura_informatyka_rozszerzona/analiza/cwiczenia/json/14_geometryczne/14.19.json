@@ -20,7 +20,7 @@
   "typowe_bledy": [
     {
       "opis": "**Uzycie sqrt w petli**: Powoduje bledy precyzji i jest wolniejsze — lepiej porownywac d^2",
-      "kara": "0 pkt"
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Petla j=0 zamiast j=i+1**: Liczy kazda pare dwa razy i porownuje punkt z samym soba (d=0)",

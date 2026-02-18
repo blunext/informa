@@ -22,7 +22,7 @@
     },
     {
       "opis": "**IS NULL na zlej kolumnie**: `WHERE Z.kwota IS NULL` tez zadziala, ale `WHERE Z.id_klienta IS NULL` jest bezpieczniejsze",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**= NULL zamiast IS NULL**: `WHERE Z.id_zamowienia = NULL` zawsze daje FALSE",

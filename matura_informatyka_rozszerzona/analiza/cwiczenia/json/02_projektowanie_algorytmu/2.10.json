@@ -20,7 +20,7 @@
   "typowe_bledy": [
     {
       "opis": "**Brak reinicjalizacji `suma = 0` na poczatku kazdej iteracji zewnetrznej** -- `suma` z poprzedniej iteracji dodaje sie do nowej, dajac bledne wyniki",
-      "kara": "-2 pkt za blad logiczny"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**Warunek zewnetrznej petli `n > 0` zamiast `n >= 10`** -- petla nigdy sie nie konczy dla n > 0 lub konczy z blednym wynikiem. Dla n = 7: wewnetrzna petla da suma = 7, n := 7, i petla sie powtarza w nieskonczonosc",
@@ -28,7 +28,7 @@
     },
     {
       "opis": "**Pomylenie kolejnosci petli** -- uzycie jednej petli zamiast zagniezdzonej powoduje, ze algorytm oblicza sume cyfr tylko raz (nie powtarza procesu az do jednej cyfry)",
-      "kara": "-2 pkt za niekompletny algorytm"
+      "kara": "-2 pkt"
     }
   ]
 }

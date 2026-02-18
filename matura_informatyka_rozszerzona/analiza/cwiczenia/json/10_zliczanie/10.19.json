@@ -25,7 +25,7 @@
     },
     {
       "opis": "**Osobna petla na kazdy podpunkt**: Mozna, ale czytanie pliku wielokrotnie jest wolniejsze i wymaga seekg()",
-      "kara": "-0 pkt (poprawne ale nieeleganckie)"
+      "kara": "-0 pkt"
     }
   ]
 }

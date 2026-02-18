@@ -19,7 +19,7 @@
   "typowe_bledy": [
     {
       "opis": "**Inicjalizacja `mnoznik := 0` zamiast `mnoznik := 1`** -- pierwsza cyfra zostaje pomnozona przez 0 i znika",
-      "kara": "-2 pkt za blad w algorytmie"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**Uzycie `n mod 10` zamiast `n mod k`** -- skopiowanie szablonu z cwiczen na cyfrach dziesietnych bez zmiany podstawy",
@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Proba konwersji dla k >= 10** -- algorytm z wynikiem calkowitym nie dziala dla systemow o podstawie >= 10 (np. szesnastkowy), bo cyfry >= 10 nie maja jednoznacznej reprezentacji w liczbie calkowitej. To nie jest blad, jesli polecenie wymaga k <= 9, ale warto byc swiadomym ograniczenia.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

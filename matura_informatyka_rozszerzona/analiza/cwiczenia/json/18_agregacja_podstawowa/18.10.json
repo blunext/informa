@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Brak ROUND w sredniej**: Bez zaokraglenia srednia moze miec wiele miejsc po przecinku",
-      "kara": "-1 pkt jesli wymagane"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Pomieszanie rozstepu z odchyleniem standardowym**: Rozstep = MAX-MIN, odchylenie standardowe to inna miara (STDEV)",

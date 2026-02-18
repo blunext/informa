@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Uzycie `atoi` zamiast `stoi`**: `atoi` nie sygnalizuje bledu. Dla pustego stringa lepiej sprawdzic recznie",
-      "kara": "-0 pkt (dziala, ale zla praktyka)"
+      "kara": "-0 pkt"
     }
   ]
 }

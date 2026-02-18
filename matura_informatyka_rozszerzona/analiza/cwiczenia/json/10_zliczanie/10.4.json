@@ -18,7 +18,7 @@
   "typowe_bledy": [
     {
       "opis": "**Uzycie tablicy zamiast mapy przy nieznanym zakresie**: Tablica wymaga z gory znanego zakresu wartosci",
-      "kara": "-1 pkt (jesli zakres sie nie miesci)"
+      "kara": "-1 pkt"
     },
     {
       "opis": "**Zapomnienie o kilku modach**: Moze byc wiecej niz jedna wartosc z max czestotliwoscia — wypisanie tylko pierwszej to niepelna odpowiedz",

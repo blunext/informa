@@ -19,7 +19,7 @@
   "typowe_bledy": [
     {
       "opis": "**Brak `#include <cmath>`**: Funkcja `sqrt` wymaga tego naglowka",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Uzycie int zamiast double dla odleglosci**: `sqrt` zwraca double — przypisanie do int obcina czesc ulamkowa",
@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Petla do `P.size()` zamiast `P.size()-1`**: Dostep do P[i+1] poza zakresem",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

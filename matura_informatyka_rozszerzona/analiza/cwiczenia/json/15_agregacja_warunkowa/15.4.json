@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Wpisanie wartosci zamiast odwolania**: =COUNTIFS(B2:B11;\"Marzec\";C2:C11;\">5\") zadziala, ale traci elastycznosc — lepiej uzywac odwolania do komorki z norma",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

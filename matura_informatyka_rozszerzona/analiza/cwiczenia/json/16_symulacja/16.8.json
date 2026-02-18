@@ -20,15 +20,15 @@
   "typowe_bledy": [
     {
       "opis": "**Ignorowanie opoznienia dostawy**: Dodanie 100 do zapasu natychmiast po zamowieniu (tego samego dnia) zamiast po 3 dniach — calkowicie zmienia dynamike symulacji.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Zamowienie tylko raz**: Zalozenie, ze hurtownia zamawia tylko przy pierwszym spadku ponizej progu i czeka na dostawe — w rzeczywistosci kazdy dzien z zapasem <30 generuje nowe zamowienie.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Pominiecie ujemnego zapasu**: Zapas moze byc ujemny (niedobor), co jest prawidlowe w modelu. Nie nalezy zastepowac go zerem.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

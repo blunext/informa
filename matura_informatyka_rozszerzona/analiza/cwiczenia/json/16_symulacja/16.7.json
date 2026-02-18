@@ -20,15 +20,15 @@
   "typowe_bledy": [
     {
       "opis": "**Uzycie ROUND zamiast INT**: ROUND(1455.36;0) daje 1455, ale ROUND(1455.5;0) daloby 1456. Dla populacji INT (zaokraglenie w dol) jest bardziej typowe, choc oba podejscia sa akceptowane na maturze — wazne, by stosowac konsekwentnie.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Zapomnienie o odwolaniu bezwzglednym do wspolczynnikow**: Bez $G$1 po skopiowaniu do wiersza 4 formula odwoluje sie do G3, ktore jest puste — wynik to 0 urodzen.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Dodanie zgonow zamiast odjecia**: Napisanie `=B2+C2+D2+E2` zamiast `=B2+C2-D2+E2` — zgony powinny zmniejszac populacje, nie zwiekszac.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

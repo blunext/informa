@@ -23,7 +23,7 @@
     },
     {
       "opis": "**Uzycie SUM zamiast AVERAGE**: =SUM(B2:B9)/8 tez da poprawna srednia, ale jest mniej eleganckie i latwiej o blad (jesli zmieni sie liczba uczniow)",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

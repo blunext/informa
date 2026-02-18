@@ -19,7 +19,7 @@
   "typowe_bledy": [
     {
       "opis": "**Brak `+ 26` przed modulo**: W C++ `-3 % 26` moze dac wynik ujemny (zalezy od implementacji). Dodanie 26 gwarantuje dodatni wynik",
-      "kara": "-2 pkt (bledne deszyfrowanie dla niektorych liter)"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**Przesuwanie w prawo zamiast w lewo**: Szyfrowanie to +k, deszyfrowanie to -k. Pomylenie kierunku daje zly wynik",

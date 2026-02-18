@@ -19,7 +19,7 @@
   "typowe_bledy": [
     {
       "opis": "**Petla `r <= 7` zamiast `r <= 5`**: Kwadrat 3x3 z rogiem w wierszu 6 konczy sie w wierszu 8, co jest poza tablica",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Zliczanie zamiast wzorca**: 5 jedynek w 3x3 nie oznacza krzyza — moga byc rozmieszczone inaczej",

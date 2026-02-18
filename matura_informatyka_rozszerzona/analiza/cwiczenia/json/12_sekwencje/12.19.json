@@ -19,11 +19,11 @@
   "typowe_bledy": [
     {
       "opis": "**Brute-force O(n^3) zamiast Kadane O(n)**: Dziala ale jest wolne i trudniejsze do implementacji poprawnie",
-      "kara": "-0 pkt (poprawne jesli dziala)"
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Brak sledzenia pozycji**: Sam algorytm Kadane'a daje tylko sume, sledzenie start/end wymaga dodatkowych zmiennych",
-      "kara": "-1 pkt (jesli pominiety podpunkt)"
+      "kara": "-1 pkt"
     }
   ]
 }

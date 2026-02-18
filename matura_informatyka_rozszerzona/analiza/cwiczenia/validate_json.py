@@ -181,8 +181,12 @@ def validate_exercise(ex: dict, basename: str, file_prefix: int,
     for i, b in enumerate(bledy):
         if not b.get('opis'):
             report.error(basename, eid, f"typowe_bledy[{i}]: empty opis")
-        if not b.get('kara') and b.get('kara') != '':
-            report.error(basename, eid, f"typowe_bledy[{i}]: missing kara")
+        kara = b.get('kara', '')
+        if not kara:
+            report.error(basename, eid, f"typowe_bledy[{i}]: missing or empty kara")
+        elif not re.match(r'^-\d+(\.\d+)? pkt$', kara):
+            report.error(basename, eid,
+                         f"typowe_bledy[{i}]: invalid kara format '{kara}' (expected '-N pkt')")
 
 
 def validate_category_rules(ex: dict, basename: str, file_prefix: int,

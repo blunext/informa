@@ -19,7 +19,7 @@
   "typowe_bledy": [
     {
       "opis": "**Warunek `i < n` zamiast `i*i <= n`**: Program dziala poprawnie ale jest O(n) zamiast O(sqrt(n))",
-      "kara": "-0 pkt (ale wolniejszy)"
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Brak obslugi n=2**: Jesli petla zaczyna od i=3, to n=2 nie jest sprawdzane",

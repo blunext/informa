@@ -27,7 +27,7 @@
     },
     {
       "opis": "**Szukanie gorek od kazdej pozycji**: Mozna zoptymalizowac, ale na danych maturalnych (20-1000 elementow) O(n^2) jest OK.",
-      "kara": ""
+      "kara": "-0 pkt"
     }
   ]
 }

@@ -19,7 +19,7 @@
   "typowe_bledy": [
     {
       "opis": "**BETWEEN 2020 AND 2019**: Odwrocona kolejnosc — BETWEEN wymaga mniejszej wartosci po lewej, wiekszej po prawej",
-      "kara": "-2 pkt (pusty wynik)"
+      "kara": "-2 pkt"
     },
     {
       "opis": "**rok > 2019 AND rok < 2020**: To wyklucza 2019 i 2020 — zostawia tylko wartosci miedzy nimi (nie calkowite)",

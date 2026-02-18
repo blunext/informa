@@ -23,7 +23,7 @@
     },
     {
       "opis": "**Warunek `b > 0` zamiast `b != 0`**: Dla liczb dodatnich to samo, ale dla ogolnosci `!= 0` jest bezpieczniejsze.",
-      "kara": ""
+      "kara": "-0 pkt"
     },
     {
       "opis": "**Porownanie NWD >= 1 zamiast > 1**: Kazda para ma NWD >= 1, wiec warunek bylby zawsze spelniony",

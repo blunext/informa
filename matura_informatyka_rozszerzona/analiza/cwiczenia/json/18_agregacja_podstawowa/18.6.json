@@ -22,7 +22,7 @@
     },
     {
       "opis": "**Brak mnozenia razy 100**: =B2/$B$8 da 0.30 zamiast 30.0%",
-      "kara": "-1 pkt (chyba ze format komorki to %)"
+      "kara": "-1 pkt"
     }
   ]
 }
