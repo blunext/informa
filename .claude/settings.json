@@ -1,49 +1,25 @@
 {
   "permissions": {
     "allow": [
+      "Bash(*)",
       "WebSearch",
       "WebFetch(domain:arkusze.pl)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:resources.anthropic.com)",
-
-      "Bash(git:*)",
-      "Bash(go:*)",
-      "Bash(python3:*)",
-      "Bash(sqlite3:*)",
-      "Bash(g++:*)",
-      "Bash(bash:*)",
-      "Bash(chmod:*)",
-
-      "Bash(mkdir:*)",
-      "Bash(cp:*)",
-      "Bash(rm:*)",
-      "Bash(mv:*)",
-      "Bash(ls:*)",
-      "Bash(du:*)",
-      "Bash(wc:*)",
-      "Bash(sort:*)",
-      "Bash(tr:*)",
-      "Bash(xargs:*)",
-      "Bash(date:*)",
-      "Bash(test:*)",
-      "Bash(printf:*)",
-      "Bash(echo:*)",
-      "Bash(curl:*)",
-      "Bash(unzip:*)",
-      "Bash(xxd:*)",
-      "Bash(md5:*)",
-      "Bash(staticcheck:*)",
-
-      "Bash(matura_informatyka_rozszerzona/analiza/cli/matura:*)",
-      "Bash($MATURA:*)",
-      "Bash(./matura:*)",
-      "Bash(./build.sh:*)",
-      "Bash(./test_qa.sh:*)",
-      "Bash(MATURA=*)",
-      "Bash(CLI_DIR=*)",
-      "Bash(TMPDIR=*)",
-      "Bash(ELAPSED=*)",
-      "Bash(START_TS=*)"
+      "WebFetch(domain:resources.anthropic.com)"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~*)",
+      "Bash(sudo *)",
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Bash(git reset --hard *)",
+      "Bash(dd *)",
+      "Bash(chmod 777 *)",
+      "Bash(pkill *)",
+      "Bash(kill -9 *)",
+      "Bash(wget *)"
     ]
   }
 }
