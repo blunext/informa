@@ -432,112 +432,13 @@ Dla zadan z danymi: `Dane: {sciezka_danych} (pliki: {pliki_danych})`
 5. Wyswietl wynik + `pulapki`
 6. Zapisz: `./matura cke save --id {id} --punkty N --max M`
 
-## H3. Probna matura — symulacja egzaminu
+## H3. Probna matura
 
-### Wyzwalanie
+Gdy uczen wpisze `probna` → Read `.claude/skills/matura/probna.md` i postepuj wg instrukcji.
 
-Komenda `probna [argument]`:
-- **rok** (np. `probna 2024`): konkretny egzamin
-- **`losowa`**: `./matura exam list --random`
-- **`nowa`**: `./matura exam list --formula nowa --random`
-- **`stara`**: `./matura exam list --formula stara --random`
-- **bez argumentu**: `./matura exam list` (lista dostepnych lat ze statusem i sugestia)
+## H4. Pulapki CKE
 
-### Start
-
-1. Pobierz metadane: `./matura exam meta --rok {rok}`
-2. Zapisz timestamp startu: `date +%s`
-3. Wyswietl:
-```
---- PROBNA MATURA {rok} ---
-Czas: {czas_minuty} min | {total_punkty} pkt | Zadan: {n} | Formula: {formula}
-
-Zasady:
-- Zadania podawane sekwencyjnie
-- Brak hintow — jak na prawdziwym egzaminie
-- Komendy: odpowiedz / pomin (0 pkt) / przerwij (koniec)
-
-Zaczynamy? (tak / nie)
-```
-
-### Przebieg
-
-Dla kazdego zadania sekwencyjnie:
-1. Pobierz zadanie: `./matura exam task --rok {rok} --zadanie {n}`
-2. Wyswietl kontekst + kazde podzadanie po kolei
-3. Brak hintow — jesli uczen poprosi: "To probna matura — na egzaminie nie ma hintow. Podaj odpowiedz, `pomin` lub `przerwij`."
-4. Ocen wg `zasady_oceniania`, przyznaj punkty czesciowe, krotki feedback (1 zdanie)
-5. Prowadz bufor wynikow: `Zad 1.1: 2/3 pkt | Zad 1.2: 1/1 pkt | ...`
-
-Komendy w trakcie: `pomin` (0 pkt za podzadanie), `przerwij` (koniec egzaminu → podsumowanie)
-
-**Reguly behawioralne:**
-- **Niezaleznosc podzadan**: po ocenie NIE odwoluj sie do poprzednich podzadan — traktuj kazde osobno
-- **Porcjowanie**: co 3 zadania (nie podzadania) wyswietl mini-podsumowanie z dotychczasowymi punktami
-- **Bufor wynikow**: prowadz jako tekst inline — nie polegaj na pamieci z poczatku konwersacji
-
-### Podsumowanie
-
-1. Oblicz czas: `date +%s` minus start_timestamp
-2. Wyswietl:
-```
---- WYNIK PROBNEJ MATURY {rok} ---
-{zdobyte} / {total_punkty} pkt ({procent}%)
-Czas: {elapsed_min} min / {limit_min} min
-
-Per zadanie:
-  Zad. 1: {tytul}
-    1.1 ({typ}): {zdobyte}/{max} pkt {v|~|x|-}
-    ...
-
-Per kategoria:
-  TEORIA: {pkt}/{max} | IMPLEMENTACJA: {pkt}/{max}
-  ARKUSZ: {pkt}/{max} | SQL: {pkt}/{max}
-
-Pulapki, na ktore wpadl(a/e)s:
-  - Zad. 1.1: {pulapka}
-  ...
-
-Mocne strony: {kategorie z pelnym wynikiem}
-Do poprawy: {kategorie z <50%}
-```
-Gdzie status: `v` (pelne pkt), `~` (czesciowe), `x` (0 pkt), `-` (pominiete).
-
-3. **Pelne rozwiazania**: zapytaj "Chcesz zobaczyc pelne rozwiazania? (tak / konkretne zadanie / nie)"
-   - **tak**: wyswietlaj po 3 zadania, po kazdej porcji pytaj "Dalej?"
-   - **numer** (np. "1.2"): tylko to podzadanie
-   - **nie**: zakoncz
-
-4. Zapisz: `./matura exam save --rok {rok} --results '[{"id":"2024.1.1","pkt":2,"max":3},...]' --czas M`
-
-## H4. Pulapki CKE — tryb rozpoznawania pulapek
-
-### Wyzwalanie
-
-Komenda `pulapki [typ|kategoria]`. Bez argumentu → pulapki z typu, nad ktorym uczen aktualnie pracuje.
-
-### Pobieranie
-
-`./matura trap list --typ {typ}` lub `--kategoria {kat}`
-
-### Tryb quizowy
-
-1. Wyswietl skrocona tresc zadania CKE (max 5-6 linii)
-2. Zapytaj: "Jakie pulapki widzisz w tym zadaniu? Co moze pojsc nie tak?"
-3. Porownaj odpowiedz ucznia z `pulapki[]`
-4. Wyswietl feedback:
-```
---- Pulapki CKE (Matura {rok}, Zad. {numer}) ---
-Twoje trafienia: {N}/{total}
-  v {pulapka_1} — trafione!
-  x {pulapka_2} — przeoczone
-```
-5. Zapisz: `./matura trap save --id {id} --typ {typ} --trafienia N --total M`
-6. Zapytaj: "Nastepne zadanie czy konczymy?"
-
-### Tryb przegladowy
-
-Komenda `pulapki lista [typ|kategoria]` — wyswietl zestawienie pulapek pogrupowane tematycznie.
+Gdy uczen wpisze `pulapki` → Read `.claude/skills/matura/pulapki.md` i postepuj wg instrukcji.
 
 ## I. Reset kontekstu — wagi sesji
 
