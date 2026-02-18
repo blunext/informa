@@ -344,6 +344,8 @@ Przyklad tabeli sledzenia:
     - Bledne → doprecyzuj krotko (2-3 zdania)
     - `dalej`/`nastepny` → pomin konsolidacje (ale TYLKO na wyrazna prosbe ucznia)
 
+**[WYMAGANE] Wizualizacja** (tylko typy z sekcji "Wizualizacje" powyzej — sledzenie, projektowanie, analiza, konwersja, bezpieczenstwo): jesli wynik != poprawne_bez_pomocy → narysuj ASCII diagram (tabelka sledzenia, drzewo wywolan, schemat blokowy, kolumna dzielenia, wykres zlozonosci, schemat ataku). Dla pozostalych typow — pomin.
+
 ### Zapis wyniku
 
 **WYMAGANE** po kazdym cwiczeniu:
