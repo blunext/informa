@@ -4,6 +4,7 @@ matura_informatyka_rozszerzona/analiza/matura_progress.json
 matura_informatyka_rozszerzona/analiza/cli/matura_progress.db
 matura_informatyka_rozszerzona/analiza/cli/matura.db-wal
 matura_informatyka_rozszerzona/analiza/cli/matura.db-shm
+matura_informatyka_rozszerzona/analiza/cli/matura-linux
 matura_informatyka_rozszerzona/analiza/cli/dist/
 __pycache__/
 .DS_Store
