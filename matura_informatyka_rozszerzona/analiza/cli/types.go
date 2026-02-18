@@ -120,6 +120,7 @@ type ProgressUpdateOut struct {
 	CzasSek         *int     `json:"czas_sek,omitempty"`
 	BenchmarkSek    *int     `json:"benchmark_sek,omitempty"`
 	Tempo           *string  `json:"tempo,omitempty"`
+	BladWarning     *string  `json:"blad_warning,omitempty"`
 }
 
 // ProgressStatusOut is what progress status returns

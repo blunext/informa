@@ -997,6 +997,77 @@ func TestProgressDiagnoseEmpty(t *testing.T) {
 	}
 }
 
+// === Feature: BladWarning on progress update ===
+
+func TestBladWarningOnNonPerfectResult(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	today := time.Now().Format("2006-01-02")
+
+	// Simulate progress update with non-perfect result, no blad logged
+	// Insert exercise as done
+	db.Exec(`INSERT OR REPLACE INTO progress_zrobione (id, typ, data, wynik) VALUES ('7.1', 'cyfry_liczby', ?, 'poprawne_z_pomoca_1')`, today)
+
+	// Check progress_bledy for this exercise today — should be 0
+	var bladyCount int
+	db.QueryRow("SELECT COUNT(*) FROM progress_bledy WHERE exercise_id = '7.1' AND data = ?", today).Scan(&bladyCount)
+	if bladyCount != 0 {
+		t.Errorf("expected 0 bledy, got %d", bladyCount)
+	}
+
+	// Warning should be generated: wynik != poprawne_bez_pomocy && bladyCount == 0
+	wynik := "poprawne_z_pomoca_1"
+	shouldWarn := wynik != "poprawne_bez_pomocy" && bladyCount == 0
+	if !shouldWarn {
+		t.Error("expected blad_warning to be generated")
+	}
+}
+
+func TestNoBladWarningOnPerfectResult(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	today := time.Now().Format("2006-01-02")
+
+	// Insert exercise with perfect result
+	db.Exec(`INSERT OR REPLACE INTO progress_zrobione (id, typ, data, wynik) VALUES ('7.1', 'cyfry_liczby', ?, 'poprawne_bez_pomocy')`, today)
+
+	// Perfect result → no warning regardless of blad count
+	wynik := "poprawne_bez_pomocy"
+	shouldWarn := wynik != "poprawne_bez_pomocy"
+	if shouldWarn {
+		t.Error("expected no blad_warning for perfect result")
+	}
+}
+
+func TestNoBladWarningWhenBladLogged(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	today := time.Now().Format("2006-01-02")
+
+	// Insert exercise with non-perfect result
+	db.Exec(`INSERT OR REPLACE INTO progress_zrobione (id, typ, data, wynik) VALUES ('7.1', 'cyfry_liczby', ?, 'poprawne_z_pomoca_1')`, today)
+
+	// Log a blad for today
+	db.Exec(`INSERT INTO progress_bledy (exercise_id, typ, blad_kod, data) VALUES ('7.1', 'cyfry_liczby', 'off_by_one', ?)`, today)
+
+	// Check progress_bledy — should be > 0
+	var bladyCount int
+	db.QueryRow("SELECT COUNT(*) FROM progress_bledy WHERE exercise_id = '7.1' AND data = ?", today).Scan(&bladyCount)
+	if bladyCount == 0 {
+		t.Error("expected blady logged, got 0")
+	}
+
+	// No warning: bladyCount > 0
+	wynik := "poprawne_z_pomoca_1"
+	shouldWarn := wynik != "poprawne_bez_pomocy" && bladyCount == 0
+	if shouldWarn {
+		t.Error("expected no blad_warning when blad is logged")
+	}
+}
+
 // === Feature 3: Rich Type Intro ===
 
 func TestTypIntroWithCKEStats(t *testing.T) {

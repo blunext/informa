@@ -519,6 +519,17 @@ func progressUpdateCmd() *cobra.Command {
 				}
 			}
 
+			// Warn if non-perfect result but no errors logged
+			if wynik != "poprawne_bez_pomocy" {
+				var bladyCount int
+				d.QueryRow("SELECT COUNT(*) FROM progress_bledy WHERE exercise_id = ? AND data = ?",
+					id, today).Scan(&bladyCount)
+				if bladyCount == 0 {
+					w := "UWAGA: wynik " + wynik + " ale brak progress blad dla tego cwiczenia"
+					out.BladWarning = &w
+				}
+			}
+
 			jsonOut(out)
 			return nil
 		},

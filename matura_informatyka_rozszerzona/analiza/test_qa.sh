@@ -206,6 +206,20 @@ run_layer_1() {
   test_json_cmd "progress update --wynik poprawne_bez_pomocy" \
     matura_tmp progress update --id "$ex_id" --wynik poprawne_bez_pomocy --czas 60
 
+  # progress update with non-perfect result (no prior blad) → blad_warning present
+  local ex_id2
+  ex_id2=$("$MATURA" exercise get --typ napisy 2>/dev/null \
+    | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])" 2>/dev/null) || ex_id2="8.1"
+  local update_out2
+  update_out2=$(matura_tmp progress update --id "$ex_id2" --wynik poprawne_z_pomoca_1 --czas 45 2>&1)
+  local has_warning
+  has_warning=$(echo "$update_out2" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print('yes' if d.get('blad_warning') else 'no')" 2>/dev/null) || has_warning=""
+  if [ "$has_warning" = "yes" ]; then
+    pass "progress update non-perfect → blad_warning present"
+  else
+    fail "progress update non-perfect → blad_warning (expected yes, got: $has_warning)"
+  fi
+
   test_json_cmd "progress blad" \
     matura_tmp progress blad --exercise-id "$ex_id" --typ cyfry_liczby --kod brak_inicjalizacji
 
@@ -714,6 +728,50 @@ run_layer_6() {
     pass "6j: exercise next after 2 exercises → session_count=$sess_count"
   else
     fail "6j: exercise next session_count (expected >= 2, got: $sess_count)"
+  fi
+
+  # --- 6k: progress update with non-perfect result and no blad → blad_warning present ---
+  echo "  -- 6k: blad_warning on non-perfect result --"
+  local warn_dir
+  warn_dir=$(mktemp -d)
+  CLEANUP_DIRS+=("$warn_dir")
+  cp "$CLI_DIR/matura.db" "$warn_dir/matura.db"
+
+  local warn_eid
+  warn_eid=$("$MATURA" --db-dir "$warn_dir" exercise get --typ cyfry_liczby 2>/dev/null \
+    | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])" 2>/dev/null) || warn_eid="7.1"
+
+  local warn_out warn_field
+  warn_out=$("$MATURA" --db-dir "$warn_dir" progress update --id "$warn_eid" --wynik poprawne_z_pomoca_1 --czas 60 2>&1)
+  warn_field=$(echo "$warn_out" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print('yes' if d.get('blad_warning') else 'no')" 2>/dev/null) || warn_field=""
+  if [ "$warn_field" = "yes" ]; then
+    pass "6k: non-perfect result without blad → blad_warning present"
+  else
+    fail "6k: blad_warning (expected yes, got: $warn_field)"
+  fi
+
+  # --- 6l: progress update with blad logged first → no blad_warning ---
+  echo "  -- 6l: no blad_warning when blad logged --"
+  local nowarn_dir
+  nowarn_dir=$(mktemp -d)
+  CLEANUP_DIRS+=("$nowarn_dir")
+  cp "$CLI_DIR/matura.db" "$nowarn_dir/matura.db"
+
+  local nowarn_eid
+  nowarn_eid=$("$MATURA" --db-dir "$nowarn_dir" exercise get --typ napisy 2>/dev/null \
+    | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])" 2>/dev/null) || nowarn_eid="8.1"
+
+  # Log blad first
+  "$MATURA" --db-dir "$nowarn_dir" progress blad --exercise-id "$nowarn_eid" --typ napisy --kod off_by_one --hint 1 >/dev/null 2>&1
+
+  # Then update with non-perfect result
+  local nowarn_out nowarn_field
+  nowarn_out=$("$MATURA" --db-dir "$nowarn_dir" progress update --id "$nowarn_eid" --wynik poprawne_z_pomoca_1 --czas 60 2>&1)
+  nowarn_field=$(echo "$nowarn_out" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print('yes' if d.get('blad_warning') else 'no')" 2>/dev/null) || nowarn_field=""
+  if [ "$nowarn_field" = "no" ]; then
+    pass "6l: blad logged before update → no blad_warning"
+  else
+    fail "6l: no blad_warning (expected no, got: $nowarn_field)"
   fi
 }
 

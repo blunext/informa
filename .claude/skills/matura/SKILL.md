@@ -149,7 +149,11 @@ Progresja trudnosci: streak 3→srednie, 5→srednie-trudne, 8→trudne. Walk_th
 
 ### Scenariusz 1: Pierwsza sesja
 
-Sprawdz: `./matura progress status`. Jesli `cwiczenia_lacznie == 0`:
+**ZAWSZE na poczatku** sprawdz: `./matura progress status`.
+
+Jesli `zaleglosci > 0` → zapytaj: "Masz {zaleglosci} zaleglosci powtorkowych. Powtorka czy nowy material?"
+
+Jesli `cwiczenia_lacznie == 0`:
 
 Powitaj ucznia. Przedstaw 4 bloki tematyczne:
 - **TEORIA** (6 typow): sledzenie algorytmow, projektowanie, analiza, P/F, systemy liczbowe, bezpieczenstwo
@@ -169,7 +173,12 @@ Sprawdz: `./matura progress status`. Wyswietl krotki raport:
 
 ### Scenariusz 3: Z argumentem (`/matura SQL`, `/matura cyfry_liczby`)
 
-Pomin powitanie. Przejdz od razu do podanego bloku/typu.
+**ZAWSZE najpierw** sprawdz: `./matura progress status`.
+
+Jesli `zaleglosci > 0`:
+- "Masz {zaleglosci} zaleglosci powtorkowych. Powtorka czy {argument}?"
+
+W przeciwnym razie przejdz od razu do podanego bloku/typu.
 
 ## D. Wybor cwiczen
 
@@ -192,7 +201,7 @@ Alternatywnie, bezposrednio: `./matura exercise get --typ {typ} [--trudnosc {t}]
 ## E. Prezentacja cwiczenia
 
 1. Pobierz cwiczenie: `./matura exercise get --typ {typ} [--trudnosc {t}]`
-1b. Zapisz timestamp: wykonaj `START_TS=$(date +%s)` przez Bash
+1b. **WYMAGANE** — Zapisz timestamp: `START_TS=$(date +%s)` przez Bash
 2. Wyswietl:
    ```
    --- {kategoria} | {typ} | {trudnosc} | {punkty} pkt ---
@@ -241,9 +250,11 @@ Brak uzasadnienia przy P/F = zawsze 50% (CKE wymaga uzasadnienia).
 
 **Poziom 1** (po 1. blednej probie):
 - Okresl typ bledu (na podstawie `typowe_bledy` z JSON-a cwiczenia)
+- **ZAPISZ BLAD**: `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint 1`
 - Zadaj pytanie sokratejskie naprowadzajace na poprawny tok myslenia
 
 **Poziom 2** (po 2. blednej probie):
+- **ZAPISZ BLAD**: `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint 2`
 - Pobierz odpowiednia sekcje cheatsheet (NIE caly cheatsheet!):
   `./matura cheatsheet get --kategoria {kat} --sekcja "{odpowiedni_temat}"`
 - Dobierz sekcje do typu bledu ucznia:
@@ -256,12 +267,13 @@ Brak uzasadnienia przy P/F = zawsze 50% (CKE wymaga uzasadnienia).
 - Podaj cytat z cheatsheet + konkretne pojecie z `wskazowki[1]`
 
 **Poziom 3** (po 3. blednej probie):
+- **ZAPISZ BLAD**: `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint 3`
 - Podaj `wskazowki[2]` (kluczowy krok)
 - Rozpisz rozwiazanie krok po kroku, ale ostatni krok zostaw uczniowi
 
 ### Wizualizacje (proaktywne)
 
-Po cwiczeniu, jesli uczen mial blad (wynik != poprawne_bez_pomocy):
+**WYMAGANE** po cwiczeniu z bledem (wynik != poprawne_bez_pomocy):
 
 - **sledzenie_algorytmu**: narysuj tabelke sledzenia krok po kroku LUB drzewo wywolan
 - **projektowanie_algorytmu**: narysuj schemat blokowy algorytmu (ASCII)
@@ -298,11 +310,15 @@ Przyklad tabeli sledzenia:
 
 ### Zapis wyniku
 
-Po kazdym cwiczeniu:
+**WYMAGANE** po kazdym cwiczeniu:
 ```
 ELAPSED=$(($(date +%s) - START_TS))
 ./matura progress update --id {id} --wynik {wynik} --czas $ELAPSED
 ```
+
+Jesli odpowiedz CLI zawiera pole `blad_warning` → NATYCHMIAST wywolaj:
+`./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint 1`
+z kodem bledu odpowiadajacym typowi pomylki, zanim przejdziesz dalej.
 
 CLI automatycznie:
 - Zapisuje cwiczenie jako zrobione (z czasem)
@@ -317,12 +333,7 @@ Feedback czasowy (z pol `tempo`, `czas_sek`, `benchmark_sek` w odpowiedzi CLI):
 - `za_wolno` -> "To zajelo {czas_sek}s, CKE benchmark to {benchmark_sek}s. Potrenuj szybkosc."
 - brak benchmarku -> nic nie mow
 
-### Zapis bledow
-
-Po zidentyfikowaniu bledu na KAZDYM poziomie hintu:
-```
-./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint {N}
-```
+### Kody bledow (referencja)
 
 Kody bledow — TEORIA (uzywaj tych etykiet w `progress blad --kod`):
 - sledzenie: mylenie_div_mod, zla_kolejnosc_sledzenia, pominiecie_bazy_rekurencji,
