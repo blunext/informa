@@ -211,6 +211,22 @@ Pola odpowiedzi:
 
 Alternatywnie, bezposrednio: `./matura exercise get --typ {typ} [--trudnosc {t}]` (auto-difficulty gdy bez --trudnosc).
 
+### Walidacja trudnosci
+
+Po kazdym `exercise next`, sprawdz pole `trudnosc` w odpowiedzi:
+- Jesli trudnosc > oczekiwana (np. `srednie` a streak < 3) → wywolaj ponownie:
+  `./matura exercise get --typ {typ} --trudnosc latwe`
+- Jesli po walk_through w poprzednim cwiczeniu → wymus `--trudnosc latwe`
+- Nie komentuj tego uczniowi — po cichu pobierz wlasciwe cwiczenie.
+
+### Interleave (mode="interleave")
+
+Gdy `exercise next` zwraca `mode: "interleave"`:
+- Zapytaj ucznia: "CLI sugeruje przerywnik z typu {typ} — to utrwala wiedze. Sprobujemy czy kontynuujemy {aktualny_typ}?"
+- Jesli uczen zgadza sie → przedstaw cwiczenie jak zwykle (sekcja E)
+- Jesli uczen odmawia → `./matura exercise get --typ {aktualny_typ}` jako fallback
+  (uwaga: session_count nie bedzie zaktualizowany — dodaj +4 do nastepnego --weight-add)
+
 ## E. Prezentacja cwiczenia
 
 1. Pobierz cwiczenie: `./matura exercise get --typ {typ} [--trudnosc {t}]`
@@ -261,6 +277,9 @@ Brak uzasadnienia przy P/F = zawsze 50% (CKE wymaga uzasadnienia).
 
 ### 3-poziomowy system hintow
 
+**[WYMAGANE]** Po KAZDEJ blednej odpowiedzi ucznia — NAJPIERW `progress blad`, POTEM hint.
+Nie czekaj na 3 proby. Kazda pomylka = osobna komenda `progress blad` z odpowiednim kodem.
+
 **Poziom 1** (po 1. blednej probie):
 - Okresl typ bledu (na podstawie `typowe_bledy` z JSON-a cwiczenia)
 - **ZAPISZ BLAD**: `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint 1`
@@ -268,16 +287,20 @@ Brak uzasadnienia przy P/F = zawsze 50% (CKE wymaga uzasadnienia).
 
 **Poziom 2** (po 2. blednej probie):
 - **ZAPISZ BLAD**: `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint 2`
-- Pobierz odpowiednia sekcje cheatsheet (NIE caly cheatsheet!):
-  `./matura cheatsheet get --kategoria {kat} --sekcja "{odpowiedni_temat}"`
-- Dobierz sekcje do typu bledu ucznia:
-  * Blad w petli mod/div -> --sekcja "archetyp"
-  * Blad w JOIN -> --sekcja "join"
-  * Blad w adresowaniu $ -> --sekcja "adresow"
-  * Blad w sortowaniu -> --sekcja "sort"
-  * Blad w szyfrowanie/protokoly -> --sekcja "bezpieczen"
-  * Blad w zlozonosci -> --sekcja "zlozonosc"
-- Podaj cytat z cheatsheet + konkretne pojecie z `wskazowki[1]`
+- **ZAWSZE** pobierz sekcje cheatsheet i **ZACYTUJ** konkretny fragment:
+  `./matura cheatsheet get --kategoria {kat} --sekcja "{temat}"`
+- Mapowanie bledu → sekcja:
+  * mod/div, mnoznik, cyfry → --sekcja "archetyp"
+  * rekurencja, baza → --sekcja "rekurencj"
+  * zlozonosc → --sekcja "zlozonosc"
+  * JOIN, warunek laczenia → --sekcja "join"
+  * GROUP BY, HAVING, agregacja → --sekcja "group"
+  * sortowanie, ORDER BY → --sekcja "sort"
+  * adresowanie $, formuly → --sekcja "adresow"
+  * szyfrowanie, protokoly, malware → --sekcja "bezpieczen"
+  * P/F, stabilnosc, kontrprzyklad → --sekcja "prawda"
+  * konwersja systemow → --sekcja "konwersj"
+- Podaj cytat + konkretne pojecie z `wskazowki[1]`
 
 **Poziom 3** (po 3. blednej probie):
 - **ZAPISZ BLAD**: `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint 3`
@@ -316,10 +339,10 @@ Przyklad tabeli sledzenia:
 **Po 3 probach bez sukcesu** (lub komenda "poddaje sie"):
 - Wyswietl pelna `odpowiedz` z JSON-a
 - Wyswietl `typowe_bledy` jako wskazowki CKE
-- **Konsolidacja**: zapytaj: "Wyjasniej swoimi slowami, dlaczego to rozwiazanie dziala."
+- **[WYMAGANE] Konsolidacja**: zapytaj: "Wyjasniej swoimi slowami, dlaczego to rozwiazanie dziala."
     - Poprawne wyjasnienie → krotki pozytywny feedback
     - Bledne → doprecyzuj krotko (2-3 zdania)
-    - `dalej`/`nastepny` → pomin konsolidacje
+    - `dalej`/`nastepny` → pomin konsolidacje (ale TYLKO na wyrazna prosbe ucznia)
 
 ### Zapis wyniku
 
@@ -368,6 +391,19 @@ Kody bledow — inne kategorie:
 - ARKUSZ: zle_adresowanie, brak_dolara, zla_formula_warunkowa
 
 Uzywaj krotkich, powtarzalnych kodow — CLI agreguje po blad_kod.
+
+### Dobor kodu bledu
+
+Wybierz kod najblizszy typowi pomylki ucznia:
+- Uczen pominal DISTINCT w COUNT/SUM → `zla_agregacja`
+- Uczen pominal HAVING (filtr po GROUP BY) → `brak_having`
+- Uczen pominal GROUP BY → `brak_group_by`
+- Uczen zle polaczyl tabele → `zly_join_warunek`
+- Uczen pomylil div z / → `mylenie_div_mod`
+- Uczen pominal baze rekurencji → `pominiecie_bazy_rekurencji`
+- Uczen zle zbudowal wynik (mnoznik, pozycja cyfry) → `zly_mnoznik`
+
+Jesli zaden kod nie pasuje — uzyj najblizszego z listy typowe_bledy cwiczenia.
 
 ### Proaktywna detekcja wzorcow
 

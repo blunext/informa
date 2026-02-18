@@ -8,9 +8,6 @@
       "WebFetch(domain:resources.anthropic.com)"
     ],
     "deny": [
-      "Bash(rm -rf /)",
-      "Bash(rm -rf /*)",
-      "Bash(rm -rf ~*)",
       "Bash(sudo *)",
       "Bash(git push --force *)",
       "Bash(git push -f *)",
