@@ -505,6 +505,7 @@ CLI akumuluje wage kontekstu. Model podaje delta do `exercise next`.
 | Intro nowa kategoria (z cheatsheet) | 10 |
 | Sprawdzian CKE (cke get + ocena) | 5 |
 | Pulapki quiz (1 zadanie) | 2 |
+| Wizualizacja ASCII (diagram po bledzie) | 2 |
 
 ### Reguly
 
