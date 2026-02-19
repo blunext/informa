@@ -858,6 +858,72 @@ func progressStatusCmd() *cobra.Command {
 				out.LeechTagi = []LeechTagOut{}
 			}
 
+			// Global retencja_szacowana — average retrievability across all tracked tags
+			fsrsParams := DefaultFSRSParams()
+			retRows, retErr := d.Query(`SELECT tag, COALESCE(stability, 1.0), COALESCE(last_review, '')
+				FROM progress_tagi WHERE nastepna_powtorka IS NOT NULL`)
+			if retErr == nil {
+				var totalR float64
+				var retCount int
+				for retRows.Next() {
+					var tag, lastReview string
+					var stability float64
+					retRows.Scan(&tag, &stability, &lastReview)
+					elapsed := daysBetween(lastReview, today)
+					r := fsrsParams.Retrievability(elapsed, stability)
+					totalR += r
+					retCount++
+				}
+				if rowErr := retRows.Err(); rowErr != nil {
+					fmt.Fprintf(os.Stderr, "warning: retencja rows: %v\n", rowErr)
+				}
+				retRows.Close()
+				if retCount > 0 {
+					avgR := totalR / float64(retCount)
+					out.RetencjaSzacowana = &avgR
+				}
+			}
+
+			// Per-kategoria retencja — tag → exercise → category mapping
+			katRetRows, katRetErr := d.Query(`
+				SELECT c.kategoria, t.tag, COALESCE(t.stability, 1.0), COALESCE(t.last_review, '')
+				FROM progress_tagi t
+				JOIN data.cwiczenia c ON EXISTS (SELECT 1 FROM json_each(c.tagi) WHERE value = t.tag)
+				WHERE t.nastepna_powtorka IS NOT NULL
+				GROUP BY c.kategoria, t.tag`)
+			if katRetErr == nil {
+				type katRetAcc struct {
+					totalR float64
+					count  int
+				}
+				katRetMap := map[string]*katRetAcc{}
+				for katRetRows.Next() {
+					var kat, tag, lastReview string
+					var stability float64
+					katRetRows.Scan(&kat, &tag, &stability, &lastReview)
+					elapsed := daysBetween(lastReview, today)
+					r := fsrsParams.Retrievability(elapsed, stability)
+					if katRetMap[kat] == nil {
+						katRetMap[kat] = &katRetAcc{}
+					}
+					katRetMap[kat].totalR += r
+					katRetMap[kat].count++
+				}
+				if rowErr := katRetRows.Err(); rowErr != nil {
+					fmt.Fprintf(os.Stderr, "warning: kat retencja rows: %v\n", rowErr)
+				}
+				katRetRows.Close()
+				for i := range out.PerKategoria {
+					if acc, ok := katRetMap[out.PerKategoria[i].Kategoria]; ok && acc.count > 0 {
+						avgR := acc.totalR / float64(acc.count)
+						out.PerKategoria[i].Retencja = &avgR
+					}
+				}
+			}
+
+			// Rekomendacja — priority-based single recommendation
+			out.Rekomendacja = computeRekomendacja(d, out)
+
 			jsonOut(out)
 			return nil
 		},
@@ -865,6 +931,75 @@ func progressStatusCmd() *cobra.Command {
 
 	cmd.Flags().StringVar(&typ, "typ", "", "Filter by type (e.g. sql_group_by)")
 	return cmd
+}
+
+// tier1Types are types that appear in 100% of exams — critical for every student.
+var tier1Types = []string{
+	"sledzenie_algorytmu", "cyfry_liczby", "napisy",
+	"agregacja_warunkowa", "symulacja",
+	"sql_group_by", "sql_join",
+}
+
+// computeRekomendacja returns a single priority recommendation based on progress status.
+func computeRekomendacja(_ *sql.DB, out ProgressStatusOut) string {
+	// (a) Leech tag — highest priority
+	if len(out.LeechTagi) > 0 {
+		lt := out.LeechTagi[0]
+		return fmt.Sprintf("Powtórz: %s (lapses: %d, stability: %.1fd)", lt.Tag, lt.Lapses, lt.Stability)
+	}
+
+	// (b) Category with retencja < 0.80
+	for _, ks := range out.PerKategoria {
+		if ks.Retencja != nil && *ks.Retencja < 0.80 {
+			return fmt.Sprintf("Kategoria %s ma retencję %.0f%% — wymaga powtórek", ks.Kategoria, *ks.Retencja*100)
+		}
+	}
+
+	// (c) Untouched TIER 1 type
+	touchedTypes := map[string]bool{}
+	for _, ts := range out.PerTyp {
+		if ts.Zrobione > 0 {
+			touchedTypes[ts.Typ] = true
+		}
+	}
+	for _, t1 := range tier1Types {
+		if !touchedTypes[t1] {
+			return fmt.Sprintf("Nie ćwiczyłeś: %s — pojawia się co roku na maturze", t1)
+		}
+	}
+
+	// (d) Streak imbalance: max avg_streak / min avg_streak >= 3
+	if len(out.PerKategoria) >= 2 {
+		var maxStreak, minStreak float64
+		var maxKat, minKat string
+		first := true
+		for _, ks := range out.PerKategoria {
+			if ks.TypyRuszane == 0 {
+				continue
+			}
+			if first {
+				maxStreak = ks.AvgStreak
+				minStreak = ks.AvgStreak
+				maxKat = ks.Kategoria
+				minKat = ks.Kategoria
+				first = false
+			} else {
+				if ks.AvgStreak > maxStreak {
+					maxStreak = ks.AvgStreak
+					maxKat = ks.Kategoria
+				}
+				if ks.AvgStreak < minStreak {
+					minStreak = ks.AvgStreak
+					minKat = ks.Kategoria
+				}
+			}
+		}
+		if !first && minStreak > 0 && maxStreak/minStreak >= 3 {
+			return fmt.Sprintf("%s avg streak %.0f, %s avg streak %.0f — wyrównaj", maxKat, maxStreak, minKat, minStreak)
+		}
+	}
+
+	return ""
 }
 
 // === progress blad ===

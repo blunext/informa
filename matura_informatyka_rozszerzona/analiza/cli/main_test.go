@@ -1729,3 +1729,132 @@ func TestMigrationV4(t *testing.T) {
 		t.Errorf("version: got %d, want %d", version, currentSchemaVersion)
 	}
 }
+
+// === Feature: Diagnostic Dashboard ===
+
+func TestProgressStatusRetencja(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Insert 2 tags with known stability and last_review
+	today := time.Now().Format("2006-01-02")
+	yesterday := time.Now().AddDate(0, 0, -1).Format("2006-01-02")
+
+	db.Exec(`INSERT INTO progress_tagi (tag, poziom, nastepna_powtorka, stability, difficulty, lapses, reps, state, last_review)
+		VALUES ('ret-tag-1', 2, ?, 10.0, 5.0, 0, 3, 2, ?)`, today, today)
+	db.Exec(`INSERT INTO progress_tagi (tag, poziom, nastepna_powtorka, stability, difficulty, lapses, reps, state, last_review)
+		VALUES ('ret-tag-2', 1, ?, 5.0, 5.0, 0, 2, 2, ?)`, today, yesterday)
+
+	// Compute retencja like progressStatusCmd does
+	fsrsParams := DefaultFSRSParams()
+	rows, err := db.Query(`SELECT tag, COALESCE(stability, 1.0), COALESCE(last_review, '')
+		FROM progress_tagi WHERE nastepna_powtorka IS NOT NULL`)
+	if err != nil {
+		t.Fatalf("query: %v", err)
+	}
+
+	var totalR float64
+	var count int
+	for rows.Next() {
+		var tag, lastReview string
+		var stability float64
+		rows.Scan(&tag, &stability, &lastReview)
+		elapsed := daysBetween(lastReview, today)
+		r := fsrsParams.Retrievability(elapsed, stability)
+		totalR += r
+		count++
+	}
+	rows.Close()
+
+	if count != 2 {
+		t.Fatalf("expected 2 tracked tags, got %d", count)
+	}
+
+	avgR := totalR / float64(count)
+	// ret-tag-1: elapsed=0 → R=1.0; ret-tag-2: elapsed=1, stability=5 → R≈0.96
+	// Average should be between 0.9 and 1.0
+	if avgR < 0.9 || avgR > 1.0 {
+		t.Errorf("retencja_szacowana: got %.4f, want in [0.9, 1.0]", avgR)
+	}
+}
+
+func TestProgressStatusRekomendacjaLeech(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Insert a leech tag (lapses=3)
+	db.Exec(`INSERT INTO progress_tagi (tag, poziom, nastepna_powtorka, stability, difficulty, lapses, reps, state, last_review)
+		VALUES ('leech-tag', 0, '2026-01-01', 0.5, 5.0, 3, 5, 3, '2026-01-01')`)
+
+	out := ProgressStatusOut{
+		LeechTagi: []LeechTagOut{{Tag: "leech-tag", Lapses: 3, Stability: 0.5}},
+		PerTyp:    []TypStatusOut{},
+	}
+
+	rek := computeRekomendacja(db, out)
+	if !strings.Contains(rek, "Powtórz") {
+		t.Errorf("leech rekomendacja: got %q, want to contain 'Powtórz'", rek)
+	}
+	if !strings.Contains(rek, "leech-tag") {
+		t.Errorf("leech rekomendacja: got %q, want to contain 'leech-tag'", rek)
+	}
+}
+
+func TestProgressStatusRekomendacjaFreshDB(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Fresh DB — no progress at all → should recommend untouched TIER 1 type
+	out := ProgressStatusOut{
+		LeechTagi:    []LeechTagOut{},
+		PerTyp:       []TypStatusOut{},
+		PerKategoria: []KategoriaStatusOut{},
+	}
+
+	rek := computeRekomendacja(db, out)
+	if !strings.Contains(rek, "Nie ćwiczyłeś") {
+		t.Errorf("fresh DB rekomendacja: got %q, want to contain 'Nie ćwiczyłeś'", rek)
+	}
+	// Should mention one of the TIER 1 types
+	foundTier1 := false
+	for _, t1 := range tier1Types {
+		if strings.Contains(rek, t1) {
+			foundTier1 = true
+			break
+		}
+	}
+	if !foundTier1 {
+		t.Errorf("fresh DB rekomendacja: got %q, want to contain a TIER 1 type", rek)
+	}
+}
+
+func TestProgressStatusRekomendacjaStreakImbalance(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// All TIER 1 types touched (so we skip rule c)
+	perTyp := []TypStatusOut{}
+	for _, t1 := range tier1Types {
+		perTyp = append(perTyp, TypStatusOut{Typ: t1, Zrobione: 1})
+	}
+
+	// Skewed streaks: TEORIA avg=9, SQL avg=1 → ratio 9
+	out := ProgressStatusOut{
+		LeechTagi: []LeechTagOut{},
+		PerTyp:    perTyp,
+		PerKategoria: []KategoriaStatusOut{
+			{Kategoria: "TEORIA", TypyTotal: 6, TypyRuszane: 3, AvgStreak: 9.0},
+			{Kategoria: "IMPLEMENTACJA", TypyTotal: 8, TypyRuszane: 4, AvgStreak: 6.0},
+			{Kategoria: "ARKUSZ", TypyTotal: 5, TypyRuszane: 2, AvgStreak: 4.0},
+			{Kategoria: "SQL", TypyTotal: 4, TypyRuszane: 2, AvgStreak: 1.0},
+		},
+	}
+
+	rek := computeRekomendacja(db, out)
+	if !strings.Contains(rek, "wyrównaj") {
+		t.Errorf("streak imbalance rekomendacja: got %q, want to contain 'wyrównaj'", rek)
+	}
+	if !strings.Contains(rek, "TEORIA") || !strings.Contains(rek, "SQL") {
+		t.Errorf("streak imbalance: got %q, want TEORIA and SQL mentioned", rek)
+	}
+}

@@ -170,8 +170,10 @@ Zapytaj: "Od ktorego bloku zaczynamy?"
 Sprawdz: `./matura progress status`. Wyswietl krotki raport:
 - Ile sesji, kiedy ostatnia
 - Per blok: ktore typy ruszono, aktualny poziom trudnosci
+- Retencja: jesli `retencja_szacowana` != null → "Retencja: {retencja_szacowana*100:.0f}%"
 - Zaleglosci powtorkowe: pole `zaleglosci`
 - Pijawki: jesli `leech_tagi` niepuste → "Tematy wymagajace uwagi: {tag} (lapses: {n})"
+- Dashboard: jesli `rekomendacja` niepuste → "Rekomendacja: {rekomendacja}"
 - Zapytaj: "Masz N zaleglosci powtorkowych. Powtorka czy nowy material?"
 
 **[WYMAGANE]** Pierwsze `exercise next` w sesji MUSI miec `--weight-reset`.
@@ -414,10 +416,15 @@ Jesli zaden kod nie pasuje — uzyj najblizszego z listy typowe_bledy cwiczenia.
 Co 5 cwiczen w sesji sprawdz:
 ```
 ./matura progress diagnose --typ {aktualny_typ} --limit 1
+./matura progress status
 ```
 
 Jesli `top_bledy[0].count >= 3`:
   "Zauwazam powtarzajacy sie blad: {blad_kod}. Chcesz, zebym wyjasnil to zagadnienie?"
+
+Jesli `rekomendacja` niepuste → wyswietl: "Dashboard: {rekomendacja}"
+Jesli `retencja_szacowana < 0.80` → "Uwaga: ogolna retencja {retencja_szacowana*100:.0f}% — rozważ powtorki"
+Uzyj `rekomendacja` do zasugerowania nastepnego typu (zamiast kontynuacji biezacego).
 
 ## H. Komendy ucznia
 

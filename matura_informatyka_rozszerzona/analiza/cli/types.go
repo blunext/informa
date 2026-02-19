@@ -137,6 +137,8 @@ type ProgressStatusOut struct {
 	TagiOpanowane      []string             `json:"tagi_opanowane"`
 	TagiProblematyczne []string             `json:"tagi_problematyczne"`
 	LeechTagi          []LeechTagOut        `json:"leech_tagi"`
+	RetencjaSzacowana  *float64             `json:"retencja_szacowana,omitempty"`
+	Rekomendacja       string               `json:"rekomendacja"`
 }
 
 // LeechTagOut represents a tag with too many lapses
@@ -307,12 +309,13 @@ type DiagnoseOut struct {
 
 // KategoriaStatusOut is per-category status
 type KategoriaStatusOut struct {
-	Kategoria   string  `json:"kategoria"`
-	TypyTotal   int     `json:"typy_total"`
-	TypyRuszane int     `json:"typy_ruszane"`
-	Zrobione    int     `json:"zrobione"`
-	Dostepne    int     `json:"dostepne"`
-	AvgStreak   float64 `json:"avg_streak"`
+	Kategoria   string   `json:"kategoria"`
+	TypyTotal   int      `json:"typy_total"`
+	TypyRuszane int      `json:"typy_ruszane"`
+	Zrobione    int      `json:"zrobione"`
+	Dostepne    int      `json:"dostepne"`
+	AvgStreak   float64  `json:"avg_streak"`
+	Retencja    *float64 `json:"retencja,omitempty"`
 }
 
 // CKEStatusOut is what cke status returns
