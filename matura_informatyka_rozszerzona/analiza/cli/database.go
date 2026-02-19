@@ -9,7 +9,7 @@ import (
 	_ "modernc.org/sqlite"
 )
 
-const currentSchemaVersion = 3
+const currentSchemaVersion = 4
 
 // OpenDB opens progress DB as main, attaches matura.db as "data" read-only.
 // Returns the DB, whether matura.db was attached, and any error.
@@ -196,7 +196,13 @@ func createProgressSchema(db *sql.DB) error {
 	CREATE TABLE IF NOT EXISTS progress_tagi (
 		tag TEXT PRIMARY KEY,
 		poziom INTEGER DEFAULT 0,
-		nastepna_powtorka TEXT
+		nastepna_powtorka TEXT,
+		stability REAL DEFAULT 0,
+		difficulty REAL DEFAULT 5.0,
+		lapses INTEGER DEFAULT 0,
+		reps INTEGER DEFAULT 0,
+		state INTEGER DEFAULT 0,
+		last_review TEXT
 	);
 
 	CREATE TABLE IF NOT EXISTS matura_zrobione (
@@ -284,6 +290,42 @@ var migrations = []Migration{
 		}
 		_, err := tx.Exec("CREATE INDEX IF NOT EXISTS idx_bledy_typ ON progress_bledy(typ)")
 		return err
+	}},
+	{Version: 4, Apply: func(tx *sql.Tx) error {
+		cols := []struct{ name, def string }{
+			{"stability", "REAL DEFAULT 0"},
+			{"difficulty", "REAL DEFAULT 5.0"},
+			{"lapses", "INTEGER DEFAULT 0"},
+			{"reps", "INTEGER DEFAULT 0"},
+			{"state", "INTEGER DEFAULT 0"},
+			{"last_review", "TEXT"},
+		}
+		for _, c := range cols {
+			var count int
+			if err := tx.QueryRow(
+				"SELECT COUNT(*) FROM pragma_table_info('progress_tagi') WHERE name=?",
+				c.name).Scan(&count); err != nil {
+				return fmt.Errorf("check column %s: %w", c.name, err)
+			}
+			if count == 0 {
+				if _, err := tx.Exec(
+					"ALTER TABLE progress_tagi ADD COLUMN " + c.name + " " + c.def); err != nil {
+					return fmt.Errorf("add column %s: %w", c.name, err)
+				}
+			}
+		}
+		// Seed FSRS state from legacy poziom for existing tags
+		if _, err := tx.Exec(`UPDATE progress_tagi SET
+			stability = CASE poziom
+				WHEN 0 THEN 0.4 WHEN 1 THEN 1.2 WHEN 2 THEN 3.2
+				WHEN 3 THEN 7.0 WHEN 4 THEN 21.0 ELSE 0.4 END,
+			difficulty = 5.0,
+			state = CASE WHEN poziom >= 2 THEN 2 ELSE 1 END,
+			last_review = nastepna_powtorka
+		WHERE stability = 0 OR stability IS NULL`); err != nil {
+			return fmt.Errorf("seed FSRS state: %w", err)
+		}
+		return nil
 	}},
 }
 

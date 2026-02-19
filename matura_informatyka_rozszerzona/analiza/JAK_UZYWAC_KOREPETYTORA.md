@@ -119,22 +119,26 @@ rozmawiac naturalnie — korepetytor zrozumie.
 
 - **Wszystko sie zapisuje** — Twoj postep jest w pliku, wiec mozesz przerwac
   i wrocic pozniej. Korepetytor pamięta, gdzie skonczylismy.
-- **Powtorki rozlozone w czasie** (spaced repetition) — jesli cos opanowales,
-  korepetytor przypomni Ci to za 3, 7 lub 21 dni. Jesli cos Ci nie wychodzi —
-  powtorka nastepnego dnia.
+- **Powtorki rozlozone w czasie** (FSRS-5) — algorytm automatycznie dostosowuje
+  interwaly powtorkowe do Twojego tempa nauki. Jesli szybko zapominasz dany
+  temat — powtorki beda czestsze. Jesli opanowales go dobrze — coraz rzadsze.
 - **Tagi umiejetnosci** — kazde cwiczenie ma tagi (np. `mod-div`, `rekurencja`,
-  `JOIN`). Kazdy tag ma poziom:
+  `JOIN`). Kazdy tag ma stabilnosc (sile zapamiętania) i poziom:
 
-| Poziom | Nazwa | Nastepna powtorka |
-|--------|-------|-------------------|
+| Poziom | Nazwa | Przyblizony interwal |
+|--------|-------|----------------------|
 | 0 | NOWE | natychmiast |
-| 1 | UCZE SIE | +1 dzien |
-| 2 | CWICZE | +3 dni |
-| 3 | PEWNIE | +7 dni |
-| 4 | OPANOWANE | +21 dni |
+| 1 | UCZE SIE | ~1-2 dni |
+| 2 | CWICZE | ~3-6 dni |
+| 3 | PEWNIE | ~7-20 dni |
+| 4 | OPANOWANE | 21+ dni |
+
+  Dokladne interwaly sa indywidualne — FSRS uczy sie z Twojej historii.
 
 - **Trudnosc rosnie automatycznie** — 3 poprawne odpowiedzi bez pomocy z rzedu
   = awans na wyzszy poziom. Jesli nie dasz rady (walk-through) — cofniecie o 1.
+- **Wykrywanie problemow** — jesli ten sam temat sprawia Ci trudnosc 3+ razy,
+  korepetytor zwroci na to uwage i zaproponuje dodatkowe cwiczenia.
 
 ---
 

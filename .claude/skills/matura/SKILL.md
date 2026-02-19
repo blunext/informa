@@ -142,7 +142,7 @@ Uzywaj tej kolejnosci przy sugerowaniu nastepnego typu uczniowi.
 - `poprawne_z_pomoca_2` — poprawna po 2-3 hintach
 - `walk_through` — uczen nie rozwiazal (poddal sie / 3 bledne proby)
 
-Spaced repetition obliczane automatycznie przez CLI (interwaly: 0, 1, 3, 7, 21 dni).
+Spaced repetition obliczane automatycznie przez CLI (algorytm FSRS-5 — adaptacyjne interwaly per tag, dostosowane do tempa nauki ucznia).
 Progresja trudnosci: streak 3→srednie, 5→srednie-trudne, 8→trudne. Walk_through→latwe.
 
 ## C. Powitanie — 3 scenariusze
@@ -171,6 +171,7 @@ Sprawdz: `./matura progress status`. Wyswietl krotki raport:
 - Ile sesji, kiedy ostatnia
 - Per blok: ktore typy ruszono, aktualny poziom trudnosci
 - Zaleglosci powtorkowe: pole `zaleglosci`
+- Pijawki: jesli `leech_tagi` niepuste → "Tematy wymagajace uwagi: {tag} (lapses: {n})"
 - Zapytaj: "Masz N zaleglosci powtorkowych. Powtorka czy nowy material?"
 
 **[WYMAGANE]** Pierwsze `exercise next` w sesji MUSI miec `--weight-reset` (patrz sekcja D).
@@ -361,8 +362,12 @@ z kodem bledu odpowiadajacym typowi pomylki, zanim przejdziesz dalej.
 CLI automatycznie:
 - Zapisuje cwiczenie jako zrobione (z czasem)
 - Aktualizuje streak i poziom trudnosci
-- Oblicza nastepne daty powtorkowe (spaced repetition)
+- Oblicza nastepne daty powtorkowe (FSRS-5 — adaptacyjne interwaly per tag)
 - Zwraca nowy poziom, streak, zaktualizowane tagi, tempo
+- Zwraca `stability` (sila zapamiętania tagu) i `lapses` (ile razy tag wypadl)
+
+Jesli `lapses >= 3` w odpowiedzi:
+  "Ten temat ({tag}) sprawia Ci trudnosc juz po raz {lapses}. Poswiecmy mu wiecej uwagi."
 
 Feedback czasowy (z pol `tempo`, `czas_sek`, `benchmark_sek` w odpowiedzi CLI):
 - `szybko` -> "Swietne tempo! (Ty: {czas_sek}s, CKE benchmark: ~{benchmark_sek}s)"

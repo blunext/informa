@@ -194,127 +194,120 @@ func TestImportIdempotent(t *testing.T) {
 	}
 }
 
-func TestSpacedRepetitionLevels(t *testing.T) {
+func TestFSRSIntegrationProgression(t *testing.T) {
 	dir := testDir(t)
 	db := openTestDB(t, dir)
+	tags := []string{"fsrs-test-1"}
 
-	tags := []string{"test-tag-1", "test-tag-2"}
-
-	// Level 0 → poprawne_bez_pomocy → level 1, interval = 1 day
-	dates, err := updateTags(db, tags, "poprawne_bez_pomocy")
-	if err != nil {
-		t.Fatal(err)
+	// 4× poprawne_bez_pomocy (Easy) → stability grows, poziom increases
+	for i := 0; i < 4; i++ {
+		dates, err := updateTags(db, tags, "poprawne_bez_pomocy")
+		if err != nil {
+			t.Fatal(err)
+		}
+		if len(dates) != 1 {
+			t.Fatalf("step %d: expected 1 date, got %d", i, len(dates))
+		}
+		// Each review date should be in the future (or today)
+		today := time.Now().Format("2006-01-02")
+		if dates[0] < today {
+			t.Errorf("step %d: review date %s is in the past", i, dates[0])
+		}
 	}
-	if len(dates) != 2 {
-		t.Fatalf("expected 2 dates, got %d", len(dates))
-	}
 
-	expected := time.Now().AddDate(0, 0, 1).Format("2006-01-02")
-	if dates[0] != expected {
-		t.Errorf("level 0→1: got %s, want %s", dates[0], expected)
-	}
-
-	// Check DB state
 	var poziom int
-	db.QueryRow("SELECT poziom FROM progress_tagi WHERE tag = 'test-tag-1'").Scan(&poziom)
-	if poziom != 1 {
-		t.Errorf("poziom after first update: got %d, want 1", poziom)
+	var stability float64
+	db.QueryRow("SELECT poziom, stability FROM progress_tagi WHERE tag = 'fsrs-test-1'").Scan(&poziom, &stability)
+	if poziom < 2 {
+		t.Errorf("after 4× Easy: poziom=%d, want >= 2", poziom)
+	}
+	if stability < 3 {
+		t.Errorf("after 4× Easy: stability=%.2f, want >= 3", stability)
 	}
 
-	// Level 1 → poprawne_bez_pomocy → level 2, interval = 3 days
-	dates, err = updateTags(db, []string{"test-tag-1"}, "poprawne_bez_pomocy")
+	// Two tags: both should get dates
+	dates2, err := updateTags(db, []string{"fsrs-a", "fsrs-b"}, "poprawne_bez_pomocy")
 	if err != nil {
 		t.Fatal(err)
 	}
-	expected = time.Now().AddDate(0, 0, 3).Format("2006-01-02")
-	if dates[0] != expected {
-		t.Errorf("level 1→2: got %s, want %s", dates[0], expected)
-	}
-	db.QueryRow("SELECT poziom FROM progress_tagi WHERE tag = 'test-tag-1'").Scan(&poziom)
-	if poziom != 2 {
-		t.Errorf("poziom: got %d, want 2", poziom)
-	}
-
-	// Level 2 → poprawne_bez_pomocy → level 3, interval = 7 days
-	dates, err = updateTags(db, []string{"test-tag-1"}, "poprawne_bez_pomocy")
-	if err != nil {
-		t.Fatal(err)
-	}
-	expected = time.Now().AddDate(0, 0, 7).Format("2006-01-02")
-	if dates[0] != expected {
-		t.Errorf("level 2→3: got %s, want %s", dates[0], expected)
-	}
-
-	// Level 3 → poprawne_bez_pomocy → level 4, interval = 21 days
-	dates, err = updateTags(db, []string{"test-tag-1"}, "poprawne_bez_pomocy")
-	if err != nil {
-		t.Fatal(err)
-	}
-	expected = time.Now().AddDate(0, 0, 21).Format("2006-01-02")
-	if dates[0] != expected {
-		t.Errorf("level 3→4: got %s, want %s", dates[0], expected)
-	}
-
-	// Level 4 → poprawne_bez_pomocy → stays level 4 (capped), interval = 21
-	dates, err = updateTags(db, []string{"test-tag-1"}, "poprawne_bez_pomocy")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if dates[0] != expected {
-		t.Errorf("level 4→4 (capped): got %s, want %s", dates[0], expected)
-	}
-	db.QueryRow("SELECT poziom FROM progress_tagi WHERE tag = 'test-tag-1'").Scan(&poziom)
-	if poziom != 4 {
-		t.Errorf("capped poziom: got %d, want 4", poziom)
+	if len(dates2) != 2 {
+		t.Fatalf("two tags: expected 2 dates, got %d", len(dates2))
 	}
 }
 
-func TestSpacedRepetitionWalkThrough(t *testing.T) {
+func TestFSRSIntegrationWalkThrough(t *testing.T) {
 	dir := testDir(t)
 	db := openTestDB(t, dir)
 
-	// Set up tag at level 3
-	db.Exec("INSERT INTO progress_tagi (tag, poziom, nastepna_powtorka) VALUES ('walk-test', 3, '2026-01-01')")
+	// Build up tag to stable state with 3× Easy
+	for i := 0; i < 3; i++ {
+		updateTags(db, []string{"walk-fsrs"}, "poprawne_bez_pomocy")
+	}
+	var beforeS float64
+	var beforeL int
+	db.QueryRow("SELECT stability, COALESCE(lapses, 0) FROM progress_tagi WHERE tag = 'walk-fsrs'").Scan(&beforeS, &beforeL)
 
-	// walk_through → level drops to 2, interval = 1 day
-	dates, err := updateTags(db, []string{"walk-test"}, "walk_through")
+	// walk_through → stability drops, lapses++, interval=1
+	dates, err := updateTags(db, []string{"walk-fsrs"}, "walk_through")
 	if err != nil {
 		t.Fatal(err)
 	}
 	expected := time.Now().AddDate(0, 0, 1).Format("2006-01-02")
 	if dates[0] != expected {
-		t.Errorf("walk_through interval: got %s, want %s", dates[0], expected)
+		t.Errorf("walk_through date: got %s, want %s", dates[0], expected)
 	}
 
-	var poziom int
-	db.QueryRow("SELECT poziom FROM progress_tagi WHERE tag = 'walk-test'").Scan(&poziom)
-	if poziom != 2 {
-		t.Errorf("walk_through poziom: got %d, want 2", poziom)
+	var afterS float64
+	var afterL int
+	db.QueryRow("SELECT stability, lapses FROM progress_tagi WHERE tag = 'walk-fsrs'").Scan(&afterS, &afterL)
+	if afterS >= beforeS {
+		t.Errorf("stability: %.2f should be < %.2f", afterS, beforeS)
+	}
+	if afterL != beforeL+1 {
+		t.Errorf("lapses: got %d, want %d", afterL, beforeL+1)
 	}
 }
 
-func TestSpacedRepetitionZPomoca(t *testing.T) {
+func TestFSRSIntegrationZPomoca(t *testing.T) {
 	dir := testDir(t)
 	db := openTestDB(t, dir)
 
-	// Level 0 → z_pomoca_1 → level 1, interval from level 0 = 0 days
-	dates, err := updateTags(db, []string{"pomoc-test"}, "poprawne_z_pomoca_1")
+	// z_pomoca_1 (Good) on new tag → stability grows, interval > 0
+	dates, err := updateTags(db, []string{"pomoc-fsrs"}, "poprawne_z_pomoca_1")
 	if err != nil {
 		t.Fatal(err)
 	}
-	expected := time.Now().Format("2006-01-02") // interval[0] = 0
-	if dates[0] != expected {
-		t.Errorf("z_pomoca_1 from 0: got %s, want %s", dates[0], expected)
+	if len(dates) != 1 {
+		t.Fatalf("expected 1 date, got %d", len(dates))
+	}
+	today := time.Now().Format("2006-01-02")
+	if dates[0] < today {
+		t.Errorf("z_pomoca_1 date %s should be >= today %s", dates[0], today)
 	}
 
-	// Level 1 → z_pomoca_1 → level 2, interval from level 1 = 1 day
-	dates, err = updateTags(db, []string{"pomoc-test"}, "poprawne_z_pomoca_1")
+	var s1 float64
+	db.QueryRow("SELECT stability FROM progress_tagi WHERE tag = 'pomoc-fsrs'").Scan(&s1)
+	if s1 <= 0 {
+		t.Errorf("stability after Good: %.3f, want > 0", s1)
+	}
+
+	// Second z_pomoca_1 on same day → stability stays same (R=1.0, no learning signal in FSRS)
+	dates, err = updateTags(db, []string{"pomoc-fsrs"}, "poprawne_z_pomoca_1")
 	if err != nil {
 		t.Fatal(err)
 	}
-	expected = time.Now().AddDate(0, 0, 1).Format("2006-01-02")
-	if dates[0] != expected {
-		t.Errorf("z_pomoca_1 from 1: got %s, want %s", dates[0], expected)
+	var s2 float64
+	db.QueryRow("SELECT stability FROM progress_tagi WHERE tag = 'pomoc-fsrs'").Scan(&s2)
+	if s2 <= 0 {
+		t.Errorf("stability after 2nd Good: %.3f should be > 0", s2)
+	}
+	_ = dates
+
+	// Property: Easy interval > Good interval for same state
+	datesEasy, _ := updateTags(db, []string{"easy-compare"}, "poprawne_bez_pomocy")
+	datesGood, _ := updateTags(db, []string{"good-compare"}, "poprawne_z_pomoca_1")
+	if datesEasy[0] < datesGood[0] {
+		t.Errorf("Easy date %s should be >= Good date %s", datesEasy[0], datesGood[0])
 	}
 }
 
@@ -756,11 +749,11 @@ func TestMigrationV3(t *testing.T) {
 		t.Errorf("data not preserved: got %q", wynik)
 	}
 
-	// Verify version
+	// Verify version (v2→v3→v4 chain)
 	var version int
 	db.QueryRow("SELECT version FROM schema_version").Scan(&version)
-	if version != 3 {
-		t.Errorf("version after migration: got %d, want 3", version)
+	if version != currentSchemaVersion {
+		t.Errorf("version after migration: got %d, want %d", version, currentSchemaVersion)
 	}
 }
 
@@ -1240,48 +1233,42 @@ func TestExamMetaCzesc(t *testing.T) {
 
 // === Audit fixes ===
 
-func TestSpacedRepetitionZPomoca2(t *testing.T) {
+func TestFSRSIntegrationZPomoca2(t *testing.T) {
 	dir := testDir(t)
 	db := openTestDB(t, dir)
 
-	// Bring tag to level 2 first (two poprawne_bez_pomocy)
-	updateTags(db, []string{"pomoc2-test"}, "poprawne_bez_pomocy") // 0→1
-	updateTags(db, []string{"pomoc2-test"}, "poprawne_bez_pomocy") // 1→2
+	// Build up tag with 2× Easy
+	updateTags(db, []string{"pomoc2-fsrs"}, "poprawne_bez_pomocy")
+	updateTags(db, []string{"pomoc2-fsrs"}, "poprawne_bez_pomocy")
 
-	var poziom int
-	db.QueryRow("SELECT poziom FROM progress_tagi WHERE tag = 'pomoc2-test'").Scan(&poziom)
-	if poziom != 2 {
-		t.Fatalf("setup: expected level 2, got %d", poziom)
-	}
+	var beforeS float64
+	db.QueryRow("SELECT stability FROM progress_tagi WHERE tag = 'pomoc2-fsrs'").Scan(&beforeS)
 
-	// z_pomoca_2 from level 2 → stays level 2, interval = intervals[max(2-1,0)] = intervals[1] = 1 day
-	dates, err := updateTags(db, []string{"pomoc2-test"}, "poprawne_z_pomoca_2")
+	// z_pomoca_2 (Hard) → stability still grows but slower than Good
+	dates, err := updateTags(db, []string{"pomoc2-fsrs"}, "poprawne_z_pomoca_2")
 	if err != nil {
 		t.Fatal(err)
 	}
-	expected := time.Now().AddDate(0, 0, 1).Format("2006-01-02")
-	if dates[0] != expected {
-		t.Errorf("z_pomoca_2 from level 2: got %s, want %s", dates[0], expected)
+	today := time.Now().Format("2006-01-02")
+	if dates[0] < today {
+		t.Errorf("z_pomoca_2 date %s should be >= today %s", dates[0], today)
 	}
 
-	db.QueryRow("SELECT poziom FROM progress_tagi WHERE tag = 'pomoc2-test'").Scan(&poziom)
-	if poziom != 2 {
-		t.Errorf("z_pomoca_2 level: got %d, want 2 (unchanged)", poziom)
+	var afterS float64
+	db.QueryRow("SELECT stability FROM progress_tagi WHERE tag = 'pomoc2-fsrs'").Scan(&afterS)
+	// Hard on a reviewed card should still produce positive stability
+	if afterS <= 0 {
+		t.Errorf("stability after Hard: %.3f, want > 0", afterS)
 	}
 
-	// Edge case: level 0 → z_pomoca_2 → stays 0, interval = intervals[max(0-1,0)] = intervals[0] = 0 days
-	dates, err = updateTags(db, []string{"pomoc2-edge"}, "poprawne_z_pomoca_2")
-	if err != nil {
-		t.Fatal(err)
-	}
-	expected = time.Now().Format("2006-01-02") // interval[0] = 0
-	if dates[0] != expected {
-		t.Errorf("z_pomoca_2 from level 0: got %s, want %s", dates[0], expected)
-	}
-
-	db.QueryRow("SELECT poziom FROM progress_tagi WHERE tag = 'pomoc2-edge'").Scan(&poziom)
-	if poziom != 0 {
-		t.Errorf("z_pomoca_2 edge level: got %d, want 0", poziom)
+	// Property: Hard grows slower than Easy on fresh tags
+	updateTags(db, []string{"hard-grow"}, "poprawne_z_pomoca_2")
+	updateTags(db, []string{"easy-grow"}, "poprawne_bez_pomocy")
+	var hardS, easyS float64
+	db.QueryRow("SELECT stability FROM progress_tagi WHERE tag = 'hard-grow'").Scan(&hardS)
+	db.QueryRow("SELECT stability FROM progress_tagi WHERE tag = 'easy-grow'").Scan(&easyS)
+	if hardS >= easyS {
+		t.Errorf("Hard stability %.3f should be < Easy stability %.3f", hardS, easyS)
 	}
 }
 
@@ -1620,5 +1607,89 @@ func TestCheatsheetSekcjaIntegration(t *testing.T) {
 	section = extractSection(full, "zlozonosc")
 	if section == "" {
 		t.Fatal("zlozonosc section not found in TEORIA cheatsheet")
+	}
+}
+
+// === Feature: FSRS Schema Migration ===
+
+func TestMigrationV4(t *testing.T) {
+	dir := t.TempDir()
+
+	// Create v3 DB (current production schema)
+	progressPath := filepath.Join(dir, "matura_progress.db")
+	db, err := sql.Open("sqlite", progressPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	db.Exec(`CREATE TABLE schema_version (version INTEGER PRIMARY KEY)`)
+	db.Exec(`INSERT INTO schema_version VALUES (3)`)
+	db.Exec(`CREATE TABLE progress_meta (key TEXT PRIMARY KEY, value TEXT)`)
+	db.Exec(`CREATE TABLE progress_typy (typ TEXT PRIMARY KEY, poziom_trudnosci TEXT DEFAULT 'latwe', streak INTEGER DEFAULT 0)`)
+	db.Exec(`CREATE TABLE progress_zrobione (id TEXT PRIMARY KEY, typ TEXT, data TEXT, wynik TEXT, czas_sek INTEGER)`)
+	db.Exec(`CREATE TABLE progress_tagi (tag TEXT PRIMARY KEY, poziom INTEGER DEFAULT 0, nastepna_powtorka TEXT)`)
+	db.Exec(`CREATE TABLE matura_zrobione (id TEXT PRIMARY KEY, typ TEXT, data TEXT, punkty INTEGER, max_punkty INTEGER)`)
+	db.Exec(`CREATE TABLE probne_matury (id INTEGER PRIMARY KEY AUTOINCREMENT, rok INTEGER, data TEXT, czas_min INTEGER, wynik_pkt INTEGER, max_pkt INTEGER, procent REAL, per_kategoria TEXT, przerwany BOOLEAN DEFAULT 0)`)
+	db.Exec(`CREATE TABLE pulapki_przejrzane (id TEXT PRIMARY KEY, typ TEXT, data TEXT, trafienia INTEGER, total INTEGER)`)
+	db.Exec(`CREATE TABLE progress_bledy (id INTEGER PRIMARY KEY AUTOINCREMENT, exercise_id TEXT NOT NULL, typ TEXT NOT NULL, blad_kod TEXT NOT NULL, blad_opis TEXT, hint_level INTEGER DEFAULT 0, data TEXT NOT NULL)`)
+
+	// Insert test data at various levels
+	db.Exec(`INSERT INTO progress_tagi (tag, poziom, nastepna_powtorka) VALUES ('petla', 3, '2026-02-20')`)
+	db.Exec(`INSERT INTO progress_tagi (tag, poziom, nastepna_powtorka) VALUES ('tablica', 0, '2026-02-15')`)
+	db.Exec(`INSERT INTO progress_tagi (tag, poziom, nastepna_powtorka) VALUES ('rekurencja', 4, '2026-03-01')`)
+	db.Close()
+
+	// Reopen — should migrate to v4
+	db, err = sql.Open("sqlite", progressPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	err = initProgressSchema(db)
+	if err != nil {
+		t.Fatalf("migration v3→v4: %v", err)
+	}
+
+	// Verify FSRS columns exist and seeded correctly
+	var stability, difficulty float64
+	var state, lapses int
+	db.QueryRow("SELECT stability, difficulty, state, lapses FROM progress_tagi WHERE tag = 'petla'").
+		Scan(&stability, &difficulty, &state, &lapses)
+	if stability != 7.0 {
+		t.Errorf("petla stability: got %.1f, want 7.0 (from poziom=3)", stability)
+	}
+	if difficulty != 5.0 {
+		t.Errorf("petla difficulty: got %.1f, want 5.0", difficulty)
+	}
+	if state != StateReview {
+		t.Errorf("petla state: got %d, want %d (Review)", state, StateReview)
+	}
+
+	// tablica (poziom=0) → stability=0.4, state=Learning
+	db.QueryRow("SELECT stability, state FROM progress_tagi WHERE tag = 'tablica'").
+		Scan(&stability, &state)
+	if stability != 0.4 {
+		t.Errorf("tablica stability: got %.1f, want 0.4", stability)
+	}
+	if state != StateLearning {
+		t.Errorf("tablica state: got %d, want %d (Learning)", state, StateLearning)
+	}
+
+	// rekurencja (poziom=4) → stability=21.0, state=Review
+	db.QueryRow("SELECT stability, state FROM progress_tagi WHERE tag = 'rekurencja'").
+		Scan(&stability, &state)
+	if stability != 21.0 {
+		t.Errorf("rekurencja stability: got %.1f, want 21.0", stability)
+	}
+	if state != StateReview {
+		t.Errorf("rekurencja state: got %d, want %d (Review)", state, StateReview)
+	}
+
+	// Verify version updated (v3→v4 chain runs all pending migrations)
+	var version int
+	db.QueryRow("SELECT version FROM schema_version").Scan(&version)
+	if version != currentSchemaVersion {
+		t.Errorf("version: got %d, want %d", version, currentSchemaVersion)
 	}
 }

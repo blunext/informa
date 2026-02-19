@@ -13,9 +13,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// Spaced repetition intervals (days) by poziom 0-4
-var intervals = [5]int{0, 1, 3, 7, 21}
-
 func jsonOut(v any) {
 	enc := json.NewEncoder(os.Stdout)
 	enc.SetIndent("", "  ")
@@ -346,28 +343,32 @@ func exerciseReviewCmd() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			d := db(cmd)
 			today := time.Now().Format("2006-01-02")
+			fsrsParams := DefaultFSRSParams()
 
 			rows, err := d.Query(`
-				SELECT t.tag, t.nastepna_powtorka
+				SELECT t.tag, t.nastepna_powtorka,
+					COALESCE(t.stability, 1.0), COALESCE(t.last_review, '')
 				FROM progress_tagi t
 				WHERE t.nastepna_powtorka <= ?
-				ORDER BY t.nastepna_powtorka ASC
-				LIMIT ?`, today, limit)
+				ORDER BY t.nastepna_powtorka ASC`, today)
 			if err != nil {
 				return fatal(fmt.Sprintf("query error: %v", err))
 			}
 
-			type tagEntry struct {
-				tag, powtorka string
+			type reviewCandidate struct {
+				tag, powtorka, lastReview string
+				stability, retrievability float64
 			}
-			var tags []tagEntry
+			var candidates []reviewCandidate
 			for rows.Next() {
-				var te tagEntry
-				if err := rows.Scan(&te.tag, &te.powtorka); err != nil {
+				var rc reviewCandidate
+				if err := rows.Scan(&rc.tag, &rc.powtorka, &rc.stability, &rc.lastReview); err != nil {
 					rows.Close()
 					return fatal(fmt.Sprintf("scan error: %v", err))
 				}
-				tags = append(tags, te)
+				elapsed := daysBetween(rc.lastReview, today)
+				rc.retrievability = fsrsParams.Retrievability(elapsed, rc.stability)
+				candidates = append(candidates, rc)
 			}
 			if err := rows.Err(); err != nil {
 				rows.Close()
@@ -375,20 +376,31 @@ func exerciseReviewCmd() *cobra.Command {
 			}
 			rows.Close()
 
+			// Sort by retrievability ASC (lowest = most urgent)
+			sort.Slice(candidates, func(i, j int) bool {
+				return candidates[i].retrievability < candidates[j].retrievability
+			})
+
+			// Limit after sorting
+			if len(candidates) > limit {
+				candidates = candidates[:limit]
+			}
+
 			var results []ReviewOut
-			for _, te := range tags {
-				powtorkaDate, _ := time.Parse("2006-01-02", te.powtorka)
+			for _, rc := range candidates {
+				powtorkaDate, _ := time.Parse("2006-01-02", rc.powtorka)
 				daysOverdue := int(time.Since(powtorkaDate).Hours() / 24)
 
-				ex, err := findExerciseByTag(d, te.tag)
+				ex, err := findExerciseByTag(d, rc.tag)
 				if err != nil {
 					continue
 				}
 
 				results = append(results, ReviewOut{
-					Exercise:    ex,
-					Tag:         te.tag,
-					DaysOverdue: daysOverdue,
+					Exercise:       ex,
+					Tag:            rc.tag,
+					DaysOverdue:    daysOverdue,
+					Retrievability: rc.retrievability,
 				})
 			}
 
@@ -520,6 +532,26 @@ func progressUpdateCmd() *cobra.Command {
 				NextReviewDates: nextReviewDates,
 			}
 
+			// FSRS stats from updated tags
+			var totalS float64
+			var maxLapses int
+			for _, tag := range tagi {
+				var s float64
+				var l int
+				d.QueryRow("SELECT COALESCE(stability, 0), COALESCE(lapses, 0) FROM progress_tagi WHERE tag = ?", tag).Scan(&s, &l)
+				totalS += s
+				if l > maxLapses {
+					maxLapses = l
+				}
+			}
+			if len(tagi) > 0 {
+				avgS := totalS / float64(len(tagi))
+				out.Stability = &avgS
+			}
+			if maxLapses > 0 {
+				out.Lapses = &maxLapses
+			}
+
 			// Time tracking
 			if czas > 0 {
 				out.CzasSek = &czas
@@ -572,37 +604,37 @@ func calculateLevel(streak int, wynik string) string {
 }
 
 func updateTags(d dbExecer, tags []string, wynik string) ([]string, error) {
+	grade := WynikToGrade(wynik)
+	params := DefaultFSRSParams()
+	today := time.Now().Format("2006-01-02")
 	var dates []string
+
 	for _, tag := range tags {
-		var poziom int
-		err := d.QueryRow("SELECT poziom FROM progress_tagi WHERE tag = ?", tag).Scan(&poziom)
+		var card CardState
+		err := d.QueryRow(`SELECT COALESCE(stability, 0), COALESCE(difficulty, 5.0),
+			COALESCE(lapses, 0), COALESCE(reps, 0), COALESCE(state, 0),
+			COALESCE(last_review, '')
+			FROM progress_tagi WHERE tag = ?`, tag).
+			Scan(&card.Stability, &card.Difficulty, &card.Lapses,
+				&card.Reps, &card.State, &card.LastReview)
 		if err != nil {
-			poziom = 0
+			card = CardState{Difficulty: 5.0} // new tag
 		}
 
-		var newPoziom int
-		var interval int
-
-		switch wynik {
-		case "poprawne_bez_pomocy":
-			newPoziom = min(poziom+1, 4)
-			interval = intervals[newPoziom]
-		case "poprawne_z_pomoca_1":
-			newPoziom = min(poziom+1, 4)
-			idx := max(newPoziom-1, 0)
-			interval = intervals[idx]
-		case "poprawne_z_pomoca_2":
-			newPoziom = poziom
-			interval = intervals[max(newPoziom-1, 0)]
-		case "walk_through":
-			newPoziom = max(poziom-1, 0)
-			interval = 1
-		}
-
+		newCard, interval := params.NextState(card, grade, today)
+		newPoziom := StabilityToPoziom(newCard.Stability)
 		nextReview := time.Now().AddDate(0, 0, interval).Format("2006-01-02")
-		if _, err := d.Exec(`INSERT INTO progress_tagi (tag, poziom, nastepna_powtorka) VALUES (?, ?, ?)
-			ON CONFLICT(tag) DO UPDATE SET poziom = ?, nastepna_powtorka = ?`,
-			tag, newPoziom, nextReview, newPoziom, nextReview); err != nil {
+
+		if _, err := d.Exec(`INSERT INTO progress_tagi
+			(tag, poziom, nastepna_powtorka, stability, difficulty, lapses, reps, state, last_review)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+			ON CONFLICT(tag) DO UPDATE SET
+				poziom=?, nastepna_powtorka=?, stability=?, difficulty=?,
+				lapses=?, reps=?, state=?, last_review=?`,
+			tag, newPoziom, nextReview, newCard.Stability, newCard.Difficulty,
+			newCard.Lapses, newCard.Reps, newCard.State, today,
+			newPoziom, nextReview, newCard.Stability, newCard.Difficulty,
+			newCard.Lapses, newCard.Reps, newCard.State, today); err != nil {
 			return nil, fatal(fmt.Sprintf("update tag %s: %v", tag, err))
 		}
 		dates = append(dates, nextReview)
@@ -790,6 +822,24 @@ func progressStatusCmd() *cobra.Command {
 			}
 			if out.TagiProblematyczne == nil {
 				out.TagiProblematyczne = []string{}
+			}
+
+			// Leech tags (3+ lapses)
+			leechRows, leechErr := d.Query(`SELECT tag, COALESCE(lapses, 0), COALESCE(stability, 0)
+				FROM progress_tagi WHERE lapses >= 3 ORDER BY lapses DESC`)
+			if leechErr == nil {
+				for leechRows.Next() {
+					var lt LeechTagOut
+					leechRows.Scan(&lt.Tag, &lt.Lapses, &lt.Stability)
+					out.LeechTagi = append(out.LeechTagi, lt)
+				}
+				if rowErr := leechRows.Err(); rowErr != nil {
+					fmt.Fprintf(os.Stderr, "warning: leech rows: %v\n", rowErr)
+				}
+				leechRows.Close()
+			}
+			if out.LeechTagi == nil {
+				out.LeechTagi = []LeechTagOut{}
 			}
 
 			jsonOut(out)

@@ -105,9 +105,10 @@ type ExerciseOut struct {
 
 // ReviewOut is what exercise review returns
 type ReviewOut struct {
-	Exercise    ExerciseOut `json:"exercise"`
-	Tag         string      `json:"tag"`
-	DaysOverdue int         `json:"days_overdue"`
+	Exercise       ExerciseOut `json:"exercise"`
+	Tag            string      `json:"tag"`
+	DaysOverdue    int         `json:"days_overdue"`
+	Retrievability float64     `json:"retrievability"`
 }
 
 // ProgressUpdateOut is what progress update returns
@@ -121,6 +122,8 @@ type ProgressUpdateOut struct {
 	BenchmarkSek    *int     `json:"benchmark_sek,omitempty"`
 	Tempo           *string  `json:"tempo,omitempty"`
 	BladWarning     *string  `json:"blad_warning,omitempty"`
+	Stability       *float64 `json:"stability,omitempty"`
+	Lapses          *int     `json:"lapses,omitempty"`
 }
 
 // ProgressStatusOut is what progress status returns
@@ -133,6 +136,14 @@ type ProgressStatusOut struct {
 	Zaleglosci         int                  `json:"zaleglosci"`
 	TagiOpanowane      []string             `json:"tagi_opanowane"`
 	TagiProblematyczne []string             `json:"tagi_problematyczne"`
+	LeechTagi          []LeechTagOut        `json:"leech_tagi"`
+}
+
+// LeechTagOut represents a tag with too many lapses
+type LeechTagOut struct {
+	Tag       string  `json:"tag"`
+	Lapses    int     `json:"lapses"`
+	Stability float64 `json:"stability"`
 }
 
 type TypStatusOut struct {

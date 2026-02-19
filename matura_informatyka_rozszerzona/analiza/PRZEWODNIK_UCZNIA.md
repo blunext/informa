@@ -383,7 +383,7 @@ sesje. Co oferuje:
 - **407 cwiczen** z 23 typow zadan (10-20 na typ) z 3-poziomowymi hintami
 - **230 prawdziwych zadan CKE** z 11 lat egzaminow (sprawdziany typu)
 - **11 probnych matur** — pelna symulacja egzaminu z ocena wg zasad CKE
-- **Spaced repetition** — automatyczne powtorki rozlozone w czasie (1/3/7/21 dni)
+- **Spaced repetition (FSRS-5)** — adaptacyjne powtorki rozlozone w czasie (interwaly dobierane indywidualnie)
 - **Auto-trudnosc** — poziom rosnie z kazdym sukcesem, spada po porazce
 - **Metoda sokratejska** — naprowadza pytaniami, nie podaje gotowych odpowiedzi
 - **Tryb pulapek CKE** — trening rozpoznawania typowych pulapek egzaminacyjnych
