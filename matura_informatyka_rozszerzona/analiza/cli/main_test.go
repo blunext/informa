@@ -879,6 +879,35 @@ func TestTempoCalculation(t *testing.T) {
 	}
 }
 
+func TestFeedbackCzasowy(t *testing.T) {
+	cases := []struct {
+		tempo          string
+		elapsed, bench int
+		wantContains   string
+		wantEmpty      bool
+	}{
+		{"szybko", 50, 100, "Świetne tempo!", false},
+		{"szybko", 50, 100, "Ty: 50s", false},
+		{"ok", 100, 100, "", true},
+		{"wolno", 150, 100, "Na egzaminie", false},
+		{"wolno", 150, 100, "Ty: 150s", false},
+		{"za_wolno", 250, 100, "To zajęło 250s", false},
+		{"", 100, 100, "", true},
+	}
+	for _, tc := range cases {
+		got := feedbackCzasowy(tc.tempo, tc.elapsed, tc.bench)
+		if tc.wantEmpty {
+			if got != "" {
+				t.Errorf("feedbackCzasowy(%q, %d, %d) = %q, want empty", tc.tempo, tc.elapsed, tc.bench, got)
+			}
+			continue
+		}
+		if !strings.Contains(got, tc.wantContains) {
+			t.Errorf("feedbackCzasowy(%q, %d, %d) = %q, want contain %q", tc.tempo, tc.elapsed, tc.bench, got, tc.wantContains)
+		}
+	}
+}
+
 // === Feature 2: Error Diagnosis ===
 
 func TestProgressBlad(t *testing.T) {

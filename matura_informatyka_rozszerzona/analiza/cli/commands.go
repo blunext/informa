@@ -67,6 +67,19 @@ func calculateTempo(elapsed, benchmark int) string {
 	}
 }
 
+func feedbackCzasowy(tempo string, elapsed, benchmark int) string {
+	switch tempo {
+	case "szybko":
+		return fmt.Sprintf("Świetne tempo! (Ty: %ds, CKE benchmark: ~%ds)", elapsed, benchmark)
+	case "wolno":
+		return fmt.Sprintf("Na egzaminie miałbyś na to ~%ds — Ty: %ds. Spróbuj szybciej.", benchmark, elapsed)
+	case "za_wolno":
+		return fmt.Sprintf("To zajęło %ds, CKE benchmark to %ds. Potrenuj szybkość.", elapsed, benchmark)
+	default:
+		return ""
+	}
+}
+
 func exerciseTypToCKETypes(typ, kat string) []string {
 	switch kat {
 	case "ARKUSZ":
@@ -573,6 +586,10 @@ func progressUpdateCmd() *cobra.Command {
 					tempo := calculateTempo(czas, b)
 					if tempo != "" {
 						out.Tempo = &tempo
+						fb := feedbackCzasowy(tempo, czas, b)
+						if fb != "" {
+							out.FeedbackCzasowy = &fb
+						}
 					}
 				}
 			}

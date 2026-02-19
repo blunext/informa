@@ -121,6 +121,7 @@ type ProgressUpdateOut struct {
 	CzasSek         *int     `json:"czas_sek,omitempty"`
 	BenchmarkSek    *int     `json:"benchmark_sek,omitempty"`
 	Tempo           *string  `json:"tempo,omitempty"`
+	FeedbackCzasowy *string  `json:"feedback_czasowy,omitempty"`
 	BladWarning     *string  `json:"blad_warning,omitempty"`
 	Stability       *float64 `json:"stability,omitempty"`
 	Lapses          *int     `json:"lapses,omitempty"`

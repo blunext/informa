@@ -110,6 +110,12 @@ Kazde kryterium oceniane 0-5 pkt, z waga procentowa:
 **Scoring**: score = sum(kryterium_score * waga). Max = 5.0. Przelicz na 0-100: score/5*100.
 **Prog zdania**: >= 70/100.
 
+**Kryteria N/A**: Jesli scenariusz nie testuje danego kryterium (np. Powtorki SR
+w first_session/hint_progression/cke_unlock/probna), ocen na **4/5** z uwaga
+"Minimalne wymagania spelnione (progress status sprawdzony), scenariusz nie testuje
+tego kryterium bezposrednio." Nie dawaj 5/5 (brak dowodu) ani 3/5 (brak naruszenia).
+Wyjatek: jesli tutor NIE sprawdzil progress status na starcie → 2/5.
+
 ## 5. Scenariusze
 
 ### 5.1 first_session

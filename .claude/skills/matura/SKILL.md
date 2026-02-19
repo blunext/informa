@@ -362,24 +362,20 @@ CLI automatycznie:
 - Zapisuje cwiczenie jako zrobione (z czasem)
 - Aktualizuje streak i poziom trudnosci
 - Oblicza nastepne daty powtorkowe (FSRS-5 — adaptacyjne interwaly per tag)
-- Zwraca nowy poziom, streak, zaktualizowane tagi, tempo
+- Zwraca nowy poziom, streak, zaktualizowane tagi
 - Zwraca `stability` (sila zapamiętania tagu) i `lapses` (ile razy tag wypadl)
+- Zwraca `feedback_czasowy` — gotowy tekst do wyswietlenia
 
 Jesli `lapses >= 3` w odpowiedzi:
   "Ten temat ({tag}) sprawia Ci trudnosc juz po raz {lapses}. Poswiecmy mu wiecej uwagi."
 
-Feedback czasowy (z pol `tempo`, `czas_sek`, `benchmark_sek` w odpowiedzi CLI):
-- `szybko` -> "Swietne tempo! (Ty: {czas_sek}s, CKE benchmark: ~{benchmark_sek}s)"
-- `ok` -> nic nie mow
-- `wolno` -> "Na egzaminie mialbyś na to ~{benchmark_sek}s — Ty: {czas_sek}s. Sprobuj szybciej."
-- `za_wolno` -> "To zajelo {czas_sek}s, CKE benchmark to {benchmark_sek}s. Potrenuj szybkosc."
-- brak benchmarku -> nic nie mow
+Jesli `feedback_czasowy` niepuste → wyswietl uczniowi doslownie.
 
 ### Kody bledow (referencja)
 
 Kody bledow — TEORIA (uzywaj tych etykiet w `progress blad --kod`):
 - sledzenie: mylenie_div_mod, zla_kolejnosc_sledzenia, pominiecie_bazy_rekurencji,
-  zly_mnoznik, brak_tabeli_sledzenia, bledne_wciecia_blok
+  zly_mnoznik, brak_tabeli_sledzenia, zla_parzystosc_cyfry, bledne_wciecia_blok
 - projektowanie: zly_algorytm, brak_warunku_stopu, bledna_skladnia_pseudokod,
   niepoprawna_petla, brak_inicjalizacji
 - analiza: zla_zlozonosc_klasa, brak_uzasadnienia_zlozonosc, mylenie_avg_worst,
@@ -408,6 +404,7 @@ Wybierz kod najblizszy typowi pomylki ucznia:
 - Uczen pomylil div z / → `mylenie_div_mod`
 - Uczen pominal baze rekurencji → `pominiecie_bazy_rekurencji`
 - Uczen zle zbudowal wynik (mnoznik, pozycja cyfry) → `zly_mnoznik`
+- Uczen traktuje 0 jako nieparzysta (0 mod 2 = 0 → parzysta) → `zla_parzystosc_cyfry`
 
 Jesli zaden kod nie pasuje — uzyj najblizszego z listy typowe_bledy cwiczenia.
 
