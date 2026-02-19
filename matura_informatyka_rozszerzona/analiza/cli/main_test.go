@@ -1516,30 +1516,66 @@ func TestExerciseNextWeight(t *testing.T) {
 		t.Errorf("after reset: got weight %d, want 0", w)
 	}
 
-	// 2. weight-add 40 → weight=40, reset_suggested=false
-	db.Exec(`INSERT INTO progress_meta (key, value) VALUES ('session_context_weight', ?)
-		ON CONFLICT(key) DO UPDATE SET value = CAST(CAST(value AS INTEGER) + ? AS TEXT)`, 40, 40)
-	if w := readWeight(); w != 40 {
-		t.Errorf("after +40: got weight %d, want 40", w)
-	}
-	if readWeight() >= 80 {
-		t.Error("weight 40: reset_suggested should be false")
+	// 2. addWeight(4) twice → weight=8
+	addWeight(db, 4)
+	addWeight(db, 4)
+	if w := readWeight(); w != 8 {
+		t.Errorf("after 2x addWeight(4): got weight %d, want 8", w)
 	}
 
-	// 3. weight-add 41 → weight=81, reset_suggested=true
-	db.Exec(`INSERT INTO progress_meta (key, value) VALUES ('session_context_weight', ?)
-		ON CONFLICT(key) DO UPDATE SET value = CAST(CAST(value AS INTEGER) + ? AS TEXT)`, 41, 41)
-	if w := readWeight(); w != 81 {
-		t.Errorf("after +41: got weight %d, want 81", w)
-	}
-	if readWeight() < 80 {
-		t.Error("weight 81: reset_suggested should be true")
+	// 3. addWeight with 0 should be no-op
+	addWeight(db, 0)
+	if w := readWeight(); w != 8 {
+		t.Errorf("after addWeight(0): got weight %d, want 8", w)
 	}
 
 	// 4. weight-reset again → back to 0
 	db.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
 	if w := readWeight(); w != 0 {
 		t.Errorf("after second reset: got weight %d, want 0", w)
+	}
+}
+
+func TestAutoWeight(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	readWeight := func() int {
+		var wStr string
+		var w int
+		if err := db.QueryRow(`SELECT value FROM progress_meta WHERE key = 'session_context_weight'`).Scan(&wStr); err == nil {
+			fmt.Sscanf(wStr, "%d", &w)
+		}
+		return w
+	}
+
+	// Reset
+	db.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
+
+	// Simulate exercise next (4) + cke get (5) + progress blad hint=3 (3) = 12
+	addWeight(db, 4)
+	addWeight(db, 5)
+	addWeight(db, 3)
+	if w := readWeight(); w != 12 {
+		t.Errorf("cumulative weight: got %d, want 12", w)
+	}
+
+	// Simulate cheatsheet get with sekcja (2) → 14
+	addWeight(db, 2)
+	if w := readWeight(); w != 14 {
+		t.Errorf("after cheatsheet sekcja: got %d, want 14", w)
+	}
+
+	// Threshold at 80: 20 exercise-next cycles (20*4=80)
+	db.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
+	for i := 0; i < 20; i++ {
+		addWeight(db, 4)
+	}
+	if w := readWeight(); w != 80 {
+		t.Errorf("20 cycles: got %d, want 80", w)
+	}
+	if readWeight() < 80 {
+		t.Error("weight 80: reset_suggested should be true")
 	}
 }
 

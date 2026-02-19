@@ -163,7 +163,7 @@ Powitaj ucznia. Przedstaw 4 bloki tematyczne:
 
 Zapytaj: "Od ktorego bloku zaczynamy?"
 
-**[WYMAGANE]** Pierwsze `exercise next` w sesji MUSI miec `--weight-reset` (patrz sekcja D).
+**[WYMAGANE]** Pierwsze `exercise next` w sesji MUSI miec `--weight-reset`.
 
 ### Scenariusz 2: Powrot
 
@@ -174,7 +174,7 @@ Sprawdz: `./matura progress status`. Wyswietl krotki raport:
 - Pijawki: jesli `leech_tagi` niepuste → "Tematy wymagajace uwagi: {tag} (lapses: {n})"
 - Zapytaj: "Masz N zaleglosci powtorkowych. Powtorka czy nowy material?"
 
-**[WYMAGANE]** Pierwsze `exercise next` w sesji MUSI miec `--weight-reset` (patrz sekcja D).
+**[WYMAGANE]** Pierwsze `exercise next` w sesji MUSI miec `--weight-reset`.
 
 ### Scenariusz 3: Z argumentem (`/matura SQL`, `/matura cyfry_liczby`)
 
@@ -185,7 +185,7 @@ Jesli `zaleglosci > 0`:
 
 W przeciwnym razie przejdz od razu do podanego bloku/typu.
 
-**[WYMAGANE]** Pierwsze `exercise next` w sesji MUSI miec `--weight-reset` (patrz sekcja D).
+**[WYMAGANE]** Pierwsze `exercise next` w sesji MUSI miec `--weight-reset`.
 
 ## D. Wybor cwiczen
 
@@ -194,20 +194,18 @@ Pobierz nastepne cwiczenie:
 # Pierwsze wywolanie w sesji (zeruje wage kontekstu):
 ./matura exercise next --typ {typ} --weight-reset
 
-# Kazde kolejne (podaj skumulowana delta od ostatniego exercise next):
-./matura exercise next --typ {typ} --weight-add {delta}
+# Kazde kolejne:
+./matura exercise next --typ {typ}
 ```
 
-> **[WYMAGANE]** Zawsze podawaj `--weight-reset` (1. wywolanie w sesji) lub `--weight-add {delta}` (kolejne). Patrz sekcja I dla tabeli wag.
-
-CLI automatycznie: review > interleave (co 3.) > new, auto-difficulty, pool_warning, reset_suggested.
+CLI automatycznie: liczy wage kontekstu (kazda komenda dodaje swoja wage), review > interleave (co 3.) > new, auto-difficulty, pool_warning, reset_suggested.
 
 Pola odpowiedzi:
 - `mode`: "review", "interleave", "new"
 - `review_tag`, `days_overdue`: wypelnione przy mode=review
 - `pool_warning`: ostrzezenie gdy <= 2 cwiczenia dostepne
 - `session_count`: ile cwiczen w dzisiejszej sesji
-- `session_weight`: aktualna waga kontekstu sesji
+- `session_weight`: aktualna waga kontekstu sesji (auto-tracked by CLI)
 - `reset_suggested`: true gdy session_weight >= 80 (patrz sekcja I)
 
 Alternatywnie, bezposrednio: `./matura exercise get --typ {typ} [--trudnosc {t}]` (auto-difficulty gdy bez --trudnosc).
@@ -226,7 +224,6 @@ Gdy `exercise next` zwraca `mode: "interleave"`:
 - Zapytaj ucznia: "CLI sugeruje przerywnik z typu {typ} — to utrwala wiedze. Sprobujemy czy kontynuujemy {aktualny_typ}?"
 - Jesli uczen zgadza sie → przedstaw cwiczenie jak zwykle (sekcja E)
 - Jesli uczen odmawia → `./matura exercise get --typ {aktualny_typ}` jako fallback
-  (uwaga: session_count nie bedzie zaktualizowany — dodaj +4 do nastepnego --weight-add)
 
 ## E. Prezentacja cwiczenia
 
@@ -483,46 +480,17 @@ Gdy uczen wpisze `probna` → Read `.claude/skills/matura/probna.md` i postepuj 
 
 Gdy uczen wpisze `pulapki` → Read `.claude/skills/matura/pulapki.md` i postepuj wg instrukcji.
 
-## I. Reset kontekstu — wagi sesji
+## I. Reset kontekstu
 
-CLI akumuluje wage kontekstu. Model podaje delta do `exercise next`.
+CLI automatycznie liczy wage kontekstu. Kazda komenda dodaje swoja wage do sesji.
 
-**Na starcie sesji** (sekcja C, po `progress status`):
-  `./matura exercise next --typ {typ} --weight-reset`
-  (zeruje wage — swiezy kontekst po /clear)
+**Na starcie sesji** (po `progress status`): `--weight-reset` przy pierwszym `exercise next`.
 
-**Przy kazdym `exercise next`**: podaj delta od ostatniego wywolania:
-  `./matura exercise next --typ {typ} --weight-add {delta}`
+Gdy `reset_suggested == true` w odpowiedzi `exercise next`:
+```
+Swietna sesja — {session_count} cwiczen!
+Twoj postep jest zapisany w bazie. Wpisz /clear a potem /matura
+zeby przeladowac instrukcje korepetytora.
+```
 
-### Tabela wag
-
-| Operacja | Waga (~1K tokenow) |
-|----------|------|
-| Cwiczenie (pelny cykl: tresc + ocena + zapis) | 4 |
-| Hint poz. 1 (pytanie sokratejskie) | 0 |
-| Hint poz. 2 (cytat z cheatsheet sekcji) | 2 |
-| Hint poz. 3 (rozpisanie rozwiazania) | 3 |
-| Walk-through (pelna odpowiedz + wyjasnienie) | 5 |
-| `wyjasniej [temat]` (dlugi opis > 300 slow) | 4 |
-| Cheatsheet pelny (bez --sekcja) | 8 |
-| Cheatsheet sekcja (--sekcja) | 2 |
-| Intro nowy typ (z przykladem) | 4 |
-| Intro nowa kategoria (z cheatsheet) | 10 |
-| Sprawdzian CKE (cke get + ocena) | 5 |
-| Pulapki quiz (1 zadanie) | 2 |
-| Wizualizacja ASCII (diagram po bledzie) | 2 |
-
-### Reguly
-
-1. Sumuj delta mentalnie miedzy wywolaniami `exercise next`.
-2. Podaj skumulowana delta w `--weight-add`.
-3. Gdy `reset_suggested == true` w odpowiedzi:
-   ```
-   Swietna sesja — {session_count} cwiczen!
-   Twoj postep jest zapisany w bazie. Wpisz /clear a potem /matura
-   zeby przeladowac instrukcje korepetytora.
-   ```
-4. **Sesja bez cwiczen** (same wyjasnienia, brak `exercise next`):
-   sumuj wage mentalnie. Gdy >= 80, sugeruj reset bezposrednio.
-5. Uczen moze zignorowac. Reset NIE dotyczy: probna matura (H3),
-   sprawdzian (H2), pulapki (H4).
+Uczen moze zignorowac. Reset NIE dotyczy: probna matura (H3), sprawdzian (H2), pulapki (H4).

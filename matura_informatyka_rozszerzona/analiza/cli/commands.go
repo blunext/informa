@@ -239,6 +239,17 @@ func incrementSession(d dbExecer, typ string) error {
 	return nil
 }
 
+// addWeight increments session_context_weight by amount.
+// Silently ignores errors (weight tracking is non-critical).
+func addWeight(d dbExecer, amount int) {
+	if amount <= 0 {
+		return
+	}
+	d.Exec(`INSERT INTO progress_meta (key, value) VALUES ('session_context_weight', ?)
+		ON CONFLICT(key) DO UPDATE SET value = CAST(CAST(value AS INTEGER) + ? AS TEXT)`,
+		amount, amount)
+}
+
 func findExerciseByTag(d *sql.DB, tag string) (ExerciseOut, error) {
 	row := d.QueryRow(`SELECT `+exerciseColumns+` FROM data.cwiczenia c
 		WHERE EXISTS (SELECT 1 FROM json_each(c.tagi) WHERE value = ?)
@@ -321,6 +332,7 @@ func exerciseGetCmd() *cobra.Command {
 			}
 
 			chosen := results[rand.Intn(len(results))]
+			addWeight(d, 4)
 			jsonOut(chosen)
 			return nil
 		},
@@ -574,6 +586,10 @@ func progressUpdateCmd() *cobra.Command {
 					w := "UWAGA: wynik " + wynik + " ale brak progress blad dla tego cwiczenia"
 					out.BladWarning = &w
 				}
+			}
+
+			if wynik == "walk_through" {
+				addWeight(d, 5)
 			}
 
 			jsonOut(out)
@@ -884,6 +900,11 @@ func progressBladCmd() *cobra.Command {
 			}
 
 			lastID, _ := result.LastInsertId()
+
+			if hint == 3 {
+				addWeight(d, 3)
+			}
+
 			jsonOut(BladOut{
 				ID:         int(lastID),
 				ExerciseID: exerciseID,
@@ -1040,6 +1061,7 @@ func ckeGetCmd() *cobra.Command {
 				out.PlikiDanych = []string{}
 			}
 
+			addWeight(d, 5)
 			jsonOut(out)
 			return nil
 		},
@@ -1356,7 +1378,6 @@ func examSaveCmd() *cobra.Command {
 
 func exerciseNextCmd() *cobra.Command {
 	var typ, kategoria string
-	var weightAdd int
 	var weightReset bool
 
 	cmd := &cobra.Command{
@@ -1382,25 +1403,23 @@ func exerciseNextCmd() *cobra.Command {
 			if weightReset {
 				d.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
 			}
-			if weightAdd > 0 {
-				d.Exec(`INSERT INTO progress_meta (key, value) VALUES ('session_context_weight', ?)
-					ON CONFLICT(key) DO UPDATE SET value = CAST(CAST(value AS INTEGER) + ? AS TEXT)`,
-					weightAdd, weightAdd)
-			}
-			var currentWeight int
-			var wStr string
-			if err := d.QueryRow(`SELECT value FROM progress_meta WHERE key = 'session_context_weight'`).Scan(&wStr); err == nil {
-				fmt.Sscanf(wStr, "%d", &currentWeight)
-			}
 
 			sessionCount, _, err := getSessionState(d)
 			if err != nil {
 				return fatal(fmt.Sprintf("session state: %v", err))
 			}
 			out := ExerciseNextOut{
-				SessionCount:   sessionCount,
-				SessionWeight:  currentWeight,
-				ResetSuggested: currentWeight >= 80,
+				SessionCount: sessionCount,
+			}
+
+			// finalizeWeight adds weight and reads current total — called only on success paths.
+			finalizeWeight := func() {
+				addWeight(d, 4)
+				var wStr string
+				if err := d.QueryRow(`SELECT value FROM progress_meta WHERE key = 'session_context_weight'`).Scan(&wStr); err == nil {
+					fmt.Sscanf(wStr, "%d", &out.SessionWeight)
+				}
+				out.ResetSuggested = out.SessionWeight >= 80
 			}
 
 			// If type was auto-chosen from kategoria, include it in output
@@ -1428,6 +1447,7 @@ func exerciseNextCmd() *cobra.Command {
 					out.ReviewTag = &tag
 					out.DaysOverdue = &daysOverdue
 					out.PoolWarning = poolWarning(d, ex.TypNazwa, ex.Trudnosc)
+					finalizeWeight()
 					jsonOut(out)
 					return nil
 				}
@@ -1440,6 +1460,7 @@ func exerciseNextCmd() *cobra.Command {
 					out.Mode = "interleave"
 					out.Exercise = ex
 					out.PoolWarning = poolWarning(d, ex.TypNazwa, ex.Trudnosc)
+					finalizeWeight()
 					jsonOut(out)
 					return nil
 				}
@@ -1459,6 +1480,7 @@ func exerciseNextCmd() *cobra.Command {
 			out.Mode = "new"
 			out.Exercise = ex
 			out.PoolWarning = poolWarning(d, typ, level)
+			finalizeWeight()
 			jsonOut(out)
 			return nil
 		},
@@ -1466,7 +1488,6 @@ func exerciseNextCmd() *cobra.Command {
 
 	cmd.Flags().StringVar(&typ, "typ", "", "Exercise type")
 	cmd.Flags().StringVar(&kategoria, "kategoria", "", "Category (TEORIA/IMPLEMENTACJA/ARKUSZ/SQL) — auto-selects weakest type")
-	cmd.Flags().IntVar(&weightAdd, "weight-add", 0, "Delta to add to session context weight")
 	cmd.Flags().BoolVar(&weightReset, "weight-reset", false, "Reset session context weight to 0")
 	return cmd
 }
@@ -1669,6 +1690,11 @@ func typIntroCmd() *cobra.Command {
 			}
 			out.CheatsheetExcerpt = fullContent
 
+			if out.FirstInCategory {
+				addWeight(d, 10)
+			} else {
+				addWeight(d, 4)
+			}
 			jsonOut(out)
 			return nil
 		},
@@ -2004,6 +2030,12 @@ func cheatsheetGetCmd() *cobra.Command {
 					content = extracted
 				}
 				// fallback: if not found, return full content
+			}
+
+			if sekcja != "" {
+				addWeight(d, 2)
+			} else {
+				addWeight(d, 8)
 			}
 
 			// Raw markdown output (not jsonOut) — intentional.
