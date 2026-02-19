@@ -282,6 +282,55 @@ print(d['podzadania'][0]['punkty'])
     fail "auto-weight 76+4=80 → reset_suggested (expected True, got: $weight_reset)"
   fi
 
+  echo "  -- Hint fading (--max-hints) --"
+  # --max-hints 0 → empty wskazowki
+  local mh0_out mh0_count
+  mh0_out=$("$MATURA" exercise get --typ cyfry_liczby --max-hints 0 2>&1)
+  mh0_count=$(echo "$mh0_out" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print(len(d['wskazowki']))" 2>/dev/null) || mh0_count=""
+  if [ "$mh0_count" = "0" ]; then
+    pass "exercise get --max-hints 0 → wskazowki=[]"
+  else
+    fail "exercise get --max-hints 0 → wskazowki count (expected 0, got: $mh0_count)"
+  fi
+
+  # --max-hints 1 → at most 1 hint
+  local mh1_out mh1_count
+  mh1_out=$("$MATURA" exercise get --typ cyfry_liczby --max-hints 1 2>&1)
+  mh1_count=$(echo "$mh1_out" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print(len(d['wskazowki']))" 2>/dev/null) || mh1_count=""
+  if [ "$mh1_count" = "0" ] || [ "$mh1_count" = "1" ]; then
+    pass "exercise get --max-hints 1 → wskazowki count=$mh1_count"
+  else
+    fail "exercise get --max-hints 1 → wskazowki count (expected <=1, got: $mh1_count)"
+  fi
+
+  # max_hints field present in JSON
+  local mh_field
+  mh_field=$(echo "$mh1_out" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print(d['max_hints'])" 2>/dev/null) || mh_field=""
+  if [ "$mh_field" = "1" ]; then
+    pass "exercise get --max-hints 1 → max_hints=1 in JSON"
+  else
+    fail "exercise get --max-hints 1 → max_hints field (expected 1, got: $mh_field)"
+  fi
+
+  echo "  -- CKE worked example --"
+  test_json_cmd "cke worked-example --typ sledzenie_algorytmu --force" \
+    "$MATURA" cke worked-example --typ sledzenie_algorytmu --force
+
+  # Verify worked-example has all pedagogical fields
+  local we_out we_has_all
+  we_out=$("$MATURA" cke worked-example --typ projektowanie_algorytmu --force 2>&1)
+  we_has_all=$(echo "$we_out" | python3 -c "
+import sys,json
+d=json.loads(sys.stdin.read())
+ok = bool(d.get('tresc')) and bool(d.get('odpowiedz')) and bool(d.get('zasady_oceniania')) and len(d.get('pulapki',[])) > 0
+print('yes' if ok else 'no')
+" 2>/dev/null) || we_has_all=""
+  if [ "$we_has_all" = "yes" ]; then
+    pass "cke worked-example has tresc+odpowiedz+zasady+pulapki"
+  else
+    fail "cke worked-example missing pedagogical fields"
+  fi
+
   echo "  -- Error handling --"
   test_cmd_exitcode "exercise get --typ NIEISTNIEJACY (expect error)" 1 \
     "$MATURA" exercise get --typ NIEISTNIEJACY

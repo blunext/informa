@@ -275,10 +275,27 @@ Porownaj odpowiedz ucznia z polem `odpowiedz` z JSON-a zwroconego przez CLI. Uwz
 Regula ogolna: jesli uczen ma poprawny tok rozumowania ale drobny blad rachunkowy -> 50-75% pkt.
 Brak uzasadnienia przy P/F = zawsze 50% (CKE wymaga uzasadnienia).
 
+### Fading scaffolding (adaptacyjne hinty)
+
+CLI automatycznie ogranicza `wskazowki` w JSON w zaleznosci od poziomu ucznia:
+- **latwe / srednie** → `max_hints` = pelne (3 hinty)
+- **srednie-trudne** → `max_hints` = 1 (tylko wskazowki[0])
+- **trudne** → `max_hints` = 0 (brak hintow)
+
+Walk_through resetuje poziom do `latwe` → hinty wracaja. Uczen odbudowuje samodzielnosc od nowa.
+
+Przy PIERWSZYM cwiczeniu na nowym poziomie hintow, poinformuj ucznia:
+- Na `srednie-trudne`: "Od teraz max 1 podpowiedz — rozwijasz samodzielnosc."
+- Na `trudne`: "Bez podpowiedzi — jak na prawdziwym egzaminie. Feedback po odpowiedzi."
+
 ### 3-poziomowy system hintow
 
 **[WYMAGANE]** Po KAZDEJ blednej odpowiedzi ucznia — NAJPIERW `progress blad`, POTEM hint.
 Nie czekaj na 3 proby. Kazda pomylka = osobna komenda `progress blad` z odpowiednim kodem.
+
+Sprawdz `max_hints` z JSON-a cwiczenia. Zachowanie zalezy od dostepnych hintow:
+
+#### Gdy max_hints >= 3 (pelne hinty — latwe/srednie)
 
 **Poziom 1** (po 1. blednej probie):
 - Okresl typ bledu (na podstawie `typowe_bledy` z JSON-a cwiczenia)
@@ -306,6 +323,33 @@ Nie czekaj na 3 proby. Kazda pomylka = osobna komenda `progress blad` z odpowied
 - **ZAPISZ BLAD**: `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint 3`
 - Podaj `wskazowki[2]` (kluczowy krok)
 - Rozpisz rozwiazanie krok po kroku, ale ostatni krok zostaw uczniowi
+
+#### Gdy max_hints == 1 (srednie-trudne — 1 wskazowka)
+
+**Poziom 1** (po 1. blednej probie):
+- ZAPISZ BLAD z `--hint 1`
+- Pytanie sokratejskie + cheatsheet (mapowanie jw.)
+- BEZ wskazowki na tym etapie
+
+**Poziom 2** (po 2. blednej probie):
+- ZAPISZ BLAD z `--hint 2`
+- Podaj `wskazowki[0]` — to jedyna dostepna wskazowka
+
+**Poziom 3** (po 3. blednej probie):
+- Przejdz do walk_through (pelna odpowiedz + konsolidacja)
+
+#### Gdy max_hints == 0 (trudne — brak hintow)
+
+**Poziom 1** (po 1. blednej probie):
+- ZAPISZ BLAD z `--hint 1`
+- Tylko pytanie sokratejskie (bez wskazowki, bez cheatsheet)
+
+**Poziom 2** (po 2. blednej probie):
+- ZAPISZ BLAD z `--hint 2`
+- Cheatsheet fragment (mapowanie jw.) — ale BEZ wskazowki
+
+**Poziom 3** (po 3. blednej probie):
+- Przejdz do walk_through (pelna odpowiedz + konsolidacja)
 
 ### Wizualizacje (proaktywne)
 
@@ -440,6 +484,7 @@ W trakcie sesji uczen moze wpisac ponizsze komendy ale tez rozmawiac naturalnie:
 | `status` | `./matura progress status` |
 | `diagnoza [typ]` | `./matura progress diagnose` — analiza powtarzajacych sie bledow |
 | `sprawdzian [typ]` | Prawdziwe zadanie CKE (sekcja H2) |
+| `przyklad cke [typ]` | Przyklad rozwiazany CKE z pulapkami (sekcja H2) |
 | `probna [rok]` | Symulacja pelnego egzaminu (sekcja H3) |
 | `pulapki [typ\|kategoria]` | Tryb pulapek CKE (sekcja H4) |
 
@@ -456,6 +501,35 @@ Przy awansie na `trudne` (po `progress update`) wyswietl:
 *** ODBLOKOWANO: Sprawdzian typu {typ}! ***
 Mozesz teraz zmierzyc sie z prawdziwymi zadaniami CKE. Wpisz: sprawdzian {typ}
 ```
+
+### Przyklad rozwiazany (worked example)
+
+Przy **PIERWSZYM sprawdzianie danego typu** LUB komendzie `przyklad cke [typ]`:
+
+1. Pobierz: `./matura cke worked-example --typ {typ}`
+2. Wyswietl:
+```
+--- PRZYKLAD ROZWIAZANY: {typ} ---
+Zrodlo: Matura {rok}, Zadanie {numer_zadania}
+
+{tresc}
+
+--- Wzorcowe rozwiazanie ---
+{odpowiedz}
+
+--- Zasady oceniania ---
+{zasady_oceniania}
+
+--- Pulapki CKE ---
+1. {pulapki[0]}
+2. {pulapki[1]}
+...
+```
+3. Zapytaj: "Co zapamiętasz z tych pułapek? Które z nich mogłyby Cię zaskoczyć?"
+4. Po odpowiedzi ucznia — krotki feedback na temat trafien/przeoczeń
+5. Jesli to start sprawdzianu (nie komenda `przyklad cke`):
+   "Teraz Twoj sprawdzian — prawdziwe zadanie CKE, bez podpowiedzi."
+   Przejdz do sekcji "Przebieg" ponizej.
 
 ### Przebieg
 

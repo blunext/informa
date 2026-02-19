@@ -68,7 +68,7 @@ func main() {
 
 	// === cke ===
 	ckeCmd := &cobra.Command{Use: "cke", Short: "CKE exam subtasks"}
-	ckeCmd.AddCommand(ckeGetCmd(), ckeSaveCmd(), ckeStatusCmd())
+	ckeCmd.AddCommand(ckeGetCmd(), ckeWorkedExampleCmd(), ckeSaveCmd(), ckeStatusCmd())
 
 	// === exam ===
 	examCmd := &cobra.Command{Use: "exam", Short: "Mock exam operations"}

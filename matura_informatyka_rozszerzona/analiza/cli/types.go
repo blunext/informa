@@ -101,6 +101,7 @@ type ExerciseOut struct {
 	Wskazowki   []string      `json:"wskazowki"`
 	Odpowiedz   string        `json:"odpowiedz"`
 	TypoweBledy []CommonError `json:"typowe_bledy"`
+	MaxHints    int           `json:"max_hints"`
 }
 
 // ReviewOut is what exercise review returns
@@ -321,12 +322,13 @@ type KategoriaStatusOut struct {
 
 // CKEStatusOut is what cke status returns
 type CKEStatusOut struct {
-	Typ          string `json:"typ"`
-	Kategoria    string `json:"kategoria"`
-	Unlocked     bool   `json:"unlocked"`
-	Level        string `json:"level"`
-	CKEDone      int    `json:"cke_done"`
-	CKEAvailable int    `json:"cke_available"`
+	Typ               string `json:"typ"`
+	Kategoria         string `json:"kategoria"`
+	Unlocked          bool   `json:"unlocked"`
+	Level             string `json:"level"`
+	CKEDone           int    `json:"cke_done"`
+	CKEWorkedExamples int    `json:"cke_worked_examples"`
+	CKEAvailable      int    `json:"cke_available"`
 }
 
 // ExamListEntry is one year in exam list

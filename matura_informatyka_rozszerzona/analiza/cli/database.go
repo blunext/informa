@@ -9,7 +9,7 @@ import (
 	_ "modernc.org/sqlite"
 )
 
-const currentSchemaVersion = 4
+const currentSchemaVersion = 5
 
 // OpenDB opens progress DB as main, attaches matura.db as "data" read-only.
 // Returns the DB, whether matura.db was attached, and any error.
@@ -233,10 +233,18 @@ func createProgressSchema(db *sql.DB) error {
 		total INTEGER
 	);
 
+	CREATE TABLE IF NOT EXISTS worked_examples_shown (
+		id TEXT NOT NULL,
+		typ TEXT NOT NULL,
+		data TEXT,
+		PRIMARY KEY (id, typ)
+	);
+
 	CREATE INDEX IF NOT EXISTS idx_tagi_powtorka ON progress_tagi(nastepna_powtorka);
 	CREATE INDEX IF NOT EXISTS idx_pulapki_typ ON pulapki_przejrzane(typ);
 	CREATE INDEX IF NOT EXISTS idx_bledy_kod ON progress_bledy(blad_kod);
 	CREATE INDEX IF NOT EXISTS idx_bledy_typ ON progress_bledy(typ);
+	CREATE INDEX IF NOT EXISTS idx_worked_examples_typ ON worked_examples_shown(typ);
 	`
 	_, err := db.Exec(schema, currentSchemaVersion)
 	return err
@@ -326,6 +334,18 @@ var migrations = []Migration{
 			return fmt.Errorf("seed FSRS state: %w", err)
 		}
 		return nil
+	}},
+	{Version: 5, Apply: func(tx *sql.Tx) error {
+		if _, err := tx.Exec(`CREATE TABLE IF NOT EXISTS worked_examples_shown (
+			id TEXT NOT NULL,
+			typ TEXT NOT NULL,
+			data TEXT,
+			PRIMARY KEY (id, typ)
+		)`); err != nil {
+			return err
+		}
+		_, err := tx.Exec("CREATE INDEX IF NOT EXISTS idx_worked_examples_typ ON worked_examples_shown(typ)")
+		return err
 	}},
 }
 

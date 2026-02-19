@@ -1887,3 +1887,275 @@ func TestProgressStatusRekomendacjaStreakImbalance(t *testing.T) {
 		t.Errorf("streak imbalance: got %q, want TEORIA and SQL mentioned", rek)
 	}
 }
+
+// === Feature: Hint Fading (max-hints) ===
+
+func TestCalculateMaxHints(t *testing.T) {
+	cases := []struct {
+		level string
+		want  int
+	}{
+		{"latwe", -1},
+		{"srednie", -1},
+		{"srednie-trudne", 1},
+		{"trudne", 0},
+		{"", -1},
+	}
+	for _, tc := range cases {
+		got := calculateMaxHints(tc.level)
+		if got != tc.want {
+			t.Errorf("calculateMaxHints(%q): got %d, want %d", tc.level, got, tc.want)
+		}
+	}
+}
+
+func TestApplyMaxHints(t *testing.T) {
+	tests := []struct {
+		name     string
+		hints    []string
+		level    string
+		flag     int
+		wantLen  int
+		wantMax  int
+	}{
+		{"auto latwe, 3 hints", []string{"a", "b", "c"}, "latwe", -1, 3, 3},
+		{"auto srednie, 3 hints", []string{"a", "b", "c"}, "srednie", -1, 3, 3},
+		{"auto srednie-trudne, 3 hints", []string{"a", "b", "c"}, "srednie-trudne", -1, 1, 1},
+		{"auto trudne, 3 hints", []string{"a", "b", "c"}, "trudne", -1, 0, 0},
+		{"explicit 0, 3 hints", []string{"a", "b", "c"}, "latwe", 0, 0, 0},
+		{"explicit 1, 3 hints", []string{"a", "b", "c"}, "latwe", 1, 1, 1},
+		{"explicit 2, 3 hints", []string{"a", "b", "c"}, "latwe", 2, 2, 2},
+		{"explicit 5, 3 hints", []string{"a", "b", "c"}, "latwe", 5, 3, 5},
+		{"auto trudne, 0 hints", []string{}, "trudne", -1, 0, 0},
+		{"auto latwe, 0 hints", []string{}, "latwe", -1, 0, 0},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			// Make a copy of hints to avoid mutation across tests
+			hints := make([]string, len(tc.hints))
+			copy(hints, tc.hints)
+			ex := ExerciseOut{Wskazowki: hints}
+			applyMaxHints(&ex, tc.level, tc.flag)
+			if len(ex.Wskazowki) != tc.wantLen {
+				t.Errorf("wskazowki len: got %d, want %d", len(ex.Wskazowki), tc.wantLen)
+			}
+			if ex.MaxHints != tc.wantMax {
+				t.Errorf("max_hints: got %d, want %d", ex.MaxHints, tc.wantMax)
+			}
+		})
+	}
+}
+
+func TestExerciseGetMaxHintsIntegration(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Fresh DB → level="latwe" → all hints
+	results, err := queryExercises(db, "cyfry_liczby", "latwe", "")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(results) == 0 {
+		t.Fatal("no exercises")
+	}
+
+	ex := results[0]
+	origLen := len(ex.Wskazowki)
+	if origLen == 0 {
+		t.Skip("exercise has no hints — cannot test truncation")
+	}
+
+	// Apply max-hints=1 with auto (latwe level → no limit)
+	applyMaxHints(&ex, "latwe", -1)
+	if len(ex.Wskazowki) != origLen {
+		t.Errorf("latwe auto: got %d hints, want %d", len(ex.Wskazowki), origLen)
+	}
+
+	// Reset and apply with srednie-trudne level
+	ex2 := results[0]
+	applyMaxHints(&ex2, "srednie-trudne", -1)
+	if len(ex2.Wskazowki) != 1 {
+		t.Errorf("srednie-trudne auto: got %d hints, want 1", len(ex2.Wskazowki))
+	}
+
+	// Reset and apply with explicit 0
+	ex3 := results[0]
+	applyMaxHints(&ex3, "latwe", 0)
+	if len(ex3.Wskazowki) != 0 {
+		t.Errorf("explicit 0: got %d hints, want 0", len(ex3.Wskazowki))
+	}
+}
+
+// === Feature: CKE Worked Example ===
+
+func TestWorkedExampleTableCreated(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	var count int
+	err := db.QueryRow("SELECT count(*) FROM sqlite_master WHERE type='table' AND name='worked_examples_shown'").Scan(&count)
+	if err != nil || count != 1 {
+		t.Error("worked_examples_shown table not created")
+	}
+}
+
+func TestWorkedExampleQuery(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Query a worked example for sledzenie_algorytmu
+	var id, tresc, odpowiedz, zasady, pulapkiJSON string
+	err := db.QueryRow(`SELECT e.id, e.tresc, e.odpowiedz, e.zasady_oceniania, e.pulapki
+		FROM data.egzamin e
+		WHERE e.typ_zadania = 'sledzenie_algorytmu'
+		AND e.id NOT IN (SELECT id FROM matura_zrobione)
+		AND e.id NOT IN (SELECT id FROM worked_examples_shown WHERE typ = 'sledzenie_algorytmu')
+		ORDER BY RANDOM() LIMIT 1`).Scan(&id, &tresc, &odpowiedz, &zasady, &pulapkiJSON)
+	if err != nil {
+		t.Fatalf("worked example query: %v", err)
+	}
+
+	if id == "" || tresc == "" || odpowiedz == "" || zasady == "" {
+		t.Errorf("missing fields: id=%q tresc=%d odpowiedz=%d zasady=%d",
+			id, len(tresc), len(odpowiedz), len(zasady))
+	}
+
+	var pulapki []string
+	json.Unmarshal([]byte(pulapkiJSON), &pulapki)
+	if len(pulapki) == 0 {
+		t.Error("expected non-empty pulapki")
+	}
+}
+
+func TestWorkedExampleNotInMatureZrobione(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Record a worked example
+	db.Exec("INSERT INTO worked_examples_shown (id, typ, data) VALUES ('2024.1.1', 'sledzenie_algorytmu', '2026-02-19')")
+
+	// It should NOT appear in matura_zrobione
+	var count int
+	db.QueryRow("SELECT COUNT(*) FROM matura_zrobione WHERE id = '2024.1.1'").Scan(&count)
+	if count != 0 {
+		t.Errorf("worked example appeared in matura_zrobione: count=%d", count)
+	}
+}
+
+func TestWorkedExampleExcludedFromCKEGet(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Record a worked example
+	db.Exec("INSERT INTO worked_examples_shown (id, typ, data) VALUES ('2024.1.1', 'sledzenie_algorytmu', '2026-02-19')")
+
+	// cke get query should exclude it
+	var found int
+	db.QueryRow(`SELECT COUNT(*) FROM data.egzamin e
+		WHERE e.id = '2024.1.1'
+		AND e.id NOT IN (SELECT id FROM matura_zrobione)
+		AND e.id NOT IN (SELECT id FROM worked_examples_shown)`).Scan(&found)
+	if found != 0 {
+		t.Error("worked example should be excluded from cke get query")
+	}
+}
+
+func TestCKEStatusSubtractsWorkedExamples(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Get total CKE count for sledzenie_algorytmu
+	var total int
+	db.QueryRow(`SELECT COUNT(*) FROM data.egzamin WHERE typ_zadania = 'sledzenie_algorytmu'`).Scan(&total)
+	if total == 0 {
+		t.Skip("no sledzenie_algorytmu CKE tasks in test DB")
+	}
+
+	// Record a worked example
+	db.Exec("INSERT INTO worked_examples_shown (id, typ, data) VALUES ('2024.1.1', 'sledzenie_algorytmu', '2026-02-19')")
+
+	// Simulate the cke status query logic
+	var done int
+	db.QueryRow("SELECT COUNT(*) FROM matura_zrobione WHERE typ = 'sledzenie_algorytmu'").Scan(&done)
+	var worked int
+	db.QueryRow("SELECT COUNT(*) FROM worked_examples_shown WHERE typ = 'sledzenie_algorytmu'").Scan(&worked)
+	available := total - done - worked
+
+	if worked != 1 {
+		t.Errorf("expected 1 worked example, got %d", worked)
+	}
+	if available != total-1 {
+		t.Errorf("expected available=%d (total %d - 1 worked), got %d", total-1, total, available)
+	}
+}
+
+func TestWorkedExampleDedup(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Insert same example twice
+	db.Exec("INSERT OR IGNORE INTO worked_examples_shown (id, typ, data) VALUES ('2024.1.1', 'sledzenie_algorytmu', '2026-02-19')")
+	db.Exec("INSERT OR IGNORE INTO worked_examples_shown (id, typ, data) VALUES ('2024.1.1', 'sledzenie_algorytmu', '2026-02-20')")
+
+	var count int
+	db.QueryRow("SELECT COUNT(*) FROM worked_examples_shown WHERE id = '2024.1.1'").Scan(&count)
+	if count != 1 {
+		t.Errorf("expected 1 record after dedup, got %d", count)
+	}
+}
+
+// === Feature: Migration V5 (worked_examples_shown) ===
+
+func TestMigrationV5(t *testing.T) {
+	dir := t.TempDir()
+
+	// Create v4 DB
+	progressPath := filepath.Join(dir, "matura_progress.db")
+	db, err := sql.Open("sqlite", progressPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	db.Exec(`CREATE TABLE schema_version (version INTEGER PRIMARY KEY)`)
+	db.Exec(`INSERT INTO schema_version VALUES (4)`)
+	db.Exec(`CREATE TABLE progress_meta (key TEXT PRIMARY KEY, value TEXT)`)
+	db.Exec(`CREATE TABLE progress_typy (typ TEXT PRIMARY KEY, poziom_trudnosci TEXT DEFAULT 'latwe', streak INTEGER DEFAULT 0)`)
+	db.Exec(`CREATE TABLE progress_zrobione (id TEXT PRIMARY KEY, typ TEXT, data TEXT, wynik TEXT, czas_sek INTEGER)`)
+	db.Exec(`CREATE TABLE progress_tagi (tag TEXT PRIMARY KEY, poziom INTEGER DEFAULT 0, nastepna_powtorka TEXT, stability REAL DEFAULT 0, difficulty REAL DEFAULT 5.0, lapses INTEGER DEFAULT 0, reps INTEGER DEFAULT 0, state INTEGER DEFAULT 0, last_review TEXT)`)
+	db.Exec(`CREATE TABLE matura_zrobione (id TEXT PRIMARY KEY, typ TEXT, data TEXT, punkty INTEGER, max_punkty INTEGER)`)
+	db.Exec(`CREATE TABLE probne_matury (id INTEGER PRIMARY KEY AUTOINCREMENT, rok INTEGER, data TEXT, czas_min INTEGER, wynik_pkt INTEGER, max_pkt INTEGER, procent REAL, per_kategoria TEXT, przerwany BOOLEAN DEFAULT 0)`)
+	db.Exec(`CREATE TABLE pulapki_przejrzane (id TEXT PRIMARY KEY, typ TEXT, data TEXT, trafienia INTEGER, total INTEGER)`)
+	db.Exec(`CREATE TABLE progress_bledy (id INTEGER PRIMARY KEY AUTOINCREMENT, exercise_id TEXT NOT NULL, typ TEXT NOT NULL, blad_kod TEXT NOT NULL, blad_opis TEXT, hint_level INTEGER DEFAULT 0, data TEXT NOT NULL)`)
+	db.Close()
+
+	// Reopen — should migrate to v5
+	db, err = sql.Open("sqlite", progressPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	err = initProgressSchema(db)
+	if err != nil {
+		t.Fatalf("migration v4→v5: %v", err)
+	}
+
+	// Verify worked_examples_shown table exists
+	var count int
+	db.QueryRow("SELECT count(*) FROM sqlite_master WHERE type='table' AND name='worked_examples_shown'").Scan(&count)
+	if count != 1 {
+		t.Error("worked_examples_shown table not created by migration")
+	}
+
+	// Verify can insert
+	_, err = db.Exec("INSERT INTO worked_examples_shown (id, typ, data) VALUES ('test.1', 'test', '2026-02-19')")
+	if err != nil {
+		t.Errorf("insert into worked_examples_shown failed: %v", err)
+	}
+
+	var version int
+	db.QueryRow("SELECT version FROM schema_version").Scan(&version)
+	if version != currentSchemaVersion {
+		t.Errorf("version: got %d, want %d", version, currentSchemaVersion)
+	}
+}

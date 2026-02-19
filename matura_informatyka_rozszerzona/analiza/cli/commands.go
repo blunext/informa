@@ -311,6 +311,7 @@ func findInterleaveExercise(d *sql.DB, excludeTyp string) (ExerciseOut, error) {
 
 func exerciseGetCmd() *cobra.Command {
 	var typ, trudnosc, exclude string
+	var maxHints int
 
 	cmd := &cobra.Command{
 		Use:   "get",
@@ -323,8 +324,9 @@ func exerciseGetCmd() *cobra.Command {
 			d := db(cmd)
 
 			// Auto-difficulty: if --trudnosc not explicitly set, use current level
+			level := getLevel(d, typ)
 			if !cmd.Flags().Changed("trudnosc") {
-				trudnosc = getLevel(d, typ)
+				trudnosc = level
 			}
 
 			results, err := queryExercises(d, typ, trudnosc, exclude)
@@ -345,6 +347,7 @@ func exerciseGetCmd() *cobra.Command {
 			}
 
 			chosen := results[rand.Intn(len(results))]
+			applyMaxHints(&chosen, level, maxHints)
 			addWeight(d, 4)
 			jsonOut(chosen)
 			return nil
@@ -354,6 +357,7 @@ func exerciseGetCmd() *cobra.Command {
 	cmd.Flags().StringVar(&typ, "typ", "", "Exercise type (e.g. sql_group_by, cyfry_liczby)")
 	cmd.Flags().StringVar(&trudnosc, "trudnosc", "", "Difficulty: latwe, srednie, srednie-trudne, trudne")
 	cmd.Flags().StringVar(&exclude, "exclude", "", "Comma-separated IDs to exclude")
+	cmd.Flags().IntVar(&maxHints, "max-hints", -1, "Max hints to return (-1=auto based on level)")
 	return cmd
 }
 
@@ -361,6 +365,7 @@ func exerciseGetCmd() *cobra.Command {
 
 func exerciseReviewCmd() *cobra.Command {
 	var limit int
+	var maxHints int
 
 	cmd := &cobra.Command{
 		Use:   "review",
@@ -421,6 +426,9 @@ func exerciseReviewCmd() *cobra.Command {
 					continue
 				}
 
+				lvl := getLevel(d, ex.TypNazwa)
+				applyMaxHints(&ex, lvl, maxHints)
+
 				results = append(results, ReviewOut{
 					Exercise:       ex,
 					Tag:            rc.tag,
@@ -438,6 +446,7 @@ func exerciseReviewCmd() *cobra.Command {
 	}
 
 	cmd.Flags().IntVar(&limit, "limit", 3, "Max number of reviews to return")
+	cmd.Flags().IntVar(&maxHints, "max-hints", -1, "Max hints to return (-1=auto based on level)")
 	return cmd
 }
 
@@ -633,6 +642,35 @@ func calculateLevel(streak int, wynik string) string {
 		return "srednie"
 	default:
 		return "latwe"
+	}
+}
+
+// calculateMaxHints returns the max number of hints based on difficulty level.
+// -1 means no limit (all hints). Based on level (which resets on walk_through).
+func calculateMaxHints(level string) int {
+	switch level {
+	case "srednie-trudne":
+		return 1
+	case "trudne":
+		return 0
+	default: // latwe, srednie
+		return -1
+	}
+}
+
+// applyMaxHints truncates wskazowki and sets MaxHints on the exercise.
+// maxHintsFlag: -1 = auto (use level), >= 0 = explicit override.
+func applyMaxHints(ex *ExerciseOut, level string, maxHintsFlag int) {
+	effective := maxHintsFlag
+	if effective < 0 {
+		effective = calculateMaxHints(level)
+	}
+	ex.MaxHints = effective
+	if effective >= 0 && len(ex.Wskazowki) > effective {
+		ex.Wskazowki = ex.Wskazowki[:effective]
+	}
+	if effective < 0 {
+		ex.MaxHints = len(ex.Wskazowki) // report actual count when unlimited
 	}
 }
 
@@ -1173,7 +1211,8 @@ func ckeGetCmd() *cobra.Command {
 			query := `SELECT e.id, e.rok, e.numer_zadania, e.tytul, e.kontekst, e.typ_zadania, e.kategoria, e.punkty, e.tresc, e.odpowiedz, e.zasady_oceniania, e.pulapki, e.sciezka_danych, e.pliki_danych
 				FROM data.egzamin e
 				WHERE e.typ_zadania = ?
-				AND e.id NOT IN (SELECT id FROM matura_zrobione)`
+				AND e.id NOT IN (SELECT id FROM matura_zrobione)
+				AND e.id NOT IN (SELECT id FROM worked_examples_shown)`
 			params := []any{typ}
 
 			if exclude != "" {
@@ -1222,6 +1261,78 @@ func ckeGetCmd() *cobra.Command {
 	cmd.Flags().StringVar(&typ, "typ", "", "Task type (e.g. sledzenie_algorytmu)")
 	cmd.Flags().StringVar(&exclude, "exclude", "", "Comma-separated IDs to exclude")
 	cmd.Flags().BoolVar(&force, "force", false, "Bypass unlock check")
+	return cmd
+}
+
+// === cke worked-example ===
+
+func ckeWorkedExampleCmd() *cobra.Command {
+	var typ string
+	var force bool
+
+	cmd := &cobra.Command{
+		Use:   "worked-example",
+		Short: "Get a solved CKE example for study (shows answer + traps)",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if typ == "" {
+				return fatal("--typ is required")
+			}
+
+			d := db(cmd)
+
+			// Gate: require at least srednie-trudne unless --force
+			if !force {
+				level := getLevel(d, typ)
+				if level != "srednie-trudne" && level != "trudne" {
+					return notFound(fmt.Sprintf("Przyklad rozwiazany wymaga poziomu srednie-trudne. Twoj poziom: %s. Uzyj --force aby pominac.", level))
+				}
+			}
+
+			query := `SELECT e.id, e.rok, e.numer_zadania, e.tytul, e.kontekst, e.typ_zadania, e.kategoria, e.punkty, e.tresc, e.odpowiedz, e.zasady_oceniania, e.pulapki, e.sciezka_danych, e.pliki_danych
+				FROM data.egzamin e
+				WHERE e.typ_zadania = ?
+				AND e.id NOT IN (SELECT id FROM matura_zrobione)
+				AND e.id NOT IN (SELECT id FROM worked_examples_shown WHERE typ = ?)
+				ORDER BY RANDOM() LIMIT 1`
+
+			var out CKEOut
+			var pulapkiJSON, plikiJSON string
+			err := d.QueryRow(query, typ, typ).Scan(&out.ID, &out.Rok, &out.NumerZadania, &out.Tytul, &out.Kontekst,
+				&out.TypZadania, &out.Kategoria, &out.Punkty, &out.Tresc, &out.Odpowiedz,
+				&out.ZasadyOceniania, &pulapkiJSON, &out.SciezkaDanych, &plikiJSON)
+			if err == sql.ErrNoRows {
+				return notFound(fmt.Sprintf("no CKE worked examples available for typ=%s", typ))
+			}
+			if err != nil {
+				return fatal(fmt.Sprintf("query error: %v", err))
+			}
+
+			if err := json.Unmarshal([]byte(pulapkiJSON), &out.Pulapki); err != nil {
+				fmt.Fprintf(os.Stderr, "warning: unmarshal pulapki: %v\n", err)
+			}
+			if err := json.Unmarshal([]byte(plikiJSON), &out.PlikiDanych); err != nil {
+				fmt.Fprintf(os.Stderr, "warning: unmarshal pliki_danych: %v\n", err)
+			}
+			if out.Pulapki == nil {
+				out.Pulapki = []string{}
+			}
+			if out.PlikiDanych == nil {
+				out.PlikiDanych = []string{}
+			}
+
+			// Record that this example was shown (so we don't repeat it)
+			today := time.Now().Format("2006-01-02")
+			d.Exec("INSERT OR IGNORE INTO worked_examples_shown (id, typ, data) VALUES (?, ?, ?)",
+				out.ID, typ, today)
+
+			addWeight(d, 2)
+			jsonOut(out)
+			return nil
+		},
+	}
+
+	cmd.Flags().StringVar(&typ, "typ", "", "Task type (e.g. sledzenie_algorytmu)")
+	cmd.Flags().BoolVar(&force, "force", false, "Bypass level check")
 	return cmd
 }
 
@@ -1531,6 +1642,7 @@ func examSaveCmd() *cobra.Command {
 func exerciseNextCmd() *cobra.Command {
 	var typ, kategoria string
 	var weightReset bool
+	var maxHints int
 
 	cmd := &cobra.Command{
 		Use:   "next",
@@ -1574,6 +1686,12 @@ func exerciseNextCmd() *cobra.Command {
 				out.ResetSuggested = out.SessionWeight >= 80
 			}
 
+			// applyHints applies max-hints truncation to the exercise in out.
+			applyHints := func(exTyp string) {
+				lvl := getLevel(d, exTyp)
+				applyMaxHints(&out.Exercise, lvl, maxHints)
+			}
+
 			// If type was auto-chosen from kategoria, include it in output
 			if cmd.Flags().Changed("kategoria") {
 				out.ChosenTyp = typ
@@ -1599,6 +1717,7 @@ func exerciseNextCmd() *cobra.Command {
 					out.ReviewTag = &tag
 					out.DaysOverdue = &daysOverdue
 					out.PoolWarning = poolWarning(d, ex.TypNazwa, ex.Trudnosc)
+					applyHints(ex.TypNazwa)
 					finalizeWeight()
 					jsonOut(out)
 					return nil
@@ -1612,6 +1731,7 @@ func exerciseNextCmd() *cobra.Command {
 					out.Mode = "interleave"
 					out.Exercise = ex
 					out.PoolWarning = poolWarning(d, ex.TypNazwa, ex.Trudnosc)
+					applyHints(ex.TypNazwa)
 					finalizeWeight()
 					jsonOut(out)
 					return nil
@@ -1632,6 +1752,7 @@ func exerciseNextCmd() *cobra.Command {
 			out.Mode = "new"
 			out.Exercise = ex
 			out.PoolWarning = poolWarning(d, typ, level)
+			applyHints(typ)
 			finalizeWeight()
 			jsonOut(out)
 			return nil
@@ -1641,6 +1762,7 @@ func exerciseNextCmd() *cobra.Command {
 	cmd.Flags().StringVar(&typ, "typ", "", "Exercise type")
 	cmd.Flags().StringVar(&kategoria, "kategoria", "", "Category (TEORIA/IMPLEMENTACJA/ARKUSZ/SQL) — auto-selects weakest type")
 	cmd.Flags().BoolVar(&weightReset, "weight-reset", false, "Reset session context weight to 0")
+	cmd.Flags().IntVar(&maxHints, "max-hints", -1, "Max hints to return (-1=auto based on level)")
 	return cmd
 }
 
@@ -1900,7 +2022,11 @@ func ckeStatusCmd() *cobra.Command {
 				var done int
 				d.QueryRow("SELECT COUNT(*) FROM matura_zrobione WHERE typ = ?", results[i].Typ).Scan(&done)
 				results[i].CKEDone = done
-				results[i].CKEAvailable = results[i].CKEAvailable - done
+
+				var worked int
+				d.QueryRow("SELECT COUNT(*) FROM worked_examples_shown WHERE typ = ?", results[i].Typ).Scan(&worked)
+				results[i].CKEWorkedExamples = worked
+				results[i].CKEAvailable = results[i].CKEAvailable - done - worked
 			}
 
 			if results == nil {
