@@ -141,6 +141,125 @@ func scanExercise(scanner interface{ Scan(dest ...any) error }) (ExerciseOut, er
 	return ex, nil
 }
 
+// exerciseToQuestion converts internal ExerciseOut to public QuestionOut (no hints, no answer).
+func exerciseToQuestion(ex ExerciseOut) QuestionOut {
+	return QuestionOut{
+		ID: ex.ID, TypNazwa: ex.TypNazwa, Kategoria: ex.Kategoria,
+		Trudnosc: ex.Trudnosc, Punkty: ex.Punkty, Zrodlo: ex.Zrodlo,
+		Tagi: ex.Tagi, Tresc: ex.Tresc,
+	}
+}
+
+// buildCoaching computes student context from progress.db for the given exercise type and tags.
+func buildCoaching(d *sql.DB, typ string, exerciseTags []string) Coaching {
+	c := Coaching{
+		StudentLevel: "new",
+		HintDelay:    1,
+		LeechTags:    []string{},
+		PastMistakes: []string{},
+	}
+
+	// Student level from progress_typy + progress_zrobione
+	var level sql.NullString
+	var streak int
+	d.QueryRow("SELECT poziom_trudnosci, streak FROM progress_typy WHERE typ = ?", typ).Scan(&level, &streak)
+
+	if level.Valid && level.String == "trudne" {
+		c.StudentLevel = "mastered"
+		c.HintDelay = 3
+	} else {
+		var done int
+		d.QueryRow("SELECT COUNT(*) FROM progress_zrobione WHERE typ = ?", typ).Scan(&done)
+
+		switch {
+		case done == 0:
+			c.StudentLevel = "new"
+			c.HintDelay = 1
+		case done <= 3 && streak < 3:
+			c.StudentLevel = "learning"
+			c.HintDelay = 1
+		default:
+			c.StudentLevel = "familiar"
+			c.HintDelay = 2
+		}
+	}
+
+	// Leech tags: lapses >= 3 AND retrievability < 0.85
+	today := time.Now().Format("2006-01-02")
+	fsrsParams := DefaultFSRSParams()
+	leechRows, err := d.Query(`SELECT tag, COALESCE(stability, 1.0), COALESCE(last_review, '')
+		FROM progress_tagi WHERE lapses >= 3`)
+	if err == nil {
+		defer leechRows.Close()
+		for leechRows.Next() {
+			var tag, lastReview string
+			var stability float64
+			leechRows.Scan(&tag, &stability, &lastReview)
+			elapsed := daysBetween(lastReview, today)
+			r := fsrsParams.Retrievability(elapsed, stability)
+			if r < 0.85 {
+				c.LeechTags = append(c.LeechTags, tag)
+			}
+		}
+	}
+
+	// Past mistakes: from last 5 sessions, filtered by exercise tags
+	if len(exerciseTags) > 0 {
+		placeholders := make([]string, len(exerciseTags))
+		params := []any{typ}
+		for i, tag := range exerciseTags {
+			placeholders[i] = "?"
+			params = append(params, tag)
+		}
+		query := fmt.Sprintf(`SELECT blad_opis FROM progress_bledy
+			WHERE typ = ? AND blad_kod IN (%s)
+			AND data IN (SELECT DISTINCT data FROM progress_zrobione ORDER BY data DESC LIMIT 5)
+			GROUP BY blad_opis ORDER BY MAX(data) DESC LIMIT 3`, strings.Join(placeholders, ","))
+		rows, err := d.Query(query, params...)
+		if err == nil {
+			defer rows.Close()
+			for rows.Next() {
+				var opis string
+				rows.Scan(&opis)
+				c.PastMistakes = append(c.PastMistakes, opis)
+			}
+		}
+	}
+
+	return c
+}
+
+// getExerciseHints returns hints for an exercise by ID, respecting max_hints for the student's level.
+func getExerciseHints(d *sql.DB, id, level string) HintsOut {
+	var wskazowkiJSON string
+	d.QueryRow("SELECT wskazowki FROM data.cwiczenia WHERE id = ?", id).Scan(&wskazowkiJSON)
+	var wskazowki []string
+	json.Unmarshal([]byte(wskazowkiJSON), &wskazowki)
+	if wskazowki == nil {
+		wskazowki = []string{}
+	}
+	maxHints := calculateMaxHints(level)
+	if maxHints >= 0 && len(wskazowki) > maxHints {
+		wskazowki = wskazowki[:maxHints]
+	}
+	if maxHints < 0 {
+		maxHints = len(wskazowki)
+	}
+	return HintsOut{ID: id, Wskazowki: wskazowki, MaxHints: maxHints}
+}
+
+// getExerciseAnswer returns the full answer for an exercise by ID.
+func getExerciseAnswer(d *sql.DB, id string) AnswerOut {
+	var odpowiedz, typoweBledyJSON string
+	d.QueryRow("SELECT odpowiedz, typowe_bledy FROM data.cwiczenia WHERE id = ?", id).Scan(&odpowiedz, &typoweBledyJSON)
+	var bledy []CommonError
+	json.Unmarshal([]byte(typoweBledyJSON), &bledy)
+	if bledy == nil {
+		bledy = []CommonError{}
+	}
+	return AnswerOut{ID: id, Odpowiedz: odpowiedz, TypoweBledy: bledy}
+}
+
 func queryExercises(d *sql.DB, typ, trudnosc, exclude string) ([]ExerciseOut, error) {
 	query := `SELECT ` + exerciseColumns + ` FROM data.cwiczenia c WHERE c.typ_nazwa = ?`
 	params := []any{typ}
@@ -307,15 +426,14 @@ func findInterleaveExercise(d *sql.DB, excludeTyp string) (ExerciseOut, error) {
 	return findExerciseByTypAndLevel(d, altTyp, altLevel)
 }
 
-// === exercise get ===
+// === exercise question ===
 
-func exerciseGetCmd() *cobra.Command {
+func exerciseQuestionCmd() *cobra.Command {
 	var typ, trudnosc, exclude string
-	var maxHints int
 
 	cmd := &cobra.Command{
-		Use:   "get",
-		Short: "Get a random exercise by type",
+		Use:   "question",
+		Short: "Get exercise question with coaching (no hints/answer)",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if typ == "" {
 				return fatal("--typ is required")
@@ -323,7 +441,6 @@ func exerciseGetCmd() *cobra.Command {
 
 			d := db(cmd)
 
-			// Auto-difficulty: if --trudnosc not explicitly set, use current level
 			level := getLevel(d, typ)
 			if !cmd.Flags().Changed("trudnosc") {
 				trudnosc = level
@@ -333,23 +450,21 @@ func exerciseGetCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
-
-			// Fallback: if auto-difficulty yielded 0 results, try without difficulty filter
 			if len(results) == 0 && !cmd.Flags().Changed("trudnosc") {
 				results, err = queryExercises(d, typ, "", exclude)
 				if err != nil {
 					return err
 				}
 			}
-
 			if len(results) == 0 {
 				return notFound(fmt.Sprintf("no exercises found for typ=%s trudnosc=%s", typ, trudnosc))
 			}
 
 			chosen := results[rand.Intn(len(results))]
-			applyMaxHints(&chosen, level, maxHints)
+			q := exerciseToQuestion(chosen)
+			q.Coaching = buildCoaching(d, typ, chosen.Tagi)
 			addWeight(d, 4)
-			jsonOut(chosen)
+			jsonOut(q)
 			return nil
 		},
 	}
@@ -357,7 +472,61 @@ func exerciseGetCmd() *cobra.Command {
 	cmd.Flags().StringVar(&typ, "typ", "", "Exercise type (e.g. sql_group_by, cyfry_liczby)")
 	cmd.Flags().StringVar(&trudnosc, "trudnosc", "", "Difficulty: latwe, srednie, srednie-trudne, trudne")
 	cmd.Flags().StringVar(&exclude, "exclude", "", "Comma-separated IDs to exclude")
-	cmd.Flags().IntVar(&maxHints, "max-hints", -1, "Max hints to return (-1=auto based on level)")
+	return cmd
+}
+
+// === exercise hints ===
+
+func exerciseHintsCmd() *cobra.Command {
+	var id string
+	cmd := &cobra.Command{
+		Use:   "hints",
+		Short: "Get hints for an exercise by ID",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if id == "" {
+				return fatal("--id is required")
+			}
+			d := db(cmd)
+			var exists int
+			if err := d.QueryRow("SELECT COUNT(*) FROM data.cwiczenia WHERE id = ?", id).Scan(&exists); err != nil || exists == 0 {
+				return notFound(fmt.Sprintf("exercise %s not found", id))
+			}
+			var typ string
+			d.QueryRow("SELECT typ_nazwa FROM data.cwiczenia WHERE id = ?", id).Scan(&typ)
+			level := getLevel(d, typ)
+			hints := getExerciseHints(d, id, level)
+			addWeight(d, 1)
+			jsonOut(hints)
+			return nil
+		},
+	}
+	cmd.Flags().StringVar(&id, "id", "", "Exercise ID (e.g. 7.1)")
+	return cmd
+}
+
+// === exercise answer ===
+
+func exerciseAnswerCmd() *cobra.Command {
+	var id string
+	cmd := &cobra.Command{
+		Use:   "answer",
+		Short: "Get answer for an exercise by ID",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if id == "" {
+				return fatal("--id is required")
+			}
+			d := db(cmd)
+			var exists int
+			if err := d.QueryRow("SELECT COUNT(*) FROM data.cwiczenia WHERE id = ?", id).Scan(&exists); err != nil || exists == 0 {
+				return notFound(fmt.Sprintf("exercise %s not found", id))
+			}
+			answer := getExerciseAnswer(d, id)
+			addWeight(d, 2)
+			jsonOut(answer)
+			return nil
+		},
+	}
+	cmd.Flags().StringVar(&id, "id", "", "Exercise ID (e.g. 7.1)")
 	return cmd
 }
 
@@ -365,7 +534,6 @@ func exerciseGetCmd() *cobra.Command {
 
 func exerciseReviewCmd() *cobra.Command {
 	var limit int
-	var maxHints int
 
 	cmd := &cobra.Command{
 		Use:   "review",
@@ -426,11 +594,17 @@ func exerciseReviewCmd() *cobra.Command {
 					continue
 				}
 
-				lvl := getLevel(d, ex.TypNazwa)
-				applyMaxHints(&ex, lvl, maxHints)
+				q := exerciseToQuestion(ex)
+				q.Coaching = buildCoaching(d, ex.TypNazwa, ex.Tagi)
+				// Add previous_result for reviews
+				var prevResult sql.NullString
+				d.QueryRow("SELECT wynik FROM progress_zrobione WHERE id = ?", ex.ID).Scan(&prevResult)
+				if prevResult.Valid {
+					q.Coaching.PreviousResult = prevResult.String
+				}
 
 				results = append(results, ReviewOut{
-					Exercise:       ex,
+					Exercise:       q,
 					Tag:            rc.tag,
 					DaysOverdue:    daysOverdue,
 					Retrievability: rc.retrievability,
@@ -446,7 +620,6 @@ func exerciseReviewCmd() *cobra.Command {
 	}
 
 	cmd.Flags().IntVar(&limit, "limit", 3, "Max number of reviews to return")
-	cmd.Flags().IntVar(&maxHints, "max-hints", -1, "Max hints to return (-1=auto based on level)")
 	return cmd
 }
 
@@ -1642,7 +1815,6 @@ func examSaveCmd() *cobra.Command {
 func exerciseNextCmd() *cobra.Command {
 	var typ, kategoria string
 	var weightReset bool
-	var maxHints int
 
 	cmd := &cobra.Command{
 		Use:   "next",
@@ -1650,7 +1822,6 @@ func exerciseNextCmd() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			d := db(cmd)
 
-			// If --kategoria given (and --typ not), auto-select the weakest type in that category
 			if typ == "" && kategoria != "" {
 				chosen, err := chooseWeakestType(d, kategoria)
 				if err != nil {
@@ -1663,7 +1834,6 @@ func exerciseNextCmd() *cobra.Command {
 				return fatal("--typ or --kategoria is required")
 			}
 
-			// Handle context weight tracking
 			if weightReset {
 				d.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
 			}
@@ -1676,7 +1846,6 @@ func exerciseNextCmd() *cobra.Command {
 				SessionCount: sessionCount,
 			}
 
-			// finalizeWeight adds weight and reads current total — called only on success paths.
 			finalizeWeight := func() {
 				addWeight(d, 4)
 				var wStr string
@@ -1686,13 +1855,6 @@ func exerciseNextCmd() *cobra.Command {
 				out.ResetSuggested = out.SessionWeight >= 80
 			}
 
-			// applyHints applies max-hints truncation to the exercise in out.
-			applyHints := func(exTyp string) {
-				lvl := getLevel(d, exTyp)
-				applyMaxHints(&out.Exercise, lvl, maxHints)
-			}
-
-			// If type was auto-chosen from kategoria, include it in output
 			if cmd.Flags().Changed("kategoria") {
 				out.ChosenTyp = typ
 			}
@@ -1712,12 +1874,18 @@ func exerciseNextCmd() *cobra.Command {
 				if findErr == nil {
 					powtorkaDate, _ := time.Parse("2006-01-02", powtorka)
 					daysOverdue := int(time.Since(powtorkaDate).Hours() / 24)
+					q := exerciseToQuestion(ex)
+					q.Coaching = buildCoaching(d, ex.TypNazwa, ex.Tagi)
+					var prevResult sql.NullString
+					d.QueryRow("SELECT wynik FROM progress_zrobione WHERE id = ?", ex.ID).Scan(&prevResult)
+					if prevResult.Valid {
+						q.Coaching.PreviousResult = prevResult.String
+					}
 					out.Mode = "review"
-					out.Exercise = ex
+					out.Exercise = q
 					out.ReviewTag = &tag
 					out.DaysOverdue = &daysOverdue
 					out.PoolWarning = poolWarning(d, ex.TypNazwa, ex.Trudnosc)
-					applyHints(ex.TypNazwa)
 					finalizeWeight()
 					jsonOut(out)
 					return nil
@@ -1728,10 +1896,11 @@ func exerciseNextCmd() *cobra.Command {
 			if sessionCount > 0 && sessionCount%3 == 0 {
 				ex, err := findInterleaveExercise(d, typ)
 				if err == nil {
+					q := exerciseToQuestion(ex)
+					q.Coaching = buildCoaching(d, ex.TypNazwa, ex.Tagi)
 					out.Mode = "interleave"
-					out.Exercise = ex
+					out.Exercise = q
 					out.PoolWarning = poolWarning(d, ex.TypNazwa, ex.Trudnosc)
-					applyHints(ex.TypNazwa)
 					finalizeWeight()
 					jsonOut(out)
 					return nil
@@ -1742,17 +1911,17 @@ func exerciseNextCmd() *cobra.Command {
 			level := getLevel(d, typ)
 			ex, err := findExerciseByTypAndLevel(d, typ, level)
 			if err != nil {
-				// Fallback: any difficulty
 				ex, err = findExerciseByTypAndLevel(d, typ, "")
 				if err != nil {
 					return notFound(fmt.Sprintf("no exercises available for typ=%s", typ))
 				}
 			}
 
+			q := exerciseToQuestion(ex)
+			q.Coaching = buildCoaching(d, typ, ex.Tagi)
 			out.Mode = "new"
-			out.Exercise = ex
+			out.Exercise = q
 			out.PoolWarning = poolWarning(d, typ, level)
-			applyHints(typ)
 			finalizeWeight()
 			jsonOut(out)
 			return nil
@@ -1762,7 +1931,6 @@ func exerciseNextCmd() *cobra.Command {
 	cmd.Flags().StringVar(&typ, "typ", "", "Exercise type")
 	cmd.Flags().StringVar(&kategoria, "kategoria", "", "Category (TEORIA/IMPLEMENTACJA/ARKUSZ/SQL) — auto-selects weakest type")
 	cmd.Flags().BoolVar(&weightReset, "weight-reset", false, "Reset session context weight to 0")
-	cmd.Flags().IntVar(&maxHints, "max-hints", -1, "Max hints to return (-1=auto based on level)")
 	return cmd
 }
 

@@ -88,7 +88,8 @@ type TaskDimensions struct {
 
 // === Output types (returned as JSON on stdout) ===
 
-// ExerciseOut is what exercise get returns
+// ExerciseOut is the internal full exercise record (used by queryExercises, import).
+// Not exposed to stdout directly — use QuestionOut, HintsOut, AnswerOut instead.
 type ExerciseOut struct {
 	ID          string        `json:"id"`
 	TypNazwa    string        `json:"typ_nazwa"`
@@ -104,9 +105,45 @@ type ExerciseOut struct {
 	MaxHints    int           `json:"max_hints"`
 }
 
+// QuestionOut is what exercise question returns (no hints, no answer)
+type QuestionOut struct {
+	ID        string   `json:"id"`
+	TypNazwa  string   `json:"typ_nazwa"`
+	Kategoria string   `json:"kategoria"`
+	Trudnosc  string   `json:"trudnosc"`
+	Punkty    int      `json:"punkty"`
+	Zrodlo    string   `json:"zrodlo"`
+	Tagi      []string `json:"tagi"`
+	Tresc     string   `json:"tresc"`
+	Coaching  Coaching `json:"coaching"`
+}
+
+// Coaching provides student context computed from progress.db
+type Coaching struct {
+	StudentLevel   string   `json:"student_level"`
+	HintDelay      int      `json:"hint_delay"`
+	LeechTags      []string `json:"leech_tags"`
+	PastMistakes   []string `json:"past_mistakes"`
+	PreviousResult string   `json:"previous_result,omitempty"`
+}
+
+// HintsOut is what exercise hints returns
+type HintsOut struct {
+	ID        string   `json:"id"`
+	Wskazowki []string `json:"wskazowki"`
+	MaxHints  int      `json:"max_hints"`
+}
+
+// AnswerOut is what exercise answer returns
+type AnswerOut struct {
+	ID          string        `json:"id"`
+	Odpowiedz  string        `json:"odpowiedz"`
+	TypoweBledy []CommonError `json:"typowe_bledy"`
+}
+
 // ReviewOut is what exercise review returns
 type ReviewOut struct {
-	Exercise       ExerciseOut `json:"exercise"`
+	Exercise       QuestionOut `json:"exercise"`
 	Tag            string      `json:"tag"`
 	DaysOverdue    int         `json:"days_overdue"`
 	Retrievability float64     `json:"retrievability"`
@@ -245,7 +282,7 @@ type DataStatsOut struct {
 // ExerciseNextOut is what exercise next returns
 type ExerciseNextOut struct {
 	Mode           string      `json:"mode"`
-	Exercise       ExerciseOut `json:"exercise"`
+	Exercise       QuestionOut `json:"exercise"`
 	ReviewTag      *string     `json:"review_tag"`
 	DaysOverdue    *int        `json:"days_overdue"`
 	PoolWarning    *string     `json:"pool_warning"`

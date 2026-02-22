@@ -160,7 +160,7 @@ run_layer_1() {
 
   echo "  -- Read-only commands --"
   test_json_cmd "data stats" "$MATURA" data stats
-  test_json_cmd "exercise get --typ cyfry_liczby" "$MATURA" exercise get --typ cyfry_liczby
+  test_json_cmd "exercise question --typ cyfry_liczby" "$MATURA" exercise question --typ cyfry_liczby
   test_json_cmd "exercise next --typ napisy" matura_tmp exercise next --typ napisy
   # exercise review on fresh DB = "no reviews due" (exit 1) — expected
   test_cmd_exitcode "exercise review --limit 1 (fresh DB, expect 1)" 1 \
@@ -189,7 +189,7 @@ run_layer_1() {
              cyfry_liczby napisy zlozone zliczanie minmax sekwencje obrazy_2D geometryczne \
              agregacja_warunkowa symulacja wykres agregacja_podstawowa transformacja \
              sql_group_by sql_podzapytania sql_join sql_select_where; do
-    test_json_cmd "exercise get --typ $typ" "$MATURA" exercise get --typ "$typ"
+    test_json_cmd "exercise question --typ $typ" "$MATURA" exercise question --typ "$typ"
   done
 
   echo "  -- All 11 exam years --"
@@ -200,7 +200,7 @@ run_layer_1() {
   echo "  -- Write commands (temp DB) --"
   # Get an exercise ID for write tests
   local ex_id
-  ex_id=$("$MATURA" exercise get --typ cyfry_liczby 2>/dev/null \
+  ex_id=$("$MATURA" exercise question --typ cyfry_liczby 2>/dev/null \
     | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])" 2>/dev/null) || ex_id="7.1"
 
   test_json_cmd "progress update --wynik poprawne_bez_pomocy" \
@@ -208,7 +208,7 @@ run_layer_1() {
 
   # progress update with non-perfect result (no prior blad) → blad_warning present
   local ex_id2
-  ex_id2=$("$MATURA" exercise get --typ napisy 2>/dev/null \
+  ex_id2=$("$MATURA" exercise question --typ napisy 2>/dev/null \
     | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])" 2>/dev/null) || ex_id2="8.1"
   local update_out2
   update_out2=$(matura_tmp progress update --id "$ex_id2" --wynik poprawne_z_pomoca_1 --czas 45 2>&1)
@@ -282,34 +282,56 @@ print(d['podzadania'][0]['punkty'])
     fail "auto-weight 76+4=80 → reset_suggested (expected True, got: $weight_reset)"
   fi
 
-  echo "  -- Hint fading (--max-hints) --"
-  # --max-hints 0 → empty wskazowki
-  local mh0_out mh0_count
-  mh0_out=$("$MATURA" exercise get --typ cyfry_liczby --max-hints 0 2>&1)
-  mh0_count=$(echo "$mh0_out" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print(len(d['wskazowki']))" 2>/dev/null) || mh0_count=""
-  if [ "$mh0_count" = "0" ]; then
-    pass "exercise get --max-hints 0 → wskazowki=[]"
+  echo "  -- Lazy loading (question/hints/answer) --"
+  # exercise question should NOT contain odpowiedz or wskazowki
+  local q_out q_no_answer q_no_hints q_has_coaching
+  q_out=$("$MATURA" exercise question --typ cyfry_liczby 2>&1)
+  q_no_answer=$(echo "$q_out" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print('yes' if 'odpowiedz' not in d else 'no')" 2>/dev/null) || q_no_answer=""
+  q_no_hints=$(echo "$q_out" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print('yes' if 'wskazowki' not in d else 'no')" 2>/dev/null) || q_no_hints=""
+  q_has_coaching=$(echo "$q_out" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print('yes' if 'coaching' in d and 'student_level' in d['coaching'] else 'no')" 2>/dev/null) || q_has_coaching=""
+  if [ "$q_no_answer" = "yes" ]; then
+    pass "exercise question → no odpowiedz in output"
   else
-    fail "exercise get --max-hints 0 → wskazowki count (expected 0, got: $mh0_count)"
+    fail "exercise question → odpowiedz should NOT be present"
+  fi
+  if [ "$q_no_hints" = "yes" ]; then
+    pass "exercise question → no wskazowki in output"
+  else
+    fail "exercise question → wskazowki should NOT be present"
+  fi
+  if [ "$q_has_coaching" = "yes" ]; then
+    pass "exercise question → coaching field present"
+  else
+    fail "exercise question → coaching field missing"
   fi
 
-  # --max-hints 1 → at most 1 hint
-  local mh1_out mh1_count
-  mh1_out=$("$MATURA" exercise get --typ cyfry_liczby --max-hints 1 2>&1)
-  mh1_count=$(echo "$mh1_out" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print(len(d['wskazowki']))" 2>/dev/null) || mh1_count=""
-  if [ "$mh1_count" = "0" ] || [ "$mh1_count" = "1" ]; then
-    pass "exercise get --max-hints 1 → wskazowki count=$mh1_count"
+  # exercise hints --id returns wskazowki + max_hints
+  local q_id hints_out hints_ok
+  q_id=$(echo "$q_out" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])" 2>/dev/null) || q_id=""
+  if [ -n "$q_id" ]; then
+    hints_out=$("$MATURA" exercise hints --id "$q_id" 2>&1)
+    hints_ok=$(echo "$hints_out" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print('yes' if 'wskazowki' in d and 'max_hints' in d else 'no')" 2>/dev/null) || hints_ok=""
+    if [ "$hints_ok" = "yes" ]; then
+      pass "exercise hints --id $q_id → wskazowki + max_hints"
+    else
+      fail "exercise hints --id $q_id → missing fields"
+    fi
   else
-    fail "exercise get --max-hints 1 → wskazowki count (expected <=1, got: $mh1_count)"
+    warn "exercise hints (skipped — could not get exercise id)"
   fi
 
-  # max_hints field present in JSON
-  local mh_field
-  mh_field=$(echo "$mh1_out" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print(d['max_hints'])" 2>/dev/null) || mh_field=""
-  if [ "$mh_field" = "1" ]; then
-    pass "exercise get --max-hints 1 → max_hints=1 in JSON"
+  # exercise answer --id returns odpowiedz + typowe_bledy
+  if [ -n "$q_id" ]; then
+    local ans_out ans_ok
+    ans_out=$("$MATURA" exercise answer --id "$q_id" 2>&1)
+    ans_ok=$(echo "$ans_out" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print('yes' if 'odpowiedz' in d and 'typowe_bledy' in d else 'no')" 2>/dev/null) || ans_ok=""
+    if [ "$ans_ok" = "yes" ]; then
+      pass "exercise answer --id $q_id → odpowiedz + typowe_bledy"
+    else
+      fail "exercise answer --id $q_id → missing fields"
+    fi
   else
-    fail "exercise get --max-hints 1 → max_hints field (expected 1, got: $mh_field)"
+    warn "exercise answer (skipped — could not get exercise id)"
   fi
 
   echo "  -- CKE worked example --"
@@ -332,8 +354,8 @@ print('yes' if ok else 'no')
   fi
 
   echo "  -- Error handling --"
-  test_cmd_exitcode "exercise get --typ NIEISTNIEJACY (expect error)" 1 \
-    "$MATURA" exercise get --typ NIEISTNIEJACY
+  test_cmd_exitcode "exercise question --typ NIEISTNIEJACY (expect error)" 1 \
+    "$MATURA" exercise question --typ NIEISTNIEJACY
   test_cmd_exitcode "exam meta --rok 2020 (expect not found)" 1 \
     "$MATURA" exam meta --rok 2020
 }
@@ -651,7 +673,7 @@ run_layer_6() {
     if [ ${#ex_ids[@]} -gt 0 ]; then
       exclude_arg=$(IFS=,; echo "${ex_ids[*]}")
     fi
-    ex_json=$("$MATURA" --db-dir "$journey_dir" exercise get --typ cyfry_liczby --trudnosc latwe ${exclude_arg:+--exclude "$exclude_arg"} 2>/dev/null)
+    ex_json=$("$MATURA" --db-dir "$journey_dir" exercise question --typ cyfry_liczby --trudnosc latwe ${exclude_arg:+--exclude "$exclude_arg"} 2>/dev/null)
     local eid
     eid=$(echo "$ex_json" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])" 2>/dev/null) || eid=""
     if [ -n "$eid" ]; then
@@ -677,7 +699,7 @@ run_layer_6() {
   cp "$CLI_DIR/matura.db" "$diag_dir/matura.db"
 
   local blad_eid
-  blad_eid=$("$MATURA" exercise get --typ cyfry_liczby 2>/dev/null \
+  blad_eid=$("$MATURA" exercise question --typ cyfry_liczby 2>/dev/null \
     | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])" 2>/dev/null) || blad_eid="7.1"
   for i in 1 2 3; do
     "$MATURA" --db-dir "$diag_dir" progress blad --exercise-id "$blad_eid" --typ cyfry_liczby --kod mylenie_div_mod >/dev/null 2>&1
@@ -779,7 +801,7 @@ run_layer_6() {
   # Do 2 exercises to build session_count
   for i in 1 2; do
     local sess_eid
-    sess_eid=$("$MATURA" --db-dir "$sess_dir" exercise get --typ napisy --trudnosc latwe 2>/dev/null \
+    sess_eid=$("$MATURA" --db-dir "$sess_dir" exercise question --typ napisy --trudnosc latwe 2>/dev/null \
       | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])" 2>/dev/null) || sess_eid=""
     if [ -n "$sess_eid" ]; then
       "$MATURA" --db-dir "$sess_dir" progress update --id "$sess_eid" --wynik poprawne_bez_pomocy --czas 45 >/dev/null 2>&1
@@ -803,7 +825,7 @@ run_layer_6() {
   cp "$CLI_DIR/matura.db" "$warn_dir/matura.db"
 
   local warn_eid
-  warn_eid=$("$MATURA" --db-dir "$warn_dir" exercise get --typ cyfry_liczby 2>/dev/null \
+  warn_eid=$("$MATURA" --db-dir "$warn_dir" exercise question --typ cyfry_liczby 2>/dev/null \
     | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])" 2>/dev/null) || warn_eid="7.1"
 
   local warn_out warn_field
@@ -823,7 +845,7 @@ run_layer_6() {
   cp "$CLI_DIR/matura.db" "$nowarn_dir/matura.db"
 
   local nowarn_eid
-  nowarn_eid=$("$MATURA" --db-dir "$nowarn_dir" exercise get --typ napisy 2>/dev/null \
+  nowarn_eid=$("$MATURA" --db-dir "$nowarn_dir" exercise question --typ napisy 2>/dev/null \
     | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])" 2>/dev/null) || nowarn_eid="8.1"
 
   # Log blad first

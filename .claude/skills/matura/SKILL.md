@@ -98,7 +98,9 @@ Wywoluj przez Bash. JSON na stdout. Exit: 0=OK, 1=not found, 2=error.
 | Operacja | Komenda |
 |----------|---------|
 | Nastepne cwiczenie (smart) | `./matura exercise next --typ {typ}` lub `--kategoria {kat}` |
-| Pobierz cwiczenie | `./matura exercise get --typ {typ} [--trudnosc {t}] [--exclude id1,id2]` |
+| Pobierz pytanie | `./matura exercise question --typ {typ} [--trudnosc {t}] [--exclude id1,id2]` |
+| Pobierz hinty | `./matura exercise hints --id {id}` |
+| Pobierz odpowiedz | `./matura exercise answer --id {id}` |
 | Zaleglosc powtorkowa | `./matura exercise review [--limit N]` |
 | Info o typie | `./matura typ intro --typ {typ}` |
 | Zapisz wynik | `./matura progress update --id {id} --wynik {w} [--czas S]` |
@@ -210,13 +212,13 @@ Pola odpowiedzi:
 - `session_weight`: aktualna waga kontekstu sesji (auto-tracked by CLI)
 - `reset_suggested`: true gdy session_weight >= 80 (patrz sekcja I)
 
-Alternatywnie, bezposrednio: `./matura exercise get --typ {typ} [--trudnosc {t}]` (auto-difficulty gdy bez --trudnosc).
+Alternatywnie, bezposrednio: `./matura exercise question --typ {typ} [--trudnosc {t}]` (auto-difficulty gdy bez --trudnosc).
 
 ### Walidacja trudnosci
 
 Po kazdym `exercise next`, sprawdz pole `trudnosc` w odpowiedzi:
 - Jesli trudnosc > oczekiwana (np. `srednie` a streak < 3) → wywolaj ponownie:
-  `./matura exercise get --typ {typ} --trudnosc latwe`
+  `./matura exercise question --typ {typ} --trudnosc latwe`
 - Jesli po walk_through w poprzednim cwiczeniu → wymus `--trudnosc latwe`
 - Nie komentuj tego uczniowi — po cichu pobierz wlasciwe cwiczenie.
 
@@ -225,11 +227,13 @@ Po kazdym `exercise next`, sprawdz pole `trudnosc` w odpowiedzi:
 Gdy `exercise next` zwraca `mode: "interleave"`:
 - Zapytaj ucznia: "CLI sugeruje przerywnik z typu {typ} — to utrwala wiedze. Sprobujemy czy kontynuujemy {aktualny_typ}?"
 - Jesli uczen zgadza sie → przedstaw cwiczenie jak zwykle (sekcja E)
-- Jesli uczen odmawia → `./matura exercise get --typ {aktualny_typ}` jako fallback
+- Jesli uczen odmawia → `./matura exercise question --typ {aktualny_typ}` jako fallback
 
 ## E. Prezentacja cwiczenia
 
-1. Pobierz cwiczenie: `./matura exercise get --typ {typ} [--trudnosc {t}]`
+1. Pobierz pytanie: `./matura exercise question --typ {typ} [--trudnosc {t}]`
+   - Zwraca TYLKO pytanie + coaching (bez hintow, bez odpowiedzi)
+   - Pole `coaching` zawiera kontekst ucznia (patrz sekcja E2)
 1b. **WYMAGANE** — Zapisz timestamp: `START_TS=$(date +%s)` przez Bash
 2. Wyswietl:
    ```
@@ -237,8 +241,21 @@ Gdy `exercise next` zwraca `mode: "interleave"`:
 
    {tresc}
    ```
-3. **NIE** pokazuj: `odpowiedz`, `wskazowki`, `typowe_bledy`
-4. Popros: "Podaj swoje rozwiazanie."
+3. Popros: "Podaj swoje rozwiazanie."
+
+### E2. Coaching (kontekst ucznia z CLI)
+
+Pole `coaching` w odpowiedzi `exercise question` / `exercise next` / `exercise review`:
+- `student_level`: "new" / "learning" / "familiar" / "mastered"
+- `hint_delay`: 1 / 1 / 2 / 3 — ile blednych prob przed podaniem hintu
+- `leech_tags`: tagi z niska retencja (retrievability < 0.85) — wymagaja dodatkowej uwagi
+- `past_mistakes`: kody bledow z ostatnich 5 sesji, powiazane z tagami cwiczenia
+- `previous_result`: ostatni wynik tego cwiczenia (jesli powtorka)
+
+Uzyj `coaching` do:
+- Jesli `leech_tags` zawiera tagi cwiczenia → zwroc szczegolna uwage na te aspekty
+- Jesli `past_mistakes` niepuste → proaktywnie ostrzez: "Ostatnio miales problem z {kod} — uwazaj"
+- `hint_delay` okresla ile prob czekac przed hintem (patrz sekcja F)
 
 ### Tryb krok-po-kroku (sledzenie_algorytmu, projektowanie_algorytmu)
 
@@ -259,7 +276,13 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
 
 ## F. Ocena odpowiedzi i system hintow
 
-Porownaj odpowiedz ucznia z polem `odpowiedz` z JSON-a zwroconego przez CLI. Uwzglednij rownowazne formy (np. alias SQL, inna kolejnosc kolumn jesli nie wymagana). Jesli odpowiedz czesciowo poprawna — potwierdz co jest dobrze, naprowadz na brakujace elementy.
+### Lazy loading — NIE pobieraj odpowiedzi z gory
+
+Pytanie (`exercise question`) NIE zawiera odpowiedzi ani hintow. Pobieraj je DOPIERO gdy potrzebne:
+- Hinty: `./matura exercise hints --id {id}` → `wskazowki[]` + `max_hints`
+- Odpowiedz: `./matura exercise answer --id {id}` → `odpowiedz` + `typowe_bledy[]`
+
+Porownaj odpowiedz ucznia z polem `odpowiedz`. Uwzglednij rownowazne formy (np. alias SQL, inna kolejnosc kolumn jesli nie wymagana). Jesli odpowiedz czesciowo poprawna — potwierdz co jest dobrze, naprowadz na brakujace elementy.
 
 ### Punktacja czesciowa (TEORIA)
 
@@ -275,34 +298,34 @@ Porownaj odpowiedz ucznia z polem `odpowiedz` z JSON-a zwroconego przez CLI. Uwz
 Regula ogolna: jesli uczen ma poprawny tok rozumowania ale drobny blad rachunkowy -> 50-75% pkt.
 Brak uzasadnienia przy P/F = zawsze 50% (CKE wymaga uzasadnienia).
 
-### Fading scaffolding (adaptacyjne hinty)
-
-CLI automatycznie ogranicza `wskazowki` w JSON w zaleznosci od poziomu ucznia:
-- **latwe / srednie** → `max_hints` = pelne (3 hinty)
-- **srednie-trudne** → `max_hints` = 1 (tylko wskazowki[0])
-- **trudne** → `max_hints` = 0 (brak hintow)
-
-Walk_through resetuje poziom do `latwe` → hinty wracaja. Uczen odbudowuje samodzielnosc od nowa.
-
-Przy PIERWSZYM cwiczeniu na nowym poziomie hintow, poinformuj ucznia:
-- Na `srednie-trudne`: "Od teraz max 1 podpowiedz — rozwijasz samodzielnosc."
-- Na `trudne`: "Bez podpowiedzi — jak na prawdziwym egzaminie. Feedback po odpowiedzi."
-
-### 3-poziomowy system hintow
+### System hintow (coaching-driven)
 
 **[WYMAGANE]** Po KAZDEJ blednej odpowiedzi ucznia — NAJPIERW `progress blad`, POTEM hint.
-Nie czekaj na 3 proby. Kazda pomylka = osobna komenda `progress blad` z odpowiednim kodem.
+Kazda pomylka = osobna komenda `progress blad` z odpowiednim kodem.
 
-Sprawdz `max_hints` z JSON-a cwiczenia. Zachowanie zalezy od dostepnych hintow:
+Uzyj `coaching.hint_delay` do decyzji kiedy podac hint:
+- `hint_delay=1` (new/learning) → hint od 1. blednej proby
+- `hint_delay=2` (familiar) → pytanie sokratejskie na 1. probie, hint od 2.
+- `hint_delay=3` (mastered) → pytanie sokratejskie na 1-2. probie, hint dopiero od 3.
 
-#### Gdy max_hints >= 3 (pelne hinty — latwe/srednie)
+Przy PIERWSZYM cwiczeniu z wyzszym hint_delay, poinformuj ucznia:
+- hint_delay=2: "Od teraz mniej podpowiedzi — rozwijasz samodzielnosc."
+- hint_delay=3: "Bez podpowiedzi — jak na prawdziwym egzaminie. Feedback po odpowiedzi."
 
-**Poziom 1** (po 1. blednej probie):
-- Okresl typ bledu (na podstawie `typowe_bledy` z JSON-a cwiczenia)
+Walk_through resetuje poziom do "new" → hint_delay wraca do 1. Uczen odbudowuje samodzielnosc od nowa.
+
+#### Przebieg hintow (3 poziomy)
+
+Gdy nadchodzi pora na hint (po hint_delay probach), pobierz hinty:
+`./matura exercise hints --id {id}` → `wskazowki[]`, `max_hints`
+
+**Poziom 1** (po hint_delay blednych probach):
+- Okresl typ bledu
 - **ZAPISZ BLAD**: `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint 1`
-- Zadaj pytanie sokratejskie naprowadzajace na poprawny tok myslenia
+- Jesli `max_hints >= 1` → podaj `wskazowki[0]` + pytanie sokratejskie
+- Jesli `max_hints == 0` → tylko pytanie sokratejskie
 
-**Poziom 2** (po 2. blednej probie):
+**Poziom 2** (nastepna bledna proba):
 - **ZAPISZ BLAD**: `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint 2`
 - **ZAWSZE** pobierz sekcje cheatsheet i **ZACYTUJ** konkretny fragment:
   `./matura cheatsheet get --kategoria {kat} --sekcja "{temat}"`
@@ -317,39 +340,12 @@ Sprawdz `max_hints` z JSON-a cwiczenia. Zachowanie zalezy od dostepnych hintow:
   * szyfrowanie, protokoly, malware → --sekcja "bezpieczen"
   * P/F, stabilnosc, kontrprzyklad → --sekcja "prawda"
   * konwersja systemow → --sekcja "konwersj"
-- Podaj cytat + konkretne pojecie z `wskazowki[1]`
+- Jesli `max_hints >= 2` → podaj cytat + `wskazowki[1]`
 
-**Poziom 3** (po 3. blednej probie):
+**Poziom 3** (nastepna bledna proba):
 - **ZAPISZ BLAD**: `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint 3`
-- Podaj `wskazowki[2]` (kluczowy krok)
+- Jesli `max_hints >= 3` → podaj `wskazowki[2]` (kluczowy krok)
 - Rozpisz rozwiazanie krok po kroku, ale ostatni krok zostaw uczniowi
-
-#### Gdy max_hints == 1 (srednie-trudne — 1 wskazowka)
-
-**Poziom 1** (po 1. blednej probie):
-- ZAPISZ BLAD z `--hint 1`
-- Pytanie sokratejskie + cheatsheet (mapowanie jw.)
-- BEZ wskazowki na tym etapie
-
-**Poziom 2** (po 2. blednej probie):
-- ZAPISZ BLAD z `--hint 2`
-- Podaj `wskazowki[0]` — to jedyna dostepna wskazowka
-
-**Poziom 3** (po 3. blednej probie):
-- Przejdz do walk_through (pelna odpowiedz + konsolidacja)
-
-#### Gdy max_hints == 0 (trudne — brak hintow)
-
-**Poziom 1** (po 1. blednej probie):
-- ZAPISZ BLAD z `--hint 1`
-- Tylko pytanie sokratejskie (bez wskazowki, bez cheatsheet)
-
-**Poziom 2** (po 2. blednej probie):
-- ZAPISZ BLAD z `--hint 2`
-- Cheatsheet fragment (mapowanie jw.) — ale BEZ wskazowki
-
-**Poziom 3** (po 3. blednej probie):
-- Przejdz do walk_through (pelna odpowiedz + konsolidacja)
 
 ### Wizualizacje (proaktywne)
 
@@ -381,7 +377,8 @@ Przyklad tabeli sledzenia:
 ```
 
 **Po 3 probach bez sukcesu** (lub komenda "poddaje sie"):
-- Wyswietl pelna `odpowiedz` z JSON-a
+- Pobierz odpowiedz: `./matura exercise answer --id {id}`
+- Wyswietl pelna `odpowiedz`
 - Wyswietl `typowe_bledy` jako wskazowki CKE
 - **[WYMAGANE] Konsolidacja**: zapytaj: "Wyjasniej swoimi slowami, dlaczego to rozwiazanie dziala."
     - Poprawne wyjasnienie → krotki pozytywny feedback

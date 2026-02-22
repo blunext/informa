@@ -2159,3 +2159,216 @@ func TestMigrationV5(t *testing.T) {
 		t.Errorf("version: got %d, want %d", version, currentSchemaVersion)
 	}
 }
+
+// === Feature: Lazy Loading Exercises + Coaching ===
+
+func TestQuestionOutHasNoAnswer(t *testing.T) {
+	q := QuestionOut{ID: "1.1", Tresc: "test", Coaching: Coaching{StudentLevel: "new"}}
+	data, _ := json.Marshal(q)
+	var m map[string]any
+	json.Unmarshal(data, &m)
+	if _, ok := m["odpowiedz"]; ok {
+		t.Error("QuestionOut should not have odpowiedz field")
+	}
+	if _, ok := m["wskazowki"]; ok {
+		t.Error("QuestionOut should not have wskazowki field")
+	}
+	if _, ok := m["coaching"]; !ok {
+		t.Error("QuestionOut must have coaching field")
+	}
+}
+
+func TestBuildCoachingNewStudent(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	coaching := buildCoaching(db, "cyfry_liczby", []string{"cyfry-mod-div"})
+	if coaching.StudentLevel != "new" {
+		t.Errorf("new student: got level %q, want new", coaching.StudentLevel)
+	}
+	if coaching.HintDelay != 1 {
+		t.Errorf("new student: got hint_delay %d, want 1", coaching.HintDelay)
+	}
+	if len(coaching.LeechTags) != 0 {
+		t.Errorf("new student: got %d leech_tags, want 0", len(coaching.LeechTags))
+	}
+	if len(coaching.PastMistakes) != 0 {
+		t.Errorf("new student: got %d past_mistakes, want 0", len(coaching.PastMistakes))
+	}
+}
+
+func TestBuildCoachingLearningStudent(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	db.Exec("INSERT INTO progress_typy (typ, poziom_trudnosci, streak) VALUES ('cyfry_liczby', 'latwe', 2)")
+	for i := 0; i < 3; i++ {
+		db.Exec("INSERT OR IGNORE INTO progress_zrobione (id, typ, data, wynik) VALUES (?, 'cyfry_liczby', '2026-02-20', 'poprawne_z_pomoca_1')",
+			fmt.Sprintf("7.%d", i+1))
+	}
+
+	coaching := buildCoaching(db, "cyfry_liczby", []string{})
+	if coaching.StudentLevel != "learning" {
+		t.Errorf("learning student: got level %q, want learning", coaching.StudentLevel)
+	}
+	if coaching.HintDelay != 1 {
+		t.Errorf("learning student: got hint_delay %d, want 1", coaching.HintDelay)
+	}
+}
+
+func TestBuildCoachingFamiliarStudent(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	db.Exec("INSERT INTO progress_typy (typ, poziom_trudnosci, streak) VALUES ('cyfry_liczby', 'srednie', 4)")
+	for i := 0; i < 5; i++ {
+		db.Exec("INSERT OR IGNORE INTO progress_zrobione (id, typ, data, wynik) VALUES (?, 'cyfry_liczby', '2026-02-20', 'poprawne_bez_pomocy')",
+			fmt.Sprintf("7.%d", i+1))
+	}
+
+	coaching := buildCoaching(db, "cyfry_liczby", []string{"cyfry-mod-div"})
+	if coaching.StudentLevel != "familiar" {
+		t.Errorf("familiar student: got level %q, want familiar", coaching.StudentLevel)
+	}
+	if coaching.HintDelay != 2 {
+		t.Errorf("familiar student: got hint_delay %d, want 2", coaching.HintDelay)
+	}
+}
+
+func TestBuildCoachingMastered(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	db.Exec("INSERT INTO progress_typy (typ, poziom_trudnosci, streak) VALUES ('cyfry_liczby', 'trudne', 5)")
+
+	coaching := buildCoaching(db, "cyfry_liczby", []string{})
+	if coaching.StudentLevel != "mastered" {
+		t.Errorf("mastered student: got level %q, want mastered", coaching.StudentLevel)
+	}
+	if coaching.HintDelay != 3 {
+		t.Errorf("mastered student: got hint_delay %d, want 3", coaching.HintDelay)
+	}
+}
+
+func TestBuildCoachingLeechTags(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Low stability (1.0) + old review (30 days ago) → low retrievability (<0.85)
+	oldDate := time.Now().AddDate(0, 0, -30).Format("2006-01-02")
+	db.Exec(`INSERT INTO progress_tagi (tag, poziom, stability, lapses, reps, state, last_review)
+		VALUES ('cyfry-mod-div', 1, 1.0, 4, 6, 2, ?)`, oldDate)
+
+	coaching := buildCoaching(db, "cyfry_liczby", []string{"cyfry-mod-div"})
+	found := false
+	for _, lt := range coaching.LeechTags {
+		if lt == "cyfry-mod-div" {
+			found = true
+		}
+	}
+	if !found {
+		t.Errorf("expected cyfry-mod-div in leech_tags, got %v", coaching.LeechTags)
+	}
+}
+
+func TestBuildCoachingLeechTagHealed(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	today := time.Now().Format("2006-01-02")
+	db.Exec(`INSERT INTO progress_tagi (tag, poziom, stability, lapses, reps, state, last_review)
+		VALUES ('cyfry-mod-div', 3, 30.0, 4, 10, 2, ?)`, today)
+
+	coaching := buildCoaching(db, "cyfry_liczby", []string{"cyfry-mod-div"})
+	if len(coaching.LeechTags) != 0 {
+		t.Errorf("healed leech: expected 0 leech_tags, got %v", coaching.LeechTags)
+	}
+}
+
+func TestBuildCoachingPastMistakes(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	db.Exec("INSERT INTO progress_zrobione (id, typ, data, wynik) VALUES ('7.1', 'cyfry_liczby', '2026-02-20', 'poprawne_z_pomoca_1')")
+	db.Exec(`INSERT INTO progress_bledy (exercise_id, typ, blad_kod, blad_opis, data)
+		VALUES ('7.1', 'cyfry_liczby', 'cyfry-mod-div', 'inicjalizacja iloczynu na 0', '2026-02-20')`)
+	db.Exec(`INSERT INTO progress_bledy (exercise_id, typ, blad_kod, blad_opis, data)
+		VALUES ('7.1', 'cyfry_liczby', 'unrelated-tag', 'nieistotny blad', '2026-02-20')`)
+
+	coaching := buildCoaching(db, "cyfry_liczby", []string{"cyfry-mod-div"})
+	if len(coaching.PastMistakes) != 1 {
+		t.Errorf("expected 1 past_mistake, got %d: %v", len(coaching.PastMistakes), coaching.PastMistakes)
+	}
+	if len(coaching.PastMistakes) > 0 && coaching.PastMistakes[0] != "inicjalizacja iloczynu na 0" {
+		t.Errorf("expected 'inicjalizacja iloczynu na 0', got %q", coaching.PastMistakes[0])
+	}
+}
+
+func TestExerciseQuestionOutput(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	results, err := queryExercises(db, "cyfry_liczby", "latwe", "")
+	if err != nil || len(results) == 0 {
+		t.Fatal("no exercises found")
+	}
+
+	ex := results[0]
+	q := exerciseToQuestion(ex)
+	q.Coaching = buildCoaching(db, ex.TypNazwa, ex.Tagi)
+
+	if q.Tresc == "" {
+		t.Error("QuestionOut.Tresc is empty")
+	}
+	if q.Coaching.StudentLevel != "new" {
+		t.Errorf("fresh DB: got level %q, want new", q.Coaching.StudentLevel)
+	}
+
+	data, _ := json.Marshal(q)
+	var m map[string]any
+	json.Unmarshal(data, &m)
+	if _, ok := m["odpowiedz"]; ok {
+		t.Error("QuestionOut JSON must not contain odpowiedz")
+	}
+	if _, ok := m["wskazowki"]; ok {
+		t.Error("QuestionOut JSON must not contain wskazowki")
+	}
+}
+
+func TestExerciseHintsById(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	results, _ := queryExercises(db, "cyfry_liczby", "latwe", "")
+	if len(results) == 0 {
+		t.Fatal("no exercises")
+	}
+	id := results[0].ID
+
+	hints := getExerciseHints(db, id, "latwe")
+	if hints.ID != id {
+		t.Errorf("got id %q, want %q", hints.ID, id)
+	}
+	if len(hints.Wskazowki) == 0 {
+		t.Error("expected at least 1 hint")
+	}
+}
+
+func TestExerciseAnswerById(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	results, _ := queryExercises(db, "cyfry_liczby", "latwe", "")
+	if len(results) == 0 {
+		t.Fatal("no exercises")
+	}
+	id := results[0].ID
+
+	answer := getExerciseAnswer(db, id)
+	if answer.ID != id {
+		t.Errorf("got id %q, want %q", answer.ID, id)
+	}
+	if answer.Odpowiedz == "" {
+		t.Error("expected non-empty odpowiedz")
+	}
+}

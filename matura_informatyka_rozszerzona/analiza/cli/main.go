@@ -60,7 +60,7 @@ func main() {
 
 	// === exercise ===
 	exerciseCmd := &cobra.Command{Use: "exercise", Short: "Exercise operations"}
-	exerciseCmd.AddCommand(exerciseGetCmd(), exerciseReviewCmd(), exerciseNextCmd())
+	exerciseCmd.AddCommand(exerciseQuestionCmd(), exerciseHintsCmd(), exerciseAnswerCmd(), exerciseReviewCmd(), exerciseNextCmd())
 
 	// === progress ===
 	progressCmd := &cobra.Command{Use: "progress", Short: "Progress tracking"}

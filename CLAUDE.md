@@ -137,7 +137,7 @@ Binary in `analiza/cli/` — provides fast SQLite-backed access to all data. JSO
 analiza/cli/build.sh
 ```
 
-Key commands: `exercise get`, `progress update`, `cke get`, `exam meta/task`, `trap list`, `cheatsheet get`, `data stats`. See `./matura --help` for full reference.
+Key commands: `exercise question`, `exercise hints`, `exercise answer`, `progress update`, `cke get`, `exam meta/task`, `trap list`, `cheatsheet get`, `data stats`. See `./matura --help` for full reference.
 
 ## Important Context
 

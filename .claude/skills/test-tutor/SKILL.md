@@ -46,10 +46,10 @@ mkdir -p /tmp/test-tutor-$$
 cp "$CLI_DIR/matura.db" /tmp/test-tutor-$$/matura.db
 
 # Przykladowe cwiczenia (po 1 na typ)
-EX_TEORIA=$($MATURA --db-dir /tmp/test-tutor-$$ exercise get --typ sledzenie_algorytmu --trudnosc latwe)
-EX_IMPL=$($MATURA --db-dir /tmp/test-tutor-$$ exercise get --typ cyfry_liczby --trudnosc latwe)
-EX_SQL=$($MATURA --db-dir /tmp/test-tutor-$$ exercise get --typ sql_group_by --trudnosc latwe)
-EX_ARKUSZ=$($MATURA --db-dir /tmp/test-tutor-$$ exercise get --typ agregacja_warunkowa --trudnosc latwe)
+EX_TEORIA=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ sledzenie_algorytmu --trudnosc latwe)
+EX_IMPL=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ cyfry_liczby --trudnosc latwe)
+EX_SQL=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ sql_group_by --trudnosc latwe)
+EX_ARKUSZ=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ agregacja_warunkowa --trudnosc latwe)
 
 # Typ intro
 INTRO_TEORIA=$($MATURA --db-dir /tmp/test-tutor-$$ typ intro --typ sledzenie_algorytmu)
@@ -188,7 +188,7 @@ Przeprowadz symulacje sesji korepetycji, grajac OBIE role:
 1. Symuluj dialog tutor↔uczen (8-15 wymian). Tutor postepuje wg SKILL.md,
    uczen wg persony (accuracy, typowe bledy, zachowanie).
 2. Przy kazdej akcji tutora ZAPISZ komende CLI ktora tutor POWINIEN wywolac
-   (np. `./matura exercise get --typ X`, `./matura progress update --id Y --wynik Z`).
+   (np. `./matura exercise question --typ X`, `./matura progress update --id Y --wynik Z`).
 3. Po symulacji OCEN transkrypt wg ponizszej rubryki.
 4. Zwroc wynik DOKLADNIE w formacie JSON ponizej.
 
