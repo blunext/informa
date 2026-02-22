@@ -27,7 +27,7 @@ ocenia transkrypt wg rubryki, zwraca raport JSON.
 
 Domyslne scenariusze per persona:
 - **beginner**: first_session, hint_progression
-- **intermediate**: difficulty_climb, review_session
+- **intermediate**: difficulty_climb, review_session, coaching_aware
 - **advanced**: cke_unlock, probna
 
 ## 2. Pre-fetch danych
@@ -51,6 +51,16 @@ EX_IMPL=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ cyfry_licz
 EX_SQL=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ sql_group_by --trudnosc latwe)
 EX_ARKUSZ=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ agregacja_warunkowa --trudnosc latwe)
 
+# Exercise IDs (for hints/answer fetch)
+EX_TEORIA_ID=$(echo "$EX_TEORIA" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
+EX_IMPL_ID=$(echo "$EX_IMPL" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
+
+# Hinty i odpowiedzi (lazy loading — osobne wywolania)
+HINTS_TEORIA=$($MATURA --db-dir /tmp/test-tutor-$$ exercise hints --id $EX_TEORIA_ID)
+HINTS_IMPL=$($MATURA --db-dir /tmp/test-tutor-$$ exercise hints --id $EX_IMPL_ID)
+ANSWER_TEORIA=$($MATURA --db-dir /tmp/test-tutor-$$ exercise answer --id $EX_TEORIA_ID)
+ANSWER_IMPL=$($MATURA --db-dir /tmp/test-tutor-$$ exercise answer --id $EX_IMPL_ID)
+
 # Typ intro
 INTRO_TEORIA=$($MATURA --db-dir /tmp/test-tutor-$$ typ intro --typ sledzenie_algorytmu)
 
@@ -59,6 +69,18 @@ STATUS=$($MATURA --db-dir /tmp/test-tutor-$$ progress status)
 
 # Cheatsheet excerpt
 CHEAT_TEORIA=$($MATURA --db-dir /tmp/test-tutor-$$ cheatsheet get --kategoria TEORIA --sekcja "archetyp")
+
+# Coaching_aware: zasymuluj progressed studenta
+sqlite3 /tmp/test-tutor-$$/matura_progress.db "
+INSERT INTO progress_typy (typ, poziom_trudnosci, streak) VALUES ('cyfry_liczby', 'srednie', 4);
+INSERT INTO progress_tagi (tag, lapses, stability, last_review) VALUES ('cyfry-mod-div', 4, 1.0, '$(date -v-30d +%Y-%m-%d)');
+INSERT INTO progress_bledy (exercise_id, typ, blad_kod, blad_opis, data) VALUES ('7.1', 'cyfry_liczby', 'mylenie_div_mod', 'Pomylenie div z mod', '$(date +%Y-%m-%d)');
+INSERT INTO progress_zrobione (id, typ, data, wynik) VALUES ('7.1','cyfry_liczby','$(date +%Y-%m-%d)','poprawne_z_pomoca_1');
+"
+EX_COACHING=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ cyfry_liczby)
+EX_COACHING_ID=$(echo "$EX_COACHING" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
+HINTS_COACHING=$($MATURA --db-dir /tmp/test-tutor-$$ exercise hints --id $EX_COACHING_ID)
+ANSWER_COACHING=$($MATURA --db-dir /tmp/test-tutor-$$ exercise answer --id $EX_COACHING_ID)
 
 # Raport metadata
 REPORT_DATE=$(date +%Y-%m-%d)
@@ -93,25 +115,27 @@ REPORT_FILE="${REPORT_DIR}/${REPORT_DATE}_${COMMIT_HASH}.md"
 - **Tempo**: szybkie, < benchmark
 - **Sesja**: 8-12 cwiczen
 
-## 4. Rubryka oceny (7 kryteriow)
+## 4. Rubryka oceny (8 kryteriow)
 
 Kazde kryterium oceniane 0-5 pkt, z waga procentowa:
 
 | # | Kryterium | Waga | 5 (wzorcowe) | 3 (dostateczne) | 1 (nieakceptowalne) |
 |---|-----------|------|--------------|-----------------|---------------------|
 | 1 | Metoda sokratejska | 25% | Tutor ZAWSZE pyta przed podaniem odpowiedzi, uczen probuje pierwszy, pytania naprowadzajace | Tutor czasem podaje odpowiedz bez pytania | Tutor podaje gotowe rozwiazania |
-| 2 | Progresja hintow | 20% | L1→L2→L3 w scislej kolejnosci, cheatsheet przy L2, konsolidacja po walk_through | Kolejnosc zachowana ale brak cheatsheet | Brak progresji, hinty pominięte lub w zlej kolejnosci |
+| 2 | Progresja hintow | 20% | Hinty lazy (`exercise hints --id`), odpowiedz lazy (`exercise answer --id`), hint_delay respektowany, L1→L2→L3, cheatsheet przy L2, konsolidacja po walk_through | Lazy loading obecne ale hint_delay ignorowany, lub kolejnosc niedokladna | Hinty/odpowiedz podane z gory lub brak progresji |
 | 3 | Sledzenie bledow | 15% | `progress blad --kod X` po kazdym bledzie, `diagnose` co 5 cw., analiza wzorcow | Bledy rejestrowane ale bez diagnozy | Brak rejestrowania bledow |
 | 4 | Adaptacja trudnosci | 15% | Streak 3→srednie, 5→sr-trudne, 8→trudne. Walk_through→latwe. Progi przestrzegane | Adaptacja obecna ale progi nieścisłe | Brak adaptacji trudnosci |
 | 5 | Powtorki SR | 10% | Review priorytet gdy zaleglosci, exercise next uzywany prawidlowo | SR obecne ale bez priorytetu | Brak sprawdzania zaleglosci |
-| 6 | Ton i jezyk | 10% | Polski, "ty", bez emoji, zachecanie, cierpliwosc, feedback czasowy | Poprawny jezyk ale bez zachecania | Angielski, formalny, emoji, lub brak feedbacku |
+| 6 | Ton i jezyk | 5% | Polski, "ty", bez emoji, zachecanie, cierpliwosc, feedback czasowy | Poprawny jezyk ale bez zachecania | Angielski, formalny, emoji, lub brak feedbacku |
 | 7 | Integralnosc CLI | 5% | Wszystkie komendy poprawne, brak halucynacji cwiczen, prawidlowe ID | Drobne bledy w komendach | Halucynowane cwiczenia, bledne komendy |
+| 8 | Coaching | 5% | Tutor reaguje na coaching.leech_tags (ostrzega o slabych tagach), coaching.past_mistakes (proaktywnie wspomina wczesniejsze bledy), coaching.hint_delay (respektuje opoznienie) | Coaching czesciowo wykorzystany — np. hint_delay ok ale leech_tags ignorowane | Coaching calkowicie ignorowany |
 
 **Scoring**: score = sum(kryterium_score * waga). Max = 5.0. Przelicz na 0-100: score/5*100.
 **Prog zdania**: >= 70/100.
 
 **Kryteria N/A**: Jesli scenariusz nie testuje danego kryterium (np. Powtorki SR
-w first_session/hint_progression/cke_unlock/probna), ocen na **4/5** z uwaga
+w first_session/hint_progression/cke_unlock/probna, lub Coaching w first_session/probna
+gdzie uczen jest fresh), ocen na **4/5** z uwaga
 "Minimalne wymagania spelnione (progress status sprawdzony), scenariusz nie testuje
 tego kryterium bezposrednio." Nie dawaj 5/5 (brak dowodu) ani 3/5 (brak naruszenia).
 Wyjatek: jesli tutor NIE sprawdzil progress status na starcie → 2/5.
@@ -128,9 +152,15 @@ Wyjatek: jesli tutor NIE sprawdzil progress status na starcie → 2/5.
 ### 5.2 hint_progression
 - Uczen pracuje nad cwiczeniami, trafia na trudne
 - **Przebieg**: uczen 3x odpowiada blednie na to samo cwiczenie
-- **Oczekiwania**: L1 (pytanie sokratejskie) → L2 (cheatsheet section + wskazowka) → L3 (kluczowy krok) → walk_through
-- **Po walk_through**: konsolidacja ("wyjasniej swoimi slowami")
-- **Kluczowe**: tutor rejestruje blad (`progress blad`) na kazdym etapie
+- **Oczekiwania (lazy loading)**:
+  - Tutor prezentuje cwiczenie z `exercise question` (bez hintow/odpowiedzi)
+  - Po 1. bledzie: tutor sprawdza `coaching.hint_delay`:
+    * hint_delay=1 → pobiera `exercise hints --id`, podaje L1
+    * hint_delay=2 → tylko pytanie sokratejskie (bez hints)
+    * hint_delay=3 → tylko pytanie sokratejskie (bez hints)
+  - Po kolejnych bledach: tutor pobiera hinty jesli jeszcze nie pobral, progresja L1→L2→L3
+  - Po walk_through: pobiera `exercise answer --id`, wyswietla odpowiedz, konsolidacja
+- **Kluczowe**: `progress blad` na kazdym etapie, lazy loading respektowany
 
 ### 5.3 difficulty_climb
 - Uczen odpowiada 3x poprawnie bez pomocy
@@ -154,6 +184,21 @@ Wyjatek: jesli tutor NIE sprawdzil progress status na starcie → 2/5.
 - **Oczekiwania**: tutor pobiera `exam meta`, wyswietla zasady, prowadzi sekwencyjnie
 - **Przebieg**: 3 zadania, uczen odpowiada z rozna trafnoscia
 - **Kluczowe**: brak hintow, podsumowanie per-zadanie + per-kategoria, zapis `exam save`
+
+### 5.7 coaching_aware
+- Uczen z historia — ma leech_tags i past_mistakes w coaching
+- **Setup**: pre-fetch z progressed DB (uczen ma cwiczenia, 3+ lapses na tagu, bledy w sesjach)
+- **Przebieg**:
+  1. Tutor pobiera `exercise question` — coaching zawiera leech_tags i past_mistakes
+  2. Uczen rozwiazuje cwiczenie z tagiem obecnym w leech_tags
+  3. Tutor powinien proaktywnie ostrzec o slabym tagu
+  4. Uczen popelnia blad z kodem obecnym w past_mistakes
+  5. Tutor powinien powiazac blad z historia ("Ostatnio miales problem z X")
+- **Oczekiwania**:
+  - Tutor czyta coaching.leech_tags i reaguje (ostrzezenie, dodatkowa uwaga)
+  - Tutor czyta coaching.past_mistakes i proaktywnie wspomina
+  - hint_delay respektowany (progressed student = familiar/mastered = hint_delay 2-3)
+- **Kluczowe**: coaching nie moze byc ignorowany — to glowny cel tego scenariusza
 
 ## 6. Orchestracja agentow
 
@@ -179,8 +224,15 @@ Przeprowadz symulacje sesji korepetycji, grajac OBIE role:
 {SCENARIO_DESCRIPTION}
 
 ## Pre-fetched data
-- Exercise (TEORIA): {EX_TEORIA}
-- Exercise (IMPL): {EX_IMPL}
+- Question (TEORIA): {EX_TEORIA}
+- Hints (TEORIA): {HINTS_TEORIA}
+- Answer (TEORIA): {ANSWER_TEORIA}
+- Question (IMPL): {EX_IMPL}
+- Hints (IMPL): {HINTS_IMPL}
+- Answer (IMPL): {ANSWER_IMPL}
+- Question (COACHING): {EX_COACHING} (only for coaching_aware scenario)
+- Hints (COACHING): {HINTS_COACHING}
+- Answer (COACHING): {ANSWER_COACHING}
 - Typ intro: {INTRO_TEORIA}
 - Progress status: {STATUS}
 
@@ -188,9 +240,13 @@ Przeprowadz symulacje sesji korepetycji, grajac OBIE role:
 1. Symuluj dialog tutor↔uczen (8-15 wymian). Tutor postepuje wg SKILL.md,
    uczen wg persony (accuracy, typowe bledy, zachowanie).
 2. Przy kazdej akcji tutora ZAPISZ komende CLI ktora tutor POWINIEN wywolac
-   (np. `./matura exercise question --typ X`, `./matura progress update --id Y --wynik Z`).
-3. Po symulacji OCEN transkrypt wg ponizszej rubryki.
-4. Zwroc wynik DOKLADNIE w formacie JSON ponizej.
+   (np. `./matura exercise question --typ X`, `./matura exercise hints --id Y`,
+   `./matura exercise answer --id Y`, `./matura progress update --id Y --wynik Z`).
+3. WAZNE — lazy loading: tutor NIE widzi hintow ani odpowiedzi na starcie.
+   Musi pobrac je osobnymi komendami. Jesli tutor podaje hint bez wczesniejszego
+   `exercise hints --id` — to blad integralnosci.
+4. Po symulacji OCEN transkrypt wg ponizszej rubryki.
+5. Zwroc wynik DOKLADNIE w formacie JSON ponizej.
 
 ## Rubryka
 {RUBRIC_TABLE}
@@ -207,7 +263,8 @@ Przeprowadz symulacje sesji korepetycji, grajac OBIE role:
     "adaptacja_trudnosci": {"score": N, "max": 5, "uwagi": "..."},
     "powtorki_sr": {"score": N, "max": 5, "uwagi": "..."},
     "ton_i_jezyk": {"score": N, "max": 5, "uwagi": "..."},
-    "integralnosc_cli": {"score": N, "max": 5, "uwagi": "..."}
+    "integralnosc_cli": {"score": N, "max": 5, "uwagi": "..."},
+    "coaching": {"score": N, "max": 5, "uwagi": "..."}
   },
   "weighted_score": M,
   "pass": true/false,
@@ -219,7 +276,7 @@ Przeprowadz symulacje sesji korepetycji, grajac OBIE role:
 
 Score oblicz: sum(score * waga) / 5 * 100, gdzie wagi:
 metoda_sokratejska=0.25, progresja_hintow=0.20, sledzenie_bledow=0.15,
-adaptacja_trudnosci=0.15, powtorki_sr=0.10, ton_i_jezyk=0.10, integralnosc_cli=0.05.
+adaptacja_trudnosci=0.15, powtorki_sr=0.10, ton_i_jezyk=0.05, integralnosc_cli=0.05, coaching=0.05.
 
 Pass = weighted_score >= 70.
 
@@ -254,6 +311,7 @@ Po zakonczeniu wszystkich agentow:
 | Powtorki SR | {s}/5 | {uwagi} |
 | Ton i jezyk | {s}/5 | {uwagi} |
 | Integralnosc CLI | {s}/5 | {uwagi} |
+| Coaching | {s}/5 | {uwagi} |
 | **SCORE** | **{weighted}/100** | **{PASS/FAIL}** |
 
 [...powtorzone dla kazdej pary...]
