@@ -268,7 +268,7 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
 
 ### CHECKLIST — po odpowiedzi ucznia
 
-**[WYMAGANE]** Wykonaj kroki 1-8 w tej kolejnosci:
+**[WYMAGANE]** Wykonaj kroki 1-9 w tej kolejnosci:
 
 **1. Pobierz odpowiedz** (lazy — DOPIERO teraz, nie wczesniej):
    `./matura exercise answer --id {id}` → `odpowiedz` + `typowe_bledy[]`
@@ -336,6 +336,16 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
    - Jesli `blad_warning` w odpowiedzi → `progress blad` natychmiast
    - Jesli `lapses >= 3` → "Ten temat ({tag}) sprawia Ci trudnosc juz po raz {lapses}."
    - Jesli `feedback_czasowy` niepuste → wyswietl uczniowi doslownie
+
+**9. Co 5 cwiczen w sesji** (cwiczenie nr 5, 10, 15...):
+   ```
+   ./matura progress diagnose --typ {aktualny_typ} --limit 1
+   ```
+   - Jesli `top_bledy[0].count >= 3`:
+     "Zauwazam powtarzajacy sie blad: {blad_kod}. Chcesz, zebym wyjasnil to zagadnienie?"
+   - Jesli `rekomendacja` niepuste → wyswietl: "Dashboard: {rekomendacja}"
+   - Jesli `retencja_szacowana < 0.80` → "Uwaga: ogolna retencja {retencja_szacowana*100:.0f}% — rozważ powtorki"
+   - Uzyj `rekomendacja` do zasugerowania nastepnego typu (zamiast kontynuacji biezacego).
 
 ### Punktacja czesciowa (TEORIA)
 
@@ -407,9 +417,9 @@ Kody bledow — TEORIA (uzywaj tych etykiet w `progress blad --kod`):
   mylenie_protokolow, brak_rozroznienia_klucz_pub_pryw
 
 Kody bledow — inne kategorie:
-- SQL: brak_group_by, zly_join_warunek, brak_having, zla_agregacja
-- IMPLEMENTACJA: brak_inicjalizacji, zly_warunek_petli, brak_wczytania, off_by_one
-- ARKUSZ: zle_adresowanie, brak_dolara, zla_formula_warunkowa
+- SQL: brak_group_by, zly_join_warunek, brak_having, zla_agregacja, null_zamiast_is_null, count_star_vs_kolumna, zla_kolejnosc_klauzul
+- IMPLEMENTACJA: brak_inicjalizacji, zly_warunek_petli, brak_wczytania, off_by_one, dzielenie_calkowite, zle_indeksowanie, brak_obslugi_brzegowych, zla_kolejnosc_operacji
+- ARKUSZ: zle_adresowanie, brak_dolara, zla_formula_warunkowa, stala_zamiast_odwolania, brak_kolumny_pomocniczej
 
 Uzywaj krotkich, powtarzalnych kodow — CLI agreguje po blad_kod.
 
@@ -424,22 +434,18 @@ Wybierz kod najblizszy typowi pomylki ucznia:
 - Uczen pominal baze rekurencji → `pominiecie_bazy_rekurencji`
 - Uczen zle zbudowal wynik (mnoznik, pozycja cyfry) → `zly_mnoznik`
 - Uczen traktuje 0 jako nieparzysta (0 mod 2 = 0 → parzysta) → `zla_parzystosc_cyfry`
+- Uczen pisze `suma/ile` (int division) zamiast `(double)suma/ile` → `dzielenie_calkowite`
+- Uczen uzywa s[n] zamiast s[n-1] (off-by-one indeks) → `zle_indeksowanie`
+- Uczen nie obsluguje pustego ciagu / zera / sekwencji na koncu tablicy → `brak_obslugi_brzegowych`
+- Uczen pisze `= NULL` zamiast `IS NULL` → `null_zamiast_is_null`
+- Uczen pisze COUNT(*) a powinien COUNT(kolumna) z NULLami → `count_star_vs_kolumna`
+- Uczen wpisuje stala (np. 1000) zamiast odwolania do komorki → `stala_zamiast_odwolania`
 
 Jesli zaden kod nie pasuje — uzyj najblizszego z listy typowe_bledy cwiczenia.
 
 ### Proaktywna detekcja wzorcow
 
-Co 5 cwiczen w sesji sprawdz:
-```
-./matura progress diagnose --typ {aktualny_typ} --limit 1
-```
-
-Jesli `top_bledy[0].count >= 3`:
-  "Zauwazam powtarzajacy sie blad: {blad_kod}. Chcesz, zebym wyjasnil to zagadnienie?"
-
-Jesli `rekomendacja` niepuste → wyswietl: "Dashboard: {rekomendacja}"
-Jesli `retencja_szacowana < 0.80` → "Uwaga: ogolna retencja {retencja_szacowana*100:.0f}% — rozważ powtorki"
-Uzyj `rekomendacja` do zasugerowania nastepnego typu (zamiast kontynuacji biezacego).
+→ Patrz krok **9** w CHECKLIST (sekcja F) — diagnoza co 5 cwiczen.
 
 ## H. Komendy ucznia
 
