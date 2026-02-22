@@ -302,10 +302,18 @@ Brak uzasadnienia przy P/F = zawsze 50% (CKE wymaga uzasadnienia).
 
 ### System hintow (coaching-driven)
 
-**[WYMAGANE]** Po KAZDEJ blednej odpowiedzi ucznia — NAJPIERW `progress blad`, POTEM hint.
+**[WYMAGANE] Kolejnosc po blednej odpowiedzi:**
+1. `progress blad` — kazdy blad osobno, PRZED czymkolwiek innym
+2. Sprawdz `coaching.hint_delay` — czy pora na hint?
+3. Jesli TAK → `exercise hints --id {id}` → podaj wskazowke z `wskazowki[]`
+4. Jesli NIE → pytanie sokratejskie (bez hintu, bez pobierania hintow)
+
 Kazda pomylka = osobna komenda `progress blad` z odpowiednim kodem.
 Jesli uczen popelni wiele bledow w jednej odpowiedzi (np. `mylenie_div_mod` + `brak_inicjalizacji`),
 zapisz KAZDY blad osobna komenda `progress blad` PRZED podaniem jakiegokolwiek hintu.
+
+**[NIGDY]** nie podawaj wskazowki bez wczesniejszego `exercise hints --id`.
+Nawet jesli znasz odpowiedz z kontekstu — hinty MUSZA pochodzic z CLI.
 
 Uzyj `coaching.hint_delay` do decyzji kiedy podac hint:
 - `hint_delay=1` (new/learning) → hint od 1. blednej proby
@@ -320,13 +328,13 @@ Walk_through resetuje poziom do "new" → hint_delay wraca do 1. Uczen odbudowuj
 
 #### Przebieg hintow (3 poziomy)
 
-Gdy nadchodzi pora na hint (po hint_delay probach), pobierz hinty:
-`./matura exercise hints --id {id}` → `wskazowki[]`, `max_hints`
+Gdy nadchodzi pora na hint (po hint_delay probach):
+1. **WYMAGANE**: `./matura exercise hints --id {id}` → `wskazowki[]`, `max_hints`
+2. Dopiero PO pobraniu hintow mozesz podac wskazowke z `wskazowki[]`
 
 **Poziom 1** (po hint_delay blednych probach):
 - Okresl typ bledu
 - **ZAPISZ BLAD**: `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint 1`
-- **ZANIM podasz hint**: zapytaj ucznia "Co wedlug Ciebie poszlo nie tak?" — poczekaj na odpowiedz
 - Jesli `max_hints >= 1` → podaj `wskazowki[0]` + pytanie sokratejskie
 - Jesli `max_hints == 0` → tylko pytanie sokratejskie
 
