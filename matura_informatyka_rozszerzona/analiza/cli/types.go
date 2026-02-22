@@ -137,7 +137,7 @@ type HintsOut struct {
 // AnswerOut is what exercise answer returns
 type AnswerOut struct {
 	ID          string        `json:"id"`
-	Odpowiedz  string        `json:"odpowiedz"`
+	Odpowiedz   string        `json:"odpowiedz"`
 	TypoweBledy []CommonError `json:"typowe_bledy"`
 }
 
@@ -342,8 +342,12 @@ type DiagnoseEntry struct {
 }
 
 type DiagnoseOut struct {
-	TopBledy []DiagnoseEntry `json:"top_bledy"`
-	Total    int             `json:"total"`
+	TopBledy          []DiagnoseEntry `json:"top_bledy"`
+	Total             int             `json:"total"`
+	Zaleglosci        int             `json:"zaleglosci"`
+	LeechTagi         []LeechTagOut   `json:"leech_tagi"`
+	RetencjaSzacowana *float64        `json:"retencja_szacowana,omitempty"`
+	Rekomendacja      string          `json:"rekomendacja"`
 }
 
 // KategoriaStatusOut is per-category status

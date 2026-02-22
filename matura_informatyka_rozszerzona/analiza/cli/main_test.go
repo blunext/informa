@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	"context"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -10,6 +12,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/spf13/cobra"
 	_ "modernc.org/sqlite"
 )
 
@@ -1539,10 +1542,10 @@ func TestExerciseNextWeight(t *testing.T) {
 		return w
 	}
 
-	// 1. weight-reset sets weight to 0
+	// 1. Initialize weight to 0
 	db.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
 	if w := readWeight(); w != 0 {
-		t.Errorf("after reset: got weight %d, want 0", w)
+		t.Errorf("after init: got weight %d, want 0", w)
 	}
 
 	// 2. addWeight(4) twice → weight=8
@@ -1558,10 +1561,68 @@ func TestExerciseNextWeight(t *testing.T) {
 		t.Errorf("after addWeight(0): got weight %d, want 8", w)
 	}
 
-	// 4. weight-reset again → back to 0
+	// 4. Reset again → back to 0
 	db.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
 	if w := readWeight(); w != 0 {
 		t.Errorf("after second reset: got weight %d, want 0", w)
+	}
+}
+
+func TestProgressStatusResetsWeight(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Set weight to 50 via direct SQL
+	db.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '50')`)
+
+	// Verify weight is 50
+	var wStr string
+	if err := db.QueryRow(`SELECT value FROM progress_meta WHERE key = 'session_context_weight'`).Scan(&wStr); err != nil {
+		t.Fatalf("read weight: %v", err)
+	}
+	if wStr != "50" {
+		t.Fatalf("setup: weight = %q, want 50", wStr)
+	}
+
+	// Build and run the progress status command via cobra.
+	// jsonOut writes to os.Stdout directly, so we redirect it to capture output.
+	statusCmd := progressStatusCmd()
+	parent := &cobra.Command{Use: "progress"}
+	parent.AddCommand(statusCmd)
+	ctx := context.WithValue(context.Background(), ctxKey{}, db)
+	statusCmd.SetContext(ctx)
+
+	// Capture os.Stdout
+	oldStdout := os.Stdout
+	r, w, _ := os.Pipe()
+	os.Stdout = w
+
+	err := statusCmd.RunE(statusCmd, nil)
+
+	w.Close()
+	os.Stdout = oldStdout
+
+	if err != nil {
+		t.Fatalf("progress status: %v", err)
+	}
+
+	var buf bytes.Buffer
+	buf.ReadFrom(r)
+	output := buf.String()
+
+	// Verify weight is now 0
+	var wAfter string
+	if err := db.QueryRow(`SELECT value FROM progress_meta WHERE key = 'session_context_weight'`).Scan(&wAfter); err != nil {
+		t.Fatalf("read weight after: %v", err)
+	}
+	if wAfter != "0" {
+		t.Errorf("weight after progress status: got %q, want \"0\"", wAfter)
+	}
+
+	// Verify output is valid JSON
+	var parsed map[string]interface{}
+	if err := json.Unmarshal([]byte(output), &parsed); err != nil {
+		t.Errorf("output is not valid JSON: %v\noutput: %s", err, output)
 	}
 }
 
@@ -1911,12 +1972,12 @@ func TestCalculateMaxHints(t *testing.T) {
 
 func TestApplyMaxHints(t *testing.T) {
 	tests := []struct {
-		name     string
-		hints    []string
-		level    string
-		flag     int
-		wantLen  int
-		wantMax  int
+		name    string
+		hints   []string
+		level   string
+		flag    int
+		wantLen int
+		wantMax int
 	}{
 		{"auto latwe, 3 hints", []string{"a", "b", "c"}, "latwe", -1, 3, 3},
 		{"auto srednie, 3 hints", []string{"a", "b", "c"}, "srednie", -1, 3, 3},
@@ -2370,5 +2431,48 @@ func TestExerciseAnswerById(t *testing.T) {
 	}
 	if answer.Odpowiedz == "" {
 		t.Error("expected non-empty odpowiedz")
+	}
+}
+
+// === Feature: DiagnoseOut status fields ===
+
+func TestDiagnoseHasStatusFields(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Build and run the progress diagnose command via cobra
+	diagnoseCmd := progressDiagnoseCmd()
+	parent := &cobra.Command{Use: "progress"}
+	parent.AddCommand(diagnoseCmd)
+	ctx := context.WithValue(context.Background(), ctxKey{}, db)
+	diagnoseCmd.SetContext(ctx)
+
+	// Capture os.Stdout
+	oldStdout := os.Stdout
+	r, w, _ := os.Pipe()
+	os.Stdout = w
+
+	err := diagnoseCmd.RunE(diagnoseCmd, nil)
+
+	w.Close()
+	os.Stdout = oldStdout
+
+	if err != nil {
+		t.Fatalf("progress diagnose: %v", err)
+	}
+
+	var buf bytes.Buffer
+	buf.ReadFrom(r)
+	output := buf.String()
+
+	var result map[string]interface{}
+	if err := json.Unmarshal([]byte(output), &result); err != nil {
+		t.Fatalf("invalid JSON: %v\noutput: %s", err, output)
+	}
+
+	for _, field := range []string{"zaleglosci", "leech_tagi"} {
+		if _, ok := result[field]; !ok {
+			t.Errorf("missing field %q in diagnose output", field)
+		}
 	}
 }

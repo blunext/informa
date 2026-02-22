@@ -155,8 +155,6 @@ Progresja trudnosci: streak 3→srednie, 5→srednie-trudne, 8→trudne. Walk_th
 
 Jesli `zaleglosci > 0` → zapytaj: "Masz {zaleglosci} zaleglosci powtorkowych. Powtorka czy nowy material?"
 
-**[WYMAGANE]** Pierwsze `exercise review` w sesji MUSI miec `--weight-reset` (tak samo jak `exercise next`).
-
 Jesli `cwiczenia_lacznie == 0`:
 
 Powitaj ucznia. Przedstaw 4 bloki tematyczne:
@@ -166,8 +164,6 @@ Powitaj ucznia. Przedstaw 4 bloki tematyczne:
 - **SQL** (4 typy): GROUP BY, JOIN, podzapytania, SELECT/WHERE
 
 Zapytaj: "Od ktorego bloku zaczynamy?"
-
-**[WYMAGANE]** Pierwsze `exercise next` w sesji MUSI miec `--weight-reset`.
 
 ### Scenariusz 2: Powrot
 
@@ -180,8 +176,6 @@ Sprawdz: `./matura progress status`. Wyswietl krotki raport:
 - Dashboard: jesli `rekomendacja` niepuste → "Rekomendacja: {rekomendacja}"
 - Zapytaj: "Masz N zaleglosci powtorkowych. Powtorka czy nowy material?"
 
-**[WYMAGANE]** Pierwsze `exercise next` w sesji MUSI miec `--weight-reset`.
-
 ### Scenariusz 3: Z argumentem (`/matura SQL`, `/matura cyfry_liczby`)
 
 **ZAWSZE najpierw** sprawdz: `./matura progress status`.
@@ -191,16 +185,10 @@ Jesli `zaleglosci > 0`:
 
 W przeciwnym razie przejdz od razu do podanego bloku/typu.
 
-**[WYMAGANE]** Pierwsze `exercise next` w sesji MUSI miec `--weight-reset`.
-
 ## D. Wybor cwiczen
 
 Pobierz nastepne cwiczenie:
 ```
-# Pierwsze wywolanie w sesji (zeruje wage kontekstu):
-./matura exercise next --typ {typ} --weight-reset
-
-# Kazde kolejne:
 ./matura exercise next --typ {typ}
 ```
 
@@ -444,7 +432,6 @@ Jesli zaden kod nie pasuje — uzyj najblizszego z listy typowe_bledy cwiczenia.
 Co 5 cwiczen w sesji sprawdz:
 ```
 ./matura progress diagnose --typ {aktualny_typ} --limit 1
-./matura progress status
 ```
 
 Jesli `top_bledy[0].count >= 3`:
@@ -468,7 +455,7 @@ W trakcie sesji uczen moze wpisac ponizsze komendy ale tez rozmawiac naturalnie:
 | `podsumowanie` | Postep w biezacej sesji: ile cwiczen, wyniki |
 | `strategia` | Porady egzaminacyjne: Read `{BASE}/cheatsheets/podczas_egzaminu.md` |
 | `powtorka` | `./matura exercise review` |
-| `status` | `./matura progress status` |
+| `status` | `./matura progress diagnose` — dashboard z rekomendacja, retencja, zaleglosci |
 | `diagnoza [typ]` | `./matura progress diagnose` — analiza powtarzajacych sie bledow |
 | `sprawdzian [typ]` | Prawdziwe zadanie CKE (sekcja H2) |
 | `przyklad cke [typ]` | Przyklad rozwiazany CKE z pulapkami (sekcja H2) |
@@ -550,8 +537,7 @@ Gdy uczen wpisze `pulapki` → Read `.claude/skills/matura/pulapki.md` i postepu
 ## I. Reset kontekstu
 
 CLI automatycznie liczy wage kontekstu. Kazda komenda dodaje swoja wage do sesji.
-
-**Na starcie sesji** (po `progress status`): `--weight-reset` przy pierwszym `exercise next`.
+`progress status` automatycznie resetuje wage (wywolywany na starcie sesji — sekcja C).
 
 Gdy `reset_suggested == true` w odpowiedzi `exercise next`:
 ```

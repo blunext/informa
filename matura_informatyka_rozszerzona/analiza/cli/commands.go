@@ -898,6 +898,9 @@ func progressStatusCmd() *cobra.Command {
 			d := db(cmd)
 			out := ProgressStatusOut{}
 
+			// Auto-reset session context weight — progress status is the session-start signal
+			d.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
+
 			// Meta
 			var sesjeStr, ostatnia, cwiczeniaStr sql.NullString
 			d.QueryRow("SELECT value FROM progress_meta WHERE key = 'sesje'").Scan(&sesjeStr)
@@ -1328,24 +1331,134 @@ func progressDiagnoseCmd() *cobra.Command {
 			if err != nil {
 				return fatal(fmt.Sprintf("query error: %v", err))
 			}
-			defer rows.Close()
 
 			for rows.Next() {
 				var entry DiagnoseEntry
 				var typyStr string
 				if err := rows.Scan(&entry.BladKod, &entry.Count, &typyStr, &entry.Ostatnio); err != nil {
+					rows.Close()
 					return fatal(fmt.Sprintf("scan error: %v", err))
 				}
 				entry.Typy = strings.Split(typyStr, ",")
 				out.TopBledy = append(out.TopBledy, entry)
 			}
 			if err := rows.Err(); err != nil {
+				rows.Close()
 				return fatal(fmt.Sprintf("rows error: %v", err))
 			}
+			rows.Close()
 
 			if out.TopBledy == nil {
 				out.TopBledy = []DiagnoseEntry{}
 			}
+
+			// --- Status fields (mirror progress status without weight reset) ---
+
+			// (a) Zaleglosci — overdue review count
+			today := time.Now().Format("2006-01-02")
+			d.QueryRow("SELECT COUNT(*) FROM progress_tagi WHERE nastepna_powtorka <= ?", today).Scan(&out.Zaleglosci)
+
+			// (b) LeechTagi — tags with 3+ lapses
+			leechRows, leechErr := d.Query(`SELECT tag, COALESCE(lapses, 0), COALESCE(stability, 0)
+				FROM progress_tagi WHERE lapses >= 3 ORDER BY lapses DESC`)
+			if leechErr == nil {
+				for leechRows.Next() {
+					var lt LeechTagOut
+					leechRows.Scan(&lt.Tag, &lt.Lapses, &lt.Stability)
+					out.LeechTagi = append(out.LeechTagi, lt)
+				}
+				leechRows.Close()
+			}
+			if out.LeechTagi == nil {
+				out.LeechTagi = []LeechTagOut{}
+			}
+
+			// (c) RetencjaSzacowana — average retrievability
+			fsrsParams := DefaultFSRSParams()
+			retRows, retErr := d.Query(`SELECT tag, COALESCE(stability, 1.0), COALESCE(last_review, '')
+				FROM progress_tagi WHERE nastepna_powtorka IS NOT NULL`)
+			if retErr == nil {
+				var totalR float64
+				var retCount int
+				for retRows.Next() {
+					var tag, lastReview string
+					var stability float64
+					retRows.Scan(&tag, &stability, &lastReview)
+					elapsed := daysBetween(lastReview, today)
+					r := fsrsParams.Retrievability(elapsed, stability)
+					totalR += r
+					retCount++
+				}
+				retRows.Close()
+				if retCount > 0 {
+					avgR := totalR / float64(retCount)
+					out.RetencjaSzacowana = &avgR
+				}
+			}
+
+			// (d) Rekomendacja — build minimal ProgressStatusOut for computeRekomendacja
+			statusOut := ProgressStatusOut{
+				Zaleglosci: out.Zaleglosci,
+				LeechTagi:  out.LeechTagi,
+			}
+			if out.RetencjaSzacowana != nil {
+				statusOut.RetencjaSzacowana = out.RetencjaSzacowana
+			}
+
+			// Build typ→kategoria map first (separate query, must complete before typRows)
+			typKatMap := map[string]string{}
+			katQueryRows, katQueryErr := d.Query("SELECT DISTINCT typ_nazwa, kategoria FROM data.cwiczenia")
+			if katQueryErr == nil {
+				for katQueryRows.Next() {
+					var t, k string
+					katQueryRows.Scan(&t, &k)
+					typKatMap[t] = k
+				}
+				katQueryRows.Close()
+			}
+
+			typRows, typErr := d.Query(`
+				SELECT c.typ_nazwa,
+					COALESCE(p.poziom_trudnosci, 'latwe') as poziom,
+					COALESCE(p.streak, 0) as streak,
+					COUNT(DISTINCT z.id) as zrobione,
+					COUNT(DISTINCT c.id) as dostepne
+				FROM data.cwiczenia c
+				LEFT JOIN progress_typy p ON p.typ = c.typ_nazwa
+				LEFT JOIN progress_zrobione z ON z.id = c.id
+				GROUP BY c.typ_nazwa ORDER BY c.typ_nazwa`)
+			if typErr == nil {
+				katAgg := map[string]*KategoriaStatusOut{}
+				for typRows.Next() {
+					var ts TypStatusOut
+					typRows.Scan(&ts.Typ, &ts.PoziomTrudnosci, &ts.Streak, &ts.Zrobione, &ts.Dostepne)
+					statusOut.PerTyp = append(statusOut.PerTyp, ts)
+					kat := typKatMap[ts.Typ]
+					if kat == "" {
+						continue
+					}
+					if katAgg[kat] == nil {
+						katAgg[kat] = &KategoriaStatusOut{Kategoria: kat}
+					}
+					katAgg[kat].TypyTotal++
+					if ts.Zrobione > 0 {
+						katAgg[kat].TypyRuszane++
+					}
+					katAgg[kat].Zrobione += ts.Zrobione
+					katAgg[kat].Dostepne += ts.Dostepne
+					katAgg[kat].AvgStreak += float64(ts.Streak)
+				}
+				typRows.Close()
+				for _, k := range []string{"TEORIA", "IMPLEMENTACJA", "ARKUSZ", "SQL"} {
+					if ks, ok := katAgg[k]; ok {
+						if ks.TypyTotal > 0 {
+							ks.AvgStreak /= float64(ks.TypyTotal)
+						}
+						statusOut.PerKategoria = append(statusOut.PerKategoria, *ks)
+					}
+				}
+			}
+			out.Rekomendacja = computeRekomendacja(d, statusOut)
 
 			jsonOut(out)
 			return nil
@@ -1814,7 +1927,6 @@ func examSaveCmd() *cobra.Command {
 
 func exerciseNextCmd() *cobra.Command {
 	var typ, kategoria string
-	var weightReset bool
 
 	cmd := &cobra.Command{
 		Use:   "next",
@@ -1832,10 +1944,6 @@ func exerciseNextCmd() *cobra.Command {
 
 			if typ == "" {
 				return fatal("--typ or --kategoria is required")
-			}
-
-			if weightReset {
-				d.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
 			}
 
 			sessionCount, _, err := getSessionState(d)
@@ -1930,7 +2038,6 @@ func exerciseNextCmd() *cobra.Command {
 
 	cmd.Flags().StringVar(&typ, "typ", "", "Exercise type")
 	cmd.Flags().StringVar(&kategoria, "kategoria", "", "Category (TEORIA/IMPLEMENTACJA/ARKUSZ/SQL) — auto-selects weakest type")
-	cmd.Flags().BoolVar(&weightReset, "weight-reset", false, "Reset session context weight to 0")
 	return cmd
 }
 

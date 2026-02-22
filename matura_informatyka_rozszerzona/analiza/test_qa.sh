@@ -267,8 +267,8 @@ print(d['podzadania'][0]['punkty'])
   fi
 
   echo "  -- Context weight tracking --"
-  test_json_cmd "exercise next --weight-reset" \
-    matura_tmp exercise next --typ sql_group_by --weight-reset
+  test_json_cmd "exercise next (weight tracking)" \
+    matura_tmp exercise next --typ sql_group_by
 
   # Auto-weight: set weight=76 via sqlite3, exercise next adds +4 → 80 → reset_suggested=true
   local weight_out weight_reset
@@ -280,6 +280,19 @@ print(d['podzadania'][0]['punkty'])
     pass "auto-weight 76+4=80 → reset_suggested=true"
   else
     fail "auto-weight 76+4=80 → reset_suggested (expected True, got: $weight_reset)"
+  fi
+
+  # progress status resets weight to 0
+  sqlite3 "$TMPDIR_QA/matura_progress.db" \
+    "INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '99')"
+  matura_tmp progress status > /dev/null 2>&1
+  local weight_after_status
+  weight_after_status=$(sqlite3 "$TMPDIR_QA/matura_progress.db" \
+    "SELECT value FROM progress_meta WHERE key = 'session_context_weight'")
+  if [ "$weight_after_status" = "0" ]; then
+    pass "progress status resets weight to 0"
+  else
+    fail "progress status should reset weight (expected 0, got: $weight_after_status)"
   fi
 
   echo "  -- Lazy loading (question/hints/answer) --"
