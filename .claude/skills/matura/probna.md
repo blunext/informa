@@ -11,6 +11,7 @@ Komenda `probna [argument]`:
 
 ## Start
 
+0. **[WYMAGANE]** Sprawdz status: `./matura progress status` (SKILL.md C wymaga ZAWSZE)
 1. Pobierz metadane: `./matura exam meta --rok {rok}`
 2. Zapisz timestamp startu: `date +%s`
 3. Wyswietl:
@@ -33,7 +34,11 @@ Dla kazdego zadania sekwencyjnie:
 2. Wyswietl kontekst + kazde podzadanie po kolei
 3. Brak hintow — jesli uczen poprosi: "To probna matura — na egzaminie nie ma hintow. Podaj odpowiedz, `pomin` lub `przerwij`."
 4. Ocen wg `zasady_oceniania`, przyznaj punkty czesciowe, krotki feedback (1 zdanie)
-5. Prowadz bufor wynikow: `Zad 1.1: 2/3 pkt | Zad 1.2: 1/1 pkt | ...`
+5. **[NIGDY]** nie uzywaj `exercise answer` na ID egzaminowych (YYYY.N.M).
+   Oceniaj WYLACZNIE wg `zasady_oceniania` z odpowiedzi `exam task`.
+6. **Jesli uczen popelni blad** — zapisz:
+   `./matura progress blad --exercise-id {rok}.{zad}.{podzad} --typ {typ} --kod {kod}`
+7. Prowadz bufor wynikow: `Zad 1.1: 2/3 pkt | Zad 1.2: 1/1 pkt | ...`
 
 Komendy w trakcie: `pomin` (0 pkt za podzadanie), `przerwij` (koniec egzaminu → podsumowanie)
 
