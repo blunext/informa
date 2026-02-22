@@ -74,4 +74,8 @@ Gdzie status: `v` (pelne pkt), `~` (czesciowe), `x` (0 pkt), `-` (pominiete).
    - **numer** (np. "1.2"): tylko to podzadanie
    - **nie**: zakoncz
 
-4. Zapisz: `./matura exam save --rok {rok} --results '[{"id":"2024.1.1","pkt":2,"max":3},...]' --czas M`
+4. Oblicz czas:
+   ```
+   ELAPSED_MIN=$(( ($(date +%s) - START_TS) / 60 ))
+   ```
+5. Zapisz: `./matura exam save --rok {rok} --results '[{"id":"2024.1.1","pkt":2,"max":3},...]' --czas $ELAPSED_MIN`

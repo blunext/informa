@@ -155,6 +155,8 @@ Progresja trudnosci: streak 3→srednie, 5→srednie-trudne, 8→trudne. Walk_th
 
 Jesli `zaleglosci > 0` → zapytaj: "Masz {zaleglosci} zaleglosci powtorkowych. Powtorka czy nowy material?"
 
+**[WYMAGANE]** Pierwsze `exercise review` w sesji MUSI miec `--weight-reset` (tak samo jak `exercise next`).
+
 Jesli `cwiczenia_lacznie == 0`:
 
 Powitaj ucznia. Przedstaw 4 bloki tematyczne:
@@ -302,6 +304,8 @@ Brak uzasadnienia przy P/F = zawsze 50% (CKE wymaga uzasadnienia).
 
 **[WYMAGANE]** Po KAZDEJ blednej odpowiedzi ucznia — NAJPIERW `progress blad`, POTEM hint.
 Kazda pomylka = osobna komenda `progress blad` z odpowiednim kodem.
+Jesli uczen popelni wiele bledow w jednej odpowiedzi (np. `mylenie_div_mod` + `brak_inicjalizacji`),
+zapisz KAZDY blad osobna komenda `progress blad` PRZED podaniem jakiegokolwiek hintu.
 
 Uzyj `coaching.hint_delay` do decyzji kiedy podac hint:
 - `hint_delay=1` (new/learning) → hint od 1. blednej proby
@@ -322,6 +326,7 @@ Gdy nadchodzi pora na hint (po hint_delay probach), pobierz hinty:
 **Poziom 1** (po hint_delay blednych probach):
 - Okresl typ bledu
 - **ZAPISZ BLAD**: `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint 1`
+- **ZANIM podasz hint**: zapytaj ucznia "Co wedlug Ciebie poszlo nie tak?" — poczekaj na odpowiedz
 - Jesli `max_hints >= 1` → podaj `wskazowki[0]` + pytanie sokratejskie
 - Jesli `max_hints == 0` → tylko pytanie sokratejskie
 
@@ -531,6 +536,7 @@ Zrodlo: Matura {rok}, Zadanie {numer_zadania}
 ### Przebieg
 
 1. Pobierz zadanie: `./matura cke get --typ {typ}`
+1b. **WYMAGANE** — Zapisz timestamp: `START_TS=$(date +%s)` przez Bash
 2. Wyswietl:
 ```
 === SPRAWDZIAN TYPU: {typ} ===
@@ -544,8 +550,9 @@ Dla zadan z danymi: `Dane: {sciezka_danych} (pliki: {pliki_danych})`
 
 3. **Brak hintow** — "To sprawdzian — na egzaminie tez nie bedzie hintow."
 4. **Ocena czesciowa** wg `zasady_oceniania`
-5. Wyswietl wynik + `pulapki`
-6. Zapisz: `./matura cke save --id {id} --punkty N --max M`
+5. Oblicz czas: `ELAPSED=$(($(date +%s) - START_TS))`
+6. Wyswietl wynik + `pulapki` + czas: "Czas: {ELAPSED}s"
+7. Zapisz: `./matura cke save --id {id} --punkty N --max M`
 
 ## H3. Probna matura
 
