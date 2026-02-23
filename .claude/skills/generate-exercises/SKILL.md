@@ -35,7 +35,7 @@ Przed generacja ZAWSZE przeczytaj:
    ```
    analiza/cwiczenia/json/tagi_rejestr.json
    ```
-4. **Szablony i wzorce** odpowiednie dla kategorii:
+5. **Szablony i wzorce** odpowiednie dla kategorii:
     - IMPLEMENTACJA (07-14): `analiza/szablony/cpp_szablony.md`
     - SQL (20-23): `analiza/szablony/sql_szablony.md`
     - ARKUSZ (15-19): `analiza/szablony/arkusz_formuly.md`
@@ -73,7 +73,9 @@ Dla kazdego cwiczenia generuj pelny obiekt JSON:
 - **wskazowki**: dokladnie 3, kazda >10 znakow, wzorzec: Kierunek / Podejscie / Kluczowy krok
 - **tresc**: >50 znakow, musi byc samodzielna (uczen nie potrzebuje dodatkowych informacji)
 - **odpowiedz**: >50 znakow, pelne rozwiazanie (nie szkic!)
-- **typowe_bledy**: minimum 1, kazdy z `opis` (bold prefix) i `kara` (format: `-N pkt`)
+- **typowe_bledy**: minimum 1, kazdy z `opis` (bold prefix) i `kara` (format: `-N pkt` lub `-N.N pkt`, np. `-0.5 pkt`)
+- **punkty**: zakres 1-10
+- **zrodlo**: niepusty string opisujacy inspiracje (np. "Wzor: Matura 2023 zad. 4")
 - **punkty_lacznie** w naglowku: MUSI byc zaktualizowane po dodaniu cwiczen (suma punktow)
 
 ### Reguly per kategoria
@@ -106,6 +108,10 @@ Dla kazdego cwiczenia generuj pelny obiekt JSON:
 #### TEORIA/sledzenie (pliki 01-04)
 - `odpowiedz` musi zawierac krokowe sledzenie (tabela, lista krokow, lub drzewo wywolan)
 - Dla P/F (plik 04): odpowiedz musi zawierac PRAWDA/FALSZ lub **P**/**F** dla kazdego pytania
+
+#### Konwersje systemow liczbowych (plik 05)
+- `odpowiedz` musi zawierac wzorce konwersji: `45(10) = 101101(2)`, `B6(16) = 182(10)` itp.
+- Weryfikator automatycznie sprawdza poprawnosc konwersji (PASS/FAIL, nie MANUAL_REVIEW)
 
 #### ARKUSZ (pliki 15-19)
 - `odpowiedz` musi zawierac formuly arkuszowe (=FUNKCJA(...) lub =A1+B1)
@@ -175,9 +181,11 @@ Dla kazdego wygenerowanego cwiczenia:
 3. Zaktualizuj `punkty_lacznie` w `_meta.json` = suma wszystkich punktow
    Jezeli uzyles nowych tagow — dodaj je do `tagi_globalne` w `_meta.json` i do `tagi_rejestr.json`.
 
-## Krok 5: Walidacja (OBOWIAZKOWA)
+**UWAGA**: Pola `trudnosc`, `punkty`, `tagi` w `_meta.json` MUSZA byc identyczne z polami w pliku cwiczenia. Walidator sprawdza spojnosc — roznica = ERROR.
 
-Po wstawieniu uruchom OBA narzedzia:
+## Krok 5: Walidacja + Re-import (OBOWIAZKOWY)
+
+### 5a. Schema + weryfikacja merytoryczna
 
 ```bash
 # 1. Walidacja schema JSON (struktura, tagi, punkty):
@@ -186,6 +194,16 @@ python3 analiza/cwiczenia/validate_json.py --file NN_nazwa
 # 2. Weryfikacja merytoryczna (kompilacja C++, SQL, sanity checks):
 python3 analiza/cwiczenia/verify/verify_all.py --file NN_nazwa --verbose
 ```
+
+### Mapowanie weryfikatorow
+
+| Katalogi | Weryfikator | Wynik |
+|----------|-------------|-------|
+| 01-04, 06 | manual_sanity | MANUAL_REVIEW (zweryfikowane w Kroku 3.5) |
+| 05 | numconv | PASS/FAIL |
+| 07-14 | cpp (kompilacja + uruchomienie) | PASS/FAIL/ERROR |
+| 15-19 | manual_sanity | MANUAL_REVIEW (zweryfikowane w Kroku 3.5) |
+| 20-23 | sql (SQLite exec) | PASS/FAIL/ERROR |
 
 ### Interpretacja wynikow
 
@@ -198,10 +216,39 @@ Jezeli sa bledy — napraw je i uruchom walidacje ponownie. Powtarzaj az:
 - validate_json.py: 0 ERRORS
 - verify_all.py: 0 FAIL, 0 ERROR
 
+### 5b. Re-import do CLI
+
+```bash
+cd analiza/cli && ./matura data import --source ../
+```
+
+Bez re-importu CLI nie zobaczy nowych cwiczen!
+
+### 5c. Aktualizacja baseline
+
+```bash
+cd analiza && ./test_qa.sh --update-baseline
+```
+
+Bez tego Layer 4 test_qa.sh bedzie failowal przy nastepnym uruchomieniu.
+
+## Typowe bledy generacji (unikaj!)
+
+1. **Zly format `kara`** — zawsze `-N pkt` lub `-N.N pkt` (regex: `^-\d+(\.\d+)? pkt$`). NIE: `"-2 pkt (brak odp.)"`, `""`, `"minus 2"`
+2. **Zly format `**Dane**`** — MUSI byc dokladnie `**Dane** (\`plik.txt\`):` (z backtick-ami!). NIE: `Liczby pierwsze (plik.txt):`
+3. **Notatki robocze w oczekiwanym wyniku** — blok `**Oczekiwany wynik**` = TYLKO czyste linie stdout. Bez komentarzy, wyjasnien, numeracji krokow
+4. **SQL: zla tabela wynikowa** — ostatnia tabela markdown w `odpowiedz` (bez ✓/✗) = wynik. Tabele weryfikacyjne z ✓/✗ sa pomijane
+5. **Tag spoza rejestru** — walidator ODRZUCI. Dodaj do `tagi_rejestr.json` PRZED uzyciem
+6. **Niezgodnosc `_meta.json` ↔ plik** — `trudnosc`, `punkty`, `tagi` musza byc identyczne w obu miejscach
+7. **Brak `zrodlo`** — pole wymagane, walidator odrzuci. Min. 1 znak
+8. **Zly ID** — format `NN.M` gdzie NN = numer katalogu. Sprawdz ostatni istniejacy w `_meta.json`!
+
 ## Krok 6: Podsumowanie
 
 Wyswietl uzytkownikowi:
 - Ile cwiczen dodano
 - Do jakiego pliku
-- Wynik walidacji
+- Wynik walidacji (validate_json + verify_all)
+- Re-import CLI: OK/FAIL
+- Baseline: zaktualizowany
 - Aktualna liczba cwiczen w pliku (bylo X, jest Y)
