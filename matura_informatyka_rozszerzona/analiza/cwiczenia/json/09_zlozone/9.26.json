@@ -1,0 +1,31 @@
+{
+  "id": "9.26",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2024 zad. 6 (wieloplikowy JOIN)",
+  "tagi": [
+    "wiele-plikow",
+    "JOIN-tabel",
+    "map-zliczanie",
+    "grupowanie",
+    "iomanip",
+    "wieloetapowe"
+  ],
+  "tresc": "Dane sa 2 pliki. Plik `uczniowie.txt` zawiera 6 rekordow: id imie klasa. Plik `testy.txt` zawiera 12 rekordow: uczen_id przedmiot wynik. Napisz program, ktory:\na) Obliczy sredni wynik kazdego ucznia (2 miejsca po przecinku).\nb) Wypisze sredni wynik kazdej klasy (2 m.p.).\nc) Znajdzie ucznia z najwyzszym srednim wynikiem.\n\n**Dane** (`uczniowie.txt`):\n```\n1 Anna 3A\n2 Jan 3A\n3 Ewa 3B\n4 Piotr 3B\n5 Maria 3A\n6 Tomek 3B\n```\n\n**Dane** (`testy.txt`):\n```\n1 Matematyka 85\n1 Fizyka 90\n2 Matematyka 72\n2 Fizyka 68\n3 Matematyka 95\n3 Fizyka 88\n4 Matematyka 60\n4 Fizyka 55\n5 Matematyka 78\n5 Fizyka 82\n6 Matematyka 70\n6 Fizyka 75\n```\n\n**Oczekiwany wynik**:\n```\na) Sredni wynik ucznia:\n   Anna: 87.50\n   Jan: 70.00\n   Ewa: 91.50\n   Piotr: 57.50\n   Maria: 80.00\n   Tomek: 72.50\n\nb) Sredni wynik klasy:\n   3A: 79.17\n   3B: 73.83\n\nc) Najlepszy uczen: Ewa (91.50)\n```",
+  "wskazowki": [
+    "**Kierunek**: JOIN: wczytaj uczniow do `map<int, pair<string,string>>` (id -> imie, klasa), potem przetworz testy.",
+    "**Podejscie**: Dla kazdego testu: dodaj wynik do sumy ucznia i sumy klasy. Na koncu oblicz srednie.",
+    "**Kluczowy krok**: Srednia klasy = suma wynikow uczniow z klasy / liczba testow z tej klasy (nie liczba uczniow)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream f1(\"uczniowie.txt\"), f2(\"testy.txt\");\n    map<int, string> imiona;\n    map<int, string> klasy;\n    int id; string imie, klasa;\n    while (f1 >> id >> imie >> klasa) {\n        imiona[id] = imie;\n        klasy[id] = klasa;\n    }\n\n    map<int, int> sumUczen;\n    map<int, int> cntUczen;\n    map<string, int> sumKlasa;\n    map<string, int> cntKlasa;\n    int uid, wynik;\n    string przedmiot;\n    while (f2 >> uid >> przedmiot >> wynik) {\n        sumUczen[uid] += wynik;\n        cntUczen[uid]++;\n        sumKlasa[klasy[uid]] += wynik;\n        cntKlasa[klasy[uid]]++;\n    }\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Sredni wynik ucznia:\" << endl;\n    double maxAvg = 0;\n    string maxImie;\n    for (auto &u : imiona) {\n        double avg = (double)sumUczen[u.first] / cntUczen[u.first];\n        cout << \"   \" << u.second << \": \" << avg << endl;\n        if (avg > maxAvg) {\n            maxAvg = avg;\n            maxImie = u.second;\n        }\n    }\n\n    cout << endl << \"b) Sredni wynik klasy:\" << endl;\n    for (auto &k : sumKlasa) {\n        cout << \"   \" << k.first << \": \" << (double)k.second / cntKlasa[k.first] << endl;\n    }\n\n    cout << endl << \"c) Najlepszy uczen: \" << maxImie << \" (\" << maxAvg << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\na) Srednie uczniow:\n- Anna (id=1): (85+90)/2 = 87.50\n- Jan (id=2): (72+68)/2 = 70.00\n- Ewa (id=3): (95+88)/2 = 91.50\n- Piotr (id=4): (60+55)/2 = 57.50\n- Maria (id=5): (78+82)/2 = 80.00\n- Tomek (id=6): (70+75)/2 = 72.50\n\nb) Srednie klas:\n- 3A (Anna, Jan, Maria): (85+90+72+68+78+82)/6 = 475/6 = 79.1666... -> 79.17\n- 3B (Ewa, Piotr, Tomek): (95+88+60+55+70+75)/6 = 443/6 = 73.8333... -> 73.83\n\nc) Najlepszy: Ewa (91.50)",
+  "typowe_bledy": [
+    {
+      "opis": "**Srednia klasy obliczona jako srednia srednich uczniow**: To daje inny wynik niz srednia wszystkich testow z klasy (gdy uczniowie maja rozna liczbe testow)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak JOIN — klasa niedostepna przy przetwarzaniu testow**: Trzeba wczesniej wczytac mapowanie id->klasa",
+      "kara": "-2 pkt"
+    }
+  ]
+}

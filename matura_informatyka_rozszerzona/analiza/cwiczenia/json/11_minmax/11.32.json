@@ -1,0 +1,30 @@
+{
+  "id": "11.32",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2018 zad. 5 (srednia i odleglosc)",
+  "tagi": [
+    "min-max",
+    "srednia",
+    "roznica-bezwzgledna",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory obliczy srednia arytmetyczna tych liczb, a nastepnie znajdzie liczbe najblizszą tej sredniej (o najmniejszej roznicy bezwzglednej). Wypisz srednia z dokladnoscia 2 miejsc po przecinku oraz znaleziona liczbe.\n\n**Dane** (`dane.txt`):\n```\n14\n27\n33\n8\n41\n19\n36\n22\n50\n10\n```\n\n**Oczekiwany wynik**:\n```\nSrednia: 26.00\nNajblizsza liczba: 27\n```",
+  "wskazowki": [
+    "**Kierunek**: Najpierw oblicz srednia, potem drugim przebiegiem szukaj elementu o minimalnej roznicy bezwzglednej.",
+    "**Podejscie**: Suma / ilosc daje srednia. Potem dla kazdego elementu oblicz abs(tab[i] - srednia) i sledzmin.",
+    "**Kluczowy krok**: Uzyj abs() na double lub fabs() — porownanie roznicy bezwzglednej z dotychczasowym minimum."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> tab;\n    int x;\n    while (plik >> x) tab.push_back(x);\n\n    double suma = 0;\n    for (int v : tab) suma += v;\n    double sr = suma / tab.size();\n\n    int najbl = tab[0];\n    double minRozn = fabs(tab[0] - sr);\n    for (int i = 1; i < (int)tab.size(); i++) {\n        double r = fabs(tab[i] - sr);\n        if (r < minRozn) {\n            minRozn = r;\n            najbl = tab[i];\n        }\n    }\n\n    cout << fixed << setprecision(2);\n    cout << \"Srednia: \" << sr << endl;\n    cout << \"Najblizsza liczba: \" << najbl << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dwa przebiegi: (1) oblicz srednia, (2) szukaj elementu minimalizujacego |tab[i] - srednia|. Inicjalizacja pierwszym elementem.\n\nWeryfikacja:\n- Suma: 14+27+33+8+41+19+36+22+50+10 = 260\n- Srednia: 260/10 = 26.00\n- Odleglosci: |14-26|=12, |27-26|=1, |33-26|=7, |8-26|=18, |41-26|=15, |19-26|=7, |36-26|=10, |22-26|=4, |50-26|=24, |10-26|=16\n- Minimum: 1 dla liczby 27.",
+  "typowe_bledy": [
+    {
+      "opis": "**Dzielenie calkowite przy sredniej (int/int)**: Srednia 260/10=26 jest OK, ale przy nieparzystej sumie obcina ulamek",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak wartosci bezwzglednej**: Ujemna roznica moze zostac uznana za mniejsza niz 0",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "10.23",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2023 zad. 3.1 (test pierwszosci + zliczanie)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "liczby-pierwsze",
+    "test-pierwszosci"
+  ],
+  "tresc": "W pliku `liczby.txt` znajduje sie 12 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory:\na) Zliczy ile z nich jest liczbami pierwszymi.\nb) Wypisze te liczby pierwsze.\nc) Obliczy sume wszystkich liczb pierwszych w pliku.\n\n**Dane** (`liczby.txt`):\n```\n17\n24\n31\n42\n53\n60\n71\n89\n100\n13\n27\n47\n```\n\n**Oczekiwany wynik**:\n```\na) Liczby pierwsze: 7\nb) Lista: 17 31 53 71 89 13 47\nc) Suma pierwszych: 321\n```",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz funkcji sprawdzajacej pierwszosc liczby — klasyczny test do sqrt(n).",
+    "**Podejscie**: Dla kazdego n z pliku sprawdz podzielnosc przez 2..sqrt(n). Jezeli zadna nie dzieli — liczba jest pierwsza.",
+    "**Kluczowy krok**: Pamietaj o przypadkach brzegowych: 1 nie jest pierwsza, 2 jest pierwsza."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <cmath>\nusing namespace std;\n\nbool czyPierwsza(int n) {\n    if (n < 2) return false;\n    for (int i = 2; i <= sqrt(n); i++)\n        if (n % i == 0) return false;\n    return true;\n}\n\nint main() {\n    ifstream plik(\"liczby.txt\");\n    int n;\n    int ile = 0, suma = 0;\n    string lista = \"\";\n    while (plik >> n) {\n        if (czyPierwsza(n)) {\n            ile++;\n            suma += n;\n            if (lista != \"\") lista += \" \";\n            lista += to_string(n);\n        }\n    }\n    cout << \"a) Liczby pierwsze: \" << ile << endl;\n    cout << \"b) Lista: \" << lista << endl;\n    cout << \"c) Suma pierwszych: \" << suma << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Funkcja `czyPierwsza` sprawdza podzielnosc od 2 do sqrt(n). Jesli znajdzie dzielnik — zwraca false. W petli glownej zliczamy, sumujemy i zbieramy listke.\n\nWeryfikacja:\n- 17: pierwsza (brak dzielnikow 2..4)\n- 24: 24/2=12, nie pierwsza\n- 31: pierwsza (brak dzielnikow 2..5)\n- 42: 42/2=21, nie pierwsza\n- 53: pierwsza (brak dzielnikow 2..7)\n- 60: 60/2=30, nie pierwsza\n- 71: pierwsza (brak dzielnikow 2..8)\n- 89: pierwsza (brak dzielnikow 2..9)\n- 100: 100/2=50, nie pierwsza\n- 13: pierwsza (brak dzielnikow 2..3)\n- 27: 27/3=9, nie pierwsza\n- 47: pierwsza (brak dzielnikow 2..6)\n- Ilosc: 17,31,53,71,89,13,47 = 7\n- Suma: 17+31+53+71+89+13+47 = 321",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak obslugi n < 2**: Liczba 1 nie jest pierwsza, ale prosta petla od 2 do sqrt(1) nie wykryje tego",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Petla do n/2 zamiast sqrt(n)**: Dziala poprawnie, ale jest znacznie wolniejsza dla duzych liczb",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

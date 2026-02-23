@@ -1,0 +1,29 @@
+{
+  "id": "9.21",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2022 zad. 4 (histogram ocen)",
+  "tagi": [
+    "map-zliczanie",
+    "wczytywanie-pliku",
+    "formatowanie-wyniku",
+    "wieloetapowe"
+  ],
+  "tresc": "W pliku `oceny.txt` znajduje sie 15 ocen (liczby calkowite od 1 do 6, kazda w osobnym wierszu). Napisz program, ktory:\na) Wypisze histogram ocen w formacie: ocena | gwiazdki (kazda gwiazdka = jedno wystapienie).\nb) Poda najczesciej wystepujaca ocene (mode) i jej liczbe wystapien.\n\n**Dane** (`oceny.txt`):\n```\n4\n5\n3\n4\n2\n5\n4\n3\n5\n4\n6\n3\n5\n4\n3\n```\n\n**Oczekiwany wynik**:\n```\na) Histogram ocen:\n   1 |\n   2 | *\n   3 | ****\n   4 | *****\n   5 | ****\n   6 | *\n\nb) Najczestsza ocena: 4 (5 razy)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj tablicy zliczajacej o rozmiarze 7 (indeksy 0-6) — `cnt[ocena]++`.",
+    "**Podejscie**: Po zliczeniu iteruj od 1 do 6, wypisujac gwiazdki w petli wewnetrznej.",
+    "**Kluczowy krok**: Mode = ocena o max wartosci w tablicy. Iteruj szukajac max."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"oceny.txt\");\n    int cnt[7] = {};\n    int x;\n    while (plik >> x) cnt[x]++;\n\n    cout << \"a) Histogram ocen:\" << endl;\n    for (int i = 1; i <= 6; i++) {\n        cout << \"   \" << i << \" | \";\n        for (int j = 0; j < cnt[i]; j++) cout << \"*\";\n        cout << endl;\n    }\n\n    int maxOcena = 1, maxCnt = cnt[1];\n    for (int i = 2; i <= 6; i++) {\n        if (cnt[i] > maxCnt) {\n            maxCnt = cnt[i];\n            maxOcena = i;\n        }\n    }\n    cout << endl << \"b) Najczestsza ocena: \" << maxOcena << \" (\" << maxCnt << \" razy)\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- cnt[1]=0, cnt[2]=1, cnt[3]=4, cnt[4]=5, cnt[5]=4, cnt[6]=1\n- Suma: 0+1+4+5+4+1 = 15 (OK)\n- Gwiazdki: 2->*, 3->****, 4->*****, 5->****, 6->*\n- Max: cnt[4]=5, wiec najczestsza ocena = 4 (5 razy)",
+  "typowe_bledy": [
+    {
+      "opis": "**Tablica za mala**: `int cnt[6]` zamiast `cnt[7]` — ocena 6 to indeks 6, potrzeba rozmiaru 7",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak inicjalizacji tablicy**: `int cnt[7];` bez `= {}` — zawartosc niezdefiniowana",
+      "kara": "-1 pkt"
+    }
+  ]
+}

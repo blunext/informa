@@ -1,0 +1,35 @@
+{
+  "id": "9.39",
+  "trudnosc": "srednie-trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2025 zad. 7 (JOIN dwoch plikow + statystyki)",
+  "tagi": [
+    "wiele-plikow",
+    "JOIN-tabel",
+    "map-zliczanie",
+    "grupowanie",
+    "iomanip",
+    "wieloetapowe"
+  ],
+  "tresc": "Dane sa 2 pliki. Plik `studenci.txt` zawiera 5 rekordow: id imie. Plik `oceny.txt` zawiera 12 rekordow: student_id przedmiot ocena. Ten sam student moze miec wiele ocen. Napisz program, ktory:\na) Dla kazdego studenta obliczy srednia ocen (2 m.p.) i wypisze w kolejnosci id.\nb) Znajdzie studenta z najwyzsza srednia.\nc) Wypisze liczbe przedmiotow kazdego studenta.\n\n**Dane** (`studenci.txt`):\n```\n1 Ala\n2 Bob\n3 Cysia\n4 Darek\n5 Ela\n```\n\n**Dane** (`oceny.txt`):\n```\n1 Matematyka 5\n1 Fizyka 4\n1 Informatyka 6\n2 Matematyka 3\n2 Fizyka 5\n3 Informatyka 5\n3 Fizyka 4\n3 Matematyka 4\n4 Informatyka 3\n4 Matematyka 4\n5 Fizyka 6\n5 Informatyka 5\n```\n\n**Oczekiwany wynik**:\n```\na) Srednie ocen:\n   Ala: 5.00\n   Bob: 4.00\n   Cysia: 4.33\n   Darek: 3.50\n   Ela: 5.50\n\nb) Najwyzsza srednia: Ela (5.50)\n\nc) Liczba przedmiotow:\n   Ala: 3\n   Bob: 2\n   Cysia: 3\n   Darek: 2\n   Ela: 2\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj studentow do map<int, string> (id->imie). Agreguj oceny po student_id.",
+    "**Podejscie**: Dwie mapy agregujace: suma ocen i liczba ocen per student_id. Srednia = suma / liczba.",
+    "**Kluczowy krok**: Iteruj po mapie studentow (rosnaco wg id), aby zachowac kolejnosc. JOIN po id."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream f1(\"studenci.txt\"), f2(\"oceny.txt\");\n    map<int, string> imiona;\n    int id;\n    string imie;\n    while (f1 >> id >> imie) {\n        imiona[id] = imie;\n    }\n\n    map<int, int> suma;\n    map<int, int> cnt;\n    int sid, ocena;\n    string przedmiot;\n    while (f2 >> sid >> przedmiot >> ocena) {\n        suma[sid] += ocena;\n        cnt[sid]++;\n    }\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Srednie ocen:\" << endl;\n    string maxImie;\n    double maxSr = 0;\n    for (auto &s : imiona) {\n        double sr = (double)suma[s.first] / cnt[s.first];\n        cout << \"   \" << s.second << \": \" << sr << endl;\n        if (sr > maxSr) {\n            maxSr = sr;\n            maxImie = s.second;\n        }\n    }\n\n    cout << endl << \"b) Najwyzsza srednia: \" << maxImie << \" (\" << maxSr << \")\" << endl;\n\n    cout << endl << \"c) Liczba przedmiotow:\" << endl;\n    for (auto &s : imiona) {\n        cout << \"   \" << s.second << \": \" << cnt[s.first] << endl;\n    }\n    return 0;\n}\n```\n\nWeryfikacja:\n- id=1 Ala: 5+4+6 = 15, cnt=3, sr=15/3 = 5.00\n- id=2 Bob: 3+5 = 8, cnt=2, sr=8/2 = 4.00\n- id=3 Cysia: 5+4+4 = 13, cnt=3, sr=13/3 = 4.333... -> 4.33\n- id=4 Darek: 3+4 = 7, cnt=2, sr=7/2 = 3.50\n- id=5 Ela: 6+5 = 11, cnt=2, sr=11/2 = 5.50\n- Najwyzsza: Ela (5.50)\n- Liczba przedmiotow: Ala(3), Bob(2), Cysia(3), Darek(2), Ela(2)",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak JOIN po id**: Bez laczenia plikow nie mozna uzyskac imion studentow przy wypisywaniu ocen",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Dzielenie calkowitoliczbowe przy sredniej**: suma[id] / cnt[id] bez rzutowania na double",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Nieuzycie mapy do agregacji**: Proba recznego parsowania zamiast automatycznej agregacji — podatne na bledy",
+      "kara": "-1 pkt"
+    }
+  ]
+}

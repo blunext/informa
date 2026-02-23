@@ -1,0 +1,35 @@
+{
+  "id": "10.30",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Wzor: Matura 2024 zad. 5 (wielowymiarowa analiza danych)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "map-zliczanie",
+    "grupowanie",
+    "set-unikalnosc",
+    "procent",
+    "iomanip"
+  ],
+  "tresc": "W pliku `dziennik.txt` znajduje sie 12 rekordow w formacie: nazwisko przedmiot ocena (oddzielone spacjami). Jeden uczen moze wystepowac w wielu przedmiotach. Napisz program, ktory:\na) Zliczy ilu uczniow jest zapisanych na kazdy przedmiot.\nb) Zliczy ile ocen >= 4 jest w kazdym przedmiocie.\nc) Obliczy procent ocen >= 4 dla kazdego przedmiotu (2 miejsca po przecinku) i wskazze przedmiot z najwyzszym procentem.\nd) Zliczy ilu uczniow wystepuje w wiecej niz jednym przedmiocie.\n\n**Dane** (`dziennik.txt`):\n```\nKowalski Matematyka 5\nNowak Matematyka 3\nWisniewski Fizyka 4\nKowalski Fizyka 4\nLewandowski Matematyka 4\nZielinska Fizyka 2\nKaminski Informatyka 5\nSzymanski Informatyka 4\nKowalski Informatyka 3\nWojcik Fizyka 5\nNowak Informatyka 4\nDabrowska Matematyka 2\n```\n\n**Oczekiwany wynik**:\n```\na) Uczniow na przedmiot:\n   Fizyka: 4\n   Informatyka: 4\n   Matematyka: 4\n\nb) Oceny >= 4 na przedmiot:\n   Fizyka: 3\n   Informatyka: 3\n   Matematyka: 2\n\nc) Procent ocen >= 4:\n   Fizyka: 75.00%\n   Informatyka: 75.00%\n   Matematyka: 50.00%\n   Najwyzszy: Fizyka (75.00%)\n\nd) Uczniow w >1 przedmiocie: 2\n```",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz kilku map: `map<string,int>` dla liczby uczniow i ocen >=4, `map<string,set<string>>` dla przedmiotow kazdego ucznia.",
+    "**Podejscie**: W jednej petli wczytuj rekordy i aktualizuj wszystkie mapy. Po petli oblicz procenty i znajdz ekstrema.",
+    "**Kluczowy krok**: Do punktu d) uzyj `map<string, set<string>>` — klucz to nazwisko, wartosc to zbior przedmiotow. Licz tych, gdzie rozmiar seta > 1."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <set>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dziennik.txt\");\n    string nazwisko, przedmiot;\n    int ocena;\n\n    map<string, int> ilePrzedm;\n    map<string, int> dobre;\n    map<string, set<string>> uczenPrzedmioty;\n\n    while (plik >> nazwisko >> przedmiot >> ocena) {\n        ilePrzedm[przedmiot]++;\n        if (ocena >= 4) dobre[przedmiot]++;\n        uczenPrzedmioty[nazwisko].insert(przedmiot);\n    }\n\n    // a)\n    cout << \"a) Uczniow na przedmiot:\" << endl;\n    for (auto &p : ilePrzedm)\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n\n    // b)\n    cout << endl << \"b) Oceny >= 4 na przedmiot:\" << endl;\n    for (auto &p : ilePrzedm)\n        cout << \"   \" << p.first << \": \" << dobre[p.first] << endl;\n\n    // c)\n    cout << endl << \"c) Procent ocen >= 4:\" << endl;\n    cout << fixed << setprecision(2);\n    string bestPrzedm; double bestPct = 0;\n    for (auto &p : ilePrzedm) {\n        double pct = (double)dobre[p.first] * 100.0 / p.second;\n        cout << \"   \" << p.first << \": \" << pct << \"%\" << endl;\n        if (pct > bestPct) {\n            bestPct = pct;\n            bestPrzedm = p.first;\n        }\n    }\n    cout << \"   Najwyzszy: \" << bestPrzedm << \" (\" << bestPct << \"%)\" << endl;\n\n    // d)\n    int wieloPrzedm = 0;\n    for (auto &p : uczenPrzedmioty)\n        if ((int)p.second.size() > 1) wieloPrzedm++;\n    cout << endl << \"d) Uczniow w >1 przedmiocie: \" << wieloPrzedm << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Trzy struktury danych: `ilePrzedm` zlicza uczniow per przedmiot, `dobre` zlicza oceny >=4 per przedmiot, `uczenPrzedmioty` mapuje ucznia na zbior jego przedmiotow. Po wczytaniu danych wykonujemy analizy.\n\nWeryfikacja:\na) Fizyka: Wisniewski, Kowalski, Zielinska, Wojcik = 4\n   Informatyka: Kaminski, Szymanski, Kowalski, Nowak = 4\n   Matematyka: Kowalski, Nowak, Lewandowski, Dabrowska = 4\n\nb) Fizyka >=4: 4, 4, 5 = 3 (Zielinska ma 2)\n   Informatyka >=4: 5, 4, 4 = 3 (Kowalski ma 3)\n   Matematyka >=4: 5, 4 = 2 (Nowak 3, Dabrowska 2)\n\nc) Fizyka: 3/4*100 = 75.00%\n   Informatyka: 3/4*100 = 75.00%\n   Matematyka: 2/4*100 = 50.00%\n   Najwyzszy: Fizyka (75.00%) — mapa iteruje alfabetycznie, Fizyka przed Informatyka\n\nd) Kowalski: {Matematyka, Fizyka, Informatyka} = 3 > 1\n   Nowak: {Matematyka, Informatyka} = 2 > 1\n   Reszta: po 1 przedmiocie\n   Razem: 2",
+  "typowe_bledy": [
+    {
+      "opis": "**Dzielenie calkowite przy procentach**: `dobre[p]/ile[p]*100` daje 0 dla wartosci < 1. Trzeba: `(double)dobre[p]*100.0/ile[p]`",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak set dla uczniow — zliczanie duplikatow**: Bez seta uczen zapisany dwukrotnie na ten sam przedmiot bylby liczony podwojnie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o inicjalizacji dobre[] dla przedmiotow bez ocen >=4**: `dobre[przedmiot]` zwroci 0 domyslnie w map, ale trzeba o tym pamietac",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

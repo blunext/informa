@@ -1,0 +1,30 @@
+{
+  "id": "9.23",
+  "trudnosc": "srednie",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2024 zad. 5 (symulacja kolejki)",
+  "tagi": [
+    "wieloetapowe",
+    "struct",
+    "sortowanie",
+    "wczytywanie-pliku",
+    "akumulator"
+  ],
+  "tresc": "W pliku `zamowienia.txt` znajduje sie 8 rekordow w formacie: klient priorytet czas_obslugi (oddzielone spacja). Priorytet to liczba 1-3 (1 = najwyzszy). Czas obslugi to liczba minut (int). Napisz program, ktory:\na) Posortuje zamowienia wg priorytetu (rosnaco), a przy rownym priorytecie wg czasu obslugi (rosnaco).\nb) Wypisze kolejnosc obslugi z kumulatywnym czasem zakonczenia.\nc) Poda calkowity czas obslugi wszystkich zamowien.\n\n**Dane** (`zamowienia.txt`):\n```\nKowalski 2 15\nNowak 1 10\nWisniewska 3 20\nKaczmarek 1 5\nZielinski 2 12\nMajewski 3 8\nSzymanski 1 7\nWojcik 2 18\n```\n\n**Oczekiwany wynik**:\n```\na) Kolejnosc obslugi:\n   1. Kaczmarek [P1] - 5 min\n   2. Szymanski [P1] - 7 min\n   3. Nowak [P1] - 10 min\n   4. Zielinski [P2] - 12 min\n   5. Kowalski [P2] - 15 min\n   6. Wojcik [P2] - 18 min\n   7. Majewski [P3] - 8 min\n   8. Wisniewska [P3] - 20 min\n\nb) Czas zakonczenia:\n   Kaczmarek: 5 min\n   Szymanski: 12 min\n   Nowak: 22 min\n   Zielinski: 34 min\n   Kowalski: 49 min\n   Wojcik: 67 min\n   Majewski: 75 min\n   Wisniewska: 95 min\n\nc) Calkowity czas: 95 min\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj struct z polami klient, priorytet, czas. Posortuj z komparatorem dwupoziomowym.",
+    "**Podejscie**: `sort` z lambda: porownaj priorytet, przy remisie porownaj czas_obslugi.",
+    "**Kluczowy krok**: Kumulatywny czas = akumulator: `suma += czas_obslugi[i]`, wypisz po kazdym elemencie."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nstruct Zamowienie {\n    string klient;\n    int priorytet, czas;\n};\n\nint main() {\n    ifstream plik(\"zamowienia.txt\");\n    vector<Zamowienie> zam;\n    string k; int p, c;\n    while (plik >> k >> p >> c) zam.push_back({k, p, c});\n\n    sort(zam.begin(), zam.end(), [](const Zamowienie &a, const Zamowienie &b) {\n        if (a.priorytet != b.priorytet) return a.priorytet < b.priorytet;\n        return a.czas < b.czas;\n    });\n\n    cout << \"a) Kolejnosc obslugi:\" << endl;\n    for (int i = 0; i < (int)zam.size(); i++) {\n        cout << \"   \" << i+1 << \". \" << zam[i].klient\n             << \" [P\" << zam[i].priorytet << \"] - \" << zam[i].czas << \" min\" << endl;\n    }\n\n    cout << endl << \"b) Czas zakonczenia:\" << endl;\n    int suma = 0;\n    for (auto &z : zam) {\n        suma += z.czas;\n        cout << \"   \" << z.klient << \": \" << suma << \" min\" << endl;\n    }\n\n    cout << endl << \"c) Calkowity czas: \" << suma << \" min\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\nSortowanie: P1: Kaczmarek(5), Szymanski(7), Nowak(10); P2: Zielinski(12), Kowalski(15), Wojcik(18); P3: Majewski(8), Wisniewska(20)\nKumulatywny: 5, 5+7=12, 12+10=22, 22+12=34, 34+15=49, 49+18=67, 67+8=75, 75+20=95\nCalkowity: 95 min",
+  "typowe_bledy": [
+    {
+      "opis": "**Sortowanie malejace priorytetu**: Priorytet 1 = najwyzszy, wiec sortujemy rosnaco po numerze",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak drugiego kryterium sortowania**: Przy rownym priorytecie kolejnosc jest nieokreslona bez drugiego kryterium",
+      "kara": "-1 pkt"
+    }
+  ]
+}

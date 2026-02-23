@@ -3,7 +3,7 @@
   "nazwa": "Zliczanie i filtrowanie",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "5/11 lat",
-  "punkty_lacznie": 72,
+  "punkty_lacznie": 159,
   "tagi_globalne": [
     "wczytywanie-pliku",
     "filtrowanie",
@@ -26,7 +26,15 @@
     "pary-elementow",
     "grupowanie",
     "struct",
-    "sortowanie"
+    "sortowanie",
+    "warunek",
+    "test-pierwszosci",
+    "akumulator",
+    "procent",
+    "srednia",
+    "set-unikalnosc",
+    "wiele-warunkow",
+    "tablica-zliczanie"
   ],
   "cwiczenia": [
     {
@@ -240,6 +248,255 @@
         "map-zliczanie",
         "filtrowanie",
         "grupowanie"
+      ]
+    },
+    {
+      "id": "10.21",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "podzielnosc"
+      ]
+    },
+    {
+      "id": "10.22",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "przedzialy",
+        "warunek"
+      ]
+    },
+    {
+      "id": "10.23",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "liczby-pierwsze",
+        "test-pierwszosci"
+      ]
+    },
+    {
+      "id": "10.24",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "wczytywanie-pliku",
+        "pary-elementow",
+        "filtrowanie",
+        "akumulator"
+      ]
+    },
+    {
+      "id": "10.25",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "procent",
+        "srednia",
+        "iomanip"
+      ]
+    },
+    {
+      "id": "10.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "wczytywanie-pliku",
+        "set-unikalnosc",
+        "map-zliczanie",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "10.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "wczytywanie-pliku",
+        "tablica-czestotliwosci",
+        "przedzialy",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "10.28",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "wczytywanie-pliku",
+        "map-zliczanie",
+        "grupowanie",
+        "srednia",
+        "iomanip"
+      ]
+    },
+    {
+      "id": "10.29",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "wczytywanie-pliku",
+        "cyfry-mod-div",
+        "filtrowanie",
+        "wiele-warunkow",
+        "tablica-zliczanie"
+      ]
+    },
+    {
+      "id": "10.30",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "wczytywanie-pliku",
+        "map-zliczanie",
+        "grupowanie",
+        "set-unikalnosc",
+        "procent",
+        "iomanip"
+      ]
+    },
+    {
+      "id": "10.31",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "warunek"
+      ]
+    },
+    {
+      "id": "10.32",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "napisy"
+      ]
+    },
+    {
+      "id": "10.33",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "przedzialy",
+        "warunek"
+      ]
+    },
+    {
+      "id": "10.34",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "podzielnosc",
+        "podwojna-petla"
+      ]
+    },
+    {
+      "id": "10.35",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "wczytywanie-pliku",
+        "pary-elementow",
+        "podwojna-petla",
+        "podzielnosc"
+      ]
+    },
+    {
+      "id": "10.36",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "wczytywanie-pliku",
+        "map-zliczanie",
+        "napisy",
+        "tablica-czestotliwosci"
+      ]
+    },
+    {
+      "id": "10.37",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "podzielnosc",
+        "podwojna-petla"
+      ]
+    },
+    {
+      "id": "10.38",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "wczytywanie-pliku",
+        "srednia",
+        "filtrowanie",
+        "procent",
+        "iomanip"
+      ]
+    },
+    {
+      "id": "10.39",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "wczytywanie-pliku",
+        "tablica-czestotliwosci",
+        "cyfry-mod-div",
+        "tablica-zliczanie"
+      ]
+    },
+    {
+      "id": "10.40",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "wiele-plikow",
+        "set-unikalnosc",
+        "filtrowanie",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "10.41",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "wczytywanie-pliku",
+        "cyfry-mod-div",
+        "suma-cyfr",
+        "liczby-pierwsze",
+        "filtrowanie",
+        "wiele-warunkow"
+      ]
+    },
+    {
+      "id": "10.42",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "wczytywanie-pliku",
+        "map-zliczanie",
+        "grupowanie",
+        "struct",
+        "srednia",
+        "iomanip"
       ]
     }
   ]

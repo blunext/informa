@@ -1,0 +1,32 @@
+{
+  "id": "13.29",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2017 zad. 6 (spojne obszary BFS)",
+  "tagi": [
+    "tablica-2D",
+    "spojne-obszary",
+    "4-spojnosc",
+    "visited",
+    "BFS",
+    "queue",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Dana jest siatka 8x8 znakow, gdzie `#` oznacza lad a `.` oznacza wode. Plik `mapa.txt` zawiera te siatke. Napisz program, ktory:\na) Zliczy liczbe wysp (spojnych obszarow ladu w sasiedztwie 4-spojnym: gora, dol, lewo, prawo).\nb) Wypisze rozmiar (liczbe pol) kazdej wyspy.\nc) Znajdzie wyspe o najwiekszym rozmiarze i wypisze jej numer (wyspy numerujemy od 1, w kolejnosci znalezienia: wierszami od lewej do prawej).\n\n**Dane** (`mapa.txt`):\n```\n. . # # . . . .\n. . # . . . . .\n. . . . # # # .\n. . . . . . . .\n# # . . . . . #\n# # . . . . . .\n. . . . # . . .\n. . . . . . . .\n```\n\n**Oczekiwany wynik**:\n```\na) Liczba wysp: 5\nb) Rozmiary: 3 3 4 1 1\nc) Najwieksza wyspa: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj BFS lub DFS (rekurencyjnie albo ze stosem) do znajdowania spojnych obszarow.",
+    "**Podejscie**: Iteruj po siatce. Gdy znajdziesz nieodwiedzony '#', uruchom BFS/DFS, policz rozmiar i oznacz wszystkie odwiedzone komorki.",
+    "**Kluczowy krok**: Tablica visited[][] zapobiega wielokrotnemu odwiedzaniu. Pamietaj o kontroli granic przy sprawdzaniu sasiadow."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <queue>\nusing namespace std;\n\nconst int N = 8;\nchar tab[N][N];\nbool visited[N][N];\nint dx[] = {-1, 1, 0, 0};\nint dy[] = {0, 0, -1, 1};\n\nint bfs(int si, int sj) {\n    queue<pair<int,int>> q;\n    q.push({si, sj});\n    visited[si][sj] = true;\n    int rozmiar = 0;\n    while (!q.empty()) {\n        auto [i, j] = q.front(); q.pop();\n        rozmiar++;\n        for (int d = 0; d < 4; d++) {\n            int ni = i + dx[d], nj = j + dy[d];\n            if (ni >= 0 && ni < N && nj >= 0 && nj < N\n                && !visited[ni][nj] && tab[ni][nj] == '#') {\n                visited[ni][nj] = true;\n                q.push({ni, nj});\n            }\n        }\n    }\n    return rozmiar;\n}\n\nint main() {\n    ifstream plik(\"mapa.txt\");\n    for (int i = 0; i < N; i++)\n        for (int j = 0; j < N; j++)\n            plik >> tab[i][j];\n\n    vector<int> rozmiary;\n    for (int i = 0; i < N; i++)\n        for (int j = 0; j < N; j++)\n            if (tab[i][j] == '#' && !visited[i][j])\n                rozmiary.push_back(bfs(i, j));\n\n    cout << \"a) Liczba wysp: \" << rozmiary.size() << endl;\n    cout << \"b) Rozmiary:\";\n    for (int r : rozmiary) cout << \" \" << r;\n    cout << endl;\n\n    int maxR = 0, maxIdx = 0;\n    for (int k = 0; k < (int)rozmiary.size(); k++)\n        if (rozmiary[k] > maxR) { maxR = rozmiary[k]; maxIdx = k; }\n    cout << \"c) Najwieksza wyspa: \" << maxIdx + 1 << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: BFS znajduje kazdy spojny obszar '#'. Iterujemy po siatce, gdy natrafimy na nieodwiedzony '#', uruchamiamy BFS i zapisujemy rozmiar.\n\nWeryfikacja:\n```\n  j: 0 1 2 3 4 5 6 7\ni=0: . . # # . . . .\ni=1: . . # . . . . .\ni=2: . . . . # # # .\ni=3: . . . . . . . .\ni=4: # # . . . . . #\ni=5: # # . . . . . .\ni=6: . . . . # . . .\ni=7: . . . . . . . .\n```\nWyspy (4-spojne, kolejnosc skanowania wierszami od lewej):\n1. Start (0,2): (0,2)#-(0,3)#-(1,2)# -> rozmiar 3\n2. Start (2,4): (2,4)#-(2,5)#-(2,6)# -> rozmiar 3\n3. Start (4,0): (4,0)#-(4,1)#-(5,0)#-(5,1)# -> rozmiar 4\n4. Start (4,7): (4,7)# -> rozmiar 1 (samotna, bo (3,7)=., (5,7)=.)\n5. Start (6,4): (6,4)# -> rozmiar 1 (samotna)\n\nRozmiary: 3, 3, 4, 1, 1\nNajwieksza: wyspa 3 (rozmiar 4).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak tablicy visited**: Wielokrotne odwiedzanie tej samej komorki powoduje nieskonczona petle lub bledne zliczanie",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Sasiedztwo 8-spojne zamiast 4-spojnego**: Dodanie przekatnych zmienia wynik — zadanie mowi o 4-spojnosci",
+      "kara": "-2 pkt"
+    }
+  ]
+}

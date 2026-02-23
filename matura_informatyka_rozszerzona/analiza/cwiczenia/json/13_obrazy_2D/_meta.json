@@ -3,7 +3,7 @@
   "nazwa": "Przetwarzanie siatek 2D",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "2/11 lat",
-  "punkty_lacznie": 75,
+  "punkty_lacznie": 164,
   "tagi_globalne": [
     "tablica-2D",
     "zliczanie-komorek",
@@ -20,7 +20,10 @@
     "symetria",
     "transponowanie",
     "obrot",
-    "palindrom"
+    "palindrom",
+    "petle-zagniezdzne",
+    "akumulator",
+    "filtrowanie"
   ],
   "cwiczenia": [
     {
@@ -236,6 +239,263 @@
         "spojne-obszary",
         "4-spojnosc",
         "brzeg-siatki",
+        "visited",
+        "queue",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "13.21",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "tablica-2D",
+        "zliczanie-komorek",
+        "wczytywanie-pliku",
+        "petle-zagniezdzne"
+      ]
+    },
+    {
+      "id": "13.22",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "tablica-2D",
+        "wczytywanie-pliku",
+        "akumulator",
+        "petle-zagniezdzne"
+      ]
+    },
+    {
+      "id": "13.23",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "tablica-2D",
+        "wczytywanie-pliku",
+        "akumulator"
+      ]
+    },
+    {
+      "id": "13.24",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "tablica-2D",
+        "sasiedztwo",
+        "4-spojnosc",
+        "wczytywanie-pliku",
+        "petle-zagniezdzne"
+      ]
+    },
+    {
+      "id": "13.25",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "tablica-2D",
+        "transponowanie",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "13.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "tablica-2D",
+        "wczytywanie-pliku",
+        "petle-zagniezdzne",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "13.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "tablica-2D",
+        "kwadraty",
+        "wczytywanie-pliku",
+        "petle-zagniezdzne"
+      ]
+    },
+    {
+      "id": "13.28",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "tablica-2D",
+        "brzeg-siatki",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "13.29",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "tablica-2D",
+        "spojne-obszary",
+        "4-spojnosc",
+        "visited",
+        "BFS",
+        "queue",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "13.30",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "tablica-2D",
+        "obrot",
+        "symetria",
+        "wczytywanie-pliku",
+        "petle-zagniezdzne"
+      ]
+    },
+    {
+      "id": "13.31",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "tablica-2D",
+        "zliczanie-komorek",
+        "wczytywanie-pliku",
+        "petle-zagniezdzne"
+      ]
+    },
+    {
+      "id": "13.32",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "tablica-2D",
+        "wczytywanie-pliku",
+        "akumulator",
+        "petle-zagniezdzne"
+      ]
+    },
+    {
+      "id": "13.33",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "tablica-2D",
+        "zliczanie-komorek",
+        "sasiedztwo",
+        "4-spojnosc",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "13.34",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "tablica-2D",
+        "symetria",
+        "wczytywanie-pliku",
+        "petle-zagniezdzne"
+      ]
+    },
+    {
+      "id": "13.35",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "tablica-2D",
+        "sasiedztwo",
+        "wczytywanie-pliku",
+        "petle-zagniezdzne"
+      ]
+    },
+    {
+      "id": "13.36",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "tablica-2D",
+        "kwadraty",
+        "zliczanie-komorek",
+        "wczytywanie-pliku",
+        "petle-zagniezdzne"
+      ]
+    },
+    {
+      "id": "13.37",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "tablica-2D",
+        "wczytywanie-pliku",
+        "akumulator",
+        "petle-zagniezdzne"
+      ]
+    },
+    {
+      "id": "13.38",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "tablica-2D",
+        "BFS",
+        "visited",
+        "queue",
+        "4-spojnosc",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "13.39",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "tablica-2D",
+        "obrot",
+        "symetria",
+        "wczytywanie-pliku",
+        "petle-zagniezdzne"
+      ]
+    },
+    {
+      "id": "13.40",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "tablica-2D",
+        "BFS",
+        "spojne-obszary",
+        "4-spojnosc",
+        "visited",
+        "queue",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "13.41",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "tablica-2D",
+        "kwadraty",
+        "wczytywanie-pliku",
+        "petle-zagniezdzne",
+        "akumulator"
+      ]
+    },
+    {
+      "id": "13.42",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "tablica-2D",
+        "BFS",
+        "spojne-obszary",
+        "brzeg-siatki",
+        "4-spojnosc",
         "visited",
         "queue",
         "wczytywanie-pliku"

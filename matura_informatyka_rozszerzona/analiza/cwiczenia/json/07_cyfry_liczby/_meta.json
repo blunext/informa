@@ -3,23 +3,30 @@
   "nazwa": "Przetwarzanie cyfr i liczb",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "6/11 lat",
-  "punkty_lacznie": 74,
+  "punkty_lacznie": 163,
   "tagi_globalne": [
+    "akumulator",
+    "ciag-rosnacy",
     "cyfry-mod-div",
-    "suma-cyfr",
-    "NWD-Euklidesa",
-    "test-pierwszosci",
-    "faktoryzacja",
-    "wczytywanie-pliku",
-    "filtrowanie",
-    "systemy-liczbowe",
-    "potegi",
-    "odwracanie-liczby",
-    "NWW",
-    "podzielnosc",
-    "palindrom",
     "dzielniki",
-    "system-osemkowy"
+    "faktoryzacja",
+    "filtrowanie",
+    "liczby-pierwsze",
+    "NWD-Euklidesa",
+    "NWW",
+    "odwracanie-liczby",
+    "palindrom",
+    "petla-while",
+    "podzielnosc",
+    "potegi",
+    "sortowanie",
+    "suma-cyfr",
+    "system-osemkowy",
+    "systemy-liczbowe",
+    "tablica-czestotliwosci",
+    "test-pierwszosci",
+    "unikalnosc",
+    "wczytywanie-pliku"
   ],
   "cwiczenia": [
     {
@@ -235,6 +242,259 @@
         "cyfry-mod-div",
         "potegi",
         "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "7.21",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "cyfry-mod-div",
+        "suma-cyfr",
+        "podzielnosc",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.22",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "cyfry-mod-div",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.23",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "cyfry-mod-div",
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "ciag-rosnacy"
+      ]
+    },
+    {
+      "id": "7.24",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "cyfry-mod-div",
+        "tablica-czestotliwosci",
+        "unikalnosc",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.25",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "cyfry-mod-div",
+        "tablica-czestotliwosci",
+        "wczytywanie-pliku",
+        "akumulator"
+      ]
+    },
+    {
+      "id": "7.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "cyfry-mod-div",
+        "podzielnosc",
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "akumulator"
+      ]
+    },
+    {
+      "id": "7.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "cyfry-mod-div",
+        "odwracanie-liczby",
+        "palindrom",
+        "test-pierwszosci",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.28",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "cyfry-mod-div",
+        "suma-cyfr",
+        "petla-while",
+        "tablica-czestotliwosci",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "7.29",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "faktoryzacja",
+        "liczby-pierwsze",
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "akumulator"
+      ]
+    },
+    {
+      "id": "7.30",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "cyfry-mod-div",
+        "sortowanie",
+        "wczytywanie-pliku",
+        "filtrowanie",
+        "akumulator"
+      ]
+    },
+    {
+      "id": "7.31",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "cyfry-mod-div",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.32",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "cyfry-mod-div",
+        "podzielnosc",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.33",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "cyfry-mod-div",
+        "podzielnosc",
+        "petla-while",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.34",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "cyfry-mod-div",
+        "petla-while",
+        "wczytywanie-pliku",
+        "akumulator"
+      ]
+    },
+    {
+      "id": "7.35",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "cyfry-mod-div",
+        "podzielnosc",
+        "petla-while",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.36",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "cyfry-mod-div",
+        "sortowanie",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.37",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "cyfry-mod-div",
+        "odwracanie-liczby",
+        "podzielnosc",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.38",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "faktoryzacja",
+        "liczby-pierwsze",
+        "wczytywanie-pliku",
+        "akumulator"
+      ]
+    },
+    {
+      "id": "7.39",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "cyfry-mod-div",
+        "tablica-czestotliwosci",
+        "wczytywanie-pliku",
+        "akumulator"
+      ]
+    },
+    {
+      "id": "7.40",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "NWD-Euklidesa",
+        "wczytywanie-pliku",
+        "akumulator",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.41",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "cyfry-mod-div",
+        "liczby-pierwsze",
+        "podzielnosc",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "7.42",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "cyfry-mod-div",
+        "odwracanie-liczby",
+        "palindrom",
+        "wczytywanie-pliku",
+        "filtrowanie"
       ]
     }
   ]

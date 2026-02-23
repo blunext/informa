@@ -1,0 +1,29 @@
+{
+  "id": "8.34",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2023 zad. 3 (filtrowanie znakow)",
+  "tagi": [
+    "napisy",
+    "operacje-na-string",
+    "kody-ASCII",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 8 napisow (kazdy w osobnym wierszu). Kazdy napis moze zawierac male litery, duze litery i cyfry. Napisz program, ktory dla kazdego napisu usunie wszystkie cyfry i wypisze wynik. Jesli po usunieciu cyfr napis jest pusty, wypisz \"(pusty)\". Na koncu wypisz ile napisow stalo sie pustych.\n\n**Dane** (`dane.txt`):\n```\nabc123def\n456\nhello\nw0rld\n789xyz\na1b2c3\n999\ntest42\n```\n\n**Oczekiwany wynik**:\n```\nabc123def -> abcdef\n456 -> (pusty)\nhello -> hello\nw0rld -> wrld\n789xyz -> xyz\na1b2c3 -> abc\n999 -> (pusty)\ntest42 -> test\nPuste napisy: 2\n```",
+  "wskazowki": [
+    "**Kierunek**: Buduj nowy napis, kopiujac tylko znaki niebedace cyframi — uzyj `isdigit()` do rozroznienia.",
+    "**Podejscie**: Iteruj po znakach oryginalnego napisu. Jesli znak nie jest cyfra, dodaj go do wyniku. Na koncu sprawdz, czy wynik jest pusty.",
+    "**Kluczowy krok**: Po zbudowaniu wyniku uzyj `wynik.empty()` do sprawdzenia pustosci i wypisania odpowiedniego komunikatu."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    string s;\n    int pustych = 0;\n    while (plik >> s) {\n        string wynik = \"\";\n        for (char c : s) {\n            if (!isdigit(c)) {\n                wynik += c;\n            }\n        }\n        cout << s << \" -> \";\n        if (wynik.empty()) {\n            cout << \"(pusty)\" << endl;\n            pustych++;\n        } else {\n            cout << wynik << endl;\n        }\n    }\n    cout << \"Puste napisy: \" << pustych << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdego napisu budujemy nowy napis, pomijajac cyfry. Funkcja `isdigit()` zwraca true dla znakow '0'-'9'.\n\nWeryfikacja:\n- abc123def: a,b,c,d,e,f -> \"abcdef\"\n- 456: wszystkie cyfry -> \"\" -> (pusty)\n- hello: brak cyfr -> \"hello\"\n- w0rld: w,r,l,d -> \"wrld\"\n- 789xyz: x,y,z -> \"xyz\"\n- a1b2c3: a,b,c -> \"abc\"\n- 999: wszystkie cyfry -> \"\" -> (pusty)\n- test42: t,e,s,t -> \"test\"\nPuste napisy: 2 (\"456\" i \"999\")",
+  "typowe_bledy": [
+    {
+      "opis": "**Modyfikowanie napisu w miejscu podczas iteracji**: Usuwanie znakow z napisu w trakcie iteracji po nim przesuwa indeksy i pomija znaki",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak obslugi pustego wyniku**: Jesli wszystkie znaki sa cyframi, wynik jest pusty i nalezy wypisac specjalny komunikat",
+      "kara": "-1 pkt"
+    }
+  ]
+}

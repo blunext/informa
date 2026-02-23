@@ -1,0 +1,28 @@
+{
+  "id": "14.37",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2017 zad. 4 (punkt w prostokacie)",
+  "tagi": [
+    "punkt-w-prostokacie",
+    "filtrowanie",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` w pierwszej linii sa 4 liczby calkowite: x1 y1 x2 y2 definiujace prostokat (lewy-dolny i prawy-gorny rog). W drugiej linii jest n, a w kolejnych n liniach wspolrzedne calkowite (x y) punktow. Napisz program, ktory:\na) Dla kazdego punktu sprawdzi, czy lezy wewnatrz lub na brzegu prostokata (x1 <= x <= x2 i y1 <= y <= y2).\nb) Wypisze wynik (WEWNATRZ/NA ZEWNATRZ) dla kazdego punktu oraz ile jest wewnatrz.\n\n**Dane** (`dane.txt`):\n```\n1 2 7 6\n8\n3 4\n0 5\n7 6\n8 3\n5 1\n1 2\n4 7\n6 5\n```\n\n**Oczekiwany wynik**:\n```\nProstokat: (1,2)-(7,6)\n(3,4): WEWNATRZ\n(0,5): NA ZEWNATRZ\n(7,6): WEWNATRZ\n(8,3): NA ZEWNATRZ\n(5,1): NA ZEWNATRZ\n(1,2): WEWNATRZ\n(4,7): NA ZEWNATRZ\n(6,5): WEWNATRZ\nPunkty wewnatrz: 4\n```",
+  "wskazowki": [
+    "**Kierunek**: Punkt lezy w prostokacie, gdy x1 <= x <= x2 ORAZ y1 <= y <= y2 (oba warunki jednoczesnie).",
+    "**Podejscie**: Wczytaj rogi prostokata, potem iteruj po punktach sprawdzajac dwa warunki AND.",
+    "**Kluczowy krok**: Uwzglednij brzeg prostokata (<=, nie <) — punkty na krawedzi tez sa wewnatrz."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int x1, y1, x2, y2;\n    plik >> x1 >> y1 >> x2 >> y2;\n    int n;\n    plik >> n;\n    cout << \"Prostokat: (\" << x1 << \",\" << y1 << \")-(\" << x2 << \",\" << y2 << \")\" << endl;\n    int cnt = 0;\n    for (int i = 0; i < n; i++) {\n        int x, y;\n        plik >> x >> y;\n        bool inside = (x >= x1 && x <= x2 && y >= y1 && y <= y2);\n        cout << \"(\" << x << \",\" << y << \"): \" << (inside ? \"WEWNATRZ\" : \"NA ZEWNATRZ\") << endl;\n        if (inside) cnt++;\n    }\n    cout << \"Punkty wewnatrz: \" << cnt << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Punkt jest w prostokacie, gdy obie jego wspolrzedne mieszcza sie w zakresie rogow prostokata (wlacznie z brzegiem).\n\nWeryfikacja:\n- (3,4): 1<=3<=7 i 2<=4<=6 -> WEWNATRZ\n- (0,5): 0<1 -> NA ZEWNATRZ\n- (7,6): 1<=7<=7 i 2<=6<=6 -> WEWNATRZ\n- (8,3): 8>7 -> NA ZEWNATRZ\n- (5,1): 1<2 -> NA ZEWNATRZ\n- (1,2): 1<=1<=7 i 2<=2<=6 -> WEWNATRZ\n- (4,7): 7>6 -> NA ZEWNATRZ\n- (6,5): 1<=6<=7 i 2<=5<=6 -> WEWNATRZ\nWewnatrz: 4.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie < zamiast <=**: Punkty na brzegu prostokata powinny byc klasyfikowane jako WEWNATRZ",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Sprawdzanie OR zamiast AND**: Oba warunki (x i y) musza byc spelnione jednoczesnie",
+      "kara": "-2 pkt"
+    }
+  ]
+}

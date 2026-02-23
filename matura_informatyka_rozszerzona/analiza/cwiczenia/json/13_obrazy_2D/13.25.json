@@ -1,0 +1,28 @@
+{
+  "id": "13.25",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2024 zad. 4 (transformacje macierzy)",
+  "tagi": [
+    "tablica-2D",
+    "transponowanie",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `macierz.txt` znajduje sie macierz 4x6 (4 wiersze, 6 kolumn) liczb calkowitych. Napisz program, ktory:\na) Wypisze transponowana macierz (zamiana wierszy z kolumnami) — wynikowa macierz ma 6 wierszy i 4 kolumny.\nb) Sprawdzi, czy suma elementow pierwszego wiersza oryginalnej macierzy jest rowna sumie elementow pierwszej kolumny oryginalnej macierzy (tj. pierwszego wiersza transpozycji).\n\n**Dane** (`macierz.txt`):\n```\n1 2 3 4 5 6\n7 8 9 10 11 12\n6 5 4 3 2 1\n12 11 10 9 8 7\n```\n\n**Oczekiwany wynik**:\n```\nTranspozycja:\n1 7 6 12\n2 8 5 11\n3 9 4 10\n4 10 3 9\n5 11 2 8\n6 12 1 7\nSuma wiersza 1: 21\nSuma kolumny 1: 26\nRowne: NIE\n```",
+  "wskazowki": [
+    "**Kierunek**: Transpozycja: t[j][i] = m[i][j]. Wynikowa tablica ma odwrocone wymiary.",
+    "**Podejscie**: Uzyj dwoch tablic: m[4][6] i t[6][4]. Wypelnij t w podwojnej petli.",
+    "**Kluczowy krok**: Suma wiersza 1 = m[0][0]+...+m[0][5]. Suma kolumny 1 = m[0][0]+...+m[3][0]."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"macierz.txt\");\n    int m[4][6], t[6][4];\n    for (int i = 0; i < 4; i++)\n        for (int j = 0; j < 6; j++)\n            plik >> m[i][j];\n\n    // Transpozycja\n    for (int i = 0; i < 4; i++)\n        for (int j = 0; j < 6; j++)\n            t[j][i] = m[i][j];\n\n    cout << \"Transpozycja:\" << endl;\n    for (int i = 0; i < 6; i++) {\n        for (int j = 0; j < 4; j++) {\n            if (j > 0) cout << \" \";\n            cout << t[i][j];\n        }\n        cout << endl;\n    }\n\n    int sumW = 0, sumK = 0;\n    for (int j = 0; j < 6; j++) sumW += m[0][j];\n    for (int i = 0; i < 4; i++) sumK += m[i][0];\n\n    cout << \"Suma wiersza 1: \" << sumW << endl;\n    cout << \"Suma kolumny 1: \" << sumK << endl;\n    cout << \"Rowne: \" << (sumW == sumK ? \"TAK\" : \"NIE\") << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Transpozycja zamienia wiersze na kolumny: t[j][i]=m[i][j]. Macierz 4x6 staje sie 6x4.\n\nWeryfikacja:\n- Wiersz 1 oryginalu: 1+2+3+4+5+6 = 21\n- Kolumna 1 oryginalu: 1+7+6+12 = 26\n- 21 != 26 -> NIE\n- Transpozycja: kolumna 0 oryginalu (1,7,6,12) staje sie wierszem 0 transpozycji itd.",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwrocenie wymiarow tablicy transpozycji**: t[4][6] zamiast t[6][4] — wymiary sie zamieniaja",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Petla po blednych granicach**: Wypisanie transpozycji z petla do 4 zamiast do 6 wierszy",
+      "kara": "-1 pkt"
+    }
+  ]
+}

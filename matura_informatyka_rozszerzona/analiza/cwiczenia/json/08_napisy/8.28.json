@@ -1,0 +1,30 @@
+{
+  "id": "8.28",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wariant autorski (wyszukiwanie i zliczanie podnapisow)",
+  "tagi": [
+    "napisy",
+    "operacje-na-string",
+    "podciag",
+    "zliczanie-znakow",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` w pierwszym wierszu znajduje sie wzorzec (krotki napis skladajacy sie z malych liter). W kolejnych 6 wierszach znajduja sie napisy do przeszukania (male litery, kazdy w osobnym wierszu). Napisz program, ktory dla kazdego napisu policzy, ile razy wzorzec wystepuje jako podnapis (wystapienia moga sie nakladac). Wypisz napis, liczbe wystapien, a na koncu laczna sume wystapien we wszystkich napisach.\n\n**Dane** (`dane.txt`):\n```\naba\nababababc\nabaaba\nxyzabaxyz\nabababa\naabbaa\naaabaa\n```\n\n**Oczekiwany wynik**:\n```\nWzorzec: aba\nababababc: 3\nabaaba: 2\nxyzabaxyz: 1\nabababa: 3\naabbaa: 0\naaabaa: 1\nLacznie: 10\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj `string::find(wzorzec, pos)` w petli, przesuwajac pozycje startowa o 1 po kazdym znalezieniu.",
+    "**Podejscie**: Zacznij od pos=0. Dopoki `find` zwraca cos roznego od `string::npos`, zwieksz licznik i przesun pos o 1 (nie o dlugosc wzorca — bo wystapienia moga sie nakladac).",
+    "**Kluczowy krok**: Przesuwanie o 1 zamiast o dlugosc wzorca pozwala znalezc nakladajace sie wystapienia (np. 'aba' w 'ababa' na pozycjach 0 i 2)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint policzWystapienia(const string& tekst, const string& wzorzec) {\n    int cnt = 0;\n    int pos = 0;\n    while ((pos = tekst.find(wzorzec, pos)) != (int)string::npos) {\n        cnt++;\n        pos++;\n    }\n    return cnt;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    string wzorzec;\n    plik >> wzorzec;\n    cout << \"Wzorzec: \" << wzorzec << endl;\n    string s;\n    int suma = 0;\n    while (plik >> s) {\n        int ile = policzWystapienia(s, wzorzec);\n        cout << s << \": \" << ile << endl;\n        suma += ile;\n    }\n    cout << \"Lacznie: \" << suma << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Metoda `find(wzorzec, pos)` szuka wzorca poczawszy od pozycji `pos`. Po znalezieniu przesuwamy `pos` o 1 (nie o dlugosc wzorca), co pozwala wykryc nakladajace sie wystapienia.\n\nWeryfikacja (wzorzec = \"aba\"):\n- ababababc: poz 0: aba(0) -> tak, poz 1: b -> szukaj od 1, find(\"aba\",1)=2, find(\"aba\",3)=4, find(\"aba\",5)=npos. Wynik: 3 (pozycje 0,2,4)\n- abaaba: find(0)=0, find(1)=3, find(4)=npos. Wynik: 2 (pozycje 0,3)\n- xyzabaxyz: find(0)=3, find(4)=npos. Wynik: 1 (pozycja 3)\n- abababa: find(0)=0, find(1)=2, find(3)=4, find(5)=npos. Wynik: 3 (pozycje 0,2,4)\n- aabbaa: find(0)=npos. Wynik: 0 (brak \"aba\")\n- aaabaa: find(0)=? a-a-a-b-a-a. Szukamy \"aba\": poz 0: a,a != a,b -> nie. Poz 1: a,b,a -> tak! find(0)=1? Sprawdzmy: s[0]='a',s[1]='a',s[2]='b' -> \"aab\" != \"aba\". s[1]='a',s[2]='b',s[3]='a' -> \"aba\" -> tak! find(0)=1. find(2)=npos (s[2]='b'...). Wynik: 1 (pozycja 1).\n\nWait, let me recheck: aaabaa = a(0),a(1),a(2),b(3),a(4),a(5). Looking for \"aba\":\n- pos 0: s[0..2] = \"aaa\" -> no\n- pos 1: s[1..3] = \"aab\" -> no  \n- pos 2: s[2..4] = \"aba\" -> yes! find(0)=2\n- pos 3: s[3..5] = \"baa\" -> no. find(3)=npos.\nWynik: 1 (pozycja 2).\n\nSuma: 3+2+1+3+0+1 = 10",
+  "typowe_bledy": [
+    {
+      "opis": "**Przesuwanie pos o dlugosc wzorca zamiast o 1**: To pomija nakladajace sie wystapienia. Np. 'aba' w 'ababa' — przeskok o 3 pominie wystapienie na pozycji 2",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Porownanie find() z -1 zamiast string::npos**: `string::npos` to stala typu `size_t` (wartosc okolo 4 miliardow). Porownanie z -1 dziala tylko po rzutowaniu na int",
+      "kara": "-1 pkt"
+    }
+  ]
+}

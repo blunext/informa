@@ -1,0 +1,33 @@
+{
+  "id": "11.26",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Cwiczenie autorskie (drugi co do wielkosci element)",
+  "tagi": [
+    "min-max",
+    "k-ty-element",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `liczby.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Znajdzie drugi co do wielkosci element (drugie maksimum) bez uzycia sortowania.\nb) Znajdzie drugi co do wielkosci od dolu element (drugie minimum) bez uzycia sortowania.\nc) Wypisze oba wyniki wraz z pozycjami (1-indeksowane).\n\nUwaga: Jesli wartosc maksymalna wystepuje wielokrotnie, drugie maksimum to nastepna mniejsza wartosc.\n\n**Dane** (`liczby.txt`):\n```\n34\n67\n12\n89\n45\n89\n23\n56\n78\n11\n67\n40\n```\n\n**Oczekiwany wynik**:\n```\na) Max: 89 (pozycja: 4)\n   Drugie max: 78 (pozycja: 9)\nb) Min: 11 (pozycja: 10)\n   Drugie min: 12 (pozycja: 3)\n```",
+  "wskazowki": [
+    "**Kierunek**: Sledzenie dwoch zmiennych: max1, max2. Gdy tab[i] > max1 -> max2 = max1, max1 = tab[i].",
+    "**Podejscie**: Inicjalizuj max1 i max2 z dwoch pierwszych elementow (wiekszy/mniejszy). Analogicznie min1, min2.",
+    "**Kluczowy krok**: Przy aktualizacji max1 nowa wartoscia, stary max1 spada na max2. Jesli tab[i] < max1 ale > max2 -> aktualizuj tylko max2."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <climits>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"liczby.txt\");\n    vector<int> tab;\n    int x;\n    while (plik >> x) tab.push_back(x);\n    int n = tab.size();\n\n    // Drugie max (szukamy drugiej unikalnej wartosci)\n    int max1 = INT_MIN, max2 = INT_MIN;\n    int posMax1 = -1, posMax2 = -1;\n    for (int i = 0; i < n; i++) {\n        if (tab[i] > max1) {\n            max2 = max1; posMax2 = posMax1;\n            max1 = tab[i]; posMax1 = i;\n        } else if (tab[i] < max1 && tab[i] > max2) {\n            max2 = tab[i]; posMax2 = i;\n        }\n    }\n\n    // Drugie min (szukamy drugiej unikalnej wartosci)\n    int min1 = INT_MAX, min2 = INT_MAX;\n    int posMin1 = -1, posMin2 = -1;\n    for (int i = 0; i < n; i++) {\n        if (tab[i] < min1) {\n            min2 = min1; posMin2 = posMin1;\n            min1 = tab[i]; posMin1 = i;\n        } else if (tab[i] > min1 && tab[i] < min2) {\n            min2 = tab[i]; posMin2 = i;\n        }\n    }\n\n    cout << \"a) Max: \" << max1 << \" (pozycja: \" << posMax1 + 1 << \")\" << endl;\n    cout << \"   Drugie max: \" << max2 << \" (pozycja: \" << posMax2 + 1 << \")\" << endl;\n    cout << \"b) Min: \" << min1 << \" (pozycja: \" << posMin1 + 1 << \")\" << endl;\n    cout << \"   Drugie min: \" << min2 << \" (pozycja: \" << posMin2 + 1 << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Sledzenie dwoch wartosci (max1/max2 i min1/min2). Kluczowa logika: gdy nowy element > max1, stary max1 przesuwa sie na max2. Gdy element jest miedzy max2 a max1, aktualizujemy tylko max2. Warunek `tab[i] < max1` gwarantuje, ze duplikaty max nie zastepuja drugiego max.\n\nWeryfikacja:\n- Max1: 89 (poz.4, 89 na poz.6 jest takie samo — nie nadpisuje). Max2: 78 (poz.9)\n- Min1: 11 (poz.10). Min2: 12 (poz.3)\n- Posortowane unikatowe: 11,12,23,34,40,45,56,67,78,89 — drugie od gory=78, drugie od dolu=12.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie warunku `tab[i] < max1` w else if**: Duplikat max (np. 89 wystepuje 2x) nadpisuje drugie max ta sama wartoscia",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Uzycie sortowania zamiast jednego przebiegu**: Dziala, ale nie spelnia warunkow zadania (bez sortowania)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak aktualizacji max2 = max1 przy przesuwaniu**: Nowe max1 nadpisuje stare bez zachowania go jako max2",
+      "kara": "-2 pkt"
+    }
+  ]
+}

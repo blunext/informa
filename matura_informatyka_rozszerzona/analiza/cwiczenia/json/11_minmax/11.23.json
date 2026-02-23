@@ -1,0 +1,30 @@
+{
+  "id": "11.23",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Cwiczenie autorskie (min/max roznica sasiadow)",
+  "tagi": [
+    "min-max",
+    "roznica-sasiadow",
+    "roznica-bezwzgledna",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `ciag.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Znajdzie maksymalna wartosc bezwzgledna roznicy miedzy dwoma kolejnymi elementami i poda pozycje pary (1-indeksowane).\nb) Znajdzie minimalna wartosc bezwzgledna roznicy miedzy dwoma kolejnymi elementami i poda pozycje pary.\n\n**Dane** (`ciag.txt`):\n```\n10\n50\n45\n48\n12\n15\n14\n80\n79\n78\n77\n30\n```\n\n**Oczekiwany wynik**:\n```\na) Max roznica sasiadow: |14 - 80| = 66, pozycje: 7-8\nb) Min roznica sasiadow: |15 - 14| = 1, pozycje: 6-7\n```",
+  "wskazowki": [
+    "**Kierunek**: Iteruj od i=1, oblicz abs(tab[i]-tab[i-1]) i sledzac min/max zapamietaj indeks.",
+    "**Podejscie**: Inicjalizuj maxDiff i minDiff wartoscia abs(tab[1]-tab[0]), potem skanuj od i=2.",
+    "**Kluczowy krok**: Uzywaj abs() lub <cstdlib> do wartosci bezwzglednej. Pozycje = i, i+1 (1-indeksowane)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"ciag.txt\");\n    vector<int> tab;\n    int x;\n    while (plik >> x) tab.push_back(x);\n    int n = tab.size();\n\n    int maxDiff = abs(tab[1] - tab[0]), maxPos = 0;\n    int minDiff = abs(tab[1] - tab[0]), minPos = 0;\n    for (int i = 1; i < n - 1; i++) {\n        int diff = abs(tab[i + 1] - tab[i]);\n        if (diff > maxDiff) { maxDiff = diff; maxPos = i; }\n        if (diff < minDiff) { minDiff = diff; minPos = i; }\n    }\n    cout << \"a) Max roznica sasiadow: |\" << tab[maxPos] << \" - \" << tab[maxPos + 1]\n         << \"| = \" << maxDiff << \", pozycje: \" << maxPos + 1 << \"-\" << maxPos + 2 << endl;\n    cout << \"b) Min roznica sasiadow: |\" << tab[minPos] << \" - \" << tab[minPos + 1]\n         << \"| = \" << minDiff << \", pozycje: \" << minPos + 1 << \"-\" << minPos + 2 << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Skan liniowy po parach sasiadow. Obliczamy wartosc bezwzgledna roznicy i sledzac min/max zapamietujemy pozycje.\n\nWeryfikacja:\n- |10-50|=40, |50-45|=5, |45-48|=3, |48-12|=36, |12-15|=3, |15-14|=1, |14-80|=66, |80-79|=1, |79-78|=1, |78-77|=1, |77-30|=47\n- Max roznica: 66 (pozycje 7-8: |14-80|)\n- Min roznica: 1, pierwsza para to |15-14|=1 (pozycje 6-7)",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak abs()**: Roznica moze byc ujemna (np. 14-80=-66), bez wartosci bezwzglednej wynik jest bledny",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Inicjalizacja maxDiff=0**: Jesli wszystkie roznicy sa dodatnie, ok, ale to zla praktyka. Inicjalizuj pierwsza roznica",
+      "kara": "-1 pkt"
+    }
+  ]
+}

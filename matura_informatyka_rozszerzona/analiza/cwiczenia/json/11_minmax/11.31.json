@@ -1,0 +1,29 @@
+{
+  "id": "11.31",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2017 zad. 4 (dzielniki)",
+  "tagi": [
+    "min-max",
+    "dzielniki",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory dla kazdej liczby policzy ile ma dzielnikow, a nastepnie wypisze liczbe z najmniejsza i najwieksza liczba dzielnikow.\n\n**Dane** (`dane.txt`):\n```\n12\n7\n28\n15\n9\n36\n11\n20\n25\n8\n```\n\n**Oczekiwany wynik**:\n```\nMin dzielnikow: 7 (2 dzielniki)\nMax dzielnikow: 36 (9 dzielnikow)\n```",
+  "wskazowki": [
+    "**Kierunek**: Napisz funkcje pomocnicza liczbaDzielnikow(n), ktora liczy dzielniki od 1 do n.",
+    "**Podejscie**: Dla kazdej wczytanej liczby oblicz liczbe dzielnikow, porownaj z dotychczasowym min/max.",
+    "**Kluczowy krok**: Inicjalizuj minD/maxD wartoscia dla pierwszego elementu, potem iteruj od drugiego."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint liczbaDzielnikow(int n) {\n    int cnt = 0;\n    for (int i = 1; i <= n; i++)\n        if (n % i == 0) cnt++;\n    return cnt;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> tab;\n    int x;\n    while (plik >> x) tab.push_back(x);\n\n    int minD = liczbaDzielnikow(tab[0]), maxD = minD;\n    int minL = tab[0], maxL = tab[0];\n    for (int i = 1; i < (int)tab.size(); i++) {\n        int d = liczbaDzielnikow(tab[i]);\n        if (d < minD) { minD = d; minL = tab[i]; }\n        if (d > maxD) { maxD = d; maxL = tab[i]; }\n    }\n    cout << \"Min dzielnikow: \" << minL << \" (\" << minD << \" dzielniki)\" << endl;\n    cout << \"Max dzielnikow: \" << maxL << \" (\" << maxD << \" dzielnikow)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Skan liniowy z funkcja pomocnicza. Dla kazdej liczby obliczamy wartosc pochodna (liczba dzielnikow) i szukamy min/max po tej wartosci.\n\nWeryfikacja dzielnikow:\n- 12: 1,2,3,4,6,12 -> 6\n- 7: 1,7 -> 2\n- 28: 1,2,4,7,14,28 -> 6\n- 15: 1,3,5,15 -> 4\n- 9: 1,3,9 -> 3\n- 36: 1,2,3,4,6,9,12,18,36 -> 9\n- 11: 1,11 -> 2\n- 20: 1,2,4,5,10,20 -> 6\n- 25: 1,5,25 -> 3\n- 8: 1,2,4,8 -> 4\n- Min: 7 z 2 dzielnikami (7 przed 11 w kolejnosci). Max: 36 z 9 dzielnikami.",
+  "typowe_bledy": [
+    {
+      "opis": "**Petla dzielnikow do n/2 zamiast do n**: Pomija sam n jako dzielnik — wynik o 1 za maly",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Porownywanie samych liczb zamiast ich liczby dzielnikow**: 36 jest najwieksza liczba, ale pytamy o liczbe dzielnikow",
+      "kara": "-1 pkt"
+    }
+  ]
+}

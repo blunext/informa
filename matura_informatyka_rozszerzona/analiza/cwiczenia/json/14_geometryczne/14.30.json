@@ -1,0 +1,36 @@
+{
+  "id": "14.30",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Opracowanie wlasne: klasyfikacja trojkatow (boki, pole, typ)",
+  "tagi": [
+    "odleglosc-euklidesowa",
+    "pole-trojkata",
+    "sqrt",
+    "sortowanie",
+    "wczytywanie-pliku",
+    "iomanip",
+    "struct"
+  ],
+  "tresc": "W pliku `trojkaty.txt` w pierwszej linii jest n, a w kolejnych n liniach po 6 liczb calkowitych: x1 y1 x2 y2 x3 y3 (wierzcholki trojkata). Napisz program, ktory dla kazdego trojkata:\na) Obliczy dlugosci trzech bokow (a, b, c) posortowane rosnaco.\nb) Obliczy pole (wzor sznurowadla).\nc) Sklasyfikuje trojkat:\n   - rownoramienny (dokladnie dwa boki rowne z dokladnoscia eps = 0.01)\n   - prostokatny (a^2 + b^2 == c^2 z dokladnoscia eps = 0.01, gdzie c najdluzszy)\n   - roznoboczny (kazdy bok inny, nie prostokatny)\nd) Poda ile jest trojkatow kazdego typu.\n\n**Dane** (`trojkaty.txt`):\n```\n5\n0 0 6 0 3 4\n0 0 4 0 2 3\n0 0 3 0 0 4\n0 0 7 0 2 5\n0 0 10 0 3 2\n```\n\n**Oczekiwany wynik**:\n```\nTrojkat 1: boki (5.00, 5.00, 6.00), pole = 12.00 -> rownoramienny\nTrojkat 2: boki (3.61, 3.61, 4.00), pole = 6.00 -> rownoramienny\nTrojkat 3: boki (3.00, 4.00, 5.00), pole = 6.00 -> prostokatny\nTrojkat 4: boki (5.39, 7.00, 7.07), pole = 17.50 -> roznoboczny\nTrojkat 5: boki (3.61, 7.28, 10.00), pole = 10.00 -> roznoboczny\n\nPodsumowanie:\n  rownoramienny: 2\n  prostokatny: 1\n  roznoboczny: 2\n```",
+  "wskazowki": [
+    "**Kierunek**: Oblicz 3 boki jako odleglosci euklidesowe, posortuj rosnaco (a <= b <= c).",
+    "**Podejscie**: Rownoramienny: |a-b|<eps lub |b-c|<eps (ale nie trzy rowne). Prostokatny: |a^2+b^2-c^2| < eps. Roznoboczny: reszta.",
+    "**Kluczowy krok**: Porownuj boki z tolerancja (eps=0.01), nie ==, bo sqrt daje double z bledami zaokraglen. Sprawdzaj typy w odpowiedniej kolejnosci."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <cmath>\n#include <iomanip>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"trojkaty.txt\");\n    int n;\n    plik >> n;\n    int cntRam = 0, cntP = 0, cntRozn = 0;\n    cout << fixed << setprecision(2);\n    double eps = 0.01;\n    for (int t = 0; t < n; t++) {\n        int x1, y1, x2, y2, x3, y3;\n        plik >> x1 >> y1 >> x2 >> y2 >> x3 >> y3;\n        double s[3];\n        s[0] = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));\n        s[1] = sqrt(pow(x3 - x2, 2) + pow(y3 - y2, 2));\n        s[2] = sqrt(pow(x1 - x3, 2) + pow(y1 - y3, 2));\n        sort(s, s + 3);\n        double pole = abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2.0;\n        string typ;\n        if (fabs(s[0] - s[1]) < eps || fabs(s[1] - s[2]) < eps) {\n            typ = \"rownoramienny\";\n            cntRam++;\n        } else if (fabs(s[0] * s[0] + s[1] * s[1] - s[2] * s[2]) < eps) {\n            typ = \"prostokatny\";\n            cntP++;\n        } else {\n            typ = \"roznoboczny\";\n            cntRozn++;\n        }\n        cout << \"Trojkat \" << t + 1 << \": boki (\" << s[0] << \", \" << s[1] << \", \" << s[2]\n             << \"), pole = \" << pole << \" -> \" << typ << endl;\n    }\n    cout << endl << \"Podsumowanie:\" << endl;\n    cout << \"  rownoramienny: \" << cntRam << endl;\n    cout << \"  prostokatny: \" << cntP << endl;\n    cout << \"  roznoboczny: \" << cntRozn << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dlugosci bokow obliczamy z odleglosci euklidesowej, sortujemy rosnaco, potem klasyfikujemy. Uwaga: trojkat rownoboczny o calkowitych wspolrzednych nie istnieje, wiec pomijamy ten typ.\n\nWeryfikacja:\n- T1 (0,0)(6,0)(3,4): boki 6, sqrt(9+16)=5, sqrt(9+16)=5. Sorted: (5.00, 5.00, 6.00). |5-5|<eps -> rownoramienny. Pole=|0+24+0|/2=12.00\n- T2 (0,0)(4,0)(2,3): boki 4, sqrt(4+9)=3.61, sqrt(4+9)=3.61. Sorted: (3.61, 3.61, 4.00). |3.61-3.61|<eps -> rownoramienny. Pole=|0+12+0|/2=6.00\n- T3 (0,0)(3,0)(0,4): boki 3, sqrt(9+16)=5, 4. Sorted: (3.00, 4.00, 5.00). Boki rozne. 9+16=25=25 -> prostokatny. Pole=|0+12+0|/2=6.00\n- T4 (0,0)(7,0)(2,5): boki 7, sqrt(25+25)=7.07, sqrt(4+25)=5.39. Sorted: (5.39, 7.00, 7.07). |7.00-7.07|=0.07>eps -> nie rownoram. |29+49-50|=28>>eps -> nie prostokatny. Roznoboczny. Pole=|0+35+0|/2=17.50\n- T5 (0,0)(10,0)(3,2): boki 10, sqrt(49+4)=7.28, sqrt(9+4)=3.61. Sorted: (3.61, 7.28, 10.00). Boki rozne. |13+53-100|=34>>eps -> nie prostokatny. Roznoboczny. Pole=|0+20+0|/2=10.00",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownywanie double == double bez tolerancji**: Boki obliczone z sqrt nigdy nie sa dokladnie rowne — uzywaj fabs(a-b) < eps",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledna kolejnosc klasyfikacji**: Rownoramienny musi byc sprawdzony przed prostokatnym, bo trojkat moze byc jednoczesnie rownoramienny i prostokatny",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak sortowania bokow**: Bez sortowania trudno sprawdzic warunek a^2+b^2==c^2 (c musi byc najdluzszy)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

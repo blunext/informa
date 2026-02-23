@@ -1,0 +1,30 @@
+{
+  "id": "13.33",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2017 zad. 6 (sasiedztwo w siatce binarnej)",
+  "tagi": [
+    "tablica-2D",
+    "zliczanie-komorek",
+    "sasiedztwo",
+    "4-spojnosc",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Dana jest siatka 6x6 zer i jedynek zapisana w pliku `dane.txt`. Napisz program, ktory policzy ile komorek z wartoscia 0 ma przynajmniej jednego sasiada (4-spojnosc: gora, dol, lewo, prawo) z wartoscia 1. Wypisze te liczbe.\n\n**Dane** (`dane.txt`):\n```\n0 0 1 0 0 0\n0 1 1 1 0 0\n0 0 1 0 0 0\n0 0 0 0 0 0\n0 0 0 0 1 1\n0 0 0 0 1 0\n```\n\n**Oczekiwany wynik**:\n```\nZera z sasiadem 1: 12\n```",
+  "wskazowki": [
+    "**Kierunek**: Iteruj po calej siatce. Dla kazdego zera sprawdz 4 sasiadow.",
+    "**Podejscie**: Jesli przynajmniej jeden sasiad ma wartosc 1, zlicz ta komorke.",
+    "**Kluczowy krok**: Kontrola granic — komorki na brzegu maja mniej niz 4 sasiadow."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int tab[6][6];\n    for (int i = 0; i < 6; i++)\n        for (int j = 0; j < 6; j++)\n            plik >> tab[i][j];\n\n    int dx[] = {-1, 1, 0, 0};\n    int dy[] = {0, 0, -1, 1};\n    int cnt = 0;\n\n    for (int i = 0; i < 6; i++) {\n        for (int j = 0; j < 6; j++) {\n            if (tab[i][j] == 0) {\n                bool maSasiada = false;\n                for (int d = 0; d < 4; d++) {\n                    int ni = i + dx[d], nj = j + dy[d];\n                    if (ni >= 0 && ni < 6 && nj >= 0 && nj < 6 && tab[ni][nj] == 1)\n                        maSasiada = true;\n                }\n                if (maSasiada) cnt++;\n            }\n        }\n    }\n\n    cout << \"Zera z sasiadem 1: \" << cnt << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdego zera sprawdzamy czy ma przynajmniej jednego sasiada-jedynke w sasiedztwie 4-spojnym.\n\nWeryfikacja (siatka z indeksami):\n```\n  j: 0 1 2 3 4 5\ni=0: 0 0 1 0 0 0\ni=1: 0 1 1 1 0 0\ni=2: 0 0 1 0 0 0\ni=3: 0 0 0 0 0 0\ni=4: 0 0 0 0 1 1\ni=5: 0 0 0 0 1 0\n```\nJedynki: (0,2), (1,1), (1,2), (1,3), (2,2), (4,4), (4,5), (5,4).\n\nZera z przynajmniej 1 sasiadem-jedynka:\n- (0,1): D=(1,1)=1 -> TAK\n- (0,3): L=(0,2)=1 -> TAK\n- (1,0): R=(1,1)=1 -> TAK\n- (1,4): L=(1,3)=1 -> TAK\n- (2,1): U=(1,1)=1 -> TAK\n- (2,3): U=(1,3)=1 -> TAK\n- (3,2): U=(2,2)=1 -> TAK\n- (3,4): D=(4,4)=1 -> TAK\n- (3,5): D=(4,5)=1 -> TAK\n- (4,3): R=(4,4)=1 -> TAK\n- (5,3): R=(5,4)=1 -> TAK\n- (5,5): U=(4,5)=1 -> TAK\n\nWynik: 12 zer z przynajmniej jednym sasiadem 1.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak kontroli granic przy sprawdzaniu sasiadow**: Komorki na brzegu siatki nie maja sasiadow we wszystkich 4 kierunkach",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zliczanie jedynek zamiast zer**: Zadanie pyta o zera ktore sasiaduja z jedynka, nie odwrotnie",
+      "kara": "-2 pkt"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "10.38",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2024 zad. 4 (statystyki grupowe)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "srednia",
+    "filtrowanie",
+    "procent",
+    "iomanip"
+  ],
+  "tresc": "W pliku `klasa.txt` znajduje sie 10 rekordow w formacie: nazwisko wynik (oddzielone spacja, wynik calkowity 0-100). Napisz program, ktory:\na) Obliczy srednia klasy (2 miejsca po przecinku).\nb) Zliczy ilu uczniow uzyskalo wynik powyzej sredniej.\nc) Zliczy ilu uczniow uzyskalo wynik ponizej lub rowny sredniej.\nd) Wypisze procent uczniow powyzej sredniej (2 miejsca po przecinku).\n\n**Dane** (`klasa.txt`):\n```\nKowalski 78\nNowak 85\nWisniewski 92\nLewandowski 67\nZielinska 73\nKaminski 88\nSzymanski 91\nWojcik 64\nDabrowska 55\nKozlowski 82\n```\n\n**Oczekiwany wynik**:\n```\na) Srednia klasy: 77.50\nb) Powyzej sredniej: 6\nc) Ponizej lub rowne sredniej: 4\nd) Procent powyzej sredniej: 60.00%\n```",
+  "wskazowki": [
+    "**Kierunek**: Najpierw wczytaj dane do tablicy/wektora (potrzebujesz dwoch przejsc — raz do obliczenia sredniej, raz do zliczenia).",
+    "**Podejscie**: Oblicz sume i srednia. Potem w drugiej petli porownaj kazdy wynik ze srednia.",
+    "**Kluczowy krok**: Srednia jest typu double — porownanie `wynik > srednia` (nie `>=`). Procent: `powyzej * 100.0 / n`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"klasa.txt\");\n    string nazwisko;\n    int wynik;\n    vector<int> wyniki;\n    int suma = 0;\n    while (plik >> nazwisko >> wynik) {\n        wyniki.push_back(wynik);\n        suma += wynik;\n    }\n\n    double srednia = (double)suma / wyniki.size();\n    cout << fixed << setprecision(2);\n    cout << \"a) Srednia klasy: \" << srednia << endl;\n\n    int powyzej = 0, ponizej = 0;\n    for (int w : wyniki) {\n        if (w > srednia) powyzej++;\n        else ponizej++;\n    }\n\n    cout << \"b) Powyzej sredniej: \" << powyzej << endl;\n    cout << \"c) Ponizej lub rowne sredniej: \" << ponizej << endl;\n    cout << \"d) Procent powyzej sredniej: \" << (double)powyzej * 100.0 / wyniki.size() << \"%\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dwa przejscia: pierwsze zbiera dane i oblicza sume, drugie zlicza powyzej/ponizej. Srednia to double, wiec porownanie jest precyzyjne.\n\nWeryfikacja:\n- Suma: 78+85+92+67+73+88+91+64+55+82 = 775\n- Srednia: 775/10 = 77.50\n- Powyzej 77.50: 78, 85, 92, 88, 91, 82 = 6\n- Ponizej lub rowne 77.50: 67, 73, 64, 55 = 4\n- Procent: 6/10*100 = 60.00%",
+  "typowe_bledy": [
+    {
+      "opis": "**Dzielenie calkowite przy sredniej**: `suma/n` daje int/int=int. Trzeba rzutowac: `(double)suma/n`",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Proba obliczenia sredniej w jednym przejsciu i zliczania w tym samym**: Bez znajomosci sredniej nie mozna porownywac — potrzebne sa dwa przejscia lub wczytanie do tablicy",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak setprecision(2) przy wypisywaniu procentu**: Wynik powinien miec dokladnie 2 miejsca po przecinku",
+      "kara": "-1 pkt"
+    }
+  ]
+}

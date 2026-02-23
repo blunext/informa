@@ -1,0 +1,33 @@
+{
+  "id": "12.25",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2024 zad. 3 (okno przesuwne)",
+  "tagi": [
+    "srednia-segmentu",
+    "spojny-podciag",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 16 liczb calkowitych (kazda w osobnym wierszu). Dla okna o stalej szerokosci k=4, przesuwajacego sie po ciagu (od pozycji 1 do n-k+1), oblicz srednia kazdego okna. Napisz program, ktory:\na) Znajdzie okno o najwiekszej sredniej — wypisze jego pozycje poczatkowa (1-indeksowana), elementy i srednia (z dokladnoscia do 2 miejsc po przecinku).\nb) Znajdzie okno o najmniejszej sredniej — analogicznie.\n\n**Dane** (`dane.txt`):\n```\n4\n7\n2\n9\n5\n3\n8\n6\n1\n10\n12\n4\n7\n3\n11\n5\n```\n\n**Oczekiwany wynik**:\n```\na) Okno o max sredniej:\n   Pozycja: 10, elementy: 10 12 4 7\n   Srednia: 8.25\n\nb) Okno o min sredniej:\n   Pozycja: 6, elementy: 3 8 6 1\n   Srednia: 4.50\n```",
+  "wskazowki": [
+    "**Kierunek**: Oblicz sume pierwszego okna, potem przesuwaj: odejmuj element wychodzacy, dodawaj wchodzacy.",
+    "**Podejscie**: Suma okna = `sum - T[i-1] + T[i+k-1]`. Srednia = suma / k. Sledzenie current/max i current/min.",
+    "**Kluczowy krok**: Uzyj `fixed` i `setprecision(2)` z `<iomanip>` do formatowania sredniej."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n    int k = 4;\n\n    // Suma pierwszego okna\n    int suma = 0;\n    for (int i = 0; i < k; i++) suma += T[i];\n\n    double maxSr = (double)suma / k, minSr = (double)suma / k;\n    int maxPos = 0, minPos = 0;\n\n    for (int i = 1; i <= n - k; i++) {\n        suma = suma - T[i - 1] + T[i + k - 1];\n        double sr = (double)suma / k;\n        if (sr > maxSr) { maxSr = sr; maxPos = i; }\n        if (sr < minSr) { minSr = sr; minPos = i; }\n    }\n\n    cout << \"a) Okno o max sredniej:\" << endl;\n    cout << \"   Pozycja: \" << maxPos + 1 << \", elementy:\";\n    for (int i = maxPos; i < maxPos + k; i++) cout << \" \" << T[i];\n    cout << endl;\n    cout << \"   Srednia: \" << fixed << setprecision(2) << maxSr << endl;\n\n    cout << endl << \"b) Okno o min sredniej:\" << endl;\n    cout << \"   Pozycja: \" << minPos + 1 << \", elementy:\";\n    for (int i = minPos; i < minPos + k; i++) cout << \" \" << T[i];\n    cout << endl;\n    cout << \"   Srednia: \" << fixed << setprecision(2) << minSr << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Technika przesuwnego okna (sliding window). Zamiast liczyc sume od nowa dla kazdego okna, aktualizujemy ja: odejmujemy element wychodzacy, dodajemy wchodzacy. Zlozonosc O(n).\n\nWeryfikacja (dane: 4,7,2,9,5,3,8,6,1,10,12,4,7,3,11,5; k=4):\nOkna (poz.1-indeks, suma, srednia):\n- poz.1: [4,7,2,9] s=22, sr=5.50\n- poz.2: [7,2,9,5] s=23, sr=5.75\n- poz.3: [2,9,5,3] s=19, sr=4.75\n- poz.4: [9,5,3,8] s=25, sr=6.25\n- poz.5: [5,3,8,6] s=22, sr=5.50\n- poz.6: [3,8,6,1] s=18, sr=4.50 <- MIN\n- poz.7: [8,6,1,10] s=25, sr=6.25\n- poz.8: [6,1,10,12] s=29, sr=7.25\n- poz.9: [1,10,12,4] s=27, sr=6.75\n- poz.10: [10,12,4,7] s=33, sr=8.25 <- MAX\n- poz.11: [12,4,7,3] s=26, sr=6.50\n- poz.12: [4,7,3,11] s=25, sr=6.25\n- poz.13: [7,3,11,5] s=26, sr=6.50\nMax: 8.25 (poz.10), Min: 4.50 (poz.6). Poprawne.",
+  "typowe_bledy": [
+    {
+      "opis": "**Przeliczanie sumy od nowa dla kazdego okna**: Daje O(n*k) zamiast O(n). Dla malych danych dziala, ale na egzaminie moze przekroczyc czas",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Dzielenie calkowite zamiast zmiennoprzecinkowego**: `suma/k` daje wynik calkowity; trzeba `(double)suma/k`",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak formatowania wyniku**: Bez `setprecision` wynik moze miec inna liczbe miejsc po przecinku",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

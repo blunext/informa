@@ -1,0 +1,30 @@
+{
+  "id": "7.35",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2024 zad. 3 (podzielnosc przez cyfry)",
+  "tagi": [
+    "cyfry-mod-div",
+    "podzielnosc",
+    "petla-while",
+    "wczytywanie-pliku",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory dla kazdej liczby sprawdzi, czy jest ona podzielna przez kazda ze swoich niezerowych cyfr. Wypisz wynik dla kazdej liczby. Na koniec podaj, ile liczb spelnia ten warunek.\n\nPrzyklad: 128 -> cyfry {1, 2, 8}, 128%1=0, 128%2=0, 128%8=0 -> TAK (podzielna przez kazda niezerowa cyfre).\n\n**Dane** (`dane.txt`):\n```\n128\n135\n247\n312\n523\n111\n672\n945\n2240\n175\n146\n336\n```\n\n**Oczekiwany wynik**:\n```\n128: podzielna przez kazda niezerowa cyfre -> TAK\n135: podzielna przez kazda niezerowa cyfre -> TAK\n247: 247 % 7 = 2 -> NIE\n312: podzielna przez kazda niezerowa cyfre -> TAK\n523: 523 % 3 = 1 -> NIE\n111: podzielna przez kazda niezerowa cyfre -> TAK\n672: podzielna przez kazda niezerowa cyfre -> TAK\n945: 945 % 4 = 1 -> NIE\n2240: podzielna przez kazda niezerowa cyfre -> TAK\n175: podzielna przez kazda niezerowa cyfre -> TAK\n146: 146 % 6 = 2 -> NIE\n336: podzielna przez kazda niezerowa cyfre -> TAK\nLiczb podzielnych przez kazda niezerowa cyfre: 8\n```",
+  "wskazowki": [
+    "**Kierunek**: Wyodrebnij cyfry petla `while`, dla kazdej niezerowej cyfry sprawdz `liczba % cyfra == 0`.",
+    "**Podejscie**: Flaga `bool ok = true;`. Dla kazdej cyfry: jesli cyfra != 0 i `liczba % cyfra != 0`, ustaw `ok = false` i zapamietaj pierwsza problematyczna cyfre.",
+    "**Kluczowy krok**: Pomijaj cyfre 0 (dzielenie przez 0 to blad!) — sprawdzaj tylko niezerowe cyfry. Zachowaj oryginalna wartosc do testu podzielnosci."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int liczba;\n    int ile = 0;\n    while (plik >> liczba) {\n        int kopia = liczba;\n        bool ok = true;\n        int bladCyfra = 0;\n        int bladReszta = 0;\n        while (kopia > 0) {\n            int c = kopia % 10;\n            if (c != 0 && liczba % c != 0) {\n                ok = false;\n                bladCyfra = c;\n                bladReszta = liczba % c;\n                break;\n            }\n            kopia /= 10;\n        }\n        if (ok) {\n            cout << liczba << \": podzielna przez kazda niezerowa cyfre -> TAK\" << endl;\n            ile++;\n        } else {\n            cout << liczba << \": \" << liczba << \" % \" << bladCyfra\n                 << \" = \" << bladReszta << \" -> NIE\" << endl;\n        }\n    }\n    cout << \"Liczb podzielnych przez kazda niezerowa cyfre: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdej liczby wyodrebniamy cyfry. Pomijamy 0 (bo dzielenie przez 0 jest niedozwolone). Dla kazdej niezerowej cyfry sprawdzamy, czy liczba jest przez nia podzielna. Jesli choc jedna cyfra nie dzieli liczby, wypisujemy ja jako kontrprzyklad.\n\nWeryfikacja:\n- 128: 128%1=0, 128%2=0, 128%8=0 TAK\n- 135: 135%1=0, 135%3=0, 135%5=0 TAK\n- 247: 247%7=2? (247/7=35 r.2) Nie: 247%2=1 (first fail from right: digit 7 -> 247%7=35.28..->35*7=245, r.2; digit 4 -> 247%4=3; digit 2 -> 247%2=1). Petla od prawej: c=7, 247%7=2 fail. Wypisz: 247 % 7 = 2\n- 312: 312%2=0, 312%1=0, 312%3=0 TAK\n- 523: 523%3=1? (523/3=174 r.1). Petla od prawej: c=3, 523%3=1 fail. Wypisz: 523 % 3 = 1\n- 111: 111%1=0 TAK\n- 672: 672%2=0, 672%7=0(96*7=672), 672%6=0(672/6=112) TAK\n- 945: 945%5=0, 945%4=1 fail. Wypisz: 945 % 4 = 1\n- 2240: cyfry 0,4,2,2: skip 0, 2240%4=0, 2240%2=0, 2240%2=0 TAK\n- 175: 175%5=0, 175%7=0(25*7=175), 175%1=0 TAK\n- 146: 146%6=2? (146/6=24 r.2). Petla od prawej: c=6, 146%6=2 fail. Wypisz: 146 % 6 = 2\n- 336: 336%6=0(56*6=336), 336%3=0(112*3=336) TAK\nRazem TAK: 8\n\nKorekta formatu — petla przetwarza cyfry od prawej (ostatnia cyfra najpierw), wiec pierwszy fail moze byc na innej cyfrze niz intuicyjnie oczekiwana. Sprawdzmy:\n- 247: od prawej: 7 -> 247%7=2 != 0, break. Wypisz '247 % 7 = 2'\n- 523: od prawej: 3 -> 523%3=1 != 0, break. Wypisz '523 % 3 = 1'\n- 945: od prawej: 5 -> 945%5=0 ok; 4 -> 945%4=1 != 0, break. Wypisz '945 % 4 = 1'\n- 146: od prawej: 6 -> 146%6=2 != 0, break. Wypisz '146 % 6 = 2'\n\nWszystkie wyniki zgodne z oczekiwanym wynikiem.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak pominięcia cyfry 0**: Dzielenie `liczba % 0` to undefined behavior w C++ — program sie zawiesi lub da bledny wynik",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Sprawdzanie podzielnosci cyfry przez liczbe zamiast odwrotnie**: `cyfra % liczba` zamiast `liczba % cyfra` — blad logiczny dajacy inne wyniki",
+      "kara": "-2 pkt"
+    }
+  ]
+}

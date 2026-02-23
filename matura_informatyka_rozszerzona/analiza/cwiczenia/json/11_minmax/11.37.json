@@ -1,0 +1,30 @@
+{
+  "id": "11.37",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2024 zad. 3 (tablica 2D, maximin)",
+  "tagi": [
+    "min-max",
+    "tablica-2D",
+    "skan-liniowy",
+    "pozycja-elementu",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `macierz.txt` w pierwszym wierszu sa dwie liczby: R (liczba wierszy) i C (liczba kolumn). W kolejnych R wierszach jest po C liczb calkowitych. Napisz program, ktory:\na) Dla kazdego wiersza znajdzie wartosc minimalna.\nb) Wsrod tych minimow znajdzie wartosc maksymalna (maximin) i wypisze numer wiersza (1-indeksowany) oraz te wartosc.\n\n**Dane** (`macierz.txt`):\n```\n4 5\n8 15 3 22 10\n12 7 18 5 14\n20 9 11 16 6\n4 25 13 8 19\n```\n\n**Oczekiwany wynik**:\n```\nMinima wierszy: 3 5 6 4\nMaximin: wiersz 3, wartosc 6\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj macierz do tablicy 2D. W jednym przebiegu po wierszach znajdz min kazdego wiersza.",
+    "**Podejscie**: Zapisz minima wierszy do osobnego wektora. Potem znajdz max w tym wektorze.",
+    "**Kluczowy krok**: Dwa poziomy min/max — najpierw min per wiersz, potem max po minimach. Pamietaj indeks wiersza."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"macierz.txt\");\n    int R, C;\n    plik >> R >> C;\n    vector<vector<int>> tab(R, vector<int>(C));\n    for (int i = 0; i < R; i++)\n        for (int j = 0; j < C; j++)\n            plik >> tab[i][j];\n\n    vector<int> minW(R);\n    for (int i = 0; i < R; i++) {\n        minW[i] = tab[i][0];\n        for (int j = 1; j < C; j++)\n            if (tab[i][j] < minW[i]) minW[i] = tab[i][j];\n    }\n\n    cout << \"Minima wierszy:\";\n    for (int i = 0; i < R; i++) cout << \" \" << minW[i];\n    cout << endl;\n\n    int bestRow = 0;\n    for (int i = 1; i < R; i++)\n        if (minW[i] > minW[bestRow]) bestRow = i;\n\n    cout << \"Maximin: wiersz \" << bestRow + 1 << \", wartosc \" << minW[bestRow] << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Klasyczny problem maximin (teoria gier). Najpierw wyznaczamy minimum kazdego wiersza, potem szukamy wiersza z najwiekszym minimum.\n\nWeryfikacja:\n- Wiersz 1: min(8,15,3,22,10)=3\n- Wiersz 2: min(12,7,18,5,14)=5\n- Wiersz 3: min(20,9,11,16,6)=6\n- Wiersz 4: min(4,25,13,8,19)=4\n- Maximin: max(3,5,6,4)=6 w wierszu 3.",
+  "typowe_bledy": [
+    {
+      "opis": "**Szukanie globalnego minimum zamiast min per wiersz**: Maximin wymaga dwoch poziomow agregacji",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pomylenie max z min w drugim kroku**: Szukamy MAX sposrod minimow, nie min sposrod minimow",
+      "kara": "-2 pkt"
+    }
+  ]
+}

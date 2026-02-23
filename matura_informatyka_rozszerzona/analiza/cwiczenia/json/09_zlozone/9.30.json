@@ -1,0 +1,37 @@
+{
+  "id": "9.30",
+  "trudnosc": "trudne",
+  "punkty": 7,
+  "zrodlo": "Wzor: Matura 2024 zad. 7 (analiza sekwencyjna + grupowanie)",
+  "tagi": [
+    "wieloetapowe",
+    "struct",
+    "map-zliczanie",
+    "grupowanie",
+    "sortowanie",
+    "wczytywanie-pliku",
+    "iomanip",
+    "formatowanie-wyniku"
+  ],
+  "tresc": "W pliku `pogoda.txt` znajduje sie 14 rekordow w formacie: data miasto temperatura opady (oddzielone spacja). Data jest w formacie MM-DD. Temperatura to int (stopnie C). Opady to int (mm). Napisz program, ktory:\na) Obliczy srednia temperature i laczne opady dla kazdego miasta (2 m.p.).\nb) Znajdzie dzien z najwyzsza i najnizsza temperatura (podaj date, miasto, temperature).\nc) Wypisze ranking miast wg lacznych opadow (malejaco).\nd) Zliczy ile dni w kazdym miescie temperatura byla ponizej zera.\n\n**Dane** (`pogoda.txt`):\n```\n01-10 Krakow 5 3\n01-10 Warszawa -2 0\n01-11 Krakow -1 8\n01-11 Warszawa -5 2\n01-12 Krakow 3 0\n01-12 Warszawa 1 5\n01-13 Krakow -3 12\n01-13 Warszawa -4 7\n01-14 Krakow 2 1\n01-14 Warszawa 0 0\n01-15 Krakow 8 0\n01-15 Warszawa 6 3\n01-16 Krakow 4 2\n01-16 Warszawa 3 1\n```\n\n**Oczekiwany wynik**:\n```\na) Statystyki miast:\n   Krakow: srednia temp = 2.57, opady = 26 mm\n   Warszawa: srednia temp = -0.14, opady = 18 mm\n\nb) Ekstrema:\n   Max: 01-15 Krakow (8 C)\n   Min: 01-11 Warszawa (-5 C)\n\nc) Ranking opadow:\n   1. Krakow: 26 mm\n   2. Warszawa: 18 mm\n\nd) Dni ponizej zera:\n   Krakow: 2\n   Warszawa: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Jedno przejscie zbiera wszystkie statystyki. Uzyj map<string,...> dla grupowania po miastach.",
+    "**Podejscie**: Mapy: sumTemp, cntTemp, sumOpady, cntMroznych. Osobne zmienne dla globalnego min/max.",
+    "**Kluczowy krok**: Min/max: zapamietaj date+miasto+temp. Ranking opadow: vector par posortowany malejaco."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"pogoda.txt\");\n    string data, miasto;\n    int temp, opady;\n\n    map<string, int> sumTemp, cntTemp, sumOpady, mrozne;\n    string maxData, maxMiasto, minData, minMiasto;\n    int maxTemp = -1000, minTemp = 1000;\n\n    while (plik >> data >> miasto >> temp >> opady) {\n        sumTemp[miasto] += temp;\n        cntTemp[miasto]++;\n        sumOpady[miasto] += opady;\n        if (temp < 0) mrozne[miasto]++;\n        if (temp > maxTemp) {\n            maxTemp = temp; maxData = data; maxMiasto = miasto;\n        }\n        if (temp < minTemp) {\n            minTemp = temp; minData = data; minMiasto = miasto;\n        }\n    }\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Statystyki miast:\" << endl;\n    for (auto &m : sumTemp) {\n        cout << \"   \" << m.first << \": srednia temp = \"\n             << (double)m.second / cntTemp[m.first]\n             << \", opady = \" << sumOpady[m.first] << \" mm\" << endl;\n    }\n\n    cout << endl << \"b) Ekstrema:\" << endl;\n    cout << \"   Max: \" << maxData << \" \" << maxMiasto << \" (\" << maxTemp << \" C)\" << endl;\n    cout << \"   Min: \" << minData << \" \" << minMiasto << \" (\" << minTemp << \" C)\" << endl;\n\n    vector<pair<int, string>> ranking;\n    for (auto &m : sumOpady) ranking.push_back({m.second, m.first});\n    sort(ranking.begin(), ranking.end(), [](auto &a, auto &b) {\n        return a.first > b.first;\n    });\n    cout << endl << \"c) Ranking opadow:\" << endl;\n    for (int i = 0; i < (int)ranking.size(); i++) {\n        cout << \"   \" << i+1 << \". \" << ranking[i].second << \": \"\n             << ranking[i].first << \" mm\" << endl;\n    }\n\n    cout << endl << \"d) Dni ponizej zera:\" << endl;\n    for (auto &m : cntTemp) {\n        cout << \"   \" << m.first << \": \" << mrozne[m.first] << endl;\n    }\n    return 0;\n}\n```\n\nWeryfikacja:\na) Krakow: temp = 5+(-1)+3+(-3)+2+8+4 = 18, cnt=7, srednia = 18/7 = 2.5714... -> 2.57\n   opady = 3+8+0+12+1+0+2 = 26\n   Warszawa: temp = (-2)+(-5)+1+(-4)+0+6+3 = -1, cnt=7, srednia = -1/7 = -0.1428... -> -0.14\n   opady = 0+2+5+7+0+3+1 = 18\n\nb) Max: 01-15 Krakow (8 C)\n   Min: 01-11 Warszawa (-5 C)\n\nc) Ranking: Krakow(26), Warszawa(18)\n\nd) Mrozne (temp < 0):\n   Krakow: -1, -3 -> 2\n   Warszawa: -2, -5, -4 -> 3",
+  "typowe_bledy": [
+    {
+      "opis": "**Inicjalizacja min/max z pierwszym elementem zamiast z wartoscia skrajna**: Jesli min=0, a dane zawieraja temperatury ujemne, min nigdy sie nie zaktualizuje",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Temperatura 0 liczona jako ponizej zera**: Warunek `temp < 0` jest poprawny; `temp <= 0` bylby bledem",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o zapisaniu daty i miasta przy ekstrema**: Samo zapamietanie temperatury nie wystarczy — trzeba rowniez date i miasto",
+      "kara": "-2 pkt"
+    }
+  ]
+}

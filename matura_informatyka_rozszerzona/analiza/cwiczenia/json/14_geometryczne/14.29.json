@@ -1,0 +1,36 @@
+{
+  "id": "14.29",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Opracowanie wlasne: najblizsze i najdalsze punkty + filtrowanie",
+  "tagi": [
+    "najblizsze-punkty",
+    "odleglosc-euklidesowa",
+    "podwojna-petla",
+    "sqrt",
+    "wczytywanie-pliku",
+    "iomanip",
+    "pary-elementow"
+  ],
+  "tresc": "W pliku `punkty.txt` w pierwszej linii jest n, a w kolejnych n liniach wspolrzedne punktow (x y, calkowite). Napisz program, ktory:\na) Znajdzie pare punktow o najmniejszej odleglosci euklidesowej.\nb) Znajdzie pare punktow o najwiekszej odleglosci euklidesowej.\nc) Policzy ile par punktow ma odleglosc euklidesowa bedaca liczba calkowita (tj. sqrt jest calkowity).\n\n**Dane** (`punkty.txt`):\n```\n5\n0 0\n3 4\n6 0\n9 0\n12 0\n```\n\n**Oczekiwany wynik**:\n```\na) Najblizsze: (6,0) i (9,0), odleglosc = 3.00\nb) Najdalsze: (0,0) i (12,0), odleglosc = 12.00\nc) Pary z calkowita odlegloscia: 8\n```",
+  "wskazowki": [
+    "**Kierunek**: Podwojna petla po parach (i,j) gdzie j > i, zeby nie powtarzac par.",
+    "**Podejscie**: Oblicz odleglosc d = sqrt(dx*dx+dy*dy) dla kazdej pary. Sledz min i max.",
+    "**Kluczowy krok**: Sprawdzenie calkowitosci: jesli dx*dx+dy*dy jest kwadratem doskonalym (sqrt daje calkowita), to odleglosc jest calkowita. Sprawdz: (int)round(d) * (int)round(d) == dx*dx+dy*dy."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    int n;\n    plik >> n;\n    vector<int> X(n), Y(n);\n    for (int i = 0; i < n; i++) plik >> X[i] >> Y[i];\n\n    double minD = 1e18, maxD = -1;\n    int minI = 0, minJ = 1, maxI = 0, maxJ = 1;\n    int calkowite = 0;\n\n    for (int i = 0; i < n; i++) {\n        for (int j = i + 1; j < n; j++) {\n            int dx = X[j] - X[i];\n            int dy = Y[j] - Y[i];\n            int dist2 = dx * dx + dy * dy;\n            double d = sqrt((double)dist2);\n            if (d < minD) { minD = d; minI = i; minJ = j; }\n            if (d > maxD) { maxD = d; maxI = i; maxJ = j; }\n            int rd = (int)round(d);\n            if (rd * rd == dist2) calkowite++;\n        }\n    }\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Najblizsze: (\" << X[minI] << \",\" << Y[minI] << \") i (\"\n         << X[minJ] << \",\" << Y[minJ] << \"), odleglosc = \" << minD << endl;\n    cout << \"b) Najdalsze: (\" << X[maxI] << \",\" << Y[maxI] << \") i (\"\n         << X[maxJ] << \",\" << Y[maxJ] << \"), odleglosc = \" << maxD << endl;\n    cout << \"c) Pary z calkowita odlegloscia: \" << calkowite << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Podwojna petla sprawdza wszystkie C(n,2)=10 par. Dla kazdej pary liczymy odleglosc i sledzimy minimum/maximum. Calkowita odleglosc sprawdzamy testujac czy dx^2+dy^2 jest kwadratem doskonalym.\n\nWeryfikacja — punkty: A(0,0), B(3,4), C(6,0), D(9,0), E(12,0):\n- AB: sqrt(9+16)=sqrt(25)=5 (calkowita)\n- AC: sqrt(36+0)=6 (calkowita)\n- AD: sqrt(81+0)=9 (calkowita)\n- AE: sqrt(144+0)=12 (calkowita)\n- BC: sqrt(9+16)=sqrt(25)=5 (calkowita)\n- BD: sqrt(36+16)=sqrt(52)=7.21 (nie)\n- BE: sqrt(81+16)=sqrt(97)=9.85 (nie)\n- CD: sqrt(9+0)=3 (calkowita)\n- CE: sqrt(36+0)=6 (calkowita)\n- DE: sqrt(9+0)=3 (calkowita)\n\nCalkowite: AB=5, AC=6, AD=9, AE=12, BC=5, CD=3, CE=6, DE=3 -> 8 par.\nNajblizsze: CD=3 i DE=3 (remis). CD=(6,0)-(9,0) -> indeksy (2,3) pojawia sie pierwsza.\nNajdalsze: AE=12 -> (0,0)-(12,0).",
+  "typowe_bledy": [
+    {
+      "opis": "**Podwojna petla z j=0 zamiast j=i+1**: Kazda para liczona dwa razy, wynik podpunktow a/b moze byc bledny",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Porownywanie double == double dla calkowitosci**: Bledy zaokraglen moga dawac falszywe wyniki — lepiej porownac (int)round(d)*... == dist2",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Inicjalizacja minD za mala lub maxD za duza**: Wartosci poczatkowe musza umozliwic aktualizacje przy pierwszej parze",
+      "kara": "-1 pkt"
+    }
+  ]
+}

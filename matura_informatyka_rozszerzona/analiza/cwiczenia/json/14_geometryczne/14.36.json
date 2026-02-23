@@ -1,0 +1,32 @@
+{
+  "id": "14.36",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2018 zad. 5 (odcinki i srodki)",
+  "tagi": [
+    "odleglosc-euklidesowa",
+    "srodek-odcinka",
+    "sqrt",
+    "podwojna-petla",
+    "wczytywanie-pliku",
+    "iomanip",
+    "formatowanie-wyniku"
+  ],
+  "tresc": "W pliku `punkty.txt` w pierwszej linii jest n, a w kolejnych n liniach wspolrzedne calkowite (x y). Napisz program, ktory dla kazdej pary punktow (i < j) obliczy:\na) Dlugosc odcinka laczacego te punkty.\nb) Srodek odcinka.\nWypisze wyniki dla kazdej pary.\n\n**Dane** (`punkty.txt`):\n```\n4\n0 0\n6 0\n0 8\n3 4\n```\n\n**Oczekiwany wynik**:\n```\n(0,0)-(6,0): dlugosc = 6.00, srodek = (3.00, 0.00)\n(0,0)-(0,8): dlugosc = 8.00, srodek = (0.00, 4.00)\n(0,0)-(3,4): dlugosc = 5.00, srodek = (1.50, 2.00)\n(6,0)-(0,8): dlugosc = 10.00, srodek = (3.00, 4.00)\n(6,0)-(3,4): dlugosc = 5.00, srodek = (4.50, 2.00)\n(0,8)-(3,4): dlugosc = 5.00, srodek = (1.50, 6.00)\n```",
+  "wskazowki": [
+    "**Kierunek**: Dlugosc odcinka to sqrt((x2-x1)^2+(y2-y1)^2), srodek to ((x1+x2)/2, (y1+y2)/2).",
+    "**Podejscie**: Podwojna petla for(i=0..n-1) for(j=i+1..n-1) generuje wszystkie pary bez powtorzen.",
+    "**Kluczowy krok**: Srodek odcinka wymaga dzielenia przez 2.0 (nie 2), zeby wynik byl zmiennoprzecinkowy."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    int n;\n    plik >> n;\n    int px[100], py[100];\n    for (int i = 0; i < n; i++) plik >> px[i] >> py[i];\n    cout << fixed << setprecision(2);\n    for (int i = 0; i < n; i++) {\n        for (int j = i + 1; j < n; j++) {\n            double dx = px[j] - px[i];\n            double dy = py[j] - py[i];\n            double dl = sqrt(dx * dx + dy * dy);\n            double sx = (px[i] + px[j]) / 2.0;\n            double sy = (py[i] + py[j]) / 2.0;\n            cout << \"(\" << px[i] << \",\" << py[i] << \")-(\" << px[j] << \",\" << py[j] << \"): \"\n                 << \"dlugosc = \" << dl << \", srodek = (\" << sx << \", \" << sy << \")\" << endl;\n        }\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: Podwojna petla z i < j generuje kazda pare dokladnie raz. Dlugosc odcinka to odleglosc euklidesowa, srodek to srednia wspolrzednych.\n\nWeryfikacja:\n- (0,0)-(6,0): sqrt(36+0) = 6.00, sr = (3.00, 0.00)\n- (0,0)-(0,8): sqrt(0+64) = 8.00, sr = (0.00, 4.00)\n- (0,0)-(3,4): sqrt(9+16) = 5.00, sr = (1.50, 2.00)\n- (6,0)-(0,8): sqrt(36+64) = 10.00, sr = (3.00, 4.00)\n- (6,0)-(3,4): sqrt(9+16) = 5.00, sr = (4.50, 2.00)\n- (0,8)-(3,4): sqrt(9+16) = 5.00, sr = (1.50, 6.00)",
+  "typowe_bledy": [
+    {
+      "opis": "**Dzielenie calkowite w srodku odcinka**: (x1+x2)/2 zamiast (x1+x2)/2.0 obcina czesc ulamkowa",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Podwojne liczenie par**: Petla for(i) for(j=0) zamiast for(j=i+1) generuje kazda pare dwa razy",
+      "kara": "-1 pkt"
+    }
+  ]
+}

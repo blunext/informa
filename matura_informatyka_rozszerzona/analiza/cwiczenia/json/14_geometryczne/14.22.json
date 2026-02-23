@@ -1,0 +1,29 @@
+{
+  "id": "14.22",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Opracowanie wlasne: centroid zbioru punktow",
+  "tagi": [
+    "srodek-odcinka",
+    "wczytywanie-pliku",
+    "formatowanie-wyniku",
+    "iomanip"
+  ],
+  "tresc": "W pliku `punkty.txt` w pierwszej linii jest n, a w kolejnych n liniach wspolrzedne punktow (x y, calkowite). Napisz program, ktory obliczy centroid (srodek ciezkosci) zbioru punktow, czyli srednia arytmetyczna wspolrzednych x i srednia arytmetyczna wspolrzednych y.\n\n**Dane** (`punkty.txt`):\n```\n5\n2 4\n8 6\n10 2\n4 10\n6 8\n```\n\n**Oczekiwany wynik**:\n```\nCentroid: (6.00, 6.00)\n```",
+  "wskazowki": [
+    "**Kierunek**: Centroid to (suma_x / n, suma_y / n) — srednia wspolrzednych.",
+    "**Podejscie**: Sumuj wszystkie x i wszystkie y, potem podziel przez n.",
+    "**Kluczowy krok**: Dzielenie int/int obcina czesc ulamkowa — rzutuj na double przed dzieleniem."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    int n;\n    plik >> n;\n    int sumX = 0, sumY = 0;\n    for (int i = 0; i < n; i++) {\n        int x, y;\n        plik >> x >> y;\n        sumX += x;\n        sumY += y;\n    }\n    double cx = (double)sumX / n;\n    double cy = (double)sumY / n;\n    cout << fixed << setprecision(2);\n    cout << \"Centroid: (\" << cx << \", \" << cy << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Centroid (srodek ciezkosci) to punkt o wspolrzednych bedacych srednimi arytmetycznymi wspolrzednych wszystkich punktow.\n\nWeryfikacja:\n- sumX = 2+8+10+4+6 = 30, cx = 30/5 = 6.00\n- sumY = 4+6+2+10+8 = 30, cy = 30/5 = 6.00\n- Centroid: (6.00, 6.00)",
+  "typowe_bledy": [
+    {
+      "opis": "**Dzielenie calkowite int/int**: sumX/n daje wynik calkowity — trzeba rzutowac na double",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak setprecision**: Wynik moze sie wyswietlic z inna liczba miejsc dziesietnych niz oczekiwano",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

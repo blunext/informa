@@ -1,0 +1,29 @@
+{
+  "id": "9.32",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2022 zad. 4 (grupowanie ocen)",
+  "tagi": [
+    "map-zliczanie",
+    "grupowanie",
+    "wczytywanie-pliku",
+    "wieloetapowe"
+  ],
+  "tresc": "W pliku `uczniowie.txt` znajduje sie 10 rekordow w formacie: imie ocena (oddzielone spacja). Ocena to liczba calkowita od 1 do 6. Napisz program, ktory:\na) Pogrupuje uczniow wg ocen i wypisze ile uczniow otrzymalo kazda ocene (tylko oceny wystepujace w danych).\nb) Wypisze ocene, ktora dostalo najwiecej uczniow.\n\n**Dane** (`uczniowie.txt`):\n```\nAla 5\nBob 3\nCysia 4\nDarek 5\nEla 3\nFilip 4\nGosia 5\nHenryk 2\nIza 4\nJan 3\n```\n\n**Oczekiwany wynik**:\n```\na) Liczba uczniow wg ocen:\n   2: 1\n   3: 3\n   4: 3\n   5: 3\n\nb) Najczestsza ocena: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj map<int,int> do zliczania wystapien kazdej oceny — klucz to ocena, wartosc to licznik.",
+    "**Podejscie**: Jeden przebieg wczytujacy: czytaj imie i ocene, inkrementuj cnt[ocena].",
+    "**Kluczowy krok**: Szukajac najczestszej oceny, iteruj po mapie i znajdz klucz z max wartoscia. Przy remisie mapa da najmniejszy klucz (bo iteruje rosnaco)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"uczniowie.txt\");\n    map<int, int> cnt;\n    string imie;\n    int ocena;\n    while (plik >> imie >> ocena) {\n        cnt[ocena]++;\n    }\n\n    cout << \"a) Liczba uczniow wg ocen:\" << endl;\n    for (auto &p : cnt) {\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n    }\n\n    int maxOcena = cnt.begin()->first;\n    int maxCnt = cnt.begin()->second;\n    for (auto &p : cnt) {\n        if (p.second > maxCnt) {\n            maxCnt = p.second;\n            maxOcena = p.first;\n        }\n    }\n    cout << endl << \"b) Najczestsza ocena: \" << maxOcena << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- cnt[2]=1 (Henryk)\n- cnt[3]=3 (Bob, Ela, Jan)\n- cnt[4]=3 (Cysia, Filip, Iza)\n- cnt[5]=3 (Ala, Darek, Gosia)\n- Suma: 1+3+3+3 = 10 (OK)\n- Max count = 3, a map iteruje rosnaco, wiec pierwsze 3 to dla klucza 3 -> najczestsza ocena: 3",
+  "typowe_bledy": [
+    {
+      "opis": "**Wypisywanie ocen bez wystapien**: Program nie powinien wypisywac ocen z liczba 0 (np. oceny 1, 6 nie wystepuja)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak obslugi remisu**: Gdy kilka ocen ma taki sam max count, trzeba wybrac najmniejsza (lub jasno zdefiniowac regule)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

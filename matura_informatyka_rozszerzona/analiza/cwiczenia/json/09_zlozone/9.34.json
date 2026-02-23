@@ -1,0 +1,30 @@
+{
+  "id": "9.34",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2024 zad. 5 (agregacja grupowa)",
+  "tagi": [
+    "struct",
+    "grupowanie",
+    "map-zliczanie",
+    "wczytywanie-pliku",
+    "wieloetapowe"
+  ],
+  "tresc": "W pliku `pracownicy.txt` znajduje sie 8 rekordow w formacie: imie dzial pensja (oddzielone spacja). Pensja to liczba calkowita. Napisz program, ktory:\na) Znajdzie najwyzsza pensje w kazdym dziale.\nb) Wypisze imie pracownika o najwyzszej pensji w kazdym dziale.\n\n**Dane** (`pracownicy.txt`):\n```\nKowalski IT 8500\nNowak HR 6200\nWisniewska IT 9200\nZielinski HR 7100\nKaczmarek IT 7800\nMajewska HR 5900\nLewandowski FIN 8800\nSzymanski FIN 7500\n```\n\n**Oczekiwany wynik**:\n```\na) Najwyzsza pensja w dziale:\n   FIN: 8800\n   HR: 7100\n   IT: 9200\n\nb) Pracownik z najwyzsza pensja:\n   FIN: Lewandowski (8800)\n   HR: Zielinski (7100)\n   IT: Wisniewska (9200)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj map<string, int> na max pensje i map<string, string> na imie najlepszego pracownika w dziale.",
+    "**Podejscie**: Jeden przebieg: dla kazdego rekordu sprawdz, czy pensja > aktualny max w dziale. Jesli tak, aktualizuj max i imie.",
+    "**Kluczowy krok**: Na poczatku mapa jest pusta — pierwszy pracownik z danego dzialu zawsze zostaje ustawiony jako max."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"pracownicy.txt\");\n    map<string, int> maxPensja;\n    map<string, string> maxImie;\n    string imie, dzial;\n    int pensja;\n    while (plik >> imie >> dzial >> pensja) {\n        if (maxPensja.find(dzial) == maxPensja.end() || pensja > maxPensja[dzial]) {\n            maxPensja[dzial] = pensja;\n            maxImie[dzial] = imie;\n        }\n    }\n\n    cout << \"a) Najwyzsza pensja w dziale:\" << endl;\n    for (auto &p : maxPensja) {\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n    }\n\n    cout << endl << \"b) Pracownik z najwyzsza pensja:\" << endl;\n    for (auto &p : maxPensja) {\n        cout << \"   \" << p.first << \": \" << maxImie[p.first] << \" (\" << p.second << \")\" << endl;\n    }\n    return 0;\n}\n```\n\nWeryfikacja:\n- IT: Kowalski(8500), Wisniewska(9200), Kaczmarek(7800) -> max: Wisniewska(9200)\n- HR: Nowak(6200), Zielinski(7100), Majewska(5900) -> max: Zielinski(7100)\n- FIN: Lewandowski(8800), Szymanski(7500) -> max: Lewandowski(8800)\n- map iteruje alfabetycznie: FIN, HR, IT",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak inicjalizacji mapy**: Porownanie z maxPensja[dzial] przed pierwszym wstawieniem — niezainicjalizowany klucz zwroci 0, co przy pensji > 0 zadziala, ale nie jest poprawne koncepcyjnie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapamietanie samej pensji bez imienia**: Zadanie wymaga rowniez imienia pracownika — potrzebne sa dwie mapy lub mapa na pary",
+      "kara": "-2 pkt"
+    }
+  ]
+}

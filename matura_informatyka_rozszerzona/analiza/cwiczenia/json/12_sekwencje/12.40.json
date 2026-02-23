@@ -1,0 +1,34 @@
+{
+  "id": "12.40",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2019 zad. 4 (analiza plateau w ciagu)",
+  "tagi": [
+    "plateau",
+    "ciag-rownych",
+    "current-max",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). \"Plateau\" to maksymalny spojny fragment ciagu z co najmniej 2 identycznymi elementami. Napisz program, ktory:\na) Wypisze wszystkie plateau (wartosc, pozycja poczatkowa 1-indeks., dlugosc).\nb) Poda najdluzsze plateau (jesli remis — pierwsze znalezione).\nc) Poda \"dominujace plateau\" — wartosc, ktora ma lacznie najwiecej elementow w swoich plateau (jesli wartosc X ma plateau o dlugosciach 2 i 3, to lacznie 5). Jesli remis — wartosc mniejsza.\n\n**Dane** (`dane.txt`):\n```\n3\n3\n5\n5\n7\n7\n7\n7\n5\n5\n5\n3\n3\n3\n3\n```\n\n**Oczekiwany wynik**:\n```\na) Plateau:\n   wartosc=3, pozycja=1, dlugosc=2\n   wartosc=5, pozycja=3, dlugosc=2\n   wartosc=7, pozycja=5, dlugosc=4\n   wartosc=5, pozycja=9, dlugosc=3\n   wartosc=3, pozycja=12, dlugosc=4\nb) Najdluzsze plateau: wartosc=7, dlugosc=4, pozycja=5\nc) Dominujace plateau: wartosc=3, lacznie elementow=6\n```",
+  "wskazowki": [
+    "**Kierunek**: Skanuj ciag liniowo sledzac serie rownych elementow. Gdy seria sie konczy (lub koniec ciagu) i dlugosc >= 2, zapisz plateau.",
+    "**Podejscie**: Przechowuj plateau w wektorze struktur {wartosc, pozycja, dlugosc}. Po znalezieniu wszystkich, znajdz najdluzsze i oblicz sumy per wartosc.",
+    "**Kluczowy krok**: Dominujace plateau wymaga zsumowania dlugosci plateau o tej samej wartosci — uzyj mapy (map<int,int>) do zliczenia lacznych dlugosci."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    struct Plateau { int wartosc; int pozycja; int dlugosc; };\n    vector<Plateau> plateaux;\n\n    int curDl = 1, curStart = 0;\n    for (int i = 1; i <= n; i++) {\n        if (i < n && T[i] == T[i - 1]) {\n            curDl++;\n        } else {\n            if (curDl >= 2)\n                plateaux.push_back({T[i - 1], curStart, curDl});\n            curDl = 1;\n            curStart = i;\n        }\n    }\n\n    // a) Wypisz wszystkie\n    cout << \"a) Plateau:\" << endl;\n    for (auto& p : plateaux)\n        cout << \"   wartosc=\" << p.wartosc << \", pozycja=\" << p.pozycja + 1\n             << \", dlugosc=\" << p.dlugosc << endl;\n\n    // b) Najdluzsze\n    int maxIdx = 0;\n    for (int i = 1; i < (int)plateaux.size(); i++)\n        if (plateaux[i].dlugosc > plateaux[maxIdx].dlugosc)\n            maxIdx = i;\n    cout << \"b) Najdluzsze plateau: wartosc=\" << plateaux[maxIdx].wartosc\n         << \", dlugosc=\" << plateaux[maxIdx].dlugosc\n         << \", pozycja=\" << plateaux[maxIdx].pozycja + 1 << endl;\n\n    // c) Dominujace — suma dlugosci per wartosc\n    map<int, int> sumy;\n    for (auto& p : plateaux)\n        sumy[p.wartosc] += p.dlugosc;\n\n    int domWart = 0, domSuma = 0;\n    for (auto& [wart, suma] : sumy) {\n        if (suma > domSuma || (suma == domSuma && wart < domWart)) {\n            domSuma = suma;\n            domWart = wart;\n        }\n    }\n    cout << \"c) Dominujace plateau: wartosc=\" << domWart\n         << \", lacznie elementow=\" << domSuma << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Skanowanie liniowe daje liste plateau. Najdluzsze szukamy przegladem liniowym. Dominujace obliczamy sumujac dlugosci plateau o tej samej wartosci w mapie.\n\nWeryfikacja (dane: 3,3,5,5,7,7,7,7,5,5,5,3,3,3,3):\nPlateau:\n- 3,3 (start=0, dl=2): i=2, 5!=3, zamkniecie.\n- 5,5 (start=2, dl=2): i=4, 7!=5, zamkniecie.\n- 7,7,7,7 (start=4, dl=4): i=8, 5!=7, zamkniecie.\n- 5,5,5 (start=8, dl=3): i=11, 3!=5, zamkniecie.\n- 3,3,3,3 (start=11, dl=4): i=15 (koniec), zamkniecie.\n\n5 plateau. Najdluzsze: 7 (dl=4) — pierwsze o dl=4, start=5.\n\nSumy per wartosc:\n- 3: 2+4 = 6\n- 5: 2+3 = 5\n- 7: 4\nDominujace: wartosc=3, lacznie=6.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak zamkniecia ostatniego plateau**: Ostatnia seria rownych elementow musi byc zamknieta po petli (lub uzyc i<=n z warunkiem granicy)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Mylenie najdluzszego z dominujacym**: Najdluzsze pojedyncze plateau to nie to samo co wartosc z lacznie najwieksza liczba elementow",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak reguly remisu dla dominujacego**: Przy rownej lacznej dlugosci, wybieramy mniejsza wartosc",
+      "kara": "-1 pkt"
+    }
+  ]
+}

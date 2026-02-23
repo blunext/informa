@@ -1,0 +1,29 @@
+{
+  "id": "8.38",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2022 zad. 5 (kompresja RLE)",
+  "tagi": [
+    "napisy",
+    "kompresja",
+    "operacje-na-string",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Kompresja RLE (Run-Length Encoding) zamienia ciag powtarzajacych sie znakow na pare: znak i liczba powtorzen. Na przyklad: \"aaabbc\" -> \"a3b2c1\". Jednakze, jesli znak wystepuje tylko raz, zapisujemy go bez liczby (np. \"aaabbc\" -> \"a3b2c\").\n\nW pliku `napisy.txt` znajduje sie 8 napisow (kazdy w osobnym wierszu, male litery). Napisz program, ktory dla kazdego napisu wykona kompresje RLE (z pominieciem jedynki) i wypisze wynik. Na koncu wypisz, dla ilu napisow kompresja byla korzystna (wynik krotszy niz oryginal).\n\n**Dane** (`napisy.txt`):\n```\naaabbbccc\nabcdef\naaaaaa\naabbccdd\nxyz\nmmmnnnoo\nabccba\nzzzzzzzzz\n```\n\n**Oczekiwany wynik**:\n```\naaabbbccc -> a3b3c3 (9 -> 6)\nabcdef -> abcdef (6 -> 6)\naaaaaa -> a6 (6 -> 2)\naabbccdd -> a2b2c2d2 (8 -> 8)\nxyz -> xyz (3 -> 3)\nmmmnnnoo -> m3n3o2 (8 -> 6)\nabccba -> abc2ba (6 -> 6)\nzzzzzzzzz -> z9 (9 -> 2)\nKorzystna kompresja: 4\n```",
+  "wskazowki": [
+    "**Kierunek**: Iteruj po napisie, zliczajac ciagi identycznych kolejnych znakow. Buduj wynik jako nowy string.",
+    "**Podejscie**: Dla kazdej grupy identycznych znakow: dodaj znak do wyniku. Jesli powtarza sie wiecej niz raz, dodaj tez liczbe (to_string).",
+    "**Kluczowy krok**: Porownaj dlugosc wyniku z dlugoscia oryginalu. Kompresja jest korzystna tylko gdy wynik jest krotszy."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    int korzystne = 0;\n    while (plik >> s) {\n        string wynik = \"\";\n        int i = 0;\n        while (i < (int)s.length()) {\n            char c = s[i];\n            int cnt = 0;\n            while (i < (int)s.length() && s[i] == c) {\n                cnt++;\n                i++;\n            }\n            wynik += c;\n            if (cnt > 1) {\n                wynik += to_string(cnt);\n            }\n        }\n        cout << s << \" -> \" << wynik << \" (\" << s.length() << \" -> \" << wynik.length() << \")\" << endl;\n        if ((int)wynik.length() < (int)s.length()) {\n            korzystne++;\n        }\n    }\n    cout << \"Korzystna kompresja: \" << korzystne << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Grupujemy identyczne kolejne znaki. Kazda grupe zapisujemy jako: znak + liczba (jesli > 1). Pominiecie jedynki oznacza, ze pojedyncze znaki zapisujemy bez liczby.\n\nWeryfikacja:\n- aaabbbccc: a*3,b*3,c*3 -> \"a3b3c3\" (9->6, korzystna)\n- abcdef: kazdy*1 -> \"abcdef\" (6->6, nie korzystna)\n- aaaaaa: a*6 -> \"a6\" (6->2, korzystna)\n- aabbccdd: a*2,b*2,c*2,d*2 -> \"a2b2c2d2\" (8->8, nie korzystna)\n- xyz: kazdy*1 -> \"xyz\" (3->3, nie korzystna)\n- mmmnnnoo: m*3,n*3,o*2 -> \"m3n3o2\" (8->6, korzystna)\n- abccba: a*1,b*1,c*2,b*1,a*1 -> \"abc2ba\" (6->6, nie korzystna)\n- zzzzzzzzz: z*9 -> \"z9\" (9->2, korzystna)\nKorzystna kompresja: 4 (aaabbbccc, aaaaaa, mmmnnnoo, zzzzzzzzz)",
+  "typowe_bledy": [
+    {
+      "opis": "**Zawsze dodawanie liczby, nawet dla pojedynczych znakow**: Napis 'abc' powinien dac 'abc', nie 'a1b1c1'. Jedynke pomijamy",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pomieszanie warunku korzystnosci**: Kompresja korzystna = wynik krotszy od oryginalu (strict less), nie krotszy-lub-rowny",
+      "kara": "-1 pkt"
+    }
+  ]
+}

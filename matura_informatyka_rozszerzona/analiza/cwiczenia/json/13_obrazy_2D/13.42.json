@@ -1,0 +1,37 @@
+{
+  "id": "13.42",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2017 zad. 6 (wyspy brzegowe BFS)",
+  "tagi": [
+    "tablica-2D",
+    "BFS",
+    "spojne-obszary",
+    "brzeg-siatki",
+    "4-spojnosc",
+    "visited",
+    "queue",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Dana jest siatka 7x7 zer i jedynek zapisana w pliku `dane.txt`. Jedynki tworza spojne obszary (wyspy) w sasiedztwie 4-spojnym. Wyspa \"dotyka brzegu\" jesli przynajmniej jedna jej komorka lezy na krawedzi siatki (wiersz 0, wiersz 6, kolumna 0 lub kolumna 6). Napisz program, ktory:\na) Zliczy ile jest wysp lacznie.\nb) Zliczy ile wysp dotyka brzegu siatki.\nc) Zliczy ile wysp NIE dotyka brzegu (wyspy wewnetrzne).\nd) Wypisze rozmiary wysp wewnetrznych.\n\n**Dane** (`dane.txt`):\n```\n1 1 0 0 0 0 1\n1 0 0 0 0 0 0\n0 0 1 1 0 0 0\n0 0 1 1 0 0 0\n0 0 0 0 0 1 0\n0 0 0 0 0 0 0\n1 0 0 0 0 0 1\n```\n\n**Oczekiwany wynik**:\n```\na) Wyspy lacznie: 6\nb) Wyspy brzegowe: 4\nc) Wyspy wewnetrzne: 2\nd) Rozmiary wewnetrznych: 4 1\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj BFS do znajdowania wysp. Podczas BFS sprawdzaj, czy ktoras komorka wyspy lezy na brzegu.",
+    "**Podejscie**: Komorka lezy na brzegu gdy i==0 lub i==n-1 lub j==0 lub j==n-1. Wystarczy ustawic flage 'dotyka_brzegu' jesli choc jedna komorka spelnia warunek.",
+    "**Kluczowy krok**: Po BFS kazdej wyspy — jesli flaga dotyka_brzegu jest false, dodaj rozmiar do listy wysp wewnetrznych."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <queue>\nusing namespace std;\n\nconst int N = 7;\nint tab[N][N];\nbool visited[N][N];\nint dx[] = {-1, 1, 0, 0};\nint dy[] = {0, 0, -1, 1};\n\npair<int,bool> bfs(int si, int sj) {\n    queue<pair<int,int>> q;\n    q.push({si, sj});\n    visited[si][sj] = true;\n    int rozmiar = 0;\n    bool brzeg = false;\n    while (!q.empty()) {\n        auto [i, j] = q.front(); q.pop();\n        rozmiar++;\n        if (i == 0 || i == N-1 || j == 0 || j == N-1)\n            brzeg = true;\n        for (int d = 0; d < 4; d++) {\n            int ni = i + dx[d], nj = j + dy[d];\n            if (ni >= 0 && ni < N && nj >= 0 && nj < N\n                && !visited[ni][nj] && tab[ni][nj] == 1) {\n                visited[ni][nj] = true;\n                q.push({ni, nj});\n            }\n        }\n    }\n    return {rozmiar, brzeg};\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    for (int i = 0; i < N; i++)\n        for (int j = 0; j < N; j++)\n            plik >> tab[i][j];\n\n    int total = 0, brzegowe = 0;\n    vector<int> wewnetrzne;\n\n    for (int i = 0; i < N; i++)\n        for (int j = 0; j < N; j++)\n            if (tab[i][j] == 1 && !visited[i][j]) {\n                auto [roz, brz] = bfs(i, j);\n                total++;\n                if (brz)\n                    brzegowe++;\n                else\n                    wewnetrzne.push_back(roz);\n            }\n\n    cout << \"a) Wyspy lacznie: \" << total << endl;\n    cout << \"b) Wyspy brzegowe: \" << brzegowe << endl;\n    cout << \"c) Wyspy wewnetrzne: \" << (int)wewnetrzne.size() << endl;\n    cout << \"d) Rozmiary wewnetrznych:\";\n    for (int r : wewnetrzne) cout << \" \" << r;\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: BFS dla kazdej wyspy. Podczas BFS sprawdzamy, czy ktoras komorka jest na brzegu. Wyspy bez komorek brzegowych to wyspy wewnetrzne.\n\nWeryfikacja:\n```\n  j: 0 1 2 3 4 5 6\ni=0: 1 1 0 0 0 0 1\ni=1: 1 0 0 0 0 0 0\ni=2: 0 0 1 1 0 0 0\ni=3: 0 0 1 1 0 0 0\ni=4: 0 0 0 0 0 1 0\ni=5: 0 0 0 0 0 0 0\ni=6: 1 0 0 0 0 0 1\n```\nWyspy (skanowanie wierszami):\n1. Start (0,0): (0,0)-(0,1)-(1,0) = 3 komorki. (0,0) na brzegu -> BRZEGOWA\n2. Start (0,6): (0,6) = 1 komorka. (0,6) na brzegu -> BRZEGOWA\n3. Start (2,2): (2,2)-(2,3)-(3,2)-(3,3) = 4 komorki. Zadna na brzegu -> WEWNETRZNA\n4. Start (4,5): (4,5) = 1 komorka. i=4, j=5 — nie na brzegu -> WEWNETRZNA\n5. Start (6,0): (6,0) = 1 komorka. (6,0) na brzegu -> BRZEGOWA\n6. Start (6,6): (6,6) = 1 komorka. (6,6) na brzegu -> BRZEGOWA\n\nLacznie: 6. Brzegowe: 4. Wewnetrzne: 2. Rozmiary wewnetrznych: 4, 1.",
+  "typowe_bledy": [
+    {
+      "opis": "**Sprawdzanie brzegu tylko dla startowej komorki**: Wyspa moze dotykac brzegu w dowolnej ze swoich komorek, nie tylko startowej",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledna definicja brzegu**: Brzeg to i==0, i==n-1, j==0 lub j==n-1 — wszystkie 4 krawedzie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak tablicy visited**: BFS bez visited powoduje nieskonczona petle",
+      "kara": "-3 pkt"
+    }
+  ]
+}

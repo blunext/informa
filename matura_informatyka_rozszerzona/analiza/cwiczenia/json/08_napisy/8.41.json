@@ -1,0 +1,34 @@
+{
+  "id": "8.41",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2025 zad. 5 (palindromy w napisach)",
+  "tagi": [
+    "napisy",
+    "palindrom",
+    "podciag",
+    "operacje-na-string",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 6 napisow skladajacych sie z malych liter (kazdy w osobnym wierszu). Napisz program, ktory dla kazdego napisu znajdzie wszystkie palindromowe podnapisy o dlugosci >= 3 (ciagi kolejnych znakow, ktore czytane od przodu i od tylu sa identyczne). Wypisz napis, a pod nim unikalne palindromy w kolejnosci ich pierwszego wystapienia. Na koncu wypisz laczna liczbe unikalnych palindromow we wszystkich napisach.\n\n**Dane** (`napisy.txt`):\n```\nabacaba\nracecar\nabc\nlevel\nabba\nmadam\n```\n\n**Oczekiwany wynik**:\n```\nabacaba: aba abacaba bacab aca\nracecar: racecar aceca cec\nabc: (brak)\nlevel: level eve\nabba: abba\nmadam: madam ada\nLacznie unikalnych: 12\n```",
+  "wskazowki": [
+    "**Kierunek**: Sprawdz kazdy mozliwy podnapis dlugosci >= 3: iteruj po wszystkich parach (i, j) gdzie j-i >= 3 i sprawdz, czy podnapis jest palindromem.",
+    "**Podejscie**: Funkcja isPalindrome(s, left, right): porownuj znaki od krawedzi do srodka. Uzyj zbioru (set) do eliminacji duplikatow, ale zachowaj kolejnosc pierwszego wystapienia.",
+    "**Kluczowy krok**: Aby zachowac kolejnosc pierwszego wystapienia, uzyj wektora palindromow plus set do sprawdzania, czy juz dodany. Dodawaj do wektora tylko nowe."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n#include <set>\nusing namespace std;\n\nbool isPalindrome(const string& s) {\n    int left = 0, right = s.length() - 1;\n    while (left < right) {\n        if (s[left] != s[right]) return false;\n        left++;\n        right--;\n    }\n    return true;\n}\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    int lacznie = 0;\n    while (plik >> s) {\n        vector<string> palindromy;\n        set<string> widziane;\n        int n = s.length();\n        for (int i = 0; i < n; i++) {\n            for (int len = 3; len <= n - i; len++) {\n                string pod = s.substr(i, len);\n                if (widziane.find(pod) == widziane.end() && isPalindrome(pod)) {\n                    palindromy.push_back(pod);\n                    widziane.insert(pod);\n                }\n            }\n        }\n        cout << s << \": \";\n        if (palindromy.empty()) {\n            cout << \"(brak)\" << endl;\n        } else {\n            for (int i = 0; i < (int)palindromy.size(); i++) {\n                if (i > 0) cout << \" \";\n                cout << palindromy[i];\n            }\n            cout << endl;\n        }\n        lacznie += palindromy.size();\n    }\n    cout << \"Lacznie unikalnych: \" << lacznie << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Generujemy wszystkie podnapisy dlugosci >= 3, sprawdzamy palindromicznosc i zachowujemy unikalne w kolejnosci pierwszego wystapienia. Set eliminuje duplikaty, a wektor zachowuje kolejnosc.\n\nWeryfikacja:\n- abacaba: palindromy: aba(0-2), abacaba(0-6), bacab(1-5), aca(2-4). Uwaga: aba(4-6) to duplikat -> 4 unikalne\n- racecar: racecar(0-6), aceca(1-5), cec(2-4) -> 3 unikalne\n- abc: brak palindromow dlugosci >= 3 -> (brak)\n- level: level(0-4), eve(1-3) -> 2 unikalne\n- abba: abba(0-3) -> 1 unikalny\n- madam: madam(0-4), ada(1-3) -> 2 unikalne\nLacznie: 4+3+0+2+1+2 = 12",
+  "typowe_bledy": [
+    {
+      "opis": "**Liczenie duplikatow palindromow**: Ten sam palindrom moze wystapic wielokrotnie w napisie. Nalezy liczyc kazdy unikalny palindrom tylko raz",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Sprawdzanie tylko palindromow o dlugosci nieparzystej**: Palindromy moga miec dlugosc parzysta (np. \"abba\"). Trzeba sprawdzac oba przypadki",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledna funkcja isPalindrome — porownywanie s[i] z s[n-i] zamiast s[n-1-i]**: Off-by-one powoduje wyjscie poza zakres",
+      "kara": "-1 pkt"
+    }
+  ]
+}

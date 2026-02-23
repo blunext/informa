@@ -1,0 +1,30 @@
+{
+  "id": "9.22",
+  "trudnosc": "latwe",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2023 zad. 4 (filtrowanie + statystyki)",
+  "tagi": [
+    "struct",
+    "filtrowanie",
+    "wczytywanie-pliku",
+    "srednia",
+    "wieloetapowe"
+  ],
+  "tresc": "W pliku `produkty.txt` znajduje sie 10 rekordow w formacie: nazwa cena ilosc (oddzielone spacja). Napisz program, ktory:\na) Obliczy calkowita wartosc magazynu (suma cena * ilosc dla kazdego produktu).\nb) Wypisze produkty, ktorych cena przekracza 20 zl.\nc) Poda srednia cene produktow (z dokladnoscia do 2 miejsc po przecinku).\n\n**Dane** (`produkty.txt`):\n```\nChleb 5 30\nMleko 4 50\nMaslo 8 20\nSer 25 15\nSzynka 32 10\nJablka 6 40\nBanany 9 25\nSok 12 35\nKawa 45 8\nHerbata 15 22\n```\n\n**Oczekiwany wynik**:\n```\na) Calkowita wartosc magazynu: 2780 zl\n\nb) Produkty drozsze niz 20 zl:\n   Ser: 25 zl\n   Szynka: 32 zl\n   Kawa: 45 zl\n\nc) Srednia cena: 16.10 zl\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj dane do vectora struktur lub przetwarzaj w jednym przejsciu zbierajac potrzebne statystyki.",
+    "**Podejscie**: Jeden przebieg: sumuj cena*ilosc, sumuj ceny, zliczaj produkty, zapamietaj drogie.",
+    "**Kluczowy krok**: Srednia cena = suma_cen / liczba_produktow, nie suma_wartosci / liczba."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"produkty.txt\");\n    string nazwa;\n    int cena, ilosc;\n    int wartosc = 0;\n    int sumaCen = 0;\n    int n = 0;\n    vector<pair<string, int>> drogie;\n\n    while (plik >> nazwa >> cena >> ilosc) {\n        wartosc += cena * ilosc;\n        sumaCen += cena;\n        n++;\n        if (cena > 20) drogie.push_back({nazwa, cena});\n    }\n\n    cout << \"a) Calkowita wartosc magazynu: \" << wartosc << \" zl\" << endl;\n\n    cout << endl << \"b) Produkty drozsze niz 20 zl:\" << endl;\n    for (auto &p : drogie) {\n        cout << \"   \" << p.first << \": \" << p.second << \" zl\" << endl;\n    }\n\n    cout << endl << \"c) Srednia cena: \" << fixed << setprecision(2)\n         << (double)sumaCen / n << \" zl\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\na) Wartosc: 5*30+4*50+8*20+25*15+32*10+6*40+9*25+12*35+45*8+15*22 = 150+200+160+375+320+240+225+420+360+330 = 2780\nb) Drogie (>20): Ser(25), Szynka(32), Kawa(45)\nc) Srednia: (5+4+8+25+32+6+9+12+45+15)/10 = 161/10 = 16.10",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie sredniej ceny ze srednia wartoscia**: Srednia cena to suma cen / n, nie suma (cena*ilosc) / n",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Dzielenie calkowitoliczbowe**: `sumaCen / n` bez rzutowania na double da wynik obciety",
+      "kara": "-1 pkt"
+    }
+  ]
+}

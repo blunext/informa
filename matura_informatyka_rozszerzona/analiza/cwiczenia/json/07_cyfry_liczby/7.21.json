@@ -1,0 +1,30 @@
+{
+  "id": "7.21",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wariant autorski (podzielnosc przez sume cyfr)",
+  "tagi": [
+    "cyfry-mod-div",
+    "suma-cyfr",
+    "podzielnosc",
+    "wczytywanie-pliku",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory wczyta te liczby i wypisze te z nich, ktore sa podzielne przez sume swoich cyfr. Na koniec podaj, ile takich liczb znaleziono.\n\nPrzyklad: 18 ma sume cyfr 1+8=9, a 18 % 9 == 0, wiec 18 spelnia warunek.\n\n**Dane** (`dane.txt`):\n```\n18\n29\n123\n111\n200\n48\n53\n171\n84\n90\n137\n210\n```\n\n**Oczekiwany wynik**:\n```\n18: suma cyfr = 9, 18 % 9 = 0 -> TAK\n29: suma cyfr = 11, 29 % 11 = 7 -> NIE\n123: suma cyfr = 6, 123 % 6 = 3 -> NIE\n111: suma cyfr = 3, 111 % 3 = 0 -> TAK\n200: suma cyfr = 2, 200 % 2 = 0 -> TAK\n48: suma cyfr = 12, 48 % 12 = 0 -> TAK\n53: suma cyfr = 8, 53 % 8 = 5 -> NIE\n171: suma cyfr = 9, 171 % 9 = 0 -> TAK\n84: suma cyfr = 12, 84 % 12 = 0 -> TAK\n90: suma cyfr = 9, 90 % 9 = 0 -> TAK\n137: suma cyfr = 11, 137 % 11 = 5 -> NIE\n210: suma cyfr = 3, 210 % 3 = 0 -> TAK\nLiczb podzielnych przez sume cyfr: 8\n```",
+  "wskazowki": [
+    "**Kierunek**: Wyodrebnij cyfry przez `n % 10` i `n /= 10`, zsumuj je.",
+    "**Podejscie**: Oblicz sume cyfr w petli while, potem sprawdz `liczba % suma == 0`.",
+    "**Kluczowy krok**: Zachowaj oryginalna wartosc liczby przed petla wyodrebniajaca cyfry, bo petla niszczy zmienna."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint sumaCyfr(int n) {\n    int suma = 0;\n    while (n > 0) {\n        suma += n % 10;\n        n /= 10;\n    }\n    return suma;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int liczba;\n    int ile = 0;\n    while (plik >> liczba) {\n        int sc = sumaCyfr(liczba);\n        int reszta = liczba % sc;\n        cout << liczba << \": suma cyfr = \" << sc << \", \"\n             << liczba << \" % \" << sc << \" = \" << reszta;\n        if (reszta == 0) {\n            cout << \" -> TAK\" << endl;\n            ile++;\n        } else {\n            cout << \" -> NIE\" << endl;\n        }\n    }\n    cout << \"Liczb podzielnych przez sume cyfr: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Suma cyfr obliczana klasycznie operatorem `%` i `/`. Nastepnie sprawdzamy podzielnosc oryginalnej liczby przez te sume. Uwaga: suma cyfr > 0 dla liczb dodatnich, wiec nie ma ryzyka dzielenia przez zero.\n\nWeryfikacja:\n- 18: sc=9, 18%9=0 TAK\n- 29: sc=11, 29%11=7 NIE\n- 123: sc=6, 123%6=3 NIE\n- 111: sc=3, 111%3=0 TAK\n- 200: sc=2, 200%2=0 TAK\n- 48: sc=12, 48%12=0 TAK\n- 53: sc=8, 53%8=5 NIE\n- 171: sc=9, 171%9=0 TAK\n- 84: sc=12, 84%12=0 TAK\n- 90: sc=9, 90%9=0 TAK\n- 137: sc=11, 137%11=5 NIE\n- 210: sc=3, 210%3=0 TAK\nRazem TAK: 8",
+  "typowe_bledy": [
+    {
+      "opis": "**Modyfikacja zmiennej przed wypisaniem**: Petla `while(n > 0)` niszczy `n` — trzeba zapisac oryginalna wartosc przed obliczaniem sumy cyfr",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pomylenie kolejnosci: `sc % liczba` zamiast `liczba % sc`**: Daje bledne wyniki, bo sprawdzamy czy suma cyfr dzieli liczbe, nie odwrotnie",
+      "kara": "-2 pkt"
+    }
+  ]
+}

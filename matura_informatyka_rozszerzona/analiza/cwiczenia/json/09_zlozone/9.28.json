@@ -1,0 +1,32 @@
+{
+  "id": "9.28",
+  "trudnosc": "srednie-trudne",
+  "punkty": 6,
+  "zrodlo": "Wzor: Matura 2021 zad. 6 (analiza transakcji)",
+  "tagi": [
+    "wieloetapowe",
+    "map-zliczanie",
+    "grupowanie",
+    "sortowanie",
+    "vector-par",
+    "wczytywanie-pliku",
+    "iomanip"
+  ],
+  "tresc": "W pliku `transakcje.txt` znajduje sie 12 rekordow w formacie: data klient kwota (oddzielone spacja). Data jest w formacie RRRR-MM-DD. Napisz program, ktory:\na) Obliczy calkowity obrót kazdego klienta.\nb) Obliczy calkowity obrót w kazdym miesiacu (format: RRRR-MM).\nc) Znajdzie klienta z najwyzszym obrotem i miesiac z najwyzszym obrotem.\n\n**Dane** (`transakcje.txt`):\n```\n2024-01-05 Kowalski 150\n2024-01-12 Nowak 200\n2024-01-20 Kowalski 300\n2024-02-03 Wisniewska 180\n2024-02-14 Nowak 250\n2024-02-28 Kowalski 120\n2024-03-01 Wisniewska 400\n2024-03-10 Nowak 100\n2024-03-15 Kowalski 220\n2024-03-22 Wisniewska 350\n2024-01-25 Wisniewska 90\n2024-02-18 Nowak 160\n```\n\n**Oczekiwany wynik**:\n```\na) Obrót klientow:\n   Kowalski: 790\n   Nowak: 710\n   Wisniewska: 1020\n\nb) Obrót miesieczny:\n   2024-01: 740\n   2024-02: 710\n   2024-03: 1070\n\nc) Najlepszy klient: Wisniewska (1020)\n   Najlepszy miesiac: 2024-03 (1070)\n```",
+  "wskazowki": [
+    "**Kierunek**: Dwie mapy: `map<string,int>` dla klientow i `map<string,int>` dla miesiecy.",
+    "**Podejscie**: Miesiac z daty: `data.substr(0, 7)` daje \"RRRR-MM\". Zliczaj obroty w obu mapach jednoczesnie.",
+    "**Kluczowy krok**: Znajdz max w obu mapach iterujac i porownujac wartosci."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"transakcje.txt\");\n    string data, klient;\n    int kwota;\n    map<string, int> obrotKlient;\n    map<string, int> obrotMiesiac;\n\n    while (plik >> data >> klient >> kwota) {\n        obrotKlient[klient] += kwota;\n        obrotMiesiac[data.substr(0, 7)] += kwota;\n    }\n\n    cout << \"a) Obrót klientow:\" << endl;\n    string maxKlient; int maxKwKlient = 0;\n    for (auto &p : obrotKlient) {\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n        if (p.second > maxKwKlient) {\n            maxKwKlient = p.second;\n            maxKlient = p.first;\n        }\n    }\n\n    cout << endl << \"b) Obrót miesieczny:\" << endl;\n    string maxMiesiac; int maxKwMiesiac = 0;\n    for (auto &p : obrotMiesiac) {\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n        if (p.second > maxKwMiesiac) {\n            maxKwMiesiac = p.second;\n            maxMiesiac = p.first;\n        }\n    }\n\n    cout << endl << \"c) Najlepszy klient: \" << maxKlient << \" (\" << maxKwKlient << \")\" << endl;\n    cout << \"   Najlepszy miesiac: \" << maxMiesiac << \" (\" << maxKwMiesiac << \")\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\na) Obroty klientow:\n- Kowalski: 150+300+120+220 = 790\n- Nowak: 200+250+100+160 = 710\n- Wisniewska: 180+400+350+90 = 1020\n\nb) Obroty miesieczne:\n- 2024-01: 150+200+300+90 = 740\n- 2024-02: 180+250+120+160 = 710\n- 2024-03: 400+100+220+350 = 1070\n\nc) Najlepszy klient: Wisniewska (1020)\n   Najlepszy miesiac: 2024-03 (1070)",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledne wyciaganie miesiaca z daty**: `data.substr(0, 7)` daje \"RRRR-MM\". Uzycie `substr(5, 2)` da tylko \"MM\" bez roku",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zapomniane += przy dodawaniu kwot**: `mapa[k] = kwota` zamiast `mapa[k] += kwota` nadpisze poprzednia wartosc",
+      "kara": "-2 pkt"
+    }
+  ]
+}

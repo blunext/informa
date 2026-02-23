@@ -1,0 +1,29 @@
+{
+  "id": "11.21",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Cwiczenie autorskie (max z suma cyfr)",
+  "tagi": [
+    "min-max",
+    "suma-cyfr",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory znajdzie liczbe o najwiekszej sumie cyfr. Jesli jest wiecej takich liczb, podaj pierwsza z nich.\n\n**Dane** (`dane.txt`):\n```\n145\n390\n278\n56\n812\n999\n430\n67\n204\n555\n```\n\n**Oczekiwany wynik**:\n```\nLiczba o max sumie cyfr: 999 (suma cyfr: 27)\n```",
+  "wskazowki": [
+    "**Kierunek**: Napisz funkcje pomocnicza sumaCyfr(n), potem szukaj max po tej wartosci.",
+    "**Podejscie**: Dla kazdej liczby oblicz sume cyfr (mod 10, div 10 w petli), porownoj z dotychczasowym max.",
+    "**Kluczowy krok**: Inicjalizuj maxSuma = sumaCyfr(tab[0]) i maxLiczba = tab[0], potem iteruj od 1."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint sumaCyfr(int n) {\n    int s = 0;\n    while (n > 0) {\n        s += n % 10;\n        n /= 10;\n    }\n    return s;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> tab;\n    int x;\n    while (plik >> x) tab.push_back(x);\n\n    int maxSuma = sumaCyfr(tab[0]);\n    int maxLiczba = tab[0];\n    for (int i = 1; i < (int)tab.size(); i++) {\n        int sc = sumaCyfr(tab[i]);\n        if (sc > maxSuma) {\n            maxSuma = sc;\n            maxLiczba = tab[i];\n        }\n    }\n    cout << \"Liczba o max sumie cyfr: \" << maxLiczba\n         << \" (suma cyfr: \" << maxSuma << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Klasyczny skan liniowy, ale zamiast porownywac same liczby, porownujemy wartosc pochodna (sume cyfr). Funkcja sumaCyfr uzywa petli mod/div.\n\nWeryfikacja:\n- 145: 1+4+5=10, 390: 3+9+0=12, 278: 2+7+8=17, 56: 5+6=11, 812: 8+1+2=11\n- 999: 9+9+9=27, 430: 4+3+0=7, 67: 6+7=13, 204: 2+0+4=6, 555: 5+5+5=15\n- Max suma cyfr = 27 dla liczby 999.",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownywanie samych liczb zamiast sum cyfr**: 999 nie jest najwieksza liczba (812 jest wieksza), ale ma najwieksza sume cyfr",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zla petla mod/div**: Zapomnienie o `n /= 10` powoduje nieskonczona petle",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "13.24",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2017 zad. 6 (sasiedztwo 4-spojne)",
+  "tagi": [
+    "tablica-2D",
+    "sasiedztwo",
+    "4-spojnosc",
+    "wczytywanie-pliku",
+    "petle-zagniezdzne"
+  ],
+  "tresc": "Dana jest siatka 6x6 zer i jedynek zapisana w pliku `siatka.txt`. Napisz program, ktory:\na) Dla kazdej jedynki policzy ilu ma sasiadow rowniez bedacych jedynkami (sasiedztwo 4-spojne: gora, dol, lewo, prawo). Wypisze ile jedynek ma dokladnie 0 sasiadow-jedynek (izolowane jedynki).\nb) Wypisze ile jedynek ma dokladnie 4 sasiadow-jedynek (otoczone ze wszystkich 4 stron).\nc) Wypisze srednia liczbe sasiadow-jedynek dla wszystkich jedynek (zaokraglona do 2 miejsc po przecinku).\n\n**Dane** (`siatka.txt`):\n```\n0 1 0 0 0 1\n1 1 1 0 0 0\n0 1 0 0 1 1\n0 0 0 1 1 1\n0 0 0 1 1 1\n0 0 0 0 1 0\n```\n\n**Oczekiwany wynik**:\n```\na) Izolowane jedynki (0 sasiadow): 1\nb) Jedynki z 4 sasiadami: 3\nc) Srednia sasiadow: 2.00\n```",
+  "wskazowki": [
+    "**Kierunek**: Dla kazdej jedynki sprawdz 4 kierunki (gora, dol, lewo, prawo) z kontrola granic.",
+    "**Podejscie**: Policz sasiadow-jedynek dla kazdej komorki z jedynka, zapisz wyniki, potem analizuj.",
+    "**Kluczowy krok**: Pamietaj o kontroli granic: i-1>=0, i+1<6, j-1>=0, j+1<6 przed dostepem do tablicy."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    int tab[6][6];\n    for (int i = 0; i < 6; i++)\n        for (int j = 0; j < 6; j++)\n            plik >> tab[i][j];\n\n    int dx[] = {-1, 1, 0, 0};\n    int dy[] = {0, 0, -1, 1};\n\n    int izolowane = 0, pelne = 0;\n    int sumaSas = 0, ileJedynek = 0;\n\n    for (int i = 0; i < 6; i++) {\n        for (int j = 0; j < 6; j++) {\n            if (tab[i][j] == 1) {\n                ileJedynek++;\n                int sas = 0;\n                for (int d = 0; d < 4; d++) {\n                    int ni = i + dx[d], nj = j + dy[d];\n                    if (ni >= 0 && ni < 6 && nj >= 0 && nj < 6 && tab[ni][nj] == 1)\n                        sas++;\n                }\n                if (sas == 0) izolowane++;\n                if (sas == 4) pelne++;\n                sumaSas += sas;\n            }\n        }\n    }\n\n    cout << \"a) Izolowane jedynki (0 sasiadow): \" << izolowane << endl;\n    cout << \"b) Jedynki z 4 sasiadami: \" << pelne << endl;\n    cout << \"c) Srednia sasiadow: \" << fixed << setprecision(2)\n         << (double)sumaSas / ileJedynek << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdej jedynki liczymy sasiadow-jedynek w 4 kierunkach. Zliczamy izolowane (0 sasiadow) i pelne (4 sasiadow). Srednia = suma sasiadow / liczba jedynek.\n\nWeryfikacja (siatka z indeksami):\n```\n  j: 0 1 2 3 4 5\ni=0: 0 1 0 0 0 1\ni=1: 1 1 1 0 0 0\ni=2: 0 1 0 0 1 1\ni=3: 0 0 0 1 1 1\ni=4: 0 0 0 1 1 1\ni=5: 0 0 0 0 1 0\n```\nJedynki i sasiedzi (4-spojne):\n(0,1): dol=1 -> 1 sas\n(0,5): brak sasiadow-jedynek -> 0 sas (izolowana)\n(1,0): prawo=1 -> 1 sas\n(1,1): gora=1,dol=1,lewo=1,prawo=1 -> 4 sas (pelna)\n(1,2): lewo=1 -> 1 sas\n(2,1): gora=1 -> 1 sas\n(2,4): dol=1,prawo=1 -> 2 sas\n(2,5): dol=1,lewo=1 -> 2 sas\n(3,3): dol=1,prawo=1 -> 2 sas\n(3,4): gora=1,dol=1,lewo=1,prawo=1 -> 4 sas (pelna)\n(3,5): gora=1,dol=1,lewo=1 -> 3 sas\n(4,3): gora=1,prawo=1 -> 2 sas\n(4,4): gora=1,dol=1,lewo=1,prawo=1 -> 4 sas (pelna)\n(4,5): gora=1,lewo=1 -> 2 sas\n(5,4): gora=1 -> 1 sas\n\n15 jedynek, 1 izolowana, 3 pelne\nSuma sasiadow: 1+0+1+4+1+1+2+2+2+4+3+2+4+2+1 = 30\nSrednia: 30/15 = 2.00",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak kontroli granic przy sprawdzaniu sasiadow**: Dostep do tab[-1][j] lub tab[6][j] powoduje UB",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Dzielenie calkowite zamiast zmiennoprzecinkowego**: sumaSas/ileJedynek daje 2 zamiast 2.00 — wynik ten sam liczbowo, ale brak rzutowania to blad w ogolnosci",
+      "kara": "-1 pkt"
+    }
+  ]
+}

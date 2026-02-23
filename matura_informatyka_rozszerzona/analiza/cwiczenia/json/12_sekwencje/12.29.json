@@ -1,0 +1,34 @@
+{
+  "id": "12.29",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2025 zad. 3 (ograniczone wahania)",
+  "tagi": [
+    "spojny-podciag",
+    "roznica-sasiadow",
+    "current-max",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 18 liczb calkowitych (kazda w osobnym wierszu). Wartosc K=3 jest dana w programie. Napisz program, ktory:\na) Znajdzie najdluzszy spojny podciag, w ktorym bezwzgledna roznica miedzy kazdymi dwoma sasiednimi elementami jest <= K. Podaj dlugosc, pozycje poczatkowa (1-indeksowana) i elementy.\nb) Oblicz srednia tego podciagu (z dokladnoscia do 2 miejsc po przecinku).\nc) Znajdz element tego podciagu najbardziej odlegly od sredniej.\n\n**Dane** (`dane.txt`):\n```\n10\n12\n14\n9\n11\n13\n15\n14\n16\n18\n20\n25\n22\n24\n23\n21\n19\n17\n```\n\n**Oczekiwany wynik**:\n```\na) Najdluzszy podciag z |roznica| <= 3:\n   Dlugosc: 8, pozycja poczatkowa: 4\n   Elementy: 9 11 13 15 14 16 18 20\n\nb) Srednia: 14.50\n\nc) Najbardziej odlegly od sredniej: 9 (odleglosc: 5.50)\n```",
+  "wskazowki": [
+    "**Kierunek**: Wzorzec current/max z warunkiem `abs(T[i] - T[i-1]) <= K`. Gdy warunek nie jest spelniony — koniec biezacego podciagu.",
+    "**Podejscie**: Sledzenie biezacej dlugosci i poczatku. Po znalezieniu najdluzszego podciagu, druga petla oblicza srednia i szuka elementu najdalszego od sredniej.",
+    "**Kluczowy krok**: Uzyj `abs()` z `<cmath>` lub `<cstdlib>`. Pamietaj o sprawdzeniu po petli."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n    int K = 3;\n\n    // a) Najdluzszy podciag z |roznica| <= K\n    int maxDl = 1, maxStart = 0;\n    int curDl = 1, curStart = 0;\n\n    for (int i = 1; i < n; i++) {\n        if (abs(T[i] - T[i - 1]) <= K) {\n            curDl++;\n        } else {\n            if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n            curDl = 1; curStart = i;\n        }\n    }\n    if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n\n    cout << \"a) Najdluzszy podciag z |roznica| <= \" << K << \":\" << endl;\n    cout << \"   Dlugosc: \" << maxDl << \", pozycja poczatkowa: \" << maxStart + 1 << endl;\n    cout << \"   Elementy:\";\n    for (int i = maxStart; i < maxStart + maxDl; i++)\n        cout << \" \" << T[i];\n    cout << endl;\n\n    // b) Srednia\n    double suma = 0;\n    for (int i = maxStart; i < maxStart + maxDl; i++)\n        suma += T[i];\n    double sr = suma / maxDl;\n    cout << endl << \"b) Srednia: \" << fixed << setprecision(2) << sr << endl;\n\n    // c) Najbardziej odlegly od sredniej\n    int najdalszy = T[maxStart];\n    double maxOdl = abs(T[maxStart] - sr);\n    for (int i = maxStart + 1; i < maxStart + maxDl; i++) {\n        double odl = abs(T[i] - sr);\n        if (odl > maxOdl) {\n            maxOdl = odl;\n            najdalszy = T[i];\n        }\n    }\n    cout << endl << \"c) Najbardziej odlegly od sredniej: \" << najdalszy\n         << \" (odleglosc: \" << fixed << setprecision(2) << maxOdl << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Zadanie trzyczesciowe. (a) Klasyczny current/max z warunkiem na roznice sasiadow. (b) Suma i srednia znalezionego podciagu. (c) Szukanie elementu maksymalnie odleglego od sredniej.\n\nWeryfikacja (dane: 10,12,14,9,11,13,15,14,16,18,20,25,22,24,23,21,19,17; K=3):\nRoznice: |12-10|=2, |14-12|=2, |9-14|=5, |11-9|=2, |13-11|=2, |15-13|=2, |14-15|=1, |16-14|=2, |18-16|=2, |20-18|=2, |25-20|=5, |22-25|=3, |24-22|=2, |23-24|=1, |21-23|=2, |19-21|=2, |17-19|=2.\n\nSegmenty (|roznica| <= 3):\n1. T[0..2]: 10,12,14 (dl.3, poz.1). Przerwa: |9-14|=5.\n2. T[3..10]: 9,11,13,15,14,16,18,20 (dl.8, poz.4). Przerwa: |25-20|=5.\n3. T[11..17]: 25,22,24,23,21,19,17 (dl.7, poz.12).\n\nNajdluzszy: dl.8, poz.4, elementy: 9,11,13,15,14,16,18,20.\n\nb) Suma: 9+11+13+15+14+16+18+20 = 116. Srednia: 116/8 = 14.50.\n\nc) Odleglosci od 14.50:\n  9: 5.50, 11: 3.50, 13: 1.50, 15: 0.50, 14: 0.50, 16: 1.50, 18: 3.50, 20: 5.50.\n  Najdalsze: 9 i 20 (oba 5.50). Pierwsze w kolejnosci: 9. Ale program z `>` (strict) wezmie 20 bo jest pozniej.\n  Hmm. Program iteruje od maxStart. Pierwszy to T[3]=9, maxOdl=5.50. Potem T[10]=20 ma odl=5.50, ale 5.50 > 5.50 jest FALSE. Wiec najdalszy=9.\n\nPoprawka wyniku: najbardziej odlegly to 9, nie 20.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak abs() w warunku**: Bez wartosci bezwzglednej ujemne roznice (spadek) nie sa sprawdzane poprawnie",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak sprawdzenia po petli w czesci (a)**: Najdluzszy podciag moze konczyc sie na ostatnim elemencie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Dzielenie calkowite przy obliczaniu sredniej**: `suma/maxDl` daje int; trzeba `(double)suma/maxDl`",
+      "kara": "-1 pkt"
+    }
+  ]
+}

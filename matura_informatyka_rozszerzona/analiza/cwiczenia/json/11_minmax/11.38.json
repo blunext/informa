@@ -1,0 +1,34 @@
+{
+  "id": "11.38",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2022 zad. 4 (najblizsza para)",
+  "tagi": [
+    "min-max",
+    "pary-elementow",
+    "sortowanie",
+    "roznica-bezwzgledna",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `liczby.txt` znajduje sie 10 roznych liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie dwie liczby o najmniejszej roznicy bezwzglednej (najblizsza pare wartosciowo). Wypisz te dwie liczby i ich roznice.\n\nWskazowka: posortuj dane — po sortowaniu najblizsza para to para sasiadow o minimalnej roznicy.\n\n**Dane** (`liczby.txt`):\n```\n42\n15\n8\n73\n31\n56\n29\n64\n17\n45\n```\n\n**Oczekiwany wynik**:\n```\nNajblizsza para: 15 i 17\nRoznica: 2\n```",
+  "wskazowki": [
+    "**Kierunek**: Posortuj tablice, potem szukaj minimalnej roznicy miedzy sasiadami (tab[i+1]-tab[i]).",
+    "**Podejscie**: Po sortowaniu roznica miedzy dowolnymi dwoma elementami jest >= roznica miedzy sasiadami, wiec wystarczy sprawdzic n-1 par.",
+    "**Kluczowy krok**: Inicjalizuj minRozn = tab[1]-tab[0], potem iteruj od i=1 do n-2."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"liczby.txt\");\n    vector<int> tab;\n    int x;\n    while (plik >> x) tab.push_back(x);\n    sort(tab.begin(), tab.end());\n    int n = tab.size();\n\n    int minRozn = tab[1] - tab[0];\n    int idx = 0;\n    for (int i = 1; i < n - 1; i++) {\n        int r = tab[i + 1] - tab[i];\n        if (r < minRozn) {\n            minRozn = r;\n            idx = i;\n        }\n    }\n\n    cout << \"Najblizsza para: \" << tab[idx] << \" i \" << tab[idx + 1] << endl;\n    cout << \"Roznica: \" << minRozn << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Po sortowaniu najblizsza para to zawsze para sasiadow. Wystarczy jeden przebieg po posortowanej tablicy sprawdzajac n-1 roznic.\n\nWeryfikacja:\n- Posortowane: 8, 15, 17, 29, 31, 42, 45, 56, 64, 73\n- Roznice sasiadow: 7, 2, 12, 2, 11, 3, 11, 8, 9\n- Min roznica: 2, pierwsza para: 15 i 17 (indeks 1 i 2 w posortowanej tablicy).",
+  "typowe_bledy": [
+    {
+      "opis": "**Podwojna petla O(n^2) bez sortowania**: Dziala poprawnie, ale jest nieefektywne i latwo o blad indeksowania",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o sortowaniu**: Bez sortowania szukanie min roznicy miedzy sasiadami daje bledny wynik",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Wypisanie indeksow zamiast wartosci**: Pytanie jest o wartosci liczb, nie ich pozycje",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "10.32",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2018 zad. 5 (analiza napisow)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "napisy"
+  ],
+  "tresc": "W pliku `slowa.txt` znajduje sie 10 slow (kazde w osobnym wierszu), skladajacych sie wylacznie z malych liter. Napisz program, ktory:\na) Zliczy ile z nich zaczyna sie i konczy ta sama litera.\nb) Wypisze te slowa.\n\n**Dane** (`slowa.txt`):\n```\nalfa\nkot\nanna\ndom\nkaktus\nbarbar\ntest\nmalina\noko\nkiosk\n```\n\n**Oczekiwany wynik**:\n```\na) Zaczyna i konczy ta sama litera: 5\nb) Lista: alfa anna test oko kiosk\n```",
+  "wskazowki": [
+    "**Kierunek**: Porownaj pierwszy i ostatni znak slowa — `s[0]` i `s[s.length()-1]`.",
+    "**Podejscie**: Wczytuj slowa w petli, dla kazdego sprawdzaj warunek i zliczaj.",
+    "**Kluczowy krok**: W C++ dostep do ostatniego znaku: `s[s.size()-1]` lub `s.back()`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"slowa.txt\");\n    string s;\n    int ile = 0;\n    string lista = \"\";\n    while (plik >> s) {\n        if (s[0] == s[s.size() - 1]) {\n            ile++;\n            if (!lista.empty()) lista += \" \";\n            lista += s;\n        }\n    }\n    cout << \"a) Zaczyna i konczy ta sama litera: \" << ile << endl;\n    cout << \"b) Lista: \" << lista << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdego slowa sprawdzamy, czy pierwszy znak jest rowny ostatniemu. Uzywamy `s[0]` i `s[s.size()-1]`.\n\nWeryfikacja:\n- alfa: 'a'=='a' tak\n- kot: 'k'!='t' nie\n- anna: 'a'=='a' tak\n- dom: 'd'!='m' nie\n- kaktus: 'k'!='s' nie\n- barbar: 'b'!='r' nie\n- test: 't'=='t' tak\n- malina: 'm'!='a' nie\n- oko: 'o'=='o' tak\n- kiosk: 'k'=='k' tak\n- Wynik: alfa, anna, test, oko, kiosk = 5",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie s[s.length()] zamiast s[s.length()-1]**: Indeksy sa od 0, wiec ostatni znak ma indeks length()-1",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak obslugi pustego stringa**: Jezeli plik zawiera puste linie, `s[0]` i `s[s.size()-1]` moga byc niezdefiniowane",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

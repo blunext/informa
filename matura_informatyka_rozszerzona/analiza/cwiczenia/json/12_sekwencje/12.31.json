@@ -1,0 +1,29 @@
+{
+  "id": "12.31",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2019 zad. 4 (analiza zmian kierunku)",
+  "tagi": [
+    "ciag-rosnacy",
+    "ciag-malejacy",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory policzy, ile razy ciag zmienia kierunek — tj. przechodzi z rosnacego na malejacy lub z malejacego na rosnacy. Sasiednie rowne elementy nie stanowia zmiany kierunku (ignoruj je).\n\n**Dane** (`dane.txt`):\n```\n3\n5\n8\n6\n4\n7\n9\n11\n10\n2\n5\n3\n```\n\n**Oczekiwany wynik**:\n```\nLiczba zmian kierunku: 5\n```",
+  "wskazowki": [
+    "**Kierunek**: Sledz biezacy kierunek (rosnacy/malejacy) i licz momenty, gdy sie zmienia.",
+    "**Podejscie**: Porownuj kolejne pary elementow. Jesli T[i] > T[i-1], kierunek=rosnacy. Jesli T[i] < T[i-1], kierunek=malejacy. Jesli rozny od poprzedniego kierunku — masz zmiane.",
+    "**Kluczowy krok**: Ustaw poczatkowy kierunek na podstawie pierwszej pary nierownych elementow. Ignoruj pary rowne (nie zmieniaja kierunku)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int zmiany = 0;\n    int kierunek = 0; // 0=nieokreslony, 1=rosnacy, -1=malejacy\n\n    for (int i = 1; i < n; i++) {\n        int nowyKier = 0;\n        if (T[i] > T[i - 1]) nowyKier = 1;\n        else if (T[i] < T[i - 1]) nowyKier = -1;\n\n        if (nowyKier != 0 && kierunek != 0 && nowyKier != kierunek)\n            zmiany++;\n        if (nowyKier != 0)\n            kierunek = nowyKier;\n    }\n\n    cout << \"Liczba zmian kierunku: \" << zmiany << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Skanujemy ciag liniowo, sledzac biezacy kierunek. Zmiana kierunku zachodzi, gdy nowy kierunek jest rozny od poprzedniego (i oba sa niezerowe). Rowne elementy sa ignorowane.\n\nWeryfikacja (dane: 3,5,8,6,4,7,9,11,10,2,5,3):\n- 3->5: UP (pierwszy kierunek, kier=1)\n- 5->8: UP (kier=1, brak zmiany)\n- 8->6: DOWN (kier=-1, zmiana 1)\n- 6->4: DOWN (kier=-1, brak zmiany)\n- 4->7: UP (kier=1, zmiana 2)\n- 7->9: UP (brak zmiany)\n- 9->11: UP (brak zmiany)\n- 11->10: DOWN (kier=-1, zmiana 3)\n- 10->2: DOWN (brak zmiany)\n- 2->5: UP (kier=1, zmiana 4)\n- 5->3: DOWN (kier=-1, zmiana 5)\nLiczba zmian kierunku: 5.",
+  "typowe_bledy": [
+    {
+      "opis": "**Liczenie rownych par jako zmiany**: Pary rownych elementow nie zmieniaja kierunku i powinny byc pomijane",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak inicjalizacji poczatkowego kierunku**: Pierwszy kierunek trzeba ustalic na podstawie pierwszej nierownej pary",
+      "kara": "-1 pkt"
+    }
+  ]
+}

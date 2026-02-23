@@ -1,0 +1,31 @@
+{
+  "id": "14.25",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Opracowanie wlasne: obwod wielokata z wspolrzednych",
+  "tagi": [
+    "wielokat",
+    "obwod",
+    "odleglosc-euklidesowa",
+    "sqrt",
+    "wczytywanie-pliku",
+    "iomanip"
+  ],
+  "tresc": "W pliku `wielokaty.txt` opisanych jest k wielokatow. Dla kazdego wielokata: pierwsza linia zawiera n (liczba wierzcholkow), a kolejne n linii zawieraja wspolrzedne (x y, calkowite) podane w kolejnosci obejscia. Napisz program, ktory:\na) Obliczy obwod kazdego wielokata.\nb) Wskaże wielokat o najdluzszym obwodzie.\n\n**Dane** (`wielokaty.txt`):\n```\n3\n3\n0 0\n4 0\n0 3\n4\n0 0\n6 0\n6 4\n0 4\n3\n0 0\n6 0\n0 8\n```\n\n**Oczekiwany wynik**:\n```\nWielokat 1 (3 wierzch.): obwod = 12.00\nWielokat 2 (4 wierzch.): obwod = 20.00\nWielokat 3 (3 wierzch.): obwod = 24.00\nNajdluzszy obwod: wielokat 3, obwod = 24.00\n```",
+  "wskazowki": [
+    "**Kierunek**: Obwod = suma dlugosci bokow. Dlugosc boku = odleglosc euklidesowa miedzy sasiednimi wierzcholkami.",
+    "**Podejscie**: Iteruj po wierzcholkach, dodaj odleglosc do nastepnego (z zamknieciem: ostatni -> pierwszy).",
+    "**Kluczowy krok**: Zamkniecie wielokata: indeks nastepnego wierzcholka = (i+1) % n."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"wielokaty.txt\");\n    int k;\n    plik >> k;\n    double maxObw = -1;\n    int maxIdx = -1;\n    cout << fixed << setprecision(2);\n    for (int w = 0; w < k; w++) {\n        int n;\n        plik >> n;\n        vector<int> X(n), Y(n);\n        for (int i = 0; i < n; i++) plik >> X[i] >> Y[i];\n        double obw = 0;\n        for (int i = 0; i < n; i++) {\n            int j = (i + 1) % n;\n            double dx = X[j] - X[i];\n            double dy = Y[j] - Y[i];\n            obw += sqrt(dx * dx + dy * dy);\n        }\n        cout << \"Wielokat \" << w + 1 << \" (\" << n << \" wierzch.): obwod = \" << obw << endl;\n        if (obw > maxObw) {\n            maxObw = obw;\n            maxIdx = w + 1;\n        }\n    }\n    cout << \"Najdluzszy obwod: wielokat \" << maxIdx << \", obwod = \" << maxObw << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Obwod wielokata to suma dlugosci jego bokow. Kazdy bok laczy sasiednie wierzcholki, z ostatnim bokiem zamykajacym wielokat (od ostatniego wierzcholka do pierwszego).\n\nWeryfikacja:\n- W1 (trojkat 0,0-4,0-0,3): boki sqrt(16)=4, sqrt(16+9)=5, sqrt(9)=3 -> obwod = 12.00\n- W2 (prostokat 6x4): boki 6+4+6+4 = 20.00\n- W3 (trojkat 0,0-6,0-0,8): boki sqrt(36)=6, sqrt(36+64)=sqrt(100)=10, sqrt(64)=8 -> obwod = 24.00\n- Najdluzszy: W3, obwod = 24.00",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak zamkniecia wielokata**: Zapomnienie o boku od ostatniego do pierwszego wierzcholka — obwod za maly",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledna petla po wielokatach**: Zapomnienie o wczytaniu n dla kazdego wielokata z osobna",
+      "kara": "-1 pkt"
+    }
+  ]
+}

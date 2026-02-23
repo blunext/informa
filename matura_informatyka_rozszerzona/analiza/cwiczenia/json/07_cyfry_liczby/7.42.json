@@ -1,0 +1,38 @@
+{
+  "id": "7.42",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Wariant autorski (palindromy przez dodanie odwrotnosci)",
+  "tagi": [
+    "cyfry-mod-div",
+    "odwracanie-liczby",
+    "palindrom",
+    "wczytywanie-pliku",
+    "filtrowanie"
+  ],
+  "tresc": "Operacja \"odwroc i dodaj\" polega na dodaniu do liczby jej lustrzanego odbicia. Jesli wynik jest palindromem, to liczba ma wlasnosc jednoiteracyjnego palindromu.\n\nPrzyklad: 56 -> 56 + 65 = 121, a 121 jest palindromem -> TAK.\n\nW pliku `dane.txt` znajduje sie 12 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory:\na) Dla kazdej liczby obliczy jej odwrocenie, sume z odwroceniem i sprawdzi, czy ta suma jest palindromem.\nb) Policzy, ile liczb staje sie palindromami po jednej iteracji.\nc) Wypisze wszystkie uzyskane palindromy.\n\n**Dane** (`dane.txt`):\n```\n56\n78\n132\n87\n605\n1001\n293\n407\n59\n329\n154\n209\n```\n\n**Oczekiwany wynik**:\n```\na) Operacja odwroc i dodaj:\n56: 56 + 65 = 121 -> palindrom TAK\n78: 78 + 87 = 165 -> palindrom NIE\n132: 132 + 231 = 363 -> palindrom TAK\n87: 87 + 78 = 165 -> palindrom NIE\n605: 605 + 506 = 1111 -> palindrom TAK\n1001: 1001 + 1001 = 2002 -> palindrom TAK\n293: 293 + 392 = 685 -> palindrom NIE\n407: 407 + 704 = 1111 -> palindrom TAK\n59: 59 + 95 = 154 -> palindrom NIE\n329: 329 + 923 = 1252 -> palindrom NIE\n154: 154 + 451 = 605 -> palindrom NIE\n209: 209 + 902 = 1111 -> palindrom TAK\n\nb) Liczb tworzacych palindrom po jednej iteracji: 6\n\nc) Uzyskane palindromy: 121 363 1111 2002 1111 1111\n```",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz dwoch operacji: (1) odwrocenie liczby, (2) sprawdzenie palindromu. Mozesz uzyc tej samej funkcji odwracajacej do obu celow.",
+    "**Podejscie**: Odwroc liczbe n -> rev. Oblicz sume = n + rev. Sprawdz palindrom: `sume == odwroc(sume)`.",
+    "**Kluczowy krok**: Funkcja `odwroc(n)` odwraca cyfry: `while(n>0) { rev = rev*10 + n%10; n /= 10; }`. Palindrom to liczba rowna swojemu odwroceniu."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint odwroc(int n) {\n    int rev = 0;\n    while (n > 0) {\n        rev = rev * 10 + n % 10;\n        n /= 10;\n    }\n    return rev;\n}\n\nbool czyPalindrom(int n) {\n    return n == odwroc(n);\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int liczba;\n    int ile = 0;\n    vector<int> palindromy;\n\n    cout << \"a) Operacja odwroc i dodaj:\" << endl;\n    while (plik >> liczba) {\n        int rev = odwroc(liczba);\n        int suma = liczba + rev;\n        bool pal = czyPalindrom(suma);\n        cout << liczba << \": \" << liczba << \" + \" << rev << \" = \" << suma\n             << \" -> palindrom \";\n        if (pal) {\n            cout << \"TAK\" << endl;\n            ile++;\n            palindromy.push_back(suma);\n        } else {\n            cout << \"NIE\" << endl;\n        }\n    }\n\n    cout << endl << \"b) Liczb tworzacych palindrom po jednej iteracji: \" << ile << endl;\n\n    cout << endl << \"c) Uzyskane palindromy:\";\n    for (int p : palindromy) {\n        cout << \" \" << p;\n    }\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Odwracamy liczbe standardowa petla (mod/div). Suma oryginalu i odwrocenia daje kandydata na palindrom. Palindrom sprawdzamy porownujac go z jego odwroceniem. Funkcja `odwroc()` sluzy zarowno do obliczenia odwrocenia, jak i do testu palindromu.\n\nWeryfikacja:\n- 56: rev=65, suma=121, odwroc(121)=121 -> palindrom TAK\n- 78: rev=87, suma=165, odwroc(165)=561 != 165 -> NIE\n- 132: rev=231, suma=363, odwroc(363)=363 -> TAK\n- 87: rev=78, suma=165, NIE (jak wyzej)\n- 605: rev=506, suma=1111, odwroc(1111)=1111 -> TAK\n- 1001: rev=1001, suma=2002, odwroc(2002)=2002 -> TAK\n- 293: rev=392, suma=685, odwroc(685)=586 != 685 -> NIE\n- 407: rev=704, suma=1111, TAK\n- 59: rev=95, suma=154, odwroc(154)=451 != 154 -> NIE\n- 329: rev=923, suma=1252, odwroc(1252)=2521 != 1252 -> NIE\n- 154: rev=451, suma=605, odwroc(605)=506 != 605 -> NIE\n- 209: rev=902, suma=1111, TAK\nRazem TAK: 6\nPalindromy: 121, 363, 1111, 2002, 1111, 1111",
+  "typowe_bledy": [
+    {
+      "opis": "**Sprawdzanie palindromu na oryginalnej liczbie zamiast na sumie**: Trzeba sprawdzic, czy `n + rev(n)` jest palindromem, nie czy samo `n` jest",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Modyfikacja zmiennej w funkcji odwracajacej**: Jesli odwracanie uzywa referencji `int& n`, niszczy oryginalna wartosc. Lepiej przekazywac przez wartosc",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Przepelnienie int przy sumie**: Dla duzych liczb (np. 999999999) suma moze przekroczyc zakres int. W tym zadaniu dane sa male, ale w ogolnosci nalezy uzywac long long",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Porownywanie palindromu stringowo z odwroconym stringiem**: Poprawne podejscie (nawet bardziej niezawodne niz liczbowe). Ale wymaga konwersji `to_string()`",
+      "kara": "-0 pkt"
+    }
+  ]
+}

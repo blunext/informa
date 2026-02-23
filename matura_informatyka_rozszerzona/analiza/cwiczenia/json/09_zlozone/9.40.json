@@ -1,0 +1,34 @@
+{
+  "id": "9.40",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2025 zad. 6 (symulacja krokowa)",
+  "tagi": [
+    "symulacja-krokowa",
+    "akumulator",
+    "filtrowanie",
+    "wczytywanie-pliku",
+    "wieloetapowe"
+  ],
+  "tresc": "W pliku `transakcje.txt` znajduje sie 10 rekordow w formacie: typ kwota (oddzielone spacja). Typ to W (wplata) lub P (wyplata). Kwota to liczba calkowita dodatnia. Saldo poczatkowe wynosi 500 zl. Napisz program, ktory:\na) Zasymuluje operacje krok po kroku, wypisujac saldo po kazdej transakcji.\nb) Wykryje wszystkie momenty, w ktorych saldo spadlo ponizej 0 (debet) i wypisze numery tych transakcji.\nc) Wypisze koncowe saldo i maksymalne saldo osiagniete w trakcie.\n\n**Dane** (`transakcje.txt`):\n```\nW 200\nP 400\nP 350\nW 100\nP 150\nW 600\nP 300\nP 250\nW 50\nP 100\n```\n\n**Oczekiwany wynik**:\n```\na) Symulacja:\n   Transakcja 1: W 200 -> saldo: 700\n   Transakcja 2: P 400 -> saldo: 300\n   Transakcja 3: P 350 -> saldo: -50\n   Transakcja 4: W 100 -> saldo: 50\n   Transakcja 5: P 150 -> saldo: -100\n   Transakcja 6: W 600 -> saldo: 500\n   Transakcja 7: P 300 -> saldo: 200\n   Transakcja 8: P 250 -> saldo: -50\n   Transakcja 9: W 50 -> saldo: 0\n   Transakcja 10: P 100 -> saldo: -100\n\nb) Debet po transakcjach: 3, 5, 8, 10\n\nc) Saldo koncowe: -100\n   Saldo maksymalne: 700\n```",
+  "wskazowki": [
+    "**Kierunek**: Akumulator saldo startujacy od 500. W = dodaj, P = odejmij. Sprawdzaj saldo < 0 po kazdym kroku.",
+    "**Podejscie**: Jeden przebieg: czytaj typ i kwote, aktualizuj saldo, sprawdz debet, aktualizuj max.",
+    "**Kluczowy krok**: Debet = saldo < 0 (nie <= 0). Saldo 0 to nie debet. Zapamietaj numery transakcji z debetem."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"transakcje.txt\");\n    int saldo = 500;\n    int maxSaldo = saldo;\n    vector<int> debety;\n    char typ;\n    int kwota;\n    int nr = 0;\n\n    cout << \"a) Symulacja:\" << endl;\n    while (plik >> typ >> kwota) {\n        nr++;\n        if (typ == 'W') saldo += kwota;\n        else saldo -= kwota;\n        cout << \"   Transakcja \" << nr << \": \" << typ << \" \" << kwota << \" -> saldo: \" << saldo << endl;\n        if (saldo < 0) debety.push_back(nr);\n        if (saldo > maxSaldo) maxSaldo = saldo;\n    }\n\n    cout << endl << \"b) Debet po transakcjach: \";\n    for (int i = 0; i < (int)debety.size(); i++) {\n        if (i > 0) cout << \", \";\n        cout << debety[i];\n    }\n    cout << endl;\n\n    cout << endl << \"c) Saldo koncowe: \" << saldo << endl;\n    cout << \"   Saldo maksymalne: \" << maxSaldo << endl;\n    return 0;\n}\n```\n\nWeryfikacja (saldo startowe = 500):\n1. W 200: 500+200 = 700 (max=700)\n2. P 400: 700-400 = 300\n3. P 350: 300-350 = -50 (debet!)\n4. W 100: -50+100 = 50\n5. P 150: 50-150 = -100 (debet!)\n6. W 600: -100+600 = 500\n7. P 300: 500-300 = 200\n8. P 250: 200-250 = -50 (debet!)\n9. W 50: -50+50 = 0\n10. P 100: 0-100 = -100 (debet!)\n- Debety: 3, 5, 8, 10\n- Saldo koncowe: -100\n- Max saldo: 700 (po transakcji 1)",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o saldzie poczatkowym**: Saldo startuje od 500, nie od 0",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pomylenie W z P**: Wplata dodaje do salda, wyplata odejmuje — nie odwrotnie",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Debet jako saldo <= 0**: Saldo rowne 0 nie jest debetem (transakcja 9 ma saldo 0, nie jest debetem)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

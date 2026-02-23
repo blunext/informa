@@ -1,0 +1,29 @@
+{
+  "id": "13.31",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2017 zad. 6 (siatka binarna, przekatna)",
+  "tagi": [
+    "tablica-2D",
+    "zliczanie-komorek",
+    "wczytywanie-pliku",
+    "petle-zagniezdzne"
+  ],
+  "tresc": "Dana jest siatka 5x5 zer i jedynek zapisana w pliku `dane.txt`. Napisz program, ktory:\na) Zliczy ile komorek na glownej przekatnej (i == j) ma wartosc 1.\nb) Zliczy ile komorek na glownej przekatnej ma wartosc 0.\n\n**Dane** (`dane.txt`):\n```\n1 0 0 1 0\n0 1 0 0 1\n1 0 0 1 0\n0 1 0 1 0\n1 0 0 0 1\n```\n\n**Oczekiwany wynik**:\n```\na) Jedynki na przekatnej: 4\nb) Zera na przekatnej: 1\n```",
+  "wskazowki": [
+    "**Kierunek**: Glowna przekatna to elementy tab[i][i] dla i = 0..n-1.",
+    "**Podejscie**: Wystarczy jedna petla po indeksie i. Sprawdz wartosc tab[i][i].",
+    "**Kluczowy krok**: Nie potrzebujesz podwojnej petli — przekatna ma dokladnie 5 elementow."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int tab[5][5];\n    for (int i = 0; i < 5; i++)\n        for (int j = 0; j < 5; j++)\n            plik >> tab[i][j];\n\n    int jedynki = 0, zera = 0;\n    for (int i = 0; i < 5; i++) {\n        if (tab[i][i] == 1) jedynki++;\n        else zera++;\n    }\n    cout << \"a) Jedynki na przekatnej: \" << jedynki << endl;\n    cout << \"b) Zera na przekatnej: \" << zera << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Glowna przekatna macierzy 5x5 to elementy tab[0][0], tab[1][1], tab[2][2], tab[3][3], tab[4][4].\n\nWeryfikacja:\n- tab[0][0] = 1 (jedynka)\n- tab[1][1] = 1 (jedynka)\n- tab[2][2] = 0 (zero)\n- tab[3][3] = 1 (jedynka)\n- tab[4][4] = 1 (jedynka)\nJedynki: 4, Zera: 1. Suma kontrolna: 4+1 = 5 = rozmiar przekatnej.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie podwojnej petli zamiast pojedynczej**: Przekatna to tab[i][i], nie trzeba petli po j",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pomylenie glownej z antyprzekatna**: Glowna: tab[i][i], antyprzekatna: tab[i][n-1-i]",
+      "kara": "-1 pkt"
+    }
+  ]
+}

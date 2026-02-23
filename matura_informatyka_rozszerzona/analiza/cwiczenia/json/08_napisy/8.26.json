@@ -1,0 +1,29 @@
+{
+  "id": "8.26",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wariant autorski (sprawdzanie poprawnosci nawiasow)",
+  "tagi": [
+    "napisy",
+    "operacje-na-string",
+    "stos",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `nawiasy.txt` znajduje sie 8 napisow skladajacych sie z nawiasow okraglych '(' i ')' (kazdy w osobnym wierszu). Napisz program, ktory dla kazdego napisu sprawdzi, czy nawiasy sa poprawnie zrownowalone (kazdy otwierajacy ma odpowiadajacy zamykajacy w poprawnej kolejnosci). Wypisz \"TAK\" lub \"NIE\" dla kazdego napisu, a na koncu ile napisow ma poprawne nawiasy.\n\n**Dane** (`nawiasy.txt`):\n```\n(())\n()()\n(()\n())\n(((())))\n)(\n(()())\n(()(()))\n```\n\n**Oczekiwany wynik**:\n```\n(()) -> TAK\n()() -> TAK\n(() -> NIE\n()) -> NIE\n(((()))) -> TAK\n)( -> NIE\n(()()) -> TAK\n(()(())) -> TAK\nPoprawnych: 5\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj licznika: '(' zwieksza o 1, ')' zmniejsza o 1. Jesli kiedykolwiek spadnie ponizej 0 — zle.",
+    "**Podejscie**: Iteruj po znakach, sledzac glebokosc zagniezdzenia. Na koncu glebokosc musi byc rowna 0.",
+    "**Kluczowy krok**: Dwa warunki poprawnosci: (1) licznik nigdy < 0, (2) na koncu == 0. Napis ')(' ma licznik -1 na poczatku — od razu NIE."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nbool poprawneNawiasy(const string& s) {\n    int cnt = 0;\n    for (char c : s) {\n        if (c == '(') cnt++;\n        else if (c == ')') cnt--;\n        if (cnt < 0) return false;\n    }\n    return cnt == 0;\n}\n\nint main() {\n    ifstream plik(\"nawiasy.txt\");\n    string s;\n    int ile = 0;\n    while (plik >> s) {\n        bool ok = poprawneNawiasy(s);\n        cout << s << \" -> \" << (ok ? \"TAK\" : \"NIE\") << endl;\n        if (ok) ile++;\n    }\n    cout << \"Poprawnych: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Licznik `cnt` sluzy jako uproszczony stos. Nawias '(' zwieksza glebokosc, ')' zmniejsza. Jesli kiedykolwiek cnt<0, mamy nadmiarowy ')'. Na koncu cnt musi byc 0 (wszystkie '(' zostaly zamkniete).\n\nWeryfikacja:\n- (()): cnt: 1,2,1,0 -> nigdy<0, koniec=0 -> TAK\n- ()(): cnt: 1,0,1,0 -> TAK\n- ((): cnt: 1,2,1 -> koniec=1!=0 -> NIE\n- ()): cnt: 1,0,-1 -> cnt<0 -> NIE\n- (((()))): cnt: 1,2,3,4,3,2,1,0 -> TAK\n- )(: cnt: -1 -> cnt<0 -> NIE\n- (()()): cnt: 1,2,1,2,1,0 -> TAK\n- (()(())): cnt: 1,2,1,2,3,2,1,0 -> TAK\nPoprawnych: (()), ()(), (((()))), (()()), (()(())) = 5",
+  "typowe_bledy": [
+    {
+      "opis": "**Sprawdzanie tylko rownowagi na koncu bez kontroli po drodze**: Napis ')(' ma tyle samo '(' co ')', ale nie jest poprawny. Trzeba sprawdzac cnt >= 0 po kazdym znaku",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zliczanie '(' i ')' osobno i porownanie sum**: To nie wystarczy — ')(' mialoby sumy rowne, ale jest niepoprawne",
+      "kara": "-2 pkt"
+    }
+  ]
+}

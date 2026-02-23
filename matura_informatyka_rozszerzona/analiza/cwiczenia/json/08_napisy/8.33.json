@@ -1,0 +1,29 @@
+{
+  "id": "8.33",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2022 zad. 4 (przetwarzanie slow)",
+  "tagi": [
+    "napisy",
+    "getline",
+    "operacje-na-string",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 6 wierszy. Kazdy wiersz zawiera kilka slow oddzielonych spacjami (male litery). Napisz program, ktory dla kazdego wiersza znajdzie najkrotsze slowo i wypisze je wraz z jego dlugoscia. Jesli jest kilka slow o tej samej minimalnej dlugosci, wypisz pierwsze z nich. Na koncu wypisz najkrotsze slowo ze wszystkich wierszy.\n\n**Dane** (`dane.txt`):\n```\nkot pies ryba\nprogramowanie jest fajne\na bb ccc\ndom auto tramwaj\nxy z abc\nmatematyka fizyka informatyka\n```\n\n**Oczekiwany wynik**:\n```\nkot pies ryba: najkrotsze=\"kot\" (3)\nprogramowanie jest fajne: najkrotsze=\"jest\" (4)\na bb ccc: najkrotsze=\"a\" (1)\ndom auto tramwaj: najkrotsze=\"dom\" (3)\nxy z abc: najkrotsze=\"z\" (1)\nmatematyka fizyka informatyka: najkrotsze=\"fizyka\" (6)\nNajkrotsze ze wszystkich: \"a\" (1)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj `getline` do wczytania calego wiersza, a nastepnie `istringstream` do podzielenia na slowa.",
+    "**Podejscie**: Dla kazdego wiersza przegladaj slowa i sledz najkrotsze (slowo o najmniejszej dlugosci). Zapisuj tez globalne minimum.",
+    "**Kluczowy krok**: Inicjalizuj minimalna dlugosc na duza wartosc (np. INT_MAX lub dlugosc pierwszego slowa), aby pierwsze slowo zawsze zaktualizowalo minimum."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <sstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    string linia;\n    string globalMin;\n    int globalMinLen = 1000000;\n    while (getline(plik, linia)) {\n        istringstream ss(linia);\n        string slowo, najkrotsze;\n        int minLen = 1000000;\n        while (ss >> slowo) {\n            if ((int)slowo.length() < minLen) {\n                minLen = slowo.length();\n                najkrotsze = slowo;\n            }\n        }\n        cout << linia << \": najkrotsze=\\\"\" << najkrotsze << \"\\\" (\" << minLen << \")\" << endl;\n        if (minLen < globalMinLen) {\n            globalMinLen = minLen;\n            globalMin = najkrotsze;\n        }\n    }\n    cout << \"Najkrotsze ze wszystkich: \\\"\" << globalMin << \"\\\" (\" << globalMinLen << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Uzycie `getline` + `istringstream` pozwala jednoczesnie zachowac caly wiersz do wypisania i podzielic go na slowa. Dla kazdego slowa porownujemy dlugosc z dotychczasowym minimum.\n\nWeryfikacja:\n- kot pies ryba: kot(3), pies(4), ryba(4) -> najkrotsze \"kot\" (3)\n- programowanie jest fajne: programowanie(14), jest(4), fajne(5) -> najkrotsze \"jest\" (4)\n- a bb ccc: a(1), bb(2), ccc(3) -> najkrotsze \"a\" (1)\n- dom auto tramwaj: dom(3), auto(4), tramwaj(7) -> najkrotsze \"dom\" (3)\n- xy z abc: xy(2), z(1), abc(3) -> najkrotsze \"z\" (1)\n- matematyka fizyka informatyka: matematyka(10), fizyka(6), informatyka(11) -> najkrotsze \"fizyka\" (6)\nGlobalne minimum: \"a\" (1) — wiersz 3, ale wiersz 5 tez ma \"z\" (1). Pierwsza znaleziona: \"a\".",
+  "typowe_bledy": [
+    {
+      "opis": "**Inicjalizacja minLen na 0 zamiast duzej wartosci**: Zadne slowo nie bedzie krotsze od 0, wiec minimum nigdy sie nie zaktualizuje",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak getline — uzycie operator>> traci informacje o granicach wierszy**: Nie mozna wypisac calego wiersza ani znalezc najkrotszego w danym wierszu",
+      "kara": "-1 pkt"
+    }
+  ]
+}

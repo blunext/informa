@@ -1,0 +1,32 @@
+{
+  "id": "9.37",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2024 zad. 6 (agregacja sprzedazy)",
+  "tagi": [
+    "map-zliczanie",
+    "grupowanie",
+    "sortowanie",
+    "vector-par",
+    "wczytywanie-pliku",
+    "iomanip",
+    "wieloetapowe"
+  ],
+  "tresc": "W pliku `zamowienia.txt` znajduje sie 10 rekordow w formacie: produkt ilosc cena_jednostkowa (oddzielone spacja). Ten sam produkt moze wystapic wielokrotnie. Ilosc i cena to liczby calkowite. Napisz program, ktory:\na) Obliczy laczny przychod z kazdego produktu (suma ilosc * cena) i wypisze posortowane malejaco wg przychodu.\nb) Wskazac produkt o najwyzszym lacznym przychodzie.\nc) Obliczy procentowy udzial najlepszego produktu w calkowitym przychodzie (2 m.p.).\n\n**Dane** (`zamowienia.txt`):\n```\nLaptop 2 3500\nMyszka 10 50\nLaptop 1 3500\nKlawiatura 5 120\nMonitor 3 1200\nMyszka 8 50\nMonitor 1 1200\nKlawiatura 3 120\nLaptop 1 3500\nMyszka 5 50\n```\n\n**Oczekiwany wynik**:\n```\na) Przychod wg produktu (malejaco):\n   Laptop: 14000\n   Monitor: 4800\n   Myszka: 1150\n   Klawiatura: 960\n\nb) Najlepszy produkt: Laptop (14000)\n\nc) Udzial: 66.95%\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj map<string, int> do sumowania przychodu per produkt. Potem przenies do vectora par i posortuj.",
+    "**Podejscie**: Przychod produktu = suma(ilosc * cena) dla kazdego wystapienia. Laczny przychod = suma wszystkich przychodow.",
+    "**Kluczowy krok**: Udzial = przychod_najlepszego * 100.0 / przychod_calkowity. Sortuj vector par malejaco po wartosci."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"zamowienia.txt\");\n    map<string, int> przychod;\n    string produkt;\n    int ilosc, cena;\n    int total = 0;\n    while (plik >> produkt >> ilosc >> cena) {\n        przychod[produkt] += ilosc * cena;\n        total += ilosc * cena;\n    }\n\n    vector<pair<int, string>> ranking;\n    for (auto &p : przychod) {\n        ranking.push_back({p.second, p.first});\n    }\n    sort(ranking.begin(), ranking.end(), [](auto &a, auto &b) {\n        return a.first > b.first;\n    });\n\n    cout << \"a) Przychod wg produktu (malejaco):\" << endl;\n    for (auto &r : ranking) {\n        cout << \"   \" << r.second << \": \" << r.first << endl;\n    }\n\n    cout << endl << \"b) Najlepszy produkt: \" << ranking[0].second << \" (\" << ranking[0].first << \")\" << endl;\n\n    double udzial = ranking[0].first * 100.0 / total;\n    cout << endl << \"c) Udzial: \" << fixed << setprecision(2) << udzial << \"%\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Laptop: 2*3500 + 1*3500 + 1*3500 = 7000 + 3500 + 3500 = 14000\n- Myszka: 10*50 + 8*50 + 5*50 = 500 + 400 + 250 = 1150\n- Klawiatura: 5*120 + 3*120 = 600 + 360 = 960\n- Monitor: 3*1200 + 1*1200 = 3600 + 1200 = 4800\n- Total: 14000 + 1150 + 960 + 4800 = 20910\n- Malejaco: Laptop(14000), Monitor(4800), Myszka(1150), Klawiatura(960)\n- Udzial: 14000 * 100.0 / 20910 = 66.9536... -> 66.95",
+  "typowe_bledy": [
+    {
+      "opis": "**Nieagregowanie powtorzen produktu**: Produkt moze wystapic wielokrotnie — trzeba sumowac, nie nadpisywac",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak sortowania wyniku**: Zadanie wymaga wypisania malejaco wg przychodu, nie alfabetycznie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

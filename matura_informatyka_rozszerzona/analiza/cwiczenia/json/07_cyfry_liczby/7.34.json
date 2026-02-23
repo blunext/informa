@@ -1,0 +1,29 @@
+{
+  "id": "7.34",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2019 zad. 4 (analiza cyfr)",
+  "tagi": [
+    "cyfry-mod-div",
+    "petla-while",
+    "wczytywanie-pliku",
+    "akumulator"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory dla kazdej liczby znajdzie jej najwieksza i najmniejsza cyfre, a nastepnie obliczy ich roznice (max - min). Wypisz wynik dla kazdej liczby. Na koniec podaj, ktora liczba ma najwieksza roznice (przy remisie — pierwsza napotkana).\n\nPrzyklad: 3847 -> cyfry {3,8,4,7}, max=8, min=3, roznica=5.\n\n**Dane** (`dane.txt`):\n```\n3847\n1111\n9023\n555\n7261\n4892\n31\n60504\n8765\n2019\n```\n\n**Oczekiwany wynik**:\n```\n3847: max cyfra=8, min cyfra=3, roznica=5\n1111: max cyfra=1, min cyfra=1, roznica=0\n9023: max cyfra=9, min cyfra=0, roznica=9\n555: max cyfra=5, min cyfra=5, roznica=0\n7261: max cyfra=7, min cyfra=1, roznica=6\n4892: max cyfra=9, min cyfra=2, roznica=7\n31: max cyfra=3, min cyfra=1, roznica=2\n60504: max cyfra=6, min cyfra=0, roznica=6\n8765: max cyfra=8, min cyfra=5, roznica=3\n2019: max cyfra=9, min cyfra=0, roznica=9\nNajwieksza roznica: 9023 (roznica=9)\n```",
+  "wskazowki": [
+    "**Kierunek**: Wyodrebnij cyfry petla `while(kopia > 0)` i sledz min/max.",
+    "**Podejscie**: Zainicjuj `maxC = 0` i `minC = 9`. W kazdym kroku: `cyfra = kopia % 10`, aktualizuj `maxC = max(maxC, cyfra)` i `minC = min(minC, cyfra)`.",
+    "**Kluczowy krok**: Uwaga na liczby zawierajace cyfre 0 (np. 9023) — min moze byc 0. Inicjalizacja minC=9 gwarantuje poprawne dzialanie."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int liczba;\n    int najLiczba = 0, najRoznica = -1;\n    while (plik >> liczba) {\n        int kopia = liczba;\n        int maxC = 0, minC = 9;\n        while (kopia > 0) {\n            int c = kopia % 10;\n            if (c > maxC) maxC = c;\n            if (c < minC) minC = c;\n            kopia /= 10;\n        }\n        int roznica = maxC - minC;\n        cout << liczba << \": max cyfra=\" << maxC\n             << \", min cyfra=\" << minC\n             << \", roznica=\" << roznica << endl;\n        if (roznica > najRoznica) {\n            najRoznica = roznica;\n            najLiczba = liczba;\n        }\n    }\n    cout << \"Najwieksza roznica: \" << najLiczba\n         << \" (roznica=\" << najRoznica << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdej liczby wyodrebniamy cyfry i sledzimy max/min. Inicjalizacja maxC=0 i minC=9 gwarantuje, ze kazda napotkana cyfra (0-9) poprawnie zaktualizuje wartosci. Roznica max-min mowi, jak bardzo cyfry sa rozproszone.\n\nWeryfikacja:\n- 3847: cyfry 7,4,8,3 (od konca), max=8, min=3, roznica=5\n- 1111: cyfry 1,1,1,1, max=1, min=1, roznica=0\n- 9023: cyfry 3,2,0,9, max=9, min=0, roznica=9\n- 555: cyfry 5,5,5, max=5, min=5, roznica=0\n- 7261: cyfry 1,6,2,7, max=7, min=1, roznica=6\n- 4892: cyfry 2,9,8,4, max=9, min=2, roznica=7\n- 31: cyfry 1,3, max=3, min=1, roznica=2\n- 60504: cyfry 4,0,5,0,6, max=6, min=0, roznica=6\n- 8765: cyfry 5,6,7,8, max=8, min=5, roznica=3\n- 2019: cyfry 9,1,0,2, max=9, min=0, roznica=9\nNajwieksza roznica: 9 (9023, pierwsza napotkana z 9)",
+  "typowe_bledy": [
+    {
+      "opis": "**Inicjalizacja min/max na pierwsza cyfre zamiast 0/9**: Poprawne, ale wymaga osobnego wyodrebnienia pierwszej cyfry — latwiej uzyc stalych 0 i 9",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Pominięcie cyfry 0 w minimum**: Jesli liczba zawiera 0 (np. 9023), min powinno byc 0. Niektorzy pomijaja 0 lub inicjuja minC na pierwsza cyfre i nie obsluguja 0",
+      "kara": "-1 pkt"
+    }
+  ]
+}

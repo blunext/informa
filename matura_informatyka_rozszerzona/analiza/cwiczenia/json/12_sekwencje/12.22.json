@@ -1,0 +1,29 @@
+{
+  "id": "12.22",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2017 zad. 4 (serie danych)",
+  "tagi": [
+    "seria-danych",
+    "skan-liniowy",
+    "current-max",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 18 liczb calkowitych (kazda w osobnym wierszu). \"Seria\" to najdluzszy spojny fragment, w ktorym wszystkie elementy spelniaja ten sam warunek parzystosci (wszystkie parzyste lub wszystkie nieparzyste). Napisz program, ktory znajdzie najdluzsza serie i wypisze jej dlugosc, pozycje poczatkowa (1-indeksowana) oraz czy jest to seria parzysta czy nieparzysta.\n\n**Dane** (`dane.txt`):\n```\n4\n6\n2\n7\n3\n5\n8\n10\n12\n14\n6\n2\n3\n7\n1\n9\n2\n4\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzsza seria:\nDlugosc: 6, pozycja poczatkowa: 7\nTyp: parzyste\nElementy: 8 10 12 14 6 2\n```",
+  "wskazowki": [
+    "**Kierunek**: Warunek kontynuacji serii to taka sama parzystosc: `T[i] % 2 == T[i-1] % 2`.",
+    "**Podejscie**: Wzorzec current/max — jesli parzystosc sie zmienia, porownaj biezaca dlugosc z max i zresetuj.",
+    "**Kluczowy krok**: Pamietaj o sprawdzeniu po petli. Na koncu wypisz typ na podstawie `T[maxStart] % 2`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int maxDl = 1, maxStart = 0;\n    int curDl = 1, curStart = 0;\n\n    for (int i = 1; i < n; i++) {\n        if (T[i] % 2 == T[i - 1] % 2) {\n            curDl++;\n        } else {\n            if (curDl > maxDl) {\n                maxDl = curDl;\n                maxStart = curStart;\n            }\n            curDl = 1;\n            curStart = i;\n        }\n    }\n    if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n\n    cout << \"Najdluzsza seria:\" << endl;\n    cout << \"Dlugosc: \" << maxDl << \", pozycja poczatkowa: \" << maxStart + 1 << endl;\n    cout << \"Typ: \" << (T[maxStart] % 2 == 0 ? \"parzyste\" : \"nieparzyste\") << endl;\n    cout << \"Elementy:\";\n    for (int i = maxStart; i < maxStart + maxDl; i++)\n        cout << \" \" << T[i];\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Klasyczny wzorzec current/max. Warunek kontynuacji serii: ta sama parzystosc co poprzedni element.\n\nWeryfikacja:\n- poz.1-3: 4,6,2 (parzyste, dl.3)\n- poz.4-6: 7,3,5 (nieparzyste, dl.3)\n- poz.7-12: 8,10,12,14,6,2 (parzyste, dl.6)\n- poz.13-16: 3,7,1,9 (nieparzyste, dl.4)\n- poz.17-18: 2,4 (parzyste, dl.2)\nNajdluzsza: dl.6, poz.7, parzyste, elementy: 8 10 12 14 6 2.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie `T[i] % 2 == 0` zamiast porownania parzystosci sasiadow**: Trzeba porownywac `T[i] % 2 == T[i-1] % 2`, nie sprawdzac stalego warunku",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak sprawdzenia po petli**: Najdluzsza seria moze konczyc sie na ostatnim elemencie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

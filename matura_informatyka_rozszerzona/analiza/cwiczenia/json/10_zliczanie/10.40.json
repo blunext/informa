@@ -1,0 +1,33 @@
+{
+  "id": "10.40",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2021 zad. 5 (porownanie zbiorow danych)",
+  "tagi": [
+    "wiele-plikow",
+    "set-unikalnosc",
+    "filtrowanie",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W plikach `plik1.txt` i `plik2.txt` znajduja sie liczby calkowite dodatnie (po jednej w wierszu, po 8 w kazdym pliku). Napisz program, ktory:\na) Zliczy ile liczb wystepuje w obu plikach jednoczesnie i wypisze je.\nb) Zliczy ile liczb wystepuje tylko w pierwszym pliku i wypisze je.\nc) Zliczy ile liczb wystepuje tylko w drugim pliku i wypisze je.\n\n**Dane** (`plik1.txt`):\n```\n3\n7\n12\n5\n20\n15\n8\n11\n```\n\n**Dane** (`plik2.txt`):\n```\n5\n9\n15\n22\n3\n17\n11\n25\n```\n\n**Oczekiwany wynik**:\n```\na) W obu plikach (4): 3 5 11 15\nb) Tylko w plik1 (4): 7 8 12 20\nc) Tylko w plik2 (4): 9 17 22 25\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj oba pliki do zbiorow `set<int>`. Uzyj operacji na zbiorach: czesc wspolna, roznica.",
+    "**Podejscie**: Dla kazdego elementu set1 sprawdz, czy jest w set2 (`set2.count(x)`). I odwrotnie.",
+    "**Kluczowy krok**: `set` automatycznie sortuje elementy — wypisanie w kolejnosci rosnacej jest gwarantowane."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <set>\nusing namespace std;\n\nint main() {\n    set<int> s1, s2;\n    ifstream f1(\"plik1.txt\");\n    ifstream f2(\"plik2.txt\");\n    int n;\n    while (f1 >> n) s1.insert(n);\n    while (f2 >> n) s2.insert(n);\n\n    // a) w obu\n    set<int> oba, tylko1, tylko2;\n    for (int x : s1) {\n        if (s2.count(x)) oba.insert(x);\n        else tylko1.insert(x);\n    }\n    for (int x : s2) {\n        if (!s1.count(x)) tylko2.insert(x);\n    }\n\n    cout << \"a) W obu plikach (\" << oba.size() << \"):\";\n    for (int x : oba) cout << \" \" << x;\n    cout << endl;\n\n    cout << \"b) Tylko w plik1 (\" << tylko1.size() << \"):\";\n    for (int x : tylko1) cout << \" \" << x;\n    cout << endl;\n\n    cout << \"c) Tylko w plik2 (\" << tylko2.size() << \"):\";\n    for (int x : tylko2) cout << \" \" << x;\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dwa sety przechowuja unikalne wartosci z kazdego pliku. Iteracja po set1 klasyfikuje elementy jako wspolne lub unikalne dla pliku 1. Iteracja po set2 wyodrebnia unikalne dla pliku 2.\n\nWeryfikacja:\n- plik1: {3, 5, 7, 8, 11, 12, 15, 20}\n- plik2: {3, 5, 9, 11, 15, 17, 22, 25}\n- W obu: 3, 5, 11, 15 = 4\n- Tylko plik1: 7, 8, 12, 20 = 4\n- Tylko plik2: 9, 17, 22, 25 = 4",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie wektora zamiast seta do porownywania**: Bez sortowania i usuwania duplikatow porownanie bedzie bledne lub O(n^2)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o zamknieciu pierwszego pliku przed otwarciem drugiego**: Dwa rozne obiekty ifstream moga byc otwarte jednoczesnie, ale lepiej uzywac osobnych nazw",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Brak obslugi duplikatow w pliku**: Jezeli plik zawiera powtorzenia, wektor zliczy je wielokrotnie — set eliminuje duplikaty automatycznie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

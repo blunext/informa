@@ -1,0 +1,29 @@
+{
+  "id": "8.22",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Wariant autorski (odwracanie i porownywanie napisow)",
+  "tagi": [
+    "napisy",
+    "operacje-na-string",
+    "palindrom",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 10 napisow skladajacych sie z malych liter (kazdy w osobnym wierszu). Napisz program, ktory dla kazdego napisu wypisze jego odwrocona wersje. Jesli napis jest rowny swojemu odwroceniu (palindrom), dopisz \" [PALINDROM]\". Na koncu wypisz, ile sposrod napisow jest palindromami i ile ma dlugosci parzysta.\n\n**Dane** (`napisy.txt`):\n```\nabcdef\nkajak\nhello\nracecar\nabba\nworld\nmadam\ntest\naba\nxy\n```\n\n**Oczekiwany wynik**:\n```\nabcdef -> fedcba\nkajak -> kajak [PALINDROM]\nhello -> olleh\nracecar -> racecar [PALINDROM]\nabba -> abba [PALINDROM]\nworld -> dlrow\nmadam -> madam [PALINDROM]\ntest -> tset\naba -> aba [PALINDROM]\nxy -> yx\nPalindromow: 5\nNapisow o dlugosci parzystej: 4\n```",
+  "wskazowki": [
+    "**Kierunek**: Odwroc napis recznie (petla od konca) lub uzyj funkcji reverse() / string(rbegin, rend).",
+    "**Podejscie**: Porownaj napis oryginalny z odwroconym — jesli sa rowne, to palindrom.",
+    "**Kluczowy krok**: Dlugosc parzysta to `s.length() % 2 == 0`. Pamietaj o rzutowaniu na int jesli porownujesz z liczbami calkowitymi."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    int palindromy = 0;\n    int parzyste = 0;\n    while (plik >> s) {\n        string rev = s;\n        reverse(rev.begin(), rev.end());\n        cout << s << \" -> \" << rev;\n        if (s == rev) {\n            cout << \" [PALINDROM]\";\n            palindromy++;\n        }\n        cout << endl;\n        if (s.length() % 2 == 0) parzyste++;\n    }\n    cout << \"Palindromow: \" << palindromy << endl;\n    cout << \"Napisow o dlugosci parzystej: \" << parzyste << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Uzycie `reverse()` z `<algorithm>` odwraca napis in-place. Porownanie `s == rev` wykrywa palindromy. Dlugosc parzysta sprawdzana modulo 2.\n\nWeryfikacja:\n- abcdef (6 znakow, parzysta): rev=fedcba, != -> bez flagi\n- kajak (5): rev=kajak, == -> [PALINDROM]\n- hello (5): rev=olleh, != -> bez flagi\n- racecar (7): rev=racecar, == -> [PALINDROM]\n- abba (4, parzysta): rev=abba, == -> [PALINDROM]\n- world (5): rev=dlrow, != -> bez flagi\n- madam (5): rev=madam, == -> [PALINDROM]\n- test (4, parzysta): rev=tset, != -> bez flagi\n- aba (3): rev=aba, == -> [PALINDROM]\n- xy (2, parzysta): rev=yx, != -> bez flagi\nPalindromow: kajak, racecar, abba, madam, aba = 5\nParzyste: abcdef(6), abba(4), test(4), xy(2) = 4",
+  "typowe_bledy": [
+    {
+      "opis": "**Modyfikacja oryginalnego napisu przy reverse**: Jesli uzywasz `reverse(s.begin(), s.end())`, tracisz oryginal. Zrob kopie najpierw: `string rev = s;`",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Porownanie s.length() % 2 bez uwzglednienia typu size_t**: Wyrazenie `s.length() % 2 == 0` dziala poprawnie, ale mieszanie size_t i int moze powodowac ostrzezenia kompilatora",
+      "kara": "-0 pkt"
+    }
+  ]
+}

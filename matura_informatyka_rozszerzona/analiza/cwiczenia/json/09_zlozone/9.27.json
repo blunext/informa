@@ -1,0 +1,35 @@
+{
+  "id": "9.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 6,
+  "zrodlo": "Wzor: Matura 2025 zad. 6 (symulacja procesow)",
+  "tagi": [
+    "wieloetapowe",
+    "struct",
+    "sortowanie",
+    "wczytywanie-pliku",
+    "symulacja-krokowa",
+    "akumulator"
+  ],
+  "tresc": "W pliku `loty.txt` znajduje sie 8 rekordow w formacie: numer_lotu miasto_docelowe godzina_odlotu opoznienie (oddzielone spacja). Godzina odlotu to liczba calkowita (np. 8 = 08:00, 14 = 14:00). Opoznienie to liczba minut (int, moze byc 0). Napisz program, ktory:\na) Obliczy rzeczywista godzine odlotu (godzina + opoznienie w minutach) i wypisze w formacie GG:MM.\nb) Posortuje loty wg rzeczywistej godziny odlotu (rosnaco) i wypisze harmonogram.\nc) Zliczy ile lotow jest opoznionych (opoznienie > 0) i jaki procent stanowia (1 m.p.).\n\n**Dane** (`loty.txt`):\n```\nLO101 Londyn 8 45\nLO202 Paryz 9 0\nLO303 Berlin 10 30\nLO404 Rzym 8 90\nLO505 Madryt 12 15\nLO606 Praga 11 0\nLO707 Wiedien 9 60\nLO808 Budapeszt 14 0\n```\n\n**Oczekiwany wynik**:\n```\na) Rzeczywiste godziny odlotu:\n   LO101 Londyn: 08:45\n   LO202 Paryz: 09:00\n   LO303 Berlin: 10:30\n   LO404 Rzym: 09:30\n   LO505 Madryt: 12:15\n   LO606 Praga: 11:00\n   LO707 Wiedien: 10:00\n   LO808 Budapeszt: 14:00\n\nb) Harmonogram (wg rzeczywistej godziny):\n   08:45 LO101 -> Londyn\n   09:00 LO202 -> Paryz\n   09:30 LO404 -> Rzym\n   10:00 LO707 -> Wiedien\n   10:30 LO303 -> Berlin\n   11:00 LO606 -> Praga\n   12:15 LO505 -> Madryt\n   14:00 LO808 -> Budapeszt\n\nc) Opoznionych lotow: 5 (62.5%)\n```",
+  "wskazowki": [
+    "**Kierunek**: Oblicz minuty od polnocy: godzina*60 + opoznienie. Konwertuj na GG:MM do wyswietlenia.",
+    "**Podejscie**: Struct z polami: numer, miasto, minuty_od_polnocy, opoznienie. Sortuj po minutach.",
+    "**Kluczowy krok**: GG = minuty/60, MM = minuty%60. Formatuj z wiodacym zerem: `setw(2) << setfill('0')`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nstruct Lot {\n    string numer, miasto;\n    int minuty, opoznienie;\n};\n\nint main() {\n    ifstream plik(\"loty.txt\");\n    vector<Lot> loty;\n    string nr, mst;\n    int godz, opz;\n    while (plik >> nr >> mst >> godz >> opz) {\n        loty.push_back({nr, mst, godz * 60 + opz, opz});\n    }\n\n    cout << \"a) Rzeczywiste godziny odlotu:\" << endl;\n    for (auto &l : loty) {\n        cout << \"   \" << l.numer << \" \" << l.miasto << \": \"\n             << setw(2) << setfill('0') << l.minuty / 60 << \":\"\n             << setw(2) << setfill('0') << l.minuty % 60 << endl;\n    }\n\n    sort(loty.begin(), loty.end(), [](const Lot &a, const Lot &b) {\n        return a.minuty < b.minuty;\n    });\n\n    cout << endl << \"b) Harmonogram (wg rzeczywistej godziny):\" << endl;\n    for (auto &l : loty) {\n        cout << \"   \" << setw(2) << setfill('0') << l.minuty / 60 << \":\"\n             << setw(2) << setfill('0') << l.minuty % 60\n             << \" \" << l.numer << \" -> \" << l.miasto << endl;\n    }\n\n    int opoznione = 0;\n    for (auto &l : loty) {\n        if (l.opoznienie > 0) opoznione++;\n    }\n    cout << endl << \"c) Opoznionych lotow: \" << opoznione << \" (\"\n         << fixed << setprecision(1) << (opoznione * 100.0 / loty.size()) << \"%)\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\na) Minuty od polnocy:\n- LO101: 8*60+45 = 525 -> 08:45\n- LO202: 9*60+0 = 540 -> 09:00\n- LO303: 10*60+30 = 630 -> 10:30\n- LO404: 8*60+90 = 570 -> 09:30\n- LO505: 12*60+15 = 735 -> 12:15\n- LO606: 11*60+0 = 660 -> 11:00\n- LO707: 9*60+60 = 600 -> 10:00\n- LO808: 14*60+0 = 840 -> 14:00\n\nb) Sortowane wg minut: 525, 540, 570, 600, 630, 660, 735, 840\n-> LO101(08:45), LO202(09:00), LO404(09:30), LO707(10:00), LO303(10:30), LO606(11:00), LO505(12:15), LO808(14:00)\n\nc) Opoznione (opz>0): LO101(45), LO303(30), LO404(90), LO505(15), LO707(60) -> 5\n   Procent: 5*100.0/8 = 62.5%",
+  "typowe_bledy": [
+    {
+      "opis": "**Opoznienie dodane do godzin zamiast do minut**: `(godz + opz)` zamiast `godz*60 + opz` — opoznienie jest w minutach",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak wiodacego zera w godzinie**: `8:45` zamiast `08:45` — potrzeba `setw(2) << setfill('0')`",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Sortowanie przed wypisaniem czesci a)**: Czesc a) wymaga oryginalnej kolejnosci, wiec sort dopiero przed czescia b)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

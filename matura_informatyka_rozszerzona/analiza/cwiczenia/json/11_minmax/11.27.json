@@ -1,0 +1,29 @@
+{
+  "id": "11.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Cwiczenie autorskie (min/max w wierszach tablicy 2D)",
+  "tagi": [
+    "min-max",
+    "tablica-2D",
+    "wczytywanie-pliku",
+    "pozycja-elementu"
+  ],
+  "tresc": "W pliku `macierz.txt` w pierwszym wierszu sa dwie liczby: N (liczba wierszy) i M (liczba kolumn). Nastepne N wierszy zawiera po M liczb calkowitych. Napisz program, ktory:\na) Dla kazdego wiersza znajdzie wartosc minimalna i maksymalna.\nb) Wskazze wiersz o najwiekszym rozstepie (max - min w wierszu).\n\n**Dane** (`macierz.txt`):\n```\n4 5\n12 45 7 33 28\n50 51 49 52 48\n3 99 15 67 42\n20 25 22 21 23\n```\n\n**Oczekiwany wynik**:\n```\nWiersz 1: min=7, max=45, rozstep=38\nWiersz 2: min=48, max=52, rozstep=4\nWiersz 3: min=3, max=99, rozstep=96\nWiersz 4: min=20, max=25, rozstep=5\nNajwiekszy rozstep: wiersz 3 (rozstep=96)\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj macierz do tablicy 2D, potem dla kazdego wiersza osobny skan min/max.",
+    "**Podejscie**: Petla zewnetrzna po wierszach, wewnetrzna po kolumnach. Sledzac maxRozstep i jego wiersz.",
+    "**Kluczowy krok**: Inicjalizuj min/max kazdego wiersza pierwszym elementem tego wiersza (tab[i][0])."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"macierz.txt\");\n    int N, M;\n    plik >> N >> M;\n\n    vector<vector<int>> tab(N, vector<int>(M));\n    for (int i = 0; i < N; i++)\n        for (int j = 0; j < M; j++)\n            plik >> tab[i][j];\n\n    int maxRozstep = -1, maxWiersz = 0;\n    for (int i = 0; i < N; i++) {\n        int minW = tab[i][0], maxW = tab[i][0];\n        for (int j = 1; j < M; j++) {\n            if (tab[i][j] < minW) minW = tab[i][j];\n            if (tab[i][j] > maxW) maxW = tab[i][j];\n        }\n        int rozstep = maxW - minW;\n        cout << \"Wiersz \" << i + 1 << \": min=\" << minW\n             << \", max=\" << maxW << \", rozstep=\" << rozstep << endl;\n        if (rozstep > maxRozstep) {\n            maxRozstep = rozstep;\n            maxWiersz = i;\n        }\n    }\n    cout << \"Najwiekszy rozstep: wiersz \" << maxWiersz + 1\n         << \" (rozstep=\" << maxRozstep << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdego wiersza szukamy min i max (skan liniowy po kolumnach), obliczamy rozstep. Jednoczesnie sledzac globalny max rozstep.\n\nWeryfikacja:\n- Wiersz 1: min=7, max=45, rozstep=38\n- Wiersz 2: min=48, max=52, rozstep=4\n- Wiersz 3: min=3, max=99, rozstep=96\n- Wiersz 4: min=20, max=25, rozstep=5\n- Max rozstep: wiersz 3 z rozstepem 96.",
+  "typowe_bledy": [
+    {
+      "opis": "**Inicjalizacja min/max wiersza wartosciami z poprzedniego wiersza**: Kazdy wiersz wymaga nowej inicjalizacji min/max",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pomylenie N i M**: Wiersze vs kolumny — N to wiersze, M to kolumny",
+      "kara": "-1 pkt"
+    }
+  ]
+}

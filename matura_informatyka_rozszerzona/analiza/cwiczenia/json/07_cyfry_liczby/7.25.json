@@ -1,0 +1,29 @@
+{
+  "id": "7.25",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wariant autorski (czestotliwosc cyfr w zbiorze liczb)",
+  "tagi": [
+    "cyfry-mod-div",
+    "tablica-czestotliwosci",
+    "wczytywanie-pliku",
+    "akumulator"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory policzy laczna czestotliwosc wystapien kazdej cyfry (0-9) we wszystkich liczbach, a nastepnie wypisze cyfre wystepujaca najczesciej oraz cyfre wystepujaca najrzadziej (sposrod tych, ktore wystapily przynajmniej raz). Jesli jest remis, wypisz mniejsza cyfre.\n\n**Dane** (`dane.txt`):\n```\n111\n222\n345\n678\n901\n234\n567\n890\n135\n246\n```\n\n**Oczekiwany wynik**:\n```\nCzestotliwosc cyfr:\n  cyfra 0: 2\n  cyfra 1: 5\n  cyfra 2: 5\n  cyfra 3: 3\n  cyfra 4: 3\n  cyfra 5: 3\n  cyfra 6: 3\n  cyfra 7: 2\n  cyfra 8: 2\n  cyfra 9: 2\nNajczesciej: cyfra 1 (5 razy)\nNajrzadziej (>0): cyfra 0 (2 razy)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj tablicy `freq[10]` do zliczania wszystkich cyfr ze wszystkich liczb.",
+    "**Podejscie**: Dla kazdej liczby wyodrebnij cyfry (mod/div) i zwieksz odpowiedni licznik. Po przetworzeniu wszystkich, przeszukaj tablice.",
+    "**Kluczowy krok**: Przy szukaniu minimum pomijaj cyfry o czestotliwosci 0. Przy remisie mniejsza cyfra wygrywa — iteruj od 0 w gore i aktualizuj przy scislym `>` (dla max) i `<` (dla min)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int freq[10] = {0};\n    int liczba;\n    while (plik >> liczba) {\n        while (liczba > 0) {\n            freq[liczba % 10]++;\n            liczba /= 10;\n        }\n    }\n    cout << \"Czestotliwosc cyfr:\" << endl;\n    for (int i = 0; i <= 9; i++) {\n        cout << \"  cyfra \" << i << \": \" << freq[i] << endl;\n    }\n    int maxCyfra = 0, minCyfra = -1;\n    for (int i = 0; i <= 9; i++) {\n        if (freq[i] > freq[maxCyfra]) maxCyfra = i;\n        if (freq[i] > 0) {\n            if (minCyfra == -1 || freq[i] < freq[minCyfra]) minCyfra = i;\n        }\n    }\n    cout << \"Najczesciej: cyfra \" << maxCyfra << \" (\" << freq[maxCyfra] << \" razy)\" << endl;\n    cout << \"Najrzadziej (>0): cyfra \" << minCyfra << \" (\" << freq[minCyfra] << \" razy)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Globalna tablica czestotliwosci zbiera dane ze wszystkich liczb. Szukanie max/min z warunkiem >0 i preferencja mniejszej cyfry (iteracja od 0, aktualizacja przy scislym `>` / `<`).\n\nWeryfikacja (cyfry z kazdej liczby):\n- 111: 1,1,1 -> freq[1]+=3\n- 222: 2,2,2 -> freq[2]+=3\n- 345: 5,4,3 -> freq[3]++, freq[4]++, freq[5]++\n- 678: 8,7,6 -> freq[6]++, freq[7]++, freq[8]++\n- 901: 1,0,9 -> freq[0]++, freq[1]++, freq[9]++\n- 234: 4,3,2 -> freq[2]++, freq[3]++, freq[4]++\n- 567: 7,6,5 -> freq[5]++, freq[6]++, freq[7]++\n- 890: 0,9,8 -> freq[0]++, freq[8]++, freq[9]++\n- 135: 5,3,1 -> freq[1]++, freq[3]++, freq[5]++\n- 246: 6,4,2 -> freq[2]++, freq[4]++, freq[6]++\n\nSumy: 0:2, 1:5, 2:5, 3:3, 4:3, 5:3, 6:3, 7:2, 8:2, 9:2\nMax: cyfra 1 (5) — remis z 2, ale 1 < 2\nMin (>0): cyfra 0 (2) — remis z 7,8,9 ale 0 jest najmniejsza",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomijanie cyfry 0**: Petla `while(n > 0)` nie wejdzie jesli n=0, ale tu n > 0 zawsze. Uwaga: cyfra 0 w srodku liczby zostanie policzona poprawnie przez mod/div",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uwzglednienie cyfr o czestotliwosci 0 przy szukaniu minimum**: Trzeba filtrowac — najrzadziej wystepujaca cyfra to ta, ktora pojawila sie przynajmniej raz",
+      "kara": "-1 pkt"
+    }
+  ]
+}

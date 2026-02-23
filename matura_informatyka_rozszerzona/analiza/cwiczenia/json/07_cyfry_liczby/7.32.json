@@ -1,0 +1,29 @@
+{
+  "id": "7.32",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2018 zad. 4 (podzielnosc i cyfry)",
+  "tagi": [
+    "cyfry-mod-div",
+    "podzielnosc",
+    "wczytywanie-pliku",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych dodatnich wiekszych od 9 (kazda w osobnym wierszu). Napisz program, ktory wczyta te liczby i dla kazdej obliczy sume pierwszej i ostatniej cyfry. Nastepnie sprawdzi, czy liczba jest podzielna przez te sume. Wypisz wynik dla kazdej liczby. Na koniec podaj ile liczb spelnia warunek.\n\nPrzyklad: 126 -> pierwsza=1, ostatnia=6, suma=7, 126 % 7 = 0 -> TAK.\n\n**Dane** (`dane.txt`):\n```\n126\n216\n555\n336\n432\n93\n1044\n756\n507\n2394\n```\n\n**Oczekiwany wynik**:\n```\n126: pierwsza=1, ostatnia=6, suma=7, 126 % 7 = 0 -> TAK\n216: pierwsza=2, ostatnia=6, suma=8, 216 % 8 = 0 -> TAK\n555: pierwsza=5, ostatnia=5, suma=10, 555 % 10 = 5 -> NIE\n336: pierwsza=3, ostatnia=6, suma=9, 336 % 9 = 3 -> NIE\n432: pierwsza=4, ostatnia=2, suma=6, 432 % 6 = 0 -> TAK\n93: pierwsza=9, ostatnia=3, suma=12, 93 % 12 = 9 -> NIE\n1044: pierwsza=1, ostatnia=4, suma=5, 1044 % 5 = 4 -> NIE\n756: pierwsza=7, ostatnia=6, suma=13, 756 % 13 = 2 -> NIE\n507: pierwsza=5, ostatnia=7, suma=12, 507 % 12 = 3 -> NIE\n2394: pierwsza=2, ostatnia=4, suma=6, 2394 % 6 = 0 -> TAK\nLiczb podzielnych przez sume pierwszej i ostatniej cyfry: 4\n```",
+  "wskazowki": [
+    "**Kierunek**: Ostatnia cyfra to `n % 10`, pierwsza cyfra wymaga petli `while(kopia >= 10) kopia /= 10`.",
+    "**Podejscie**: Oblicz sume = pierwsza + ostatnia. Sprawdz `liczba % suma == 0`.",
+    "**Kluczowy krok**: Zachowaj oryginalna wartosc liczby — petla szukajaca pierwszej cyfry niszczy kopie zmiennej."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int liczba;\n    int ile = 0;\n    while (plik >> liczba) {\n        int ostatnia = liczba % 10;\n        int kopia = liczba;\n        while (kopia >= 10) kopia /= 10;\n        int pierwsza = kopia;\n        int suma = pierwsza + ostatnia;\n        int reszta = liczba % suma;\n        cout << liczba << \": pierwsza=\" << pierwsza\n             << \", ostatnia=\" << ostatnia\n             << \", suma=\" << suma\n             << \", \" << liczba << \" % \" << suma << \" = \" << reszta;\n        if (reszta == 0) {\n            cout << \" -> TAK\" << endl;\n            ile++;\n        } else {\n            cout << \" -> NIE\" << endl;\n        }\n    }\n    cout << \"Liczb podzielnych przez sume pierwszej i ostatniej cyfry: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Wyodrebniamy pierwsza i ostatnia cyfre, sumujemy je, sprawdzamy podzielnosc. Liczby sa > 9, wiec pierwsza cyfra >= 1, a suma >= 1 — brak ryzyka dzielenia przez zero.\n\nWeryfikacja:\n- 126: pierwsza=1, ostatnia=6, suma=7, 126/7=18 -> reszta=0 TAK\n- 216: pierwsza=2, ostatnia=6, suma=8, 216/8=27 -> reszta=0 TAK\n- 555: pierwsza=5, ostatnia=5, suma=10, 555/10=55 r.5 -> NIE\n- 336: pierwsza=3, ostatnia=6, suma=9, 336/9=37 r.3 -> NIE\n- 432: pierwsza=4, ostatnia=2, suma=6, 432/6=72 -> reszta=0 TAK\n- 93: pierwsza=9, ostatnia=3, suma=12, 93/12=7 r.9 -> NIE\n- 1044: pierwsza=1, ostatnia=4, suma=5, 1044/5=208 r.4 -> NIE\n- 756: pierwsza=7, ostatnia=6, suma=13, 756/13=58 r.2 -> NIE\n- 507: pierwsza=5, ostatnia=7, suma=12, 507/12=42 r.3 -> NIE\n- 2394: pierwsza=2, ostatnia=4, suma=6, 2394/6=399 -> reszta=0 TAK\nRazem TAK: 4",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylka pierwsza/ostatnia cyfra**: Mylenie `n % 10` (ostatnia) z petla `/= 10` (pierwsza) — trzeba pamietac ktora jest ktora",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Warunek `while(n > 10)` zamiast `while(n >= 10)`**: Dla n=10 petla sie nie wykona, zwracajac 10 zamiast cyfry 1",
+      "kara": "-1 pkt"
+    }
+  ]
+}

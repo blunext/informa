@@ -1,0 +1,34 @@
+{
+  "id": "12.37",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2018 zad. 4 (oscylacje w ciagu)",
+  "tagi": [
+    "oscylacja",
+    "roznica-sasiadow",
+    "current-max",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu). \"Zygzak\" to maksymalny spojny fragment ciagu, w ktorym znaki kolejnych roznic scisle alternuja: raz dodatnia, raz ujemna (lub odwrotnie). Innymi slowy, kazdy element jest na przemian wiekszy i mniejszy od swojego nastepnika. Rowne sasiednie elementy przerywaja zygzak.\n\nNapisz program, ktory znajdzie najdluzszy zygzak. Podaj jego dlugosc (liczbe elementow), pozycje poczatkowa (1-indeks.) i elementy.\n\n**Dane** (`dane.txt`):\n```\n3\n7\n4\n9\n2\n8\n5\n10\n6\n1\n11\n4\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy zygzak: dlugosc 9, pozycja poczatkowa: 1\nElementy: 3 7 4 9 2 8 5 10 6\n```",
+  "wskazowki": [
+    "**Kierunek**: Oblicz znaki roznic: +1 (rosnacy), -1 (malejacy), 0 (rowny). Zygzak = znaki na przemian +1 i -1.",
+    "**Podejscie**: Wzorzec current/max: jesli znak[i] * znak[i-1] == -1 (rozne znaki, oba niezerowe), wydluz biezacy zygzak. Inaczej zresetuj.",
+    "**Kluczowy krok**: Zygzak o k roznicach alternujacych ma k+1 elementow. Pamietaj o sprawdzeniu po petli."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    // Znaki roznic\n    vector<int> znak(n - 1);\n    for (int i = 0; i < n - 1; i++) {\n        if (T[i + 1] > T[i]) znak[i] = 1;\n        else if (T[i + 1] < T[i]) znak[i] = -1;\n        else znak[i] = 0;\n    }\n\n    // Najdluzszy ciag alternujacych znakow (!=0)\n    int maxDl = 1, maxStart = 0;\n    int curDl = 1, curStart = 0;\n\n    for (int i = 1; i < (int)znak.size(); i++) {\n        if (znak[i] != 0 && znak[i - 1] != 0 && znak[i] != znak[i - 1]) {\n            curDl++;\n        } else {\n            if (curDl > maxDl) {\n                maxDl = curDl;\n                maxStart = curStart;\n            }\n            curDl = 1;\n            curStart = i;\n        }\n    }\n    if (curDl > maxDl) {\n        maxDl = curDl;\n        maxStart = curStart;\n    }\n\n    // Dlugosc zygzaka = liczba roznic + 1\n    int zigDl = maxDl + 1;\n\n    cout << \"Najdluzszy zygzak: dlugosc \" << zigDl\n         << \", pozycja poczatkowa: \" << maxStart + 1 << endl;\n    cout << \"Elementy:\";\n    for (int i = maxStart; i < maxStart + zigDl; i++)\n        cout << \" \" << T[i];\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Obliczamy znaki roznic (+1/-1/0), potem szukamy najdluzszego ciagu alternujacych znakow (oba niezerowe i rozne). Dlugosc zygzaka = liczba alternujacych roznic + 1.\n\nWeryfikacja (dane: 3,7,4,9,2,8,5,10,6,1,11,4):\nRoznice: +4,-3,+5,-7,+6,-3,+5,-4,-5,+10,-7\nZnaki:   +1,-1,+1,-1,+1,-1,+1,-1,-1,+1,-1\n\nAlternacja:\n- z[0]=+1, z[1]=-1: alternuje, curDl=2\n- z[2]=+1, z[1]=-1: alternuje, curDl=3\n- z[3]=-1, z[2]=+1: alternuje, curDl=4\n- z[4]=+1, z[3]=-1: alternuje, curDl=5\n- z[5]=-1, z[4]=+1: alternuje, curDl=6\n- z[6]=+1, z[5]=-1: alternuje, curDl=7\n- z[7]=-1, z[6]=+1: alternuje, curDl=8\n- z[8]=-1, z[7]=-1: NIE (ten sam znak). Zamkniecie: maxDl=8, maxStart=0. curDl=1, curStart=8.\n- z[9]=+1, z[8]=-1: alternuje, curDl=2\n- z[10]=-1, z[9]=+1: alternuje, curDl=3\n- Koniec: curDl=3 < 8.\n\nNajdluzszy: 8 roznic od start=0. Zygzak: 8+1=9 elementow od poz.1. Elementy: 3,7,4,9,2,8,5,10,6.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak obslugi rownych elementow**: Rowne sasiednie elementy (roznica=0) przerywaja zygzak — trzeba sprawdzic znak!=0",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o +1**: Ciag n alternujacych roznic daje n+1 elementow zygzaka",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Sprawdzanie znaku mnozeniem**: Uzycie `znak[i]*znak[i-1]==-1` wymaga by oba byly niezerowe. Alternatywnie `znak[i]!=0 && znak[i]==-znak[i-1]`",
+      "kara": "-0 pkt"
+    }
+  ]
+}

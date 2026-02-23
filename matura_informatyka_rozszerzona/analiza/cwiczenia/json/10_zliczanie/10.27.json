@@ -1,0 +1,33 @@
+{
+  "id": "10.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2018 zad. 5 (rozklad czestotliwosci)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "tablica-czestotliwosci",
+    "przedzialy",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `wiek.txt` znajduje sie 16 liczb calkowitych z zakresu 10-99 (kazda w osobnym wierszu), reprezentujacych wiek uczestnikow ankiety. Napisz program, ktory:\na) Wypisze histogram — ile osob nalezy do kazdej dekady ([10-19], [20-29], ..., [90-99]). Pomin dekady z zerowa licznoscia.\nb) Wskazze dekade z najwieksza liczba osob.\n\n**Dane** (`wiek.txt`):\n```\n15\n42\n87\n23\n91\n35\n67\n42\n15\n78\n23\n42\n87\n35\n91\n23\n```\n\n**Oczekiwany wynik**:\n```\na) Histogram:\n   [10-19]: 2\n   [20-29]: 3\n   [30-39]: 2\n   [40-49]: 3\n   [60-69]: 1\n   [70-79]: 1\n   [80-89]: 2\n   [90-99]: 2\n\nb) Najliczniejsze dekady: [20-29] i [40-49] (po 3 osoby)\n```",
+  "wskazowki": [
+    "**Kierunek**: Numer dekady to `wiek / 10`. Uzyj tablicy czestotliwosci o rozmiarze 10 (indeksy 1-9).",
+    "**Podejscie**: `int hist[10] = {0};` — po wczytaniu kazdego wieku: `hist[wiek/10]++`. Na koniec wypisz niepuste.",
+    "**Kluczowy krok**: Dekada [10-19] ma indeks 1, [20-29] indeks 2 itd. Wypisz zakres jako `[i*10, i*10+9]`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"wiek.txt\");\n    int wiek;\n    int hist[10] = {0};\n    while (plik >> wiek) {\n        hist[wiek / 10]++;\n    }\n\n    // a)\n    cout << \"a) Histogram:\" << endl;\n    int maxDekada = -1, maxIle = 0;\n    for (int i = 1; i <= 9; i++) {\n        if (hist[i] > 0) {\n            cout << \"   [\" << i*10 << \"-\" << i*10+9 << \"]: \" << hist[i] << endl;\n        }\n        if (hist[i] > maxIle) {\n            maxIle = hist[i];\n            maxDekada = i;\n        }\n    }\n\n    // b)\n    cout << endl << \"b) Najliczniejsze dekady:\";\n    bool first = true;\n    for (int i = 1; i <= 9; i++) {\n        if (hist[i] == maxIle) {\n            if (!first) cout << \" i\";\n            cout << \" [\" << i*10 << \"-\" << i*10+9 << \"]\";\n            first = false;\n        }\n    }\n    cout << \" (po \" << maxIle << \" osoby)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Tablica `hist[10]` sluzy jako tablica czestotliwosci. Indeks to numer dekady (wiek/10). Po wypelnieniu tablicy wypisujemy niepuste dekady i szukamy maksimum.\n\nWeryfikacja:\n- 15/10=1, 42/10=4, 87/10=8, 23/10=2, 91/10=9, 35/10=3, 67/10=6, 42/10=4, 15/10=1, 78/10=7, 23/10=2, 42/10=4, 87/10=8, 35/10=3, 91/10=9, 23/10=2\n- hist[1]=2, hist[2]=3, hist[3]=2, hist[4]=3, hist[5]=0, hist[6]=1, hist[7]=1, hist[8]=2, hist[9]=2\n- Najliczniejsze: hist[2]=3 i hist[4]=3",
+  "typowe_bledy": [
+    {
+      "opis": "**Tablica za mala (rozmiar 9 zamiast 10)**: Wiek 90-99 daje indeks 9 — tablica musi miec co najmniej 10 elementow",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak inicjalizacji tablicy na 0**: `int hist[10]` bez `= {0}` moze zawierac smieci",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Wypisywanie dekad z zerowa licznoscia**: Zadanie mowi 'pomin dekady z zerowa licznoscia'",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

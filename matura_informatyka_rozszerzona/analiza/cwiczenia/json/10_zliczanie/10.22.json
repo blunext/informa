@@ -1,0 +1,29 @@
+{
+  "id": "10.22",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzor: Matura 2015 zad. 4 (zliczanie w przedzialach)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "przedzialy",
+    "warunek"
+  ],
+  "tresc": "W pliku `wyniki.txt` znajduje sie 16 liczb calkowitych z zakresu 0-100 (kazda w osobnym wierszu), reprezentujacych wyniki testu. Napisz program, ktory:\na) Zliczy ile wynikow nalezy do przedzialu [0, 49] (niedostateczne).\nb) Zliczy ile wynikow nalezy do przedzialu [50, 74] (dostateczne).\nc) Zliczy ile wynikow nalezy do przedzialu [75, 100] (dobre i bardzo dobre).\n\n**Dane** (`wyniki.txt`):\n```\n85\n42\n67\n91\n33\n78\n55\n100\n49\n72\n88\n15\n63\n76\n50\n38\n```\n\n**Oczekiwany wynik**:\n```\na) Niedostateczne [0-49]: 5\nb) Dostateczne [50-74]: 5\nc) Dobre i bardzo dobre [75-100]: 6\n```",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz trzech licznikow — po jednym dla kazdego przedzialu.",
+    "**Podejscie**: W petli wczytuj wynik i uzyj if/else if do przypisania go do przedzialu.",
+    "**Kluczowy krok**: Przedzialy nie nachodza na siebie — kazdy wynik pasuje dokladnie do jednego przedzialu."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"wyniki.txt\");\n    int n;\n    int niedost = 0, dost = 0, dobre = 0;\n    while (plik >> n) {\n        if (n <= 49) niedost++;\n        else if (n <= 74) dost++;\n        else dobre++;\n    }\n    cout << \"a) Niedostateczne [0-49]: \" << niedost << endl;\n    cout << \"b) Dostateczne [50-74]: \" << dost << endl;\n    cout << \"c) Dobre i bardzo dobre [75-100]: \" << dobre << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Trzy rozlaczne przedzialy mozna obsluzyc drabinka if/else if/else. Nie trzeba sprawdzac dolnych granic, bo else gwarantuje, ze poprzedni warunek nie byl spelniony.\n\nWeryfikacja:\n- [0-49]: 42, 33, 49, 15, 38 = 5\n- [50-74]: 67, 55, 72, 63, 50 = 5\n- [75-100]: 85, 91, 78, 100, 88, 76 = 6\n- Suma: 5+5+6 = 16 (zgadza sie z iloscia danych)",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie `<` zamiast `<=` na granicach**: Granice przedzialow sa obustronnie domkniete, wiec 49 nalezy do [0-49], a 50 do [50-74]",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie samych if bez else**: Bez else if kazdy wynik moze byc zliczony wielokrotnie, bo warunki nie wykluczaja sie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

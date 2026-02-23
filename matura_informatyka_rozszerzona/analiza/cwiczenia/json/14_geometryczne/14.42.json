@@ -1,0 +1,35 @@
+{
+  "id": "14.42",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2024 zad. 6 (trojkaty — pole i punkt wewnatrz)",
+  "tagi": [
+    "pole-trojkata",
+    "punkt-w-trojkacie",
+    "struct",
+    "wczytywanie-pliku",
+    "iomanip",
+    "formatowanie-wyniku"
+  ],
+  "tresc": "W pliku `trojkaty.txt` w pierwszej linii jest n (liczba trojkatow), w kolejnych n liniach po 6 liczb calkowitych: x1 y1 x2 y2 x3 y3. Po nich jest linia z wspolrzednymi calkowitymi (qx qy) — punkt zapytania. Napisz program, ktory:\na) Obliczy pole kazdego trojkata (wzor: |x1*(y2-y3)+x2*(y3-y1)+x3*(y1-y2)|/2).\nb) Dla kazdego trojkata sprawdzi, czy punkt zapytania lezy wewnatrz (metoda pol: punkt P jest wewnatrz trojkata ABC, gdy area(PAB)+area(PBC)+area(PCA) == area(ABC) z tolerancja eps = 0.01).\nc) Wypisze trojkat o najwiekszym polu.\n\n**Dane** (`trojkaty.txt`):\n```\n4\n0 0 6 0 3 4\n1 1 5 1 3 5\n2 5 7 1 6 6\n0 0 4 0 2 6\n3 2\n```\n\n**Oczekiwany wynik**:\n```\nPunkt zapytania: (3,2)\nTrojkat 1: pole = 12.00, punkt (3,2): WEWNATRZ\nTrojkat 2: pole = 8.00, punkt (3,2): WEWNATRZ\nTrojkat 3: pole = 10.50, punkt (3,2): NA ZEWNATRZ\nTrojkat 4: pole = 12.00, punkt (3,2): WEWNATRZ\nNajwieksze pole: trojkat 1, pole = 12.00\n```",
+  "wskazowki": [
+    "**Kierunek**: Pole trojkata z 3 wierzcholkow: |x1*(y2-y3)+x2*(y3-y1)+x3*(y1-y2)|/2. Metoda pol do sprawdzenia czy punkt jest wewnatrz.",
+    "**Podejscie**: Dla kazdego trojkata oblicz pole. Potem dla punktu zapytania oblicz 3 pod-trojkaty (PAB, PBC, PCA) i porownaj sume z polem calym.",
+    "**Kluczowy krok**: Porownuj z tolerancja: fabs(sumaPol - poleCalkowite) < 0.01, bo obliczenia zmiennoprzecinkowe moga dac drobne roznice."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\ndouble areaTriangle(int x1, int y1, int x2, int y2, int x3, int y3) {\n    return fabs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2.0;\n}\n\nint main() {\n    ifstream plik(\"trojkaty.txt\");\n    int n;\n    plik >> n;\n    int tx1[100], ty1[100], tx2[100], ty2[100], tx3[100], ty3[100];\n    for (int i = 0; i < n; i++)\n        plik >> tx1[i] >> ty1[i] >> tx2[i] >> ty2[i] >> tx3[i] >> ty3[i];\n    int qx, qy;\n    plik >> qx >> qy;\n    cout << fixed << setprecision(2);\n    cout << \"Punkt zapytania: (\" << qx << \",\" << qy << \")\" << endl;\n    double maxPole = -1;\n    int maxIdx = -1;\n    for (int i = 0; i < n; i++) {\n        double pole = areaTriangle(tx1[i], ty1[i], tx2[i], ty2[i], tx3[i], ty3[i]);\n        double a1 = areaTriangle(qx, qy, tx1[i], ty1[i], tx2[i], ty2[i]);\n        double a2 = areaTriangle(qx, qy, tx2[i], ty2[i], tx3[i], ty3[i]);\n        double a3 = areaTriangle(qx, qy, tx3[i], ty3[i], tx1[i], ty1[i]);\n        bool inside = fabs(a1 + a2 + a3 - pole) < 0.01;\n        cout << \"Trojkat \" << i + 1 << \": pole = \" << pole\n             << \", punkt (\" << qx << \",\" << qy << \"): \"\n             << (inside ? \"WEWNATRZ\" : \"NA ZEWNATRZ\") << endl;\n        if (pole > maxPole) {\n            maxPole = pole;\n            maxIdx = i + 1;\n        }\n    }\n    cout << \"Najwieksze pole: trojkat \" << maxIdx << \", pole = \" << maxPole << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Pole trojkata obliczamy wzorem z wspolrzednych. Punkt jest wewnatrz trojkata, gdy suma pol trzech pod-trojkatow (z tym punktem jako wierzcholkiem) rowna sie polu calego trojkata. Porownujemy z tolerancja eps=0.01.\n\nWeryfikacja:\n- T1 (0,0)(6,0)(3,4): pole = |0*(0-4)+6*(4-0)+3*(0-0)|/2 = |0+24+0|/2 = 12.00\n  (3,2) w T1: a1 = area(3,2,0,0,6,0) = |3*(0-0)+0*(0-2)+6*(2-0)|/2 = |12|/2 = 6\n  a2 = area(3,2,6,0,3,4) = |3*(0-4)+6*(4-2)+3*(2-0)|/2 = |(-12)+12+6|/2 = 3\n  a3 = area(3,2,3,4,0,0) = |3*(4-0)+3*(0-2)+0*(2-4)|/2 = |12-6+0|/2 = 3\n  Suma: 6+3+3 = 12 == 12.00 -> WEWNATRZ\n- T2 (1,1)(5,1)(3,5): pole = |1*(1-5)+5*(5-1)+3*(1-1)|/2 = |(-4)+20+0|/2 = 8.00\n  (3,2) w T2: a1 = area(3,2,1,1,5,1) = |3*(1-1)+1*(1-2)+5*(2-1)|/2 = |0-1+5|/2 = 2\n  a2 = area(3,2,5,1,3,5) = |3*(1-5)+5*(5-2)+3*(2-1)|/2 = |(-12)+15+3|/2 = 3\n  a3 = area(3,2,3,5,1,1) = |3*(5-1)+3*(1-2)+1*(2-5)|/2 = |12-3-3|/2 = 3\n  Suma: 2+3+3 = 8 == 8.00 -> WEWNATRZ\n- T3 (2,5)(7,1)(6,6): pole = |2*(1-6)+7*(6-5)+6*(5-1)|/2 = |(-10)+7+24|/2 = 10.50\n  (3,2) w T3: a1 = area(3,2,2,5,7,1) = |3*(5-1)+2*(1-2)+7*(2-5)|/2 = |12-2-21|/2 = 5.50\n  a2 = area(3,2,7,1,6,6) = |3*(1-6)+7*(6-2)+6*(2-1)|/2 = |(-15)+28+6|/2 = 9.50\n  a3 = area(3,2,6,6,2,5) = |3*(6-5)+6*(5-2)+2*(2-6)|/2 = |3+18-8|/2 = 6.50\n  Suma: 5.50+9.50+6.50 = 21.50 != 10.50 -> NA ZEWNATRZ\n- T4 (0,0)(4,0)(2,6): pole = |0*(0-6)+4*(6-0)+2*(0-0)|/2 = |0+24+0|/2 = 12.00\n  (3,2) w T4: a1 = area(3,2,0,0,4,0) = |3*(0-0)+0*(0-2)+4*(2-0)|/2 = |0+0+8|/2 = 4\n  a2 = area(3,2,4,0,2,6) = |3*(0-6)+4*(6-2)+2*(2-0)|/2 = |(-18)+16+4|/2 = 1\n  a3 = area(3,2,2,6,0,0) = |3*(6-0)+2*(0-2)+0*(2-6)|/2 = |18-4+0|/2 = 7\n  Suma: 4+1+7 = 12 == 12.00 -> WEWNATRZ\nNajwieksze pole: T1 (12.00) — pierwsze napotkane z pole=12.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak abs/fabs we wzorze pola**: Bez wartosci bezwzglednej pole moze wyjsc ujemne w zaleznosci od kolejnosci wierzcholkow",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Porownywanie sum pol == zamiast z tolerancja**: Obliczenia zmiennoprzecinkowe wymagaja porownania fabs(diff) < eps",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledna kolejnosc wierzcholkow w pod-trojkatach**: Pod-trojkaty musza uzywac punktu zapytania i dwoch kolejnych wierzcholkow oryginalnego trojkata",
+      "kara": "-2 pkt"
+    }
+  ]
+}

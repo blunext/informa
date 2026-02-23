@@ -1,0 +1,34 @@
+{
+  "id": "8.42",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2023 zad. 6 (histogram znakow)",
+  "tagi": [
+    "napisy",
+    "tablica-czestotliwosci",
+    "sortowanie",
+    "zliczanie-znakow",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 6 napisow skladajacych sie z malych liter (kazdy w osobnym wierszu). Napisz program, ktory:\n1. Zliczy laczna czestotliwosc kazdej litery we wszystkich napisach.\n2. Wypisze histogram posortowany malejaco wedlug czestotliwosci (tylko litery, ktore wystapily). Jesli dwie litery maja ta sama czestotliwosc, wypisz je w kolejnosci alfabetycznej.\n3. Na koncu wypisze ile roznych liter uzyto lacznie.\n\n**Dane** (`napisy.txt`):\n```\nhello\nworld\ntest\ndata\ncode\nalgo\n```\n\n**Oczekiwany wynik**:\n```\nl: 4\no: 4\na: 3\nd: 3\ne: 3\nt: 3\nc: 1\ng: 1\nh: 1\nr: 1\ns: 1\nw: 1\nRoznych liter: 12\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj tablicy czestotliwosci `int freq[26]` — zlicz wszystkie litery ze wszystkich napisow, potem posortuj wyniki.",
+    "**Podejscie**: Zbuduj wektor par (czestotliwosc, litera). Posortuj: malejaco po czestotliwosci, rosnaco po literze przy remisie. Wypisz pary z czestotliwoscia > 0.",
+    "**Kluczowy krok**: Komparator sortowania: `(freq1 > freq2) || (freq1 == freq2 && litera1 < litera2)`. To gwarantuje poprawna kolejnosc przy remisach."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    int freq[26] = {0};\n    while (plik >> s) {\n        for (char c : s) {\n            freq[c - 'a']++;\n        }\n    }\n    vector<pair<int, char>> histogram;\n    for (int i = 0; i < 26; i++) {\n        if (freq[i] > 0) {\n            histogram.push_back({freq[i], (char)('a' + i)});\n        }\n    }\n    sort(histogram.begin(), histogram.end(), [](const pair<int,char>& a, const pair<int,char>& b) {\n        if (a.first != b.first) return a.first > b.first;\n        return a.second < b.second;\n    });\n    for (auto& p : histogram) {\n        cout << p.second << \": \" << p.first << endl;\n    }\n    cout << \"Roznych liter: \" << histogram.size() << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Zliczamy czestotliwosci liter globalnie, budujemy wektor par i sortujemy go wedlug czestotliwosci malejaco, a przy rownej czestotliwosci — alfabetycznie rosnaco.\n\nWeryfikacja:\nhello: h=1,e=1,l=2,o=1\nworld: w=1,o=1,r=1,l=1,d=1\ntest: t=2,e=1,s=1\ndata: d=1,a=2,t=1\ncode: c=1,o=1,d=1,e=1\nalgo: a=1,l=1,g=1,o=1\n\nSuma globalna: a=3, c=1, d=3, e=3, g=1, h=1, l=4, o=4, r=1, s=1, t=3, w=1\nPo sortowaniu: l(4), o(4), a(3), d(3), e(3), t(3), c(1), g(1), h(1), r(1), s(1), w(1)\nRoznych liter: 12",
+  "typowe_bledy": [
+    {
+      "opis": "**Sortowanie tylko po czestotliwosci bez drugiego kryterium**: Przy rownej czestotliwosci kolejnosc jest niezdefiniowana, co moze dac rozne wyniki na roznych systemach",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zerowanie tablicy czestotliwosci po kazdym napisie zamiast zliczania globalnego**: Histogram dotyczy wszystkich napisow lacznie, nie kazdego z osobna",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Wypisywanie liter z czestotliwoscia 0**: Histogram powinien zawierac tylko litery, ktore rzeczywiscie wystapily",
+      "kara": "-1 pkt"
+    }
+  ]
+}

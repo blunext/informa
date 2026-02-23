@@ -1,0 +1,29 @@
+{
+  "id": "10.26",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2021 zad. 4 (unikalnosc i powtorzenia)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "set-unikalnosc",
+    "map-zliczanie",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory:\na) Poda ile jest roznych (unikalnych) wartosci.\nb) Zliczy ile wartosci wystepuje wiecej niz raz.\nc) Wskazze wartosc wystepujaca najczesciej i ile razy wystapila.\n\n**Dane** (`dane.txt`):\n```\n5\n3\n8\n5\n2\n8\n3\n5\n9\n2\n7\n8\n3\n1\n5\n```\n\n**Oczekiwany wynik**:\n```\na) Roznych wartosci: 7\nb) Wartosci powtorzone (>1 raz): 4\nc) Najczestsza: 5 (4 razy)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj `map<int,int>` do zliczenia wystapien kazdej wartosci — klucz to wartosc, wartosc mapy to ile razy.",
+    "**Podejscie**: Po wczytaniu danych do mapy: (a) rozmiar mapy = rozne wartosci, (b) iteruj po mapie i licz te z wartoscia > 1.",
+    "**Kluczowy krok**: Najczestsza wartosc: iteruj po mapie i szukaj maksimum drugiego elementu pary."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    map<int, int> ile;\n    while (plik >> n) {\n        ile[n]++;\n    }\n\n    // a)\n    cout << \"a) Roznych wartosci: \" << ile.size() << endl;\n\n    // b)\n    int powtorzone = 0;\n    for (auto &p : ile)\n        if (p.second > 1) powtorzone++;\n    cout << \"b) Wartosci powtorzone (>1 raz): \" << powtorzone << endl;\n\n    // c)\n    int maxWartosc = 0, maxIle = 0;\n    for (auto &p : ile) {\n        if (p.second > maxIle) {\n            maxIle = p.second;\n            maxWartosc = p.first;\n        }\n    }\n    cout << \"c) Najczestsza: \" << maxWartosc << \" (\" << maxIle << \" razy)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: `map<int,int>` automatycznie grupuje wartosci. Rozmiar mapy to liczba unikalnych wartosci. Iteracja po mapie pozwala znalezc powtorzone i najczestsze.\n\nWeryfikacja:\n- Wystapienia: 1(1x), 2(2x), 3(3x), 5(4x), 7(1x), 8(3x), 9(1x)\n- Roznych: 7 (klucze: 1,2,3,5,7,8,9)\n- Powtorzone (>1): 2,3,5,8 = 4\n- Najczestsza: 5 z 4 wystapieniami",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie tablicy zamiast mapy gdy zakres nieznany**: Jezeli zakres wartosci jest nieznany, tablica moze byc za mala lub za duza",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Mylenie rozmiaru mapy z iloscia elementow pliku**: `ile.size()` to liczba kluczy (unikalnych), nie liczba wczytanych liczb",
+      "kara": "-1 pkt"
+    }
+  ]
+}

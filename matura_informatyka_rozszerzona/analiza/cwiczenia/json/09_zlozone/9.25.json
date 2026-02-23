@@ -1,0 +1,34 @@
+{
+  "id": "9.25",
+  "trudnosc": "srednie",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2023 zad. 6 (dwuprzebiegowa analiza)",
+  "tagi": [
+    "wieloetapowe",
+    "wczytywanie-pliku",
+    "mediana",
+    "sortowanie",
+    "procent"
+  ],
+  "tresc": "W pliku `wyniki.txt` znajduje sie 11 wynikow egzaminu (liczby calkowite 0-100, kazdy w osobnym wierszu). Napisz program, ktory:\na) Obliczy srednia, mediane, minimum i maksimum.\nb) Zliczy ile wynikow jest powyzej sredniej i jaki to procent (1 miejsce po przecinku).\nc) Wypisze zakres wynikow (max - min) i odleglosc mediany od sredniej (wartosc bezwzgledna, 2 m.p.).\n\n**Dane** (`wyniki.txt`):\n```\n72\n85\n91\n60\n78\n95\n43\n88\n67\n82\n74\n```\n\n**Oczekiwany wynik**:\n```\na) Statystyki:\n   Srednia: 75.91\n   Mediana: 78\n   Min: 43\n   Max: 95\n\nb) Powyzej sredniej: 6 (54.5%)\n\nc) Zakres: 52\n   Odleglosc mediany od sredniej: 2.09\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj do vectora, posortuj — mediana = element srodkowy. Srednia z osobnego obliczenia.",
+    "**Podejscie**: Sort daje min/max na koncach. Mediana = v[n/2] dla n nieparzystego. Potem drugi przebieg liczy powyzej sredniej.",
+    "**Kluczowy krok**: Procent = (ile_powyzej * 100.0) / n. Odleglosc = fabs(mediana - srednia)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <algorithm>\n#include <iomanip>\n#include <cmath>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"wyniki.txt\");\n    vector<int> w;\n    int x;\n    while (plik >> x) w.push_back(x);\n    int n = w.size();\n\n    double suma = 0;\n    for (int v : w) suma += v;\n    double avg = suma / n;\n\n    sort(w.begin(), w.end());\n    int mediana = w[n / 2];\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Statystyki:\" << endl;\n    cout << \"   Srednia: \" << avg << endl;\n    cout << \"   Mediana: \" << mediana << endl;\n    cout << \"   Min: \" << w[0] << endl;\n    cout << \"   Max: \" << w[n - 1] << endl;\n\n    int powyzej = 0;\n    for (int v : w) {\n        if (v > avg) powyzej++;\n    }\n    cout << endl << \"b) Powyzej sredniej: \" << powyzej << \" (\"\n         << fixed << setprecision(1) << (powyzej * 100.0 / n) << \"%)\" << endl;\n\n    cout << endl << \"c) Zakres: \" << w[n - 1] - w[0] << endl;\n    cout << fixed << setprecision(2);\n    cout << \"   Odleglosc mediany od sredniej: \" << fabs(mediana - avg) << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Dane: 72 85 91 60 78 95 43 88 67 82 74 (n=11)\n- Suma: 72+85+91+60+78+95+43+88+67+82+74 = 835\n- Srednia: 835/11 = 75.909090... -> 75.91\n- Posortowane: 43 60 67 72 74 78 82 85 88 91 95\n- Mediana: w[5] = 78\n- Min: 43, Max: 95\n- Powyzej 75.91: 78, 82, 85, 88, 91, 95 -> 6\n- Procent: 6*100.0/11 = 54.545... -> 54.5%\n- Zakres: 95-43 = 52\n- Odleglosc: |78 - 75.909...| = 2.0909... -> 2.09",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledna mediana dla parzystego n**: Dla n parzystego mediana = srednia dwoch srodkowych. Tu n=11 (nieparzyste), wiec w[5] jest OK",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Sortowanie przed obliczeniem sredniej z oryginalnego ukladu**: Sortowanie nie zmienia sredniej, ale moze zmylic studenta",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Dzielenie calkowitoliczbowe w procencie**: `powyzej * 100 / n` zamiast `powyzej * 100.0 / n` obetnie ulamek",
+      "kara": "-1 pkt"
+    }
+  ]
+}

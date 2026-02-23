@@ -1,0 +1,28 @@
+{
+  "id": "13.28",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2024 zad. 4 (spirala macierzy)",
+  "tagi": [
+    "tablica-2D",
+    "brzeg-siatki",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `macierz.txt` znajduje sie macierz 5x5 liczb calkowitych. Napisz program, ktory:\na) Wypisze elementy ramki (brzegu) macierzy w kolejnosci spiralnej: gorny wiersz od lewej do prawej, prawa kolumna od gory do dolu (bez naroznika), dolny wiersz od prawej do lewej (bez naroznika), lewa kolumna od dolu do gory (bez naroznika).\nb) Obliczy sume elementow ramki.\nc) Obliczy sume elementow wewnetrznych (nie nalezacych do ramki).\n\n**Dane** (`macierz.txt`):\n```\n1 2 3 4 5\n6 7 8 9 10\n11 12 13 14 15\n16 17 18 19 20\n21 22 23 24 25\n```\n\n**Oczekiwany wynik**:\n```\na) Spirala ramki: 1 2 3 4 5 10 15 20 25 24 23 22 21 16 11 6\nb) Suma ramki: 208\nc) Suma wewnetrznych: 117\n```",
+  "wskazowki": [
+    "**Kierunek**: Ramka to elementy z i==0, i==4, j==0 lub j==4. Spiralne odczytanie wymaga 4 osobnych petli.",
+    "**Podejscie**: 4 petle: (1) gorny wiersz j=0..4, (2) prawa kolumna i=1..4, (3) dolny wiersz j=3..0, (4) lewa kolumna i=3..1.",
+    "**Kluczowy krok**: Uwazaj na narozniki — kazdy naroznik powinien byc wypisany dokladnie raz."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"macierz.txt\");\n    int m[5][5];\n    for (int i = 0; i < 5; i++)\n        for (int j = 0; j < 5; j++)\n            plik >> m[i][j];\n\n    // a) Spirala ramki\n    cout << \"a) Spirala ramki:\";\n    for (int j = 0; j <= 4; j++) cout << \" \" << m[0][j];      // gorny wiersz\n    for (int i = 1; i <= 4; i++) cout << \" \" << m[i][4];      // prawa kolumna\n    for (int j = 3; j >= 0; j--) cout << \" \" << m[4][j];      // dolny wiersz\n    for (int i = 3; i >= 1; i--) cout << \" \" << m[i][0];      // lewa kolumna\n    cout << endl;\n\n    // b) Suma ramki\n    int sumR = 0, sumI = 0;\n    for (int i = 0; i < 5; i++)\n        for (int j = 0; j < 5; j++) {\n            if (i == 0 || i == 4 || j == 0 || j == 4)\n                sumR += m[i][j];\n            else\n                sumI += m[i][j];\n        }\n    cout << \"b) Suma ramki: \" << sumR << endl;\n    cout << \"c) Suma wewnetrznych: \" << sumI << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Spiralne odczytanie ramki to 4 petle: gorny wiersz w prawo, prawa kolumna w dol, dolny wiersz w lewo, lewa kolumna w gore. Suma ramki i wnetrza — podwojna petla z warunkiem.\n\nWeryfikacja:\n- Spirala: 1,2,3,4,5 | 10,15,20 | 25,24,23,22 | 21,16,11,6 -> 16 elementow (ramka 5x5 ma 16)\n- Suma ramki: 1+2+3+4+5+10+15+20+25+24+23+22+21+16+11+6 = 208\n  Sprawdzenie: (1+2+3+4+5)+(10+15+20)+(25+24+23+22)+(21+16+11+6) = 15+45+94+54 = 208\n- Suma wewnetrznych (3x3): 7+8+9+12+13+14+17+18+19 = 117\n- Kontrola: 208+117 = 325 = 25*26/2 = 325. Zgadza sie!",
+  "typowe_bledy": [
+    {
+      "opis": "**Podwojne wypisanie naroznikow**: np. (0,4) wypisany na koncu gornego wiersza i na poczatku prawej kolumny",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledny zakres petli spirali**: Pominiecie elementu lub dodatkowy element przy granicy petli",
+      "kara": "-2 pkt"
+    }
+  ]
+}

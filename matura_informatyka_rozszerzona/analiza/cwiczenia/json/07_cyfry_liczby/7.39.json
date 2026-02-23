@@ -1,0 +1,33 @@
+{
+  "id": "7.39",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2025 zad. 4 (analiza czestotliwosci cyfr)",
+  "tagi": [
+    "cyfry-mod-div",
+    "tablica-czestotliwosci",
+    "wczytywanie-pliku",
+    "akumulator"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory:\na) Zbuduje tablice czestotliwosci cyfr 0-9 wystepujacych we wszystkich liczbach lacznie.\nb) Wypisze tablice czestotliwosci.\nc) Wskazuje najczesciej wystepujaca cyfre (przy remisie — najmniejsza z najczestszych).\nd) Wskazuje najrzadziej wystepujaca cyfre (przy remisie — najmniejsza z najrzadszych).\n\n**Dane** (`dane.txt`):\n```\n3847\n1523\n9901\n4567\n2233\n8810\n6654\n1199\n7742\n3356\n5028\n4491\n```\n\n**Oczekiwany wynik**:\n```\na) Tablica czestotliwosci cyfr:\ncyfra 0: 3\ncyfra 1: 6\ncyfra 2: 5\ncyfra 3: 6\ncyfra 4: 6\ncyfra 5: 5\ncyfra 6: 4\ncyfra 7: 4\ncyfra 8: 4\ncyfra 9: 5\n\nb) Lacznie cyfr: 48\n\nc) Najczestsza cyfra: 1 (6 razy)\n\nd) Najrzadsza cyfra: 0 (3 razy)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj tablicy `int freq[10] = {0};` do zliczania. Dla kazdej liczby wyodrebnij cyfry petla while.",
+    "**Podejscie**: Dla kazdej liczby: `while(n > 0) { freq[n%10]++; n /= 10; }`. Potem przejdz tablice szukajac max i min.",
+    "**Kluczowy krok**: Iterujac od 0 do 9, pierwsza napotkana cyfra z max/min czestotliwoscia bedzie najmniejsza (bo idziemy od 0 w gore)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int liczba;\n    int freq[10] = {0};\n\n    while (plik >> liczba) {\n        while (liczba > 0) {\n            freq[liczba % 10]++;\n            liczba /= 10;\n        }\n    }\n\n    cout << \"a) Tablica czestotliwosci cyfr:\" << endl;\n    int lacznie = 0;\n    for (int i = 0; i < 10; i++) {\n        cout << \"cyfra \" << i << \": \" << freq[i] << endl;\n        lacznie += freq[i];\n    }\n\n    cout << endl << \"b) Lacznie cyfr: \" << lacznie << endl;\n\n    int maxCyfra = 0, minCyfra = 0;\n    for (int i = 1; i < 10; i++) {\n        if (freq[i] > freq[maxCyfra]) maxCyfra = i;\n        if (freq[i] < freq[minCyfra]) minCyfra = i;\n    }\n\n    cout << endl << \"c) Najczestsza cyfra: \" << maxCyfra\n         << \" (\" << freq[maxCyfra] << \" razy)\" << endl;\n    cout << endl << \"d) Najrzadsza cyfra: \" << minCyfra\n         << \" (\" << freq[minCyfra] << \" razy)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Tablica `freq[10]` zlicza wystapienia kazdej cyfry (0-9) we wszystkich liczbach. Iterujac od 0 do 9, przy remisie natural wybieramy najmniejsza cyfre (bo `>` i `<` nie aktualizuja przy rownosci). Uwaga: petla `while(liczba > 0)` nie zlicza wiodacych zer — ale 0 jako cyfra wewnatrz liczby (np. 9901) jest prawidlowo zliczona.\n\nWeryfikacja:\n- 3847: cyfry 7,4,8,3 -> freq[3]++, freq[4]++, freq[7]++, freq[8]++\n- 1523: cyfry 3,2,5,1 -> freq[1]++, freq[2]++, freq[3]++, freq[5]++\n- 9901: cyfry 1,0,9,9 -> freq[0]++, freq[1]++, freq[9]+=2\n- 4567: cyfry 7,6,5,4 -> freq[4]++, freq[5]++, freq[6]++, freq[7]++\n- 2233: cyfry 3,3,2,2 -> freq[2]+=2, freq[3]+=2\n- 8810: cyfry 0,1,8,8 -> freq[0]++, freq[1]++, freq[8]+=2\n- 6654: cyfry 4,5,6,6 -> freq[4]++, freq[5]++, freq[6]+=2\n- 1199: cyfry 9,9,1,1 -> freq[1]+=2, freq[9]+=2\n- 7742: cyfry 2,4,7,7 -> freq[2]++, freq[4]++, freq[7]+=2\n- 3356: cyfry 6,5,3,3 -> freq[3]+=2, freq[5]++, freq[6]++\n- 5028: cyfry 8,2,0,5 -> freq[0]++, freq[2]++, freq[5]++, freq[8]++\n- 4491: cyfry 1,9,4,4 -> freq[1]++, freq[4]+=2, freq[9]++\n\nPodsumowanie: 0:3, 1:6, 2:5, 3:6, 4:6, 5:5, 6:4, 7:4, 8:4, 9:5\nLacznie: 48\nMax: cyfra 1 (6 razy) — 1,3,4 maja po 6, wybieramy 1 (najmniejsza)\nMin: cyfra 0 (3 razy) — jedyna z 3",
+  "typowe_bledy": [
+    {
+      "opis": "**Petla `while(n > 0)` nie zlicza 0 jako osobnej liczby**: Jesli wejscie to liczba 0, petla sie nie wykona. Ale w tym zadaniu liczby sa dodatnie, wiec nie jest to problem",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Brak inicjalizacji tablicy na 0**: W C++ lokalna tablica `int freq[10];` ma niezdefiniowane wartosci — trzeba `= {0}` lub petla zerujaca",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Szukanie min wlacznie z cyframi o czestotliwosci 0**: Jesli jakas cyfra nie wystepuje wcale, ma freq=0 i zostanie wybrana jako najrzadsza. W tym zadaniu 0 wystepuje 3 razy, wiec jest najrzadsza. Ale w ogolnosci trzeba zdefiniowac, czy liczymy cyfry niewystepujace",
+      "kara": "-1 pkt"
+    }
+  ]
+}

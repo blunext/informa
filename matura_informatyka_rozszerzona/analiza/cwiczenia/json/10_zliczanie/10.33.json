@@ -1,0 +1,29 @@
+{
+  "id": "10.33",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2015 zad. 4 (zliczanie w przedzialach)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "przedzialy",
+    "warunek"
+  ],
+  "tresc": "W pliku `pomiary.txt` znajduje sie 12 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory:\na) Zliczy ile z nich nalezy do przedzialu [1, 100].\nb) Zliczy ile z nich nalezy do przedzialu [101, 500].\nc) Zliczy ile z nich jest wiekszych od 500.\n\n**Dane** (`pomiary.txt`):\n```\n42\n350\n7\n800\n99\n501\n150\n1000\n100\n250\n3\n600\n```\n\n**Oczekiwany wynik**:\n```\na) Przedzial [1-100]: 5\nb) Przedzial [101-500]: 3\nc) Wieksze od 500: 4\n```",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz trzech licznikow — po jednym dla kazdego przedzialu.",
+    "**Podejscie**: W petli wczytuj wartosc i uzyj drabinki if/else if/else do przypisania do przedzialu.",
+    "**Kluczowy krok**: Przedzialy nie nachodza na siebie — kazda liczba pasuje dokladnie do jednego. Pamietaj o granicach: 100 nalezy do [1-100], a 501 do >500."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"pomiary.txt\");\n    int n;\n    int maly = 0, sredni = 0, duzy = 0;\n    while (plik >> n) {\n        if (n >= 1 && n <= 100) maly++;\n        else if (n >= 101 && n <= 500) sredni++;\n        else if (n > 500) duzy++;\n    }\n    cout << \"a) Przedzial [1-100]: \" << maly << endl;\n    cout << \"b) Przedzial [101-500]: \" << sredni << endl;\n    cout << \"c) Wieksze od 500: \" << duzy << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Trzy rozlaczne przedzialy obsluzone drabinka if/else if/else. Kazda liczba trafia dokladnie do jednego przedzialu.\n\nWeryfikacja:\n- [1-100]: 42, 7, 99, 100, 3 = 5\n- [101-500]: 350, 150, 250 = 3\n- >500: 800, 501, 1000, 600 = 4\n- Suma: 5+3+4 = 12 (zgadza sie z iloscia danych)",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie `<` zamiast `<=` na granicach**: Granice przedzialow sa domkniete, wiec 100 nalezy do [1-100], nie do [101-500]",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie samych if bez else**: Bez else if kazda liczba moze byc zliczona wielokrotnie, gdy warunki nie wykluczaja sie nawzajem",
+      "kara": "-1 pkt"
+    }
+  ]
+}

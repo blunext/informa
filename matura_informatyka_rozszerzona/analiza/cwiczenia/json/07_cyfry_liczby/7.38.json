@@ -1,0 +1,33 @@
+{
+  "id": "7.38",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2024 zad. 3 (faktoryzacja i sumy)",
+  "tagi": [
+    "faktoryzacja",
+    "liczby-pierwsze",
+    "wczytywanie-pliku",
+    "akumulator"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych wiekszych od 1 (kazda w osobnym wierszu). Napisz program, ktory:\na) Dla kazdej liczby znajdzie jej najwiekszy czynnik pierwszy.\nb) Obliczy sume wszystkich najwiekszych czynnikow pierwszych.\nc) Znajdzie liczbe o najmniejszym najwiekszym czynniku pierwszym (najgladsza). Przy remisie — pierwsza napotkana.\n\n**Dane** (`dane.txt`):\n```\n84\n150\n97\n36\n231\n100\n63\n1000\n51\n128\n221\n45\n```\n\n**Oczekiwany wynik**:\n```\na) Najwieksze czynniki pierwsze:\n84 -> max czynnik: 7\n150 -> max czynnik: 5\n97 -> max czynnik: 97\n36 -> max czynnik: 3\n231 -> max czynnik: 11\n100 -> max czynnik: 5\n63 -> max czynnik: 7\n1000 -> max czynnik: 5\n51 -> max czynnik: 17\n128 -> max czynnik: 2\n221 -> max czynnik: 17\n45 -> max czynnik: 5\n\nb) Suma najwiekszych czynnikow: 181\n\nc) Najgladsza liczba: 128 (max czynnik: 2)\n```",
+  "wskazowki": [
+    "**Kierunek**: Rozklad na czynniki: dziel n kolejno przez 2, 3, 4, ... az d*d > n. Jesli n > 1 po petli, n jest czynnikiem pierwszym.",
+    "**Podejscie**: Ostatni czynnik w rozkladzie jest najwiekszy. Alternatywnie: jesli po petli n > 1, to n jest najwiekszym czynnikiem.",
+    "**Kluczowy krok**: Dla liczby pierwszej (np. 97) petla nie znajdzie zadnego dzielnika, wiec n pozostanie oryginalny — to jest najwiekszy (i jedyny) czynnik."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint maxCzynnikPierwszy(int n) {\n    int maxP = 1;\n    for (int d = 2; d * d <= n; d++) {\n        while (n % d == 0) {\n            maxP = d;\n            n /= d;\n        }\n    }\n    if (n > 1) maxP = n;\n    return maxP;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int liczba;\n    int suma = 0;\n    int najLiczba = 0, najMax = 1000000;\n\n    cout << \"a) Najwieksze czynniki pierwsze:\" << endl;\n    while (plik >> liczba) {\n        int mp = maxCzynnikPierwszy(liczba);\n        cout << liczba << \" -> max czynnik: \" << mp << endl;\n        suma += mp;\n        if (mp < najMax) {\n            najMax = mp;\n            najLiczba = liczba;\n        }\n    }\n\n    cout << endl << \"b) Suma najwiekszych czynnikow: \" << suma << endl;\n    cout << endl << \"c) Najgladsza liczba: \" << najLiczba\n         << \" (max czynnik: \" << najMax << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Faktoryzacja przez dzielenie: dzielimy n przez d=2,3,... az d*d > n. Kazde d, ktore dzieli n, jest czynnikiem pierwszym (bo mniejsze czynniki juz zostaly wyeliminowane). Jesli po petli n > 1, to n jest najwiekszym czynnikiem pierwszym. \"Gladka\" liczba to taka o malym najwiekszym czynniku.\n\nWeryfikacja rozkladow:\n- 84: 84/2=42, 42/2=21, 21/3=7, 7>1 -> maxP=7\n- 150: 150/2=75, 75/3=25, 25/5=5, 5/5=1 -> maxP=5\n- 97: d=2..9 (9*9=81<97), zaden nie dzieli -> n=97, maxP=97\n- 36: 36/2=18, 18/2=9, 9/3=3, 3/3=1 -> maxP=3\n- 231: 231/3=77, 77/7=11, 11>1 -> maxP=11\n- 100: 100/2=50, 50/2=25, 25/5=5, 5/5=1 -> maxP=5\n- 63: 63/3=21, 21/3=7, 7>1 -> maxP=7\n- 1000: 1000/2=500, 500/2=250, 250/2=125, 125/5=25, 25/5=5, 5/5=1 -> maxP=5\n- 51: 51/3=17, 17>1 -> maxP=17\n- 128: 128/2=64, 64/2=32, 32/2=16, 16/2=8, 8/2=4, 4/2=2, 2/2=1 -> maxP=2\n- 221: 221/13=17, 17>1 -> maxP=17\n- 45: 45/3=15, 15/3=5, 5>1 -> maxP=5\n\nSuma: 7+5+97+3+11+5+7+5+17+2+17+5 = 181\nNajgladsza: 128 (maxP=2, najmniejszy ze wszystkich)",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak warunku `if (n > 1)` po petli faktoryzacji**: Gubi liczby pierwsze i duze czynniki pierwsze — np. dla 97 zwroci 1 zamiast 97",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Petla `for(d=2; d<=n; d++)` zamiast `d*d<=n`**: Poprawna, ale O(n) zamiast O(sqrt(n)), za wolna dla duzych liczb",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Szukanie max zamiast sledzenia ostatniego**: Czynniki sa w kolejnosci rosnacej, wiec wystarczy sledzic ostatni. Jawne max() tez poprawne",
+      "kara": "-0 pkt"
+    }
+  ]
+}

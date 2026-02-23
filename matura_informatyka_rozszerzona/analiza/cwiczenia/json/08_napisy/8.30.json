@@ -1,0 +1,34 @@
+{
+  "id": "8.30",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Wariant autorski (kompresja i dekompresja RLE z analiza)",
+  "tagi": [
+    "napisy",
+    "kompresja",
+    "operacje-na-string",
+    "zliczanie-znakow",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Kompresja RLE (Run-Length Encoding) zapisuje ciagi powtarzajacych sie znakow jako para: znak + liczba powtorzen. Na przyklad: \"aaabbc\" -> \"a3b2c1\". Dekompresja to operacja odwrotna: \"a3b2c1\" -> \"aaabbc\".\n\nW pliku `dane.txt` w kazdym wierszu znajduje sie napis poprzedzony litera K (kompresja) lub D (dekompresja) i spacja. Napisz program, ktory:\n- Dla wierszy z K — wykona kompresje RLE napisu\n- Dla wierszy z D — wykona dekompresje RLE napisu (litera + jednocyfrowa lub wielocyfrowa liczba)\n\nNa koncu wypisz, ktory z wynikow kompresji dal najkrotszy napis (najlepsza kompresje).\n\n**Dane** (`dane.txt`):\n```\nK aaabbbccc\nD a3b2c1\nK xxxyyyxxxy\nD x10y2z1\nK aaaaabbbbb\nD a1b1c1d1e1\nK abcabc\nD z3a12\n```\n\n**Oczekiwany wynik**:\n```\nK aaabbbccc -> a3b3c3 (9 -> 6)\nD a3b2c1 -> aaabbc (6 -> 6)\nK xxxyyyxxxy -> x3y3x3y1 (10 -> 8)\nD x10y2z1 -> xxxxxxxxxxyyz (7 -> 13)\nK aaaaabbbbb -> a5b5 (10 -> 4)\nD a1b1c1d1e1 -> abcde (10 -> 5)\nK abcabc -> a1b1c1a1b1c1 (6 -> 12)\nD z3a12 -> zzzaaaaaaaaaaaa (5 -> 15)\nNajlepsza kompresja: aaaaabbbbb -> a5b5 (redukcja 6)\n```",
+  "wskazowki": [
+    "**Kierunek**: Kompresja to grupowanie identycznych sasiadow i zapis jako znak+liczba. Dekompresja to parsowanie litera+liczba i powtarzanie litery.",
+    "**Podejscie**: Dla dekompresji: czytaj znak, potem czytaj cyfry (moze byc wiecej niz 1) i zamien na liczbe. Powtorz znak tyle razy.",
+    "**Kluczowy krok**: Liczby w RLE moga byc wielocyfrowe (np. \"x10\"). Parsowanie cyfr: dopoki `isdigit(s[i])`, buduj liczbe: `num = num * 10 + (s[i] - '0')`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nstring kompresja(const string& s) {\n    string wynik = \"\";\n    int i = 0;\n    while (i < (int)s.length()) {\n        char c = s[i];\n        int cnt = 0;\n        while (i < (int)s.length() && s[i] == c) {\n            cnt++;\n            i++;\n        }\n        wynik += c;\n        wynik += to_string(cnt);\n    }\n    return wynik;\n}\n\nstring dekompresja(const string& s) {\n    string wynik = \"\";\n    int i = 0;\n    while (i < (int)s.length()) {\n        char c = s[i];\n        i++;\n        int num = 0;\n        while (i < (int)s.length() && isdigit(s[i])) {\n            num = num * 10 + (s[i] - '0');\n            i++;\n        }\n        for (int j = 0; j < num; j++) {\n            wynik += c;\n        }\n    }\n    return wynik;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    char typ;\n    string napis;\n    string bestOryg, bestKomp;\n    int bestRedukcja = -1;\n    while (plik >> typ >> napis) {\n        if (typ == 'K') {\n            string wynik = kompresja(napis);\n            cout << \"K \" << napis << \" -> \" << wynik\n                 << \" (\" << napis.length() << \" -> \" << wynik.length() << \")\" << endl;\n            int redukcja = (int)napis.length() - (int)wynik.length();\n            if (redukcja > bestRedukcja) {\n                bestRedukcja = redukcja;\n                bestOryg = napis;\n                bestKomp = wynik;\n            }\n        } else {\n            string wynik = dekompresja(napis);\n            cout << \"D \" << napis << \" -> \" << wynik\n                 << \" (\" << napis.length() << \" -> \" << wynik.length() << \")\" << endl;\n        }\n    }\n    cout << \"Najlepsza kompresja: \" << bestOryg << \" -> \" << bestKomp\n         << \" (redukcja \" << bestRedukcja << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Kompresja grupuje identyczne sasiednie znaki i zapisuje jako para znak+ilosc. Dekompresja parsuje pary litera+liczba (wielocyfrowa) i powtarza litere. Porownujemy dlugosci wynikow kompresji, aby znalezc najlepsza redukcje.\n\nWeryfikacja:\nKompresja:\n- aaabbbccc: a*3,b*3,c*3 -> \"a3b3c3\" (9->6, redukcja 3)\n- xxxyyyxxxy: x*3,y*3,x*3,y*1 -> \"x3y3x3y1\" (10->8, redukcja 2)\n- aaaaabbbbb: a*5,b*5 -> \"a5b5\" (10->4, redukcja 6)\n- abcabc: kazdy*1 -> \"a1b1c1a1b1c1\" (6->12, redukcja -6)\n\nDekompresja:\n- a3b2c1: a*3=aaa, b*2=bb, c*1=c -> \"aaabbc\" (6 znakow wej., 6 wyj.)\n- x10y2z1: x*10=xxxxxxxxxx, y*2=yy, z*1=z -> \"xxxxxxxxxxyyz\" (7 znakow wej., 13 wyj.)\n- a1b1c1d1e1: a,b,c,d,e po 1 -> \"abcde\" (10 znakow wej., 5 wyj.)\n- z3a12: z*3=zzz, a*12=aaaaaaaaaaaa -> \"zzzaaaaaaaaaaaa\" (5 znakow wej., 15 wyj.)\n\nNajlepsza kompresja: redukcje to 3, 2, 6, -6. Max = 6 (aaaaabbbbb -> a5b5).",
+  "typowe_bledy": [
+    {
+      "opis": "**Zakladanie jednocyfrowych liczb w dekompresji**: Liczby moga byc wielocyfrowe (np. x10). Trzeba parsowac wszystkie kolejne cyfry jako jedna liczbe",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Niezainicjalizowanie num=0 przed petla parsowania cyfr**: Brak inicjalizacji prowadzi do niezdefiniowanego zachowania",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pomieszanie kompresji z dekompresja**: K = kompresja (tekst -> RLE), D = dekompresja (RLE -> tekst). Trzeba sprawdzic typ operacji",
+      "kara": "-1 pkt"
+    }
+  ]
+}

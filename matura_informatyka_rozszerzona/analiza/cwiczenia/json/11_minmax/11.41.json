@@ -1,0 +1,38 @@
+{
+  "id": "11.41",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2025 zad. 3 (k-ty element)",
+  "tagi": [
+    "min-max",
+    "k-ty-element",
+    "sortowanie",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` w pierwszym wierszu jest liczba N — ilosc elementow, w drugim wierszu liczba K. W kolejnych N wierszach sa rozne liczby calkowite. Napisz program, ktory znajdzie K-ty najmniejszy element bez pelnego sortowania tablicy. Uzyj algorytmu selekcji: powtorz K razy szukanie minimum, za kazdym razem usuwajac lub oznaczajac juz znalezione minimum.\n\nWypisz:\na) K-ty najmniejszy element.\nb) Kolejne znalezione minima (od 1. do K-tego).\n\n**Dane** (`dane.txt`):\n```\n12\n4\n38\n15\n72\n9\n51\n27\n63\n3\n44\n20\n56\n31\n```\n\n**Oczekiwany wynik**:\n```\nKolejne minima: 3 9 15 20\n4-ty najmniejszy element: 20\n```",
+  "wskazowki": [
+    "**Kierunek**: K razy szukaj min w tablicy; po znalezieniu ustaw tab[idx] = INT_MAX (oznacz jako uzyte).",
+    "**Podejscie**: Petla zewnetrzna k razy, wewnetrzna n razy. Zlozonosc O(n*k), ale bez sortowania calej tablicy.",
+    "**Kluczowy krok**: Kopiuj tablice przed modyfikowaniem, zeby nie zniszczyc oryginalnych danych."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <climits>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int N, K;\n    plik >> N >> K;\n    vector<int> tab(N);\n    for (int i = 0; i < N; i++) plik >> tab[i];\n\n    vector<int> kopia(tab.begin(), tab.end());\n    vector<int> minima;\n\n    for (int r = 0; r < K; r++) {\n        int idxMin = 0;\n        for (int i = 1; i < N; i++)\n            if (kopia[i] < kopia[idxMin]) idxMin = i;\n        minima.push_back(kopia[idxMin]);\n        kopia[idxMin] = INT_MAX;\n    }\n\n    cout << \"Kolejne minima:\";\n    for (int m : minima) cout << \" \" << m;\n    cout << endl;\n    cout << K << \"-ty najmniejszy element: \" << minima.back() << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Algorytm selekcji — K razy szukamy minimum w tablicy, za kazdym razem usuwajac znalezione minimum (ustawiajac INT_MAX). Po K iteracjach ostatnie znalezione minimum to K-ty najmniejszy element.\n\nWeryfikacja:\n- Tablica: 38,15,72,9,51,27,63,3,44,20,56,31\n- Runda 1: min=3 (indeks 7), oznacz\n- Runda 2: min=9 (indeks 3), oznacz\n- Runda 3: min=15 (indeks 1), oznacz\n- Runda 4: min=20 (indeks 9), oznacz\n- 4-ty najmniejszy: 20\n- Sprawdzenie: posortowane = 3,9,15,20,27,31,38,44,51,56,63,72 -> element [3] (0-indeks) = 20.",
+  "typowe_bledy": [
+    {
+      "opis": "**Modyfikacja oryginalnej tablicy bez kopii**: Jesli program pozniej potrzebuje oryginalnych danych, beda zniszczone",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Ustawienie znalezionego min na 0 zamiast INT_MAX**: Jesli w tablicy sa wartosci ujemne lub 0, element moze byc ponownie znaleziony jako min",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledna liczba iteracji (K-1 zamiast K)**: Daje (K-1)-ty element zamiast K-tego",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Uzycie pelnego sortowania**: Zadanie explicite wymaga bez pelnego sortowania — sort() nie spelnia warunku",
+      "kara": "-2 pkt"
+    }
+  ]
+}

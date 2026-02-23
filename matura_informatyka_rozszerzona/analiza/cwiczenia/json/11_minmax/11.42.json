@@ -1,0 +1,39 @@
+{
+  "id": "11.42",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane algorytm Kadane'a (klasyczny problem max subarray)",
+  "tagi": [
+    "min-max",
+    "spojny-fragment",
+    "akumulator",
+    "skan-liniowy",
+    "pozycja-elementu",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych (w tym ujemnych), kazda w osobnym wierszu. Napisz program, ktory znajdzie spojny podciag o maksymalnej sumie (algorytm Kadane'a). Wypisz:\na) Maksymalna sume.\nb) Pozycje poczatkowa i koncowa podciagu (1-indeksowane).\nc) Elementy tego podciagu.\n\n**Dane** (`dane.txt`):\n```\n-2\n3\n-1\n5\n-4\n6\n-3\n2\n8\n-7\n4\n-1\n```\n\n**Oczekiwany wynik**:\n```\na) Maksymalna suma podciagu: 16\nb) Pozycja: od 2 do 9\nc) Elementy: 3 -1 5 -4 6 -3 2 8\n```",
+  "wskazowki": [
+    "**Kierunek**: Algorytm Kadane'a — iteruj sledzac biezaca sume (currSum) i najlepsza sume (maxSum).",
+    "**Podejscie**: Jesli currSum < 0, zresetuj do 0 i zapamietaj nowy poczatek. Jesli currSum > maxSum, zaktualizuj maxSum i koniec.",
+    "**Kluczowy krok**: Pamietaj trzy indeksy: tempStart (poczatek biezacego podciagu), bestStart i bestEnd."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> tab;\n    int x;\n    while (plik >> x) tab.push_back(x);\n    int n = tab.size();\n\n    int currSum = 0, maxSum = tab[0];\n    int tempStart = 0, bestStart = 0, bestEnd = 0;\n\n    for (int i = 0; i < n; i++) {\n        currSum += tab[i];\n        if (currSum > maxSum) {\n            maxSum = currSum;\n            bestStart = tempStart;\n            bestEnd = i;\n        }\n        if (currSum < 0) {\n            currSum = 0;\n            tempStart = i + 1;\n        }\n    }\n\n    cout << \"a) Maksymalna suma podciagu: \" << maxSum << endl;\n    cout << \"b) Pozycja: od \" << bestStart + 1 << \" do \" << bestEnd + 1 << endl;\n    cout << \"c) Elementy:\";\n    for (int i = bestStart; i <= bestEnd; i++) cout << \" \" << tab[i];\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Algorytm Kadane'a w O(n): sledzmy biezaca sume — jesli staje sie ujemna, resetujemy (lepiej zaczac od nowa). Sledzmy tez najlepsza sume i odpowiadajacy podciag.\n\nWeryfikacja:\n- currSum po kazdym kroku: -2(reset), 3, 2, 7, 3, 9, 6, 8, 16, 9, 13, 12\n- maxSum aktualizacje: -2 -> 3 -> 7 -> 9 -> 16\n- Najlepszy podciag: pozycje 2-9 (1-ind.), elementy: 3,-1,5,-4,6,-3,2,8\n- Suma: 3+(-1)+5+(-4)+6+(-3)+2+8 = 16",
+  "typowe_bledy": [
+    {
+      "opis": "**Resetowanie currSum do tab[i] zamiast 0 gdy < 0**: Drobna roznica — poprawne jest oba, ale trzeba konsekwentnie sledzic indeksy",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak obslugi tablicy z samymi liczbami ujemnymi**: Jesli wszystkie < 0, maxSum powinno byc najwieksza (najblizssza 0) z nich",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledne sledzenie poczatku podciagu (tempStart)**: Reset poczatku musi byc na i+1 gdy currSum < 0, nie na i",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Podwojna petla O(n^2)**: Sprawdza wszystkie podciagi — poprawne, ale nieefektywne i nie uzywa Kadane'a",
+      "kara": "-2 pkt"
+    }
+  ]
+}

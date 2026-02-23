@@ -1,0 +1,29 @@
+{
+  "id": "11.33",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2019 zad. 4 (tablica 2D)",
+  "tagi": [
+    "min-max",
+    "tablica-2D",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `tabela.txt` w pierwszym wierszu jest liczba N (liczba wierszy). W kolejnych N wierszach sa po 3 liczby calkowite oddzielone spacja (3 kolumny). Napisz program, ktory znajdzie minimum i maksimum w kazdej kolumnie.\n\n**Dane** (`tabela.txt`):\n```\n6\n15 42 8\n23 11 35\n7 38 19\n31 5 27\n12 29 44\n20 17 3\n```\n\n**Oczekiwany wynik**:\n```\nKolumna 1: min=7 max=31\nKolumna 2: min=5 max=42\nKolumna 3: min=3 max=44\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj dane do tablicy 2D lub trzech wektorow — po jednym na kolumne.",
+    "**Podejscie**: Iteruj po wierszach, sledzac min/max kazdej kolumny osobno (6 zmiennych lub tablice min[3], max[3]).",
+    "**Kluczowy krok**: Inicjalizuj min/max kazdej kolumny wartosciami z pierwszego wiersza danych."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"tabela.txt\");\n    int N;\n    plik >> N;\n\n    int minK[3], maxK[3];\n    int a, b, c;\n    plik >> a >> b >> c;\n    minK[0] = maxK[0] = a;\n    minK[1] = maxK[1] = b;\n    minK[2] = maxK[2] = c;\n\n    for (int i = 1; i < N; i++) {\n        plik >> a >> b >> c;\n        int val[3] = {a, b, c};\n        for (int j = 0; j < 3; j++) {\n            if (val[j] < minK[j]) minK[j] = val[j];\n            if (val[j] > maxK[j]) maxK[j] = val[j];\n        }\n    }\n\n    for (int j = 0; j < 3; j++)\n        cout << \"Kolumna \" << j + 1 << \": min=\" << minK[j] << \" max=\" << maxK[j] << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Inicjalizujemy min/max kazdej kolumny wartosciami z pierwszego wiersza. Potem iterujemy po pozostalych wierszach, aktualizujac min/max per kolumna.\n\nWeryfikacja:\n- Kolumna 1: 15,23,7,31,12,20 -> min=7, max=31\n- Kolumna 2: 42,11,38,5,29,17 -> min=5, max=42\n- Kolumna 3: 8,35,19,27,44,3 -> min=3, max=44",
+  "typowe_bledy": [
+    {
+      "opis": "**Szukanie min/max globalnie zamiast per kolumna**: Wynik bedzie jeden min i max zamiast trzech par",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pominiecie pierwszego wiersza danych**: Jesli N wczytano, ale pierwszy wiersz danych uzyto tylko do inicjalizacji i nie sprawdzono go",
+      "kara": "-1 pkt"
+    }
+  ]
+}

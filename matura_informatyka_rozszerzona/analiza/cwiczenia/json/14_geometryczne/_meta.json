@@ -3,15 +3,18 @@
   "nazwa": "Obliczenia geometryczne",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "1/11 lat",
-  "punkty_lacznie": 71,
+  "punkty_lacznie": 159,
   "tagi_globalne": [
     "collinear",
     "filtrowanie",
+    "formatowanie-wyniku",
+    "iomanip",
     "kat-miedzy-wektorami",
     "najblizsze-punkty",
     "obwod",
     "odleglosc-euklidesowa",
     "otoczka-wypukla",
+    "pary-elementow",
     "podwojna-petla",
     "pole-trojkata",
     "punkt-w-prostokacie",
@@ -234,6 +237,264 @@
         "odleglosc-euklidesowa",
         "sqrt",
         "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.21",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "odleglosc-euklidesowa",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "14.22",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "srodek-odcinka",
+        "wczytywanie-pliku",
+        "formatowanie-wyniku",
+        "iomanip"
+      ]
+    },
+    {
+      "id": "14.23",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "pole-trojkata",
+        "wczytywanie-pliku",
+        "iomanip",
+        "formatowanie-wyniku"
+      ]
+    },
+    {
+      "id": "14.24",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "kat-miedzy-wektorami",
+        "sqrt",
+        "wczytywanie-pliku",
+        "iomanip",
+        "formatowanie-wyniku"
+      ]
+    },
+    {
+      "id": "14.25",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "wielokat",
+        "obwod",
+        "odleglosc-euklidesowa",
+        "sqrt",
+        "wczytywanie-pliku",
+        "iomanip"
+      ]
+    },
+    {
+      "id": "14.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "punkt-w-trojkacie",
+        "pole-trojkata",
+        "wczytywanie-pliku",
+        "struct"
+      ]
+    },
+    {
+      "id": "14.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "odleglosc-euklidesowa",
+        "sqrt",
+        "wczytywanie-pliku",
+        "iomanip",
+        "formatowanie-wyniku",
+        "struct"
+      ]
+    },
+    {
+      "id": "14.28",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "wielokat",
+        "pole-trojkata",
+        "wczytywanie-pliku",
+        "iomanip",
+        "formatowanie-wyniku"
+      ]
+    },
+    {
+      "id": "14.29",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "najblizsze-punkty",
+        "odleglosc-euklidesowa",
+        "podwojna-petla",
+        "sqrt",
+        "wczytywanie-pliku",
+        "iomanip",
+        "pary-elementow"
+      ]
+    },
+    {
+      "id": "14.30",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "odleglosc-euklidesowa",
+        "pole-trojkata",
+        "sqrt",
+        "sortowanie",
+        "wczytywanie-pliku",
+        "iomanip",
+        "struct"
+      ]
+    },
+    {
+      "id": "14.31",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "filtrowanie",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.32",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wczytywanie-pliku",
+        "pary-elementow"
+      ]
+    },
+    {
+      "id": "14.33",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "odleglosc-euklidesowa",
+        "sqrt",
+        "wczytywanie-pliku",
+        "iomanip",
+        "formatowanie-wyniku"
+      ]
+    },
+    {
+      "id": "14.34",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "odleglosc-euklidesowa",
+        "wczytywanie-pliku",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "14.35",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "odleglosc-euklidesowa",
+        "sqrt",
+        "wczytywanie-pliku",
+        "iomanip",
+        "formatowanie-wyniku"
+      ]
+    },
+    {
+      "id": "14.36",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "odleglosc-euklidesowa",
+        "srodek-odcinka",
+        "sqrt",
+        "podwojna-petla",
+        "wczytywanie-pliku",
+        "iomanip",
+        "formatowanie-wyniku"
+      ]
+    },
+    {
+      "id": "14.37",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "punkt-w-prostokacie",
+        "filtrowanie",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.38",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "wielokat",
+        "pole-trojkata",
+        "wczytywanie-pliku",
+        "iomanip",
+        "formatowanie-wyniku"
+      ]
+    },
+    {
+      "id": "14.39",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "struct",
+        "wczytywanie-pliku",
+        "pary-elementow"
+      ]
+    },
+    {
+      "id": "14.40",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "odleglosc-euklidesowa",
+        "najblizsze-punkty",
+        "pary-elementow",
+        "podwojna-petla",
+        "sqrt",
+        "wczytywanie-pliku",
+        "iomanip",
+        "formatowanie-wyniku"
+      ]
+    },
+    {
+      "id": "14.41",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "otoczka-wypukla",
+        "sortowanie",
+        "struct",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "14.42",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "pole-trojkata",
+        "punkt-w-trojkacie",
+        "struct",
+        "wczytywanie-pliku",
+        "iomanip",
+        "formatowanie-wyniku"
       ]
     }
   ]

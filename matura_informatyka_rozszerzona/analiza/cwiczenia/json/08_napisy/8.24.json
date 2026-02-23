@@ -1,0 +1,30 @@
+{
+  "id": "8.24",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wariant autorski (zliczanie znakow z tablica czestotliwosci)",
+  "tagi": [
+    "napisy",
+    "tablica-czestotliwosci",
+    "operacje-na-string",
+    "wczytywanie-pliku",
+    "zliczanie-znakow"
+  ],
+  "tresc": "W pliku `tekst.txt` znajduje sie 6 napisow skladajacych sie wylacznie z malych liter (kazdy w osobnym wierszu). Napisz program, ktory dla kazdego napisu wypisze najczesciej wystepujacy znak i jego liczbe wystapien. Jesli kilka znakow wystepuje tyle samo razy, wypisz pierwszy z nich w kolejnosci alfabetycznej. Na koncu wypisz znak, ktory najczesciej pojawia sie wsrod wszystkich napisow lacznie.\n\n**Dane** (`tekst.txt`):\n```\nbanana\nprogramowanie\nalabama\nkokos\nstatystyka\nzebra\n```\n\n**Oczekiwany wynik**:\n```\nbanana: najczesciej 'a' (3 razy)\nprogramowanie: najczesciej 'a' (2 razy)\nalabama: najczesciej 'a' (4 razy)\nkokos: najczesciej 'k' (2 razy)\nstatystyka: najczesciej 't' (3 razy)\nzebra: najczesciej 'a' (1 razy)\nGlobalnie najczesciej: 'a' (12 razy)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj tablicy czestotliwosci int freq[26] = {0} do zliczania wystapien kazdej litery.",
+    "**Podejscie**: Dla kazdego znaku c w napisie: freq[c - 'a']++. Nastepnie znajdz indeks z najwieksza wartoscia.",
+    "**Kluczowy krok**: Aby przy remisie wybrac pierwsza litere alfabetycznie, iteruj od 'a' do 'z' i szukaj maksimum — pierwszy znaleziony o najwyzszym liczniku wygrywa."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"tekst.txt\");\n    string s;\n    int globalFreq[26] = {0};\n    while (plik >> s) {\n        int freq[26] = {0};\n        for (char c : s) {\n            freq[c - 'a']++;\n            globalFreq[c - 'a']++;\n        }\n        int maxIdx = 0;\n        for (int i = 1; i < 26; i++) {\n            if (freq[i] > freq[maxIdx]) maxIdx = i;\n        }\n        cout << s << \": najczesciej '\" << (char)('a' + maxIdx) << \"' (\" << freq[maxIdx] << \" razy)\" << endl;\n    }\n    int gMaxIdx = 0;\n    for (int i = 1; i < 26; i++) {\n        if (globalFreq[i] > globalFreq[gMaxIdx]) gMaxIdx = i;\n    }\n    cout << \"Globalnie najczesciej: '\" << (char)('a' + gMaxIdx) << \"' (\" << globalFreq[gMaxIdx] << \" razy)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Tablica `freq[26]` zlicza wystapienia kazdej litery (indeks 0='a', 1='b', ...). Iteracja od i=0 z operatorem `>` (strict) gwarantuje, ze przy remisie zachowujemy pierwszy indeks, czyli pierwsza litere alfabetycznie.\n\nWeryfikacja:\n- banana: b=1,a=3,n=2 -> max='a'(3)\n- programowanie: p=1,r=2,o=2,g=1,a=2,m=1,w=1,n=1,i=1,e=1 -> a,o,r po 2, 'a' pierwsza -> 'a'(2)\n- alabama: a=4,l=1,b=1,m=1 -> max='a'(4)\n- kokos: k=2,o=2,s=1 -> k przed o -> 'k'(2)\n- statystyka: s=2,t=3,a=2,y=2,k=1 -> max='t'(3)\n- zebra: z=1,e=1,b=1,r=1,a=1 -> wszystkie po 1, 'a' pierwsza -> 'a'(1)\nGlobalnie: a=3+2+4+0+2+1=12, t=0+0+0+0+3+0=3, inne mniej -> 'a'(12)",
+  "typowe_bledy": [
+    {
+      "opis": "**Iteracja od maxIdx=0 z `>=` zamiast `>`**: Uzycie `>=` zmieni wybor przy remisie — zamiast pierwszej litery alfabetycznie, wybierze ostatnia",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak zerowania tablicy freq dla kazdego napisu**: Lokalna tablica `int freq[26] = {0}` musi byc zerowana dla kazdego wiersza",
+      "kara": "-2 pkt"
+    }
+  ]
+}

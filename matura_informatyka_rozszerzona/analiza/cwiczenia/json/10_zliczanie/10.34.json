@@ -1,0 +1,29 @@
+{
+  "id": "10.34",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2023 zad. 3 (analiza dzielnikow)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "podzielnosc",
+    "podwojna-petla"
+  ],
+  "tresc": "W pliku `liczby.txt` znajduje sie 10 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory:\na) Dla kazdej liczby policzy jej dzielniki.\nb) Wypisze te liczby, ktore maja dokladnie 4 dzielniki.\nc) Poda ile takich liczb znaleziono.\n\n**Dane** (`liczby.txt`):\n```\n6\n12\n15\n7\n10\n25\n8\n21\n9\n14\n```\n\n**Oczekiwany wynik**:\n```\na) Liczby z dokladnie 4 dzielnikami:\n   6 (dzielniki: 1 2 3 6)\n   15 (dzielniki: 1 3 5 15)\n   10 (dzielniki: 1 2 5 10)\n   8 (dzielniki: 1 2 4 8)\n   21 (dzielniki: 1 3 7 21)\n   14 (dzielniki: 1 2 7 14)\nb) Znaleziono: 6\n```",
+  "wskazowki": [
+    "**Kierunek**: Dla kazdej liczby n policz dzielniki petla od 1 do n — jezeli `n % i == 0`, to i jest dzielnikiem.",
+    "**Podejscie**: Zbieraj dzielniki w wektorze lub zliczaj je. Po petli sprawdz, czy jest ich dokladnie 4.",
+    "**Kluczowy krok**: Pamietaj, ze 1 i n sa zawsze dzielnikami. Liczba o 4 dzielnikach to albo iloczyn dwoch roznych liczb pierwszych (np. 6=2*3), albo szescian liczby pierwszej (np. 8=2^3)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"liczby.txt\");\n    int n;\n    int ile = 0;\n    cout << \"a) Liczby z dokladnie 4 dzielnikami:\" << endl;\n    while (plik >> n) {\n        vector<int> dzielniki;\n        for (int i = 1; i <= n; i++) {\n            if (n % i == 0) dzielniki.push_back(i);\n        }\n        if ((int)dzielniki.size() == 4) {\n            ile++;\n            cout << \"   \" << n << \" (dzielniki:\";\n            for (int d : dzielniki) cout << \" \" << d;\n            cout << \")\" << endl;\n        }\n    }\n    cout << \"b) Znaleziono: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdej liczby zbieramy wszystkie dzielniki do wektora. Jezeli wektor ma dokladnie 4 elementy, wypisujemy liczbe i jej dzielniki.\n\nWeryfikacja:\n- 6: dzielniki 1,2,3,6 = 4 TAK\n- 12: dzielniki 1,2,3,4,6,12 = 6 nie\n- 15: dzielniki 1,3,5,15 = 4 TAK\n- 7: dzielniki 1,7 = 2 nie\n- 10: dzielniki 1,2,5,10 = 4 TAK\n- 25: dzielniki 1,5,25 = 3 nie\n- 8: dzielniki 1,2,4,8 = 4 TAK\n- 21: dzielniki 1,3,7,21 = 4 TAK\n- 9: dzielniki 1,3,9 = 3 nie\n- 14: dzielniki 1,2,7,14 = 4 TAK\n- Razem: 6",
+  "typowe_bledy": [
+    {
+      "opis": "**Petla dzielnikow do n-1 zamiast do n**: Samo n tez jest swoim dzielnikiem — petla musi dojsc do n wlacznie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o 1 jako dzielniku**: 1 dzieli kazda liczbe — jezeli petla zaczyna od 2, trzeba recznie dodac 1",
+      "kara": "-1 pkt"
+    }
+  ]
+}

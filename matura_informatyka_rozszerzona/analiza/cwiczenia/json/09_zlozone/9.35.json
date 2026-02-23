@@ -1,0 +1,29 @@
+{
+  "id": "9.35",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2023 zad. 5 (porownanie zbiorow)",
+  "tagi": [
+    "wiele-plikow",
+    "wieloetapowe",
+    "map-zliczanie",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `lista_A.txt` znajduje sie 6 liczb calkowitych (kazda w osobnym wierszu). W pliku `lista_B.txt` znajduje sie 7 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Wypisze elementy wspolne obu list (w kolejnosci wystepowania w lista_A).\nb) Dla kazdego wspolnego elementu poda jego pozycje (1-indeksowane) w obu listach.\n\n**Dane** (`lista_A.txt`):\n```\n12\n7\n25\n3\n18\n9\n```\n\n**Dane** (`lista_B.txt`):\n```\n5\n18\n3\n30\n7\n11\n25\n```\n\n**Oczekiwany wynik**:\n```\na) Elementy wspolne:\n\nb) Pozycje wspolnych elementow:\n   7: lista_A[2], lista_B[5]\n   25: lista_A[3], lista_B[7]\n   3: lista_A[4], lista_B[3]\n   18: lista_A[5], lista_B[2]\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj obie listy do wektorow. Uzyj mapy do zapamietania pozycji elementow z lista_B.",
+    "**Podejscie**: Mapa: klucz = wartosc z B, wartosc = pozycja w B. Iteruj po A, sprawdzajac czy element istnieje w mapie.",
+    "**Kluczowy krok**: Pozycje sa 1-indeksowane (nie 0-indeksowane). Iteruj po A zachowujac kolejnosc."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream fA(\"lista_A.txt\"), fB(\"lista_B.txt\");\n    vector<int> A, B;\n    int x;\n    while (fA >> x) A.push_back(x);\n    while (fB >> x) B.push_back(x);\n\n    map<int, int> pozB;\n    for (int i = 0; i < (int)B.size(); i++) {\n        pozB[B[i]] = i + 1;\n    }\n\n    vector<int> wspolne;\n    for (int i = 0; i < (int)A.size(); i++) {\n        if (pozB.count(A[i])) {\n            wspolne.push_back(i);\n        }\n    }\n\n    cout << \"a) Elementy wspolne:\" << endl;\n\n    cout << endl << \"b) Pozycje wspolnych elementow:\" << endl;\n    for (int i : wspolne) {\n        cout << \"   \" << A[i] << \": lista_A[\" << i + 1 << \"], lista_B[\" << pozB[A[i]] << \"]\" << endl;\n    }\n    return 0;\n}\n```\n\nWeryfikacja:\n- lista_A: 12(1), 7(2), 25(3), 3(4), 18(5), 9(6)\n- lista_B: 5(1), 18(2), 3(3), 30(4), 7(5), 11(6), 25(7)\n- pozB: {5:1, 18:2, 3:3, 30:4, 7:5, 11:6, 25:7}\n- Iteracja po A:\n  - 12: brak w B\n  - 7: jest w B na poz 5 -> wspolny\n  - 25: jest w B na poz 7 -> wspolny\n  - 3: jest w B na poz 3 -> wspolny\n  - 18: jest w B na poz 2 -> wspolny\n  - 9: brak w B\n- Wynik: 7(A[2],B[5]), 25(A[3],B[7]), 3(A[4],B[3]), 18(A[5],B[2])",
+  "typowe_bledy": [
+    {
+      "opis": "**Indeksowanie od 0 zamiast od 1**: Pozycje powinny byc 1-indeksowane jak w zadaniu",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Sortowanie wynikow**: Zadanie wymaga kolejnosci z lista_A, nie posortowanej",
+      "kara": "-1 pkt"
+    }
+  ]
+}

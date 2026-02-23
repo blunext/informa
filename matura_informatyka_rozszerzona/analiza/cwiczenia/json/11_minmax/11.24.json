@@ -1,0 +1,30 @@
+{
+  "id": "11.24",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Cwiczenie autorskie (element najblizszy sredniej)",
+  "tagi": [
+    "min-max",
+    "srednia",
+    "roznica-bezwzgledna",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `pomiary.txt` znajduje sie 10 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory:\na) Obliczy srednia arytmetyczna wszystkich liczb (2 miejsca po przecinku).\nb) Znajdzie element najblizszy tej sredniej (o najmniejszej wartosci bezwzglednej roznicy ze srednia) i poda jego pozycje (1-indeksowana).\n\n**Dane** (`pomiary.txt`):\n```\n15\n42\n8\n37\n25\n50\n12\n33\n28\n20\n```\n\n**Oczekiwany wynik**:\n```\na) Srednia: 27.00\nb) Najblizszy sredniej: 28 (pozycja: 9, odleglosc: 1.00)\n```",
+  "wskazowki": [
+    "**Kierunek**: Najpierw oblicz srednia (suma / n), potem szukaj elementu minimalizujacego |tab[i] - srednia|.",
+    "**Podejscie**: Dwa przebiegi: (1) oblicz srednia, (2) szukaj min odleglosci od sredniej.",
+    "**Kluczowy krok**: Uzyj double do sredniej i abs(). Porownuj `fabs(tab[i] - srednia) < minOdl`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"pomiary.txt\");\n    vector<int> tab;\n    int x;\n    while (plik >> x) tab.push_back(x);\n    int n = tab.size();\n\n    double suma = 0;\n    for (int i = 0; i < n; i++) suma += tab[i];\n    double sr = suma / n;\n\n    double minOdl = fabs(tab[0] - sr);\n    int najblPos = 0;\n    for (int i = 1; i < n; i++) {\n        double odl = fabs(tab[i] - sr);\n        if (odl < minOdl) {\n            minOdl = odl;\n            najblPos = i;\n        }\n    }\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Srednia: \" << sr << endl;\n    cout << \"b) Najblizszy sredniej: \" << tab[najblPos]\n         << \" (pozycja: \" << najblPos + 1\n         << \", odleglosc: \" << minOdl << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dwa przebiegi — pierwszy oblicza srednia, drugi szuka elementu minimalizujacego odleglosc od sredniej. Uzywamy fabs() bo pracujemy na double.\n\nWeryfikacja:\n- Suma: 15+42+8+37+25+50+12+33+28+20 = 270, srednia = 27.00\n- Odleglosci: |15-27|=12, |42-27|=15, |8-27|=19, |37-27|=10, |25-27|=2, |50-27|=23, |12-27|=15, |33-27|=6, |28-27|=1, |20-27|=7\n- Min odleglosc: 1 dla elementu 28 (pozycja 9).",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie int zamiast double dla sredniej**: Srednia 270/10=27 jest akurat calkowita, ale ogolnie obcina czesc ulamkowa",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Szukanie min roznicy bez abs()**: Bez wartosci bezwzglednej elementy mniejsze od sredniej daja ujemna roznice",
+      "kara": "-2 pkt"
+    }
+  ]
+}

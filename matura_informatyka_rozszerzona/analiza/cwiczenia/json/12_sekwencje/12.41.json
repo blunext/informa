@@ -1,0 +1,34 @@
+{
+  "id": "12.41",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2024 zad. 4 (okna przesuwne i optymalizacja)",
+  "tagi": [
+    "spojny-podciag",
+    "sumy-prefiksowe",
+    "current-max",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych dodatnich (kazda w osobnym wierszu). Wartosc k=3. Napisz program, ktory znajdzie dwa nienakladajace sie spojne podciagi o dlugosci dokladnie k, ktorych laczna suma jest maksymalna.\n\nPodaj:\na) Laczna sume obu podciagow.\nb) Pozycje poczatkowe obu podciagow (1-indeksowane) i ich sumy.\nc) Elementy obu podciagow.\n\nJesli istnieje kilka rozwiazan o tej samej lacznej sumie, wybierz to z pierwszym podciagiem najwczesniej.\n\n**Dane** (`dane.txt`):\n```\n4\n7\n2\n8\n1\n5\n9\n3\n6\n10\n4\n8\n```\n\n**Oczekiwany wynik**:\n```\na) Laczna suma: 40\nb) Podciag 1: pozycja=7, suma=18\n   Podciag 2: pozycja=10, suma=22\nc) Elementy 1: 9 3 6\n   Elementy 2: 10 4 8\n```",
+  "wskazowki": [
+    "**Kierunek**: Oblicz sumy wszystkich okien dlugosci k (okno przesuwne). Potem znajdz najlepsza pare nieprzekrywajacych sie okien.",
+    "**Podejscie**: Dla kazdego podzialu ciagu na lewy i prawy fragment (granica po indeksie i), znajdz najlepsza sume okna w lewej i prawej czesci. Laczna suma = max_lewy + max_prawy.",
+    "**Kluczowy krok**: Oblicz maxLeft[i] = maks. suma okna w T[0..i] i maxRight[i] = maks. suma okna w T[i..n-1]. Odpowiedz = max(maxLeft[i] + maxRight[i+1]) dla i = k-1..n-k-1."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n    int k = 3;\n\n    // Sumy okien dlugosci k\n    vector<int> wsum(n - k + 1);\n    int s = 0;\n    for (int i = 0; i < k; i++) s += T[i];\n    wsum[0] = s;\n    for (int i = 1; i <= n - k; i++) {\n        s += T[i + k - 1] - T[i - 1];\n        wsum[i] = s;\n    }\n\n    // maxLeft[i] = indeks okna o maks. sumie w oknach 0..i\n    vector<int> maxLeft(n - k + 1);\n    maxLeft[0] = 0;\n    for (int i = 1; i <= n - k; i++) {\n        if (wsum[i] > wsum[maxLeft[i - 1]])\n            maxLeft[i] = i;\n        else\n            maxLeft[i] = maxLeft[i - 1];\n    }\n\n    // maxRight[i] = indeks okna o maks. sumie w oknach i..n-k\n    vector<int> maxRight(n - k + 1);\n    maxRight[n - k] = n - k;\n    for (int i = n - k - 1; i >= 0; i--) {\n        if (wsum[i] >= wsum[maxRight[i + 1]])\n            maxRight[i] = i;\n        else\n            maxRight[i] = maxRight[i + 1];\n    }\n\n    // Najlepsza para: lewe okno konczy sie przed prawym\n    int bestSum = 0, bestL = 0, bestR = 0;\n    for (int i = 0; i <= n - 2 * k; i++) {\n        int L = maxLeft[i];\n        int R = maxRight[i + k];\n        int total = wsum[L] + wsum[R];\n        if (total > bestSum) {\n            bestSum = total;\n            bestL = L;\n            bestR = R;\n        }\n    }\n\n    cout << \"a) Laczna suma: \" << bestSum << endl;\n    cout << \"b) Podciag 1: pozycja=\" << bestL + 1\n         << \", suma=\" << wsum[bestL] << endl;\n    cout << \"   Podciag 2: pozycja=\" << bestR + 1\n         << \", suma=\" << wsum[bestR] << endl;\n    cout << \"c) Elementy 1:\";\n    for (int i = bestL; i < bestL + k; i++) cout << \" \" << T[i];\n    cout << endl;\n    cout << \"   Elementy 2:\";\n    for (int i = bestR; i < bestR + k; i++) cout << \" \" << T[i];\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Obliczamy sumy wszystkich okien dlugosci k (okno przesuwne, O(n)). Prekomputujemy maxLeft[i] (najlepsze okno w zakresie 0..i) i maxRight[i] (najlepsze okno w zakresie i..n-k). Dla kazdego podzialu ciagu na lewy (0..i+k-1) i prawy (i+k..n-1), najlepsza para to maxLeft[i] + maxRight[i+k].\n\nWeryfikacja (dane: 4,7,2,8,1,5,9,3,6,10,4,8, k=3):\nSumy okien: wsum[0]=13, wsum[1]=17, wsum[2]=11, wsum[3]=14, wsum[4]=15, wsum[5]=17, wsum[6]=18, wsum[7]=19, wsum[8]=20, wsum[9]=22.\n\nmaxLeft: [0]=0(13), [1]=1(17), [2]=1(17), [3]=1(17), [4]=1(17), [5]=1(17), [6]=6(18), [7]=7(19), [8]=8(20), [9]=9(22).\nmaxRight: [9]=9(22), [8]=8(20)... Wait, wsum[8]=20, wsum[9]=22. maxRight[9]=9. maxRight[8]: wsum[8]=20 >= wsum[9]=22? No. maxRight[8]=9. maxRight[7]: wsum[7]=19 >= 22? No. maxRight[7]=9. ... maxRight[0]=9.\n\nWait, but >= in maxRight means we pick earlier ties. Let me recheck:\nmaxRight[9]=9(22). maxRight[8]: wsum[8]=20 >= wsum[maxRight[9]]=22? No. maxRight[8]=9.\nmaxRight[7]: wsum[7]=19 >= 22? No. maxRight[7]=9.\nmaxRight[6]: 18>=22? No. maxRight[6]=9.\nSimilarly maxRight[0..5]=9.\n\nBest pair search (i from 0 to n-2k = 12-6 = 6):\n- i=0: L=maxLeft[0]=0(13), R=maxRight[3]=9(22). Total=35.\n- i=1: L=maxLeft[1]=1(17), R=maxRight[4]=9(22). Total=39.\n- i=2: L=maxLeft[2]=1(17), R=maxRight[5]=9(22). Total=39.\n- i=3: L=maxLeft[3]=1(17), R=maxRight[6]=9(22). Total=39.\n- i=4: L=maxLeft[4]=1(17), R=maxRight[7]=9(22). Total=39.\n- i=5: L=maxLeft[5]=1(17), R=maxRight[8]=9(22). Total=39.\n- i=6: L=maxLeft[6]=6(18), R=maxRight[9]=9(22). Total=40.\n\nBest: total=40, L=6(suma=18), R=9(suma=22).\nPodciag 1: poz.7, elementy: 9,3,6. Podciag 2: poz.10, elementy: 10,4,8.\nLaczna suma: 18+22=40.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brute force O(n^2) par okien**: Sprawdzanie kazdej pary okien dziala ale jest wolniejsze. Technika maxLeft/maxRight daje O(n)",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Nakladajace sie okna**: Nie sprawdzenie warunku ze okna nie moga sie nakladac (drugie okno musi zaczynac sie >= koniec pierwszego)",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Bledne granice petli podzialu**: Granica podzialu i musi pozwalac na pelne okno po obu stronach: i od 0 do n-2k",
+      "kara": "-2 pkt"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "9.41",
+  "trudnosc": "trudne",
+  "punkty": 7,
+  "zrodlo": "Inspirowane matura 2024 zad. 7 (graf polaczen + analiza)",
+  "tagi": [
+    "wiele-plikow",
+    "JOIN-tabel",
+    "struct",
+    "sortowanie",
+    "wieloetapowe",
+    "map-zliczanie"
+  ],
+  "tresc": "Dane sa 2 pliki. Plik `miasta.txt` zawiera 5 rekordow: id nazwa. Plik `trasy.txt` zawiera 8 rekordow: miasto_A_id miasto_B_id dystans_km. Polaczenia sa dwukierunkowe. Napisz program, ktory:\na) Wypisze wszystkie trasy z nazwami miast (zamiast id) posortowane rosnaco wg dystansu.\nb) Dla kazdego miasta obliczy liczbe polaczen i wypisze posortowane malejaco wg liczby, a przy remisie alfabetycznie.\nc) Znajdzie najkrotsza i najdluzsza trase (z nazwami miast).\nd) Obliczy sredni dystans wsrod wszystkich tras (2 m.p.).\n\n**Dane** (`miasta.txt`):\n```\n1 Warszawa\n2 Krakow\n3 Gdansk\n4 Wroclaw\n5 Poznan\n```\n\n**Dane** (`trasy.txt`):\n```\n1 2 300\n1 3 340\n1 5 310\n2 4 270\n3 5 305\n4 5 175\n2 3 560\n1 4 350\n```\n\n**Oczekiwany wynik**:\n```\na) Trasy (rosnaco wg dystansu):\n   Wroclaw - Poznan: 175 km\n   Krakow - Wroclaw: 270 km\n   Warszawa - Krakow: 300 km\n   Gdansk - Poznan: 305 km\n   Warszawa - Poznan: 310 km\n   Warszawa - Gdansk: 340 km\n   Warszawa - Wroclaw: 350 km\n   Krakow - Gdansk: 560 km\n\nb) Liczba polaczen (malejaco):\n   Warszawa: 4\n   Gdansk: 3\n   Krakow: 3\n   Poznan: 3\n   Wroclaw: 3\n\nc) Najkrotsza: Wroclaw - Poznan (175 km)\n   Najdluzsza: Krakow - Gdansk (560 km)\n\nd) Sredni dystans: 326.25 km\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj miasta do map<int,string>. Wczytaj trasy do vectora struktur. JOIN po id, aby uzyskac nazwy miast.",
+    "**Podejscie**: Zliczaj polaczenia per miasto: kazda trasa dodaje +1 do obu miast (dwukierunkowa). Sortuj trasy po dystansie.",
+    "**Kluczowy krok**: Polaczenia sa dwukierunkowe — kazda trasa liczy sie do obu miast. Sredni dystans = suma / 8."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nstruct Trasa {\n    string miastoA, miastoB;\n    int dystans;\n};\n\nint main() {\n    ifstream f1(\"miasta.txt\"), f2(\"trasy.txt\");\n    map<int, string> miasta;\n    int id;\n    string nazwa;\n    while (f1 >> id >> nazwa) {\n        miasta[id] = nazwa;\n    }\n\n    vector<Trasa> trasy;\n    map<string, int> polaczenia;\n    int a, b, d;\n    int sumaD = 0;\n    while (f2 >> a >> b >> d) {\n        trasy.push_back({miasta[a], miasta[b], d});\n        polaczenia[miasta[a]]++;\n        polaczenia[miasta[b]]++;\n        sumaD += d;\n    }\n\n    sort(trasy.begin(), trasy.end(), [](const Trasa &x, const Trasa &y) {\n        return x.dystans < y.dystans;\n    });\n\n    cout << \"a) Trasy (rosnaco wg dystansu):\" << endl;\n    for (auto &t : trasy) {\n        cout << \"   \" << t.miastoA << \" - \" << t.miastoB << \": \" << t.dystans << \" km\" << endl;\n    }\n\n    vector<pair<int, string>> rankPol;\n    for (auto &p : polaczenia) {\n        rankPol.push_back({p.second, p.first});\n    }\n    sort(rankPol.begin(), rankPol.end(), [](auto &x, auto &y) {\n        if (x.first != y.first) return x.first > y.first;\n        return x.second < y.second;\n    });\n\n    cout << endl << \"b) Liczba polaczen (malejaco):\" << endl;\n    for (auto &r : rankPol) {\n        cout << \"   \" << r.second << \": \" << r.first << endl;\n    }\n\n    cout << endl << \"c) Najkrotsza: \" << trasy[0].miastoA << \" - \" << trasy[0].miastoB\n         << \" (\" << trasy[0].dystans << \" km)\" << endl;\n    cout << \"   Najdluzsza: \" << trasy.back().miastoA << \" - \" << trasy.back().miastoB\n         << \" (\" << trasy.back().dystans << \" km)\" << endl;\n\n    cout << endl << \"d) Sredni dystans: \" << fixed << setprecision(2)\n         << (double)sumaD / trasy.size() << \" km\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\nTrasy z nazwami:\n- 1-2: Warszawa-Krakow 300\n- 1-3: Warszawa-Gdansk 340\n- 1-5: Warszawa-Poznan 310\n- 2-4: Krakow-Wroclaw 270\n- 3-5: Gdansk-Poznan 305\n- 4-5: Wroclaw-Poznan 175\n- 2-3: Krakow-Gdansk 560\n- 1-4: Warszawa-Wroclaw 350\n\na) Rosnaco: 175, 270, 300, 305, 310, 340, 350, 560\n\nb) Polaczenia (kazda trasa liczy do obu miast):\n- Warszawa(1): trasy (1,2),(1,3),(1,5),(1,4) = 4\n- Krakow(2): trasy (1,2),(2,4),(2,3) = 3\n- Gdansk(3): trasy (1,3),(3,5),(2,3) = 3\n- Wroclaw(4): trasy (2,4),(4,5),(1,4) = 3\n- Poznan(5): trasy (1,5),(3,5),(4,5) = 3\n- Malejaco + alfa: Warszawa(4), Gdansk(3), Krakow(3), Poznan(3), Wroclaw(3)\n\nc) Najkrotsza: Wroclaw-Poznan 175, Najdluzsza: Krakow-Gdansk 560\n\nd) Suma: 300+340+310+270+305+175+560+350 = 2610\n   Srednia: 2610/8 = 326.25",
+  "typowe_bledy": [
+    {
+      "opis": "**Zliczanie polaczen jednokierunkowo**: Kazda trasa jest dwukierunkowa — trzeba liczyc +1 do obu miast",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak JOIN z nazwami miast**: Wypisywanie id zamiast nazw — trzeba laczyc z plikiem miast",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Sortowanie polaczen tylko po liczbie**: Przy remisie trzeba okreslic regule (np. alfabetycznie)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

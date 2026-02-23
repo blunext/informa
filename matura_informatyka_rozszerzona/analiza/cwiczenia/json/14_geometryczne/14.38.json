@@ -1,0 +1,34 @@
+{
+  "id": "14.38",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2024 zad. 5 (pole wielokata wzorem sznurowadla)",
+  "tagi": [
+    "wielokat",
+    "pole-trojkata",
+    "wczytywanie-pliku",
+    "iomanip",
+    "formatowanie-wyniku"
+  ],
+  "tresc": "W pliku `wielokaty.txt` w pierwszej linii jest k (liczba wielokatow). Dla kazdego wielokata: pierwsza linia zawiera n (liczba wierzcholkow), a kolejne n linii zawieraja wspolrzedne calkowite (x y) wierzcholkow podane w kolejnosci obejscia. Napisz program, ktory:\na) Obliczy pole kazdego wielokata wzorem sznurowadla (Shoelace): P = |sum(x_i * y_{i+1} - x_{i+1} * y_i)| / 2.\nb) Wypisze laczna sume pol wszystkich wielokatow.\n\n**Dane** (`wielokaty.txt`):\n```\n3\n3\n0 0\n8 0\n4 6\n4\n0 0\n5 0\n5 5\n0 5\n5\n1 0\n4 0\n5 3\n3 5\n0 3\n```\n\n**Oczekiwany wynik**:\n```\nWielokat 1 (3 wierzch.): pole = 24.00\nWielokat 2 (4 wierzch.): pole = 25.00\nWielokat 3 (5 wierzch.): pole = 17.00\nSuma pol: 66.00\n```",
+  "wskazowki": [
+    "**Kierunek**: Wzor sznurowadla: pole = |sum(x_i*y_{i+1} - x_{i+1}*y_i)| / 2, gdzie indeksy sa modulo n.",
+    "**Podejscie**: Dla kazdego wielokata iteruj po wierzcholkach, sumuj iloczyny z zamknieciem (ostatni z pierwszym).",
+    "**Kluczowy krok**: Wartosc bezwzgledna na calej sumie (abs), bo wynik zalezy od kierunku obejscia wierzcholkow."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <cmath>\n#include <iomanip>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"wielokaty.txt\");\n    int k;\n    plik >> k;\n    double sumaP = 0;\n    cout << fixed << setprecision(2);\n    for (int w = 0; w < k; w++) {\n        int n;\n        plik >> n;\n        vector<int> X(n), Y(n);\n        for (int i = 0; i < n; i++) plik >> X[i] >> Y[i];\n        int sum2 = 0;\n        for (int i = 0; i < n; i++) {\n            int j = (i + 1) % n;\n            sum2 += X[i] * Y[j] - X[j] * Y[i];\n        }\n        double pole = abs(sum2) / 2.0;\n        cout << \"Wielokat \" << w + 1 << \" (\" << n << \" wierzch.): pole = \" << pole << endl;\n        sumaP += pole;\n    }\n    cout << \"Suma pol: \" << sumaP << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Wzor sznurowadla (Shoelace formula) oblicza pole dowolnego wielokata prostego ze wspolrzednych wierzcholkow. Sumujemy iloczyny x_i*y_{i+1} - x_{i+1}*y_i z zamknieciem, bierzemy abs i dzielimy przez 2.\n\nWeryfikacja:\n- W1 (0,0)(8,0)(4,6): sum = (0*0-8*0)+(8*6-4*0)+(4*0-0*6) = 0+48+0 = 48. Pole = 48/2 = 24.00\n- W2 (0,0)(5,0)(5,5)(0,5): sum = (0*0-5*0)+(5*5-5*0)+(5*5-0*5)+(0*0-0*5) = 0+25+25+0 = 50. Pole = 50/2 = 25.00\n- W3 (1,0)(4,0)(5,3)(3,5)(0,3): sum = (1*0-4*0)+(4*3-5*0)+(5*5-3*3)+(3*3-0*5)+(0*0-1*3) = 0+12+16+9-3 = 34. Pole = 34/2 = 17.00\nSuma: 24+25+17 = 66.00.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak zamkniecia petli**: Zapomnienie o boku od ostatniego do pierwszego wierzcholka (modulo n) we wzorze",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak abs() na sumie**: Kierunek obejscia wierzcholkow wplywa na znak sumy — bez abs() pole moze wyjsc ujemne",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Dzielenie calkowite**: sum/2 zamiast sum/2.0 obcina czesc ulamkowa przy nieparzystej sumie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

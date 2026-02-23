@@ -1,0 +1,30 @@
+{
+  "id": "13.36",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2017 zad. 6 (podkwadraty w siatce)",
+  "tagi": [
+    "tablica-2D",
+    "kwadraty",
+    "zliczanie-komorek",
+    "wczytywanie-pliku",
+    "petle-zagniezdzne"
+  ],
+  "tresc": "Dana jest siatka 6x6 zer i jedynek zapisana w pliku `dane.txt`. Napisz program, ktory:\na) Policzy ile jest podmacierzy 2x2, w ktorych wszystkie 4 komorki maja wartosc 1.\nb) Wypisze pozycje (wiersz, kolumna) lewego gornego rogu kazdej takiej podmacierzy (numeracja od 1).\n\n**Dane** (`dane.txt`):\n```\n1 1 0 0 1 0\n1 1 0 1 1 1\n0 0 0 1 1 0\n0 1 1 0 0 0\n0 1 1 0 0 0\n0 0 0 0 0 0\n```\n\n**Oczekiwany wynik**:\n```\na) Liczba podmacierzy 2x2 z samych jedynek: 3\nb) Pozycje: (1,1) (2,4) (4,2)\n```",
+  "wskazowki": [
+    "**Kierunek**: Sprawdz kazda mozliwa pozycje lewego gornego rogu (i,j) gdzie i<5 i j<5.",
+    "**Podejscie**: Dla kazdej pozycji sprawdz tab[i][j], tab[i][j+1], tab[i+1][j], tab[i+1][j+1].",
+    "**Kluczowy krok**: Petle po i od 0 do n-2 i j od 0 do n-2 (nie do n-1, bo wykroczylibymy poza siatke)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int tab[6][6];\n    for (int i = 0; i < 6; i++)\n        for (int j = 0; j < 6; j++)\n            plik >> tab[i][j];\n\n    int cnt = 0;\n    vector<pair<int,int>> pozycje;\n    for (int i = 0; i < 5; i++) {\n        for (int j = 0; j < 5; j++) {\n            if (tab[i][j] == 1 && tab[i][j+1] == 1 &&\n                tab[i+1][j] == 1 && tab[i+1][j+1] == 1) {\n                cnt++;\n                pozycje.push_back({i + 1, j + 1});\n            }\n        }\n    }\n\n    cout << \"a) Liczba podmacierzy 2x2 z samych jedynek: \" << cnt << endl;\n    cout << \"b) Pozycje:\";\n    for (auto& p : pozycje)\n        cout << \" (\" << p.first << \",\" << p.second << \")\";\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Iterujemy po mozliwych lewych gornych rogach podmacierzy 2x2 i sprawdzamy czy wszystkie 4 komorki to 1.\n\nWeryfikacja:\n```\n  j: 0 1 2 3 4 5\ni=0: 1 1 0 0 1 0\ni=1: 1 1 0 1 1 1\ni=2: 0 0 0 1 1 0\ni=3: 0 1 1 0 0 0\ni=4: 0 1 1 0 0 0\ni=5: 0 0 0 0 0 0\n```\nSprawdzamy podmacierze 2x2 (lewy gorny rog):\n- (0,0): 1,1,1,1 -> TAK\n- (0,1): 1,0,1,0 -> NIE\n- (0,3): 0,1,1,1 -> NIE\n- (0,4): 1,0,1,1 -> NIE\n- (1,3): 1,1,1,1 -> TAK\n- (1,4): 1,1,1,0 -> NIE\n- (3,1): 1,1,1,1 -> TAK\n- (3,2): 1,0,1,0 -> NIE\n\nWynik: 3 podmacierze, pozycje (numeracja od 1): (1,1), (2,4), (4,2).",
+  "typowe_bledy": [
+    {
+      "opis": "**Petla do n zamiast do n-1**: Sprawdzanie tab[i+1][j+1] gdy i=5 lub j=5 wykracza poza tablice",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Numeracja od 0 zamiast od 1 w wyjsciu**: Pozycje powinny byc wypisane w numeracji od 1",
+      "kara": "-1 pkt"
+    }
+  ]
+}

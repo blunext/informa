@@ -1,0 +1,29 @@
+{
+  "id": "10.24",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2022 zad. 4 (analiza par sasiadujacych)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "pary-elementow",
+    "filtrowanie",
+    "akumulator"
+  ],
+  "tresc": "W pliku `ciag.txt` znajduje sie 12 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory:\na) Zliczy ile jest par sasiadujacych elementow, ktorych suma jest wieksza od 20.\nb) Zliczy ile jest par sasiadujacych elementow, ktorych roznica bezwzgledna jest wieksza od 10.\n\nPrzez pary sasiadujace rozumiemy elementy na pozycjach (1,2), (2,3), (3,4), ..., (11,12).\n\n**Dane** (`ciag.txt`):\n```\n5\n12\n8\n15\n3\n20\n7\n18\n11\n4\n16\n9\n```\n\n**Oczekiwany wynik**:\n```\na) Pary z suma > 20: 6\nb) Pary z roznica > 10: 5\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj wszystkie liczby do tablicy, potem iteruj po parach tab[i] i tab[i+1].",
+    "**Podejscie**: Petla for od i=0 do n-2. Sprawdzaj `tab[i]+tab[i+1] > 20` oraz `abs(tab[i]-tab[i+1]) > 10`.",
+    "**Kluczowy krok**: Pamietaj o `#include <cmath>` lub `#include <cstdlib>` dla funkcji abs()."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"ciag.txt\");\n    vector<int> tab;\n    int x;\n    while (plik >> x) tab.push_back(x);\n\n    int sumaPar = 0, roznicaPar = 0;\n    for (int i = 0; i < (int)tab.size() - 1; i++) {\n        if (tab[i] + tab[i+1] > 20) sumaPar++;\n        if (abs(tab[i] - tab[i+1]) > 10) roznicaPar++;\n    }\n    cout << \"a) Pary z suma > 20: \" << sumaPar << endl;\n    cout << \"b) Pary z roznica > 10: \" << roznicaPar << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Wczytujemy wszystkie liczby do wektora, potem iterujemy po parach sasiadow. Dla kazdej pary sprawdzamy dwa warunki niezaleznie.\n\nWeryfikacja:\nPary i ich sumy: (5,12)=17, (12,8)=20, (8,15)=23, (15,3)=18, (3,20)=23, (20,7)=27, (7,18)=25, (18,11)=29, (11,4)=15, (4,16)=20, (16,9)=25\nSuma > 20: (8,15), (3,20), (20,7), (7,18), (18,11), (16,9) = 6\n\nPary i ich roznice: |5-12|=7, |12-8|=4, |8-15|=7, |15-3|=12, |3-20|=17, |20-7|=13, |7-18|=11, |18-11|=7, |11-4|=7, |4-16|=12, |16-9|=7\nRoznica > 10: (15,3)=12, (3,20)=17, (20,7)=13, (7,18)=11, (4,16)=12 = 5",
+  "typowe_bledy": [
+    {
+      "opis": "**Petla do n zamiast n-1**: Wyjscie poza tablice — tab[n] nie istnieje, co daje niezdefiniowane zachowanie",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak abs() przy roznicy**: Bez wartosci bezwzglednej, roznica moze byc ujemna i zawsze mniejsza od 10",
+      "kara": "-1 pkt"
+    }
+  ]
+}

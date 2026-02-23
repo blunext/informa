@@ -1,0 +1,35 @@
+{
+  "id": "10.41",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2023 zad. 5 (zlozony warunek liczbowy)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "cyfry-mod-div",
+    "suma-cyfr",
+    "liczby-pierwsze",
+    "filtrowanie",
+    "wiele-warunkow"
+  ],
+  "tresc": "Liczbe nazwiemy **specjalna**, jezeli suma jej cyfr jest rowna iloczynowi jej roznych (distinkt) czynnikow pierwszych.\n\nPrzyklady:\n- 6 = 2*3, suma cyfr = 6, iloczyn roznych czynnikow = 2*3 = 6. Specjalna!\n- 24 = 2^3 * 3, suma cyfr = 2+4 = 6, iloczyn roznych czynnikow = 2*3 = 6. Specjalna!\n- 12 = 2^2 * 3, suma cyfr = 1+2 = 3, iloczyn roznych czynnikow = 2*3 = 6. Nie specjalna.\n\nW pliku `dane.txt` znajduje sie 10 liczb calkowitych wiekszych od 1 (kazda w osobnym wierszu). Napisz program, ktory:\na) Wypisze kazda liczbe wraz z jej suma cyfr i iloczynem roznych czynnikow pierwszych.\nb) Wskazze liczby specjalne.\nc) Poda ile liczb specjalnych znaleziono.\n\n**Dane** (`dane.txt`):\n```\n2\n15\n6\n10\n3\n24\n8\n5\n7\n12\n```\n\n**Oczekiwany wynik**:\n```\na) Analiza:\n   2: suma_cyfr=2, iloczyn_czynnikow=2\n   15: suma_cyfr=6, iloczyn_czynnikow=15\n   6: suma_cyfr=6, iloczyn_czynnikow=6\n   10: suma_cyfr=1, iloczyn_czynnikow=10\n   3: suma_cyfr=3, iloczyn_czynnikow=3\n   24: suma_cyfr=6, iloczyn_czynnikow=6\n   8: suma_cyfr=8, iloczyn_czynnikow=2\n   5: suma_cyfr=5, iloczyn_czynnikow=5\n   7: suma_cyfr=7, iloczyn_czynnikow=7\n   12: suma_cyfr=3, iloczyn_czynnikow=6\nb) Specjalne: 2 6 3 24 5 7\nc) Znaleziono: 6\n```",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz dwoch funkcji: sumaCyfr(n) i iloczynCzynnikowPierwszych(n). Porownaj ich wyniki.",
+    "**Podejscie**: Suma cyfr: petla `n%10` + `n/=10`. Czynniki pierwsze: petla od 2, jezeli i dzieli n, dodaj i do iloczynu i dziel n przez i az nie dzieli.",
+    "**Kluczowy krok**: Kazdy czynnik pierwszy liczy sie raz — po znalezieniu czynnika p, pomnoz iloczyn przez p, potem dziel n przez p az nie dzieli, i przejdz do p+1."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint sumaCyfr(int n) {\n    int s = 0;\n    while (n > 0) {\n        s += n % 10;\n        n /= 10;\n    }\n    return s;\n}\n\nint iloczynCzynnikow(int n) {\n    int iloczyn = 1;\n    for (int i = 2; i * i <= n; i++) {\n        if (n % i == 0) {\n            iloczyn *= i;\n            while (n % i == 0) n /= i;\n        }\n    }\n    if (n > 1) iloczyn *= n;\n    return iloczyn;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int ile = 0;\n    string lista = \"\";\n    cout << \"a) Analiza:\" << endl;\n    while (plik >> n) {\n        int sc = sumaCyfr(n);\n        int ic = iloczynCzynnikow(n);\n        cout << \"   \" << n << \": suma_cyfr=\" << sc << \", iloczyn_czynnikow=\" << ic << endl;\n        if (sc == ic) {\n            ile++;\n            if (!lista.empty()) lista += \" \";\n            lista += to_string(n);\n        }\n    }\n    cout << \"b) Specjalne: \" << lista << endl;\n    cout << \"c) Znaleziono: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dwie funkcje pomocnicze: `sumaCyfr` wyodrebnia cyfry petla mod/div, `iloczynCzynnikow` znajduje rozne czynniki pierwsze faktoryzacja probna.\n\nWeryfikacja:\n- 2: sc=2, czynniki={2}, ic=2. 2==2 TAK\n- 15=3*5: sc=1+5=6, ic=3*5=15. 6!=15 NIE\n- 6=2*3: sc=6, ic=2*3=6. 6==6 TAK\n- 10=2*5: sc=1+0=1, ic=2*5=10. 1!=10 NIE\n- 3: sc=3, ic=3. 3==3 TAK\n- 24=2^3*3: sc=2+4=6, ic=2*3=6. 6==6 TAK\n- 8=2^3: sc=8, ic=2. 8!=2 NIE\n- 5: sc=5, ic=5. 5==5 TAK\n- 7: sc=7, ic=7. 7==7 TAK\n- 12=2^2*3: sc=1+2=3, ic=2*3=6. 3!=6 NIE\n- Specjalne: 2, 6, 3, 24, 5, 7 = 6",
+  "typowe_bledy": [
+    {
+      "opis": "**Liczenie powtarzajacych sie czynnikow w iloczynie**: 8=2*2*2, ale iloczyn roznych czynnikow to 2, nie 8. Trzeba podzielic n przez p wielokrotnie, ale pomnożyc iloczyn tylko raz",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Petla faktoryzacji do n zamiast do sqrt(n)**: Faktoryzacja do sqrt(n) wystarczy — jezeli po petli n>1, to jest to ostatni czynnik",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o reszcie n>1 po petli faktoryzacji**: Jezeli po petli do sqrt(n) zostanie n>1, to jest to czynnik pierwszy",
+      "kara": "-2 pkt"
+    }
+  ]
+}

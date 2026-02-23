@@ -1,0 +1,32 @@
+{
+  "id": "14.39",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2025 zad. 5 (przeciecia odcinkow)",
+  "tagi": [
+    "struct",
+    "wczytywanie-pliku",
+    "pary-elementow"
+  ],
+  "tresc": "W pliku `odcinki.txt` w pierwszej linii jest n (liczba par odcinkow). W kolejnych n blokach po dwie linie: kazda linia zawiera 4 liczby calkowite x1 y1 x2 y2 definiujace jeden odcinek. Napisz program, ktory dla kazdej pary odcinkow sprawdzi, czy sie przecinaja (metoda iloczynow wektorowych / orientacji), i wypisze wynik.\n\nMetoda: Dwa odcinki AB i CD przecinaja sie, gdy:\n- Punkty C i D leza po roznych stronach prostej AB (rozne znaki iloczynu wektorowego)\n- ORAZ punkty A i B leza po roznych stronach prostej CD\n\nIloczyn wektorowy orientacji(P, Q, R) = (Q.x-P.x)*(R.y-P.y) - (Q.y-P.y)*(R.x-P.x)\n\n**Dane** (`odcinki.txt`):\n```\n5\n0 0 4 4\n0 4 4 0\n0 0 2 0\n3 0 5 0\n0 0 4 2\n1 3 3 -1\n0 0 1 1\n2 2 3 3\n1 0 1 4\n0 2 4 2\n```\n\n**Oczekiwany wynik**:\n```\nPara 1: (0,0)-(4,4) i (0,4)-(4,0) -> PRZECINAJA SIE\nPara 2: (0,0)-(2,0) i (3,0)-(5,0) -> NIE PRZECINAJA SIE\nPara 3: (0,0)-(4,2) i (1,3)-(3,-1) -> PRZECINAJA SIE\nPara 4: (0,0)-(1,1) i (2,2)-(3,3) -> NIE PRZECINAJA SIE\nPara 5: (1,0)-(1,4) i (0,2)-(4,2) -> PRZECINAJA SIE\nPrzecinajace sie pary: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj iloczynu wektorowego (cross product) do sprawdzenia orientacji trojki punktow — znak mowi po ktorej stronie prostej lezy punkt.",
+    "**Podejscie**: Dla odcinkow AB i CD: oblicz orientacje(A,B,C) i orientacje(A,B,D) — musza miec rozne znaki; potem orientacje(C,D,A) i orientacje(C,D,B) — tez rozne znaki.",
+    "**Kluczowy krok**: Rozne znaki oznacza iloczyn o1*o2 < 0. Jezeli iloczyn = 0, punkt lezy na prostej — dla uproszczenia mozna pomijac przypadki kolinearne."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint cross(int px, int py, int qx, int qy, int rx, int ry) {\n    return (qx - px) * (ry - py) - (qy - py) * (rx - px);\n}\n\nint main() {\n    ifstream plik(\"odcinki.txt\");\n    int n;\n    plik >> n;\n    int cnt = 0;\n    for (int i = 0; i < n; i++) {\n        int ax, ay, bx, by, cx, cy, dx, dy;\n        plik >> ax >> ay >> bx >> by;\n        plik >> cx >> cy >> dx >> dy;\n        int d1 = cross(ax, ay, bx, by, cx, cy);\n        int d2 = cross(ax, ay, bx, by, dx, dy);\n        int d3 = cross(cx, cy, dx, dy, ax, ay);\n        int d4 = cross(cx, cy, dx, dy, bx, by);\n        bool intersect = false;\n        if (((d1 > 0 && d2 < 0) || (d1 < 0 && d2 > 0)) &&\n            ((d3 > 0 && d4 < 0) || (d3 < 0 && d4 > 0))) {\n            intersect = true;\n        }\n        cout << \"Para \" << i + 1 << \": (\" << ax << \",\" << ay << \")-(\" << bx << \",\" << by\n             << \") i (\" << cx << \",\" << cy << \")-(\" << dx << \",\" << dy << \") -> \"\n             << (intersect ? \"PRZECINAJA SIE\" : \"NIE PRZECINAJA SIE\") << endl;\n        if (intersect) cnt++;\n    }\n    cout << \"Przecinajace sie pary: \" << cnt << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Odcinki AB i CD przecinaja sie, gdy C i D leza po roznych stronach prostej AB (rozne znaki cross(A,B,C) i cross(A,B,D)) ORAZ A i B leza po roznych stronach prostej CD. Pomijamy przypadki kolinearne (iloczyn = 0).\n\nWeryfikacja:\n- Para 1: AB=(0,0)-(4,4), CD=(0,4)-(4,0).\n  d1=cross(0,0,4,4,0,4) = 4*4-4*0 = 16. d2=cross(0,0,4,4,4,0) = 4*0-4*4 = -16.\n  d3=cross(0,4,4,0,0,0) = 4*(-4)-(-4)*0 = -16. d4=cross(0,4,4,0,4,4) = 4*0-(-4)*4 = 16.\n  d1>0,d2<0 i d3<0,d4>0 -> PRZECINAJA SIE\n- Para 2: AB=(0,0)-(2,0), CD=(3,0)-(5,0).\n  d1=cross(0,0,2,0,3,0) = 2*0-0*3 = 0. d2=cross(0,0,2,0,5,0) = 2*0-0*5 = 0.\n  d1=0, d2=0 (kolinearne) -> warunek d1*d2 rozne znaki nie spelniony -> NIE PRZECINAJA SIE\n- Para 3: AB=(0,0)-(4,2), CD=(1,3)-(3,-1).\n  d1=cross(0,0,4,2,1,3) = 4*3-2*1 = 10. d2=cross(0,0,4,2,3,-1) = 4*(-1)-2*3 = -10.\n  d3=cross(1,3,3,-1,0,0) = 2*(-3)-(-4)*(-1) = -6-4 = -10. d4=cross(1,3,3,-1,4,2) = 2*(-1)-(-4)*3 = -2+12 = 10.\n  Rozne znaki w obu parach -> PRZECINAJA SIE\n- Para 4: AB=(0,0)-(1,1), CD=(2,2)-(3,3).\n  d1=cross(0,0,1,1,2,2) = 1*2-1*2 = 0. d2=cross(0,0,1,1,3,3) = 1*3-1*3 = 0.\n  Kolinearne -> NIE PRZECINAJA SIE\n- Para 5: AB=(1,0)-(1,4), CD=(0,2)-(4,2).\n  d1=cross(1,0,1,4,0,2) = 0*2-4*(-1) = 4. d2=cross(1,0,1,4,4,2) = 0*2-4*3 = -12.\n  d3=cross(0,2,4,2,1,0) = 4*(-2)-0*1 = -8. d4=cross(0,2,4,2,1,4) = 4*2-0*1 = 8.\n  Rozne znaki -> PRZECINAJA SIE\nPrzecinajace sie: 3.",
+  "typowe_bledy": [
+    {
+      "opis": "**Sprawdzanie tylko jednej strony**: Trzeba sprawdzic obie pary orientacji (C,D wzgledem AB ORAZ A,B wzgledem CD)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledna formula iloczynu wektorowego**: Zamiana kolejnosci odejmowania lub mnozenia daje zly znak orientacji",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak obslugi przypadku kolinearnego**: Gdy iloczyn = 0, punkty sa kolinearne — uproszczone rozwiazanie moze je niepoprawnie klasyfikowac",
+      "kara": "-1 pkt"
+    }
+  ]
+}

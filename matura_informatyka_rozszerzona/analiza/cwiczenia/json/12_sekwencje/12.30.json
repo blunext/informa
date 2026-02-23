@@ -1,0 +1,34 @@
+{
+  "id": "12.30",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Wzor: Algorytm Kadane'a (klasyczny problem ciagu o max sumie)",
+  "tagi": [
+    "spojny-podciag",
+    "akumulator",
+    "current-max",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu, moga byc ujemne). Napisz program, ktory znajdzie spojny podciag o najwiekszej sumie elementow. Podaj:\na) Sume tego podciagu.\nb) Pozycje poczatkowa i koncowa (1-indeksowane) oraz dlugosc.\nc) Elementy podciagu.\n\nJesli jest kilka podciagów o tej samej sumie, wybierz pierwszy (z najmniejsza pozycja poczatkowa).\n\n**Dane** (`dane.txt`):\n```\n-5\n2\n-3\n8\n9\n7\n-12\n3\n1\n-8\n6\n5\n-2\n-10\n4\n```\n\n**Oczekiwany wynik**:\n```\na) Maksymalna suma podciagu: 24\n\nb) Pozycja poczatkowa: 4, koncowa: 6, dlugosc: 3\n\nc) Elementy: 8 9 7\n```",
+  "wskazowki": [
+    "**Kierunek**: Algorytm Kadane'a — sledzenie biezacej sumy (curSum) i dotychczasowej maksymalnej (maxSum).",
+    "**Podejscie**: Dla kazdego elementu: `curSum += T[i]`. Jesli `curSum > maxSum`, aktualizuj max. Jesli `curSum < 0`, zresetuj do 0 (zaczynamy nowy podciag).",
+    "**Kluczowy krok**: Sledzenie pozycji: pamietaj `curStart` (poczatek biezacego podciagu). Resetuj curStart gdy curSum spada ponizej 0."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <climits>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    long long maxSum = LLONG_MIN;\n    int maxStart = 0, maxEnd = 0;\n    long long curSum = 0;\n    int curStart = 0;\n\n    for (int i = 0; i < n; i++) {\n        curSum += T[i];\n        if (curSum > maxSum) {\n            maxSum = curSum;\n            maxStart = curStart;\n            maxEnd = i;\n        }\n        if (curSum < 0) {\n            curSum = 0;\n            curStart = i + 1;\n        }\n    }\n\n    int dl = maxEnd - maxStart + 1;\n    cout << \"a) Maksymalna suma podciagu: \" << maxSum << endl;\n    cout << endl << \"b) Pozycja poczatkowa: \" << maxStart + 1\n         << \", koncowa: \" << maxEnd + 1\n         << \", dlugosc: \" << dl << endl;\n    cout << endl << \"c) Elementy:\";\n    for (int i = maxStart; i <= maxEnd; i++)\n        cout << \" \" << T[i];\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Algorytm Kadane'a w wersji O(n). Kluczowa obserwacja: jesli biezaca suma spadnie ponizej 0, nie oplaca sie kontynuowac biezacego podciagu — lepiej zaczac od nowa. Sledzenie pozycji wymaga dodatkowej zmiennej curStart.\n\nWeryfikacja (dane: -5,2,-3,8,9,7,-12,3,1,-8,6,5,-2,-10,4):\ni=0: curSum=-5. -5>LLONG_MIN: maxSum=-5, ms=0, me=0. curSum<0: reset, curStart=1.\ni=1: curSum=2. 2>-5: maxSum=2, ms=1, me=1.\ni=2: curSum=-1. <0: reset, curStart=3.\ni=3: curSum=8. 8>2: maxSum=8, ms=3, me=3.\ni=4: curSum=17. 17>8: maxSum=17, ms=3, me=4.\ni=5: curSum=24. 24>17: maxSum=24, ms=3, me=5.\ni=6: curSum=12. 12>=0, kontynuacja.\ni=7: curSum=15. 15<24.\ni=8: curSum=16. 16<24.\ni=9: curSum=8. 8>=0.\ni=10: curSum=14. 14<24.\ni=11: curSum=19. 19<24.\ni=12: curSum=17. 17<24.\ni=13: curSum=7. 7>=0.\ni=14: curSum=11. 11<24.\n\nWynik: maxSum=24, ms=3, me=5 -> poz.4-6, dl.3, elementy: 8,9,7. Poprawne.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak obslugi samych ujemnych liczb**: Jesli maxSum inicjalizowany jest jako 0, to dla ciagu samych ujemnych liczb wynik blednie bedzie 0 (pusty podciag)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Resetowanie curSum do T[i] zamiast 0**: Popularna wersja Kadane'a uzywa `curSum = max(T[i], curSum+T[i])`. Obie sa poprawne, ale sledzenie pozycji jest inne",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Brak sledzenia pozycji**: Sam algorytm Kadane'a daje sume, ale bez pozycji — trzeba dodac curStart/maxStart/maxEnd",
+      "kara": "-2 pkt"
+    }
+  ]
+}

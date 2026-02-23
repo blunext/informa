@@ -1,0 +1,30 @@
+{
+  "id": "8.40",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2019 zad. 6 (szyfr podstawieniowy)",
+  "tagi": [
+    "napisy",
+    "szyfr-Cezara",
+    "kody-ASCII",
+    "operacje-na-string",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `szyfr.txt` pierwszy wiersz zawiera klucz szyfru podstawieniowego: 26 malych liter, ktore sa permutacja alfabetu. Litera 'a' jest zastepowana pierwsza litera klucza, 'b' druga itd. W kolejnych 6 wierszach znajduja sie zaszyfrowane napisy (male litery, bez spacji). Napisz program, ktory odszyfruje kazdy napis i wypisze wynik. Na koncu wypisz najdluzszy odszyfrowany napis.\n\n**Dane** (`szyfr.txt`):\n```\nzyxwvutsrqponmlkjihgfedcba\nsvool\ndliow\ngvhg\nkiltizn\nxlwv\nzyxwvu\n```\n\n**Oczekiwany wynik**:\n```\nsvool -> hello\ndliow -> world\ngvhg -> test\nkiltizn -> program\nxlwv -> code\nzyxwvu -> abcdef\nNajdluzszy: program (7)\n```",
+  "wskazowki": [
+    "**Kierunek**: Klucz szyfrujacy mapuje: a->klucz[0], b->klucz[1], ..., z->klucz[25]. Do deszyfracji potrzebujesz odwrotnej mapy.",
+    "**Podejscie**: Zbuduj tablice odwrotna: dla kazdej pozycji i, odwrotna[klucz[i] - 'a'] = 'a' + i. Potem zamien kazdy znak szyfrogramu uzywajac tej tablicy.",
+    "**Kluczowy krok**: Klucz w przykladzie to odwrocony alfabet (a->z, b->y, ..., z->a). Odszyfrowanie: dla znaku c, znajdz pozycje c w kluczu i zamien na 'a' + pozycja."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"szyfr.txt\");\n    string klucz;\n    plik >> klucz;\n    // Buduj tablice odwrotna\n    char odwrotna[26];\n    for (int i = 0; i < 26; i++) {\n        odwrotna[klucz[i] - 'a'] = 'a' + i;\n    }\n    string s;\n    string maxNapis;\n    int maxLen = 0;\n    while (plik >> s) {\n        string wynik = \"\";\n        for (char c : s) {\n            wynik += odwrotna[c - 'a'];\n        }\n        cout << s << \" -> \" << wynik << endl;\n        if ((int)wynik.length() > maxLen) {\n            maxLen = wynik.length();\n            maxNapis = wynik;\n        }\n    }\n    cout << \"Najdluzszy: \" << maxNapis << \" (\" << maxLen << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Klucz definiuje szyfr podstawieniowy: a->klucz[0], b->klucz[1], ... Aby odszyfrowac, budujemy odwrotna tablice. Dla znaku zaszyfrowanego c, szukamy pozycji c w kluczu — ta pozycja daje oryginalny znak.\n\nWeryfikacja (klucz = \"zyxwvutsrqponmlkjihgfedcba\", czyli a->z, b->y, ..., z->a):\nOdwrotna: z->a, y->b, x->c, w->d, v->e, u->f, t->g, s->h, r->i, q->j, p->k, o->l, n->m, m->n, l->o, k->p, j->q, i->r, h->s, g->t, f->u, e->v, d->w, c->x, b->y, a->z\n- svool: s->h, v->e, o->l, o->l, l->o -> \"hello\"\n- dliow: d->w, l->o, i->r, o->l, w->d -> \"world\"\n- gvhg: g->t, v->e, h->s, g->t -> \"test\"\n- kiltizn: k->p, i->r, l->o, t->g, i->r, z->a, n->m -> \"program\"\n- xlwv: x->c, l->o, w->d, v->e -> \"code\"\n- zyxwvu: z->a, y->b, x->c, w->d, v->e, u->f -> \"abcdef\"\nNajdluzszy: program (7)",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzywanie klucza do szyfrowania zamiast deszyfracji**: Klucz mowi jak szyfrowac (a->klucz[0]). Deszyfracja wymaga odwrotnej mapy (klucz[0]->a)",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Przeszukiwanie klucza liniowo zamiast budowania tablicy odwrotnej**: Dziala, ale jest nieefektywne. Tablica odwrotna daje O(1) na znak",
+      "kara": "-1 pkt"
+    }
+  ]
+}

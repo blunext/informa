@@ -1,0 +1,34 @@
+{
+  "id": "11.40",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2023 zad. 4 (rekordy wielopolowe)",
+  "tagi": [
+    "min-max",
+    "struct",
+    "rekordy",
+    "wielokryterialne",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `wyniki.txt` w pierwszym wierszu jest liczba N — ilosc osob. W kolejnych N wierszach sa dane: imie wynik1 wynik2 wynik3 (oddzielone spacja). Napisz program, ktory:\na) Znajdzie osobe z najwieksza suma trzech wynikow.\nb) Znajdzie osobe z najmniejsza suma trzech wynikow.\nc) Znajdzie osobe z najwyzszym pojedynczym wynikiem (i poda ktory to wynik: 1, 2 lub 3).\n\n**Dane** (`wyniki.txt`):\n```\n8\nAnia 85 72 90\nBartek 68 95 78\nCelina 92 88 76\nDawid 74 60 83\nEwa 90 82 91\nFilip 65 77 69\nGosia 88 93 85\nHubert 79 70 97\n```\n\n**Oczekiwany wynik**:\n```\na) Max suma: Gosia (266)\nb) Min suma: Filip (211)\nc) Max pojedynczy wynik: Hubert (97, wynik 3)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj struct {string imie; int w[3];} — wczytaj do wektora, potem szukaj ekstremalnych wartosci.",
+    "**Podejscie**: Trzy przebiegi: (a) max sumy, (b) min sumy, (c) globalne max po wszystkich wynikach.",
+    "**Kluczowy krok**: Dla (c) porownuj kazdy z 3 wynikow kazdej osoby z globalnym max — sledzimie, numer wyniku i wartosc."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <string>\nusing namespace std;\n\nstruct Osoba {\n    string imie;\n    int w[3];\n    int suma() { return w[0] + w[1] + w[2]; }\n};\n\nint main() {\n    ifstream plik(\"wyniki.txt\");\n    int N;\n    plik >> N;\n    vector<Osoba> tab(N);\n    for (int i = 0; i < N; i++)\n        plik >> tab[i].imie >> tab[i].w[0] >> tab[i].w[1] >> tab[i].w[2];\n\n    // a) Max suma\n    int idxMaxS = 0;\n    for (int i = 1; i < N; i++)\n        if (tab[i].suma() > tab[idxMaxS].suma()) idxMaxS = i;\n\n    // b) Min suma\n    int idxMinS = 0;\n    for (int i = 1; i < N; i++)\n        if (tab[i].suma() < tab[idxMinS].suma()) idxMinS = i;\n\n    // c) Max pojedynczy wynik\n    int maxW = tab[0].w[0], maxOsoba = 0, maxNr = 0;\n    for (int i = 0; i < N; i++)\n        for (int j = 0; j < 3; j++)\n            if (tab[i].w[j] > maxW) {\n                maxW = tab[i].w[j];\n                maxOsoba = i;\n                maxNr = j;\n            }\n\n    cout << \"a) Max suma: \" << tab[idxMaxS].imie << \" (\" << tab[idxMaxS].suma() << \")\" << endl;\n    cout << \"b) Min suma: \" << tab[idxMinS].imie << \" (\" << tab[idxMinS].suma() << \")\" << endl;\n    cout << \"c) Max pojedynczy wynik: \" << tab[maxOsoba].imie\n         << \" (\" << maxW << \", wynik \" << maxNr + 1 << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Struct z tablica 3 wynikow i metoda suma(). Trzy przeszukania: (a,b) po sumach, (c) podwojna petla po osobach i wynikach.\n\nWeryfikacja:\n- Sumy: Ania=247, Bartek=241, Celina=256, Dawid=217, Ewa=263, Filip=211, Gosia=266, Hubert=246\n- (a) Max suma: Gosia (266)\n- (b) Min suma: Filip (211)\n- (c) Max pojedynczy: Ania 90, Bartek 95, Celina 92, Ewa 91, Gosia 93, Hubert 97 -> max=97 (Hubert, wynik 3)",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownywanie imion zamiast sum w (a/b)**: Sort alphabetyczny nie ma zwiazku z sumami",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Szukanie max wsrod sum zamiast wsrod pojedynczych wynikow w (c)**: Max suma != max pojedynczy wynik",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Numer wyniku 0-indeksowany**: CKE zazwyczaj numeruje od 1, wynik powinien byc 1, 2 lub 3",
+      "kara": "-1 pkt"
+    }
+  ]
+}

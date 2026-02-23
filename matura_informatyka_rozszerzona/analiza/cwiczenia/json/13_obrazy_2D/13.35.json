@@ -1,0 +1,29 @@
+{
+  "id": "13.35",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2017 zad. 6 (wzorce w siatce binarnej)",
+  "tagi": [
+    "tablica-2D",
+    "sasiedztwo",
+    "wczytywanie-pliku",
+    "petle-zagniezdzne"
+  ],
+  "tresc": "Dana jest siatka 7x7 zer i jedynek zapisana w pliku `dane.txt`. Dla kazdej komorki z wartoscia 1 wyznacz \"ramie plusa\" — minimalna odleglosc, na ktora mozna sie rozciagnac w kazdym z 4 kierunkow (gora, dol, lewo, prawo), tak aby wszystkie komorki na drodze mialy wartosc 1. Napisz program, ktory znajdzie najwieksza wartosc ramienia plusa sposrod wszystkich komorek i wypisze ja.\n\nPrzyklad: jesli z komorki (r,c) mozna isc 2 w gore, 3 w dol, 2 w lewo i 4 w prawo (same jedynki), to ramie plusa = min(2,3,2,4) = 2.\n\n**Dane** (`dane.txt`):\n```\n0 0 1 0 0 0 0\n0 0 1 0 0 0 0\n1 1 1 1 1 0 0\n0 0 1 0 0 0 0\n0 0 1 0 0 1 0\n0 0 0 0 1 1 1\n0 0 0 0 0 1 0\n```\n\n**Oczekiwany wynik**:\n```\nNajwieksze ramie plusa: 2\n```",
+  "wskazowki": [
+    "**Kierunek**: Dla kazdej jedynki sprawdz ile kolejnych jedynek jest w kazdym z 4 kierunkow.",
+    "**Podejscie**: Dla kazdego kierunku licz w petli while: dopoki w granicach siatki i wartosc == 1.",
+    "**Kluczowy krok**: Ramie plusa = min z 4 ramion. Szukamy max z tych minimow po calej siatce."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int tab[7][7];\n    for (int i = 0; i < 7; i++)\n        for (int j = 0; j < 7; j++)\n            plik >> tab[i][j];\n\n    int dx[] = {-1, 1, 0, 0};\n    int dy[] = {0, 0, -1, 1};\n    int maxArm = 0;\n\n    for (int i = 0; i < 7; i++) {\n        for (int j = 0; j < 7; j++) {\n            if (tab[i][j] == 1) {\n                int minArm = 7;\n                for (int d = 0; d < 4; d++) {\n                    int len = 0;\n                    int ni = i + dx[d], nj = j + dy[d];\n                    while (ni >= 0 && ni < 7 && nj >= 0 && nj < 7 && tab[ni][nj] == 1) {\n                        len++;\n                        ni += dx[d];\n                        nj += dy[d];\n                    }\n                    minArm = min(minArm, len);\n                }\n                maxArm = max(maxArm, minArm);\n            }\n        }\n    }\n\n    cout << \"Najwieksze ramie plusa: \" << maxArm << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdej jedynki mierzymy ile jedynek jest w kazdym z 4 kierunkow. Ramie plusa = minimum z 4 ramion. Szukamy maximum po calej siatce.\n\nWeryfikacja:\n```\n  j: 0 1 2 3 4 5 6\ni=0: 0 0 1 0 0 0 0\ni=1: 0 0 1 0 0 0 0\ni=2: 1 1 1 1 1 0 0\ni=3: 0 0 1 0 0 0 0\ni=4: 0 0 1 0 0 1 0\ni=5: 0 0 0 0 1 1 1\ni=6: 0 0 0 0 0 1 0\n```\nKomorka (2,2): gora: (1,2)=1,(0,2)=1 -> 2; dol: (3,2)=1,(4,2)=1 -> 2; lewo: (2,1)=1,(2,0)=1 -> 2; prawo: (2,3)=1,(2,4)=1 -> 2. Min = 2.\nKomorka (5,5): gora: (4,5)=1 -> 1; dol: (6,5)=1 -> 1; lewo: (5,4)=1 -> 1; prawo: (5,6)=1 -> 1. Min = 1.\nInne jedynki maja mniejsze ramie (np. (0,2): dol=4 ale gora=0, min=0).\n\nNajwieksze ramie: 2 (w komorce (2,2)).",
+  "typowe_bledy": [
+    {
+      "opis": "**Branie max zamiast min z 4 ramion**: Ramie plusa = min (ograniczone przez najkrotszy kierunek)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Liczenie samej komorki centralnej do ramienia**: Ramie 0 oznacza ze komorka jest jedynka ale przynajmniej jeden kierunek nie ma sasiada-jedynki",
+      "kara": "-1 pkt"
+    }
+  ]
+}

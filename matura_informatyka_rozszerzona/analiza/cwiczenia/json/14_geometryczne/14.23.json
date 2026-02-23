@@ -1,0 +1,29 @@
+{
+  "id": "14.23",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Opracowanie wlasne: pole trojkata z wspolrzednych",
+  "tagi": [
+    "pole-trojkata",
+    "wczytywanie-pliku",
+    "iomanip",
+    "formatowanie-wyniku"
+  ],
+  "tresc": "W pliku `trojkaty.txt` w pierwszej linii jest n, a w kolejnych n liniach po 6 liczb calkowitych: x1 y1 x2 y2 x3 y3 (wierzcholki trojkata). Napisz program, ktory:\na) Obliczy pole kazdego trojkata wzorem na iloczyn wektorowy: pole = |x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2)| / 2.\nb) Znajdzie trojkat o najwiekszym polu.\n\n**Dane** (`trojkaty.txt`):\n```\n4\n0 0 6 0 3 4\n1 1 5 1 3 7\n0 0 10 0 5 3\n2 2 8 2 5 9\n```\n\n**Oczekiwany wynik**:\n```\nTrojkat 1: wierzch. (0,0)(6,0)(3,4) -> pole = 12.00\nTrojkat 2: wierzch. (1,1)(5,1)(3,7) -> pole = 12.00\nTrojkat 3: wierzch. (0,0)(10,0)(5,3) -> pole = 15.00\nTrojkat 4: wierzch. (2,2)(8,2)(5,9) -> pole = 21.00\nNajwieksze pole: trojkat 4, pole = 21.00\n```",
+  "wskazowki": [
+    "**Kierunek**: Wzor sznurowadla dla trojkata: pole = |x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2)| / 2.0.",
+    "**Podejscie**: Wczytaj trojkaty w petli, oblicz pole kazdego, sledz maximum.",
+    "**Kluczowy krok**: Uzyj abs() na calym wyrazeniu przed dzieleniem, bo wartosc moze byc ujemna w zaleznosci od orientacji wierzcholkow."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"trojkaty.txt\");\n    int n;\n    plik >> n;\n    double maxPole = -1;\n    int maxIdx = -1;\n    cout << fixed << setprecision(2);\n    for (int i = 0; i < n; i++) {\n        int x1, y1, x2, y2, x3, y3;\n        plik >> x1 >> y1 >> x2 >> y2 >> x3 >> y3;\n        double pole = abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2.0;\n        cout << \"Trojkat \" << i + 1 << \": wierzch. (\"\n             << x1 << \",\" << y1 << \")(\" << x2 << \",\" << y2 << \")(\" << x3 << \",\" << y3\n             << \") -> pole = \" << pole << endl;\n        if (pole > maxPole) {\n            maxPole = pole;\n            maxIdx = i + 1;\n        }\n    }\n    cout << \"Najwieksze pole: trojkat \" << maxIdx << \", pole = \" << maxPole << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Pole trojkata z wspolrzednych wierzcholkow obliczamy wzorem na iloczyn wektorowy (wzor sznurowadla). Wartosc bezwzgledna jest konieczna, bo wynik moze byc ujemny w zaleznosci od kolejnosci wierzcholkow.\n\nWeryfikacja:\n- T1: |0*(0-4) + 6*(4-0) + 3*(0-0)| / 2 = |0 + 24 + 0| / 2 = 12.00\n- T2: |1*(1-7) + 5*(7-1) + 3*(1-1)| / 2 = |-6 + 30 + 0| / 2 = 24/2 = 12.00\n- T3: |0*(0-3) + 10*(3-0) + 5*(0-0)| / 2 = |0 + 30 + 0| / 2 = 15.00\n- T4: |2*(2-9) + 8*(9-2) + 5*(2-2)| / 2 = |-14 + 56 + 0| / 2 = 42/2 = 21.00\n- Max: T4, pole = 21.00",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak abs() we wzorze**: Bez wartosci bezwzglednej pole moze wyjsc ujemne dla niektorych orientacji wierzcholkow",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Dzielenie przez 2 zamiast 2.0**: Dzielenie int/int obcina czesc ulamkowa — pole 15/2 da 7 zamiast 7.5",
+      "kara": "-1 pkt"
+    }
+  ]
+}

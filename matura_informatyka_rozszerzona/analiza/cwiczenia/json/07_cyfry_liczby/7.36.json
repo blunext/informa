@@ -1,0 +1,29 @@
+{
+  "id": "7.36",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2022 zad. 4 (sortowanie cyfr)",
+  "tagi": [
+    "cyfry-mod-div",
+    "sortowanie",
+    "wczytywanie-pliku",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych dodatnich (kazda w osobnym wierszu, bez cyfry 0). Napisz program, ktory dla kazdej liczby posortuje jej cyfry rosnaco i sprawdzi, czy powstala liczba jest rowna oryginalnej (czyli cyfry juz byly w kolejnosci rosnacej). Wypisz wynik dla kazdej liczby. Na koniec podaj:\na) Ile liczb ma cyfry juz uporzadkowane rosnaco.\nb) Ile liczb ma cyfry NIE uporzadkowane rosnaco.\n\nPrzyklad: 3521 -> posortowane cyfry: 1235, 1235 != 3521 -> cyfry NIE w kolejnosci rosnacej.\n\n**Dane** (`dane.txt`):\n```\n3521\n1234\n9871\n555\n4312\n1379\n8642\n7777\n5913\n2689\n6543\n1122\n```\n\n**Oczekiwany wynik**:\n```\n3521 -> posortowane: 1235 -> rozne\n1234 -> posortowane: 1234 -> rowne (cyfry rosnaco)\n9871 -> posortowane: 1789 -> rozne\n555 -> posortowane: 555 -> rowne (cyfry rosnaco)\n4312 -> posortowane: 1234 -> rozne\n1379 -> posortowane: 1379 -> rowne (cyfry rosnaco)\n8642 -> posortowane: 2468 -> rozne\n7777 -> posortowane: 7777 -> rowne (cyfry rosnaco)\n5913 -> posortowane: 1359 -> rozne\n2689 -> posortowane: 2689 -> rowne (cyfry rosnaco)\n6543 -> posortowane: 3456 -> rozne\n1122 -> posortowane: 1122 -> rowne (cyfry rosnaco)\na) Cyfry rosnaco: 6\nb) Cyfry nie rosnaco: 6\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj `string s = to_string(n)`, posortuj `sort(s.begin(), s.end())` i porownaj z oryginalnym stringiem.",
+    "**Podejscie**: Zapisz oryginalny string `s`, zrob kopie `t = s`, posortuj `t`. Porownaj `s == t`.",
+    "**Kluczowy krok**: Porownanie stringow `==` wystarczy — nie trzeba konwertowac z powrotem na int. Sortowanie stringa porownuje znaki ASCII, co dla cyfr '0'-'9' daje poprawna kolejnosc."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int liczba;\n    int rosnaco = 0, nierosnaco = 0;\n    while (plik >> liczba) {\n        string s = to_string(liczba);\n        string t = s;\n        sort(t.begin(), t.end());\n        int posortowana = stoi(t);\n        cout << liczba << \" -> posortowane: \" << posortowana;\n        if (s == t) {\n            cout << \" -> rowne (cyfry rosnaco)\" << endl;\n            rosnaco++;\n        } else {\n            cout << \" -> rozne\" << endl;\n            nierosnaco++;\n        }\n    }\n    cout << \"a) Cyfry rosnaco: \" << rosnaco << endl;\n    cout << \"b) Cyfry nie rosnaco: \" << nierosnaco << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Konwertujemy liczbe na string, sortujemy kopie stringa. Jesli oryginal == posortowany, cyfry byly juz w kolejnosci rosnacej (niemalejaco). Uzywamy `stoi()` do wypisania posortowanej wartosci jako liczby.\n\nWeryfikacja:\n- 3521: \"3521\" posortowane -> \"1235\" = 1235, \"3521\" != \"1235\" -> rozne\n- 1234: \"1234\" posortowane -> \"1234\" = 1234, rowne -> rosnaco\n- 9871: \"9871\" posortowane -> \"1789\" = 1789, rozne\n- 555: \"555\" posortowane -> \"555\" = 555, rowne -> rosnaco\n- 4312: \"4312\" posortowane -> \"1234\" = 1234, rozne\n- 1379: \"1379\" posortowane -> \"1379\" = 1379, rowne -> rosnaco\n- 8642: \"8642\" posortowane -> \"2468\" = 2468, rozne\n- 7777: \"7777\" posortowane -> \"7777\" = 7777, rowne -> rosnaco\n- 5913: \"5913\" posortowane -> \"1359\" = 1359, rozne\n- 2689: \"2689\" posortowane -> \"2689\" = 2689, rowne -> rosnaco\n- 6543: \"6543\" posortowane -> \"3456\" = 3456, rozne\n- 1122: \"1122\" posortowane -> \"1122\" = 1122, rowne -> rosnaco\nRosnaco: 6, Nie rosnaco: 6",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak `#include <algorithm>` dla `sort()`**: Kompilacja nie powiedzie sie bez tego naglowka",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Porownywanie liczb zamiast stringow**: Dla liczb z zerami wiodacymi po sortowaniu (np. 1023 -> \"0123\" = 123) wynik moze byc mylacy. W tym zadaniu brak zer, ale warto uzywac porownania stringow",
+      "kara": "-1 pkt"
+    }
+  ]
+}

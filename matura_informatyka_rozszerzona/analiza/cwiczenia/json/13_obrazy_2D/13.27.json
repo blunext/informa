@@ -1,0 +1,29 @@
+{
+  "id": "13.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2024 zad. 3 (podtablice w macierzy)",
+  "tagi": [
+    "tablica-2D",
+    "kwadraty",
+    "wczytywanie-pliku",
+    "petle-zagniezdzne"
+  ],
+  "tresc": "W pliku `siatka.txt` znajduje sie siatka 7x7 zer i jedynek. Napisz program, ktory:\na) Znajdzie rozmiar najwiekszego kwadratu zlozone wylacznie z jedynek. Wypisze ten rozmiar (dlugosc boku).\nb) Wypisze wspolrzedne lewego gornego rogu tego kwadratu (wiersz, kolumna — numeracja od 1). Jesli jest kilka kwadratow o tym samym rozmiarze, wypisz ten, ktory wystepuje pierwszy (w kolejnosci wiersz po wierszu, lewo-prawo).\n\n**Dane** (`siatka.txt`):\n```\n0 1 0 0 1 1 0\n1 1 1 0 1 1 1\n0 1 1 0 0 1 1\n0 0 0 1 1 1 0\n1 0 0 1 1 1 0\n0 0 0 1 1 1 0\n0 1 0 0 0 0 1\n```\n\n**Oczekiwany wynik**:\n```\na) Najwiekszy kwadrat jedynek: 3\nb) Lewy gorny rog: (4, 4)\n```",
+  "wskazowki": [
+    "**Kierunek**: Sprawdzaj kwadraty od najwiekszego mozliwego rozmiaru. Dla rozmiaru k sprawdz kazda mozliwa pozycje lewego gornego rogu.",
+    "**Podejscie**: Dla kazdego (i,j) i rozmiaru k sprawdz czy wszystkie komorki w kwadracie k*k od (i,j) sa jedynkami.",
+    "**Kluczowy krok**: Mozna zoptymalizowac programowaniem dynamicznym (dp[i][j] = min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])+1 jesli jedynka), ale brute-force tez wystarczy dla malych siatek."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    int tab[7][7];\n    for (int i = 0; i < 7; i++)\n        for (int j = 0; j < 7; j++)\n            plik >> tab[i][j];\n\n    int bestK = 0, bestI = 0, bestJ = 0;\n\n    for (int i = 0; i < 7; i++) {\n        for (int j = 0; j < 7; j++) {\n            if (tab[i][j] == 0) continue;\n            // Sprawdz maksymalny kwadrat z lewym gornym rogiem (i,j)\n            int maxK = min(7 - i, 7 - j); // nie wyjsc poza siatke\n            for (int k = 1; k <= maxK; k++) {\n                bool ok = true;\n                // Sprawdz nowy wiersz i nowa kolumne dodawane przez powiekszenie\n                for (int jj = j; jj < j + k && ok; jj++)\n                    if (tab[i + k - 1][jj] == 0) ok = false;\n                for (int ii = i; ii < i + k - 1 && ok; ii++)\n                    if (tab[ii][j + k - 1] == 0) ok = false;\n                if (!ok) break;\n                if (k > bestK) {\n                    bestK = k;\n                    bestI = i;\n                    bestJ = j;\n                }\n            }\n        }\n    }\n\n    cout << \"a) Najwiekszy kwadrat jedynek: \" << bestK << endl;\n    cout << \"b) Lewy gorny rog: (\" << bestI + 1 << \", \" << bestJ + 1 << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdej pozycji (i,j) probujemy powiekszyc kwadrat. Sprawdzamy kolejne rozmiary — nowy wiersz dolny i nowa kolumna prawa musza byc jedynkami. Jesli natrafimy na zero, konczymy.\n\nWeryfikacja:\n```\n  j: 0 1 2 3 4 5 6\ni=0: 0 1 0 0 1 1 0\ni=1: 1 1 1 0 1 1 1\ni=2: 0 1 1 0 0 1 1\ni=3: 0 0 0 1 1 1 0\ni=4: 1 0 0 1 1 1 0\ni=5: 0 0 0 1 1 1 0\ni=6: 0 1 0 0 0 0 1\n```\nKwadrat 3x3 jedynek z lewym gornym rogiem (3,3):\n- (3,3)=1, (3,4)=1, (3,5)=1\n- (4,3)=1, (4,4)=1, (4,5)=1\n- (5,3)=1, (5,4)=1, (5,5)=1\nWszystkie jedynki -> kwadrat 3x3.\n\nCzy jest wiekszy kwadrat 4x4? Sprawdzmy od (3,3): potrzebowaloby wiersza 6 kolumn 3-6, ale (6,3)=0. Od (2,3): (2,3)=0. Nie ma 4x4.\n\nCzy jest inny kwadrat 3x3 wczesniej? Sprawdzmy (0,4)-(2,6): (0,6)=0. (1,0)-(3,2): (2,0)=0. Zaden.\n\nPierwszy kwadrat 3x3: (3,3) -> w numeracji od 1: (4,4).",
+  "typowe_bledy": [
+    {
+      "opis": "**Wyjscie poza granice tablicy**: Brak sprawdzenia i+k<=7 i j+k<=7 przed sprawdzaniem kwadratu",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zle przerwanie petli**: Jesli kwadrat k nie pasuje, to k+1 tez nie — trzeba break, nie continue",
+      "kara": "-1 pkt"
+    }
+  ]
+}

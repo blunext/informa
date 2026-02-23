@@ -1,0 +1,29 @@
+{
+  "id": "13.26",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2023 zad. 5 (wzorce w siatce)",
+  "tagi": [
+    "tablica-2D",
+    "wczytywanie-pliku",
+    "petle-zagniezdzne",
+    "filtrowanie"
+  ],
+  "tresc": "Dana jest siatka 6x6 zer i jedynek zapisana w pliku `siatka.txt`. Napisz program, ktory:\na) Sprawdzi, czy siatka ma wzorzec szachownicy (kazde dwa sasiednie pola w pionie i poziomie maja rozne wartosci). Wypisz TAK lub NIE.\nb) Jesli NIE, policzy ile komorek narusza wzorzec szachownicy (tj. ma co najmniej jednego sasiada w pionie lub poziomie o tej samej wartosci).\nc) Wypisze wspolrzedne (wiersz, kolumna) pierwszej komorki (w kolejnosci wierszami od lewej do prawej), ktora narusza wzorzec. Wspolrzedne od 1.\n\n**Dane** (`siatka.txt`):\n```\n1 1 0 1 0 1\n1 0 1 0 1 0\n0 1 0 1 0 1\n1 0 1 0 1 0\n0 1 0 1 0 1\n1 0 1 0 1 0\n```\n\n**Oczekiwany wynik**:\n```\na) Szachownica: NIE\nb) Komorki naruszajace: 3\nc) Pierwsza naruszajaca: (1, 1)\n```",
+  "wskazowki": [
+    "**Kierunek**: W szachownicy idealnej: tab[i][j] powinno miec wartosc (i+j)%2 lub odwrotnie.",
+    "**Podejscie**: Sprawdz kazda komorke, czy rozni sie od wszystkich sasiadow (4-spojnych). Komorka naruszajaca ma co najmniej jednego sasiada o tej samej wartosci.",
+    "**Kluczowy krok**: Trzeba sprawdzic oba warianty szachownicy (0 lub 1 w lewym gornym rogu)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"siatka.txt\");\n    int tab[6][6];\n    for (int i = 0; i < 6; i++)\n        for (int j = 0; j < 6; j++)\n            plik >> tab[i][j];\n\n    // Sprawdzamy oba mozliwe wzorce szachownicy\n    bool wzorzecA = true, wzorzecB = true;\n    for (int i = 0; i < 6; i++)\n        for (int j = 0; j < 6; j++) {\n            if (tab[i][j] != (i + j) % 2) wzorzecA = false;\n            if (tab[i][j] != (i + j + 1) % 2) wzorzecB = false;\n        }\n\n    bool szach = wzorzecA || wzorzecB;\n    cout << \"a) Szachownica: \" << (szach ? \"TAK\" : \"NIE\") << endl;\n\n    if (!szach) {\n        int narusza = 0;\n        int fw = -1, fk = -1;\n        int dx[] = {-1, 1, 0, 0};\n        int dy[] = {0, 0, -1, 1};\n\n        for (int i = 0; i < 6; i++) {\n            for (int j = 0; j < 6; j++) {\n                bool bad = false;\n                for (int d = 0; d < 4; d++) {\n                    int ni = i + dx[d], nj = j + dy[d];\n                    if (ni >= 0 && ni < 6 && nj >= 0 && nj < 6\n                        && tab[ni][nj] == tab[i][j]) {\n                        bad = true;\n                        break;\n                    }\n                }\n                if (bad) {\n                    narusza++;\n                    if (fw == -1) { fw = i; fk = j; }\n                }\n            }\n        }\n        cout << \"b) Komorki naruszajace: \" << narusza << endl;\n        cout << \"c) Pierwsza naruszajaca: (\" << fw + 1 << \", \" << fk + 1 << \")\" << endl;\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: Idealna szachownica spelnia tab[i][j]==(i+j)%2 lub odwrotnie. Komorka naruszajaca to taka, ktora ma sasiada (4-spojnie) o tej samej wartosci.\n\nWeryfikacja:\n```\n  j: 0 1 2 3 4 5\ni=0: 1 1 0 1 0 1   <- (0,0)=1 zamiast 0 (odbieganie od szachownicy)\ni=1: 1 0 1 0 1 0\ni=2: 0 1 0 1 0 1\ni=3: 1 0 1 0 1 0\ni=4: 0 1 0 1 0 1\ni=5: 1 0 1 0 1 0\n```\nKomorki naruszajace (sasiad o tej samej wartosci):\n- (0,0)=1: prawo=(0,1)=1, dol=(1,0)=1 -> narusza\n- (0,1)=1: lewo=(0,0)=1 -> narusza\n- (1,0)=1: gora=(0,0)=1 -> narusza\n\nPozostale komorki spelniaja wzorzec szachownicy (kazdy sasiad ma inna wartosc).\nRazem: 3 komorki. Pierwsza: (0,0) -> (1,1) w numeracji od 1.",
+  "typowe_bledy": [
+    {
+      "opis": "**Sprawdzenie tylko jednego wzorca szachownicy**: Mozliwe sa dwa warianty (0 w lewym gornym lub 1 w lewym gornym) — trzeba sprawdzic oba",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zliczanie par zamiast komorek**: Jezeli dwie komorki maja ten sam kolor obok siebie, to obie naruszaja — ale kazda liczymy raz",
+      "kara": "-1 pkt"
+    }
+  ]
+}

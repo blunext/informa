@@ -1,0 +1,28 @@
+{
+  "id": "10.31",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2017 zad. 4 (zliczanie wlasnosci liczbowych)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "warunek"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory:\na) Zliczy ile z nich jest kwadratami doskonalymi (np. 1, 4, 9, 16, 25, ...).\nb) Wypisze te kwadraty doskonale.\n\n**Dane** (`dane.txt`):\n```\n16\n7\n25\n10\n36\n50\n49\n12\n81\n20\n64\n30\n```\n\n**Oczekiwany wynik**:\n```\na) Kwadraty doskonale: 6\nb) Lista: 16 25 36 49 81 64\n```",
+  "wskazowki": [
+    "**Kierunek**: Kwadrat doskonaly to liczba, ktorej pierwiastek jest calkowity — sprawdz czy sqrt(n) po zaokragleniu daje te sama wartosc po podniesieniu do kwadratu.",
+    "**Podejscie**: Dla kazdej liczby oblicz `s = (int)sqrt(n)` i sprawdz czy `s*s == n`.",
+    "**Kluczowy krok**: Uzyj rzutowania na int, bo sqrt zwraca double — moze byc niedokladne. Sprawdz tez `(s+1)*(s+1)` dla bezpieczenstwa."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <cmath>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int ile = 0;\n    string lista = \"\";\n    while (plik >> n) {\n        int s = (int)sqrt(n);\n        if (s * s == n) {\n            ile++;\n            if (!lista.empty()) lista += \" \";\n            lista += to_string(n);\n        }\n    }\n    cout << \"a) Kwadraty doskonale: \" << ile << endl;\n    cout << \"b) Lista: \" << lista << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdej liczby obliczamy pierwiastek calkowity i sprawdzamy, czy podniesiony do kwadratu daje oryginalna wartosc.\n\nWeryfikacja:\n- 16: sqrt=4, 4*4=16 tak\n- 7: sqrt=2, 2*2=4 nie\n- 25: sqrt=5, 5*5=25 tak\n- 10: sqrt=3, 3*3=9 nie\n- 36: sqrt=6, 6*6=36 tak\n- 50: sqrt=7, 7*7=49 nie\n- 49: sqrt=7, 7*7=49 tak\n- 12: sqrt=3, 3*3=9 nie\n- 81: sqrt=9, 9*9=81 tak\n- 20: sqrt=4, 4*4=16 nie\n- 64: sqrt=8, 8*8=64 tak\n- 30: sqrt=5, 5*5=25 nie\n- Kwadraty: 16, 25, 36, 49, 81, 64 = 6",
+  "typowe_bledy": [
+    {
+      "opis": "**Niedokladnosc sqrt**: Funkcja sqrt zwraca double, ktory moze byc np. 3.9999... zamiast 4.0 — rzutowanie na int da wtedy 3",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Sprawdzanie tylko malych kwadratow z listy**: Zamiast testu algebraicznego, porownywanie z predefiniowana lista kwadratow moze pominac wieksze wartosci",
+      "kara": "-1 pkt"
+    }
+  ]
+}

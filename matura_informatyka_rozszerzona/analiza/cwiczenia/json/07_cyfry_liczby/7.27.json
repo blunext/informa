@@ -1,0 +1,35 @@
+{
+  "id": "7.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2018 zad. 4 (odwracanie + pierwszosc)",
+  "tagi": [
+    "cyfry-mod-div",
+    "odwracanie-liczby",
+    "palindrom",
+    "test-pierwszosci",
+    "wczytywanie-pliku",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych dodatnich (kazda w osobnym wierszu, zadna nie konczy sie na 0). Napisz program, ktory:\na) Dla kazdej liczby obliczy jej odwrocenie (cyfry w odwrotnej kolejnosci) i sprawdzi, czy jest palindromem (rowna sie odwroceniu).\nb) Wypisze te liczby, ktorych odwrocenie jest liczba pierwsza.\nNa koniec podaj ilosc palindromow i ilosc liczb z pierwszym odwroceniem.\n\n**Dane** (`dane.txt`):\n```\n1234\n373\n547\n13\n121\n97\n199\n2332\n347\n1551\n23\n757\n```\n\n**Oczekiwany wynik**:\n```\na) Odwrocenia i palindromy:\n1234 -> odw: 4321, palindrom: NIE\n373 -> odw: 373, palindrom: TAK\n547 -> odw: 745, palindrom: NIE\n13 -> odw: 31, palindrom: NIE\n121 -> odw: 121, palindrom: TAK\n97 -> odw: 79, palindrom: NIE\n199 -> odw: 991, palindrom: NIE\n2332 -> odw: 2332, palindrom: TAK\n347 -> odw: 743, palindrom: NIE\n1551 -> odw: 1551, palindrom: TAK\n23 -> odw: 32, palindrom: NIE\n757 -> odw: 757, palindrom: TAK\nPalindromow: 5\n\nb) Liczby z pierwszym odwroceniem:\n373 (odw: 373)\n13 (odw: 31)\n97 (odw: 79)\n199 (odw: 991)\n347 (odw: 743)\n757 (odw: 757)\nIlosc: 6\n```",
+  "wskazowki": [
+    "**Kierunek**: Odwracanie liczby: buduj nowa liczbe `odw = odw * 10 + n % 10; n /= 10;` w petli.",
+    "**Podejscie**: Palindrom to po prostu sprawdzenie `liczba == odwrocona`. Test pierwszosci: petla do `sqrt(n)` z krokiem 2 (po sprawdzeniu parzystosci).",
+    "**Kluczowy krok**: Zachowaj oryginalna wartosc liczby przed petla odwracajaca. Uwaga: jezeli liczba konczy sie na 0, odwrocenie traci wiodace zera (tu dane nie maja takich przypadkow)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint odwroc(int n) {\n    int odw = 0;\n    while (n > 0) {\n        odw = odw * 10 + n % 10;\n        n /= 10;\n    }\n    return odw;\n}\n\nbool czyPierwsza(int n) {\n    if (n < 2) return false;\n    if (n == 2) return true;\n    if (n % 2 == 0) return false;\n    for (int i = 3; i * i <= n; i += 2)\n        if (n % i == 0) return false;\n    return true;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int liczba;\n    vector<int> liczby, odwrocenia;\n    while (plik >> liczba) {\n        liczby.push_back(liczba);\n        odwrocenia.push_back(odwroc(liczba));\n    }\n\n    cout << \"a) Odwrocenia i palindromy:\" << endl;\n    int palindromy = 0;\n    for (int i = 0; i < (int)liczby.size(); i++) {\n        bool pal = (liczby[i] == odwrocenia[i]);\n        cout << liczby[i] << \" -> odw: \" << odwrocenia[i]\n             << \", palindrom: \" << (pal ? \"TAK\" : \"NIE\") << endl;\n        if (pal) palindromy++;\n    }\n    cout << \"Palindromow: \" << palindromy << endl;\n\n    cout << endl << \"b) Liczby z pierwszym odwroceniem:\" << endl;\n    int ile = 0;\n    for (int i = 0; i < (int)liczby.size(); i++) {\n        if (czyPierwsza(odwrocenia[i])) {\n            cout << liczby[i] << \" (odw: \" << odwrocenia[i] << \")\" << endl;\n            ile++;\n        }\n    }\n    cout << \"Ilosc: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Odwracanie przez `odw = odw * 10 + n % 10` buduje liczbe z cyfr od konca. Palindrom to `liczba == odwrocona`. Test pierwszosci standardowy z optymalizacja `i * i <= n`.\n\nWeryfikacja odwrocen:\n- 1234 -> 4321, palindrom NIE, 4321=29*149 nie pierwsza\n- 373 -> 373, palindrom TAK, 373 pierwsza (sprawdzone do sqrt(373)~19)\n- 547 -> 745, palindrom NIE, 745=5*149 nie pierwsza\n- 13 -> 31, palindrom NIE, 31 pierwsza\n- 121 -> 121, palindrom TAK, 121=11*11 nie pierwsza\n- 97 -> 79, palindrom NIE, 79 pierwsza\n- 199 -> 991, palindrom NIE, 991 pierwsza (sprawdzone do sqrt(991)~31)\n- 2332 -> 2332, palindrom TAK, 2332=4*583 nie pierwsza\n- 347 -> 743, palindrom NIE, 743 pierwsza (sprawdzone do sqrt(743)~27)\n- 1551 -> 1551, palindrom TAK, 1551=3*517 nie pierwsza\n- 23 -> 32, palindrom NIE, 32=2^5 nie pierwsza\n- 757 -> 757, palindrom TAK, 757 pierwsza (sprawdzone do sqrt(757)~27)\nPalindromow: 5 (373, 121, 2332, 1551, 757)\nPierwsze odwrocenia: 6 (373, 13, 97, 199, 347, 757)",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwracanie przez string bez konwersji z powrotem na int**: `reverse(s.begin(), s.end())` to OK, ale trzeba potem `stoi(s)` zeby porownac z oryginalem liczbowo",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak zachowania oryginalnej wartosci**: Petla odwracajaca niszczy zmienna `n` — trzeba zapisac kopie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledny test pierwszosci dla n=1**: 1 nie jest pierwsza. `if (n < 2) return false;` jest konieczne",
+      "kara": "-1 pkt"
+    }
+  ]
+}

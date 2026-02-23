@@ -1,0 +1,34 @@
+{
+  "id": "13.30",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Wzor: Matura 2024 zad. 4 (zaawansowane transformacje macierzy)",
+  "tagi": [
+    "tablica-2D",
+    "obrot",
+    "symetria",
+    "wczytywanie-pliku",
+    "petle-zagniezdzne"
+  ],
+  "tresc": "W pliku `macierz.txt` znajduje sie macierz 6x6 liczb calkowitych. Napisz program, ktory:\na) Obliczy macierz obrocona o 180 stopni (r[i][j] = m[n-1-i][n-1-j], gdzie n=6).\nb) Sprawdzi, czy macierz jest rowna swojemu obrotowi o 180 stopni (tj. czy m[i][j] == m[5-i][5-j] dla wszystkich i,j). Wypisz TAK lub NIE.\nc) Policzy ile elementow nie spelnia warunku symetrii 180-stopniowej (tj. m[i][j] != m[5-i][5-j]).\nd) Wypisze pare (wiersz, kolumna) — w numeracji od 1 — pierwszego elementu (wierszami, od lewej), ktory nie spelnia warunku (lub \"Brak\" jesli macierz jest symetryczna).\n\n**Dane** (`macierz.txt`):\n```\n1 2 3 4 5 6\n7 8 9 10 11 12\n13 14 15 16 17 18\n18 17 16 15 14 13\n12 11 10 9 8 7\n6 5 4 3 2 1\n```\n\n**Oczekiwany wynik**:\n```\na) Obrocona o 180:\n1 2 3 4 5 6\n7 8 9 10 11 12\n13 14 15 16 17 18\n18 17 16 15 14 13\n12 11 10 9 8 7\n6 5 4 3 2 1\nb) Symetria 180: TAK\nc) Elementy naruszajace: 0\nd) Brak\n```",
+  "wskazowki": [
+    "**Kierunek**: Obrot o 180 stopni: r[i][j] = m[n-1-i][n-1-j]. To rownowazne odbiciu w pionie + odbiciu w poziomie.",
+    "**Podejscie**: Wystarczy sprawdzic polowe elementow (i*n+j < n*n/2) i porownac z odpowiednim elementem lustrzanym.",
+    "**Kluczowy krok**: Jesli macierz == obrocona, to m[i][j]==m[5-i][5-j] dla kazdego (i,j). Wystarczy sprawdzic 18 par (polowa z 36 elementow)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"macierz.txt\");\n    int m[6][6], r[6][6];\n    for (int i = 0; i < 6; i++)\n        for (int j = 0; j < 6; j++)\n            plik >> m[i][j];\n\n    // a) Obrot o 180\n    for (int i = 0; i < 6; i++)\n        for (int j = 0; j < 6; j++)\n            r[i][j] = m[5 - i][5 - j];\n\n    cout << \"a) Obrocona o 180:\" << endl;\n    for (int i = 0; i < 6; i++) {\n        for (int j = 0; j < 6; j++) {\n            if (j > 0) cout << \" \";\n            cout << r[i][j];\n        }\n        cout << endl;\n    }\n\n    // b) Czy symetryczna 180\n    bool sym = true;\n    int cnt = 0;\n    int fw = -1, fk = -1;\n    for (int i = 0; i < 6; i++)\n        for (int j = 0; j < 6; j++)\n            if (m[i][j] != m[5 - i][5 - j]) {\n                sym = false;\n                cnt++;\n                if (fw == -1) { fw = i; fk = j; }\n            }\n\n    cout << \"b) Symetria 180: \" << (sym ? \"TAK\" : \"NIE\") << endl;\n    cout << \"c) Elementy naruszajace: \" << cnt << endl;\n    if (fw == -1)\n        cout << \"d) Brak\" << endl;\n    else\n        cout << \"d) Pierwszy: (\" << fw + 1 << \", \" << fk + 1 << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Obrot o 180 to zamiana m[i][j] <-> m[n-1-i][n-1-j]. Macierz symetryczna 180-stopniowo spelnia m[i][j]==m[5-i][5-j] dla kazdego (i,j).\n\nWeryfikacja:\n- r[0][0] = m[5][5] = 1, r[0][1] = m[5][4] = 2, ..., r[0][5] = m[5][0] = 6 -> wiersz 1: 1 2 3 4 5 6\n- r[1][0] = m[4][5] = 7, r[1][1] = m[4][4] = 8, ..., r[1][5] = m[4][0] = 12 -> wiersz 2: 7 8 9 10 11 12\n- r[2][0] = m[3][5] = 13, ..., r[2][5] = m[3][0] = 18 -> wiersz 3: 13 14 15 16 17 18\n- r[3][0] = m[2][5] = 18, ..., r[3][5] = m[2][0] = 13 -> wiersz 4: 18 17 16 15 14 13\n- r[4][0] = m[1][5] = 12, ..., r[4][5] = m[1][0] = 7 -> wiersz 5: 12 11 10 9 8 7\n- r[5][0] = m[0][5] = 6, ..., r[5][5] = m[0][0] = 1 -> wiersz 6: 6 5 4 3 2 1\n\nObrocona macierz == oryginalna -> TAK symetria 180, 0 naruszen.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie obrotu 180 z transpozycja**: Obrot 180: r[i][j]=m[n-1-i][n-1-j], transpozycja: t[i][j]=m[j][i]",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Podwojne zliczanie naruszen**: m[i][j]!=m[5-i][5-j] oznacza, ze obie pozycje naruszaja — ale kazda liczymy osobno",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak przypadku 'Brak' gdy macierz jest symetryczna**: Trzeba obsluga specjalnego przypadku braku naruszen",
+      "kara": "-1 pkt"
+    }
+  ]
+}

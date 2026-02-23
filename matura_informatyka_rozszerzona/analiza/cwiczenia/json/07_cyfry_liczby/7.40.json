@@ -1,0 +1,33 @@
+{
+  "id": "7.40",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2016 zad. 4 (NWD par)",
+  "tagi": [
+    "NWD-Euklidesa",
+    "wczytywanie-pliku",
+    "akumulator",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory:\na) Dla kazdej pary kolejnych liczb (1-2, 2-3, ..., 11-12) obliczy ich NWD (algorytm Euklidesa).\nb) Wypisze NWD kazdej pary.\nc) Znajdzie pare z najwiekszym NWD (przy remisie — pierwsza napotkana).\nd) Obliczy sume wszystkich NWD.\n\n**Dane** (`dane.txt`):\n```\n84\n126\n210\n315\n180\n72\n240\n360\n150\n225\n90\n270\n```\n\n**Oczekiwany wynik**:\n```\na) NWD par kolejnych liczb:\n(84, 126) -> NWD = 42\n(126, 210) -> NWD = 42\n(210, 315) -> NWD = 105\n(315, 180) -> NWD = 45\n(180, 72) -> NWD = 36\n(72, 240) -> NWD = 24\n(240, 360) -> NWD = 120\n(360, 150) -> NWD = 30\n(150, 225) -> NWD = 75\n(225, 90) -> NWD = 45\n(90, 270) -> NWD = 90\n\nb) Para z max NWD: (240, 360) -> NWD = 120\n\nc) Suma NWD: 654\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj wszystkie liczby do wektora. Przejdz petla od i=0 do n-2, obliczajac NWD(v[i], v[i+1]).",
+    "**Podejscie**: NWD Euklidesa: `while(b != 0) { int t = b; b = a % b; a = t; }` — wynik w a.",
+    "**Kluczowy krok**: Zapamietuj indeksy pary z max NWD. Sumuj wszystkie NWD w akumulatorze."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint nwd(int a, int b) {\n    while (b != 0) {\n        int t = b;\n        b = a % b;\n        a = t;\n    }\n    return a;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int x;\n    vector<int> v;\n    while (plik >> x) v.push_back(x);\n\n    cout << \"a) NWD par kolejnych liczb:\" << endl;\n    int maxNWD = 0, maxI = 0;\n    int suma = 0;\n    for (int i = 0; i < (int)v.size() - 1; i++) {\n        int g = nwd(v[i], v[i + 1]);\n        cout << \"(\" << v[i] << \", \" << v[i + 1] << \") -> NWD = \" << g << endl;\n        suma += g;\n        if (g > maxNWD) {\n            maxNWD = g;\n            maxI = i;\n        }\n    }\n\n    cout << endl << \"b) Para z max NWD: (\" << v[maxI] << \", \" << v[maxI + 1]\n         << \") -> NWD = \" << maxNWD << endl;\n    cout << endl << \"c) Suma NWD: \" << suma << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: NWD algorytmem Euklidesa: zamieniamy (a,b) na (b, a%b) az b=0. Iterujemy po parach kolejnych elementow wektora. Sledzimy max NWD i sumujemy wszystkie.\n\nWeryfikacja NWD (algorytm Euklidesa):\n- NWD(84,126): 84,126 -> 126%84=42, 84%42=0 -> 42\n- NWD(126,210): 126,210 -> 210%126=84, 126%84=42, 84%42=0 -> 42\n- NWD(210,315): 210,315 -> 315%210=105, 210%105=0 -> 105\n- NWD(315,180): 315,180 -> 315%180=135, 180%135=45, 135%45=0 -> 45\n- NWD(180,72): 180,72 -> 180%72=36, 72%36=0 -> 36\n- NWD(72,240): 72,240 -> 240%72=24, 72%24=0 -> 24\n- NWD(240,360): 240,360 -> 360%240=120, 240%120=0 -> 120\n- NWD(360,150): 360,150 -> 360%150=60, 150%60=30, 60%30=0 -> 30\n- NWD(150,225): 150,225 -> 225%150=75, 150%75=0 -> 75\n- NWD(225,90): 225,90 -> 225%90=45, 90%45=0 -> 45\n- NWD(90,270): 90,270 -> 270%90=0 -> 90\n\nMax: 120 (para 240,360)\nSuma: 42+42+105+45+36+24+120+30+75+45+90 = 654",
+  "typowe_bledy": [
+    {
+      "opis": "**Iteracja do n zamiast n-1**: Petla `for(i=0; i<n; i++)` z dostepem v[i+1] wyjdzie poza zakres — trzeba `i < n-1`",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledna implementacja NWD**: Zamiana `a = a % b` bez zapamietania starego b prowadzi do utraty wartosci — trzeba uzyc zmiennej tymczasowej",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pominiecie kolejnosci argumentow NWD**: NWD(a,b) = NWD(b,a), wiec kolejnosc nie ma znaczenia, ale warto o tym wiedziec",
+      "kara": "-0 pkt"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "11.34",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2016 zad. 4 (roznice sasiadow)",
+  "tagi": [
+    "min-max",
+    "roznica-sasiadow",
+    "roznica-bezwzgledna",
+    "pozycja-elementu",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie pare sasiadujacych elementow (tj. elementow na pozycjach i oraz i+1), dla ktorych roznica bezwzgledna jest najwieksza. Wypisz te elementy, ich pozycje (1-indeksowane) i wartosc roznicy.\n\n**Dane** (`dane.txt`):\n```\n25\n30\n12\n48\n5\n39\n41\n10\n33\n18\n50\n47\n```\n\n**Oczekiwany wynik**:\n```\nNajwieksza roznica sasiadow: |48 - 5| = 43\nPozycje: 4 i 5\n```",
+  "wskazowki": [
+    "**Kierunek**: Iteruj od i=0 do n-2, oblicz |tab[i]-tab[i+1]| i sledzmax.",
+    "**Podejscie**: Pamietaj indeks pary z max roznica. Na koncu wypisz tab[idx] i tab[idx+1].",
+    "**Kluczowy krok**: Uzyj abs() do obliczenia roznicy bezwzglednej — bez tego ujemne roznice beda blednie mniejsze."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> tab;\n    int x;\n    while (plik >> x) tab.push_back(x);\n    int n = tab.size();\n\n    int maxRozn = abs(tab[0] - tab[1]);\n    int maxIdx = 0;\n    for (int i = 1; i < n - 1; i++) {\n        int r = abs(tab[i] - tab[i + 1]);\n        if (r > maxRozn) {\n            maxRozn = r;\n            maxIdx = i;\n        }\n    }\n\n    cout << \"Najwieksza roznica sasiadow: |\" << tab[maxIdx] << \" - \"\n         << tab[maxIdx + 1] << \"| = \" << maxRozn << endl;\n    cout << \"Pozycje: \" << maxIdx + 1 << \" i \" << maxIdx + 2 << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Iterujemy po parach sasiadow (i, i+1), obliczamy roznice bezwzgledna, sledzac maksimum. Zapamietujemy indeks pary.\n\nWeryfikacja roznic bezwzglednych sasiadow:\n- |25-30|=5, |30-12|=18, |12-48|=36, |48-5|=43, |5-39|=34, |39-41|=2, |41-10|=31, |10-33|=23, |33-18|=15, |18-50|=32, |50-47|=3\n- Max: |48-5|=43 na pozycjach 4 i 5 (0-indeks: 3 i 4).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak abs() w obliczeniu roznicy**: Ujemna roznica (np. 5-39=-34) bedzie mniejsza niz 0",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Iteracja do n zamiast n-1**: Odwolanie do tab[n] wychodzi poza tablice",
+      "kara": "-1 pkt"
+    }
+  ]
+}

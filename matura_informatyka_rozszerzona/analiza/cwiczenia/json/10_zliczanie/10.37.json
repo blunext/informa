@@ -1,0 +1,29 @@
+{
+  "id": "10.37",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2024 zad. 3 (analiza sasiedztwa w ciagu)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "podzielnosc",
+    "podwojna-petla"
+  ],
+  "tresc": "W pliku `ciag.txt` znajduje sie 8 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory:\na) Zliczy ile z nich jest wzajemnie pierwszych (NWD=1) ze wszystkimi swoimi sasiadami na liscie (element pierwszy ma tylko prawego sasiada, element ostatni tylko lewego).\nb) Wypisze te liczby wraz z ich pozycjami (od 0).\n\nDo obliczenia NWD uzyj algorytmu Euklidesa.\n\n**Dane** (`ciag.txt`):\n```\n12\n8\n15\n10\n9\n14\n11\n6\n```\n\n**Oczekiwany wynik**:\n```\na) Wzajemnie pierwsze z sasiadami:\n   pozycja 4: 9\n   pozycja 5: 14\n   pozycja 6: 11\n   pozycja 7: 6\nb) Znaleziono: 4\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj wszystkie liczby do tablicy. Dla kazdego elementu sprawdz NWD z lewym i prawym sasiadem.",
+    "**Podejscie**: Funkcja NWD (algorytm Euklidesa): `while(b){int t=b; b=a%b; a=t;} return a;`. Sprawdz NWD==1 dla obu sasiadow.",
+    "**Kluczowy krok**: Elementy brzegowe (pierwszy i ostatni) maja tylko jednego sasiada — sprawdz warunek tylko dla istniejacego sasiada."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint nwd(int a, int b) {\n    while (b) {\n        int t = b;\n        b = a % b;\n        a = t;\n    }\n    return a;\n}\n\nint main() {\n    ifstream plik(\"ciag.txt\");\n    vector<int> tab;\n    int n;\n    while (plik >> n) tab.push_back(n);\n\n    int ile = 0;\n    cout << \"a) Wzajemnie pierwsze z sasiadami:\" << endl;\n    for (int i = 0; i < (int)tab.size(); i++) {\n        bool ok = true;\n        if (i > 0 && nwd(tab[i], tab[i - 1]) != 1) ok = false;\n        if (i < (int)tab.size() - 1 && nwd(tab[i], tab[i + 1]) != 1) ok = false;\n        if (ok) {\n            cout << \"   pozycja \" << i << \": \" << tab[i] << endl;\n            ile++;\n        }\n    }\n    cout << \"b) Znaleziono: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Algorytm Euklidesa do obliczenia NWD. Dla kazdego elementu sprawdzamy, czy NWD z kazdym istniejacym sasiadem wynosi 1.\n\nWeryfikacja (dane: [0]=12, [1]=8, [2]=15, [3]=10, [4]=9, [5]=14, [6]=11, [7]=6):\n- [0]=12: prawy=8, NWD(12,8)=4 -> NIE\n- [1]=8: lewy=12 NWD=4 -> NIE\n- [2]=15: lewy=8 NWD=1, prawy=10 NWD=5 -> NIE\n- [3]=10: lewy=15 NWD=5 -> NIE\n- [4]=9: lewy=10 NWD=1, prawy=14 NWD=1 -> TAK\n- [5]=14: lewy=9 NWD=1, prawy=11 NWD=1 -> TAK\n- [6]=11: lewy=14 NWD=1, prawy=6 NWD=1 -> TAK\n- [7]=6: lewy=11 NWD=1 -> TAK\n- Razem: 4",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak obslugi elementow brzegowych**: Element [0] nie ma lewego sasiada, element [n-1] nie ma prawego — wyjscie poza tablice",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledna implementacja NWD**: Typowy blad to zamiana a i b lub brak petli — rekurencyjna wersja tez jest poprawna",
+      "kara": "-1 pkt"
+    }
+  ]
+}

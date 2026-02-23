@@ -1,0 +1,31 @@
+{
+  "id": "9.36",
+  "trudnosc": "srednie",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2025 zad. 4 (ranking + mediana)",
+  "tagi": [
+    "struct",
+    "sortowanie",
+    "mediana",
+    "wczytywanie-pliku",
+    "iomanip",
+    "wieloetapowe"
+  ],
+  "tresc": "W pliku `wyscig.txt` znajduje sie 7 rekordow w formacie: imie czas (oddzielone spacja). Czas to liczba calkowita (sekundy). Napisz program, ktory:\na) Posortuje zawodnikow rosnaco wg czasu i wypisze ranking z miejscami (1., 2., ...).\nb) Obliczy mediane czasu.\nc) Wypisze zawodnikow z czasem ponizej mediany.\n\n**Dane** (`wyscig.txt`):\n```\nKowalski 245\nNowak 198\nWisniewska 312\nZielinski 221\nKaczmarek 189\nMajewska 267\nLewandowski 234\n```\n\n**Oczekiwany wynik**:\n```\na) Ranking:\n   1. Kaczmarek: 189 s\n   2. Nowak: 198 s\n   3. Zielinski: 221 s\n   4. Lewandowski: 234 s\n   5. Kowalski: 245 s\n   6. Majewska: 267 s\n   7. Wisniewska: 312 s\n\nb) Mediana czasu: 234 s\n\nc) Ponizej mediany:\n   Kaczmarek: 189 s\n   Nowak: 198 s\n   Zielinski: 221 s\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj do vectora struktur (imie, czas). Posortuj po czasie rosnaco.",
+    "**Podejscie**: Mediana dla 7 elementow (nieparzyste) to element srodkowy po posortowaniu, czyli element o indeksie 3.",
+    "**Kluczowy krok**: Mediana = posortowany_wektor[n/2]. Dla n=7: indeks 3, czyli 4. element w kolejnosci."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nstruct Zawodnik {\n    string imie;\n    int czas;\n};\n\nint main() {\n    ifstream plik(\"wyscig.txt\");\n    vector<Zawodnik> zaw;\n    string imie;\n    int czas;\n    while (plik >> imie >> czas) {\n        zaw.push_back({imie, czas});\n    }\n\n    sort(zaw.begin(), zaw.end(), [](const Zawodnik &a, const Zawodnik &b) {\n        return a.czas < b.czas;\n    });\n\n    cout << \"a) Ranking:\" << endl;\n    for (int i = 0; i < (int)zaw.size(); i++) {\n        cout << \"   \" << i + 1 << \". \" << zaw[i].imie << \": \" << zaw[i].czas << \" s\" << endl;\n    }\n\n    int mediana = zaw[zaw.size() / 2].czas;\n    cout << endl << \"b) Mediana czasu: \" << mediana << \" s\" << endl;\n\n    cout << endl << \"c) Ponizej mediany:\" << endl;\n    for (auto &z : zaw) {\n        if (z.czas < mediana) {\n            cout << \"   \" << z.imie << \": \" << z.czas << \" s\" << endl;\n        }\n    }\n    return 0;\n}\n```\n\nWeryfikacja:\n- Posortowane czasy: 189, 198, 221, 234, 245, 267, 312\n- Ranking: 1.Kaczmarek(189), 2.Nowak(198), 3.Zielinski(221), 4.Lewandowski(234), 5.Kowalski(245), 6.Majewska(267), 7.Wisniewska(312)\n- Mediana (n=7, indeks 3): zaw[3].czas = 234\n- Ponizej 234: Kaczmarek(189), Nowak(198), Zielinski(221) -> 3 zawodnikow",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledna mediana**: Dla n=7 mediana to element o indeksie 3 (4. w kolejnosci), nie srednia dwoch srodkowych",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Porownanie <= zamiast <**: 'Ponizej mediany' oznacza strictly less than, nie <=",
+      "kara": "-1 pkt"
+    }
+  ]
+}

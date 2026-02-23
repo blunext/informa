@@ -1,0 +1,31 @@
+{
+  "id": "14.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Opracowanie wlasne: odleglosc punktu od prostej",
+  "tagi": [
+    "odleglosc-euklidesowa",
+    "sqrt",
+    "wczytywanie-pliku",
+    "iomanip",
+    "formatowanie-wyniku",
+    "struct"
+  ],
+  "tresc": "W pliku `dane.txt` w pierwszej linii sa wspolrzedne dwoch punktow definiujacych odcinek: x1 y1 x2 y2 (calkowite). W drugiej linii jest n, a w kolejnych n liniach wspolrzedne punktow. Napisz program, ktory:\na) Dla kazdego punktu obliczy odleglosc od prostej przechodzacej przez podany odcinek (wzor: |Ax+By+C|/sqrt(A^2+B^2) dla prostej Ax+By+C=0).\nb) Poda srednia odleglosc wszystkich punktow od prostej.\n\nRownanie prostej przez (x1,y1) i (x2,y2): (y2-y1)*x - (x2-x1)*y + (x2-x1)*y1 - (y2-y1)*x1 = 0.\n\n**Dane** (`dane.txt`):\n```\n0 0 8 6\n5\n4 3\n2 6\n8 3\n6 8\n10 6\n```\n\n**Oczekiwany wynik**:\n```\nProsta przez (0,0) i (8,6)\n(4,3): odleglosc = 0.00\n(2,6): odleglosc = 3.60\n(8,3): odleglosc = 2.40\n(6,8): odleglosc = 2.80\n(10,6): odleglosc = 1.20\nSrednia odleglosc: 2.00\n```",
+  "wskazowki": [
+    "**Kierunek**: Rownanie prostej Ax+By+C=0 przez dwa punkty: A=(y2-y1), B=-(x2-x1), C=(x2-x1)*y1-(y2-y1)*x1.",
+    "**Podejscie**: Odleglosc punktu (px,py) od prostej = |A*px+B*py+C| / sqrt(A^2+B^2).",
+    "**Kluczowy krok**: Mianownik sqrt(A^2+B^2) jest staly dla wszystkich punktow — oblicz raz przed petla."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int x1, y1, x2, y2;\n    plik >> x1 >> y1 >> x2 >> y2;\n    int n;\n    plik >> n;\n    // Prosta Ax+By+C=0\n    int A = y2 - y1;\n    int B = -(x2 - x1);\n    int C = (x2 - x1) * y1 - (y2 - y1) * x1;\n    double mian = sqrt((double)(A * A + B * B));\n    cout << \"Prosta przez (\" << x1 << \",\" << y1 << \") i (\" << x2 << \",\" << y2 << \")\" << endl;\n    cout << fixed << setprecision(2);\n    double suma = 0;\n    for (int i = 0; i < n; i++) {\n        int px, py;\n        plik >> px >> py;\n        double dist = abs(A * px + B * py + C) / mian;\n        cout << \"(\" << px << \",\" << py << \"): odleglosc = \" << dist << endl;\n        suma += dist;\n    }\n    cout << \"Srednia odleglosc: \" << suma / n << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Prosta przez (0,0) i (8,6): A=6, B=-8, C=8*0-6*0=0. Rownanie: 6x-8y=0. Mianownik = sqrt(36+64) = sqrt(100) = 10.\n\nWeryfikacja:\n- (4,3): |6*4-8*3|/10 = |24-24|/10 = 0/10 = 0.00 (lezy na prostej)\n- (2,6): |6*2-8*6|/10 = |12-48|/10 = 36/10 = 3.60\n- (8,3): |6*8-8*3|/10 = |48-24|/10 = 24/10 = 2.40\n- (6,8): |6*6-8*8|/10 = |36-64|/10 = 28/10 = 2.80\n- (10,6): |6*10-8*6|/10 = |60-48|/10 = 12/10 = 1.20\n- Srednia: (0+3.60+2.40+2.80+1.20)/5 = 10.00/5 = 2.00",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o wartosci bezwzglednej w liczniku**: Bez abs() odleglosc moze wyjsc ujemna — to nie jest fizyczne",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zle wspolczynniki prostej**: Pomylenie A, B, C we wzorze na prosta przez dwa punkty",
+      "kara": "-2 pkt"
+    }
+  ]
+}

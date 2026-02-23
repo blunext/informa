@@ -3,24 +3,27 @@
   "nazwa": "Przetwarzanie sekwencji",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "3/11 lat",
-  "punkty_lacznie": 75,
+  "punkty_lacznie": 164,
   "tagi_globalne": [
-    "ciag-rownych",
+    "akumulator",
+    "ciag-malejacy",
     "ciag-rosnacy",
+    "ciag-rownych",
+    "ciag-stalej-roznicy",
     "current-max",
     "gorka",
     "iomanip",
     "NWD-Euklidesa",
+    "oscylacja",
+    "plateau",
+    "podzielnosc",
+    "roznica-sasiadow",
+    "seria-danych",
+    "skan-liniowy",
     "spojny-podciag",
     "srednia-segmentu",
     "sumy-prefiksowe",
-    "wczytywanie-pliku",
-    "ciag-malejacy",
-    "plateau",
-    "oscylacja",
-    "roznica-sasiadow",
-    "skan-liniowy",
-    "ciag-stalej-roznicy"
+    "wczytywanie-pliku"
   ],
   "cwiczenia": [
     {
@@ -237,6 +240,261 @@
       "tagi": [
         "spojny-podciag",
         "sumy-prefiksowe",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.21",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "plateau",
+        "ciag-rownych",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.22",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "seria-danych",
+        "skan-liniowy",
+        "current-max",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.23",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "gorka",
+        "roznica-sasiadow",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.24",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "ciag-rosnacy",
+        "ciag-malejacy",
+        "skan-liniowy",
+        "wczytywanie-pliku",
+        "akumulator"
+      ]
+    },
+    {
+      "id": "12.25",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "srednia-segmentu",
+        "spojny-podciag",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "oscylacja",
+        "roznica-sasiadow",
+        "current-max",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "spojny-podciag",
+        "podzielnosc",
+        "current-max",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.28",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "roznica-sasiadow",
+        "ciag-rosnacy",
+        "current-max",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.29",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "spojny-podciag",
+        "roznica-sasiadow",
+        "current-max",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.30",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "spojny-podciag",
+        "akumulator",
+        "current-max",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.31",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "ciag-rosnacy",
+        "ciag-malejacy",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.32",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "roznica-sasiadow",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.33",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "ciag-malejacy",
+        "seria-danych",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.34",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "roznica-sasiadow",
+        "ciag-rosnacy",
+        "current-max",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.35",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "srednia-segmentu",
+        "akumulator",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.36",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "gorka",
+        "ciag-malejacy",
+        "ciag-rosnacy",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.37",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "oscylacja",
+        "roznica-sasiadow",
+        "current-max",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.38",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "sumy-prefiksowe",
+        "spojny-podciag",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.39",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "NWD-Euklidesa",
+        "spojny-podciag",
+        "current-max",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.40",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "plateau",
+        "ciag-rownych",
+        "current-max",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.41",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "spojny-podciag",
+        "sumy-prefiksowe",
+        "current-max",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "12.42",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "gorka",
+        "ciag-rosnacy",
+        "ciag-malejacy",
+        "current-max",
+        "skan-liniowy",
         "wczytywanie-pliku"
       ]
     }

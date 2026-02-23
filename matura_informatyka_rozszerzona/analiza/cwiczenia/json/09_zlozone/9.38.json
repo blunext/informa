@@ -1,0 +1,31 @@
+{
+  "id": "9.38",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2023 zad. 6 (srednia wazona + ranking)",
+  "tagi": [
+    "struct",
+    "sortowanie",
+    "srednia",
+    "wczytywanie-pliku",
+    "iomanip",
+    "wieloetapowe"
+  ],
+  "tresc": "W pliku `egzamin.txt` znajduje sie 6 rekordow w formacie: imie matematyka fizyka informatyka (oddzielone spacja). Oceny to liczby calkowite od 1 do 6. Napisz program, ktory:\na) Obliczy srednia wazona kazdego ucznia wg wag: matematyka=3, fizyka=2, informatyka=5. Wypisze srednie z dokladnoscia do 2 m.p.\nb) Posortuje uczniow malejaco wg sredniej wazonej i wypisze ranking.\nc) Wypisze imie ucznia na 1. miejscu.\n\n**Dane** (`egzamin.txt`):\n```\nAla 5 4 6\nBob 3 5 4\nCysia 6 3 5\nDarek 4 6 2\nEla 5 5 5\nFilip 2 4 6\n```\n\n**Oczekiwany wynik**:\n```\na) Srednie wazone:\n   Ala: 5.30\n   Bob: 3.90\n   Cysia: 4.90\n   Darek: 3.40\n   Ela: 5.00\n   Filip: 4.40\n\nb) Ranking:\n   1. Ala: 5.30\n   2. Ela: 5.00\n   3. Cysia: 4.90\n   4. Filip: 4.40\n   5. Bob: 3.90\n   6. Darek: 3.40\n\nc) Najlepszy uczen: Ala\n```",
+  "wskazowki": [
+    "**Kierunek**: Srednia wazona = (mat*3 + fiz*2 + inf*5) / (3+2+5) = (mat*3 + fiz*2 + inf*5) / 10.0.",
+    "**Podejscie**: Wczytaj do vectora struktur, oblicz srednia, posortuj malejaco.",
+    "**Kluczowy krok**: Suma wag = 10. Dziel przez 10.0 (nie 10!), aby uniknac dzielenia calkowitoliczbowego."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nstruct Uczen {\n    string imie;\n    double srednia;\n};\n\nint main() {\n    ifstream plik(\"egzamin.txt\");\n    vector<Uczen> uczniowie;\n    string imie;\n    int mat, fiz, inf;\n    while (plik >> imie >> mat >> fiz >> inf) {\n        double sr = (mat * 3 + fiz * 2 + inf * 5) / 10.0;\n        uczniowie.push_back({imie, sr});\n    }\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Srednie wazone:\" << endl;\n    for (auto &u : uczniowie) {\n        cout << \"   \" << u.imie << \": \" << u.srednia << endl;\n    }\n\n    sort(uczniowie.begin(), uczniowie.end(), [](const Uczen &a, const Uczen &b) {\n        return a.srednia > b.srednia;\n    });\n\n    cout << endl << \"b) Ranking:\" << endl;\n    for (int i = 0; i < (int)uczniowie.size(); i++) {\n        cout << \"   \" << i + 1 << \". \" << uczniowie[i].imie << \": \" << uczniowie[i].srednia << endl;\n    }\n\n    cout << endl << \"c) Najlepszy uczen: \" << uczniowie[0].imie << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Ala: (5*3 + 4*2 + 6*5)/10 = (15+8+30)/10 = 53/10 = 5.30\n- Bob: (3*3 + 5*2 + 4*5)/10 = (9+10+20)/10 = 39/10 = 3.90\n- Cysia: (6*3 + 3*2 + 5*5)/10 = (18+6+25)/10 = 49/10 = 4.90\n- Darek: (4*3 + 6*2 + 2*5)/10 = (12+12+10)/10 = 34/10 = 3.40\n- Ela: (5*3 + 5*2 + 5*5)/10 = (15+10+25)/10 = 50/10 = 5.00\n- Filip: (2*3 + 4*2 + 6*5)/10 = (6+8+30)/10 = 44/10 = 4.40\n- Malejaco: Ala(5.30), Ela(5.00), Cysia(4.90), Filip(4.40), Bob(3.90), Darek(3.40)",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledne wagi**: Pomylenie kolejnosci wag (np. przypisanie wagi 5 do matematyki zamiast informatyki)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Dzielenie calkowitoliczbowe**: (mat*3 + fiz*2 + inf*5) / 10 zamiast / 10.0 — obcina czesc ulamkowa",
+      "kara": "-1 pkt"
+    }
+  ]
+}

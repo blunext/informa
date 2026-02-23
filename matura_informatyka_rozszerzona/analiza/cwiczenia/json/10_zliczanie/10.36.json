@@ -1,0 +1,29 @@
+{
+  "id": "10.36",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2022 zad. 4 (analiza czestotliwosci)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "map-zliczanie",
+    "napisy",
+    "tablica-czestotliwosci"
+  ],
+  "tresc": "W pliku `slowa.txt` znajduje sie 12 slow (kazde w osobnym wierszu), skladajacych sie wylacznie z malych liter. Napisz program, ktory:\na) Zliczy czestotliwosc pierwszej litery kazdego slowa.\nb) Wypisze czestotliwosc kazdej litery (alfabetycznie).\nc) Wskazze najczesciej wystepujaca pierwsza litere.\n\n**Dane** (`slowa.txt`):\n```\nalfa\nbravo\ncharlie\ndelta\nbeta\naparat\nczar\nalfa\nbaza\ncytryna\nalarm\nbalon\n```\n\n**Oczekiwany wynik**:\n```\na) Czestotliwosc pierwszej litery:\n   a: 4\n   b: 4\n   c: 3\n   d: 1\nb) Najczestsza pierwsza litera: a (4 razy)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj `map<char,int>` do zliczenia wystapien kazdej pierwszej litery.",
+    "**Podejscie**: Dla kazdego slowa pobierz `s[0]` i inkrementuj odpowiedni licznik w mapie.",
+    "**Kluczowy krok**: `map` sortuje klucze automatycznie — iteracja po mapie da kolejnosc alfabetyczna. Przy remisie pierwsza litera alfabetycznie wygrywa."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"slowa.txt\");\n    string s;\n    map<char, int> freq;\n    while (plik >> s) {\n        freq[s[0]]++;\n    }\n\n    cout << \"a) Czestotliwosc pierwszej litery:\" << endl;\n    char bestChar = ' ';\n    int bestCount = 0;\n    for (auto &p : freq) {\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n        if (p.second > bestCount) {\n            bestCount = p.second;\n            bestChar = p.first;\n        }\n    }\n    cout << \"b) Najczestsza pierwsza litera: \" << bestChar << \" (\" << bestCount << \" razy)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: `map<char,int>` zlicza wystapienia kazdej pierwszej litery. Iteracja po mapie (automatycznie posortowanej) wypisuje je alfabetycznie. Szukamy maksimum.\n\nWeryfikacja:\n1. alfa -> 'a'\n2. bravo -> 'b'\n3. charlie -> 'c'\n4. delta -> 'd'\n5. beta -> 'b'\n6. aparat -> 'a'\n7. czar -> 'c'\n8. alfa -> 'a'\n9. baza -> 'b'\n10. cytryna -> 'c'\n11. alarm -> 'a'\n12. balon -> 'b'\n- a: 1,6,8,11 = 4\n- b: 2,5,9,12 = 4\n- c: 3,7,10 = 3\n- d: 4 = 1\n- Najczestsza: a (4 razy) — mapa iteruje alfabetycznie, 'a' przed 'b' przy remisie",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie tablicy 26-elementowej bez mapowania**: Trzeba mapowac `s[0]-'a'` na indeks tablicy, albo uzyc map<char,int>",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zliczanie wszystkich liter zamiast tylko pierwszej**: Zadanie dotyczy wylacznie pierwszej litery kazdego slowa",
+      "kara": "-2 pkt"
+    }
+  ]
+}

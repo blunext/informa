@@ -1,0 +1,33 @@
+{
+  "id": "12.38",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2024 zad. 4 (sumy prefiksowe i optymalizacja)",
+  "tagi": [
+    "sumy-prefiksowe",
+    "spojny-podciag",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych (moga byc ujemne, kazda w osobnym wierszu). Wartosc docelowa to K=14. Napisz program, ktory znajdzie spojny podciag o sumie najblizszej wartosci K. Podaj:\na) Sume tego podciagu i roznice |suma - K|.\nb) Pozycje poczatkowa i koncowa (1-indeksowane) oraz dlugosc.\nc) Elementy podciagu.\n\nJesli jest kilka podciagow o tej samej odleglosci od K, wybierz ten z najmniejsza pozycja poczatkowa, a przy rownej — najkrotszy.\n\n**Dane** (`dane.txt`):\n```\n3\n7\n-2\n5\n1\n8\n-3\n4\n6\n-1\n2\n9\n```\n\n**Oczekiwany wynik**:\n```\na) Suma: 14, roznica od K: 0\nb) Pozycja poczatkowa: 1, koncowa: 5, dlugosc: 5\nc) Elementy: 3 7 -2 5 1\n```",
+  "wskazowki": [
+    "**Kierunek**: Sumy prefiksowe pozwalaja obliczyc sume kazdego podciagu w O(1): sum(i..j) = prefix[j+1] - prefix[i].",
+    "**Podejscie**: Dla kazdej pary (i,j) oblicz sume i odleglosc od K. Sledz minimum. Zlozonosc O(n^2) wystarcza dla n=12.",
+    "**Kluczowy krok**: Przy remisie (ta sama odleglosc) wybierz podciag z mniejsza pozycja poczatkowa, a potem krotszy. Sprawdz rowniez podciagi jednoelementowe."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <cmath>\n#include <climits>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n    int K = 14;\n\n    // Sumy prefiksowe\n    vector<long long> prefix(n + 1, 0);\n    for (int i = 0; i < n; i++)\n        prefix[i + 1] = prefix[i] + T[i];\n\n    long long bestDist = LLONG_MAX;\n    long long bestSum = 0;\n    int bestStart = 0, bestEnd = 0;\n\n    for (int i = 0; i < n; i++) {\n        for (int j = i; j < n; j++) {\n            long long suma = prefix[j + 1] - prefix[i];\n            long long dist = abs(suma - K);\n            if (dist < bestDist ||\n                (dist == bestDist && i < bestStart) ||\n                (dist == bestDist && i == bestStart && j - i < bestEnd - bestStart)) {\n                bestDist = dist;\n                bestSum = suma;\n                bestStart = i;\n                bestEnd = j;\n            }\n        }\n    }\n\n    int dl = bestEnd - bestStart + 1;\n    cout << \"a) Suma: \" << bestSum << \", roznica od K: \" << bestDist << endl;\n    cout << \"b) Pozycja poczatkowa: \" << bestStart + 1\n         << \", koncowa: \" << bestEnd + 1\n         << \", dlugosc: \" << dl << endl;\n    cout << \"c) Elementy:\";\n    for (int i = bestStart; i <= bestEnd; i++)\n        cout << \" \" << T[i];\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Sumy prefiksowe daja O(1) obliczanie sumy kazdego podciagu. Sprawdzamy wszystkie O(n^2) podciagi, szukajac tego o sumie najblizszej K.\n\nWeryfikacja (dane: 3,7,-2,5,1,8,-3,4,6,-1,2,9, K=14):\nPrefix: 0,3,10,8,13,14,22,19,23,29,28,30,39\n\nKandydaci blisko K=14:\n- T[0..4]: prefix[5]-prefix[0] = 14. dist=0. DOKLADNIE!\n\nWynik: suma=14, roznica=0, poz.1-5, dl.5, elementy: 3,7,-2,5,1.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak abs() przy obliczaniu odleglosci**: |suma - K| wymaga wartosci bezwzglednej — bez tego ujemne roznicy nie sa poprawnie porownywane",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pominecie podciagow jednoelementowych**: Podciag moze miec dlugosc 1 — petla wewnetrzna musi zaczynac od j=i",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak reguly remisu**: Przy kilku podciagach o tej samej odleglosci trzeba wybrac wg pozycji/dlugosci",
+      "kara": "-1 pkt"
+    }
+  ]
+}

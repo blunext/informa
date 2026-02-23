@@ -3,16 +3,19 @@
   "nazwa": "Przetwarzanie napisow",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "4/11 lat",
-  "punkty_lacznie": 75,
+  "punkty_lacznie": 165,
   "tagi_globalne": [
     "getline",
     "kody-ASCII",
     "kompresja",
+    "napisy",
     "operacje-na-string",
     "palindrom",
+    "podciag",
     "podciagi",
     "set-unikalnosc",
     "sortowanie",
+    "stos",
     "symulacja-operacji",
     "szyfr-Cezara",
     "tablica-czestotliwosci",
@@ -227,6 +230,257 @@
       "tagi": [
         "zliczanie-znakow",
         "operacje-na-string",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.21",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "napisy",
+        "zliczanie-znakow",
+        "kody-ASCII",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.22",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "napisy",
+        "operacje-na-string",
+        "palindrom",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.23",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "napisy",
+        "sortowanie",
+        "operacje-na-string",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.24",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "napisy",
+        "tablica-czestotliwosci",
+        "operacje-na-string",
+        "wczytywanie-pliku",
+        "zliczanie-znakow"
+      ]
+    },
+    {
+      "id": "8.25",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "napisy",
+        "operacje-na-string",
+        "podciag",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "napisy",
+        "operacje-na-string",
+        "stos",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "napisy",
+        "szyfr-Cezara",
+        "kody-ASCII",
+        "operacje-na-string",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.28",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "napisy",
+        "operacje-na-string",
+        "podciag",
+        "zliczanie-znakow",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.29",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "napisy",
+        "operacje-na-string",
+        "podciag",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.30",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "napisy",
+        "kompresja",
+        "operacje-na-string",
+        "zliczanie-znakow",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.31",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "napisy",
+        "zliczanie-znakow",
+        "operacje-na-string",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.32",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "napisy",
+        "kody-ASCII",
+        "operacje-na-string",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.33",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "napisy",
+        "getline",
+        "operacje-na-string",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.34",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "napisy",
+        "operacje-na-string",
+        "kody-ASCII",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.35",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "napisy",
+        "tablica-czestotliwosci",
+        "zliczanie-znakow",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.36",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "napisy",
+        "sortowanie",
+        "getline",
+        "operacje-na-string",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.37",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "napisy",
+        "podciag",
+        "set-unikalnosc",
+        "operacje-na-string",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.38",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "napisy",
+        "kompresja",
+        "operacje-na-string",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.39",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "napisy",
+        "operacje-na-string",
+        "podciag",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.40",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "napisy",
+        "szyfr-Cezara",
+        "kody-ASCII",
+        "operacje-na-string",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.41",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "napisy",
+        "palindrom",
+        "podciag",
+        "operacje-na-string",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "8.42",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "napisy",
+        "tablica-czestotliwosci",
+        "sortowanie",
+        "zliczanie-znakow",
         "wczytywanie-pliku"
       ]
     }

@@ -1,0 +1,29 @@
+{
+  "id": "12.21",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzor: Matura 2019 zad. 4 (zliczanie serii)",
+  "tagi": [
+    "plateau",
+    "ciag-rownych",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 20 liczb calkowitych (kazda w osobnym wierszu). \"Plateau\" to spojny fragment ciagu skladajacy sie z co najmniej 2 identycznych elementow. Napisz program, ktory policzy, ile jest plateau w ciagu, i wypisze ich laczna dlugosc.\n\n**Dane** (`dane.txt`):\n```\n3\n3\n3\n5\n7\n7\n2\n1\n1\n1\n1\n4\n4\n6\n8\n8\n9\n9\n9\n5\n```\n\n**Oczekiwany wynik**:\n```\nLiczba plateau: 6\nLaczna dlugosc: 16\n```",
+  "wskazowki": [
+    "**Kierunek**: Skanuj ciag liniowo, sledzac biezaca serie rownych elementow (current length).",
+    "**Podejscie**: Gdy element rozni sie od poprzedniego, sprawdz czy curDl >= 2 — jesli tak, masz plateau.",
+    "**Kluczowy krok**: Nie zapomnij sprawdzic ostatniego fragmentu po zakonczeniu petli — moze byc plateau."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int liczbaPlateau = 0;\n    int lacznaDlugosc = 0;\n    int curDl = 1;\n\n    for (int i = 1; i < n; i++) {\n        if (T[i] == T[i - 1]) {\n            curDl++;\n        } else {\n            if (curDl >= 2) {\n                liczbaPlateau++;\n                lacznaDlugosc += curDl;\n            }\n            curDl = 1;\n        }\n    }\n    // Sprawdzenie ostatniego fragmentu\n    if (curDl >= 2) {\n        liczbaPlateau++;\n        lacznaDlugosc += curDl;\n    }\n\n    cout << \"Liczba plateau: \" << liczbaPlateau << endl;\n    cout << \"Laczna dlugosc: \" << lacznaDlugosc << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Skanowanie liniowe z licznikiem biezacej serii rownych elementow. Gdy seria sie konczy (lub koniec tablicy), jesli dlugosc >= 2 to mamy plateau.\n\nWeryfikacja:\n- 3,3,3 (dl.3) -> plateau 1, laczna=3\n- 5 (dl.1) -> nie\n- 7,7 (dl.2) -> plateau 2, laczna=5\n- 2 (dl.1) -> nie\n- 1,1,1,1 (dl.4) -> plateau 3, laczna=9\n- 4,4 (dl.2) -> plateau 4, laczna=11\n- 6 (dl.1) -> nie\n- 8,8 (dl.2) -> plateau 5, laczna=13\n- 9,9,9 (dl.3) -> plateau 6, laczna=16\n- 5 (dl.1) -> nie\nLiczba plateau: 6, laczna dlugosc: 16.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak sprawdzenia po petli**: Ostatni fragment moze byc plateau — trzeba sprawdzic curDl >= 2 po zakonczeniu petli",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Liczenie pojedynczych elementow jako plateau**: Plateau wymaga co najmniej 2 identycznych elementow, nie 1",
+      "kara": "-1 pkt"
+    }
+  ]
+}

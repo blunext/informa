@@ -1,0 +1,35 @@
+{
+  "id": "12.42",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2018 zad. 4 (wzorzec gorka/mountain)",
+  "tagi": [
+    "gorka",
+    "ciag-rosnacy",
+    "ciag-malejacy",
+    "current-max",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 14 liczb calkowitych (kazda w osobnym wierszu). \"Gora\" (mountain) to maksymalny spojny fragment ciagu, ktory najpierw scisle rosnie do szczytu, a potem scisle maleje (co najmniej 3 elementy: min. 1 krok w gore + szczyt + 1 krok w dol). Napisz program, ktory znajdzie najdluzsza gore. Podaj:\na) Dlugosc gory.\nb) Pozycje: poczatkowa, szczytu i koncowa (1-indeksowane).\nc) Wartosc szczytu.\nd) Elementy gory.\n\nJesli jest kilka gor o tej samej dlugosci, wybierz pierwsza (najwczesniejszy poczatek).\n\n**Dane** (`dane.txt`):\n```\n2\n5\n8\n12\n9\n6\n3\n7\n10\n15\n13\n11\n4\n1\n```\n\n**Oczekiwany wynik**:\n```\na) Dlugosc gory: 8\nb) Poczatek: 7, szczyt: 10, koniec: 14\nc) Wartosc szczytu: 15\nd) Elementy: 3 7 10 15 13 11 4 1\n```",
+  "wskazowki": [
+    "**Kierunek**: Dla kazdego potencjalnego szczytu (T[i] > T[i-1] i T[i] > T[i+1]), rozszerzaj w lewo (faza rosnaca) i w prawo (faza malejaca).",
+    "**Podejscie**: Alternatywnie: oblicz tablice up[i] (ile kolejnych krokow rosnacych konczy sie na i) i down[i] (ile kolejnych krokow malejacych zaczyna sie na i). Gora na szczycie i ma dlugosc up[i] + down[i] + 1.",
+    "**Kluczowy krok**: Szczyt wymaga zarowno up[i]>0 jak i down[i]>0 — sam wzrost lub sam spadek nie jest gora."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    // up[i] = ile krokow rosnacych konczy sie na i\n    vector<int> up(n, 0);\n    for (int i = 1; i < n; i++)\n        if (T[i] > T[i - 1]) up[i] = up[i - 1] + 1;\n\n    // down[i] = ile krokow malejacych zaczyna sie na i\n    vector<int> down(n, 0);\n    for (int i = n - 2; i >= 0; i--)\n        if (T[i] > T[i + 1]) down[i] = down[i + 1] + 1;\n\n    int maxDl = 0, maxSzczyt = 0;\n    for (int i = 1; i < n - 1; i++) {\n        if (up[i] > 0 && down[i] > 0) {\n            int dl = up[i] + down[i] + 1;\n            if (dl > maxDl) {\n                maxDl = dl;\n                maxSzczyt = i;\n            }\n        }\n    }\n\n    int start = maxSzczyt - up[maxSzczyt];\n    int koniec = maxSzczyt + down[maxSzczyt];\n\n    cout << \"a) Dlugosc gory: \" << maxDl << endl;\n    cout << \"b) Poczatek: \" << start + 1\n         << \", szczyt: \" << maxSzczyt + 1\n         << \", koniec: \" << koniec + 1 << endl;\n    cout << \"c) Wartosc szczytu: \" << T[maxSzczyt] << endl;\n    cout << \"d) Elementy:\";\n    for (int i = start; i <= koniec; i++)\n        cout << \" \" << T[i];\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Obliczamy dwie tablice pomocnicze: up[i] (ile kolejnych krokow rosnacych konczy sie na pozycji i) i down[i] (ile kolejnych krokow malejacych zaczyna sie na pozycji i). Gora o szczycie w i ma dlugosc up[i]+down[i]+1. Wymog: zarowno up[i]>0 jak i down[i]>0.\n\nWeryfikacja (dane: 2,5,8,12,9,6,3,7,10,15,13,11,4,1):\nup[]:  0,1,2,3,0,0,0,1,2,3,0,0,0,0\ndown[]:0,0,0,3,2,1,0,0,0,4,3,2,1,0\n\nSzczyty (up>0 i down>0):\n- i=3: up=3, down=3, dl=7. maxDl=7, maxSzczyt=3.\n- i=9: up=3, down=4, dl=8. maxDl=8, maxSzczyt=9.\n\nNajdluzsza gora: dl=8, szczyt=9 (poz.10).\nstart = 9-3 = 6 (poz.7). koniec = 9+4 = 13 (poz.14).\nElementy: T[6..13] = 3,7,10,15,13,11,4,1.\nSzczyt: T[9]=15.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak wymogu obu faz**: Gora wymaga zarowno fazy rosnacej (up>0) jak i malejacej (down>0) — sam wzrost nie jest gora",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zliczanie dlugosci bez +1**: Dlugosc gory = up + down + 1 (sam szczyt tez jest elementem)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne indeksy poczatku/konca**: Poczatek = szczyt - up[szczyt], koniec = szczyt + down[szczyt]",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "id": "9.42",
+  "trudnosc": "trudne",
+  "punkty": 7,
+  "zrodlo": "Inspirowane matura 2025 zad. 7 (analiza rynku + formatowanie)",
+  "tagi": [
+    "map-zliczanie",
+    "grupowanie",
+    "sortowanie",
+    "vector-par",
+    "procent",
+    "iomanip",
+    "wczytywanie-pliku",
+    "formatowanie-wyniku",
+    "wieloetapowe"
+  ],
+  "tresc": "W pliku `sprzedaz.txt` znajduje sie 10 rekordow w formacie: region produkt przychod (oddzielone spacja). Przychod to liczba calkowita. Ten sam region moze wystapic wielokrotnie (rozne produkty). Napisz program, ktory:\na) Obliczy laczny przychod kazdego regionu.\nb) Obliczy procentowy udzial kazdego regionu w calkowitym przychodzie (2 m.p.).\nc) Posortuje regiony malejaco wg przychodu i wypisze sformatowana tabele z kolumnami: pozycja, region, przychod, udzial.\nd) Wypisze region z najwyzszym udzialem.\n\n**Dane** (`sprzedaz.txt`):\n```\nPolnoc A 1200\nPolnoc B 800\nPolnoc C 500\nPoludnie A 900\nPoludnie B 1100\nWschod A 600\nWschod B 400\nWschod C 300\nZachod A 1500\nZachod B 700\n```\n\n**Oczekiwany wynik**:\n```\na) Przychod wg regionu:\n   Polnoc: 2500\n   Poludnie: 2000\n   Wschod: 1300\n   Zachod: 2200\n\nb) Udzialy procentowe:\n   Polnoc: 31.25%\n   Poludnie: 25.00%\n   Wschod: 16.25%\n   Zachod: 27.50%\n\nc) Ranking regionow:\n   1. Polnoc     2500  31.25%\n   2. Zachod     2200  27.50%\n   3. Poludnie   2000  25.00%\n   4. Wschod     1300  16.25%\n\nd) Lider rynku: Polnoc (31.25%)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj map<string, int> do sumowania przychodu per region. Calkowity przychod = suma wszystkich.",
+    "**Podejscie**: Przenies dane z mapy do vectora par, posortuj malejaco. Udzial = przychod_regionu * 100.0 / total.",
+    "**Kluczowy krok**: Formatowanie tabeli: uzyj setw() do wyrownania kolumn. Pamiaj o fixed << setprecision(2) dla procentow."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"sprzedaz.txt\");\n    map<string, int> przychod;\n    string region, produkt;\n    int kwota;\n    int total = 0;\n    while (plik >> region >> produkt >> kwota) {\n        przychod[region] += kwota;\n        total += kwota;\n    }\n\n    cout << \"a) Przychod wg regionu:\" << endl;\n    for (auto &p : przychod) {\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n    }\n\n    cout << fixed << setprecision(2);\n    cout << endl << \"b) Udzialy procentowe:\" << endl;\n    for (auto &p : przychod) {\n        cout << \"   \" << p.first << \": \" << p.second * 100.0 / total << \"%\" << endl;\n    }\n\n    vector<pair<int, string>> ranking;\n    for (auto &p : przychod) {\n        ranking.push_back({p.second, p.first});\n    }\n    sort(ranking.begin(), ranking.end(), [](auto &a, auto &b) {\n        return a.first > b.first;\n    });\n\n    cout << endl << \"c) Ranking regionow:\" << endl;\n    for (int i = 0; i < (int)ranking.size(); i++) {\n        cout << \"   \" << i + 1 << \". \" << left << setw(10) << ranking[i].second\n             << right << setw(5) << ranking[i].first << \"  \"\n             << ranking[i].first * 100.0 / total << \"%\" << endl;\n    }\n\n    cout << endl << \"d) Lider rynku: \" << ranking[0].second\n         << \" (\" << ranking[0].first * 100.0 / total << \"%)\" << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Polnoc: 1200+800+500 = 2500\n- Poludnie: 900+1100 = 2000\n- Wschod: 600+400+300 = 1300\n- Zachod: 1500+700 = 2200\n- Total: 2500+2000+1300+2200 = 8000\n\na) map iteruje alfa: Polnoc(2500), Poludnie(2000), Wschod(1300), Zachod(2200)\n\nb) Udzialy:\n- Polnoc: 2500*100/8000 = 31.25%\n- Poludnie: 2000*100/8000 = 25.00%\n- Wschod: 1300*100/8000 = 16.25%\n- Zachod: 2200*100/8000 = 27.50%\n\nc) Malejaco: Polnoc(2500, 31.25%), Zachod(2200, 27.50%), Poludnie(2000, 25.00%), Wschod(1300, 16.25%)\n\nd) Lider: Polnoc (31.25%)",
+  "typowe_bledy": [
+    {
+      "opis": "**Nieagregowanie regionow**: Region wystepuje wielokrotnie (rozne produkty) — trzeba sumowac",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Dzielenie calkowitoliczbowe przy udziale**: przychod * 100 / total bez rzutowania na double",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak formatowania tabeli**: Zadanie wymaga sformatowanej tabeli z wyrownaniem kolumn",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Sortowanie alfabetyczne zamiast wg przychodu**: Ranking wymaga sortowania malejaco wg przychodu",
+      "kara": "-2 pkt"
+    }
+  ]
+}

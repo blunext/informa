@@ -1,0 +1,30 @@
+{
+  "id": "11.35",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2023 zad. 3 (zliczanie i ekstrema)",
+  "tagi": [
+    "min-max",
+    "grupowanie",
+    "sortowanie",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie:\na) Element wystepujacy najczesciej (mode) i ile razy wystepuje.\nb) Element wystepujacy najrzadziej i ile razy wystepuje.\nJesli jest remis, podaj pierwszy napotkany.\n\n**Dane** (`dane.txt`):\n```\n3\n7\n3\n12\n7\n3\n9\n12\n7\n3\n5\n9\n```\n\n**Oczekiwany wynik**:\n```\na) Najczesciej: 3 (4 razy)\nb) Najrzadziej: 5 (1 raz)\n```",
+  "wskazowki": [
+    "**Kierunek**: Posortuj tablice, potem licz dlugosci serii identycznych elementow.",
+    "**Podejscie**: Po sortowaniu iteruj: gdy tab[i]==tab[i-1] zwieksz licznik, inaczej porownaj z max/min czestoscia i resetuj.",
+    "**Kluczowy krok**: Po zakonczeniu petli pamietaj o przetworzeniu ostatniej serii (nie zostanie przetworzona wewnatrz petli)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> tab;\n    int x;\n    while (plik >> x) tab.push_back(x);\n    sort(tab.begin(), tab.end());\n    int n = tab.size();\n\n    int maxCnt = 0, minCnt = n + 1;\n    int maxVal = 0, minVal = 0;\n    int cnt = 1;\n    for (int i = 1; i < n; i++) {\n        if (tab[i] == tab[i - 1]) {\n            cnt++;\n        } else {\n            if (cnt > maxCnt) { maxCnt = cnt; maxVal = tab[i - 1]; }\n            if (cnt < minCnt) { minCnt = cnt; minVal = tab[i - 1]; }\n            cnt = 1;\n        }\n    }\n    if (cnt > maxCnt) { maxCnt = cnt; maxVal = tab[n - 1]; }\n    if (cnt < minCnt) { minCnt = cnt; minVal = tab[n - 1]; }\n\n    cout << \"a) Najczesciej: \" << maxVal << \" (\" << maxCnt << \" razy)\" << endl;\n    cout << \"b) Najrzadziej: \" << minVal << \" (\" << minCnt << \" raz)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Sortujemy tablice, potem w jednym przebiegu liczymy serie identycznych elementow. Dla kazdej serii porownujemy dlugosc z dotychczasowym max/min.\n\nWeryfikacja:\n- Posortowane: 3,3,3,3,5,7,7,7,9,9,12,12\n- Serie: 3(4x), 5(1x), 7(3x), 9(2x), 12(2x)\n- Max czestotliwosc: 3 (4 razy)\n- Min czestotliwosc: 5 (1 raz)",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o ostatniej serii po petli**: Ostatnia grupa elementow nie zostaje przetworzona jesli petla konczy sie bez else",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak sortowania**: Bez sortowania serie nie sa ciagle i zliczanie nie dziala poprawnie",
+      "kara": "-2 pkt"
+    }
+  ]
+}

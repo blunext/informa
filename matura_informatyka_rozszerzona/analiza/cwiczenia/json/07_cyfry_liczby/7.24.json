@@ -1,0 +1,30 @@
+{
+  "id": "7.24",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wariant autorski (unikalne cyfry w liczbie)",
+  "tagi": [
+    "cyfry-mod-div",
+    "tablica-czestotliwosci",
+    "unikalnosc",
+    "wczytywanie-pliku",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory sprawdzi, czy w kazdej liczbie wszystkie cyfry sa rozne (zadna cyfra sie nie powtarza). Wypisze wszystkie takie liczby oraz ich ilosc.\n\nPrzyklad: 4objasn -> cyfry 1,2,3,4,5 — kazda inna -> TAK. 1121 -> cyfra 1 powtarza sie -> NIE.\n\n**Dane** (`dane.txt`):\n```\n12345\n11234\n9876\n505\n3210\n7788\n4829\n1023\n5555\n6471\n890\n2358\n46824\n1597\n30\n```\n\n**Oczekiwany wynik**:\n```\n12345 -> wszystkie cyfry rozne -> TAK\n11234 -> cyfra 1 powtorzona -> NIE\n9876 -> wszystkie cyfry rozne -> TAK\n505 -> cyfra 5 powtorzona -> NIE\n3210 -> wszystkie cyfry rozne -> TAK\n7788 -> cyfra 7 powtorzona -> NIE\n4829 -> wszystkie cyfry rozne -> TAK\n1023 -> wszystkie cyfry rozne -> TAK\n5555 -> cyfra 5 powtorzona -> NIE\n6471 -> wszystkie cyfry rozne -> TAK\n890 -> wszystkie cyfry rozne -> TAK\n2358 -> wszystkie cyfry rozne -> TAK\n46824 -> cyfra 4 powtorzona -> NIE\n1597 -> wszystkie cyfry rozne -> TAK\n30 -> wszystkie cyfry rozne -> TAK\nLiczb z unikalnymi cyframi: 10\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj tablicy 10 elementow (indeksy 0-9) do zliczania wystapien kazdej cyfry.",
+    "**Podejscie**: Dla kazdej liczby zeruj tablice, wyciagaj cyfry (mod/div), zwieksz licznik. Jesli jakis licznik > 1 — cyfra sie powtarza.",
+    "**Kluczowy krok**: Aby wypisac ktora cyfra sie powtarza, zapamietaj pierwsza cyfre o liczniku > 1."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int liczba;\n    int ile = 0;\n    while (plik >> liczba) {\n        int freq[10] = {0};\n        int kopia = liczba;\n        while (kopia > 0) {\n            freq[kopia % 10]++;\n            kopia /= 10;\n        }\n        int powtorzona = -1;\n        for (int i = 0; i <= 9; i++) {\n            if (freq[i] > 1) {\n                powtorzona = i;\n                break;\n            }\n        }\n        cout << liczba;\n        if (powtorzona == -1) {\n            cout << \" -> wszystkie cyfry rozne -> TAK\" << endl;\n            ile++;\n        } else {\n            cout << \" -> cyfra \" << powtorzona << \" powtorzona -> NIE\" << endl;\n        }\n    }\n    cout << \"Liczb z unikalnymi cyframi: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Tablica `freq[10]` zlicza wystapienia kazdej cyfry (0-9). Po przetworzeniu wszystkich cyfr, jesli jakikolwiek element > 1, to cyfra sie powtarza. Szukamy pierwszej powtorzonej (od 0 w gore).\n\nWeryfikacja:\n- 12345: freq[1]=1,freq[2]=1,freq[3]=1,freq[4]=1,freq[5]=1 -> TAK\n- 11234: freq[1]=2 -> NIE (cyfra 1)\n- 9876: freq[9]=1,freq[8]=1,freq[7]=1,freq[6]=1 -> TAK\n- 505: freq[5]=2,freq[0]=1 -> NIE (cyfra 5). Uwaga: 505: 505%10=5, 50%10=0, 5%10=5 -> freq[0]=1, freq[5]=2. Pierwsza powtorzona od 0: freq[5]>1 -> cyfra 5\n- 3210: freq[3]=1,freq[2]=1,freq[1]=1,freq[0]=1 -> TAK\n- 7788: freq[7]=2 -> NIE (cyfra 7)\n- 4829: freq[4]=1,freq[8]=1,freq[2]=1,freq[9]=1 -> TAK\n- 1023: freq[1]=1,freq[0]=1,freq[2]=1,freq[3]=1 -> TAK\n- 5555: freq[5]=4 -> NIE (cyfra 5)\n- 6471: freq[6]=1,freq[4]=1,freq[7]=1,freq[1]=1 -> TAK\n- 890: freq[8]=1,freq[9]=1,freq[0]=1 -> TAK\n- 2358: freq[2]=1,freq[3]=1,freq[5]=1,freq[8]=1 -> TAK\n- 46824: freq[4]=2 -> NIE (cyfra 4). 46824: 4,2,8,6,4 -> freq[4]=2\n- 1597: freq[1]=1,freq[5]=1,freq[9]=1,freq[7]=1 -> TAK\n- 30: freq[3]=1,freq[0]=1 -> TAK\nRazem TAK: 10",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak zerowania tablicy czestotliwosci miedzy liczbami**: Jezeli tablica nie jest zerowana, wyniki kumuluja sie z poprzednich liczb",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Uzycie `set` bez sprawdzania rozmiaru**: `set.insert` + porownanie `set.size()` z liczba cyfr to poprawne podejscie, ale czesto zapominaja o obliczeniu liczby cyfr",
+      "kara": "-1 pkt"
+    }
+  ]
+}

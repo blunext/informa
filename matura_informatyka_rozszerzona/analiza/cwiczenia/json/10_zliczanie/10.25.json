@@ -1,0 +1,30 @@
+{
+  "id": "10.25",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2019 zad. 5 (analiza procentowa wynikow)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "procent",
+    "srednia",
+    "iomanip"
+  ],
+  "tresc": "W pliku `oceny.txt` znajduje sie 20 wynikow egzaminu (liczby calkowite 0-100, kazdy w osobnym wierszu). Napisz program, ktory:\na) Zliczy ilu uczniow zdalo egzamin (wynik >= 50).\nb) Obliczy jaki procent uczniow zdalo (2 miejsca po przecinku).\nc) Obliczy srednia wynikow tych, ktorzy zdali (2 miejsca po przecinku).\n\n**Dane** (`oceny.txt`):\n```\n82\n45\n67\n38\n91\n55\n23\n78\n60\n42\n95\n31\n74\n58\n19\n88\n50\n36\n71\n64\n```\n\n**Oczekiwany wynik**:\n```\na) Zdalo: 13\nb) Procent zdanych: 65.00%\nc) Srednia zdanych: 71.77\n```",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz licznika zdanych i sumy ich wynikow do obliczenia sredniej.",
+    "**Podejscie**: W petli zliczaj zdanych (>=50) i sumuj ich wyniki. Po petli oblicz procent i srednia.",
+    "**Kluczowy krok**: Procent = zdane * 100.0 / wszystkie. Uzyj `fixed << setprecision(2)` z `<iomanip>`."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"oceny.txt\");\n    int n;\n    int zdane = 0, wszystkie = 0, sumaZdanych = 0;\n    while (plik >> n) {\n        wszystkie++;\n        if (n >= 50) {\n            zdane++;\n            sumaZdanych += n;\n        }\n    }\n    cout << \"a) Zdalo: \" << zdane << endl;\n    cout << fixed << setprecision(2);\n    cout << \"b) Procent zdanych: \" << (double)zdane * 100.0 / wszystkie << \"%\" << endl;\n    cout << \"c) Srednia zdanych: \" << (double)sumaZdanych / zdane << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Jeden przebieg petli wystarczy do zebrania wszystkich danych. Procent obliczamy jako zdane/wszystkie*100. Srednia zdanych to suma wynikow zdanych podzielona przez ich liczbe.\n\nWeryfikacja:\n- Zdali (>=50): 82, 67, 91, 55, 78, 60, 95, 74, 58, 88, 50, 71, 64 = 13\n- Nie zdali (<50): 45, 38, 23, 42, 31, 19, 36 = 7\n- Procent: 13/20 * 100 = 65.00%\n- Suma zdanych: 82+67+91+55+78+60+95+74+58+88+50+71+64 = 933\n- Srednia zdanych: 933/13 = 71.769... = 71.77",
+  "typowe_bledy": [
+    {
+      "opis": "**Dzielenie calkowite zamiast zmiennoprzecinkowego**: `zdane/wszystkie` w C++ daje 0 (int/int). Trzeba rzutowac: `(double)zdane/wszystkie`",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak setprecision**: Bez formatowania wynik moze miec za duzo lub za malo miejsc po przecinku",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

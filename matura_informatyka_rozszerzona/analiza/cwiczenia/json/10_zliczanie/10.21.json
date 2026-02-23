@@ -1,0 +1,28 @@
+{
+  "id": "10.21",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzor: Matura 2017 zad. 4 (zliczanie wielokrotnosci)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "podzielnosc"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 14 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory:\na) Zliczy ile z nich jest podzielnych przez 3.\nb) Zliczy ile z nich jest podzielnych jednoczesnie przez 3 i przez 5.\n\n**Dane** (`dane.txt`):\n```\n45\n12\n30\n7\n18\n25\n60\n11\n33\n50\n90\n14\n75\n21\n```\n\n**Oczekiwany wynik**:\n```\na) Podzielne przez 3: 9\nb) Podzielne przez 3 i 5: 5\n```",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz dwoch licznikow — jednego dla podzielnosci przez 3, drugiego dla podzielnosci przez 3 i 5.",
+    "**Podejscie**: W petli wczytuj liczby i sprawdzaj warunki: `n % 3 == 0` oraz `n % 3 == 0 && n % 5 == 0`.",
+    "**Kluczowy krok**: Podzielnosc przez 3 i 5 jednoczesnie jest rownoznaczna z podzielnoscia przez 15."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int przez3 = 0, przez3i5 = 0;\n    while (plik >> n) {\n        if (n % 3 == 0) przez3++;\n        if (n % 3 == 0 && n % 5 == 0) przez3i5++;\n    }\n    cout << \"a) Podzielne przez 3: \" << przez3 << endl;\n    cout << \"b) Podzielne przez 3 i 5: \" << przez3i5 << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Prosta petla z dwoma licznikami. Warunek podzielnosci przez 3 i 5 jednoczesnie mozna tez zapisac jako `n % 15 == 0`.\n\nWeryfikacja:\n- Podzielne przez 3: 45, 12, 30, 18, 60, 33, 90, 75, 21 = 9\n- Podzielne przez 3 i 5 (czyli przez 15): 45, 30, 60, 90, 75 = 5",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie `||` zamiast `&&`**: Punkt b) wymaga jednoczesnej podzielnosci przez 3 i 5 — operator to `&&`, nie `||`",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak inicjalizacji licznikow na 0**: Niezainicjalizowane zmienne moga zawierac smieci",
+      "kara": "-1 pkt"
+    }
+  ]
+}

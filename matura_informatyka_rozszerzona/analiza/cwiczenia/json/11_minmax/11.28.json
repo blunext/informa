@@ -1,0 +1,30 @@
+{
+  "id": "11.28",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Cwiczenie autorskie (min/max z progu)",
+  "tagi": [
+    "min-max",
+    "warunkowe-min-max",
+    "filtrowanie",
+    "akumulator",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `wyniki.txt` w pierwszym wierszu znajduje sie liczba calkowita P (prog). W kolejnych 10 wierszach znajduje sie po jednej liczbie calkowitej. Napisz program, ktory:\na) Znajdzie minimum wsrod elementow wiekszych od progu P.\nb) Znajdzie maksimum wsrod elementow mniejszych lub rownych progowi P.\nc) Wypisze ile jest elementow powyzej progu i ile ponizej lub rownych.\n\n**Dane** (`wyniki.txt`):\n```\n50\n23\n67\n45\n89\n50\n34\n72\n55\n18\n91\n```\n\n**Oczekiwany wynik**:\n```\nProg: 50\na) Min wsrod > 50: 55 (z 5 elementow)\nb) Max wsrod <= 50: 50 (z 5 elementow)\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj prog, potem skanuj elementy z dwoma osobnymi filtrami (> P i <= P).",
+    "**Podejscie**: Uzyj flag `bool znalezionoA = false` dla bezpiecznej inicjalizacji. Licz elementy w kazdej grupie.",
+    "**Kluczowy krok**: Elementy rowne progowi naleza do grupy <= P. Pamietaj o obsludze przypadku gdy jedna grupa jest pusta."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"wyniki.txt\");\n    int P;\n    plik >> P;\n\n    int minPowyzej = 0, maxPonizej = 0;\n    bool znA = false, znB = false;\n    int ileA = 0, ileB = 0;\n    int x;\n    while (plik >> x) {\n        if (x > P) {\n            if (!znA || x < minPowyzej) { minPowyzej = x; znA = true; }\n            ileA++;\n        } else {\n            if (!znB || x > maxPonizej) { maxPonizej = x; znB = true; }\n            ileB++;\n        }\n    }\n\n    cout << \"Prog: \" << P << endl;\n    cout << \"a) Min wsrod > \" << P << \": \";\n    if (znA) cout << minPowyzej << \" (z \" << ileA << \" elementow)\" << endl;\n    else cout << \"brak\" << endl;\n    cout << \"b) Max wsrod <= \" << P << \": \";\n    if (znB) cout << maxPonizej << \" (z \" << ileB << \" elementow)\" << endl;\n    else cout << \"brak\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Skan z podzielem na dwie grupy wzgledem progu. Flagi zapewniaja bezpieczna inicjalizacje. Elementy rowne progowi trafiaja do grupy <= P.\n\nWeryfikacja:\n- Prog = 50\n- Dane: 23, 67, 45, 89, 50, 34, 72, 55, 18, 91 (10 elementow)\n- Elementy > 50: 67, 89, 72, 55, 91 -> min = 55, ile = 5\n- Elementy <= 50: 23, 45, 50, 34, 18 -> max = 50, ile = 5",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie > i >= przy podziale**: Element rowny progowi powinien trafic do grupy <= P, uzycie >= zamiast > zmienia wynik",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Wczytanie progu jako elementu danych**: Prog jest w pierwszym wierszu — trzeba go wczytac osobno przed petla",
+      "kara": "-2 pkt"
+    }
+  ]
+}

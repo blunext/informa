@@ -1,0 +1,30 @@
+{
+  "id": "12.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2019 zad. 4 (podzielnosc w segmencie)",
+  "tagi": [
+    "spojny-podciag",
+    "podzielnosc",
+    "current-max",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory znajdzie najdluzszy spojny podciag, w ktorym wszystkie elementy sa podzielne przez 3. Podaj:\na) Dlugosc najdluzszego takiego podciagu i jego pozycje poczatkowa (1-indeksowana).\nb) Sume elementow tego podciagu.\nc) Elementy.\n\n**Dane** (`dane.txt`):\n```\n7\n6\n9\n3\n12\n5\n15\n21\n18\n24\n27\n33\n30\n8\n11\n```\n\n**Oczekiwany wynik**:\n```\na) Dlugosc: 7, pozycja poczatkowa: 7\nb) Suma: 168\nc) Elementy: 15 21 18 24 27 33 30\n```",
+  "wskazowki": [
+    "**Kierunek**: Wzorzec current/max z warunkiem `T[i] % 3 == 0`. Gdy warunek jest spelniony — wydluzaj biezacy podciag.",
+    "**Podejscie**: Gdy element NIE jest podzielny przez 3, porownaj biezaca dlugosc z max i zresetuj. Sledzenie sumy: dodawaj elementy do biezacej sumy, resetuj gdy segment sie konczy.",
+    "**Kluczowy krok**: Pamietaj o sprawdzeniu po petli — najdluzszy segment moze konczyc sie na ostatnim elemencie."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int maxDl = 0, maxStart = 0;\n    long long maxSuma = 0;\n    int curDl = 0, curStart = 0;\n    long long curSuma = 0;\n\n    for (int i = 0; i < n; i++) {\n        if (T[i] % 3 == 0) {\n            if (curDl == 0) curStart = i;\n            curDl++;\n            curSuma += T[i];\n        } else {\n            if (curDl > maxDl) {\n                maxDl = curDl;\n                maxStart = curStart;\n                maxSuma = curSuma;\n            }\n            curDl = 0;\n            curSuma = 0;\n        }\n    }\n    if (curDl > maxDl) {\n        maxDl = curDl;\n        maxStart = curStart;\n        maxSuma = curSuma;\n    }\n\n    cout << \"a) Dlugosc: \" << maxDl\n         << \", pozycja poczatkowa: \" << maxStart + 1 << endl;\n    cout << \"b) Suma: \" << maxSuma << endl;\n    cout << \"c) Elementy:\";\n    for (int i = maxStart; i < maxStart + maxDl; i++)\n        cout << \" \" << T[i];\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Wzorzec current/max z warunkiem jednoelementowym (`% 3 == 0`). Oproz dlugosci sledzony jest tez suma biezacego podciagu.\n\nWeryfikacja (dane: 7,6,9,3,12,5,15,21,18,24,27,33,30,8,11):\nPodzielne przez 3 (indeks 0-based):\n- T[0]=7: NIE\n- T[1]=6: TAK. curDl=1, curStart=1, curSuma=6.\n- T[2]=9: TAK. curDl=2, curSuma=15.\n- T[3]=3: TAK. curDl=3, curSuma=18.\n- T[4]=12: TAK. curDl=4, curSuma=30.\n- T[5]=5: NIE. Zamykamy: maxDl=4, maxStart=1, maxSuma=30. Reset.\n- T[6]=15: TAK. curDl=1, curStart=6, curSuma=15.\n- T[7]=21: TAK. curDl=2, curSuma=36.\n- T[8]=18: TAK. curDl=3, curSuma=54.\n- T[9]=24: TAK. curDl=4, curSuma=78.\n- T[10]=27: TAK. curDl=5, curSuma=105.\n- T[11]=33: TAK. curDl=6, curSuma=138.\n- T[12]=30: TAK. curDl=7, curSuma=168.\n- T[13]=8: NIE. Zamykamy: curDl=7 > maxDl=4. maxDl=7, maxStart=6, maxSuma=168. Reset.\n- T[14]=11: NIE.\nPo petli: curDl=0, brak aktualizacji.\nWynik: dl=7, poz=7, suma=168, elementy: 15 21 18 24 27 33 30. Poprawne.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak sprawdzenia po petli**: Jesli najdluzszy segment podzielnych konczy tablice, wynik nie zostanie zaktualizowany",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Niezresetowanie sumy przy nowym segmencie**: Suma musi byc wyzerowana gdy segment sie konczy i nowa zaczyna",
+      "kara": "-1 pkt"
+    }
+  ]
+}

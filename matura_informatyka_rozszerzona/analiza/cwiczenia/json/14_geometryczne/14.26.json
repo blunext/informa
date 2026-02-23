@@ -1,0 +1,29 @@
+{
+  "id": "14.26",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Opracowanie wlasne: punkt w trojkacie (iloczyn wektorowy)",
+  "tagi": [
+    "punkt-w-trojkacie",
+    "pole-trojkata",
+    "wczytywanie-pliku",
+    "struct"
+  ],
+  "tresc": "W pliku `dane.txt` w pierwszych trzech liniach sa wspolrzedne wierzcholkow trojkata (x y, calkowite). W czwartej linii jest n, a w kolejnych n liniach wspolrzedne punktow-zapytan. Punkt lezy wewnatrz trojkata jesli iloczyny wektorowe kazdego boku z wektorem do punktu maja ten sam znak. Jesli ktorykolwiek iloczyn = 0, punkt lezy na brzegu. Napisz program, ktory dla kazdego punktu poda: WEWNATRZ, NA BRZEGU, NA ZEWNATRZ.\n\n**Dane** (`dane.txt`):\n```\n0 0\n12 0\n0 9\n7\n3 2\n4 6\n4 3\n0 0\n12 0\n6 5\n10 8\n```\n\n**Oczekiwany wynik**:\n```\nTrojkat: (0,0)(12,0)(0,9)\n(3,2): WEWNATRZ\n(4,6): NA BRZEGU\n(4,3): WEWNATRZ\n(0,0): NA BRZEGU\n(12,0): NA BRZEGU\n(6,5): NA ZEWNATRZ\n(10,8): NA ZEWNATRZ\n```",
+  "wskazowki": [
+    "**Kierunek**: Iloczyn wektorowy boku (A->B) z wektorem (A->P) mowi po ktorej stronie P lezy wzgledem boku.",
+    "**Podejscie**: Oblicz 3 iloczyny: cross(AB,AP), cross(BC,BP), cross(CA,CP). Jesli wszystkie tego samego znaku -> wewnatrz. Jesli ktorykolwiek = 0 -> na brzegu.",
+    "**Kluczowy krok**: Sprawdz brzeg (cross == 0) przed sprawdzaniem znakow — punkt moze byc na boku lub w wierzcholku."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nstruct Pt { int x, y; };\n\nint cross(Pt a, Pt b, Pt p) {\n    return (b.x - a.x) * (p.y - a.y) - (b.y - a.y) * (p.x - a.x);\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    Pt A, B, C;\n    plik >> A.x >> A.y >> B.x >> B.y >> C.x >> C.y;\n    int n;\n    plik >> n;\n    cout << \"Trojkat: (\" << A.x << \",\" << A.y << \")(\" << B.x << \",\" << B.y << \")(\" << C.x << \",\" << C.y << \")\" << endl;\n    for (int i = 0; i < n; i++) {\n        Pt P;\n        plik >> P.x >> P.y;\n        int c1 = cross(A, B, P);\n        int c2 = cross(B, C, P);\n        int c3 = cross(C, A, P);\n        cout << \"(\" << P.x << \",\" << P.y << \"): \";\n        if (c1 == 0 || c2 == 0 || c3 == 0) {\n            bool allNonNeg = (c1 >= 0 && c2 >= 0 && c3 >= 0);\n            bool allNonPos = (c1 <= 0 && c2 <= 0 && c3 <= 0);\n            if (allNonNeg || allNonPos)\n                cout << \"NA BRZEGU\" << endl;\n            else\n                cout << \"NA ZEWNATRZ\" << endl;\n        } else {\n            bool allPos = (c1 > 0 && c2 > 0 && c3 > 0);\n            bool allNeg = (c1 < 0 && c2 < 0 && c3 < 0);\n            if (allPos || allNeg)\n                cout << \"WEWNATRZ\" << endl;\n            else\n                cout << \"NA ZEWNATRZ\" << endl;\n        }\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: Punkt lezy wewnatrz trojkata gdy iloczyny wektorowe dla kazdego boku maja ten sam znak (punkt po tej samej stronie kazdego boku). Jesli iloczyn = 0, punkt lezy na prostej zawierajacej bok.\n\nWeryfikacja (trojkat A=(0,0), B=(12,0), C=(0,9)):\nFormuly uproszczone: c1 = 12*Py, c2 = -12*Py - 9*Px + 108, c3 = 9*Px.\n- (3,2): c1=24, c2=-24-27+108=57, c3=27 -> wszystkie > 0 -> WEWNATRZ\n- (4,6): c1=72, c2=-72-36+108=0, c3=36 -> c2=0, reszta >= 0 -> NA BRZEGU (punkt na BC: 3*4+4*6=36)\n- (4,3): c1=36, c2=-36-36+108=36, c3=36 -> wszystkie > 0 -> WEWNATRZ\n- (0,0): c1=0, c2=108, c3=0 -> NA BRZEGU (wierzcholek)\n- (12,0): c1=0, c2=0, c3=108 -> NA BRZEGU (wierzcholek)\n- (6,5): c1=60, c2=-60-54+108=-6, c3=54 -> znaki rozne -> NA ZEWNATRZ\n- (10,8): c1=96, c2=-96-90+108=-78, c3=90 -> znaki rozne -> NA ZEWNATRZ",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak obslugi brzegu**: Punkt na boku trojkata (cross=0) nie jest scisle wewnatrz ani na zewnatrz — wymaga osobnej galezi",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledna kolejnosc argumentow cross**: Zamiana (A,B,P) z (B,A,P) odwraca znak iloczynu — trzeba byc konsekwentnym z obejsciem",
+      "kara": "-2 pkt"
+    }
+  ]
+}

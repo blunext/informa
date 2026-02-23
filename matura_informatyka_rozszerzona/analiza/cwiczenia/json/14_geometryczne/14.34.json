@@ -1,0 +1,28 @@
+{
+  "id": "14.34",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2019 zad. 5 (wlasnosci trojkatow)",
+  "tagi": [
+    "odleglosc-euklidesowa",
+    "wczytywanie-pliku",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `trojkaty.txt` w pierwszej linii jest n, a w kolejnych n liniach po 6 liczb calkowitych: x1 y1 x2 y2 x3 y3 — wierzcholki trojkata. Napisz program, ktory:\na) Dla kazdego trojkata sprawdzi, czy jest prostokatny (twierdzenie Pitagorasa: a^2 + b^2 = c^2, gdzie c to najdluzszy bok).\nb) Wypisze wynik (TAK/NIE) dla kazdego trojkata oraz ile jest prostokatnych.\n\n**Dane** (`trojkaty.txt`):\n```\n5\n0 0 3 0 0 4\n1 1 4 1 1 5\n0 0 5 0 2 3\n0 0 6 0 3 4\n0 0 4 0 4 3\n```\n\n**Oczekiwany wynik**:\n```\nTrojkat 1: TAK\nTrojkat 2: TAK\nTrojkat 3: NIE\nTrojkat 4: NIE\nTrojkat 5: TAK\nTrojkaty prostokatne: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Oblicz dlugosci trzech bokow jako kwadraty odleglosci (nie trzeba sqrt), posortuj, sprawdz a^2+b^2 == c^2.",
+    "**Podejscie**: Oblicz dx^2+dy^2 dla kazdego boku, posortuj trzy wartosci rosnaco, porownaj sume dwoch mniejszych z najwieksza.",
+    "**Kluczowy krok**: Porownuj kwadraty dlugosci (calkowite!) — unikasz bledow zaokraglen z sqrt."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"trojkaty.txt\");\n    int n;\n    plik >> n;\n    int cnt = 0;\n    for (int t = 0; t < n; t++) {\n        int x1, y1, x2, y2, x3, y3;\n        plik >> x1 >> y1 >> x2 >> y2 >> x3 >> y3;\n        int d2[3];\n        d2[0] = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);\n        d2[1] = (x3 - x2) * (x3 - x2) + (y3 - y2) * (y3 - y2);\n        d2[2] = (x1 - x3) * (x1 - x3) + (y1 - y3) * (y1 - y3);\n        sort(d2, d2 + 3);\n        bool prawy = (d2[0] + d2[1] == d2[2]);\n        cout << \"Trojkat \" << t + 1 << \": \" << (prawy ? \"TAK\" : \"NIE\") << endl;\n        if (prawy) cnt++;\n    }\n    cout << \"Trojkaty prostokatne: \" << cnt << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Pracujemy na kwadratach dlugosci bokow (unikamy sqrt i bledow zmiennoprzecinkowych). Sortujemy trzy kwadraty rosnaco i sprawdzamy warunek Pitagorasa: d2[0]+d2[1]==d2[2].\n\nWeryfikacja:\n- T1 (0,0)(3,0)(0,4): d2 = [9, 25, 16]. Sorted: [9, 16, 25]. 9+16=25=25. TAK\n- T2 (1,1)(4,1)(1,5): d2 = [9, 25, 16]. Sorted: [9, 16, 25]. 9+16=25=25. TAK\n- T3 (0,0)(5,0)(2,3): d2 = [25, 18, 13]. Sorted: [13, 18, 25]. 13+18=31, 25. NIE\n- T4 (0,0)(6,0)(3,4): d2 = [36, 25, 25]. Sorted: [25, 25, 36]. 25+25=50, 36. NIE\n- T5 (0,0)(4,0)(4,3): d2 = [16, 9, 25]. Sorted: [9, 16, 25]. 9+16=25=25. TAK\nProstokatne: 3.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie sqrt i porownywanie double**: Prowadzi do bledow zaokraglen — lepiej porownywac kwadraty dlugosci (int)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak sortowania bokow**: Bez ustalenia, ktory bok jest najdluzszy, warunek Pitagorasa moze byc zle sprawdzony",
+      "kara": "-1 pkt"
+    }
+  ]
+}

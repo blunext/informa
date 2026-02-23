@@ -1,0 +1,30 @@
+{
+  "id": "11.25",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Cwiczenie autorskie (warunkowe max — dzielniki)",
+  "tagi": [
+    "min-max",
+    "warunkowe-min-max",
+    "filtrowanie",
+    "dzielniki",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory:\na) Znajdzie najwieksza liczbe podzielna przez 3.\nb) Znajdzie najmniejsza liczbe podzielna przez 7.\nc) Jesli nie ma liczb spelniajacych warunek, wypisze \"brak\".\n\n**Dane** (`dane.txt`):\n```\n45\n22\n63\n17\n84\n31\n49\n72\n11\n35\n```\n\n**Oczekiwany wynik**:\n```\na) Najwieksza podzielna przez 3: 84\nb) Najmniejsza podzielna przez 7: 35\n```",
+  "wskazowki": [
+    "**Kierunek**: Skan liniowy z dwoma filtrami — podzielnosc przez 3 i przez 7.",
+    "**Podejscie**: Uzyj flag bool znaleziono3=false, znaleziono7=false. Inicjalizuj max3/min7 dopiero przy pierwszym elemencie spelniajacym warunek.",
+    "**Kluczowy krok**: Warunek `n % 3 == 0` dla (a), `n % 7 == 0` dla (b). Pamietaj o wypisaniu \"brak\"."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int n;\n    int max3 = -1, min7 = -1;\n    bool zn3 = false, zn7 = false;\n\n    while (plik >> n) {\n        if (n % 3 == 0) {\n            if (!zn3 || n > max3) { max3 = n; zn3 = true; }\n        }\n        if (n % 7 == 0) {\n            if (!zn7 || n < min7) { min7 = n; zn7 = true; }\n        }\n    }\n\n    cout << \"a) Najwieksza podzielna przez 3: \";\n    if (zn3) cout << max3 << endl;\n    else cout << \"brak\" << endl;\n\n    cout << \"b) Najmniejsza podzielna przez 7: \";\n    if (zn7) cout << min7 << endl;\n    else cout << \"brak\" << endl;\n\n    return 0;\n}\n```\n\n**Wyjasnienie**: Warunkowe min/max z flagami — bezpieczna inicjalizacja pierwszym elementem spelniajacym warunek zamiast INT_MIN/INT_MAX.\n\nWeryfikacja:\n- Podzielne przez 3: 45, 63, 84, 72 -> max = 84\n- Podzielne przez 7: 63, 49, 35 -> min = 35",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak obslugi \"brak\"**: Jesli zaden element nie spelnia warunku, wypisanie niezainicjalizowanej zmiennej daje smieci",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pomylenie min i max**: Szukanie min podzielnych przez 3 zamiast max",
+      "kara": "-2 pkt"
+    }
+  ]
+}

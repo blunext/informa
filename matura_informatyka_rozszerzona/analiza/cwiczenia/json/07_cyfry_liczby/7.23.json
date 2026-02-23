@@ -1,0 +1,29 @@
+{
+  "id": "7.23",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2017 zad. 4 (wlasnosci cyfr)",
+  "tagi": [
+    "cyfry-mod-div",
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "ciag-rosnacy"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych dodatnich wiekszych od 9 (kazda w osobnym wierszu). Napisz program, ktory sprawdzi, czy cyfry kazdej liczby tworza ciag scisle rosnacy (od lewej do prawej, kazda nastepna cyfra jest wieksza od poprzedniej). Na koniec wypisze ile takich liczb znaleziono.\n\nPrzyklad: 1379 -> cyfry 1,3,7,9 — kazda nastepna wieksza -> TAK. 1231 -> cyfry 1,2,3,1 — 1 <= 3 -> NIE.\n\n**Dane** (`dane.txt`):\n```\n1379\n2468\n135\n1231\n159\n987\n12\n269\n4567\n321\n58\n1289\n356\n1112\n49\n```\n\n**Oczekiwany wynik**:\n```\n1379: cyfry [1,3,7,9] -> TAK\n2468: cyfry [2,4,6,8] -> TAK\n135: cyfry [1,3,5] -> TAK\n1231: cyfry [1,2,3,1] -> NIE\n159: cyfry [1,5,9] -> TAK\n987: cyfry [9,8,7] -> NIE\n12: cyfry [1,2] -> TAK\n269: cyfry [2,6,9] -> TAK\n4567: cyfry [4,5,6,7] -> TAK\n321: cyfry [3,2,1] -> NIE\n58: cyfry [5,8] -> TAK\n1289: cyfry [1,2,8,9] -> TAK\n356: cyfry [3,5,6] -> TAK\n1112: cyfry [1,1,1,2] -> NIE\n49: cyfry [4,9] -> TAK\nLiczb z cyframi scisle rosnacymi: 11\n```",
+  "wskazowki": [
+    "**Kierunek**: Konwertuj liczbe na string i porownuj sasiednie znaki.",
+    "**Podejscie**: Iteruj po parach sasiadujacych cyfr: jezeli `s[i] >= s[i+1]` dla jakiegokolwiek i, to ciag nie jest scisle rosnacy.",
+    "**Kluczowy krok**: Mozna tez pracowac na `int` od konca (mod/div), ale wtedy porownujesz cyfry w odwrotnej kolejnosci — sprawdzaj malejace."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int liczba;\n    int ile = 0;\n    while (plik >> liczba) {\n        string s = to_string(liczba);\n        bool rosnacy = true;\n        for (int i = 0; i < (int)s.length() - 1; i++) {\n            if (s[i] >= s[i + 1]) {\n                rosnacy = false;\n                break;\n            }\n        }\n        cout << liczba << \": cyfry [\";\n        for (int i = 0; i < (int)s.length(); i++) {\n            if (i > 0) cout << \",\";\n            cout << s[i];\n        }\n        cout << \"] -> \" << (rosnacy ? \"TAK\" : \"NIE\") << endl;\n        if (rosnacy) ile++;\n    }\n    cout << \"Liczb z cyframi scisle rosnacymi: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Konwersja na string pozwala iterowac po cyfrach od lewej do prawej. Porownanie znakow `s[i] >= s[i+1]` jest poprawne, bo kody ASCII cyfr zachowuja porzadek.\n\nWeryfikacja:\n- 1379: 1<3<7<9 TAK\n- 2468: 2<4<6<8 TAK\n- 135: 1<3<5 TAK\n- 1231: 1<2<3, ale 3>1 NIE\n- 159: 1<5<9 TAK\n- 987: 9>8 NIE\n- 12: 1<2 TAK\n- 269: 2<6<9 TAK\n- 4567: 4<5<6<7 TAK\n- 321: 3>2 NIE\n- 58: 5<8 TAK\n- 1289: 1<2<8<9 TAK\n- 356: 3<5<6 TAK\n- 1112: 1>=1 NIE\n- 49: 4<9 TAK\nRazem TAK: 11",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie `<=` zamiast `<` przy porownaniu**: Scisly wzrost oznacza kazda nastepna cyfra musi byc wieksza (nie rowna). Rowne cyfry obok siebie to NIE",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Iteracja mod/div bez uwzglednienia odwrotnej kolejnosci**: Mod/div daje cyfry od konca — trzeba sprawdzac malejace, nie rosnace",
+      "kara": "-2 pkt"
+    }
+  ]
+}

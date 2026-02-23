@@ -1,0 +1,29 @@
+{
+  "id": "8.23",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wariant autorski (anagramy — sortowanie znakow)",
+  "tagi": [
+    "napisy",
+    "sortowanie",
+    "operacje-na-string",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Dwa napisy sa anagramami, jesli jeden mozna uzyskac z drugiego poprzez przestawienie liter (np. \"listen\" i \"silent\"). W pliku `pary.txt` znajduje sie 6 par napisow (kazda para w jednym wierszu, oddzielona spacja). Wszystkie napisy skladaja sie z malych liter. Napisz program, ktory sprawdzi, czy kazda para jest anagramem, i wypisze wynik. Na koncu podaj liczbe par bedacych anagramami.\n\n**Dane** (`pary.txt`):\n```\nlisten silent\nhello world\ntriangle integral\nabc cab\ndog god\ncat act\n```\n\n**Oczekiwany wynik**:\n```\nlisten i silent: TAK (anagram)\nhello i world: NIE\ntriangle i integral: TAK (anagram)\nabc i cab: TAK (anagram)\ndog i god: TAK (anagram)\ncat i act: TAK (anagram)\nLiczba anagramow: 5\n```",
+  "wskazowki": [
+    "**Kierunek**: Posortuj znaki obu napisow — jesli po sortowaniu sa identyczne, to anagramy.",
+    "**Podejscie**: Uzyj `sort(s.begin(), s.end())` na kopiach obu napisow, a nastepnie porownaj wyniki.",
+    "**Kluczowy krok**: Pamietaj, ze anagramy musza miec ta sama dlugosc — jesli dlugosci sa rozne, od razu wiadomo ze NIE."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"pary.txt\");\n    string a, b;\n    int ile = 0;\n    while (plik >> a >> b) {\n        string sa = a, sb = b;\n        sort(sa.begin(), sa.end());\n        sort(sb.begin(), sb.end());\n        cout << a << \" i \" << b << \": \";\n        if (sa == sb) {\n            cout << \"TAK (anagram)\" << endl;\n            ile++;\n        } else {\n            cout << \"NIE\" << endl;\n        }\n    }\n    cout << \"Liczba anagramow: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Sortowanie znakow obu napisow daje kanoniczna forme. Jesli posortowane napisy sa rowne, to oryginaly sa anagramami (maja te same litery w tych samych ilosciach).\n\nWeryfikacja:\n- listen -> eilnst, silent -> eilnst: rowne -> TAK\n- hello -> ehllo, world -> dlorw: rozne -> NIE\n- triangle -> aegilnrt, integral -> aegilnrt: rowne -> TAK\n- abc -> abc, cab -> abc: rowne -> TAK\n- dog -> dgo, god -> dgo: rowne -> TAK\n- cat -> act, act -> act: rowne -> TAK\nAnagramow: 5",
+  "typowe_bledy": [
+    {
+      "opis": "**Sortowanie oryginalnych napisow zamiast kopii**: Jesli posortujemy `a` i `b` bezposrednio, stracimy oryginalne napisy do wyswietlenia. Trzeba zrobic kopie.",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Porownywanie dlugosci bez sortowania**: Sprawdzenie dlugosci to szybki filtr, ale samo w sobie nie wystarczy — trzeba tez porownac posortowane napisy",
+      "kara": "-1 pkt"
+    }
+  ]
+}

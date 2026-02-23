@@ -1,0 +1,35 @@
+{
+  "id": "10.42",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2024 zad. 5 (wielowymiarowa analiza grupowa)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "map-zliczanie",
+    "grupowanie",
+    "struct",
+    "srednia",
+    "iomanip"
+  ],
+  "tresc": "W pliku `rekordy.txt` znajduje sie 10 rekordow w formacie: nazwisko kategoria wartosc (oddzielone spacjami, kategoria to jedna litera). Napisz program, ktory:\na) Pogrupuje rekordy wg kategorii.\nb) Dla kazdej kategorii obliczy: liczbe rekordow, sume wartosci, srednia wartosc (2 miejsca po przecinku), wartosc maksymalna.\nc) Wskazze kategorie z najwyzsza srednia.\n\n**Dane** (`rekordy.txt`):\n```\nKowalski A 150\nNowak B 200\nWisniewski A 300\nLewandowski C 180\nZielinska B 250\nKaminski A 120\nSzymanski C 350\nWojcik B 170\nDabrowska C 290\nKozlowski A 210\n```\n\n**Oczekiwany wynik**:\n```\na) Statystyki wg kategorii:\n   A: liczba=4, suma=780, srednia=195.00, max=300\n   B: liczba=3, suma=620, srednia=206.67, max=250\n   C: liczba=3, suma=820, srednia=273.33, max=350\nb) Najwyzsza srednia: C (273.33)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj `map<string, ...>` do grupowania. Potrzebujesz kilku map lub mapy na strukture przechowujaca liczbe, sume i max.",
+    "**Podejscie**: W petli wczytuj rekord i aktualizuj statystyki kategorii: ile++, suma+=wartosc, max=max(max,wartosc).",
+    "**Kluczowy krok**: Srednia = suma/liczba (rzutowanie na double!). Mapa sortuje klucze — kategorie beda w kolejnosci A, B, C."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"rekordy.txt\");\n    string nazwisko, kat;\n    int wartosc;\n\n    map<string, int> ile, suma, maxW;\n\n    while (plik >> nazwisko >> kat >> wartosc) {\n        ile[kat]++;\n        suma[kat] += wartosc;\n        if (ile[kat] == 1 || wartosc > maxW[kat])\n            maxW[kat] = wartosc;\n    }\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Statystyki wg kategorii:\" << endl;\n    string bestKat;\n    double bestSr = 0;\n    for (auto &p : ile) {\n        string k = p.first;\n        double sr = (double)suma[k] / ile[k];\n        cout << \"   \" << k << \": liczba=\" << ile[k]\n             << \", suma=\" << suma[k]\n             << \", srednia=\" << sr\n             << \", max=\" << maxW[k] << endl;\n        if (sr > bestSr) {\n            bestSr = sr;\n            bestKat = k;\n        }\n    }\n    cout << \"b) Najwyzsza srednia: \" << bestKat << \" (\" << bestSr << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Trzy mapy przechowuja statystyki per kategoria: ilosc, sume i maksimum. Po wczytaniu iterujemy po mapach, obliczamy srednie i szukamy kategorii z najwyzsza srednia.\n\nWeryfikacja:\n- A: Kowalski 150, Wisniewski 300, Kaminski 120, Kozlowski 210\n  ile=4, suma=150+300+120+210=780, sr=780/4=195.00, max=300\n- B: Nowak 200, Zielinska 250, Wojcik 170\n  ile=3, suma=200+250+170=620, sr=620/3=206.666...=206.67, max=250\n- C: Lewandowski 180, Szymanski 350, Dabrowska 290\n  ile=3, suma=180+350+290=820, sr=820/3=273.333...=273.33, max=350\n- Najwyzsza srednia: C (273.33)",
+  "typowe_bledy": [
+    {
+      "opis": "**Dzielenie calkowite przy sredniej**: `suma/ile` daje int/int. Trzeba: `(double)suma[k]/ile[k]`",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak inicjalizacji max**: Przy pierwszym rekordzie kategorii max musi byc ustawiony na wartosc tego rekordu, nie na 0 (choc tu wartosci sa dodatnie, to zly nawyk)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne wczytywanie — pomieszanie kolejnosci pol**: Format to nazwisko kategoria wartosc, nie kategoria nazwisko wartosc",
+      "kara": "-1 pkt"
+    }
+  ]
+}

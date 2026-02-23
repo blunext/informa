@@ -1,0 +1,30 @@
+{
+  "id": "14.33",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2022 zad. 4 (odleglosc od poczatku ukladu)",
+  "tagi": [
+    "odleglosc-euklidesowa",
+    "sqrt",
+    "wczytywanie-pliku",
+    "iomanip",
+    "formatowanie-wyniku"
+  ],
+  "tresc": "W pliku `punkty.txt` w pierwszej linii jest n, a w kolejnych n liniach wspolrzedne calkowite (x y). Napisz program, ktory:\na) Obliczy odleglosc euklidesowa kazdego punktu od poczatku ukladu wspolrzednych (0,0).\nb) Wypisze punkt najblizszy i najdalszy od poczatku ukladu.\n\n**Dane** (`punkty.txt`):\n```\n7\n3 4\n1 1\n5 0\n0 2\n4 3\n2 7\n6 1\n```\n\n**Oczekiwany wynik**:\n```\n(3,4): 5.00\n(1,1): 1.41\n(5,0): 5.00\n(0,2): 2.00\n(4,3): 5.00\n(2,7): 7.28\n(6,1): 6.08\nNajblizszy: (1,1), odleglosc = 1.41\nNajdalszy: (2,7), odleglosc = 7.28\n```",
+  "wskazowki": [
+    "**Kierunek**: Odleglosc od poczatku ukladu to sqrt(x^2 + y^2).",
+    "**Podejscie**: Iteruj po punktach, obliczaj odleglosc, sledzac minimum i maksimum (wartosc i indeks).",
+    "**Kluczowy krok**: Uzyj fixed << setprecision(2) dla formatowania liczb zmiennoprzecinkowych."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    int n;\n    plik >> n;\n    int px[100], py[100];\n    double dist[100];\n    for (int i = 0; i < n; i++) {\n        plik >> px[i] >> py[i];\n        dist[i] = sqrt((double)(px[i] * px[i] + py[i] * py[i]));\n    }\n    cout << fixed << setprecision(2);\n    int minIdx = 0, maxIdx = 0;\n    for (int i = 0; i < n; i++) {\n        cout << \"(\" << px[i] << \",\" << py[i] << \"): \" << dist[i] << endl;\n        if (dist[i] < dist[minIdx]) minIdx = i;\n        if (dist[i] > dist[maxIdx]) maxIdx = i;\n    }\n    cout << \"Najblizszy: (\" << px[minIdx] << \",\" << py[minIdx] << \"), odleglosc = \" << dist[minIdx] << endl;\n    cout << \"Najdalszy: (\" << px[maxIdx] << \",\" << py[maxIdx] << \"), odleglosc = \" << dist[maxIdx] << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Odleglosc od poczatku ukladu (0,0) to sqrt(x^2 + y^2). Sledzac min i max w jednym przebiegu, znajdujemy punkt najblizszy i najdalszy.\n\nWeryfikacja:\n- (3,4): sqrt(9+16) = sqrt(25) = 5.00\n- (1,1): sqrt(1+1) = sqrt(2) = 1.41\n- (5,0): sqrt(25+0) = 5.00\n- (0,2): sqrt(0+4) = 2.00\n- (4,3): sqrt(16+9) = sqrt(25) = 5.00\n- (2,7): sqrt(4+49) = sqrt(53) = 7.28\n- (6,1): sqrt(36+1) = sqrt(37) = 6.08\nMin: (1,1) = 1.41, Max: (2,7) = 7.28.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak rzutowania na double przed sqrt**: Wyrazenie int*int moze sie zmiescic w int, ale warto rzutowac na double przed sqrt",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak setprecision(2)**: Wynik wyswietla sie z domyslna precyzja, niezgodna z oczekiwanym formatem",
+      "kara": "-1 pkt"
+    }
+  ]
+}

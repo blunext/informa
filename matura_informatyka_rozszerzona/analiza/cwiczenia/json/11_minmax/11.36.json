@@ -1,0 +1,30 @@
+{
+  "id": "11.36",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2015 zad. 4 (sekwencje rosnace)",
+  "tagi": [
+    "min-max",
+    "spojny-fragment",
+    "skan-liniowy",
+    "pozycja-elementu",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie najdluzszy ciag rosnacy (kazdy nastepny element wiekszy od poprzedniego) i wypisze jego dlugosc oraz pozycje poczatkowa i koncowa (1-indeksowane).\n\n**Dane** (`dane.txt`):\n```\n5\n8\n12\n3\n6\n9\n15\n20\n2\n7\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy ciag rosnacy: 5 elementow\nPozycja: od 4 do 8\n```",
+  "wskazowki": [
+    "**Kierunek**: Iteruj po tablicy sledzac biezacy ciag rosnacy (cnt) i najdluzszy dotychczas (maxCnt).",
+    "**Podejscie**: Jesli tab[i] > tab[i-1] zwieksz cnt, inaczej porownaj cnt z maxCnt i resetuj cnt=1. Pamietaj poczatek biezacego ciagu.",
+    "**Kluczowy krok**: Po zakonczeniu petli sprawdz jeszcze raz cnt vs maxCnt (ciag moze konczyc sie na ostatnim elemencie)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> tab;\n    int x;\n    while (plik >> x) tab.push_back(x);\n    int n = tab.size();\n\n    int cnt = 1, maxCnt = 1;\n    int start = 0, bestStart = 0, bestEnd = 0;\n    for (int i = 1; i < n; i++) {\n        if (tab[i] > tab[i - 1]) {\n            cnt++;\n        } else {\n            if (cnt > maxCnt) {\n                maxCnt = cnt;\n                bestStart = start;\n                bestEnd = i - 1;\n            }\n            cnt = 1;\n            start = i;\n        }\n    }\n    if (cnt > maxCnt) {\n        maxCnt = cnt;\n        bestStart = start;\n        bestEnd = n - 1;\n    }\n\n    cout << \"Najdluzszy ciag rosnacy: \" << maxCnt << \" elementow\" << endl;\n    cout << \"Pozycja: od \" << bestStart + 1 << \" do \" << bestEnd + 1 << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Skan liniowy z dwoma zmiennymi: biezaca dlugosc ciagu i najdluzsza dotychczas. Gdy ciag sie przerywa, porownujemy i resetujemy. Po petli sprawdzamy ostatni ciag.\n\nWeryfikacja:\n- Ciagi rosnace: [5,8,12] dlugosc 3 (poz. 1-3), [3,6,9,15,20] dlugosc 5 (poz. 4-8), [2,7] dlugosc 2 (poz. 9-10)\n- Najdluzszy: 5 elementow, pozycja od 4 do 8.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie sprawdzenia po petli**: Jesli najdluzszy ciag konczy sie na ostatnim elemencie, nie zostanie uwzgledniony",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Warunek >= zamiast >**: Ciag rosnacy wymaga ostrego wiekszosci, nie niemalejacego",
+      "kara": "-1 pkt"
+    }
+  ]
+}

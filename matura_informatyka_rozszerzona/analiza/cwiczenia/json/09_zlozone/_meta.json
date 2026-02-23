@@ -3,14 +3,22 @@
   "nazwa": "Przetwarzanie zlozone (wieloetapowe)",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "4/11 lat",
-  "punkty_lacznie": 83,
+  "punkty_lacznie": 194,
   "tagi_globalne": [
     "JOIN-tabel",
+    "akumulator",
+    "filtrowanie",
+    "formatowanie-wyniku",
     "grupowanie",
     "iomanip",
+    "k-ty-element",
     "map-zliczanie",
+    "mediana",
+    "procent",
     "sortowanie",
+    "srednia",
     "struct",
+    "symulacja-krokowa",
     "trojne-petle",
     "vector-par",
     "wczytywanie-pliku",
@@ -237,6 +245,285 @@
         "wieloetapowe",
         "sortowanie",
         "struct"
+      ]
+    },
+    {
+      "id": "9.21",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "map-zliczanie",
+        "wczytywanie-pliku",
+        "formatowanie-wyniku",
+        "wieloetapowe"
+      ]
+    },
+    {
+      "id": "9.22",
+      "trudnosc": "latwe",
+      "punkty": 4,
+      "tagi": [
+        "struct",
+        "filtrowanie",
+        "wczytywanie-pliku",
+        "srednia",
+        "wieloetapowe"
+      ]
+    },
+    {
+      "id": "9.23",
+      "trudnosc": "srednie",
+      "punkty": 5,
+      "tagi": [
+        "wieloetapowe",
+        "struct",
+        "sortowanie",
+        "wczytywanie-pliku",
+        "akumulator"
+      ]
+    },
+    {
+      "id": "9.24",
+      "trudnosc": "srednie",
+      "punkty": 5,
+      "tagi": [
+        "map-zliczanie",
+        "grupowanie",
+        "sortowanie",
+        "vector-par",
+        "k-ty-element",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "9.25",
+      "trudnosc": "srednie",
+      "punkty": 5,
+      "tagi": [
+        "wieloetapowe",
+        "wczytywanie-pliku",
+        "mediana",
+        "sortowanie",
+        "procent"
+      ]
+    },
+    {
+      "id": "9.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "wiele-plikow",
+        "JOIN-tabel",
+        "map-zliczanie",
+        "grupowanie",
+        "iomanip",
+        "wieloetapowe"
+      ]
+    },
+    {
+      "id": "9.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 6,
+      "tagi": [
+        "wieloetapowe",
+        "struct",
+        "sortowanie",
+        "wczytywanie-pliku",
+        "symulacja-krokowa",
+        "akumulator"
+      ]
+    },
+    {
+      "id": "9.28",
+      "trudnosc": "srednie-trudne",
+      "punkty": 6,
+      "tagi": [
+        "wieloetapowe",
+        "map-zliczanie",
+        "grupowanie",
+        "sortowanie",
+        "vector-par",
+        "wczytywanie-pliku",
+        "iomanip"
+      ]
+    },
+    {
+      "id": "9.29",
+      "trudnosc": "trudne",
+      "punkty": 7,
+      "tagi": [
+        "wiele-plikow",
+        "JOIN-tabel",
+        "wieloetapowe",
+        "struct",
+        "sortowanie",
+        "map-zliczanie",
+        "iomanip"
+      ]
+    },
+    {
+      "id": "9.30",
+      "trudnosc": "trudne",
+      "punkty": 7,
+      "tagi": [
+        "wieloetapowe",
+        "struct",
+        "map-zliczanie",
+        "grupowanie",
+        "sortowanie",
+        "wczytywanie-pliku",
+        "iomanip",
+        "formatowanie-wyniku"
+      ]
+    },
+    {
+      "id": "9.31",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "wczytywanie-pliku",
+        "srednia",
+        "filtrowanie",
+        "wieloetapowe"
+      ]
+    },
+    {
+      "id": "9.32",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "map-zliczanie",
+        "grupowanie",
+        "wczytywanie-pliku",
+        "wieloetapowe"
+      ]
+    },
+    {
+      "id": "9.33",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "struct",
+        "wczytywanie-pliku",
+        "srednia",
+        "wieloetapowe"
+      ]
+    },
+    {
+      "id": "9.34",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "struct",
+        "grupowanie",
+        "map-zliczanie",
+        "wczytywanie-pliku",
+        "wieloetapowe"
+      ]
+    },
+    {
+      "id": "9.35",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "wiele-plikow",
+        "wieloetapowe",
+        "map-zliczanie",
+        "filtrowanie"
+      ]
+    },
+    {
+      "id": "9.36",
+      "trudnosc": "srednie",
+      "punkty": 5,
+      "tagi": [
+        "struct",
+        "sortowanie",
+        "mediana",
+        "wczytywanie-pliku",
+        "iomanip",
+        "wieloetapowe"
+      ]
+    },
+    {
+      "id": "9.37",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "map-zliczanie",
+        "grupowanie",
+        "sortowanie",
+        "vector-par",
+        "wczytywanie-pliku",
+        "iomanip",
+        "wieloetapowe"
+      ]
+    },
+    {
+      "id": "9.38",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "struct",
+        "sortowanie",
+        "srednia",
+        "wczytywanie-pliku",
+        "iomanip",
+        "wieloetapowe"
+      ]
+    },
+    {
+      "id": "9.39",
+      "trudnosc": "srednie-trudne",
+      "punkty": 6,
+      "tagi": [
+        "wiele-plikow",
+        "JOIN-tabel",
+        "map-zliczanie",
+        "grupowanie",
+        "iomanip",
+        "wieloetapowe"
+      ]
+    },
+    {
+      "id": "9.40",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "symulacja-krokowa",
+        "akumulator",
+        "filtrowanie",
+        "wczytywanie-pliku",
+        "wieloetapowe"
+      ]
+    },
+    {
+      "id": "9.41",
+      "trudnosc": "trudne",
+      "punkty": 7,
+      "tagi": [
+        "wiele-plikow",
+        "JOIN-tabel",
+        "struct",
+        "sortowanie",
+        "wieloetapowe",
+        "map-zliczanie"
+      ]
+    },
+    {
+      "id": "9.42",
+      "trudnosc": "trudne",
+      "punkty": 7,
+      "tagi": [
+        "map-zliczanie",
+        "grupowanie",
+        "sortowanie",
+        "vector-par",
+        "procent",
+        "iomanip",
+        "wczytywanie-pliku",
+        "formatowanie-wyniku",
+        "wieloetapowe"
       ]
     }
   ]

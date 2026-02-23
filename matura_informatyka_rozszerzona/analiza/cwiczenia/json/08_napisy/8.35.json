@@ -1,0 +1,29 @@
+{
+  "id": "8.35",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2024 zad. 4 (analiza czestotliwosci znakow)",
+  "tagi": [
+    "napisy",
+    "tablica-czestotliwosci",
+    "zliczanie-znakow",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 8 napisow skladajacych sie z malych liter (kazdy w osobnym wierszu). Napisz program, ktory dla kazdego napisu policzy, ile roznych znakow wystepuje wiecej niz raz (duplikaty). Wypisz napis, liczbe duplikatow, a na koncu napis z najwieksza liczba duplikatow.\n\n**Dane** (`napisy.txt`):\n```\naabbcc\nabcdef\naaaaab\nhello\nprogramowanie\ntest\nzzzz\nabcabc\n```\n\n**Oczekiwany wynik**:\n```\naabbcc: 3\nabcdef: 0\naaaaab: 1\nhello: 1\nprogramowanie: 3\ntest: 1\nzzzz: 1\nabcabc: 3\nNajwiecej duplikatow: aabbcc (3)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj tablicy czestotliwosci `int freq[26]` — zlicz wystapienia kazdej litery, potem policz ile liter ma freq > 1.",
+    "**Podejscie**: Dla kazdego napisu: zeruj tablice, zlicz znaki, iteruj po tablicy i policz ile pozycji ma wartosc > 1.",
+    "**Kluczowy krok**: Duplikat oznacza, ze litera wystepuje wiecej niz raz — nie liczymy ile razy sie powtarza, tylko ile roznych liter sie powtarza."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    string maxNapis;\n    int maxDup = -1;\n    while (plik >> s) {\n        int freq[26] = {0};\n        for (char c : s) {\n            freq[c - 'a']++;\n        }\n        int duplikaty = 0;\n        for (int i = 0; i < 26; i++) {\n            if (freq[i] > 1) duplikaty++;\n        }\n        cout << s << \": \" << duplikaty << endl;\n        if (duplikaty > maxDup) {\n            maxDup = duplikaty;\n            maxNapis = s;\n        }\n    }\n    cout << \"Najwiecej duplikatow: \" << maxNapis << \" (\" << maxDup << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Tablica czestotliwosci pozwala policzyc, ile razy kazda litera wystepuje w napisie. Nastepnie liczymy, ile liter ma czestotliwosc wieksza niz 1.\n\nWeryfikacja:\n- aabbcc: a=2,b=2,c=2 -> 3 litery z freq>1\n- abcdef: a=1,b=1,c=1,d=1,e=1,f=1 -> 0 duplikatow\n- aaaaab: a=5,b=1 -> 1 duplikat (a)\n- hello: h=1,e=1,l=2,o=1 -> 1 duplikat (l)\n- programowanie: p=1,r=2,o=2,g=1,a=2,m=1,w=1,n=1,i=1,e=1 -> 3 duplikaty (r,o,a)\n- test: t=2,e=1,s=1 -> 1 duplikat (t)\n- zzzz: z=4 -> 1 duplikat (z)\n- abcabc: a=2,b=2,c=2 -> 3 duplikaty\nNajwiecej duplikatow: aabbcc (3) — pierwsze znalezione z wynikiem 3",
+  "typowe_bledy": [
+    {
+      "opis": "**Liczenie calkowitej liczby powtorzen zamiast liczby roznych duplikowanych liter**: Pytanie dotyczy ile roznych znakow sie powtarza, nie ile razy sie powtarzaja",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Niezainicjalizowanie tablicy freq zerami przed kazdym napisem**: Pozostalosci z poprzedniego napisu zafalsza wyniki",
+      "kara": "-1 pkt"
+    }
+  ]
+}

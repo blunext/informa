@@ -1,0 +1,28 @@
+{
+  "id": "14.21",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Opracowanie wlasne: odleglosc Manhattan",
+  "tagi": [
+    "odleglosc-euklidesowa",
+    "wczytywanie-pliku",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `punkty.txt` w pierwszej linii znajduja sie wspolrzedne punktu centralnego (xc yc). W drugiej linii jest n, a w kolejnych n liniach wspolrzedne punktow (x y), wszystkie calkowite. Napisz program, ktory:\na) Obliczy odleglosc Manhattan (|x-xc| + |y-yc|) kazdego punktu od punktu centralnego.\nb) Wypisze ile punktow ma odleglosc Manhattan <= 10.\n\n**Dane** (`punkty.txt`):\n```\n5 5\n6\n3 7\n10 10\n5 5\n0 0\n8 4\n1 15\n```\n\n**Oczekiwany wynik**:\n```\nOdleglosci Manhattan od (5,5):\n(3,7): 4\n(10,10): 10\n(5,5): 0\n(0,0): 10\n(8,4): 4\n(1,15): 14\nPunkty z odlegloscia <= 10: 5\n```",
+  "wskazowki": [
+    "**Kierunek**: Odleglosc Manhattan to |x1-x2| + |y1-y2|, nie wymaga sqrt.",
+    "**Podejscie**: Wczytaj punkt centralny, potem iteruj po pozostalych punktach i licz odleglosc.",
+    "**Kluczowy krok**: Uzyj `abs()` z `<cstdlib>` dla wartosci bezwzglednej calkowitej."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <cstdlib>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    int xc, yc;\n    plik >> xc >> yc;\n    int n;\n    plik >> n;\n    cout << \"Odleglosci Manhattan od (\" << xc << \",\" << yc << \"):\" << endl;\n    int cnt = 0;\n    for (int i = 0; i < n; i++) {\n        int x, y;\n        plik >> x >> y;\n        int d = abs(x - xc) + abs(y - yc);\n        cout << \"(\" << x << \",\" << y << \"): \" << d << endl;\n        if (d <= 10) cnt++;\n    }\n    cout << \"Punkty z odlegloscia <= 10: \" << cnt << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Odleglosc Manhattan (znana tez jako metryka taksowkowa) to suma bezwzglednych roznic wspolrzednych. Nie wymaga pierwiastka, wiec wynik jest calkowity.\n\nWeryfikacja:\n- (3,7): |3-5|+|7-5| = 2+2 = 4 <= 10\n- (10,10): |10-5|+|10-5| = 5+5 = 10 <= 10\n- (5,5): |5-5|+|5-5| = 0 <= 10\n- (0,0): |0-5|+|0-5| = 5+5 = 10 <= 10\n- (8,4): |8-5|+|4-5| = 3+1 = 4 <= 10\n- (1,15): |1-5|+|15-5| = 4+10 = 14 > 10\nLiczba <= 10: 5",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie odleglosci euklidesowej zamiast Manhattan**: Tresc wymaga metryki Manhattan (|dx|+|dy|), nie sqrt(dx^2+dy^2)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak abs() — odleglosc moze byc ujemna**: (x-xc) moze byc ujemne, trzeba wziac wartosc bezwzgledna",
+      "kara": "-1 pkt"
+    }
+  ]
+}

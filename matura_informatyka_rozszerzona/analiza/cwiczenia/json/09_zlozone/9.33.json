@@ -1,0 +1,29 @@
+{
+  "id": "9.33",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2024 zad. 3 (statystyki pogodowe)",
+  "tagi": [
+    "struct",
+    "wczytywanie-pliku",
+    "srednia",
+    "wieloetapowe"
+  ],
+  "tresc": "W pliku `temperatury.txt` znajduje sie 7 rekordow w formacie: dzien temperatura (oddzielone spacja). Dzien to napis (np. Pn, Wt, ...), temperatura to liczba calkowita. Napisz program, ktory:\na) Obliczy srednia tygodniowa temperature (2 miejsca po przecinku).\nb) Wskazac dzien z najwyzsza i najnizsza temperatura.\nc) Policzy ile dni mialo temperature powyzej sredniej.\n\n**Dane** (`temperatury.txt`):\n```\nPn 12\nWt 15\nSr 8\nCz 20\nPt 18\nSo 14\nNd 11\n```\n\n**Oczekiwany wynik**:\n```\na) Srednia temperatura: 14.00\n\nb) Max: Cz (20)\n   Min: Sr (8)\n\nc) Dni powyzej sredniej: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj do vectora par (dzien, temp). Oblicz srednia, max i min w jednym lub dwoch przejsciach.",
+    "**Podejscie**: Jeden przebieg: sumuj temperatury, sprawdzaj min/max z zapamietaniem dnia.",
+    "**Kluczowy krok**: Srednia = suma / 7.0. Potem drugi przebieg liczacy dni z temp > srednia."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"temperatury.txt\");\n    vector<pair<string, int>> dane;\n    string dzien;\n    int temp;\n    int suma = 0;\n    while (plik >> dzien >> temp) {\n        dane.push_back({dzien, temp});\n        suma += temp;\n    }\n    double srednia = (double)suma / dane.size();\n\n    cout << \"a) Srednia temperatura: \" << fixed << setprecision(2) << srednia << endl;\n\n    int maxT = dane[0].second, minT = dane[0].second;\n    string maxD = dane[0].first, minD = dane[0].first;\n    for (auto &d : dane) {\n        if (d.second > maxT) { maxT = d.second; maxD = d.first; }\n        if (d.second < minT) { minT = d.second; minD = d.first; }\n    }\n    cout << endl << \"b) Max: \" << maxD << \" (\" << maxT << \")\" << endl;\n    cout << \"   Min: \" << minD << \" (\" << minT << \")\" << endl;\n\n    int cnt = 0;\n    for (auto &d : dane) {\n        if (d.second > srednia) cnt++;\n    }\n    cout << endl << \"c) Dni powyzej sredniej: \" << cnt << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\n- Suma: 12+15+8+20+18+14+11 = 98\n- Srednia: 98/7 = 14.00\n- Max: Cz(20), Min: Sr(8)\n- Dni > 14.00: Wt(15), Cz(20), Pt(18) -> 3",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownanie >= zamiast >**: Zadanie mowi 'powyzej sredniej', czyli > a nie >=. Przy sredniej 14.00 dzien So(14) nie powinien byc liczony",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak zapamietania dnia min/max**: Szukanie samej wartosci min/max bez odpowiadajacego dnia",
+      "kara": "-1 pkt"
+    }
+  ]
+}

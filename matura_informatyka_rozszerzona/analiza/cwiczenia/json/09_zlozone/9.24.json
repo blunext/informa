@@ -1,0 +1,31 @@
+{
+  "id": "9.24",
+  "trudnosc": "srednie",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2022 zad. 5 (top-K z grupowaniem)",
+  "tagi": [
+    "map-zliczanie",
+    "grupowanie",
+    "sortowanie",
+    "vector-par",
+    "k-ty-element",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `sprzedaz.txt` znajduje sie 14 rekordow w formacie: sprzedawca produkt sztuk (oddzielone spacja). Ten sam sprzedawca moze wystepowac wielokrotnie. Napisz program, ktory:\na) Obliczy laczna liczbe sprzedanych sztuk przez kazdego sprzedawce.\nb) Wypisze TOP 3 sprzedawcow (malejaco wg lacznej sprzedazy).\nc) Poda srednia sprzedaz na sprzedawce (2 miejsca po przecinku).\n\n**Dane** (`sprzedaz.txt`):\n```\nAnna Laptop 3\nJan Telefon 7\nEwa Monitor 2\nAnna Telefon 5\nJan Laptop 4\nMaria Tablet 6\nEwa Laptop 8\nAnna Monitor 4\nJan Tablet 3\nMaria Telefon 2\nEwa Telefon 1\nMaria Laptop 5\nJan Monitor 2\nAnna Tablet 1\n```\n\n**Oczekiwany wynik**:\n```\na) Laczna sprzedaz:\n   Anna: 13\n   Ewa: 11\n   Jan: 16\n   Maria: 13\n\nb) TOP 3 sprzedawcow:\n   1. Jan: 16\n   2. Anna: 13\n   3. Maria: 13\n\nc) Srednia sprzedaz: 13.25\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj `map<string,int>` do agregacji sprzedazy wg sprzedawcy, potem sortuj wektor par.",
+    "**Podejscie**: Zlicz `mapa[sprzedawca] += sztuk`. Przenies do vectora par (count, name), posortuj malejaco.",
+    "**Kluczowy krok**: TOP 3 = pierwsze 3 elementy posortowanego vectora. Przy remisie: map sortuje alfabetycznie, wiec Anna przed Maria."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"sprzedaz.txt\");\n    string sprzedawca, produkt;\n    int sztuk;\n    map<string, int> suma;\n    while (plik >> sprzedawca >> produkt >> sztuk) {\n        suma[sprzedawca] += sztuk;\n    }\n\n    cout << \"a) Laczna sprzedaz:\" << endl;\n    int total = 0;\n    for (auto &p : suma) {\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n        total += p.second;\n    }\n\n    vector<pair<int, string>> ranking;\n    for (auto &p : suma) ranking.push_back({p.second, p.first});\n    sort(ranking.begin(), ranking.end(), [](auto &a, auto &b) {\n        if (a.first != b.first) return a.first > b.first;\n        return a.second < b.second;\n    });\n\n    cout << endl << \"b) TOP 3 sprzedawcow:\" << endl;\n    for (int i = 0; i < 3 && i < (int)ranking.size(); i++) {\n        cout << \"   \" << i+1 << \". \" << ranking[i].second << \": \" << ranking[i].first << endl;\n    }\n\n    cout << endl << \"c) Srednia sprzedaz: \" << fixed << setprecision(2)\n         << (double)total / suma.size() << endl;\n    return 0;\n}\n```\n\nWeryfikacja:\na) Sumy:\n- Anna: 3+5+4+1 = 13\n- Ewa: 2+8+1 = 11\n- Jan: 7+4+3+2 = 16\n- Maria: 6+2+5 = 13\n\nb) Ranking malejaco: Jan(16), Anna(13), Maria(13), Ewa(11)\n   Przy remisie 13: Anna < Maria alfabetycznie, wiec Anna na 2. miejscu\n   TOP 3: Jan(16), Anna(13), Maria(13)\n\nc) Srednia: (13+11+16+13)/4 = 53/4 = 13.25",
+  "typowe_bledy": [
+    {
+      "opis": "**Zliczanie rekordow zamiast sztuk**: `mapa[s]++` zamiast `mapa[s] += sztuk` — liczy transakcje, nie sztuki",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak obslugi remisu w sortowaniu**: Bez drugiego kryterium kolejnosc przy rownych wartosciach jest nieokreslona",
+      "kara": "-1 pkt"
+    }
+  ]
+}

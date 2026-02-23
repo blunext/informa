@@ -1,0 +1,38 @@
+{
+  "id": "7.30",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Wariant autorski (operacja Kaprekara na 4-cyfrowych liczbach)",
+  "tagi": [
+    "cyfry-mod-div",
+    "sortowanie",
+    "wczytywanie-pliku",
+    "filtrowanie",
+    "akumulator"
+  ],
+  "tresc": "Operacja Kaprekara na 4-cyfrowej liczbie polega na: (1) ustawieniu cyfr w kolejnosci malejacej — to liczba D, (2) ustawieniu cyfr w kolejnosci rosnacej — to liczba A, (3) obliczeniu roznicy D - A. Stala Kaprekara to 6174 — wiekszosc 4-cyfrowych liczb dochodzi do niej po kilku iteracjach.\n\nPrzyklad: 3524 -> D=5432, A=2345, D-A=3087.\n\nW pliku `dane.txt` znajduje sie 12 czterocyfrowych liczb calkowitych dodatnich (kazda w osobnym wierszu, kazda ma co najmniej 2 rozne cyfry, bez zer). Napisz program, ktory:\na) Dla kazdej liczby wykona operacje Kaprekara i wypisze D, A oraz roznice.\nb) Policzy ile liczb osiaga stala 6174 w jednym kroku.\nc) Znajdzie najczesciej wystepujaca wartosc roznicy D-A.\n\n**Dane** (`dane.txt`):\n```\n3524\n6174\n1234\n4176\n7641\n1467\n2538\n8532\n9876\n5283\n4321\n7263\n```\n\n**Oczekiwany wynik**:\n```\na) Operacja Kaprekara:\n3524: D=5432, A=2345, D-A=3087\n6174: D=7641, A=1467, D-A=6174\n1234: D=4321, A=1234, D-A=3087\n4176: D=7641, A=1467, D-A=6174\n7641: D=7641, A=1467, D-A=6174\n1467: D=7641, A=1467, D-A=6174\n2538: D=8532, A=2358, D-A=6174\n8532: D=8532, A=2358, D-A=6174\n9876: D=9876, A=6789, D-A=3087\n5283: D=8532, A=2358, D-A=6174\n4321: D=4321, A=1234, D-A=3087\n7263: D=7632, A=2367, D-A=5265\n\nb) Liczb osiagajacych 6174 w jednym kroku: 7\n\nc) Najczestsza roznica: 6174 (7 razy)\n```",
+  "wskazowki": [
+    "**Kierunek**: Wyodrebnij cyfry do tablicy, posortuj malejaco (D) i rosnaco (A), zbuduj z nich liczby.",
+    "**Podejscie**: Uzyj `string s = to_string(n)`, posortuj `sort(s.begin(), s.end())` dla A, `sort(s.begin(), s.end(), greater<char>())` dla D. Konwertuj `stoi()`.",
+    "**Kluczowy krok**: Do znalezienia najczestszej roznicy uzyj `map<int, int>` — klucz to roznica, wartosc to licznik. Przeszukaj mape po max liczniku."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <algorithm>\n#include <vector>\n#include <map>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int liczba;\n    vector<int> liczby;\n    vector<int> roznice;\n\n    cout << \"a) Operacja Kaprekara:\" << endl;\n    while (plik >> liczba) {\n        liczby.push_back(liczba);\n        string s = to_string(liczba);\n        string sA = s, sD = s;\n        sort(sA.begin(), sA.end());\n        sort(sD.begin(), sD.end(), greater<char>());\n        int A = stoi(sA);\n        int D = stoi(sD);\n        int diff = D - A;\n        roznice.push_back(diff);\n        cout << liczba << \": D=\" << D << \", A=\" << A\n             << \", D-A=\" << diff << endl;\n    }\n\n    cout << endl << \"b) Liczb osiagajacych 6174 w jednym kroku: \";\n    int ile6174 = 0;\n    for (int r : roznice) {\n        if (r == 6174) ile6174++;\n    }\n    cout << ile6174 << endl;\n\n    cout << endl << \"c) Najczestsza roznica: \";\n    map<int, int> freq;\n    for (int r : roznice) freq[r]++;\n    int maxR = roznice[0], maxCnt = 0;\n    for (auto& p : freq) {\n        if (p.second > maxCnt) {\n            maxCnt = p.second;\n            maxR = p.first;\n        }\n    }\n    cout << maxR << \" (\" << maxCnt << \" razy)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Operacja Kaprekara wymaga posortowania cyfr. Uzycie `string` + `sort` to najprostsza metoda. `greater<char>()` daje kolejnosc malejaca. `map` zlicza czestotliwosci roznic.\n\nWeryfikacja sortowania cyfr i roznic:\n- 3524: cyfry {3,5,2,4} -> D: 5432, A: 2345, diff: 5432-2345=3087\n- 6174: cyfry {6,1,7,4} -> D: 7641, A: 1467, diff: 7641-1467=6174\n- 1234: cyfry {1,2,3,4} -> D: 4321, A: 1234, diff: 4321-1234=3087\n- 4176: cyfry {4,1,7,6} -> D: 7641, A: 1467, diff: 7641-1467=6174\n- 7641: cyfry {7,6,4,1} -> D: 7641, A: 1467, diff: 7641-1467=6174\n- 1467: cyfry {1,4,6,7} -> D: 7641, A: 1467, diff: 7641-1467=6174\n- 2538: cyfry {2,5,3,8} -> D: 8532, A: 2358, diff: 8532-2358=6174\n- 8532: cyfry {8,5,3,2} -> D: 8532, A: 2358, diff: 8532-2358=6174\n- 9876: cyfry {9,8,7,6} -> D: 9876, A: 6789, diff: 9876-6789=3087\n- 5283: cyfry {5,2,8,3} -> D: 8532, A: 2358, diff: 8532-2358=6174\n- 4321: cyfry {4,3,2,1} -> D: 4321, A: 1234, diff: 4321-1234=3087\n- 7263: cyfry {7,2,6,3} -> D: 7632, A: 2367, diff: 7632-2367=5265\n\n6174 w jednym kroku: 6174, 4176, 7641, 1467, 2538, 8532, 5283 = 7\nFreq: {3087:4, 5265:1, 6174:7} -> najczestsza: 6174 (7 razy)\nUwaga: `map` iteruje po kluczach rosnaco, wiec iteracja daje 3087(4), 5265(1), 6174(7). Max count = 7 przy kluczu 6174.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak `#include <algorithm>` dla `sort`**: Kompilacja nie powiedzie sie bez tego naglowka",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Reczne sortowanie zamiast `sort()`**: Poprawne ale czasochlonne i podatne na bledy. Lepiej uzyc bibliotecznego sorta",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Odwrocona kolejnosc odejmowania (A-D zamiast D-A)**: Daje ujemne wyniki, nie osiagnie 6174",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak obslugi zer wiodacych**: Jesli liczba zawiera 0, posortowane rosnaco moze dac np. 0123 -> stoi daje 123. Trzeba byc swiadomym tego efektu (w tym zadaniu dane nie maja zer)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "13.40",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2017 zad. 6 (spojne obszary BFS)",
+  "tagi": [
+    "tablica-2D",
+    "BFS",
+    "spojne-obszary",
+    "4-spojnosc",
+    "visited",
+    "queue",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Dana jest siatka 8x8 zer i jedynek zapisana w pliku `dane.txt`. Jedynki tworza spojne obszary (wyspy) w sasiedztwie 4-spojnym (gora, dol, lewo, prawo). Napisz program, ktory:\na) Zliczy liczbe spojnych obszarow (wysp) jedynek.\nb) Wypisze rozmiar kazdej wyspy (w kolejnosci znalezienia: skanowanie wierszami od lewej do prawej).\nc) Wypisze rozmiar najwiekszej wyspy.\n\n**Dane** (`dane.txt`):\n```\n1 1 0 0 0 0 1 1\n1 0 0 0 0 0 0 1\n0 0 0 1 1 0 0 0\n0 0 0 1 1 0 0 0\n0 0 0 0 0 0 0 0\n0 1 0 0 0 0 1 0\n0 1 0 0 0 1 1 0\n0 0 0 0 0 0 0 0\n```\n\n**Oczekiwany wynik**:\n```\na) Liczba wysp: 5\nb) Rozmiary: 3 3 4 2 3\nc) Najwieksza wyspa: 4\n```",
+  "wskazowki": [
+    "**Kierunek**: Skanuj siatke wierszami. Gdy znajdziesz jedynke nieodwiedzona, uruchom BFS — to nowa wyspa.",
+    "**Podejscie**: BFS z kolejka: dodaj startowa komorke, w petli pobieraj i dodawaj 4 sasiadow bedacych jedynkami i nieodwiedzonych.",
+    "**Kluczowy krok**: Tablica visited[][] — oznacz komorke jako odwiedzona przy DODANIU do kolejki (nie przy pobraniu), zeby uniknac duplikatow."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <queue>\nusing namespace std;\n\nconst int N = 8;\nint tab[N][N];\nbool visited[N][N];\nint dx[] = {-1, 1, 0, 0};\nint dy[] = {0, 0, -1, 1};\n\nint bfs(int si, int sj) {\n    queue<pair<int,int>> q;\n    q.push({si, sj});\n    visited[si][sj] = true;\n    int rozmiar = 0;\n    while (!q.empty()) {\n        auto [i, j] = q.front(); q.pop();\n        rozmiar++;\n        for (int d = 0; d < 4; d++) {\n            int ni = i + dx[d], nj = j + dy[d];\n            if (ni >= 0 && ni < N && nj >= 0 && nj < N\n                && !visited[ni][nj] && tab[ni][nj] == 1) {\n                visited[ni][nj] = true;\n                q.push({ni, nj});\n            }\n        }\n    }\n    return rozmiar;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    for (int i = 0; i < N; i++)\n        for (int j = 0; j < N; j++)\n            plik >> tab[i][j];\n\n    vector<int> rozmiary;\n    for (int i = 0; i < N; i++)\n        for (int j = 0; j < N; j++)\n            if (tab[i][j] == 1 && !visited[i][j])\n                rozmiary.push_back(bfs(i, j));\n\n    cout << \"a) Liczba wysp: \" << rozmiary.size() << endl;\n    cout << \"b) Rozmiary:\";\n    for (int r : rozmiary) cout << \" \" << r;\n    cout << endl;\n\n    int maxR = 0;\n    for (int r : rozmiary)\n        if (r > maxR) maxR = r;\n    cout << \"c) Najwieksza wyspa: \" << maxR << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Skanujemy siatke wierszami. Kazda nieodwiedzona jedynka to poczatek nowej wyspy. BFS liczy rozmiar wyspy.\n\nWeryfikacja:\n```\n  j: 0 1 2 3 4 5 6 7\ni=0: 1 1 0 0 0 0 1 1\ni=1: 1 0 0 0 0 0 0 1\ni=2: 0 0 0 1 1 0 0 0\ni=3: 0 0 0 1 1 0 0 0\ni=4: 0 0 0 0 0 0 0 0\ni=5: 0 1 0 0 0 0 1 0\ni=6: 0 1 0 0 0 1 1 0\ni=7: 0 0 0 0 0 0 0 0\n```\nWyspy (4-spojne, kolejnosc skanowania):\n1. Start (0,0): (0,0)-(0,1)-(1,0) -> rozmiar 3\n2. Start (0,6): (0,6)-(0,7)-(1,7) -> rozmiar 3\n3. Start (2,3): (2,3)-(2,4)-(3,3)-(3,4) -> rozmiar 4\n4. Start (5,1): (5,1)-(6,1) -> rozmiar 2\n5. Start (5,6): (5,6)-(6,6)-(6,5) -> rozmiar 3\n\nRozmiary: 3, 3, 4, 2, 3. Najwieksza: 4.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak tablicy visited**: Wielokrotne odwiedzanie powoduje nieskonczona petle lub bledne zliczanie",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Oznaczanie visited przy pobraniu z kolejki zamiast przy dodaniu**: Powoduje duplikaty w kolejce i zlicza komorki wielokrotnie",
+      "kara": "-2 pkt"
+    }
+  ]
+}

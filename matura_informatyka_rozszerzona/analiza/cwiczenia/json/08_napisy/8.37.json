@@ -1,0 +1,30 @@
+{
+  "id": "8.37",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2023 zad. 5 (podciagi w napisach)",
+  "tagi": [
+    "napisy",
+    "podciag",
+    "set-unikalnosc",
+    "operacje-na-string",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 7 napisow skladajacych sie z malych liter (kazdy w osobnym wierszu). Napisz program, ktory dla kazdego napisu znajdzie dlugosc najdluzszego podnapisu (ciag kolejnych znakow) bez powtarzajacych sie znakow. Wypisz napis, ten podnapis i jego dlugosc. Na koncu wypisz najdluzszy taki podnapis sposrod wszystkich napisow.\n\n**Dane** (`napisy.txt`):\n```\nabcabcbb\nbbbbb\npwwkew\nabcdef\naab\ndvdf\nabba\n```\n\n**Oczekiwany wynik**:\n```\nabcabcbb: \"abc\" (3)\nbbbbb: \"b\" (1)\npwwkew: \"wke\" (3)\nabcdef: \"abcdef\" (6)\naab: \"ab\" (2)\ndvdf: \"vdf\" (3)\nabba: \"ab\" (2)\nNajdluzszy: \"abcdef\" (6)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj techniki przesuwnego okna (sliding window) z dwoma wskaznikami: lewy i prawy koniec podnapisu.",
+    "**Podejscie**: Rozszerzaj okno w prawo. Gdy napotkasz powtorzony znak, przesun lewy koniec za poprzednie wystapienie tego znaku. Uzyj tablicy bool lub set do sledzenia znakow w oknie.",
+    "**Kluczowy krok**: Dla uproszczenia uzyj tablicy `bool used[256]` indeksowanej kodem ASCII. Gdy przesuwasz lewy koniec, resetuj flagi usunietych znakow."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    string globalBest;\n    int globalLen = 0;\n    while (plik >> s) {\n        int bestStart = 0, bestLen = 0;\n        int left = 0;\n        bool used[256] = {false};\n        for (int right = 0; right < (int)s.length(); right++) {\n            while (used[(unsigned char)s[right]]) {\n                used[(unsigned char)s[left]] = false;\n                left++;\n            }\n            used[(unsigned char)s[right]] = true;\n            if (right - left + 1 > bestLen) {\n                bestLen = right - left + 1;\n                bestStart = left;\n            }\n        }\n        string best = s.substr(bestStart, bestLen);\n        cout << s << \": \\\"\" << best << \"\\\" (\" << bestLen << \")\" << endl;\n        if (bestLen > globalLen) {\n            globalLen = bestLen;\n            globalBest = best;\n        }\n    }\n    cout << \"Najdluzszy: \\\"\" << globalBest << \"\\\" (\" << globalLen << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Technika przesuwnego okna (sliding window): prawy wskaznik rozszerza okno, a lewy wskaznik kurczy je gdy napotykamy powtorzony znak. Tablica `used[]` sledzi, ktore znaki sa w biezacym oknie.\n\nWeryfikacja:\n- abcabcbb: okno a->ab->abc->a powtorzone, left=1: bc->bca->c powtorzone, left=2: ca->cab->a powtorzone, left=4: b->bc->cb->b powtorzone... najdluzsze: \"abc\" (3)\n- bbbbb: kazde 'b' sie powtarza, wiec okno zawsze ma rozmiar 1 -> \"b\" (1)\n- pwwkew: p->pw->w powtorzone, left=1: w->wk->wke->e powtorzone? w(1),k(2),e(3)=3. Potem w: left przeskakuje do 2, kew(3). Najdluzsze: \"wke\" (3)\n- abcdef: brak powtorzen -> \"abcdef\" (6)\n- aab: a->a powtorzone, left=1: a->ab -> \"ab\" (2)\n- dvdf: d->dv->d powtorzone, left=1: vd->vdf -> \"vdf\" (3)\n- abba: a->ab->b powtorzone, left=1: b->ba->a powtorzone... left=2: b->ba? Nie: left=2, right=2: b. right=3: ba -> \"ab\" (2) lub \"ba\" (2). Pierwszy: \"ab\" (2)\nNajdluzszy: \"abcdef\" (6)",
+  "typowe_bledy": [
+    {
+      "opis": "**Resetowanie tablicy used dla calego napisu zamiast tylko usunietych znakow**: Przesuniecie lewego wskaznika powinno resetowac tylko znaki, ktore wypadly z okna",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Uzycie brute-force O(n^3) zamiast sliding window**: Dziala poprawnie, ale moze byc zbyt wolne dla dlugich napisow",
+      "kara": "-1 pkt"
+    }
+  ]
+}

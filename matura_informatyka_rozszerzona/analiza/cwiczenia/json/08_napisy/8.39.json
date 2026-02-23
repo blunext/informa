@@ -1,0 +1,29 @@
+{
+  "id": "8.39",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2024 zad. 5 (porownywanie napisow)",
+  "tagi": [
+    "napisy",
+    "operacje-na-string",
+    "podciag",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 7 wierszy. Kazdy wiersz zawiera dokladnie 2 slowa oddzielone spacja (male litery). Napisz program, ktory dla kazdej pary slow znajdzie ich najdluzszy wspolny prefiks (poczatkowy fragment identyczny w obu slowach) i wypisze go. Jesli slowa nie maja wspolnego prefiksu, wypisz \"(brak)\". Na koncu wypisz najdluzszy wspolny prefiks sposrod wszystkich par.\n\n**Dane** (`dane.txt`):\n```\ninterakcja interesujacy\nprogramista program\nabc xyz\nkomputer kompilator\ndom domek\nauto autobus\ntest tester\n```\n\n**Oczekiwany wynik**:\n```\ninterakcja interesujacy: \"inter\" (5)\nprogramista program: \"program\" (7)\nabc xyz: (brak)\nkomputer kompilator: \"komp\" (4)\ndom domek: \"dom\" (3)\nauto autobus: \"auto\" (4)\ntest tester: \"test\" (4)\nNajdluzszy wspolny prefiks: \"program\" (7)\n```",
+  "wskazowki": [
+    "**Kierunek**: Porownuj znaki na tych samych pozycjach w obu slowach, dopoki sa identyczne lub jedno ze slow sie skonczy.",
+    "**Podejscie**: Uzyj petli for z indeksem od 0 do min(len(a), len(b)). Przerywaj, gdy znaki sie roznia. Wspolny prefiks to `a.substr(0, i)`.",
+    "**Kluczowy krok**: Dlugosc wspolnego prefiksu moze byc 0 (brak) lub rowna calemu krotszemu slowu (jedno slowo jest prefiksem drugiego)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    string a, b;\n    string globalBest;\n    int globalLen = 0;\n    while (plik >> a >> b) {\n        int minLen = min(a.length(), b.length());\n        int prefixLen = 0;\n        for (int i = 0; i < minLen; i++) {\n            if (a[i] == b[i]) {\n                prefixLen++;\n            } else {\n                break;\n            }\n        }\n        cout << a << \" \" << b << \": \";\n        if (prefixLen == 0) {\n            cout << \"(brak)\" << endl;\n        } else {\n            string prefix = a.substr(0, prefixLen);\n            cout << \"\\\"\" << prefix << \"\\\" (\" << prefixLen << \")\" << endl;\n            if (prefixLen > globalLen) {\n                globalLen = prefixLen;\n                globalBest = prefix;\n            }\n        }\n    }\n    cout << \"Najdluzszy wspolny prefiks: \\\"\" << globalBest << \"\\\" (\" << globalLen << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Porownujemy znaki na tych samych pozycjach. Pierwszy rozniacy sie znak konczy wspolny prefiks. Uzywamy `substr(0, n)` do wyodrebnienia prefiksu.\n\nWeryfikacja:\n- interakcja, interesujacy: i=i, n=n, t=t, e=e, r=r, a!=e -> prefiks \"inter\" (5)\n- programista, program: p=p, r=r, o=o, g=g, r=r, a=a, m=m, i!=npos (program ma 7 znakow, programista dluzsza) -> prefiks \"program\" (7)\n- abc, xyz: a!=x -> 0 -> (brak)\n- komputer, kompilator: k=k, o=o, m=m, p=p, u!=i -> prefiks \"komp\" (4)\n- dom, domek: d=d, o=o, m=m, e!=npos (dom ma 3 znaki) -> prefiks \"dom\" (3)\n- auto, autobus: a=a, u=u, t=t, o=o, b!=npos (auto ma 4 znaki) -> prefiks \"auto\" (4)\n- test, tester: t=t, e=e, s=s, t=t, e!=npos (test ma 4 znaki) -> prefiks \"test\" (4)\nNajdluzszy: \"program\" (7)",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownywanie poza zakresem krotszego slowa**: Jesli jedno slowo jest krotsze, nalezy ograniczyc petle do min(len(a), len(b))",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak obslugi przypadku braku wspolnego prefiksu**: Gdy pierwsza litera jest rozna, prefiks ma dlugosc 0 — nalezy wypisac specjalny komunikat",
+      "kara": "-1 pkt"
+    }
+  ]
+}

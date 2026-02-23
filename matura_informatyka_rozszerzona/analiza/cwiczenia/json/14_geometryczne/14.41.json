@@ -1,0 +1,33 @@
+{
+  "id": "14.41",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2025 zad. 6 (otoczka wypukla zbioru punktow)",
+  "tagi": [
+    "otoczka-wypukla",
+    "sortowanie",
+    "struct",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `punkty.txt` w pierwszej linii jest n, a w kolejnych n liniach wspolrzedne calkowite (x y). Napisz program, ktory znajdzie otoczke wypukla (convex hull) tego zbioru punktow algorytmem Jarvisa (gift wrapping) i wypisze wierzcholki otoczki w kolejnosci zgodnej z ruchem wskazowek zegara (zaczynajac od punktu o najnizszym y, przy remisie — najnizszym x), oraz liczbe wierzcholkow otoczki.\n\nAlgorytm Jarvisa:\n1. Zacznij od punktu o najnizszym y (przy remisie — najnizszym x).\n2. Z biezacego punktu, wybierz nastepny jako ten, ktory daje najbardziej prawy skret (CW) — iloczyn wektorowy cross(cur, next, i) < 0 oznacza ze i jest bardziej na prawo.\n3. Powtarzaj az wrocisz do poczatkowego.\n\n**Dane** (`punkty.txt`):\n```\n8\n0 0\n4 0\n5 3\n3 5\n0 4\n2 1\n3 2\n1 3\n```\n\n**Oczekiwany wynik**:\n```\nOtoczka wypukla:\n(0,0)\n(4,0)\n(5,3)\n(3,5)\n(0,4)\nLiczba wierzcholkow: 5\n```",
+  "wskazowki": [
+    "**Kierunek**: Algorytm Jarvisa (gift wrapping) w kazdym kroku szuka punktu tworzacego najbardziej prawy skret (CW). Uzyj iloczynu wektorowego.",
+    "**Podejscie**: Z biezacego punktu p, dla kazdego kandydata i oblicz cross(p, best, i). Jezeli cross < 0, to i jest bardziej na prawo niz best — zamien best na i.",
+    "**Kluczowy krok**: Warunek stopu: wrociles do punktu startowego. Przy remisie (cross=0, kolinearne) wybierz punkt dalszy (wieksze dist2)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint cross(int ox, int oy, int ax, int ay, int bx, int by) {\n    return (ax - ox) * (by - oy) - (ay - oy) * (bx - ox);\n}\n\nint dist2(int ax, int ay, int bx, int by) {\n    return (bx - ax) * (bx - ax) + (by - ay) * (by - ay);\n}\n\nint main() {\n    ifstream plik(\"punkty.txt\");\n    int n;\n    plik >> n;\n    int px[100], py[100];\n    for (int i = 0; i < n; i++) plik >> px[i] >> py[i];\n    int start = 0;\n    for (int i = 1; i < n; i++) {\n        if (py[i] < py[start] || (py[i] == py[start] && px[i] < px[start]))\n            start = i;\n    }\n    int hull[100], hullSize = 0;\n    int cur = start;\n    do {\n        hull[hullSize++] = cur;\n        int next = (cur == 0) ? 1 : 0;\n        for (int i = 0; i < n; i++) {\n            if (i == cur) continue;\n            int c = cross(px[cur], py[cur], px[next], py[next], px[i], py[i]);\n            if (c < 0 || (c == 0 && dist2(px[cur], py[cur], px[i], py[i]) > dist2(px[cur], py[cur], px[next], py[next]))) {\n                next = i;\n            }\n        }\n        cur = next;\n    } while (cur != start);\n    cout << \"Otoczka wypukla:\" << endl;\n    for (int i = 0; i < hullSize; i++) {\n        cout << \"(\" << px[hull[i]] << \",\" << py[hull[i]] << \")\" << endl;\n    }\n    cout << \"Liczba wierzcholkow: \" << hullSize << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Algorytm Jarvisa (gift wrapping) zaczyna od punktu o najnizszym y i w kazdym kroku wybiera punkt tworzacy najbardziej prawy skret (CW). Iloczyn wektorowy cross(cur, best, i) < 0 oznacza ze i jest bardziej CW niz best. Zlozonosc O(n*h) gdzie h to liczba wierzcholkow otoczki.\n\nWeryfikacja:\n- Start: (0,0) — najnizsze y=0, najnizsze x=0.\n- Z (0,0): next = (4,0). Zaden punkt nie daje cross < 0, wiec next = (4,0).\n- Z (4,0): next = (5,3). Cross(4,0, init, 5,3) daje CW skret.\n- Z (5,3): next = (3,5). Najbardziej CW.\n- Z (3,5): next = (0,4). Najbardziej CW.\n- Z (0,4): next = (0,0) = start. Koniec.\n- Hull: (0,0), (4,0), (5,3), (3,5), (0,4). 5 wierzcholkow.\n- Punkty wewnetrzne: (2,1), (3,2), (1,3) — nie naleza do otoczki.",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledny warunek iloczynu wektorowego**: Zamiana znaku cross (> zamiast <, lub odwrotnie) daje obejscie w zlym kierunku lub niepoprawna otoczke",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak obslugi punktow kolinearnych**: Gdy cross=0, trzeba wybrac punkt dalszy (wieksze dist2) — inaczej otoczka moze sie zaciac",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zly punkt startowy**: Nie znalezienie punktu o najnizszym y (lub najnizszym x przy remisie) moze dac bledna otoczke",
+      "kara": "-1 pkt"
+    }
+  ]
+}

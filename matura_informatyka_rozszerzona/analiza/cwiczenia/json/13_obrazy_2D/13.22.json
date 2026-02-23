@@ -1,0 +1,29 @@
+{
+  "id": "13.22",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2023 zad. 5 (sumy wierszy/kolumn)",
+  "tagi": [
+    "tablica-2D",
+    "wczytywanie-pliku",
+    "akumulator",
+    "petle-zagniezdzne"
+  ],
+  "tresc": "W pliku `macierz.txt` znajduje sie macierz 5x5 liczb calkowitych. Napisz program, ktory:\na) Obliczy sume kazdego wiersza i wypisze te sumy.\nb) Obliczy sume kazdej kolumny i wypisze te sumy.\nc) Sprawdzi, czy istnieje wiersz, ktorego suma jest rowna sumie odpowiadajacej kolumny (wiersz k vs kolumna k) i wypisze numery takich wierszy/kolumn (numeracja od 1).\n\n**Dane** (`macierz.txt`):\n```\n1 3 2 4 5\n2 1 3 2 2\n4 2 5 1 3\n3 4 1 3 4\n5 0 4 2 1\n```\n\n**Oczekiwany wynik**:\n```\nSumy wierszy: 15 10 15 15 12\nSumy kolumn: 15 10 15 12 15\nWiersz=Kolumna: 1 2 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Sumy wierszy: petla wewnetrzna po j. Sumy kolumn: petla wewnetrzna po i.",
+    "**Podejscie**: Zapisz sumy w tablicach sw[] i sk[], potem porownaj sw[k]==sk[k].",
+    "**Kluczowy krok**: Pamietaj o roznicy indeksow — wewnetrznie 0-based, wypisanie 1-based."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"macierz.txt\");\n    int m[5][5];\n    for (int i = 0; i < 5; i++)\n        for (int j = 0; j < 5; j++)\n            plik >> m[i][j];\n\n    int sw[5] = {}, sk[5] = {};\n    for (int i = 0; i < 5; i++)\n        for (int j = 0; j < 5; j++) {\n            sw[i] += m[i][j];\n            sk[j] += m[i][j];\n        }\n\n    cout << \"Sumy wierszy:\";\n    for (int i = 0; i < 5; i++) cout << \" \" << sw[i];\n    cout << endl;\n\n    cout << \"Sumy kolumn:\";\n    for (int j = 0; j < 5; j++) cout << \" \" << sk[j];\n    cout << endl;\n\n    cout << \"Wiersz=Kolumna:\";\n    for (int k = 0; k < 5; k++)\n        if (sw[k] == sk[k]) cout << \" \" << k + 1;\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Obliczamy sumy wierszy i kolumn w jednej podwojnej petli. Potem porownujemy sw[k] z sk[k] dla kazdego k.\n\nWeryfikacja:\n- Sumy wierszy: 1+3+2+4+5=15, 2+1+3+2+2=10, 4+2+5+1+3=15, 3+4+1+3+4=15, 5+0+4+2+1=12\n- Sumy kolumn: 1+2+4+3+5=15, 3+1+2+4+0=10, 2+3+5+1+4=15, 4+2+1+3+2=12, 5+2+3+4+1=15\n- sw[0]=15=sk[0]=15 -> 1, sw[1]=10=sk[1]=10 -> 2, sw[2]=15=sk[2]=15 -> 3, sw[3]=15!=sk[3]=12, sw[4]=12!=sk[4]=15",
+  "typowe_bledy": [
+    {
+      "opis": "**Jedna petla zamiast dwoch akumulatorow**: Obliczanie sum kolumn wymaga drugiej iteracji lub zapamietywania w tablicy sk[]",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Porownanie sw[k]==sk[k] z bledna numeracja**: Wypisanie k zamiast k+1",
+      "kara": "-1 pkt"
+    }
+  ]
+}

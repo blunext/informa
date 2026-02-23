@@ -1,0 +1,31 @@
+{
+  "id": "13.38",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2017 zad. 6 (flood fill BFS)",
+  "tagi": [
+    "tablica-2D",
+    "BFS",
+    "visited",
+    "queue",
+    "4-spojnosc",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Dana jest siatka 6x6 znakow, gdzie `.` oznacza puste pole a `#` oznacza sciane. Plik `dane.txt` zawiera te siatke. Napisz program, ktory wykona flood fill (wypelnianie) z pozycji (wiersz=0, kolumna=0) — numeracja od 0. Wypelnianie polega na zamalowaniu startowego pola i wszystkich pol `.` osiagalnych z niego przez sasiedztwo 4-spojne (gora, dol, lewo, prawo), omijajac sciany `#`. Program powinien:\na) Wypisac ile pol zostalo zamalowanych.\nb) Wypisac zamalowana siatke (zamalowane pola oznaczone `*`, reszta bez zmian).\n\n**Dane** (`dane.txt`):\n```\n. . # . . .\n. . # . . .\n# # # . . .\n. . . . . .\n. . . # # #\n. . . # . .\n```\n\n**Oczekiwany wynik**:\n```\na) Zamalowane pola: 4\nb) Siatka:\n* * # . . .\n* * # . . .\n# # # . . .\n. . . . . .\n. . . # # #\n. . . # . .\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj BFS (kolejka) lub DFS do przejscia po wszystkich polaczonych polach '.'.",
+    "**Podejscie**: Zacznij od pozycji startowej, dodaj ja do kolejki i oznacz jako odwiedzona. W petli pobieraj z kolejki i dodawaj 4 sasiadow jesli '.' i nieodwiedzeni.",
+    "**Kluczowy krok**: Tablica visited[][] zapobiega wielokrotnemu odwiedzaniu. Zamalowane pola zmien na '*' w siatce."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <queue>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    char tab[6][6];\n    for (int i = 0; i < 6; i++)\n        for (int j = 0; j < 6; j++)\n            plik >> tab[i][j];\n\n    bool visited[6][6] = {};\n    int dx[] = {-1, 1, 0, 0};\n    int dy[] = {0, 0, -1, 1};\n\n    queue<pair<int,int>> q;\n    int si = 0, sj = 0;\n    q.push({si, sj});\n    visited[si][sj] = true;\n\n    int cnt = 0;\n    while (!q.empty()) {\n        auto [i, j] = q.front(); q.pop();\n        tab[i][j] = '*';\n        cnt++;\n        for (int d = 0; d < 4; d++) {\n            int ni = i + dx[d], nj = j + dy[d];\n            if (ni >= 0 && ni < 6 && nj >= 0 && nj < 6\n                && !visited[ni][nj] && tab[ni][nj] == '.') {\n                visited[ni][nj] = true;\n                q.push({ni, nj});\n            }\n        }\n    }\n\n    cout << \"a) Zamalowane pola: \" << cnt << endl;\n    cout << \"b) Siatka:\" << endl;\n    for (int i = 0; i < 6; i++) {\n        for (int j = 0; j < 6; j++) {\n            if (j > 0) cout << \" \";\n            cout << tab[i][j];\n        }\n        cout << endl;\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: BFS z pozycji startowej (0,0) przechodzi po wszystkich osiagalnych polach '.'. Kazde odwiedzone pole zamieniamy na '*'.\n\nWeryfikacja:\n```\n  j: 0 1 2 3 4 5\ni=0: . . # . . .\ni=1: . . # . . .\ni=2: # # # . . .\ni=3: . . . . . .\ni=4: . . . # # #\ni=5: . . . # . .\n```\nStart (0,0)='.':\nBFS kolejka: (0,0)\n- (0,0): sasiedzi: gora=brak, dol=(1,0)='.', lewo=brak, prawo=(0,1)='.'\n  Dodaj: (1,0), (0,1)\n- (1,0): sasiedzi: gora=(0,0)vis, dol=(2,0)='#', lewo=brak, prawo=(1,1)='.'\n  Dodaj: (1,1)\n- (0,1): sasiedzi: gora=brak, dol=(1,1)(juz dodano), lewo=(0,0)vis, prawo=(0,2)='#'\n  Nic nowego\n- (1,1): sasiedzi: gora=(0,1)vis, dol=(2,1)='#', lewo=(1,0)vis, prawo=(1,2)='#'\n  Nic nowego\n\nZamalowane: (0,0), (1,0), (0,1), (1,1) = 4 pola.\nLewy gorny prostokat 2x2 odciety scianami '#'.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak tablicy visited**: Wielokrotne dodawanie do kolejki powoduje bledy w zliczaniu lub nieskonczona petle",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Sprawdzanie sasiadow po zmianie na '*'**: Jesli zmienisz pole na '*' przed sprawdzeniem sasiadow, musisz porownywac z '.' a nie z '*'",
+      "kara": "-2 pkt"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "12.23",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzor: Matura 2023 zad. 3 (ekstrema lokalne)",
+  "tagi": [
+    "gorka",
+    "roznica-sasiadow",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu, wartosci rozne). Element `T[i]` (dla i od 2 do n-1) jest \"szczytem\" jesli `T[i] > T[i-1]` i `T[i] > T[i+1]`. Element jest \"dolina\" jesli `T[i] < T[i-1]` i `T[i] < T[i+1]`. Napisz program, ktory:\na) Policzy liczbe szczytow i dolin.\nb) Wypisze pozycje (1-indeksowane) i wartosci wszystkich szczytow.\n\n**Dane** (`dane.txt`):\n```\n2\n8\n3\n1\n10\n6\n4\n9\n5\n7\n15\n12\n11\n13\n14\n```\n\n**Oczekiwany wynik**:\n```\na) Szczyty: 4, Doliny: 4\n\nb) Szczyty:\n   Pozycja 2, wartosc 8\n   Pozycja 5, wartosc 10\n   Pozycja 8, wartosc 9\n   Pozycja 11, wartosc 15\n```",
+  "wskazowki": [
+    "**Kierunek**: Dla kazdego elementu (oprocz pierwszego i ostatniego) sprawdz dwa warunki sasiedztwa.",
+    "**Podejscie**: Jedna petla od i=1 do i=n-2 z dwoma warunkami: szczyt (`T[i]>T[i-1] && T[i]>T[i+1]`) i dolina.",
+    "**Kluczowy krok**: Pamietaj ze indeksowanie tablicy zaczyna sie od 0, a wynik ma byc 1-indeksowany."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int szczyty = 0, doliny = 0;\n    vector<pair<int,int>> listaSzczytow;\n\n    for (int i = 1; i < n - 1; i++) {\n        if (T[i] > T[i - 1] && T[i] > T[i + 1]) {\n            szczyty++;\n            listaSzczytow.push_back({i + 1, T[i]});\n        }\n        if (T[i] < T[i - 1] && T[i] < T[i + 1]) {\n            doliny++;\n        }\n    }\n\n    cout << \"a) Szczyty: \" << szczyty << \", Doliny: \" << doliny << endl;\n    cout << endl << \"b) Szczyty:\" << endl;\n    for (auto& p : listaSzczytow) {\n        cout << \"   Pozycja \" << p.first << \", wartosc \" << p.second << endl;\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: Jedna petla, dwa warunki. Szczyt: wiekszy od obu sasiadow. Dolina: mniejszy od obu sasiadow. Skrajne elementy pomijamy.\n\nWeryfikacja (dane: 2,8,3,1,10,6,4,9,5,7,15,12,11,13,14):\nSzczyty (indeks 0-based, i=1..13):\n- i=1: 8>2 i 8>3 -> TAK (poz.2, wart.8)\n- i=2: 3<8 -> NIE\n- i=3: 1<3 -> NIE\n- i=4: 10>1 i 10>6 -> TAK (poz.5, wart.10)\n- i=5: 6<10 -> NIE\n- i=6: 4<6 -> NIE\n- i=7: 9>4 i 9>5 -> TAK (poz.8, wart.9)\n- i=8: 5<9 -> NIE\n- i=9: 7>5 ale 7<15 -> NIE\n- i=10: 15>7 i 15>12 -> TAK (poz.11, wart.15)\n- i=11: 12<15 i 12>11 -> NIE\n- i=12: 11<12 i 11<13 -> TAK (dolina?): 11<12 i 11<13 -> DOLINA\n- i=13: 13>11 ale 13<14 -> NIE\nSzczyty: 4. Poprawne.\n\nDoliny:\n- i=3: 1<3 i 1<10 -> TAK (poz.4)\n- i=6: 4<6 i 4<9 -> TAK (poz.7)\n- i=8: 5<9 i 5<7 -> TAK (poz.9)\n- i=12: 11<12 i 11<13 -> TAK (poz.13)\nDoliny: 4. Poprawne.",
+  "typowe_bledy": [
+    {
+      "opis": "**Sprawdzanie pierwszego i ostatniego elementu**: Ekstrema lokalne wymagaja dwoch sasiadow — skrajne elementy nie moga byc szczytami ani dolinami",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie `>=` zamiast `>`**: Tresc mowi o scisle wiekszym/mniejszym. Rownowazne elementy nie tworza szczytu ani doliny",
+      "kara": "-1 pkt"
+    }
+  ]
+}

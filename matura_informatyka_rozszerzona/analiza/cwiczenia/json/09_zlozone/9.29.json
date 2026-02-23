@@ -1,0 +1,36 @@
+{
+  "id": "9.29",
+  "trudnosc": "trudne",
+  "punkty": 7,
+  "zrodlo": "Wzor: Matura 2025 zad. 7 (wieloplikowy JOIN + analiza)",
+  "tagi": [
+    "wiele-plikow",
+    "JOIN-tabel",
+    "wieloetapowe",
+    "struct",
+    "sortowanie",
+    "map-zliczanie",
+    "iomanip"
+  ],
+  "tresc": "Dane sa 2 pliki. Plik `pracownicy.txt` zawiera 6 rekordow: id imie dzial. Plik `projekty.txt` zawiera 15 rekordow: pracownik_id projekt godziny. Ten sam pracownik moze pracowac nad wieloma projektami. Napisz program, ktory:\na) Obliczy laczna liczbe godzin kazdego pracownika i wypisze posortowane malejaco.\nb) Obliczy srednia liczbe godzin na projekt w kazdym dziale (2 m.p.).\nc) Znajdzie projekt, na ktory poswiecono laczne najwiecej godzin.\nd) Wypisze pracownikow, ktorzy przepracowali wiecej niz srednia wszystkich.\n\n**Dane** (`pracownicy.txt`):\n```\n1 Kowalski IT\n2 Nowak IT\n3 Wisniewska HR\n4 Zielinski HR\n5 Kaczmarek IT\n6 Majewska HR\n```\n\n**Dane** (`projekty.txt`):\n```\n1 Alfa 20\n1 Beta 15\n2 Alfa 25\n2 Gamma 10\n3 Delta 18\n3 Alfa 12\n4 Delta 22\n4 Beta 8\n5 Gamma 30\n5 Beta 14\n5 Alfa 6\n6 Delta 16\n6 Gamma 9\n1 Gamma 11\n3 Beta 7\n```\n\n**Oczekiwany wynik**:\n```\na) Godziny pracownikow (malejaco):\n   Kaczmarek: 50\n   Kowalski: 46\n   Wisniewska: 37\n   Nowak: 35\n   Zielinski: 30\n   Majewska: 25\n\nb) Srednia godzin/projekt wg dzialu:\n   HR: 13.14\n   IT: 16.38\n\nc) Projekt z max godzinami: Alfa (63)\n\nd) Pracownicy powyzej sredniej (37.17):\n   Kaczmarek: 50\n   Kowalski: 46\n```",
+  "wskazowki": [
+    "**Kierunek**: JOIN pracownikow z projektami po id. Agreguj godziny na poziomie pracownika, dzialu i projektu.",
+    "**Podejscie**: Trzy mapy: godziny_pracownika, godziny_projektu, godziny_dzialu. Licz osobno sumy i liczby wpisow dla sredniej.",
+    "**Kluczowy krok**: Srednia godzin/projekt w dziale = suma_godzin_w_dziale / liczba_wpisow_w_dziale (nie liczba pracownikow)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <vector>\n#include <algorithm>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream f1(\"pracownicy.txt\"), f2(\"projekty.txt\");\n    map<int, string> imiona;\n    map<int, string> dzialy;\n    int id; string imie, dzial;\n    while (f1 >> id >> imie >> dzial) {\n        imiona[id] = imie;\n        dzialy[id] = dzial;\n    }\n\n    map<int, int> godzPrac;\n    map<string, int> godzProj;\n    map<string, int> sumDzial;\n    map<string, int> cntDzial;\n    int pid, godz;\n    string proj;\n    int totalGodz = 0;\n    while (f2 >> pid >> proj >> godz) {\n        godzPrac[pid] += godz;\n        godzProj[proj] += godz;\n        sumDzial[dzialy[pid]] += godz;\n        cntDzial[dzialy[pid]]++;\n        totalGodz += godz;\n    }\n\n    // a) Sortuj pracownikow malejaco wg godzin\n    vector<pair<int, string>> ranking;\n    for (auto &p : godzPrac) ranking.push_back({p.second, imiona[p.first]});\n    sort(ranking.begin(), ranking.end(), [](auto &a, auto &b) {\n        return a.first > b.first;\n    });\n\n    cout << \"a) Godziny pracownikow (malejaco):\" << endl;\n    for (auto &r : ranking) {\n        cout << \"   \" << r.second << \": \" << r.first << endl;\n    }\n\n    // b) Srednia godzin/projekt wg dzialu\n    cout << endl << \"b) Srednia godzin/projekt wg dzialu:\" << endl;\n    cout << fixed << setprecision(2);\n    for (auto &d : sumDzial) {\n        cout << \"   \" << d.first << \": \" << (double)d.second / cntDzial[d.first] << endl;\n    }\n\n    // c) Projekt z max godzinami\n    string maxProj; int maxGodz = 0;\n    for (auto &p : godzProj) {\n        if (p.second > maxGodz) {\n            maxGodz = p.second;\n            maxProj = p.first;\n        }\n    }\n    cout << endl << \"c) Projekt z max godzinami: \" << maxProj << \" (\" << maxGodz << \")\" << endl;\n\n    // d) Powyzej sredniej\n    double avg = (double)totalGodz / godzPrac.size();\n    cout << endl << \"d) Pracownicy powyzej sredniej (\" << avg << \"):\" << endl;\n    for (auto &r : ranking) {\n        if (r.first > avg) {\n            cout << \"   \" << r.second << \": \" << r.first << endl;\n        }\n    }\n    return 0;\n}\n```\n\nWeryfikacja:\nGodziny pracownikow:\n- id=1 Kowalski: 20+15+11 = 46\n- id=2 Nowak: 25+10 = 35\n- id=3 Wisniewska: 18+12+7 = 37\n- id=4 Zielinski: 22+8 = 30\n- id=5 Kaczmarek: 30+14+6 = 50\n- id=6 Majewska: 16+9 = 25\n\na) Malejaco: Kaczmarek(50), Kowalski(46), Wisniewska(37), Nowak(35), Zielinski(30), Majewska(25)\n\nGodziny projektow:\n- Alfa: 20+25+12+6 = 63\n- Beta: 15+8+14+7 = 44\n- Gamma: 10+30+9+11 = 60\n- Delta: 18+22+16 = 56\n\nDzialy (suma / cnt wpisow):\n- HR: Wisniewska(18+12+7) + Zielinski(22+8) + Majewska(16+9) = 92 godzin, 7 wpisow -> 92/7 = 13.142... -> 13.14\n- IT: Kowalski(20+15+11) + Nowak(25+10) + Kaczmarek(30+14+6) = 131 godzin, 8 wpisow -> 131/8 = 16.375 -> 16.38\n\nc) Max projekt: Alfa (63)\n\nd) Srednia: (46+35+37+30+50+25)/6 = 223/6 = 37.1666... -> 37.17\n   Powyzej 37.17: Kaczmarek(50), Kowalski(46)",
+  "typowe_bledy": [
+    {
+      "opis": "**Srednia dzialu jako srednia pracownikow**: Srednia godzin/projekt != srednia godzin/pracownik — trzeba dzielic przez liczbe wpisow, nie pracownikow",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak laczenia z tabela pracownikow**: Aby przypisac projekt do dzialu, trzeba JOIN po id",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pomylenie sortowania ranking z kolejnoscia wejsciowa**: Czesc d) powinna uzywac posortowanego rankingu",
+      "kara": "-1 pkt"
+    }
+  ]
+}

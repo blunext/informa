@@ -1,0 +1,35 @@
+{
+  "id": "11.30",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Cwiczenie autorskie (min/max w rekordach wielopolowych)",
+  "tagi": [
+    "min-max",
+    "struct",
+    "rekordy",
+    "warunkowe-min-max",
+    "wczytywanie-pliku",
+    "iomanip"
+  ],
+  "tresc": "W pliku `uczniowie.txt` w pierwszym wierszu jest liczba N — ilosc uczniow. W kolejnych N wierszach sa dane: imie (string bez spacji), wiek (int), srednia_ocen (double). Napisz program, ktory:\na) Znajdzie ucznia z najwyzsza srednia ocen.\nb) Wsrod uczniow w wieku >= 17, znajdzie ucznia z najnizsza srednia.\nc) Wypisze rozstep srednich (max - min) z dokladnoscia 2 miejsc po przecinku.\n\n**Dane** (`uczniowie.txt`):\n```\n8\nAnia 16 4.75\nBartek 18 3.20\nCelina 17 5.00\nDawid 15 4.50\nEwa 18 3.80\nFilip 17 4.10\nGosia 16 4.90\nHubert 19 2.95\n```\n\n**Oczekiwany wynik**:\n```\na) Najwyzsza srednia: Celina (5.00)\nb) Najnizsza srednia (wiek >= 17): Hubert (2.95)\nc) Rozstep srednich: 2.05\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj struct {string imie; int wiek; double srednia;} i wczytaj do wektora.",
+    "**Podejscie**: Trzy przebiegi (lub jeden): (a) max srednia globalna, (b) min srednia z filtrem wiek >= 17, (c) globalny max - globalny min.",
+    "**Kluczowy krok**: Inicjalizuj max/min srednia pierwszym rekordem (dla a) i pierwszym rekordem spelniajacym warunek (dla b)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <string>\n#include <iomanip>\nusing namespace std;\n\nstruct Uczen {\n    string imie;\n    int wiek;\n    double srednia;\n};\n\nint main() {\n    ifstream plik(\"uczniowie.txt\");\n    int N;\n    plik >> N;\n    vector<Uczen> tab(N);\n    for (int i = 0; i < N; i++)\n        plik >> tab[i].imie >> tab[i].wiek >> tab[i].srednia;\n\n    // a) Max srednia globalna\n    int idxMax = 0;\n    for (int i = 1; i < N; i++)\n        if (tab[i].srednia > tab[idxMax].srednia) idxMax = i;\n\n    // b) Min srednia wsrod wiek >= 17\n    int idxMinW = -1;\n    for (int i = 0; i < N; i++) {\n        if (tab[i].wiek >= 17) {\n            if (idxMinW == -1 || tab[i].srednia < tab[idxMinW].srednia)\n                idxMinW = i;\n        }\n    }\n\n    // c) Rozstep srednich\n    double minSr = tab[0].srednia, maxSr = tab[0].srednia;\n    for (int i = 1; i < N; i++) {\n        if (tab[i].srednia < minSr) minSr = tab[i].srednia;\n        if (tab[i].srednia > maxSr) maxSr = tab[i].srednia;\n    }\n\n    cout << fixed << setprecision(2);\n    cout << \"a) Najwyzsza srednia: \" << tab[idxMax].imie\n         << \" (\" << tab[idxMax].srednia << \")\" << endl;\n    if (idxMinW != -1)\n        cout << \"b) Najnizsza srednia (wiek >= 17): \" << tab[idxMinW].imie\n             << \" (\" << tab[idxMinW].srednia << \")\" << endl;\n    else\n        cout << \"b) Brak uczniow w wieku >= 17\" << endl;\n    cout << \"c) Rozstep srednich: \" << maxSr - minSr << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Trzy osobne przebiegi po wektorze struktur. (a) Globalny max sredniej — proste szukanie. (b) Warunkowe min z filtrem na wiek — flaga idxMinW=-1 sluzy jako \"jeszcze nie znaleziono\". (c) Min i max srednia globalnie, rozstep = max - min.\n\nWeryfikacja:\n- Srednie: 4.75, 3.20, 5.00, 4.50, 3.80, 4.10, 4.90, 2.95\n- (a) Max srednia: 5.00 (Celina)\n- (b) Wiek >= 17: Bartek(3.20), Celina(5.00), Ewa(3.80), Filip(4.10), Hubert(2.95) -> min = 2.95 (Hubert)\n- (c) Min srednia = 2.95, max = 5.00, rozstep = 2.05.",
+  "typowe_bledy": [
+    {
+      "opis": "**Inicjalizacja idxMinW pierwszym rekordem bez sprawdzenia warunku wiek**: Pierwszy uczen moze nie miec wiek >= 17",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Porownywanie imion zamiast srednich**: Szukamy min/max po srednia, nie po imieniu",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak iomanip/setprecision**: Wynik bez formatowania moze nie wyswietlic 2 miejsc po przecinku",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "10.28",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2024 zad. 4 (grupowanie i statystyki)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "map-zliczanie",
+    "grupowanie",
+    "srednia",
+    "iomanip"
+  ],
+  "tresc": "W pliku `uczniowie.txt` znajduje sie 10 rekordow w formacie: nazwisko miasto wynik (oddzielone spacjami). Napisz program, ktory:\na) Zliczy ilu uczniow jest z kazdego miasta.\nb) Obliczy sredni wynik dla kazdego miasta (2 miejsca po przecinku).\nc) Wskazze miasto z najwieksza liczba uczniow.\nd) Wskazze miasto z najwyzsza srednia.\n\n**Dane** (`uczniowie.txt`):\n```\nKowalski Warszawa 78\nNowak Krakow 85\nWisniewski Warszawa 92\nLewandowski Gdansk 67\nZielinska Krakow 73\nKaminski Warszawa 88\nSzymanski Gdansk 91\nWojcik Krakow 64\nDabrowska Warszawa 55\nKozlowski Gdansk 82\n```\n\n**Oczekiwany wynik**:\n```\na) Uczniow z miasta:\n   Gdansk: 3\n   Krakow: 3\n   Warszawa: 4\n\nb) Srednie wyniki:\n   Gdansk: 80.00\n   Krakow: 74.00\n   Warszawa: 78.25\n\nc) Najwiecej uczniow: Warszawa (4)\nd) Najwyzsza srednia: Gdansk (80.00)\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj `map<string,int>` dla liczby uczniow i `map<string,int>` dla sumy wynikow w kazdym miescie.",
+    "**Podejscie**: W petli wczytuj nazwisko, miasto, wynik. Inkrementuj licznik miasta i dodawaj wynik do sumy.",
+    "**Kluczowy krok**: Srednia = suma/liczba. Pamietaj o rzutowaniu na double. Mapa automatycznie sortuje klucze alfabetycznie."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <map>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"uczniowie.txt\");\n    string nazwisko, miasto;\n    int wynik;\n    map<string, int> ile;\n    map<string, int> suma;\n\n    while (plik >> nazwisko >> miasto >> wynik) {\n        ile[miasto]++;\n        suma[miasto] += wynik;\n    }\n\n    // a)\n    cout << \"a) Uczniow z miasta:\" << endl;\n    string maxMiasto; int maxIle = 0;\n    for (auto &p : ile) {\n        cout << \"   \" << p.first << \": \" << p.second << endl;\n        if (p.second > maxIle) { maxIle = p.second; maxMiasto = p.first; }\n    }\n\n    // b)\n    cout << endl << \"b) Srednie wyniki:\" << endl;\n    cout << fixed << setprecision(2);\n    string bestSrMiasto; double bestSr = 0;\n    for (auto &p : ile) {\n        double sr = (double)suma[p.first] / p.second;\n        cout << \"   \" << p.first << \": \" << sr << endl;\n        if (sr > bestSr) { bestSr = sr; bestSrMiasto = p.first; }\n    }\n\n    // c) i d)\n    cout << endl << \"c) Najwiecej uczniow: \" << maxMiasto << \" (\" << maxIle << \")\" << endl;\n    cout << \"d) Najwyzsza srednia: \" << bestSrMiasto << \" (\" << bestSr << \")\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dwie mapy: `ile` zlicza uczniow per miasto, `suma` gromadzi sumy wynikow. Po wczytaniu iterujemy po mapach, aby obliczyc srednie i znalezc ekstrema. `map` sortuje klucze alfabetycznie.\n\nWeryfikacja:\n- Gdansk: 3 uczniow, suma 67+91+82=240, srednia 240/3=80.00\n- Krakow: 3 uczniow, suma 85+73+64=222, srednia 222/3=74.00\n- Warszawa: 4 uczniow, suma 78+92+88+55=313, srednia 313/4=78.25\n- Najwiecej: Warszawa (4)\n- Najwyzsza srednia: Gdansk (80.00)",
+  "typowe_bledy": [
+    {
+      "opis": "**Dzielenie calkowite przy sredniej**: `suma[m]/ile[m]` daje int/int=int. Trzeba rzutowac: `(double)suma[m]/ile[m]`",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledne wczytywanie — pomieszanie kolejnosci pol**: Trzeba wczytac dokladnie: nazwisko miasto wynik",
+      "kara": "-1 pkt"
+    }
+  ]
+}

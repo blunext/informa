@@ -1,0 +1,30 @@
+{
+  "id": "14.24",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Opracowanie wlasne: kat miedzy wektorami",
+  "tagi": [
+    "kat-miedzy-wektorami",
+    "sqrt",
+    "wczytywanie-pliku",
+    "iomanip",
+    "formatowanie-wyniku"
+  ],
+  "tresc": "W pliku `wektory.txt` w pierwszej linii jest n, a w kolejnych n liniach po 4 liczby calkowite: x1 y1 x2 y2 (dwa wektory zaczepione w poczatku ukladu wspolrzednych: wektor u=(x1,y1) i wektor v=(x2,y2)). Napisz program, ktory obliczy kat (w stopniach) miedzy kazda para wektorow.\n\nWzor: cos(alfa) = (u . v) / (|u| * |v|), gdzie u . v = x1*x2 + y1*y2.\n\n**Dane** (`wektory.txt`):\n```\n4\n1 0 0 1\n3 4 4 3\n5 0 -5 0\n6 0 3 4\n```\n\n**Oczekiwany wynik**:\n```\nu=(1,0) v=(0,1) -> kat: 90.00 stopni\nu=(3,4) v=(4,3) -> kat: 16.26 stopni\nu=(5,0) v=(-5,0) -> kat: 180.00 stopni\nu=(6,0) v=(3,4) -> kat: 53.13 stopni\n```",
+  "wskazowki": [
+    "**Kierunek**: Iloczyn skalarny u.v = x1*x2 + y1*y2. Dlugosc |u| = sqrt(x1^2 + y1^2).",
+    "**Podejscie**: cos(alfa) = dot / (len_u * len_v). Kat w radianach: acos(...). Zamiana na stopnie: * 180 / M_PI.",
+    "**Kluczowy krok**: acos moze zwrocic NaN jesli argument wyjdzie poza [-1, 1] przez bledy zaokraglen — mozna uzywac clamp."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"wektory.txt\");\n    int n;\n    plik >> n;\n    cout << fixed << setprecision(2);\n    for (int i = 0; i < n; i++) {\n        int x1, y1, x2, y2;\n        plik >> x1 >> y1 >> x2 >> y2;\n        double dot = x1 * x2 + y1 * y2;\n        double len1 = sqrt((double)(x1 * x1 + y1 * y1));\n        double len2 = sqrt((double)(x2 * x2 + y2 * y2));\n        double cosA = dot / (len1 * len2);\n        if (cosA > 1.0) cosA = 1.0;\n        if (cosA < -1.0) cosA = -1.0;\n        double kat = acos(cosA) * 180.0 / M_PI;\n        cout << \"u=(\" << x1 << \",\" << y1 << \") v=(\" << x2 << \",\" << y2\n             << \") -> kat: \" << kat << \" stopni\" << endl;\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: Kat miedzy wektorami obliczamy z iloczynu skalarnego i dlugosci wektorow. Funkcja acos zwraca wynik w radianach, wiec mnozumy przez 180/PI, zeby dostac stopnie.\n\nWeryfikacja:\n- u=(1,0) v=(0,1): dot=0, |u|=1, |v|=1, cos=0, kat=90.00\n- u=(3,4) v=(4,3): dot=12+12=24, |u|=5, |v|=5, cos=24/25=0.96, kat=acos(0.96)=16.26\n- u=(5,0) v=(-5,0): dot=-25, |u|=5, |v|=5, cos=-1, kat=180.00\n- u=(6,0) v=(3,4): dot=18, |u|=6, |v|=5, cos=18/30=0.6, kat=acos(0.6)=53.13",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak konwersji radianow na stopnie**: acos zwraca radiany — trzeba pomnozyc przez 180/M_PI",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak clamp na [-1,1] przed acos**: Bledy zaokraglen moga sprawic ze cos > 1 lub cos < -1, co da NaN",
+      "kara": "-1 pkt"
+    }
+  ]
+}

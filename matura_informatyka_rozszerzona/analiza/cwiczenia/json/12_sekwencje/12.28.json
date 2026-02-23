@@ -1,0 +1,34 @@
+{
+  "id": "12.28",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wzor: Matura 2024 zad. 4 (niemalejace roznice)",
+  "tagi": [
+    "roznica-sasiadow",
+    "ciag-rosnacy",
+    "current-max",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). \"Ciag przyspieszajacy\" to spojny fragment, w ktorym roznice miedzy kolejnymi elementami tworza ciag niemalejacy (kazda kolejna roznica jest >= poprzednia). Napisz program, ktory znajdzie najdluzszy ciag przyspieszajacy. Podaj:\na) Dlugosc i pozycje poczatkowa (1-indeksowana).\nb) Elementy ciagu.\nc) Ciag roznic tego fragmentu.\n\n**Dane** (`dane.txt`):\n```\n2\n5\n7\n6\n8\n11\n15\n20\n26\n33\n30\n32\n35\n39\n44\n```\n\n**Oczekiwany wynik**:\n```\na) Dlugosc: 8, pozycja poczatkowa: 3\nb) Elementy: 7 6 8 11 15 20 26 33\nc) Roznice: -1 2 3 4 5 6 7\n```",
+  "wskazowki": [
+    "**Kierunek**: Oblicz tablice roznic d[i] = T[i+1] - T[i]. Szukaj najdluzszego fragmentu gdzie d[i] >= d[i-1].",
+    "**Podejscie**: Wzorzec current/max na tablicy roznic. Warunek kontynuacji: `d[i] >= d[i-1]`. Dlugosc w elementach = dlugosc w roznicach + 1.",
+    "**Kluczowy krok**: Roznice moga byc ujemne! Ciag -1,2,3 jest niemalejacy bo -1 <= 2 <= 3."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    vector<int> d(n - 1);\n    for (int i = 0; i < n - 1; i++)\n        d[i] = T[i + 1] - T[i];\n\n    int maxDl = 1, maxStart = 0;\n    int curDl = 1, curStart = 0;\n\n    for (int i = 1; i < (int)d.size(); i++) {\n        if (d[i] >= d[i - 1]) {\n            curDl++;\n        } else {\n            if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n            curDl = 1; curStart = i;\n        }\n    }\n    if (curDl > maxDl) { maxDl = curDl; maxStart = curStart; }\n\n    int elDl = maxDl + 1;\n\n    cout << \"a) Dlugosc: \" << elDl\n         << \", pozycja poczatkowa: \" << maxStart + 1 << endl;\n    cout << \"b) Elementy:\";\n    for (int i = maxStart; i < maxStart + elDl; i++)\n        cout << \" \" << T[i];\n    cout << endl;\n    cout << \"c) Roznice:\";\n    for (int i = maxStart; i < maxStart + maxDl; i++)\n        cout << \" \" << d[i];\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Sprowadzamy problem do szukania najdluzszego niemalejacego fragmentu w tablicy roznic. Kazdy taki fragment roznic o dlugosci k odpowiada k+1 elementom oryginalnego ciagu.\n\nWeryfikacja (dane: 2,5,7,6,8,11,15,20,26,33,30,32,35,39,44):\nRoznice d[0..13]: 3,2,-1,2,3,4,5,6,7,-3,2,3,4,5\n\nFragmenty niemalejace (d[i] >= d[i-1]):\n- d[0]=3: start. curDl=1.\n- d[1]=2: 2>=3? NIE. maxDl=1, maxStart=0. Reset: curDl=1, curStart=1.\n- d[2]=-1: -1>=2? NIE. Reset: curDl=1, curStart=2.\n- d[3]=2: 2>=-1? TAK. curDl=2.\n- d[4]=3: 3>=2? TAK. curDl=3.\n- d[5]=4: TAK. curDl=4.\n- d[6]=5: TAK. curDl=5.\n- d[7]=6: TAK. curDl=6.\n- d[8]=7: TAK. curDl=7.\n- d[9]=-3: -3>=7? NIE. maxDl=7, maxStart=2. Reset: curDl=1, curStart=9.\n- d[10]=2: 2>=-3? TAK. curDl=2.\n- d[11]=3: TAK. curDl=3.\n- d[12]=4: TAK. curDl=4.\n- d[13]=5: TAK. curDl=5.\nPo petli: curDl=5 < maxDl=7.\n\nNajdluzszy: 7 roznic od indeksu 2 -> 8 elementow od T[2]=7: 7,6,8,11,15,20,26,33, poz.3.\nRoznice: -1,2,3,4,5,6,7 (niemalejace). Poprawne.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o +1 przy przeliczaniu dlugosci**: n roznic niemalejacych = n+1 elementow ciagu przyspieszajacego",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie `>` zamiast `>=`**: Tresc mowi \"niemalejacy\" (>=), nie \"scisle rosnacy\" (>)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak sprawdzenia po petli**: Najdluzszy fragment moze konczyc tablice",
+      "kara": "-1 pkt"
+    }
+  ]
+}

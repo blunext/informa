@@ -1,0 +1,34 @@
+{
+  "id": "12.39",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2023 zad. 4 (NWD w ciagu)",
+  "tagi": [
+    "NWD-Euklidesa",
+    "spojny-podciag",
+    "current-max",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory znajdzie najdluzszy spojny podciag, w ktorym NWD (najwiekszy wspolny dzielnik) wszystkich elementow jest wiekszy od 1. Podaj:\na) Dlugosc podciagu i pozycje poczatkowa (1-indeksowana).\nb) NWD elementow podciagu.\nc) Elementy podciagu.\n\n**Dane** (`dane.txt`):\n```\n7\n6\n10\n8\n14\n4\n9\n15\n21\n3\n5\n11\n```\n\n**Oczekiwany wynik**:\n```\na) Dlugosc: 5, pozycja poczatkowa: 2\nb) NWD: 2\nc) Elementy: 6 10 8 14 4\n```",
+  "wskazowki": [
+    "**Kierunek**: Dla kazdego poczatku i, rozszerzaj podciag dopoki NWD > 1. Slledz najdluzszy znaleziony.",
+    "**Podejscie**: NWD aktualizuj przyrostowo: nwd = gcd(nwd, T[j]). Gdy nwd spadnie do 1, przerwij i zacznij od nastepnego i.",
+    "**Kluczowy krok**: Algorytm Euklidesa: gcd(a,b) = gcd(b, a%b) az b==0. Zlozonosc O(n^2) wystarcza dla n=12."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint gcd(int a, int b) {\n    while (b) { int t = b; b = a % b; a = t; }\n    return a;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int maxDl = 0, maxStart = 0, maxNwd = 0;\n\n    for (int i = 0; i < n; i++) {\n        int curNwd = T[i];\n        for (int j = i; j < n; j++) {\n            curNwd = gcd(curNwd, T[j]);\n            if (curNwd == 1) break;\n            int dl = j - i + 1;\n            if (dl > maxDl) {\n                maxDl = dl;\n                maxStart = i;\n                maxNwd = curNwd;\n            }\n        }\n    }\n\n    cout << \"a) Dlugosc: \" << maxDl\n         << \", pozycja poczatkowa: \" << maxStart + 1 << endl;\n    cout << \"b) NWD: \" << maxNwd << endl;\n    cout << \"c) Elementy:\";\n    for (int i = maxStart; i < maxStart + maxDl; i++)\n        cout << \" \" << T[i];\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdego poczatku i, rozszerzamy podciag obliczajac NWD przyrostowo. Gdy NWD spadnie do 1, przerywamy (dalsze rozszerzanie nie pomoze). Sledzenie najdluzszego podciagu z NWD > 1.\n\nWeryfikacja (dane: 7,6,10,8,14,4,9,15,21,3,5,11):\n- i=0: nwd=7. j=0: dl=1, nwd=7>1. j=1: nwd=gcd(7,6)=1. Stop.\n- i=1: nwd=6. j=1: dl=1. j=2: nwd=gcd(6,10)=2. j=3: gcd(2,8)=2. j=4: gcd(2,14)=2. j=5: gcd(2,4)=2. dl=5. j=6: gcd(2,9)=1. Stop. maxDl=5, maxStart=1, maxNwd=2.\n- i=2: nwd=10. j=2: dl=1. j=3: gcd(10,8)=2. j=4: gcd(2,14)=2. j=5: gcd(2,4)=2. dl=4. j=6: gcd(2,9)=1. Stop. 4<5.\n- i=3-5: podobnie, dl <= 3.\n- i=6: nwd=9. j=6: dl=1. j=7: gcd(9,15)=3. j=8: gcd(3,21)=3. j=9: gcd(3,3)=3. dl=4. j=10: gcd(3,5)=1. Stop. 4<5.\n- i=7-11: dl <= 3.\n\nNajdluzszy: dl=5 od poz.2 (1-indeks), NWD=2, elementy: 6,10,8,14,4.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak wczesnego przerwania gdy NWD=1**: NWD moze tylko malec przy dodawaniu elementow — jesli spadnie do 1, dalsze rozszerzanie jest bezcelowe",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Inicjalizacja NWD jako 0**: gcd(0, x) = x, wiec to dziala, ale lepiej inicjalizowac jako T[i]",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Brak uwzglednienia podciagow jednoelementowych**: Kazda liczba > 1 ma NWD > 1 (NWD = sama liczba)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

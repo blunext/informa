@@ -1,0 +1,29 @@
+{
+  "id": "13.34",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2024 zad. 4 (symetria macierzy)",
+  "tagi": [
+    "tablica-2D",
+    "symetria",
+    "wczytywanie-pliku",
+    "petle-zagniezdzne"
+  ],
+  "tresc": "Dana jest macierz 5x5 liczb calkowitych zapisana w pliku `dane.txt`. Napisz program, ktory:\na) Sprawdzi, czy macierz jest symetryczna wzgledem antyprzekatnej (tj. czy tab[i][j] == tab[4-j][4-i] dla kazdego i,j). Wypisze TAK lub NIE.\nb) Policzy ile par (i,j) nie spelnia warunku symetrii antyprzekatnej (liczona kazda para raz: tylko dla i*5+j < (4-j)*5+(4-i)).\n\n**Dane** (`dane.txt`):\n```\n1 3 3 4 5\n6 7 5 9 4\n0 1 7 8 3\n0 6 1 7 2\n0 0 0 6 1\n```\n\n**Oczekiwany wynik**:\n```\na) Symetria antyprzekatnej: NIE\nb) Pary naruszajace: 2\n```",
+  "wskazowki": [
+    "**Kierunek**: Symetria wzgledem antyprzekatnej: tab[i][j] == tab[n-1-j][n-1-i] (gdzie n=5).",
+    "**Podejscie**: Sprawdz kazda pare raz — iteruj po i i j tak, zeby i*n+j < (n-1-j)*n+(n-1-i).",
+    "**Kluczowy krok**: Antyprzekatna to tab[i][4-i] — elementy na niej sa swoimi odpowiednikami."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int tab[5][5];\n    for (int i = 0; i < 5; i++)\n        for (int j = 0; j < 5; j++)\n            plik >> tab[i][j];\n\n    bool sym = true;\n    int pary = 0;\n    for (int i = 0; i < 5; i++) {\n        for (int j = 0; j < 5; j++) {\n            int mi = 4 - j, mj = 4 - i;\n            if (i * 5 + j < mi * 5 + mj) {\n                if (tab[i][j] != tab[mi][mj]) {\n                    sym = false;\n                    pary++;\n                }\n            }\n        }\n    }\n\n    cout << \"a) Symetria antyprzekatnej: \" << (sym ? \"TAK\" : \"NIE\") << endl;\n    cout << \"b) Pary naruszajace: \" << pary << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Symetria antyprzekatnej wymaga tab[i][j] == tab[4-j][4-i]. Sprawdzamy kazda pare raz (wedlug liniowego indeksu).\n\nWeryfikacja:\n```\n  j: 0 1 2 3 4\ni=0: 1 3 3 4 5\ni=1: 6 7 5 9 4\ni=2: 0 1 7 8 3\ni=3: 0 6 1 7 2\ni=4: 0 0 0 6 1\n```\nSprawdzamy pary (i,j) vs (4-j,4-i), tylko i*5+j < (4-j)*5+(4-i):\n- (0,0) vs (4,4): 1 vs 1 -> OK\n- (0,1) vs (3,4): 3 vs 2 -> NARUSZE 1\n- (0,2) vs (2,4): 3 vs 3 -> OK\n- (0,3) vs (1,4): 4 vs 4 -> OK\n- (1,0) vs (4,3): 6 vs 6 -> OK\n- (1,1) vs (3,3): 7 vs 7 -> OK\n- (1,2) vs (2,3): 5 vs 8 -> NARUSZE 2\n- (2,0) vs (4,2): 0 vs 0 -> OK\n- (2,1) vs (3,2): 1 vs 1 -> OK\n- (3,0) vs (4,1): 0 vs 0 -> OK\nElementy na antyprzekatnej: (0,4)=5, (1,3)=9, (2,2)=7, (3,1)=6, (4,0)=0 — porownywane same ze soba.\n\nWynik: NIE (sa naruszenia), 2 pary naruszajace.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie antyprzekatnej z glowna przekatna**: Glowna: tab[i][j]==tab[j][i], anty: tab[i][j]==tab[n-1-j][n-1-i]",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Podwojne zliczanie par**: Kazda para (i,j)-(mi,mj) powinna byc liczona raz",
+      "kara": "-1 pkt"
+    }
+  ]
+}

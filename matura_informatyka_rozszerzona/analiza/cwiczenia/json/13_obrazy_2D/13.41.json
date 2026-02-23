@@ -1,0 +1,34 @@
+{
+  "id": "13.41",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2024 zad. 4 (podkwadraty w siatce)",
+  "tagi": [
+    "tablica-2D",
+    "kwadraty",
+    "wczytywanie-pliku",
+    "petle-zagniezdzne",
+    "akumulator"
+  ],
+  "tresc": "Dana jest siatka 7x7 zer i jedynek zapisana w pliku `dane.txt`. Napisz program, ktory znajdzie rozmiar boku najwiekszego kwadratu zlozonego wylacznie z jedynek.\n\nWskazowka algorytmiczna: Uzyj programowania dynamicznego — dp[i][j] = rozmiar boku najwiekszego kwadratu z prawym dolnym rogiem w (i,j). Jesli tab[i][j]==1 i i>0 i j>0: dp[i][j] = min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + 1.\n\n**Dane** (`dane.txt`):\n```\n0 1 1 0 0 0 0\n1 1 1 1 0 0 0\n1 1 1 1 0 0 0\n0 1 1 1 1 1 0\n0 0 0 1 1 1 0\n0 0 0 1 1 1 0\n0 0 0 0 0 0 0\n```\n\n**Oczekiwany wynik**:\n```\nNajwiekszy kwadrat jedynek: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Programowanie dynamiczne: dp[i][j] to bok najwiekszego kwadratu z prawym dolnym rogiem w (i,j).",
+    "**Podejscie**: Jesli tab[i][j]==0, dp[i][j]=0. Jesli i==0 lub j==0, dp[i][j]=tab[i][j]. Inaczej: dp[i][j] = min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + 1.",
+    "**Kluczowy krok**: Odpowiedz to max z calej tablicy dp. Dziala w O(n*m) — brak potrzeby sprawdzania kazdego mozliwego kwadratu."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int tab[7][7];\n    for (int i = 0; i < 7; i++)\n        for (int j = 0; j < 7; j++)\n            plik >> tab[i][j];\n\n    int dp[7][7];\n    int maxSide = 0;\n\n    for (int i = 0; i < 7; i++) {\n        for (int j = 0; j < 7; j++) {\n            if (tab[i][j] == 0) {\n                dp[i][j] = 0;\n            } else if (i == 0 || j == 0) {\n                dp[i][j] = 1;\n            } else {\n                dp[i][j] = min({dp[i-1][j], dp[i][j-1], dp[i-1][j-1]}) + 1;\n            }\n            maxSide = max(maxSide, dp[i][j]);\n        }\n    }\n\n    cout << \"Najwiekszy kwadrat jedynek: \" << maxSide << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: DP — dp[i][j] = bok najwiekszego kwadratu z samych jedynek, ktorego prawy dolny rog jest w (i,j). Jesli tab[i][j]==1 i ma sasiadow u gory, po lewej i po skosie, bierzemy minimum z ich dp i dodajemy 1.\n\nWeryfikacja (tablica dp):\n```\n  j: 0 1 2 3 4 5 6\ni=0: 0 1 1 0 0 0 0\ni=1: 1 1 2 1 0 0 0\ni=2: 1 2 2 2 0 0 0\ni=3: 0 1 2 3 1 1 0\ni=4: 0 0 0 1 2 2 0\ni=5: 0 0 0 1 2 3 0\ni=6: 0 0 0 0 0 0 0\n```\nSzczegolowa weryfikacja kluczowych komorek:\n- dp[1][2] = min(dp[0][2]=1, dp[1][1]=1, dp[0][1]=1)+1 = 2\n- dp[2][3] = min(dp[1][3]=1, dp[2][2]=2, dp[1][2]=2)+1 = 2\n- dp[3][3] = min(dp[2][3]=2, dp[3][2]=2, dp[2][2]=2)+1 = 3\n- dp[5][5] = min(dp[4][5]=2, dp[5][4]=2, dp[4][4]=2)+1 = 3\n\nMax = 3. Dwa kwadraty 3x3: wiersze 1-3/kolumny 1-3 i wiersze 3-5/kolumny 3-5.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak obslugi brzegu (i==0 lub j==0)**: Dostep do dp[-1][j] powoduje UB — brzeg inicjalizujemy jako tab[i][j]",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Uzycie max zamiast min z 3 sasiadow**: Kwadrat jest ograniczony przez najslabszy rog — bierzemy min",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Brute force O(n^4)**: Sprawdzanie kazdego mozliwego kwadratu — zadziala ale wolno; za DP jest pelna punktacja",
+      "kara": "-2 pkt"
+    }
+  ]
+}

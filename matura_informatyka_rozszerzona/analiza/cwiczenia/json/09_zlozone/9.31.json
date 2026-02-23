@@ -1,0 +1,29 @@
+{
+  "id": "9.31",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2023 zad. 4 (filtrowanie + statystyki)",
+  "tagi": [
+    "wczytywanie-pliku",
+    "srednia",
+    "filtrowanie",
+    "wieloetapowe"
+  ],
+  "tresc": "W pliku `produkty.txt` znajduje sie 8 rekordow w formacie: nazwa cena (oddzielone spacja). Cena to liczba calkowita. Napisz program, ktory:\na) Obliczy srednia cene wszystkich produktow (z dokladnoscia do 2 miejsc po przecinku).\nb) Wypisze nazwy produktow, ktorych cena jest wieksza lub rowna sredniej.\n\n**Dane** (`produkty.txt`):\n```\nChleb 5\nMleko 4\nSer 25\nSzynka 32\nJablka 6\nSok 12\nKawa 45\nHerbata 15\n```\n\n**Oczekiwany wynik**:\n```\na) Srednia cena: 18.00\n\nb) Produkty >= sredniej:\n   Ser: 25\n   Szynka: 32\n   Kawa: 45\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj dane do wektora par (nazwa, cena), bo musisz przejsc dane dwukrotnie — raz dla sredniej, raz dla filtrowania.",
+    "**Podejscie**: Pierwszy przebieg: sumuj ceny i zlicz produkty. Drugi przebieg: porownaj kazda cene ze srednia.",
+    "**Kluczowy krok**: Srednia = suma_cen / n z rzutowaniem na double, aby uniknac dzielenia calkowitoliczbowego."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"produkty.txt\");\n    vector<pair<string, int>> produkty;\n    string nazwa;\n    int cena;\n    int suma = 0;\n    while (plik >> nazwa >> cena) {\n        produkty.push_back({nazwa, cena});\n        suma += cena;\n    }\n    double srednia = (double)suma / produkty.size();\n\n    cout << \"a) Srednia cena: \" << fixed << setprecision(2) << srednia << endl;\n\n    cout << endl << \"b) Produkty >= sredniej:\" << endl;\n    for (auto &p : produkty) {\n        if (p.second >= srednia) {\n            cout << \"   \" << p.first << \": \" << p.second << endl;\n        }\n    }\n    return 0;\n}\n```\n\nWeryfikacja:\n- Suma cen: 5+4+25+32+6+12+45+15 = 144\n- Srednia: 144/8 = 18.00\n- Produkty >= 18.00: Ser(25), Szynka(32), Kawa(45)",
+  "typowe_bledy": [
+    {
+      "opis": "**Filtrowanie w jednym przejsciu**: Nie mozna filtrowac wzgledem sredniej bez uprzedniego obliczenia jej — wymaga dwoch przejsc lub zapamietania danych",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Dzielenie calkowitoliczbowe**: `suma / n` bez rzutowania na double obcina czesc ulamkowa",
+      "kara": "-1 pkt"
+    }
+  ]
+}

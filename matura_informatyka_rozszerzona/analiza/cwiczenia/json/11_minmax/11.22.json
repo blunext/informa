@@ -1,0 +1,29 @@
+{
+  "id": "11.22",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Cwiczenie autorskie (rozstep zbioru)",
+  "tagi": [
+    "min-max",
+    "rozstep",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory obliczy rozstep zbioru (roznica miedzy wartoscia maksymalna i minimalna) oraz wypisze obie wartosci.\n\n**Dane** (`dane.txt`):\n```\n34\n-12\n56\n78\n-5\n23\n90\n11\n-8\n45\n```\n\n**Oczekiwany wynik**:\n```\nMinimum: -12\nMaksimum: 90\nRozstep: 102\n```",
+  "wskazowki": [
+    "**Kierunek**: Jeden przebieg — sledzenie min i max jednoczesnie.",
+    "**Podejscie**: Inicjalizuj min i max pierwszym elementem, potem aktualizuj oba w jednej petli.",
+    "**Kluczowy krok**: Rozstep = max - min. Pamietaj o liczbach ujemnych w danych."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> tab;\n    int x;\n    while (plik >> x) tab.push_back(x);\n\n    int minVal = tab[0], maxVal = tab[0];\n    for (int i = 1; i < (int)tab.size(); i++) {\n        if (tab[i] < minVal) minVal = tab[i];\n        if (tab[i] > maxVal) maxVal = tab[i];\n    }\n    cout << \"Minimum: \" << minVal << endl;\n    cout << \"Maksimum: \" << maxVal << endl;\n    cout << \"Rozstep: \" << maxVal - minVal << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Klasyczny skan liniowy po min i max. Rozstep to po prostu max - min.\n\nWeryfikacja:\n- Dane: 34, -12, 56, 78, -5, 23, 90, 11, -8, 45\n- Min = -12, Max = 90, Rozstep = 90 - (-12) = 102.",
+  "typowe_bledy": [
+    {
+      "opis": "**Inicjalizacja min=0**: Jesli sa liczby ujemne, min=0 nigdy nie zostanie nadpisane na wartosc ujemna. Inicjalizuj tab[0]",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Rozstep = min - max zamiast max - min**: Odwrocony znak daje wynik ujemny",
+      "kara": "-1 pkt"
+    }
+  ]
+}

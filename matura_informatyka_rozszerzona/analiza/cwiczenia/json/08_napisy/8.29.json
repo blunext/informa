@@ -1,0 +1,33 @@
+{
+  "id": "8.29",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wariant autorski (rotacje napisow i wykrywanie cyklicznych przesunieci)",
+  "tagi": [
+    "napisy",
+    "operacje-na-string",
+    "podciag",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Rotacja napisu o k pozycji w prawo polega na przesunieciu ostatnich k znakow na poczatek. Na przyklad rotacja \"abcde\" o 2 daje \"deabc\".\n\nDwa napisy sa rotacjami siebie nawzajem, jesli jeden mozna uzyskac z drugiego przez pewna rotacje (np. \"abcde\" i \"cdeab\" — rotacja o 3 w prawo).\n\nW pliku `pary.txt` znajduje sie 7 par napisow (kazda para w jednym wierszu, oddzielona spacja, male litery, rowne dlugosci). Napisz program, ktory dla kazdej pary sprawdzi, czy napisy sa rotacjami siebie nawzajem. Jesli tak, podaj minimalna wartosc k rotacji w prawo. Na koncu wypisz ile par to rotacje.\n\n**Dane** (`pary.txt`):\n```\nabcde cdeab\nhello lohel\nxyz xyz\nabcd dcba\nrotate tatero\naabbb bbaab\ntest tste\n```\n\n**Oczekiwany wynik**:\n```\nabcde i cdeab: TAK (rotacja o 3)\nhello i lohel: TAK (rotacja o 2)\nxyz i xyz: TAK (rotacja o 0)\nabcd i dcba: NIE\nrotate i tatero: TAK (rotacja o 4)\naabbb i bbaab: TAK (rotacja o 2)\ntest i tste: NIE\nPar bedacych rotacjami: 5\n```",
+  "wskazowki": [
+    "**Kierunek**: Napis B jest rotacja napisu A, jesli B wystepuje jako podnapis w A+A (konkatenacja A z samym soba).",
+    "**Podejscie**: Sprawdz, czy `(a+a).find(b) != string::npos`. Pozycja znalezienia to rotacja w lewo; rotacja w prawo = n - pozycja (lub 0 jesli pozycja == 0).",
+    "**Kluczowy krok**: Warunek wstepny: dlugosci musza byc rowne. Metoda A+A dziala, bo kazda rotacja A jest podnapisem A+A."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"pary.txt\");\n    string a, b;\n    int ile = 0;\n    while (plik >> a >> b) {\n        cout << a << \" i \" << b << \": \";\n        if (a.length() != b.length()) {\n            cout << \"NIE\" << endl;\n        } else {\n            string podwojny = a + a;\n            int pos = podwojny.find(b);\n            if (pos != (int)string::npos) {\n                int k = (pos == 0) ? 0 : (int)a.length() - pos;\n                cout << \"TAK (rotacja o \" << k << \")\" << endl;\n                ile++;\n            } else {\n                cout << \"NIE\" << endl;\n            }\n        }\n    }\n    cout << \"Par bedacych rotacjami: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Trik z konkatenacja: jesli B jest rotacja A, to B musi wystapic jako podnapis w A+A. Pozycja znalezienia w A+A odpowiada rotacji w lewo. Aby przeliczyc na rotacje w prawo: k_prawo = n - pos (jesli pos > 0), lub 0 jesli pos == 0.\n\nWeryfikacja:\n- abcde+abcde = \"abcdeabcde\". find(\"cdeab\") = 2. k = 5-2 = 3. -> TAK (rotacja o 3)\n  Sprawdzenie: rot(\"abcde\", 3 w prawo) = ostatnie 3 (\"cde\") + pierwsze 2 (\"ab\") = \"cdeab\". OK.\n- hello+hello = \"hellohello\". find(\"lohel\") = 3. k = 5-3 = 2. -> TAK (rotacja o 2)\n  Sprawdzenie: rot(\"hello\", 2) = \"lo\" + \"hel\" = \"lohel\". OK.\n- xyz+xyz = \"xyzxyz\". find(\"xyz\") = 0. k = 0. -> TAK (rotacja o 0). OK.\n- abcd+abcd = \"abcdabcd\". find(\"dcba\"): d(3)c(2)b(1)a(0) — nigdzie w \"abcdabcd\". -> NIE.\n- rotate+rotate = \"rotaterotate\". find(\"tatero\"): poz 2: t-a-t-e-r-o = \"tatero\". k = 6-2 = 4. -> TAK (rotacja o 4)\n  Sprawdzenie: rot(\"rotate\", 4) = ostatnie 4 (\"tate\") + pierwsze 2 (\"ro\") = \"tatero\". OK.\n- aabbb+aabbb = \"aabbbaabbb\". find(\"bbaab\"): poz 3: b-b-a-a-b = \"bbaab\". k = 5-3 = 2. -> TAK (rotacja o 2)\n  Sprawdzenie: rot(\"aabbb\", 2) = \"bb\" + \"aab\" = \"bbaab\". OK.\n- test+test = \"testtest\". find(\"tste\"): t(0)s? test[1]=e!=s. t(3)s? test[4]=t!=s. Nie. tst: test[0..2]=\"tes\"!=tst, test[4..6]=\"tes\"!=tst. -> NIE.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomieszanie rotacji w lewo i w prawo**: Pozycja w A+A daje rotacje w lewo. Rotacja w prawo o k = rotacja w lewo o (n-k). Trzeba to przeliczyc",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Sprawdzanie rotacji petla brute-force zamiast triku A+A**: Poprawne ale wolniejsze O(n^2). Trik A+A daje O(n) z find()",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Brak sprawdzenia rownosci dlugosci**: Jesli dlugosci sa rozne, napisy nie moga byc rotacjami. Bez tego warunku find moze znalezc krotszy napis w dluzszym",
+      "kara": "-1 pkt"
+    }
+  ]
+}

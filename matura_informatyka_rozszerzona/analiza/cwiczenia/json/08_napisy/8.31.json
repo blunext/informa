@@ -1,0 +1,29 @@
+{
+  "id": "8.31",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2023 zad. 2 (przetwarzanie napisow)",
+  "tagi": [
+    "napisy",
+    "zliczanie-znakow",
+    "operacje-na-string",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 6 wierszy. Kazdy wiersz zawiera kilka slow oddzielonych spacjami (male litery). Napisz program, ktory dla kazdego wiersza policzy, ile slow zaczyna sie od samogloski (a, e, i, o, u), a na koncu wypisze laczna liczbe takich slow.\n\n**Dane** (`napisy.txt`):\n```\nala ola ela\napple orange banana\nice cream and cake\nunder over east\ndog cat fish\naunt uncle egg\n```\n\n**Oczekiwany wynik**:\n```\nala ola ela: 3\napple orange banana: 2\nice cream and cake: 2\nunder over east: 3\ndog cat fish: 0\naunt uncle egg: 3\nLacznie: 13\n```",
+  "wskazowki": [
+    "**Kierunek**: Wczytaj caly wiersz za pomoca `getline`, a potem wyodrebnij slowa za pomoca `istringstream`.",
+    "**Podejscie**: Dla kazdego slowa sprawdz pierwszy znak — czy jest samogloska (a, e, i, o, u). Uzyj stringa samoglosek i `find()`.",
+    "**Kluczowy krok**: Pamietaj o liczniku globalnym (lacznie) — sumuj wyniki z kazdego wiersza."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <sstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string linia;\n    string samogloski = \"aeiou\";\n    int lacznie = 0;\n    while (getline(plik, linia)) {\n        istringstream ss(linia);\n        string slowo;\n        int cnt = 0;\n        while (ss >> slowo) {\n            if (samogloski.find(slowo[0]) != string::npos) {\n                cnt++;\n            }\n        }\n        cout << linia << \": \" << cnt << endl;\n        lacznie += cnt;\n    }\n    cout << \"Lacznie: \" << lacznie << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Wczytujemy caly wiersz za pomoca `getline`, a nastepnie dzielimy go na slowa uzywajac `istringstream`. Dla kazdego slowa sprawdzamy, czy pierwszy znak jest samogloska.\n\nWeryfikacja:\n- ala ola ela: ala(a->tak), ola(o->tak), ela(e->tak) -> 3\n- apple orange banana: apple(a->tak), orange(o->tak), banana(b->nie) -> 2\n- ice cream and cake: ice(i->tak), cream(c->nie), and(a->tak), cake(c->nie) -> 2\n- under over east: under(u->tak), over(o->tak), east(e->tak) -> 3\n- dog cat fish: dog(d->nie), cat(c->nie), fish(f->nie) -> 0\n- aunt uncle egg: aunt(a->tak), uncle(u->tak), egg(e->tak) -> 3\nLacznie: 3+2+2+3+0+3 = 13",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie `plik >> slowo` zamiast `getline` — utrata informacji o wierszu**: Nie mozna wypisac calego wiersza, jesli czytamy slowo po slowie bezposrednio z pliku",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o sprawdzeniu samoglosek — porownanie tylko z 'a'**: Samogloski to a, e, i, o, u — nie tylko 'a'",
+      "kara": "-1 pkt"
+    }
+  ]
+}

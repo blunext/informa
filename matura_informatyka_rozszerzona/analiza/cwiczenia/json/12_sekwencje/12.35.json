@@ -1,0 +1,29 @@
+{
+  "id": "12.35",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2023 zad. 4 (srednia biezaca i analiza ciagu)",
+  "tagi": [
+    "srednia-segmentu",
+    "akumulator",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu). Dla kazdego elementu T[i] oblicz srednia biezaca (srednia arytmetyczna elementow T[0]..T[i]). Napisz program, ktory:\na) Policzy, ile elementow jest ostro wiekszych od swojej sredniej biezacej.\nb) Wypisze indeksy (1-indeksowane) tych elementow.\n\n**Dane** (`dane.txt`):\n```\n4\n8\n3\n10\n5\n12\n7\n15\n2\n9\n6\n11\n```\n\n**Oczekiwany wynik**:\n```\na) Liczba elementow powyzej sredniej biezacej: 6\nb) Indeksy: 2 4 6 8 10 12\n```",
+  "wskazowki": [
+    "**Kierunek**: Utrzymuj biezaca sume (akumulator) i obliczaj srednia na biezaco.",
+    "**Podejscie**: Dla kazdego i: suma += T[i], sr = suma / (i+1). Jesli T[i] > sr, policz element.",
+    "**Kluczowy krok**: Porownanie T[i] > sr (ostro wieksze). Uzyj dzielenia zmiennoprzecinkowego: (double)suma / (i+1)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int liczba = 0;\n    vector<int> indeksy;\n    long long suma = 0;\n\n    for (int i = 0; i < n; i++) {\n        suma += T[i];\n        double sr = (double)suma / (i + 1);\n        if (T[i] > sr) {\n            liczba++;\n            indeksy.push_back(i + 1);\n        }\n    }\n\n    cout << \"a) Liczba elementow powyzej sredniej biezacej: \" << liczba << endl;\n    cout << \"b) Indeksy:\";\n    for (int idx : indeksy)\n        cout << \" \" << idx;\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Utrzymujemy biezaca sume i obliczamy srednia na kazdym kroku. Porownujemy biezacy element z jego srednia biezaca.\n\nWeryfikacja (dane: 4,8,3,10,5,12,7,15,2,9,6,11):\n- i=0: suma=4, sr=4.00, T[0]=4. 4>4? NIE.\n- i=1: suma=12, sr=6.00, T[1]=8. 8>6? TAK (idx=2).\n- i=2: suma=15, sr=5.00, T[2]=3. 3>5? NIE.\n- i=3: suma=25, sr=6.25, T[3]=10. 10>6.25? TAK (idx=4).\n- i=4: suma=30, sr=6.00, T[4]=5. 5>6? NIE.\n- i=5: suma=42, sr=7.00, T[5]=12. 12>7? TAK (idx=6).\n- i=6: suma=49, sr=7.00, T[6]=7. 7>7? NIE.\n- i=7: suma=64, sr=8.00, T[7]=15. 15>8? TAK (idx=8).\n- i=8: suma=66, sr=7.33, T[8]=2. 2>7.33? NIE.\n- i=9: suma=75, sr=7.50, T[9]=9. 9>7.5? TAK (idx=10).\n- i=10: suma=81, sr=7.36, T[10]=6. 6>7.36? NIE.\n- i=11: suma=92, sr=7.67, T[11]=11. 11>7.67? TAK (idx=12).\n\nLiczba: 6. Indeksy: 2 4 6 8 10 12.",
+  "typowe_bledy": [
+    {
+      "opis": "**Dzielenie calkowite zamiast zmiennoprzecinkowego**: suma/(i+1) da wynik calkowity — trzeba rzutowac na double",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Porownanie >= zamiast >**: Zadanie wymaga ostro wiekszych, nie wiekszych-lub-rownych",
+      "kara": "-1 pkt"
+    }
+  ]
+}

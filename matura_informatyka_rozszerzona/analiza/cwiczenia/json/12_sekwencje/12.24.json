@@ -1,0 +1,30 @@
+{
+  "id": "12.24",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wzor: Matura 2025 zad. 3 (segmenty monotoniczne)",
+  "tagi": [
+    "ciag-rosnacy",
+    "ciag-malejacy",
+    "skan-liniowy",
+    "wczytywanie-pliku",
+    "akumulator"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 18 liczb calkowitych (kazda w osobnym wierszu). Podziel ciag na maksymalne segmenty monotoniczne — kazdy segment jest albo scisle rosnacy, albo scisle malejacy. Nowy segment zaczyna sie, gdy zmienia sie kierunek monotonicznosci lub gdy dwa sasiednie elementy sa rowne. Napisz program, ktory:\na) Policzy liczbe segmentow rosnacych i malejacych.\nb) Znajdzie najdluzszy segment monotoniczny (dowolnego typu) i wypisze jego dlugosc, pozycje poczatkowa i typ.\n\n**Dane** (`dane.txt`):\n```\n3\n5\n8\n12\n7\n4\n2\n6\n9\n11\n15\n14\n10\n10\n13\n17\n20\n16\n```\n\n**Oczekiwany wynik**:\n```\na) Rosnace: 3, Malejace: 3\n\nb) Najdluzszy segment:\n   Typ: rosnacy, dlugosc: 5, pozycja poczatkowa: 7\n   Elementy: 2 6 9 11 15\n```",
+  "wskazowki": [
+    "**Kierunek**: Sledzenie kierunku: porownuj `T[i]` z `T[i-1]`. Jesli kierunek sie zmienia lub elementy sa rowne, konczy sie segment.",
+    "**Podejscie**: Utrzymuj biezacy kierunek (1=rosnacy, -1=malejacy, 0=start). Gdy kierunek sie zmienia, zamknij segment i zacznij nowy.",
+    "**Kluczowy krok**: Rowne sasiednie elementy (10,10) przerywaja oba typy monotonicznosci — traktuj je jako poczatek nowego segmentu."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int rosnace = 0, malejace = 0;\n    int maxDl = 1, maxStart = 0, maxKier = 0;\n    int curDl = 1, curStart = 0, curKier = 0;\n\n    for (int i = 1; i < n; i++) {\n        int nowyKier = 0;\n        if (T[i] > T[i - 1]) nowyKier = 1;\n        else if (T[i] < T[i - 1]) nowyKier = -1;\n        else nowyKier = 0;\n\n        if (nowyKier == 0 || (curKier != 0 && nowyKier != curKier)) {\n            if (curKier == 1) rosnace++;\n            else if (curKier == -1) malejace++;\n            if (curDl > maxDl && curKier != 0) {\n                maxDl = curDl; maxStart = curStart; maxKier = curKier;\n            }\n            if (nowyKier == 0) {\n                curDl = 1; curStart = i; curKier = 0;\n            } else {\n                curDl = 2; curStart = i - 1; curKier = nowyKier;\n            }\n        } else if (curKier == 0) {\n            curKier = nowyKier;\n            curDl = 2;\n            curStart = i - 1;\n        } else {\n            curDl++;\n        }\n    }\n    if (curKier == 1) rosnace++;\n    else if (curKier == -1) malejace++;\n    if (curDl > maxDl && curKier != 0) {\n        maxDl = curDl; maxStart = curStart; maxKier = curKier;\n    }\n\n    cout << \"a) Rosnace: \" << rosnace << \", Malejace: \" << malejace << endl;\n    cout << endl << \"b) Najdluzszy segment:\" << endl;\n    cout << \"   Typ: \" << (maxKier == 1 ? \"rosnacy\" : \"malejacy\")\n         << \", dlugosc: \" << maxDl\n         << \", pozycja poczatkowa: \" << maxStart + 1 << endl;\n    cout << \"   Elementy:\";\n    for (int i = maxStart; i < maxStart + maxDl; i++)\n        cout << \" \" << T[i];\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Sledzenie kierunku monotonicznosci. Kazda zmiana kierunku lub para rownych elementow konczy biezacy segment.\n\nWeryfikacja (dane: 3,5,8,12,7,4,2,6,9,11,15,14,10,10,13,17,20,16):\nIndeksy 0-based: T[0]=3..T[17]=16.\nSegmenty:\n1. Rosnacy: T[0..3] = 3,5,8,12 (dl.4, poz.1). Koniec: T[4]=7 < T[3]=12.\n2. Malejacy: T[3..6] = 12,7,4,2 (dl.4, poz.4). Koniec: T[7]=6 > T[6]=2.\n3. Rosnacy: T[6..10] = 2,6,9,11,15 (dl.5, poz.7). Koniec: T[11]=14 < T[10]=15.\n4. Malejacy: T[10..12] = 15,14,10 (dl.3, poz.11). Koniec: T[13]=10 == T[12]=10.\n5. (T[13]=10, curKier=0). T[14]=13 > T[13]=10 -> rosnacy.\n   Rosnacy: T[13..16] = 10,13,17,20 (dl.4, poz.14). Koniec: T[17]=16 < T[16]=20.\n6. Malejacy: T[16..17] = 20,16 (dl.2, poz.17). Koniec petli.\nRosnace: 1,3,5 -> 3. Malejace: 2,4,6 -> 3.\nNajdluzszy: segment 3 (dl.5, poz.7, rosnacy). Poprawne.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak obslugi rownych sasiadow**: Rowne elementy nie sa ani rosnace ani malejace — przerywaja segment",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak zamkniecia ostatniego segmentu po petli**: Ostatni segment nie zostanie zliczony",
+      "kara": "-1 pkt"
+    }
+  ]
+}

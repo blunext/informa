@@ -1,0 +1,30 @@
+{
+  "id": "8.36",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2025 zad. 3 (porownywanie napisow)",
+  "tagi": [
+    "napisy",
+    "sortowanie",
+    "getline",
+    "operacje-na-string",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Dwa slowa sa anagramami, jesli skladaja sie z tych samych liter w tej samej liczbie (np. \"listen\" i \"silent\"). W pliku `dane.txt` znajduje sie 5 wierszy. Kazdy wiersz zawiera dokladnie 2 slowa oddzielone spacja (male litery). Napisz program, ktory dla kazdej pary sprawdzi, czy slowa sa anagramami, i wypisze TAK lub NIE. Na koncu wypisz ile par to anagramy.\n\n**Dane** (`dane.txt`):\n```\nlisten silent\nhello world\nabc cab\nrat tar\ndog cat\n```\n\n**Oczekiwany wynik**:\n```\nlisten silent: TAK\nhello world: NIE\nabc cab: TAK\nrat tar: TAK\ndog cat: NIE\nAnagramy: 3\n```",
+  "wskazowki": [
+    "**Kierunek**: Posortuj oba slowa alfabetycznie — jesli wyniki sa identyczne, slowa sa anagramami.",
+    "**Podejscie**: Wczytaj dwa slowa z wiersza (operator >>). Skopiuj oba, posortuj kopie za pomoca `sort()`, a potem porownaj.",
+    "**Kluczowy krok**: Alternatywa do sortowania: uzyj tablicy czestotliwosci — zlicz litery w obu slowach i porownaj tablice."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    string a, b;\n    int cnt = 0;\n    while (plik >> a >> b) {\n        string sa = a, sb = b;\n        sort(sa.begin(), sa.end());\n        sort(sb.begin(), sb.end());\n        bool anagram = (sa == sb);\n        cout << a << \" \" << b << \": \" << (anagram ? \"TAK\" : \"NIE\") << endl;\n        if (anagram) cnt++;\n    }\n    cout << \"Anagramy: \" << cnt << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Sortujemy kopie obu slow. Jesli posortowane wersje sa identyczne, to slowa skladaja sie z tych samych liter w tej samej ilosci, wiec sa anagramami.\n\nWeryfikacja:\n- listen, silent: sorted(listen)=\"eilnst\", sorted(silent)=\"eilnst\" -> rowne -> TAK\n- hello, world: sorted(hello)=\"ehllo\", sorted(world)=\"dlorw\" -> rozne -> NIE\n- abc, cab: sorted(abc)=\"abc\", sorted(cab)=\"abc\" -> rowne -> TAK\n- rat, tar: sorted(rat)=\"art\", sorted(tar)=\"art\" -> rowne -> TAK\n- dog, cat: sorted(dog)=\"dgo\", sorted(cat)=\"act\" -> rozne -> NIE\nAnagramy: 3",
+  "typowe_bledy": [
+    {
+      "opis": "**Sortowanie oryginalnych slow zamiast kopii**: Wypisanie posortowanych slow zamiast oryginalnych znieksztalca wyjscie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Porownywanie tylko dlugosci slow zamiast pelnego porownania**: Rowna dlugosc to warunek konieczny, ale nie wystarczajacy — np. \"abc\" i \"xyz\" maja ta sama dlugosc, ale nie sa anagramami",
+      "kara": "-2 pkt"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "8.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2016 zad. 5 (szyfr Cezara z kluczem)",
+  "tagi": [
+    "napisy",
+    "szyfr-Cezara",
+    "kody-ASCII",
+    "operacje-na-string",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `szyfry.txt` znajduje sie 6 wierszy. Kazdy wiersz zawiera liczbe calkowita (klucz szyfru Cezara) i napis skladajacy sie z duzych liter A-Z, oddzielone spacja. Napisz program, ktory odszyfruje kazdy napis uzywajac podanego klucza (przesuniecie o klucz pozycji wstecz w alfabecie, z zawijaniem). Wypisz klucz, zaszyfrowany tekst i odszyfrowany wynik.\n\nPrzyklad: klucz=3, litera D -> A (D cofnieta o 3).\n\n**Dane** (`szyfry.txt`):\n```\n3 KHOOR\n1 XPSME\n5 YJFHM\n13 ZBHFR\n7 JSVBK\n10 ROKBD\n```\n\n**Oczekiwany wynik**:\n```\nKlucz 3: KHOOR -> HELLO\nKlucz 1: XPSME -> WORLD\nKlucz 5: YJFHM -> TEACH\nKlucz 13: ZBHFR -> MOUSE\nKlucz 7: JSVBK -> CLOUD\nKlucz 10: ROKBD -> HEART\n```",
+  "wskazowki": [
+    "**Kierunek**: Deszyfrowanie Cezara to przesuniecie kazdej litery o klucz pozycji wstecz: (c - 'A' - klucz + 26) % 26 + 'A'.",
+    "**Podejscie**: Wczytaj klucz i napis z kazdego wiersza uzywajac `plik >> klucz >> napis`. Dla kazdego znaku zastosuj formule deszyfrowania.",
+    "**Kluczowy krok**: Dodaj 26 przed modulo, zeby uniknac ujemnych wartosci: (c - 'A' - k + 26) % 26."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"szyfry.txt\");\n    int klucz;\n    string napis;\n    while (plik >> klucz >> napis) {\n        string odsz = \"\";\n        for (char c : napis) {\n            odsz += (char)((c - 'A' - klucz + 26) % 26 + 'A');\n        }\n        cout << \"Klucz \" << klucz << \": \" << napis << \" -> \" << odsz << endl;\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: Szyfr Cezara przesuwa kazda litere o klucz pozycji w alfabecie. Deszyfrowanie cofa to przesuniecie. Formula `(c - 'A' - klucz + 26) % 26 + 'A'` dziala poprawnie dzieki dodaniu 26 (unikamy ujemnego modulo).\n\nWeryfikacja (szyfrowanie: litera+klucz mod 26, deszyfrowanie: litera-klucz+26 mod 26):\n- Klucz 3, KHOOR: K(10)-3=7(H), H(7)-3=4(E), O(14)-3=11(L), O(14)-3=11(L), R(17)-3=14(O) -> HELLO\n- Klucz 1, XPSME: X(23)-1=22(W), P(15)-1=14(O), S(18)-1=17(R), M(12)-1=11(L), E(4)-1=3(D) -> WORLD\n- Klucz 5, YJFHM: Y(24)-5=19(T), J(9)-5=4(E), F(5)-5=0(A), H(7)-5=2(C), M(12)-5=7(H) -> TEACH\n- Klucz 13, ZBHFR: Z(25)-13=12(M), B(1)-13=(1-13+26)%26=14(O), H(7)-13=(7-13+26)%26=20(U), F(5)-13=(5-13+26)%26=18(S), R(17)-13=4(E) -> MOUSE\n- Klucz 7, JSVBK: J(9)-7=2(C), S(18)-7=11(L), V(21)-7=14(O), B(1)-7=(1-7+26)%26=20(U), K(10)-7=3(D) -> CLOUD\n- Klucz 10, ROKBD: R(17)-10=7(H), O(14)-10=4(E), K(10)-10=0(A), B(1)-10=(1-10+26)%26=17(R), D(3)-10=(3-10+26)%26=19(T) -> HEART",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak `+ 26` w formule deszyfrowania**: Bez dodania 26 wyrazenie `(c - 'A' - klucz)` moze byc ujemne, a operator `%` w C++ zachowuje znak",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pomieszanie szyfrowania z deszyfrowaniem**: Szyfrowanie dodaje klucz, deszyfrowanie odejmuje. Czeste zrodlo bledow na maturze",
+      "kara": "-2 pkt"
+    }
+  ]
+}

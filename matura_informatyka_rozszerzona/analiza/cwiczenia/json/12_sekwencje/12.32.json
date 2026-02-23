@@ -1,0 +1,28 @@
+{
+  "id": "12.32",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2018 zad. 4 (ekstrema lokalne)",
+  "tagi": [
+    "roznica-sasiadow",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie wszystkie lokalne minima — czyli elementy, ktore sa ostro mniejsze od obu swoich sasiadow (poprzedniego i nastepnego). Wypisz ile jest minimow lokalnych i jakie maja wartosci.\n\n**Dane** (`dane.txt`):\n```\n10\n7\n3\n8\n12\n5\n2\n9\n11\n4\n6\n15\n```\n\n**Oczekiwany wynik**:\n```\nLiczba minimow lokalnych: 3\nWartosci: 3 2 4\n```",
+  "wskazowki": [
+    "**Kierunek**: Skanuj elementy od drugiego do przedostatniego — sprawdzaj sasiadow po obu stronach.",
+    "**Podejscie**: Element T[i] jest minimum lokalnym jesli T[i] < T[i-1] i T[i] < T[i+1].",
+    "**Kluczowy krok**: Pamietaj, ze pierwszy i ostatni element nie moga byc minimami lokalnymi (nie maja dwoch sasiadow)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int liczba = 0;\n    vector<int> wartosci;\n\n    for (int i = 1; i < n - 1; i++) {\n        if (T[i] < T[i - 1] && T[i] < T[i + 1]) {\n            liczba++;\n            wartosci.push_back(T[i]);\n        }\n    }\n\n    cout << \"Liczba minimow lokalnych: \" << liczba << endl;\n    cout << \"Wartosci:\";\n    for (int v : wartosci)\n        cout << \" \" << v;\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Skanowanie liniowe od indeksu 1 do n-2. Dla kazdego elementu sprawdzamy, czy jest ostro mniejszy od obu sasiadow.\n\nWeryfikacja (dane: 10,7,3,8,12,5,2,9,11,4,6,15):\n- i=1: T[1]=7, sasiedzi 10,3. 7<10 ale 7>3. NIE.\n- i=2: T[2]=3, sasiedzi 7,8. 3<7 i 3<8. TAK -> minimum 1, wartosc 3.\n- i=3: T[3]=8, sasiedzi 3,12. 8>3. NIE.\n- i=4: T[4]=12, sasiedzi 8,5. 12>8. NIE.\n- i=5: T[5]=5, sasiedzi 12,2. 5<12 ale 5>2. NIE.\n- i=6: T[6]=2, sasiedzi 5,9. 2<5 i 2<9. TAK -> minimum 2, wartosc 2.\n- i=7: T[7]=9, sasiedzi 2,11. 9>2. NIE.\n- i=8: T[8]=11, sasiedzi 9,4. 11>9. NIE.\n- i=9: T[9]=4, sasiedzi 11,6. 4<11 i 4<6. TAK -> minimum 3, wartosc 4.\n- i=10: T[10]=6, sasiedzi 4,15. 6>4. NIE.\nLiczba minimow lokalnych: 3. Wartosci: 3 2 4.",
+  "typowe_bledy": [
+    {
+      "opis": "**Sprawdzanie pierwszego/ostatniego elementu**: Elementy brzegowe nie maja dwoch sasiadow — iteruj od i=1 do i=n-2",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie <= zamiast <**: Minimum lokalne wymaga ostrej nierownosci (mniejsze, nie mniejsze-lub-rowne)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

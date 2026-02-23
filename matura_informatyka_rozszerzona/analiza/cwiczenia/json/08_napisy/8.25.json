@@ -1,0 +1,29 @@
+{
+  "id": "8.25",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wariant autorski (najdluzszy wspolny prefiks)",
+  "tagi": [
+    "napisy",
+    "operacje-na-string",
+    "podciag",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `napisy.txt` znajduje sie 8 napisow skladajacych sie z malych liter (kazdy w osobnym wierszu). Napisz program, ktory znajdzie najdluzszy wspolny prefiks (poczatkowy fragment) wsrod WSZYSTKICH napisow. Wypisz ten prefiks i jego dlugosc. Jesli nie ma wspolnego prefiksu, wypisz \"(brak)\".\n\nNastepnie dla kazdej kolejnej pary sasiednich napisow (1 i 2, 2 i 3, itd.) wypisz ich wspolny prefiks.\n\n**Dane** (`napisy.txt`):\n```\nprzedstawienie\nprzedmiot\nprzedszkolak\nprzepis\nprzekaznik\nprzelot\nprzypadek\npracownik\n```\n\n**Oczekiwany wynik**:\n```\nWspolny prefiks wszystkich: pr (dlugosc: 2)\nPary:\nprzedstawienie i przedmiot: przed\nprzedmiot i przedszkolak: przed\nprzedszkolak i przepis: prze\nprzepis i przekaznik: prze\nprzekaznik i przelot: prze\nprzelot i przypadek: prz\nprzypadek i pracownik: pr\n```",
+  "wskazowki": [
+    "**Kierunek**: Wspolny prefiks dwoch napisow to najdluzszy poczatkowy fragment, w ktorym znaki na tych samych pozycjach sa identyczne.",
+    "**Podejscie**: Porownuj znak po znaku od pozycji 0. Zatrzymaj sie, gdy znaki sie roznia lub konczy sie krotszy napis.",
+    "**Kluczowy krok**: Wspolny prefiks wszystkich napisow mozna wyznaczyc iteracyjnie — zacznij od prefiks = napis[0], potem przytnij go do wspolnego prefiksu z kazdym kolejnym napisem."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\nusing namespace std;\n\nstring wspolnyPrefiks(const string& a, const string& b) {\n    string wynik = \"\";\n    int minLen = min((int)a.length(), (int)b.length());\n    for (int i = 0; i < minLen; i++) {\n        if (a[i] == b[i]) wynik += a[i];\n        else break;\n    }\n    return wynik;\n}\n\nint main() {\n    ifstream plik(\"napisy.txt\");\n    string s;\n    vector<string> napisy;\n    while (plik >> s) {\n        napisy.push_back(s);\n    }\n    string prefiks = napisy[0];\n    for (int i = 1; i < (int)napisy.size(); i++) {\n        prefiks = wspolnyPrefiks(prefiks, napisy[i]);\n    }\n    if (prefiks.empty()) {\n        cout << \"Wspolny prefiks wszystkich: (brak) (dlugosc: 0)\" << endl;\n    } else {\n        cout << \"Wspolny prefiks wszystkich: \" << prefiks << \" (dlugosc: \" << prefiks.length() << \")\" << endl;\n    }\n    cout << \"Pary:\" << endl;\n    for (int i = 0; i < (int)napisy.size() - 1; i++) {\n        string wp = wspolnyPrefiks(napisy[i], napisy[i + 1]);\n        cout << napisy[i] << \" i \" << napisy[i + 1] << \": \" << wp << endl;\n    }\n    return 0;\n}\n```\n\n**Wyjasnienie**: Funkcja `wspolnyPrefiks` porownuje znaki na tych samych pozycjach i buduje prefiks do momentu pierwszej roznicy. Wspolny prefiks calej listy wyznaczamy iteracyjnie, redukujac prefiks z kazdym kolejnym napisem.\n\nWeryfikacja:\nSpisujem znaki na pozycjach kluczowych:\n- przedstawienie: p-r-z-e-d-s-t-a-w-i-e-n-i-e\n- przedmiot:      p-r-z-e-d-m-i-o-t\n- przedszkolak:   p-r-z-e-d-s-z-k-o-l-a-k\n- przepis:        p-r-z-e-p-i-s\n- przekaznik:     p-r-z-e-k-a-z-n-i-k\n- przelot:        p-r-z-e-l-o-t\n- przypadek:      p-r-z-y-p-a-d-e-k\n- pracownik:      p-r-a-c-o-w-n-i-k\n\nWspolny prefiks wszystkich (redukcja):\n- Start: \"przedstawienie\"\n- + przedmiot: poz 5: s!=m -> \"przed\"\n- + przedszkolak: poz 5: nie badamy dalej bo prefiks=\"przed\" (5 znakow), przedszkolak[0..4]=\"przed\" -> \"przed\"\n- + przepis: poz 4: d!=p -> \"prze\"\n- + przekaznik: prze==prze -> \"prze\"\n- + przelot: prze==prze -> \"prze\"\n- + przypadek: poz 3: e!=y -> \"prz\"\n- + pracownik: poz 2: z!=a -> \"pr\"\nWynik: \"pr\" (dlugosc 2)\n\nPary sasiednie:\n- przedstawienie i przedmiot: p,r,z,e,d (poz 5: s!=m) -> \"przed\"\n- przedmiot i przedszkolak: p,r,z,e,d (poz 5: m!=s) -> \"przed\"\n- przedszkolak i przepis: p,r,z,e (poz 4: d!=p) -> \"prze\"\n- przepis i przekaznik: p,r,z,e (poz 4: p!=k) -> \"prze\"\n- przekaznik i przelot: p,r,z,e (poz 4: k!=l) -> \"prze\"\n- przelot i przypadek: p,r,z (poz 3: e!=y) -> \"prz\"\n- przypadek i pracownik: p,r (poz 2: z!=a) -> \"pr\"",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownywanie poza zakresem krotszego napisu**: Trzeba ograniczyc petle do min(a.length(), b.length()), inaczej wyjscie poza zakres",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak obslugi pustego prefiksu**: Jesli pierwszy znak sie rozni, prefiks jest pusty — trzeba to obsluzyc",
+      "kara": "-1 pkt"
+    }
+  ]
+}

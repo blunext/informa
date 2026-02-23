@@ -1,0 +1,30 @@
+{
+  "id": "12.34",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2024 zad. 4 (analiza roznic w ciagu)",
+  "tagi": [
+    "roznica-sasiadow",
+    "ciag-rosnacy",
+    "current-max",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu). Oblicz tablice roznic d[i] = T[i+1] - T[i] (11 wartosci). Nastepnie znajdz najdluzszy spojny fragment tablicy roznic, w ktorym wartosci sa scisle rosnace (d[j] < d[j+1] dla kazdej pary w fragmencie). Podaj dlugosc tego fragmentu (liczona w elementach tablicy roznic) oraz odpowiadajace mu elementy oryginalnego ciagu.\n\n**Dane** (`dane.txt`):\n```\n5\n3\n4\n7\n12\n6\n2\n8\n10\n9\n11\n15\n```\n\n**Oczekiwany wynik**:\n```\nNajdluzszy ciag rosnacych roznic: dlugosc 4\nRoznice: -2 1 3 5\nElementy ciagu: 5 3 4 7 12\n```",
+  "wskazowki": [
+    "**Kierunek**: Oblicz tablice roznic d[i] = T[i+1] - T[i], potem szukaj najdluzszego scisle rosnacego podciagu w d[].",
+    "**Podejscie**: Wzorzec current/max na tablicy roznic: jesli d[i] > d[i-1], zwieksz curDl, inaczej porownaj z max i zresetuj.",
+    "**Kluczowy krok**: Fragment roznic o dlugosci k odpowiada k+1 elementom oryginalnego ciagu — pamietaj o przesunieciu indeksow."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    vector<int> d(n - 1);\n    for (int i = 0; i < n - 1; i++)\n        d[i] = T[i + 1] - T[i];\n\n    int maxDl = 1, maxStart = 0;\n    int curDl = 1, curStart = 0;\n\n    for (int i = 1; i < (int)d.size(); i++) {\n        if (d[i] > d[i - 1]) {\n            curDl++;\n        } else {\n            if (curDl > maxDl) {\n                maxDl = curDl;\n                maxStart = curStart;\n            }\n            curDl = 1;\n            curStart = i;\n        }\n    }\n    if (curDl > maxDl) {\n        maxDl = curDl;\n        maxStart = curStart;\n    }\n\n    cout << \"Najdluzszy ciag rosnacych roznic: dlugosc \" << maxDl << endl;\n    cout << \"Roznice:\";\n    for (int i = maxStart; i < maxStart + maxDl; i++)\n        cout << \" \" << d[i];\n    cout << endl;\n    cout << \"Elementy ciagu:\";\n    for (int i = maxStart; i <= maxStart + maxDl; i++)\n        cout << \" \" << T[i];\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Obliczamy tablice roznic, potem stosujemy wzorzec current/max do szukania najdluzszego scisle rosnacego podciagu w tablicy roznic. Fragment roznic d[a..b] odpowiada elementom T[a..b+1].\n\nWeryfikacja (dane: 5,3,4,7,12,6,2,8,10,9,11,15):\nRoznice d[]: -2, 1, 3, 5, -6, -4, 6, 2, -1, 2, 4\n\nSzukamy najdluzszego scisle rosnacego podciagu w d[]:\n- d[0]=-2, d[1]=1: 1>-2, curDl=2\n- d[2]=3: 3>1, curDl=3\n- d[3]=5: 5>3, curDl=4\n- d[4]=-6: -6<5, zamkniecie. maxDl=4, maxStart=0. curDl=1, curStart=4.\n- d[5]=-4: -4>-6, curDl=2\n- d[6]=6: 6>-4, curDl=3\n- d[7]=2: 2<6, zamkniecie. 3<4. curDl=1, curStart=7.\n- d[8]=-1: -1<2, zamkniecie. 1<4. curDl=1, curStart=8.\n- d[9]=2: 2>-1, curDl=2\n- d[10]=4: 4>2, curDl=3\n- Koniec: 3<4.\n\nNajdluzszy: dl=4 od d[0]. Roznice: -2,1,3,5. Elementy: T[0..4]=5,3,4,7,12.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie indeksow roznic z indeksami elementow**: Fragment d[a..b] ma dlugosc b-a+1 roznic, ale odpowiada b-a+2 elementom T[a..b+1]",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak sprawdzenia po petli**: Najdluzszy rosnacy fragment roznic moze konczyc sie na koncu tablicy",
+      "kara": "-1 pkt"
+    }
+  ]
+}

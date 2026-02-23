@@ -1,0 +1,29 @@
+{
+  "id": "13.21",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzor: Matura 2017 zad. 6 (zliczanie w siatce)",
+  "tagi": [
+    "tablica-2D",
+    "zliczanie-komorek",
+    "wczytywanie-pliku",
+    "petle-zagniezdzne"
+  ],
+  "tresc": "Dana jest siatka 5x6 znakow (kropek `.` i gwiazdek `*`) zapisana w pliku `mapa.txt`. Napisz program, ktory:\na) Zliczy ile jest gwiazdek w calej siatce.\nb) Znajdzie wiersz z najwieksza liczba gwiazdek i wypisze jego numer (wiersze numerujemy od 1).\n\n**Dane** (`mapa.txt`):\n```\n. * . . * .\n* * * . . .\n. . . . . *\n* . * * . *\n. * . . * *\n```\n\n**Oczekiwany wynik**:\n```\na) Liczba gwiazdek: 13\nb) Wiersz z max gwiazdek: 4\n```",
+  "wskazowki": [
+    "**Kierunek**: Podwojna petla po calej siatce, zliczaj znaki '*'.",
+    "**Podejscie**: Dla kazdego wiersza policz gwiazdki. Zapamietaj indeks wiersza z najwyzsza liczba.",
+    "**Kluczowy krok**: Wczytuj znaki jako char — separatorem sa spacje."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"mapa.txt\");\n    char tab[5][6];\n    for (int i = 0; i < 5; i++)\n        for (int j = 0; j < 6; j++)\n            plik >> tab[i][j];\n\n    // a) Liczba gwiazdek\n    int total = 0;\n    for (int i = 0; i < 5; i++)\n        for (int j = 0; j < 6; j++)\n            if (tab[i][j] == '*') total++;\n    cout << \"a) Liczba gwiazdek: \" << total << endl;\n\n    // b) Wiersz z max gwiazdek\n    int maxCnt = 0, maxRow = 0;\n    for (int i = 0; i < 5; i++) {\n        int cnt = 0;\n        for (int j = 0; j < 6; j++)\n            if (tab[i][j] == '*') cnt++;\n        if (cnt > maxCnt) {\n            maxCnt = cnt;\n            maxRow = i;\n        }\n    }\n    cout << \"b) Wiersz z max gwiazdek: \" << maxRow + 1 << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Podwojna petla zlicza gwiazdki globalnie i per wiersz. Zapamietujemy indeks wiersza z najwyzsza liczba gwiazdek.\n\nWeryfikacja:\n- Wiersz 1: . * . . * . -> 2 gwiazdki\n- Wiersz 2: * * * . . . -> 3 gwiazdki\n- Wiersz 3: . . . . . * -> 1 gwiazdka\n- Wiersz 4: * . * * . * -> 4 gwiazdki\n- Wiersz 5: . * . . * * -> 3 gwiazdki\nRazem: 2+3+1+4+3 = 13. Max: wiersz 4 (4 gwiazdki).",
+  "typowe_bledy": [
+    {
+      "opis": "**Numerowanie wierszy od 0 zamiast od 1**: Zadanie mowi 'numer wiersza' — trzeba dodac 1 do indeksu",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Wczytywanie jako int zamiast char**: Gwiazdki i kropki to znaki, nie liczby",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -3,8 +3,10 @@
   "nazwa": "Wyszukiwanie min/max",
   "kategoria": "IMPLEMENTACJA",
   "czestotliwosc": "5/11 lat",
-  "punkty_lacznie": 73,
+  "punkty_lacznie": 157,
   "tagi_globalne": [
+    "akumulator",
+    "dzielniki",
     "filtrowanie",
     "grupowanie",
     "iomanip",
@@ -17,11 +19,14 @@
     "pozycja-elementu",
     "rekordy",
     "roznica-bezwzgledna",
+    "roznica-sasiadow",
+    "rozstep",
     "skan-liniowy",
     "sortowanie",
     "spojny-fragment",
     "srednia",
     "struct",
+    "suma-cyfr",
     "tablica-2D",
     "vector-par",
     "warunkowe-min-max",
@@ -249,6 +254,267 @@
         "wielokryterialne",
         "sortowanie",
         "vector-par",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.21",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "min-max",
+        "suma-cyfr",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.22",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "min-max",
+        "rozstep",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.23",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "min-max",
+        "roznica-sasiadow",
+        "roznica-bezwzgledna",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.24",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "min-max",
+        "srednia",
+        "roznica-bezwzgledna",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.25",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "min-max",
+        "warunkowe-min-max",
+        "filtrowanie",
+        "dzielniki",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "min-max",
+        "k-ty-element",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "min-max",
+        "tablica-2D",
+        "wczytywanie-pliku",
+        "pozycja-elementu"
+      ]
+    },
+    {
+      "id": "11.28",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "min-max",
+        "warunkowe-min-max",
+        "filtrowanie",
+        "akumulator",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.29",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "min-max",
+        "k-ty-element",
+        "sortowanie",
+        "akumulator",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.30",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "min-max",
+        "struct",
+        "rekordy",
+        "warunkowe-min-max",
+        "wczytywanie-pliku",
+        "iomanip"
+      ]
+    },
+    {
+      "id": "11.31",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "min-max",
+        "dzielniki",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.32",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "min-max",
+        "srednia",
+        "roznica-bezwzgledna",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.33",
+      "trudnosc": "latwe",
+      "punkty": 3,
+      "tagi": [
+        "min-max",
+        "tablica-2D",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.34",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "min-max",
+        "roznica-sasiadow",
+        "roznica-bezwzgledna",
+        "pozycja-elementu",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.35",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "min-max",
+        "grupowanie",
+        "sortowanie",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.36",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "min-max",
+        "spojny-fragment",
+        "skan-liniowy",
+        "pozycja-elementu",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.37",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "min-max",
+        "tablica-2D",
+        "skan-liniowy",
+        "pozycja-elementu",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.38",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "min-max",
+        "pary-elementow",
+        "sortowanie",
+        "roznica-bezwzgledna",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.39",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "min-max",
+        "spojny-fragment",
+        "srednia",
+        "skan-liniowy",
+        "wczytywanie-pliku",
+        "iomanip"
+      ]
+    },
+    {
+      "id": "11.40",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "min-max",
+        "struct",
+        "rekordy",
+        "wielokryterialne",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.41",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "min-max",
+        "k-ty-element",
+        "sortowanie",
+        "skan-liniowy",
+        "wczytywanie-pliku"
+      ]
+    },
+    {
+      "id": "11.42",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "min-max",
+        "spojny-fragment",
+        "akumulator",
+        "skan-liniowy",
+        "pozycja-elementu",
         "wczytywanie-pliku"
       ]
     }

@@ -1,0 +1,35 @@
+{
+  "id": "11.39",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2021 zad. 4 (okno przesuwne)",
+  "tagi": [
+    "min-max",
+    "spojny-fragment",
+    "srednia",
+    "skan-liniowy",
+    "wczytywanie-pliku",
+    "iomanip"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 12 liczb calkowitych (kazda w osobnym wierszu). Napisz program, ktory znajdzie spojny podciag dlugosci 3 o maksymalnej sredniej arytmetycznej. Wypisz pozycje poczatkowa i koncowa (1-indeksowane) oraz srednia z dokladnoscia 2 miejsc po przecinku.\n\n**Dane** (`dane.txt`):\n```\n4\n7\n2\n9\n5\n11\n3\n8\n6\n10\n1\n12\n```\n\n**Oczekiwany wynik**:\n```\nMax srednia podciagu dlugosci 3: 8.33\nPozycja: od 4 do 6\nElementy: 9 5 11\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj okna przesuwnego (sliding window) dlugosci 3 — oblicz sume pierwszych 3 elementow, potem przesuwaj okno.",
+    "**Podejscie**: Przy przesunieciu: suma += tab[i] - tab[i-3]. Sledzmax. Na koncu srednia = maxSuma / 3.",
+    "**Kluczowy krok**: Max srednia = max sumy / 3, wiec wystarczy szukac max sumy (bez dzielenia w petli)."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> tab;\n    int x;\n    while (plik >> x) tab.push_back(x);\n    int n = tab.size();\n    int k = 3;\n\n    int suma = 0;\n    for (int i = 0; i < k; i++) suma += tab[i];\n    int maxSuma = suma;\n    int bestStart = 0;\n\n    for (int i = k; i < n; i++) {\n        suma += tab[i] - tab[i - k];\n        if (suma > maxSuma) {\n            maxSuma = suma;\n            bestStart = i - k + 1;\n        }\n    }\n\n    double sr = (double)maxSuma / k;\n    cout << fixed << setprecision(2);\n    cout << \"Max srednia podciagu dlugosci 3: \" << sr << endl;\n    cout << \"Pozycja: od \" << bestStart + 1 << \" do \" << bestStart + k << endl;\n    cout << \"Elementy:\";\n    for (int i = bestStart; i < bestStart + k; i++) cout << \" \" << tab[i];\n    cout << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Okno przesuwne (sliding window): obliczamy sume pierwszych k elementow, potem przesuwamy okno dodajac nowy i odejmujac stary element. Sledzenie max sumy daje max srednia.\n\nWeryfikacja:\n- Sumy okien dlugosci 3: [4,7,2]=13, [7,2,9]=18, [2,9,5]=16, [9,5,11]=25, [5,11,3]=19, [11,3,8]=22, [3,8,6]=17, [8,6,10]=24, [6,10,1]=17, [10,1,12]=23\n- Max suma: 25 dla [9,5,11] na pozycjach 4-6\n- Srednia: 25/3 = 8.333... -> 8.33",
+  "typowe_bledy": [
+    {
+      "opis": "**Podwojna petla zamiast sliding window**: O(n*k) zamiast O(n), ale wynik poprawny — strata na elegancji",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Dzielenie calkowite 25/3=8 zamiast 8.33**: Trzeba rzutowac na double przed dzieleniem",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne indeksy okna**: Przesuniecie bestStart o 1 w zla strone zmienia wynik",
+      "kara": "-2 pkt"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "7.28",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Wariant autorski (pierwiastek cyfrowy + grupowanie)",
+  "tagi": [
+    "cyfry-mod-div",
+    "suma-cyfr",
+    "petla-while",
+    "tablica-czestotliwosci",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "Pierwiastkiem cyfrowym liczby nazywamy wynik powtarzanego sumowania cyfr az do uzyskania jednej cyfry. Na przyklad: 789 -> 7+8+9=24 -> 2+4=6, wiec pierwiastek cyfrowy 789 to 6.\n\nW pliku `dane.txt` znajduje sie 15 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory:\na) Dla kazdej liczby obliczy jej pierwiastek cyfrowy, wypisujac kolejne kroki.\nb) Pogrupuje liczby wedlug pierwiastka cyfrowego i wypisze, ile liczb ma dany pierwiastek.\nc) Poda, ktory pierwiastek cyfrowy wystepuje najczesciej (przy remisie — mniejszy).\n\n**Dane** (`dane.txt`):\n```\n123\n456\n789\n100\n235\n987\n44\n333\n72\n158\n248\n671\n19\n505\n88\n```\n\n**Oczekiwany wynik**:\n```\na) Pierwiastki cyfrowe:\n123: 1+2+3=6 -> 6\n456: 4+5+6=15 -> 1+5=6 -> 6\n789: 7+8+9=24 -> 2+4=6 -> 6\n100: 1+0+0=1 -> 1\n235: 2+3+5=10 -> 1+0=1 -> 1\n987: 9+8+7=24 -> 2+4=6 -> 6\n44: 4+4=8 -> 8\n333: 3+3+3=9 -> 9\n72: 7+2=9 -> 9\n158: 1+5+8=14 -> 1+4=5 -> 5\n248: 2+4+8=14 -> 1+4=5 -> 5\n671: 6+7+1=14 -> 1+4=5 -> 5\n19: 1+9=10 -> 1+0=1 -> 1\n505: 5+0+5=10 -> 1+0=1 -> 1\n88: 8+8=16 -> 1+6=7 -> 7\n\nb) Grupowanie:\n  pierwiastek 1: 4 liczby\n  pierwiastek 5: 3 liczby\n  pierwiastek 6: 4 liczby\n  pierwiastek 7: 1 liczba\n  pierwiastek 8: 1 liczba\n  pierwiastek 9: 2 liczby\n\nc) Najczestszy: pierwiastek 1 (4 liczby)\n```",
+  "wskazowki": [
+    "**Kierunek**: Oblicz sume cyfr w petli. Powtarzaj az wynik < 10 — to jest pierwiastek cyfrowy.",
+    "**Podejscie**: Funkcja `sumaCyfr(n)` zwraca sume cyfr. Pierwiastek cyfrowy: `while (n >= 10) n = sumaCyfr(n);`. Zliczaj wystapienia w tablicy `freq[10]`.",
+    "**Kluczowy krok**: Istnieje wzor `((n - 1) % 9) + 1` dla n > 0, ale iteracyjne podejscie jest prostsze do zrozumienia i wypisywania krokow."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint sumaCyfr(int n) {\n    int s = 0;\n    while (n > 0) {\n        s += n % 10;\n        n /= 10;\n    }\n    return s;\n}\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int liczba;\n    int freq[10] = {0};\n\n    cout << \"a) Pierwiastki cyfrowe:\" << endl;\n    while (plik >> liczba) {\n        cout << liczba << \": \";\n        int n = liczba;\n        string s = to_string(n);\n        for (int i = 0; i < (int)s.length(); i++) {\n            if (i > 0) cout << \"+\";\n            cout << s[i];\n        }\n        n = sumaCyfr(n);\n        cout << \"=\" << n;\n        while (n >= 10) {\n            cout << \" -> \";\n            string s2 = to_string(n);\n            for (int i = 0; i < (int)s2.length(); i++) {\n                if (i > 0) cout << \"+\";\n                cout << s2[i];\n            }\n            n = sumaCyfr(n);\n            cout << \"=\" << n;\n        }\n        cout << \" -> \" << n << endl;\n        freq[n]++;\n    }\n\n    cout << endl << \"b) Grupowanie:\" << endl;\n    for (int i = 1; i <= 9; i++) {\n        if (freq[i] > 0) {\n            cout << \"  pierwiastek \" << i << \": \" << freq[i];\n            if (freq[i] == 1) cout << \" liczba\" << endl;\n            else cout << \" liczby\" << endl;\n        }\n    }\n\n    cout << endl << \"c) Najczestszy: pierwiastek \";\n    int maxRoot = 1;\n    for (int i = 2; i <= 9; i++) {\n        if (freq[i] > freq[maxRoot]) maxRoot = i;\n    }\n    cout << maxRoot << \" (\" << freq[maxRoot] << \" liczby)\" << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Pierwiastek cyfrowy to wynik wielokrotnego sumowania cyfr az do jednej cyfry. Zliczamy wystapienia w tablicy `freq[1..9]` (pierwiastek 0 nie wystapi dla liczb dodatnich). Szukamy max z preferencja mniejszego indeksu.\n\nWeryfikacja:\n- 123: 1+2+3=6 -> root 6\n- 456: 4+5+6=15 -> 1+5=6 -> root 6\n- 789: 7+8+9=24 -> 2+4=6 -> root 6\n- 100: 1+0+0=1 -> root 1\n- 235: 2+3+5=10 -> 1+0=1 -> root 1\n- 987: 9+8+7=24 -> 2+4=6 -> root 6\n- 44: 4+4=8 -> root 8\n- 333: 3+3+3=9 -> root 9\n- 72: 7+2=9 -> root 9\n- 158: 1+5+8=14 -> 1+4=5 -> root 5\n- 248: 2+4+8=14 -> 1+4=5 -> root 5\n- 671: 6+7+1=14 -> 1+4=5 -> root 5\n- 19: 1+9=10 -> 1+0=1 -> root 1\n- 505: 5+0+5=10 -> 1+0=1 -> root 1\n- 88: 8+8=16 -> 1+6=7 -> root 7\nfreq: [1]=4, [5]=3, [6]=4, [7]=1, [8]=1, [9]=2\nMax: root 1 (4 liczby), remis z root 6 ale 1 < 6",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak petli powtarzania sumowania**: Obliczenie sumy cyfr tylko raz moze nie dac jednej cyfry (np. 789 -> 24 to nie pierwiastek cyfrowy)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Uzycie wzoru `(n-1)%9+1` bez wypisywania krokow**: Wzor daje poprawny wynik, ale zadanie wymaga wypisywania posrednich krokow",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pomijanie pierwiastka 9**: Dla wielokrotnosci 9 (np. 333: 3+3+3=9) pierwiastek cyfrowy to 9, nie 0",
+      "kara": "-1 pkt"
+    }
+  ]
+}

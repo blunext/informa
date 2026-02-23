@@ -1,0 +1,29 @@
+{
+  "id": "8.32",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2024 zad. 3 (analiza znakow)",
+  "tagi": [
+    "napisy",
+    "kody-ASCII",
+    "operacje-na-string",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `slowa.txt` znajduje sie 8 slow (kazde w osobnym wierszu). Kazde slowo sklada sie wylacznie z liter (malych i duzych). Napisz program, ktory dla kazdego slowa sprawdzi, czy sklada sie ono wylacznie z malych liter, i wypisze TAK lub NIE. Na koncu wypisz, ile slow sklada sie wylacznie z malych liter.\n\n**Dane** (`slowa.txt`):\n```\nhello\nWorld\ntest\nABC\nprogramming\nopenAI\ndata\nCode\n```\n\n**Oczekiwany wynik**:\n```\nhello: TAK\nWorld: NIE\ntest: TAK\nABC: NIE\nprogramming: TAK\nopenAI: NIE\ndata: TAK\nCode: NIE\nSame male litery: 4\n```",
+  "wskazowki": [
+    "**Kierunek**: Uzyj funkcji `islower()` do sprawdzenia kazdego znaku w slowie.",
+    "**Podejscie**: Iteruj po znakach slowa. Jesli znajdziesz choc jeden znak niebedacy mala litera, slowo nie spelnia warunku.",
+    "**Kluczowy krok**: Uzyj flagi bool — ustaw na false, gdy znajdziesz znak niebedacy mala litera, i przerwij petle wczesniej za pomoca break."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"slowa.txt\");\n    string s;\n    int cnt = 0;\n    while (plik >> s) {\n        bool sameMale = true;\n        for (char c : s) {\n            if (!islower(c)) {\n                sameMale = false;\n                break;\n            }\n        }\n        cout << s << \": \" << (sameMale ? \"TAK\" : \"NIE\") << endl;\n        if (sameMale) cnt++;\n    }\n    cout << \"Same male litery: \" << cnt << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Dla kazdego slowa sprawdzamy, czy kazdy znak jest mala litera. Wystarczy znalezc jeden znak niespelniajacy warunku, by wiedziec, ze slowo nie jest zlozone z samych malych liter.\n\nWeryfikacja:\n- hello: h,e,l,l,o — wszystkie male -> TAK\n- World: W — duza -> NIE\n- test: t,e,s,t — wszystkie male -> TAK\n- ABC: A — duza -> NIE\n- programming: p,r,o,g,r,a,m,m,i,n,g — wszystkie male -> TAK\n- openAI: o,p,e,n,A — duza -> NIE\n- data: d,a,t,a — wszystkie male -> TAK\n- Code: C — duza -> NIE\nSame male litery: 4 (hello, test, programming, data)",
+  "typowe_bledy": [
+    {
+      "opis": "**Sprawdzanie tylko pierwszego znaku zamiast wszystkich**: Slowo moze miec mala pierwsza litere, ale duza w srodku (np. openAI)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak break po znalezieniu duzej litery**: Nie jest bledem logicznym, ale zmniejsza efektywnosc i moze prowadzic do bledow przy zlej logice",
+      "kara": "-0 pkt"
+    }
+  ]
+}

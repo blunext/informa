@@ -1,0 +1,28 @@
+{
+  "id": "7.31",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2023 zad. 5 (operacje na cyfrach)",
+  "tagi": [
+    "cyfry-mod-div",
+    "wczytywanie-pliku",
+    "filtrowanie"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 10 liczb calkowitych dodatnich (kazda w osobnym wierszu). Napisz program, ktory wczyta te liczby i dla kazdej sprawdzi, czy jej ostatnia cyfra jest rowna pierwszej cyfrze. Wypisz kazda liczbe z informacja TAK/NIE. Na koniec podaj, ile liczb spelnia ten warunek.\n\nPrzyklad: 3723 -> pierwsza cyfra 3, ostatnia cyfra 3 -> TAK; 451 -> pierwsza 4, ostatnia 1 -> NIE.\n\n**Dane** (`dane.txt`):\n```\n1471\n282\n5765\n9009\n443\n61216\n808\n1234\n7557\n3003\n```\n\n**Oczekiwany wynik**:\n```\n1471: pierwsza=1, ostatnia=1 -> TAK\n282: pierwsza=2, ostatnia=2 -> TAK\n5765: pierwsza=5, ostatnia=5 -> TAK\n9009: pierwsza=9, ostatnia=9 -> TAK\n443: pierwsza=4, ostatnia=3 -> NIE\n61216: pierwsza=6, ostatnia=6 -> TAK\n808: pierwsza=8, ostatnia=8 -> TAK\n1234: pierwsza=1, ostatnia=4 -> NIE\n7557: pierwsza=7, ostatnia=7 -> TAK\n3003: pierwsza=3, ostatnia=3 -> TAK\nLiczb z rowna pierwsza i ostatnia cyfra: 8\n```",
+  "wskazowki": [
+    "**Kierunek**: Ostatnia cyfra to `n % 10`. Pierwsza cyfra wymaga dzielenia az n < 10.",
+    "**Podejscie**: Ostatnia: `n % 10`. Pierwsza: petla `while(kopia >= 10) kopia /= 10;` — zostaje pierwsza cyfra.",
+    "**Kluczowy krok**: Zachowaj oryginalna wartosc liczby przed petla szukajaca pierwszej cyfry, bo petla niszczy zmienna."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    int liczba;\n    int ile = 0;\n    while (plik >> liczba) {\n        int ostatnia = liczba % 10;\n        int kopia = liczba;\n        while (kopia >= 10) kopia /= 10;\n        int pierwsza = kopia;\n        cout << liczba << \": pierwsza=\" << pierwsza\n             << \", ostatnia=\" << ostatnia;\n        if (pierwsza == ostatnia) {\n            cout << \" -> TAK\" << endl;\n            ile++;\n        } else {\n            cout << \" -> NIE\" << endl;\n        }\n    }\n    cout << \"Liczb z rowna pierwsza i ostatnia cyfra: \" << ile << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Ostatnia cyfra to reszta z dzielenia przez 10. Pierwsza cyfra: dzielimy przez 10 w petli dopoki liczba >= 10 — zostaje pierwsza cyfra.\n\nWeryfikacja:\n- 1471: ostatnia=1, 1471->147->14->1 pierwsza=1 TAK\n- 282: ostatnia=2, 282->28->2 pierwsza=2 TAK\n- 5765: ostatnia=5, 5765->576->57->5 pierwsza=5 TAK\n- 9009: ostatnia=9, 9009->900->90->9 pierwsza=9 TAK\n- 443: ostatnia=3, 443->44->4 pierwsza=4 NIE\n- 61216: ostatnia=6, 61216->6121->612->61->6 pierwsza=6 TAK\n- 808: ostatnia=8, 808->80->8 pierwsza=8 TAK\n- 1234: ostatnia=4, 1234->123->12->1 pierwsza=1 NIE\n- 7557: ostatnia=7, 7557->755->75->7 pierwsza=7 TAK\n- 3003: ostatnia=3, 3003->300->30->3 pierwsza=3 TAK\nRazem TAK: 8",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie `n / 1000` do pierwszej cyfry**: Zaklada stala liczbe cyfr — nie dziala dla liczb o roznej dlugosci (np. 282 ma 3 cyfry, 61216 ma 5)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Warunek `while(n > 10)` zamiast `while(n >= 10)`**: Dla n=10 zwroci 10 zamiast 1",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "12.33",
+  "trudnosc": "latwe",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2017 zad. 4 (analiza serii malejacych)",
+  "tagi": [
+    "ciag-malejacy",
+    "seria-danych",
+    "skan-liniowy",
+    "wczytywanie-pliku"
+  ],
+  "tresc": "W pliku `dane.txt` znajduje sie 15 liczb calkowitych (kazda w osobnym wierszu). \"Seria malejaca\" to maksymalny spojny fragment ciagu, w ktorym kazdy nastepny element jest ostro mniejszy od poprzedniego (dlugosc >= 2). Napisz program, ktory:\na) Policzy liczbe serii malejacych.\nb) Poda srednia dlugosc serii malejacych (z dokladnoscia do 2 miejsc po przecinku).\nc) Poda najdluzsza serie malejaca (jej dlugosc i pozycje poczatkowa, 1-indeksowana).\n\n**Dane** (`dane.txt`):\n```\n10\n8\n5\n3\n7\n9\n6\n4\n12\n11\n8\n2\n15\n13\n20\n```\n\n**Oczekiwany wynik**:\n```\na) Liczba serii malejacych: 4\nb) Srednia dlugosc: 3.25\nc) Najdluzsza seria: dlugosc 4, pozycja poczatkowa: 1\n```",
+  "wskazowki": [
+    "**Kierunek**: Skanuj ciag liniowo, sledzac biezaca dlugosc ciagu malejacego (curDl).",
+    "**Podejscie**: Gdy T[i] < T[i-1], zwieksz curDl. W przeciwnym razie zamknij biezaca serie (jesli curDl >= 2, policz ja).",
+    "**Kluczowy krok**: Nie zapomnij zamknac ostatniej serii po petli. Srednia = suma dlugosci / liczba serii."
+  ],
+  "odpowiedz": "**Rozwiazanie (C++):**\n```cpp\n#include <iostream>\n#include <fstream>\n#include <vector>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    ifstream plik(\"dane.txt\");\n    vector<int> T;\n    int x;\n    while (plik >> x) T.push_back(x);\n    int n = T.size();\n\n    int liczbaSerii = 0;\n    int sumaDlugosci = 0;\n    int maxDl = 0, maxStart = 0;\n    int curDl = 1, curStart = 0;\n\n    for (int i = 1; i < n; i++) {\n        if (T[i] < T[i - 1]) {\n            curDl++;\n        } else {\n            if (curDl >= 2) {\n                liczbaSerii++;\n                sumaDlugosci += curDl;\n                if (curDl > maxDl) {\n                    maxDl = curDl;\n                    maxStart = curStart;\n                }\n            }\n            curDl = 1;\n            curStart = i;\n        }\n    }\n    if (curDl >= 2) {\n        liczbaSerii++;\n        sumaDlugosci += curDl;\n        if (curDl > maxDl) {\n            maxDl = curDl;\n            maxStart = curStart;\n        }\n    }\n\n    cout << \"a) Liczba serii malejacych: \" << liczbaSerii << endl;\n    cout << \"b) Srednia dlugosc: \" << fixed << setprecision(2)\n         << (double)sumaDlugosci / liczbaSerii << endl;\n    cout << \"c) Najdluzsza seria: dlugosc \" << maxDl\n         << \", pozycja poczatkowa: \" << maxStart + 1 << endl;\n    return 0;\n}\n```\n\n**Wyjasnienie**: Skanowanie liniowe ze sledzeniem biezacej serii malejacej. Gdy seria sie konczy (element nie mniejszy od poprzedniego) lub koniec tablicy, zamykamy serie i aktualizujemy statystyki.\n\nWeryfikacja (dane: 10,8,5,3,7,9,6,4,12,11,8,2,15,13,20):\n- 10,8,5,3 (dl.4, start=0): i=4: 7>3 -> zamkniecie. Serie=1, suma=4, max=4/start0.\n- 7->9 rosnacy, curStart=5.\n- 9,6,4 (dl.3, start=5): i=8: 12>4 -> zamkniecie. Serie=2, suma=7, max=4/start0.\n- 12,11,8,2 (dl.4, start=8): i=12: 15>2 -> zamkniecie. Serie=3, suma=11, max=4/start0 (rowne, nie zmienia).\n- 15,13 (dl.2, start=12): i=14: 20>13 -> zamkniecie. Serie=4, suma=13.\n- Koniec: curDl=1, brak serii.\n\nWynik: 4 serie, suma=4+3+4+2=13, srednia=13/4=3.25, najdluzsza=4 od poz.1 (1-indeks).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak zamkniecia ostatniej serii po petli**: Ostatni fragment moze byc seria malejaca — trzeba sprawdzic po zakonczeniu petli",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Liczenie serii dlugosci 1 jako malejace**: Pojedynczy element nie tworzy serii — minimalna dlugosc to 2",
+      "kara": "-1 pkt"
+    }
+  ]
+}
