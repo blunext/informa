@@ -10,6 +10,7 @@
 #   ./test_qa.sh --layer 4          # Run only layer 4 (baseline snapshot)
 #   ./test_qa.sh --layer 5          # Run only layer 5 (Go unit tests)
 #   ./test_qa.sh --layer 6          # Run only layer 6 (pedagogical journey)
+#   ./test_qa.sh --layer 7          # Run only layer 7 (exercise consistency)
 #   ./test_qa.sh --update-baseline  # Update baseline (runs only layer 4)
 # =============================================================================
 
@@ -876,6 +877,92 @@ run_layer_6() {
 }
 
 # =============================================================================
+# Layer 7: Exercise Consistency
+# =============================================================================
+
+run_layer_7() {
+  header 7 "Exercise Consistency"
+
+  # --- 7a: Data verify (JSON ↔ DB sync) ---
+  echo "  -- 7a: JSON ↔ DB sync --"
+  local verify_out
+  verify_out=$("$MATURA" data verify --source "$SCRIPT_DIR" 2>/dev/null)
+  local verify_rc=$?
+  if [ $verify_rc -eq 0 ]; then
+    local matched
+    matched=$(echo "$verify_out" | python3 -c "import sys,json; print(json.load(sys.stdin)['matched'])")
+    pass "data verify: $matched exercises matched"
+  else
+    fail "data verify: mismatch detected"
+    echo "$verify_out" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+for m in d.get('mismatched', []): print(f'    MISMATCH: {m}')
+for m in d.get('missing_in_db', []): print(f'    MISSING IN DB: {m}')
+for m in d.get('missing_on_disk', []): print(f'    MISSING ON DISK: {m}')
+" 2>/dev/null
+  fi
+
+  # --- 7b: ID continuity ---
+  echo "  -- 7b: ID continuity --"
+  local json_dir="$SCRIPT_DIR/cwiczenia/json"
+  for meta in "$json_dir"/[0-9][0-9]_*/_meta.json; do
+    local dir_name
+    dir_name=$(basename "$(dirname "$meta")")
+    local result
+    result=$(python3 -c "
+import json, sys
+with open('$meta') as f:
+    data = json.load(f)
+typ = data['typ']
+ids = sorted([int(e['id'].split('.')[1]) for e in data['cwiczenia']])
+expected = list(range(1, len(ids) + 1))
+if ids != expected:
+    gaps = [i for i in expected if i not in ids]
+    dups = [i for i in ids if ids.count(i) > 1]
+    print(f'FAIL:{typ}:gaps={gaps},dups={list(set(dups))}')
+else:
+    print(f'OK:{typ}:{len(ids)}')
+")
+    if [[ "$result" == OK:* ]]; then
+      local count
+      count=$(echo "$result" | cut -d: -f3)
+      pass "$dir_name: IDs 1-$count sequential"
+    else
+      local detail
+      detail=$(echo "$result" | cut -d: -f2-)
+      fail "$dir_name: $detail"
+    fi
+  done
+
+  # --- 7c: Difficulty distribution ---
+  echo "  -- 7c: Difficulty distribution --"
+  for meta in "$json_dir"/[0-9][0-9]_*/_meta.json; do
+    local dir_name
+    dir_name=$(basename "$(dirname "$meta")")
+    local result
+    result=$(python3 -c "
+import json
+from collections import Counter
+with open('$meta') as f:
+    data = json.load(f)
+dist = Counter(e['trudnosc'] for e in data['cwiczenia'])
+levels = len(dist)
+parts = ' '.join(f'{k}={v}' for k, v in sorted(dist.items()))
+if levels < 2:
+    print(f'WARN:{parts} (only {levels} level)')
+else:
+    print(f'OK:{parts}')
+")
+    if [[ "$result" == OK:* ]]; then
+      pass "$dir_name: ${result#OK:}"
+    else
+      warn "$dir_name: ${result#WARN:}"
+    fi
+  done
+}
+
+# =============================================================================
 # Main
 # =============================================================================
 
@@ -890,6 +977,7 @@ elif [ -n "$RUN_LAYER" ]; then
     4) run_layer_4 ;;
     5) run_layer_5 ;;
     6) run_layer_6 ;;
+    7) run_layer_7 ;;
     *) echo "Unknown layer: $RUN_LAYER"; exit 2 ;;
   esac
 else
@@ -899,6 +987,7 @@ else
   run_layer_3
   run_layer_4
   run_layer_6
+  run_layer_7
 fi
 
 # --- Summary ----------------------------------------------------------------

@@ -279,6 +279,16 @@ type DataStatsOut struct {
 	Cheatsheets int `json:"cheatsheets"`
 }
 
+// VerifyOut is what data verify returns
+type VerifyOut struct {
+	TotalDisk     int      `json:"total_disk"`
+	TotalDB       int      `json:"total_db"`
+	Matched       int      `json:"matched"`
+	Mismatched    []string `json:"mismatched"`
+	MissingInDB   []string `json:"missing_in_db"`
+	MissingOnDisk []string `json:"missing_on_disk"`
+}
+
 // ExerciseNextOut is what exercise next returns
 type ExerciseNextOut struct {
 	Mode           string      `json:"mode"`

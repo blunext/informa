@@ -2693,3 +2693,38 @@ func dataStatsCmd() *cobra.Command {
 		},
 	}
 }
+
+// === data verify ===
+
+func dataVerifyCmd() *cobra.Command {
+	var source string
+
+	cmd := &cobra.Command{
+		Use:   "verify",
+		Short: "Verify JSON files match matura.db contents",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			dataDB, err := OpenDataDB(dbDir)
+			if err != nil {
+				return fatal(fmt.Sprintf("open data DB: %v", err))
+			}
+			defer dataDB.Close()
+
+			result, err := VerifyExercises(dataDB, source)
+			if err != nil {
+				return fatal(fmt.Sprintf("verify failed: %v", err))
+			}
+
+			jsonOut(result)
+
+			if len(result.Mismatched) > 0 || len(result.MissingInDB) > 0 || len(result.MissingOnDisk) > 0 {
+				return fatal(fmt.Sprintf("%d mismatched, %d missing in DB, %d missing on disk",
+					len(result.Mismatched), len(result.MissingInDB), len(result.MissingOnDisk)))
+			}
+			return nil
+		},
+	}
+
+	cmd.Flags().StringVar(&source, "source", "", "Path to analiza/ directory")
+	cmd.MarkFlagRequired("source")
+	return cmd
+}

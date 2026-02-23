@@ -137,6 +137,106 @@ func ImportExercises(db *sql.DB, sourceDir string) (int, error) {
 	return count, tx.Commit()
 }
 
+// VerifyExercises compares JSON files on disk with exercises in matura.db.
+func VerifyExercises(db *sql.DB, sourceDir string) (*VerifyOut, error) {
+	jsonDir := filepath.Join(sourceDir, "cwiczenia", "json")
+	out := &VerifyOut{}
+
+	// 1. Read all exercises from disk
+	diskExercises := map[string]*ExerciseJSON{}
+	entries, err := os.ReadDir(jsonDir)
+	if err != nil {
+		return nil, fmt.Errorf("read json dir: %w", err)
+	}
+
+	dirPattern := regexp.MustCompile(`^(\d{2})_(.+)$`)
+	for _, entry := range entries {
+		if !entry.IsDir() {
+			continue
+		}
+		if dirPattern.FindStringSubmatch(entry.Name()) == nil {
+			continue
+		}
+		dirPath := filepath.Join(jsonDir, entry.Name())
+		files, err := os.ReadDir(dirPath)
+		if err != nil {
+			return nil, err
+		}
+		for _, f := range files {
+			if f.Name() == "_meta.json" || f.IsDir() || !strings.HasSuffix(f.Name(), ".json") {
+				continue
+			}
+			data, err := os.ReadFile(filepath.Join(dirPath, f.Name()))
+			if err != nil {
+				return nil, err
+			}
+			var ex ExerciseJSON
+			if err := json.Unmarshal(data, &ex); err != nil {
+				return nil, fmt.Errorf("parse %s/%s: %w", entry.Name(), f.Name(), err)
+			}
+			diskExercises[ex.ID] = &ex
+		}
+	}
+	out.TotalDisk = len(diskExercises)
+
+	// 2. Read all exercises from DB
+	rows, err := db.Query("SELECT id, trudnosc, punkty, tresc, odpowiedz FROM cwiczenia")
+	if err != nil {
+		return nil, fmt.Errorf("query db: %w", err)
+	}
+	defer rows.Close()
+
+	dbIDs := map[string]bool{}
+	for rows.Next() {
+		var id, trudnosc, tresc, odpowiedz string
+		var punkty int
+		if err := rows.Scan(&id, &trudnosc, &punkty, &tresc, &odpowiedz); err != nil {
+			return nil, err
+		}
+		dbIDs[id] = true
+
+		disk, ok := diskExercises[id]
+		if !ok {
+			out.MissingOnDisk = append(out.MissingOnDisk, id)
+			continue
+		}
+
+		// Compare key fields
+		mismatches := []string{}
+		if disk.Trudnosc != trudnosc {
+			mismatches = append(mismatches, fmt.Sprintf("trudnosc: disk=%s db=%s", disk.Trudnosc, trudnosc))
+		}
+		if disk.Punkty != punkty {
+			mismatches = append(mismatches, fmt.Sprintf("punkty: disk=%d db=%d", disk.Punkty, punkty))
+		}
+		if len(disk.Tresc) != len(tresc) {
+			mismatches = append(mismatches, fmt.Sprintf("tresc length: disk=%d db=%d", len(disk.Tresc), len(tresc)))
+		}
+		if len(disk.Odpowiedz) != len(odpowiedz) {
+			mismatches = append(mismatches, fmt.Sprintf("odpowiedz length: disk=%d db=%d", len(disk.Odpowiedz), len(odpowiedz)))
+		}
+		if len(mismatches) > 0 {
+			out.Mismatched = append(out.Mismatched, id+": "+strings.Join(mismatches, ", "))
+		} else {
+			out.Matched++
+		}
+	}
+	out.TotalDB = len(dbIDs)
+
+	// 3. Find exercises on disk but missing in DB
+	for id := range diskExercises {
+		if !dbIDs[id] {
+			out.MissingInDB = append(out.MissingInDB, id)
+		}
+	}
+
+	sort.Strings(out.Mismatched)
+	sort.Strings(out.MissingInDB)
+	sort.Strings(out.MissingOnDisk)
+
+	return out, nil
+}
+
 // ImportExams reads json/matura_YYYY.json files and inserts flattened subtasks into egzamin table.
 func ImportExams(db *sql.DB, sourceDir string) (int, error) {
 	jsonDir := filepath.Join(sourceDir, "json")

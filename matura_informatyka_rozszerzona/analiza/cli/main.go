@@ -88,7 +88,7 @@ func main() {
 
 	// === data ===
 	dataCmd := &cobra.Command{Use: "data", Short: "Data import and stats"}
-	dataCmd.AddCommand(dataImportCmd(), dataStatsCmd())
+	dataCmd.AddCommand(dataImportCmd(), dataStatsCmd(), dataVerifyCmd())
 
 	rootCmd.AddCommand(exerciseCmd, progressCmd, ckeCmd, examCmd, typCmd, trapCmd, cheatsheetCmd, dataCmd)
 

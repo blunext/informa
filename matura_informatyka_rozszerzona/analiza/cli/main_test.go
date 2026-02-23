@@ -696,6 +696,40 @@ func TestDataImportCreatesDBFile(t *testing.T) {
 	}
 }
 
+func TestDataVerify(t *testing.T) {
+	dir := testDir(t)
+
+	dataDB, err := OpenDataDB(dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	result, err := VerifyExercises(dataDB, filepath.Join("..", ""))
+	dataDB.Close()
+	if err != nil {
+		t.Fatalf("verify: %v", err)
+	}
+
+	if result.TotalDisk != 407 {
+		t.Errorf("total_disk: got %d, want 407", result.TotalDisk)
+	}
+	if result.TotalDB != 407 {
+		t.Errorf("total_db: got %d, want 407", result.TotalDB)
+	}
+	if result.Matched != 407 {
+		t.Errorf("matched: got %d, want 407", result.Matched)
+	}
+	if len(result.Mismatched) != 0 {
+		t.Errorf("mismatched: %v", result.Mismatched)
+	}
+	if len(result.MissingInDB) != 0 {
+		t.Errorf("missing_in_db: %v", result.MissingInDB)
+	}
+	if len(result.MissingOnDisk) != 0 {
+		t.Errorf("missing_on_disk: %v", result.MissingOnDisk)
+	}
+}
+
 // === Feature 1: Time Tracking ===
 
 func TestMigrationV3(t *testing.T) {

@@ -216,13 +216,14 @@ Jezeli sa bledy — napraw je i uruchom walidacje ponownie. Powtarzaj az:
 - validate_json.py: 0 ERRORS
 - verify_all.py: 0 FAIL, 0 ERROR
 
-### 5b. Re-import do CLI
+### 5b. Re-import + weryfikacja CLI
 
 ```bash
 cd analiza/cli && ./matura data import --source ../
+cd analiza/cli && ./matura data verify --source ../
 ```
 
-Bez re-importu CLI nie zobaczy nowych cwiczen!
+`data import` laduje JSON do matura.db. `data verify` porownuje kazde cwiczenie JSON↔DB (trudnosc, punkty, tresc, odpowiedz). Jezeli verify FAIL — import byl niekompletny, uruchom ponownie.
 
 ### 5c. Aktualizacja baseline
 
