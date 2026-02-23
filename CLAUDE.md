@@ -93,7 +93,7 @@ analiza/
 │   │   ├── README.md              # Index with difficulty levels and self-assessment
 │   │   ├── 01_sledzenie_algorytmu.md ... 23_sql_select_where.md
 │   │   └── (each has: skill tags, 3-level hints, full answer, common CKE mistakes)
-│   ├── json/                      # 23 directories — 407 exercises, machine-readable
+│   ├── json/                      # 23 directories — 583 exercises, machine-readable
 │   │   ├── README.md              # **Schema, format danych, checklist dodawania cwiczen**
 │   │   ├── tagi_rejestr.json      # **Central tag registry (290 tags, enforced by validator)**
 │   │   └── NN_nazwa_typu/         # 23 directories, each with:
@@ -106,7 +106,7 @@ analiza/
 ├── cli/                          # **Go CLI binary + SQLite backend**
 │   ├── matura                    # macOS/Linux binary (pure Go, zero deps)
 │   ├── matura.exe                # Windows binary
-│   ├── matura.db                 # SQLite DB: 407 exercises + 230 CKE + 4 cheatsheets
+│   ├── matura.db                 # SQLite DB: 583 exercises + 230 CKE + 4 cheatsheets
 │   ├── main.go, commands.go, database.go, importer.go, types.go
 │   ├── main_test.go              # 13 tests
 │   ├── build.sh                  # build macOS + Windows + import
@@ -201,7 +201,7 @@ unzip -q zalaczniki.zip
 Full documentation: **`analiza/cwiczenia/json/README.md`** — JSON schema, required data format patterns, verification commands, and a step-by-step checklist for adding new exercises.
 
 Key points:
-- Exercises live in `json/NN_nazwa/` directories (23 dirs, 407 exercises total)
+- Exercises live in `json/NN_nazwa/` directories (23 dirs, 583 exercises total)
 - **C++ exercises (07-14)**: input data in `tresc` must use `**Dane** (\`plik.txt\`):` format or verifier won't find it
 - **SQL exercises (20-23)**: tables in `tresc` via `Tabela **Name**:`, last non-verification markdown table in `odpowiedz` = expected result
 
@@ -219,7 +219,7 @@ python3 analiza/cwiczenia/verify/verify_all.py --file NN_nazwa --verbose  # one 
 
 **Expected results:**
 - `validate_json.py`: **0 ERRORS**
-- `verify_all.py`: **291 PASS, 0 FAIL, 0 ERROR, 116 MANUAL_REVIEW**
+- `verify_all.py`: **467 PASS, 0 FAIL, 0 ERROR, 116 MANUAL_REVIEW**
 
 ### Tag registry (`json/tagi_rejestr.json`)
 

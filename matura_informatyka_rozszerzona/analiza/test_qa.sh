@@ -408,7 +408,7 @@ run_layer_2() {
   podzadania=$(echo "$stats" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['podzadania'])" 2>/dev/null) || podzadania=0
   cheatsheets=$(echo "$stats" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['cheatsheets'])" 2>/dev/null) || cheatsheets=0
 
-  [ "$cwiczenia" -ge 407 ] && pass "exercises: $cwiczenia (>= 407)" || fail "exercises: $cwiczenia (expected >= 407)"
+  [ "$cwiczenia" -ge 583 ] && pass "exercises: $cwiczenia (>= 583)" || fail "exercises: $cwiczenia (expected >= 583)"
   [ "$podzadania" -ge 230 ] && pass "subtasks: $podzadania (>= 230)" || fail "subtasks: $podzadania (expected >= 230)"
   [ "$cheatsheets" -ge 4 ] && pass "cheatsheets: $cheatsheets (>= 4)" || fail "cheatsheets: $cheatsheets (expected >= 4)"
 }
@@ -523,7 +523,7 @@ run_layer_4() {
     fail "validate_json.py exits $validate_exit"
   fi
 
-  # Extract counts from "Validated: 23 directories, 407 exercises" line
+  # Extract counts from "Validated: 23 directories, 583 exercises" line
   local val_exercises val_dirs
   val_exercises=$(echo "$validate_out" | grep "Validated:" | grep -oE '[0-9]+ exercises' | grep -oE '[0-9]+') || val_exercises=0
   val_dirs=$(echo "$validate_out" | grep "Validated:" | grep -oE '[0-9]+ directories' | grep -oE '[0-9]+') || val_dirs=0

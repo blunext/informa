@@ -91,8 +91,8 @@ func TestImportCounts(t *testing.T) {
 	db.QueryRow("SELECT COUNT(*) FROM data.egzamin").Scan(&exams)
 	db.QueryRow("SELECT COUNT(*) FROM data.cheatsheets").Scan(&cheatsheets)
 
-	if exercises != 407 {
-		t.Errorf("exercises: got %d, want 407", exercises)
+	if exercises != 583 {
+		t.Errorf("exercises: got %d, want 583", exercises)
 	}
 	if exams != 230 {
 		t.Errorf("exams: got %d, want 230", exams)
@@ -192,8 +192,8 @@ func TestImportIdempotent(t *testing.T) {
 	db := openTestDB(t, dir)
 	var count int
 	db.QueryRow("SELECT COUNT(*) FROM data.cwiczenia").Scan(&count)
-	if count != 407 {
-		t.Errorf("after re-import: got %d exercises, want 407", count)
+	if count != 583 {
+		t.Errorf("after re-import: got %d exercises, want 583", count)
 	}
 }
 
@@ -710,14 +710,14 @@ func TestDataVerify(t *testing.T) {
 		t.Fatalf("verify: %v", err)
 	}
 
-	if result.TotalDisk != 407 {
-		t.Errorf("total_disk: got %d, want 407", result.TotalDisk)
+	if result.TotalDisk != 583 {
+		t.Errorf("total_disk: got %d, want 583", result.TotalDisk)
 	}
-	if result.TotalDB != 407 {
-		t.Errorf("total_db: got %d, want 407", result.TotalDB)
+	if result.TotalDB != 583 {
+		t.Errorf("total_db: got %d, want 583", result.TotalDB)
 	}
-	if result.Matched != 407 {
-		t.Errorf("matched: got %d, want 407", result.Matched)
+	if result.Matched != 583 {
+		t.Errorf("matched: got %d, want 583", result.Matched)
 	}
 	if len(result.Mismatched) != 0 {
 		t.Errorf("mismatched: %v", result.Mismatched)
