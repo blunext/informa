@@ -227,8 +227,8 @@ Coaching reaction:
 
 Scenario-specific:
 [ ] exercise hints ZABLOKOWANE przy probie < hint_delay (CLI zwraca HINT_LOCKED)
-[ ] Progresja hintow: L1 → L2 (z cheatsheet) → L3 (kluczowy krok)
-[ ] cheatsheet get przy L2
+[ ] Progresja hintow: L1 → L2 (z cheatsheet_excerpt) → L3 (kluczowy krok)
+[ ] cheatsheet_excerpt z exercise hints cytowany przy L2
 [ ] Konsolidacja po walk_through ("Wyjasniej swoimi slowami...")
 [ ] Wizualizacja ASCII po walk_through (sledzenie/drzewo)
 ```
