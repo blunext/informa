@@ -4,7 +4,7 @@
 
 **Goal:** Automated cumulative report after each test-tutor run — Go CLI computes deterministic stats from JSONL history, LLM interprets trends.
 
-**Architecture:** New file `report.go` in CLI handles JSONL parsing + summary generation. Test-tutor SKILL.md appends structured entry to `historia.jsonl` after each run, calls `matura test-report summary`, then writes LLM interpretation into `RAPORT_ZBIORCZY.md`. One-time migration converts 24 existing markdown reports to JSONL.
+**Architecture:** New file `report.go` in CLI handles JSONL parsing + summary generation. Test-tutor SKILL.md appends structured entry to `historia.json` after each run, calls `matura test-report summary`, then writes LLM interpretation into `RAPORT_ZBIORCZY.md`. One-time migration converts 24 existing markdown reports to JSONL.
 
 **Tech Stack:** Go (cobra CLI), JSONL (append-only structured data), test-tutor SKILL.md (LLM layer)
 
@@ -32,7 +32,7 @@ import (
 
 func TestParseHistoria_Empty(t *testing.T) {
 	dir := t.TempDir()
-	path := filepath.Join(dir, "historia.jsonl")
+	path := filepath.Join(dir, "historia.json")
 	os.WriteFile(path, []byte(""), 0644)
 
 	entries, err := ParseHistoria(path)
@@ -46,7 +46,7 @@ func TestParseHistoria_Empty(t *testing.T) {
 
 func TestParseHistoria_SingleEntry(t *testing.T) {
 	dir := t.TempDir()
-	path := filepath.Join(dir, "historia.jsonl")
+	path := filepath.Join(dir, "historia.json")
 	line := `{"date":"2026-02-24","commit":"abc1234","mode":"full","overall_score":92.3,"pass":true,"scenario_count":2,"scenarios":[{"persona":"beginner","scenario":"first_session","score":95.0,"l1_percent":100.0,"l1_total":10,"l1_passed":10,"l2":{"socratic":4,"tone":5},"issues":["issue1"]},{"persona":"intermediate","scenario":"difficulty_climb","score":85.0,"l1_percent":null,"l1_total":null,"l1_passed":null,"l2":{"socratic":3,"tone":5},"issues":[]}]}` + "\n"
 	os.WriteFile(path, []byte(line), 0644)
 
@@ -80,7 +80,7 @@ func TestParseHistoria_SingleEntry(t *testing.T) {
 }
 
 func TestParseHistoria_FileNotFound(t *testing.T) {
-	entries, err := ParseHistoria("/nonexistent/historia.jsonl")
+	entries, err := ParseHistoria("/nonexistent/historia.json")
 	if err != nil {
 		t.Fatalf("missing file should return empty, got error: %v", err)
 	}
@@ -808,11 +808,11 @@ Add to `report_test.go`:
 ```go
 func TestTestReportSummaryCmd_EmptyFile(t *testing.T) {
 	dir := t.TempDir()
-	// Create empty historia.jsonl
-	os.WriteFile(filepath.Join(dir, "historia.jsonl"), []byte(""), 0644)
+	// Create empty historia.json
+	os.WriteFile(filepath.Join(dir, "historia.json"), []byte(""), 0644)
 
 	cmd := testReportSummaryCmd()
-	cmd.SetArgs([]string{"--historia", filepath.Join(dir, "historia.jsonl")})
+	cmd.SetArgs([]string{"--historia", filepath.Join(dir, "historia.json")})
 	var buf bytes.Buffer
 	cmd.SetOut(&buf)
 
@@ -829,10 +829,10 @@ func TestTestReportSummaryCmd_EmptyFile(t *testing.T) {
 func TestTestReportSummaryCmd_WithData(t *testing.T) {
 	dir := t.TempDir()
 	line := `{"date":"2026-02-24","commit":"abc1234","mode":"full","overall_score":92.3,"pass":true,"scenario_count":1,"scenarios":[{"persona":"beginner","scenario":"first_session","score":92.3,"l1_percent":100.0,"l1_total":10,"l1_passed":10,"l2":{"socratic":4,"tone":5},"issues":[]}]}` + "\n"
-	os.WriteFile(filepath.Join(dir, "historia.jsonl"), []byte(line), 0644)
+	os.WriteFile(filepath.Join(dir, "historia.json"), []byte(line), 0644)
 
 	cmd := testReportSummaryCmd()
-	cmd.SetArgs([]string{"--historia", filepath.Join(dir, "historia.jsonl")})
+	cmd.SetArgs([]string{"--historia", filepath.Join(dir, "historia.json")})
 	var buf bytes.Buffer
 	cmd.SetOut(&buf)
 
@@ -848,10 +848,10 @@ func TestTestReportSummaryCmd_WithData(t *testing.T) {
 func TestTestReportSummaryCmd_JSONFormat(t *testing.T) {
 	dir := t.TempDir()
 	line := `{"date":"2026-02-24","commit":"abc1234","mode":"full","overall_score":92.3,"pass":true,"scenario_count":1,"scenarios":[{"persona":"beginner","scenario":"first_session","score":92.3,"l1_percent":100.0,"l1_total":10,"l1_passed":10,"l2":{"socratic":4,"tone":5},"issues":[]}]}` + "\n"
-	os.WriteFile(filepath.Join(dir, "historia.jsonl"), []byte(line), 0644)
+	os.WriteFile(filepath.Join(dir, "historia.json"), []byte(line), 0644)
 
 	cmd := testReportSummaryCmd()
-	cmd.SetArgs([]string{"--historia", filepath.Join(dir, "historia.jsonl"), "--format", "json"})
+	cmd.SetArgs([]string{"--historia", filepath.Join(dir, "historia.json"), "--format", "json"})
 	var buf bytes.Buffer
 	cmd.SetOut(&buf)
 
@@ -890,7 +890,7 @@ func testReportSummaryCmd() *cobra.Command {
 				exe, err := os.Executable()
 				if err == nil {
 					historiaPath = filepath.Join(filepath.Dir(exe),
-						"..", "test_pedagogical", "reports", "historia.jsonl")
+						"..", "test_pedagogical", "reports", "historia.json")
 				}
 			}
 
@@ -914,7 +914,7 @@ func testReportSummaryCmd() *cobra.Command {
 		},
 	}
 
-	cmd.Flags().StringVar(&historiaPath, "historia", "", "Path to historia.jsonl (default: auto-detect)")
+	cmd.Flags().StringVar(&historiaPath, "historia", "", "Path to historia.json (default: auto-detect)")
 	cmd.Flags().IntVar(&window, "window", 10, "Analysis window size")
 	cmd.Flags().StringVar(&format, "format", "md", "Output format: md or json")
 
@@ -976,7 +976,7 @@ git commit -m "feat(cli): add test-report summary command"
 ### Task 5: Migration — Convert Old Reports to JSONL
 
 **Files:**
-- Create: `analiza/test_pedagogical/reports/historia.jsonl`
+- Create: `analiza/test_pedagogical/reports/historia.json`
 
 **Step 1: Migrate old reports using LLM agent**
 
@@ -987,23 +987,23 @@ This is a one-time operation. Use a Task agent to:
    - Old (Feb 17-22): no L1, 7-8 L2 criteria
    - New (Feb 24+): L1 binary checkpoints + 2 L2 criteria
 4. Write one JSONL line per report, chronologically ordered
-5. Save to `analiza/test_pedagogical/reports/historia.jsonl`
+5. Save to `analiza/test_pedagogical/reports/historia.json`
 
 **Important:** Agent must read actual report files to extract data. Do not guess values.
 
 **Step 2: Verify migration**
 
-Run: `cd analiza/cli && go build -o matura . && ./matura test-report summary --historia ../test_pedagogical/reports/historia.jsonl`
+Run: `cd analiza/cli && go build -o matura . && ./matura test-report summary --historia ../test_pedagogical/reports/historia.json`
 Expected: Produces a markdown summary with ~24 rows in the history table, reasonable scores
 
-Run: `wc -l analiza/test_pedagogical/reports/historia.jsonl`
+Run: `wc -l analiza/test_pedagogical/reports/historia.json`
 Expected: ~24 lines (one per report)
 
 **Step 3: Commit**
 
 ```bash
-git add analiza/test_pedagogical/reports/historia.jsonl
-git commit -m "data: migrate 24 test-tutor reports to historia.jsonl"
+git add analiza/test_pedagogical/reports/historia.json
+git commit -m "data: migrate 24 test-tutor reports to historia.json"
 ```
 
 ---
@@ -1022,12 +1022,12 @@ Re-read sections 7-10 of SKILL.md (report generation, format, saving, cleanup).
 In section 9 (Zapis raportu), after saving the individual report, add:
 
 ```markdown
-5. Append JSONL entry to `{REPORT_DIR}/historia.jsonl`:
+5. Append JSONL entry to `{REPORT_DIR}/historia.json`:
    - Parse the per-scenario results from step 3 into JSON matching this schema:
      ```json
      {"date":"{REPORT_DATE}","commit":"{COMMIT_HASH}","mode":"{MODE}","overall_score":{SCORE},"pass":{PASS},"scenario_count":{N},"scenarios":[{"persona":"...","scenario":"...","score":N,"l1_percent":N,"l1_total":N,"l1_passed":N,"l2":{"socratic":N,"tone":N},"issues":["..."]}]}
      ```
-   - Use Bash: `echo '{JSON_LINE}' >> {REPORT_DIR}/historia.jsonl`
+   - Use Bash: `echo '{JSON_LINE}' >> {REPORT_DIR}/historia.json`
    - One line, no pretty-printing — this is JSONL (one JSON object per line)
 ```
 
@@ -1037,12 +1037,12 @@ After the JSONL append step, add:
 
 ```markdown
 6. Generate cumulative report:
-   a. Run: `{CLI_PATH} test-report summary --historia {REPORT_DIR}/historia.jsonl --format md`
+   a. Run: `{CLI_PATH} test-report summary --historia {REPORT_DIR}/historia.json --format md`
    b. Capture the markdown output (this is the deterministic Go-computed section)
    c. Write interpretation section — read the Go output (numbers, trends, regressions) and add:
       - **Co sie zmienilo?** — explain score changes vs previous run
       - **Top 3 do naprawienia** — most impactful issues to fix next
-      - **Uporczywe problemy** — issues appearing in 3+ consecutive runs (check issues arrays in historia.jsonl)
+      - **Uporczywe problemy** — issues appearing in 3+ consecutive runs (check issues arrays in historia.json)
       - **Co dziala dobrze** — stable/improving metrics
    d. Combine: Go markdown + "## Interpretacja" section
    e. Save to `{REPORT_DIR}/RAPORT_ZBIORCZY.md` (Write tool — overwrites each time)
@@ -1114,10 +1114,10 @@ Expected: All layers PASS
 
 **Step 4: Manual smoke test with real data**
 
-Run: `cd analiza/cli && ./matura test-report summary --historia ../test_pedagogical/reports/historia.jsonl`
+Run: `cd analiza/cli && ./matura test-report summary --historia ../test_pedagogical/reports/historia.json`
 Expected: Readable markdown with dashboard, history table, per-scenario analysis
 
 **Step 5: Verify JSON format**
 
-Run: `cd analiza/cli && ./matura test-report summary --historia ../test_pedagogical/reports/historia.jsonl --format json | python3 -m json.tool > /dev/null`
+Run: `cd analiza/cli && ./matura test-report summary --historia ../test_pedagogical/reports/historia.json --format json | python3 -m json.tool > /dev/null`
 Expected: Valid JSON (exit 0)

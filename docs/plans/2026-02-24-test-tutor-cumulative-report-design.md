@@ -22,10 +22,10 @@ test-tutor run
     │
     ├─► generates individual report (.md)    [existing]
     │
-    ├─► appends entry to historia.jsonl      [NEW - structured data]
+    ├─► appends entry to historia.json      [NEW - structured data]
     │
     ├─► calls: matura test-report summary    [NEW - Go CLI command]
-    │         reads historia.jsonl
+    │         reads historia.json
     │         outputs deterministic markdown (tables, trends, stats)
     │
     └─► LLM writes interpretation section    [NEW - appended to cumulative report]
@@ -36,7 +36,7 @@ test-tutor run
 
 ## Component 1: JSONL Schema
 
-**File:** `analiza/test_pedagogical/reports/historia.jsonl`
+**File:** `analiza/test_pedagogical/reports/historia.json`
 **Format:** JSON Lines (one line = one run, append-only)
 
 ```json
@@ -75,7 +75,7 @@ test-tutor run
 
 **Command:** `matura test-report summary [--window N] [--format md|json]`
 
-Reads `historia.jsonl`, outputs deterministic analysis.
+Reads `historia.json`, outputs deterministic analysis.
 
 ### Output sections:
 
@@ -118,13 +118,13 @@ Commit abc: 89, 90, 91 → σ=1.0
 ### Parameters:
 - `--window N`: analysis window (default: 10)
 - `--format md|json`: output format (default: md)
-- `--historia PATH`: path to historia.jsonl (default: auto-detect relative to reports dir)
+- `--historia PATH`: path to historia.json (default: auto-detect relative to reports dir)
 
 ## Component 3: LLM Interpretation (test-tutor SKILL.md changes)
 
 After generating the individual report, test-tutor:
 
-1. **Appends JSONL entry** — parses current run results into schema, appends to `historia.jsonl`
+1. **Appends JSONL entry** — parses current run results into schema, appends to `historia.json`
 2. **Calls Go CLI** — `matura test-report summary --format md` → gets deterministic tables
 3. **Writes interpretation** — reads Go output (numbers only), adds:
    - What changed since last run?
@@ -139,7 +139,7 @@ LLM DOES interpret — explains why, recommends what next.
 
 ## Component 4: Migration (one-time)
 
-Convert 22 existing markdown reports → `historia.jsonl` entries.
+Convert 22 existing markdown reports → `historia.json` entries.
 
 ### Approach:
 - LLM-assisted (agent reads all reports, extracts structured data)
@@ -153,7 +153,7 @@ Convert 22 existing markdown reports → `historia.jsonl` entries.
 
 | What | Path |
 |------|------|
-| JSONL data | `analiza/test_pedagogical/reports/historia.jsonl` |
+| JSONL data | `analiza/test_pedagogical/reports/historia.json` |
 | Cumulative report | `analiza/test_pedagogical/reports/RAPORT_ZBIORCZY.md` |
 | Individual reports | `analiza/test_pedagogical/reports/YYYY-MM-DD_COMMIT.md` (unchanged) |
 | Go CLI source | `analiza/cli/` (new command in commands.go) |

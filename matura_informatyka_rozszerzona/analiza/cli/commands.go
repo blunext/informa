@@ -525,11 +525,11 @@ func exerciseHintsCmd() *cobra.Command {
 			}
 			if !canH {
 				out := map[string]interface{}{
-					"status":     "HINT_LOCKED",
+					"status":      "HINT_LOCKED",
 					"exercise_id": id,
-					"attempt":    attempts,
-					"hint_delay": delay,
-					"action":     "Zadaj pytanie sokratejskie BEZ hintow",
+					"attempt":     attempts,
+					"hint_delay":  delay,
+					"action":      "Zadaj pytanie sokratejskie BEZ hintow",
 				}
 				jsonOut(out)
 				return nil
@@ -2857,7 +2857,7 @@ func testReportSummaryCmd() *cobra.Command {
 				exe, err := os.Executable()
 				if err == nil {
 					historiaPath = filepath.Join(filepath.Dir(exe),
-						"..", "test_pedagogical", "reports", "historia.jsonl")
+						"..", "test_pedagogical", "reports", "historia.json")
 				}
 			}
 
@@ -2882,7 +2882,7 @@ func testReportSummaryCmd() *cobra.Command {
 		},
 	}
 
-	cmd.Flags().StringVar(&historiaPath, "historia", "", "Path to historia.jsonl (default: auto-detect)")
+	cmd.Flags().StringVar(&historiaPath, "historia", "", "Path to historia.json (default: auto-detect)")
 	cmd.Flags().IntVar(&window, "window", 10, "Analysis window size")
 	cmd.Flags().StringVar(&format, "format", "md", "Output format: md or json")
 

@@ -9,5 +9,5 @@ matura_informatyka_rozszerzona/analiza/cli/dist/
 __pycache__/
 .DS_Store
 matura_informatyka_rozszerzona/analiza/test_pedagogical/reports/*
-!matura_informatyka_rozszerzona/analiza/test_pedagogical/reports/historia.jsonl
+!matura_informatyka_rozszerzona/analiza/test_pedagogical/reports/historia.json
 !matura_informatyka_rozszerzona/analiza/test_pedagogical/reports/RAPORT_ZBIORCZY.md

@@ -12,7 +12,7 @@ import (
 
 func TestParseHistoria_Empty(t *testing.T) {
 	dir := t.TempDir()
-	path := filepath.Join(dir, "historia.jsonl")
+	path := filepath.Join(dir, "historia.json")
 	os.WriteFile(path, []byte(""), 0644)
 
 	entries, err := ParseHistoria(path)
@@ -26,7 +26,7 @@ func TestParseHistoria_Empty(t *testing.T) {
 
 func TestParseHistoria_SingleEntry(t *testing.T) {
 	dir := t.TempDir()
-	path := filepath.Join(dir, "historia.jsonl")
+	path := filepath.Join(dir, "historia.json")
 	line := `{"date":"2026-02-24","commit":"abc1234","mode":"full","overall_score":92.3,"pass":true,"scenario_count":2,"scenarios":[{"persona":"beginner","scenario":"first_session","score":95.0,"l1_percent":100.0,"l1_total":10,"l1_passed":10,"l2":{"socratic":4,"tone":5},"issues":["issue1"]},{"persona":"intermediate","scenario":"difficulty_climb","score":85.0,"l1_percent":null,"l1_total":null,"l1_passed":null,"l2":{"socratic":3,"tone":5},"issues":[]}]}` + "\n"
 	os.WriteFile(path, []byte(line), 0644)
 
@@ -58,7 +58,7 @@ func TestParseHistoria_SingleEntry(t *testing.T) {
 }
 
 func TestParseHistoria_FileNotFound(t *testing.T) {
-	entries, err := ParseHistoria("/nonexistent/historia.jsonl")
+	entries, err := ParseHistoria("/nonexistent/historia.json")
 	if err != nil {
 		t.Fatalf("missing file should return empty, got error: %v", err)
 	}
@@ -236,10 +236,10 @@ func TestRenderMarkdown_NoDuplicatesSection(t *testing.T) {
 
 func TestTestReportSummaryCmd_EmptyFile(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "historia.jsonl"), []byte(""), 0644)
+	os.WriteFile(filepath.Join(dir, "historia.json"), []byte(""), 0644)
 
 	cmd := testReportSummaryCmd()
-	cmd.SetArgs([]string{"--historia", filepath.Join(dir, "historia.jsonl")})
+	cmd.SetArgs([]string{"--historia", filepath.Join(dir, "historia.json")})
 	var buf bytes.Buffer
 	cmd.SetOut(&buf)
 
@@ -255,10 +255,10 @@ func TestTestReportSummaryCmd_EmptyFile(t *testing.T) {
 func TestTestReportSummaryCmd_WithData(t *testing.T) {
 	dir := t.TempDir()
 	line := `{"date":"2026-02-24","commit":"abc1234","mode":"full","overall_score":92.3,"pass":true,"scenario_count":1,"scenarios":[{"persona":"beginner","scenario":"first_session","score":92.3,"l1_percent":100.0,"l1_total":10,"l1_passed":10,"l2":{"socratic":4,"tone":5},"issues":[]}]}` + "\n"
-	os.WriteFile(filepath.Join(dir, "historia.jsonl"), []byte(line), 0644)
+	os.WriteFile(filepath.Join(dir, "historia.json"), []byte(line), 0644)
 
 	cmd := testReportSummaryCmd()
-	cmd.SetArgs([]string{"--historia", filepath.Join(dir, "historia.jsonl")})
+	cmd.SetArgs([]string{"--historia", filepath.Join(dir, "historia.json")})
 	var buf bytes.Buffer
 	cmd.SetOut(&buf)
 
@@ -274,10 +274,10 @@ func TestTestReportSummaryCmd_WithData(t *testing.T) {
 func TestTestReportSummaryCmd_JSONFormat(t *testing.T) {
 	dir := t.TempDir()
 	line := `{"date":"2026-02-24","commit":"abc1234","mode":"full","overall_score":92.3,"pass":true,"scenario_count":1,"scenarios":[{"persona":"beginner","scenario":"first_session","score":92.3,"l1_percent":100.0,"l1_total":10,"l1_passed":10,"l2":{"socratic":4,"tone":5},"issues":[]}]}` + "\n"
-	os.WriteFile(filepath.Join(dir, "historia.jsonl"), []byte(line), 0644)
+	os.WriteFile(filepath.Join(dir, "historia.json"), []byte(line), 0644)
 
 	cmd := testReportSummaryCmd()
-	cmd.SetArgs([]string{"--historia", filepath.Join(dir, "historia.jsonl"), "--format", "json"})
+	cmd.SetArgs([]string{"--historia", filepath.Join(dir, "historia.json"), "--format", "json"})
 	var buf bytes.Buffer
 	cmd.SetOut(&buf)
 
