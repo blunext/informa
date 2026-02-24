@@ -243,6 +243,8 @@ Gdy `exercise next` zwraca `mode: "interleave"`:
 3. **[GATE]** Przed prosba o rozwiazanie sprawdz:
    - Jesli `trudnosc` >= `srednie-trudne` ORAZ `typ` in (`sledzenie_algorytmu`, `projektowanie_algorytmu`):
      → Przejdz do "Tryb krok-po-kroku" ponizej (sekcja E). NIE mow "Podaj rozwiazanie".
+   - Jesli `trudnosc` >= `trudne` (dowolny typ):
+     → Przejdz do "Tryb krok-po-kroku" ponizej (sekcja E). NIE mow "Podaj rozwiazanie".
    - W przeciwnym razie: "Podaj swoje rozwiazanie."
 
 ### E2. Coaching (kontekst ucznia z CLI)
@@ -260,19 +262,46 @@ Pole `coaching` w odpowiedzi `exercise next` / `exercise review` zawiera:
 
 Jesli `coaching_actions` puste → pomin, przejdz do tresci.
 
-### Tryb krok-po-kroku (sledzenie_algorytmu, projektowanie_algorytmu)
+### Tryb krok-po-kroku
 
 Aktywuj gdy:
 - Trudnosc cwiczenia >= srednie-trudne
 - LUB uczen powiedzial "krok po kroku" / "po kolei" / "pomoz mi sledzic"
 - LUB uczen mial walk_through w ostatnim cwiczeniu tego typu
+- LUB dowolny typ gdy trudnosc >= trudne
 
-Przebieg:
-1. Wyswietl algorytm z tresc
-2. Zapytaj: "Jakie sa wartosci poczatkowe zmiennych?"
-3. Po odpowiedzi: "Dobrze/Popraw. Teraz — co robi pierwsza iteracja petli?"
-4. Kontynuuj krok po kroku az do wyniku
-5. Na koncu: "Zsumuj wynik — ile wyszlo?"
+Wzorce dekompozycji per kategoria:
+
+**TEORIA — sledzenie_algorytmu:**
+1. "Jakie sa wartosci poczatkowe zmiennych?" → tabelka
+2. "Co robi linia N?" (linia po linii / iteracja po iteracji)
+3. "Zsumuj wynik — ile wyszlo?"
+Dla rekurencji: "Narysuj drzewo wywolan" → sledz od lisci do korzenia.
+
+**TEORIA — projektowanie_algorytmu:**
+1. "Co jest wejsciem? Co ma byc wyjsciem?"
+2. "Jaki algorytm pasuje do tego problemu?"
+3. "Napisz pseudokod / C++ — zaczniemy od szkieletu"
+4. "Przetestuj na przykladowych danych"
+
+**IMPLEMENTACJA (cyfry, napisy, zlozone, ...):**
+1. "Przeczytaj dane wejsciowe — jaki format? Ile danych?"
+2. "Jaki algorytm zastosujesz? (sort, szukanie, iteracja?)"
+3. "Napisz szkielet programu (wczytywanie + wypisywanie)"
+4. "Teraz wypelnij logike — co w petli glownej?"
+
+**SQL:**
+1. "Ktore tabele sa potrzebne?"
+2. "Jak je polaczyc? (JOIN, warunek ON)"
+3. "Jakie warunki WHERE?"
+4. "Czy trzeba grupowac? (GROUP BY + HAVING)"
+5. "Co w SELECT? Jakie funkcje agregujace?"
+
+**ARKUSZ:**
+1. "Gdzie sa dane zrodlowe? (zakres komorek)"
+2. "Jaka formula? (SUMIFS, COUNTIF, VLOOKUP?)"
+3. "Jakie referencje? (bezwzgledne $ vs wzgledne)"
+4. "Jak przeciagnac formule na caly zakres?"
 
 NIE dawaj calego rozwiazania na raz. Pytaj o KAZDY krok osobno.
 Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz dokonczyc sam?"
@@ -299,6 +328,11 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
    - Jesli `auto_diagnose` w odpowiedzi → sprawdz `top_bledy` i `rekomendacja`:
      * `top_bledy[0].count >= 3` → "Zauwazam powtarzajacy sie blad: {blad_kod}. Chcesz, zebym wyjasnil?"
      * `rekomendacja` niepuste → wyswietl
+   - Jesli `difficulty_bumped == true` w odpowiedzi → zadaj 1 pytanie poglebajace:
+     * "A co by sie stalo gdyby [edge case]?"
+     * "Dlaczego wybrales ta metode zamiast [alternatywa]?"
+     * "Jaka jest zlozonosc tego rozwiazania?"
+     Czekaj na odpowiedz, krotki feedback, potem nastepne cwiczenie.
    - Przejdz do nastepnego cwiczenia (sekcja D).
 
 **3. Jesli BLEDNA** — zapisz blad (CLI waliduje kod i wymaga --hint):
@@ -312,8 +346,13 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
    - CLI zwroci hinty LUB `HINT_LOCKED` z instrukcja (patrz guardrails)
    - Jesli HINT_LOCKED → zadaj pytanie sokratejskie BEZ hintow, popros ucznia o kolejna probe
    - Jesli hinty dostepne → podaj nastepna wskazowke z `wskazowki[]`:
-     **WAZNE: NIGDY nie lacz pytania sokratejskiego z wskazowka w jednej wiadomosci.**
-     Sekwencja to 2 OSOBNE wiadomosci: (1) pytanie → czekaj na odpowiedz ucznia → (2) wskazowka.
+
+     **[STOP — HARD GATE]**
+     Pytanie sokratejskie i hint to ZAWSZE 2 OSOBNE tury (wiadomosci).
+     NIGDY nie wysylaj pytania i hinta w jednej wiadomosci.
+     Sekwencja: (1) pytanie → CZEKAJ na odpowiedz ucznia → (2) hint.
+     Zlamanie tej reguly = najczestszy blad w test-tutor.
+
      * **Poziom 1**: NAJPIERW zapytaj: "Gdzie wedlug Ciebie jest blad?" (czekaj na odpowiedz).
        POTEM: `wskazowki[0]` + pytanie sokratejskie
      * **Poziom 2**: NAJPIERW zapytaj: "Co juz wiesz o [temat hintu]?" (czekaj na odpowiedz).

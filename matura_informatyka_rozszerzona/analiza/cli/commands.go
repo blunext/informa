@@ -763,6 +763,8 @@ func progressUpdateCmd() *cobra.Command {
 			tx.QueryRow("SELECT streak FROM progress_typy WHERE typ = ?", typNazwa).Scan(&streak)
 
 			newLevel := calculateLevel(streak, wynik)
+			oldLevel := calculateLevel(streak-1, wynik)
+			bumped := newLevel != oldLevel
 			if _, err = tx.Exec("UPDATE progress_typy SET poziom_trudnosci = ? WHERE typ = ?", newLevel, typNazwa); err != nil {
 				return fatal(fmt.Sprintf("update level: %v", err))
 			}
@@ -804,11 +806,12 @@ func progressUpdateCmd() *cobra.Command {
 			}
 
 			out := ProgressUpdateOut{
-				ID:              id,
-				NewLevel:        newLevel,
-				Streak:          streak,
-				TagsUpdated:     tagi,
-				NextReviewDates: nextReviewDates,
+				ID:               id,
+				NewLevel:         newLevel,
+				Streak:           streak,
+				DifficultyBumped: bumped,
+				TagsUpdated:      tagi,
+				NextReviewDates:  nextReviewDates,
 			}
 
 			// FSRS stats from updated tags

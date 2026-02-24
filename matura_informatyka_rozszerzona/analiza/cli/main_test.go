@@ -2745,6 +2745,33 @@ func TestCoachingActionsEmpty(t *testing.T) {
 	}
 }
 
+func TestDifficultyBumped(t *testing.T) {
+	// calculateLevel thresholds: <3 latwe, 3-4 srednie, 5-7 srednie-trudne, 8+ trudne
+	tests := []struct {
+		streak int
+		wynik  string
+		bump   bool
+		label  string
+	}{
+		{3, "poprawne_bez_pomocy", true, "2→3: latwe→srednie"},
+		{5, "poprawne_bez_pomocy", true, "4→5: srednie→srednie-trudne"},
+		{8, "poprawne_bez_pomocy", true, "7→8: srednie-trudne→trudne"},
+		{4, "poprawne_bez_pomocy", false, "3→4: srednie→srednie (no bump)"},
+		{1, "poprawne_bez_pomocy", false, "0→1: latwe→latwe (no bump)"},
+		{9, "poprawne_bez_pomocy", false, "8→9: trudne→trudne (no bump)"},
+		{3, "walk_through", false, "walk_through always latwe (no bump)"},
+	}
+	for _, tc := range tests {
+		oldLevel := calculateLevel(tc.streak-1, tc.wynik)
+		newLevel := calculateLevel(tc.streak, tc.wynik)
+		bumped := newLevel != oldLevel
+		if bumped != tc.bump {
+			t.Errorf("%s: expected bump=%v, got %v (old=%s new=%s)",
+				tc.label, tc.bump, bumped, oldLevel, newLevel)
+		}
+	}
+}
+
 func TestAutoDiagnose(t *testing.T) {
 	dir := testDir(t)
 	d := openTestDB(t, dir)

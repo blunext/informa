@@ -152,19 +152,20 @@ type ReviewOut struct {
 
 // ProgressUpdateOut is what progress update returns
 type ProgressUpdateOut struct {
-	ID              string       `json:"id"`
-	NewLevel        string       `json:"new_level"`
-	Streak          int          `json:"streak"`
-	TagsUpdated     []string     `json:"tags_updated"`
-	NextReviewDates []string     `json:"next_review_dates"`
-	CzasSek         *int         `json:"czas_sek,omitempty"`
-	BenchmarkSek    *int         `json:"benchmark_sek,omitempty"`
-	Tempo           *string      `json:"tempo,omitempty"`
-	FeedbackCzasowy *string      `json:"feedback_czasowy,omitempty"`
-	BladWarning     *string      `json:"blad_warning,omitempty"`
-	Stability       *float64     `json:"stability,omitempty"`
-	Lapses          *int         `json:"lapses,omitempty"`
-	AutoDiagnose    *DiagnoseOut `json:"auto_diagnose,omitempty"`
+	ID               string       `json:"id"`
+	NewLevel         string       `json:"new_level"`
+	Streak           int          `json:"streak"`
+	DifficultyBumped bool         `json:"difficulty_bumped,omitempty"`
+	TagsUpdated      []string     `json:"tags_updated"`
+	NextReviewDates  []string     `json:"next_review_dates"`
+	CzasSek          *int         `json:"czas_sek,omitempty"`
+	BenchmarkSek     *int         `json:"benchmark_sek,omitempty"`
+	Tempo            *string      `json:"tempo,omitempty"`
+	FeedbackCzasowy  *string      `json:"feedback_czasowy,omitempty"`
+	BladWarning      *string      `json:"blad_warning,omitempty"`
+	Stability        *float64     `json:"stability,omitempty"`
+	Lapses           *int         `json:"lapses,omitempty"`
+	AutoDiagnose     *DiagnoseOut `json:"auto_diagnose,omitempty"`
 }
 
 // ProgressStatusOut is what progress status returns
