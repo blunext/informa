@@ -340,6 +340,7 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
    - `--hint 0` = przed hintem, `--hint 1/2/3` = po odpowiednim hincie
    - CLI odrzuci niepoprawny kod i zwroci liste dozwolonych — wybierz najblizszy
    - Wiele bledow = wiele osobnych komend `progress blad`
+   - **[GATE]** Jesli to 3. bledna proba LUB uczen mowi "poddaje sie" → POMIN krok 4, przejdz BEZPOSREDNIO do kroku 5 (walk_through). NIE probuj kolejnego hintu.
 
 **4. Sprobuj podac hint:**
    `./matura exercise hints --id {id}`
@@ -356,8 +357,8 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
      * **Poziom 1**: NAJPIERW zapytaj: "Gdzie wedlug Ciebie jest blad?" (czekaj na odpowiedz).
        POTEM: `wskazowki[0]` + pytanie sokratejskie
      * **Poziom 2**: NAJPIERW zapytaj: "Co juz wiesz o [temat hintu]?" (czekaj na odpowiedz).
-       POTEM: `wskazowki[1]` + cytat z cheatsheet:
-       `./matura cheatsheet get --kategoria {kat} --sekcja "{temat}"`
+       POTEM: `wskazowki[1]` + **[WYMAGANE]** cytat z cheatsheet:
+       `./matura cheatsheet get --kategoria {kat} --sekcja "{temat}"` ← MUSISZ wywolac
        Mapowanie: mod/div→"archetyp", rekurencja→"rekurencj", zlozonosc→"zlozonosc",
        JOIN→"join", GROUP BY→"group", sortowanie→"sort", adresowanie→"adresow",
        szyfrowanie→"bezpieczen", P/F→"prawda", konwersja→"konwersj"
