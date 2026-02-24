@@ -55,6 +55,9 @@ EX_ARKUSZ=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ agregacj
 EX_TEORIA_ID=$(echo "$EX_TEORIA" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
 EX_IMPL_ID=$(echo "$EX_IMPL" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
 
+# Unblock guardrails for pre-fetch (exercise question registers with attempt_count=0)
+sqlite3 /tmp/test-tutor-$$/matura_progress.db "UPDATE active_exercises SET attempt_count = 99;"
+
 # Hinty i odpowiedzi (lazy loading — osobne wywolania)
 HINTS_TEORIA=$($MATURA --db-dir /tmp/test-tutor-$$ exercise hints --id $EX_TEORIA_ID)
 HINTS_IMPL=$($MATURA --db-dir /tmp/test-tutor-$$ exercise hints --id $EX_IMPL_ID)
@@ -79,6 +82,7 @@ INSERT INTO progress_zrobione (id, typ, data, wynik) VALUES ('7.1','cyfry_liczby
 "
 EX_COACHING=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ cyfry_liczby)
 EX_COACHING_ID=$(echo "$EX_COACHING" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
+sqlite3 /tmp/test-tutor-$$/matura_progress.db "UPDATE active_exercises SET attempt_count = 99 WHERE exercise_id = '$EX_COACHING_ID';"
 HINTS_COACHING=$($MATURA --db-dir /tmp/test-tutor-$$ exercise hints --id $EX_COACHING_ID)
 ANSWER_COACHING=$($MATURA --db-dir /tmp/test-tutor-$$ exercise answer --id $EX_COACHING_ID)
 
