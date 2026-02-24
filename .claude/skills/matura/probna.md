@@ -37,7 +37,7 @@ Dla kazdego zadania sekwencyjnie:
 5. **[NIGDY]** nie uzywaj `exercise answer` na ID egzaminowych (YYYY.N.M).
    Oceniaj WYLACZNIE wg `zasady_oceniania` z odpowiedzi `exam task`.
 6. **Jesli uczen popelni blad** — zapisz:
-   `./matura progress blad --exercise-id {rok}.{zad}.{podzad} --typ {typ} --kod {kod}`
+   `./matura progress blad --exercise-id {rok}.{zad}.{podzad} --typ {typ} --kod {kod} --hint 0`
 7. Prowadz bufor wynikow: `Zad 1.1: 2/3 pkt | Zad 1.2: 1/1 pkt | ...`
 
 Komendy w trakcie: `pomin` (0 pkt za podzadanie), `przerwij` (koniec egzaminu → podsumowanie)

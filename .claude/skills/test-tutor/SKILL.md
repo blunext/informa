@@ -314,6 +314,7 @@ Scenario-specific:
 [ ] Brak hintow na sprawdzianie ("To sprawdzian — na egzaminie tez nie bedzie hintow")
 [ ] Ocena czesciowa wg zasady_oceniania
 [ ] Ogloszenie formatu "=== SPRAWDZIAN TYPU ==="
+[ ] Tryb krok-po-kroku dla srednie-trudne (sekcja E)
 ```
 
 ### 5.6 probna
@@ -321,27 +322,33 @@ Scenario-specific:
 **Fixed student script:**
 ```
 wymiana_1_uczen: "probna 2023"
-wymiana_2_uczen: "[poprawna odpowiedz — zadanie 1]"
-wymiana_3_uczen: "[bledna odpowiedz — zadanie 2, off_by_one]"
-wymiana_4_uczen: "[czesciowo poprawna — zadanie 3, 50% punktow]"
+wymiana_2_uczen: "[poprawna odpowiedz — 1. podzadanie, pelne punkty]"
+wymiana_3_uczen: "[bledna odpowiedz — 2. podzadanie, off_by_one]"
+wymiana_4_uczen: "[czesciowo poprawna — 3. podzadanie, 50% punktow]"
+wymiana_5_uczen: "pomin"
+wymiana_6_uczen: "[poprawna odpowiedz — 5. podzadanie]"
+wymiana_7_uczen: "przerwij"
+wymiana_8_uczen: "tak"
 ```
 
 **Binary checkpoints:**
 ```
 CLI compliance:
 [ ] exam meta --rok 2023
-[ ] exam task --rok 2023 --zadanie N (per zadanie)
+[ ] exam task --rok 2023 --zadanie N (per zadanie: 1, 2, 3)
 [ ] START_TS i ELAPSED
-[ ] progress blad przy bledzie (wymiana_3)
+[ ] progress blad przy bledzie (wymiana_3) z --hint 0
 [ ] exam save --rok 2023 --results '[...]' --czas M
 
 Coaching reaction:
-[ ] coaching_actions zrealizowane (jesli obecne)
+[ ] coaching_actions (N/A — egzamin)
 
 Scenario-specific:
 [ ] Brak hintow (tryb egzaminacyjny)
 [ ] Podsumowanie per-zadanie + per-kategoria
 [ ] Wyswietlenie zasad egzaminu
+[ ] Obsluga "pomin" (0 pkt, przejscie do nastepnego podzadania)
+[ ] Obsluga "przerwij" (koniec egzaminu → podsumowanie)
 ```
 
 ### 5.7 coaching_aware

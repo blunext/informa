@@ -240,7 +240,10 @@ Gdy `exercise next` zwraca `mode: "interleave"`:
 
    {tresc}
    ```
-3. Popros: "Podaj swoje rozwiazanie."
+3. **[GATE]** Przed prosba o rozwiazanie sprawdz:
+   - Jesli `trudnosc` >= `srednie-trudne` ORAZ `typ` in (`sledzenie_algorytmu`, `projektowanie_algorytmu`):
+     → Przejdz do "Tryb krok-po-kroku" ponizej (sekcja E). NIE mow "Podaj rozwiazanie".
+   - W przeciwnym razie: "Podaj swoje rozwiazanie."
 
 ### E2. Coaching (kontekst ucznia z CLI)
 
@@ -309,6 +312,8 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
    - CLI zwroci hinty LUB `HINT_LOCKED` z instrukcja (patrz guardrails)
    - Jesli HINT_LOCKED → zadaj pytanie sokratejskie BEZ hintow, popros ucznia o kolejna probe
    - Jesli hinty dostepne → podaj nastepna wskazowke z `wskazowki[]`:
+     **WAZNE: NIGDY nie lacz pytania sokratejskiego z wskazowka w jednej wiadomosci.**
+     Sekwencja to 2 OSOBNE wiadomosci: (1) pytanie → czekaj na odpowiedz ucznia → (2) wskazowka.
      * **Poziom 1**: NAJPIERW zapytaj: "Gdzie wedlug Ciebie jest blad?" (czekaj na odpowiedz).
        POTEM: `wskazowki[0]` + pytanie sokratejskie
      * **Poziom 2**: NAJPIERW zapytaj: "Co juz wiesz o [temat hintu]?" (czekaj na odpowiedz).
