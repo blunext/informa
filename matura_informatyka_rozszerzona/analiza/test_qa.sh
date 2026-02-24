@@ -178,6 +178,8 @@ run_layer_1() {
   test_json_cmd "trap list --kategoria TEORIA" "$MATURA" trap list --kategoria TEORIA
   test_cmd "cheatsheet get --kategoria TEORIA" "$MATURA" cheatsheet get --kategoria TEORIA
   test_cmd "cheatsheet get --kategoria SQL --sekcja join" "$MATURA" cheatsheet get --kategoria SQL --sekcja "join"
+  test_cmd "test-report summary (md)" "$MATURA" test-report summary --historia "$SCRIPT_DIR/test_pedagogical/reports/historia.jsonl"
+  test_json_cmd "test-report summary (json)" "$MATURA" test-report summary --historia "$SCRIPT_DIR/test_pedagogical/reports/historia.jsonl" --format json
 
   echo "  -- All 4 categories --"
   for kat in TEORIA IMPLEMENTACJA ARKUSZ SQL; do

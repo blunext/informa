@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 	"time"
@@ -2835,5 +2836,52 @@ func dataVerifyCmd() *cobra.Command {
 
 	cmd.Flags().StringVar(&source, "source", "", "Path to analiza/ directory")
 	cmd.MarkFlagRequired("source")
+	return cmd
+}
+
+// === test-report summary ===
+
+func testReportSummaryCmd() *cobra.Command {
+	var historiaPath string
+	var window int
+	var format string
+
+	cmd := &cobra.Command{
+		Use:   "summary",
+		Short: "Generate summary report from test-tutor history",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if historiaPath == "" {
+				exe, err := os.Executable()
+				if err == nil {
+					historiaPath = filepath.Join(filepath.Dir(exe),
+						"..", "test_pedagogical", "reports", "historia.jsonl")
+				}
+			}
+
+			entries, err := ParseHistoria(historiaPath)
+			if err != nil {
+				return fmt.Errorf("parse historia: %w", err)
+			}
+
+			summary := ComputeSummary(entries, window)
+
+			switch format {
+			case "json":
+				enc := json.NewEncoder(cmd.OutOrStdout())
+				enc.SetIndent("", "  ")
+				enc.SetEscapeHTML(false)
+				return enc.Encode(summary)
+			default:
+				md := RenderSummaryMarkdown(summary)
+				fmt.Fprint(cmd.OutOrStdout(), md)
+				return nil
+			}
+		},
+	}
+
+	cmd.Flags().StringVar(&historiaPath, "historia", "", "Path to historia.jsonl (default: auto-detect)")
+	cmd.Flags().IntVar(&window, "window", 10, "Analysis window size")
+	cmd.Flags().StringVar(&format, "format", "md", "Output format: md or json")
+
 	return cmd
 }

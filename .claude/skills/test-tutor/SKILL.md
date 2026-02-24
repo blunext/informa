@@ -542,6 +542,24 @@ Po zakonczeniu wszystkich agentow:
    - Porownaj overall score
    - Dodaj sekcje "Diff vs previous report"
 4. Podsumuj: "Raport zapisany: `{REPORT_FILE}`"
+5. **Append JSONL entry** to `{REPORT_DIR}/historia.jsonl`:
+   - For each scenario in this run, construct a JSON object matching this schema:
+     ```json
+     {"date":"{REPORT_DATE}","commit":"{COMMIT_HASH}","mode":"{MODE}","overall_score":{SCORE},"pass":{PASS},"scenario_count":{N},"scenarios":[{"persona":"...","scenario":"...","score":N.N,"l1_percent":N.N,"l1_total":N,"l1_passed":N,"l2":{"socratic":N,"tone":N},"issues":["..."]}]}
+     ```
+   - Append as a SINGLE LINE (JSONL format) using Bash: `echo '{JSON}' >> {REPORT_DIR}/historia.jsonl`
+   - Do NOT pretty-print. One JSON object per line.
+6. **Generate cumulative report**:
+   a. Run (Bash): `{CLI_PATH} test-report summary --historia {REPORT_DIR}/historia.jsonl --format md`
+   b. Capture the markdown output — this is the deterministic Go-computed section (dashboard, history table, per-scenario trends, L2 trends, evaluator noise)
+   c. Write an **Interpretacja** section after the Go output. Read the numbers and trends from the Go output and write:
+      - **Co sie zmienilo?** — explain score changes vs previous run using delta and per-scenario trends
+      - **Top 3 do naprawienia** — the most impactful issues to fix, drawn from scenario issues in historia.jsonl
+      - **Uporczywe problemy** — issues appearing in 3+ consecutive runs (check issues arrays in latest entries of historia.jsonl)
+      - **Co dziala dobrze** — stable or improving metrics (scenarios with up-arrow trend, L2 criteria at 4.5+)
+   d. Combine: Go markdown output + `## Interpretacja` section
+   e. Save to `{REPORT_DIR}/RAPORT_ZBIORCZY.md` using Write tool (overwritten each run)
+   f. Display: "Raport zbiorczy zapisany: `{REPORT_DIR}/RAPORT_ZBIORCZY.md`"
 
 ## 10. Cleanup
 

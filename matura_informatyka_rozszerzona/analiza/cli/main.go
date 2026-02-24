@@ -38,6 +38,9 @@ func main() {
 			if cmd.Name() == "import" && cmd.Parent() != nil && cmd.Parent().Name() == "data" {
 				return nil
 			}
+			if cmd.Parent() != nil && cmd.Parent().Name() == "test-report" {
+				return nil
+			}
 
 			db, attached, err := OpenDB(dbDir)
 			if err != nil {
@@ -90,7 +93,11 @@ func main() {
 	dataCmd := &cobra.Command{Use: "data", Short: "Data import and stats"}
 	dataCmd.AddCommand(dataImportCmd(), dataStatsCmd(), dataVerifyCmd())
 
-	rootCmd.AddCommand(exerciseCmd, progressCmd, ckeCmd, examCmd, typCmd, trapCmd, cheatsheetCmd, dataCmd)
+	// === test-report ===
+	testReportCmd := &cobra.Command{Use: "test-report", Short: "Test-tutor report analysis"}
+	testReportCmd.AddCommand(testReportSummaryCmd())
+
+	rootCmd.AddCommand(exerciseCmd, progressCmd, ckeCmd, examCmd, typCmd, trapCmd, cheatsheetCmd, dataCmd, testReportCmd)
 
 	err := rootCmd.Execute()
 	if openedDB != nil {
