@@ -130,9 +130,31 @@ type Coaching struct {
 
 // HintsOut is what exercise hints returns
 type HintsOut struct {
-	ID        string   `json:"id"`
-	Wskazowki []string `json:"wskazowki"`
-	MaxHints  int      `json:"max_hints"`
+	ID                string   `json:"id"`
+	Wskazowki         []string `json:"wskazowki"`
+	MaxHints          int      `json:"max_hints"`
+	CheatsheetExcerpt string   `json:"cheatsheet_excerpt,omitempty"`
+}
+
+// RubricLevel describes one scoring level
+type RubricLevel struct {
+	Opis    string `json:"opis"`
+	Procent int    `json:"procent"`
+}
+
+// RubricDetail holds all scoring levels for a type
+type RubricDetail struct {
+	Full  RubricLevel `json:"full"`
+	Half  RubricLevel `json:"half"`
+	Zero  RubricLevel `json:"zero"`
+	Notes string      `json:"notes,omitempty"`
+}
+
+// RubricOut is what exercise rubric returns
+type RubricOut struct {
+	Typ       string       `json:"typ"`
+	Kategoria string       `json:"kategoria"`
+	Rubric    RubricDetail `json:"rubric"`
 }
 
 // AnswerOut is what exercise answer returns

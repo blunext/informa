@@ -104,6 +104,7 @@ Wywoluj przez Bash. JSON na stdout. Exit: 0=OK, 1=not found, 2=error.
 | Info o typie | `./matura typ intro --typ {typ}` |
 | Zapisz wynik | `./matura progress update --id {id} --wynik {w} [--czas S]` |
 | Zapisz blad | `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint N` |
+| Punktacja typu | `./matura exercise rubric --typ {typ}` |
 | Diagnoza bledow | `./matura progress diagnose [--typ {typ}] [--limit N]` |
 | Status | `./matura progress status [--typ {typ}]` |
 | Zadanie CKE | `./matura cke get --typ {typ} [--force] [--exclude id1,id2]` |
@@ -124,7 +125,7 @@ CLI automatycznie blokuje hinty/odpowiedz jesli uczen nie sprobowa:
 
 - `exercise answer --id X` PRZED proba ucznia → zwraca `{"status":"LAZY_LOADING_BLOCKED","action":"..."}` zamiast odpowiedzi. Nagraj blad przez `progress blad` zeby odblokowac.
 - `exercise hints --id X` PRZED wymagana liczba prob → zwraca `{"status":"HINT_LOCKED","attempt":N,"hint_delay":D,"action":"Zadaj pytanie sokratejskie BEZ hintow"}`. Nagraj kolejny blad zeby odblokowac.
-- `progress blad --kod Z` z niepoprawnym kodem → CLI odrzuci i zwroci liste dozwolonych kodow. Wybierz najblizszy z listy.
+- `progress blad --kod Z` z niepoprawnym kodem → CLI zwroci JSON z `suggestions[]` (kody z opisami). Uzyj `suggestions[0].kod` jesli opis pasuje do bledu ucznia.
 - `progress blad` BEZ `--hint N` → CLI odrzuci. Podaj `--hint 0` (przed hintem) lub `--hint 1/2/3` (po hincie).
 - `progress update` co 5 cwiczen → automatycznie dolacza `auto_diagnose` z top bledami i rekomendacja.
 
@@ -338,7 +339,7 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
 **3. Jesli BLEDNA** — zapisz blad (CLI waliduje kod i wymaga --hint):
    `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint N`
    - `--hint 0` = przed hintem, `--hint 1/2/3` = po odpowiednim hincie
-   - CLI odrzuci niepoprawny kod i zwroci liste dozwolonych — wybierz najblizszy
+   - CLI odrzuci niepoprawny kod i zwroci `suggestions[]` z opisami — uzyj pierwszej pasujacej sugestii
    - Wiele bledow = wiele osobnych komend `progress blad`
    - **[GATE]** Jesli to 3. bledna proba LUB uczen mowi "poddaje sie" → POMIN krok 4, przejdz BEZPOSREDNIO do kroku 5 (walk_through). NIE probuj kolejnego hintu.
 
@@ -357,11 +358,7 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
      * **Poziom 1**: NAJPIERW zapytaj: "Gdzie wedlug Ciebie jest blad?" (czekaj na odpowiedz).
        POTEM: `wskazowki[0]` + pytanie sokratejskie
      * **Poziom 2**: NAJPIERW zapytaj: "Co juz wiesz o [temat hintu]?" (czekaj na odpowiedz).
-       POTEM: `wskazowki[1]` + **[WYMAGANE]** cytat z cheatsheet:
-       `./matura cheatsheet get --kategoria {kat} --sekcja "{temat}"` ← MUSISZ wywolac
-       Mapowanie: mod/div→"archetyp", rekurencja→"rekurencj", zlozonosc→"zlozonosc",
-       JOIN→"join", GROUP BY→"group", sortowanie→"sort", adresowanie→"adresow",
-       szyfrowanie→"bezpieczen", P/F→"prawda", konwersja→"konwersj"
+       POTEM: `wskazowki[1]` + jesli `cheatsheet_excerpt` w odpowiedzi hints jest niepuste → cytuj go uczniowi
      * **Poziom 3**: `wskazowki[2]` (kluczowy krok) + rozpisz krok po kroku, ostatni krok zostaw uczniowi
 
 **5. Po 3 probach / "poddaje sie"** → wynik = `walk_through`:
@@ -379,19 +376,12 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
 **6. Wizualizacja proaktywna** — po cwiczeniu z bledem (wynik != poprawne_bez_pomocy):
    patrz sekcja "Wizualizacje" ponizej.
 
-### Punktacja czesciowa (TEORIA)
+### Punktacja czesciowa
 
-| Typ | Pelne punkty | Polowa punktow | 0 punktow |
-|-----|-------------|----------------|-----------|
-| sledzenie | Tabela poprawna, wynik poprawny | Poprawny tok, 1-2 bledy w wierszach | Zly algorytm / brak tabeli |
-| projektowanie | Poprawny pseudokod/C++ | Poprawna idea, bledy skladniowe | Zly algorytm |
-| analiza | Poprawna klasa O() + uzasadnienie | Poprawna klasa bez uzasadnienia | Zla klasa |
-| P/F | Poprawne P/F + uzasadnienie | Poprawne P/F bez uzasadnienia | Bledne P/F |
-| konwersja | Poprawny wynik + zapis posredni | Poprawny wynik bez zapisu | Bledny wynik |
-| bezpieczenstwo | Poprawne dopasowanie + definicja | Poprawne dopasowanie bez definicji | Bledne |
-
+Pobierz kryteria punktacji: `./matura exercise rubric --typ {typ}`
+Zwraca: `{rubric: {full: {opis, procent}, half: {opis, procent}, zero: {opis, procent}, notes}}`.
+Stosuj te kryteria przy ocenie odpowiedzi ucznia.
 Regula ogolna: jesli uczen ma poprawny tok rozumowania ale drobny blad rachunkowy -> 50-75% pkt.
-Brak uzasadnienia przy P/F = zawsze 50% (CKE wymaga uzasadnienia).
 
 ### Wizualizacje (proaktywne)
 
@@ -435,7 +425,7 @@ CLI automatycznie po `progress update`:
 ### Kody bledow
 
 CLI waliduje kody bledow per typ — uzyj dowolnego kodu opisujacego pomylke ucznia.
-Jesli kod jest niepoprawny, CLI odrzuci i zwroci liste dozwolonych kodow — wybierz najblizszy.
+Jesli kod jest niepoprawny, CLI zwroci `suggestions[]` z najblizszymi kodami i opisami — uzyj pasujacej sugestii.
 Jako fallback: uzyj kodu z `typowe_bledy` cwiczenia.
 
 ### Proaktywna detekcja wzorcow

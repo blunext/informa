@@ -2484,6 +2484,38 @@ func TestExerciseHintsById(t *testing.T) {
 	}
 }
 
+func TestExerciseHintsCheatsheetExcerpt(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Pick a cyfry_liczby exercise (IMPLEMENTACJA category)
+	results, _ := queryExercises(db, "cyfry_liczby", "latwe", "")
+	if len(results) == 0 {
+		t.Fatal("no exercises")
+	}
+	ex := results[0]
+
+	hints := getExerciseHints(db, ex.ID, "latwe")
+	if hints.ID != ex.ID {
+		t.Fatalf("got id %q, want %q", hints.ID, ex.ID)
+	}
+	// cheatsheet_excerpt should be populated when exercise has tags matching cheatsheet sections
+	if hints.CheatsheetExcerpt == "" {
+		t.Error("expected non-empty cheatsheet_excerpt for cyfry_liczby exercise")
+	}
+}
+
+func TestExerciseHintsCheatsheetExcerptNoMatch(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// For nonexistent exercise, excerpt should be empty (graceful fallback)
+	hints := getExerciseHints(db, "nonexistent_id_99", "latwe")
+	if hints.CheatsheetExcerpt != "" {
+		t.Errorf("expected empty excerpt for unknown exercise, got %q", hints.CheatsheetExcerpt)
+	}
+}
+
 func TestExerciseAnswerById(t *testing.T) {
 	dir := testDir(t)
 	db := openTestDB(t, dir)
@@ -2816,5 +2848,107 @@ func TestAutoDiagnose(t *testing.T) {
 	}
 	if diag.TopBledy == nil {
 		t.Fatal("TopBledy should be empty slice, not nil")
+	}
+}
+
+func TestExerciseRubricSledzenie(t *testing.T) {
+	rubric, err := getRubric("sledzenie_algorytmu")
+	if err != nil {
+		t.Fatalf("getRubric: %v", err)
+	}
+	if rubric.Typ != "sledzenie_algorytmu" {
+		t.Errorf("got typ %q", rubric.Typ)
+	}
+	if rubric.Kategoria != "TEORIA" {
+		t.Errorf("got kategoria %q", rubric.Kategoria)
+	}
+	if rubric.Rubric.Full.Opis == "" {
+		t.Error("empty full.opis")
+	}
+	if rubric.Rubric.Half.Opis == "" {
+		t.Error("empty half.opis")
+	}
+	if rubric.Rubric.Zero.Opis == "" {
+		t.Error("empty zero.opis")
+	}
+	if rubric.Rubric.Full.Procent != 100 {
+		t.Errorf("full.procent = %d, want 100", rubric.Rubric.Full.Procent)
+	}
+}
+
+func TestExerciseRubricAllTypes(t *testing.T) {
+	allTypes := []string{
+		"sledzenie_algorytmu", "projektowanie_algorytmu", "analiza_algorytmu",
+		"test_prawda_falsz", "konwersja_systemow_liczbowych", "teoria_bezpieczenstwa",
+		"cyfry_liczby", "napisy", "zlozone", "zliczanie", "minmax", "sekwencje", "obrazy_2D", "geometryczne",
+		"agregacja_warunkowa", "symulacja", "wykres", "agregacja_podstawowa", "transformacja",
+		"sql_group_by", "sql_podzapytania", "sql_join", "sql_select_where",
+	}
+	for _, typ := range allTypes {
+		rubric, err := getRubric(typ)
+		if err != nil {
+			t.Errorf("getRubric(%q): %v", typ, err)
+			continue
+		}
+		if rubric.Rubric.Full.Opis == "" {
+			t.Errorf("%s: empty full.opis", typ)
+		}
+	}
+}
+
+func TestExerciseRubricUnknownType(t *testing.T) {
+	_, err := getRubric("nonexistent_type")
+	if err == nil {
+		t.Error("expected error for unknown type")
+	}
+}
+
+func TestSuggestClosestCodes(t *testing.T) {
+	// Exact match — no suggestions needed
+	suggestions := suggestClosestCodes("sql_group_by", "brak_having")
+	if len(suggestions) != 0 {
+		t.Errorf("expected no suggestions for valid code, got %d", len(suggestions))
+	}
+
+	// Typo — should suggest closest
+	suggestions = suggestClosestCodes("sql_group_by", "brak_havng")
+	if len(suggestions) == 0 {
+		t.Fatal("expected suggestions for typo")
+	}
+	if suggestions[0].Kod != "brak_having" {
+		t.Errorf("got %q, want brak_having", suggestions[0].Kod)
+	}
+	if suggestions[0].Opis == "" {
+		t.Error("expected non-empty opis in suggestion")
+	}
+
+	// Completely wrong — should still suggest something
+	suggestions = suggestClosestCodes("sql_group_by", "completely_wrong")
+	if len(suggestions) == 0 {
+		t.Fatal("expected suggestions even for completely wrong code")
+	}
+	// Should return max 3 suggestions
+	if len(suggestions) > 3 {
+		t.Errorf("expected max 3 suggestions, got %d", len(suggestions))
+	}
+}
+
+func TestLevenshteinDistance(t *testing.T) {
+	tests := []struct {
+		a, b string
+		want int
+	}{
+		{"", "", 0},
+		{"abc", "", 3},
+		{"", "abc", 3},
+		{"abc", "abc", 0},
+		{"brak_having", "brak_havng", 1},
+		{"kitten", "sitting", 3},
+	}
+	for _, tt := range tests {
+		got := levenshtein(tt.a, tt.b)
+		if got != tt.want {
+			t.Errorf("levenshtein(%q, %q) = %d, want %d", tt.a, tt.b, got, tt.want)
+		}
 	}
 }

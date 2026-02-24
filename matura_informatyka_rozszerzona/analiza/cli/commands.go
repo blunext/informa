@@ -262,7 +262,14 @@ func getExerciseHints(d *sql.DB, id, level string) HintsOut {
 	if maxHints < 0 {
 		maxHints = len(wskazowki)
 	}
-	return HintsOut{ID: id, Wskazowki: wskazowki, MaxHints: maxHints}
+	out := HintsOut{ID: id, Wskazowki: wskazowki, MaxHints: maxHints}
+
+	// Auto-attach cheatsheet excerpt when returning 2+ hints (student sees L2 content)
+	if len(wskazowki) >= 2 {
+		out.CheatsheetExcerpt = findCheatsheetExcerptByTags(d, id)
+	}
+
+	return out
 }
 
 // getExerciseAnswer returns the full answer for an exercise by ID.
@@ -1340,9 +1347,24 @@ func progressBladCmd() *cobra.Command {
 			}
 
 			// Validate error code against whitelist
-			valid, allowed := validateErrorCode(typ, kod)
+			valid, _ := validateErrorCode(typ, kod)
 			if !valid {
-				return fatal(fmt.Sprintf("kod '%s' niedostepny dla typ '%s'. Dozwolone: %v", kod, typ, allowed))
+				suggestions := suggestClosestCodes(typ, kod)
+				_, allowedCodes := validateErrorCode(typ, "___force_invalid___")
+				type codeEntry struct {
+					Kod  string `json:"kod"`
+					Opis string `json:"opis"`
+				}
+				validList := make([]codeEntry, len(allowedCodes))
+				for i, c := range allowedCodes {
+					validList[i] = codeEntry{c, errorCodeDescriptions[c]}
+				}
+				jsonOut(map[string]any{
+					"error":       fmt.Sprintf("kod '%s' niedostepny dla typ '%s'", kod, typ),
+					"valid_codes": validList,
+					"suggestions": suggestions,
+				})
+				return fatal(fmt.Sprintf("kod '%s' niedostepny", kod))
 			}
 
 			d := db(cmd)
@@ -2716,6 +2738,36 @@ func cheatsheetGetCmd() *cobra.Command {
 	return cmd
 }
 
+// findCheatsheetExcerptByTags searches the cheatsheet for the exercise's
+// category, matching against the exercise's tags. Returns the first matching
+// section, or "" if no match.
+func findCheatsheetExcerptByTags(d *sql.DB, exerciseID string) string {
+	var kategoria, tagiJSON string
+	err := d.QueryRow(`SELECT kategoria, tagi FROM data.cwiczenia WHERE id = ?`, exerciseID).Scan(&kategoria, &tagiJSON)
+	if err != nil {
+		return ""
+	}
+	var tagi []string
+	json.Unmarshal([]byte(tagiJSON), &tagi)
+	if len(tagi) == 0 {
+		return ""
+	}
+
+	var content string
+	err = d.QueryRow(`SELECT content FROM data.cheatsheets WHERE kategoria = ?`, kategoria).Scan(&content)
+	if err != nil {
+		return ""
+	}
+
+	// Try each tag against cheatsheet sections
+	for _, tag := range tagi {
+		if section := extractSection(content, tag); section != "" {
+			return section
+		}
+	}
+	return ""
+}
+
 // extractSection finds a ## section whose title contains query (case-insensitive)
 // and returns its content up to the next ## or EOF.
 // Uses prefix matching (min 5 chars) to handle Polish inflection (e.g. "pulapki" matches "pulapek").
@@ -2886,5 +2938,139 @@ func testReportSummaryCmd() *cobra.Command {
 	cmd.Flags().IntVar(&window, "window", 10, "Analysis window size")
 	cmd.Flags().StringVar(&format, "format", "md", "Output format: md or json")
 
+	return cmd
+}
+
+// === Exercise Rubric ===
+
+var typKategoriaMap = map[string]string{
+	"sledzenie_algorytmu": "TEORIA", "projektowanie_algorytmu": "TEORIA",
+	"analiza_algorytmu": "TEORIA", "test_prawda_falsz": "TEORIA",
+	"konwersja_systemow_liczbowych": "TEORIA", "teoria_bezpieczenstwa": "TEORIA",
+	"cyfry_liczby": "IMPLEMENTACJA", "napisy": "IMPLEMENTACJA",
+	"zlozone": "IMPLEMENTACJA", "zliczanie": "IMPLEMENTACJA",
+	"minmax": "IMPLEMENTACJA", "sekwencje": "IMPLEMENTACJA",
+	"obrazy_2D": "IMPLEMENTACJA", "geometryczne": "IMPLEMENTACJA",
+	"agregacja_warunkowa": "ARKUSZ", "symulacja": "ARKUSZ",
+	"wykres": "ARKUSZ", "agregacja_podstawowa": "ARKUSZ",
+	"transformacja": "ARKUSZ",
+	"sql_group_by": "SQL", "sql_podzapytania": "SQL",
+	"sql_join": "SQL", "sql_select_where": "SQL",
+}
+
+func implRubric() RubricDetail {
+	return RubricDetail{
+		Full:  RubricLevel{"Program kompiluje sie, daje poprawne wyniki dla danych przykladowych i pelnych", 100},
+		Half:  RubricLevel{"Poprawny algorytm, ale bledy: off-by-one, brak obslugi brzegowych, bledne I/O", 50},
+		Zero:  RubricLevel{"Zly algorytm lub program sie nie kompiluje", 0},
+		Notes: "Czesciowe punkty: poprawne wczytanie (25%), poprawny algorytm z drobnymi bledami (50%), poprawne wypisanie (75%).",
+	}
+}
+
+func arkuszRubric() RubricDetail {
+	return RubricDetail{
+		Full:  RubricLevel{"Poprawna formula dajaca prawidlowe wyniki + poprawne adresowanie", 100},
+		Half:  RubricLevel{"Poprawna idea formuly, ale blad adresowania ($) lub zly zakres", 50},
+		Zero:  RubricLevel{"Zla formula lub brak rozwiazania", 0},
+		Notes: "Blad $ (brak dolara przy stale) = najczestszy blad. Poprawna formula ze zlym zakresem = 50%.",
+	}
+}
+
+func sqlRubric() RubricDetail {
+	return RubricDetail{
+		Full:  RubricLevel{"Poprawne zapytanie SQL dajace prawidlowy wynik", 100},
+		Half:  RubricLevel{"Poprawna struktura (tabele, JOIN, GROUP BY), ale blad w warunku lub agregacji", 50},
+		Zero:  RubricLevel{"Zla struktura zapytania lub brak rozwiazania", 0},
+		Notes: "Kolejnosc kolumn w wyniku nie ma znaczenia. Aliasy opcjonalne. Brak GROUP BY przy agregacji = 0%.",
+	}
+}
+
+var rubricData = map[string]RubricDetail{
+	// TEORIA — unique per type
+	"sledzenie_algorytmu": {
+		Full:  RubricLevel{"Tabela poprawna + wynik koncowy poprawny", 100},
+		Half:  RubricLevel{"Poprawny tok rozumowania, 1-2 bledy rachunkowe w wierszach", 50},
+		Zero:  RubricLevel{"Zly algorytm lub brak tabeli", 0},
+		Notes: "Kazdy wiersz tabeli jest wart punkty. Bledny wynik przy poprawnym toku = 50%.",
+	},
+	"projektowanie_algorytmu": {
+		Full:  RubricLevel{"Poprawny pseudokod/C++ rozwiazujacy problem", 100},
+		Half:  RubricLevel{"Poprawna idea, bledy skladniowe lub drobne luki", 50},
+		Zero:  RubricLevel{"Zly algorytm lub brak rozwiazania", 0},
+		Notes: "Liczy sie poprawnosc algorytmu, nie skladnia. Brak obslugi przypadkow brzegowych = -25%.",
+	},
+	"analiza_algorytmu": {
+		Full:  RubricLevel{"Poprawna klasa zlozonosci O() + uzasadnienie", 100},
+		Half:  RubricLevel{"Poprawna klasa zlozonosci bez uzasadnienia", 50},
+		Zero:  RubricLevel{"Zla klasa zlozonosci", 0},
+		Notes: "Uzasadnienie musi odwolywac sie do struktury algorytmu (petla, rekurencja).",
+	},
+	"test_prawda_falsz": {
+		Full:  RubricLevel{"Poprawne P/F + poprawne uzasadnienie", 100},
+		Half:  RubricLevel{"Poprawne P/F bez uzasadnienia lub z blednym uzasadnieniem", 50},
+		Zero:  RubricLevel{"Bledne P/F", 0},
+		Notes: "Brak uzasadnienia = ZAWSZE max 50%. CKE wymaga uzasadnienia nawet przy poprawnej odpowiedzi.",
+	},
+	"konwersja_systemow_liczbowych": {
+		Full:  RubricLevel{"Poprawny wynik + zapis posredni obliczen", 100},
+		Half:  RubricLevel{"Poprawny wynik bez zapisu posredniego", 50},
+		Zero:  RubricLevel{"Bledny wynik", 0},
+		Notes: "Zapis posredni: kolumna dzielenia z resztami, grupowanie bitow, itd.",
+	},
+	"teoria_bezpieczenstwa": {
+		Full:  RubricLevel{"Poprawne dopasowanie + definicja/wyjasnienie", 100},
+		Half:  RubricLevel{"Poprawne dopasowanie bez definicji", 50},
+		Zero:  RubricLevel{"Bledne dopasowanie", 0},
+		Notes: "Przy pytaniach otwartych: wymagana precyzyjna definicja, nie ogolniki.",
+	},
+	// IMPLEMENTACJA — shared rubric
+	"cyfry_liczby":  implRubric(),
+	"napisy":        implRubric(),
+	"zlozone":       implRubric(),
+	"zliczanie":     implRubric(),
+	"minmax":        implRubric(),
+	"sekwencje":     implRubric(),
+	"obrazy_2D":     implRubric(),
+	"geometryczne":  implRubric(),
+	// ARKUSZ — shared rubric
+	"agregacja_warunkowa":  arkuszRubric(),
+	"symulacja":            arkuszRubric(),
+	"wykres":               arkuszRubric(),
+	"agregacja_podstawowa": arkuszRubric(),
+	"transformacja":        arkuszRubric(),
+	// SQL — shared rubric
+	"sql_group_by":      sqlRubric(),
+	"sql_podzapytania":  sqlRubric(),
+	"sql_join":          sqlRubric(),
+	"sql_select_where":  sqlRubric(),
+}
+
+func getRubric(typ string) (RubricOut, error) {
+	rubric, ok := rubricData[typ]
+	if !ok {
+		return RubricOut{}, fmt.Errorf("unknown exercise type: %s", typ)
+	}
+	kat := typKategoriaMap[typ]
+	return RubricOut{Typ: typ, Kategoria: kat, Rubric: rubric}, nil
+}
+
+func exerciseRubricCmd() *cobra.Command {
+	var typ string
+	cmd := &cobra.Command{
+		Use:   "rubric",
+		Short: "Get grading rubric for an exercise type",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if typ == "" {
+				return fatal("--typ is required")
+			}
+			out, err := getRubric(typ)
+			if err != nil {
+				return fatal(err.Error())
+			}
+			jsonOut(out)
+			return nil
+		},
+	}
+	cmd.Flags().StringVar(&typ, "typ", "", "Exercise type (e.g. sledzenie_algorytmu)")
 	return cmd
 }
