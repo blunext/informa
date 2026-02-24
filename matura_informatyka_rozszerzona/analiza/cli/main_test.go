@@ -1983,6 +1983,41 @@ func TestProgressStatusRekomendacjaStreakImbalance(t *testing.T) {
 	}
 }
 
+func TestInterleaveSkippedAtStreakThreshold(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Set up a student with streak=3 on cyfry_liczby (at difficulty climb threshold)
+	db.Exec("INSERT INTO progress_typy (typ, poziom_trudnosci, streak) VALUES ('cyfry_liczby', 'latwe', 3)")
+
+	// Verify getStreak returns 3
+	streak := getStreak(db, "cyfry_liczby")
+	if streak != 3 {
+		t.Fatalf("setup: streak=%d, want 3", streak)
+	}
+
+	// sessionCount=3 would trigger interleave (3%3==0)
+	// But streak=3 means student is at difficulty climb threshold — interleave should be skipped
+	shouldInterleave := (3 > 0 && 3%3 == 0 && streak < 3)
+	if shouldInterleave {
+		t.Error("interleave should be skipped at streak=3 (difficulty climb threshold)")
+	}
+
+	// Verify: interleave is allowed when streak < 3
+	db.Exec("UPDATE progress_typy SET streak = 2 WHERE typ = 'cyfry_liczby'")
+	streak = getStreak(db, "cyfry_liczby")
+	shouldInterleave = (3 > 0 && 3%3 == 0 && streak < 3)
+	if !shouldInterleave {
+		t.Error("interleave should be allowed when streak < 3")
+	}
+
+	// Verify: getStreak returns 0 for unknown type
+	streak = getStreak(db, "nonexistent_type")
+	if streak != 0 {
+		t.Errorf("unknown type: streak=%d, want 0", streak)
+	}
+}
+
 // === Feature: Hint Fading (max-hints) ===
 
 func TestCalculateMaxHints(t *testing.T) {

@@ -82,6 +82,15 @@ EX_COACHING_ID=$(echo "$EX_COACHING" | python3 -c "import sys,json; print(json.l
 HINTS_COACHING=$($MATURA --db-dir /tmp/test-tutor-$$ exercise hints --id $EX_COACHING_ID)
 ANSWER_COACHING=$($MATURA --db-dir /tmp/test-tutor-$$ exercise answer --id $EX_COACHING_ID)
 
+# cke_unlock: zasymuluj studenta tuz przed progiem trudne (streak=7, srednie-trudne)
+sqlite3 /tmp/test-tutor-$$/matura_progress.db "
+INSERT OR REPLACE INTO progress_typy (typ, poziom_trudnosci, streak) VALUES ('sledzenie_algorytmu', 'srednie-trudne', 7);
+"
+EX_CKE_PRE=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ sledzenie_algorytmu --trudnosc srednie-trudne)
+EX_CKE_PRE_ID=$(echo "$EX_CKE_PRE" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
+$MATURA --db-dir /tmp/test-tutor-$$ progress blad --exercise-id $EX_CKE_PRE_ID --typ sledzenie_algorytmu --kod zly_wynik --hint 0 > /dev/null 2>&1
+ANSWER_CKE_PRE=$($MATURA --db-dir /tmp/test-tutor-$$ exercise answer --id $EX_CKE_PRE_ID)
+
 # Raport metadata
 REPORT_DATE=$(date +%Y-%m-%d)
 COMMIT_HASH=$(git -C /Users/blt1wz/priv/informa rev-parse --short HEAD)
@@ -276,6 +285,7 @@ Scenario-specific:
 
 **Fixed student script:**
 ```
+wymiana_0_uczen: "[poprawna odpowiedz na cwiczenie srednie-trudne — streak rosnie do 8]"
 wymiana_1_uczen: "sprawdzian sledzenie_algorytmu"
 wymiana_2_uczen: "[poprawna odpowiedz na worked-example pytanie o pulapki]"
 wymiana_3_uczen: "[czesciowo poprawna odpowiedz na sprawdzianie — 70% punktow]"
@@ -284,6 +294,8 @@ wymiana_3_uczen: "[czesciowo poprawna odpowiedz na sprawdzianie — 70% punktow]
 **Binary checkpoints:**
 ```
 CLI compliance:
+[ ] exercise next --typ sledzenie_algorytmu (dla wymiana_0)
+[ ] progress update --wynik poprawne_bez_pomocy (po wymiana_0, streak→8)
 [ ] cke worked-example --typ X PRZED sprawdzianem
 [ ] cke get --typ X --exclude (wyklucz wczesniej robione)
 [ ] START_TS i ELAPSED
@@ -293,7 +305,7 @@ Coaching reaction:
 [ ] coaching_actions zrealizowane (jesli obecne)
 
 Scenario-specific:
-[ ] Ogloszenie odblokowania w formacie "*** ODBLOKOWANO ***"
+[ ] Ogloszenie odblokowania w formacie "*** ODBLOKOWANO ***" (po progress update gdy streak=8→trudne)
 [ ] Pytanie o pulapki po worked-example ("Co zapamiętasz z tych pułapek?")
 [ ] Brak hintow na sprawdzianie ("To sprawdzian — na egzaminie tez nie bedzie hintow")
 [ ] Ocena czesciowa wg zasady_oceniania
@@ -395,6 +407,8 @@ Przeprowadz symulacje sesji korepetycji, grajac OBIE role:
 - Question (COACHING): {EX_COACHING} (only for coaching_aware scenario)
 - Hints (COACHING): {HINTS_COACHING}
 - Answer (COACHING): {ANSWER_COACHING}
+- Question (CKE_PRE): {EX_CKE_PRE} (only for cke_unlock — exercise before unlock)
+- Answer (CKE_PRE): {ANSWER_CKE_PRE}
 - Typ intro: {INTRO_TEORIA}
 - Progress status: {STATUS}
 

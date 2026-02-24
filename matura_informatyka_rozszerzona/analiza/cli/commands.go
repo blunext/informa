@@ -318,6 +318,12 @@ func getLevel(d *sql.DB, typ string) string {
 	return "latwe"
 }
 
+func getStreak(d *sql.DB, typ string) int {
+	var streak int
+	d.QueryRow("SELECT COALESCE(streak, 0) FROM progress_typy WHERE typ = ?", typ).Scan(&streak)
+	return streak
+}
+
 func getKategoria(d *sql.DB, typ string) string {
 	var kat string
 	d.QueryRow("SELECT DISTINCT kategoria FROM data.cwiczenia WHERE typ_nazwa = ? LIMIT 1", typ).Scan(&kat)
@@ -2097,7 +2103,8 @@ func exerciseNextCmd() *cobra.Command {
 			}
 
 			// Priority 2: interleaving (every 3rd exercise from a different type)
-			if sessionCount > 0 && sessionCount%3 == 0 {
+			// Skip interleave when streak=3 (difficulty climb threshold) to avoid stealing the auto-difficulty slot
+			if sessionCount > 0 && sessionCount%3 == 0 && getStreak(d, typ) < 3 {
 				ex, err := findInterleaveExercise(d, typ)
 				if err == nil {
 					q := exerciseToQuestion(ex)

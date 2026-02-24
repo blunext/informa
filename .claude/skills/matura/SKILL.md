@@ -309,8 +309,10 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
    - CLI zwroci hinty LUB `HINT_LOCKED` z instrukcja (patrz guardrails)
    - Jesli HINT_LOCKED → zadaj pytanie sokratejskie BEZ hintow, popros ucznia o kolejna probe
    - Jesli hinty dostepne → podaj nastepna wskazowke z `wskazowki[]`:
-     * **Poziom 1**: `wskazowki[0]` + pytanie sokratejskie
-     * **Poziom 2**: `wskazowki[1]` + cytat z cheatsheet:
+     * **Poziom 1**: NAJPIERW zapytaj: "Gdzie wedlug Ciebie jest blad?" (czekaj na odpowiedz).
+       POTEM: `wskazowki[0]` + pytanie sokratejskie
+     * **Poziom 2**: NAJPIERW zapytaj: "Co juz wiesz o [temat hintu]?" (czekaj na odpowiedz).
+       POTEM: `wskazowki[1]` + cytat z cheatsheet:
        `./matura cheatsheet get --kategoria {kat} --sekcja "{temat}"`
        Mapowanie: mod/div→"archetyp", rekurencja→"rekurencj", zlozonosc→"zlozonosc",
        JOIN→"join", GROUP BY→"group", sortowanie→"sort", adresowanie→"adresow",
