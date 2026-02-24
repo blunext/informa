@@ -91,114 +91,270 @@ REPORT_FILE="${REPORT_DIR}/${REPORT_DATE}_${COMMIT_HASH}.md"
 
 ## 3. Persony
 
+Persony opisuja profil ucznia. Odpowiedzi ucznia sa **skryptowane** (patrz sekcja 5 — fixed scripts), ale styl/trudnosc tych odpowiedzi wynika z persony.
+
 ### Beginner (Poczatkujacy)
 - **Accuracy**: 50% — co drugie cwiczenie blednie
-- **Hint probability**: 70% — czesto prosi o wskazowke
 - **Typowe bledy**: `mylenie_div_mod`, `brak_group_by`, `zle_adresowanie`, `brak_tabeli_sledzenia`
-- **Zachowanie**: pisze krotkie odpowiedzi, czesto "nie wiem", myli podstawowe pojecia, nie zna SQL, myli div/mod
-- **Tempo**: wolne, 2x-3x benchmark CKE
+- **Zachowanie**: pisze krotkie odpowiedzi, czesto "nie wiem", myli podstawowe pojecia
 - **Sesja**: 3-5 cwiczen
 
 ### Intermediate (Sredniozaawansowany)
 - **Accuracy**: 70% — wiekszosc poprawnie, ale z lukami
-- **Hint probability**: 35% — czasem potrzebuje naprowadzenia
 - **Typowe bledy**: `pominiecie_bazy_rekurencji`, `brak_having`, `off_by_one`, `mylenie_avg_worst`
-- **Zachowanie**: podaje rozumowanie, ale pomija edge cases, zna skladnie SQL ale myli GROUP BY/HAVING, rozumie rekurencje ale gubi sie w bazach
-- **Tempo**: w normie, 1x-1.5x benchmark
+- **Zachowanie**: podaje rozumowanie, ale pomija edge cases
 - **Sesja**: 5-8 cwiczen
 
 ### Advanced (Zaawansowany)
 - **Accuracy**: 90% — rzadko sie myli
-- **Hint probability**: 10% — prawie nigdy nie potrzebuje
 - **Typowe bledy**: `mylenie_avg_worst`, subtelne edge cases, `brak_uzasadnienia_zlozonosc`
-- **Zachowanie**: podaje kompletne rozwiazania, uzasadnia, ale czasem pomija uzasadnienie przy P/F, myli avg/worst case
-- **Tempo**: szybkie, < benchmark
+- **Zachowanie**: podaje kompletne rozwiazania, uzasadnia
 - **Sesja**: 8-12 cwiczen
 
-## 4. Rubryka oceny (8 kryteriow)
+## 4. Rubryka oceny (2 warstwy, 5 kryteriow)
 
-Kazde kryterium oceniane 0-5 pkt, z waga procentowa:
+### Layer 1 — Binary checkpoints (60% wagi)
 
-| # | Kryterium | Waga | 5 (wzorcowe) | 3 (dostateczne) | 1 (nieakceptowalne) |
-|---|-----------|------|--------------|-----------------|---------------------|
-| 1 | Metoda sokratejska | 25% | Tutor ZAWSZE pyta przed podaniem odpowiedzi, uczen probuje pierwszy, pytania naprowadzajace | Tutor czasem podaje odpowiedz bez pytania | Tutor podaje gotowe rozwiazania |
-| 2 | Progresja hintow | 20% | Hinty lazy (`exercise hints --id`), odpowiedz lazy (`exercise answer --id`), hint_delay respektowany, L1→L2→L3, cheatsheet przy L2, konsolidacja po walk_through | Lazy loading obecne ale hint_delay ignorowany, lub kolejnosc niedokladna | Hinty/odpowiedz podane z gory lub brak progresji |
-| 3 | Sledzenie bledow | 15% | `progress blad --kod X` po kazdym bledzie, `diagnose` co 5 cw., analiza wzorcow | Bledy rejestrowane ale bez diagnozy | Brak rejestrowania bledow |
-| 4 | Adaptacja trudnosci | 15% | Streak 3→srednie, 5→sr-trudne, 8→trudne. Walk_through→latwe. Progi przestrzegane | Adaptacja obecna ale progi nieścisłe | Brak adaptacji trudnosci |
-| 5 | Powtorki SR | 10% | Review priorytet gdy zaleglosci, exercise next uzywany prawidlowo | SR obecne ale bez priorytetu | Brak sprawdzania zaleglosci |
-| 6 | Ton i jezyk | 5% | Polski, "ty", bez emoji, zachecanie, cierpliwosc, feedback czasowy | Poprawny jezyk ale bez zachecania | Angielski, formalny, emoji, lub brak feedbacku |
-| 7 | Integralnosc CLI | 5% | Wszystkie komendy poprawne, brak halucynacji cwiczen, prawidlowe ID | Drobne bledy w komendach | Halucynowane cwiczenia, bledne komendy |
-| 8 | Coaching | 5% | Tutor reaguje na coaching.leech_tags (ostrzega o slabych tagach), coaching.past_mistakes (proaktywnie wspomina wczesniejsze bledy), coaching.hint_delay (respektuje opoznienie) | Coaching czesciowo wykorzystany — np. hint_delay ok ale leech_tags ignorowane | Coaching calkowicie ignorowany |
+Per scenariusz: lista TAK/NIE pytan (patrz sekcja 5). Ewaluator sprawdza konkretne fakty w transkrypcie — czy CLI command zostala wywolana, czy odpowiednia akcja nastapila. Nie ocenia holistycznie.
 
-**Scoring**: score = sum(kryterium_score * waga). Max = 5.0. Przelicz na 0-100: score/5*100.
+Score L1 = (trafienia / total_checkpoints) * 100
+
+### Layer 2 — Holistic quality (40% wagi)
+
+Ocena 1-5 dla 2 kryteriow jakosciowych z anchor examples:
+
+**Metoda sokratejska (waga 25%)**:
+- 5/5: Tutor pyta "Co sie stanie gdy n=0?" zamiast podac odpowiedz. Uczen sam dochodzi do rozwiazania. Pytania naprowadzajace po kazdym bledzie.
+- 3/5: Tutor mowi "Podpowiedz: sprawdz warunek bazowy" — daje kierunek ale nie pyta.
+- 1/5: Tutor mowi "Odpowiedz to 13, bo..." — gotowe rozwiazanie.
+
+**Ton i jezyk (waga 15%)**:
+- 5/5: Polski, "ty", zachecajacy, cierpliwy przez 3 proby, brak emoji. Feedback czasowy. Konsolidacja po walk_through.
+- 3/5: Poprawny jezyk ale bez zachecania, lub sporadyczny emoji.
+- 1/5: Angielski, formalny, emoji, lub agresywny ton.
+
+Score L2 = (metoda_sokratejska * 0.25 + ton_i_jezyk * 0.15) / (0.25 + 0.15) — sredniawazona L2 kryteriow, znormalizowana do skali 1-5.
+
+### Laczny score
+
+```
+overall = 0.6 * L1_percent + 0.4 * (L2_avg / 5 * 100)
+```
+
 **Prog zdania**: >= 70/100.
 
-**Kryteria N/A**: Jesli scenariusz nie testuje danego kryterium (np. Powtorki SR
-w first_session/hint_progression/cke_unlock/probna, lub Coaching w first_session/probna
-gdzie uczen jest fresh), ocen na **4/5** z uwaga
-"Minimalne wymagania spelnione (progress status sprawdzony), scenariusz nie testuje
-tego kryterium bezposrednio." Nie dawaj 5/5 (brak dowodu) ani 3/5 (brak naruszenia).
-Wyjatek: jesli tutor NIE sprawdzil progress status na starcie → 2/5.
+### 5 kryteriow (mapowanie na warstwy)
 
-## 5. Scenariusze
+| # | Kryterium | Warstwa | Waga | Opis |
+|---|-----------|---------|------|------|
+| 1 | CLI compliance | L1 binary | 35% | Checkpoints CLI: exercise next (nie question), lazy loading, progress blad z --kod i --hint, progress update z --wynik i --czas, exercise hints/answer w odpowiednim momencie |
+| 2 | Metoda sokratejska | L2 holistic | 25% | Pytania naprowadzajace, uczen probuje pierwszy, brak gotowych odpowiedzi |
+| 3 | Ton i jezyk | L2 holistic | 15% | Polski, "ty", bez emoji, zachecanie, cierpliwosc, feedback czasowy, konsolidacja |
+| 4 | Coaching reaction | L1 binary | 15% | coaching_actions zrealizowane: WARN_LEECH, MENTION_PAST, HINT_DELAY |
+| 5 | Scenario-specific | L1 binary | 10% | Checkpoints unikalne per scenariusz (patrz sekcja 5) |
+
+## 5. Scenariusze (z fixed scripts i binary checkpoints)
+
+Kazdy scenariusz ma:
+- **Fixed student script** — deterministic odpowiedzi ucznia (ewaluator NIE improwizuje)
+- **Binary checkpoints** — TAK/NIE pytania do oceny zachowania tutora
 
 ### 5.1 first_session
-- Uczen nowy (cwiczenia_lacznie == 0)
-- **Oczekiwania tutora**: sprawdza `progress status`, widzi 0, przedstawia 4 bloki, pyta o wybor
-- **Uczen**: wybiera TEORIA
-- **Oczekiwania**: tutor wywoluje `typ intro`, przedstawia kategorie, daje 1 cwiczenie intro
-- **Przebieg**: 3 cwiczenia latwe, uczen odpowiada wg accuracy persony
+
+**Fixed student script:**
+```
+wymiana_1_uczen: "Chce zaczac od TEORII"
+wymiana_2_uczen: "[poprawna odpowiedz — dokladna wartosc z pre-fetched ANSWER_TEORIA]"
+wymiana_3_uczen: "[bledna odpowiedz — mylenie_div_mod: np. '256 mod 10 = 25']"
+wymiana_4_uczen: "[poprawna po pytaniu sokratejskim tutora]"
+wymiana_5_uczen: "dalej" (nastepne cwiczenie)
+```
+
+**Binary checkpoints:**
+```
+CLI compliance:
+[ ] progress status NA STARCIE
+[ ] Przedstawienie 4 blokow (TEORIA, IMPLEMENTACJA, ARKUSZ, SQL)
+[ ] typ intro --typ sledzenie_algorytmu po wyborze ucznia
+[ ] exercise next --typ sledzenie_algorytmu (NIE exercise question)
+[ ] exercise answer --id X NIE pobrane przed proba ucznia
+[ ] progress blad --exercise-id X --typ Y --kod Z --hint N (po wymiana_3)
+[ ] progress update --id X --wynik Y --czas Z (po kazdym cwiczeniu)
+
+Coaching reaction:
+[ ] coaching_actions zrealizowane (jesli obecne w exercise next)
+
+Scenario-specific:
+[ ] Worked example z cheatsheet (typ intro first_in_type)
+[ ] START_TS=$(date +%s) przed cwiczeniem
+```
 
 ### 5.2 hint_progression
-- Uczen pracuje nad cwiczeniami, trafia na trudne
-- **Przebieg**: uczen 3x odpowiada blednie na to samo cwiczenie
-- **Oczekiwania (lazy loading)**:
-  - Tutor prezentuje cwiczenie z `exercise question` (bez hintow/odpowiedzi)
-  - Po 1. bledzie: tutor sprawdza `coaching.hint_delay`:
-    * hint_delay=1 → pobiera `exercise hints --id`, podaje L1
-    * hint_delay=2 → tylko pytanie sokratejskie (bez hints)
-    * hint_delay=3 → tylko pytanie sokratejskie (bez hints)
-  - Po kolejnych bledach: tutor pobiera hinty jesli jeszcze nie pobral, progresja L1→L2→L3
-  - Po walk_through: pobiera `exercise answer --id`, wyswietla odpowiedz, konsolidacja
-- **Kluczowe**: `progress blad` na kazdym etapie, lazy loading respektowany
+
+**Fixed student script:**
+```
+wymiana_1_uczen: "[bledna odpowiedz — np. brak tabeli sledzenia]"
+wymiana_2_uczen: "[bledna odpowiedz — po pytaniu sokratejskim, inna pomylka]"
+wymiana_3_uczen: "[bledna odpowiedz — po hincie L1, wciaz zla wartosc]"
+wymiana_4_uczen: "poddaje sie"
+wymiana_5_uczen: "[konsolidacja — poprawne wyjasnienie swoimi slowami]"
+```
+
+**Binary checkpoints:**
+```
+CLI compliance:
+[ ] exercise next (NIE exercise question)
+[ ] exercise answer NIE pobrane przed proba ucznia
+[ ] progress blad PRZED exercise hints (kazdorazowo)
+[ ] progress blad z --hint 0 (przed hintem) i --hint 1/2/3 (po hincie)
+[ ] progress update --wynik walk_through --czas Z na koncu
+
+Coaching reaction:
+[ ] coaching_actions zrealizowane (jesli obecne)
+
+Scenario-specific:
+[ ] exercise hints ZABLOKOWANE przy probie < hint_delay (CLI zwraca HINT_LOCKED)
+[ ] Progresja hintow: L1 → L2 (z cheatsheet) → L3 (kluczowy krok)
+[ ] cheatsheet get przy L2
+[ ] Konsolidacja po walk_through ("Wyjasniej swoimi slowami...")
+[ ] Wizualizacja ASCII po walk_through (sledzenie/drzewo)
+```
 
 ### 5.3 difficulty_climb
-- Uczen odpowiada 3x poprawnie bez pomocy
-- **Oczekiwania**: `progress update --wynik poprawne_bez_pomocy` → streak 3 → tutor przechodzi na srednie
-- **Kluczowe**: po update sprawdz ze nowe cwiczenie ma trudnosc `srednie`
+
+**Fixed student script:**
+```
+wymiana_1_uczen: "[poprawna odpowiedz — cwiczenie 1]"
+wymiana_2_uczen: "[poprawna odpowiedz — cwiczenie 2]"
+wymiana_3_uczen: "[poprawna odpowiedz — cwiczenie 3]"
+wymiana_4_uczen: "[poprawna odpowiedz — cwiczenie 4 (srednie)]"
+```
+
+**Binary checkpoints:**
+```
+CLI compliance:
+[ ] 3x progress update --wynik poprawne_bez_pomocy
+[ ] exercise next (auto-difficulty, NIE --trudnosc)
+[ ] Nastepne cwiczenie po streak 3 ma trudnosc >= srednie
+
+Coaching reaction:
+[ ] coaching_actions zrealizowane (jesli obecne)
+
+Scenario-specific:
+[ ] START_TS i ELAPSED per cwiczenie
+[ ] Brak hintow (uczen odpowiada poprawnie)
+```
 
 ### 5.4 review_session
-- Uczen wraca po przerwie, ma zaleglosci SR
-- **Oczekiwania**: tutor sprawdza status, widzi zaleglosci, proponuje powtorke
-- **Przebieg**: `exercise review` → uczen rozwiazuje 2-3 zaleglosci
-- **Kluczowe**: review ma priorytet nad nowym materialem
+
+**Fixed student script:**
+```
+wymiana_1_uczen: "Powtorka" (po wyswietleniu zaleglosci)
+wymiana_2_uczen: "[poprawna odpowiedz — powtorka 1]"
+wymiana_3_uczen: "[bledna odpowiedz — powtorka 2]"
+wymiana_4_uczen: "[poprawna po hincie L1]"
+```
+
+**Binary checkpoints:**
+```
+CLI compliance:
+[ ] progress status NA STARCIE → zaleglosci > 0
+[ ] exercise review uzyty (NIE exercise next)
+[ ] Review PRIORYTET — tutor proponuje powtorke przed nowym materialem
+[ ] progress blad PRZED hintem przy bledzie (wymiana_3)
+[ ] progress update po kazdym cwiczeniu
+
+Coaching reaction:
+[ ] coaching_actions zrealizowane (jesli obecne)
+[ ] Leech tag ostrzezenie jesli obecny w coaching_actions
+
+Scenario-specific:
+[ ] Propozycja: "Masz N zaleglosci. Powtorka czy nowy material?"
+```
 
 ### 5.5 cke_unlock
-- Uczen ma streak 8, osiagnal poziom trudne
-- **Oczekiwania**: tutor ogłasza odblokowanie sprawdzianu CKE
-- **Przebieg**: uczen prosi o `sprawdzian`, tutor pobiera `cke get`
-- **Kluczowe**: brak hintow na sprawdzianie, ocena czesciowa wg zasady_oceniania
+
+**Fixed student script:**
+```
+wymiana_1_uczen: "sprawdzian sledzenie_algorytmu"
+wymiana_2_uczen: "[poprawna odpowiedz na worked-example pytanie o pulapki]"
+wymiana_3_uczen: "[czesciowo poprawna odpowiedz na sprawdzianie — 70% punktow]"
+```
+
+**Binary checkpoints:**
+```
+CLI compliance:
+[ ] cke worked-example --typ X PRZED sprawdzianem
+[ ] cke get --typ X --exclude (wyklucz wczesniej robione)
+[ ] START_TS i ELAPSED
+[ ] cke save --id X --punkty N --max M
+
+Coaching reaction:
+[ ] coaching_actions zrealizowane (jesli obecne)
+
+Scenario-specific:
+[ ] Ogloszenie odblokowania w formacie "*** ODBLOKOWANO ***"
+[ ] Pytanie o pulapki po worked-example ("Co zapamiętasz z tych pułapek?")
+[ ] Brak hintow na sprawdzianie ("To sprawdzian — na egzaminie tez nie bedzie hintow")
+[ ] Ocena czesciowa wg zasady_oceniania
+[ ] Ogloszenie formatu "=== SPRAWDZIAN TYPU ==="
+```
 
 ### 5.6 probna
-- Uczen prosi o probna mature (skrocona: 3 zadania)
-- **Oczekiwania**: tutor pobiera `exam meta`, wyswietla zasady, prowadzi sekwencyjnie
-- **Przebieg**: 3 zadania, uczen odpowiada z rozna trafnoscia
-- **Kluczowe**: brak hintow, podsumowanie per-zadanie + per-kategoria, zapis `exam save`
+
+**Fixed student script:**
+```
+wymiana_1_uczen: "probna 2023"
+wymiana_2_uczen: "[poprawna odpowiedz — zadanie 1]"
+wymiana_3_uczen: "[bledna odpowiedz — zadanie 2, off_by_one]"
+wymiana_4_uczen: "[czesciowo poprawna — zadanie 3, 50% punktow]"
+```
+
+**Binary checkpoints:**
+```
+CLI compliance:
+[ ] exam meta --rok 2023
+[ ] exam task --rok 2023 --zadanie N (per zadanie)
+[ ] START_TS i ELAPSED
+[ ] progress blad przy bledzie (wymiana_3)
+[ ] exam save --rok 2023 --results '[...]' --czas M
+
+Coaching reaction:
+[ ] coaching_actions zrealizowane (jesli obecne)
+
+Scenario-specific:
+[ ] Brak hintow (tryb egzaminacyjny)
+[ ] Podsumowanie per-zadanie + per-kategoria
+[ ] Wyswietlenie zasad egzaminu
+```
 
 ### 5.7 coaching_aware
-- Uczen z historia — ma leech_tags i past_mistakes w coaching
-- **Setup**: pre-fetch z progressed DB (uczen ma cwiczenia, 3+ lapses na tagu, bledy w sesjach)
-- **Przebieg**:
-  1. Tutor pobiera `exercise question` — coaching zawiera leech_tags i past_mistakes
-  2. Uczen rozwiazuje cwiczenie z tagiem obecnym w leech_tags
-  3. Tutor powinien proaktywnie ostrzec o slabym tagu
-  4. Uczen popelnia blad z kodem obecnym w past_mistakes
-  5. Tutor powinien powiazac blad z historia ("Ostatnio miales problem z X")
-- **Oczekiwania**:
-  - Tutor czyta coaching.leech_tags i reaguje (ostrzezenie, dodatkowa uwaga)
-  - Tutor czyta coaching.past_mistakes i proaktywnie wspomina
-  - hint_delay respektowany (progressed student = familiar/mastered = hint_delay 2-3)
-- **Kluczowe**: coaching nie moze byc ignorowany — to glowny cel tego scenariusza
+
+**Fixed student script:**
+```
+wymiana_1_uczen: "[po tutorowym ostrzezeniu o leech_tag] OK, bede uwazniejszy"
+wymiana_2_uczen: "[bledna odpowiedz — mylenie_div_mod, ten sam blad co w historii]"
+wymiana_3_uczen: "[poprawna odpowiedz po hincie]"
+```
+
+**Binary checkpoints:**
+```
+CLI compliance:
+[ ] exercise next (NIE exercise question)
+[ ] progress blad --exercise-id X --typ Y --kod mylenie_div_mod --hint N
+[ ] progress update z wynikiem
+
+Coaching reaction:
+[ ] coaching_actions WARN_LEECH zrealizowane PRZED cwiczeniem
+[ ] coaching_actions MENTION_PAST zrealizowane PO bledzie
+[ ] Komunikat "Od teraz mniej podpowiedzi" obecny (jesli HINT_DELAY w actions)
+[ ] hint_delay respektowany (exercise hints zablokowane przy probie < hint_delay)
+[ ] progress blad PRZED exercise hints
+
+Scenario-specific:
+[ ] Tutor powiazal blad z historia ("Ostatnio miales problem z X")
+[ ] hint_delay >= 2 (progressed student)
+```
 
 ## 6. Orchestracja agentow
 
@@ -210,7 +366,7 @@ Jestes agentem testujacym jakosc korepetytora maturalnego.
 ## Twoje zadanie
 Przeprowadz symulacje sesji korepetycji, grajac OBIE role:
 - **Tutor**: postepuje DOKLADNIE wg ponizszego SKILL.md
-- **Uczen**: postepuje wg specyfikacji persony
+- **Uczen**: postepuje DOKLADNIE wg fixed student script (NIE improwizuj odpowiedzi!)
 
 ## Testowany SKILL.md
 <skill>
@@ -222,6 +378,12 @@ Przeprowadz symulacje sesji korepetycji, grajac OBIE role:
 
 ## Scenariusz: {SCENARIO_NAME}
 {SCENARIO_DESCRIPTION}
+
+## Fixed student script
+{STUDENT_SCRIPT}
+
+## Binary checkpoints
+{CHECKPOINTS}
 
 ## Pre-fetched data
 - Question (TEORIA): {EX_TEORIA}
@@ -237,36 +399,58 @@ Przeprowadz symulacje sesji korepetycji, grajac OBIE role:
 - Progress status: {STATUS}
 
 ## Instrukcje
-1. Symuluj dialog tutor↔uczen (8-15 wymian). Tutor postepuje wg SKILL.md,
-   uczen wg persony (accuracy, typowe bledy, zachowanie).
-2. Przy kazdej akcji tutora ZAPISZ komende CLI ktora tutor POWINIEN wywolac
-   (np. `./matura exercise question --typ X`, `./matura exercise hints --id Y`,
-   `./matura exercise answer --id Y`, `./matura progress update --id Y --wynik Z`).
-3. WAZNE — lazy loading: tutor NIE widzi hintow ani odpowiedzi na starcie.
-   Musi pobrac je osobnymi komendami. Jesli tutor podaje hint bez wczesniejszego
-   `exercise hints --id` — to blad integralnosci.
-4. Po symulacji OCEN transkrypt wg ponizszej rubryki.
-5. Zwroc wynik DOKLADNIE w formacie JSON ponizej.
 
-## Rubryka
-{RUBRIC_TABLE}
+### Krok 1: Symuluj dialog
+Symuluj dialog tutor↔uczen (8-15 wymian). Tutor postepuje wg SKILL.md.
+Uczen postepuje DOKLADNIE wg fixed student script — NIE improwizuj odpowiedzi.
+Przy kazdej akcji tutora ZAPISZ komende CLI ktora tutor POWINIEN wywolac.
+
+### Krok 2: Ocen Layer 1 (binary checkpoints)
+Dla KAZDEGO checkpointu z listy sprawdz czy zostal spelniony w transkrypcie.
+Odpowiedz TAK lub NIE. Policz trafienia.
+
+### Krok 3: Ocen Layer 2 (holistic quality)
+
+**Metoda sokratejska (1-5):**
+- 5/5: Tutor pyta "Co sie stanie gdy n=0?" zamiast podac odpowiedz. Uczen sam dochodzi do rozwiazania.
+- 3/5: Tutor mowi "Podpowiedz: sprawdz warunek bazowy" — daje kierunek ale nie pyta.
+- 1/5: Tutor mowi "Odpowiedz to 13, bo..." — gotowe rozwiazanie.
+
+**Ton i jezyk (1-5):**
+- 5/5: Polski, "ty", zachecajacy, cierpliwy przez 3 proby, brak emoji. Feedback czasowy. Konsolidacja po walk_through.
+- 3/5: Poprawny jezyk ale bez zachecania, lub sporadyczny emoji.
+- 1/5: Angielski, formalny, emoji, lub agresywny ton.
+
+### Krok 4: Oblicz score
+
+```
+L1_percent = (trafienia / total_checkpoints) * 100
+L2_avg = (metoda_sokratejska * 0.625 + ton_i_jezyk * 0.375)  # znormalizowane wagi: 25/(25+15), 15/(25+15)
+overall = 0.6 * L1_percent + 0.4 * (L2_avg / 5 * 100)
+pass = overall >= 70
+```
+
+### Krok 5: Zwroc JSON
 
 ## Format odpowiedzi (DOKLADNIE ten JSON, nic wiecej)
 ```json
 {
   "persona": "{PERSONA_NAME}",
   "scenario": "{SCENARIO_NAME}",
-  "scores": {
-    "metoda_sokratejska": {"score": N, "max": 5, "uwagi": "..."},
-    "progresja_hintow": {"score": N, "max": 5, "uwagi": "..."},
-    "sledzenie_bledow": {"score": N, "max": 5, "uwagi": "..."},
-    "adaptacja_trudnosci": {"score": N, "max": 5, "uwagi": "..."},
-    "powtorki_sr": {"score": N, "max": 5, "uwagi": "..."},
-    "ton_i_jezyk": {"score": N, "max": 5, "uwagi": "..."},
-    "integralnosc_cli": {"score": N, "max": 5, "uwagi": "..."},
-    "coaching": {"score": N, "max": 5, "uwagi": "..."}
+  "layer1": {
+    "checkpoints_total": N,
+    "checkpoints_passed": M,
+    "score_percent": P,
+    "details": {
+      "checkpoint_name": true/false,
+      ...
+    }
   },
-  "weighted_score": M,
+  "layer2": {
+    "metoda_sokratejska": {"score": N, "max": 5, "uwagi": "..."},
+    "ton_i_jezyk": {"score": N, "max": 5, "uwagi": "..."}
+  },
+  "overall_score": M,
   "pass": true/false,
   "transcript_excerpt": "... (3-5 kluczowych wymian) ...",
   "issues": ["issue1", "issue2"],
@@ -274,14 +458,9 @@ Przeprowadz symulacje sesji korepetycji, grajac OBIE role:
 }
 ```
 
-Score oblicz: sum(score * waga) / 5 * 100, gdzie wagi:
-metoda_sokratejska=0.25, progresja_hintow=0.20, sledzenie_bledow=0.15,
-adaptacja_trudnosci=0.15, powtorki_sr=0.10, ton_i_jezyk=0.05, integralnosc_cli=0.05, coaching=0.05.
-
-Pass = weighted_score >= 70.
-
 WAZNE: Nie oceniaj lagodnie. Jesli SKILL.md nie mowi tutorowi zeby cos zrobil,
 tutor tego NIE robi — i stracisz punkty. Badz surowy ale sprawiedliwy.
+Checkpoints sa binarne — spelniony lub nie. Brak argumentu na TAK = NIE.
 ```
 
 Spawns agentow **rownolegle** (Task tool z subagent_type=general-purpose).
@@ -291,7 +470,7 @@ Spawns agentow **rownolegle** (Task tool z subagent_type=general-purpose).
 Po zakonczeniu wszystkich agentow:
 
 1. Parsuj JSON z kazdego agenta (wyciagnij z odpowiedzi blok JSON)
-2. Oblicz overall score = srednia wazona ze wszystkich uruchomien
+2. Oblicz overall score = srednia ze wszystkich uruchomien
 3. Wygeneruj raport markdown
 
 ## 8. Raport — format
@@ -302,24 +481,29 @@ Po zakonczeniu wszystkich agentow:
 ## Per-scenario results
 
 ### Persona: {persona} | Scenario: {scenario}
+
+**Layer 1 — Binary checkpoints**: {passed}/{total} ({L1_percent}%)
+| Checkpoint | Result |
+|------------|--------|
+| {name} | PASS/FAIL |
+| ... | ... |
+
+**Layer 2 — Holistic quality**:
 | Kryterium | Score | Uwagi |
 |-----------|-------|-------|
 | Metoda sokratejska | {s}/5 | {uwagi} |
-| Progresja hintow | {s}/5 | {uwagi} |
-| Sledzenie bledow | {s}/5 | {uwagi} |
-| Adaptacja trudnosci | {s}/5 | {uwagi} |
-| Powtorki SR | {s}/5 | {uwagi} |
 | Ton i jezyk | {s}/5 | {uwagi} |
-| Integralnosc CLI | {s}/5 | {uwagi} |
-| Coaching | {s}/5 | {uwagi} |
-| **SCORE** | **{weighted}/100** | **{PASS/FAIL}** |
+
+| **OVERALL** | **{overall}/100** | **{PASS/FAIL}** |
 
 [...powtorzone dla kazdej pary...]
 
 ## Summary
 - **Overall**: {avg_score}/100 ({PASS/FAIL})
 - **Pass rate**: {passed}/{total}
-- **Weakest**: {najslabsze_kryterium} (avg {x}/5)
+- **L1 avg**: {avg_L1}%
+- **L2 avg**: {avg_L2}/5
+- **Weakest checkpoints**: {najczesciej_failujace_checkpoints}
 - **Issues**:
   - {issue1}
   - {issue2}

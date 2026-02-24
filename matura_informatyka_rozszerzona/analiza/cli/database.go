@@ -9,7 +9,7 @@ import (
 	_ "modernc.org/sqlite"
 )
 
-const currentSchemaVersion = 5
+const currentSchemaVersion = 6
 
 // OpenDB opens progress DB as main, attaches matura.db as "data" read-only.
 // Returns the DB, whether matura.db was attached, and any error.
@@ -245,6 +245,16 @@ func createProgressSchema(db *sql.DB) error {
 	CREATE INDEX IF NOT EXISTS idx_bledy_kod ON progress_bledy(blad_kod);
 	CREATE INDEX IF NOT EXISTS idx_bledy_typ ON progress_bledy(typ);
 	CREATE INDEX IF NOT EXISTS idx_worked_examples_typ ON worked_examples_shown(typ);
+
+	CREATE TABLE IF NOT EXISTS active_exercises (
+		exercise_id TEXT PRIMARY KEY,
+		typ TEXT NOT NULL,
+		fetched_at TEXT NOT NULL DEFAULT (datetime('now')),
+		attempt_count INTEGER NOT NULL DEFAULT 0,
+		hint_delay INTEGER NOT NULL DEFAULT 1,
+		hints_fetched INTEGER NOT NULL DEFAULT 0,
+		answer_fetched INTEGER NOT NULL DEFAULT 0
+	);
 	`
 	_, err := db.Exec(schema, currentSchemaVersion)
 	return err
@@ -345,6 +355,18 @@ var migrations = []Migration{
 			return err
 		}
 		_, err := tx.Exec("CREATE INDEX IF NOT EXISTS idx_worked_examples_typ ON worked_examples_shown(typ)")
+		return err
+	}},
+	{Version: 6, Apply: func(tx *sql.Tx) error {
+		_, err := tx.Exec(`CREATE TABLE IF NOT EXISTS active_exercises (
+			exercise_id TEXT PRIMARY KEY,
+			typ TEXT NOT NULL,
+			fetched_at TEXT NOT NULL DEFAULT (datetime('now')),
+			attempt_count INTEGER NOT NULL DEFAULT 0,
+			hint_delay INTEGER NOT NULL DEFAULT 1,
+			hints_fetched INTEGER NOT NULL DEFAULT 0,
+			answer_fetched INTEGER NOT NULL DEFAULT 0
+		)`)
 		return err
 	}},
 }

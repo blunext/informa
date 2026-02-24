@@ -222,7 +222,7 @@ run_layer_1() {
   fi
 
   test_json_cmd "progress blad" \
-    matura_tmp progress blad --exercise-id "$ex_id" --typ cyfry_liczby --kod brak_inicjalizacji
+    matura_tmp progress blad --exercise-id "$ex_id" --typ cyfry_liczby --kod brak_inicjalizacji --hint 0
 
   # cke save needs a valid CKE id
   local cke_id
@@ -319,10 +319,16 @@ print(d['podzadania'][0]['punkty'])
     fail "exercise question → coaching field missing"
   fi
 
-  # exercise hints --id returns wskazowki + max_hints
+  # exercise hints/answer require attempt_count > 0 (guardrails).
+  # Record a progress blad first to unlock hints and answer.
   local q_id hints_out hints_ok
   q_id=$(echo "$q_out" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])" 2>/dev/null) || q_id=""
   if [ -n "$q_id" ]; then
+    local q_typ
+    q_typ=$(echo "$q_out" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['typ_nazwa'])" 2>/dev/null) || q_typ="cyfry_liczby"
+    # Unlock guardrails: record an attempt
+    "$MATURA" progress blad --exercise-id "$q_id" --typ "$q_typ" --kod brak_inicjalizacji --hint 0 >/dev/null 2>&1
+
     hints_out=$("$MATURA" exercise hints --id "$q_id" 2>&1)
     hints_ok=$(echo "$hints_out" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print('yes' if 'wskazowki' in d and 'max_hints' in d else 'no')" 2>/dev/null) || hints_ok=""
     if [ "$hints_ok" = "yes" ]; then
@@ -354,7 +360,7 @@ print(d['podzadania'][0]['punkty'])
 
   # Verify worked-example has all pedagogical fields
   local we_out we_has_all
-  we_out=$("$MATURA" cke worked-example --typ projektowanie_algorytmu --force 2>&1)
+  we_out=$(matura_tmp cke worked-example --typ projektowanie_algorytmu --force 2>&1)
   we_has_all=$(echo "$we_out" | python3 -c "
 import sys,json
 d=json.loads(sys.stdin.read())
@@ -716,7 +722,7 @@ run_layer_6() {
   blad_eid=$("$MATURA" exercise question --typ cyfry_liczby 2>/dev/null \
     | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])" 2>/dev/null) || blad_eid="7.1"
   for i in 1 2 3; do
-    "$MATURA" --db-dir "$diag_dir" progress blad --exercise-id "$blad_eid" --typ cyfry_liczby --kod mylenie_div_mod >/dev/null 2>&1
+    "$MATURA" --db-dir "$diag_dir" progress blad --exercise-id "$blad_eid" --typ cyfry_liczby --kod mylenie_div_mod --hint 0 >/dev/null 2>&1
   done
 
   local top_blad

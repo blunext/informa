@@ -2510,3 +2510,249 @@ func TestDiagnoseHasStatusFields(t *testing.T) {
 		}
 	}
 }
+
+// === Guardrails tests ===
+
+func TestMigrationV5ToV6(t *testing.T) {
+	dir := testDir(t)
+	d := openTestDB(t, dir)
+
+	// Table should exist after migration
+	var count int
+	err := d.QueryRow("SELECT COUNT(*) FROM active_exercises").Scan(&count)
+	if err != nil {
+		t.Fatalf("active_exercises table should exist: %v", err)
+	}
+	if count != 0 {
+		t.Fatalf("expected 0 rows, got %d", count)
+	}
+}
+
+func TestRegisterFetchAndClear(t *testing.T) {
+	dir := testDir(t)
+	d := openTestDB(t, dir)
+
+	// Register
+	if err := registerFetch(d, "7.1", "cyfry_liczby", 2); err != nil {
+		t.Fatal(err)
+	}
+
+	// Check answer blocked
+	can, attempts, _ := checkCanFetchAnswer(d, "7.1")
+	if can {
+		t.Fatal("answer should be blocked before any attempt")
+	}
+	if attempts != 0 {
+		t.Fatalf("expected 0 attempts, got %d", attempts)
+	}
+
+	// Increment attempt
+	if err := incrementAttempt(d, "7.1"); err != nil {
+		t.Fatal(err)
+	}
+	can, attempts, _ = checkCanFetchAnswer(d, "7.1")
+	if !can {
+		t.Fatal("answer should be allowed after 1 attempt")
+	}
+	if attempts != 1 {
+		t.Fatalf("expected 1 attempt, got %d", attempts)
+	}
+
+	// Check hints blocked (delay=2, attempt=1)
+	canH, att, delay, _ := checkCanFetchHints(d, "7.1")
+	if canH {
+		t.Fatalf("hints should be blocked (attempt=%d < delay=%d)", att, delay)
+	}
+
+	// Second attempt
+	if err := incrementAttempt(d, "7.1"); err != nil {
+		t.Fatal(err)
+	}
+	canH, _, _, _ = checkCanFetchHints(d, "7.1")
+	if !canH {
+		t.Fatal("hints should be allowed after 2 attempts (delay=2)")
+	}
+
+	// Clear
+	if err := clearExercise(d, "7.1"); err != nil {
+		t.Fatal(err)
+	}
+	can, _, _ = checkCanFetchAnswer(d, "7.1")
+	if !can {
+		t.Fatal("after clear, should be allowed (no tracking)")
+	}
+}
+
+func TestLazyLoadingEnforcement(t *testing.T) {
+	dir := testDir(t)
+	d := openTestDB(t, dir)
+
+	// Fetch exercise (hint_delay=1)
+	registerFetch(d, "1.1", "sledzenie_algorytmu", 1)
+
+	// Answer should be blocked
+	can, _, _ := checkCanFetchAnswer(d, "1.1")
+	if can {
+		t.Fatal("answer should be blocked before attempt")
+	}
+
+	// Hints should be blocked (attempt_count=0 < hint_delay=1)
+	canH, _, _, _ := checkCanFetchHints(d, "1.1")
+	if canH {
+		t.Fatal("hints should be blocked before attempt (delay=1)")
+	}
+
+	// Record error → attempt_count = 1
+	incrementAttempt(d, "1.1")
+
+	// Now answer should be allowed
+	can, _, _ = checkCanFetchAnswer(d, "1.1")
+	if !can {
+		t.Fatal("answer should be allowed after attempt")
+	}
+
+	// Hints should also be allowed now (attempt_count=1 >= hint_delay=1)
+	canH, _, _, _ = checkCanFetchHints(d, "1.1")
+	if !canH {
+		t.Fatal("hints should be allowed after attempt (delay=1)")
+	}
+
+	// Test untracked exercise — should allow everything
+	can, _, _ = checkCanFetchAnswer(d, "untracked.99")
+	if !can {
+		t.Fatal("untracked exercise should allow answer")
+	}
+	canH, _, _, _ = checkCanFetchHints(d, "untracked.99")
+	if !canH {
+		t.Fatal("untracked exercise should allow hints")
+	}
+}
+
+func TestValidateErrorCode(t *testing.T) {
+	// Valid
+	ok, _ := validateErrorCode("sql_group_by", "brak_having")
+	if !ok {
+		t.Fatal("brak_having should be valid for sql_group_by")
+	}
+
+	// Invalid
+	ok, allowed := validateErrorCode("sql_group_by", "brak_inicjalizacji")
+	if ok {
+		t.Fatal("brak_inicjalizacji should be invalid for sql_group_by")
+	}
+	if len(allowed) == 0 {
+		t.Fatal("should return allowed list")
+	}
+
+	// Unknown type
+	ok, _ = validateErrorCode("unknown_type", "anything")
+	if !ok {
+		t.Fatal("unknown type should allow any code")
+	}
+
+	// cyfry_liczby has mylenie_div_mod (cross-category)
+	ok, _ = validateErrorCode("cyfry_liczby", "mylenie_div_mod")
+	if !ok {
+		t.Fatal("mylenie_div_mod should be valid for cyfry_liczby")
+	}
+}
+
+func TestCoachingActions(t *testing.T) {
+	dir := testDir(t)
+	d := openTestDB(t, dir)
+
+	// Insert leech tag (lapses >= 3, low stability for low retrievability)
+	d.Exec(`INSERT INTO progress_tagi (tag, lapses, stability, last_review, poziom, nastepna_powtorka, difficulty, reps, state)
+		VALUES ('cyfry-mod-div', 4, 1.0, '2026-01-01', 1, '2026-01-01', 5.0, 4, 2)`)
+	// Create a typ entry with enough streak to trigger familiar level (hint_delay=2)
+	d.Exec(`INSERT INTO progress_typy (typ, poziom_trudnosci, streak) VALUES ('cyfry_liczby', 'srednie', 4)`)
+	// Add some completed exercises so done > 3
+	d.Exec(`INSERT INTO progress_zrobione (id, typ, data, wynik) VALUES ('7.1', 'cyfry_liczby', '2026-01-01', 'poprawne_bez_pomocy')`)
+	d.Exec(`INSERT INTO progress_zrobione (id, typ, data, wynik) VALUES ('7.2', 'cyfry_liczby', '2026-01-01', 'poprawne_bez_pomocy')`)
+	d.Exec(`INSERT INTO progress_zrobione (id, typ, data, wynik) VALUES ('7.3', 'cyfry_liczby', '2026-01-01', 'poprawne_bez_pomocy')`)
+	d.Exec(`INSERT INTO progress_zrobione (id, typ, data, wynik) VALUES ('7.4', 'cyfry_liczby', '2026-01-01', 'poprawne_bez_pomocy')`)
+
+	c := buildCoaching(d, "cyfry_liczby", []string{"cyfry-mod-div"})
+
+	if len(c.Actions) == 0 {
+		t.Fatal("expected coaching_actions")
+	}
+	foundLeech := false
+	foundDelay := false
+	for _, a := range c.Actions {
+		if strings.Contains(a, "WARN_LEECH") {
+			foundLeech = true
+		}
+		if strings.Contains(a, "HINT_DELAY") {
+			foundDelay = true
+		}
+	}
+	if !foundLeech {
+		t.Fatalf("expected WARN_LEECH action, got: %v", c.Actions)
+	}
+	if !foundDelay {
+		t.Fatalf("expected HINT_DELAY action (familiar = delay 2), got: %v", c.Actions)
+	}
+}
+
+func TestCoachingActionsEmpty(t *testing.T) {
+	dir := testDir(t)
+	d := openTestDB(t, dir)
+
+	// New student — no leech tags, no past mistakes, hint_delay=1
+	c := buildCoaching(d, "sql_group_by", []string{})
+
+	if c.Actions == nil {
+		t.Fatal("Actions should be empty slice, not nil")
+	}
+	if len(c.Actions) != 0 {
+		t.Fatalf("expected 0 actions for new student, got: %v", c.Actions)
+	}
+}
+
+func TestAutoDiagnose(t *testing.T) {
+	dir := testDir(t)
+	d := openTestDB(t, dir)
+
+	// Setup: insert typ entry
+	d.Exec(`INSERT INTO progress_typy (typ, poziom_trudnosci, streak) VALUES ('cyfry_liczby', 'latwe', 1)`)
+
+	// Insert 4 exercises + set cwiczenia_lacznie=4
+	for i := 1; i <= 4; i++ {
+		id := fmt.Sprintf("7.%d", i)
+		d.Exec(`INSERT OR REPLACE INTO progress_zrobione (id, typ, data, wynik) VALUES (?, 'cyfry_liczby', '2026-01-01', 'poprawne_bez_pomocy')`, id)
+	}
+	d.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('cwiczenia_lacznie', '4')`)
+
+	// At 4 exercises, no auto-diagnose
+	var totalDoneStr string
+	d.QueryRow(`SELECT COALESCE(value, '0') FROM progress_meta WHERE key='cwiczenia_lacznie'`).Scan(&totalDoneStr)
+	var totalDone int
+	fmt.Sscanf(totalDoneStr, "%d", &totalDone)
+	if totalDone%5 == 0 {
+		t.Fatal("at 4 exercises, should NOT trigger auto-diagnose")
+	}
+
+	// Bump to 5
+	d.Exec(`UPDATE progress_meta SET value = '5' WHERE key='cwiczenia_lacznie'`)
+	d.QueryRow(`SELECT value FROM progress_meta WHERE key='cwiczenia_lacznie'`).Scan(&totalDoneStr)
+	fmt.Sscanf(totalDoneStr, "%d", &totalDone)
+	if totalDone != 5 {
+		t.Fatalf("expected 5, got %d", totalDone)
+	}
+	if totalDone%5 != 0 {
+		t.Fatal("at 5 exercises, should trigger auto-diagnose")
+	}
+
+	// runDiagnose should work
+	diag, err := runDiagnose(d, "cyfry_liczby", 3)
+	if err != nil {
+		t.Fatalf("runDiagnose error: %v", err)
+	}
+	if diag == nil {
+		t.Fatal("expected non-nil DiagnoseOut")
+	}
+	if diag.TopBledy == nil {
+		t.Fatal("TopBledy should be empty slice, not nil")
+	}
+}

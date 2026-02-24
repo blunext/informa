@@ -226,6 +226,22 @@ func buildCoaching(d *sql.DB, typ string, exerciseTags []string) Coaching {
 		}
 	}
 
+	// Generate coaching_actions
+	var actions []string
+	for _, tag := range c.LeechTags {
+		actions = append(actions, fmt.Sprintf("WARN_LEECH: Tag '%s' sprawia Ci trudnosc — zwroc uwage", tag))
+	}
+	for _, m := range c.PastMistakes {
+		actions = append(actions, fmt.Sprintf("MENTION_PAST: Ostatnio mialeS problem z '%s'", m))
+	}
+	if c.HintDelay >= 2 {
+		actions = append(actions, fmt.Sprintf("HINT_DELAY: %d (Od teraz mniej podpowiedzi — rozwijasz samodzielnosc)", c.HintDelay))
+	}
+	if actions == nil {
+		actions = []string{}
+	}
+	c.Actions = actions
+
 	return c
 }
 
@@ -463,6 +479,10 @@ func exerciseQuestionCmd() *cobra.Command {
 			chosen := results[rand.Intn(len(results))]
 			q := exerciseToQuestion(chosen)
 			q.Coaching = buildCoaching(d, typ, chosen.Tagi)
+			// Register fetch for guardrails
+			if err := registerFetch(d, q.ID, q.TypNazwa, q.Coaching.HintDelay); err != nil {
+				fmt.Fprintf(os.Stderr, "warning: registerFetch: %v\n", err)
+			}
 			addWeight(d, 4)
 			jsonOut(q)
 			return nil
@@ -491,6 +511,24 @@ func exerciseHintsCmd() *cobra.Command {
 			if err := d.QueryRow("SELECT COUNT(*) FROM data.cwiczenia WHERE id = ?", id).Scan(&exists); err != nil || exists == 0 {
 				return notFound(fmt.Sprintf("exercise %s not found", id))
 			}
+			// Guardrail: block hints before hint_delay
+			canH, attempts, delay, err := checkCanFetchHints(d, id)
+			if err != nil {
+				return fmt.Errorf("checkCanFetchHints: %w", err)
+			}
+			if !canH {
+				out := map[string]interface{}{
+					"status":     "HINT_LOCKED",
+					"exercise_id": id,
+					"attempt":    attempts,
+					"hint_delay": delay,
+					"action":     "Zadaj pytanie sokratejskie BEZ hintow",
+				}
+				jsonOut(out)
+				return nil
+			}
+			// Mark hints as fetched
+			d.Exec(`UPDATE active_exercises SET hints_fetched = 1 WHERE exercise_id = ?`, id)
 			var typ string
 			d.QueryRow("SELECT typ_nazwa FROM data.cwiczenia WHERE id = ?", id).Scan(&typ)
 			level := getLevel(d, typ)
@@ -520,6 +558,23 @@ func exerciseAnswerCmd() *cobra.Command {
 			if err := d.QueryRow("SELECT COUNT(*) FROM data.cwiczenia WHERE id = ?", id).Scan(&exists); err != nil || exists == 0 {
 				return notFound(fmt.Sprintf("exercise %s not found", id))
 			}
+			// Guardrail: block answer before attempt
+			can, attempts, err := checkCanFetchAnswer(d, id)
+			if err != nil {
+				return fmt.Errorf("checkCanFetchAnswer: %w", err)
+			}
+			if !can {
+				out := map[string]interface{}{
+					"status":        "LAZY_LOADING_BLOCKED",
+					"exercise_id":   id,
+					"attempt_count": attempts,
+					"action":        "Student hasn't attempted yet. Record attempt first via 'progress blad' or 'progress update'.",
+				}
+				jsonOut(out)
+				return nil
+			}
+			// Mark answer as fetched
+			d.Exec(`UPDATE active_exercises SET answer_fetched = 1 WHERE exercise_id = ?`, id)
 			answer := getExerciseAnswer(d, id)
 			addWeight(d, 2)
 			jsonOut(answer)
@@ -601,6 +656,11 @@ func exerciseReviewCmd() *cobra.Command {
 				d.QueryRow("SELECT wynik FROM progress_zrobione WHERE id = ?", ex.ID).Scan(&prevResult)
 				if prevResult.Valid {
 					q.Coaching.PreviousResult = prevResult.String
+				}
+
+				// Register fetch for guardrails
+				if err := registerFetch(d, q.ID, q.TypNazwa, q.Coaching.HintDelay); err != nil {
+					fmt.Fprintf(os.Stderr, "warning: registerFetch: %v\n", err)
 				}
 
 				results = append(results, ReviewOut{
@@ -731,6 +791,11 @@ func progressUpdateCmd() *cobra.Command {
 				return fatal(fmt.Sprintf("commit: %v", err))
 			}
 
+			// Clear exercise from active tracking
+			if err := clearExercise(d, id); err != nil {
+				fmt.Fprintf(os.Stderr, "warning: clearExercise: %v\n", err)
+			}
+
 			out := ProgressUpdateOut{
 				ID:              id,
 				NewLevel:        newLevel,
@@ -789,6 +854,18 @@ func progressUpdateCmd() *cobra.Command {
 
 			if wynik == "walk_through" {
 				addWeight(d, 5)
+			}
+
+			// Auto-diagnose every 5 exercises
+			var totalDoneStr string
+			d.QueryRow(`SELECT COALESCE(value, '0') FROM progress_meta WHERE key='cwiczenia_lacznie'`).Scan(&totalDoneStr)
+			var totalDone int
+			fmt.Sscanf(totalDoneStr, "%d", &totalDone)
+			if totalDone > 0 && totalDone%5 == 0 {
+				diag, err := runDiagnose(d, typNazwa, 3)
+				if err == nil {
+					out.AutoDiagnose = diag
+				}
 			}
 
 			jsonOut(out)
@@ -1247,6 +1324,17 @@ func progressBladCmd() *cobra.Command {
 				return fatal("--exercise-id, --typ, and --kod are required")
 			}
 
+			// Require --hint
+			if hint < 0 {
+				return fatal("--hint wymagany. Uzyj --hint 0 (przed hintem) lub --hint 1/2/3 (po hincie)")
+			}
+
+			// Validate error code against whitelist
+			valid, allowed := validateErrorCode(typ, kod)
+			if !valid {
+				return fatal(fmt.Sprintf("kod '%s' niedostepny dla typ '%s'. Dozwolone: %v", kod, typ, allowed))
+			}
+
 			d := db(cmd)
 
 			// Validate exercise exists
@@ -1266,6 +1354,11 @@ func progressBladCmd() *cobra.Command {
 			}
 
 			lastID, _ := result.LastInsertId()
+
+			// Track attempt for guardrails
+			if err := incrementAttempt(d, exerciseID); err != nil {
+				fmt.Fprintf(os.Stderr, "warning: incrementAttempt: %v\n", err)
+			}
 
 			if hint == 3 {
 				addWeight(d, 3)
@@ -1288,7 +1381,7 @@ func progressBladCmd() *cobra.Command {
 	cmd.Flags().StringVar(&typ, "typ", "", "Exercise type")
 	cmd.Flags().StringVar(&kod, "kod", "", "Short error code (e.g. brak_group_by)")
 	cmd.Flags().StringVar(&opis, "opis", "", "Full error description")
-	cmd.Flags().IntVar(&hint, "hint", 0, "Hint level at which error was identified")
+	cmd.Flags().IntVar(&hint, "hint", -1, "Hint level (0=before any hint, 1/2/3=after hint) — REQUIRED")
 	return cmd
 }
 
@@ -1994,6 +2087,9 @@ func exerciseNextCmd() *cobra.Command {
 					out.ReviewTag = &tag
 					out.DaysOverdue = &daysOverdue
 					out.PoolWarning = poolWarning(d, ex.TypNazwa, ex.Trudnosc)
+					if err := registerFetch(d, q.ID, q.TypNazwa, q.Coaching.HintDelay); err != nil {
+						fmt.Fprintf(os.Stderr, "warning: registerFetch: %v\n", err)
+					}
 					finalizeWeight()
 					jsonOut(out)
 					return nil
@@ -2009,6 +2105,9 @@ func exerciseNextCmd() *cobra.Command {
 					out.Mode = "interleave"
 					out.Exercise = q
 					out.PoolWarning = poolWarning(d, ex.TypNazwa, ex.Trudnosc)
+					if err := registerFetch(d, q.ID, q.TypNazwa, q.Coaching.HintDelay); err != nil {
+						fmt.Fprintf(os.Stderr, "warning: registerFetch: %v\n", err)
+					}
 					finalizeWeight()
 					jsonOut(out)
 					return nil
@@ -2030,6 +2129,9 @@ func exerciseNextCmd() *cobra.Command {
 			out.Mode = "new"
 			out.Exercise = q
 			out.PoolWarning = poolWarning(d, typ, level)
+			if err := registerFetch(d, q.ID, q.TypNazwa, q.Coaching.HintDelay); err != nil {
+				fmt.Fprintf(os.Stderr, "warning: registerFetch: %v\n", err)
+			}
 			finalizeWeight()
 			jsonOut(out)
 			return nil

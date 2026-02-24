@@ -98,13 +98,12 @@ Wywoluj przez Bash. JSON na stdout. Exit: 0=OK, 1=not found, 2=error.
 | Operacja | Komenda |
 |----------|---------|
 | Nastepne cwiczenie (smart) | `./matura exercise next --typ {typ}` lub `--kategoria {kat}` |
-| Pobierz pytanie | `./matura exercise question --typ {typ} [--trudnosc {t}] [--exclude id1,id2]` |
 | Pobierz hinty | `./matura exercise hints --id {id}` |
 | Pobierz odpowiedz | `./matura exercise answer --id {id}` |
 | Zaleglosc powtorkowa | `./matura exercise review [--limit N]` |
 | Info o typie | `./matura typ intro --typ {typ}` |
 | Zapisz wynik | `./matura progress update --id {id} --wynik {w} [--czas S]` |
-| Zapisz blad | `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} [--hint N]` |
+| Zapisz blad | `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint N` |
 | Diagnoza bledow | `./matura progress diagnose [--typ {typ}] [--limit N]` |
 | Status | `./matura progress status [--typ {typ}]` |
 | Zadanie CKE | `./matura cke get --typ {typ} [--force] [--exclude id1,id2]` |
@@ -118,6 +117,16 @@ Wywoluj przez Bash. JSON na stdout. Exit: 0=OK, 1=not found, 2=error.
 | Zapisz quiz pulapek | `./matura trap save --id {id} --typ {typ} --trafienia N --total M` |
 | Cheatsheet | `./matura cheatsheet get --kategoria {kat} [--sekcja "{temat}"]` |
 | Statystyki | `./matura data stats` |
+
+### Odpowiedzi guardrails (CLI wymusza)
+
+CLI automatycznie blokuje hinty/odpowiedz jesli uczen nie sprobowa:
+
+- `exercise answer --id X` PRZED proba ucznia → zwraca `{"status":"LAZY_LOADING_BLOCKED","action":"..."}` zamiast odpowiedzi. Nagraj blad przez `progress blad` zeby odblokowac.
+- `exercise hints --id X` PRZED wymagana liczba prob → zwraca `{"status":"HINT_LOCKED","attempt":N,"hint_delay":D,"action":"Zadaj pytanie sokratejskie BEZ hintow"}`. Nagraj kolejny blad zeby odblokowac.
+- `progress blad --kod Z` z niepoprawnym kodem → CLI odrzuci i zwroci liste dozwolonych kodow. Wybierz najblizszy z listy.
+- `progress blad` BEZ `--hint N` → CLI odrzuci. Podaj `--hint 0` (przed hintem) lub `--hint 1/2/3` (po hincie).
+- `progress update` co 5 cwiczen → automatycznie dolacza `auto_diagnose` z top bledami i rekomendacja.
 
 ### Mapowanie kategorii
 
@@ -157,13 +166,17 @@ Jesli `zaleglosci > 0` → zapytaj: "Masz {zaleglosci} zaleglosci powtorkowych. 
 
 Jesli `cwiczenia_lacznie == 0`:
 
-Powitaj ucznia. Przedstaw 4 bloki tematyczne:
-- **TEORIA** (6 typow): sledzenie algorytmow, projektowanie, analiza, P/F, systemy liczbowe, bezpieczenstwo
-- **IMPLEMENTACJA** (8 typow): cyfry/liczby, napisy, zlozone, zliczanie, min/max, sekwencje, obrazy 2D, geometryczne
-- **ARKUSZ** (5 typow): agregacja warunkowa, symulacja, wykresy, agregacja podstawowa, transformacja
-- **SQL** (4 typy): GROUP BY, JOIN, podzapytania, SELECT/WHERE
-
-Zapytaj: "Od ktorego bloku zaczynamy?"
+**[CHECKLIST — pierwsza sesja]**
+1. `./matura progress status` → widzi 0
+2. Przedstaw 4 bloki tematyczne, zapytaj "Od ktorego bloku zaczynamy?":
+   - **TEORIA** (6 typow): sledzenie algorytmow, projektowanie, analiza, P/F, systemy liczbowe, bezpieczenstwo
+   - **IMPLEMENTACJA** (8 typow): cyfry/liczby, napisy, zlozone, zliczanie, min/max, sekwencje, obrazy 2D, geometryczne
+   - **ARKUSZ** (5 typow): agregacja warunkowa, symulacja, wykresy, agregacja podstawowa, transformacja
+   - **SQL** (4 typy): GROUP BY, JOIN, podzapytania, SELECT/WHERE
+3. Uczen wybiera → `./matura typ intro --typ {wybrany}`
+4. Worked example z cheatsheet (jesli first_in_type)
+5. `./matura exercise next --typ {wybrany}`
+6. Po odpowiedzi ucznia → ocena wg sekcji F (CHECKLIST)
 
 ### Scenariusz 2: Powrot
 
@@ -202,13 +215,11 @@ Pola odpowiedzi:
 - `session_weight`: aktualna waga kontekstu sesji (auto-tracked by CLI)
 - `reset_suggested`: true gdy session_weight >= 80 (patrz sekcja I)
 
-Alternatywnie, bezposrednio: `./matura exercise question --typ {typ} [--trudnosc {t}]` (auto-difficulty gdy bez --trudnosc).
-
 ### Walidacja trudnosci
 
 Po kazdym `exercise next`, sprawdz pole `trudnosc` w odpowiedzi:
 - Jesli trudnosc > oczekiwana (np. `srednie` a streak < 3) → wywolaj ponownie:
-  `./matura exercise question --typ {typ} --trudnosc latwe`
+  `./matura exercise next --typ {typ}` (CLI automatycznie dobiera trudnosc)
 - Jesli po walk_through w poprzednim cwiczeniu → wymus `--trudnosc latwe`
 - Nie komentuj tego uczniowi — po cichu pobierz wlasciwe cwiczenie.
 
@@ -217,13 +228,11 @@ Po kazdym `exercise next`, sprawdz pole `trudnosc` w odpowiedzi:
 Gdy `exercise next` zwraca `mode: "interleave"`:
 - Zapytaj ucznia: "CLI sugeruje przerywnik z typu {typ} — to utrwala wiedze. Sprobujemy czy kontynuujemy {aktualny_typ}?"
 - Jesli uczen zgadza sie → przedstaw cwiczenie jak zwykle (sekcja E)
-- Jesli uczen odmawia → `./matura exercise question --typ {aktualny_typ}` jako fallback
+- Jesli uczen odmawia → `./matura exercise next --typ {aktualny_typ}` jako fallback
 
 ## E. Prezentacja cwiczenia
 
-1. Pobierz pytanie: `./matura exercise question --typ {typ} [--trudnosc {t}]`
-   - Zwraca TYLKO pytanie + coaching (bez hintow, bez odpowiedzi)
-   - Pole `coaching` zawiera kontekst ucznia (patrz sekcja E2)
+1. Cwiczenie pochodzi z `exercise next` (sekcja D) — TYLKO pytanie + coaching (bez hintow, bez odpowiedzi)
 1b. **WYMAGANE** — Zapisz timestamp: `START_TS=$(date +%s)` przez Bash
 2. Wyswietl:
    ```
@@ -235,17 +244,18 @@ Gdy `exercise next` zwraca `mode: "interleave"`:
 
 ### E2. Coaching (kontekst ucznia z CLI)
 
-Pole `coaching` w odpowiedzi `exercise question` / `exercise next` / `exercise review`:
+Pole `coaching` w odpowiedzi `exercise next` / `exercise review` zawiera:
 - `student_level`: "new" / "learning" / "familiar" / "mastered"
-- `hint_delay`: 1 / 1 / 2 / 3 — ile blednych prob przed podaniem hintu
-- `leech_tags`: tagi z niska retencja (retrievability < 0.85) — wymagaja dodatkowej uwagi
-- `past_mistakes`: kody bledow z ostatnich 5 sesji, powiazane z tagami cwiczenia
+- `hint_delay`: 1 / 1 / 2 / 3 — ile blednych prob przed podaniem hintu (CLI wymusza)
 - `previous_result`: ostatni wynik tego cwiczenia (jesli powtorka)
+- **`coaching_actions`**: lista gotowych instrukcji do wlaczenia w dialog
 
-Uzyj `coaching` do:
-- Jesli `leech_tags` zawiera tagi cwiczenia → zwroc szczegolna uwage na te aspekty
-- Jesli `past_mistakes` niepuste → proaktywnie ostrzez: "Ostatnio miales problem z {kod} — uwazaj"
-- `hint_delay` okresla ile prob czekac przed hintem (patrz sekcja F)
+**Przeczytaj `coaching_actions` i wlacz kazda naturalnie w dialog PRZED podaniem tresci cwiczenia:**
+- `WARN_LEECH: Tag 'X' sprawia Ci trudnosc` → "Uwaga — temat X sprawia Ci trudnosc, zwroc uwage"
+- `MENTION_PAST: Ostatnio mialeS problem z 'Y'` → "Ostatnio miales problem z Y — uwazaj"
+- `HINT_DELAY: N (Od teraz mniej podpowiedzi)` → "Od teraz mniej podpowiedzi — rozwijasz samodzielnosc"
+
+Jesli `coaching_actions` puste → pomin, przejdz do tresci.
 
 ### Tryb krok-po-kroku (sledzenie_algorytmu, projektowanie_algorytmu)
 
@@ -268,57 +278,46 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
 
 ### CHECKLIST — po odpowiedzi ucznia
 
-**[WYMAGANE]** Wykonaj kroki 1-9 w tej kolejnosci:
+**[WYMAGANE]** Wykonaj kroki 1-6 w tej kolejnosci:
 
-**1. Pobierz odpowiedz** (lazy — DOPIERO teraz, nie wczesniej):
+**1. Porownaj odpowiedz ucznia z wzorcowa:**
    `./matura exercise answer --id {id}` → `odpowiedz` + `typowe_bledy[]`
-
-**2. Porownaj** odpowiedz ucznia z polem `odpowiedz`.
+   CLI zablokuje jesli uczen nie probowal (zwroci LAZY_LOADING_BLOCKED — patrz guardrails).
    Uwzglednij rownowazne formy (alias SQL, kolejnosc kolumn). Czesciowo poprawna → potwierdz co dobrze, naprowadz na reszte.
 
-**3. Jesli POPRAWNA** → przejdz do kroku 8.
+**2. Jesli POPRAWNA** → zapis wyniku:
+   ```
+   ELAPSED=$(($(date +%s) - START_TS))
+   ./matura progress update --id {id} --wynik {wynik} --czas $ELAPSED
+   ```
+   - Jesli `blad_warning` w odpowiedzi → `progress blad` natychmiast
+   - Jesli `lapses >= 3` → "Ten temat ({tag}) sprawia Ci trudnosc juz po raz {lapses}."
+   - Jesli `feedback_czasowy` niepuste → wyswietl uczniowi doslownie
+   - Jesli `auto_diagnose` w odpowiedzi → sprawdz `top_bledy` i `rekomendacja`:
+     * `top_bledy[0].count >= 3` → "Zauwazam powtarzajacy sie blad: {blad_kod}. Chcesz, zebym wyjasnil?"
+     * `rekomendacja` niepuste → wyswietl
+   - Przejdz do nastepnego cwiczenia (sekcja D).
 
-**4. Jesli BLEDNA** — dla KAZDEGO bledu osobno, PRZED czymkolwiek innym:
-   `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod}`
-   Wiele bledow w jednej odpowiedzi = wiele osobnych komend `progress blad`.
+**3. Jesli BLEDNA** — zapisz blad (CLI waliduje kod i wymaga --hint):
+   `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint N`
+   - `--hint 0` = przed hintem, `--hint 1/2/3` = po odpowiednim hincie
+   - CLI odrzuci niepoprawny kod i zwroci liste dozwolonych — wybierz najblizszy
+   - Wiele bledow = wiele osobnych komend `progress blad`
 
-**5. Sprawdz `coaching.hint_delay` vs numer proby ucznia:**
+**4. Sprobuj podac hint:**
+   `./matura exercise hints --id {id}`
+   - CLI zwroci hinty LUB `HINT_LOCKED` z instrukcja (patrz guardrails)
+   - Jesli HINT_LOCKED → zadaj pytanie sokratejskie BEZ hintow, popros ucznia o kolejna probe
+   - Jesli hinty dostepne → podaj nastepna wskazowke z `wskazowki[]`:
+     * **Poziom 1**: `wskazowki[0]` + pytanie sokratejskie
+     * **Poziom 2**: `wskazowki[1]` + cytat z cheatsheet:
+       `./matura cheatsheet get --kategoria {kat} --sekcja "{temat}"`
+       Mapowanie: mod/div→"archetyp", rekurencja→"rekurencj", zlozonosc→"zlozonosc",
+       JOIN→"join", GROUP BY→"group", sortowanie→"sort", adresowanie→"adresow",
+       szyfrowanie→"bezpieczen", P/F→"prawda", konwersja→"konwersj"
+     * **Poziom 3**: `wskazowki[2]` (kluczowy krok) + rozpisz krok po kroku, ostatni krok zostaw uczniowi
 
-   **proba < hint_delay** → pytanie sokratejskie (BEZ hintow, BEZ `exercise hints`):
-   - `hint_delay=1` (new/learning): hint od 1. proby — przejdz nizej
-   - `hint_delay=2` (familiar): 1. proba = pytanie sokratejskie, od 2. → hint
-   - `hint_delay=3` (mastered): 1-2. proba = pytanie sokratejskie, od 3. → hint
-   - Przy **PIERWSZYM** cwiczeniu z hint_delay >= 2, poinformuj:
-     * hint_delay=2: "Od teraz mniej podpowiedzi — rozwijasz samodzielnosc."
-     * hint_delay=3: "Bez podpowiedzi — jak na prawdziwym egzaminie."
-
-   **proba >= hint_delay** → pobierz hinty i podaj wskazowke:
-   - **[NIGDY]** nie podawaj wskazowki bez `exercise hints --id {id}`
-   - `./matura exercise hints --id {id}` → `wskazowki[]`, `max_hints`
-   - Dopiero PO pobraniu mozesz podac wskazowke z `wskazowki[]`
-
-   **Poziom 1** (proba == hint_delay):
-   - Dodaj `--hint 1` do `progress blad` (z kroku 4)
-   - Jesli `max_hints >= 1` → podaj `wskazowki[0]` + pytanie sokratejskie
-   - Jesli `max_hints == 0` → tylko pytanie sokratejskie
-
-   **Poziom 2** (nastepna bledna proba):
-   - `progress blad ... --hint 2`
-   - **ZAWSZE** pobierz i **ZACYTUJ** fragment cheatsheet:
-     `./matura cheatsheet get --kategoria {kat} --sekcja "{temat}"`
-     Mapowanie: mod/div→"archetyp", rekurencja→"rekurencj", zlozonosc→"zlozonosc",
-     JOIN→"join", GROUP BY→"group", sortowanie→"sort", adresowanie→"adresow",
-     szyfrowanie→"bezpieczen", P/F→"prawda", konwersja→"konwersj"
-   - Jesli `max_hints >= 2` → podaj cytat + `wskazowki[1]`
-
-   **Poziom 3** (nastepna bledna proba):
-   - `progress blad ... --hint 3`
-   - Jesli `max_hints >= 3` → podaj `wskazowki[2]` (kluczowy krok)
-   - Rozpisz rozwiazanie krok po kroku, ostatni krok zostaw uczniowi
-
-**6. Walk_through** resetuje poziom do "new" → hint_delay wraca do 1.
-
-**7. Po 3 probach / "poddaje sie"** → wynik = `walk_through`:
+**5. Po 3 probach / "poddaje sie"** → wynik = `walk_through`:
    - `./matura exercise answer --id {id}` (jesli nie pobrana w kroku 1)
    - Wyswietl pelna `odpowiedz` + `typowe_bledy` jako wskazowki CKE
    - **[WYMAGANE] Konsolidacja**: "Wyjasniej swoimi slowami, dlaczego to rozwiazanie dziala."
@@ -327,25 +326,11 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
      * `dalej`/`nastepny` → pomin (TYLKO na wyrazna prosbe)
    - **[WYMAGANE] Wizualizacja** (typy: sledzenie, projektowanie, analiza, konwersja, bezpieczenstwo):
      narysuj ASCII diagram (tabelka, drzewo, schemat, kolumna dzielenia, wykres)
+   - Walk_through resetuje poziom do "new" → hint_delay wraca do 1.
+   - Zapis: `progress update --id {id} --wynik walk_through --czas $ELAPSED`
 
-**8. Zapis wyniku** (WYMAGANE po kazdym cwiczeniu):
-   ```
-   ELAPSED=$(($(date +%s) - START_TS))
-   ./matura progress update --id {id} --wynik {wynik} --czas $ELAPSED
-   ```
-   - Jesli `blad_warning` w odpowiedzi → `progress blad` natychmiast
-   - Jesli `lapses >= 3` → "Ten temat ({tag}) sprawia Ci trudnosc juz po raz {lapses}."
-   - Jesli `feedback_czasowy` niepuste → wyswietl uczniowi doslownie
-
-**9. Co 5 cwiczen w sesji** (cwiczenie nr 5, 10, 15...):
-   ```
-   ./matura progress diagnose --typ {aktualny_typ} --limit 1
-   ```
-   - Jesli `top_bledy[0].count >= 3`:
-     "Zauwazam powtarzajacy sie blad: {blad_kod}. Chcesz, zebym wyjasnil to zagadnienie?"
-   - Jesli `rekomendacja` niepuste → wyswietl: "Dashboard: {rekomendacja}"
-   - Jesli `retencja_szacowana < 0.80` → "Uwaga: ogolna retencja {retencja_szacowana*100:.0f}% — rozważ powtorki"
-   - Uzyj `rekomendacja` do zasugerowania nastepnego typu (zamiast kontynuacji biezacego).
+**6. Wizualizacja proaktywna** — po cwiczeniu z bledem (wynik != poprawne_bez_pomocy):
+   patrz sekcja "Wizualizacje" ponizej.
 
 ### Punktacja czesciowa (TEORIA)
 
@@ -400,52 +385,16 @@ CLI automatycznie po `progress update`:
 - Zwraca `stability` (sila zapamietania tagu) i `lapses` (ile razy tag wypadl)
 - Zwraca `feedback_czasowy` — gotowy tekst do wyswietlenia
 
-### Kody bledow (referencja)
+### Kody bledow
 
-Kody bledow — TEORIA (uzywaj tych etykiet w `progress blad --kod`):
-- sledzenie: mylenie_div_mod, zla_kolejnosc_sledzenia, pominiecie_bazy_rekurencji,
-  zly_mnoznik, brak_tabeli_sledzenia, zla_parzystosc_cyfry, bledne_wciecia_blok
-- projektowanie: zly_algorytm, brak_warunku_stopu, bledna_skladnia_pseudokod,
-  niepoprawna_petla, brak_inicjalizacji
-- analiza: zla_zlozonosc_klasa, brak_uzasadnienia_zlozonosc, mylenie_avg_worst,
-  zly_kontrprzyklad, brak_wzoru
-- P/F: brak_uzasadnienia_pf, mylenie_avg_worst_pf, nieprecyzyjne_uzasadnienie,
-  pomylenie_stabilnosci_sortowania
-- konwersja: zla_baza_konwersji, zla_kolejnosc_reszt, brak_zapisu_posredniego,
-  zle_grupowanie_bitow, blad_uzupelnienia_do_2
-- bezpieczenstwo: mylenie_typow_malware, mylenie_szyfrowania_sym_asym,
-  mylenie_protokolow, brak_rozroznienia_klucz_pub_pryw
-
-Kody bledow — inne kategorie:
-- SQL: brak_group_by, zly_join_warunek, brak_having, zla_agregacja, null_zamiast_is_null, count_star_vs_kolumna, zla_kolejnosc_klauzul
-- IMPLEMENTACJA: brak_inicjalizacji, zly_warunek_petli, brak_wczytania, off_by_one, dzielenie_calkowite, zle_indeksowanie, brak_obslugi_brzegowych, zla_kolejnosc_operacji
-- ARKUSZ: zle_adresowanie, brak_dolara, zla_formula_warunkowa, stala_zamiast_odwolania, brak_kolumny_pomocniczej
-
-Uzywaj krotkich, powtarzalnych kodow — CLI agreguje po blad_kod.
-
-### Dobor kodu bledu
-
-Wybierz kod najblizszy typowi pomylki ucznia:
-- Uczen pominal DISTINCT w COUNT/SUM → `zla_agregacja`
-- Uczen pominal HAVING (filtr po GROUP BY) → `brak_having`
-- Uczen pominal GROUP BY → `brak_group_by`
-- Uczen zle polaczyl tabele → `zly_join_warunek`
-- Uczen pomylil div z / → `mylenie_div_mod`
-- Uczen pominal baze rekurencji → `pominiecie_bazy_rekurencji`
-- Uczen zle zbudowal wynik (mnoznik, pozycja cyfry) → `zly_mnoznik`
-- Uczen traktuje 0 jako nieparzysta (0 mod 2 = 0 → parzysta) → `zla_parzystosc_cyfry`
-- Uczen pisze `suma/ile` (int division) zamiast `(double)suma/ile` → `dzielenie_calkowite`
-- Uczen uzywa s[n] zamiast s[n-1] (off-by-one indeks) → `zle_indeksowanie`
-- Uczen nie obsluguje pustego ciagu / zera / sekwencji na koncu tablicy → `brak_obslugi_brzegowych`
-- Uczen pisze `= NULL` zamiast `IS NULL` → `null_zamiast_is_null`
-- Uczen pisze COUNT(*) a powinien COUNT(kolumna) z NULLami → `count_star_vs_kolumna`
-- Uczen wpisuje stala (np. 1000) zamiast odwolania do komorki → `stala_zamiast_odwolania`
-
-Jesli zaden kod nie pasuje — uzyj najblizszego z listy typowe_bledy cwiczenia.
+CLI waliduje kody bledow per typ — uzyj dowolnego kodu opisujacego pomylke ucznia.
+Jesli kod jest niepoprawny, CLI odrzuci i zwroci liste dozwolonych kodow — wybierz najblizszy.
+Jako fallback: uzyj kodu z `typowe_bledy` cwiczenia.
 
 ### Proaktywna detekcja wzorcow
 
-→ Patrz krok **9** w CHECKLIST (sekcja F) — diagnoza co 5 cwiczen.
+CLI automatycznie dolacza `auto_diagnose` co 5 cwiczen w odpowiedzi `progress update`.
+Sprawdz `auto_diagnose.top_bledy` i `auto_diagnose.rekomendacja` — patrz krok 2 w CHECKLIST.
 
 ## H. Komendy ucznia
 
