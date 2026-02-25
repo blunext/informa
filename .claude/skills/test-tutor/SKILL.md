@@ -52,8 +52,8 @@ EX_SQL=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ sql_group_b
 EX_ARKUSZ=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ agregacja_warunkowa --trudnosc latwe)
 
 # Exercise IDs (for hints/answer fetch)
-EX_TEORIA_ID=$(echo "$EX_TEORIA" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
-EX_IMPL_ID=$(echo "$EX_IMPL" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
+EX_TEORIA_ID=$(printf '%s' "$EX_TEORIA" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
+EX_IMPL_ID=$(printf '%s' "$EX_IMPL" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
 
 # Unblock guardrails for pre-fetch (exercise question registers with attempt_count=0)
 sqlite3 /tmp/test-tutor-$$/matura_progress.db "UPDATE active_exercises SET attempt_count = 99;"
@@ -81,7 +81,7 @@ INSERT INTO progress_bledy (exercise_id, typ, blad_kod, blad_opis, data) VALUES 
 INSERT INTO progress_zrobione (id, typ, data, wynik) VALUES ('7.1','cyfry_liczby','$(date +%Y-%m-%d)','poprawne_z_pomoca_1');
 "
 EX_COACHING=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ cyfry_liczby)
-EX_COACHING_ID=$(echo "$EX_COACHING" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
+EX_COACHING_ID=$(printf '%s' "$EX_COACHING" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
 sqlite3 /tmp/test-tutor-$$/matura_progress.db "UPDATE active_exercises SET attempt_count = 99 WHERE exercise_id = '$EX_COACHING_ID';"
 HINTS_COACHING=$($MATURA --db-dir /tmp/test-tutor-$$ exercise hints --id $EX_COACHING_ID)
 ANSWER_COACHING=$($MATURA --db-dir /tmp/test-tutor-$$ exercise answer --id $EX_COACHING_ID)
@@ -91,7 +91,7 @@ sqlite3 /tmp/test-tutor-$$/matura_progress.db "
 INSERT OR REPLACE INTO progress_typy (typ, poziom_trudnosci, streak) VALUES ('sledzenie_algorytmu', 'srednie-trudne', 7);
 "
 EX_CKE_PRE=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ sledzenie_algorytmu --trudnosc srednie-trudne)
-EX_CKE_PRE_ID=$(echo "$EX_CKE_PRE" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
+EX_CKE_PRE_ID=$(printf '%s' "$EX_CKE_PRE" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
 $MATURA --db-dir /tmp/test-tutor-$$ progress blad --exercise-id $EX_CKE_PRE_ID --typ sledzenie_algorytmu --kod zly_wynik --hint 0 > /dev/null 2>&1
 ANSWER_CKE_PRE=$($MATURA --db-dir /tmp/test-tutor-$$ exercise answer --id $EX_CKE_PRE_ID)
 
