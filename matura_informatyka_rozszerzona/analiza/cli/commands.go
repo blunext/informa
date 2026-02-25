@@ -547,7 +547,11 @@ func exerciseHintsCmd() *cobra.Command {
 			d.QueryRow("SELECT typ_nazwa FROM data.cwiczenia WHERE id = ?", id).Scan(&typ)
 			level := getLevel(d, typ)
 			hints := getExerciseHints(d, id, level)
-			addWeight(d, 1)
+			if hints.CheatsheetExcerpt != "" {
+				addWeight(d, 3)
+			} else {
+				addWeight(d, 1)
+			}
 			jsonOut(hints)
 			return nil
 		},
@@ -688,6 +692,7 @@ func exerciseReviewCmd() *cobra.Command {
 			if len(results) == 0 {
 				return notFound("no reviews due")
 			}
+			addWeight(d, 4*len(results))
 			jsonOut(results)
 			return nil
 		},
@@ -869,6 +874,7 @@ func progressUpdateCmd() *cobra.Command {
 				}
 			}
 
+			addWeight(d, 1)
 			if wynik == "walk_through" {
 				addWeight(d, 5)
 			}
@@ -1392,8 +1398,9 @@ func progressBladCmd() *cobra.Command {
 				fmt.Fprintf(os.Stderr, "warning: incrementAttempt: %v\n", err)
 			}
 
+			addWeight(d, 1)
 			if hint == 3 {
-				addWeight(d, 3)
+				addWeight(d, 2)
 			}
 
 			jsonOut(BladOut{
@@ -1585,6 +1592,7 @@ func progressDiagnoseCmd() *cobra.Command {
 			}
 			out.Rekomendacja = computeRekomendacja(d, statusOut)
 
+			addWeight(d, 2)
 			jsonOut(out)
 			return nil
 		},
@@ -3067,6 +3075,8 @@ func exerciseRubricCmd() *cobra.Command {
 			if err != nil {
 				return fatal(err.Error())
 			}
+			d := db(cmd)
+			addWeight(d, 1)
 			jsonOut(out)
 			return nil
 		},

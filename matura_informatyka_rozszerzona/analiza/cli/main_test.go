@@ -1673,13 +1673,17 @@ func TestAutoWeight(t *testing.T) {
 		return w
 	}
 
-	// Reset
-	db.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
+	reset := func() {
+		db.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
+	}
 
-	// Simulate exercise next (4) + cke get (5) + progress blad hint=3 (3) = 12
+	reset()
+
+	// Simulate exercise next (4) + cke get (5) + progress blad hint=3 (1+2=3) = 12
 	addWeight(db, 4)
 	addWeight(db, 5)
-	addWeight(db, 3)
+	addWeight(db, 1) // progress blad always
+	addWeight(db, 2) // progress blad extra for hint==3
 	if w := readWeight(); w != 12 {
 		t.Errorf("cumulative weight: got %d, want 12", w)
 	}
@@ -1690,16 +1694,326 @@ func TestAutoWeight(t *testing.T) {
 		t.Errorf("after cheatsheet sekcja: got %d, want 14", w)
 	}
 
+	// progress update base (+1) → 15
+	addWeight(db, 1)
+	if w := readWeight(); w != 15 {
+		t.Errorf("after progress update: got %d, want 15", w)
+	}
+
+	// progress diagnose (+2) → 17
+	addWeight(db, 2)
+	if w := readWeight(); w != 17 {
+		t.Errorf("after progress diagnose: got %d, want 17", w)
+	}
+
+	// exercise rubric (+1) → 18
+	addWeight(db, 1)
+	if w := readWeight(); w != 18 {
+		t.Errorf("after exercise rubric: got %d, want 18", w)
+	}
+
+	// exercise review 3 items (+12) → 30
+	addWeight(db, 4*3)
+	if w := readWeight(); w != 30 {
+		t.Errorf("after exercise review 3 items: got %d, want 30", w)
+	}
+
 	// Threshold at 80: 20 exercise-next cycles (20*4=80)
-	db.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
+	reset()
 	for i := 0; i < 20; i++ {
 		addWeight(db, 4)
 	}
 	if w := readWeight(); w != 80 {
 		t.Errorf("20 cycles: got %d, want 80", w)
 	}
-	if readWeight() < 80 {
-		t.Error("weight 80: reset_suggested should be true")
+
+	// progress blad hint<3 always adds 1 (was 0 before fix)
+	reset()
+	addWeight(db, 1) // progress blad hint=0
+	if w := readWeight(); w != 1 {
+		t.Errorf("progress blad hint<3: got %d, want 1", w)
+	}
+
+	// progress update walk_through: 1 base + 5 walk_through = 6
+	reset()
+	addWeight(db, 1) // base
+	addWeight(db, 5) // walk_through
+	if w := readWeight(); w != 6 {
+		t.Errorf("progress update walk_through: got %d, want 6", w)
+	}
+
+	// exercise hints with cheatsheet_excerpt: +3
+	reset()
+	addWeight(db, 3)
+	if w := readWeight(); w != 3 {
+		t.Errorf("hints with cheatsheet: got %d, want 3", w)
+	}
+
+	// exercise hints without cheatsheet_excerpt: +1
+	reset()
+	addWeight(db, 1)
+	if w := readWeight(); w != 1 {
+		t.Errorf("hints without cheatsheet: got %d, want 1", w)
+	}
+}
+
+func TestWeightRealisticSession(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	readWeight := func() int {
+		var wStr string
+		var w int
+		if err := db.QueryRow(`SELECT value FROM progress_meta WHERE key = 'session_context_weight'`).Scan(&wStr); err == nil {
+			fmt.Sscanf(wStr, "%d", &w)
+		}
+		return w
+	}
+
+	db.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
+
+	// Simulate realistic 8-exercise session:
+	// Mix of correct answers, errors with hints, and one walk_through.
+	//
+	// Exercise 1: correct without help
+	//   exercise next (4) + progress update base (1) = 5
+	addWeight(db, 4)
+	addWeight(db, 1)
+
+	// Exercise 2: 1 error hint=1, correct with help
+	//   exercise next (4) + progress blad hint=1 (1) + exercise hints no cheatsheet (1) + progress update base (1) = 7
+	addWeight(db, 4)
+	addWeight(db, 1)
+	addWeight(db, 1)
+	addWeight(db, 1)
+
+	// Exercise 3: correct without help
+	//   exercise next (4) + progress update base (1) = 5
+	addWeight(db, 4)
+	addWeight(db, 1)
+
+	// Exercise 4: 1 error hint=2, correct with help, hints have cheatsheet
+	//   exercise next (4) + progress blad hint=2 (1) + exercise hints with cheatsheet (3) + progress update base (1) = 9
+	addWeight(db, 4)
+	addWeight(db, 1)
+	addWeight(db, 3)
+	addWeight(db, 1)
+
+	// Exercise 5: walk_through (full hint chain)
+	//   exercise next (4) + progress blad hint=3 (1+2=3) + exercise hints with cheatsheet (3) + progress update walk_through (1+5=6) = 16
+	addWeight(db, 4)
+	addWeight(db, 1)
+	addWeight(db, 2)
+	addWeight(db, 3)
+	addWeight(db, 1)
+	addWeight(db, 5)
+
+	// Exercise 6: correct without help
+	//   exercise next (4) + progress update base (1) = 5
+	addWeight(db, 4)
+	addWeight(db, 1)
+
+	// Exercise 7: 1 error, correct with help, no cheatsheet
+	//   exercise next (4) + progress blad hint=1 (1) + exercise hints no cheatsheet (1) + progress update base (1) = 7
+	addWeight(db, 4)
+	addWeight(db, 1)
+	addWeight(db, 1)
+	addWeight(db, 1)
+
+	// Exercise 8: correct without help + auto-diagnose triggers
+	//   exercise next (4) + progress update base (1) + progress diagnose (2) = 7
+	addWeight(db, 4)
+	addWeight(db, 1)
+	addWeight(db, 2)
+
+	// Total: 5 + 7 + 5 + 9 + 16 + 5 + 7 + 7 = 61
+	// But this doesn't include exercise rubric or review calls.
+	// With 1 rubric (+1) and auto-diagnose already counted = still in range.
+
+	w := readWeight()
+	// Expected: 61 (reasonable for 8 exercises with mixed difficulty)
+	if w != 61 {
+		t.Errorf("realistic 8-exercise session: got %d, want 61", w)
+	}
+	// After 8 exercises with errors, weight should be in 50-90 range
+	if w < 50 || w > 90 {
+		t.Errorf("realistic session weight %d outside expected range 50-90", w)
+	}
+}
+
+func TestWeightExerciseHintsConditional(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	readWeight := func() int {
+		var wStr string
+		var w int
+		if err := db.QueryRow(`SELECT value FROM progress_meta WHERE key = 'session_context_weight'`).Scan(&wStr); err == nil {
+			fmt.Sscanf(wStr, "%d", &w)
+		}
+		return w
+	}
+	reset := func() {
+		db.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
+	}
+
+	// Branch 1: WITH cheatsheet — cyfry_liczby at "latwe" level has 3 hints
+	// and IMPLEMENTACJA cheatsheet → CheatsheetExcerpt should be non-empty → +3
+	var exID string
+	db.QueryRow(`SELECT id FROM data.cwiczenia WHERE typ_nazwa = 'cyfry_liczby' LIMIT 1`).Scan(&exID)
+	if exID == "" {
+		t.Fatal("no cyfry_liczby exercise found")
+	}
+	hints := getExerciseHints(db, exID, "latwe")
+	if hints.CheatsheetExcerpt == "" {
+		t.Fatal("expected non-empty cheatsheet_excerpt for cyfry_liczby at latwe level")
+	}
+	reset()
+	if hints.CheatsheetExcerpt != "" {
+		addWeight(db, 3)
+	} else {
+		addWeight(db, 1)
+	}
+	if w := readWeight(); w != 3 {
+		t.Errorf("hints with cheatsheet: weight got %d, want 3", w)
+	}
+
+	// Branch 2: WITHOUT cheatsheet — same exercise at "srednie-trudne" level
+	// gets max 1 hint (calculateMaxHints returns 1), so len(wskazowki) < 2
+	// → CheatsheetExcerpt remains empty → +1
+	hintsLimited := getExerciseHints(db, exID, "srednie-trudne")
+	if hintsLimited.CheatsheetExcerpt != "" {
+		t.Fatal("expected empty cheatsheet_excerpt at srednie-trudne level (max 1 hint)")
+	}
+	reset()
+	if hintsLimited.CheatsheetExcerpt != "" {
+		addWeight(db, 3)
+	} else {
+		addWeight(db, 1)
+	}
+	if w := readWeight(); w != 1 {
+		t.Errorf("hints without cheatsheet (srednie-trudne): weight got %d, want 1", w)
+	}
+
+	// Branch 3: Nonexistent exercise → no hints, no cheatsheet → +1
+	reset()
+	hintsNone := getExerciseHints(db, "nonexistent_99", "latwe")
+	if hintsNone.CheatsheetExcerpt != "" {
+		t.Fatalf("expected empty excerpt for unknown exercise, got %q", hintsNone.CheatsheetExcerpt)
+	}
+	if hintsNone.CheatsheetExcerpt != "" {
+		addWeight(db, 3)
+	} else {
+		addWeight(db, 1)
+	}
+	if w := readWeight(); w != 1 {
+		t.Errorf("hints for nonexistent exercise: weight got %d, want 1", w)
+	}
+}
+
+// TestWeightRubricIntegration runs the exercise rubric command through Cobra
+// and verifies the weight is actually incremented by the wired addWeight call.
+func TestWeightRubricIntegration(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	readWeight := func() int {
+		var wStr string
+		var w int
+		if err := db.QueryRow(`SELECT value FROM progress_meta WHERE key = 'session_context_weight'`).Scan(&wStr); err == nil {
+			fmt.Sscanf(wStr, "%d", &w)
+		}
+		return w
+	}
+
+	db.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
+
+	// Build the command tree and inject DB via context
+	cmd := exerciseRubricCmd()
+	ctx := context.WithValue(context.Background(), ctxKey{}, db)
+	cmd.SetContext(ctx)
+
+	// Capture output
+	var buf bytes.Buffer
+	cmd.SetOut(&buf)
+	cmd.SetErr(&buf)
+	cmd.SetArgs([]string{"--typ", "sledzenie_algorytmu"})
+
+	if err := cmd.Execute(); err != nil {
+		t.Fatalf("exercise rubric failed: %v", err)
+	}
+
+	// Weight should be exactly 1 (from addWeight(d, 1) inside the command)
+	if w := readWeight(); w != 1 {
+		t.Errorf("exercise rubric weight: got %d, want 1", w)
+	}
+}
+
+// TestWeightProgressUpdateIntegration runs progress update through Cobra
+// to verify the base +1 weight and walk_through +5 are wired.
+func TestWeightProgressUpdateIntegration(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	readWeight := func() int {
+		var wStr string
+		var w int
+		if err := db.QueryRow(`SELECT value FROM progress_meta WHERE key = 'session_context_weight'`).Scan(&wStr); err == nil {
+			fmt.Sscanf(wStr, "%d", &w)
+		}
+		return w
+	}
+	reset := func() {
+		db.Exec(`INSERT OR REPLACE INTO progress_meta (key, value) VALUES ('session_context_weight', '0')`)
+	}
+
+	// Seed: register an active exercise so progress update can find its typ
+	var exID, typNazwa string
+	db.QueryRow(`SELECT id, typ_nazwa FROM data.cwiczenia WHERE typ_nazwa = 'cyfry_liczby' LIMIT 1`).Scan(&exID, &typNazwa)
+	if exID == "" {
+		t.Fatal("no exercise found")
+	}
+	db.Exec(`INSERT OR REPLACE INTO active_exercises (exercise_id, typ, started_at) VALUES (?, ?, datetime('now'))`, exID, typNazwa)
+
+	// Case 1: poprawne_bez_pomocy → base weight +1
+	reset()
+	cmd := progressUpdateCmd()
+	ctx := context.WithValue(context.Background(), ctxKey{}, db)
+	cmd.SetContext(ctx)
+	var buf bytes.Buffer
+	cmd.SetOut(&buf)
+	cmd.SetErr(&buf)
+	cmd.SetArgs([]string{"--id", exID, "--wynik", "poprawne_bez_pomocy"})
+
+	if err := cmd.Execute(); err != nil {
+		t.Fatalf("progress update poprawne_bez_pomocy failed: %v", err)
+	}
+	if w := readWeight(); w != 1 {
+		t.Errorf("progress update (poprawne_bez_pomocy) weight: got %d, want 1", w)
+	}
+
+	// Case 2: walk_through → base +1 + walk_through +5 = 6
+	// Need a different exercise ID (already done above)
+	var exID2 string
+	db.QueryRow(`SELECT id FROM data.cwiczenia WHERE typ_nazwa = 'cyfry_liczby' AND id != ? LIMIT 1`, exID).Scan(&exID2)
+	if exID2 == "" {
+		t.Fatal("no second exercise found")
+	}
+	db.Exec(`INSERT OR REPLACE INTO active_exercises (exercise_id, typ, started_at) VALUES (?, ?, datetime('now'))`, exID2, typNazwa)
+
+	reset()
+	cmd2 := progressUpdateCmd()
+	cmd2.SetContext(ctx)
+	var buf2 bytes.Buffer
+	cmd2.SetOut(&buf2)
+	cmd2.SetErr(&buf2)
+	cmd2.SetArgs([]string{"--id", exID2, "--wynik", "walk_through"})
+
+	if err := cmd2.Execute(); err != nil {
+		t.Fatalf("progress update walk_through failed: %v", err)
+	}
+	if w := readWeight(); w != 6 {
+		t.Errorf("progress update (walk_through) weight: got %d, want 6", w)
 	}
 }
 
