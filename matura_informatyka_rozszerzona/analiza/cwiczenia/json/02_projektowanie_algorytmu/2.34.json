@@ -1,0 +1,24 @@
+{
+  "id": "2.34",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: obliczanie wyrazenia w ONP (notacja postfiksowa)",
+  "tagi": ["stos", "napisy", "iteracja", "C++"],
+  "tresc": "Napisz w C++ funkcje `oblicz_ONP(wyrazenie)`, ktora oblicza wartosc wyrazenia arytmetycznego zapisanego w Odwrotnej Notacji Polskiej (ONP/RPN). Wyrazenie to napis, w ktorym cyfry jednocyfrowe (0-9) i operatory (+, -, *) sa oddzielone spacjami.\n\nUzyj stosu (tablicy z indeksem szczytu).\n\n**Przyklady**:\n- `oblicz_ONP(\"3 4 + 2 *\")` = 14 ((3+4)*2)\n- `oblicz_ONP(\"5 2 - 3 +\")` = 6 ((5-2)+3)\n- `oblicz_ONP(\"2 3 * 4 +\")` = 10 (2*3+4)",
+  "wskazowki": [
+    "**Kierunek**: Czytaj wyrazenie znak po znaku. Cyfra → poloz na stos. Operator → zdejmij dwa elementy, wykonaj operacje, wynik poloz na stos.",
+    "**Podejscie**: Przejdz napis. Pomijaj spacje. Jesli cyfra: push na stos. Jesli operator: pop b, pop a, push wynik a op b. Na koncu stos[0] = wynik.",
+    "**Kluczowy krok**: Kolejnosc zdejmowania: najpierw b (prawy operand), potem a (lewy). Dla odejmowania a-b, NIE b-a!"
+  ],
+  "odpowiedz": "**C++:**\n\n```cpp\nint oblicz_ONP(string wyr) {\n    int stos[100];\n    int top = -1;\n    for (int i = 0; i < wyr.length(); i++) {\n        if (wyr[i] >= '0' && wyr[i] <= '9') {\n            stos[++top] = wyr[i] - '0';\n        } else if (wyr[i] == '+' || wyr[i] == '-' || wyr[i] == '*') {\n            int b = stos[top--];\n            int a = stos[top--];\n            if (wyr[i] == '+') stos[++top] = a + b;\n            else if (wyr[i] == '-') stos[++top] = a - b;\n            else stos[++top] = a * b;\n        }\n    }\n    return stos[0];\n}\n```\n\n**Weryfikacja**:\n- \"3 4 + 2 *\": push 3, push 4, '+': pop 4,3 → push 7, push 2, '*': pop 2,7 → push 14 → 14 ✓\n- \"5 2 - 3 +\": push 5, push 2, '-': pop 2,5 → push 3, push 3, '+': pop 3,3 → push 6 → 6 ✓\n- \"2 3 * 4 +\": push 2, push 3, '*': pop 3,2 → push 6, push 4, '+': pop 4,6 → push 10 → 10 ✓",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwrocona kolejnosc operandow: a-b zamiast b-a (lub odwrotnie)**: Zdejmujemy najpierw b (szczyt), potem a. Wynik to a op b, NIE b op a. Dla '+' i '*' nie ma roznicy, ale dla '-' wynik jest bledny",
+      "kara": "-1.5 pkt"
+    },
+    {
+      "opis": "**Brak pomijania spacji**: Spacja nie jest ani cyfra ani operatorem — musi byc ignorowana. Bez tego program moze probowac interpretowac ' ' jako operator",
+      "kara": "-1 pkt"
+    }
+  ]
+}

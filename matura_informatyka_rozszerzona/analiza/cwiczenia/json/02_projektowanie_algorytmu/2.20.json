@@ -1,0 +1,24 @@
+{
+  "id": "2.20",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: NWW przez NWD",
+  "tagi": ["NWD", "petla-while", "mod-div"],
+  "tresc": "Napisz w pseudokodzie lub C++ funkcje `nww(a, b)`, ktora oblicza najmniejsza wspolna wielokrotnosc (NWW) dwoch liczb naturalnych a, b > 0.\n\nPrzypomnienie: NWW(a, b) = (a * b) / NWD(a, b). Mozesz uzyc (zaimplementowac) algorytmu Euklidesa.\n\n**Przyklady**:\n- `nww(12, 8)` = 24 (NWD=4, 12*8/4=24)\n- `nww(7, 5)` = 35 (NWD=1, 7*5/1=35)\n- `nww(6, 6)` = 6 (NWD=6, 6*6/6=6)",
+  "wskazowki": [
+    "**Kierunek**: Najpierw zaimplementuj NWD (Euklides), potem uzyj wzoru NWW = a * b / NWD(a, b).",
+    "**Podejscie**: NWD: `dopoki b <> 0: temp := b; b := a mod b; a := temp`. Potem NWW = a_oryg * b_oryg / nwd.",
+    "**Kluczowy krok**: Pamietaj o zachowaniu oryginalnych wartosci a i b przed obliczeniem NWD!"
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja nwd(a, b)\n    dopoki b <> 0:\n        temp := b\n        b := a mod b\n        a := temp\n    zwroc a\n\nfunkcja nww(a, b)\n    zwroc (a * b) div nwd(a, b)\n```\n\n**C++:**\n\n```cpp\nint nwd(int a, int b) {\n    while (b != 0) {\n        int temp = b;\n        b = a % b;\n        a = temp;\n    }\n    return a;\n}\n\nint nww(int a, int b) {\n    return a / nwd(a, b) * b;  // a/nwd*b zapobiega overflow\n}\n```\n\n**Weryfikacja**:\n- nww(12, 8): nwd(12,8)=4, 12*8/4=24 ✓\n- nww(7, 5): nwd(7,5)=1, 7*5/1=35 ✓\n- nww(6, 6): nwd(6,6)=6, 6*6/6=6 ✓\n\n**Uwaga**: W C++ `a / nwd(a,b) * b` zamiast `a * b / nwd(a,b)` zapobiega przepelnieniu dla duzych liczb.",
+  "typowe_bledy": [
+    {
+      "opis": "**Wzor NWW = a * b * NWD zamiast a * b / NWD**: NWW to iloraz, nie iloczyn z NWD",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Modyfikacja a/b przed obliczeniem NWW**: Algorytm Euklidesa zmienia a i b — trzeba zachowac oryginaly lub wydzielic do osobnej funkcji",
+      "kara": "-1 pkt"
+    }
+  ]
+}

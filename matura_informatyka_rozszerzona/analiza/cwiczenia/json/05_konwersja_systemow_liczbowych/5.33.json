@@ -1,0 +1,24 @@
+{
+  "id": "5.33",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: wyznaczanie podstawy systemu liczbowego",
+  "tagi": ["porownywanie-systemow", "dzielenie-z-reszta", "potegi-dwojki"],
+  "tresc": "Znajdz podstawe systemu liczbowego b.\n\n- a) Zapis 110(b) reprezentuje liczbe 42(10). Jaka jest podstawa b?\n- b) Zapis 121(b) reprezentuje liczbe 16(10). Jaka jest podstawa b?\n- c) Zapis 32(b) reprezentuje liczbe 17(10). Jaka jest podstawa b?",
+  "wskazowki": [
+    "**Kierunek**: Zapisz rownanie: cyfry * potegi b = wartosc dziesietna. Rozwiaz rownanie.",
+    "**Podejscie**: 110(b) = 1*b^2 + 1*b + 0 = b^2 + b. Ustaw rowne 42 i rozwiaz.",
+    "**Kluczowy krok**: Uzyskasz rownanie kwadratowe. Pamietaj: b musi byc calkowita >= 2, i wieksze niz kazda cyfra w zapisie."
+  ],
+  "odpowiedz": "**a) 110(b) = 42(10) → b = 6**\n\n110(b) = 1*b^2 + 1*b + 0 = b^2 + b\nb^2 + b = 42\nb^2 + b - 42 = 0\nDelta = 1 + 168 = 169, sqrt(169) = 13\nb = (-1 + 13) / 2 = 6\n\nSprawdzenie: 110(6) = 36 + 6 + 0 = **42** ✓\n(Cyfra max w zapisie: 1, wiec b >= 2 — OK)\n\n**b) 121(b) = 16(10) → b = 3**\n\n121(b) = 1*b^2 + 2*b + 1 = b^2 + 2b + 1 = (b+1)^2\n(b+1)^2 = 16\nb+1 = 4 (bierzemy pierwiastek dodatni)\nb = 3\n\nSprawdzenie: 121(3) = 9 + 6 + 1 = **16** ✓\n(Cyfra max w zapisie: 2, wiec b >= 3 — OK)\n\n**c) 32(b) = 17(10) → b = 5**\n\n32(b) = 3*b + 2\n3b + 2 = 17\n3b = 15\nb = 5\n\nSprawdzenie: 32(5) = 15 + 2 = **17** ✓\n(Cyfra max w zapisie: 3, wiec b >= 4 — OK, b=5 >= 4)",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o warunku na podstawe**: Podstawa b musi byc wieksza od kazdej cyfry w zapisie. Jesli zapis zawiera cyfre 3, to b >= 4",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Bledne rozwiazanie rownania kwadratowego**: b^2+b-42=0 → delta=169, b=(-1+13)/2=6, NIE b=(-1-13)/2 (ujemna podstawa nie ma sensu)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

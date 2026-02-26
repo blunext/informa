@@ -1,0 +1,24 @@
+{
+  "id": "3.19",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: kontrprzyklad dla zachlannego algorytmu",
+  "tagi": ["kontrprzyklad", "sortowanie", "zlozonosc-czasowa"],
+  "tresc": "Algorytm zachlanny wydawania reszty: zawsze wybieraj najwiekszy nominal, ktory nie przekracza pozostalej kwoty.\n\nDla nominalow {1, 5, 10, 25} algorytm zawsze daje optymalny wynik (najmniejsza liczbe monet).\n\n**Polecenie**: Podaj kontrprzyklad — zestaw nominalow i kwote, dla ktorych algorytm zachlanny NIE daje optymalnego wyniku. Pokaz wynik zachlanny i optymalny.",
+  "wskazowki": [
+    "**Kierunek**: Szukaj nominalow, gdzie wziecie duzego nominalu 'blokuje' lepsze rozwiazanie z mniejszych.",
+    "**Podejscie**: Sprobuj nominalow {1, 3, 4}. Dla jakiej kwoty zachlanny da wiecej monet niz optymalnie?",
+    "**Kluczowy krok**: Dla kwoty 6 i nominalow {1, 3, 4}: zachlanny bierze 4+1+1=3 monety, ale optymalnie: 3+3=2 monety."
+  ],
+  "odpowiedz": "**Kontrprzyklad:**\n\nNominaly: **{1, 3, 4}**, kwota: **6**\n\n**Algorytm zachlanny** (najwiekszy nominal najpierw):\n- 6 - 4 = 2 (bierzemy 4)\n- 2 - 1 = 1 (bierzemy 1)\n- 1 - 1 = 0 (bierzemy 1)\n- Wynik: 4 + 1 + 1 = **3 monety**\n\n**Rozwiazanie optymalne**:\n- 6 - 3 = 3 (bierzemy 3)\n- 3 - 3 = 0 (bierzemy 3)\n- Wynik: 3 + 3 = **2 monety**\n\nAlgorytm zachlanny dal 3 monety, a mozna wydac 2. Zachlanny nie jest optymalny dla tych nominalow.\n\n**Dlaczego?** Zachlanny nie 'patrzy w przyszlosc' — wybiera lokalnie najlepsza opcje (4), ale to blokuje globalne optimum (3+3). Algorytm zachlanny wykonuje 3 kroki (wybor monet), ale optymalny wynik wymaga tylko 2 operacji. W ogolnosci: zachlanny ma zlozonosc O(kwota/nominal), ale nie gwarantuje optymalnego wyniku dla dowolnych nominalow.",
+  "typowe_bledy": [
+    {
+      "opis": "**Kontrprzyklad z nominalami {1, 5, 10, 25}**: Dla standardowych nominalow zachlanny JEST optymalny. Kontrprzyklad wymaga niestandardowych nominalow",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak pokazania obu rozwiazan (zachlannego i optymalnego)**: Sam zestaw nominalow nie wystarczy — trzeba pokazac DLACZEGO to kontrprzyklad",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

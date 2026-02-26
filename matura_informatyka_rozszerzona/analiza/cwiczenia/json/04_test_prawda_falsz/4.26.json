@@ -1,0 +1,24 @@
+{
+  "id": "4.26",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: tablice haszujace i rekurencja P/F",
+  "tagi": ["tablice-haszujace", "rekurencja", "zlozonosc-czasowa"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Tablica haszujaca (hash table) gwarantuje wyszukiwanie w czasie O(1). | |\n| b) | Kolizja w tablicy haszujacej wystepuje, gdy dwa rozne klucze daja ta sama wartosc hasz. | |\n| c) | Kazda funkcja rekurencyjna moze byc zamieniona na wersje iteracyjna. | |\n| d) | Rekurencja ogonowa (tail recursion) nie wymaga dodatkowej pamieci na stosie. | |",
+  "wskazowki": [
+    "**Kierunek**: Hash table daje O(1) SREDNIO, nie gwarantuje — w najgorszym przypadku (kolizje) moze byc O(n).",
+    "**Podejscie**: Kazda rekurencja moze byc zamieniona na iteracje (z jawnym stosem jesli potrzeba).",
+    "**Kluczowy krok**: Tail recursion to rekurencja, gdzie wywolanie rekurencyjne jest ostatnia operacja — kompilator moze zoptymalizowac stos."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | Hash table daje O(1) **srednio** (amortyzowane). W najgorszym przypadku (wszystkie klucze koliduja) wyszukiwanie to O(n). 'Gwarantuje' oznaczaloby pesymistyczne O(1), co jest falszywe. |\n| b) | **P** | Kolizja to sytuacja, gdy h(k1) = h(k2) dla k1 ≠ k2. Rozwiazywana jest przez lancuchowanie (listy) lub adresowanie otwarte. |\n| c) | **P** | Teoretycznie tak — kazda rekurencja moze byc zamieniona na iteracje, ewentualnie z uzyciem jawnego stosu (np. DFS rekurencyjny → DFS z jawnym stosem). |\n| d) | **P** | Rekurencja ogonowa (ostatnia operacja to wywolanie rekurencyjne, bez dalszych obliczen) moze byc zoptymalizowana przez kompilator do iteracji — ponowne uzycie tej samej ramki stosu. |\n\nOdpowiedzi: a) F, b) P, c) P, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze hash table zawsze O(1)**: O(1) to przypadek SREDNI. Pesymistycznie (duzo kolizji) to O(n). Poprawna odpowiedz: O(1) amortyzowane",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze nie kazda rekurencja moze byc iteracyjna**: Kazda MOZE — za pomoca jawnego stosu. To rownowaznosc Turinga — rekurencja i iteracja sa rownowazne",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

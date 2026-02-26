@@ -1,0 +1,24 @@
+{
+  "id": "3.17",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: porzadkowanie zlozonosci",
+  "tagi": ["zlozonosc-czasowa", "O-notacja"],
+  "tresc": "Uszereguj ponizsze zlozonosci od najszybszej (najlepsza) do najwolniejszej (najgorsza) dla duzych n:\n\nO(n^2), O(1), O(2^n), O(n log n), O(log n), O(n), O(n!)",
+  "wskazowki": [
+    "**Kierunek**: Porownaj wartosci funkcji dla duzego n, np. n = 100. Ktora rosnie najwolniej?",
+    "**Podejscie**: O(1) < O(log n) < O(n) < O(n log n) < O(n^2) < ... < O(2^n) < O(n!). Wielomianowe < wykladnicze < silnia.",
+    "**Kluczowy krok**: n log n jest miedzy n a n^2. 2^n jest ZNACZNIE wieksze niz n^2 dla duzych n (2^100 >> 100^2)."
+  ],
+  "odpowiedz": "**Kolejnosc od najszybszej do najwolniejszej:**\n\n**O(1) < O(log n) < O(n) < O(n log n) < O(n^2) < O(2^n) < O(n!)**\n\n**Wartosci dla n = 100:**\n\n| Zlozonosc | Wartosc dla n=100 |\n|-----------|-------------------|\n| O(1) | 1 |\n| O(log n) | ~7 (log2 100) |\n| O(n) | 100 |\n| O(n log n) | ~700 |\n| O(n^2) | 10 000 |\n| O(2^n) | ~1.27 * 10^30 |\n| O(n!) | ~9.33 * 10^157 |\n\n**Kategorie**: stala < logarytmiczna < liniowa < liniowo-logarytmiczna < kwadratowa < wykladnicza < silniowa.\n\nAlgorytmy wielomianowe (do O(n^k)) sa \"szybkie\", wykladnicze i silniowe sa \"wolne\" (niepraktyczne dla duzych n).",
+  "typowe_bledy": [
+    {
+      "opis": "**Umieszczenie O(n log n) za O(n^2)**: n log n < n^2 dla duzych n, bo log n < n. Merge sort O(n log n) jest szybszy niz bubble sort O(n^2)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Mylenie O(2^n) z O(n^2)**: Wykladnicza jest ZNACZNIE wolniejsza niz kwadratowa. Dla n=100: 2^100 >> 100^2",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

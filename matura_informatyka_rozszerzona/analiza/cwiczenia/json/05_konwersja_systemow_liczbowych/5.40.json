@@ -1,0 +1,24 @@
+{
+  "id": "5.40",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: dowodzenie rownosci liczb w roznych systemach",
+  "tagi": ["porownywanie-systemow", "potegi-dwojki", "dec-bin"],
+  "tresc": "Pokaz (udowodnij obliczeniami), ze nastepujace zapisy reprezentuja te same wartosci:\n\n- a) 255(10) = FF(16) = 377(8) = 11111111(2)\n- b) 1000(10) = 3E8(16) = 1750(8)\n- c) 4096(10) = 1000(16) = 10000(8). Wyjasnij, dlaczego 4096 jest 'okragla' w tych systemach.",
+  "wskazowki": [
+    "**Kierunek**: Zamien kazda liczbe na dziesietny i sprawdz, czy wszystkie daja ten sam wynik.",
+    "**Podejscie**: 255 = 2^8 - 1 (max 8-bitowa wartosc). 4096 = 2^12 = 16^3 = 8^4... widzisz wzorzec?",
+    "**Kluczowy krok**: 'Okragle' liczby w danym systemie to potegi podstawy. 16^3 = 4096, dlatego hex = 1000."
+  ],
+  "odpowiedz": "**a) 255 = FF = 377 = 11111111**\n\nFF(16) = 15*16+15 = 240+15 = **255** ✓\n377(8) = 3*64+7*8+7 = 192+56+7 = **255** ✓\n11111111(2) = 128+64+32+16+8+4+2+1 = **255** ✓\n\nWszystkie = 255 = 2^8 - 1 (max wartosc na 8 bitach).\n\n**b) 1000 = 3E8 = 1750**\n\n3E8(16) = 3*256 + 14*16 + 8 = 768+224+8 = **1000** ✓\n1750(8) = 1*512 + 7*64 + 5*8 + 0 = 512+448+40+0 = **1000** ✓\n\n**c) 4096 = 1000(16) = 10000(8)**\n\n1000(16) = 1*16^3 = 1*4096 = **4096** ✓\n10000(8) = 1*8^4 = 1*4096 = **4096** ✓\n\n**Wyjasnenie**: 4096 = 2^12 = (2^4)^3 = 16^3 = (2^3)^4 = 8^4.\n\nLiczba jest 'okragla' (1 z zerami) w systemie o podstawie b, gdy jest potega b:\n- 4096 = 16^3, wiec w hex: 1000\n- 4096 = 8^4, wiec w oct: 10000\n- 4096 = 2^12, wiec w bin: 1000000000000 (1 z 12 zerami)\n\nTo wlasnosc poteg podstawy — analogicznie jak 1000(10) = 10^3 jest 'okragle' w dziesietnym.",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledne potegi 16**: 16^2=256 (nie 512). 16^3=4096 (nie 8192). Potegi: 16, 256, 4096, 65536",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Brak wyjasnenia dlaczego 'okragla'**: Nie wystarczy policzyc — trzeba wyjasnenic, ze 4096=16^3=8^4, wiec ma postac 1 i zera w tych systemach",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

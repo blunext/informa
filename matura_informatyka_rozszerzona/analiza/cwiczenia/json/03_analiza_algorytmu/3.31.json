@@ -1,0 +1,24 @@
+{
+  "id": "3.31",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: drzewo rekursji z trzema galeziami",
+  "tagi": ["drzewo-rekursji", "rekurencja", "zlozonosc-czasowa"],
+  "tresc": "Dana jest funkcja rekurencyjna:\n\n```\nfunkcja g(n)\n    jezeli n <= 0:\n        zwroc 1\n    zwroc g(n-1) + g(n-1) + g(n-1)\n```\n\n**Polecenia**:\n- a) Narysuj drzewo wywolan dla g(3). Ile jest wezlow (wywolan) lacznie?\n- b) Jaka jest zlozonosc czasowa g(n)? Uzasadnij.\n- c) Jak zmienilaby sie zlozonosc, gdyby zamiast 3 wywolan byly 2? A 4?",
+  "wskazowki": [
+    "**Kierunek**: Kazde wywolanie generuje 3 kolejne. Na poziomie 0 jest 1 wezel, na poziomie 1 sa 3, na poziomie 2 jest 9...",
+    "**Podejscie**: Na poziomie k jest 3^k wezlow. Drzewo ma n+1 poziomow (od 0 do n). Lacznie: 1 + 3 + 9 + ... + 3^n.",
+    "**Kluczowy krok**: Suma ciagu geometrycznego: (3^(n+1) - 1) / 2. Dominuje 3^n, wiec O(3^n)."
+  ],
+  "odpowiedz": "**a) Drzewo wywolan g(3):**\n\n```\ng(3)\n├── g(2)\n│   ├── g(1)\n│   │   ├── g(0)=1\n│   │   ├── g(0)=1\n│   │   └── g(0)=1\n│   ├── g(1)\n│   │   ├── g(0)=1\n│   │   ├── g(0)=1\n│   │   └── g(0)=1\n│   └── g(1)\n│       ├── g(0)=1\n│       ├── g(0)=1\n│       └── g(0)=1\n├── g(2) [identyczne poddrzewo]\n└── g(2) [identyczne poddrzewo]\n```\n\nLiczba wezlow na kazdym poziomie:\n- Poziom 0: 1 (g(3))\n- Poziom 1: 3 (g(2))\n- Poziom 2: 9 (g(1))\n- Poziom 3: 27 (g(0))\n\nLacznie: 1 + 3 + 9 + 27 = **40 wywolan**\n\n**b) Zlozonosc: O(3^n)**\n\nRownanie: T(n) = 3T(n-1) + O(1), T(0) = O(1)\nRozwiazanie: T(n) = (3^(n+1) - 1) / 2 = O(3^n)\n\nKazdy wezel generuje 3 potomkow, drzewo ma n+1 poziomow → 3^n lisci.\n\n**c) Porownanie:**\n- 2 wywolania: T(n) = 2T(n-1) → **O(2^n)**\n- 3 wywolania: T(n) = 3T(n-1) → **O(3^n)**\n- 4 wywolania: T(n) = 4T(n-1) → **O(4^n)**\n\nOgolnie: k wywolan → **O(k^n)**. Podstawa wykladnika rowna liczbie wywolan rekurencyjnych.",
+  "typowe_bledy": [
+    {
+      "opis": "**Odpowiedz O(n^3) zamiast O(3^n)**: n^3 to wielomian, 3^n to funkcja wykladnicza. 3 wywolania na kazdy POZIOM daja wykladniczy wzrost",
+      "kara": "-1.5 pkt"
+    },
+    {
+      "opis": "**Bledna liczba wezlow (nie 40)**: Suma 1+3+9+27 = 40. Czesty blad: policzenie tylko lisci (27) lub pominiecie korzenia",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

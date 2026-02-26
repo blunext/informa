@@ -3,7 +3,7 @@
   "nazwa": "Analiza algorytmu",
   "kategoria": "TEORIA",
   "czestotliwosc": "10/11 lat",
-  "punkty_lacznie": 43,
+  "punkty_lacznie": 146,
   "tagi_globalne": [
     "zlozonosc-czasowa",
     "O-notacja",
@@ -146,6 +146,174 @@
         "sortowanie",
         "analiza-srednia"
       ]
+    },
+    {
+      "id": "3.13",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["zlozonosc-czasowa", "O-notacja", "sortowanie", "przeszukiwanie-binarne"]
+    },
+    {
+      "id": "3.14",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["zlozonosc-czasowa", "petle-zagniezdzne", "O-notacja"]
+    },
+    {
+      "id": "3.15",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["zlozonosc-czasowa", "O-notacja", "kontrprzyklad"]
+    },
+    {
+      "id": "3.16",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["rekurencja", "zlozonosc-czasowa", "O-notacja"]
+    },
+    {
+      "id": "3.17",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["zlozonosc-czasowa", "O-notacja"]
+    },
+    {
+      "id": "3.18",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["zlozonosc-czasowa", "dzielniki", "O-notacja"]
+    },
+    {
+      "id": "3.19",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["kontrprzyklad", "sortowanie", "zlozonosc-czasowa"]
+    },
+    {
+      "id": "3.20",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["zlozonosc-czasowa", "O-notacja", "petle-zagniezdzne"]
+    },
+    {
+      "id": "3.21",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": ["rekurencja", "drzewo-rekursji", "zlozonosc-czasowa"]
+    },
+    {
+      "id": "3.22",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["dzielniki", "optymalizacja-sqrt", "zlozonosc-czasowa"]
+    },
+    {
+      "id": "3.23",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["zlozonosc-czasowa", "petle-zagniezdzne", "O-notacja"]
+    },
+    {
+      "id": "3.24",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": ["niezmiennik-petli", "indukcja", "zlozonosc-czasowa"]
+    },
+    {
+      "id": "3.25",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["rownanie-rekurencyjne", "rekurencja", "zlozonosc-czasowa"]
+    },
+    {
+      "id": "3.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["petle-zagniezdzne", "zlozonosc-czasowa", "O-notacja"]
+    },
+    {
+      "id": "3.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["niezmiennik-petli", "przeszukiwanie-binarne", "zlozonosc-czasowa"]
+    },
+    {
+      "id": "3.28",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["kontrprzyklad", "sortowanie", "zlozonosc-czasowa"]
+    },
+    {
+      "id": "3.29",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["analiza-srednia", "zlozonosc-czasowa", "przeszukiwanie-binarne"]
+    },
+    {
+      "id": "3.30",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["indukcja", "zlozonosc-czasowa", "O-notacja"]
+    },
+    {
+      "id": "3.31",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["drzewo-rekursji", "rekurencja", "zlozonosc-czasowa"]
+    },
+    {
+      "id": "3.32",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["zlozonosc-czasowa", "analiza-srednia", "sortowanie"]
+    },
+    {
+      "id": "3.33",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["rownanie-rekurencyjne", "rekurencja", "zlozonosc-czasowa"]
+    },
+    {
+      "id": "3.34",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["analiza-srednia", "zlozonosc-czasowa", "O-notacja"]
+    },
+    {
+      "id": "3.35",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["sortowanie", "kontrprzyklad", "zlozonosc-czasowa"]
+    },
+    {
+      "id": "3.36",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["dzielniki", "zlozonosc-czasowa", "indukcja"]
+    },
+    {
+      "id": "3.37",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["sortowanie", "drzewo-rekursji", "zlozonosc-czasowa"]
+    },
+    {
+      "id": "3.38",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["rekurencja", "drzewo-rekursji", "zlozonosc-czasowa"]
+    },
+    {
+      "id": "3.39",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["rownanie-rekurencyjne", "petle-zagniezdzne", "zlozonosc-czasowa"]
+    },
+    {
+      "id": "3.40",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["sortowanie", "niezmiennik-petli", "indukcja"]
     }
   ]
 }

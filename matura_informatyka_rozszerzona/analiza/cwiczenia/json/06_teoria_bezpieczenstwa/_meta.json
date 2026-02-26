@@ -3,7 +3,7 @@
   "nazwa": "Teoria bezpieczenstwa",
   "kategoria": "TEORIA",
   "czestotliwosc": "2/11 lat",
-  "punkty_lacznie": 32,
+  "punkty_lacznie": 81,
   "tagi_globalne": [
     "phishing",
     "ransomware",
@@ -187,6 +187,156 @@
         "socjotechnika",
         "2FA"
       ]
+    },
+    {
+      "id": "6.16",
+      "trudnosc": "latwe",
+      "punkty": 1,
+      "tagi": ["firewall", "VPN", "2FA"]
+    },
+    {
+      "id": "6.17",
+      "trudnosc": "latwe",
+      "punkty": 1,
+      "tagi": ["atak-brute-force", "2FA"]
+    },
+    {
+      "id": "6.18",
+      "trudnosc": "latwe",
+      "punkty": 1,
+      "tagi": ["protokoly-sieciowe", "HTTPS", "FTP", "SMTP"]
+    },
+    {
+      "id": "6.19",
+      "trudnosc": "latwe",
+      "punkty": 1,
+      "tagi": ["RODO", "socjotechnika"]
+    },
+    {
+      "id": "6.20",
+      "trudnosc": "latwe",
+      "punkty": 1,
+      "tagi": ["szyfrowanie-symetryczne", "szyfrowanie-asymetryczne", "podpis-cyfrowy"]
+    },
+    {
+      "id": "6.21",
+      "trudnosc": "latwe",
+      "punkty": 1,
+      "tagi": ["socjotechnika", "phishing"]
+    },
+    {
+      "id": "6.22",
+      "trudnosc": "latwe",
+      "punkty": 1,
+      "tagi": ["firewall", "DHCP", "DNS"]
+    },
+    {
+      "id": "6.23",
+      "trudnosc": "srednie",
+      "punkty": 2,
+      "tagi": ["trojan", "ransomware", "keylogger"]
+    },
+    {
+      "id": "6.24",
+      "trudnosc": "srednie",
+      "punkty": 2,
+      "tagi": ["HTTPS", "FTP", "protokoly-sieciowe"]
+    },
+    {
+      "id": "6.25",
+      "trudnosc": "srednie",
+      "punkty": 2,
+      "tagi": ["HTTPS", "certyfikat-SSL", "szyfrowanie-asymetryczne"]
+    },
+    {
+      "id": "6.26",
+      "trudnosc": "srednie",
+      "punkty": 2,
+      "tagi": ["VPN", "firewall", "2FA"]
+    },
+    {
+      "id": "6.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 2,
+      "tagi": ["phishing", "socjotechnika", "HTTPS"]
+    },
+    {
+      "id": "6.28",
+      "trudnosc": "srednie-trudne",
+      "punkty": 2,
+      "tagi": ["szyfrowanie-symetryczne", "szyfrowanie-asymetryczne"]
+    },
+    {
+      "id": "6.29",
+      "trudnosc": "srednie-trudne",
+      "punkty": 2,
+      "tagi": ["podpis-cyfrowy", "szyfrowanie-asymetryczne"]
+    },
+    {
+      "id": "6.30",
+      "trudnosc": "srednie-trudne",
+      "punkty": 2,
+      "tagi": ["protokoly-sieciowe", "firewall", "HTTPS"]
+    },
+    {
+      "id": "6.31",
+      "trudnosc": "srednie-trudne",
+      "punkty": 2,
+      "tagi": ["RODO", "socjotechnika"]
+    },
+    {
+      "id": "6.32",
+      "trudnosc": "srednie-trudne",
+      "punkty": 2,
+      "tagi": ["atak-brute-force", "szyfrowanie-symetryczne"]
+    },
+    {
+      "id": "6.33",
+      "trudnosc": "srednie-trudne",
+      "punkty": 2,
+      "tagi": ["certyfikat-SSL", "HTTPS", "szyfrowanie-asymetryczne"]
+    },
+    {
+      "id": "6.34",
+      "trudnosc": "srednie-trudne",
+      "punkty": 2,
+      "tagi": ["2FA", "atak-brute-force", "socjotechnika"]
+    },
+    {
+      "id": "6.35",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["phishing", "trojan", "ransomware", "socjotechnika"]
+    },
+    {
+      "id": "6.36",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["atak-brute-force", "szyfrowanie-symetryczne", "2FA"]
+    },
+    {
+      "id": "6.37",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["firewall", "VPN", "DNS", "DHCP"]
+    },
+    {
+      "id": "6.38",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["szyfrowanie-symetryczne", "szyfrowanie-asymetryczne", "HTTPS", "certyfikat-SSL"]
+    },
+    {
+      "id": "6.39",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["RODO", "phishing", "socjotechnika"]
+    },
+    {
+      "id": "6.40",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["firewall", "VPN", "2FA", "protokoly-sieciowe"]
     }
   ]
 }

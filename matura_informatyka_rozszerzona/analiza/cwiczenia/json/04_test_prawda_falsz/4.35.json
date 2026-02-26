@@ -1,0 +1,24 @@
+{
+  "id": "4.35",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: klasy zlozonosci obliczeniowej P/F",
+  "tagi": ["zlozonosc-czasowa", "sortowanie-zlozonosc"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Klasa P zawiera problemy rozwiazywalne w czasie wielomianowym na maszynie deterministycznej. | |\n| b) | Jesli P != NP, to kazdy problem NP-zupelny jest rozwiazywaly w czasie wielomianowym. | |\n| c) | Problem komiwojazera (TSP — wersja optymalizacyjna) nalezy do klasy P. | |\n| d) | Sortowanie tablicy n elementow za pomoca algorytmow porownawczych ma dolne ograniczenie Omega(n log n). | |",
+  "wskazowki": [
+    "**Kierunek**: P = rozwiazywalne w czasie wielomianowym. NP = weryfikowalne w czasie wielomianowym. NP-zupelne = najtrudniejsze w NP.",
+    "**Podejscie**: Jesli P != NP, to problemy NP-zupelne NIE sa rozwiazywalne w czasie wielomianowym — to jest wlasnie istota hipotezy P != NP.",
+    "**Kluczowy krok**: Dolne ograniczenie Omega(n log n) dotyczy TYLKO sortowan porownawczych. Dowod: drzewo decyzyjne o n! lisciach ma wysokosc >= log(n!) = Omega(n log n)."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | Klasa P (Polynomial time): zbiory problemow, dla ktorych istnieje algorytm deterministyczny o zlozonosci wielomianowej O(n^k) dla stalego k. Przyklady: sortowanie, wyszukiwanie, najkrotsza sciezka. |\n| b) | **F** | Jesli P != NP (co jest powszechnie przyjeta hipoteza), to problemy NP-zupelne NIE sa rozwiazywalne w czasie wielomianowym. NP-zupelne to najtrudniejsze problemy w NP — gdyby ktorys byl w P, to P = NP (sprzecznosc z zalozeniem). |\n| c) | **F** | TSP (wersja decyzyjna) jest NP-zupelny, wersja optymalizacyjna jest NP-trudna. Nie znamy algorytmu wielomianowego i (przy P != NP) nie bedzie istnial. Rozwiazania przyblizone: algorytmy aproksymacyjne, heurystyki. |\n| d) | **P** | Dowod przez drzewo decyzyjne: kazdy algorytm porownawczy generuje drzewo o >= n! lisciach (kazda permutacja). Wysokosc >= log2(n!) = Omega(n log n). Zadne sortowanie porownawcze nie moze byc szybsze. |\n\nOdpowiedzi: a) P, b) F, c) F, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie P z NP**: P ⊆ NP (kazdy problem w P jest tez w NP). Pytanie P vs NP: czy P = NP? Wiekszosc informatykow sadziProbably not",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze Omega(n log n) dotyczy WSZYSTKICH sortowan**: Dotyczy tylko porownawczych. Counting sort, radix sort sa O(n) — bo nie uzywaja porownan",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "6.31",
+  "trudnosc": "srednie-trudne",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: prawa podmiotu danych wg RODO",
+  "tagi": ["RODO", "socjotechnika"],
+  "tresc": "RODO przyznaje osobom fizycznym szereg praw dotyczacych ich danych osobowych. Dopasuj prawo do opisu.\n\nPrawa: {prawo dostepu, prawo do bycia zapomnianym, prawo do przenoszenia danych, prawo do sprzeciwu}.\n\n| Lp. | Opis | Prawo |\n|-----|------|------|\n| a) | Moge zadac od firmy usuniecia wszystkich moich danych osobowych. | |\n| b) | Moge poprosic o kopie moich danych w formacie nadajacym sie do odczytu maszynowego. | |\n| c) | Moge zapytac firme, jakie moje dane przetwarza i w jakim celu. | |\n| d) | Moge sprzeciwic sie przetwarzaniu moich danych w celach marketingowych. | |",
+  "wskazowki": [
+    "**Kierunek**: RODO = unijne rozporzadzenie o ochronie danych osobowych (GDPR). Obowiazuje od 2018 roku.",
+    "**Podejscie**: 'Usuniecie' = prawo do bycia zapomnianym. 'Kopia' = przenoszenie. 'Jakie dane' = dostep. 'Sprzeciw' = sprzeciw.",
+    "**Kluczowy krok**: Prawo do bycia zapomnianym NIE jest bezwzgledne — firma moze odmowic, jesli ma podstawe prawna (np. obowiazek podatkowy)."
+  ],
+  "odpowiedz": "| Lp. | Prawo | Uzasadnienie |\n|-----|-------|--------------|\n| a) | **prawo do bycia zapomnianym** (art. 17 RODO) | Osoba moze zadac usuniecia swoich danych osobowych. Firma MUSI usunac dane, chyba ze istnieje podstawa prawna do ich dalszego przetwarzania (np. realizacja umowy, obowiazek prawny). |\n| b) | **prawo do przenoszenia danych** (art. 20 RODO) | Osoba ma prawo otrzymac swoje dane w ustrukturyzowanym, powszechnie uzywanym formacie (np. CSV, JSON) i przekazac je innemu administratorowi. |\n| c) | **prawo dostepu** (art. 15 RODO) | Osoba moze zapytac administratora: jakie dane przetwarza, w jakim celu, komu je udostepnia, jak dlugo bedzie je przechowywac. Administrator musi odpowiedziec w ciagu 30 dni. |\n| d) | **prawo do sprzeciwu** (art. 21 RODO) | Osoba moze sprzeciwic sie przetwarzaniu danych w celach marketingu bezposredniego — administrator MUSI zaprzestac. Sprzeciw wobec marketingu jest bezwzgledny. |",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze prawo do bycia zapomnianym jest bezwzgledne**: Firma moze odmowic, jesli dane sa potrzebne z mocy prawa (np. faktury, dane podatkowe). To prawo MA wyjatki",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Mylenie prawa dostepu z prawem do przenoszenia**: Dostep = pytanie 'jakie moje dane macie?'. Przenoszenie = 'dajcie mi kopie w formacie maszynowym'",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "6.22",
+  "trudnosc": "latwe",
+  "punkty": 1,
+  "zrodlo": "Wzorzec: podstawowe pojecia bezpieczenstwa sieciowego",
+  "tagi": ["firewall", "DHCP", "DNS"],
+  "tresc": "Dopasuj usluge sieciowa do jej opisu. Wybierz ze zbioru: {DHCP, DNS, firewall}.\n\n| Lp. | Opis | Usluga |\n|-----|------|--------|\n| a) | Automatycznie przydziela adresy IP urzadzeniom w sieci lokalnej. | |\n| b) | Zamienia nazwy domenowe (np. wp.pl) na adresy IP. | |\n| c) | Kontroluje ruch sieciowy, decydujac ktore pakiety moga przechodzic. | |",
+  "wskazowki": [
+    "**Kierunek**: DHCP = Dynamic Host Configuration Protocol (przydzielanie IP). DNS = Domain Name System (nazwy → IP).",
+    "**Podejscie**: DHCP odpowiada na pytanie 'jaki mam adres IP?', DNS odpowiada na pytanie 'jaki IP ma ta strona?'.",
+    "**Kluczowy krok**: Firewall (zapora) = straznik sieci. DHCP = administrator adresow. DNS = tlumacz nazw."
+  ],
+  "odpowiedz": "| Lp. | Usluga | Uzasadnienie |\n|-----|--------|-------------|\n| a) | **DHCP** | DHCP (Dynamic Host Configuration Protocol) automatycznie konfiguruje urzadzenia sieciowe: przydziela adres IP, maske podsieci, brame domyslna i adresy DNS. Bez DHCP trzeba recznie konfigurowac kazde urzadzenie. |\n| b) | **DNS** | DNS (Domain Name System) zamienia czytelne nazwy domen na adresy IP: wp.pl → 212.77.98.9. Dziala jak 'ksiazka telefoniczna internetu'. |\n| c) | **firewall** | Firewall (zapora sieciowa) analizuje kazdy pakiet sieciowy i na podstawie regul decyduje, czy go przepuscic, czy zablokowac. Chroni siec przed nieautoryzowanym dostepem. |",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie DHCP z DNS**: DHCP przydziela ADRESY IP urzadzeniom. DNS TLUMACZNY nazwy domen na IP. Oba dotycza adresow IP, ale w rozny sposob",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

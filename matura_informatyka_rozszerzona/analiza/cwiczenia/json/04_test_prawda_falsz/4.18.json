@@ -1,0 +1,24 @@
+{
+  "id": "4.18",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: podstawy SQL P/F",
+  "tagi": ["SQL-skladnia", "ORDER-BY"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Klauzula ORDER BY domyslnie sortuje rosnaco (ASC). | |\n| b) | SELECT * FROM tabela zwraca wszystkie kolumny i wszystkie wiersze tabeli. | |\n| c) | Klauzula WHERE moze uzywac operatorow porownania: =, <, >, <=, >=, <>. | |\n| d) | Polecenie DELETE FROM tabela usuwa tabele z bazy danych. | |",
+  "wskazowki": [
+    "**Kierunek**: Rozroznij DELETE (usuwa wiersze) od DROP (usuwa tabele). ORDER BY bez ASC/DESC = rosnaco.",
+    "**Podejscie**: SELECT * = wszystkie kolumny. Bez WHERE = wszystkie wiersze. DELETE FROM = usuwa WIERSZE, nie tabele.",
+    "**Kluczowy krok**: DELETE FROM tabela usuwa WSZYSTKIE wiersze, ale tabela nadal istnieje (pusta). DROP TABLE usuwa tabele."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | ORDER BY domyslnie sortuje rosnaco (ASC). Aby sortowac malejaco, trzeba jawnie napisac DESC. |\n| b) | **P** | Gwiazdka (*) oznacza 'wszystkie kolumny'. Brak klauzuli WHERE oznacza 'bez filtrowania' — zwracane sa wszystkie wiersze. |\n| c) | **P** | WHERE obsluguje wszystkie wymienione operatory. <> oznacza 'rozny od' (odpowiednik != w wielu systemach). |\n| d) | **F** | DELETE FROM tabela **usuwa wiersze** (wszystkie, jesli nie ma WHERE), ale **tabela nadal istnieje** (pusta). Aby usunac tabele, uzywamy DROP TABLE tabela. |\n\nOdpowiedzi: a) P, b) P, c) P, d) F",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie DELETE z DROP**: DELETE = usun wiersze (tabela zostaje). DROP = usun cala tabele ze struktury bazy danych",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze ORDER BY domyslnie sortuje malejaco**: Domyslnie jest ASC (rosnaco). Malejaco wymaga jawnego DESC",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

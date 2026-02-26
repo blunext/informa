@@ -1,0 +1,24 @@
+{
+  "id": "3.32",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: analiza metody dwoch wskaznikow",
+  "tagi": ["zlozonosc-czasowa", "analiza-srednia", "sortowanie"],
+  "tresc": "Dany jest algorytm szukania pary elementow o zadanej sumie w **posortowanej** tablicy:\n\n```\nfunkcja para_suma(tab, n, cel)\n    lewy := 0\n    prawy := n - 1\n    dopoki lewy < prawy:\n        s := tab[lewy] + tab[prawy]\n        jezeli s = cel:\n            zwroc (lewy, prawy)\n        jezeli s < cel:\n            lewy := lewy + 1\n        w przeciwnym razie:\n            prawy := prawy - 1\n    zwroc BRAK\n```\n\n**Polecenia**:\n- a) Przesled algorytm dla tab = {1, 3, 5, 7, 9}, cel = 8.\n- b) Jaka jest zlozonosc czasowa? Uzasadnij.\n- c) Porownaj ze zlozonoscia naiwnego podejscia (dwie zagniezdzne petle).",
+  "wskazowki": [
+    "**Kierunek**: Dwa wskazniki zbiegaja sie ku sobie. W kazdej iteracji jeden z nich przesuwa sie. Ile iteracji maksymalnie?",
+    "**Podejscie**: Poczatkowo lewy=0, prawy=n-1. Roznica prawy-lewy zmniejsza sie o 1 w kazdym kroku.",
+    "**Kluczowy krok**: Maksymalnie n-1 iteracji (kazda przesuwa jeden wskaznik). Naiwne podejscie: O(n^2)."
+  ],
+  "odpowiedz": "**a) Sledzenie** (tab = {1, 3, 5, 7, 9}, cel = 8):\n\n| Krok | lewy | prawy | tab[l] | tab[p] | s | Akcja |\n|------|------|-------|--------|--------|---|-------|\n| 1 | 0 | 4 | 1 | 9 | 10 | 10 > 8 → prawy-- |\n| 2 | 0 | 3 | 1 | 7 | 8 | 8 = 8 → ZNALEZIONO |\n\nWynik: para (0, 3), czyli tab[0]+tab[3] = 1+7 = 8 ✓\n\n**b) Zlozonosc: O(n)**\n\nUzasadnienie: W kazdej iteracji albo lewy rosnie o 1, albo prawy maleje o 1 (lub algorytm konczy sie). Poczatkowo prawy - lewy = n-1. Po kazdej iteracji ta roznica zmniejsza sie o 1. Maksymalnie n-1 iteracji.\n\nKazda iteracja wykonuje stala liczbe operacji (dodawanie, porownanie). Stad O(n).\n\n**c) Porownanie z naiwnym podejsciem:**\n\nNaiwne:\n```\ndla i := 0 do n-1:\n    dla j := i+1 do n-1:\n        jezeli tab[i] + tab[j] = cel:\n            zwroc (i, j)\n```\n\nZlozonosc naiwna: n(n-1)/2 = **O(n^2)**\n\n| Metoda | Zlozonosc | Wymaganie |\n|--------|-----------|----------|\n| Dwa wskazniki | O(n) | Tablica posortowana |\n| Naiwna | O(n^2) | Brak wymagan |\n\nDwa wskazniki sa n/2 razy szybsze, ale wymagaja posortowanej tablicy (lub dodatkowego O(n log n) na sortowanie).",
+  "typowe_bledy": [
+    {
+      "opis": "**Odpowiedz O(n/2)**: W najgorszym przypadku oba wskazniki przesuwaja sie po n/2 razy, ale n/2 to O(n) — stale pomijamy",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze algorytm nie dziala (pomija pary)**: Algorytm jest poprawny — jesli s < cel, to lewy element jest za maly (zadna para z nim nie da wiekszej sumy), wiec go pomijamy. Dowod: argument wymaga posortowanej tablicy",
+      "kara": "-1 pkt"
+    }
+  ]
+}

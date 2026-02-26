@@ -1,0 +1,24 @@
+{
+  "id": "6.25",
+  "trudnosc": "srednie",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: uproszczony schemat nawiazywania polaczenia HTTPS",
+  "tagi": ["HTTPS", "certyfikat-SSL", "szyfrowanie-asymetryczne"],
+  "tresc": "Opisz w 4-5 krokach, co dzieje sie gdy wpisujesz https://bank.pl w przegladarce i nawiazywane jest bezpieczne polaczenie HTTPS. Uzyj terminow: certyfikat SSL/TLS, klucz publiczny, klucz sesji, szyfrowanie asymetryczne, szyfrowanie symetryczne.",
+  "wskazowki": [
+    "**Kierunek**: HTTPS = HTTP + TLS/SSL. Najpierw wymiana kluczy (asymetryczne), potem komunikacja (symetryczne).",
+    "**Podejscie**: Szyfrowanie asymetryczne jest wolne — uzywane TYLKO do wymiany klucza sesji. Potem szybkie szyfrowanie symetryczne.",
+    "**Kluczowy krok**: Certyfikat SSL potwierdza tozsamosc serwera (wydany przez CA). Bez certyfikatu — przegladarka ostrzega."
+  ],
+  "odpowiedz": "**Uproszczony schemat nawiazywania polaczenia HTTPS (TLS Handshake):**\n\n**Krok 1: Klient -> Serwer (Client Hello)**\nPrzegladarka laczy sie z serwerem bank.pl (port 443) i wysyla: obslugiwane wersje TLS, algorytmy szyfrowania, losowa liczbe klienta.\n\n**Krok 2: Serwer -> Klient (Server Hello + Certyfikat)**\nSerwer odpowiada: wybrana wersja TLS, algorytm szyfrowania, losowa liczbe serwera. Wysyla **certyfikat SSL/TLS** zawierajacy klucz publiczny serwera i dane tozsamosci (wydany przez CA).\n\n**Krok 3: Klient weryfikuje certyfikat**\nPrzegladarka sprawdza: czy certyfikat jest wydany przez zaufany CA, czy nie wygasl, czy domena zgadza sie z certyfikatem. Jesli OK — kontynuuje. Jesli nie — ostrzezenie ('polaczenie nie jest prywatne').\n\n**Krok 4: Wymiana klucza sesji (szyfrowanie asymetryczne)**\nKlient generuje losowy **klucz sesji** (symetryczny), szyfruje go **kluczem publicznym** serwera (z certyfikatu) i wysyla. Tylko serwer moze go odszyfrwac swoim kluczem prywatnym.\n\n**Krok 5: Komunikacja (szyfrowanie symetryczne)**\nObie strony maja ten sam klucz sesji. Cala dalsza komunikacja jest szyfrowana **symetrycznie** (np. AES) — szybko i wydajnie.\n\n**Podsumowanie**: Asymetryczne → wymiana klucza. Symetryczne → transmisja danych. Certyfikat → potwierdzenie tozsamosci.",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze cala komunikacja jest asymetryczna**: Szyfrowanie asymetryczne (RSA) jest WOLNE. Uzywane TYLKO do wymiany klucza sesji. Potem szybkie symetryczne (AES)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Pominiecie roli certyfikatu**: Certyfikat SSL NIE szyfruje — potwierdza TOZSAMOSC serwera. Bez certyfikatu atakujacy moze sie podszyc (man-in-the-middle)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

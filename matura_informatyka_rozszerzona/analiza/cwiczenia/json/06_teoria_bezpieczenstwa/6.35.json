@@ -1,0 +1,24 @@
+{
+  "id": "6.35",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: analiza scenariusza ataku wieloetapowego",
+  "tagi": ["phishing", "trojan", "ransomware", "socjotechnika"],
+  "tresc": "Przeanalizuj ponizszy scenariusz ataku i odpowiedz na pytania.\n\n**Scenariusz**: Pracownik firmy otrzymal e-mail z zalacznikiem 'faktura_03_2024.pdf.exe'. Po uruchomieniu zalacznika program zainstalowal sie w tle i zaczal szyfrwac pliki na dysku sieciowym firmy. Po 2 godzinach na ekranach wszystkich komputerow pojawil sie komunikat z zadaniem okupu.\n\n- a) Zidentyfikuj typ ataku na kazdym etapie (3 etapy).\n- b) Wymien 3 srodki, ktore mogly zapobiec temu atakowi.\n- c) Czy firma powinna zaplacic okup? Uzasadnij.",
+  "wskazowki": [
+    "**Kierunek**: Etap 1 = socjotechnika (email). Etap 2 = malware (trojani). Etap 3 = ransomware (szyfrowanie).",
+    "**Podejscie**: Nazwa pliku '.pdf.exe' to klasyczna sztuczka — uzykownik widzi '.pdf', nie zauwaza '.exe'.",
+    "**Kluczowy krok**: Nie placic okupu — nie ma gwarancji odszyfrowania, finansuje przestepcow. Kluczowa obrona: BACKUP."
+  ],
+  "odpowiedz": "**a) Etapy ataku:**\n\n| Etap | Typ | Opis |\n|------|-----|------|\n| 1 | **Phishing/socjotechnika** | E-mail z falszywym zalacznikiem. Podwojne rozszerzenie `.pdf.exe` maskuje prawdziwy typ pliku. Pracownik jest manipulowany do uruchomienia pliku. |\n| 2 | **Trojan** | Program `faktura_03_2024.pdf.exe` udaje dokument PDF, ale jest plikiem wykonywalnym. Po uruchomieniu instaluje malware w tle. |\n| 3 | **Ransomware** | Malware szyfruje pliki na dysku sieciowym i wyswietla zadanie okupu. Rozprzestrzenia sie po sieci (lateral movement). |\n\n**b) 3 srodki zapobiegawcze:**\n\n1. **Szkolenie pracownikow** — nauka rozpoznawania phishingu, sprawdzania rozszerzen plikow, nieklikania podejrzanych zalacznikow.\n2. **Regularne kopie zapasowe (backup)** — offline lub w chmurze, odizolowane od sieci. Umozliwiaja odtworzenie plikow bez placenia okupu.\n3. **Blokowanie rozszerzen .exe w zalacznikach** — serwer pocztowy powinien blokowac pliki wykonywalne. Antywirus powinien skanowac zalaczniki.\n\nDodatkowo: segmentacja sieci (ograniczenie lateral movement), aktualizacje systemu, firewall, EDR.\n\n**c) Czy placic okup? NIE.**\n\n- Brak gwarancji, ze atakujacy odszfruja pliki po zaplacie.\n- Zaplacenie finansuje dalsze ataki (positive reinforcement).\n- Organizacje, ktore placa, sa czesciej atakowane ponownie.\n- Moze naruszac prawo (finansowanie przestepczosci).\n- Wlasciwa reakcja: przywrocenie z backupu + analiza forensyczna + zgloszenie organom scigania.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak identyfikacji socjotechniki jako pierwszego etapu**: Email z falszywym zalacznikiem to socjotechnika/phishing — manipulacja czlowiekiem, nie atak techniczny",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Rekomendacja zaplacenia okupu**: Eksperci jednoglosnie NIE polecaja placenia. Brak gwarancji + finansowanie przestepcow + zacheta do powtornych atakow",
+      "kara": "-1 pkt"
+    }
+  ]
+}

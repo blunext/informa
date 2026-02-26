@@ -1,0 +1,24 @@
+{
+  "id": "1.22",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: tablica czestotliwosci",
+  "tagi": ["tablica-zliczanie", "sledzenie-iteracyjne", "tablica-pomocnicza"],
+  "tresc": "Dany jest algorytm:\n\n```\nfunkcja czestotliwosc(T, n)\n    C[0..9] := {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}\n    dla i := 0, 1, ..., n-1:\n        C[T[i]] := C[T[i]] + 1\n    maks_w := 0\n    maks_i := 0\n    dla j := 0, 1, ..., 9:\n        jezeli C[j] > maks_w:\n            maks_w := C[j]\n            maks_i := j\n    zwroc maks_i\n```\n\nAlgorytm dziala na tablicy T zawierajacej liczby z zakresu 0-9.\n\n**Polecenie**:\n- a) Przelsdz dzialanie dla T = [3, 1, 4, 1, 5, 3, 1, 4]. Pokaz tablice C po pierwszej petli. (2 pkt)\n- b) Jaka wartosc zwroci algorytm i co ta wartosc oznacza? (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Pierwsza petla zlicza wystapienia kazdej wartosci 0-9 w tablicy T. Druga petla szuka indeksu z najwieksza liczba wystapien.",
+    "**Podejscie**: Przejdz T element po elemencie, zwiekszajac C[T[i]]. Potem przeszukaj C szukajac maksimum.",
+    "**Kluczowy krok**: Po zliczeniu C = [0,3,0,2,2,1,0,0,0,0]. Maksimum to C[1]=3, wiec maks_i=1."
+  ],
+  "odpowiedz": "**a) Sledzenie pierwszej petli (zliczanie):**\n\n| i | T[i] | Aktualizacja | Stan C (zmienione pozycje) |\n|---|------|-------------|---------------------------|\n| 0 | 3 | C[3]++ | C[3]=1 |\n| 1 | 1 | C[1]++ | C[1]=1 |\n| 2 | 4 | C[4]++ | C[4]=1 |\n| 3 | 1 | C[1]++ | C[1]=2 |\n| 4 | 5 | C[5]++ | C[5]=1 |\n| 5 | 3 | C[3]++ | C[3]=2 |\n| 6 | 1 | C[1]++ | C[1]=3 |\n| 7 | 4 | C[4]++ | C[4]=2 |\n\n**Tablica C po pierwszej petli:**\n\n| Indeks | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |\n|--------|---|---|---|---|---|---|---|---|---|---|\n| C[i]   | 0 | 3 | 0 | 2 | 2 | 1 | 0 | 0 | 0 | 0 |\n\n**b) Sledzenie drugiej petli (szukanie maksimum):**\n\n| j | C[j] | C[j] > maks_w? | maks_w | maks_i |\n|---|------|---------------|--------|--------|\n| 0 | 0 | 0 > 0? nie | 0 | 0 |\n| 1 | 3 | 3 > 0? tak | 3 | 1 |\n| 2 | 0 | 0 > 3? nie | 3 | 1 |\n| 3 | 2 | 2 > 3? nie | 3 | 1 |\n| 4 | 2 | 2 > 3? nie | 3 | 1 |\n| 5-9 | 0-1 | nie | 3 | 1 |\n\nAlgorytm zwraca **1** — jest to wartosc, ktora wystepuje najczesciej w tablicy T (moda/dominanta). Liczba 1 pojawia sie 3 razy.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie indeksu z wartoscia**: C[j] to liczba wystapien wartosci j, a maks_i to wartosc najczestsza (nie pozycja w T)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne zliczanie — pominiecie elementu**: Latwo pominac jedno wystapienie przy recznym sledzeniu",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

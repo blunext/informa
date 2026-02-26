@@ -1,0 +1,24 @@
+{
+  "id": "3.36",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: zlozonosc algorytmu Euklidesa",
+  "tagi": ["dzielniki", "zlozonosc-czasowa", "indukcja"],
+  "tresc": "Dany jest algorytm Euklidesa:\n\n```\nfunkcja nwd(a, b)\n    dopoki b <> 0:\n        temp := b\n        b := a mod b\n        a := temp\n    zwroc a\n```\n\n**Polecenia**:\n- a) Przesled algorytm dla nwd(252, 105). Ile iteracji?\n- b) Udowodnij, ze po dwoch iteracjach b zmniejsza sie co najmniej o polowe.\n- c) Jaka jest zlozonosc czasowa algorytmu? Uzasadnij.",
+  "wskazowki": [
+    "**Kierunek**: Klucz do analizy: a mod b < a/2 (zawsze!). Dowod: jesli b > a/2 to a mod b = a - b < a/2; jesli b <= a/2 to a mod b < b <= a/2.",
+    "**Podejscie**: Po 2 krokach: (a,b) → (b, a mod b) → (a mod b, ...). Nowy b <= a mod b < a/2 < b_poczatkowe. Wiec b polowi sie co 2 kroki.",
+    "**Kluczowy krok**: Jesli b polowi sie co 2 kroki, to po 2*log2(b) krokach b = 0. Zlozonosc: O(log(min(a,b)))."
+  ],
+  "odpowiedz": "**a) Sledzenie nwd(252, 105):**\n\n| Iteracja | a | b | a mod b |\n|----------|-----|-----|--------|\n| 1 | 252 | 105 | 42 |\n| 2 | 105 | 42 | 21 |\n| 3 | 42 | 21 | 0 |\n\nb = 0, zwroc a = **21**. Iteracji: **3**.\n\nSprawdzenie: 252 = 12*21, 105 = 5*21. NWD(252, 105) = 21 ✓\n\n**b) Dowod: po 2 iteracjach b zmniejsza sie co najmniej o polowe:**\n\nNiech b_0 = b na poczatku. Po jednej iteracji: (a, b) → (b, a mod b).\nPo dwoch iteracjach: nowe b = (stare a) mod (stare b), a nastepnie to staje sie a w kolejnym kroku.\n\nKlucz: **a mod b < b** (zawsze) oraz **a mod b < a/2** (zawsze).\n\nDowod a mod b < a/2:\n- Jesli b > a/2: a mod b = a - b < a - a/2 = a/2 ✓\n- Jesli b <= a/2: a mod b < b <= a/2 ✓\n\nWiec po dwoch krokach nowy argument b jest mniejszy niz b_0/2. (Po kroku 1: b'= a mod b < a/2. Po kroku 2: b z kroku 1 to stare b, nowe b'= b mod (a mod b) < b/2.)\n\n**c) Zlozonosc: O(log(min(a, b)))**\n\nUzasadnienie: Po kazdych 2 iteracjach b zmniejsza sie co najmniej o polowe. Poczatkowo b = min(a,b) (po ewentualnym jednym kroku zamiany). Po 2k iteracjach: b <= b_0 / 2^k. Petla konczy sie gdy b = 0, czyli po co najwyzej 2 * log2(b_0) iteracjach.\n\nZlozonosc: O(log(min(a, b))). To jest bardzo szybki algorytm — dla miliardowych liczb potrzeba ~60 krokow.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zlozonosc O(min(a,b)) zamiast O(log)**: Wersja z odejmowaniem (a-b zamiast a mod b) ma O(a/b), ale wersja z modulo jest logarytmiczna",
+      "kara": "-1.5 pkt"
+    },
+    {
+      "opis": "**Brak dowodu polowienia**: Samo stwierdzenie 'a mod b < b' nie wystarczy — trzeba pokazac, ze b maleje WYKLADNICZO (o polowe co 2 kroki)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

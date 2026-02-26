@@ -1,0 +1,24 @@
+{
+  "id": "3.25",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: rownanie rekurencyjne T(n) = 2T(n/2) + n",
+  "tagi": ["rownanie-rekurencyjne", "rekurencja", "zlozonosc-czasowa"],
+  "tresc": "Rozwiaz rownanie rekurencyjne opisujace zlozonosc sortowania przez scalanie:\n\nT(n) = 2T(n/2) + n, T(1) = 1\n\n**Polecenia**:\n- a) Rozwin rownanie 3 razy (podstaw T(n/2), T(n/4), T(n/8)). Jaki wzorzec widzisz?\n- b) Podaj rozwiazanie w postaci zamknietej.\n- c) Jaka jest zlozonosc O()?",
+  "wskazowki": [
+    "**Kierunek**: Metoda rozwijania — podstawiaj wielokrotnie, az zobaczysz wzorzec zalezny od glebokosci k.",
+    "**Podejscie**: T(n) = 2T(n/2)+n = 4T(n/4)+2n = 8T(n/8)+3n = ... = 2^k * T(n/2^k) + k*n.",
+    "**Kluczowy krok**: Rekurencja konczy sie gdy n/2^k = 1, czyli k = log2(n). Wtedy T(n) = n + n*log2(n)."
+  ],
+  "odpowiedz": "**a) Rozwijanie:**\n\nT(n) = 2T(n/2) + n\n= 2[2T(n/4) + n/2] + n = 4T(n/4) + n + n = 4T(n/4) + 2n\n= 4[2T(n/8) + n/4] + 2n = 8T(n/8) + n + 2n = 8T(n/8) + 3n\n\n**Wzorzec**: Po k rozwinięciach: T(n) = 2^k * T(n/2^k) + k * n\n\n**b) Postac zamknieta:**\n\nRekurencja konczy sie gdy n/2^k = 1, czyli k = log2(n):\n\nT(n) = 2^(log2 n) * T(1) + log2(n) * n\n= n * 1 + n * log2(n)\n= **n + n * log2(n)**\n= **n(1 + log2 n)**\n\n**c) Zlozonosc**: **O(n log n)**\n\nSkladnik n * log2(n) dominuje nad n, wiec T(n) = O(n log n).\n\nTo jest wlasnie dlaczego merge sort ma zlozonosc O(n log n): log n poziomow rekurencji, na kazdym O(n) pracy (scalanie).",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledne rozwijanie: 2T(n/2)+n = 2T(n/4)+2n**: Trzeba PODSTAWIC T(n/2) = 2T(n/4)+n/2, potem pomnozyc przez 2 i dodac n",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Wynik O(n^2) zamiast O(n log n)**: Typowy blad — k*n to log(n)*n, nie n*n. Glebokosc rekurencji to log(n), nie n",
+      "kara": "-1 pkt"
+    }
+  ]
+}

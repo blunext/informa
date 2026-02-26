@@ -1,0 +1,24 @@
+{
+  "id": "3.38",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: zlozonosc pamieciowa vs czasowa rekurencji",
+  "tagi": ["rekurencja", "drzewo-rekursji", "zlozonosc-czasowa"],
+  "tresc": "Rozważ dwie funkcje rekurencyjne:\n\n**Funkcja A** (liniowa rekurencja):\n```\nfunkcja suma(n)\n    jezeli n = 0: zwroc 0\n    zwroc n + suma(n-1)\n```\n\n**Funkcja B** (drzewiasta rekurencja):\n```\nfunkcja fib(n)\n    jezeli n <= 1: zwroc n\n    zwroc fib(n-1) + fib(n-2)\n```\n\n**Polecenia**:\n- a) Podaj zlozonosc **czasowa** i **pamieciowa** (stos wywolan) obu funkcji.\n- b) Wyjasnij, dlaczego zlozonosc pamieciowa fib(n) to O(n), a NIE O(2^n).\n- c) Jak mozna zredukowac zlozonosc pamieciowa funkcji suma(n) do O(1)?",
+  "wskazowki": [
+    "**Kierunek**: Zlozonosc pamieciowa rekurencji = maksymalna glebokosc stosu wywolan, NIE calkowita liczba wywolan.",
+    "**Podejscie**: Funkcja fib tworzy drzewo 2^n wywolan, ale maksymalna glebokosc drzewa to n (najdluzsza sciezka od korzenia).",
+    "**Kluczowy krok**: Stos wywolan przechowuje tylko aktywne ramki — od korzenia do biezacego liscia. Po powrocie z liscia, ramka jest zwalniana."
+  ],
+  "odpowiedz": "**a) Zlozonosci:**\n\n| Funkcja | Czas | Pamiec (stos) |\n|---------|------|---------------|\n| A: suma(n) | O(n) | O(n) |\n| B: fib(n) | O(2^n) | **O(n)** |\n\n**b) Dlaczego pamiec fib(n) = O(n), nie O(2^n):**\n\nStos wywolan przechowuje TYLKO ramki na sciezce od korzenia do aktualnie obliczanego liscia. To jest jedno rozgalezienie drzewa, nie cale drzewo.\n\nDla fib(5):\n- Najdluzsza sciezka: fib(5) → fib(4) → fib(3) → fib(2) → fib(1)\n- Glebokosc: 4 = n-1\n\nGdy fib(1) konczy obliczenia, jego ramka jest zdejmowana ze stosu ZANIM fib(0) jest wywolane. Drzewo jest przechodzne w glab (DFS), nie wszerz.\n\nMaksymalna glebokosc stosu = **n** (najdluzsza galaz drzewa: fib(n)→fib(n-1)→...→fib(1)).\n\nCalkowita liczba wywolan (2^n) to zlozonosc CZASOWA. Zlozonosc PAMIECIOWA to glebokosc stosu.\n\n**c) Redukcja pamieci suma(n) do O(1):**\n\nZamien rekurencje na iteracje:\n```\nfunkcja suma(n)\n    s := 0\n    dla i := 1, 2, ..., n:\n        s := s + i\n    zwroc s\n```\n\nIteracyjna wersja uzywa stalej pamieci (zmienne s, i) — O(1). Lub uzywajac tail-recursion (rekurencja ogonowa), kompilator moze zoptymalizowac stos.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pamiec fib(n) = O(2^n)**: Stos przechowuje TYLKO aktualna sciezke, nie cale drzewo. Glebokosc = n, nie 2^n",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Mylenie glebokosci z liczba wywolan**: Glebokosc stosu (pamiec) ≠ liczba wywolan (czas). Drzewo jest przechodzne DFS, wiec pamiec = max glebokosc",
+      "kara": "-1 pkt"
+    }
+  ]
+}

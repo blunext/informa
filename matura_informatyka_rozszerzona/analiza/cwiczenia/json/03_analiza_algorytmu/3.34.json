@@ -1,0 +1,24 @@
+{
+  "id": "3.34",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: analiza zamortyzowana tablicy dynamicznej",
+  "tagi": ["analiza-srednia", "zlozonosc-czasowa", "O-notacja"],
+  "tresc": "Tablica dynamiczna podwaja swoj rozmiar gdy jest pelna. Wstawianie elementu kosztuje O(1), ale gdy tablica jest pelna, kopiujemy wszystkie elementy do nowej tablicy 2x wiekszej (koszt O(n)).\n\n**Polecenia**:\n- a) Podaj koszt kazdego z 8 pierwszych wstawien (poczatkowy rozmiar tablicy: 1).\n- b) Oblicz sumaryczny koszt n wstawien.\n- c) Jaki jest zamortyzowany koszt jednego wstawienia?",
+  "wskazowki": [
+    "**Kierunek**: Kopiowanie nastepuje przy wstawieniu 2-go, 3-ciego, 5-tego, 9-tego elementu (gdy tablica rozmiar 1, 2, 4, 8 jest pelna).",
+    "**Podejscie**: Koszty kopiowania: 1, 2, 4, 8, ..., n/2. Suma: ciag geometryczny = n - 1 ≈ n.",
+    "**Kluczowy krok**: n wstawien: n * O(1) pracy + (1+2+4+...+n/2) = n + n - 1 ≈ 2n kopiowań. Srednio: 2n/n = O(1)."
+  ],
+  "odpowiedz": "**a) Koszt 8 pierwszych wstawien** (rozmiar poczatkowy: 1):\n\n| Wstawienie | Rozmiar przed | Pelna? | Kopiowanie | Koszt |\n|-----------|---------------|--------|------------|-------|\n| 1 | 1 | nie | - | 1 |\n| 2 | 1 | TAK | kopiuj 1 el. | 1 + 1 = 2 |\n| 3 | 2 | TAK | kopiuj 2 el. | 1 + 2 = 3 |\n| 4 | 4 | nie | - | 1 |\n| 5 | 4 | TAK | kopiuj 4 el. | 1 + 4 = 5 |\n| 6 | 8 | nie | - | 1 |\n| 7 | 8 | nie | - | 1 |\n| 8 | 8 | nie | - | 1 |\n\nSumaryczny koszt 8 wstawien: 1+2+3+1+5+1+1+1 = **15**\n\n**b) Sumaryczny koszt n wstawien:**\n\nKopiowania nastepuja przy pojemnosciach 1, 2, 4, 8, ..., floor(n/2).\nKoszt kopiowania: 1 + 2 + 4 + ... + floor(n/2) <= n - 1 (suma ciagu geometrycznego)\nKoszt samych wstawien: n * 1 = n\n\nCalkowity koszt: n + (n - 1) = **2n - 1** = O(n)\n\n**c) Zamortyzowany koszt jednego wstawienia:**\n\nSumaryczny koszt / liczba operacji = (2n - 1) / n ≈ 2 = **O(1)**\n\nMimo ze pojedyncze wstawienie moze kosztowac O(n), srednio kazde kosztuje O(1). Drogie operacje (kopiowanie) sa wystarczajaco rzadkie, by sie \"zamortyzowac\".",
+  "typowe_bledy": [
+    {
+      "opis": "**Koszt zamortyzowany O(n)**: To koszt CALKOWITY n operacji. Zamortyzowany = calkowity / n = O(1)",
+      "kara": "-1.5 pkt"
+    },
+    {
+      "opis": "**Suma 1+2+4+...+n = 2n zamiast ≈n**: Suma 2^0+2^1+...+2^k = 2^(k+1)-1. Dla k = log n: 2n-1",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

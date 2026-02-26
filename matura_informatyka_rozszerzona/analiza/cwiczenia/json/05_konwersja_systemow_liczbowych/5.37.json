@@ -1,0 +1,24 @@
+{
+  "id": "5.37",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: zaawansowane wyznaczanie podstawy systemu",
+  "tagi": ["porownywanie-systemow", "dzielenie-z-reszta"],
+  "tresc": "Rozwiaz nastepujace problemy dotyczace nieznanych podstaw systemow liczbowych.\n\n- a) Znajdz podstawe b, wiedzac ze 1234(b) = 194(10).\n- b) Znajdz podstawe b, wiedzac ze w systemie o podstawie b zachodzi: 43(b) * 2 = 116(b).",
+  "wskazowki": [
+    "**Kierunek**: Zamien zapis pozycyjny na rownanie algebraiczne z niewiadoma b.",
+    "**Podejscie**: a) 1*b^3 + 2*b^2 + 3*b + 4 = 194. Probuj kolejne wartosci b lub rozwiaz analitycznie.",
+    "**Kluczowy krok**: b) Zamien obie strony na wyrazenia z b, przyrownaj i rozwiaz. Pamietaj: b > max cyfra w zapisie."
+  ],
+  "odpowiedz": "**a) 1234(b) = 194(10) → b = 5**\n\n1*b^3 + 2*b^2 + 3*b + 4 = 194\nb^3 + 2b^2 + 3b + 4 = 194\nb^3 + 2b^2 + 3b - 190 = 0\n\nProbujemy b=5: 125 + 50 + 15 - 190 = 0 ✓\n\nSprawdzenie: 1234(5) = 1*125 + 2*25 + 3*5 + 4 = 125+50+15+4 = **194** ✓\n(Max cyfra = 4, wiec b >= 5 — OK)\n\n**b) 43(b) * 2 = 116(b) → b = 7**\n\nLewa strona: 43(b) * 2 = (4b+3) * 2 = 8b+6\nPrawa strona: 116(b) = 1*b^2 + 1*b + 6 = b^2+b+6\n\nRownanie: 8b+6 = b^2+b+6\nb^2 + b + 6 - 8b - 6 = 0\nb^2 - 7b = 0\nb(b-7) = 0\nb = 7 (b ≠ 0)\n\nSprawdzenie: 43(7) = 4*7+3 = 31. 31*2 = 62.\n116(7) = 49+7+6 = 62 ✓\n(Max cyfra w 43: 4, w 116: 6, wiec b >= 7 — OK)",
+  "typowe_bledy": [
+    {
+      "opis": "**Proba podstawienia bez sprawdzenia zakresu cyfr**: Jesli w zapisie jest cyfra 6, to b >= 7. Rozwiazanie b=3 nie ma sensu jesli w liczbie jest cyfra 4",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Bledne rownanie pozycyjne**: 1234(b) = b^3+2b^2+3b+4, NIE 1*4+2*3+3*2+4*1. Cyfry mnozymy przez potegi b, nie przez pozycje",
+      "kara": "-1 pkt"
+    }
+  ]
+}

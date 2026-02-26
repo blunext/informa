@@ -1,0 +1,24 @@
+{
+  "id": "3.22",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: analiza zlozonosci z optymalizacja sqrt",
+  "tagi": ["dzielniki", "optymalizacja-sqrt", "zlozonosc-czasowa"],
+  "tresc": "Porownaj dwa algorytmy zliczania dzielnikow liczby n:\n\n**Algorytm A** (naiwny):\n```\nlicznik := 0\ndla i := 1, 2, ..., n:\n    jezeli n mod i = 0:\n        licznik := licznik + 1\n```\n\n**Algorytm B** (zoptymalizowany):\n```\nlicznik := 0\ndla i := 1, 2, ...:\n    jezeli i * i > n:\n        zakoncz petle\n    jezeli n mod i = 0:\n        licznik := licznik + 1\n        jezeli i * i <> n:\n            licznik := licznik + 1\n```\n\n**Polecenia**:\n- a) Przesled oba algorytmy dla n = 36. Podaj wartosc licznik po zakonczeniu.\n- b) Podaj zlozonosc czasowa kazdego algorytmu.\n- c) Dlaczego algorytm B jest poprawny (daje ten sam wynik co A)?",
+  "wskazowki": [
+    "**Kierunek**: Jesli i jest dzielnikiem n, to n/i tez jest dzielnikiem. Wystarczy sprawdzac do sqrt(n).",
+    "**Podejscie**: Dzielniki 36: 1,2,3,4,6,9,12,18,36. Algorytm B liczy pary (i, n/i) naraz, chyba ze i = sqrt(n).",
+    "**Kluczowy krok**: Warunek `i*i <> n` zapobiega podwojnemu liczeniu gdy i = sqrt(n) (np. 6*6 = 36)."
+  ],
+  "odpowiedz": "**a) Sledzenie dla n = 36:**\n\n**Algorytm A**: sprawdza i = 1,2,...,36. Dzielniki: 1,2,3,4,6,9,12,18,36. Licznik = **9**. Iteracji: **36**.\n\n**Algorytm B**:\n| i | i*i | i*i > 36? | 36 mod i | Akcja | licznik |\n|---|-----|-----------|----------|-------|---------|\n| 1 | 1 | nie | 0 | +2 (1 i 36) | 2 |\n| 2 | 4 | nie | 0 | +2 (2 i 18) | 4 |\n| 3 | 9 | nie | 0 | +2 (3 i 12) | 6 |\n| 4 | 16 | nie | 0 | +2 (4 i 9) | 8 |\n| 5 | 25 | nie | 1 | (nie dzieli) | 8 |\n| 6 | 36 | nie | 0 | +1 (6=sqrt(36)) | 9 |\n| 7 | 49 | TAK | - | koniec | 9 |\n\nLicznik = **9**. Iteracji: **7** (zamiast 36).\n\n**b) Zlozonosc:**\n- Algorytm A: **O(n)** — petla od 1 do n\n- Algorytm B: **O(sqrt(n))** — petla od 1 do sqrt(n)\n\n**c) Poprawnosc B:**\nKazdy dzielnik d < sqrt(n) ma odpowiednika n/d > sqrt(n). Liczac pary (d, n/d) obejmujemy wszystkie dzielniki. Wyjątek: jesli sqrt(n) jest calkowity (n jest kwadratem doskonalym), to d = n/d i liczymy go raz (warunek i*i <> n).",
+  "typowe_bledy": [
+    {
+      "opis": "**Pominiecie warunku i*i <> n**: Dla kwadratow doskonalych (np. 36) dzielnik sqrt(n) bylby policzony dwukrotnie",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze B daje inny wynik niz A**: Oba daja 9. B jest szybszy ale rownowazny",
+      "kara": "-1 pkt"
+    }
+  ]
+}

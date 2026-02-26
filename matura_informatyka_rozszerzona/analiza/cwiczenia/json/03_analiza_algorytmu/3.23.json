@@ -1,0 +1,24 @@
+{
+  "id": "3.23",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: zlozonosc petli z podwajaniem",
+  "tagi": ["zlozonosc-czasowa", "petle-zagniezdzne", "O-notacja"],
+  "tresc": "Jaka jest zlozonosc czasowa ponizszego fragmentu kodu? Ile razy wykona sie instrukcja wewnatrz petli dla n = 16?\n\n```\ni := 1\ndopoki i < n:\n    // operacja O(1)\n    i := i * 2\n```\n\nA co jesli dodamy zewnetrzna petle?\n\n```\ndla j := 1, 2, ..., n:\n    i := 1\n    dopoki i < n:\n        // operacja O(1)\n        i := i * 2\n```",
+  "wskazowki": [
+    "**Kierunek**: Zmienna i jest podwajana w kazdym kroku (1, 2, 4, 8, 16, ...). Po ilu krokach osiagnie n?",
+    "**Podejscie**: Po k krokach: i = 2^k. Petla konczy sie gdy 2^k >= n, czyli k >= log2(n).",
+    "**Kluczowy krok**: Wersja z zewnetrzna petla: O(n) * O(log n) = O(n log n). Petle sa zagniezdzne, wiec mnożymy."
+  ],
+  "odpowiedz": "**Pojedyncza petla (n = 16):**\n\n| Iteracja | i przed | i po (i*2) |\n|----------|---------|------------|\n| 1 | 1 | 2 |\n| 2 | 2 | 4 |\n| 3 | 4 | 8 |\n| 4 | 8 | 16 |\n\nPo 4 iteracjach i = 16, warunek i < 16 jest falszywy. **4 iteracje** = log2(16).\n\nZlozonosc: **O(log n)**\n\n**Z zewnetrzna petla (n = 16):**\n\nPetla zewnetrzna: 16 iteracji (j = 1..16). Kazda iteracja uruchamia wewnetrzna petle O(log n).\n\nRazem: 16 * 4 = **64 operacje**.\n\nZlozonosc: **O(n log n)**\n\nUzasadnienie: n iteracji zewnetrznych * log2(n) iteracji wewnetrznych = n * log n. Dla n=16: 16 * 4 = 64.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zlozonosc O(n^2) dla wersji z dwoma petlami**: Wewnetrzna petla to O(log n), nie O(n). Razem O(n log n), nie O(n^2)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zlozonosc O(log log n) dla pojedynczej petli**: Podwajanie daje log n, nie log log n. log log n powstaje gdy podwajamy wykladnik",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "3.26",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: suma harmoniczna w petli",
+  "tagi": ["petle-zagniezdzne", "zlozonosc-czasowa", "O-notacja"],
+  "tresc": "Jaka jest zlozonosc czasowa ponizszego fragmentu kodu? Policz dokladna liczbe operacji dla n = 6.\n\n```\ns := 0\ndla i := 1, 2, ..., n:\n    dla j := 1, 2, ..., n div i:\n        s := s + 1\n```",
+  "wskazowki": [
+    "**Kierunek**: Wewnetrzna petla wykonuje n/i iteracji (dzielenie calkowite). Zsumuj: n/1 + n/2 + n/3 + ... + n/n.",
+    "**Podejscie**: Wyciagnij n przed sume: n * (1 + 1/2 + 1/3 + ... + 1/n). To jest n razy suma harmoniczna H(n).",
+    "**Kluczowy krok**: Suma harmoniczna H(n) = 1 + 1/2 + 1/3 + ... + 1/n ≈ ln(n). Stad zlozonosc to O(n * ln n) = O(n log n)."
+  ],
+  "odpowiedz": "**Zliczanie dla n = 6:**\n\n| i | n div i | Iteracje wewn. petli |\n|---|---------|---------------------|\n| 1 | 6 | 6 |\n| 2 | 3 | 3 |\n| 3 | 2 | 2 |\n| 4 | 1 | 1 |\n| 5 | 1 | 1 |\n| 6 | 1 | 1 |\n\nRazem: 6 + 3 + 2 + 1 + 1 + 1 = **14 operacji**\n\n**Analiza ogolna:**\n\nSuma iteracji = floor(n/1) + floor(n/2) + ... + floor(n/n)\n≈ n * (1 + 1/2 + 1/3 + ... + 1/n)\n= n * H(n)\n\nGdzie H(n) to n-ta liczba harmoniczna. H(n) ≈ ln(n) + 0.577...\n\n**Zlozonosc**: **O(n log n)**\n\nTo NIE jest O(n^2) mimo dwoch zagniezdzonych petli — wewnetrzna petla kurczy sie odwrotnie proporcjonalnie do i.",
+  "typowe_bledy": [
+    {
+      "opis": "**Odpowiedz O(n^2)**: Typowy blad — dwie petle nie zawsze daja O(n^2). Tu wewnetrzna petla zmniejsza sie z i, dajac sume harmoniczna",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Obliczenie sumy jako 6+3+2+1+1+1 = 13**: Blad arytmetyczny. Prawidlowo: 6+3=9, 9+2=11, 11+1=12, 12+1=13, 13+1=14",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

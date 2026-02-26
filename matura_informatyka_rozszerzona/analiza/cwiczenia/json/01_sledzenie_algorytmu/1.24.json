@@ -1,0 +1,24 @@
+{
+  "id": "1.24",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: przeszukiwanie liniowe z dwoma wynikami",
+  "tagi": ["sledzenie-iteracyjne", "tablica-pomocnicza"],
+  "tresc": "Dany jest algorytm:\n\n```\nfunkcja zakres(T, n)\n    lo := T[0]\n    hi := T[0]\n    dla i := 1, 2, ..., n-1:\n        jezeli T[i] < lo:\n            lo := T[i]\n        jezeli T[i] > hi:\n            hi := T[i]\n    zwroc hi - lo\n```\n\n**Polecenie**: Przelsdz dzialanie `zakres(T, 7)` dla tablicy T = [5, 12, 3, 8, 1, 15, 7]. Wypelnij pelna tabele sledzenia i podaj wynik.\n\nDodatkowo odpowiedz: co oblicza ten algorytm?",
+  "wskazowki": [
+    "**Kierunek**: Algorytm sledzi jednoczesnie dwie wartosci: lo (minimum) i hi (maksimum).",
+    "**Podejscie**: Dla kazdego elementu sprawdz DWA warunki: czy jest mniejszy od lo i czy wiekszy od hi. Uwaga: oba `jezeli` sa niezalezne (nie ma `w przeciwnym razie`).",
+    "**Kluczowy krok**: Po przejsciu tablicy: lo=1, hi=15, wynik = 15-1 = 14. Algorytm oblicza rozstep (zakres) danych."
+  ],
+  "odpowiedz": "**Sledzenie zakres([5, 12, 3, 8, 1, 15, 7], 7):**\n\nPoczatek: lo = 5, hi = 5\n\n| i | T[i] | T[i] < lo? | T[i] > hi? | lo | hi |\n|---|------|-----------|-----------|----|----|\n| 1 | 12 | 12 < 5? nie | 12 > 5? tak | 5 | 12 |\n| 2 | 3 | 3 < 5? tak | 3 > 12? nie | 3 | 12 |\n| 3 | 8 | 8 < 3? nie | 8 > 12? nie | 3 | 12 |\n| 4 | 1 | 1 < 3? tak | 1 > 12? nie | 1 | 12 |\n| 5 | 15 | 15 < 1? nie | 15 > 12? tak | 1 | 15 |\n| 6 | 7 | 7 < 1? nie | 7 > 15? nie | 1 | 15 |\n\nWynik: **hi - lo = 15 - 1 = 14**\n\nAlgorytm oblicza **rozstep** (zakres, ang. range) — roznice miedzy najwieksza a najmniejsza wartoscia w tablicy.",
+  "typowe_bledy": [
+    {
+      "opis": "**Traktowanie dwoch if-ow jako if-else**: Oba warunki sa niezalezne — element moze jednoczesnie nie spelniac zadnego z nich",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o odejmowaniu na koncu**: Algorytm zwraca hi-lo, nie para (lo, hi)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

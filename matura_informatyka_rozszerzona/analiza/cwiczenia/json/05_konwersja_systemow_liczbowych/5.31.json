@@ -1,0 +1,24 @@
+{
+  "id": "5.31",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: przesuniecia bitowe jako mnozenie/dzielenie",
+  "tagi": ["potegi-dwojki", "dec-bin", "bin-dec"],
+  "tresc": "Przesuniecie bitowe w lewo o k pozycji (<<k) odpowiada mnozeniu przez 2^k, a w prawo (>>k) — dzieleniu calkowitemu przez 2^k.\n\nOblicz wyniki nastepujacych operacji:\n\n- a) 13(10) << 2 (przesuniecie w lewo o 2)\n- b) 200(10) >> 3 (przesuniecie w prawo o 3)\n- c) 7(10) << 4 (przesuniecie w lewo o 4)\n- d) Ile wynosi 5 << 1 + 5 << 2? (bez nawiasow — oblicz kazde przesuniecie osobno, potem dodaj)",
+  "wskazowki": [
+    "**Kierunek**: <<k = mnozenie przez 2^k. >>k = dzielenie calkowite przez 2^k (reszta jest tracona).",
+    "**Podejscie**: Zamien na binarny, przesun bity, zamien z powrotem na dziesietny.",
+    "**Kluczowy krok**: 5<<1 = 5*2 = 10. 5<<2 = 5*4 = 20. Suma = 30 = 5*6 = 5*(2+4)."
+  ],
+  "odpowiedz": "**a) 13 << 2 = 52**\n\n13(10) = 1101(2)\nPrzesuniecie w lewo o 2: 110100(2)\n110100(2) = 32+16+4 = **52**\n\nAlternatywnie: 13 * 2^2 = 13 * 4 = 52\n\n**b) 200 >> 3 = 25**\n\n200(10) = 11001000(2)\nPrzesuniecie w prawo o 3: 11001(2) (odcinamy 3 ostatnie bity: 000)\n11001(2) = 16+8+1 = **25**\n\nAlternatywnie: 200 / 2^3 = 200 / 8 = 25\n\n**c) 7 << 4 = 112**\n\n7(10) = 111(2)\nPrzesuniecie w lewo o 4: 1110000(2)\n1110000(2) = 64+32+16 = **112**\n\nAlternatywnie: 7 * 2^4 = 7 * 16 = 112\n\n**d) (5 << 1) + (5 << 2) = 10 + 20 = 30**\n\n5 << 1 = 5 * 2 = 10\n5 << 2 = 5 * 4 = 20\nSuma: 10 + 20 = **30**\n\nCiekawostka: 5*(2+4) = 5*6 = 30. Przesuniecia bitowe sa uzywane w optymalizacji mnozenia.",
+  "typowe_bledy": [
+    {
+      "opis": "**Przesuniecie w zla strone**: << = w lewo (mnozenie), >> = w prawo (dzielenie). Strzalki wskazuja kierunek przesuniecia bitow",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o utracie bitow przy >>**: Przesuniecie w prawo traci bity (dzielenie calkowite). 7>>1 = 3 (nie 3.5). Reszta jest obcinana",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

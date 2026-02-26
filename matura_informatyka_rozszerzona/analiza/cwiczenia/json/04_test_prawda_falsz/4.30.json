@@ -1,0 +1,24 @@
+{
+  "id": "4.30",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: szyfrowanie i funkcje haszujace P/F",
+  "tagi": ["HTTPS-szyfrowanie", "sieci-komputerowe"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Szyfrowanie symetryczne uzywa tego samego klucza do szyfrowania i deszyfrowania. | |\n| b) | RSA jest algorytmem szyfrowania symetrycznego. | |\n| c) | Funkcja haszujaca jest odwracalna — z wartosci hasz mozna odzyskac dane wejsciowe. | |\n| d) | Certyfikat SSL/TLS potwierdza tozsamosc serwera w polaczeniu HTTPS. | |",
+  "wskazowki": [
+    "**Kierunek**: Symetryczne = jeden klucz (AES, DES). Asymetryczne = para kluczy (publiczny + prywatny, np. RSA).",
+    "**Podejscie**: Funkcja haszujaca jest JEDNOKIERUNKOWA — latwo obliczyc hasz, praktycznie niemozliwe odzyskac dane z hasza.",
+    "**Kluczowy krok**: Certyfikat SSL/TLS = cyfrowy dokument wydany przez CA (Certificate Authority), wiaze klucz publiczny z tozsamoscia serwera."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | Szyfrowanie symetryczne (np. AES, DES, 3DES) uzywa jednego wspolnego klucza do szyfrowania i deszyfrowania. Obie strony musza znac ten sam klucz. |\n| b) | **F** | RSA to algorytm szyfrowania **asymetrycznego** (klucz publiczny + klucz prywatny). Klucz publiczny szyfruje, klucz prywatny deszyfruje (lub odwrotnie przy podpisach cyfrowych). |\n| c) | **F** | Funkcja haszujaca jest **jednokierunkowa** (one-way function). Z hasza H(x) nie mozna odzyskac x. Dlatego hashe sa uzywane do przechowywania hasel — nawet jesli baza wycieknie, hasel nie da sie odczytac. |\n| d) | **P** | Certyfikat SSL/TLS wydany przez zaufany urzad certyfikacji (CA) potwierdza, ze serwer jest tym, za kogo sie podaje. Przegladarka weryfikuje certyfikat przy nawiazywaniu polaczenia HTTPS. |\n\nOdpowiedzi: a) P, b) F, c) F, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie RSA z szyfrowaniem symetrycznym**: RSA = asymetryczne (para kluczy). AES = symetryczne (jeden klucz). Na maturze to bardzo czeste pytanie",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze hasz jest odwracalny**: Funkcja haszujaca jest JEDNOKIERUNKOWA. Mozna sprawdzic czy H(x)=h, ale nie odzyskac x z h (bez brute-force)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

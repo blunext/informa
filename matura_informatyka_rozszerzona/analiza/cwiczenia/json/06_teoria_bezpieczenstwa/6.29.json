@@ -1,0 +1,24 @@
+{
+  "id": "6.29",
+  "trudnosc": "srednie-trudne",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: dzialanie podpisu cyfrowego krok po kroku",
+  "tagi": ["podpis-cyfrowy", "szyfrowanie-asymetryczne"],
+  "tresc": "Opisz krok po kroku, jak dziala podpis cyfrowy.\n\n- a) Jak nadawca tworzy podpis cyfrowy dokumentu?\n- b) Jak odbiorca weryfikuje podpis?\n- c) Co gwarantuje podpis cyfrowy (jakie wlasciwosci bezpieczenstwa)?",
+  "wskazowki": [
+    "**Kierunek**: Podpis cyfrowy uzywa klucza PRYWATNEGO nadawcy (nie publicznego!) — odwrotnie niz szyfrowanie.",
+    "**Podejscie**: Krok 1: haszuj dokument. Krok 2: zaszyfruj hasz kluczem prywatnym = podpis.",
+    "**Kluczowy krok**: Podpis zapewnia 3 rzeczy: autentycznosc (kto wyslal), integralnosc (nie zmienione), niezaprzeczalnosc (nie moze zaprzeczyc)."
+  ],
+  "odpowiedz": "**a) Tworzenie podpisu cyfrowego:**\n\n1. Nadawca oblicza **hasz** (skrot) dokumentu za pomoca funkcji haszujacej (np. SHA-256). Hasz to unikatowy 'odcisk palca' dokumentu (np. 256-bitowy ciag).\n2. Nadawca szyfruje hasz swoim **kluczem prywatnym**. Wynik = **podpis cyfrowy**.\n3. Nadawca wysyla dokument + podpis do odbiorcy.\n\n**b) Weryfikacja podpisu:**\n\n1. Odbiorca oblicza hasz otrzymanego dokumentu (ta sama funkcja haszujaca).\n2. Odbiorca deszyfruje podpis **kluczem publicznym** nadawcy → uzyskuje oryginalny hasz.\n3. Porownuje oba hasze: jesli sa rowne → podpis jest **prawidlowy**. Jesli sie roznia → dokument zostal zmodyfikowany lub podpis jest falszywy.\n\n**c) Gwarancje podpisu cyfrowego:**\n\n- **Autentycznosc**: Tylko wlasciciel klucza prywatnego mogl stworzyc podpis. Potwierdzenie tozsamosci nadawcy.\n- **Integralnosc**: Jakakolwiek zmiana dokumentu zmieni hasz → podpis bedzie nieprawidlowy. Wykrywanie modyfikacji.\n- **Niezaprzeczalnosc**: Nadawca nie moze zaprzeczyc, ze podpisal dokument (klucz prywatny jest znany tylko jemu).",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze podpis tworzy sie kluczem publicznym**: Podpis = klucz PRYWATNY nadawcy. Weryfikacja = klucz PUBLICZNY nadawcy. Odwrotnie niz szyfrowanie wiadomosci",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pominiecie haszowania**: Podpis NIE szyfruje calego dokumentu — szyfruje HASZ dokumentu. Hasz jest krotki (np. 256 bit), co przyspiesza operacje",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

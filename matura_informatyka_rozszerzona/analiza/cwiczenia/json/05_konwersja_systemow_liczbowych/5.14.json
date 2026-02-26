@@ -1,0 +1,24 @@
+{
+  "id": "5.14",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: podstawowe konwersje dec→bin",
+  "tagi": ["dec-bin", "dzielenie-z-reszta"],
+  "tresc": "Zamien podane liczby z systemu dziesietnego na binarny. Pokaz pelne obliczenia metoda dzielenia przez 2 z reszta.\n\n| Lp. | Liczba dziesietna |\n|-----|-------------------|\n| a)  | 13 |\n| b)  | 27 |\n| c)  | 63 |",
+  "wskazowki": [
+    "**Kierunek**: Dziel liczbe przez 2, zapisuj reszty (0 lub 1). Kontynuuj az iloraz = 0.",
+    "**Podejscie**: Reszty czytaj od OSTATNIEJ do PIERWSZEJ (od dolu do gory).",
+    "**Kluczowy krok**: 63 = 2^6 - 1, wiec binarnie to 6 jedynek: 111111."
+  ],
+  "odpowiedz": "**a) 13(10) = 1101(2)**\n\n| Dzielenie | Iloraz | Reszta |\n|-----------|--------|--------|\n| 13 / 2 | 6 | 1 |\n| 6 / 2 | 3 | 0 |\n| 3 / 2 | 1 | 1 |\n| 1 / 2 | 0 | 1 |\n\nCzytamy od dolu: 13(10) = **1101(2)**\nSprawdzenie: 8+4+1 = 13\n\n**b) 27(10) = 11011(2)**\n\n| Dzielenie | Iloraz | Reszta |\n|-----------|--------|--------|\n| 27 / 2 | 13 | 1 |\n| 13 / 2 | 6 | 1 |\n| 6 / 2 | 3 | 0 |\n| 3 / 2 | 1 | 1 |\n| 1 / 2 | 0 | 1 |\n\nCzytamy od dolu: 27(10) = **11011(2)**\nSprawdzenie: 16+8+2+1 = 27\n\n**c) 63(10) = 111111(2)**\n\n| Dzielenie | Iloraz | Reszta |\n|-----------|--------|--------|\n| 63 / 2 | 31 | 1 |\n| 31 / 2 | 15 | 1 |\n| 15 / 2 | 7 | 1 |\n| 7 / 2 | 3 | 1 |\n| 3 / 2 | 1 | 1 |\n| 1 / 2 | 0 | 1 |\n\nCzytamy od dolu: 63(10) = **111111(2)**\nSprawdzenie: 32+16+8+4+2+1 = 63 = 2^6 - 1",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwrocona kolejnosc reszt**: Reszty czytamy od DOLU do gory. Odwrocenie daje bledna liczbe binarna",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zatrzymanie dzielenia za wczesnie**: Kontynuuj az iloraz = 0, nie az iloraz = 1",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

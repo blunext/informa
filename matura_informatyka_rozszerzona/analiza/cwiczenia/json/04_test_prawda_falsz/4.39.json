@@ -1,0 +1,24 @@
+{
+  "id": "4.39",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: pamiec programu stos vs sterta P/F",
+  "tagi": ["struktury-danych", "LIFO-FIFO", "rekurencja"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Zmienne lokalne funkcji sa alokowane na stosie (stack) programu. | |\n| b) | Pamiec przydzielona dynamicznie (np. przez malloc/new) jest automatycznie zwalniana po zakonczeniu funkcji. | |\n| c) | Stos (stack) programu ma z reguly mniejszy rozmiar niz sterta (heap). | |\n| d) | Przepelnienie bufora (buffer overflow) polega na zapisie danych poza przydzielony obszar pamieci. | |",
+  "wskazowki": [
+    "**Kierunek**: Stos (stack) = automatyczna alokacja (zmienne lokalne, parametry, adresy powrotu). Sterta (heap) = dynamiczna alokacja (malloc/new).",
+    "**Podejscie**: Pamiec dynamiczna (heap) NIE jest zwalniana automatycznie — wymaga jawnego free/delete. Wyjatki: jezyki z garbage collectorem (Java, Python).",
+    "**Kluczowy krok**: Buffer overflow: zapis poza granice tablicy/bufora. Klasyczny wektor ataku — moze nadpisac adres powrotu na stosie."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | Zmienne lokalne (int x, char buf[]) sa alokowane na stosie. Kazda funkcja dostaje ramke stosu (stack frame) zawierajaca: zmienne lokalne, parametry, adres powrotu. Zwolnienie automatyczne po zakonczeniu funkcji. |\n| b) | **F** | W C/C++ pamiec dynamiczna (malloc/new) NIE jest zwalniana automatycznie — wymaga jawnego free/delete. Pomininiecie = wyciek pamieci (memory leak). Jezyki z GC (Java, Python, Go) zwalniaja automatycznie, ale nie dotyczy to C/C++. |\n| c) | **P** | Typowy rozmiar stosu: 1-8 MB (zalezy od OS/kompilatora). Sterta moze wykorzystac prawie cala dostepna pamiec RAM (gigabajty). Dlatego duze tablice nalezy alokowac dynamicznie lub globalnie, nie lokalnie. |\n| d) | **P** | Buffer overflow: zapis danych poza granice przydzielonego bufora. Moze nadpisac sasiednie zmienne, adres powrotu, lub inne dane na stosie. Klasyczna podatnosc bezpieczenstwa — wykorzystywana do wstrzykiwania kodu (shellcode). |\n\nOdpowiedzi: a) P, b) F, c) P, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze malloc/new zwalnia pamiec automatycznie**: W C/C++ pamiec dynamiczna MUSI byc jawnie zwolniona (free/delete). Tylko jezyki z GC (Java, Python) robia to automatycznie",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Mylenie stosu programu ze struktura danych 'stos'**: Stos programu (call stack) to obszar pamieci, stos (stack) to abstrakcyjna struktura LIFO. Powiazane koncepcyjnie, ale rozne rzeczy",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -3,7 +3,7 @@
   "nazwa": "Projektowanie algorytmu",
   "kategoria": "TEORIA",
   "czestotliwosc": "11/11 lat",
-  "punkty_lacznie": 32,
+  "punkty_lacznie": 140,
   "tagi_globalne": [
     "mod-div",
     "cyfry",
@@ -135,6 +135,186 @@
         "zlozonosc",
         "C++"
       ]
+    },
+    {
+      "id": "2.11",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["mod-div", "cyfry", "petla-while", "warunek"]
+    },
+    {
+      "id": "2.12",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["mod-div", "cyfry", "petla-while"]
+    },
+    {
+      "id": "2.13",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["iteracja", "warunek", "petla-while"]
+    },
+    {
+      "id": "2.14",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["petla-while", "iteracja"]
+    },
+    {
+      "id": "2.15",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["mod-div", "cyfry", "warunek"]
+    },
+    {
+      "id": "2.16",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["palindrom", "mod-div", "cyfry"]
+    },
+    {
+      "id": "2.17",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["iteracja", "petla-while"]
+    },
+    {
+      "id": "2.18",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["konwersja-systemow", "mod-div", "petla-while"]
+    },
+    {
+      "id": "2.19",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["tablica", "iteracja", "C++"]
+    },
+    {
+      "id": "2.20",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["NWD", "petla-while", "mod-div"]
+    },
+    {
+      "id": "2.21",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["napisy", "petla-while", "warunek", "C++"]
+    },
+    {
+      "id": "2.22",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["rekurencja", "cyfry", "mod-div", "pseudokod"]
+    },
+    {
+      "id": "2.23",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["liczby-pierwsze", "petla-while", "warunek", "C++"]
+    },
+    {
+      "id": "2.24",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["liczby-pierwsze", "tablica", "iteracja", "C++"]
+    },
+    {
+      "id": "2.25",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["tablica", "iteracja", "warunek", "C++"]
+    },
+    {
+      "id": "2.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["rekurencja", "mod-div", "warunek", "pseudokod"]
+    },
+    {
+      "id": "2.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["napisy", "petla-while", "warunek", "C++"]
+    },
+    {
+      "id": "2.28",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["stos", "napisy", "warunek", "C++"]
+    },
+    {
+      "id": "2.29",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["tablica", "podciag", "iteracja", "C++"]
+    },
+    {
+      "id": "2.30",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["tablica", "iteracja", "warunek", "C++"]
+    },
+    {
+      "id": "2.31",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["konwersja-systemow", "mod-div", "petla-while", "pseudokod"]
+    },
+    {
+      "id": "2.32",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["NWD", "tablica", "iteracja", "C++"]
+    },
+    {
+      "id": "2.33",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["rekurencja", "tablica", "iteracja", "C++"]
+    },
+    {
+      "id": "2.34",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["stos", "napisy", "iteracja", "C++"]
+    },
+    {
+      "id": "2.35",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["liczby-pierwsze", "petla-while", "warunek", "C++"]
+    },
+    {
+      "id": "2.36",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["drzewo", "rekurencja", "tablica", "C++"]
+    },
+    {
+      "id": "2.37",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["NWD", "rekurencja", "mod-div", "pseudokod"]
+    },
+    {
+      "id": "2.38",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["napisy", "iteracja", "warunek", "C++"]
+    },
+    {
+      "id": "2.39",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["rekurencja", "tablica", "warunek", "pseudokod"]
+    },
+    {
+      "id": "2.40",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["tablica", "podciag", "zlozonosc", "C++"]
     }
   ]
 }

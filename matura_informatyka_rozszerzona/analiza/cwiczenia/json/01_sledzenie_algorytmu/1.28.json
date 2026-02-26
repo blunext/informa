@@ -1,0 +1,24 @@
+{
+  "id": "1.28",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: przeszukiwanie binarne",
+  "tagi": ["sledzenie-iteracyjne", "tablica-pomocnicza"],
+  "tresc": "Dany jest algorytm przeszukiwania binarnego:\n\n```\nfunkcja binarne(T, n, x)\n    lo := 0\n    hi := n - 1\n    dopoki lo <= hi:\n        sr := (lo + hi) div 2\n        jezeli T[sr] = x:\n            zwroc sr\n        jezeli T[sr] < x:\n            lo := sr + 1\n        w przeciwnym razie:\n            hi := sr - 1\n    zwroc -1\n```\n\nDana jest posortowana tablica T = [2, 5, 8, 12, 16, 23, 38, 42, 56, 72], n = 10.\n\n**Polecenie**:\n- a) Przelsdz szukanie x = 23. Podaj wartosci lo, hi, sr w kazdym kroku. (2 pkt)\n- b) Przelsdz szukanie x = 20. Podaj wartosci lo, hi, sr w kazdym kroku i wyjasnij dlaczego wynik = -1. (2 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Algorytm dzieli przeszukiwany zakres na pol w kazdym kroku. Porownuje element srodkowy z szukanym x.",
+    "**Podejscie**: Oblicz sr = (lo+hi) div 2. Jesli T[sr]=x — znaleziono. Jesli T[sr]<x — szukaj w prawej polowie. Jesli T[sr]>x — szukaj w lewej.",
+    "**Kluczowy krok**: a) Start: lo=0, hi=9, sr=4, T[4]=16<23, wiec lo=5. Potem sr=7, T[7]=42>23, wiec hi=6. Potem sr=5, T[5]=23=x — znaleziono!"
+  ],
+  "odpowiedz": "**a) Szukanie x = 23:**\n\n| Krok | lo | hi | sr = (lo+hi) div 2 | T[sr] | Porownanie | Akcja |\n|------|----|----|-------------------|-------|-----------|-------|\n| 1 | 0 | 9 | 4 | 16 | 16 < 23 | lo = 5 |\n| 2 | 5 | 9 | 7 | 42 | 42 > 23 | hi = 6 |\n| 3 | 5 | 6 | 5 | 23 | 23 = 23 | zwroc 5 |\n\nWynik: **5** (T[5] = 23, znaleziono w 3 krokach)\n\n**b) Szukanie x = 20:**\n\n| Krok | lo | hi | sr = (lo+hi) div 2 | T[sr] | Porownanie | Akcja |\n|------|----|----|-------------------|-------|-----------|-------|\n| 1 | 0 | 9 | 4 | 16 | 16 < 20 | lo = 5 |\n| 2 | 5 | 9 | 7 | 42 | 42 > 20 | hi = 6 |\n| 3 | 5 | 6 | 5 | 23 | 23 > 20 | hi = 4 |\n| 4 | 5 | 4 | — | — | lo > hi | petla konczy sie |\n\nWynik: **-1** (nie znaleziono). Po kroku 3: lo=5 > hi=4, wiec warunek lo <= hi jest falszywy i petla sie konczy. Wartosc 20 nie istnieje w tablicy — lezy miedzy T[4]=16 a T[5]=23.",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledne obliczenie sr**: sr = (lo+hi) div 2 (dzielenie calkowite!). Np. (5+6) div 2 = 5, nie 5.5",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o warunku stopu**: Petla konczy sie gdy lo > hi — jesli x nie istnieje, lo i hi sie mijaja",
+      "kara": "-1 pkt"
+    }
+  ]
+}

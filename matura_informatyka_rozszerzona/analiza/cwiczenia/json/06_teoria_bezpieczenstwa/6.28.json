@@ -1,0 +1,24 @@
+{
+  "id": "6.28",
+  "trudnosc": "srednie-trudne",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: porownanie szyfrowania symetrycznego i asymetrycznego",
+  "tagi": ["szyfrowanie-symetryczne", "szyfrowanie-asymetryczne"],
+  "tresc": "Wypelnij tabele porownawcza szyfrowania symetrycznego i asymetrycznego.\n\n| Cecha | Symetryczne | Asymetryczne |\n|-------|-------------|----------|\n| Liczba kluczy | | |\n| Szybkosc | | |\n| Problem | | |\n| Przyklad algorytmu | | |\n| Typowe zastosowanie | | |",
+  "wskazowki": [
+    "**Kierunek**: Symetryczne = jeden klucz, szybkie. Asymetryczne = dwa klucze, wolniejsze.",
+    "**Podejscie**: Glowny problem symetrycznego: jak bezpiecznie przekazac klucz? Asymetryczne rozwiazuje ten problem.",
+    "**Kluczowy krok**: W praktyce laczone: asymetryczne do wymiany klucza, symetryczne do danych (TLS/HTTPS tak dziala)."
+  ],
+  "odpowiedz": "| Cecha | Symetryczne | Asymetryczne |\n|-------|-------------|----------|\n| **Liczba kluczy** | 1 (ten sam do szyfrowania i deszyfrowania) | 2 (klucz publiczny + klucz prywatny) |\n| **Szybkosc** | Szybkie (~100-1000x szybsze niz asymetryczne) | Wolne (operacje na duzych liczbach) |\n| **Problem** | Bezpieczna dystrybucja klucza — jak przekazac klucz drugiej stronie bez podsluchania? | Wolniejsze, wymaga wiekszych kluczy (RSA 2048-4096 bit vs AES 128-256 bit) |\n| **Przyklad algorytmu** | AES (128/256 bit), DES, 3DES, ChaCha20 | RSA (2048/4096 bit), ECC, Diffie-Hellman |\n| **Typowe zastosowanie** | Szyfrowanie duzych ilosci danych (pliki, dyski, transmisja po wymianie klucza) | Wymiana kluczy sesji, podpisy cyfrowe, certyfikaty SSL |\n\n**Podsumowanie**: W praktyce stosowane lacznie (kryptografia hybrydowa): asymetryczne do wymiany klucza sesji → symetryczne do szyfrowania danych. Tak dziala TLS/HTTPS.",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze asymetryczne jest lepsze**: Kazdy typ ma zalety. Symetryczne = szybkie (dane). Asymetryczne = bezpieczna wymiana kluczy. W praktyce uzywane lacznie",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Mylenie AES z RSA**: AES = symetryczne (jeden klucz). RSA = asymetryczne (para kluczy). Oba sa standardem, ale do roznych celow",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

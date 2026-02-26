@@ -1,0 +1,24 @@
+{
+  "id": "4.20",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: podstawy struktur danych P/F",
+  "tagi": ["struktury-danych", "LIFO-FIFO"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Stos (stack) dziala wedlug zasady FIFO (First In, First Out). | |\n| b) | Kolejka (queue) pozwala dodawac elementy na koncu i pobierac z poczatku. | |\n| c) | Tablica (array) pozwala na dostep do dowolnego elementu w czasie O(1). | |\n| d) | Lista jednokierunkowa pozwala na efektywne wyszukiwanie elementu w czasie O(1). | |",
+  "wskazowki": [
+    "**Kierunek**: Stos = LIFO (Last In, First Out). Kolejka = FIFO (First In, First Out). Nie myl ich!",
+    "**Podejscie**: Tablica = indeksowanie bezposrednie O(1). Lista = trzeba przejsc od poczatku O(n).",
+    "**Kluczowy krok**: LIFO = stos (ostatni wchodzi, pierwszy wychodzi). FIFO = kolejka (pierwszy wchodzi, pierwszy wychodzi)."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | Stos dziala wedlug zasady **LIFO** (Last In, First Out) — ostatni wlozony element jest zdejmowany pierwszy. FIFO to zasada kolejki, nie stosu. |\n| b) | **P** | Kolejka (FIFO) ma dwie operacje: enqueue (dodaj na koniec) i dequeue (pobierz z poczatku). Elementy sa przetwarzane w kolejnosci dodania. |\n| c) | **P** | Tablica oferuje dostep losowy (random access) — znajac indeks, mozemy odczytac element w stalym czasie O(1). |\n| d) | **F** | Lista jednokierunkowa nie ma indeksowania — aby znalezc element, trzeba przejsc od glowy listy po kolei. Wyszukiwanie to O(n), nie O(1). |\n\nOdpowiedzi: a) F, b) P, c) P, d) F",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie LIFO z FIFO**: LIFO = stos (stos talerzy). FIFO = kolejka (kolejka w sklepie). To podstawowe pojecia — czeste na maturze",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze lista ma O(1) dostep**: Tylko tablica (array) ma O(1) dostep po indeksie. Lista wymaga sekwencyjnego przejscia",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

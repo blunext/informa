@@ -1,0 +1,24 @@
+{
+  "id": "5.25",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: odejmowanie binarne z pozyczkami",
+  "tagi": ["odejmowanie-binarne", "przeniesienia"],
+  "tresc": "Wykonaj odejmowanie binarne. Pokaz pozyczki (borrow) nad kazdym bitem.\n\n| Lp. | Dzialanie |\n|-----|------|\n| a) | 10110(2) - 01001(2) |\n| b) | 11000(2) - 01011(2) |\n| c) | 100000(2) - 000111(2) |",
+  "wskazowki": [
+    "**Kierunek**: Odejmowanie binarne: 0-0=0, 1-0=1, 1-1=0, 0-1=1 z pozyczka (borrow) z nastepnej pozycji.",
+    "**Podejscie**: Pozyczka: jesli na danej pozycji odjemna < odjemnik, pozycz 1 z nastepnej pozycji (wartosc 2).",
+    "**Kluczowy krok**: Zweryfikuj: zamien wynik na dziesietny i sprawdz A - B = C dziesietnie."
+  ],
+  "odpowiedz": "**a) 10110(2) - 01001(2) = 01101(2)**\n\n```\nPozyczki:    0 0 0 0 0\n              1 0 1 1 0\n            - 0 1 0 0 1\n            -----------\n              0 1 1 0 1\n```\n\nOd prawej: 0-1 → pozycz: 10-1=1, pozyczka z bitu 2.\nBit 2: 1-1(pozyczka)-0=0. Bit 3: 1-0=1. Bit 4: 0-1 → pozycz: 10-1=1. Bit 5: 1-1(pozyczka)=0.\n\nSprawdzenie: 10110(2)=22, 01001(2)=9, 22-9=13, 01101(2)=13 ✓\n\n**b) 11000(2) - 01011(2) = 01101(2)**\n\n```\nPozyczki:    0 1 1 0 0\n              1 1 0 0 0\n            - 0 1 0 1 1\n            -----------\n              0 1 1 0 1\n```\n\nOd prawej: 0-1 → pozycz: 10-1=1. Bit 2: 0-1(pozyczka)-1 → pozycz: 10-1-1=0... (kontynuuj kaskade pozyczek).\n\nSprawdzenie: 11000(2)=24, 01011(2)=11, 24-11=13, 01101(2)=13 ✓\n\n**c) 100000(2) - 000111(2) = 011001(2)**\n\n```\nPozyczki:    1 1 1 1 0 0\n              1 0 0 0 0 0\n            - 0 0 0 1 1 1\n            -------------\n              0 1 1 0 0 1\n```\n\nKaskada pozyczek: 0-1 na bicie 1 → pozycz z bitu 2, ale bit 2=0, wiec pozycz z bitu 3, itd. az do bitu 6.\n\nSprawdzenie: 100000(2)=32, 000111(2)=7, 32-7=25, 011001(2)=25 ✓",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o kaskadzie pozyczek**: Gdy pozyczamy z pozycji, ktora tez jest 0, trzeba pozyczac dalej (kaskadowo). Jak w odejmowaniu dziesietnym: 1000-1",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Odwrocenie odjemnej i odjemnika**: Zawsze odejmuj DOLNA od GORNEJ. Jesli wynik ma byc ujemny, trzeba uzyc U2",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

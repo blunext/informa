@@ -1,0 +1,24 @@
+{
+  "id": "1.31",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: technika dwoch wskaznikow (palindrom tablicy)",
+  "tagi": ["sledzenie-iteracyjne", "tablica-pomocnicza"],
+  "tresc": "Dany jest algorytm:\n\n```\nfunkcja najdluzszy(T, n)\n    maks := 0\n    i := 0\n    dopoki i < n:\n        j := i\n        dopoki j < n AND T[j] = T[i]:\n            j := j + 1\n        dl := j - i\n        jezeli dl > maks:\n            maks := dl\n        i := j\n    zwroc maks\n```\n\nAlgorytm dziala na tablicy T.\n\n**Polecenie**:\n- a) Przelsdz dzialanie `najdluzszy(T, 12)` dla T = [1, 1, 3, 3, 3, 3, 2, 2, 5, 5, 5, 1]. Wypelnij tabele sledzenia. (3 pkt)\n- b) Co oblicza ten algorytm? (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Petla wewnetrzna szuka konca ciagu identycznych elementow. Petla zewnetrzna przeskakuje do nastepnego bloku.",
+    "**Podejscie**: Sledz i (poczatek bloku), j (koniec bloku), dl (dlugosc bloku), maks (najdluzsza seria).",
+    "**Kluczowy krok**: Bloki: [1,1](dl=2), [3,3,3,3](dl=4), [2,2](dl=2), [5,5,5](dl=3), [1](dl=1). Maks = 4."
+  ],
+  "odpowiedz": "**a) Sledzenie najdluzszy([1,1,3,3,3,3,2,2,5,5,5,1], 12):**\n\n| Iteracja | i | T[i] | j (koniec bloku) | dl = j-i | dl > maks? | maks | i := j |\n|----------|---|------|-----------------|----------|-----------|------|--------|\n| 1 | 0 | 1 | 2 | 2 | 2 > 0? tak | 2 | 2 |\n| 2 | 2 | 3 | 6 | 4 | 4 > 2? tak | 4 | 6 |\n| 3 | 6 | 2 | 8 | 2 | 2 > 4? nie | 4 | 8 |\n| 4 | 8 | 5 | 11 | 3 | 3 > 4? nie | 4 | 11 |\n| 5 | 11 | 1 | 12 | 1 | 1 > 4? nie | 4 | 12 |\n\nWynik: **4**\n\nSzczegol petli wewnetrznej dla iteracji 2 (i=2, T[2]=3):\n- j=2: T[2]=3=T[2]? tak, j=3\n- j=3: T[3]=3=T[2]? tak, j=4\n- j=4: T[4]=3=T[2]? tak, j=5\n- j=5: T[5]=3=T[2]? tak, j=6\n- j=6: T[6]=2=T[2]? nie, stop. dl = 6-2 = 4\n\n**b)** Algorytm oblicza **dlugosc najdluzszej serii (ciagu) identycznych, sasiadujacych elementow** w tablicy. Dla tej tablicy: najdluzsza seria to cztery trojki [3,3,3,3].",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownanie T[j] z T[j-1] zamiast T[i]**: Petla wewnetrzna porownuje z T[i] (poczatek bloku), nie z poprzednim elementem",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o i := j**: Zewnetrzna petla przeskakuje na koniec bloku, nie idzie i := i+1",
+      "kara": "-1 pkt"
+    }
+  ]
+}

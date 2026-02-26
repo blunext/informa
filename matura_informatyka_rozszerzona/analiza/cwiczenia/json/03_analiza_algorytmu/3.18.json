@@ -1,0 +1,24 @@
+{
+  "id": "3.18",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: zlozonosc petli z warunkiem",
+  "tagi": ["zlozonosc-czasowa", "dzielniki", "O-notacja"],
+  "tresc": "Jaka jest zlozonosc czasowa ponizszego algorytmu w funkcji n? Ile razy wykona sie operacja porownania `n mod i = 0` dla n = 12?\n\n```\nlicznik := 0\ndla i := 1, 2, ..., n:\n    jezeli n mod i = 0:\n        licznik := licznik + 1\n```",
+  "wskazowki": [
+    "**Kierunek**: Petla wykonuje sie ZAWSZE n razy, niezaleznie od tego ile dzielnikow ma n. Warunek wewnatrz nie zmienia liczby iteracji.",
+    "**Podejscie**: Porownanie `n mod i = 0` wykonuje sie raz na kazda iteracje. Iteracji jest n.",
+    "**Kluczowy krok**: Zlozonosc zalezy od liczby iteracji petli, nie od wyniku warunku. Algorytm zawsze robi dokladnie n operacji mod."
+  ],
+  "odpowiedz": "**Dla n = 12:**\n\nPorownanie `n mod i = 0` wykonuje sie **12 razy** (dla i = 1, 2, 3, ..., 12).\n\n| i | 12 mod i | Dzielnik? |\n|---|----------|----------|\n| 1 | 0 | TAK |\n| 2 | 0 | TAK |\n| 3 | 0 | TAK |\n| 4 | 0 | TAK |\n| 5 | 2 | NIE |\n| 6 | 0 | TAK |\n| 7 | 5 | NIE |\n| 8 | 4 | NIE |\n| 9 | 3 | NIE |\n| 10 | 2 | NIE |\n| 11 | 1 | NIE |\n| 12 | 0 | TAK |\n\nZnalezione dzielniki: 1, 2, 3, 4, 6, 12 (licznik = 6).\n\n**Zlozonosc**: **O(n)**\n\nPetla wykonuje dokladnie n iteracji. Wewnatrz kazdej iteracji stala liczba operacji (mod, porownanie, ewentualnie inkrementacja). Warunek `if` nie zmienia liczby iteracji petli.\n\n**Uwaga**: Mozna zoptymalizowac do O(sqrt(n)) sprawdzajac dzielniki tylko do sqrt(n), ale ten algorytm tego nie robi.",
+  "typowe_bledy": [
+    {
+      "opis": "**Odpowiedz O(sqrt(n)) lub O(log n)**: Ten algorytm NIE jest zoptymalizowany. Sprawdza kazde i od 1 do n, wiec O(n)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Zliczenie porownan jako 6 (= liczba dzielnikow)**: Porownanie wykonuje sie ZAWSZE, nie tylko gdy wynik to true. Jest 12 porownan, nie 6",
+      "kara": "-1 pkt"
+    }
+  ]
+}

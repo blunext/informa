@@ -1,0 +1,24 @@
+{
+  "id": "1.35",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: stos do ewaluacji wyrazenia ONP (RPN)",
+  "tagi": ["stos", "sledzenie-iteracyjne"],
+  "tresc": "Dany jest algorytm ewaluacji wyrazenia w Odwrotnej Notacji Polskiej (ONP/RPN):\n\n```\nfunkcja obliczONP(tokeny, n)\n    stos := pusty stos\n    dla i := 0, 1, ..., n-1:\n        jezeli tokeny[i] jest liczba:\n            stos.push(tokeny[i])\n        w przeciwnym razie:\n            b := stos.pop()\n            a := stos.pop()\n            jezeli tokeny[i] = \"+\":\n                stos.push(a + b)\n            jezeli tokeny[i] = \"-\":\n                stos.push(a - b)\n            jezeli tokeny[i] = \"*\":\n                stos.push(a * b)\n    zwroc stos.pop()\n```\n\n**Polecenie**:\n- a) Przelsdz `obliczONP(tokeny, 7)` dla tokeny = [3, 4, \"+\", 2, \"*\", 1, \"-\"]. Pokaz stan stosu po kazdym kroku. (3 pkt)\n- b) Jakie wyrazenie w notacji infiksowej odpowiada tym tokenom? (1 pkt)\n- c) Oblicz `obliczONP([5, 1, 2, \"+\", \"*\"], 5)`. (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Liczby trafiaja na stos. Operator zdejmuje DWA elementy (b=szczyt, a=pod spodem), oblicza a OP b, wrzuca wynik.",
+    "**Podejscie**: Uwaga na kolejnosc: pop daje najpierw b (prawy operand), potem a (lewy). Wiec a-b to 'dolny minus gorny'.",
+    "**Kluczowy krok**: [3, 4, +] -> stos [7]. [7, 2, *] -> stos [14]. [14, 1, -] -> stos [13]. Wynik: 13."
+  ],
+  "odpowiedz": "**a) Sledzenie obliczONP([3, 4, \"+\", 2, \"*\", 1, \"-\"], 7):**\n\n| i | tokeny[i] | Akcja | Stos (dno -> szczyt) |\n|---|----------|-------|---------------------|\n| 0 | 3 | push(3) | [3] |\n| 1 | 4 | push(4) | [3, 4] |\n| 2 | \"+\" | pop b=4, pop a=3, push(3+4=7) | [7] |\n| 3 | 2 | push(2) | [7, 2] |\n| 4 | \"*\" | pop b=2, pop a=7, push(7*2=14) | [14] |\n| 5 | 1 | push(1) | [14, 1] |\n| 6 | \"-\" | pop b=1, pop a=14, push(14-1=13) | [13] |\n\nWynik: **13**\n\n**b)** Notacja infiksowa: **(3 + 4) * 2 - 1 = 13**\n\nRozkodowanie ONP: `3 4 +` = (3+4), `_ 2 *` = (3+4)*2, `_ 1 -` = (3+4)*2-1\n\n**c) obliczONP([5, 1, 2, \"+\", \"*\"], 5):**\n\n| i | token | Stos |\n|---|-------|------|\n| 0 | 5 | [5] |\n| 1 | 1 | [5, 1] |\n| 2 | 2 | [5, 1, 2] |\n| 3 | \"+\" | pop 2,1 -> push(1+2=3) -> [5, 3] |\n| 4 | \"*\" | pop 3,5 -> push(5*3=15) -> [15] |\n\nWynik: **15** (= 5 * (1 + 2))",
+  "typowe_bledy": [
+    {
+      "opis": "**Zamieniona kolejnosc operandow**: Pop daje najpierw b (gorny), potem a (dolny). Dla odejmowania: a-b, NIE b-a",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Traktowanie operatora jako liczby**: Operator nie trafia na stos — konsumuje dwa elementy i wrzuca wynik",
+      "kara": "-1 pkt"
+    }
+  ]
+}

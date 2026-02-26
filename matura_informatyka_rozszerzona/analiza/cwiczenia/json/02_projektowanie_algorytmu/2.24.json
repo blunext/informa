@@ -1,0 +1,24 @@
+{
+  "id": "2.24",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: sito Eratostenesa",
+  "tagi": ["liczby-pierwsze", "tablica", "iteracja", "C++"],
+  "tresc": "Napisz w C++ funkcje `sito(n, tab)`, ktora wypelnia tablice logiczna `tab` o rozmiarze n+1 tak, ze `tab[i] = true` wtedy i tylko wtedy, gdy i jest liczba pierwsza.\n\n**Przyklady**:\n- Po wywolaniu `sito(20, tab)`: tab[2]=true, tab[3]=true, tab[4]=false, tab[5]=true, tab[7]=true, tab[9]=false, tab[11]=true, tab[13]=true, tab[17]=true, tab[19]=true\n- tab[0]=false, tab[1]=false (0 i 1 nie sa pierwsze)",
+  "wskazowki": [
+    "**Kierunek**: Algorytm sita Eratostenesa — zacznij od zalozenia, ze wszystkie liczby sa pierwsze, potem wykreslaj wielokrotnosci.",
+    "**Podejscie**: Ustaw tab[0..n]=true, tab[0]=tab[1]=false. Dla i od 2, dopoki i*i <= n: jesli tab[i]=true, wykresl wielokrotnosci i*i, i*i+i, i*i+2i, ...",
+    "**Kluczowy krok**: Wewnetrzna petla zaczyna od `j = i*i` (nie od `j = 2*i`) — mniejsze wielokrotnosci juz sa wykreslone."
+  ],
+  "odpowiedz": "**C++:**\n\n```cpp\nvoid sito(int n, bool tab[]) {\n    for (int i = 0; i <= n; i++)\n        tab[i] = true;\n    tab[0] = false;\n    tab[1] = false;\n    for (int i = 2; i * i <= n; i++) {\n        if (tab[i]) {\n            for (int j = i * i; j <= n; j += i)\n                tab[j] = false;\n        }\n    }\n}\n```\n\n**Pseudokod:**\n\n```\nfunkcja sito(n, tab)\n    dla i := 0, 1, ..., n:\n        tab[i] := PRAWDA\n    tab[0] := FALSZ\n    tab[1] := FALSZ\n    dla i := 2, 3, ...:\n        jezeli i * i > n:\n            zakoncz petle\n        jezeli tab[i] = PRAWDA:\n            dla j := i*i, i*i+i, i*i+2i, ..., n:\n                tab[j] := FALSZ\n```\n\n**Weryfikacja** (n=20):\n- i=2: wykresl 4,6,8,10,12,14,16,18,20\n- i=3: wykresl 9,15 (12,18 juz wykreslone)\n- i=4: tab[4]=false, pomijamy\n- i=5: 25>20, koniec\n- Wynik: tab[2,3,5,7,11,13,17,19]=true, reszta false ✓\n\n**Zlozonosc**: O(n log log n) — optymalny algorytm generowania liczb pierwszych.",
+  "typowe_bledy": [
+    {
+      "opis": "**Petla wewnetrzna od j=2*i zamiast j=i*i**: Poprawne ale wolniejsze — nadmiarowe iteracje po juz wykreslonych wielokrotnosciach",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Brak inicjalizacji tab[0]=tab[1]=false**: 0 i 1 nie sa pierwsze — bez tego algorytm blednie oznacza je jako pierwsze",
+      "kara": "-1 pkt"
+    }
+  ]
+}

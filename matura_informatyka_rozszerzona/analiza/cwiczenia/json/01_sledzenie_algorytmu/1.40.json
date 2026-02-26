@@ -1,0 +1,24 @@
+{
+  "id": "1.40",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Matura 2025 zad. 1 (inspiracja: rekurencja + stos)",
+  "tagi": ["rekurencja", "drzewo-wywolan", "cyfry-liczby"],
+  "tresc": "Dana jest funkcja rekurencyjna:\n\n```\nfunkcja h(n, k)\n    jezeli n = 0:\n        zwroc 0\n    cyfra := n mod 10\n    reszta := h(n div 10, k)\n    jezeli cyfra mod k = 0:\n        zwroc reszta * 10 + cyfra\n    w przeciwnym razie:\n        zwroc reszta\n```\n\n**Polecenie**:\n- a) Narysuj drzewo wywolan i oblicz `h(395274, 3)`. (3 pkt)\n- b) Oblicz `h(123456, 2)`. (1 pkt)\n- c) Co oblicza funkcja h(n, k)? Jak zmienia sie kolejnosc cyfr w wyniku wzgledem oryginalnej liczby? (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Funkcja przetwarza cyfry od prawej (mod 10), ale rekurencja idzie w glab PRZED przetworzeniem — wiec wynik buduje cyfry od lewej.",
+    "**Podejscie**: Rozwin rekurencje do bazy h(0,k)=0, potem zwijaj: reszta*10+cyfra (jesli cyfra podzielna przez k) lub reszta (jesli nie).",
+    "**Kluczowy krok**: h(395274, 3): cyfry podzielne przez 3 to 3, 9, 27... tzn. 3, 9, 2 nie, 7 nie, 4 nie. Sprawdz: 3%3=0, 9%3=0, 5%3=2, 2%3=2, 7%3=1, 4%3=1."
+  ],
+  "odpowiedz": "**a) Drzewo wywolan h(395274, 3):**\n\nCyfry 395274 od prawej: 4, 7, 2, 5, 9, 3. Podzielne przez 3: 9 (9%3=0), 3 (3%3=0). Niepodzielne: 4, 7, 2, 5.\n\n```\nh(395274, 3)  cyfra=4, 4%3=1 -> zwroc reszta\n  h(39527, 3)  cyfra=7, 7%3=1 -> zwroc reszta\n    h(3952, 3)  cyfra=2, 2%3=2 -> zwroc reszta\n      h(395, 3)  cyfra=5, 5%3=2 -> zwroc reszta\n        h(39, 3)  cyfra=9, 9%3=0 -> zwroc reszta*10+9\n          h(3, 3)  cyfra=3, 3%3=0 -> zwroc reszta*10+3\n            h(0, 3) = 0  [baza]\n          reszta=0, 3%3=0 -> 0*10+3 = 3\n        reszta=3, 9%3=0 -> 3*10+9 = 39\n      reszta=39, 5%3=2 -> 39\n    reszta=39, 2%3=2 -> 39\n  reszta=39, 7%3=1 -> 39\nreszta=39, 4%3=1 -> 39\n```\n\nWynik: **h(395274, 3) = 39**\n\n**b) h(123456, 2):**\n\nCyfry: 1,2,3,4,5,6. Podzielne przez 2: 2, 4, 6. Rekurencja buduje od lewej: 2, potem 24, potem 246.\n\nWynik: **246**\n\n**c)** Funkcja h(n, k) **filtruje cyfry liczby n, zostawiajac tylko te podzielne przez k, zachowujac oryginalna kolejnosc** (od lewej do prawej).\n\nRekurencja idzie w glab (do najstarszej cyfry) zanim zaczyna budowac wynik — dzieki temu operacja `reszta*10+cyfra` doklada cyfry w prawidlowej kolejnosci (najstarsza pierwsza).",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwrocona kolejnosc cyfr**: Rekurencja NAJPIERW schodzi do bazy, POTEM buduje wynik — cyfry sa w oryginalnej kolejnosci, NIE odwroconej",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Blad w podzielnosci**: 9 mod 3 = 0 (podzielne), 5 mod 3 = 2 (niepodzielne) — trzeba sprawdzic MODULO, nie 'zawartosc cyfry 3'",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "4.21",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: systemy liczbowe P/F (dodatkowe)",
+  "tagi": ["systemy-liczbowe", "konwersja-bin-hex-oct"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Liczba binarna sklada sie wylacznie z cyfr 0 i 1. | |\n| b) | 10(2) jest rowne 2(10). | |\n| c) | FF(16) jest rowne 256(10). | |\n| d) | Aby zamienic liczbe z systemu dziesietnego na binarny, wielokrotnie dzielimy przez 2 i zapisujemy reszty. | |",
+  "wskazowki": [
+    "**Kierunek**: System binarny (podstawa 2) = cyfry 0-1. System hex (podstawa 16) = cyfry 0-9, A-F.",
+    "**Podejscie**: 10(2) = 1*2+0 = 2. FF(16) = 15*16+15 = 255, NIE 256.",
+    "**Kluczowy krok**: 256 = 100(16) = 2^8. FF(16) = 2^8 - 1 = 255."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | System binarny (podstawa 2) dopuszcza tylko cyfry mniejsze od podstawy: 0 i 1. |\n| b) | **P** | 10(2) = 1*2^1 + 0*2^0 = 2 + 0 = 2(10). |\n| c) | **F** | FF(16) = 15*16 + 15 = 240 + 15 = **255**(10), nie 256. Liczba 256(10) = 100(16). |\n| d) | **P** | Metoda powtarzanego dzielenia: dzielimy przez 2, zapisujemy reszty (od konca). Np. 13: 13/2=6 r.1, 6/2=3 r.0, 3/2=1 r.1, 1/2=0 r.1 → 1101(2). |\n\nOdpowiedzi: a) P, b) P, c) F, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**FF(16) = 256**: Czesty blad. FF = 255 = 2^8 - 1. Liczba 256 = 2^8 = 100(16). Roznica o 1!",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Zapisywanie reszt dzielenia w zlej kolejnosci**: Reszty trzeba czytac OD KONCA (od ostatniego dzielenia). Bez odwracania wynik jest odwrocony",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "3.14",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: zliczanie iteracji zagniezdzonej petli",
+  "tagi": ["zlozonosc-czasowa", "petle-zagniezdzne", "O-notacja"],
+  "tresc": "Ile razy wykona sie instrukcja `s := s + 1` w ponizszym fragmencie kodu dla n = 5? Jaka jest zlozonosc czasowa O() w funkcji n?\n\n```\ns := 0\ndla i := 1, 2, ..., n:\n    dla j := 1, 2, ..., i:\n        s := s + 1\n```",
+  "wskazowki": [
+    "**Kierunek**: Petla wewnetrzna wykonuje sie i razy. Policz ile razy dla kazdego i od 1 do n.",
+    "**Podejscie**: Suma: 1 + 2 + 3 + ... + n. Uzyj wzoru na sume ciagu arytmetycznego.",
+    "**Kluczowy krok**: Suma 1+2+...+n = n(n+1)/2. Dla n=5: 5*6/2 = 15."
+  ],
+  "odpowiedz": "**Zliczanie dla n=5:**\n\n| i | j od..do | Wykonania |\n|---|----------|----------|\n| 1 | 1..1 | 1 |\n| 2 | 1..2 | 2 |\n| 3 | 1..3 | 3 |\n| 4 | 1..4 | 4 |\n| 5 | 1..5 | 5 |\n\nRazem: 1 + 2 + 3 + 4 + 5 = **15**\n\n**Wzor ogolny**: 1 + 2 + ... + n = n(n+1)/2\n\nDla n=5: 5*6/2 = 15 ✓\n\n**Zlozonosc**: n(n+1)/2 = (n^2 + n)/2 = **O(n^2)**\n\nDominujacy skladnik to n^2/2, a stala 1/2 i skladnik liniowy sa pomijane w notacji O.",
+  "typowe_bledy": [
+    {
+      "opis": "**Odpowiedz n^2 (= 25) zamiast n(n+1)/2 (= 15)**: Petla wewnetrzna idzie do i, nie do n. Gdyby szla do n, byloby n^2",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zlozonosc O(n) zamiast O(n^2)**: Mimo ze wewnetrzna petla jest 'krotsza', suma 1+2+...+n jest rzedu n^2",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

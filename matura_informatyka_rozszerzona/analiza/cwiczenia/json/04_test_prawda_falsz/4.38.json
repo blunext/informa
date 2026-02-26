@@ -1,0 +1,24 @@
+{
+  "id": "4.38",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: wlasciwosci grafow zaawansowane P/F",
+  "tagi": ["grafy", "drzewa"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Cykl Eulera to cykl przechodzacy przez kazda krawedz grafu dokladnie raz. | |\n| b) | Graf dwudzielny (bipartytny) moze zawierac cykl o nieparzystej dlugosci. | |\n| c) | W drzewie o n wezlach jest dokladnie n - 1 krawedzi. | |\n| d) | Graf pelny o n wezlach (K_n) ma n^2 krawedzi. | |",
+  "wskazowki": [
+    "**Kierunek**: Cykl Eulera = kazda krawedz raz. Cykl Hamiltona = kazdy wierzcholek raz. Nie myl tych pojec!",
+    "**Podejscie**: Graf dwudzielny: wierzcholki mozna podzielic na 2 zbiory, krawedzie tylko miedzy zbiorami. Cykl nieparzysty wymaga krawedzi wewnatrz zbioru.",
+    "**Kluczowy krok**: Graf pelny K_n: kazdy wierzcholek polaczony z kazdym innym. Liczba krawedzi = C(n,2) = n(n-1)/2, nie n^2."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | Cykl Eulera: sciezka zamknieta przechodzaca przez KAZDA krawedz grafu dokladnie raz (i wracajaca do wierzcholka startowego). Warunek istnienia: graf spojny i kazdy wierzcholek ma stopien parzysty. |\n| b) | **F** | Graf dwudzielny NIE moze zawierac cyklu o nieparzystej dlugosci. Twierdzenie: graf jest dwudzielny <=> nie zawiera cykli o nieparzystej dlugosci. Cykl nieparzysty wymagalby krawedzi wewnatrz jednej z partycji, co jest sprzeczne z definicja. |\n| c) | **P** | Fundamentalna wlasciwosc drzew: drzewo o n wezlach ma dokladnie n-1 krawedzi. Dodanie krawedzi tworzy cykl, usuniecie krawedzi rozlacza drzewo. |\n| d) | **F** | Graf pelny K_n: kazdy wierzcholek polaczony z n-1 pozostalymi. Ale kazda krawedz jest liczona raz, wiec liczba krawedzi = **n(n-1)/2**, nie n^2. Np. K_4 ma 4*3/2 = 6 krawedzi (nie 16). |\n\nOdpowiedzi: a) P, b) F, c) P, d) F",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie cyklu Eulera z Hamiltonowskim**: Euler = kazda KRAWEDZ raz. Hamilton = kazdy WIERZCHOLEK raz. Na maturze te pojecia pojawiaja sie razem",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Zla liczba krawedzi grafu pelnego**: K_n ma n(n-1)/2 krawedzi (kombinacja C(n,2)), nie n^2 i nie n(n-1). Kazda krawedz liczona raz",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

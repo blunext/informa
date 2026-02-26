@@ -1,0 +1,24 @@
+{
+  "id": "2.22",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: rekurencja — suma cyfr",
+  "tagi": ["rekurencja", "cyfry", "mod-div", "pseudokod"],
+  "tresc": "Napisz w pseudokodzie **rekurencyjna** funkcje `suma_cyfr_rek(n)`, ktora oblicza sume cyfr liczby n > 0.\n\n**Ograniczenia**: Funkcja MUSI byc rekurencyjna (bez petli). Kazde wywolanie przetwarza jedna cyfre.\n\n**Przyklady**:\n- `suma_cyfr_rek(4826)` = 20\n- `suma_cyfr_rek(100)` = 1\n- `suma_cyfr_rek(5)` = 5",
+  "wskazowki": [
+    "**Kierunek**: Ostatnia cyfra = n mod 10. Reszta liczby = n div 10. Suma = ostatnia + suma reszty.",
+    "**Podejscie**: Baza: n = 0 -> zwroc 0. Krok: zwroc (n mod 10) + suma_cyfr_rek(n div 10).",
+    "**Kluczowy krok**: suma_cyfr_rek(4826) = 6 + suma_cyfr_rek(482) = 6 + 2 + suma_cyfr_rek(48) = ... = 6+2+8+4+0 = 20."
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja suma_cyfr_rek(n)\n    jezeli n = 0:\n        zwroc 0\n    zwroc (n mod 10) + suma_cyfr_rek(n div 10)\n```\n\n**C++ (dla porownania):**\n\n```cpp\nint suma_cyfr_rek(int n) {\n    if (n == 0) return 0;\n    return n % 10 + suma_cyfr_rek(n / 10);\n}\n```\n\n**Weryfikacja**:\n- suma_cyfr_rek(4826) = 6 + suma_cyfr_rek(482) = 6+2+suma_cyfr_rek(48) = 6+2+8+suma_cyfr_rek(4) = 6+2+8+4+0 = 20 ✓\n- suma_cyfr_rek(100) = 0+suma_cyfr_rek(10) = 0+0+suma_cyfr_rek(1) = 0+0+1+0 = 1 ✓\n- suma_cyfr_rek(5) = 5+suma_cyfr_rek(0) = 5+0 = 5 ✓\n\n**Regula ogolna**: Warunek bazowy (n=0) konczy rekurencje. Krok rekurencyjny rozbija problem na \"ostatnia cyfra + reszta\".",
+  "typowe_bledy": [
+    {
+      "opis": "**Baza n < 10 zamiast n = 0**: Jesli baza to `n < 10: zwroc n`, dziala poprawnie ale jest mniej elegancka. Jesli baza to `n = 1: zwroc 1`, nie obsluguje cyfry 0",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Uzycie petli zamiast rekurencji**: Polecenie wymaga wersji rekurencyjnej",
+      "kara": "-2 pkt"
+    }
+  ]
+}

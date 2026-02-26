@@ -1,0 +1,24 @@
+{
+  "id": "4.31",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: zaawansowane struktury danych P/F",
+  "tagi": ["struktury-danych", "BST", "tablice-haszujace"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Drzewo AVL to szczegolny przypadek BST z gwarancja zrownowazenia. | |\n| b) | Operacja usuwania elementu z BST ma ZAWSZE zlozonosc O(log n). | |\n| c) | W tablicy haszujacej metoda lancuchowa (chaining) rozwiazuje kolizje za pomoca list. | |\n| d) | Drzewo czerwono-czarne dopuszcza wieksza roznice wysokosci poddrzew niz drzewo AVL. | |",
+  "wskazowki": [
+    "**Kierunek**: AVL = BST + warunek: |wysokosc lewego - wysokosc prawego| <= 1 dla KAZDEGO wezla.",
+    "**Podejscie**: Usuwanie z BST zalezy od wysokosci drzewa. BST bez balansowania moze miec wysokosc n (zdegenerowane).",
+    "**Kluczowy krok**: Red-Black tree: max wysokosc ~2*log(n+1). AVL: max wysokosc ~1.44*log(n). AVL jest 'scislej' zrownowazone."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | Drzewo AVL (Adelson-Velsky i Landis) to BST z dodatkowym warunkiem: dla kazdego wezla roznica wysokosci lewego i prawego poddrzewa wynosi co najwyzej 1. Gwarantuje to operacje w O(log n). |\n| b) | **F** | Usuwanie z BST ma zlozonosc O(h), gdzie h = wysokosc drzewa. Dla BST bez balansowania h moze wynosic n (lancuch), wiec pesymistycznie jest to **O(n)**. Tylko zrownowazone BST (AVL, Red-Black) gwarantuja O(log n). |\n| c) | **P** | Metoda lancuchowa (chaining): kazda komorka tablicy haszujacej zawiera liste elementow o tej samej wartosci hasz. Przy kolizji nowy element jest dolaczany do listy. |\n| d) | **P** | Drzewo czerwono-czarne dopuszcza sciezki rozniace sie dlugoscia do 2x (najdluzsza <= 2 * najkrotsza). AVL wymaga, by roznica wysokosci poddrzew kazdego wezla wynosila co najwyzej 1. Red-Black jest 'luzniej' zrownowazone, co oznacza szybsze wstawianie/usuwanie kosztem nieco wolniejszego wyszukiwania. |\n\nOdpowiedzi: a) P, b) F, c) P, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze BST zawsze O(log n)**: O(log n) to TYLKO zrownowazone BST (AVL, Red-Black). Zwykle BST moze zdegenerowac do listy — O(n)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Mylenie AVL z Red-Black**: AVL scislej zrownowazone (roznica wysokosci <= 1), Red-Black luzniej (2x stosunek sciezek). AVL = szybsze wyszukiwanie, Red-Black = szybsze modyfikacje",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

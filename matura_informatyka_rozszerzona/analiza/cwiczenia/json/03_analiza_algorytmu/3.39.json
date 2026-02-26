@@ -1,0 +1,24 @@
+{
+  "id": "3.39",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: rownanie T(n) = T(n-1) + n i jego warianty",
+  "tagi": ["rownanie-rekurencyjne", "petle-zagniezdzne", "zlozonosc-czasowa"],
+  "tresc": "Rozwiaz nastepujace rownania rekurencyjne metoda rozwijania:\n\n- A) T(n) = T(n-1) + n, T(1) = 1\n- B) T(n) = T(n-1) + log n, T(1) = 1\n- C) T(n) = 2T(n-1) + 1, T(1) = 1\n\nDla kazdego: rozwin 3 razy, podaj wzorzec, rozwiaz i podaj zlozonosc O().",
+  "wskazowki": [
+    "**Kierunek**: Metoda rozwijania: podstaw T(n-1), T(n-2), T(n-3)... az zobaczysz sume.",
+    "**Podejscie**: A) T(n) = n + (n-1) + ... + 1. B) T(n) = log n + log(n-1) + ... + log 1 = log(n!). C) T(n) = 2^k * T(n-k) + (2^k - 1).",
+    "**Kluczowy krok**: A) suma 1..n = O(n^2). B) log(n!) = O(n log n). C) 2^n - 1 = O(2^n)."
+  ],
+  "odpowiedz": "**A) T(n) = T(n-1) + n, T(1) = 1:**\n\nRozwijanie:\nT(n) = n + T(n-1) = n + (n-1) + T(n-2) = n + (n-1) + (n-2) + T(n-3)\n\nWzorzec: T(n) = n + (n-1) + (n-2) + ... + 2 + T(1) = n + (n-1) + ... + 1\n= **n(n+1)/2**\n\nZlozonosc: **O(n^2)**\n\n(Przyklad: selection sort, insertion sort w pesymistycznym przypadku.)\n\n**B) T(n) = T(n-1) + log n, T(1) = 1:**\n\nRozwijanie:\nT(n) = log n + T(n-1) = log n + log(n-1) + T(n-2) = log n + log(n-1) + log(n-2) + T(n-3)\n\nWzorzec: T(n) = log n + log(n-1) + ... + log 1 = log(n * (n-1) * ... * 1) = **log(n!)**\n\nPrzez przyblizenie Stirlinga: log(n!) = n*log(n) - n*log(e) + O(log n)\n\nZlozonosc: **O(n log n)**\n\n**C) T(n) = 2T(n-1) + 1, T(1) = 1:**\n\nRozwijanie:\nT(n) = 2T(n-1) + 1\n= 2(2T(n-2) + 1) + 1 = 4T(n-2) + 2 + 1\n= 4(2T(n-3) + 1) + 3 = 8T(n-3) + 4 + 2 + 1\n\nWzorzec: T(n) = 2^k * T(n-k) + (2^k - 1)\n\nDla k = n-1: T(n) = 2^(n-1) * T(1) + (2^(n-1) - 1) = 2^(n-1) + 2^(n-1) - 1 = **2^n - 1**\n\nZlozonosc: **O(2^n)**\n\n(Przyklad: problem Wież Hanoi.)",
+  "typowe_bledy": [
+    {
+      "opis": "**Rownanie C: T(n) = 2^n + 1 zamiast 2^n - 1**: Blad w sumowaniu ciagu geometrycznego. 1+2+4+...+2^(n-2) = 2^(n-1)-1, plus 2^(n-1)*T(1) = 2^(n-1), razem 2^n - 1",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Rownanie B: O(log^2 n) zamiast O(n log n)**: log(n!) ≠ (log n)^2. log(n!) = O(n log n) (Stirling)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

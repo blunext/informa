@@ -1,0 +1,24 @@
+{
+  "id": "2.17",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: silnia iteracyjna",
+  "tagi": ["iteracja", "petla-while"],
+  "tresc": "Napisz w pseudokodzie lub C++ funkcje `silnia(n)`, ktora oblicza n! (n silnia) iteracyjnie (bez rekurencji).\n\nPrzypomnienie: n! = 1 * 2 * 3 * ... * n, oraz 0! = 1.\n\n**Ograniczenia**: Uzyj petli (nie rekurencji).\n\n**Przyklady**:\n- `silnia(5)` = 120\n- `silnia(0)` = 1\n- `silnia(1)` = 1",
+  "wskazowki": [
+    "**Kierunek**: Analogicznie do potegowania — zamiast mnozenia przez stala `a`, mnozymy przez zmieniajace sie `i`.",
+    "**Podejscie**: wynik := 1. Petla od 2 do n: wynik := wynik * i. Dla n=0 i n=1 petla nie wykona sie i wynik=1.",
+    "**Kluczowy krok**: `wynik := 1; dla i := 2, 3, ..., n: wynik := wynik * i; zwroc wynik`."
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja silnia(n)\n    wynik := 1\n    dla i := 2, 3, ..., n:\n        wynik := wynik * i\n    zwroc wynik\n```\n\n**C++:**\n\n```cpp\nint silnia(int n) {\n    int wynik = 1;\n    for (int i = 2; i <= n; i++) {\n        wynik *= i;\n    }\n    return wynik;\n}\n```\n\n**Weryfikacja**:\n- silnia(5): 1*2*3*4*5 = 120 ✓\n- silnia(0): petla od 2 do 0 nie wykonuje sie -> wynik = 1 ✓\n- silnia(1): petla od 2 do 1 nie wykonuje sie -> wynik = 1 ✓\n\n**Uwaga**: Petla moze tez startowac od i=1 — wynik poprawny, ale jedno mnozenie wiecej (1*1*2*3*...*n).",
+  "typowe_bledy": [
+    {
+      "opis": "**Petla od i=0**: Mnozenie przez 0 zeruje wynik. Petla musi startowac od 1 lub 2",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Inicjalizacja wynik := 0**: Element neutralny mnozenia to 1. Start od 0 daje wynik 0",
+      "kara": "-1 pkt"
+    }
+  ]
+}

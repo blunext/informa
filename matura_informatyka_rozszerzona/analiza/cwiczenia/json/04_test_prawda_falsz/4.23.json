@@ -1,0 +1,24 @@
+{
+  "id": "4.23",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: SQL zaawansowany P/F",
+  "tagi": ["SQL-skladnia", "WHERE-vs-HAVING", "JOIN", "ORDER-BY"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Klauzula HAVING moze wystapic w zapytaniu bez GROUP BY. | |\n| b) | INNER JOIN zwraca tylko te wiersze, ktore maja dopasowanie w obu tabelach. | |\n| c) | WHERE filtruje wiersze PRZED grupowaniem, a HAVING — PO grupowaniu. | |\n| d) | W zapytaniu SQL mozna jednoczesnie uzyc WHERE i HAVING. | |",
+  "wskazowki": [
+    "**Kierunek**: WHERE filtruje wiersze, HAVING filtruje grupy. To dwie rozne fazy zapytania.",
+    "**Podejscie**: HAVING bez GROUP BY — technicznie mozliwe w niektorych bazach (cala tabela jako jedna grupa), ale niestandartowe.",
+    "**Kluczowy krok**: Kolejnosc wykonania SQL: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | HAVING sluzy do filtrowania grup i standardowo wymaga GROUP BY. Bez grupowania nie ma czego filtrowac. (Uwaga: niektorych systemy dopuszczaja HAVING bez GROUP BY, ale na maturze — FALSZ.) |\n| b) | **P** | INNER JOIN (lub po prostu JOIN) laczy wiersze z dwoch tabel na podstawie warunku i zwraca TYLKO te pary, ktore spelniaja warunek polaczenia. Wiersze bez dopasowania sa pomijane. |\n| c) | **P** | Kolejnosc: WHERE filtruje wiersze PRZED GROUP BY, HAVING filtruje grupy PO GROUP BY. To kluczowa roznica. |\n| d) | **P** | Tak — WHERE filtruje wiersze (np. `WHERE rok > 2020`), potem GROUP BY grupuje, potem HAVING filtruje grupy (np. `HAVING COUNT(*) > 5`). Obie klauzule moga wystapic w jednym zapytaniu. |\n\nOdpowiedzi: a) F, b) P, c) P, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie WHERE z HAVING**: WHERE = filtr wierszy (przed GROUP BY). HAVING = filtr grup (po GROUP BY). HAVING moze uzywac funkcji agregujacych (COUNT, SUM), WHERE nie moze",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze INNER JOIN zwraca wszystkie wiersze**: To LEFT/RIGHT JOIN zwraca wiersze bez dopasowania (z NULL). INNER zwraca TYLKO dopasowane",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

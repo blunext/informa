@@ -1,0 +1,24 @@
+{
+  "id": "4.40",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: podpis cyfrowy i PKI P/F",
+  "tagi": ["HTTPS-szyfrowanie", "sieci-komputerowe"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Podpis cyfrowy jest tworzony za pomoca klucza publicznego nadawcy. | |\n| b) | Infrastruktura klucza publicznego (PKI) opiera sie na zaufanych urzedach certyfikacji (CA). | |\n| c) | Protokol SSH szyfruje cala komunikacje miedzy klientem a serwerem. | |\n| d) | Algorytm MD5 jest obecnie uznawany za bezpieczna funkcje haszujaca do zastosowan kryptograficznych. | |",
+  "wskazowki": [
+    "**Kierunek**: Podpis cyfrowy: nadawca podpisuje KLUCZEM PRYWATNYM, odbiorca weryfikuje kluczem publicznym. Odwrotnie niz szyfrowanie!",
+    "**Podejscie**: PKI = system zaufania oparty na CA (Certificate Authority). CA wydaje certyfikaty potwierdzajace tozsamosc.",
+    "**Kluczowy krok**: MD5 jest ZLAMANY — znane sa praktyczne ataki kolizyjne (dwa rozne pliki z tym samym haszem). Bezpieczne alternatywy: SHA-256, SHA-3."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | Podpis cyfrowy jest tworzony za pomoca klucza **PRYWATNEGO** nadawcy (nie publicznego). Odbiorca weryfikuje podpis kluczem publicznym nadawcy. Odwrotnie niz szyfrowanie: szyfrujemy kluczem publicznym odbiorcy, deszyfrujemy prywatnym. |\n| b) | **P** | PKI (Public Key Infrastructure) opiera sie na hierarchii zaufanych CA (Certificate Authorities). CA weryfikuje tozsamosc podmiotu i wydaje certyfikat cyfrowy wiazacy klucz publiczny z tozsamoscia. Przegladarki maja wbudowane zaufane certyfikaty glowne (root CA). |\n| c) | **P** | SSH (Secure Shell) szyfruje cala sesje — od uwierzytelnienia po przesylane dane. Uzywa szyfrowania asymetrycznego do wymiany kluczy sesji, a potem symetrycznego (np. AES) do szyfrowania komunikacji. Zastapil nieszyfrowane Telnet/rsh. |\n| d) | **F** | MD5 jest uznawany za **NIEBEZPIECZNY** do zastosowan kryptograficznych. W 2004 r. wykazano praktyczne kolizje (dwa rozne wejscia z tym samym haszem). Nie nalezy uzywac do podpisow cyfrowych ani przechowywania hasel. Bezpieczne alternatywy: SHA-256, SHA-3, bcrypt (do hasel). |\n\nOdpowiedzi: a) F, b) P, c) P, d) F",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie klucza do podpisu**: Podpis cyfrowy = klucz PRYWATNY nadawcy. Szyfrowanie = klucz PUBLICZNY odbiorcy. Odwrotne kierunki — bardzo czesty blad",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze MD5 jest bezpieczny**: MD5 jest ZLAMANY od 2004 roku (kolizje). Na maturze to popularne pytanie — odpowiedz zawsze FALSZ",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

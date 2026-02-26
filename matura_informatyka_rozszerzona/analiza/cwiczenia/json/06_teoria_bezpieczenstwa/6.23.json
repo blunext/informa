@@ -1,0 +1,24 @@
+{
+  "id": "6.23",
+  "trudnosc": "srednie",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: roznice miedzy typami zlosliwego oprogramowania",
+  "tagi": ["trojan", "ransomware", "keylogger"],
+  "tresc": "Wypelnij tabele porownawcza trzech typow malware. Dla kazdego podaj: glowny cel dzialania, sposob rozprzestrzeniania i przyklad obrony.\n\n| Cecha | Trojan | Ransomware | Keylogger |\n|-------|--------|------------|-----------||\n| Glowny cel | | | |\n| Rozprzestrzenianie | | | |\n| Obrona | | | |",
+  "wskazowki": [
+    "**Kierunek**: Trojan = ukryty w 'legalnym' programie. Ransomware = szyfrowanie + okup. Keylogger = rejestracja klawiszy.",
+    "**Podejscie**: Kazdy typ ma INNY glowny cel: trojan = dostep/kradzier, ransomware = pieniadze, keylogger = dane logowania.",
+    "**Kluczowy krok**: Obrona rozni sie: trojan → ostroznosc przy instalacji, ransomware → backupy, keylogger → menedzer hasel."
+  ],
+  "odpowiedz": "| Cecha | Trojan | Ransomware | Keylogger |\n|-------|--------|------------|----------|\n| **Glowny cel** | Uzyskanie zdalnego dostepu lub kradzierz danych. Ukrywa sie w pozornie uzytecznym programie. | Zaszyfrowanie plikow ofiary i wymuszenie platnosci (okupu) za klucz deszyfrujacy. | Rejestrowanie nacisniec klawiszy w celu przechwycenia hasel, numerow kart, wiadomosci. |\n| **Rozprzestrzenianie** | Dolaczony do pirackich programow, falszywych aktualizacji, zalacznikow e-mail. Ofiara sama instaluje. | Przez falszywe zalaczniki e-mail, exploity w oprogramowaniu, zainfekowane strony. Czesto automatyczne szyfrowanie po uruchomieniu. | Ukryty w innym malware (czesto trojanie) lub zainstalowany fizycznie. Moze byc sprzetowy (urzadzenie na klawiaturze). |\n| **Obrona** | Instalowanie oprogramowania TYLKO z zaufanych zrodel. Antywirus. Sprawdzanie uprawnien programow. | **Regularne kopie zapasowe** (backup) na oddzielnym nosniku. Aktualizacje systemu. Antywirus. | Menedzer hasel (nie wpisuje sie hasel z klawiatury). Uwierzytelnianie biometryczne. Antywirus. |",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie trojana z wirusem**: Trojan NIE replikuje sie sam (wirus tak). Trojan wymaga, by uzytkownik go zainstalowl",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Brak podania backupu jako obrony przed ransomware**: Backup to KLUCZOWA obrona — nawet po zaszyfrowaniu plikow mozna je odtworzyc z kopii",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

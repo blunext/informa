@@ -1,0 +1,24 @@
+{
+  "id": "4.25",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: sieci i DNS P/F",
+  "tagi": ["sieci-komputerowe", "DNS", "HTTPS-szyfrowanie"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | DNS tlumaczny nazwy domenowe (np. google.com) na adresy IP. | |\n| b) | HTTPS szyfruje dane przesylane miedzy przegladarka a serwerem. | |\n| c) | Protokol FTP jest domyslnie szyfrowany. | |\n| d) | Adres IP 127.0.0.1 zawsze wskazuje na komputer lokalny (localhost). | |",
+  "wskazowki": [
+    "**Kierunek**: DNS = Domain Name System (tlumaczenie nazw). HTTPS = HTTP + szyfrowanie TLS/SSL.",
+    "**Podejscie**: FTP = File Transfer Protocol — przesyla dane (w tym hasla) jako zwykly tekst (nieszyfrowany).",
+    "**Kluczowy krok**: 127.0.0.1 to zarezerwowany adres loopback — zawsze wskazuje na lokalna maszyne."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | DNS (Domain Name System) zamienia czytelne dla ludzi nazwy domenowe na adresy IP, np. google.com → 142.250.186.14. |\n| b) | **P** | HTTPS = HTTP over TLS/SSL. Cala komunikacja jest szyfrowana, co chroni przed podsluchiwaniem i modyfikacja danych w tranzycie. |\n| c) | **F** | Klasyczny FTP przesyla dane (wlacznie z loginem i haslem) jako **niezaszyfrowany tekst**. Wersja szyfrowana to SFTP lub FTPS. |\n| d) | **P** | Adres 127.0.0.1 (loopback) jest zarezerwowany i zawsze wskazuje na lokalna maszyne. Uzywany do testow (localhost). |\n\nOdpowiedzi: a) P, b) P, c) F, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie FTP z SFTP**: FTP = nieszyfrowany. SFTP = SSH File Transfer Protocol (szyfrowany). FTPS = FTP + SSL (tez szyfrowany). Na maturze pytaja o FTP = nieszyfrowany",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze DNS przechowuje strony WWW**: DNS tylko tlumaczny nazwy na IP. Nie przechowuje stron — to rola serwerow HTTP",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

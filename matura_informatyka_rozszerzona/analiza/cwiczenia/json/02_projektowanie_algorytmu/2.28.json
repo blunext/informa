@@ -1,0 +1,24 @@
+{
+  "id": "2.28",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: sprawdzanie poprawnosci nawiasow (stos)",
+  "tagi": ["stos", "napisy", "warunek", "C++"],
+  "tresc": "Napisz w C++ funkcje `nawiasy_ok(s)`, ktora sprawdza, czy napis `s` zawierajacy nawiasy trzech typow: `()`, `[]`, `{}` jest poprawnie zagniezdzony. Funkcja zwraca true lub false.\n\nUzyj stosu (tablicy z indeksem szczytu).\n\n**Przyklady**:\n- `nawiasy_ok(\"({[]})\")` = true\n- `nawiasy_ok(\"([)]\")` = false (zle zagniezdzenie)\n- `nawiasy_ok(\"(()\")` = false (brak zamkniecia)\n- `nawiasy_ok(\"\")` = true",
+  "wskazowki": [
+    "**Kierunek**: Nawias otwierajacy — poloz na stos. Nawias zamykajacy — zdejmij ze stosu i sprawdz, czy pasuje do odpowiedniego otwierajacego.",
+    "**Podejscie**: Tablica `stos[1000]`, `top = -1`. Dla kazdego znaku: otwierajacy → push. Zamykajacy → jesli stos pusty lub szczyt nie pasuje → false. Na koncu: stos pusty → true.",
+    "**Kluczowy krok**: Trzy pary do sprawdzenia: ')' pasuje do '(', ']' do '[', '}' do '{'. Na koncu sprawdz czy `top == -1`."
+  ],
+  "odpowiedz": "**C++:**\n\n```cpp\nbool nawiasy_ok(string s) {\n    char stos[1000];\n    int top = -1;\n    for (int i = 0; i < s.length(); i++) {\n        if (s[i] == '(' || s[i] == '[' || s[i] == '{') {\n            stos[++top] = s[i];\n        } else if (s[i] == ')' || s[i] == ']' || s[i] == '}') {\n            if (top < 0) return false;\n            char otw = stos[top--];\n            if (s[i] == ')' && otw != '(') return false;\n            if (s[i] == ']' && otw != '[') return false;\n            if (s[i] == '}' && otw != '{') return false;\n        }\n    }\n    return top == -1;\n}\n```\n\n**Pseudokod:**\n\n```\nfunkcja nawiasy_ok(s)\n    stos := pusta tablica\n    top := -1\n    dla i := 0, 1, ..., dlugosc(s)-1:\n        jezeli s[i] jest otwierajacy:\n            top := top + 1\n            stos[top] := s[i]\n        jezeli s[i] jest zamykajacy:\n            jezeli top < 0:\n                zwroc FALSZ\n            otw := stos[top]\n            top := top - 1\n            jezeli otw nie pasuje do s[i]:\n                zwroc FALSZ\n    zwroc (top = -1)\n```\n\n**Weryfikacja**:\n- \"({[]})\": '(' push(top=0), '{' push(top=1), '[' push(top=2), ']' pop '['→OK(top=1), '}' pop '{'→OK(top=0), ')' pop '('→OK(top=-1) → true ✓\n- \"([)]\": '(' push(top=0), '[' push(top=1), ')' pop '['→ ')' oczekuje '(' ale jest '[' → false ✓\n- \"(()\": '(' push, '(' push, ')' pop → top=0 (nie -1) → false ✓\n- \"\": petla sie nie wykonuje, top=-1 → true ✓",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak sprawdzenia pustego stosu przed pop**: Zamykajacy nawias bez otwierajacego → odczyt spoza tablicy (UB)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak koncowego sprawdzenia top == -1**: Napis '((' przejdzie jako poprawny, bo zadne zamkniecie nie zwrocilo false",
+      "kara": "-1 pkt"
+    }
+  ]
+}

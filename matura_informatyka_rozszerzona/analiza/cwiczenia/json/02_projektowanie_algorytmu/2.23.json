@@ -1,0 +1,24 @@
+{
+  "id": "2.23",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: test pierwszosci",
+  "tagi": ["liczby-pierwsze", "petla-while", "warunek", "C++"],
+  "tresc": "Napisz w C++ funkcje `czy_pierwsza(n)`, ktora sprawdza, czy liczba naturalna n > 1 jest pierwsza. Funkcja zwraca true lub false.\n\n**Przyklady**:\n- `czy_pierwsza(17)` = true\n- `czy_pierwsza(15)` = false (15 = 3 * 5)\n- `czy_pierwsza(2)` = true\n- `czy_pierwsza(1)` = false (1 nie jest pierwsza)",
+  "wskazowki": [
+    "**Kierunek**: Liczba pierwsza ma dokladnie 2 dzielniki: 1 i siebie. Wystarczy sprawdzic dzielniki od 2 do sqrt(n).",
+    "**Podejscie**: Jesli n < 2 -> false. Petla od i=2, dopoki i*i <= n: jesli n%i==0 -> false. Jesli nic nie znaleziono -> true.",
+    "**Kluczowy krok**: Warunek `i*i <= n` zamiast `i <= sqrt(n)` — unikamy operacji zmiennoprzecinkowych."
+  ],
+  "odpowiedz": "**C++:**\n\n```cpp\nbool czy_pierwsza(int n) {\n    if (n < 2) return false;\n    for (int i = 2; i * i <= n; i++) {\n        if (n % i == 0)\n            return false;\n    }\n    return true;\n}\n```\n\n**Pseudokod:**\n\n```\nfunkcja czy_pierwsza(n)\n    jezeli n < 2:\n        zwroc FALSZ\n    dla i := 2, 3, ...:\n        jezeli i * i > n:\n            zwroc PRAWDA\n        jezeli n mod i = 0:\n            zwroc FALSZ\n```\n\n**Weryfikacja**:\n- czy_pierwsza(17): sprawdz i=2(17%2=1), i=3(17%3=2), i=4(16<=17,17%4=1), i=5(25>17 stop) -> true ✓\n- czy_pierwsza(15): i=2(15%2=1), i=3(15%3=0) -> false ✓\n- czy_pierwsza(2): i=2(4>2 stop) -> true ✓\n- czy_pierwsza(1): 1 < 2 -> false ✓\n\n**Zlozonosc**: O(sqrt(n)) — optymalna dla pojedynczego testu pierwszosci.",
+  "typowe_bledy": [
+    {
+      "opis": "**Petla do n zamiast do sqrt(n)**: Dziala poprawnie ale O(n) zamiast O(sqrt(n)) — na maturze moze nie byc karne, ale nieefektywne",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Brak obslugi n < 2**: 0 i 1 nie sa liczbami pierwszymi. Bez warunku poczatkowego algorytm moze blednie zwrocic true dla n=1",
+      "kara": "-1 pkt"
+    }
+  ]
+}

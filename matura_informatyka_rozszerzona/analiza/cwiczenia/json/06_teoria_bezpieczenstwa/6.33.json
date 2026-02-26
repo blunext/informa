@@ -1,0 +1,24 @@
+{
+  "id": "6.33",
+  "trudnosc": "srednie-trudne",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: lancuch zaufania certyfikatow SSL",
+  "tagi": ["certyfikat-SSL", "HTTPS", "szyfrowanie-asymetryczne"],
+  "tresc": "Wyjasnij, jak dziala lancuch zaufania (chain of trust) w systemie certyfikatow SSL/TLS.\n\n- a) Co to jest urzad certyfikacji (CA — Certificate Authority)?\n- b) Co zawiera certyfikat SSL/TLS?\n- c) Jak przegladarka weryfikuje, czy certyfikat strony jest wiarygodny?",
+  "wskazowki": [
+    "**Kierunek**: CA = zaufana instytucja wydajaca certyfikaty. Przegladarka ma wbudowana liste zaufanych CA (root certificates).",
+    "**Podejscie**: Certyfikat zawiera: nazwe domeny, klucz publiczny, kto wystawil, termin waznosci, podpis cyfrowy CA.",
+    "**Kluczowy krok**: Lancuch: Root CA → Intermediate CA → Certyfikat serwera. Przegladarka weryfikuje calance."
+  ],
+  "odpowiedz": "**a) Urzad certyfikacji (CA):**\n\nCA to zaufana instytucja (np. Let's Encrypt, DigiCert, Comodo), ktora weryfikuje tozsamosc podmiotu i wydaje certyfikat cyfrowy. CA potwierdza, ze dany klucz publiczny nalezy do danej domeny/organizacji. Przegladarki maja wbudowana liste zaufanych Root CA (~100-150 certyfikatow glownych).\n\n**b) Zawartosc certyfikatu SSL/TLS:**\n\n- Nazwa domeny (np. `bank.pl`)\n- Klucz publiczny serwera\n- Nazwa wydawcy (CA)\n- Termin waznosci (od-do)\n- Numer seryjny\n- **Podpis cyfrowy CA** (hasz certyfikatu zaszyfrowany kluczem prywatnym CA)\n- Algorytm podpisu (np. SHA-256 z RSA)\n\n**c) Weryfikacja lancucha zaufania:**\n\n1. Przegladarka otrzymuje certyfikat serwera.\n2. Sprawdza, czy domena w certyfikacie zgadza sie z adresem strony.\n3. Sprawdza termin waznosci certyfikatu.\n4. Weryfikuje podpis cyfrowy: deszyfruje podpis kluczem publicznym CA i porownuje z haszem certyfikatu.\n5. Jesli CA nie jest Root CA, sprawdza certyfikat posredni (Intermediate CA), az dotrze do Root CA z wbudowanej listy.\n6. Jezeli caly lancuch jest prawidlowy → ikona klodki. Jesli nie → ostrzezenie.",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze certyfikat szyfruje dane**: Certyfikat NIE szyfruje — potwierdza TOZSAMOSC. Szyfrowanie odbywa sie kluczami sesji wymienionymi podczas handshake",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Pominiecie lancucha posrednich CA**: Rzadko serwer ma certyfikat podpisany bezposrednio przez Root CA. Zazwyczaj: Root → Intermediate → Serwer",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

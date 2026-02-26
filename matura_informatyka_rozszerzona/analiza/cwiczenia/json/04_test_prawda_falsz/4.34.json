@@ -1,0 +1,24 @@
+{
+  "id": "4.34",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: rekurencja zaawansowana P/F",
+  "tagi": ["rekurencja", "zlozonosc-czasowa"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Kazda rekurencja bez warunku stopu (bazy) prowadzi do przepelnienia stosu (stack overflow). | |\n| b) | Memoizacja zmniejsza zlozonosc rekurencyjnego obliczania n-tego wyrazu Fibonacciego z O(2^n) do O(n). | |\n| c) | Rekurencja wzajemna (mutual recursion) to sytuacja, gdy funkcja wywoluje sama siebie dwukrotnie. | |\n| d) | Glebokosc rekurencji nie wplywa na zuzycie pamieci programu. | |",
+  "wskazowki": [
+    "**Kierunek**: Rekurencja bez bazy = nieskonczone wywolania = przepelnienie stosu (skonczony rozmiar stosu).",
+    "**Podejscie**: Memoizacja = pamietanie obliczonych wynikow. Fibonacci: bez memo O(2^n), z memo O(n) — kazda wartosc liczona raz.",
+    "**Kluczowy krok**: Rekurencja WZAJEMNA = funkcja A wywoluje B, B wywoluje A. Nie myl z rekurencja drzewiasta (jedna funkcja wywoluje siebie wielokrotnie)."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | Bez warunku stopu rekurencja wywoluje sie w nieskonczonosc. Kazde wywolanie dodaje ramke na stos (zmienne lokalne, adres powrotu). Stos ma skonczony rozmiar — nastepuje stack overflow. |\n| b) | **P** | Fibonacci rekurencyjny bez memoizacji: O(2^n) (drzewo wywolan z wielokrotnym liczeniem tych samych wartosci). Z memoizacja: kazda wartosc Fib(k) liczona dokladnie raz i zapamietywana — O(n) czasu, O(n) pamieci. |\n| c) | **F** | Rekurencja wzajemna (mutual recursion) to gdy **dwie lub wiecej funkcji wywoluja sie nawzajem**: f(n) wywoluje g(n-1), g(n) wywoluje f(n-1). To CO INNEGO niz rekurencja drzewiasta (jedna funkcja wywoluje siebie 2+ razy, np. Fibonacci). |\n| d) | **F** | Kazde wywolanie rekurencyjne alokuje ramke na stosie (zmienne lokalne, parametry, adres powrotu). Glebokosc rekurencji k oznacza k ramek na stosie — zuzycie pamieci **O(k)**. Glebokosc bezposrednio wplywa na pamiec. |\n\nOdpowiedzi: a) P, b) P, c) F, d) F",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie rekurencji wzajemnej z drzewiasta**: Wzajemna = dwie funkcje nawzajem (A→B→A). Drzewiasta = jedna funkcja wielokrotnie (f→f,f). To sa dwa rozne pojecia",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze rekurencja nie zuzywa pamieci**: Kazde wywolanie = ramka na stosie. Glebokosc n = O(n) pamieci. Dlatego iteracja czesto ma mniejsze zuzycie pamieci",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "2.33",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: sortowanie przez scalanie (merge sort)",
+  "tagi": ["rekurencja", "tablica", "iteracja", "C++"],
+  "tresc": "Napisz w C++ dwie funkcje:\n1. `scal(tab, lewy, srodek, prawy)` — scala dwa posortowane fragmenty tablicy: tab[lewy..srodek] i tab[srodek+1..prawy]\n2. `mergesort(tab, lewy, prawy)` — sortuje tablice rekurencyjnie metoda scalania\n\n**Przyklady**:\n- Po wywolaniu `mergesort(tab, 0, 4)` dla tab={5,3,1,4,2}: tab = {1,2,3,4,5}\n- Po `mergesort(tab, 0, 2)` dla tab={9,1,5}: tab = {1,5,9}",
+  "wskazowki": [
+    "**Kierunek**: Dziel tablice na pol rekurencyjnie, az fragmenty maja 1 element. Potem scalaj posortowane polowki.",
+    "**Podejscie**: mergesort: jezeli lewy >= prawy → koniec. srodek := (lewy+prawy)/2. Rekurencja na obie polowki. Potem scal. scal: uzyj tablicy pomocniczej.",
+    "**Kluczowy krok**: Funkcja scal musi uzyc tablicy tymczasowej — nie da sie scalic dwoch fragmentow w miejscu bez dodatkowej pamieci."
+  ],
+  "odpowiedz": "**C++:**\n\n```cpp\nvoid scal(int tab[], int lewy, int srodek, int prawy) {\n    int temp[100];\n    int i = lewy, j = srodek + 1, k = 0;\n    while (i <= srodek && j <= prawy) {\n        if (tab[i] <= tab[j])\n            temp[k++] = tab[i++];\n        else\n            temp[k++] = tab[j++];\n    }\n    while (i <= srodek) temp[k++] = tab[i++];\n    while (j <= prawy) temp[k++] = tab[j++];\n    for (int m = 0; m < k; m++)\n        tab[lewy + m] = temp[m];\n}\n\nvoid mergesort(int tab[], int lewy, int prawy) {\n    if (lewy >= prawy) return;\n    int srodek = (lewy + prawy) / 2;\n    mergesort(tab, lewy, srodek);\n    mergesort(tab, srodek + 1, prawy);\n    scal(tab, lewy, srodek, prawy);\n}\n```\n\n**Weryfikacja** (tab={5,3,1,4,2}, mergesort(0,4)):\n- srodek=2, sort [0,2]: srodek=1, sort [0,1]: srodek=0, sort [0,0]→ok, sort [1,1]→ok, scal [0,0,1]→{3,5}. sort [2,2]→ok. scal [0,1,2]→{1,3,5}\n- sort [3,4]: srodek=3, sort [3,3]→ok, sort [4,4]→ok, scal [3,3,4]→{2,4}\n- scal [0,2,4]: {1,3,5} + {2,4} → {1,2,3,4,5} ✓\n\n**Zlozonosc**: O(n log n) czas, O(n) pamiec pomocnicza.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak tablicy tymczasowej w scal — nadpisywanie oryginalnych danych**: Bez temp[] scalanie zniszczy elementy zanim zdazymy je odczytac",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zly podzial: srodek = (lewy+prawy)/2 ale rekurencja na [lewy,srodek-1] i [srodek,prawy]**: Dla 2-elementowej tablicy srodek=lewy, fragment [lewy,srodek-1] jest pusty a [srodek,prawy] nie zmniejsza sie — nieskonczona rekurencja",
+      "kara": "-1.5 pkt"
+    }
+  ]
+}

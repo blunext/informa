@@ -3,7 +3,7 @@
   "nazwa": "Konwersja systemow liczbowych",
   "kategoria": "TEORIA",
   "czestotliwosc": "9/11 lat",
-  "punkty_lacznie": 34,
+  "punkty_lacznie": 108,
   "tagi_globalne": [
     "dec-bin",
     "bin-dec",
@@ -151,6 +151,168 @@
         "porownywanie-systemow",
         "potegi-dwojki"
       ]
+    },
+    {
+      "id": "5.14",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["dec-bin", "dzielenie-z-reszta"]
+    },
+    {
+      "id": "5.15",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["bin-dec", "potegi-dwojki"]
+    },
+    {
+      "id": "5.16",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["hex-bin", "grupowanie-bitow"]
+    },
+    {
+      "id": "5.17",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["bin-hex", "grupowanie-bitow"]
+    },
+    {
+      "id": "5.18",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["dec-bin", "bin-hex", "grupowanie-bitow"]
+    },
+    {
+      "id": "5.19",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["potegi-dwojki", "bin-dec"]
+    },
+    {
+      "id": "5.20",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["system-osemkowy", "dzielenie-z-reszta"]
+    },
+    {
+      "id": "5.21",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["dodawanie-binarne", "przeniesienia"]
+    },
+    {
+      "id": "5.22",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["bin-hex", "hex-bin", "dodawanie-binarne"]
+    },
+    {
+      "id": "5.23",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["porownywanie-systemow", "dec-bin", "bin-hex"]
+    },
+    {
+      "id": "5.24",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["system-trojkowy", "dzielenie-z-reszta"]
+    },
+    {
+      "id": "5.25",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["odejmowanie-binarne", "przeniesienia"]
+    },
+    {
+      "id": "5.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": ["system-osemkowy", "grupowanie-bitow"]
+    },
+    {
+      "id": "5.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": ["hex-bin", "odejmowanie-binarne", "przeniesienia"]
+    },
+    {
+      "id": "5.28",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": ["porownywanie-systemow", "dec-bin", "bin-hex"]
+    },
+    {
+      "id": "5.29",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": ["system-trojkowy", "przeniesienia"]
+    },
+    {
+      "id": "5.30",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": ["uzupelnienie-do-2", "dodawanie-binarne", "przeniesienia"]
+    },
+    {
+      "id": "5.31",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": ["potegi-dwojki", "dec-bin", "bin-dec"]
+    },
+    {
+      "id": "5.32",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": ["system-osemkowy", "przeniesienia", "dzielenie-z-reszta"]
+    },
+    {
+      "id": "5.33",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": ["porownywanie-systemow", "dzielenie-z-reszta", "potegi-dwojki"]
+    },
+    {
+      "id": "5.34",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["uzupelnienie-do-2", "dodawanie-binarne", "przeniesienia"]
+    },
+    {
+      "id": "5.35",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["hex-bin", "bin-dec", "grupowanie-bitow"]
+    },
+    {
+      "id": "5.36",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["potegi-dwojki", "dodawanie-binarne"]
+    },
+    {
+      "id": "5.37",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["porownywanie-systemow", "dzielenie-z-reszta"]
+    },
+    {
+      "id": "5.38",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["uzupelnienie-do-2", "odejmowanie-binarne", "przeniesienia"]
+    },
+    {
+      "id": "5.39",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["system-trojkowy", "dzielenie-z-reszta", "porownywanie-systemow"]
+    },
+    {
+      "id": "5.40",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["porownywanie-systemow", "potegi-dwojki", "dec-bin"]
     }
   ]
 }

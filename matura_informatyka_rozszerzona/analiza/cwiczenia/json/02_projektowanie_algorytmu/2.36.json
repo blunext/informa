@@ -1,0 +1,24 @@
+{
+  "id": "2.36",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: wstawianie do BST (tablica, rekurencja)",
+  "tagi": ["drzewo", "rekurencja", "tablica", "C++"],
+  "tresc": "Drzewo BST przechowywane jest w tablicy: korzen w `drzewo[1]`, lewe dziecko wezla i w `drzewo[2*i]`, prawe w `drzewo[2*i+1]`. Wartosc 0 oznacza puste miejsce.\n\nNapisz w C++ rekurencyjna funkcje `wstaw_BST(drzewo, i, wartosc)`, ktora wstawia `wartosc` do drzewa BST poczawszy od wezla o indeksie `i`.\n\n**Przyklady** (poczatkowo drzewo wypelnione zerami):\n- Po wstawieniu kolejno 5, 3, 7, 1, 4: drzewo[1]=5, drzewo[2]=3, drzewo[3]=7, drzewo[4]=1, drzewo[5]=4\n- Po dodaniu 6: drzewo[6]=6 (lewe dziecko wezla 7)",
+  "wskazowki": [
+    "**Kierunek**: BST: wartosci mniejsze ida w lewe poddrzewo (2*i), wieksze/rowne w prawe (2*i+1). Rekurencja schodzi w dol drzewa az znajdzie puste miejsce.",
+    "**Podejscie**: Jezeli drzewo[i]=0 → wstaw wartosc tutaj. Jezeli wartosc < drzewo[i] → wstaw_BST(drzewo, 2*i, wartosc). Wpp. → wstaw_BST(drzewo, 2*i+1, wartosc).",
+    "**Kluczowy krok**: Warunek bazowy to puste miejsce (drzewo[i]==0), NIE wyjscie poza tablice — pamietaj o ograniczeniu rozmiaru tablicy!"
+  ],
+  "odpowiedz": "**C++:**\n\n```cpp\nvoid wstaw_BST(int drzewo[], int i, int wartosc) {\n    if (drzewo[i] == 0) {\n        drzewo[i] = wartosc;\n        return;\n    }\n    if (wartosc < drzewo[i])\n        wstaw_BST(drzewo, 2 * i, wartosc);\n    else\n        wstaw_BST(drzewo, 2 * i + 1, wartosc);\n}\n```\n\n**Pseudokod:**\n\n```\nfunkcja wstaw_BST(drzewo, i, wartosc)\n    jezeli drzewo[i] = 0:\n        drzewo[i] := wartosc\n        zakoncz\n    jezeli wartosc < drzewo[i]:\n        wstaw_BST(drzewo, 2*i, wartosc)\n    w przeciwnym razie:\n        wstaw_BST(drzewo, 2*i+1, wartosc)\n```\n\n**Weryfikacja** (wstawianie 5, 3, 7, 1, 4, 6):\n- wstaw(5, i=1): drzewo[1]=0 → drzewo[1]=5\n- wstaw(3, i=1): 3<5 → i=2, drzewo[2]=0 → drzewo[2]=3\n- wstaw(7, i=1): 7>=5 → i=3, drzewo[3]=0 → drzewo[3]=7\n- wstaw(1, i=1): 1<5 → i=2, 1<3 → i=4, drzewo[4]=0 → drzewo[4]=1\n- wstaw(4, i=1): 4<5 → i=2, 4>=3 → i=5, drzewo[5]=0 → drzewo[5]=4\n- wstaw(6, i=1): 6>=5 → i=3, 6<7 → i=6, drzewo[6]=0 → drzewo[6]=6 ✓",
+  "typowe_bledy": [
+    {
+      "opis": "**Warunek `<=` zamiast `<` dla lewego poddrzewa**: Zmienia zachowanie dla duplikatow — wartosci rowne powinny isc konsekwentnie w jedna strone (zazwyczaj prawa)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Brak warunku bazowego drzewo[i]==0**: Bez niego rekurencja nigdy nie wstawi wartosci — schodzi w nieskonczonosc lub nadpisuje istniejace wezly",
+      "kara": "-2 pkt"
+    }
+  ]
+}

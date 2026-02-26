@@ -1,0 +1,24 @@
+{
+  "id": "2.18",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: konwersja dec -> bin",
+  "tagi": ["konwersja-systemow", "mod-div", "petla-while"],
+  "tresc": "Napisz w pseudokodzie lub C++ funkcje `dec_to_bin(n)`, ktora dla danej liczby naturalnej n >= 0 zwraca jej reprezentacje binarna jako liczbe calkowita (np. 13 -> 1101).\n\n**Ograniczenia**: Uzyj zmiennych calkowitych. Wynik to liczba calkowita, ktorej cyfry dziesietne odpowiadaja bitom binarnym.\n\n**Przyklady**:\n- `dec_to_bin(13)` = 1101\n- `dec_to_bin(0)` = 0\n- `dec_to_bin(255)` = 11111111",
+  "wskazowki": [
+    "**Kierunek**: Konwersja dec->bin: dziel przez 2, zbieraj reszty. Reszty to bity od najmniej znaczacego.",
+    "**Podejscie**: Uzyj mnoznika pozycyjnego (1, 10, 100, ...) aby umiescic kolejne bity na wlasciwych pozycjach liczby dziesietnej.",
+    "**Kluczowy krok**: `bit := n mod 2; wynik := wynik + bit * mnoznik; mnoznik := mnoznik * 10; n := n div 2`."
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja dec_to_bin(n)\n    jezeli n = 0:\n        zwroc 0\n    wynik := 0\n    mnoznik := 1\n    dopoki n > 0:\n        bit := n mod 2\n        wynik := wynik + bit * mnoznik\n        mnoznik := mnoznik * 10\n        n := n div 2\n    zwroc wynik\n```\n\n**C++:**\n\n```cpp\nlong long dec_to_bin(int n) {\n    if (n == 0) return 0;\n    long long wynik = 0;\n    long long mnoznik = 1;\n    while (n > 0) {\n        int bit = n % 2;\n        wynik += bit * mnoznik;\n        mnoznik *= 10;\n        n /= 2;\n    }\n    return wynik;\n}\n```\n\n**Weryfikacja**:\n- dec_to_bin(13): 13%2=1(mn=1), 6%2=0(mn=10), 3%2=1(mn=100), 1%2=1(mn=1000) -> 1+0+100+1000 = 1101 ✓\n- dec_to_bin(0): zwraca 0 ✓\n- dec_to_bin(255): 8 jedynek -> 11111111 ✓",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak obslugi n = 0**: Petla `dopoki n > 0` nie wchodzi dla n=0, zwracajac wynik=0 tylko jesli jest specjalny przypadek",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Brak mnoznika (odwrocone bity)**: Bez mnoznika bity trafiaja w odwrotnej kolejnosci",
+      "kara": "-1 pkt"
+    }
+  ]
+}

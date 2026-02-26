@@ -1,0 +1,24 @@
+{
+  "id": "6.26",
+  "trudnosc": "srednie",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: polityka bezpieczenstwa IT w firmie",
+  "tagi": ["VPN", "firewall", "2FA"],
+  "tresc": "Firma wprowadza nowa polityke bezpieczenstwa IT. Wyjasnij, w jaki sposob kazde z ponizszych narzedzi przyczynia sie do ochrony danych firmowych.\n\n| Narzedzie | Rola w ochronie danych |\n|-----------|----------------------|\n| Firewall | |\n| VPN | |\n| 2FA (uwierzytelnianie dwuskladnikowe) | |",
+  "wskazowki": [
+    "**Kierunek**: Kazde narzedzie chroni INNY aspekt: firewall = siec, VPN = transmisja, 2FA = konto.",
+    "**Podejscie**: Pomysl o firmie z pracownikami zdalnymi: VPN = bezpieczne polaczenie z domu, firewall = ochrona serwera, 2FA = weryfikacja pracownika.",
+    "**Kluczowy krok**: Te trzy narzedzia to 'defense in depth' — wiele warstw ochrony. Kazda broni przed innym wektorem ataku."
+  ],
+  "odpowiedz": "| Narzedzie | Rola w ochronie danych |\n|-----------|----------------------|\n| **Firewall** | Kontroluje ruch sieciowy wchodzacy i wychodzacy z sieci firmowej. Blokuje nieautoryzowane polaczenia (np. proba skanowania portow, ataki z zewnatrz). Definicja regul: ktore porty/protokoly/adresy IP sa dozwolone. Chroni przed atakami sieciowymi i nieuprawnionym dostepem do serwisow wewnetrznych. |\n| **VPN** | Tworzy zaszyfrowany tunel dla pracownikow zdalnych laczacych sie z siecia firmowa. Nawet w publicznej sieci Wi-Fi (np. kawiarnia) dane sa szyfrowane i nie moga byc podejrzane. Umozliwia bezpieczny dostep do zasobow wewnetrznych (serwery, bazy danych) spoza biura. |\n| **2FA** | Dodaje druga warstwe weryfikacji przy logowaniu (np. haslo + kod SMS/aplikacja). Nawet jesli atakujacy pozna haslo pracownika (np. przez phishing), nie zaloguje sie bez drugiego czynnika. Znaczaco zmniejsza ryzyko przejecia konta. |\n\n**Strategia 'defense in depth'**: Firewall chroni granice sieci, VPN chroni transmisje, 2FA chroni konta uzytkownikow. Razem tworza wielowarstwowa ochrone.",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie VPN z firewallem**: VPN = szyfruje transmisje (prywatnosc). Firewall = filtruje ruch (kontrola dostepu). VPN nie blokuje atakow, firewall nie szyfruje",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze 2FA czyni haslo zbednym**: 2FA DODAJE drugi czynnik — nie zastepuje hasla. Silne haslo jest nadal wazne",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

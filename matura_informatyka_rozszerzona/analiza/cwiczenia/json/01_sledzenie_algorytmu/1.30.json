@@ -1,0 +1,24 @@
+{
+  "id": "1.30",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: transponowanie macierzy kwadratowej",
+  "tagi": ["plansza-2D", "sledzenie-iteracyjne"],
+  "tresc": "Dany jest algorytm transponowania macierzy kwadratowej:\n\n```\nfunkcja transponuj(A, n)\n    dla i := 0, 1, ..., n-1:\n        dla j := i+1, ..., n-1:\n            temp := A[i][j]\n            A[i][j] := A[j][i]\n            A[j][i] := temp\n    zwroc A\n```\n\nDana jest macierz 4x4:\n```\nA = [[1,  2,  3,  4],\n     [5,  6,  7,  8],\n     [9,  10, 11, 12],\n     [13, 14, 15, 16]]\n```\n\n**Polecenie**:\n- a) Przelsdz algorytm i podaj wynikowa macierz A po transponowaniu. (2 pkt)\n- b) Ile zamian (swap) wykonano lacznie? (1 pkt)\n- c) Dlaczego petla wewnetrzna zaczyna sie od j = i+1, a nie od j = 0? (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Transponowanie zamienia wiersze z kolumnami: A[i][j] staje sie A[j][i]. Algorytm zamienia tylko elementy nad przekatna.",
+    "**Podejscie**: Sledz zamiany: (0,1), (0,2), (0,3), (1,2), (1,3), (2,3) — to wszystkie pary (i,j) gdzie j > i.",
+    "**Kluczowy krok**: Elementy na przekatnej (i=j) sie nie zmieniaja. Zamiana (i,j) automatycznie zamienia tez (j,i)."
+  ],
+  "odpowiedz": "**a) Sledzenie transponuj(A, 4):**\n\n**i=0:**\n- j=1: swap A[0][1]=2 z A[1][0]=5\n- j=2: swap A[0][2]=3 z A[2][0]=9\n- j=3: swap A[0][3]=4 z A[3][0]=13\n\nStan po i=0: [[1,5,9,13],[2,6,7,8],[3,10,11,12],[4,14,15,16]]\n\n**i=1:**\n- j=2: swap A[1][2]=7 z A[2][1]=10\n- j=3: swap A[1][3]=8 z A[3][1]=14\n\nStan po i=1: [[1,5,9,13],[2,6,10,14],[3,7,11,12],[4,8,15,16]]\n\n**i=2:**\n- j=3: swap A[2][3]=12 z A[3][2]=15\n\n**Wynikowa macierz:**\n```\nA = [[1,  5,  9,  13],\n     [2,  6,  10, 14],\n     [3,  7,  11, 15],\n     [4,  8,  12, 16]]\n```\n\n**b)** Lacznie zamian: 3 + 2 + 1 = **6** (= n*(n-1)/2 = 4*3/2)\n\n**c)** Petla od j = i+1, bo:\n- j = i to przekatna — element nie wymaga zamiany (A[i][i] zostaje na miejscu)\n- j < i to elementy pod przekatna — juz zostaly zamienione w wczesniejszych iteracjach (zamiana (i,j) obsluguje jednoczesnie (j,i))\n- Gdyby j startowalo od 0, kazda para bylaby zamieniana dwukrotnie, cofajac efekt",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o aktualizacji stanu macierzy**: Po swapie (0,1) macierz sie zmienia — nastepne swapy dzialaja na NOWYM stanie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Podwojne zamienianie**: Jesli petla wewnetrzna zaczyna sie od j=0, para (0,1) i (1,0) bylyby zamienione dwa razy — dajac oryginalny uklad",
+      "kara": "-1 pkt"
+    }
+  ]
+}

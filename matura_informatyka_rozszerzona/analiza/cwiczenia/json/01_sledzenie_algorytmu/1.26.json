@@ -1,0 +1,24 @@
+{
+  "id": "1.26",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: rekurencja drzewiasta (potega szybka)",
+  "tagi": ["rekurencja", "drzewo-wywolan"],
+  "tresc": "Dana jest funkcja rekurencyjna szybkiego potegowania:\n\n```\nfunkcja potega(a, n)\n    jezeli n = 0:\n        zwroc 1\n    jezeli n mod 2 = 0:\n        polowa := potega(a, n div 2)\n        zwroc polowa * polowa\n    w przeciwnym razie:\n        zwroc a * potega(a, n - 1)\n```\n\n**Polecenie**:\n- a) Narysuj drzewo wywolan dla `potega(2, 10)`. Przy kazdym wezle podaj wartosc zwrocona. (3 pkt)\n- b) Ile razy lacznie wywolano funkcje `potega`? Porownaj z n=10 wywolan w wersji naiwnej. (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Algorytm dzieli wykladnik na pol (gdy parzysty) lub zmniejsza o 1 (gdy nieparzysty). To daje logarytmiczna liczbe wywolan.",
+    "**Podejscie**: potega(2,10): 10 parzyste -> potega(2,5). 5 nieparzyste -> 2*potega(2,4). 4 parzyste -> potega(2,2). Itd.",
+    "**Kluczowy krok**: Lancuch: potega(2,10) -> potega(2,5) -> potega(2,4) -> potega(2,2) -> potega(2,1) -> potega(2,0)=1."
+  ],
+  "odpowiedz": "**a) Drzewo wywolan potega(2, 10):**\n\n```\npotega(2, 10)  [10 parzyste]\n  polowa = potega(2, 5)  [5 nieparzyste]\n    = 2 * potega(2, 4)  [4 parzyste]\n           polowa = potega(2, 2)  [2 parzyste]\n             polowa = potega(2, 1)  [1 nieparzyste]\n               = 2 * potega(2, 0)  [baza]\n                      = 1\n               = 2 * 1 = 2\n             = 2 * 2 = 4\n           = 4 * 4 = 16\n    = 2 * 16 = 32\n  = 32 * 32 = 1024\n```\n\nWynik: **potega(2, 10) = 1024** (= 2^10)\n\nWeryfikacja: 2^10 = 1024 ✓\n\n**b)** Funkcja `potega` wywolana lacznie **6 razy** (dla n = 10, 5, 4, 2, 1, 0).\n\nW wersji naiwnej (a * potega(a, n-1)) byloby **11 wywolan** (n=10 do n=0). Szybkie potegowanie uzywa ~log2(n) wywolan zamiast n.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o kwadrowaniu polowy**: Dla parzystego n, wynik = polowa * polowa (nie potega * 2)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledne rozgalezienie parzyste/nieparzyste**: 10 -> parzyste (div 2), 5 -> nieparzyste (n-1), trzeba sprawdzac n mod 2",
+      "kara": "-1 pkt"
+    }
+  ]
+}

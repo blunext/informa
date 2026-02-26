@@ -1,0 +1,24 @@
+{
+  "id": "4.36",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: bazy danych ACID i normalizacja P/F",
+  "tagi": ["SQL-skladnia", "JOIN"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Wlasciwosc ACID 'Atomicity' (atomowosc) oznacza, ze transakcja wykonuje sie w calosci lub wcale. | |\n| b) | Trzecia postac normalna (3NF) dopuszcza zaleznosci tranzytywne miedzy atrybutami niekluczowymi. | |\n| c) | Dodanie indeksu na kolumnie przyspiesza operacje INSERT na tej tabeli. | |\n| d) | Klucz obcy (FOREIGN KEY) moze odwolywac sie do klucza glownego (PRIMARY KEY) innej tabeli. | |",
+  "wskazowki": [
+    "**Kierunek**: ACID: Atomicity (atomowosc), Consistency (spojnosc), Isolation (izolacja), Durability (trwalosc).",
+    "**Podejscie**: 3NF eliminuje zaleznosci tranzytywne (A→B→C, gdzie A to klucz). 2NF eliminuje czesciowe zaleznosci.",
+    "**Kluczowy krok**: Indeks = dodatkowa struktura danych (B-drzewo). Przyspiesza SELECT/WHERE, ale SPOWALNIA INSERT/UPDATE/DELETE (bo indeks tez trzeba zaktualizowac)."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | Atomowosc (Atomicity): transakcja jest niepodzielna — albo wszystkie operacje sie wykonuja (COMMIT), albo zadna (ROLLBACK). Brak stanow posrednich widocznych z zewnatrz. |\n| b) | **F** | 3NF wlasnie ELIMINUJE zaleznosci tranzytywne. Jesli A→B i B→C (gdzie A = klucz), to C zalezy tranzytywnie od A. 3NF wymaga przeniesienia C do oddzielnej tabeli z kluczem B. |\n| c) | **F** | Indeks SPOWALNIA operacje INSERT (i UPDATE/DELETE). Przy kazdym wstawieniu wiersza system musi tez zaktualizowac strukture indeksu (np. B-drzewo). Indeks przyspiesza SELECT/WHERE. Trade-off: szybsze odczyty vs wolniejsze zapisy. |\n| d) | **P** | Klucz obcy (FOREIGN KEY) tworzy referencje do klucza glownego (PRIMARY KEY) lub klucza unikalnego (UNIQUE) innej tabeli (lub tej samej). Zapewnia integralnosc referencyjna — nie mozna wstawic wartosci, ktora nie istnieje w tabeli nadrzednej. |\n\nOdpowiedzi: a) P, b) F, c) F, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze indeks przyspiesza INSERT**: Indeks przyspiesza ODCZYT (SELECT). Zapis (INSERT/UPDATE/DELETE) jest WOLNIEJSZY bo trzeba aktualizowac indeks",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Mylenie postaci normalnych**: 1NF = atomowe wartosci. 2NF = brak czesciowych zaleznosci. 3NF = brak tranzytywnych. BCNF = kazdy determinant jest kluczem kandydujacym",
+      "kara": "-1 pkt"
+    }
+  ]
+}

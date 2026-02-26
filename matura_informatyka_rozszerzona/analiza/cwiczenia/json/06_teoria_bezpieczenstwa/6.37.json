@@ -1,0 +1,24 @@
+{
+  "id": "6.37",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: architektura zabezpieczen sieci firmowej",
+  "tagi": ["firewall", "VPN", "DNS", "DHCP"],
+  "tresc": "Zaprojektuj podstawowa architekture zabezpieczen sieci dla malej firmy (20 pracownikow, w tym 5 zdalnych). Wyjasnij role kazdego elementu.\n\nElementy do uzycia: firewall, VPN, serwer DNS, serwer DHCP, strefa DMZ.\n\nNarysuj schemat (uproszczony, tekstowo) i opisz kazdy element.",
+  "wskazowki": [
+    "**Kierunek**: Internet → Firewall → [DMZ (serwer WWW)] + [Siec wewnetrzna (DHCP, DNS, komputery)]. Zdalni pracownicy → VPN → Siec wewnetrzna.",
+    "**Podejscie**: DMZ = strefa zdemilitaryzowana — publiczne serwery odizolowane od sieci wewnetrznej.",
+    "**Kluczowy krok**: Kazdy element pelni INNA role: firewall = kontrola, VPN = tunel, DMZ = izolacja, DHCP = adresy, DNS = nazwy."
+  ],
+  "odpowiedz": "**Schemat architektury:**\n\n```\nInternet\n    |\n[FIREWALL] ←--- Pracownicy zdalni (VPN)\n    |\n    +--- [DMZ] --- Serwer WWW, serwer pocztowy\n    |\n    +--- [Siec wewnetrzna]\n              |\n              +--- Serwer DHCP\n              +--- Serwer DNS (wewnetrzny)\n              +--- Komputery pracownikow (15)\n```\n\n**Role elementow:**\n\n| Element | Rola |\n|---------|------|\n| **Firewall** | Filtruje ruch miedzy Internetem, DMZ i siecia wewnetrzna. Blokuje nieautoryzowane polaczenia. Reguly: zezwol na HTTP/HTTPS do DMZ, blokuj bezposredni dostep do sieci wewnetrznej z Internetu. |\n| **VPN** | Tworzy zaszyfrowany tunel dla 5 pracownikow zdalnych. Po polaczeniu VPN maja dostep do zasobow sieci wewnetrznej tak, jakby byli w biurze. Szyfrowanie chroni dane w tranzycie. |\n| **DMZ** | Strefa zdemilitaryzowana — izoluje serwery publiczne (WWW, poczta) od sieci wewnetrznej. Jesli atakujacy przejmie serwer w DMZ, nadal nie ma dostepu do sieci wewnetrznej. |\n| **Serwer DHCP** | Automatycznie przydziela adresy IP komputerom w sieci wewnetrznej. Upraszcza administracje — nie trzeba recznie konfigurowac kazdego urzadzenia. |\n| **Serwer DNS (wewnetrzny)** | Rozwiazuje nazwy wewnetrzne (np. serwer.firma.local) i przekazuje zapytania zewnetrzne do publicznego DNS. Moze blokowac znane domeny malware (DNS sinkhole). |",
+  "typowe_bledy": [
+    {
+      "opis": "**Umieszczenie serwera WWW w sieci wewnetrznej**: Serwery publiczne (WWW, mail) powinny byc w DMZ, NIE w sieci wewnetrznej. DMZ izoluje je od krytycznych zasobow",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pominiecie DMZ**: Bez DMZ atak na serwer WWW daje bezposredni dostep do sieci wewnetrznej. DMZ to kluczowa warstwa izolacji",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

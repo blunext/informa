@@ -1,0 +1,24 @@
+{
+  "id": "5.18",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: lancuchowa konwersja dec→bin→hex",
+  "tagi": ["dec-bin", "bin-hex", "grupowanie-bitow"],
+  "tresc": "Zamien podane liczby z systemu dziesietnego na szesnastkowy. Wykonaj to przez binarny: najpierw dec→bin (dzielenie przez 2), potem bin→hex (grupowanie po 4).\n\n| Lp. | Liczba dziesietna |\n|-----|-------------------|\n| a)  | 200 |\n| b)  | 75 |\n| c)  | 160 |",
+  "wskazowki": [
+    "**Kierunek**: Konwersja dec→hex moze isc przez binarny: dec → bin → hex. To czesto latwiejsze niz dzielenie przez 16.",
+    "**Podejscie**: Etap 1: dziel przez 2, zapisuj reszty. Etap 2: grupuj bity po 4 od prawej, zamien na hex.",
+    "**Kluczowy krok**: Mozna tez dzielnic przez 16 bezposrednio: 200/16=12 R8, wiec 200=C8(16)."
+  ],
+  "odpowiedz": "**a) 200(10) = C8(16)**\n\nEtap 1 (dec→bin): 200/2=100 R0, 100/2=50 R0, 50/2=25 R0, 25/2=12 R1, 12/2=6 R0, 6/2=3 R0, 3/2=1 R1, 1/2=0 R1\n200(10) = 11001000(2)\n\nEtap 2 (bin→hex): 1100 | 1000 → C | 8\n200(10) = **C8(16)**\nSprawdzenie: 12*16+8 = 200\n\n**b) 75(10) = 4B(16)**\n\nEtap 1: 75/2=37 R1, 37/2=18 R1, 18/2=9 R0, 9/2=4 R1, 4/2=2 R0, 2/2=1 R0, 1/2=0 R1\n75(10) = 1001011(2)\n\nEtap 2: 0100 | 1011 → 4 | B\n75(10) = **4B(16)**\nSprawdzenie: 4*16+11 = 75\n\n**c) 160(10) = A0(16)**\n\nEtap 1: 160/2=80 R0, 80/2=40 R0, 40/2=20 R0, 20/2=10 R0, 10/2=5 R0, 5/2=2 R1, 2/2=1 R0, 1/2=0 R1\n160(10) = 10100000(2)\n\nEtap 2: 1010 | 0000 → A | 0\n160(10) = **A0(16)**\nSprawdzenie: 10*16+0 = 160",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledne reszty przy dzieleniu**: Zapisz dokladnie: 75/2=37 reszta 1 (nie 0). Kazdy krok musi byc precyzyjny",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Nieuzupelnienie grupy do 4 bitow**: 1001011 ma 7 bitow, wiec dopelnij: 0100|1011. Bez dopelnienia — bledne grupowanie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

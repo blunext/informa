@@ -1,0 +1,24 @@
+{
+  "id": "3.30",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: dowod indukcyjny wzoru na sume",
+  "tagi": ["indukcja", "zlozonosc-czasowa", "O-notacja"],
+  "tresc": "Udowodnij przez indukcje matematyczna, ze:\n\n1 + 2 + 3 + ... + n = n(n+1)/2\n\nNastepnie uzyj tego wzoru, aby uzasadnic, ze zlozonosc algorytmu z petla `dla j := 1 do i` wewnatrz petli `dla i := 1 do n` to O(n^2).",
+  "wskazowki": [
+    "**Kierunek**: Dowod indukcyjny: baza (n=1), zalozenie (n=k), krok (n=k+1). Pokaz, ze wzor zachodzi dla k+1.",
+    "**Podejscie**: Baza: 1 = 1*2/2 = 1 ✓. Krok: 1+2+...+k+(k+1) = k(k+1)/2 + (k+1) = (k+1)(k+2)/2.",
+    "**Kluczowy krok**: Wyciagnij (k+1) przed nawias: k(k+1)/2 + (k+1) = (k+1)[k/2 + 1] = (k+1)(k+2)/2."
+  ],
+  "odpowiedz": "**Dowod indukcyjny:**\n\n**Baza** (n = 1): L = 1. P = 1*2/2 = 1. L = P ✓\n\n**Zalozenie indukcyjne**: Zakladamy, ze dla pewnego k >= 1:\n1 + 2 + ... + k = k(k+1)/2\n\n**Krok indukcyjny** (k → k+1):\n\n1 + 2 + ... + k + (k+1)\n= [k(k+1)/2] + (k+1)        (z zalozenia indukcyjnego)\n= (k+1) * [k/2 + 1]          (wyciagamy (k+1))\n= (k+1) * [(k + 2)/2]        (wspolny mianownik)\n= **(k+1)(k+2)/2**\n\nTo jest dokladnie wzor n(n+1)/2 dla n = k+1. ✓\n\nNa mocy indukcji matematycznej, wzor zachodzi dla kazdego n >= 1. QED.\n\n**Zastosowanie do zlozonosci:**\n\nAlgorytm:\n```\ndla i := 1, 2, ..., n:\n    dla j := 1, 2, ..., i:\n        operacja O(1)\n```\n\nLiczba operacji = 1 + 2 + ... + n = n(n+1)/2 = (n^2 + n)/2\n\nDominujacy skladnik: n^2/2. Pomijamy stale: **O(n^2)**.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak zalozenia indukcyjnego**: Nie wystarczy 'sprawdzic dla k i k+1' — trzeba EXPLICITE podac, co zakladamy i co dowodzimy",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Krok indukcyjny z bledem algebraicznym**: k(k+1)/2 + (k+1) ≠ (k+1)(k+1)/2. Prawidlowo: wynik to (k+1)(k+2)/2",
+      "kara": "-1 pkt"
+    }
+  ]
+}

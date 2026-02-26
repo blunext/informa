@@ -1,0 +1,24 @@
+{
+  "id": "2.30",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: scalanie dwoch posortowanych tablic",
+  "tagi": ["tablica", "iteracja", "warunek", "C++"],
+  "tresc": "Napisz w C++ funkcje `scal(a, na, b, nb, c)`, ktora scala dwie posortowane rosnaco tablice `a` (o `na` elementach) i `b` (o `nb` elementach) w jedna posortowana tablice `c`.\n\n**Przyklady**:\n- scal({1,3,5}, 3, {2,4,6}, 3, c) → c = {1,2,3,4,5,6}\n- scal({1,1,2}, 3, {1,3}, 2, c) → c = {1,1,1,2,3}\n- scal({5}, 1, {}, 0, c) → c = {5}",
+  "wskazowki": [
+    "**Kierunek**: Dwa wskazniki (i dla a, j dla b). Porownuj biezace elementy — mniejszy wstaw do c. Gdy jedna tablica sie skonczy, przepisz reszte drugiej.",
+    "**Podejscie**: Petla `dopoki i < na ORAZ j < nb`: porownaj a[i] i b[j], wstaw mniejszy do c[k]. Po petli: przepisz resztki a (jesli i < na) i b (jesli j < nb).",
+    "**Kluczowy krok**: Dwie petle koncowe: `while(i<na) c[k++]=a[i++]` i `while(j<nb) c[k++]=b[j++]` — nie zapomnij o resztkach!"
+  ],
+  "odpowiedz": "**C++:**\n\n```cpp\nvoid scal(int a[], int na, int b[], int nb, int c[]) {\n    int i = 0, j = 0, k = 0;\n    while (i < na && j < nb) {\n        if (a[i] <= b[j])\n            c[k++] = a[i++];\n        else\n            c[k++] = b[j++];\n    }\n    while (i < na)\n        c[k++] = a[i++];\n    while (j < nb)\n        c[k++] = b[j++];\n}\n```\n\n**Pseudokod:**\n\n```\nfunkcja scal(a, na, b, nb, c)\n    i := 0; j := 0; k := 0\n    dopoki i < na ORAZ j < nb:\n        jezeli a[i] <= b[j]:\n            c[k] := a[i]; i := i+1\n        w przeciwnym razie:\n            c[k] := b[j]; j := j+1\n        k := k+1\n    dopoki i < na:\n        c[k] := a[i]; i := i+1; k := k+1\n    dopoki j < nb:\n        c[k] := b[j]; j := j+1; k := k+1\n```\n\n**Weryfikacja**:\n- a={1,3,5}, b={2,4,6}: 1<=2→c[0]=1, 3>2→c[1]=2, 3<=4→c[2]=3, 5>4→c[3]=4, 5<=6→c[4]=5, resztka b: c[5]=6 → {1,2,3,4,5,6} ✓\n- a={1,1,2}, b={1,3}: 1<=1→c[0]=1, 1<=1→c[1]=1, 2>1→c[2]=1, 2<=3→c[3]=2, resztka b: c[4]=3 → {1,1,1,2,3} ✓\n- a={5}, b={}: petla glowna nie rusza (nb=0), resztka a: c[0]=5 → {5} ✓\n\n**Zlozonosc**: O(na + nb) — kazdy element przetwarzany dokladnie raz.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak petli koncowych (resztki)**: Gdy jedna tablica sie skonczy, reszta drugiej nie jest przepisana — brakuje elementow w wyniku",
+      "kara": "-1.5 pkt"
+    },
+    {
+      "opis": "**Warunek `<` zamiast `<=` w porownaniu a[i] i b[j]**: Nie zachowuje stabilnosci scalania — dla merge sort istotne, na maturze pomniejszy blad",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

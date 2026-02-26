@@ -1,0 +1,24 @@
+{
+  "id": "2.11",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: archetyp mod/div (suma cyfr nieparzystych)",
+  "tagi": ["mod-div", "cyfry", "petla-while", "warunek"],
+  "tresc": "Napisz w pseudokodzie lub C++ funkcje `suma_nieparzystych(n)`, ktora dla danej liczby naturalnej n > 0 zwraca sume jej cyfr nieparzystych.\n\n**Ograniczenia**: Uzyj tylko zmiennych calkowitych i operatorow: mod, div, +, porownania. Bez stringow, tablic, funkcji wbudowanych.\n\n**Przyklady**:\n- `suma_nieparzystych(12345)` = 9 (cyfry nieparzyste: 1, 3, 5; suma = 9)\n- `suma_nieparzystych(2468)` = 0 (brak cyfr nieparzystych)\n- `suma_nieparzystych(9021)` = 10 (cyfry nieparzyste: 9, 1; suma = 10)",
+  "wskazowki": [
+    "**Kierunek**: Analogicznie do zliczania cyfr parzystych, ale zamiast licznika — akumulator sumy, i warunek odwrotny (cyfra mod 2 <> 0).",
+    "**Podejscie**: Petla `dopoki n > 0`: wyodrebnij cyfre (mod 10), jesli nieparzysta — dodaj do sumy. Obetnij cyfre (div 10).",
+    "**Kluczowy krok**: `cyfra := n mod 10; jezeli cyfra mod 2 = 1: suma := suma + cyfra; n := n div 10`."
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja suma_nieparzystych(n)\n    suma := 0\n    dopoki n > 0:\n        cyfra := n mod 10\n        jezeli cyfra mod 2 = 1:\n            suma := suma + cyfra\n        n := n div 10\n    zwroc suma\n```\n\n**C++:**\n\n```cpp\nint suma_nieparzystych(int n) {\n    int suma = 0;\n    while (n > 0) {\n        int cyfra = n % 10;\n        if (cyfra % 2 == 1)\n            suma += cyfra;\n        n /= 10;\n    }\n    return suma;\n}\n```\n\n**Weryfikacja**:\n- suma_nieparzystych(12345): 5+3+1 = 9 ✓\n- suma_nieparzystych(2468): brak nieparzystych = 0 ✓\n- suma_nieparzystych(9021): 1+9 = 10 ✓",
+  "typowe_bledy": [
+    {
+      "opis": "**Warunek `cyfra mod 2 = 0` zamiast `= 1`**: Odwrotny warunek — sumuje parzyste zamiast nieparzystych",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Inicjalizacja `suma := 1` zamiast `suma := 0`**: Akumulator sumy musi startowac od elementu neutralnego dodawania (0)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -3,7 +3,7 @@
   "nazwa": "Test prawda/falsz",
   "kategoria": "TEORIA",
   "czestotliwosc": "10/11 lat",
-  "punkty_lacznie": 42,
+  "punkty_lacznie": 110,
   "tagi_globalne": [
     "BST",
     "DNS",
@@ -188,6 +188,156 @@
         "DNS",
         "JOIN"
       ]
+    },
+    {
+      "id": "4.16",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["rekurencja", "zlozonosc-czasowa"]
+    },
+    {
+      "id": "4.17",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["formaty-danych", "kompresja"]
+    },
+    {
+      "id": "4.18",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["SQL-skladnia", "ORDER-BY"]
+    },
+    {
+      "id": "4.19",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["sieci-komputerowe", "IPv4"]
+    },
+    {
+      "id": "4.20",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["struktury-danych", "LIFO-FIFO"]
+    },
+    {
+      "id": "4.21",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["systemy-liczbowe", "konwersja-bin-hex-oct"]
+    },
+    {
+      "id": "4.22",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["sortowanie-zlozonosc", "stabilnosc-sortowania"]
+    },
+    {
+      "id": "4.23",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["SQL-skladnia", "WHERE-vs-HAVING", "JOIN", "ORDER-BY"]
+    },
+    {
+      "id": "4.24",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["drzewa", "grafy", "BST", "struktury-danych"]
+    },
+    {
+      "id": "4.25",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["sieci-komputerowe", "DNS", "HTTPS-szyfrowanie"]
+    },
+    {
+      "id": "4.26",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["tablice-haszujace", "rekurencja", "zlozonosc-czasowa"]
+    },
+    {
+      "id": "4.27",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["kompresja", "formaty-danych", "systemy-liczbowe"]
+    },
+    {
+      "id": "4.28",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": ["sortowanie-zlozonosc", "stabilnosc-sortowania", "zlozonosc-czasowa"]
+    },
+    {
+      "id": "4.29",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": ["zlozonosc-czasowa", "rekurencja"]
+    },
+    {
+      "id": "4.30",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": ["HTTPS-szyfrowanie", "sieci-komputerowe"]
+    },
+    {
+      "id": "4.31",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": ["struktury-danych", "BST", "tablice-haszujace"]
+    },
+    {
+      "id": "4.32",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": ["grafy", "drzewa", "struktury-danych"]
+    },
+    {
+      "id": "4.33",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": ["systemy-liczbowe", "konwersja-bin-hex-oct"]
+    },
+    {
+      "id": "4.34",
+      "trudnosc": "srednie-trudne",
+      "punkty": 3,
+      "tagi": ["rekurencja", "zlozonosc-czasowa"]
+    },
+    {
+      "id": "4.35",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["zlozonosc-czasowa", "sortowanie-zlozonosc"]
+    },
+    {
+      "id": "4.36",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["SQL-skladnia", "JOIN"]
+    },
+    {
+      "id": "4.37",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["sieci-komputerowe", "DNS", "IPv4"]
+    },
+    {
+      "id": "4.38",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["grafy", "drzewa"]
+    },
+    {
+      "id": "4.39",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["struktury-danych", "LIFO-FIFO", "rekurencja"]
+    },
+    {
+      "id": "4.40",
+      "trudnosc": "trudne",
+      "punkty": 3,
+      "tagi": ["HTTPS-szyfrowanie", "sieci-komputerowe"]
     }
   ]
 }

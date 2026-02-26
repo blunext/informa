@@ -1,0 +1,24 @@
+{
+  "id": "5.30",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: zaawansowane operacje U2",
+  "tagi": ["uzupelnienie-do-2", "dodawanie-binarne", "przeniesienia"],
+  "tresc": "Rozwiaz zadania dotyczace kodu uzupelnienia do 2 (U2) na 8 bitach.\n\n- a) Podaj zakres wartosci mozliwych do zapisania w U2 na 8 bitach.\n- b) Zapisz -100 w kodzie U2 na 8 bitach.\n- c) Wykonaj dodawanie w U2 na 8 bitach: (-100) + 73. Zinterpretuj wynik.",
+  "wskazowki": [
+    "**Kierunek**: Zakres U2 na n bitach: od -2^(n-1) do 2^(n-1)-1.",
+    "**Podejscie**: Aby zapisac -x: zapisz x binarnie na 8 bitach, zaneguj bity, dodaj 1.",
+    "**Kluczowy krok**: Dodawanie w U2 = zwykle dodawanie binarne. Ignoruj przeniesienie poza 8 bit. Wynik interpretuj wedlug regul U2."
+  ],
+  "odpowiedz": "**a) Zakres U2 na 8 bitach:**\n\nOd -2^7 do 2^7 - 1, czyli od **-128 do 127**.\n\nLacznie 256 wartosci (2^8).\n\n**b) -100 w U2 na 8 bitach = 10011100(2)**\n\nKrok 1: 100(10) = 01100100(2)\nKrok 2: Negacja bitow: 10011011\nKrok 3: Dodaj 1: 10011011 + 1 = **10011100(2)**\n\nSprawdzenie: -128+16+8+4 = -128+28 = -100 ✓\n\n**c) (-100) + 73 w U2 na 8 bitach = -27**\n\n-100 = 10011100(2)\n73 = 01001001(2)\n\n```\nPrzeniesienia: 0 0 0 1 1 1 0 0\n                1 0 0 1 1 1 0 0\n              + 0 1 0 0 1 0 0 1\n              -------------------\n                1 1 1 0 0 1 0 1\n```\n\nWynik: **11100101(2)**\n\nInterpretacja U2: -128+64+32+4+1 = -128+101 = **-27**\n\nSprawdzenie: -100+73 = -27 ✓",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o zanegowaniu WSZYSTKICH bitow**: U2: neguj KAZDY bit (0→1, 1→0), potem dodaj 1. Jezeli zanegujesz tylko czesc — bledny wynik",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledna interpretacja ujemnego wyniku**: Jesli MSB=1, to wartosc = -2^7 + (suma pozostalych bitow). NIE interpretuj jako zwyklej liczby binarnej",
+      "kara": "-1 pkt"
+    }
+  ]
+}

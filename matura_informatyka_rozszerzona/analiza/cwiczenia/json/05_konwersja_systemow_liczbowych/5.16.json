@@ -1,0 +1,24 @@
+{
+  "id": "5.16",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: konwersja hex→bin przez grupowanie",
+  "tagi": ["hex-bin", "grupowanie-bitow"],
+  "tresc": "Zamien podane liczby z systemu szesnastkowego na binarny. Kazda cyfre hex zamien na 4-bitowa grupe.\n\n| Lp. | Liczba hex |\n|-----|------------|\n| a)  | A3(16) |\n| b)  | FF(16) |\n| c)  | 1B(16) |",
+  "wskazowki": [
+    "**Kierunek**: Kazda cyfra hex odpowiada dokladnie 4 bitom. Zamien kazda cyfre osobno.",
+    "**Podejscie**: Tablica: 0=0000, 1=0001, ..., 9=1001, A=1010, B=1011, C=1100, D=1101, E=1110, F=1111.",
+    "**Kluczowy krok**: Po zamianie polacz grupy 4-bitowe — to wynik. Mozesz pominac wiodace zera."
+  ],
+  "odpowiedz": "**a) A3(16) = 10100011(2)**\n\nA = 1010, 3 = 0011\nA3(16) = **10100011(2)**\nSprawdzenie: 128+32+2+1 = 163(10)\n\n**b) FF(16) = 11111111(2)**\n\nF = 1111, F = 1111\nFF(16) = **11111111(2)**\nSprawdzenie: 255(10)\n\n**c) 1B(16) = 11011(2)**\n\n1 = 0001, B = 1011\n1B(16) = 00011011(2) = **11011(2)**\nSprawdzenie: 16+8+2+1 = 27(10)",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledna zamiana cyfr hex na bity**: Czesty blad: A=1011 (poprawnie A=1010). Naucz sie tablicy hex-bin na pamiec",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pominiecie wiodacych zer w grupie**: Kazda cyfra hex to DOKLADNIE 4 bity. 3=0011, nie 11",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

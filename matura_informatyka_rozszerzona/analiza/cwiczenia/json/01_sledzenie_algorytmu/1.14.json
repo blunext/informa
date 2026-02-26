@@ -1,0 +1,24 @@
+{
+  "id": "1.14",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: archetyp mod/div (iloczyn cyfr)",
+  "tagi": ["mod-div", "cyfry-liczby", "sledzenie-iteracyjne"],
+  "tresc": "Dana jest funkcja:\n\n```\nfunkcja iloczynCyfr(n)\n    wynik := 1\n    dopoki n > 0:\n        cyfra := n mod 10\n        wynik := wynik * cyfra\n        n := n div 10\n    zwroc wynik\n```\n\nFunkcja oblicza iloczyn cyfr podanej liczby naturalnej.\n\n**Polecenie**: Oblicz wartosc `iloczynCyfr(n)` dla kazdej z podanych liczb. Dla jednej wybranej liczby wykonaj tabele sledzenia zmiennych.\n\n| Lp. | n |\n|-----|---|\n| a)  | 234 |\n| b)  | 105 |\n| c)  | 911 |",
+  "wskazowki": [
+    "**Kierunek**: Algorytm jest analogiczny do sumy cyfr, ale zamiast dodawania uzywa mnozenia. Akumulator startuje od 1 (nie od 0!).",
+    "**Podejscie**: Wyodrebnij kazda cyfre (mod 10), pomnoz przez dotychczasowy wynik, potem obetnij cyfre (div 10).",
+    "**Kluczowy krok**: Uwaga na cyfre 0 — jesli jakakolwiek cyfra to 0, caly iloczyn wynosi 0 (bo cokolwiek * 0 = 0)."
+  ],
+  "odpowiedz": "**a) iloczynCyfr(234)**\n\n| Krok | n (poczatek) | cyfra | wynik | n (koniec) |\n|------|-------------|-------|-------|-----------|\n| 1 | 234 | 4 | 1*4=4 | 23 |\n| 2 | 23 | 3 | 4*3=12 | 2 |\n| 3 | 2 | 2 | 12*2=24 | 0 |\n\nWynik: **24** (= 2*3*4)\n\n**b) iloczynCyfr(105)**\n\n- cyfra 5: wynik = 1*5 = 5, n = 10\n- cyfra 0: wynik = 5*0 = **0**, n = 1\n- cyfra 1: wynik = 0*1 = 0, n = 0\n\nWynik: **0** (cyfra 0 zeruje caly iloczyn)\n\n**c) iloczynCyfr(911)**\n\n- cyfra 1: wynik = 1*1 = 1, n = 91\n- cyfra 1: wynik = 1*1 = 1, n = 9\n- cyfra 9: wynik = 1*9 = 9, n = 0\n\nWynik: **9** (= 9*1*1)",
+  "typowe_bledy": [
+    {
+      "opis": "**Inicjalizacja wynik := 0 zamiast 1**: Przy mnozeniu akumulator musi startowac od 1 (element neutralny mnozenia)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pominiecie efektu cyfry 0**: Gdy cyfra=0, wynik staje sie 0 i pozostaje 0 do konca",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

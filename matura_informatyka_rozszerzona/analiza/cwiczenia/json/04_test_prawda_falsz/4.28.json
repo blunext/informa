@@ -1,0 +1,24 @@
+{
+  "id": "4.28",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: zaawansowane wlasciwosci sortowan P/F",
+  "tagi": ["sortowanie-zlozonosc", "stabilnosc-sortowania", "zlozonosc-czasowa"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Quicksort w najgorszym przypadku ma zlozonosc O(n log n). | |\n| b) | Sortowanie przez wstawianie (insertion sort) jest stabilne. | |\n| c) | Mergesort wymaga O(n) dodatkowej pamieci. | |\n| d) | Zlozonosc sortowania przez zliczanie (counting sort) to O(n log n). | |",
+  "wskazowki": [
+    "**Kierunek**: Quicksort: srednia O(n log n), ale NAJGORSZY przypadek (juz posortowane dane + zly pivot) to O(n^2).",
+    "**Podejscie**: Stabilnosc = elementy o rownych kluczach zachowuja oryginalny porzadek. Insertion sort jest stabilny.",
+    "**Kluczowy krok**: Counting sort to O(n+k), gdzie k = zakres wartosci. NIE jest porownawczy — dlatego moze byc szybszy niz O(n log n)."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | Quicksort ma zlozonosc O(n log n) SREDNIO, ale w najgorszym przypadku (np. juz posortowana tablica + pivot = pierwszy element) zlozonosc to **O(n^2)**. Pesymistyczne O(n log n) gwarantuje np. mergesort. |\n| b) | **P** | Insertion sort jest stabilny — nigdy nie zamienia elementow o rownych kluczach (wstawia nowy element ZA elementami rownymi). |\n| c) | **P** | Mergesort wymaga tablicy pomocniczej o rozmiarze n do scalania — zlozonosc pamieciowa O(n). To cena za gwarantowane O(n log n) czasowe. |\n| d) | **F** | Counting sort ma zlozonosc **O(n+k)**, gdzie k = zakres wartosci. Nie jest to algorytm porownawczy — nie podlega dolnemu ograniczeniu Omega(n log n) dla sortowan porownawczych. |\n\nOdpowiedzi: a) F, b) P, c) P, d) F",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie zlozonosci sredniej z pesymistyczna Quicksort**: Quicksort ma O(n log n) SREDNIO ale O(n^2) pesymistycznie. Wielu uczniow zapamieta tylko n log n",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Nieznajmosc counting sort**: Counting sort to O(n+k), nie O(n log n). Jest to sortowanie niepornawcze (nie bazuje na porownaniach par elementow)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

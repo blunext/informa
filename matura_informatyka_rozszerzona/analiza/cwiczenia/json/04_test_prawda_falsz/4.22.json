@@ -1,0 +1,24 @@
+{
+  "id": "4.22",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: podstawy sortowania P/F",
+  "tagi": ["sortowanie-zlozonosc", "stabilnosc-sortowania"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Sortowanie babelkowe (bubble sort) ma zlozonosc pesymistyczna O(n^2). | |\n| b) | Sortowanie przez scalanie (merge sort) zawsze dziala w czasie O(n log n). | |\n| c) | Sortowanie stabilne zachowuje wzgledna kolejnosc elementow o rownych kluczach. | |\n| d) | Sortowanie szybkie (quicksort) zawsze jest szybsze niz sortowanie babelkowe. | |",
+  "wskazowki": [
+    "**Kierunek**: Rozroznij zlozonosc pesymistyczna od sredniego przypadku. Quicksort ma O(n^2) pesymistycznie!",
+    "**Podejscie**: Merge sort: ZAWSZE O(n log n). Quicksort: srednio O(n log n), pesymistycznie O(n^2).",
+    "**Kluczowy krok**: 'Zawsze szybszy' = nieprawda, bo quicksort moze miec O(n^2) (pesymistycznie rowny bubble sort)."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | Bubble sort w najgorszym przypadku (tablica odwrotnie posortowana) wymaga n(n-1)/2 porownan i zamian = O(n^2). |\n| b) | **P** | Merge sort ma zlozonosc O(n log n) w KAZDYM przypadku — pesymistycznym, srednio i optymistycznym. Zawsze dzieli na pol i scala. |\n| c) | **P** | Stabilnosc sortowania oznacza, ze elementy o rownych kluczach zachowuja swoja poczatkowa kolejnosc. Np. bubble sort i merge sort sa stabilne. |\n| d) | **F** | Quicksort w pesymistycznym przypadku (np. juz posortowane dane z pivotem = pierwszy) ma O(n^2), wiec NIE jest zawsze szybszy niz bubble sort. Srednio tak, ale nie zawsze. |\n\nOdpowiedzi: a) P, b) P, c) P, d) F",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze quicksort jest ZAWSZE O(n log n)**: To zlozonosc SREDNIA. Pesymistyczna to O(n^2) — np. dla juz posortowanych danych z pivotem = pierwszy element",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Mylenie stabilnosci z szybkoscia**: Stabilnosc to zachowanie kolejnosci ROWNYCH elementow, nie szybkosc dzialania. Algorytm moze byc szybki ale niestabilny (np. quicksort)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

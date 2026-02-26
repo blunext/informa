@@ -1,0 +1,24 @@
+{
+  "id": "5.29",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: dodawanie w systemie trojkowym",
+  "tagi": ["system-trojkowy", "przeniesienia"],
+  "tresc": "Wykonaj dodawanie w systemie trojkowym (o podstawie 3). Pokaz przeniesienia.\n\n| Lp. | Dzialanie |\n|-----|------|\n| a) | 1202(3) + 2110(3) |\n| b) | 2121(3) + 1212(3) |",
+  "wskazowki": [
+    "**Kierunek**: Dodawanie w systemie trojkowym: jesli suma cyfr >= 3, odejmij 3 i przenies 1.",
+    "**Podejscie**: Dozwolone cyfry to 0, 1, 2. Jesli suma = 3 → piszemy 0, carry 1. Jesli suma = 4 → piszemy 1, carry 1. Jesli suma = 5 → piszemy 2, carry 1.",
+    "**Kluczowy krok**: Zweryfikuj: zamien oba skladniki i sume na dziesietny."
+  ],
+  "odpowiedz": "**a) 1202(3) + 2110(3) = 11012(3)**\n\n```\nPrzeniesienia: 1 1 0 0\n                1 2 0 2\n              + 2 1 1 0\n              ---------\n              1 1 0 1 2\n```\n\nPoz 0: 2+0=2 (< 3, OK)\nPoz 1: 0+1=1 (< 3, OK)\nPoz 2: 2+1=3 → piszemy 0, carry 1\nPoz 3: 1+2+1(carry)=4 → piszemy 1, carry 1\nPoz 4: carry=1\n\nSprawdzenie: 1202(3) = 27+18+0+2 = 47\n2110(3) = 54+9+3+0 = 66\n47+66 = 113\n11012(3) = 81+27+0+3+2 = 113 ✓\n\n**b) 2121(3) + 1212(3) = 11110(3)**\n\n```\nPrzeniesienia: 1 1 1 1\n                2 1 2 1\n              + 1 2 1 2\n              ---------\n              1 1 1 1 0\n```\n\nPoz 0: 1+2=3 → piszemy 0, carry 1\nPoz 1: 2+1+1=4 → piszemy 1, carry 1\nPoz 2: 1+2+1=4 → piszemy 1, carry 1\nPoz 3: 2+1+1=4 → piszemy 1, carry 1\nPoz 4: carry=1\n\nSprawdzenie: 2121(3) = 54+9+6+1 = 70\n1212(3) = 27+18+3+2 = 50\n70+50 = 120\n11110(3) = 81+27+9+3+0 = 120 ✓",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzywanie cyfry 3 w wyniku**: W systemie trojkowym max cyfra to 2. Jesli suma=3, zapisz 0 z carry 1 (nie cyfre 3!)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Przeniesienie 10 zamiast 1**: W kazdym systemie przeniesienie to zawsze 1 (ktore jest warte tyle co podstawa). Nie przenosi sie 10",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

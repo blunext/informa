@@ -1,0 +1,24 @@
+{
+  "id": "6.39",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: procedura reakcji na incydent naruszenia danych (RODO)",
+  "tagi": ["RODO", "phishing", "socjotechnika"],
+  "tresc": "Firma e-commerce odkryla, ze w wyniku ataku phishingowego na pracownika dzialu IT atakujacy uzyskal dostep do bazy danych klientow (imiona, nazwiska, adresy e-mail, zaszyfrowane hasla, historia zamowien). Atak nastapil 3 dni temu, wykryto go dzisiaj.\n\n- a) Wymien 4 obowiazkowe kroki, ktore firma musi podjac zgodnie z RODO w ciagu najblizszych 72 godzin od WYKRYCIA naruszenia.\n- b) Czy firma musi powiadomic wszystkich klientow indywidualnie? Podaj warunki, kiedy RODO wymaga powiadomienia osob, ktorych dane dotycza.\n- c) Jakie kary groza firmie za niepowiadomienie organu nadzorczego w terminie? Podaj maksymalna kare.\n- d) Wymien 3 srodki techniczne, ktore firma powinna wdrozyc PO incydencie, aby zapobiec podobnym atakom w przyszlosci.",
+  "wskazowki": [
+    "**Kierunek**: RODO art. 33: zgloszenie do organu nadzorczego (UODO w Polsce) w ciagu 72h. Art. 34: powiadomienie osob, gdy naruszenie moze powodowac wysokie ryzyko.",
+    "**Podejscie**: Zaszyfrowane hasla zmniejszaja ryzyko, ale adresy e-mail + historia zamowien = dane osobowe. Firma MUSI zglосic naruszenie.",
+    "**Kluczowy krok**: Kara: do 10 mln EUR lub 2% rocznego obrotu (za naruszenia proceduralne). Za powazniejsze: do 20 mln EUR lub 4% obrotu."
+  ],
+  "odpowiedz": "**a) 4 obowiazkowe kroki w ciagu 72h:**\n\n1. **Zgloszenie do organu nadzorczego (UODO)** — RODO art. 33 wymaga zgloszenia naruszenia ochrony danych osobowych do Prezesa UODO w ciagu 72 godzin od wykrycia (nie od momentu ataku!). Zgloszenie musi zawierac: charakter naruszenia, kategorie danych, przyblizona liczbe osob dotkniеtych, prawdopodobne konsekwencje.\n\n2. **Zabezpieczenie dowodow i analiza zakresu** — ustalenie dokladnie jakie dane wyciekly, ile rekordow, czy atakujacy nadal ma dostep. Zachowanie logow serwera, e-maili phishingowych, sladow dostepu.\n\n3. **Powstrzymanie ataku (containment)** — zablokowanie skompromitowanego konta, zmiana hasel administracyjnych, odciecie dostepu atakujacego, izolacja zainfekowanych systemow.\n\n4. **Dokumentacja incydentu** — RODO wymaga prowadzenia rejestru naruszen (art. 33 ust. 5). Firma musi udokumentowac: fakty naruszenia, jego skutki, podjete dzialania zaradcze.\n\n**b) Czy powiadomic klientow indywidualnie?**\n\nRodo art. 34: firma MUSI powiadomic osoby, ktorych dane dotycza, jesli naruszenie moze powodowac **wysokie ryzyko** naruszenia ich praw i wolnosci.\n\nW tym przypadku: adresy e-mail + historia zamowien = mozliwosc identyfikacji osob i ich zwyczajow zakupowych. Nawet jesli hasla sa zaszyfrowane, wyciek e-maili umozliwia ataki phishingowe na klientow. **TAK — firma powinna powiadomic klientow**, poniewaz:\n- Adresy e-mail umozliwiaja ukierunkowany phishing\n- Historia zamowien to dane o zachowaniach konsumenckich\n- Polaczenie tych danych stwarza wysokie ryzyko\n\nWyjatek: jesli dane byly zaszyfrowane w sposob uniemozliwiajacy ich odczytanie (np. pelne szyfrowanie bazy), powiadomienie nie jest wymagane.\n\n**c) Kary za niepowiadomienie:**\n\nZa naruszenia proceduralne (w tym brak zgloszenia w 72h): do **10 mln EUR** lub **2% calkowitego rocznego swiatowego obrotu** przedsiebiorstwa (stosuje sie kwote wyzsza).\n\nZa powazniejsze naruszenia (np. brak podstawy prawnej przetwarzania): do **20 mln EUR** lub **4% obrotu**.\n\n**d) 3 srodki techniczne po incydencie:**\n\n1. **Uwierzytelnianie wieloskladnikowe (2FA/MFA)** dla wszystkich kont z dostepem do bazy danych — nawet jesli atakujacy zdobedzie haslo, nie zaloguje sie bez drugiego czynnika.\n\n2. **Szkolenie antyphishingowe pracownikow** — regularne symulacje atakow phishingowych, nauka rozpoznawania podejrzanych e-maili. Pracownik IT nie powinien byl kliknac w phishing.\n\n3. **Zasada najmniejszych uprawnien (least privilege)** — pracownik IT nie powinien miec pelnego dostepu do bazy klientow, jesli nie jest to niezbedne. Segmentacja dostepu ogranicza skutki kompromitacji jednego konta.",
+  "typowe_bledy": [
+    {
+      "opis": "**Liczenie 72h od momentu ataku zamiast od wykrycia**: RODO art. 33 mowi o 72h od momentu STWIERDZENIA naruszenia (wykrycia), nie od momentu jego wystapienia",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze zaszyfrowane hasla oznaczaja brak naruszenia**: Wyciekly takze adresy e-mail i historia zamowien — to dane osobowe. Samo szyfrowanie hasel nie eliminuje naruszenia",
+      "kara": "-1 pkt"
+    }
+  ]
+}

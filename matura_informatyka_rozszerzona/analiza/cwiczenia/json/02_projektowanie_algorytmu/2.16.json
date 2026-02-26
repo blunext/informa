@@ -1,0 +1,24 @@
+{
+  "id": "2.16",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: sprawdzanie palindromu liczbowego",
+  "tagi": ["palindrom", "mod-div", "cyfry"],
+  "tresc": "Napisz w pseudokodzie lub C++ funkcje `czy_palindrom(n)`, ktora sprawdza, czy liczba naturalna n > 0 jest palindromem (czytana od lewej i od prawej daje te sama wartosc). Funkcja zwraca PRAWDA lub FALSZ.\n\n**Ograniczenia**: Uzyj tylko zmiennych calkowitych i operatorow: mod, div, *, +, porownania. Bez stringow.\n\n**Przyklady**:\n- `czy_palindrom(12321)` = PRAWDA\n- `czy_palindrom(12345)` = FALSZ\n- `czy_palindrom(7)` = PRAWDA (jednocyfrowa liczba jest palindromem)",
+  "wskazowki": [
+    "**Kierunek**: Odwroc liczbe i porownaj z oryginalem. Jesli sa rowne — palindrom.",
+    "**Podejscie**: Zapisz oryginalna wartosc. Zbuduj odwrocona liczbe (wynik*10+cyfra). Porownaj.",
+    "**Kluczowy krok**: `oryginal := n; odwrocona := 0; dopoki n > 0: odwrocona := odwrocona*10 + n mod 10; n := n div 10; zwroc (odwrocona = oryginal)`."
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja czy_palindrom(n)\n    oryginal := n\n    odwrocona := 0\n    dopoki n > 0:\n        cyfra := n mod 10\n        odwrocona := odwrocona * 10 + cyfra\n        n := n div 10\n    jezeli odwrocona = oryginal:\n        zwroc PRAWDA\n    w przeciwnym razie:\n        zwroc FALSZ\n```\n\n**C++:**\n\n```cpp\nbool czy_palindrom(int n) {\n    int oryginal = n;\n    int odwrocona = 0;\n    while (n > 0) {\n        odwrocona = odwrocona * 10 + n % 10;\n        n /= 10;\n    }\n    return odwrocona == oryginal;\n}\n```\n\n**Weryfikacja**:\n- czy_palindrom(12321): odwrocona = 12321 = oryginal -> PRAWDA ✓\n- czy_palindrom(12345): odwrocona = 54321 ≠ 12345 -> FALSZ ✓\n- czy_palindrom(7): odwrocona = 7 = oryginal -> PRAWDA ✓",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o zapisaniu oryginalu**: Petla modyfikuje n (n := n div 10), wiec na koncu n = 0. Bez kopii nie ma z czym porownac",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Uzycie stringow**: Polecenie zabrania uzycia stringow — trzeba odwrocic liczbe arytmetycznie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

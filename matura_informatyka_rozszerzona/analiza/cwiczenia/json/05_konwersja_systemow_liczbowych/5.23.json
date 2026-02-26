@@ -1,0 +1,24 @@
+{
+  "id": "5.23",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: porownywanie liczb w roznych systemach",
+  "tagi": ["porownywanie-systemow", "dec-bin", "bin-hex"],
+  "tresc": "Uporzkaduj podane liczby od najmniejszej do najwiekszej. Kazda jest zapisana w innym systemie liczbowym.\n\n25(10), 11011(2), 1A(16), 34(8)\n\nDla kazdej liczby podaj wartosc dziesietna.",
+  "wskazowki": [
+    "**Kierunek**: Zamien wszystkie liczby na system dziesietny — wtedy porownanie jest proste.",
+    "**Podejscie**: 11011(2): sumuj potegi 2. 1A(16): 1*16+10. 34(8): 3*8+4.",
+    "**Kluczowy krok**: Po zamianie na dziesietny, posortuj i zapisz oryginalny zapis obok."
+  ],
+  "odpowiedz": "**Konwersja na dziesietny:**\n\n| Liczba | System | Obliczenie | Wartosc dziesietna |\n|--------|--------|------------|--------------------|\n| 25(10) | dziesietny | — | **25** |\n| 11011(2) | binarny | 16+8+2+1 | **27** |\n| 1A(16) | szesnastkowy | 1*16+10 | **26** |\n| 34(8) | osemkowy | 3*8+4 | **28** |\n\n**Porzadek rosnacy:**\n\n25(10) < 1A(16) < 11011(2) < 34(8)\n\nCzyli: **25 < 26 < 27 < 28**",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownywanie cyfr zamiast wartosci**: Nie mozna porownywac 34(8) z 25(10) po cyfrach! Trzeba zamienic na wspolny system (najlepiej dziesietny)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledna konwersja hex**: 1A(16) = 1*16+10 = 26, nie 1*16+1 = 17. A=10 (nie 1)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "6.21",
+  "trudnosc": "latwe",
+  "punkty": 1,
+  "zrodlo": "Wzorzec: rozpoznawanie technik socjotechnicznych",
+  "tagi": ["socjotechnika", "phishing"],
+  "tresc": "Ktore z ponizszych scenariuszy opisuja ataki socjotechniczne? Odpowiedz TAK (socjotechnika) lub NIE.\n\n| Lp. | Scenariusz | Socjotechnika? |\n|-----|-----------|---------------|\n| a) | Atakujacy dzwoni do pracownika firmy, podajac sie za informatyka, i prosi o podanie hasla do systemu. | |\n| b) | Haker wykorzystuje blad w oprogramowaniu serwera, by uzyskac nieautoryzowany dostep do bazy danych. | |\n| c) | Oszust wysyla e-mail z fałszywą fakturą, prosząc o pilną zapłatę na wskazane konto. | |\n| d) | Atakujacy lamie haslo uzytkownika metoda brute-force, probujac wszystkie mozliwe kombinacje. | |",
+  "wskazowki": [
+    "**Kierunek**: Socjotechnika = manipulacja CZLOWIEKIEM (nie maszyna). Atak techniczny = wykorzystanie podatnosci oprogramowania.",
+    "**Podejscie**: Pytaj: czy atak opiera sie na oszustwie/manipulacji osoby? Tak = socjotechnika. Nie = atak techniczny.",
+    "**Kluczowy krok**: Phishing, pretexting, baiting, tailgating — to wszystko socjotechnika. Brute-force, SQL injection — to ataki techniczne."
+  ],
+  "odpowiedz": "| Lp. | Scenariusz | Socjotechnika? | Uzasadnienie |\n|-----|-----------|---------------|-------------|\n| a) | Podszywanie sie za informatyka | **TAK** | To pretexting — atakujacy tworzy falszywa tozsamosc (informatyk) by manipulowac ofiara. Cel: wyludzenie hasla od czlowieka. |\n| b) | Wykorzystanie bledu w oprogramowaniu | **NIE** | To atak techniczny (exploit). Atakujacy wykorzystuje podatnosc w kodzie, nie manipuluje czlowiekiem. |\n| c) | Falszywa faktura e-mail | **TAK** | To phishing/BEC (Business Email Compromise). Atakujacy manipuluje ofiara, by dokonala platnosci na falszywe konto. Opiera sie na oszustwie. |\n| d) | Brute-force hasla | **NIE** | To atak techniczny — automatyczne sprawdzanie kombinacji. Nie wymaga interakcji z czlowiekiem ani manipulacji. |",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie socjotechniki z atakiem technicznym**: Socjotechnika = manipulacja czlowiekiem. Atak techniczny = exploitacja oprogramowania. Kluczowe pytanie: czy atak wymaga oszukania OSOBY?",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

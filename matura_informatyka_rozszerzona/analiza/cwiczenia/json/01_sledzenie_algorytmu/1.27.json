@@ -1,0 +1,24 @@
+{
+  "id": "1.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: stos do odwracania kolejnosci",
+  "tagi": ["stos", "sledzenie-iteracyjne"],
+  "tresc": "Dany jest algorytm operujacy na stosie:\n\n```\nfunkcja przetworz(T, n)\n    stos := pusty stos\n    dla i := 0, 1, ..., n-1:\n        jezeli T[i] mod 2 = 1:\n            stos.push(T[i])\n        w przeciwnym razie:\n            jezeli stos nie jest pusty:\n                stos.pop()\n    wynik := 0\n    dopoki stos nie jest pusty:\n        wynik := wynik * 10 + stos.pop()\n    zwroc wynik\n```\n\n**Polecenie**: Przelsdz dzialanie `przetworz(T, 8)` dla T = [3, 5, 2, 7, 4, 1, 6, 9]. Pokaz stan stosu po kazdej operacji i podaj wynik koncowy.",
+  "wskazowki": [
+    "**Kierunek**: Nieparzyste elementy trafiaja na stos (push), parzyste zdejmuja element ze stosu (pop). Na koncu stos jest skladany w liczbe.",
+    "**Podejscie**: Przejdz tablice: nieparzyste -> push, parzyste -> pop (jesli stos niepusty). Potem buduj wynik ze stosu (LIFO!).",
+    "**Kluczowy krok**: Stos po przejsciu tablicy: [5, 1, 9] (dno -> szczyt). Wynik: 9*1 + 1*10 + 5*100... Nie — buduj sekwencyjnie: pop daje 9, 1, 5."
+  ],
+  "odpowiedz": "**Sledzenie przetworz([3, 5, 2, 7, 4, 1, 6, 9], 8):**\n\n| i | T[i] | Parzyste? | Operacja | Stos (dno -> szczyt) |\n|---|------|----------|----------|---------------------|\n| 0 | 3 | nie | push(3) | [3] |\n| 1 | 5 | nie | push(5) | [3, 5] |\n| 2 | 2 | tak | pop() -> 5 | [3] |\n| 3 | 7 | nie | push(7) | [3, 7] |\n| 4 | 4 | tak | pop() -> 7 | [3] |\n| 5 | 1 | nie | push(1) | [3, 1] |\n| 6 | 6 | tak | pop() -> 1 | [3] |\n| 7 | 9 | nie | push(9) | [3, 9] |\n\n**Budowanie wyniku ze stosu:**\n\n| Krok | stos.pop() | wynik |\n|------|-----------|-------|\n| 1 | 9 | 0*10+9 = 9 |\n| 2 | 3 | 9*10+3 = 93 |\n\nWynik: **93**",
+  "typowe_bledy": [
+    {
+      "opis": "**Kolejnosc LIFO**: Stos zdejmuje od szczytu — ostatni wlozony element wychodzi pierwszy. [3, 9] -> pop daje 9, potem 3",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pop na pustym stosie**: Algorytm sprawdza czy stos jest niepusty przed pop — jesli pusty, nic sie nie dzieje",
+      "kara": "-1 pkt"
+    }
+  ]
+}

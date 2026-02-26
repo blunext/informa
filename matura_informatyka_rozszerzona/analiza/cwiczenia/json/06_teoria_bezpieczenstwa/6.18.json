@@ -1,0 +1,20 @@
+{
+  "id": "6.18",
+  "trudnosc": "latwe",
+  "punkty": 1,
+  "zrodlo": "Wzorzec: dopasowanie protokolow sieciowych do funkcji",
+  "tagi": ["protokoly-sieciowe", "HTTPS", "FTP", "SMTP"],
+  "tresc": "Dopasuj protokol sieciowy do jego glownej funkcji. Wybierz ze zbioru: {HTTPS, FTP, SMTP, DNS}.\n\n| Lp. | Funkcja | Protokol |\n|-----|---------|----------|\n| a) | Przesylanie plikow miedzy klientem a serwerem. | |\n| b) | Bezpieczne przegladanie stron internetowych (szyfrowane). | |\n| c) | Wysylanie wiadomosci e-mail. | |\n| d) | Tlumaczenie nazw domenowych na adresy IP. | |",
+  "wskazowki": [
+    "**Kierunek**: FTP = File Transfer Protocol, HTTPS = HTTP + szyfrowanie, SMTP = Simple Mail Transfer Protocol, DNS = Domain Name System.",
+    "**Podejscie**: Kazdy akronim zawiera wskazowke: F=File, S=Secure/Simple, M=Mail, D=Domain.",
+    "**Kluczowy krok**: HTTP vs HTTPS: oba do stron www, ale HTTPS dodaje szyfrowanie TLS/SSL."
+  ],
+  "odpowiedz": "| Lp. | Protokol | Uzasadnienie |\n|-----|---------|-------------|\n| a) | **FTP** | File Transfer Protocol — protokol do przesylania plikow. Domyslnie nieszyfrowany (port 21). Wersje szyfrowane: SFTP (SSH), FTPS (SSL). |\n| b) | **HTTPS** | HTTP Secure — szyfrowana wersja HTTP. Uzywa TLS/SSL do szyfrowania komunikacji. Port 443. Ikona klodki w przegladarce. |\n| c) | **SMTP** | Simple Mail Transfer Protocol — protokol do WYSYLANIA e-mail (port 25/587). Do odbierania sluzy POP3 lub IMAP. |\n| d) | **DNS** | Domain Name System — zamienia czytelne nazwy (np. google.com) na adresy IP (np. 142.250.186.14). Port 53. |",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie SMTP z POP3/IMAP**: SMTP = WYSYLANIE poczty. POP3/IMAP = ODBIERANIE poczty. Na maturze pytaja o roznice",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "2.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: zliczanie slow w napisie",
+  "tagi": ["napisy", "petla-while", "warunek", "C++"],
+  "tresc": "Napisz w C++ funkcje `licz_slowa(tekst)`, ktora zlicza ile slow zawiera napis `tekst`. Slowa sa oddzielone spacjami (moze byc wiele spacji z rzedu, spacje na poczatku/koncu).\n\n**Przyklady**:\n- `licz_slowa(\"ala ma kota\")` = 3\n- `licz_slowa(\"  hello   world  \")` = 2\n- `licz_slowa(\"\")` = 0\n- `licz_slowa(\"   \")` = 0",
+  "wskazowki": [
+    "**Kierunek**: Slowo zaczyna sie tam, gdzie po spacji (lub na poczatku) pojawia sie znak niebedacy spacja. Zliczaj poczatki slow.",
+    "**Podejscie**: Uzyj flagi `w_slowie` (bool). Przejdz napis znak po znaku: gdy nie-spacja i nie jestes w slowie → poczatek nowego slowa (licznik++). Gdy spacja → koniec slowa.",
+    "**Kluczowy krok**: Flaga `w_slowie` obsluguje wielokrotne spacje — bez niej kazda spacja-litera dałaby nowe slowo."
+  ],
+  "odpowiedz": "**C++:**\n\n```cpp\nint licz_slowa(string tekst) {\n    int licznik = 0;\n    bool w_slowie = false;\n    for (int i = 0; i < tekst.length(); i++) {\n        if (tekst[i] != ' ') {\n            if (!w_slowie) {\n                licznik++;\n                w_slowie = true;\n            }\n        } else {\n            w_slowie = false;\n        }\n    }\n    return licznik;\n}\n```\n\n**Pseudokod:**\n\n```\nfunkcja licz_slowa(tekst)\n    licznik := 0\n    w_slowie := FALSZ\n    dla i := 0, 1, ..., dlugosc(tekst)-1:\n        jezeli tekst[i] <> ' ':\n            jezeli w_slowie = FALSZ:\n                licznik := licznik + 1\n                w_slowie := PRAWDA\n        w przeciwnym razie:\n            w_slowie := FALSZ\n    zwroc licznik\n```\n\n**Weryfikacja**:\n- \"ala ma kota\": a(start,1), l(cont), a(cont), ' '(end), m(start,2), a(cont), ' '(end), k(start,3), o,t,a(cont) → 3 ✓\n- \"  hello   world  \": ' ',' '(skip), h(start,1), e,l,l,o(cont), ' ',' ',' '(end), w(start,2), o,r,l,d(cont), ' ',' '(end) → 2 ✓\n- \"\": petla nie wykonuje sie → 0 ✓\n- \"   \": same spacje, nigdy nie-spacja → 0 ✓",
+  "typowe_bledy": [
+    {
+      "opis": "**Zliczanie spacji zamiast poczatkow slow**: `count(' ')` daje n-1 dla n slow BEZ wiodacych/koncowych spacji, ale bledny wynik dla wielokrotnych spacji",
+      "kara": "-1.5 pkt"
+    },
+    {
+      "opis": "**Brak flagi w_slowie — licznik++ przy kazdym nie-spacji**: Zlicza znaki zamiast slow",
+      "kara": "-2 pkt"
+    }
+  ]
+}

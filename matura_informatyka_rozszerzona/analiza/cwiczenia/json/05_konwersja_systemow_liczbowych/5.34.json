@@ -1,0 +1,24 @@
+{
+  "id": "5.34",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: detekcja przepelnienia w U2",
+  "tagi": ["uzupelnienie-do-2", "dodawanie-binarne", "przeniesienia"],
+  "tresc": "Wykonaj nastepujace dodawania w kodzie U2 na 8 bitach. Okresl, czy wystapilo przepelnienie (overflow). Uzasadnij.\n\n- a) 01100100(U2) + 01000001(U2)\n- b) 10000001(U2) + 10110000(U2)\n- c) 00110000(U2) + 00010000(U2)",
+  "wskazowki": [
+    "**Kierunek**: Overflow w U2 nastepuje, gdy dwie liczby tego samego znaku daja wynik o przeciwnym znaku.",
+    "**Podejscie**: Regula: overflow = (carry do MSB) XOR (carry z MSB). Albo: oba dodatnie, wynik ujemny = overflow.",
+    "**Kluczowy krok**: Zakres U2 na 8 bitach: -128 do 127. Jesli poprawny wynik wychodzi poza ten zakres — overflow."
+  ],
+  "odpowiedz": "**a) 01100100 + 01000001 — OVERFLOW**\n\nInterpretacja: 01100100 = +100, 01000001 = +65\nPoprawny wynik: 100 + 65 = 165 > 127 (poza zakresem U2 8-bit)\n\n```\n  01100100\n+ 01000001\n----------\n  10100101\n```\n\n10100101 w U2 = -128+32+4+1 = -91 (bledny!)\n**OVERFLOW**: dwie liczby dodatnie, wynik ujemny (MSB=1). Wynik 165 nie miesci sie w [-128, 127].\n\n**b) 10000001 + 10110000 — OVERFLOW**\n\nInterpretacja: 10000001 = -127, 10110000 = -80\nPoprawny wynik: -127 + (-80) = -207 < -128 (poza zakresem)\n\n```\n  10000001\n+ 10110000\n----------\n(1)00110001\n```\n\nOdrzucamy carry. 00110001 = 49 (bledny, powinno byc -207)\n**OVERFLOW**: dwie liczby ujemne, wynik dodatni (MSB=0). Wynik -207 nie miesci sie w [-128, 127].\n\n**c) 00110000 + 00010000 — BRAK overflow**\n\nInterpretacja: 00110000 = +48, 00010000 = +16\nPoprawny wynik: 48 + 16 = 64 <= 127 (miesci sie)\n\n```\n  00110000\n+ 00010000\n----------\n  01000000\n```\n\n01000000 = 64 ✓\n**BRAK overflow**: dwie liczby dodatnie, wynik dodatni. 64 miesci sie w [-128, 127].",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie carry z overflow**: Carry (przeniesienie poza MSB) to nie to samo co overflow. Overflow = bledny znak wyniku, carry moze wystapic bez overflow i odwrotnie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak sprawdzenia zakresu**: Trzeba sprawdzic, czy wynik miesci sie w [-128, 127]. Jesli nie — overflow, niezaleznie od bitowego wyniku",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

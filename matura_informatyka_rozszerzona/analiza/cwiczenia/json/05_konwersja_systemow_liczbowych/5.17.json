@@ -1,0 +1,24 @@
+{
+  "id": "5.17",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: konwersja bin→hex przez grupowanie",
+  "tagi": ["bin-hex", "grupowanie-bitow"],
+  "tresc": "Zamien podane liczby z systemu binarnego na szesnastkowy. Grupuj bity po 4 od prawej strony.\n\n| Lp. | Liczba binarna |\n|-----|----------------|\n| a)  | 10110011(2) |\n| b)  | 11101010(2) |\n| c)  | 01001111(2) |",
+  "wskazowki": [
+    "**Kierunek**: Grupuj bity po 4 od PRAWEJ strony. Jesli ostatnia grupa ma mniej niz 4 bity, dopisz zera z lewej.",
+    "**Podejscie**: Zamien kazda grupe 4-bitowa na cyfre hex: 0000=0, 0001=1, ..., 1010=A, ..., 1111=F.",
+    "**Kluczowy krok**: Polacz cyfry hex — to wynik. Np. 1011 0011 → B3."
+  ],
+  "odpowiedz": "**a) 10110011(2) = B3(16)**\n\nGrupowanie: 1011 | 0011\n1011 = B, 0011 = 3\n10110011(2) = **B3(16)**\nSprawdzenie: 11*16+3 = 179(10)\n\n**b) 11101010(2) = EA(16)**\n\nGrupowanie: 1110 | 1010\n1110 = E, 1010 = A\n11101010(2) = **EA(16)**\nSprawdzenie: 14*16+10 = 234(10)\n\n**c) 01001111(2) = 4F(16)**\n\nGrupowanie: 0100 | 1111\n0100 = 4, 1111 = F\n01001111(2) = **4F(16)**\nSprawdzenie: 4*16+15 = 79(10)",
+  "typowe_bledy": [
+    {
+      "opis": "**Grupowanie od lewej zamiast od prawej**: Zawsze grupuj od PRAWEJ strony — od najmniej znaczacego bitu. Grupowanie od lewej daje zle wartosci",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledna zamiana grupy na hex**: Czesty blad: 1010=B (poprawnie A), 1011=A (poprawnie B). A=10, B=11, ..., F=15",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

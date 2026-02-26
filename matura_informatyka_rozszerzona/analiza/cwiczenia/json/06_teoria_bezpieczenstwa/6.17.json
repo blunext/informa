@@ -1,0 +1,20 @@
+{
+  "id": "6.17",
+  "trudnosc": "latwe",
+  "punkty": 1,
+  "zrodlo": "Wzorzec: ocena bezpieczenstwa hasel",
+  "tagi": ["atak-brute-force", "2FA"],
+  "tresc": "Ktore z ponizszych hasel sa bezpieczne, a ktore nie? Uzasadnij kazda ocene.\n\n| Lp. | Haslo | Bezpieczne? |\n|-----|-------|-------------|\n| a) | password123 | |\n| b) | Tr0mb!ka#2024 | |\n| c) | jan.kowalski | |\n| d) | aaaaaaaaaaaa | |",
+  "wskazowki": [
+    "**Kierunek**: Bezpieczne haslo: dlugie (12+), mieszane (duze/male litery, cyfry, znaki specjalne), nieprzewidywalne.",
+    "**Podejscie**: 'password123' i imie.nazwisko to najczesciej lamane hasla. Powtorzenia (aaaa) sa podatne na brute-force.",
+    "**Kluczowy krok**: Najwazniejsza cecha hasla to DLUGOSC i LOSOWOŚĆ — nie samo uzycie znakow specjalnych."
+  ],
+  "odpowiedz": "| Lp. | Haslo | Ocena | Uzasadnienie |\n|-----|-------|-------|--------------|\n| a) | password123 | **NIE** | Jedno z 10 najczesciej uzywanych hasel na swiecie. Znajduje sie w kazdym slowniku atakow. Zlamane w ulamku sekundy. |\n| b) | Tr0mb!ka#2024 | **TAK** | 14 znakow, mieszane: duze/male litery, cyfry, znaki specjalne (!#). Nieprzewidywalne slowo bazowe. Odporny na brute-force i ataki slownikowe. |\n| c) | jan.kowalski | **NIE** | Dane osobowe (imie.nazwisko) — latwe do zgadniecia przez atakujacego, ktory zna ofiare. Brak cyfr i znakow specjalnych. |\n| d) | aaaaaaaaaaaa | **NIE** | Brak roznordnosci znakow — tylko jedna litera. Nawet przy dlugosci 12 znakow, brute-force zlamie natychmiast (tylko 26 mozliwosci: aaa...a, bbb...b, ...). |",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze dlugie haslo = bezpieczne**: 'aaaaaaaaaaaa' jest dlugie ale bardzo slabe. Liczy sie tez losowsc i roznorodnosc znakow",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

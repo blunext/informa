@@ -1,0 +1,20 @@
+{
+  "id": "6.16",
+  "trudnosc": "latwe",
+  "punkty": 1,
+  "zrodlo": "Wzorzec: dopasowanie narzedzi bezpieczenstwa do opisu",
+  "tagi": ["firewall", "VPN", "2FA"],
+  "tresc": "Dopasuj narzedzie bezpieczenstwa do jego opisu. Wybierz ze zbioru: {firewall, VPN, uwierzytelnianie dwuskladnikowe (2FA)}.\n\n| Lp. | Opis | Narzedzie |\n|-----|------|----------|\n| a) | Tworzy zaszyfrowany tunel miedzy urzadzeniem uzytkownika a serwerem, ukrywajac ruch sieciowy przed podsluchwaczami. | |\n| b) | Filtruje ruch sieciowy na podstawie regul, blokujac nieautoryzowane polaczenia przychodzace i wychodzace. | |\n| c) | Wymaga dodatkowego potwierdzenia tozsamosci (np. kodu SMS) oproc hasla przy logowaniu. | |",
+  "wskazowki": [
+    "**Kierunek**: VPN = wirtualna siec prywatna (szyfrowany tunel). Firewall = zapora sieciowa (filtrowanie). 2FA = dwa czynniki weryfikacji.",
+    "**Podejscie**: Szukaj slow kluczowych: 'tunel' = VPN, 'filtruje ruch' = firewall, 'dodatkowe potwierdzenie' = 2FA.",
+    "**Kluczowy krok**: VPN chroni prywatnosc transmisji, firewall chroni przed nieautoryzowanym dostepem, 2FA chroni konto."
+  ],
+  "odpowiedz": "| Lp. | Narzedzie | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **VPN** | VPN (Virtual Private Network) tworzy zaszyfrowany tunel miedzy urzadzeniem a serwerem VPN. Caly ruch przechodzi przez ten tunel, co ukrywa aktywnosc przed dostawca internetu i innymi obserwatorami. |\n| b) | **firewall** | Firewall (zapora sieciowa) analizuje pakiety sieciowe i stosuje reguly (whitelist/blacklist) do przepuszczania lub blokowania ruchu. Moze byc sprzetowy lub programowy. |\n| c) | **2FA** | Uwierzytelnianie dwuskladnikowe wymaga dwoch roznych czynnikow: cos co wiesz (haslo) + cos co masz (telefon/token) lub cos czym jestes (biometria). |",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie VPN z firewallem**: VPN szyfruje transmisje (prywatnosc), firewall filtruje ruch (kontrola dostepu). To rozne narzedzia",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

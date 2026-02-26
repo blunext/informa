@@ -1,0 +1,24 @@
+{
+  "id": "2.13",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: zliczanie dzielnikow",
+  "tagi": ["iteracja", "warunek", "petla-while"],
+  "tresc": "Napisz w pseudokodzie lub C++ funkcje `ile_dzielnikow(n)`, ktora dla danej liczby naturalnej n > 0 zwraca liczbe jej dzielnikow (wlacznie z 1 i n).\n\n**Przyklady**:\n- `ile_dzielnikow(12)` = 6 (dzielniki: 1, 2, 3, 4, 6, 12)\n- `ile_dzielnikow(7)` = 2 (dzielniki: 1, 7 — liczba pierwsza)\n- `ile_dzielnikow(1)` = 1 (dzielnik: 1)",
+  "wskazowki": [
+    "**Kierunek**: Przejdz petla od 1 do n i sprawdz, ktore liczby dziela n bez reszty (n mod i = 0).",
+    "**Podejscie**: Licznik startuje od 0. Dla kazdego i od 1 do n: jesli n mod i = 0, zwieksz licznik.",
+    "**Kluczowy krok**: `dla i := 1, 2, ..., n: jezeli n mod i = 0: licznik := licznik + 1`."
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja ile_dzielnikow(n)\n    licznik := 0\n    dla i := 1, 2, ..., n:\n        jezeli n mod i = 0:\n            licznik := licznik + 1\n    zwroc licznik\n```\n\n**C++:**\n\n```cpp\nint ile_dzielnikow(int n) {\n    int licznik = 0;\n    for (int i = 1; i <= n; i++) {\n        if (n % i == 0)\n            licznik++;\n    }\n    return licznik;\n}\n```\n\n**Weryfikacja**:\n- ile_dzielnikow(12): 12%1=0, 12%2=0, 12%3=0, 12%4=0, 12%5=2, 12%6=0, 12%7-11!=0, 12%12=0 -> 6 ✓\n- ile_dzielnikow(7): 7%1=0, 7%7=0 -> 2 ✓\n- ile_dzielnikow(1): 1%1=0 -> 1 ✓\n\n**Uwaga**: Zlozonosc O(n). Mozna zoptymalizowac do O(sqrt(n)), ale na maturze wersja prosta jest wystarczajaca.",
+  "typowe_bledy": [
+    {
+      "opis": "**Petla od 2 do n-1**: Pomija dzielniki 1 i n — wynik bedzie o 2 za maly",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Warunek `n / i == 0` zamiast `n mod i == 0`**: Dzielenie calkowite =/= reszta z dzielenia",
+      "kara": "-1 pkt"
+    }
+  ]
+}

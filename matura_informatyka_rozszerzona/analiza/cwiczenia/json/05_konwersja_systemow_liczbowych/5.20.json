@@ -1,0 +1,24 @@
+{
+  "id": "5.20",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: konwersje osemkowe oct↔dec",
+  "tagi": ["system-osemkowy", "dzielenie-z-reszta"],
+  "tresc": "Wykonaj konwersje miedzy systemem osemkowym a dziesietnym.\n\n**Polecenie A**: Zamien z osemkowego na dziesietny:\n\n| Lp. | Liczba osemkowa |\n|-----|---|\n| a) | 37(8) |\n| b) | 56(8) |\n| c) | 377(8) |\n\n**Polecenie B**: Zamien z dziesietnego na osemkowy:\n\n| Lp. | Liczba dziesietna |\n|-----|---|\n| d) | 125 |\n| e) | 46 |",
+  "wskazowki": [
+    "**Kierunek**: Osemkowy → dziesietny: mnoz cyfry przez potegi 8 (8^0=1, 8^1=8, 8^2=64).",
+    "**Podejscie**: Dziesietny → osemkowy: dziel przez 8, zapisuj reszty, czytaj od dolu.",
+    "**Kluczowy krok**: System osemkowy uzywa cyfr 0-7. Cyfry 8 i 9 NIE wystepuja!"
+  ],
+  "odpowiedz": "**a) 37(8) = 31(10)**\n\n3*8^1 + 7*8^0 = 3*8 + 7*1 = 24 + 7 = **31**\n\n**b) 56(8) = 46(10)**\n\n5*8^1 + 6*8^0 = 5*8 + 6*1 = 40 + 6 = **46**\n\n**c) 377(8) = 255(10)**\n\n3*8^2 + 7*8^1 + 7*8^0 = 3*64 + 7*8 + 7*1 = 192 + 56 + 7 = **255**\n\n**d) 125(10) = 175(8)**\n\n| Dzielenie | Iloraz | Reszta |\n|-----------|--------|--------|\n| 125 / 8 | 15 | 5 |\n| 15 / 8 | 1 | 7 |\n| 1 / 8 | 0 | 1 |\n\nCzytamy od dolu: 125(10) = **175(8)**\nSprawdzenie: 1*64+7*8+5 = 125\n\n**e) 46(10) = 56(8)**\n\n| Dzielenie | Iloraz | Reszta |\n|-----------|--------|--------|\n| 46 / 8 | 5 | 6 |\n| 5 / 8 | 0 | 5 |\n\nCzytamy od dolu: 46(10) = **56(8)**\nSprawdzenie: 5*8+6 = 46",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie cyfr 8 lub 9 w systemie osemkowym**: System osemkowy uzywa TYLKO cyfr 0-7. Jesli wynik zawiera 8 lub 9, jest bledny",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Mylenie poteg 8 z potegami 10**: 8^2=64 (nie 100). Potegi osemki: 1, 8, 64, 512",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

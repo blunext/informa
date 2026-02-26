@@ -1,0 +1,24 @@
+{
+  "id": "3.37",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: dolne ograniczenie sortowania porownawczego",
+  "tagi": ["sortowanie", "drzewo-rekursji", "zlozonosc-czasowa"],
+  "tresc": "Kazdy algorytm sortowania oparty na porownaniach mozna przedstawic jako drzewo decyzyjne, w ktorym kazdy wezel wewnetrzny to porownanie dwoch elementow, a kazdy lisc to permutacja (wynik).\n\n**Polecenia**:\n- a) Ile lisci musi miec drzewo decyzyjne sortowania n elementow? Dlaczego?\n- b) Jaka jest minimalna wysokosc drzewa binarnego o n! lisciach?\n- c) Uzyj tego do uzasadnienia, ze kazde sortowanie porownawcze wymaga co najmniej Omega(n log n) porownan w najgorszym przypadku.\n- d) Podaj przyklad sortowania, ktore NIE jest porownawcze i moze byc szybsze niz O(n log n).",
+  "wskazowki": [
+    "**Kierunek**: n elementow ma n! mozliwych porzadkow. Algorytm musi odroznic kazdy z nich.",
+    "**Podejscie**: Drzewo binarne o wysokosci h ma co najwyzej 2^h lisci. Potrzebujemy 2^h >= n!, wiec h >= log2(n!).",
+    "**Kluczowy krok**: log2(n!) = sum(log2(i) for i=1..n) >= (n/2)*log2(n/2) = Omega(n log n) (dolna polowa sumandow)."
+  ],
+  "odpowiedz": "**a) Liczba lisci:**\n\nDla n elementow istnieje **n!** mozliwych permutacji (porzadkow). Kazda permutacja musi byc co najmniej jednym lisciem drzewa, bo algorytm musi moc wygenerowac kazdy wynik. Wiec drzewo musi miec **co najmniej n! lisci**.\n\n**b) Minimalna wysokosc:**\n\nDrzewo binarne o wysokosci h ma co najwyzej 2^h lisci.\nPotrzebujemy: 2^h >= n!\nMinimalna wysokosc: **h >= log2(n!)**\n\n**c) Dolne ograniczenie Omega(n log n):**\n\nlog2(n!) = log2(1) + log2(2) + ... + log2(n)\n>= log2(n/2) + log2(n/2+1) + ... + log2(n)  (bierzemy tylko gorna polowe)\n>= (n/2) * log2(n/2)\n= (n/2) * (log2(n) - 1)\n= **Omega(n log n)**\n\nWiec kazdy algorytm sortowania porownawczego musi wykonac co najmniej Omega(n log n) porownan w najgorszym przypadku.\n\nMerge sort osiaga to ograniczenie — jest wiec **asymptotycznie optymalny**.\n\n**d) Sortowanie nieporownawcze:**\n\n**Counting sort** (sortowanie przez zliczanie): dla wartosci z zakresu [0, k] dziala w O(n + k). Jesli k = O(n), to O(n) — szybciej niz n log n! Nie uzywa porownan par elementow — zlicza wystapienia kazdej wartosci.",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze O(n log n) to gorny limit sortowania**: n log n to DOLNY limit (kazde sortowanie porownawcze potrzebuje CO NAJMNIEJ tyle). Gorny limit zalezy od algorytmu",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Counting sort jest zawsze szybszy od merge sort**: Tylko gdy zakres wartosci k jest niewielki. Dla k >> n counting sort uzywa O(k) pamieci i moze byc wolniejszy",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

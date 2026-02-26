@@ -1,0 +1,24 @@
+{
+  "id": "4.29",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: subtelnosci notacji O P/F",
+  "tagi": ["zlozonosc-czasowa", "rekurencja"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | O(2n) = O(n) — stale mnoznikowe sa pomijane w notacji O. | |\n| b) | O(n^2) + O(n) = O(n^2 + n) — przy dodawaniu zlozonosci zachowujemy oba skladniki. | |\n| c) | Algorytm o zlozonosci O(n log n) jest ZAWSZE szybszy niz algorytm O(n^2) dla kazdego n. | |\n| d) | Rekurencja T(n) = 2T(n/2) + O(n) daje zlozonosc O(n log n). | |",
+  "wskazowki": [
+    "**Kierunek**: W notacji O pomijamy stale mnoznikowe (O(2n) = O(n)) i skladniki nizszego rzedu (O(n^2 + n) = O(n^2)).",
+    "**Podejscie**: 'Zawsze szybszy' to pulapka — O mowi o asymptotycznym wzroscie, nie o konkretnych wartosciach dla malych n.",
+    "**Kluczowy krok**: T(n) = 2T(n/2) + O(n) to klasyczny przypadek 2 z twierdzenia o rekurencji (Master Theorem) — wynik: O(n log n)."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | Notacja O ignoruje stale mnoznikowe: O(2n) = O(n), O(5n^2) = O(n^2). Liczy sie rzad wzrostu, nie wspolczynnik. |\n| b) | **F** | Przy sumowaniu zlozonosci zachowujemy tylko dominujacy skladnik: O(n^2) + O(n) = **O(n^2)**. Skladnik O(n) jest absorbowany przez O(n^2), bo n^2 dominuje nad n dla duzych n. |\n| c) | **F** | Notacja O opisuje zachowanie ASYMPTOTYCZNE — dla duzych n. Dla malych n algorytm O(n^2) moze byc szybszy (np. insertion sort bije mergesort dla n < 20-30 z powodu mniejszej stalej). |\n| d) | **P** | To klasyczny przypadek 2 twierdzenia o rekurencji (a=2, b=2, f(n)=n): log_b(a) = 1, f(n) = Theta(n^1), wiec T(n) = O(n log n). Przyklad: mergesort. |\n\nOdpowiedzi: a) P, b) F, c) F, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Zachowanie wszystkich skladnikow sumy**: O(n^2 + n) to NIE poprawna uproszczona forma — prawidlowo O(n^2). Zawsze upraszczamy do dominujacego skladnika",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze O(n log n) ZAWSZE szybsze niz O(n^2)**: Asymptotycznie tak, ale nie dla kazdego n. Notacja O mowi o granicy, nie o konkretnych wartosciach",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

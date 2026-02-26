@@ -1,0 +1,24 @@
+{
+  "id": "3.40",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: analiza selection sort — dokladna liczba porownan",
+  "tagi": ["sortowanie", "niezmiennik-petli", "indukcja"],
+  "tresc": "Algorytm selection sort (sortowanie przez wybor):\n\n```\ndla i := 0, 1, ..., n-2:\n    min_idx := i\n    dla j := i+1, i+2, ..., n-1:\n        jezeli tab[j] < tab[min_idx]:\n            min_idx := j\n    zamien tab[i] z tab[min_idx]\n```\n\n**Polecenia**:\n- a) Ile porownan (`tab[j] < tab[min_idx]`) wykonuje algorytm dla tablicy n-elementowej? Podaj dokladna formule.\n- b) Czy liczba porownan zalezy od danych wejsciowych (np. czy tablica jest juz posortowana)?\n- c) Sformuluj niezmiennik petli zewnetrznej.\n- d) Ile zamian (swap) wykonuje selection sort? Porownaj z bubble sortem.",
+  "wskazowki": [
+    "**Kierunek**: Petla wewnetrzna dla ustalonego i wykonuje (n-1-i) porownan. Zsumuj po i.",
+    "**Podejscie**: Suma: (n-1) + (n-2) + ... + 1 + 0 = n(n-1)/2.",
+    "**Kluczowy krok**: Selection sort ZAWSZE robi n(n-1)/2 porownan — niezaleznie od danych. Ale robi co najwyzej n-1 zamian (jedna na iteracje)."
+  ],
+  "odpowiedz": "**a) Dokladna liczba porownan:**\n\nDla i=0: n-1 porownan (j od 1 do n-1)\nDla i=1: n-2 porownan (j od 2 do n-1)\n...\nDla i=n-2: 1 porownanie (j = n-1)\n\nRazem: (n-1) + (n-2) + ... + 1 = **n(n-1)/2**\n\nDla n=10: 10*9/2 = **45 porownan**.\n\n**b) Czy zalezy od danych?**\n\n**NIE.** Selection sort zawsze wykonuje dokladnie n(n-1)/2 porownan, niezaleznie od tego czy tablica jest posortowana, odwrotnie posortowana, czy losowa. Petla wewnetrzna zawsze przechodzi od i+1 do n-1.\n\nTo odroznia selection sort od insertion sort (ktory moze zakonczyc wczesniej).\n\n**c) Niezmiennik petli zewnetrznej:**\n\nPo i-tej iteracji (i = 0, 1, ...):\n- tab[0..i] zawiera i+1 najmniejszych elementow tablicy w kolejnosci rosnacej\n- tab[i+1..n-1] zawiera pozostale elementy (nieposortowane)\n- Kazdy element tab[0..i] <= kazdy element tab[i+1..n-1]\n\n**d) Liczba zamian:**\n\nSelection sort: dokladnie **n-1 zamian** (jedna zamiana na iteracje petli zewnetrznej, nawet jesli min_idx == i — wtedy zamiana jest 'pusta').\n\nBubble sort: do **n(n-1)/2 zamian** w najgorszym przypadku (tablica odwrotnie posortowana — kazde porownanie prowadzi do zamiany).\n\n| | Porownania | Zamiany (pesym.) |\n|---|-----------|------------------|\n| Selection sort | n(n-1)/2 | n-1 |\n| Bubble sort | n(n-1)/2 | n(n-1)/2 |\n\nSelection sort robi znacznie mniej zamian — korzystne gdy zamiana jest kosztowna.",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze posortowana tablica wymaga mniej porownan**: Selection sort NIE ma optymistycznego przypadku — zawsze n(n-1)/2. To insertion sort ma O(n) dla posortowanej tablicy",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Liczba zamian n^2 zamiast n-1**: Selection sort robi dokladnie jedna zamiane na iteracje petli zewnetrznej, niezaleznie od danych",
+      "kara": "-1 pkt"
+    }
+  ]
+}

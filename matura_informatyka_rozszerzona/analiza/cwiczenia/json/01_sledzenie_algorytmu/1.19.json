@@ -1,0 +1,24 @@
+{
+  "id": "1.19",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: archetyp 2 (odwracanie liczby)",
+  "tagi": ["mod-div", "cyfry-liczby", "sledzenie-iteracyjne"],
+  "tresc": "Dana jest funkcja:\n\n```\nfunkcja odwroc(n)\n    wynik := 0\n    dopoki n > 0:\n        cyfra := n mod 10\n        wynik := wynik * 10 + cyfra\n        n := n div 10\n    zwroc wynik\n```\n\nFunkcja odwraca kolejnosc cyfr liczby naturalnej.\n\n**Polecenie**: Oblicz wartosc `odwroc(n)` dla kazdej z podanych liczb. Dla jednej wybranej liczby wykonaj tabele sledzenia zmiennych.\n\n| Lp. | n |\n|-----|---|\n| a)  | 1357 |\n| b)  | 9000 |\n| c)  | 121 |",
+  "wskazowki": [
+    "**Kierunek**: `n mod 10` wyodrebnia ostatnia cyfre, a `wynik * 10 + cyfra` doklada ja na koniec budowanego wyniku.",
+    "**Podejscie**: Sledz trzy zmienne: n (maleje), cyfra (kolejna cyfra od prawej), wynik (rosnie).",
+    "**Kluczowy krok**: Dla n=1357: wynik rosnie: 7 -> 75 -> 753 -> 7531. Sprawdz: odwrocone 1357 to 7531."
+  ],
+  "odpowiedz": "**a) odwroc(1357)**\n\n| Krok | n (poczatek) | cyfra | wynik | n (koniec) |\n|------|-------------|-------|-------|-----------|\n| 1 | 1357 | 7 | 0*10+7=7 | 135 |\n| 2 | 135 | 5 | 7*10+5=75 | 13 |\n| 3 | 13 | 3 | 75*10+3=753 | 1 |\n| 4 | 1 | 1 | 753*10+1=7531 | 0 |\n\nWynik: **7531**\n\n**b) odwroc(9000)**\n\n- cyfra 0: wynik = 0*10+0 = 0, n = 900\n- cyfra 0: wynik = 0*10+0 = 0, n = 90\n- cyfra 0: wynik = 0*10+0 = 0, n = 9\n- cyfra 9: wynik = 0*10+9 = 9, n = 0\n\nWynik: **9** (zera wiodace znikaja w reprezentacji liczbowej)\n\n**c) odwroc(121)**\n\n- cyfra 1: wynik = 1, n = 12\n- cyfra 2: wynik = 12, n = 1\n- cyfra 1: wynik = 121, n = 0\n\nWynik: **121** (palindrom — wartosc nie zmienia sie po odwroceniu)",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o zerach wiodacych**: odwroc(9000) = 9 (nie 0009), bo zera wiodace nie sa reprezentowane w liczbie",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Blad w formule wynik*10+cyfra**: To kluczowa operacja budowania wyniku — pomylenie kolejnosci daje zla liczbe",
+      "kara": "-1 pkt"
+    }
+  ]
+}

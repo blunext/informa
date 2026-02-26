@@ -1,0 +1,24 @@
+{
+  "id": "3.29",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: analiza sredniego przypadku wyszukiwania liniowego",
+  "tagi": ["analiza-srednia", "zlozonosc-czasowa", "przeszukiwanie-binarne"],
+  "tresc": "Rozważ wyszukiwanie liniowe w tablicy n-elementowej:\n\n```\nfunkcja szukaj_liniowo(tab, n, x)\n    dla i := 0, 1, ..., n-1:\n        jezeli tab[i] = x:\n            zwroc i\n    zwroc -1\n```\n\n**Polecenia**:\n- a) Jaka jest zlozonosc pesymistyczna?\n- b) Jaka jest zlozonosc optymistyczna?\n- c) Jaka jest zlozonosc srednia, zakladajac ze x jest w tablicy i z jednakowym prawdopodobienstwem na kazdej pozycji?\n- d) Porownaj ze srednia zlozonoscia wyszukiwania binarnego.",
+  "wskazowki": [
+    "**Kierunek**: Srednia = suma (prawdopodobienstwo * koszt) po wszystkich mozliwych pozycjach elementu.",
+    "**Podejscie**: Jesli x jest na pozycji i (od 0), to potrzeba i+1 porownan. Srednia = (1+2+...+n)/n.",
+    "**Kluczowy krok**: (1+2+...+n)/n = n(n+1)/(2n) = (n+1)/2. Srednio sprawdzamy polowe tablicy."
+  ],
+  "odpowiedz": "**a) Zlozonosc pesymistyczna**: **O(n)**\n\nNajgorszy przypadek: x jest na ostatniej pozycji lub nie ma go w tablicy — n porownan.\n\n**b) Zlozonosc optymistyczna**: **O(1)**\n\nNajlepszy przypadek: x jest na pozycji 0 — 1 porownanie.\n\n**c) Zlozonosc srednia** (x jest w tablicy, rowne prawdopodobienstwo kazdej pozycji):\n\nPrawdopodobienstwo pozycji i: P(i) = 1/n\nKoszt znalezienia na pozycji i: i + 1 porownan (indeksujac od 0)\n\nSrednia = sum(i=0..n-1) P(i) * (i+1) = (1/n) * (1 + 2 + ... + n)\n= (1/n) * n(n+1)/2 = **(n+1)/2**\n\nSrednio sprawdzamy okolo polowy tablicy. Dla n=100: srednio ~50.5 porownan.\n\nZlozonosc srednia: **O(n)** (polowa n to wciaz O(n)).\n\n**d) Porownanie z wyszukiwaniem binarnym:**\n\n| | Liniowe | Binarne |\n|---|---------|--------|\n| Pesymistyczna | O(n) | O(log n) |\n| Srednia | O(n) = (n+1)/2 | O(log n) |\n\nDla n=1000: liniowe srednio ~500 porownan, binarne srednio ~10. Binarne jest zdecydowanie lepsze (ale wymaga posortowanej tablicy).",
+  "typowe_bledy": [
+    {
+      "opis": "**Srednia = n/2 zamiast (n+1)/2**: Blad o 0.5 — wynika z indeksowania od 0 (pozycja 0 wymaga 1 porownania, nie 0)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze srednia zlozonosc to O(n/2) = O(1)**: n/2 to wciaz O(n). Notacja O pomija stale mnoznikowe",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "3.20",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: petla z polowieniem",
+  "tagi": ["zlozonosc-czasowa", "O-notacja", "petle-zagniezdzne"],
+  "tresc": "Ile razy wykona sie petla w ponizszym fragmencie kodu dla n = 64 i n = 1000? Jaka jest zlozonosc czasowa O()?\n\n```\ni := n\ndopoki i > 0:\n    // operacja O(1)\n    i := i div 2\n```",
+  "wskazowki": [
+    "**Kierunek**: Zmienna i jest dzielona przez 2 w kazdym kroku. Petla konczy sie gdy i = 0.",
+    "**Podejscie**: Dla n=64: 64 → 32 → 16 → 8 → 4 → 2 → 1 → 0. Policz kroki.",
+    "**Kluczowy krok**: Liczba iteracji = floor(log2(n)) + 1. Dla n potegi 2 to dokladnie log2(n) + 1."
+  ],
+  "odpowiedz": "**Dla n = 64:**\n\n| Iteracja | i przed | i po (i div 2) |\n|----------|---------|----------------|\n| 1 | 64 | 32 |\n| 2 | 32 | 16 |\n| 3 | 16 | 8 |\n| 4 | 8 | 4 |\n| 5 | 4 | 2 |\n| 6 | 2 | 1 |\n| 7 | 1 | 0 |\n\nLiczba iteracji: **7** = log2(64) + 1 = 6 + 1\n\n**Dla n = 1000:**\n1000 → 500 → 250 → 125 → 62 → 31 → 15 → 7 → 3 → 1 → 0\nLiczba iteracji: **10** = floor(log2(1000)) + 1 = 9 + 1\n\n**Zlozonosc**: **O(log n)**\n\nUzasadnienie: W kazdej iteracji wartosc i zmniejsza sie o polowe. Po k iteracjach: i = n / 2^k. Petla konczy sie gdy n / 2^k < 1, czyli k > log2(n). Stad liczba iteracji = O(log n).",
+  "typowe_bledy": [
+    {
+      "opis": "**Odpowiedz O(n) lub O(n/2)**: Polowienie to operacja logarytmiczna, nie liniowa. O(n/2) = O(n), co jest bledne",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pominiecie iteracji z i=1**: Warunek to i > 0 (nie i > 1). Iteracja z i=1 sie wykonuje (1 div 2 = 0), potem petla konczy sie",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

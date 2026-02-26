@@ -1,0 +1,24 @@
+{
+  "id": "3.24",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: niezmiennik petli sumowania",
+  "tagi": ["niezmiennik-petli", "indukcja", "zlozonosc-czasowa"],
+  "tresc": "Dany jest algorytm obliczajacy sume elementow tablicy:\n\n```\nfunkcja suma(tab, n)\n    s := 0\n    dla i := 0, 1, ..., n-1:\n        s := s + tab[i]\n    zwroc s\n```\n\n**Polecenia**:\n- a) Sformuluj niezmiennik petli (warunek prawdziwy na poczatku kazdej iteracji).\n- b) Udowodnij, ze niezmiennik jest prawdziwy: (1) przed petla, (2) zachowuje sie w kazdym kroku.\n- c) Uzyj niezmiennika do wykazania, ze algorytm jest poprawny (na koncu s = suma tab[0..n-1]).",
+  "wskazowki": [
+    "**Kierunek**: Niezmiennik opisuje, co przechowuje zmienna s po i iteracjach. Jaki jest zwiazek miedzy s a tab[0..i-1]?",
+    "**Podejscie**: Na poczatku iteracji i: s = tab[0] + tab[1] + ... + tab[i-1] (suma pierwszych i elementow).",
+    "**Kluczowy krok**: Po zakonczeniu petli i = n, wiec niezmiennik daje: s = tab[0] + ... + tab[n-1] = cala suma."
+  ],
+  "odpowiedz": "**a) Niezmiennik petli:**\n\nNa poczatku iteracji o indeksie i:\n\n**s = tab[0] + tab[1] + ... + tab[i-1]** (suma pierwszych i elementow)\n\nInaczej: s = sum(tab[0..i-1])\n\n**b) Dowod:**\n\n**(1) Przed petla (i = 0):**\ns = 0. Suma zerowej liczby elementow = 0. Niezmiennik zachodzi: s = sum(tab[0..-1]) = 0. ✓\n\n**(2) Zachowanie w kroku (z i na i+1):**\nZalozenie: na poczatku iteracji i zachodzi s = sum(tab[0..i-1]).\nW iteracji wykonujemy: s := s + tab[i].\nPo tej operacji: s = sum(tab[0..i-1]) + tab[i] = sum(tab[0..i]).\nTo jest dokladnie niezmiennik dla i+1: s = sum(tab[0..(i+1)-1]). ✓\n\n**c) Poprawnosc:**\n\nPetla konczy sie gdy i = n. Z niezmiennika: s = sum(tab[0..n-1]).\n\nTo jest dokladnie suma wszystkich n elementow tablicy, czyli wynik zwracany przez funkcje jest poprawny. QED.",
+  "typowe_bledy": [
+    {
+      "opis": "**Niezmiennik 's = suma calej tablicy' (za mocny)**: To jest wynik koncowy, nie niezmiennik. Niezmiennik musi byc prawdziwy na POCZATKU kazdej iteracji, nie tylko na koncu",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak sprawdzenia warunku poczatkowego (i=0)**: Dowod niezmiennika wymaga trzech czesci: inicjalizacja, zachowanie, zakonczenie",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

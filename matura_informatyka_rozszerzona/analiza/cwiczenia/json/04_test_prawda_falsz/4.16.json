@@ -1,0 +1,24 @@
+{
+  "id": "4.16",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: podstawy programowania P/F",
+  "tagi": ["rekurencja", "zlozonosc-czasowa"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Funkcja rekurencyjna musi zawierac warunek bazowy (stopu), aby sie zakonczyc. | |\n| b) | Petla `for` zawsze wykonuje sie co najmniej raz. | |\n| c) | Algorytm o zlozonosci O(n) jest szybszy niz O(n^2) dla duzych n. | |\n| d) | Zmienna typu `int` w C++ moze przechowywac liczby zmiennoprzecinkowe. | |",
+  "wskazowki": [
+    "**Kierunek**: Zastanow sie nad definicjami: co to warunek bazowy, jak dziala petla for, co oznacza notacja O.",
+    "**Podejscie**: Petla `for i := 5 to 3` nie wykona sie ani razu (gorny zakres mniejszy od dolnego).",
+    "**Kluczowy krok**: int przechowuje liczby CALKOWITE, double/float — zmiennoprzecinkowe."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | Bez warunku bazowego rekurencja bylaby nieskonczona (stack overflow). Warunek bazowy okresla, kiedy funkcja przestaje sie wywolywac. |\n| b) | **F** | Petla `for i := 5 to 3` nie wykona sie ani razu, bo warunek poczatkowy nie jest spelniony. Petla for moze miec 0 iteracji. |\n| c) | **P** | Dla duzych n: n << n^2. Algorytm O(n) wykonuje wielokrotnie mniej operacji niz O(n^2). Np. dla n=1000: 1000 vs 1000000. |\n| d) | **F** | Typ `int` przechowuje wylacznie liczby calkowite. Dla zmiennoprzecinkowych nalezy uzyc `float` lub `double`. |\n\nOdpowiedzi: a) P, b) F, c) P, d) F",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze petla for zawsze sie wykonuje**: Petla `for i := a to b` nie wykonuje sie gdy a > b. To odroznia for od do-while",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Mylenie int z double**: int = calkowite, double = zmiennoprzecinkowe. Przypisanie 3.14 do int da 3 (obciecie)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

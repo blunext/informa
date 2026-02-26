@@ -1,0 +1,24 @@
+{
+  "id": "4.37",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: TCP vs UDP i model OSI P/F",
+  "tagi": ["sieci-komputerowe", "DNS", "IPv4"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | TCP gwarantuje dostarczenie pakietow we wlasciwej kolejnosci. | |\n| b) | UDP jest szybszy od TCP, poniewaz nie wymaga nawiazywania polaczenia ani potwierdzenia odbioru. | |\n| c) | Model OSI (Open Systems Interconnection) sklada sie z 5 warstw. | |\n| d) | Protokol HTTP dziala w warstwie transportowej modelu OSI. | |",
+  "wskazowki": [
+    "**Kierunek**: TCP = niezawodny (ACK, retransmisja, kolejnosc). UDP = szybki ale bez gwarancji (fire-and-forget).",
+    "**Podejscie**: Model OSI ma 7 warstw (nie 5!). Model TCP/IP ma 4 warstwy — nie myl ich.",
+    "**Kluczowy krok**: HTTP = warstwa APLIKACJI (7). TCP/UDP = warstwa TRANSPORTOWA (4). IP = warstwa SIECIOWA (3)."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | TCP (Transmission Control Protocol): numeruje segmenty (sequence numbers), odbiorca potwierdza odbiur (ACK), brakujace segmenty sa retransmitowane, dane sa dostarczane w kolejnosci do aplikacji. |\n| b) | **P** | UDP (User Datagram Protocol) jest bezpolaczeniowy — nie wymaga three-way handshake ani potwierdzen. Mniejszy naglowek (8B vs 20B TCP). Uzywany tam, gdzie szybkosc wazniejsza niz niezawodnosc: streaming, gry, DNS. |\n| c) | **F** | Model OSI ma **7 warstw**: 1-fizyczna, 2-lacza danych, 3-sieciowa, 4-transportowa, 5-sesji, 6-prezentacji, 7-aplikacji. Model TCP/IP (4 warstwy: dostepu do sieci, internetowa, transportowa, aplikacji) bywa mylony z OSI. |\n| d) | **F** | HTTP dziala w warstwie **aplikacji** (warstwa 7 OSI). Warstwa transportowa (4) to TCP/UDP. HTTP korzysta z TCP (port 80) lub HTTPS z TLS nad TCP (port 443). |\n\nOdpowiedzi: a) P, b) P, c) F, d) F",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie modelu OSI (7 warstw) z TCP/IP (4 warstwy)**: OSI = 7 warstw (teoretyczny), TCP/IP = 4 warstwy (praktyczny). Na maturze pytaja czesto o OSI",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Mylenie warstw protokolow**: HTTP/FTP/DNS = warstwa aplikacji (7). TCP/UDP = transportowa (4). IP = sieciowa (3). Ethernet = lacza danych (2)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

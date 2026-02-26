@@ -1,0 +1,24 @@
+{
+  "id": "2.35",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: hipoteza Goldbacha — suma dwoch liczb pierwszych",
+  "tagi": ["liczby-pierwsze", "petla-while", "warunek", "C++"],
+  "tresc": "Napisz w C++ funkcje `goldbach(n)`, ktora sprawdza, czy liczba parzysta n > 2 mozna przedstawic jako sume dwoch liczb pierwszych. Funkcja zwraca true lub false.\n\nMozesz uzyc (i musisz zaimplementowac) pomocniczej funkcji `czy_pierwsza(k)`.\n\n**Przyklady**:\n- `goldbach(10)` = true (10 = 3 + 7)\n- `goldbach(20)` = true (20 = 3 + 17)\n- `goldbach(4)` = true (4 = 2 + 2)\n- `goldbach(2)` = false (brak rozkladu na sume dwoch pierwszych)",
+  "wskazowki": [
+    "**Kierunek**: Dla kazdego i od 2 do n/2 sprawdz, czy i jest pierwsza ORAZ n-i jest pierwsza. Jesli tak — znaleziono rozklad.",
+    "**Podejscie**: Napisz najpierw czy_pierwsza(k). Potem petla: for i=2 to n/2: if czy_pierwsza(i) && czy_pierwsza(n-i) return true.",
+    "**Kluczowy krok**: Wystarczy sprawdzac do n/2 (symetria: jesli i+j=n to j+(n-j)=n). Nie zapomnij o przypadku n=2."
+  ],
+  "odpowiedz": "**C++:**\n\n```cpp\nbool czy_pierwsza(int k) {\n    if (k < 2) return false;\n    for (int i = 2; i * i <= k; i++)\n        if (k % i == 0) return false;\n    return true;\n}\n\nbool goldbach(int n) {\n    if (n <= 2) return false;\n    for (int i = 2; i <= n / 2; i++) {\n        if (czy_pierwsza(i) && czy_pierwsza(n - i))\n            return true;\n    }\n    return false;\n}\n```\n\n**Weryfikacja**:\n- goldbach(10): i=2(prime), 10-2=8(not prime). i=3(prime), 10-3=7(prime) → true ✓\n- goldbach(20): i=2(prime), 20-2=18(not prime). i=3(prime), 20-3=17(prime) → true ✓\n- goldbach(4): i=2(prime), 4-2=2(prime) → true ✓\n- goldbach(2): n<=2 → false ✓\n\n**Zlozonosc**: O(n * sqrt(n)) — dla kazdego i do n/2 test pierwszosci w O(sqrt(n)).",
+  "typowe_bledy": [
+    {
+      "opis": "**Petla od i=1 zamiast i=2**: 1 nie jest liczba pierwsza — jesli czy_pierwsza poprawnie zwraca false dla 1, to niegroznie, ale jesli nie — bledny wynik",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Brak osobnej funkcji czy_pierwsza — test pierwszosci w petli glownej**: Duplikacja kodu, latwo o blad. Polecenie wymaga zaimplementowania pomocniczej funkcji",
+      "kara": "-1 pkt"
+    }
+  ]
+}

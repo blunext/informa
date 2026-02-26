@@ -1,0 +1,24 @@
+{
+  "id": "1.25",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: sortowanie przez wstawianie",
+  "tagi": ["sortowanie", "sledzenie-iteracyjne", "tablica-pomocnicza"],
+  "tresc": "Dany jest algorytm sortowania przez wstawianie:\n\n```\nfunkcja sortWstaw(T, n)\n    dla i := 1, 2, ..., n-1:\n        klucz := T[i]\n        j := i - 1\n        dopoki j >= 0 AND T[j] > klucz:\n            T[j+1] := T[j]\n            j := j - 1\n        T[j+1] := klucz\n    zwroc T\n```\n\n**Polecenie**:\n- a) Przelsdz dzialanie `sortWstaw(T, 5)` dla T = [7, 3, 5, 1, 4]. Pokaz stan tablicy po kazdej iteracji petli zewnetrznej (dla kazdego i). (3 pkt)\n- b) Ile lacznielacznie przesuniec (T[j+1]:=T[j]) wykonano? (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: W kazdej iteracji i: wez element T[i] (klucz) i wstaw go we wlasciwe miejsce wsrod juz posortowanych T[0..i-1].",
+    "**Podejscie**: Petla wewnetrzna przesuwa elementy wieksze od klucza w prawo, robiace miejsce na wstawienie klucza.",
+    "**Kluczowy krok**: i=1: klucz=3, przesun 7 w prawo, wstaw 3. i=3: klucz=1, przesun 3,5,7 w prawo, wstaw 1 na pozycje 0."
+  ],
+  "odpowiedz": "**a) Sledzenie sortWstaw([7, 3, 5, 1, 4], 5):**\n\n**i=1**: klucz=3, j=0\n- T[0]=7 > 3? tak: T[1]:=7, j=-1\n- Wstaw: T[0]:=3\n- Stan: **[3, 7, 5, 1, 4]** (1 przesuniecie)\n\n**i=2**: klucz=5, j=1\n- T[1]=7 > 5? tak: T[2]:=7, j=0\n- T[0]=3 > 5? nie: stop\n- Wstaw: T[1]:=5\n- Stan: **[3, 5, 7, 1, 4]** (1 przesuniecie)\n\n**i=3**: klucz=1, j=2\n- T[2]=7 > 1? tak: T[3]:=7, j=1\n- T[1]=5 > 1? tak: T[2]:=5, j=0\n- T[0]=3 > 1? tak: T[1]:=3, j=-1\n- Wstaw: T[0]:=1\n- Stan: **[1, 3, 5, 7, 4]** (3 przesuniecia)\n\n**i=4**: klucz=4, j=3\n- T[3]=7 > 4? tak: T[4]:=7, j=2\n- T[2]=5 > 4? tak: T[3]:=5, j=1\n- T[1]=3 > 4? nie: stop\n- Wstaw: T[2]:=4\n- Stan: **[1, 3, 4, 5, 7]** (2 przesuniecia)\n\n| i | klucz | Przesuniecia | Stan tablicy |\n|---|-------|-------------|-------------|\n| 1 | 3 | 1 | [3, 7, 5, 1, 4] |\n| 2 | 5 | 1 | [3, 5, 7, 1, 4] |\n| 3 | 1 | 3 | [1, 3, 5, 7, 4] |\n| 4 | 4 | 2 | [1, 3, 4, 5, 7] |\n\n**b)** Lacznie przesuniec: 1 + 1 + 3 + 2 = **7**",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o warunku j >= 0**: Petla wewnetrzna moze wyjsc poza tablice (j = -1), trzeba sprawdzac oba warunki AND",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Wstawianie klucza w zle miejsce**: Klucz wstawiany jest na pozycje j+1 (nie j), bo j wskazuje na element mniejszy lub rowny",
+      "kara": "-1 pkt"
+    }
+  ]
+}

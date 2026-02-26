@@ -1,0 +1,24 @@
+{
+  "id": "3.33",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: twierdzenie o rekurencji uniwersalnej (Master Theorem)",
+  "tagi": ["rownanie-rekurencyjne", "rekurencja", "zlozonosc-czasowa"],
+  "tresc": "Twierdzenie o rekurencji uniwersalnej (Master Theorem) rozwiazuje rownania postaci T(n) = aT(n/b) + f(n):\n- Przypadek 1: jesli f(n) = O(n^(log_b(a) - e)) to T(n) = O(n^(log_b(a)))\n- Przypadek 2: jesli f(n) = O(n^(log_b(a))) to T(n) = O(n^(log_b(a)) * log n)\n- Przypadek 3: jesli f(n) = O(n^(log_b(a) + e)) to T(n) = O(f(n))\n\nZastosuj twierdzenie do nastepujacych rownan:\n- A) T(n) = 4T(n/2) + n\n- B) T(n) = 2T(n/2) + n\n- C) T(n) = T(n/2) + 1",
+  "wskazowki": [
+    "**Kierunek**: Dla kazdego rownania wyznacz a, b, oblicz log_b(a), porownaj z wykladnikiem f(n).",
+    "**Podejscie**: A) a=4, b=2 → log_2(4)=2. f(n)=n=O(n^1). 1 < 2 → przypadek 1. B) log_2(2)=1, f(n)=n → przypadek 2.",
+    "**Kluczowy krok**: Porownaj wykladnik f(n) z log_b(a). Mniejszy → przypadek 1. Rowny → przypadek 2. Wiekszy → przypadek 3."
+  ],
+  "odpowiedz": "**A) T(n) = 4T(n/2) + n:**\n\na=4, b=2. log_2(4) = **2**. f(n) = n = O(n^1).\nPorownanie: wykladnik f(n) = 1 < 2 = log_b(a). → **Przypadek 1**.\nT(n) = **O(n^2)**\n\nInterpretacja: praca na kazdym poziomie rosnie geometrycznie w dol drzewa. Dominuja liscie.\n\n**B) T(n) = 2T(n/2) + n:**\n\na=2, b=2. log_2(2) = **1**. f(n) = n = O(n^1).\nPorownanie: wykladnik f(n) = 1 = log_b(a). → **Przypadek 2**.\nT(n) = **O(n log n)**\n\nInterpretacja: praca na kazdym poziomie jest taka sama (n). Jest log n poziomow → n log n. To merge sort!\n\n**C) T(n) = T(n/2) + 1:**\n\na=1, b=2. log_2(1) = **0**. f(n) = 1 = O(n^0).\nPorownanie: wykladnik f(n) = 0 = log_b(a). → **Przypadek 2**.\nT(n) = **O(log n)**\n\nInterpretacja: jedno wywolanie na poziom, kazde O(1) pracy, log n poziomow. To wyszukiwanie binarne!\n\n**Podsumowanie**: A) O(n^2), B) O(n log n), C) O(log n).",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledne obliczenie log_b(a)**: log_2(4) = 2 (nie 4!). Logarytm daje WYKLADNIK, nie wartosc",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zastosowanie zlego przypadku**: Wykladnik f(n) ROWNY log_b(a) to przypadek 2 (z log n), NIE przypadek 1",
+      "kara": "-1 pkt"
+    }
+  ]
+}

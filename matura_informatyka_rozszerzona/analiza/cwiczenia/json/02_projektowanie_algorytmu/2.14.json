@@ -1,0 +1,24 @@
+{
+  "id": "2.14",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: potegowanie iteracyjne",
+  "tagi": ["petla-while", "iteracja"],
+  "tresc": "Napisz w pseudokodzie lub C++ funkcje `potega(a, n)`, ktora dla danych liczb calkowitych a i n >= 0 oblicza a^n (a do potegi n) bez uzycia funkcji pow() ani operatora **.\n\n**Ograniczenia**: Uzyj petli (nie rekurencji). Nie uzyj funkcji wbudowanych.\n\n**Przyklady**:\n- `potega(2, 10)` = 1024\n- `potega(3, 0)` = 1\n- `potega(5, 3)` = 125",
+  "wskazowki": [
+    "**Kierunek**: a^n = a * a * a * ... * a (n razy). Zacznij od wyniku 1 i mnoz przez a w kazdej iteracji petli.",
+    "**Podejscie**: wynik := 1. Petla n razy: wynik := wynik * a. Uwaga: a^0 = 1 (petla nie wykonuje sie).",
+    "**Kluczowy krok**: `wynik := 1; dla i := 1, 2, ..., n: wynik := wynik * a; zwroc wynik`."
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja potega(a, n)\n    wynik := 1\n    dla i := 1, 2, ..., n:\n        wynik := wynik * a\n    zwroc wynik\n```\n\n**C++:**\n\n```cpp\nint potega(int a, int n) {\n    int wynik = 1;\n    for (int i = 0; i < n; i++) {\n        wynik *= a;\n    }\n    return wynik;\n}\n```\n\n**Weryfikacja**:\n- potega(2, 10): 1*2*2*...*2 (10 razy) = 1024 ✓\n- potega(3, 0): petla nie wykonuje sie, wynik = 1 ✓ (a^0 = 1)\n- potega(5, 3): 1*5*5*5 = 125 ✓",
+  "typowe_bledy": [
+    {
+      "opis": "**Inicjalizacja wynik := 0 zamiast 1**: Element neutralny mnozenia to 1, nie 0. wynik := 0 daje zawsze 0",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak obslugi n = 0**: a^0 = 1 dla kazdego a. Petla od 1 do 0 nie wykonuje sie — to poprawne jesli wynik = 1",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

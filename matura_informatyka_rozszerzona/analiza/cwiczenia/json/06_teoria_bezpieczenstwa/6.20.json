@@ -1,0 +1,20 @@
+{
+  "id": "6.20",
+  "trudnosc": "latwe",
+  "punkty": 1,
+  "zrodlo": "Wzorzec: podstawy szyfrowania — terminy",
+  "tagi": ["szyfrowanie-symetryczne", "szyfrowanie-asymetryczne", "podpis-cyfrowy"],
+  "tresc": "Dopasuj termin kryptograficzny do opisu. Wybierz ze zbioru: {klucz publiczny, klucz prywatny, szyfr symetryczny, podpis cyfrowy}.\n\n| Lp. | Opis | Termin |\n|-----|------|--------|\n| a) | Klucz udostepniany publicznie, sluzy do szyfrowania wiadomosci wysylanych do wlasciciela. | |\n| b) | Algorytm uzywajacy JEDNEGO wspolnego klucza do szyfrowania i deszyfrowania. | |\n| c) | Klucz znany TYLKO wlascicielowi, sluzy do odszyfrowywania wiadomosci. | |\n| d) | Mechanizm potwierdzajacy autentycznosc i integralnosc dokumentu cyfrowego. | |",
+  "wskazowki": [
+    "**Kierunek**: Klucz publiczny = do szyfrowania (kazdy moze). Klucz prywatny = do deszyfrowania (tylko wlasciciel).",
+    "**Podejscie**: Szyfr symetryczny = JEDEN klucz. Asymetryczny = DWA klucze (publiczny + prywatny).",
+    "**Kluczowy krok**: Podpis cyfrowy = prywatny klucz nadawcy tworzy podpis, publiczny weryfikuje."
+  ],
+  "odpowiedz": "| Lp. | Termin | Uzasadnienie |\n|-----|--------|-------------|\n| a) | **klucz publiczny** | Klucz publiczny jest dostepny dla wszystkich. Sluzy do szyfrowania wiadomosci (tylko wlasciciel klucza prywatnego moze odszyfrwoac) i do weryfikacji podpisow cyfrowych. |\n| b) | **szyfr symetryczny** | Szyfr symetryczny (np. AES, DES) uzywa tego samego klucza do szyfrowania i deszyfrowania. Problem: jak bezpiecznie przekazac klucz drugiej stronie? |\n| c) | **klucz prywatny** | Klucz prywatny jest TAJNY — znany tylko wlascicielowi. Sluzy do deszyfrowania wiadomosci i tworzenia podpisow cyfrowych. |\n| d) | **podpis cyfrowy** | Podpis cyfrowy potwierdza: (1) autentycznosc — wiadomosc pochodzi od deklarowanego nadawcy, (2) integralnosc — wiadomosc nie zostala zmodyfikowana. |",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwrocenie kluczy**: Publiczny = do szyfrowania/weryfikacji. Prywatny = do deszyfrowania/podpisywania. Nigdy odwrotnie",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

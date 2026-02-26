@@ -1,0 +1,24 @@
+{
+  "id": "2.15",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: test podzielnosci sumy cyfr",
+  "tagi": ["mod-div", "cyfry", "warunek"],
+  "tresc": "Napisz w pseudokodzie lub C++ funkcje `podzielna_suma(n, k)`, ktora sprawdza czy suma cyfr liczby n jest podzielna przez k. Funkcja zwraca PRAWDA lub FALSZ.\n\n**Ograniczenia**: Uzyj tylko zmiennych calkowitych i operatorow: mod, div, +, porownania.\n\n**Przyklady**:\n- `podzielna_suma(123, 3)` = PRAWDA (suma cyfr: 1+2+3=6, 6 mod 3 = 0)\n- `podzielna_suma(123, 5)` = FALSZ (6 mod 5 = 1)\n- `podzielna_suma(999, 9)` = PRAWDA (9+9+9=27, 27 mod 9 = 0)",
+  "wskazowki": [
+    "**Kierunek**: Rozbij na dwa kroki: 1) oblicz sume cyfr, 2) sprawdz podzielnosc przez k.",
+    "**Podejscie**: Uzyj petli mod/div do obliczenia sumy cyfr, potem sprawdz `suma mod k = 0`.",
+    "**Kluczowy krok**: Suma cyfr to standardowy wzorzec. Na koncu: `zwroc (suma mod k = 0)`."
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja podzielna_suma(n, k)\n    suma := 0\n    dopoki n > 0:\n        suma := suma + (n mod 10)\n        n := n div 10\n    jezeli suma mod k = 0:\n        zwroc PRAWDA\n    w przeciwnym razie:\n        zwroc FALSZ\n```\n\n**C++:**\n\n```cpp\nbool podzielna_suma(int n, int k) {\n    int suma = 0;\n    while (n > 0) {\n        suma += n % 10;\n        n /= 10;\n    }\n    return suma % k == 0;\n}\n```\n\n**Weryfikacja**:\n- podzielna_suma(123, 3): suma = 6, 6 % 3 = 0 -> PRAWDA ✓\n- podzielna_suma(123, 5): suma = 6, 6 % 5 = 1 -> FALSZ ✓\n- podzielna_suma(999, 9): suma = 27, 27 % 9 = 0 -> PRAWDA ✓",
+  "typowe_bledy": [
+    {
+      "opis": "**Sprawdzenie n mod k zamiast sumy mod k**: Polecenie pyta o podzielnosc SUMY CYFR, nie samej liczby",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak zwrocenia wartosci logicznej**: Funkcja musi zwracac PRAWDA/FALSZ (bool), nie sume cyfr",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

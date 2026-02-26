@@ -1,0 +1,24 @@
+{
+  "id": "6.36",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: obliczanie przestrzeni hasel i czasu lamania",
+  "tagi": ["atak-brute-force", "szyfrowanie-symetryczne", "2FA"],
+  "tresc": "Oblicz liczbe mozliwych hasel i oszacuj czas lamania brute-force.\n\n- a) Ile roznych hasel mozna utworzyc o dlugosci dokladnie 6 znakow, uzywajac tylko malych liter (a-z, 26 znakow)?\n- b) Ile roznych hasel mozna utworzyc o dlugosci dokladnie 8 znakow, uzywajac malych i duzych liter oraz cyfr (26+26+10 = 62 znaki)?\n- c) Jezeli komputer moze sprawdzic 10 milionow hasel na sekunde, ile czasu zajmie sprawdzenie WSZYSTKICH hasel z punktu b)?\n- d) Jak 2FA zmienia sytuacje nawet przy sybkim lamaniu hasla?",
+  "wskazowki": [
+    "**Kierunek**: Liczba hasel = (liczba znakow)^(dlugosc). 26^6 vs 62^8 — ogromna roznica.",
+    "**Podejscie**: c) Czas = liczba hasel / predkosc. Zamien sekundy na lata.",
+    "**Kluczowy krok**: 62^8 ≈ 2.18 * 10^14. Przy 10^7/s: ~2.18 * 10^7 sekund ≈ ~691 lat."
+  ],
+  "odpowiedz": "**a) 6 znakow, male litery (26):**\n\n26^6 = 308,915,776 ≈ **309 milionow** hasel\n\nPrzy 10^7 hasel/s: 309M / 10M = ~31 sekund. Bardzo szybko!\n\n**b) 8 znakow, male+duze+cyfry (62):**\n\n62^8 = 218,340,105,584,896 ≈ **218 bilionow** hasel\n\n**c) Czas lamania:**\n\n218,340,105,584,896 / 10,000,000 = 21,834,010,558 sekund\n= 21,834,010,558 / 3600 ≈ 6,065,003 godzin\n= 6,065,003 / 24 ≈ 252,708 dni\n= 252,708 / 365 ≈ **692 lata**\n\nPorownanie: 6 znakow (male litery) = 31 sekund. 8 znakow (3 zbiory) = 692 lat. Kazdy dodatkowy znak i wieksza pula znakow dramatycznie wydluza czas.\n\n**d) Rola 2FA:**\n\nNawet jesli atakujacy zlamie haslo (np. przez wyciek bazy), 2FA wymaga DODATKOWEGO czynnika (np. kodu z telefonu). Atakujacy musi miec fizyczny dostep do drugiego urzadzenia. Brute-force hasla staje sie niewystarczajacy — samo haslo nie wystarczy do zalogowania.",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledne potegowanie**: 26^6 to NIE 26*6=156. To 26*26*26*26*26*26 = 308M. Kazda pozycja to niezalezny wybor",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak konwersji sekund na lata**: Sam wynik w sekundach (21 miliardow) nie jest czytelny. Trzeba zamienic na dni/lata, by wykazac praktyczna niemozliwosc lamania",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

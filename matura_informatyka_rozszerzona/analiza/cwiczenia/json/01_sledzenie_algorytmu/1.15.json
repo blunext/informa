@@ -1,0 +1,24 @@
+{
+  "id": "1.15",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: klasyczna rekurencja (silnia)",
+  "tagi": ["rekurencja", "drzewo-wywolan"],
+  "tresc": "Dana jest funkcja rekurencyjna:\n\n```\nfunkcja silnia(n)\n    jezeli n <= 1:\n        zwroc 1\n    zwroc n * silnia(n - 1)\n```\n\n**Polecenie**:\n- a) Narysuj drzewo wywolan dla `silnia(5)`. Przy kazdym wezle podaj wartosc zwrocona. (1 pkt)\n- b) Ile razy lacznie wywolana zostanie funkcja `silnia`? (0.5 pkt)\n- c) Oblicz `silnia(0)`. (0.5 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Rekurencja liniowa — kazde wywolanie generuje dokladnie jedno kolejne wywolanie, az do bazy.",
+    "**Podejscie**: Rozwin od silnia(5) w dol do bazy silnia(1), potem zwijaj mnozac wartosci wstecz.",
+    "**Kluczowy krok**: Baza: silnia(1)=1. Zwijanie: silnia(2)=2*1=2, silnia(3)=3*2=6, silnia(4)=4*6=24, silnia(5)=5*24=120."
+  ],
+  "odpowiedz": "**a) Drzewo wywolan silnia(5):**\n\n```\nsilnia(5)\n  = 5 * silnia(4)\n         = 4 * silnia(3)\n                = 3 * silnia(2)\n                       = 2 * silnia(1)\n                              = 1  [baza: n <= 1]\n                       = 2 * 1 = 2\n                = 3 * 2 = 6\n         = 4 * 6 = 24\n  = 5 * 24 = 120\n```\n\nWynik: **silnia(5) = 120**\n\n**b)** Funkcja `silnia` wywolana zostaje **5 razy**: silnia(5), silnia(4), silnia(3), silnia(2), silnia(1).\n\n**c)** `silnia(0)`: warunek `n <= 1` jest spelniony (0 <= 1), wiec zwraca **1**.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak wartosci zwracanej przy wezlach**: Kazde wywolanie musi miec podana wartosc zwrocona",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Bledne zwijanie rekurencji**: Mnozenie w zlej kolejnosci lub blad arytmetyczny (np. 4*6=20)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "1.21",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: rekurencja z dwoma wywolaniami (Fibonacci)",
+  "tagi": ["rekurencja", "drzewo-wywolan"],
+  "tresc": "Dana jest funkcja rekurencyjna:\n\n```\nfunkcja fib(n)\n    jezeli n <= 1:\n        zwroc n\n    zwroc fib(n - 1) + fib(n - 2)\n```\n\n**Polecenie**:\n- a) Narysuj pelne drzewo wywolan dla `fib(5)`. Przy kazdym wezle podaj wartosc zwrocona. (2 pkt)\n- b) Ile razy lacznie wywolana zostala funkcja `fib`? (0.5 pkt)\n- c) Ile razy wywolano `fib(1)` i ile razy `fib(0)`? (0.5 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Kazde wywolanie fib(n) dla n>=2 generuje DWA kolejne wywolania: fib(n-1) i fib(n-2). Drzewo rosnie szybko.",
+    "**Podejscie**: Rozwijaj drzewo od fib(5) w dol. Baza: fib(0)=0, fib(1)=1. Zwijaj od lisci w gore.",
+    "**Kluczowy krok**: fib(5)=5. Drzewo ma 15 wezlow. fib(1) wywolano 5 razy, fib(0) wywolano 3 razy."
+  ],
+  "odpowiedz": "**a) Drzewo wywolan fib(5):**\n\n```\nfib(5) = 5\n├── fib(4) = 3\n│   ├── fib(3) = 2\n│   │   ├── fib(2) = 1\n│   │   │   ├── fib(1) = 1\n│   │   │   └── fib(0) = 0\n│   │   └── fib(1) = 1\n│   └── fib(2) = 1\n│       ├── fib(1) = 1\n│       └── fib(0) = 0\n└── fib(3) = 2\n    ├── fib(2) = 1\n    │   ├── fib(1) = 1\n    │   └── fib(0) = 0\n    └── fib(1) = 1\n```\n\nWynik: **fib(5) = 5**\n\n**b)** Funkcja `fib` wywolana zostala lacznie **15 razy**.\n\n**c)** `fib(1)` wywolano **5 razy**, `fib(0)` wywolano **3 razy**.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brakujace galezi w drzewie**: Kazdy wezel fib(n) dla n>=2 MUSI miec dwa potomki — latwo pominac fib(n-2)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pomylenie fib(0)=0 z fib(0)=1**: Baza to fib(0)=0 i fib(1)=1, nie obie rowne 1",
+      "kara": "-1 pkt"
+    }
+  ]
+}

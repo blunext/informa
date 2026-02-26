@@ -1,0 +1,24 @@
+{
+  "id": "1.33",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: rekurencja drzewiasta z pamietaniem (memoizacja)",
+  "tagi": ["rekurencja", "drzewo-wywolan", "tablica-pomocnicza"],
+  "tresc": "Dane sa dwie wersje funkcji rekurencyjnej:\n\n**Wersja A (bez pamietania):**\n```\nfunkcja f(n)\n    jezeli n <= 1:\n        zwroc n\n    zwroc f(n-1) + f(n-2) + 1\n```\n\n**Wersja B (z pamietaniem):**\n```\nfunkcja g(n, cache)\n    jezeli cache[n] <> -1:\n        zwroc cache[n]\n    jezeli n <= 1:\n        cache[n] := n\n    w przeciwnym razie:\n        cache[n] := g(n-1, cache) + g(n-2, cache) + 1\n    zwroc cache[n]\n```\ncache zainicjalizowany wartosciami -1.\n\n**Polecenie**:\n- a) Narysuj drzewo wywolan `f(5)` i oblicz wynik. (2 pkt)\n- b) Przelsdz `g(5, cache)`. Pokaz stan cache po kazdym nowym wpisie i ile razy lacznie wywolano g. (2 pkt)\n- c) Porownaj liczbe wywolan f(5) vs g(5). (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: f to zmodyfikowany Fibonacci (+1 przy kazdym wywolaniu). g to ta sama funkcja z cache — kazde n obliczane jest tylko RAZ.",
+    "**Podejscie**: A: pelne drzewo jak Fibonacci. B: pierwsze wywolanie g(n) oblicza i zapisuje, kolejne od razu zwracaja z cache.",
+    "**Kluczowy krok**: f(5)=12. g(5) tez = 12, ale z 9 wywolaniami zamiast 15."
+  ],
+  "odpowiedz": "**a) Drzewo wywolan f(5):**\n\n```\nf(5) = f(4) + f(3) + 1\n├── f(4) = f(3) + f(2) + 1\n│   ├── f(3) = f(2) + f(1) + 1\n│   │   ├── f(2) = f(1) + f(0) + 1 = 1+0+1 = 2\n│   │   └── f(1) = 1\n│   │   = 2 + 1 + 1 = 4\n│   └── f(2) = f(1) + f(0) + 1 = 1+0+1 = 2\n│   = 4 + 2 + 1 = 7\n└── f(3) = f(2) + f(1) + 1\n    ├── f(2) = f(1) + f(0) + 1 = 1+0+1 = 2\n    └── f(1) = 1\n    = 2 + 1 + 1 = 4\n= 7 + 4 + 1 = 12\n```\n\nWynik: **f(5) = 12**. Lacznie wywolan f: **15**.\n\n**b) Sledzenie g(5, cache):**\n\n| Wywolanie | cache[n] | Akcja | Cache po |\n|-----------|---------|-------|----------|\n| g(5) | -1 | oblicz g(4)+g(3)+1 | — |\n| g(4) | -1 | oblicz g(3)+g(2)+1 | — |\n| g(3) | -1 | oblicz g(2)+g(1)+1 | — |\n| g(2) | -1 | oblicz g(1)+g(0)+1 | — |\n| g(1) | -1 | baza: cache[1]=1 | cache[1]=1 |\n| g(0) | -1 | baza: cache[0]=0 | cache[0]=0 |\n| powrot g(2) | — | cache[2]=1+0+1=2 | cache[2]=2 |\n| g(1) w g(3) | 1 | od razu zwroc 1 | — |\n| powrot g(3) | — | cache[3]=2+1+1=4 | cache[3]=4 |\n| g(2) w g(4) | 2 | od razu zwroc 2 | — |\n| powrot g(4) | — | cache[4]=4+2+1=7 | cache[4]=7 |\n| g(3) w g(5) | 4 | od razu zwroc 4 | — |\n| powrot g(5) | — | cache[5]=7+4+1=12 | cache[5]=12 |\n\nKoncowy cache: [0, 1, 2, 4, 7, 12]\n\nWynik: **g(5) = 12**. Lacznie wywolan g: **9**.\n\n**c)** f(5): **15 wywolan**, g(5): **9 wywolan**. Memoizacja eliminuje powtorne obliczenia — kazde n obliczane dokladnie raz.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o +1 w formule**: f(n) = f(n-1) + f(n-2) + 1, NIE czyste Fibonacci (f(n-1)+f(n-2))",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledne zliczanie wywolan z cache**: Sprawdzenie cache tez jest wywolaniem — liczymy wszystkie wejscia do funkcji g",
+      "kara": "-1 pkt"
+    }
+  ]
+}

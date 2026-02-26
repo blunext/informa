@@ -1,0 +1,24 @@
+{
+  "id": "2.21",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: zliczanie wystapien znaku w napisie",
+  "tagi": ["napisy", "petla-while", "warunek", "C++"],
+  "tresc": "Napisz w C++ funkcje `zlicz_znak(tekst, c)`, ktora zlicza ile razy znak `c` wystepuje w napisie `tekst`.\n\n**Przyklady**:\n- `zlicz_znak(\"abrakadabra\", 'a')` = 5\n- `zlicz_znak(\"hello\", 'l')` = 2\n- `zlicz_znak(\"test\", 'x')` = 0",
+  "wskazowki": [
+    "**Kierunek**: Przejdz napis znak po znaku. Dla kazdego znaku porownaj z szukanym c.",
+    "**Podejscie**: Petla for po indeksach (0 do dlugosci-1). Jesli tekst[i] == c, zwieksz licznik.",
+    "**Kluczowy krok**: `for (int i = 0; i < tekst.length(); i++) if (tekst[i] == c) licznik++;`."
+  ],
+  "odpowiedz": "**C++:**\n\n```cpp\nint zlicz_znak(string tekst, char c) {\n    int licznik = 0;\n    for (int i = 0; i < tekst.length(); i++) {\n        if (tekst[i] == c)\n            licznik++;\n    }\n    return licznik;\n}\n```\n\n**Pseudokod:**\n\n```\nfunkcja zlicz_znak(tekst, c)\n    licznik := 0\n    dla i := 0, 1, ..., dlugosc(tekst)-1:\n        jezeli tekst[i] = c:\n            licznik := licznik + 1\n    zwroc licznik\n```\n\n**Weryfikacja**:\n- \"abrakadabra\", 'a': pozycje 0,3,5,7,10 -> 5 ✓\n- \"hello\", 'l': pozycje 2,3 -> 2 ✓\n- \"test\", 'x': brak -> 0 ✓",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownanie z cudzyslow zamiast apostrofu**: W C++ 'a' to char, \"a\" to string — porownanie char z string nie skompiluje sie",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Off-by-one w petli**: Indeksowanie od 0 do length()-1 (nie do length()). Wyjscie poza zakres to UB",
+      "kara": "-1 pkt"
+    }
+  ]
+}

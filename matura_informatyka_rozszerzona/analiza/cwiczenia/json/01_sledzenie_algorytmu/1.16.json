@@ -1,0 +1,24 @@
+{
+  "id": "1.16",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: szukanie maksimum w tablicy",
+  "tagi": ["sledzenie-iteracyjne"],
+  "tresc": "Dany jest algorytm:\n\n```\nfunkcja maks(T, n)\n    m := T[0]\n    dla i := 1, 2, ..., n-1:\n        jezeli T[i] > m:\n            m := T[i]\n    zwroc m\n```\n\n**Polecenie**: Przelsdz dzialanie `maks(T, 6)` dla tablicy T = [3, 7, 2, 9, 1, 5]. Wypelnij tabele wartosci zmiennych w kazdym kroku petli i podaj wynik.\n\nDodatkowo odpowiedz: ile razy wykonane zostalo przypisanie `m := T[i]` wewnatrz warunku?",
+  "wskazowki": [
+    "**Kierunek**: Zmienna `m` przechowuje dotychczasowe maksimum. Na poczatku m = T[0], potem porownujemy z kazdym kolejnym elementem.",
+    "**Podejscie**: Dla kazdego i od 1 do 5: porownaj T[i] z m. Jesli T[i] > m, zaktualizuj m.",
+    "**Kluczowy krok**: m zmienia sie tylko gdy znajdziemy element wiekszy od biezacego maksimum: 3 -> 7 -> 9."
+  ],
+  "odpowiedz": "**Sledzenie maks([3, 7, 2, 9, 1, 5], 6):**\n\nPoczatek: m = T[0] = 3\n\n| Krok (i) | T[i] | T[i] > m? | m (po kroku) |\n|----------|------|-----------|-------------|\n| 1 | 7 | 7 > 3? tak | 7 |\n| 2 | 2 | 2 > 7? nie | 7 |\n| 3 | 9 | 9 > 7? tak | 9 |\n| 4 | 1 | 1 > 9? nie | 9 |\n| 5 | 5 | 5 > 9? nie | 9 |\n\nWynik: **maks = 9**\n\nPrzypisanie `m := T[i]` wykonane zostalo **2 razy** (dla i=1 i i=3).",
+  "typowe_bledy": [
+    {
+      "opis": "**Rozpoczecie petli od i=0 zamiast i=1**: Petla zaczyna sie od i=1, bo m juz zawiera T[0]",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Pomylenie > z >=**: Warunek to T[i] > m (ostry), nie >= — przy rownosci m sie nie zmienia",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

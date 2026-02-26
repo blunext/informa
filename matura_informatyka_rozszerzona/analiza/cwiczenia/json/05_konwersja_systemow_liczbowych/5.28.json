@@ -1,0 +1,24 @@
+{
+  "id": "5.28",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: reprezentacja w wielu systemach jednoczesnie",
+  "tagi": ["porownywanie-systemow", "dec-bin", "bin-hex"],
+  "tresc": "Dla kazdej podanej liczby dziesietnej podaj jej zapis w systemie binarnym, osemkowym i szesnastkowym.\n\n| Lp. | Liczba dziesietna |\n|-----|-------------------|\n| a) | 250 |\n| b) | 189 |",
+  "wskazowki": [
+    "**Kierunek**: Najpierw zamien na binarny (dzielenie przez 2). Potem: bin→oct (grupy po 3), bin→hex (grupy po 4).",
+    "**Podejscie**: Jedna konwersja dec→bin wystarczy — z niej uzyskasz oct i hex przez grupowanie.",
+    "**Kluczowy krok**: Sprawdzaj co krok: dec powinien sie zgadzac ze wszystkimi trzema zapisami."
+  ],
+  "odpowiedz": "**a) 250(10):**\n\nDec→Bin: 250/2=125 R0, 125/2=62 R1, 62/2=31 R0, 31/2=15 R1, 15/2=7 R1, 7/2=3 R1, 3/2=1 R1, 1/2=0 R1\n250(10) = **11111010(2)**\n\nBin→Oct: 011 | 111 | 010 → 3 | 7 | 2\n250(10) = **372(8)**\nSprawdzenie: 3*64+7*8+2 = 192+56+2 = 250 ✓\n\nBin→Hex: 1111 | 1010 → F | A\n250(10) = **FA(16)**\nSprawdzenie: 15*16+10 = 240+10 = 250 ✓\n\n**b) 189(10):**\n\nDec→Bin: 189/2=94 R1, 94/2=47 R0, 47/2=23 R1, 23/2=11 R1, 11/2=5 R1, 5/2=2 R1, 2/2=1 R0, 1/2=0 R1\n189(10) = **10111101(2)**\n\nBin→Oct: 010 | 111 | 101 → 2 | 7 | 5\n189(10) = **275(8)**\nSprawdzenie: 2*64+7*8+5 = 128+56+5 = 189 ✓\n\nBin→Hex: 1011 | 1101 → B | D\n189(10) = **BD(16)**\nSprawdzenie: 11*16+13 = 176+13 = 189 ✓",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledne grupowanie bitow**: Oct = grupy po 3, hex = grupy po 4. Zawsze od PRAWEJ strony z dopelnieniem zerami z lewej",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak weryfikacji krzyzowej**: Po konwersji sprawdz, czy bin, oct i hex daja ta sama wartosc dziesietna. Jesli nie — gdzies jest blad",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "2.12",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: szukanie maksymalnej cyfry",
+  "tagi": ["mod-div", "cyfry", "petla-while"],
+  "tresc": "Napisz w pseudokodzie lub C++ funkcje `max_cyfra(n)`, ktora dla danej liczby naturalnej n > 0 zwraca jej najwieksza cyfre.\n\n**Ograniczenia**: Uzyj tylko zmiennych calkowitych i operatorow: mod, div, porownania. Bez stringow, tablic, funkcji wbudowanych.\n\n**Przyklady**:\n- `max_cyfra(3827)` = 8\n- `max_cyfra(11111)` = 1\n- `max_cyfra(9)` = 9",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz zmiennej `maks` przechowujacej dotychczasowe maksimum, aktualizowanej przy kazdej cyfrze.",
+    "**Podejscie**: Zainicjalizuj maks := 0. W petli: wyodrebnij cyfre, porownaj z maks, aktualizuj jesli wieksza.",
+    "**Kluczowy krok**: `cyfra := n mod 10; jezeli cyfra > maks: maks := cyfra; n := n div 10`."
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja max_cyfra(n)\n    maks := 0\n    dopoki n > 0:\n        cyfra := n mod 10\n        jezeli cyfra > maks:\n            maks := cyfra\n        n := n div 10\n    zwroc maks\n```\n\n**C++:**\n\n```cpp\nint max_cyfra(int n) {\n    int maks = 0;\n    while (n > 0) {\n        int cyfra = n % 10;\n        if (cyfra > maks)\n            maks = cyfra;\n        n /= 10;\n    }\n    return maks;\n}\n```\n\n**Weryfikacja**:\n- max_cyfra(3827): cyfry 7,2,8,3 -> max = 8 ✓\n- max_cyfra(11111): cyfry 1,1,1,1,1 -> max = 1 ✓\n- max_cyfra(9): cyfra 9 -> max = 9 ✓\n\n**Uwaga**: Inicjalizacja maks := 0 jest bezpieczna, bo kazda cyfra >= 0. Alternatywnie mozna: maks := n mod 10.",
+  "typowe_bledy": [
+    {
+      "opis": "**Inicjalizacja maks := n zamiast 0 lub n mod 10**: maks := n porownuje cyfry z cala liczba, nie z maksymalna cyfra",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zwracanie pozycji zamiast wartosci**: Polecenie pyta o cyfre (wartosc), nie o jej pozycje w liczbie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

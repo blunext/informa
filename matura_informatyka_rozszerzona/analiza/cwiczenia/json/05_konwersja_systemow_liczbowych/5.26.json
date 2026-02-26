@@ -1,0 +1,24 @@
+{
+  "id": "5.26",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: konwersja bin↔oct przez grupowanie 3 bitow",
+  "tagi": ["system-osemkowy", "grupowanie-bitow"],
+  "tresc": "Wykonaj konwersje miedzy systemem binarnym a osemkowym, korzystajac z grupowania po 3 bity.\n\n- a) Zamien 11010110(2) na system osemkowy.\n- b) Zamien 752(8) na system binarny.\n- c) Zamien 157(8) na system szesnastkowy (przez binarny).",
+  "wskazowki": [
+    "**Kierunek**: Kazda cyfra osemkowa = dokladnie 3 bity. Grupuj od prawej strony.",
+    "**Podejscie**: 0=000, 1=001, 2=010, 3=011, 4=100, 5=101, 6=110, 7=111.",
+    "**Kluczowy krok**: Oct→hex: oct→bin (grupy po 3), potem bin→hex (grupy po 4). Nie bezposrednio!"
+  ],
+  "odpowiedz": "**a) 11010110(2) = 326(8)**\n\nGrupowanie po 3 od prawej: 11 | 010 | 110\nDopelnienie: 011 | 010 | 110\n011=3, 010=2, 110=6\n11010110(2) = **326(8)**\nSprawdzenie: 3*64+2*8+6 = 192+16+6 = 214. Bin: 128+64+16+4+2 = 214 ✓\n\n**b) 752(8) = 111101010(2)**\n\n7=111, 5=101, 2=010\n752(8) = **111101010(2)**\nSprawdzenie: 256+128+64+32+8+2 = 490. Oct: 7*64+5*8+2 = 490 ✓\n\n**c) 157(8) = 6F(16)**\n\nEtap 1 (oct→bin): 1=001, 5=101, 7=111 → 001101111(2)\nEtap 2 (bin→hex): 0110 | 1111 → 6F\n157(8) = **6F(16)**\nSprawdzenie: 1*64+5*8+7 = 111. 6*16+15 = 111 ✓",
+  "typowe_bledy": [
+    {
+      "opis": "**Grupowanie od lewej zamiast od prawej**: Bity grupujemy od PRAWEJ (od LSB). Dopelniamy zerami z LEWEJ strony",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzywanie grup po 4 zamiast 3 dla osemkowego**: Oct = 3 bity na cyfre. Hex = 4 bity na cyfre. Nie myl!",
+      "kara": "-1 pkt"
+    }
+  ]
+}

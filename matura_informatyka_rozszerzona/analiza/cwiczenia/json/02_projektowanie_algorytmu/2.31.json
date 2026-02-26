@@ -1,0 +1,24 @@
+{
+  "id": "2.31",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: konwersja dziesietna na dowolny system",
+  "tagi": ["konwersja-systemow", "mod-div", "petla-while", "pseudokod"],
+  "tresc": "Napisz w pseudokodzie funkcje `na_system(n, k)`, ktora konwertuje liczbe naturalna n > 0 na zapis w systemie o podstawie k (2 <= k <= 16). Funkcja zwraca napis. Dla cyfr 10-15 uzywaj liter A-F.\n\n**Przyklady**:\n- `na_system(255, 16)` = \"FF\"\n- `na_system(13, 2)` = \"1101\"\n- `na_system(100, 8)` = \"144\"",
+  "wskazowki": [
+    "**Kierunek**: Powtarzaj: reszta z dzielenia przez k to kolejna cyfra (od konca), iloraz to nowa wartosc n. Kontynuuj az n = 0.",
+    "**Podejscie**: Dopoki n > 0: reszta := n mod k. Jesli reszta < 10 → cyfra '0'+reszta, wpp. → litera 'A'+(reszta-10). Doklej z przodu. n := n div k.",
+    "**Kluczowy krok**: Cyfry generowane sa od konca (jednosci w gore) — trzeba je doklejac na poczatek wyniku lub odwrocic na koncu."
+  ],
+  "odpowiedz": "**Pseudokod:**\n\n```\nfunkcja na_system(n, k)\n    wynik := \"\"\n    dopoki n > 0:\n        reszta := n mod k\n        jezeli reszta < 10:\n            wynik := znak(reszta + kod('0')) + wynik\n        w przeciwnym razie:\n            wynik := znak(reszta - 10 + kod('A')) + wynik\n        n := n div k\n    zwroc wynik\n```\n\n**C++ (dla porownania):**\n\n```cpp\nstring na_system(int n, int k) {\n    string wynik = \"\";\n    while (n > 0) {\n        int reszta = n % k;\n        if (reszta < 10)\n            wynik = char('0' + reszta) + wynik;\n        else\n            wynik = char('A' + reszta - 10) + wynik;\n        n /= k;\n    }\n    return wynik;\n}\n```\n\n**Weryfikacja**:\n- na_system(255, 16): 255%16=15→'F', 255/16=15, 15%16=15→'F', 15/16=0 → \"FF\" ✓ (FF(16) = 15*16+15 = 255)\n- na_system(13, 2): 13%2=1, 13/2=6, 6%2=0, 6/2=3, 3%2=1, 3/2=1, 1%2=1, 1/2=0 → \"1101\" ✓ (1101(2) = 8+4+1 = 13)\n- na_system(100, 8): 100%8=4, 100/8=12, 12%8=4, 12/8=1, 1%8=1, 1/8=0 → \"144\" ✓ (144(8) = 64+32+4 = 100)",
+  "typowe_bledy": [
+    {
+      "opis": "**Cyfry w kolejnosci od lewej**: Generowane cyfry to jednosci, dziesiatki... (od konca). Bez odwracania lub doklejania z przodu wynik jest odwrocony",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak obslugi cyfr heksadecymalnych A-F**: Dla k=16 reszty 10-15 musza byc zamienione na litery, nie cyfry",
+      "kara": "-1 pkt"
+    }
+  ]
+}

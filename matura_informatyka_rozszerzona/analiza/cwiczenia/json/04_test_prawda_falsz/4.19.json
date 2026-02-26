@@ -1,0 +1,24 @@
+{
+  "id": "4.19",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: podstawy sieci komputerowych P/F",
+  "tagi": ["sieci-komputerowe", "IPv4"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Adres IP w wersji 4 (IPv4) sklada sie z czterech oktetow (grup po 8 bitow). | |\n| b) | Adres 192.168.1.300 jest poprawnym adresem IPv4. | |\n| c) | Protokol HTTP sluzy do przesylania stron internetowych. | |\n| d) | Kazdy komputer w sieci lokalnej musi miec unikalny adres IP. | |",
+  "wskazowki": [
+    "**Kierunek**: Adres IPv4 ma 4 oktety, kazdy 0-255 (8 bitow = 256 wartosci). 300 > 255.",
+    "**Podejscie**: HTTP = HyperText Transfer Protocol. Kazdy urzadzenie w sieci potrzebuje unikalnego IP do komunikacji.",
+    "**Kluczowy krok**: Oktet = 8 bitow = wartosc 0-255. Adres z wartoscia 300 jest niepoprawny."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | IPv4 to 32 bity podzielone na 4 oktety (po 8 bitow), zapisywane w notacji dziesietnej rozdzielonej kropkami (np. 192.168.1.1). |\n| b) | **F** | Kazdy oktet IPv4 przyjmuje wartosci 0-255 (8 bitow). Wartosc 300 przekracza zakres — ten adres jest **niepoprawny**. |\n| c) | **P** | HTTP (HyperText Transfer Protocol) to protokol warstwy aplikacji sluzacy do przesylania stron internetowych i zasobow WWW. |\n| d) | **P** | Kazde urzadzenie w sieci IP musi miec unikalny adres IP, aby pakiety mogly byc poprawnie dostarczane. Dwa urzadzenia z tym samym IP powoduja konflikt. |\n\nOdpowiedzi: a) P, b) F, c) P, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Uznanie 300 za poprawna wartosc oktetu**: Oktet = 8 bitow = zakres 0-255. Wartosc >= 256 jest nielegalna",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Mylenie HTTP z HTTPS**: HTTP to protokol nieszyfrowany. HTTPS = HTTP + SSL/TLS (szyfrowany). Oba sluza do stron WWW",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "4.33",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: reprezentacja binarna danych P/F",
+  "tagi": ["systemy-liczbowe", "konwersja-bin-hex-oct"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | W kodzie uzupelnienia do dwoch (U2) na 8 bitach najwieksza dodatnia liczba to 128. | |\n| b) | Liczba zmiennoprzecinkowa (np. IEEE 754) moze dokladnie reprezentowac KAZDA liczbe rzeczywista. | |\n| c) | Przesuniecie bitowe w lewo o 1 pozycje jest rownowazne mnozeniu przez 2. | |\n| d) | W kodzie U2 na 8 bitach mozna zapisac liczby z zakresu od -128 do 127. | |",
+  "wskazowki": [
+    "**Kierunek**: U2 na n bitach: zakres od -2^(n-1) do 2^(n-1)-1. Dla 8 bitow: -128 do 127.",
+    "**Podejscie**: IEEE 754 ma skonczenie wiele bitow — nie moze reprezentowac KAZDEJ liczby (np. 0.1 nie ma dokladnej reprezentacji binarnej).",
+    "**Kluczowy krok**: Przesuniecie bitowe w lewo o k = mnozenie przez 2^k. W prawo o k = dzielenie calkowite przez 2^k."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | U2 na 8 bitach: zakres od -128 do **127** (nie 128). Najwyzsza wartosc: 01111111(U2) = 127. Liczba 128 wymagalaby 9 bitow. Bit znaku (najstarszy) = 0 dla dodatnich. |\n| b) | **F** | IEEE 754 uzywa skonczenie wiele bitow (32 lub 64), wiec moze reprezentowac tylko skonczony podzbior liczb rzeczywistych. Np. 0.1(10) = 0.0001100110...(2) — jest nieskonczona, wiec jest ZAOKRAGLANA. |\n| c) | **P** | Przesuniecie bitowe w lewo o 1 (<<1) jest rownowazne mnozeniu przez 2 (dla liczb calkowitych, o ile nie ma przepelnienia). Np.: 5 = 101(2), 5<<1 = 1010(2) = 10. |\n| d) | **P** | U2 na n bitach: zakres [-2^(n-1), 2^(n-1)-1]. Dla n=8: [-2^7, 2^7-1] = [-128, 127]. Lacznie 256 wartosci (2^8). |\n\nOdpowiedzi: a) F, b) F, c) P, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie zakresu U2**: Na 8 bitach max to 127 (nie 128). Niesymetrycznosc: |min| = |max|+1, bo zero zajmuje jedno miejsce po stronie dodatniej",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze float reprezentuje kazda liczbe**: IEEE 754 = skonczenie wiele bitow = skonczenie wiele wartosci. 0.1 NIE ma dokladnej reprezentacji binarnej",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

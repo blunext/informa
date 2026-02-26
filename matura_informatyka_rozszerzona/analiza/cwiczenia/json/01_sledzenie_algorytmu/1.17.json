@@ -1,0 +1,24 @@
+{
+  "id": "1.17",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: zliczanie z warunkiem (archetyp 5)",
+  "tagi": ["sledzenie-iteracyjne", "tablica-zliczanie"],
+  "tresc": "Dany jest algorytm:\n\n```\nfunkcja zliczPodzielne(T, n, k)\n    licznik := 0\n    dla i := 0, 1, ..., n-1:\n        jezeli T[i] mod k = 0:\n            licznik := licznik + 1\n    zwroc licznik\n```\n\nFunkcja zlicza elementy tablicy podzielne przez k.\n\n**Polecenie**: Oblicz wartosc `zliczPodzielne(T, 8, k)` dla tablicy T = [12, 5, 18, 7, 24, 10, 15, 36] i kazdej z podanych wartosci k. Dla jednego wybranego k wykonaj tabele sledzenia.\n\n| Lp. | k |\n|-----|---|\n| a)  | 3 |\n| b)  | 5 |\n| c)  | 6 |",
+  "wskazowki": [
+    "**Kierunek**: Dla kazdego elementu tablicy sprawdz, czy reszta z dzielenia przez k wynosi 0.",
+    "**Podejscie**: Przejdz tablice element po elemencie. Jesli T[i] mod k = 0, zwieksz licznik.",
+    "**Kluczowy krok**: a) Podzielne przez 3: 12, 18, 24, 15, 36 — policz je."
+  ],
+  "odpowiedz": "**a) zliczPodzielne(T, 8, 3)**\n\n| i | T[i] | T[i] mod 3 | =0? | licznik |\n|---|------|-----------|-----|--------|\n| 0 | 12 | 0 | tak | 1 |\n| 1 | 5 | 2 | nie | 1 |\n| 2 | 18 | 0 | tak | 2 |\n| 3 | 7 | 1 | nie | 2 |\n| 4 | 24 | 0 | tak | 3 |\n| 5 | 10 | 1 | nie | 3 |\n| 6 | 15 | 0 | tak | 4 |\n| 7 | 36 | 0 | tak | 5 |\n\nWynik: **5**\n\n**b) zliczPodzielne(T, 8, 5)**\n\nPodzielne przez 5: 5, 10, 15 → wynik: **3**\n\n**c) zliczPodzielne(T, 8, 6)**\n\nPodzielne przez 6: 12, 18, 24, 36 → wynik: **4**",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie podzielnosci z zawieraniem cyfry**: 15 mod 3 = 0 (podzielne), ale 10 mod 3 = 1 (niepodzielne) — nie wystarczy patrzec na cyfry",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Blad w obliczeniu mod**: np. 24 mod 6 = 4 zamiast poprawnego 24 mod 6 = 0",
+      "kara": "-1 pkt"
+    }
+  ]
+}

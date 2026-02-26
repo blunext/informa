@@ -1,0 +1,24 @@
+{
+  "id": "6.32",
+  "trudnosc": "srednie-trudne",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: porownanie brute-force z atakiem slownikowym",
+  "tagi": ["atak-brute-force", "szyfrowanie-symetryczne"],
+  "tresc": "Porownaj dwa typy atakow na hasla: brute-force i atak slownikowy.\n\n| Cecha | Brute-force | Atak slownikowy |\n|-------|------------|----------------|\n| Metoda | | |\n| Skutecznosc | | |\n| Obrona | | |",
+  "wskazowki": [
+    "**Kierunek**: Brute-force = wszystkie kombinacje. Slownikowy = znane hasla/slowa.",
+    "**Podejscie**: Brute-force gwarantuje znalezienie hasla (ale dlugo!). Slownikowy jest szybszy, ale nie znajdzie losowych hasel.",
+    "**Kluczowy krok**: Obrona przed brute-force: dlugie hasla. Obrona przed slownikowym: losowe hasla (nie slowa)."
+  ],
+  "odpowiedz": "| Cecha | Brute-force | Atak slownikowy |\n|-------|------------|----------------|\n| **Metoda** | Proba WSZYSTKICH mozliwych kombinacji znakow (a, b, ..., aa, ab, ...). Systematyczne sprawdzanie calej przestrzeni hasel. | Proba hasel z przygotowanej listy (slownika): popularne hasla, slowa z jezykow, warianty (Password1, p@ssw0rd, itp.). |\n| **Skutecznosc** | Gwarantuje znalezienie hasla, ale czas rosnie wykladniczo z dlugoscia. 8-znakowe (male litery): ~209 mld kombinacji. Dlugie hasla sa praktycznie niemozliwe do zlamania. | Szybki — slowniki maja 1-100 mln pozycji. Skuteczny przeciw popularnym haslom (90%+ uzytkownikow uzywa hasel ze slownika). Nieskuteczny przeciw losowym haslom. |\n| **Obrona** | **Dlugie hasla** (12+ znakow). Kazdy dodatkowy znak mnozy czas lamania x26-95. Blokada konta po N blednych probach. | **Losowe hasla** (nie slowa, nie imiona, nie daty). Menedzer hasel generuje losowe ciagi. Unikalne haslo dla kazdej uslugi. |",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze brute-force jest szybszy od slownikowego**: Brute-force jest WOLNIEJSZY (wszystkie kombinacje). Slownikowy jest szybszy (tylko znane hasla). Ale brute-force zawsze znajdzie haslo",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Brak rozroznienia obron**: Przed brute-force chroni DLUGOSC hasla. Przed slownikowym chroni LOSOWSC hasla. Rozne ataki = rozne obrony",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

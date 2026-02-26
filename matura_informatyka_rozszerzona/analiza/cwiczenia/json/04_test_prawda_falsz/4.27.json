@@ -1,0 +1,24 @@
+{
+  "id": "4.27",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: kompresja i formaty danych P/F",
+  "tagi": ["kompresja", "formaty-danych", "systemy-liczbowe"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Algorytm Huffmana tworzy kody prefiksowe — zaden kod nie jest prefiksem innego. | |\n| b) | Kodowanie RLE (Run-Length Encoding) jest efektywne dla danych z wieloma powtorzeniami. | |\n| c) | Format JSON moze przechowywac wylacznie dane tekstowe (napisy). | |\n| d) | 1 bajt = 10 bitow. | |",
+  "wskazowki": [
+    "**Kierunek**: Huffman = bezstratna kompresja z kodami prefiksowymi. RLE = kompresja powtorzen (np. AAAABBB → 4A3B).",
+    "**Podejscie**: JSON obsluguje napisy, liczby, wartosci logiczne, tablice i obiekty — nie tylko tekst.",
+    "**Kluczowy krok**: 1 bajt = 8 bitow (NIE 10). 1 kilobajt = 1024 bajty."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | Kodowanie Huffmana produkuje kody prefiksowe (prefix-free) — zaden kod znaku nie jest poczatkiem kodu innego znaku. Dzieki temu dekodowanie jest jednoznaczne. |\n| b) | **P** | RLE zamienia ciagi powtorzen na (liczba, znak): AAAAABBB → 5A3B. Efektywne dla danych z dlugimi seriami powtorzen (np. obrazy z duzymi jednolitymi obszarami). |\n| c) | **F** | JSON (JavaScript Object Notation) obsluguje wiele typow danych: napisy, liczby (calkowite i zmiennoprzecinkowe), wartosci logiczne (true/false), null, tablice i obiekty zagniezdzne. |\n| d) | **F** | 1 bajt = **8 bitow** (nie 10). 8 bitow moze reprezentowac 2^8 = 256 roznych wartosci. |\n\nOdpowiedzi: a) P, b) P, c) F, d) F",
+  "typowe_bledy": [
+    {
+      "opis": "**1 bajt = 10 bitow**: Bardzo czesty blad. 1 bajt = 8 bitow. Mylone z 1 KB = 1024 B (potega 2, nie 10)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze JSON to tylko tekst**: JSON to FORMAT tekstowy, ale PRZECHOWUJE rozne typy danych: liczby, boole, null, tablice, obiekty",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

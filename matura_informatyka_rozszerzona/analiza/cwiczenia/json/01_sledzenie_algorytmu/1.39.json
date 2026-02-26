@@ -1,0 +1,24 @@
+{
+  "id": "1.39",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: operacje bitowe — XOR i maskowanie",
+  "tagi": ["operacje-bitowe", "sledzenie-iteracyjne", "mod-div"],
+  "tresc": "Dany jest algorytm:\n\n```\nfunkcja szyfruj(a, b)\n    wynik := 0\n    mnoznik := 1\n    dopoki a > 0 OR b > 0:\n        bitA := a mod 2\n        bitB := b mod 2\n        jezeli bitA <> bitB:\n            wynik := wynik + mnoznik\n        mnoznik := mnoznik * 2\n        a := a div 2\n        b := b div 2\n    zwroc wynik\n```\n\n**Polecenie**:\n- a) Przelsdz `szyfruj(13, 10)`. Wypelnij tabele sledzenia z kolumnami: a, b, bitA, bitB, bitA<>bitB, wynik, mnoznik. (3 pkt)\n- b) Jaka operacje bitowa realizuje ten algorytm? (1 pkt)\n- c) Oblicz `szyfruj(255, 170)` bez pelnego sledzenia (podpowiedz: uzyj reprezentacji binarnej). (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Algorytm porownuje odpowiadajace sobie bity dwoch liczb. Gdy sie roznia — ustawia bit w wyniku.",
+    "**Podejscie**: 13 = 1101(2), 10 = 1010(2). Porownuj bit po bicie od prawej strony.",
+    "**Kluczowy krok**: To implementacja XOR: bit wyniku = 1 gdy bity wejsciowe rozne, 0 gdy takie same."
+  ],
+  "odpowiedz": "**a) Sledzenie szyfruj(13, 10):**\n\n13 = 1101(2), 10 = 1010(2)\n\n| Krok | a | b | bitA | bitB | bitA<>bitB? | wynik | mnoznik | a div 2 | b div 2 |\n|------|---|---|------|------|-----------|-------|---------|---------|---------|\n| 1 | 13 | 10 | 1 | 0 | tak | 0+1=1 | 2 | 6 | 5 |\n| 2 | 6 | 5 | 0 | 1 | tak | 1+2=3 | 4 | 3 | 2 |\n| 3 | 3 | 2 | 1 | 0 | tak | 3+4=7 | 8 | 1 | 1 |\n| 4 | 1 | 1 | 1 | 1 | nie | 7 | 16 | 0 | 0 |\n\nWynik: **7**\n\nWeryfikacja: 13 XOR 10 = 1101 XOR 1010 = 0111 = 7 ✓\n\n**b)** Algorytm realizuje operacje **XOR (alternatywa wylaczna)**: bit wyniku = 1 wtedy i tylko wtedy, gdy odpowiadajace bity a i b sa rozne.\n\n**c)** 255 = 11111111(2), 170 = 10101010(2)\n\n255 XOR 170 = 01010101(2) = 64+16+4+1 = **85**",
+  "typowe_bledy": [
+    {
+      "opis": "**Warunek OR w petli**: Petla kontynuuje dopoki a > 0 OR b > 0 (nie AND) — konczy sie gdy OBE liczby sa 0",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne obliczenie XOR**: bitA<>bitB oznacza 'rozne' (XOR=1), a bitA=bitB oznacza 'takie same' (XOR=0)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

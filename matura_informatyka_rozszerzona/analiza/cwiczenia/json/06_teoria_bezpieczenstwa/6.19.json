@@ -1,0 +1,20 @@
+{
+  "id": "6.19",
+  "trudnosc": "latwe",
+  "punkty": 1,
+  "zrodlo": "Wzorzec: podstawy RODO i danych osobowych",
+  "tagi": ["RODO", "socjotechnika"],
+  "tresc": "Ktore z ponizszych informacji sa danymi osobowymi w rozumieniu RODO (Rozporzadzenie o Ochronie Danych Osobowych)? Odpowiedz TAK lub NIE.\n\n| Lp. | Informacja | Dane osobowe? |\n|-----|-----------|---------------|\n| a) | Numer PESEL | |\n| b) | Ulubiony kolor | |\n| c) | Adres e-mail: jan.kowalski@firma.pl | |\n| d) | Adres IP komputera | |",
+  "wskazowki": [
+    "**Kierunek**: Dane osobowe = kazda informacja pozwalajaca zidentyfikowac osobe fizyczna (bezposrednio lub posrednio).",
+    "**Podejscie**: PESEL = jednoznaczna identyfikacja. Adres e-mail z imieniem i nazwiskiem = identyfikacja.",
+    "**Kluczowy krok**: Adres IP moze posrednio identyfikowac osobe — RODO uznaje go za dane osobowe!"
+  ],
+  "odpowiedz": "| Lp. | Informacja | Dane osobowe? | Uzasadnienie |\n|-----|-----------|---------------|-------------|\n| a) | Numer PESEL | **TAK** | PESEL jednoznacznie identyfikuje osobe (unikatowy numer). To dane osobowe szczegolnej kategorii. |\n| b) | Ulubiony kolor | **NIE** | Sam ulubiony kolor nie pozwala zidentyfikowac konkretnej osoby. Nie jest danym osobowym. |\n| c) | Adres e-mail jan.kowalski@firma.pl | **TAK** | Adres e-mail zawierajacy imie i nazwisko pozwala zidentyfikowac osobe. Nawet ogolny e-mail (np. xyz123@gmail.com) moze byc danym osobowym, jesli mozna go powiazac z osoba. |\n| d) | Adres IP komputera | **TAK** | Wedlug RODO adres IP jest danym osobowym, poniewaz moze posrednio identyfikowac osobe (np. przez dostawce internetu). |",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze adres IP nie jest danym osobowym**: RODO UZNAJE adres IP za dane osobowe (identyfikacja posrednia). To czesty blad na maturze",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -3,7 +3,7 @@
   "nazwa": "Sledzenie algorytmu",
   "kategoria": "TEORIA",
   "czestotliwosc": "11/11 lat",
-  "punkty_lacznie": 41,
+  "punkty_lacznie": 143,
   "tagi_globalne": [
     "mod-div",
     "cyfry-liczby",
@@ -140,6 +140,174 @@
         "sledzenie-iteracyjne",
         "tablica-pomocnicza"
       ]
+    },
+    {
+      "id": "1.13",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["mod-div", "cyfry-liczby", "sledzenie-iteracyjne"]
+    },
+    {
+      "id": "1.14",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["mod-div", "cyfry-liczby", "sledzenie-iteracyjne"]
+    },
+    {
+      "id": "1.15",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["rekurencja", "drzewo-wywolan"]
+    },
+    {
+      "id": "1.16",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["sledzenie-iteracyjne"]
+    },
+    {
+      "id": "1.17",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["sledzenie-iteracyjne", "tablica-zliczanie"]
+    },
+    {
+      "id": "1.18",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["sortowanie", "sledzenie-iteracyjne"]
+    },
+    {
+      "id": "1.19",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": ["mod-div", "cyfry-liczby", "sledzenie-iteracyjne"]
+    },
+    {
+      "id": "1.20",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["sledzenie-iteracyjne", "mod-div"]
+    },
+    {
+      "id": "1.21",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["rekurencja", "drzewo-wywolan"]
+    },
+    {
+      "id": "1.22",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["tablica-zliczanie", "sledzenie-iteracyjne", "tablica-pomocnicza"]
+    },
+    {
+      "id": "1.23",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": ["mod-div", "cyfry-liczby", "sledzenie-iteracyjne"]
+    },
+    {
+      "id": "1.24",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": ["sledzenie-iteracyjne", "tablica-pomocnicza"]
+    },
+    {
+      "id": "1.25",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["sortowanie", "sledzenie-iteracyjne", "tablica-pomocnicza"]
+    },
+    {
+      "id": "1.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["rekurencja", "drzewo-wywolan"]
+    },
+    {
+      "id": "1.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["stos", "sledzenie-iteracyjne"]
+    },
+    {
+      "id": "1.28",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["sledzenie-iteracyjne", "tablica-pomocnicza"]
+    },
+    {
+      "id": "1.29",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["operacje-bitowe", "sledzenie-iteracyjne", "mod-div"]
+    },
+    {
+      "id": "1.30",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["plansza-2D", "sledzenie-iteracyjne"]
+    },
+    {
+      "id": "1.31",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["sledzenie-iteracyjne", "tablica-pomocnicza"]
+    },
+    {
+      "id": "1.32",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": ["kolejka", "sledzenie-iteracyjne"]
+    },
+    {
+      "id": "1.33",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["rekurencja", "drzewo-wywolan", "tablica-pomocnicza"]
+    },
+    {
+      "id": "1.34",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["programowanie-dynamiczne", "sledzenie-iteracyjne", "tablica-pomocnicza"]
+    },
+    {
+      "id": "1.35",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["stos", "sledzenie-iteracyjne"]
+    },
+    {
+      "id": "1.36",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["sledzenie-iteracyjne", "tablica-pomocnicza", "sortowanie"]
+    },
+    {
+      "id": "1.37",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["plansza-2D", "sledzenie-iteracyjne", "stos"]
+    },
+    {
+      "id": "1.38",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["rekurencja", "drzewo-wywolan", "mod-div"]
+    },
+    {
+      "id": "1.39",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["operacje-bitowe", "sledzenie-iteracyjne", "mod-div"]
+    },
+    {
+      "id": "1.40",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": ["rekurencja", "drzewo-wywolan", "cyfry-liczby"]
     }
   ]
 }

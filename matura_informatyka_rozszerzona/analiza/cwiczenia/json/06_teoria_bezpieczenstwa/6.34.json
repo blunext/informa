@@ -1,0 +1,24 @@
+{
+  "id": "6.34",
+  "trudnosc": "srednie-trudne",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: czynniki uwierzytelniania w MFA",
+  "tagi": ["2FA", "atak-brute-force", "socjotechnika"],
+  "tresc": "Uwierzytelnianie wieloskladnikowe (MFA) wymaga co najmniej 2 z 3 kategorii czynnikow. Sklasyfikuj kazdy przyklad do odpowiedniej kategorii.\n\nKategorie: {cos co wiesz, cos co masz, cos czym jestes}.\n\n| Lp. | Przyklad | Kategoria |\n|-----|---------|----------|\n| a) | Haslo | |\n| b) | Odcisk palca | |\n| c) | Kod z aplikacji Google Authenticator | |\n| d) | Karta inteligentna (smart card) | |\n| e) | PIN | |\n| f) | Skan teczowki oka | |",
+  "wskazowki": [
+    "**Kierunek**: 3 kategorie: cos co WIESZ (haslo, PIN), cos co MASZ (telefon, token, karta), cos czym JESTES (biometria).",
+    "**Podejscie**: Silne 2FA laczy czynniki z ROZNYCH kategorii. Haslo + PIN = slabe (obie = 'cos co wiesz').",
+    "**Kluczowy krok**: Biometria = odcisk palca, twarz, glos, teczowka. Posiadanie = fizyczne urzadzenie. Wiedza = cos zapamietane."
+  ],
+  "odpowiedz": "| Lp. | Przyklad | Kategoria | Uzasadnienie |\n|-----|---------|----------|-------------|\n| a) | Haslo | **cos co wiesz** | Informacja zapamietana przez uzytkownika. Mozna ja zdobic przez phishing lub brute-force. |\n| b) | Odcisk palca | **cos czym jestes** | Cecha biometryczna — unikalna dla kazdego czlowieka. Trudna do podrobienia, ale niezmienialna (jesli wycieknie — nie da sie 'zmienic odcisku'). |\n| c) | Kod z Google Authenticator | **cos co masz** | Kod generowany przez aplikacje na FIZYCZNYM urzadzeniu (telefon). Atakujacy musiałby miec dostep do tego urzadzenia. |\n| d) | Karta inteligentna | **cos co masz** | Fizyczny przedmiot (karta z chipem). Wymaga fizycznego posiadania. |\n| e) | PIN | **cos co wiesz** | Krotkie haslo liczbowe — zapamietane przez uzytkownika. |\n| f) | Skan teczowki | **cos czym jestes** | Cecha biometryczna — wzor teczowki jest unikalny nawet u blizniakow jednojajowych. |\n\n**Uwaga**: Haslo + PIN = slabe 2FA (obie kategorie 'cos co wiesz'). Silne 2FA laczy ROZNE kategorie: np. haslo (wiesz) + kod SMS (masz).",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze kod SMS = 'cos co wiesz'**: Kod SMS/Authenticator = 'cos co MASZ' (telefon). Atakujacy musi miec fizyczny dostep do urzadzenia",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Mylenie 2FA z silnym haslem**: 2FA to DODATKOWY czynnik, nie silniejsze haslo. Haslo+PIN to NIE 2FA (ta sama kategoria 'wiedza')",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

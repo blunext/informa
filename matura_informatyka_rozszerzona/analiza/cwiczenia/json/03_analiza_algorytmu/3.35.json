@@ -1,0 +1,24 @@
+{
+  "id": "3.35",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: pesymistyczny przypadek quicksorta",
+  "tagi": ["sortowanie", "kontrprzyklad", "zlozonosc-czasowa"],
+  "tresc": "Algorytm quicksort z pivotem = pierwszy element tablicy:\n\n```\nfunkcja quicksort(tab, lewy, prawy)\n    jezeli lewy >= prawy: zakoncz\n    pivot := tab[lewy]\n    // partycjonowanie: elementy < pivot na lewo, >= na prawo\n    i := pozycja pivota po partycjonowaniu\n    quicksort(tab, lewy, i-1)\n    quicksort(tab, i+1, prawy)\n```\n\n**Polecenia**:\n- a) Podaj dane wejsciowe (tablice 5-elementowa), dla ktorych quicksort zachowuje sie pesymistycznie.\n- b) Pokaz partycjonowanie krok po kroku.\n- c) Udowodnij, ze pesymistyczna zlozonosc to O(n^2).",
+  "wskazowki": [
+    "**Kierunek**: Najgorszy przypadek to niezbalansowany podzial — pivot za kazdym razem jest najmniejszy lub najwiekszy.",
+    "**Podejscie**: Tablica juz posortowana: [1,2,3,4,5]. Pivot=1, partycja: [|1|2,3,4,5]. Podproblem zmniejsza sie o 1, nie o polowe.",
+    "**Kluczowy krok**: T(n) = T(n-1) + O(n). Rozwinięcie: T(n) = n + (n-1) + ... + 1 = n(n+1)/2 = O(n^2)."
+  ],
+  "odpowiedz": "**a) Pesymistyczne dane**: **[1, 2, 3, 4, 5]** (tablica juz posortowana rosnaco)\n\n**b) Partycjonowanie krok po kroku:**\n\nKrok 1: tab = [1,2,3,4,5], pivot = 1\nPartycja: elementy < 1: zadne. Elementy >= 1: [2,3,4,5].\nWynik: [1 | 2,3,4,5]. Lewa czesc pusta, prawa ma n-1 elementow.\n\nKrok 2: tab = [2,3,4,5], pivot = 2\nPartycja: [2 | 3,4,5]. Lewa pusta, prawa ma n-2 elementow.\n\nKrok 3: tab = [3,4,5], pivot = 3\nPartycja: [3 | 4,5].\n\nKrok 4: tab = [4,5], pivot = 4\nPartycja: [4 | 5].\n\nKazdy podział daje (0, n-k-1) zamiast (n/2, n/2).\n\n**c) Dowod O(n^2):**\n\nRownanie rekurencyjne: T(n) = T(0) + T(n-1) + cn = T(n-1) + cn\n\nRozwijanie:\nT(n) = cn + T(n-1) = cn + c(n-1) + T(n-2) = ... = c(n + (n-1) + ... + 1)\n= c * n(n+1)/2 = **O(n^2)**\n\nPorownanie: optymalny quicksort (zbalansowany podzial) to O(n log n), a pesymistyczny (posortowane dane) to O(n^2) — n razy wolniej.\n\n**Rozwiazanie problemu**: losowy wybor pivota lub pivot = mediana trzech elementow — eliminuje pesymistyczny przypadek dla posortowanych danych.",
+  "typowe_bledy": [
+    {
+      "opis": "**Kontrprzyklad z losowa tablica**: Losowa tablica daje srednio O(n log n). Pesymistyczny przypadek wymaga SPECJALNYCH danych (posortowane lub odwrotnie posortowane)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze quicksort jest zawsze O(n^2)**: To zlozonosc PESYMISTYCZNA. Srednia zlozonosc to O(n log n)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

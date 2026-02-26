@@ -1,0 +1,24 @@
+{
+  "id": "2.32",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: NWD tablicy liczb",
+  "tagi": ["NWD", "tablica", "iteracja", "C++"],
+  "tresc": "Napisz w C++ funkcje `nwd_tablicy(tab, n)`, ktora oblicza NWD (najwiekszy wspolny dzielnik) wszystkich n elementow tablicy `tab` (n >= 1, elementy > 0).\n\nWskazowka: NWD(a, b, c) = NWD(NWD(a, b), c).\n\n**Przyklady**:\n- `nwd_tablicy({12, 18, 24}, 3)` = 6\n- `nwd_tablicy({7, 14, 21}, 3)` = 7\n- `nwd_tablicy({5, 12}, 2)` = 1\n- `nwd_tablicy({42}, 1)` = 42",
+  "wskazowki": [
+    "**Kierunek**: NWD jest laczny: NWD(a,b,c) = NWD(NWD(a,b), c). Zredukuj tablice do jednej wartosci, stosujac NWD kolejno.",
+    "**Podejscie**: Najpierw napisz pomocnicza funkcje nwd(a,b) (Euklides). Potem: wynik := tab[0], dla i od 1 do n-1: wynik := nwd(wynik, tab[i]).",
+    "**Kluczowy krok**: Algorytm Euklidesa: `dopoki b<>0: temp:=b, b:=a mod b, a:=temp`. Zwroc a."
+  ],
+  "odpowiedz": "**C++:**\n\n```cpp\nint nwd(int a, int b) {\n    while (b != 0) {\n        int temp = b;\n        b = a % b;\n        a = temp;\n    }\n    return a;\n}\n\nint nwd_tablicy(int tab[], int n) {\n    int wynik = tab[0];\n    for (int i = 1; i < n; i++)\n        wynik = nwd(wynik, tab[i]);\n    return wynik;\n}\n```\n\n**Pseudokod:**\n\n```\nfunkcja nwd(a, b)\n    dopoki b <> 0:\n        temp := b\n        b := a mod b\n        a := temp\n    zwroc a\n\nfunkcja nwd_tablicy(tab, n)\n    wynik := tab[0]\n    dla i := 1, 2, ..., n-1:\n        wynik := nwd(wynik, tab[i])\n    zwroc wynik\n```\n\n**Weryfikacja**:\n- {12, 18, 24}: nwd(12,18)→nwd(18,12)→nwd(12,6)→nwd(6,0)=6, nwd(6,24)→nwd(24,6)→nwd(6,0)=6 → 6 ✓\n- {7, 14, 21}: nwd(7,14)→nwd(14,7)→nwd(7,0)=7, nwd(7,21)→nwd(21,7)→nwd(7,0)=7 → 7 ✓\n- {5, 12}: nwd(5,12)→nwd(12,5)→nwd(5,2)→nwd(2,1)→nwd(1,0)=1 → 1 ✓\n- {42}: n=1, petla nie rusza → 42 ✓\n\n**Zlozonosc**: O(n * log(max)) gdzie max to najwiekszy element tablicy.",
+  "typowe_bledy": [
+    {
+      "opis": "**Inicjalizacja wynik=1 zamiast wynik=tab[0]**: NWD(1, x)=1 zawsze — wynik zawsze bedzie 1, niezaleznie od danych",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledny algorytm Euklidesa (odejmowanie zamiast modulo)**: Wersja z odejmowaniem (a-b zamiast a%b) jest poprawna ale bardzo wolna dla duzych liczb",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "3.21",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: zlozonosc rekurencyjnego Fibonacciego",
+  "tagi": ["rekurencja", "drzewo-rekursji", "zlozonosc-czasowa"],
+  "tresc": "Rozważ rekurencyjna funkcje obliczajaca n-ty wyraz ciagu Fibonacciego:\n\n```\nfunkcja fib(n)\n    jezeli n <= 1:\n        zwroc n\n    zwroc fib(n-1) + fib(n-2)\n```\n\n**Polecenia**:\n- a) Narysuj drzewo wywolan dla fib(5). Ile razy zostanie wywolana fib(2)?\n- b) Jaka jest zlozonosc czasowa tej implementacji? Uzasadnij.\n- c) Dlaczego ta implementacja jest nieefektywna? Jak mozna ja usprawnić?",
+  "wskazowki": [
+    "**Kierunek**: Kazde wywolanie fib(n) generuje DWA kolejne wywolania. Drzewo wywolan rozrasta sie wykladniczo.",
+    "**Podejscie**: Drzewo fib(5): fib(5) → fib(4) + fib(3). fib(4) → fib(3) + fib(2). Te same wartosci sa obliczane wielokrotnie.",
+    "**Kluczowy krok**: Liczba wywolan rosnie jak ciag Fibonacciego — O(2^n) (dokladniej O(phi^n) gdzie phi = 1.618...)."
+  ],
+  "odpowiedz": "**a) Drzewo wywolan fib(5):**\n\n```\nfib(5)\n├── fib(4)\n│   ├── fib(3)\n│   │   ├── fib(2)\n│   │   │   ├── fib(1) = 1\n│   │   │   └── fib(0) = 0\n│   │   └── fib(1) = 1\n│   └── fib(2)\n│       ├── fib(1) = 1\n│       └── fib(0) = 0\n└── fib(3)\n    ├── fib(2)\n    │   ├── fib(1) = 1\n    │   └── fib(0) = 0\n    └── fib(1) = 1\n```\n\nfib(2) wywolana **3 razy**, fib(3) wywolana **2 razy**, fib(1) wywolana **5 razy**.\n\nLaczna liczba wywolan: **15**\n\n**b) Zlozonosc: O(2^n)**\n\nUzasadnienie: Rownanie rekurencyjne: T(n) = T(n-1) + T(n-2) + O(1). T(n) rosnie jak ciag Fibonacciego, ktory jest wykladniczy. Dokladniej T(n) = O(phi^n) gdzie phi = (1+sqrt(5))/2 ≈ 1.618, co jest ograniczone przez O(2^n).\n\n**c) Nieefektywnosc i usprawnienie:**\n\nProblem: **powtorne obliczenia** — te same wartosci (np. fib(2), fib(3)) sa obliczane wiele razy.\n\nUsprawnienie: **memoizacja** (zapamiętywanie wynikow w tablicy) lub **iteracja** (obliczanie od dolu: fib[0], fib[1], fib[2], ...). Obie metody daja O(n) zamiast O(2^n).",
+  "typowe_bledy": [
+    {
+      "opis": "**Zlozonosc O(n) lub O(n^2)**: Dwa wywolania rekurencyjne na kazdy poziom daja wykladniczy wzrost, nie wielomianowy",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak rysunku drzewa — odpowiedz z glowy**: Bez drzewa latwo pomylic sie w zliczaniu wywolan. fib(2) jest obliczana 3 razy, nie 2",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

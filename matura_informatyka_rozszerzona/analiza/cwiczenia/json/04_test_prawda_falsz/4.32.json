@@ -1,0 +1,24 @@
+{
+  "id": "4.32",
+  "trudnosc": "srednie-trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: przeszukiwanie grafow BFS/DFS P/F",
+  "tagi": ["grafy", "drzewa", "struktury-danych"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | BFS (przeszukiwanie wszerz) uzywa stosu do przechowywania wezlow do odwiedzenia. | |\n| b) | DFS (przeszukiwanie w glab) moze wykryc cykle w grafie skierowanym. | |\n| c) | BFS w grafie niewazoym znajduje najkrotsza sciezke (pod wzgledem liczby krawedzi) miedzy dwoma wezlami. | |\n| d) | Sortowanie topologiczne jest mozliwe dla kazdego grafu skierowanego. | |",
+  "wskazowki": [
+    "**Kierunek**: BFS = kolejka (FIFO), DFS = stos (LIFO) lub rekurencja. Nie myl struktur pomocniczych.",
+    "**Podejscie**: DFS z kolorowaniem wezlow (bialy/szary/czarny) wykrywa cykle: jesli napotkamy szary wezel, jest cykl.",
+    "**Kluczowy krok**: Sortowanie topologiczne wymaga DAG (graf skierowany acykliczny). Jesli graf ma cykl, sortowanie topologiczne jest NIEMOZLIWE."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **F** | BFS uzywa **kolejki (FIFO)**, nie stosu. Wezly sa dodawane na koniec kolejki i pobierane z poczatku — to zapewnia przeszukiwanie 'warstwa po warstwie'. DFS uzywa stosu (lub rekurencji). |\n| b) | **P** | DFS z klasyfikacja krawedzi moze wykryc cykle: jesli podczas DFS napotkamy wezel aktualnie na stosie (w trakcie przetwarzania / szary), to istnieje cykl. To krawedz wsteczna (back edge). |\n| c) | **P** | BFS odwiedza wezly warstwa po warstwie (najpierw odleglosc 1, potem 2, itd.). Dlatego pierwszy raz gdy dotrze do celu, jest to najkrotsza sciezka pod wzgledem liczby krawedzi. Dotyczy grafow NIEWAZONYCH. |\n| d) | **F** | Sortowanie topologiczne jest mozliwe TYLKO dla DAG (Directed Acyclic Graph). Jesli graf zawiera cykl (np. A→B→C→A), nie mozna ustalic liniowego porzadku — sortowanie topologiczne jest niemozliwe. |\n\nOdpowiedzi: a) F, b) P, c) P, d) F",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie kolejki ze stosem w BFS/DFS**: BFS = kolejka (FIFO), DFS = stos (LIFO). To fundamentalna roznica — zmiana struktury zmienia algorytm",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze sortowanie topologiczne dziala dla kazdego grafu**: Wymaga DAG. Cykl uniemozliwia sortowanie topologiczne — brak liniowego porzadku",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

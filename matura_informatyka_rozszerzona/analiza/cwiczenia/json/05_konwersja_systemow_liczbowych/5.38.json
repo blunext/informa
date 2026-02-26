@@ -1,0 +1,24 @@
+{
+  "id": "5.38",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: lancuch operacji w U2",
+  "tagi": ["uzupelnienie-do-2", "odejmowanie-binarne", "przeniesienia"],
+  "tresc": "Oblicz wyrazenie (-50) + 80 - 40 w kodzie U2 na 8 bitach. Wykonaj obliczenia krok po kroku, pokazujac kazda operacje oddzielnie.\n\nWskazowka: odejmowanie A - B = A + (-B), wiec zamien B na U2 i dodaj.",
+  "wskazowki": [
+    "**Kierunek**: Odejmowanie w U2 = dodawanie dopelnienia: A - B = A + (-B). Zamien B na U2 i dodaj.",
+    "**Podejscie**: Krok 1: oblicz (-50)+80. Krok 2: od wyniku odejmij 40 (dodaj -40 w U2).",
+    "**Kluczowy krok**: Sprawdzaj overflow po KAZDYM kroku! Jesli wynik posredni jest w zakresie [-128, 127], kontynuuj."
+  ],
+  "odpowiedz": "**Krok 1: (-50) + 80 = 30**\n\n-50 w U2: 50=00110010, neg=11001101, +1=**11001110**\n80 = **01010000**\n\n```\n  11001110\n+ 01010000\n----------\n(1)00011110\n```\n\nOdrzucamy carry. Wynik: 00011110 = **30** ✓\nSprawdzenie: -50+80=30. 30 in [-128,127] — brak overflow.\n\n**Krok 2: 30 - 40 = 30 + (-40) = -10**\n\n-40 w U2: 40=00101000, neg=11010111, +1=**11011000**\n30 = **00011110**\n\n```\n  00011110\n+ 11011000\n----------\n  11110110\n```\n\nWynik: 11110110\nInterpretacja U2: -128+64+32+16+4+2 = -128+118 = **-10** ✓\nSprawdzenie: 30-40=-10. -10 in [-128,127] — brak overflow.\n\n**Wynik koncowy: (-50) + 80 - 40 = -10**\nW U2 na 8 bitach: **11110110**",
+  "typowe_bledy": [
+    {
+      "opis": "**Wykonanie odejmowania zamiast dodania -B**: W U2 nie odejmujemy bezposrednio. Zamieniamy B na -B (U2) i DODAJEMY. A-B = A+(-B)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak sprawdzenia overflow w krokach posrednich**: Jesli krok posredni daje overflow, caly wynik jest bledny. Sprawdzaj po kazdym dodawaniu",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

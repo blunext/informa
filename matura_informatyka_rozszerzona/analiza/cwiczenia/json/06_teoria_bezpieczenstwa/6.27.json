@@ -1,0 +1,24 @@
+{
+  "id": "6.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: analiza wiadomosci phishingowej",
+  "tagi": ["phishing", "socjotechnika", "HTTPS"],
+  "tresc": "Przeanalizuj ponizszy e-mail i wskazj co najmniej 4 elementy sugerujace, ze jest to proba phishingu.\n\n---\nOd: serwis@bank-online24.com.pl.secure-login.xyz\nTemat: PILNE: Twoje konto zostalo zablokowane!\n\nSzanowny Kliencie,\n\nWykrylismy podejrzana aktywnosc na Twoim koncie bankowym. Jezeli nie potwierdzisz swoich danych w ciagu 24 godzin, Twoje konto zostanie trwale zamkniete.\n\nKliknij tutaj, aby potwierdzic dane: http://bank-online24-weryfikacja.xyz/login\n\nZ powazaniem,\nZespol Bezpieczenstwa Banku\n---",
+  "wskazowki": [
+    "**Kierunek**: Phishing = falszywa wiadomosc udajaca zaufana instytucje. Szukaj: adres nadawcy, link, naglenie, bledy.",
+    "**Podejscie**: Sprawdz domene nadawcy, domene linku, ton wiadomosci i zadane akcje.",
+    "**Kluczowy krok**: Banki NIGDY nie prosza o podanie hasel przez e-mail. To ZAWSZE phishing."
+  ],
+  "odpowiedz": "**Elementy wskazujace na phishing:**\n\n1. **Podejrzana domena nadawcy**: `bank-online24.com.pl.secure-login.xyz` — prawdziwa domena to `.xyz` (nie `.com.pl`!). Subdomena `bank-online24.com.pl` jest czescia domeny `.secure-login.xyz` i jest falszywa.\n\n2. **Link HTTP (nie HTTPS)**: `http://bank-online24-weryfikacja.xyz/login` — prawdziwy bank uzywalby HTTPS (szyfrowanego polaczenia). Domena `bank-online24-weryfikacja.xyz` nie nalezy do zadnego banku.\n\n3. **Taktyka naglenia (urgency)**: 'PILNE', 'w ciagu 24 godzin', 'trwale zamkniete' — typowa socjotechnika wywolujaca panika. Atakujacy chce, by ofiara dzialala bez zastanowienia.\n\n4. **Prosba o dane logowania**: Zadden prawdziwy bank nie prosi o potwierdzenie danych przez e-mail. To ZAWSZE phishing.\n\n5. **Ogolne zwroty**: 'Szanowny Kliencie' zamiast imienia i nazwiska — masowa wysylka, nie spersonalizowana wiadomosc.\n\n6. **Grozba zamknieciem konta**: Realne banki nie groza zamknieciem konta w e-mailu. Kontaktuja sie telefonicznie lub listownie.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pominiecie analizy domeny**: Domena nadawcy to NAJWAZNIEJSZY element weryfikacji. bank.com.pl.xyz to SUBDOMENA .xyz, nie .com.pl",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Nierozpoznanie taktyki naglenia**: Presja czasowa to standardowa technika socjotechniczna — wymusza dzialanie bez namyslu",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

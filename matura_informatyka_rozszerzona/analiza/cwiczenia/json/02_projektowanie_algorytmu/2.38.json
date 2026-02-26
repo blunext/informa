@@ -1,0 +1,24 @@
+{
+  "id": "2.38",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: wyszukiwanie podciagu w napisie (naive)",
+  "tagi": ["napisy", "iteracja", "warunek", "C++"],
+  "tresc": "Napisz w C++ funkcje `znajdz_podciag(tekst, wzorzec)`, ktora wyszukuje pierwsze wystapienie napisu `wzorzec` w napisie `tekst`. Funkcja zwraca indeks poczatku znalezionego wzorca lub -1 jesli wzorzec nie wystepuje.\n\n**Nie uzywaj funkcji bibliotecznych** (find, strstr itp.).\n\n**Przyklady**:\n- `znajdz_podciag(\"abcdef\", \"cde\")` = 2\n- `znajdz_podciag(\"aaab\", \"aab\")` = 1\n- `znajdz_podciag(\"hello\", \"xyz\")` = -1\n- `znajdz_podciag(\"aaa\", \"aaaa\")` = -1 (wzorzec dluzszy)",
+  "wskazowki": [
+    "**Kierunek**: Dla kazdej mozliwej pozycji poczatkowej i w tekscie, sprawdz czy znaki tekst[i], tekst[i+1], ..., tekst[i+m-1] odpowiadaja wzorcowi.",
+    "**Podejscie**: Petla zewnetrzna: i od 0 do n-m (n = dlugosc tekstu, m = dlugosc wzorca). Petla wewnetrzna: j od 0 do m-1, porownuj tekst[i+j] z wzorzec[j].",
+    "**Kluczowy krok**: Gorny zakres petli zewnetrznej to `n-m` (nie `n`!) — wzorzec nie moze zaczynac sie pozniej niz n-m pozycji od konca."
+  ],
+  "odpowiedz": "**C++:**\n\n```cpp\nint znajdz_podciag(string tekst, string wzorzec) {\n    int n = tekst.length();\n    int m = wzorzec.length();\n    for (int i = 0; i <= n - m; i++) {\n        bool pasuje = true;\n        for (int j = 0; j < m; j++) {\n            if (tekst[i + j] != wzorzec[j]) {\n                pasuje = false;\n                break;\n            }\n        }\n        if (pasuje) return i;\n    }\n    return -1;\n}\n```\n\n**Pseudokod:**\n\n```\nfunkcja znajdz_podciag(tekst, wzorzec)\n    n := dlugosc(tekst)\n    m := dlugosc(wzorzec)\n    dla i := 0, 1, ..., n-m:\n        pasuje := PRAWDA\n        dla j := 0, 1, ..., m-1:\n            jezeli tekst[i+j] <> wzorzec[j]:\n                pasuje := FALSZ\n                przerwij petle wewn.\n        jezeli pasuje:\n            zwroc i\n    zwroc -1\n```\n\n**Weryfikacja**:\n- \"abcdef\", \"cde\": i=0: a!=c→nie. i=1: b!=c→nie. i=2: c==c, d==d, e==e → pasuje → return 2 ✓\n- \"aaab\", \"aab\": i=0: a==a, a==a, b!=b→nie. i=1: a==a, a==a, b==b → return 1 ✓\n- \"hello\", \"xyz\": i=0: h!=x→nie. i=1: e!=x→nie. i=2: l!=x→nie → return -1 ✓\n- \"aaa\", \"aaaa\": n=3, m=4, n-m=-1, petla nie rusza → return -1 ✓\n\n**Zlozonosc**: O(n*m) w najgorszym przypadku, O(n) srednio.",
+  "typowe_bledy": [
+    {
+      "opis": "**Petla zewnetrzna do n zamiast n-m**: Odczyt tekst[i+j] wychodzi poza zakres napisu gdy i > n-m — UB w C++",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak break po znalezieniu niezgodnosci**: Bez break kontynuuje porownywanie po pierwszej roznice — poprawne ale nieefektywne, i moze nadpisac flage `pasuje`",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

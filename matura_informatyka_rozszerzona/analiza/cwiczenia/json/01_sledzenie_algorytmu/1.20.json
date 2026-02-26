@@ -1,0 +1,24 @@
+{
+  "id": "1.20",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: schemat Hornera (konwersja bin->dec)",
+  "tagi": ["sledzenie-iteracyjne", "mod-div"],
+  "tresc": "Dany jest algorytm:\n\n```\nfunkcja horner(T, n, baza)\n    wynik := 0\n    dla i := 0, 1, ..., n-1:\n        wynik := wynik * baza + T[i]\n    zwroc wynik\n```\n\n**Polecenie**: Przelsdz dzialanie `horner(T, n, baza)` dla kazdego z ponizszych wywolan. Dla wywolania a) wypelnij pelna tabele sledzenia.\n\n| Lp. | T | n | baza |\n|-----|---|---|------|\n| a)  | [1, 0, 1, 1] | 4 | 2 |\n| b)  | [2, 1, 3] | 3 | 10 |\n| c)  | [1, 1, 0, 0, 1] | 5 | 2 |",
+  "wskazowki": [
+    "**Kierunek**: Schemat Hornera oblicza wartosc wielomianu — tutaj konwertuje cyfry w danej bazie na wartosc dziesietna.",
+    "**Podejscie**: W kazdym kroku: wynik = wynik * baza + T[i]. Zaczyna od T[0] (najstarsza cyfra).",
+    "**Kluczowy krok**: a) 1011(2) = 11(10). Horner: 0*2+1=1, 1*2+0=2, 2*2+1=5, 5*2+1=11."
+  ],
+  "odpowiedz": "**a) horner([1, 0, 1, 1], 4, 2)**\n\n| Krok (i) | T[i] | wynik (przed) | wynik*baza+T[i] | wynik (po) |\n|----------|------|--------------|----------------|------------|\n| 0 | 1 | 0 | 0*2+1 | 1 |\n| 1 | 0 | 1 | 1*2+0 | 2 |\n| 2 | 1 | 2 | 2*2+1 | 5 |\n| 3 | 1 | 5 | 5*2+1 | 11 |\n\nWynik: **11** (= 1011 w systemie dwojkowym = 8+0+2+1 = 11)\n\n**b) horner([2, 1, 3], 3, 10)**\n\n- 0*10+2=2, 2*10+1=21, 21*10+3=213\n\nWynik: **213** (cyfry [2,1,3] w systemie dziesietnym = 213)\n\n**c) horner([1, 1, 0, 0, 1], 5, 2)**\n\n- 0*2+1=1, 1*2+1=3, 3*2+0=6, 6*2+0=12, 12*2+1=25\n\nWynik: **25** (= 11001 w systemie dwojkowym = 16+8+0+0+1 = 25)",
+  "typowe_bledy": [
+    {
+      "opis": "**Przetwarzanie tablicy od konca zamiast od poczatku**: Schemat Hornera zaczyna od T[0] (najstarsza cyfra), nie od T[n-1]",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Blad w kolejnosci operacji**: Najpierw mnozenie wynik*baza, POTEM dodawanie T[i]",
+      "kara": "-1 pkt"
+    }
+  ]
+}

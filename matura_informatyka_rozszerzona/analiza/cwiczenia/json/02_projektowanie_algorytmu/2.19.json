@@ -1,0 +1,24 @@
+{
+  "id": "2.19",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: odwracanie tablicy in-place",
+  "tagi": ["tablica", "iteracja", "C++"],
+  "tresc": "Napisz w C++ funkcje `odwroc(T, n)`, ktora odwraca tablice T o n elementach **w miejscu** (bez tworzenia nowej tablicy).\n\n**Ograniczenia**: Nie tworzyyj dodatkowej tablicy. Mozesz uzyc jednej zmiennej pomocniczej.\n\n**Przyklady**:\n- T = [1, 2, 3, 4, 5] -> [5, 4, 3, 2, 1]\n- T = [7, 3] -> [3, 7]\n- T = [42] -> [42] (jednoelementowa — bez zmian)",
+  "wskazowki": [
+    "**Kierunek**: Uzyj dwoch wskaznikow: jednego na poczatku, drugiego na koncu tablicy. Zamieniaj elementy i przesuwaj wskazniki ku sobie.",
+    "**Podejscie**: lewy := 0, prawy := n-1. Dopoki lewy < prawy: swap(T[lewy], T[prawy]), lewy++, prawy--.",
+    "**Kluczowy krok**: Petla wykonuje n/2 zamian. Dla tablicy nieparzystej srodkowy element zostaje na miejscu."
+  ],
+  "odpowiedz": "**C++:**\n\n```cpp\nvoid odwroc(int T[], int n) {\n    int lewy = 0;\n    int prawy = n - 1;\n    while (lewy < prawy) {\n        int temp = T[lewy];\n        T[lewy] = T[prawy];\n        T[prawy] = temp;\n        lewy++;\n        prawy--;\n    }\n}\n```\n\n**Pseudokod:**\n\n```\nfunkcja odwroc(T, n)\n    lewy := 0\n    prawy := n - 1\n    dopoki lewy < prawy:\n        temp := T[lewy]\n        T[lewy] := T[prawy]\n        T[prawy] := temp\n        lewy := lewy + 1\n        prawy := prawy - 1\n```\n\n**Weryfikacja**:\n- [1,2,3,4,5]: swap(1,5), swap(2,4), srodek 3 -> [5,4,3,2,1] ✓\n- [7,3]: swap(7,3) -> [3,7] ✓\n- [42]: lewy=0, prawy=0, 0 < 0 falsz, brak zamian -> [42] ✓",
+  "typowe_bledy": [
+    {
+      "opis": "**Warunek `lewy <= prawy`**: Przy rownosci (srodkowy element) swap jest zbedny ale nieszkodliwy. Jednak `<=` zamiast `<` to nie blad, tylko niepotrzebna iteracja",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Swap bez zmiennej temp**: `T[lewy] = T[prawy]; T[prawy] = T[lewy]` traci oryginalna wartosc T[lewy]",
+      "kara": "-1 pkt"
+    }
+  ]
+}

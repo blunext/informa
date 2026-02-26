@@ -1,0 +1,24 @@
+{
+  "id": "6.24",
+  "trudnosc": "srednie",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: porownanie protokolow bezpiecznych i niebezpiecznych",
+  "tagi": ["HTTPS", "FTP", "protokoly-sieciowe"],
+  "tresc": "Dla kazdej pary protokolow wyjasnij roznice pod wzgledem bezpieczenstwa. Wskazj, ktory jest bezpieczniejszy i dlaczego.\n\n| Lp. | Para protokolow | Roznica |\n|-----|-----------------|--------|\n| a) | HTTP vs HTTPS | |\n| b) | FTP vs SFTP | |\n| c) | Telnet vs SSH | |",
+  "wskazowki": [
+    "**Kierunek**: Kazda para to wersja nieszyfrowana vs szyfrowana tego samego protokolu.",
+    "**Podejscie**: HTTP + TLS/SSL = HTTPS. FTP + SSH = SFTP. Telnet + szyfrowanie = SSH.",
+    "**Kluczowy krok**: Nieszyfrowane protokoly przesylaja dane (w tym hasla!) jako tekst jawny — kazdy moze podejrzec."
+  ],
+  "odpowiedz": "| Lp. | Para | Roznica |\n|-----|------|---------|\n| a) | HTTP vs **HTTPS** | HTTP przesyla dane jako niezaszyfrowany tekst. **HTTPS** dodaje warstwe szyfrowania TLS/SSL — cala komunikacja jest szyfrowana. HTTPS chroni przed podsluchiwaniem (eavesdropping) i modyfikacja danych (man-in-the-middle). Ikona klodki w przegladarce = HTTPS. |\n| b) | FTP vs **SFTP** | FTP przesyla pliki i dane logowania jako **niezaszyfrowany tekst** (port 21). **SFTP** (SSH File Transfer Protocol) szyfruje cala sesje przez SSH (port 22). Hasla i pliki sa chronione. Istnieje tez FTPS (FTP + SSL) — rowniez szyfrowany. |\n| c) | Telnet vs **SSH** | Telnet przesyla WSZYSTKO (w tym hasla) jako tekst jawny (port 23). **SSH** (Secure Shell) szyfruje cala sesje (port 22). SSH jest standardem zdalnego dostepu — Telnet nie powinien byc nigdy uzywany w sieciach publicznych. |\n\n**Regula ogolna**: Wersja z 'S' (Secure) lub oparta na SSH jest zawsze bezpieczniejsza — dodaje szyfrowanie transmisji.",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze FTP jest szyfrowany**: Klasyczny FTP (port 21) jest NIESZYFROWANY. Szyfrowane wersje to SFTP (SSH) i FTPS (SSL)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Mylenie SFTP z FTPS**: SFTP = FTP przez SSH (port 22). FTPS = FTP + SSL/TLS (port 990). Oba szyfrowane, ale rozne protokoly",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

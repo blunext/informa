@@ -1,0 +1,24 @@
+{
+  "id": "1.32",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: BFS na drzewie zaimplementowanym jako tablica (kolejka)",
+  "tagi": ["kolejka", "sledzenie-iteracyjne"],
+  "tresc": "Dany jest algorytm przechodzenia drzewa binarnego zapisanego w tablicy (korzenat indeksie 1):\n\n```\nfunkcja sumaBFS(T, n)\n    Q := pusta kolejka\n    Q.push(1)\n    suma := 0\n    dopoki Q nie jest pusta:\n        i := Q.pop()\n        suma := suma + T[i]\n        lewy := 2 * i\n        prawy := 2 * i + 1\n        jezeli lewy <= n:\n            Q.push(lewy)\n        jezeli prawy <= n:\n            Q.push(prawy)\n    zwroc suma\n```\n\nDana jest tablica T (indeks 0 nieuzywany):\n```\nT = [_, 10, 6, 15, 3, 8, 12, 20]\n     0   1  2   3  4  5   6   7\n```\nn = 7 (elementy od T[1] do T[7]).\n\n**Polecenie**:\n- a) Narysuj drzewo binarne odpowiadajace tej tablicy (korzenat = T[1], dzieci wezla i to T[2i] i T[2i+1]). (1 pkt)\n- b) Przelsdz algorytm BFS. Podaj kolejnosc odwiedzania wezlow i stan kolejki po kazdym kroku. (2 pkt)\n- c) Jaki wynik zwroci algorytm? (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Kolejka (FIFO) odwiedza wezly poziom po poziomie (BFS). Korzenat T[1], jego dzieci T[2] i T[3], itd.",
+    "**Podejscie**: Pop z kolejki, dodaj do sumy, wrzuc dzieci (2*i i 2*i+1 jesli istnieja). Powtarzaj.",
+    "**Kluczowy krok**: Kolejnosc BFS: 10, 6, 15, 3, 8, 12, 20. Suma = 10+6+15+3+8+12+20 = 74."
+  ],
+  "odpowiedz": "**a) Drzewo binarne:**\n\n```\n        10 [1]\n       /      \\\n     6 [2]    15 [3]\n    / \\      /  \\\n  3[4] 8[5] 12[6] 20[7]\n```\n\n**b) Sledzenie BFS:**\n\n| Krok | pop(i) | T[i] | suma | push lewy(2i) | push prawy(2i+1) | Kolejka (po) |\n|------|--------|------|------|--------------|------------------|-------------|\n| 1 | 1 | 10 | 10 | push(2) | push(3) | [2, 3] |\n| 2 | 2 | 6 | 16 | push(4) | push(5) | [3, 4, 5] |\n| 3 | 3 | 15 | 31 | push(6) | push(7) | [4, 5, 6, 7] |\n| 4 | 4 | 3 | 34 | 8 > 7, skip | 9 > 7, skip | [5, 6, 7] |\n| 5 | 5 | 8 | 42 | 10 > 7, skip | 11 > 7, skip | [6, 7] |\n| 6 | 6 | 12 | 54 | 12 > 7, skip | 13 > 7, skip | [7] |\n| 7 | 7 | 20 | 74 | 14 > 7, skip | 15 > 7, skip | [] |\n\nKolejnosc odwiedzania: **10, 6, 15, 3, 8, 12, 20** (poziom po poziomie, od lewej do prawej)\n\n**c)** Wynik: **74** (suma wszystkich elementow drzewa: 10+6+15+3+8+12+20 = 74)",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie kolejki (FIFO) ze stosem (LIFO)**: Kolejka zdejmuje z poczatku (pierwszy wlozony = pierwszy wyjety), stos ze szczytu",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledne indeksy dzieci**: Lewy potomek wezla i to 2*i (nie 2*i-1), prawy to 2*i+1",
+      "kara": "-1 pkt"
+    }
+  ]
+}

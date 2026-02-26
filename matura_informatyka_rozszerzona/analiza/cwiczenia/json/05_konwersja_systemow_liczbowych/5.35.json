@@ -1,0 +1,24 @@
+{
+  "id": "5.35",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: konwersja duzych liczb hex wielocyfrowych",
+  "tagi": ["hex-bin", "bin-dec", "grupowanie-bitow"],
+  "tresc": "Zamien podane liczby szesnastkowe na systemy binarny, osemkowy i dziesietny.\n\n- a) 1FF(16)\n- b) 2BC(16)",
+  "wskazowki": [
+    "**Kierunek**: Hex→Bin: kazda cyfra hex = 4 bity. Potem bin→oct: grupuj po 3 od prawej.",
+    "**Podejscie**: Hex→Dec: mnoz cyfry przez potegi 16 (16^0=1, 16^1=16, 16^2=256).",
+    "**Kluczowy krok**: 1FF(16) = 256+255 = 511 = 2^9 - 1. Dlatego binarnie to 9 jedynek."
+  ],
+  "odpowiedz": "**a) 1FF(16) = 111111111(2) = 777(8) = 511(10)**\n\nHex→Bin: 1=0001, F=1111, F=1111 → 000111111111 → **111111111(2)** (9 bitow)\n\nBin→Oct: 111 | 111 | 111 → 7 | 7 | 7 = **777(8)**\nSprawdzenie: 7*64+7*8+7 = 448+56+7 = 511 ✓\n\nHex→Dec: 1*256 + 15*16 + 15 = 256+240+15 = **511**\n\nCiekawostka: 511 = 2^9 - 1, dlatego binarnie to 9 jedynek.\n\n**b) 2BC(16) = 1010111100(2) = 1274(8) = 700(10)**\n\nHex→Bin: 2=0010, B=1011, C=1100 → 001010111100 → **1010111100(2)**\n\nBin→Oct: 1 | 010 | 111 | 100 → 1 | 2 | 7 | 4 = **1274(8)**\nSprawdzenie: 1*512+2*64+7*8+4 = 512+128+56+4 = 700 ✓\n\nHex→Dec: 2*256 + 11*16 + 12 = 512+176+12 = **700**",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledne potegi 16**: 16^0=1, 16^1=16, 16^2=256 (nie 128!). Czesty blad: 16^2=128 (to 2^7)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Zle grupowanie bin→oct**: Grupuj po 3 od PRAWEJ. Dopelniaj zerami z LEWEJ. Przy 10-bitowej liczbie: grupy 1|010|111|100",
+      "kara": "-1 pkt"
+    }
+  ]
+}

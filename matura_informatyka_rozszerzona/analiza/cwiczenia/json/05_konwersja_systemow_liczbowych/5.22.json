@@ -1,0 +1,24 @@
+{
+  "id": "5.22",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: arytmetyka szesnastkowa",
+  "tagi": ["bin-hex", "hex-bin", "dodawanie-binarne"],
+  "tresc": "Wykonaj nastepujace operacje na liczbach szesnastkowych.\n\n- a) Dodaj: 2A(16) + 1F(16). Podaj wynik w systemie szesnastkowym i dziesietnym.\n- b) Zamien B5(16) na system dziesietny i binarny.\n- c) Dodaj: 3C(16) + 27(16). Podaj wynik w systemie szesnastkowym.",
+  "wskazowki": [
+    "**Kierunek**: Dodawanie hex: dodawaj cyfry od prawej. Jesli suma cyfr >= 16, zapisz reszte i przenies 1.",
+    "**Podejscie**: Dla konwersji: kazda cyfra hex = 4 bity. B5 = 1011 0101.",
+    "**Kluczowy krok**: A=10, B=11, C=12, D=13, E=14, F=15. Przy dodawaniu: A+F = 10+15 = 25 = 1 i 9 (przeniesienie)."
+  ],
+  "odpowiedz": "**a) 2A(16) + 1F(16) = 49(16) = 73(10)**\n\nCyfry od prawej: A + F = 10 + 15 = 25. 25 - 16 = 9, przeniesienie 1.\nNastepna: 2 + 1 + 1(carry) = 4.\n\n2A(16) + 1F(16) = **49(16)**\n\nSprawdzenie: 2A = 42, 1F = 31, 42+31 = 73. 49(16) = 4*16+9 = 73 ✓\n\n**b) B5(16) = 181(10) = 10110101(2)**\n\nDziesietnie: B5 = 11*16 + 5 = 176 + 5 = **181**\n\nBinarnie: B = 1011, 5 = 0101\nB5(16) = **10110101(2)**\n\nSprawdzenie: 128+32+16+4+1 = 181 ✓\n\n**c) 3C(16) + 27(16) = 63(16)**\n\nCyfry od prawej: C + 7 = 12 + 7 = 19. 19 - 16 = 3, przeniesienie 1.\nNastepna: 3 + 2 + 1(carry) = 6.\n\n3C(16) + 27(16) = **63(16)**\n\nSprawdzenie: 3C = 60, 27 = 39, 60+39 = 99. 63(16) = 6*16+3 = 99 ✓",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledne wartosci cyfr hex**: A=10, B=11, C=12, D=13, E=14, F=15. Czesty blad: C=14 (poprawnie 12)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Brak przeniesienia w dodawaniu hex**: Jezeli suma cyfr >= 16, trzeba odjac 16 i przeniesc 1. Np. A+F=25: zapisz 9, przenies 1",
+      "kara": "-1 pkt"
+    }
+  ]
+}

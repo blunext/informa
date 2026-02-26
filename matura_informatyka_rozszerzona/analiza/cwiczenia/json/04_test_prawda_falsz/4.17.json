@@ -1,0 +1,24 @@
+{
+  "id": "4.17",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: formaty danych i kompresja P/F",
+  "tagi": ["formaty-danych", "kompresja"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Format CSV przechowuje dane w postaci tabeli rozdzielonej przecinkami. | |\n| b) | Kompresja bezstratna pozwala odtworzyc oryginalne dane w 100%. | |\n| c) | Format JPEG uzywa kompresji bezstratnej. | |\n| d) | Plik ZIP moze zawierac wiele plikow skompresowanych w jednym archiwum. | |",
+  "wskazowki": [
+    "**Kierunek**: Rozroznij kompresje bezstratna (ZIP, PNG) od stratnej (JPEG, MP3). Bezstratna = 100% odtworzenie.",
+    "**Podejscie**: CSV = Comma-Separated Values. JPEG uzywa kompresji STRATNEJ (usuwa detale obrazu).",
+    "**Kluczowy krok**: JPEG celowo traci czesc informacji (niewidoczne detale) aby zmniejszyc rozmiar pliku."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | CSV (Comma-Separated Values) to format tekstowy, w ktorym wartosci sa oddzielone przecinkami, a wiersze znakami nowej linii. |\n| b) | **P** | Kompresja bezstratna (np. ZIP, PNG, FLAC) gwarantuje dokladne odtworzenie oryginalnych danych po dekompresji. |\n| c) | **F** | JPEG uzywa kompresji **stratnej** — celowo usuwa czesc informacji (malo widoczne detale) aby osiagnac wiekszy stopien kompresji. Format PNG uzywa kompresji bezstratnej. |\n| d) | **P** | ZIP to format archiwum, ktory moze pakowac wiele plikow i katalogow w jeden plik, stosujac kompresje bezstratna. |\n\nOdpowiedzi: a) P, b) P, c) F, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie JPEG z PNG**: JPEG = kompresja stratna (fotografie), PNG = bezstratna (grafika, loga). MP3 tez jest stratny (dzwiek)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze kompresja bezstratna nie traci danych bo nie kompresuje**: Bezstratna KOMPRESUJE (zmniejsza rozmiar) ale pozwala odtworzyc oryginalne dane",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

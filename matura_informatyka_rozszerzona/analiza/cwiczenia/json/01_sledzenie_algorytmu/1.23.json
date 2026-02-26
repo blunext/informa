@@ -1,0 +1,24 @@
+{
+  "id": "1.23",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: archetyp 6 (budowanie wyniku z cyfr parzystych)",
+  "tagi": ["mod-div", "cyfry-liczby", "sledzenie-iteracyjne"],
+  "tresc": "Dana jest funkcja:\n\n```\nfunkcja filtrujParzyste(n)\n    wynik := 0\n    mnoznik := 1\n    dopoki n > 0:\n        cyfra := n mod 10\n        jezeli cyfra mod 2 = 0:\n            wynik := wynik + cyfra * mnoznik\n            mnoznik := mnoznik * 10\n        n := n div 10\n    zwroc wynik\n```\n\nFunkcja buduje nowa liczbe skladajaca sie wylacznie z parzystych cyfr oryginalnej liczby (zachowujac kolejnosc).\n\n**Polecenie**: Oblicz wartosc `filtrujParzyste(n)` dla kazdej z podanych liczb. Dla jednej wybranej wypelnij pelna tabele sledzenia.\n\n| Lp. | n |\n|-----|---|\n| a)  | 28365 |\n| b)  | 1357 |\n| c)  | 2048 |",
+  "wskazowki": [
+    "**Kierunek**: Algorytm przetwarza cyfry od prawej (mod 10), ale mnoznik zapewnia prawidlowa kolejnosc w wyniku.",
+    "**Podejscie**: Dla kazdej cyfry: jesli parzysta — dodaj do wyniku z odpowiednim mnoznikiem. Jesli nieparzysta — pomin (mnoznik sie NIE zwieksza).",
+    "**Kluczowy krok**: a) Cyfry 28365: parzyste to 8, 2, 6. Od prawej: 6 (mnoznik 1), 8 (mnoznik 10)... Koncowy wynik: 286."
+  ],
+  "odpowiedz": "**a) filtrujParzyste(28365)**\n\n| Krok | n | cyfra | parzysta? | wynik | mnoznik | n (koniec) |\n|------|---|-------|----------|-------|---------|-----------|\n| 1 | 28365 | 5 | nie | 0 | 1 | 2836 |\n| 2 | 2836 | 6 | tak | 0+6*1=6 | 10 | 283 |\n| 3 | 283 | 3 | nie | 6 | 10 | 28 |\n| 4 | 28 | 8 | tak | 6+8*10=86 | 100 | 2 |\n| 5 | 2 | 2 | tak | 86+2*100=286 | 1000 | 0 |\n\nWynik: **286** (parzyste cyfry z 28365 to 2, 8, 6)\n\n**b) filtrujParzyste(1357)**\n\nCyfry: 7, 5, 3, 1 — wszystkie nieparzyste, zadna nie przechodzi filtra.\n\nWynik: **0**\n\n**c) filtrujParzyste(2048)**\n\n- cyfra 8 (parzysta): wynik=8, mnoznik=10\n- cyfra 4 (parzysta): wynik=8+4*10=48, mnoznik=100\n- cyfra 0 (parzysta): wynik=48+0*100=48, mnoznik=1000\n- cyfra 2 (parzysta): wynik=48+2*1000=2048, mnoznik=10000\n\nWynik: **2048** (wszystkie cyfry sa parzyste, wiec wynik = oryginalna liczba)",
+  "typowe_bledy": [
+    {
+      "opis": "**Zwiekszanie mnoznika nawet gdy cyfra nieparzysta**: Mnoznik rosnie TYLKO gdy cyfra przechodzi filtr — inaczej pozycje sie rozjezdzaja",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Cyfra 0 jako nieparzysta**: 0 mod 2 = 0, wiec 0 jest parzysta i przechodzi filtr",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

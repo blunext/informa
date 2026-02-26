@@ -1,0 +1,24 @@
+{
+  "id": "1.29",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: analiza binarna z pozycjami bitow",
+  "tagi": ["operacje-bitowe", "sledzenie-iteracyjne", "mod-div"],
+  "tresc": "Dany jest algorytm:\n\n```\nfunkcja sumaPozycji(n)\n    wynik := 0\n    pozycja := 0\n    dopoki n > 0:\n        jezeli n mod 2 = 1:\n            wynik := wynik + pozycja\n        pozycja := pozycja + 1\n        n := n div 2\n    zwroc wynik\n```\n\nAlgorytm analizuje reprezentacje binarna liczby n.\n\n**Polecenie**:\n- a) Przelsdz dzialanie `sumaPozycji(43)`. Wypelnij tabele sledzenia. (2 pkt)\n- b) Oblicz `sumaPozycji(16)` i `sumaPozycji(15)`. (1 pkt)\n- c) Co dokladnie oblicza ten algorytm? (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Algorytm sprawdza kolejne bity liczby n (od najmniej znaczacego). `n mod 2` daje aktualny bit, `n div 2` przesuwa na nastepny.",
+    "**Podejscie**: Sledz zmienne: n (maleje), pozycja (rosnie od 0), wynik (rosnie gdy bit=1).",
+    "**Kluczowy krok**: 43 = 101011(2). Jedynki na pozycjach 0, 1, 3, 5. Suma pozycji: 0+1+3+5 = 9."
+  ],
+  "odpowiedz": "**a) sumaPozycji(43):**\n\n43 w systemie dwojkowym: 101011\n\n| Krok | n | n mod 2 | bit=1? | pozycja | wynik | n div 2 |\n|------|---|---------|--------|---------|-------|---------|\n| 1 | 43 | 1 | tak | 0 | 0+0=0 | 21 |\n| 2 | 21 | 1 | tak | 1 | 0+1=1 | 10 |\n| 3 | 10 | 0 | nie | 2 | 1 | 5 |\n| 4 | 5 | 1 | tak | 3 | 1+3=4 | 2 |\n| 5 | 2 | 0 | nie | 4 | 4 | 1 |\n| 6 | 1 | 1 | tak | 5 | 4+5=9 | 0 |\n\nWynik: **9**\n\n**b)**\n- `sumaPozycji(16)`: 16 = 10000(2), jedynka na pozycji 4. Wynik: **4**\n- `sumaPozycji(15)`: 15 = 1111(2), jedynki na pozycjach 0, 1, 2, 3. Wynik: 0+1+2+3 = **6**\n\n**c)** Algorytm oblicza **sume pozycji bitowych, na ktorych w reprezentacji binarnej n stoi jedynka**. Pozycje liczone od 0 (bit najmniej znaczacy).",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie pozycji z wartoscia bitu**: Pozycja to numer bitu (0,1,2,...), nie wartosc potegi 2 (1,2,4,...)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledna reprezentacja binarna**: 43 = 101011, nie 101010 — trzeba dokladnie przeliczyc mod/div",
+      "kara": "-1 pkt"
+    }
+  ]
+}

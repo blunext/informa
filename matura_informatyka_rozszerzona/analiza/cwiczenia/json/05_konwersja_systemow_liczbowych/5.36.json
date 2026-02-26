@@ -1,0 +1,24 @@
+{
+  "id": "5.36",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: mnozenie binarne (long multiplication)",
+  "tagi": ["potegi-dwojki", "dodawanie-binarne"],
+  "tresc": "Wykonaj mnozenie binarne metoda 'dlugiego mnozenia' (analogicznie do mnozenia pisemnego w systemie dziesietnym).\n\n- a) 1011(2) * 110(2)\n- b) 1101(2) * 101(2)",
+  "wskazowki": [
+    "**Kierunek**: Mnozenie binarne: mnoz przez kazdy bit mnoznika (0 lub 1), przesuwaj w lewo, dodaj czesciowe iloczyny.",
+    "**Podejscie**: Mnozenie przez 0 = same zera. Mnozenie przez 1 = kopia mnoznej. Potem binarne dodawanie.",
+    "**Kluczowy krok**: Liczba czesciowych iloczynow = liczba bitow mnoznika. Kazdy kolejny przesuniety o 1 w lewo."
+  ],
+  "odpowiedz": "**a) 1011 * 110 (binarnie)**\n\n```\n        1 0 1 1\n      x   1 1 0\n      ---------\n        0 0 0 0    (1011 * 0)\n      1 0 1 1      (1011 * 1, przesuniete o 1)\n    1 0 1 1        (1011 * 1, przesuniete o 2)\n    -------------\n    1 0 0 0 0 1 0\n```\n\nDodawanie czesciowych iloczynow:\n  0000 + 10110 = 10110\n  10110 + 101100 = 1000010\n\nWynik: **1000010(2)**\n\nSprawdzenie dziesietnie: 11*6=66, wynik 1000010(2) = 64+2 = **66(10)** ✓\n\n**b) 1101 * 101 (binarnie)**\n\n```\n        1 1 0 1\n      x   1 0 1\n      ---------\n        1 1 0 1    (1101 * 1)\n      0 0 0 0      (1101 * 0, przesuniete o 1)\n    1 1 0 1        (1101 * 1, przesuniete o 2)\n    -------------\n    1 0 0 0 0 0 1\n```\n\nDodawanie: 1101 + 0 + 1101000 = 1000001\n\nWynik: **1000001(2)**\n\nSprawdzenie dziesietnie: 13*5=65, wynik 1000001(2) = 64+1 = **65(10)** ✓",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o przesunieciu**: Kazdy czesciowy iloczyn musi byc przesuniety o 1 pozycje w lewo wzgledem poprzedniego (jak w mnozeniu dziesietnym)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne dodawanie czesciowych iloczynow**: Przy dodawaniu 3 lub wiecej liczb binarnych, pamietaj o przeniesieniach. 1+1+1=11(2)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

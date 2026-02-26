@@ -1,0 +1,24 @@
+{
+  "id": "2.29",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: najdluzszy rosnacy podciag spojny",
+  "tagi": ["tablica", "podciag", "iteracja", "C++"],
+  "tresc": "Napisz w C++ funkcje `najdl_rosnacy(tab, n)`, ktora znajduje dlugosc najdluzszego spojnego podciagu scisle rosnacego w tablicy `tab` o `n` elementach.\n\n**Przyklady**:\n- `najdl_rosnacy({3,1,2,5,8,4,7}, 7)` = 4 (podciag: 1,2,5,8)\n- `najdl_rosnacy({5,4,3,2,1}, 5)` = 1 (brak rosnacego ciagu)\n- `najdl_rosnacy({1,2,3,4,5}, 5)` = 5 (cala tablica rosnaca)",
+  "wskazowki": [
+    "**Kierunek**: Przejdz tablice od lewej do prawej. Utrzymuj biezaca dlugosc ciagu rosnacego i maksymalna dotychczasowa.",
+    "**Podejscie**: `akt_dl = 1`, `max_dl = 1`. Dla i od 1 do n-1: jesli tab[i] > tab[i-1] → akt_dl++, wpp. akt_dl=1. Aktualizuj max_dl.",
+    "**Kluczowy krok**: Resetuj `akt_dl = 1` (nie 0!) gdy ciag sie przerywa — pojedynczy element to tez podciag dlugosci 1."
+  ],
+  "odpowiedz": "**C++:**\n\n```cpp\nint najdl_rosnacy(int tab[], int n) {\n    int max_dl = 1, akt_dl = 1;\n    for (int i = 1; i < n; i++) {\n        if (tab[i] > tab[i - 1])\n            akt_dl++;\n        else\n            akt_dl = 1;\n        if (akt_dl > max_dl)\n            max_dl = akt_dl;\n    }\n    return max_dl;\n}\n```\n\n**Pseudokod:**\n\n```\nfunkcja najdl_rosnacy(tab, n)\n    max_dl := 1\n    akt_dl := 1\n    dla i := 1, 2, ..., n-1:\n        jezeli tab[i] > tab[i-1]:\n            akt_dl := akt_dl + 1\n        w przeciwnym razie:\n            akt_dl := 1\n        jezeli akt_dl > max_dl:\n            max_dl := akt_dl\n    zwroc max_dl\n```\n\n**Weryfikacja**:\n- {3,1,2,5,8,4,7}: i=1(1<3→akt=1), i=2(2>1→akt=2,max=2), i=3(5>2→akt=3,max=3), i=4(8>5→akt=4,max=4), i=5(4<8→akt=1), i=6(7>4→akt=2) → max=4 ✓\n- {5,4,3,2,1}: kazdy kolejny mniejszy → akt=1 zawsze → max=1 ✓\n- {1,2,3,4,5}: kazdy kolejny wiekszy → akt rosnie 2,3,4,5 → max=5 ✓\n\n**Zlozonosc**: O(n) — jeden przejazd po tablicy.",
+  "typowe_bledy": [
+    {
+      "opis": "**Reset akt_dl = 0 zamiast 1**: Pojedynczy element to podciag dlugosci 1, nie 0. Wynik bedzie o 1 za maly",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Porownanie >= zamiast >**: Podciag SCISLE rosnacy wymaga tab[i] > tab[i-1], nie >=. Z >= rowne sasiednie elementy wydluzaja ciag",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

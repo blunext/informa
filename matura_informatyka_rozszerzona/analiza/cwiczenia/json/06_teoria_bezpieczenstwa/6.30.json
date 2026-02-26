@@ -1,0 +1,24 @@
+{
+  "id": "6.30",
+  "trudnosc": "srednie-trudne",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: typy atakow sieciowych",
+  "tagi": ["protokoly-sieciowe", "firewall", "HTTPS"],
+  "tresc": "Dopasuj nazwe ataku sieciowego do jego opisu. Wybierz ze zbioru: {DDoS, Man-in-the-Middle (MitM), SQL Injection, Cross-Site Scripting (XSS)}.\n\n| Lp. | Opis ataku | Nazwa |\n|-----|-----------|------|\n| a) | Atakujacy wstrzykuje zlosliwy kod JavaScript na strone internetowa, ktory jest wykonywany w przegladarce ofiary. | |\n| b) | Atakujacy umieszcza sie miedzy klientem a serwerem, przechwytujac i ewentualnie modyfikujac komunikacje. | |\n| c) | Tysiace zainfekowanych komputerow (botnet) jednoczesnie bombarduja serwer zapytaniami, uniemozliwiajac jego dzialanie. | |\n| d) | Atakujacy wstawia zlosliwy kod SQL do formularza logowania, by uzyskac nieautoryzowany dostep do bazy danych. | |",
+  "wskazowki": [
+    "**Kierunek**: DDoS = przeciazenie (Distributed Denial of Service). MitM = podsluchiwanie. SQL Injection = baza danych. XSS = JavaScript w przegladarce.",
+    "**Podejscie**: DDoS = 'wiele komputerow atakuje'. MitM = 'atakujacy posrodku'. SQLi = 'formularz + baza'. XSS = 'skrypt w przegladarce'.",
+    "**Kluczowy krok**: MitM jest mozliwy w nieszyfrowanych polaczeniach (HTTP). HTTPS chroni przed MitM."
+  ],
+  "odpowiedz": "| Lp. | Nazwa | Uzasadnienie |\n|-----|-------|--------------|\n| a) | **XSS (Cross-Site Scripting)** | Atakujacy wstrzykuje JavaScript na strone (np. w komentarzu). Gdy inny uzytkownik wchodzi na strone, zlosliwy skrypt wykonuje sie w jego przegladarce — moze krasc ciasteczka sesji, przekierowywac na falszywe strony, itp. |\n| b) | **MitM (Man-in-the-Middle)** | Atakujacy umieszcza sie miedzy klientem a serwerem, przechwytujac komunikacje. Moze czytac i modyfikowac dane. HTTPS z certyfikatem chroni przed MitM (szyfrowanie + weryfikacja tozsamosci). |\n| c) | **DDoS** | Distributed Denial of Service: siec zainfekowanych komputerow (botnet) zalewa serwer zapytaniami. Serwer nie jest w stanie obsluzyc legalnych uzytkownikow. Obrona: filtrowanie ruchu, CDN, skalowanie. |\n| d) | **SQL Injection** | Atakujacy wstawia kod SQL do pola formularza (np. `' OR 1=1 --`). Jesli aplikacja nie waliduje danych wejsciowych, zlosliwy SQL zostanie wykonany na bazie danych. Obrona: parametryzowane zapytania (prepared statements). |",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie DDoS z DoS**: DoS = atak z jednego zrodla. DDoS = z wielu zrodel (botnet). Na maturze pytaja zwykle o DDoS (rozproszony)",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Mylenie XSS z SQL Injection**: XSS = wstrzykniety JavaScript (w przegladarce ofiary). SQLi = wstrzykniety SQL (w bazie danych serwera). Rozne cele i skutki",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

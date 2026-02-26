@@ -1,0 +1,24 @@
+{
+  "id": "5.15",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: podstawowe konwersje bin→dec",
+  "tagi": ["bin-dec", "potegi-dwojki"],
+  "tresc": "Zamien podane liczby z systemu binarnego na dziesietny. Pokaz obliczenia z uzyciem poteg dwojki.\n\n| Lp. | Liczba binarna |\n|-----|----------------|\n| a)  | 1011(2) |\n| b)  | 11010(2) |\n| c)  | 111000(2) |",
+  "wskazowki": [
+    "**Kierunek**: Kazda pozycja ma wage bedaca potega dwojki: od prawej: 2^0=1, 2^1=2, 2^2=4, ...",
+    "**Podejscie**: Pomnoz kazda cyfre binarna przez odpowiadajaca potege dwojki i zsumuj.",
+    "**Kluczowy krok**: Dodawaj tylko te potegi, gdzie stoi 1. Zera pomijaj."
+  ],
+  "odpowiedz": "**a) 1011(2) = 11(10)**\n\n1*2^3 + 0*2^2 + 1*2^1 + 1*2^0 = 8 + 0 + 2 + 1 = **11**\n\n**b) 11010(2) = 26(10)**\n\n1*2^4 + 1*2^3 + 0*2^2 + 1*2^1 + 0*2^0 = 16 + 8 + 0 + 2 + 0 = **26**\n\n**c) 111000(2) = 56(10)**\n\n1*2^5 + 1*2^4 + 1*2^3 + 0*2^2 + 0*2^1 + 0*2^0 = 32 + 16 + 8 + 0 + 0 + 0 = **56**",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledne potegi dwojki**: Czesty blad: 2^5=36 (poprawnie 32) lub 2^6=62 (poprawnie 64). Naucz sie poteg na pamiec",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Czytanie od zlej strony**: Bity czytamy od LEWEJ (najstarszy bit ma najwyzsza wage), potegi rosna od prawej strony",
+      "kara": "-1 pkt"
+    }
+  ]
+}

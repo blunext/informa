@@ -1,0 +1,24 @@
+{
+  "id": "3.28",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: stabilnosc sortowania — kontrprzyklad",
+  "tagi": ["kontrprzyklad", "sortowanie", "zlozonosc-czasowa"],
+  "tresc": "Sortowanie jest **stabilne** jesli nie zmienia wzglednej kolejnosci elementow o rownych kluczach.\n\n**Polecenia**:\n- a) Podaj kontrprzyklad pokazujacy, ze sortowanie przez wybor (selection sort) NIE jest stabilne. Uzyj tablicy 3-elementowej.\n- b) Wyjasnij, dlaczego sortowanie babelkowe (bubble sort) JEST stabilne.\n- c) Czy sortowanie przez wstawianie (insertion sort) jest stabilne? Uzasadnij.",
+  "wskazowki": [
+    "**Kierunek**: Kontrprzyklad wymaga elementow o rownych kluczach. Oznacz je np. 2a i 2b, by sledzic ich kolejnosc.",
+    "**Podejscie**: Selection sort: tablica [2a, 2b, 1]. Znajdz minimum (1) i zamien z tab[0]=2a. Wynik: [1, 2b, 2a] — 2a i 2b zamienily sie miejscami!",
+    "**Kluczowy krok**: Zamiana (swap) na odleglosc moze 'przeskoczyc' rowne elementy. Bubble sort zamienia tylko sasiednie elementy."
+  ],
+  "odpowiedz": "**a) Kontrprzyklad dla selection sort:**\n\nTablica: [**2a**, **2b**, 1] (2a i 2b to dwie dwojki, a i b oznaczaja ich poczatkowa kolejnosc)\n\nKrok 1: Znajdz minimum w [0..2] → minimum to 1 na pozycji 2. Zamien tab[0] z tab[2]:\n[**2a**, **2b**, 1] → [1, **2b**, **2a**]\n\nKrok 2: Znajdz minimum w [1..2] → minimum to 2a na pozycji 2. Nie zamieniaj (2b <= 2a).\nWynik: [1, **2b**, **2a**]\n\nW wyniku **2b** jest przed **2a**, ale w oryginale **2a** bylo przed **2b**. Kolejnosc rownych elementow sie zmienila → **NIESTABILNE**.\n\n**b) Bubble sort jest stabilny:**\n\nBubble sort zamienia sasiednie elementy TYLKO gdy tab[i] > tab[i+1] (ostry znak >). Jesli tab[i] = tab[i+1], NIE zamienia ich. Dzieki temu rowne elementy nigdy nie zmienia wzglednej kolejnosci.\n\n**c) Insertion sort jest stabilny:**\n\nTAK, jesli przy wstawianiu przesuwamy elementy SCISLE wieksze (>), a nie wieksze-lub-rowne (>=). Element jest wstawiany za ostatnim rownym, wiec zachowuje poczatkowa kolejnosc rownych kluczy.",
+  "typowe_bledy": [
+    {
+      "opis": "**Kontrprzyklad bez elementow rownych**: Stabilnosc dotyczy TYLKO elementow o rownych kluczach. Przyklad [3,1,2] nie pokazuje niestabilnosci",
+      "kara": "-1.5 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze insertion sort jest niestabilny**: Jest stabilny (w standardowej implementacji z >). Bylby niestabilny tylko przy >= w warunku przesuwania",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

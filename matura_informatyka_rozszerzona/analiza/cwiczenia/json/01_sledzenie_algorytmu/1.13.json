@@ -1,0 +1,24 @@
+{
+  "id": "1.13",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: archetyp mod/div (zliczanie cyfr)",
+  "tagi": ["mod-div", "cyfry-liczby", "sledzenie-iteracyjne"],
+  "tresc": "Dana jest funkcja:\n\n```\nfunkcja liczbaCyfr(n)\n    licznik := 0\n    dopoki n > 0:\n        licznik := licznik + 1\n        n := n div 10\n    zwroc licznik\n```\n\nFunkcja oblicza liczbe cyfr podanej liczby naturalnej.\n\n**Polecenie**: Oblicz wartosc `liczbaCyfr(n)` dla kazdej z podanych liczb. Dla jednej wybranej liczby wykonaj tabele sledzenia zmiennych.\n\n| Lp. | n |\n|-----|---|\n| a)  | 3075 |\n| b)  | 100 |\n| c)  | 7 |",
+  "wskazowki": [
+    "**Kierunek**: Zastanow sie, co robi `n div 10` — obcina ostatnia cyfre. Ile razy trzeba obciac, zeby dojsc do 0?",
+    "**Podejscie**: W kazdym kroku petli: zwieksz licznik o 1, potem podziel n przez 10 (dzielenie calkowite).",
+    "**Kluczowy krok**: Liczba iteracji petli = liczba cyfr. Dla n = 3075: cztery obciecia (3075 -> 307 -> 30 -> 3 -> 0)."
+  ],
+  "odpowiedz": "**a) liczbaCyfr(3075)**\n\n| Krok | n (poczatek) | licznik | n (koniec) |\n|------|-------------|---------|------------|\n| 1 | 3075 | 1 | 307 |\n| 2 | 307 | 2 | 30 |\n| 3 | 30 | 3 | 3 |\n| 4 | 3 | 4 | 0 |\n\nWynik: **4**\n\n**b) liczbaCyfr(100)**\n\n- 100 -> licznik=1, n=10\n- 10 -> licznik=2, n=1\n- 1 -> licznik=3, n=0\n\nWynik: **3**\n\n**c) liczbaCyfr(7)**\n\n- 7 -> licznik=1, n=0\n\nWynik: **1**",
+  "typowe_bledy": [
+    {
+      "opis": "**Zapomnienie o n=0 po ostatnim div**: Petla konczy sie gdy n=0, nie gdy n jest jednocyfrowe",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Mylenie div z mod**: div 10 obcina ostatnia cyfre, mod 10 wyodrebnia ja",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "3.16",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: zlozonosc prostej rekurencji",
+  "tagi": ["rekurencja", "zlozonosc-czasowa", "O-notacja"],
+  "tresc": "Jaka jest zlozonosc czasowa ponizszej funkcji rekurencyjnej? Ile razy zostanie wywolana dla n = 5?\n\n```\nfunkcja f(n)\n    jezeli n <= 0:\n        zwroc 0\n    zwroc 1 + f(n - 1)\n```",
+  "wskazowki": [
+    "**Kierunek**: Funkcja wywoluje sama siebie raz z argumentem o 1 mniejszym. To liniowy lancuch wywolan.",
+    "**Podejscie**: Policz: f(5) → f(4) → f(3) → f(2) → f(1) → f(0). Ile wywolan?",
+    "**Kluczowy krok**: n+1 wywolan (od n do 0 wlacznie). Zlozonosc: O(n)."
+  ],
+  "odpowiedz": "**Lancuch wywolan dla n=5:**\n\nf(5) → f(4) → f(3) → f(2) → f(1) → f(0)\n\nLiczba wywolan: **6** (od f(5) do f(0) wlacznie)\n\nWynik: f(5) = 1 + 1 + 1 + 1 + 1 + 0 = 5\n\n**Zlozonosc**: **O(n)**\n\nUzasadnienie: Funkcja wywoluje sie raz z argumentem n-1, co daje lancuch n+1 wywolan. Kazde wywolanie wykonuje stala ilosc pracy (porownanie, dodawanie). Stad zlozonosc liniowa O(n).\n\nRownanie rekurencyjne: T(n) = T(n-1) + O(1), T(0) = O(1) → T(n) = O(n).",
+  "typowe_bledy": [
+    {
+      "opis": "**Odpowiedz O(2^n)**: Dwa wywolania rekurencyjne daja O(2^n), ale tu jest JEDNO wywolanie — to O(n)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pominiecie wywolania f(0)**: f(0) to tez wywolanie (zwraca 0). Razem jest n+1 wywolan, nie n",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

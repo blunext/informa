@@ -1,0 +1,24 @@
+{
+  "id": "3.13",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Wzorzec: dopasowanie algorytmu do zlozonosci",
+  "tagi": ["zlozonosc-czasowa", "O-notacja", "sortowanie", "przeszukiwanie-binarne"],
+  "tresc": "Dopasuj kazdy z ponizszych algorytmow do jego pesymistycznej zlozonosci czasowej ze zbioru: {O(1), O(log n), O(n), O(n log n), O(n^2)}.\n\n**Algorytmy**:\n- A) Wyszukiwanie liniowe w nieposortowanej tablicy\n- B) Sortowanie babelkowe (bubble sort)\n- C) Wyszukiwanie binarne w posortowanej tablicy\n- D) Sortowanie przez scalanie (merge sort)",
+  "wskazowki": [
+    "**Kierunek**: Zastanow sie ile operacji (porownan) wykonuje kazdy algorytm w najgorszym przypadku dla tablicy n-elementowej.",
+    "**Podejscie**: Liniowe = przejrzec wszystko raz. Babelkowe = n razy przejrzec cala tablice. Binarne = polowic zakres. Scalanie = dziel i rzadz.",
+    "**Kluczowy krok**: Sortowania porownawcze nie moga byc szybsze niz O(n log n). Merge sort jest optymalny, bubble sort jest jednym z najwolniejszych."
+  ],
+  "odpowiedz": "- **A) Wyszukiwanie liniowe**: **O(n)** — w najgorszym przypadku przeglada wszystkie n elementow\n- **B) Sortowanie babelkowe**: **O(n^2)** — n przejsc po tablicy, kazde porownuje do n par\n- **C) Wyszukiwanie binarne**: **O(log n)** — w kazdym kroku zakres zmniejsza sie o polowe\n- **D) Sortowanie przez scalanie**: **O(n log n)** — dzieli tablice na pol (log n poziomow), na kazdym scalanie O(n)\n\n**Hierarchia szybkosci** (od najszybszej): O(1) < O(log n) < O(n) < O(n log n) < O(n^2).",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie O(n) z O(n log n)**: Wyszukiwanie liniowe to O(n), nie O(n log n). Logarytm pojawia sie przy DZIELENIU zakresu, nie przy przegladaniu",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Twierdzenie ze bubble sort to O(n)**: Optymistyczny przypadek (tablica posortowana) moze byc O(n), ale pesymistyczny to O(n^2)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

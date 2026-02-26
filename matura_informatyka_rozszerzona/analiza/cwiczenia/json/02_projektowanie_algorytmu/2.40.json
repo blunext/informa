@@ -1,0 +1,24 @@
+{
+  "id": "2.40",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: najdluzszy wspolny podciag (LCS) — programowanie dynamiczne",
+  "tagi": ["tablica", "podciag", "zlozonosc", "C++"],
+  "tresc": "Napisz w C++ funkcje `lcs(a, b)`, ktora oblicza dlugosc najdluzszego wspolnego podciagu (nie musi byc spojny) dwoch napisow `a` i `b` metoda programowania dynamicznego.\n\n**Przyklady**:\n- `lcs(\"ABCB\", \"BDCAB\")` = 3 (wspolny podciag: \"BCB\")\n- `lcs(\"ABC\", \"AC\")` = 2 (wspolny podciag: \"AC\")\n- `lcs(\"ABC\", \"DEF\")` = 0 (brak wspolnych znakow)",
+  "wskazowki": [
+    "**Kierunek**: Tablica 2D dp[i][j] = dlugosc LCS dla a[0..i-1] i b[0..j-1]. Wypelniaj wiersz po wierszu.",
+    "**Podejscie**: Jezeli a[i-1]==b[j-1]: dp[i][j] = dp[i-1][j-1]+1. Wpp: dp[i][j] = max(dp[i-1][j], dp[i][j-1]). Baza: dp[0][j]=0 i dp[i][0]=0.",
+    "**Kluczowy krok**: Indeksowanie: dp jest 1-indeksowane (rozmiar (n+1)x(m+1)), ale napisy 0-indeksowane — porownuj a[i-1] z b[j-1]."
+  ],
+  "odpowiedz": "**C++:**\n\n```cpp\nint lcs(string a, string b) {\n    int n = a.length(), m = b.length();\n    int dp[101][101] = {};\n    for (int i = 1; i <= n; i++) {\n        for (int j = 1; j <= m; j++) {\n            if (a[i - 1] == b[j - 1])\n                dp[i][j] = dp[i - 1][j - 1] + 1;\n            else\n                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);\n        }\n    }\n    return dp[n][m];\n}\n```\n\n**Weryfikacja**:\n- lcs(\"ABC\", \"AC\"): tablica dp:\n  ```\n       \"\"  A  C\n  \"\"    0  0  0\n  A     0  1  1\n  B     0  1  1\n  C     0  1  2\n  ```\n  dp[3][2] = 2 (podciag \"AC\") ✓\n- lcs(\"ABCB\", \"BDCAB\"): tablica dp:\n  ```\n       \"\"  B  D  C  A  B\n  \"\"    0  0  0  0  0  0\n  A     0  0  0  0  1  1\n  B     0  1  1  1  1  2\n  C     0  1  1  2  2  2\n  B     0  1  1  2  2  3\n  ```\n  dp[4][5] = 3 (podciag \"BCB\") ✓\n- lcs(\"ABC\", \"DEF\"): zadne znaki wspolne → dp[3][3] = 0 ✓\n\n**Zlozonosc**: O(n*m) czas i pamiec.",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownanie a[i] z b[j] zamiast a[i-1] z b[j-1]**: Tablica dp jest 1-indeksowana, napisy 0-indeksowane — przesuniecie o 1",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak inicjalizacji zerowego wiersza/kolumny**: dp[0][j]=0 i dp[i][0]=0 to baza DP — bez niej wartosci sa niezdefiniowane (UB)",
+      "kara": "-1.5 pkt"
+    }
+  ]
+}

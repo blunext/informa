@@ -1,0 +1,24 @@
+{
+  "id": "3.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Wzorzec: niezmiennik petli wyszukiwania binarnego",
+  "tagi": ["niezmiennik-petli", "przeszukiwanie-binarne", "zlozonosc-czasowa"],
+  "tresc": "Dany jest algorytm wyszukiwania binarnego:\n\n```\nfunkcja szukaj(tab, n, x)\n    lewy := 0\n    prawy := n - 1\n    dopoki lewy <= prawy:\n        srodek := (lewy + prawy) div 2\n        jezeli tab[srodek] = x:\n            zwroc srodek\n        jezeli tab[srodek] < x:\n            lewy := srodek + 1\n        w przeciwnym razie:\n            prawy := srodek - 1\n    zwroc -1\n```\n\n**Polecenia**:\n- a) Sformuluj niezmiennik petli.\n- b) Pokaz, ze niezmiennik zachodzi przed pierwsza iteracja i zachowuje sie w kazdym kroku.\n- c) Uzyj niezmiennika do wykazania poprawnosci (algorytm znajdzie x jesli istnieje).",
+  "wskazowki": [
+    "**Kierunek**: Niezmiennik powinien mowic, gdzie MOZE byc element x. Po kazdej iteracji zawezamy zakres poszukiwan.",
+    "**Podejscie**: Niezmiennik: jesli x jest w tablicy, to jest w przedziale tab[lewy..prawy].",
+    "**Kluczowy krok**: Gdy lewy > prawy, przedzial jest pusty — x nie istnieje w tablicy (poprawne zwrocenie -1)."
+  ],
+  "odpowiedz": "**a) Niezmiennik:**\n\n**Jesli x wystepuje w tablicy tab[0..n-1], to x znajduje sie w przedziale tab[lewy..prawy].**\n\nRownowazne: tab[0..lewy-1] nie zawiera x ORAZ tab[prawy+1..n-1] nie zawiera x.\n\n**b) Dowod:**\n\n**(1) Inicjalizacja** (lewy=0, prawy=n-1):\nPrzedzial tab[0..n-1] to cala tablica. Jesli x jest w tablicy, to jest w tab[0..n-1]. ✓\n\n**(2) Zachowanie** — trzy przypadki:\n- tab[srodek] = x → znaleziono, zwracamy wynik (niezmiennik niepotrzebny)\n- tab[srodek] < x → x > tab[srodek], wiec x nie moze byc w tab[lewy..srodek] (tablica posortowana). Ustawiamy lewy := srodek+1. Nowy przedzial tab[srodek+1..prawy] zawiera x. ✓\n- tab[srodek] > x → x < tab[srodek], wiec x nie moze byc w tab[srodek..prawy]. Ustawiamy prawy := srodek-1. Nowy przedzial tab[lewy..srodek-1] zawiera x. ✓\n\n**c) Poprawnosc:**\n\n**Przypadek 1** (x znaleziony): algorytm zwraca poprawny indeks.\n\n**Przypadek 2** (petla konczy sie, lewy > prawy): Z niezmiennika wiemy, ze x mogloby byc tylko w tab[lewy..prawy]. Ale lewy > prawy oznacza pusty przedzial. Wniosek: x NIE jest w tablicy. Zwrocenie -1 jest poprawne. ✓\n\n**Terminacja**: W kazdej iteracji prawy - lewy zmniejsza sie o co najmniej 1. Petla konczy sie w co najwyzej n iteracjach.\n\n**Zlozonosc**: Kazda iteracja dzieli zakres na pol, wiec algorytm wykonuje O(log n) porownan w pesymistycznym przypadku.",
+  "typowe_bledy": [
+    {
+      "opis": "**Niezmiennik 'x jest w tablicy'**: Za mocny — x moze NIE byc w tablicy. Niezmiennik musi byc warunkowy: JESLI x jest, to jest w [lewy, prawy]",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak argumentu terminacji**: Niezmiennik + zachowanie nie wystarczaja. Trzeba tez pokazac, ze petla sie konczy (zakres sie kurczy)",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "1.37",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: plansza 2D z wypelnianiem obszaru (flood fill)",
+  "tagi": ["plansza-2D", "sledzenie-iteracyjne", "stos"],
+  "tresc": "Dany jest algorytm wypelniania obszaru na planszy (flood fill ze stosem):\n\n```\nfunkcja wypelnij(P, wiersze, kolumny, sr, sc)\n    jezeli P[sr][sc] <> 0:\n        zwroc P\n    stos := pusty stos\n    stos.push((sr, sc))\n    P[sr][sc] := 2\n    dopoki stos nie jest pusty:\n        (r, c) := stos.pop()\n        dla kazdego (dr, dc) w {(-1,0), (1,0), (0,-1), (0,1)}:\n            nr := r + dr\n            nc := c + dc\n            jezeli nr >= 0 AND nr < wiersze AND nc >= 0 AND nc < kolumny:\n                jezeli P[nr][nc] = 0:\n                    P[nr][nc] := 2\n                    stos.push((nr, nc))\n    zwroc P\n```\n\nDana plansza 5x5 (0 = puste, 1 = sciana):\n```\n  0 1 2 3 4\n0[0 1 0 0 0]\n1[0 1 0 1 0]\n2[0 0 0 1 0]\n3[1 1 1 1 0]\n4[0 0 0 0 0]\n```\n\n**Polecenie**:\n- a) Przelsdz `wypelnij(P, 5, 5, 0, 0)`. Pokaz stan stosu w kazdym kroku (pierwsze 8 krokow wystarczy). (3 pkt)\n- b) Narysuj plansze po zakonczeniu algorytmu (pola wypelnione oznacz '2'). (1 pkt)\n- c) Ile pol zostalo wypelnionych (zmienionych z 0 na 2)? (1 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Flood fill zaczyna od (0,0) i wypelnia wszystkie polaczone pola o wartosci 0, nie przechodzac przez sciany (1).",
+    "**Podejscie**: Pop ze stosu, sprawdz 4 sasiadow (gora/dol/lewo/prawo). Jesli sasiad = 0, zmien na 2 i push.",
+    "**Kluczowy krok**: Start (0,0). Sasiedzi: (1,0)=0 push, (0,1)=1 sciana. Potem eksploruj dalej — sciana w kolumnie 1 blokuje czesc planszy."
+  ],
+  "odpowiedz": "**a) Sledzenie (kolejnosc sasiadow: gora, dol, lewo, prawo):**\n\n| Krok | pop(r,c) | Sasiedzi = 0 (push + zmien na 2) | Stos po |\n|------|----------|--------------------------------|--------|\n| start | — | P[0][0]:=2, push(0,0) | [(0,0)] |\n| 1 | (0,0) | dol (1,0)=0: push | [(1,0)] |\n| 2 | (1,0) | dol (2,0)=0: push | [(2,0)] |\n| 3 | (2,0) | dol (3,0)=1 sciana, prawo (2,1)=0: push | [(2,1)] |\n| 4 | (2,1) | gora (1,1)=1 sciana, dol (3,1)=1 sciana, prawo (2,2)=0: push | [(2,2)] |\n| 5 | (2,2) | gora (1,2)=0: push, dol (3,2)=1 sciana, lewo juz=2 | [(1,2)] |\n| 6 | (1,2) | gora (0,2)=0: push, dol juz=2, prawo (1,3)=1 sciana | [(0,2)] |\n| 7 | (0,2) | prawo (0,3)=0: push | [(0,3)] |\n| 8 | (0,3) | prawo (0,4)=0: push | [(0,4)] |\n\nKontynuacja: (0,4) -> dol (1,4)=0 push. (1,4) -> dol (2,4)=0 push. (2,4) -> dol (3,4)=0 push. (3,4) -> dol (4,4)=0 push. I dalej wiersz 4...\n\n**b) Plansza po wypelnieniu:**\n```\n  0 1 2 3 4\n0[2 1 2 2 2]\n1[2 1 2 1 2]\n2[2 2 2 1 2]\n3[1 1 1 1 2]\n4[0 0 0 0 2]\n```\n\nUwaga: Wiersz 4, kolumny 0-3 NIE sa wypelnione — sciana w wierszu 3 (cala kolumna 0-3) blokuje dostep od gory. Jedyny dostep do wiersza 4 to przez (3,4)->(4,4).\n\n**c)** Wypelnionych pol: **12** (wszystkie '2' na planszy). Pola 0 pozostalo: wiersz 4 kolumny 0-3 = 4 pola.",
+  "typowe_bledy": [
+    {
+      "opis": "**Wypelnianie pol za sciana**: Flood fill nie przechodzi przez sciany (1) — pola za sciana moga pozostac 0",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Wielokrotne dodawanie tego samego pola**: Pole zmieniane na 2 PRZED push — zapobiega powtornemu dodaniu do stosu",
+      "kara": "-1 pkt"
+    }
+  ]
+}

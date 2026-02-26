@@ -1,0 +1,24 @@
+{
+  "id": "1.38",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Wzorzec: rekurencja z rozgalezieniem warunkowym",
+  "tagi": ["rekurencja", "drzewo-wywolan", "mod-div"],
+  "tresc": "Dana jest funkcja rekurencyjna:\n\n```\nfunkcja tajemnicza(n)\n    jezeli n < 10:\n        zwroc n\n    d := n mod 10\n    r := tajemnicza(n div 10)\n    jezeli d > r:\n        zwroc d\n    w przeciwnym razie:\n        zwroc r\n```\n\n**Polecenie**:\n- a) Narysuj drzewo wywolan i oblicz `tajemnicza(47291)`. (2 pkt)\n- b) Narysuj drzewo wywolan i oblicz `tajemnicza(11111)`. (1 pkt)\n- c) Co oblicza ta funkcja? Uzasadnij. (2 pkt)",
+  "wskazowki": [
+    "**Kierunek**: Funkcja rekurencyjnie przetwarza cyfry liczby. W kazdym wywolaniu porownuje ostatnia cyfre (d) z wynikiem rekurencji na reszcie (r).",
+    "**Podejscie**: Rozwin od tajemnicza(47291): d=1, r=tajemnicza(4729). Potem tajemnicza(4729): d=9, r=tajemnicza(472). Itd.",
+    "**Kluczowy krok**: Funkcja zwraca wieksza z dwoch wartosci: d (ostatnia cyfra) i r (wynik rekurencji). To szukanie maksymalnej cyfry!"
+  ],
+  "odpowiedz": "**a) Drzewo wywolan tajemnicza(47291):**\n\n```\ntajemnicza(47291)\n  d = 1, r = tajemnicza(4729)\n    tajemnicza(4729)\n      d = 9, r = tajemnicza(472)\n        tajemnicza(472)\n          d = 2, r = tajemnicza(47)\n            tajemnicza(47)\n              d = 7, r = tajemnicza(4)\n                tajemnicza(4) = 4  [baza: 4 < 10]\n              d=7 > r=4? tak -> zwroc 7\n          d=2 > r=7? nie -> zwroc 7\n      d=9 > r=7? tak -> zwroc 9\n  d=1 > r=9? nie -> zwroc 9\n```\n\nWynik: **tajemnicza(47291) = 9** (maksymalna cyfra)\n\n**b) tajemnicza(11111):**\n\n```\ntajemnicza(11111)\n  d=1, r=tajemnicza(1111)\n    d=1, r=tajemnicza(111)\n      d=1, r=tajemnicza(11)\n        d=1, r=tajemnicza(1) = 1  [baza]\n        d=1 > r=1? nie -> 1\n      d=1 > 1? nie -> 1\n    d=1 > 1? nie -> 1\n  d=1 > 1? nie -> 1\n```\n\nWynik: **1** (wszystkie cyfry identyczne)\n\n**c)** Funkcja oblicza **maksymalna cyfre liczby n**.\n\nUzasadnienie: Baza (n < 10) zwraca jedyna cyfre. Krok rekurencyjny porownuje ostatnia cyfre (d = n mod 10) z maksimum reszty cyfr (r = tajemnicza(n div 10)) i zwraca wieksza wartosc. Indukcyjnie: wynik to max ze wszystkich cyfr.",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie d i r**: d to OSTATNIA cyfra (n mod 10), r to wynik rekurencji na RESZCIE (n div 10) — nie odwrotnie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne zwijanie**: Warunek d > r zwraca d, w.p.p. zwraca r. Przy rownosci (d=r) zwraca r (galaz else)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

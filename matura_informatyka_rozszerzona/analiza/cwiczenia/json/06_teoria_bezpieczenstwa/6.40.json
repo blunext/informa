@@ -1,0 +1,24 @@
+{
+  "id": "6.40",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: analiza warstwowa obrony (defense in depth)",
+  "tagi": ["firewall", "VPN", "2FA", "protokoly-sieciowe"],
+  "tresc": "Firma stosuje nastepujace warstwy zabezpieczen:\n\n| Warstwa | Zabezpieczenie |\n|---------|---------------|\n| 1 (siec) | Firewall z regulami filtrowania portow |\n| 2 (dostep zdalny) | VPN dla pracownikow zdalnych |\n| 3 (uwierzytelnianie) | Haslo + 2FA (kod z aplikacji) |\n| 4 (dane) | Szyfrowanie dyskow (AES-256) |\n| 5 (monitoring) | System logowania zdarzen (SIEM) |\n\nPrzeanalizuj 3 scenariusze atakow. Dla kazdego: (1) ktore warstwy zostana pokonane, (2) ktora warstwa zatrzyma atak, (3) jaki bylby skutek gdyby tej warstwy NIE bylo.\n\n**Scenariusz A**: Pracownik zdalny laczy sie z siecia firmowa z publicznej sieci Wi-Fi w kawiarni. Atakujacy w tej samej sieci przechwytuje ruch.\n\n**Scenariusz B**: Atakujacy zdobyl haslo pracownika z wycieku innej bazy danych (password reuse). Probuje zalogowac sie do systemu firmowego.\n\n**Scenariusz C**: Zlodziej kradnie laptopa firmowego z samochodu pracownika.",
+  "wskazowki": [
+    "**Kierunek**: Kazda warstwa broni przed INNYM typem zagroenia. Bez jednej warstwy — atak przechodzi dalej.",
+    "**Podejscie**: A: VPN szyfruje tunel (warstwa 2 chroni). B: 2FA wymaga drugiego czynnika (warstwa 3 chroni). C: Szyfrowanie dysku chroni dane (warstwa 4 chroni).",
+    "**Kluczowy krok**: 'Defense in depth' = jesli jedna warstwa zawiedzie, nastepna przejmuje ochrone. Brak jednej warstwy = krytyczna luka."
+  ],
+  "odpowiedz": "**Scenariusz A: Przechwycenie ruchu w publicznej sieci Wi-Fi**\n\n| Aspekt | Analiza |\n|--------|---------|\n| Pokonane warstwy | Brak — atakujacy jest w sieci lokalnej, ale nie probowal przejsc przez firewall |\n| Warstwa ochronna | **Warstwa 2 (VPN)** — VPN tworzy zaszyfrowany tunel miedzy laptopem a siecia firmowa. Atakujacy widzi zaszyfrowane pakiety, ale nie moze odczytac ich zawartosci |\n| Bez tej warstwy | Atakujacy moglby odczytac: loginy, dane firmowe, e-maile. Atak Man-in-the-Middle umozliwilby podsluchiwanie i modyfikowanie ruchu. Nawet HTTPS chroni dane webowe, ale inne protokoly (np. FTP, niektorzy klienci poczty) moglyby wyslac dane jawnym tekstem |\n\n**Scenariusz B: Haslo z wycieku (password reuse)**\n\n| Aspekt | Analiza |\n|--------|---------|\n| Pokonane warstwy | **Warstwa 1** (firewall przepuszcza ruch na porcie logowania, np. 443) |\n| Warstwa ochronna | **Warstwa 3 (2FA)** — atakujacy ma haslo (pierwszy czynnik), ale NIE ma dostepu do aplikacji Authenticator na telefonie pracownika. Logowanie wymaga kodu z aplikacji — atak zatrzymany |\n| Bez tej warstwy | Atakujacy zalogowалby sie do systemu z samym haslem. Mialby dostep do danych firmowych, mogkby pobrac pliki, wyslac maile, eskalowac uprawnienia. To najczestszy wektor ataku na firmy (credential stuffing) |\n\n**Scenariusz C: Kradziez laptopa**\n\n| Aspekt | Analiza |\n|--------|---------|\n| Pokonane warstwy | Fizyczny dostep do urzadzenia (poza zakresem warstw sieciowych). **Warstwa 3** obejscia — zlodziej moze uruchomic laptopa z pendrive'a (boot z USB), omijajac system logowania |\n| Warstwa ochronna | **Warstwa 4 (szyfrowanie dysku AES-256)** — nawet po wyjеciu dysku lub uruchomieniu z USB, dane sa zaszyfrowane. Bez klucza deszyfrujacego (powiazanego z haslem/TPM) zlodziej widzi losowe dane |\n| Bez tej warstwy | Zlodziej uruchamialby system z USB, mountowalby dysk i mialby pelny dostep do wszystkich plikow: dokumentow firmowych, zapisanych hasel, kluczy SSH, baz danych lokalnych |\n\n**Podsumowanie — defense in depth:**\n\n| Scenariusz | Zagrożenie | Warstwa ochronna | Konsekwencja bez niej |\n|------------|-----------|------------------|----------------------|\n| A | Podsłuch Wi-Fi | VPN (warstwa 2) | Man-in-the-Middle, wyciek danych |\n| B | Skradzione hasło | 2FA (warstwa 3) | Nieautoryzowany dostep do systemu |\n| C | Kradziez laptopa | Szyfrowanie dysku (warstwa 4) | Pelny dostep do danych na dysku |\n\nKazda warstwa chroni przed INNYM typem zagroenia. Usuniecie jednej warstwy tworzy krytyczna luke, ktorej pozostale warstwy NIE pokrywaja.",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze firewall chroni przed przechwyceniem Wi-Fi**: Firewall filtruje ruch przychodzacy do sieci firmowej, ale NIE szyfruje ruchu pracownika w publicznej sieci. Ochrona przed podsлuchem = VPN",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pominiecie roli szyfrowania dysku przy kradziezy**: Haslo logowania do systemu NIE chroni danych — mozna uruchomic z USB lub wyjac dysk. Tylko szyfrowanie calego dysku (FDE) chroni w tym scenariuszu",
+      "kara": "-1 pkt"
+    }
+  ]
+}

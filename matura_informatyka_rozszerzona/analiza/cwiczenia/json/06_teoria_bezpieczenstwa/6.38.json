@@ -1,0 +1,24 @@
+{
+  "id": "6.38",
+  "trudnosc": "trudne",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: analiza szyfrowania hybrydowego w HTTPS",
+  "tagi": ["szyfrowanie-symetryczne", "szyfrowanie-asymetryczne", "HTTPS", "certyfikat-SSL"],
+  "tresc": "Protokol HTTPS wykorzystuje tzw. szyfrowanie hybrydowe — polaczenie szyfrowania symetrycznego i asymetrycznego.\n\n- a) Wyjasnij, dlaczego HTTPS nie uzywa TYLKO szyfrowania asymetrycznego do przesylania danych. Podaj konkretny powod zwiazany z wydajnoscia.\n- b) Opisz krok po kroku, jak podczas nawiazywania polaczenia HTTPS (TLS handshake) oba typy szyfrowania wspolpracuja. Uzyj terminow: klucz publiczny, klucz prywatny, klucz sesji.\n- c) Jezeli atakujacy przechwyci caly ruch sieciowy podczas handshake TLS, czy moze odszyfrowac dane? Uzasadnij, odwolujac sie do wlasciwosci szyfrowania asymetrycznego.\n- d) Czym rozni sie kompromitacja klucza prywatnego serwera od kompromitacji klucza sesji? Ktora sytuacja jest grozsza i dlaczego?",
+  "wskazowki": [
+    "**Kierunek**: Szyfrowanie asymetryczne = bezpieczna wymiana kluczy, symetryczne = szybkie szyfrowanie danych. HTTPS laczy zalety obu.",
+    "**Podejscie**: Handshake: klient pobiera certyfikat → generuje klucz sesji → szyfruje go kluczem publicznym → serwer odszyfrowuje kluczem prywatnym → dalej komunikacja symetrycznie.",
+    "**Kluczowy krok**: Klucz prywatny NIGDY nie jest przesylany. Atakujacy widzi tylko zaszyfrowany klucz sesji (nie moze go odczytac bez klucza prywatnego serwera)."
+  ],
+  "odpowiedz": "**a) Dlaczego nie tylko asymetryczne?**\n\nSzyfrowanie asymetryczne (np. RSA) jest ~100-1000x wolniejsze niz symetryczne (np. AES). Szyfrowanie kazdego pakietu danych asymetrycznie spowolniloby komunikacje do nieakceptowalnego poziomu. Dlatego asymetryczne sluzy TYLKO do bezpiecznej wymiany klucza sesji, a wlasciwe dane sa szyfrowane szybkim szyfrem symetrycznym.\n\n**b) TLS handshake krok po kroku:**\n\n| Krok | Akcja | Typ szyfrowania |\n|------|-------|----------------|\n| 1 | Klient laczy sie z serwerem i wysyla \"Client Hello\" (wersja TLS, obsługiwane szyfry) | brak |\n| 2 | Serwer odpowiada \"Server Hello\" + wysyla swoj **certyfikat SSL** (zawiera klucz publiczny) | brak |\n| 3 | Klient weryfikuje certyfikat (lancuch zaufania do CA) i generuje losowy **klucz sesji** (symetryczny) | brak |\n| 4 | Klient szyfruje klucz sesji **kluczem publicznym** serwera i wysyla go | **asymetryczne** |\n| 5 | Serwer odszyfrowuje klucz sesji swoim **kluczem prywatnym** | **asymetryczne** |\n| 6 | Obie strony maja ten sam klucz sesji — cala dalsza komunikacja szyfrowana **symetrycznie** | **symetryczne** |\n\n**c) Czy przechwycenie ruchu pozwala odszyfrowac dane?**\n\nNIE. Atakujacy widzi:\n- Certyfikat serwera (publiczny — nie tajny)\n- Zaszyfrowany klucz sesji (zaszyfrowany kluczem publicznym)\n\nAle NIE ma klucza prywatnego serwera, wiec nie moze odszyfrowac klucza sesji. Bez klucza sesji nie moze odszyfrowac zadnych danych. To jest istota szyfrowania asymetrycznego: klucz publiczny szyfruje, ale TYLKO klucz prywatny odszyfrowuje.\n\n**d) Kompromitacja klucza prywatnego vs klucza sesji:**\n\n| Aspekt | Klucz sesji | Klucz prywatny serwera |\n|--------|------------|----------------------|\n| Zakres | Jedna sesja (minuty/godziny) | WSZYSTKIE sesje (do wymiany certyfikatu) |\n| Skutek | Odszyfrowanie jednej rozmowy | Odszyfrowanie KAZDEJ przeszlej i przyszlej sesji |\n| Naprawa | Nowa sesja = nowy klucz | Wymiana certyfikatu + unieważnienie starego |\n\nKompromitacja klucza prywatnego jest **znacznie grozsza** — atakujacy moze odszyfrowac caly zapisany ruch (jesli nie uzywano Perfect Forward Secrecy) i podszywac sie pod serwer.",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze klucz prywatny jest przesylany podczas handshake**: Klucz prywatny NIGDY nie opuszcza serwera. Przesylany jest certyfikat (z kluczem publicznym) i zaszyfrowany klucz sesji",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak rozroznienia miedzy szyfrowaniem symetrycznym a asymetrycznym**: Trzeba jasno wskazac, ze asymetryczne sluzy do wymiany klucza, a symetryczne do szyfrowania danych — to sedno szyfrowania hybrydowego",
+      "kara": "-1 pkt"
+    }
+  ]
+}

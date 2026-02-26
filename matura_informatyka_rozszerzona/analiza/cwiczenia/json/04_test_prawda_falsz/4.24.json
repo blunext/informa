@@ -1,0 +1,24 @@
+{
+  "id": "4.24",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Wzorzec: drzewa i grafy P/F",
+  "tagi": ["drzewa", "grafy", "BST", "struktury-danych"],
+  "tresc": "Ocen prawdziwosc ponizszych zdan. Wpisz P (prawda) lub F (falsz).\n\n| Lp. | Zdanie | P/F |\n|-----|--------|-----|\n| a) | Kazde drzewo jest grafem, ale nie kazdy graf jest drzewem. | |\n| b) | Drzewo BST o n wezlach ma zawsze wysokosc log2(n). | |\n| c) | W drzewie binarnym kazdy wezel ma co najwyzej dwoje dzieci. | |\n| d) | Graf skierowany moze zawierac cykle. | |",
+  "wskazowki": [
+    "**Kierunek**: Drzewo = spojny graf acykliczny. BST moze byc zdegenerowane (lancuch).",
+    "**Podejscie**: BST wstawiane w kolejnosci 1,2,3,4,5 ma wysokosc n-1, nie log n.",
+    "**Kluczowy krok**: Drzewo = graf, ale bez cykli i spojny. Graf moze miec cykle i nie musi byc spojny."
+  ],
+  "odpowiedz": "| Lp. | Odpowiedz | Uzasadnienie |\n|-----|-----------|-------------|\n| a) | **P** | Drzewo to szczegolny przypadek grafu (spojny, acykliczny, nieskierowany). Grafy ogolne moga miec cykle, wiele skladowych, itp. |\n| b) | **F** | Wysokosc BST zalezy od kolejnosci wstawiania. Wstawienie 1,2,3,...,n daje zdegenerowane drzewo o wysokosci **n-1** (lancuch). Tylko **zrownowazony** BST (np. AVL, Red-Black) gwarantuje O(log n). |\n| c) | **P** | Definicja drzewa binarnego: kazdy wezel ma 0, 1 lub 2 dzieci (lewe i prawe). 'Binarny' oznacza 'co najwyzej dwoje'. |\n| d) | **P** | Graf skierowany (digraf) moze zawierac cykle (sciezki zamkniete). Np. krawedzie A→B, B→C, C→A tworza cykl. Graf acykliczny skierowany to DAG. |\n\nOdpowiedzi: a) P, b) F, c) P, d) P",
+  "typowe_bledy": [
+    {
+      "opis": "**Twierdzenie ze BST zawsze ma wysokosc log n**: BST bez balansowania moze zdegenerowac sie do listy (wysokosc n-1). Tylko zrownowazone BST (AVL, Red-Black) gwarantuja log n",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Mylenie drzewa binarnego z pelnym drzewem binarnym**: 'Binarny' = co najwyzej 2 dzieci. 'Pelny' = kazdy wezel ma 0 lub 2 dzieci",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}
