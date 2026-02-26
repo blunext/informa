@@ -304,6 +304,30 @@ type DataStatsOut struct {
 	Cheatsheets int `json:"cheatsheets"`
 }
 
+// DifficultyCount is per-difficulty breakdown for exercise count
+type DifficultyCount struct {
+	Trudnosc string `json:"trudnosc"`
+	Count    int    `json:"count"`
+	Punkty   int    `json:"punkty"`
+}
+
+// ExerciseCountTypOut is per-type output for exercise count
+type ExerciseCountTypOut struct {
+	TypNr         int               `json:"typ_nr"`
+	TypNazwa      string            `json:"typ_nazwa"`
+	Kategoria     string            `json:"kategoria"`
+	Count         int               `json:"count"`
+	LastID        string            `json:"last_id"`
+	PunktyLacznie int               `json:"punkty_lacznie"`
+	PerDifficulty []DifficultyCount `json:"per_difficulty,omitempty"`
+}
+
+// ExerciseCountAllOut is what exercise count returns (all types)
+type ExerciseCountAllOut struct {
+	Total int                   `json:"total"`
+	Types []ExerciseCountTypOut `json:"types"`
+}
+
 // VerifyOut is what data verify returns
 type VerifyOut struct {
 	TotalDisk     int      `json:"total_disk"`

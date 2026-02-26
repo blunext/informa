@@ -160,6 +160,8 @@ run_layer_1() {
   header 1 "CLI Smoke Test"
 
   echo "  -- Read-only commands --"
+  test_json_cmd "exercise count (all)" "$MATURA" exercise count
+  test_json_cmd "exercise count --typ cyfry_liczby" "$MATURA" exercise count --typ cyfry_liczby
   test_json_cmd "data stats" "$MATURA" data stats
   test_json_cmd "exercise question --typ cyfry_liczby" "$MATURA" exercise question --typ cyfry_liczby
   test_json_cmd "exercise next --typ napisy" matura_tmp exercise next --typ napisy

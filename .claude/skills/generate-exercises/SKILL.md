@@ -8,18 +8,61 @@ argument-hint: [typ_zadania or file_name] [count]
 
 Skill do generowania nowych cwiczen do bazy JSON. Prowadzi caly workflow: planowanie, generacja, walidacja, weryfikacja.
 
-## Krok 1: Ustal parametry
+## Krok 1: Przegląd bazy i propozycja
 
-Zapytaj uzytkownika (jezeli nie podal):
-- **Plik docelowy**: ktory z 23 typow? (np. `07_cyfry_liczby`, `20_sql_group_by`)
-- **Ile cwiczen**: domyslnie 5
-- **Trudnosc**: `latwe` / `srednie` / `srednie-trudne` / `trudne` / mix
+### 1a. Pobierz stan bazy
+
+```bash
+cd analiza/cli && ./matura exercise count
+```
+
+### 1b. Wyświetl tabelę
+
+Pokaz uzytkownikowi podsumowanie z `exercise count` (total per typ + kategoria).
+Dla typow z count < 40 uruchom `exercise count --typ {nazwa}` aby poznac rozkład trudności.
+
+```
+Kategoria       | Typ                          | L  | Ś  | Ś-T | T  | Σ
+----------------|------------------------------|----|----|-----|----|----|
+TEORIA          | sledzenie_algorytmu          | 10 | 10 | 10  | 10 | 40
+...
+ARKUSZ          | agregacja_warunkowa          |  3 |  4 |  1  |  2 | 10
+...
+```
+
+(L=łatwe, Ś=średnie, Ś-T=średnie-trudne, T=trudne)
+
+### 1c. Zaproponuj co generować
+
+Algorytm propozycji (od najwazniejszego):
+
+1. **Typy z najmniejszą liczbą ćwiczeń** — priorytet mają typy z count < 20 (ARKUSZ ma po 10!)
+2. **Luki trudnościowe** — jezeli typ ma <5 cwiczen na jakims poziomie, zaproponuj uzupelnienie
+3. **Dysproporcja kategorii** — wyrownaj kategorie (ARKUSZ << SQL << TEORIA ≈ IMPL)
+4. **Cel: 10 na poziom** — docelowo kazdy typ powinien miec ~10 cwiczen na kazdy poziom trudnosci (=40 total)
+
+Wyswietl propozycje w formie:
+```
+📊 Propozycja generacji:
+1. agregacja_warunkowa: +7 (brakuje: Ś-T ×4, T ×3) → docelowo 10/10/5/5
+2. symulacja: +6 (brakuje: L ×2, Ś-T ×2, T ×2) → docelowo 10/10/5/5
+3. sql_select_where: +10 (cel: 10/10/10/10)
+```
+
+### 1d. Uzgodnij z uzytkownikiem
+
+Jezeli uzytkownik podal parametry w argumencie — uzyj ich.
+Jezeli nie — zapytaj na podstawie propozycji:
+- **Plik docelowy**: ktory typ? (podpowiedz top 3 z propozycji)
+- **Ile cwiczen**: domyslnie 5-10
+- **Trudnosc**: `latwe` / `srednie` / `srednie-trudne` / `trudne` / mix (podpowiedz brakujace poziomy)
 
 ## Krok 2: Zaladuj kontekst
 
+Dane z `exercise count --typ` (last_id, per_difficulty) masz juz z Kroku 1.
 Przed generacja ZAWSZE przeczytaj:
 
-1. **Metadane typu** (indeks cwiczen, tagi globalne):
+1. **Metadane typu** (tagi globalne — niedostepne w CLI):
    ```
    analiza/cwiczenia/json/NN_nazwa/_meta.json
    ```

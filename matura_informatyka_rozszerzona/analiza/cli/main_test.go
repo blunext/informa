@@ -5,6 +5,7 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -3244,6 +3245,58 @@ func TestSuggestClosestCodes(t *testing.T) {
 	// Should return max 3 suggestions
 	if len(suggestions) > 3 {
 		t.Errorf("expected max 3 suggestions, got %d", len(suggestions))
+	}
+}
+
+// === Feature: exercise count ===
+
+func TestExerciseCount(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	out, err := countExercisesForType(db, "cyfry_liczby")
+	if err != nil {
+		t.Fatalf("countExercisesForType: %v", err)
+	}
+	if out.TypNazwa != "cyfry_liczby" {
+		t.Errorf("typ_nazwa: got %q, want cyfry_liczby", out.TypNazwa)
+	}
+	if out.Kategoria != "IMPLEMENTACJA" {
+		t.Errorf("kategoria: got %q, want IMPLEMENTACJA", out.Kategoria)
+	}
+	if out.Count <= 0 {
+		t.Errorf("count: got %d, want > 0", out.Count)
+	}
+	if out.LastID == "" {
+		t.Error("last_id is empty")
+	}
+	if out.PunktyLacznie <= 0 {
+		t.Errorf("punkty_lacznie: got %d, want > 0", out.PunktyLacznie)
+	}
+	if len(out.PerDifficulty) == 0 {
+		t.Error("per_difficulty is empty")
+	}
+	// Verify per_difficulty counts sum to total
+	var sum int
+	for _, dc := range out.PerDifficulty {
+		sum += dc.Count
+	}
+	if sum != out.Count {
+		t.Errorf("per_difficulty sum %d != count %d", sum, out.Count)
+	}
+}
+
+func TestExerciseCountUnknownTyp(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	_, err := countExercisesForType(db, "nonexistent_type_xyz")
+	if err == nil {
+		t.Fatal("expected error for unknown typ")
+	}
+	var nf errNotFound
+	if !errors.As(err, &nf) {
+		t.Errorf("expected errNotFound, got %T: %v", err, err)
 	}
 }
 

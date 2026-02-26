@@ -3084,3 +3084,82 @@ func exerciseRubricCmd() *cobra.Command {
 	cmd.Flags().StringVar(&typ, "typ", "", "Exercise type (e.g. sledzenie_algorytmu)")
 	return cmd
 }
+
+// === exercise count ===
+
+func countExercisesForType(d *sql.DB, typ string) (ExerciseCountTypOut, error) {
+	var out ExerciseCountTypOut
+	var lastSeq int
+	err := d.QueryRow(`SELECT typ_nr, typ_nazwa, kategoria,
+		COUNT(*), MAX(CAST(SUBSTR(id, INSTR(id,'.')+1) AS INTEGER)), SUM(punkty)
+		FROM data.cwiczenia WHERE typ_nazwa = ?
+		GROUP BY typ_nr, typ_nazwa, kategoria`, typ).Scan(
+		&out.TypNr, &out.TypNazwa, &out.Kategoria, &out.Count, &lastSeq, &out.PunktyLacznie)
+	if err == sql.ErrNoRows {
+		return out, notFound(fmt.Sprintf("unknown typ: %s", typ))
+	}
+	if err != nil {
+		return out, fatal(fmt.Sprintf("query error: %v", err))
+	}
+	out.LastID = fmt.Sprintf("%d.%d", out.TypNr, lastSeq)
+
+	rows, err := d.Query(`SELECT trudnosc, COUNT(*), SUM(punkty) FROM data.cwiczenia
+		WHERE typ_nazwa = ? GROUP BY trudnosc
+		ORDER BY CASE trudnosc WHEN 'latwe' THEN 1 WHEN 'srednie' THEN 2
+			WHEN 'srednie-trudne' THEN 3 WHEN 'trudne' THEN 4 END`, typ)
+	if err != nil {
+		return out, fatal(fmt.Sprintf("difficulty query: %v", err))
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var dc DifficultyCount
+		rows.Scan(&dc.Trudnosc, &dc.Count, &dc.Punkty)
+		out.PerDifficulty = append(out.PerDifficulty, dc)
+	}
+	return out, nil
+}
+
+func exerciseCountCmd() *cobra.Command {
+	var typ string
+
+	cmd := &cobra.Command{
+		Use:   "count",
+		Short: "Count exercises by type",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			d := db(cmd)
+
+			if typ != "" {
+				out, err := countExercisesForType(d, typ)
+				if err != nil {
+					return err
+				}
+				jsonOut(out)
+				return nil
+			}
+
+			// All types
+			rows, err := d.Query(`SELECT typ_nr, typ_nazwa, kategoria,
+				COUNT(*), MAX(CAST(SUBSTR(id, INSTR(id,'.')+1) AS INTEGER)), SUM(punkty)
+				FROM data.cwiczenia GROUP BY typ_nr, typ_nazwa, kategoria ORDER BY typ_nr`)
+			if err != nil {
+				return fatal(fmt.Sprintf("query error: %v", err))
+			}
+			defer rows.Close()
+
+			var all ExerciseCountAllOut
+			for rows.Next() {
+				var t ExerciseCountTypOut
+				var lastSeq int
+				rows.Scan(&t.TypNr, &t.TypNazwa, &t.Kategoria, &t.Count, &lastSeq, &t.PunktyLacznie)
+				t.LastID = fmt.Sprintf("%d.%d", t.TypNr, lastSeq)
+				all.Types = append(all.Types, t)
+				all.Total += t.Count
+			}
+			jsonOut(all)
+			return nil
+		},
+	}
+
+	cmd.Flags().StringVar(&typ, "typ", "", "Filter by exercise type")
+	return cmd
+}
