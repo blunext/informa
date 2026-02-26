@@ -216,7 +216,7 @@ python3 analiza/cwiczenia/verify/verify_all.py --id 23.4 --verbose
 
 Raporty: `verify/report/verification_report.{md,json}`
 
-Docelowy wynik: **467 PASS, 0 FAIL, 0 ERROR, 116 MANUAL_REVIEW**.
+Docelowy wynik: **530 PASS, 0 FAIL, 0 ERROR, 407 MANUAL_REVIEW**.
 
 ## Dodawanie nowego cwiczenia — checklist
 

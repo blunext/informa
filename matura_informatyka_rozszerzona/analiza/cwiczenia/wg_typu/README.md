@@ -1,7 +1,7 @@
 # Zadania treningowe wg typow zadan maturalnych
 
-Zestaw **230 cwiczen** oparty na analizie 11 lat matur z informatyki rozszerzonej (2014-2025).
-Kazdy typ zadania ma **10 cwiczen** o roznej trudnosci, z tagami umiejetnosci, wskazowkami, rozwiazaniami i typowymi bledami.
+Zestaw **937 cwiczen** oparty na analizie 11 lat matur z informatyki rozszerzonej (2014-2025).
+Kazdy typ zadania ma **40+ cwiczen** o roznej trudnosci, z tagami umiejetnosci, wskazowkami, rozwiazaniami i typowymi bledami.
 
 ## Jak korzystac
 
@@ -122,7 +122,7 @@ Sekcja "Co dalej?" wskazuje na powiazane cheatsheet'y i inne cwiczenia.
 ## Statystyki
 
 - **23 plikow** z cwiczeniami
-- **230 cwiczen** lacznie (10 na typ)
-- **4 kategorie**: TEORIA (60), IMPLEMENTACJA (80), ARKUSZ (50), SQL (40)
+- **937 cwiczen** lacznie (40+ na typ)
+- **4 kategorie**: TEORIA (240), IMPLEMENTACJA (336), ARKUSZ (200), SQL (161)
 - **Kazde cwiczenie zawiera**: tagi, wskazowki, rozwiazanie, typowe bledy
 - Oparte na **11 lat matur** (2014-2025, bez 2020)
