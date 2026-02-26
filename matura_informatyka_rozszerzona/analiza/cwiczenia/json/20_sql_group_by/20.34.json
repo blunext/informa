@@ -1,0 +1,29 @@
+{
+  "id": "20.34",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane analizami wynikow szkolnych",
+  "tagi": [
+    "GROUP-BY",
+    "COUNT",
+    "HAVING",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Wyniki**:\n\n| id | uczen | klasa | punkty |\n|----|-------|-------|--------|\n| 1 | Anna | 3A | 82 |\n| 2 | Jan | 3A | 65 |\n| 3 | Ewa | 3B | 91 |\n| 4 | Piotr | 3B | 74 |\n| 5 | Kasia | 3A | 88 |\n| 6 | Tomek | 3C | 55 |\n| 7 | Ola | 3C | 72 |\n| 8 | Marek | 3B | 68 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli klase i liczbe uczniow, ale tylko te klasy, w ktorych jest wiecej niz 2 uczniow. Posortuj alfabetycznie wg klasy.",
+  "wskazowki": [
+    "**Kierunek**: Pogrupuj wg klasy, policz uczniow, a nastepnie odfiltruj male grupy.",
+    "**Podejscie**: GROUP BY klasa, COUNT(*), a do filtrowania grup — HAVING (nie WHERE!).",
+    "**Kluczowy krok**: HAVING filtruje grupy PO grupowaniu. WHERE filtrowalby wiersze PRZED grupowaniem."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT klasa, COUNT(*) AS liczba_uczniow\nFROM Wyniki\nGROUP BY klasa\nHAVING COUNT(*) > 2\nORDER BY klasa;\n```\n\n**Weryfikacja**:\n- 3A: Anna, Jan, Kasia = **3** (>2 ✓)\n- 3B: Ewa, Piotr, Marek = **3** (>2 ✓)\n- 3C: Tomek, Ola = **2** (>2 ✗)\n\n| klasa | liczba_uczniow |\n|-------|----------------|\n| 3A | 3 |\n| 3B | 3 |\n\n**Wyjasnienie**: HAVING dziala na grupach (po GROUP BY), nie na pojedynczych wierszach. COUNT(*) > 2 pozostawia tylko grupy z wiecej niz 2 elementami. Klasa 3C (2 uczniow) zostaje odfiltrowana.",
+  "typowe_bledy": [
+    {
+      "opis": "**WHERE COUNT(*) > 2**: Funkcje agregujace nie moga wystapic w WHERE — trzeba uzyc HAVING",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**>= 2 zamiast > 2**: Polecenie mowi 'wiecej niz 2', co oznacza scisle > 2, a nie >= 2",
+      "kara": "-1 pkt"
+    }
+  ]
+}

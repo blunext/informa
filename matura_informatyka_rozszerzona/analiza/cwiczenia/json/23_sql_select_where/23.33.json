@@ -1,0 +1,33 @@
+{
+  "id": "23.33",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane systemem premiowym firmy",
+  "tagi": [
+    "CASE-WHEN",
+    "BETWEEN",
+    "obliczenia-w-SELECT",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Pracownicy**:\n\n| id | imie | nazwisko | staz_lat | pensja |\n|----|------|----------|----------|--------|\n| 1 | Anna | Kowal | 2 | 4000 |\n| 2 | Jan | Nowak | 8 | 5500 |\n| 3 | Ewa | Lis | 15 | 7000 |\n| 4 | Piotr | Maj | 5 | 4800 |\n| 5 | Kasia | Zak | 12 | 6200 |\n| 6 | Tomek | Bak | 1 | 3500 |\n| 7 | Ola | Wrobel | 20 | 8000 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko, staz_lat, pensje oraz kolumne `premia` obliczona wg zasad:\n- staz BETWEEN 1 AND 3: premia = pensja * 5 / 100\n- staz BETWEEN 4 AND 10: premia = pensja * 10 / 100\n- staz > 10: premia = pensja * 15 / 100\nPosortuj malejaco wg premii.",
+  "wskazowki": [
+    "**Kierunek**: CASE WHEN z BETWEEN do klasyfikacji stazu, obliczenia w SELECT do wyliczenia premii.",
+    "**Podejscie**: `CASE WHEN staz_lat BETWEEN 1 AND 3 THEN pensja * 5 / 100 WHEN ... END AS premia`.",
+    "**Kluczowy krok**: BETWEEN jest inkluzywne (1 AND 3 obejmuje 1, 2, 3). Kolejnosc warunkow w CASE WHEN ma znaczenie — pierwszy spelniony wygrywa."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko, staz_lat, pensja,\n  CASE\n    WHEN staz_lat BETWEEN 1 AND 3 THEN pensja * 5 / 100\n    WHEN staz_lat BETWEEN 4 AND 10 THEN pensja * 10 / 100\n    ELSE pensja * 15 / 100\n  END AS premia\nFROM Pracownicy\nORDER BY premia DESC;\n```\n\n**Weryfikacja**:\n- Anna: staz=2 → BETWEEN 1 AND 3 → 4000*5/100 = **200**\n- Jan: staz=8 → BETWEEN 4 AND 10 → 5500*10/100 = **550**\n- Ewa: staz=15 → >10 → 7000*15/100 = **1050**\n- Piotr: staz=5 → BETWEEN 4 AND 10 → 4800*10/100 = **480**\n- Kasia: staz=12 → >10 → 6200*15/100 = **930**\n- Tomek: staz=1 → BETWEEN 1 AND 3 → 3500*5/100 = **175**\n- Ola: staz=20 → >10 → 8000*15/100 = **1200**\n\n| imie | nazwisko | staz_lat | pensja | premia |\n|------|----------|----------|--------|--------|\n| Ola | Wrobel | 20 | 8000 | 1200 |\n| Ewa | Lis | 15 | 7000 | 1050 |\n| Kasia | Zak | 12 | 6200 | 930 |\n| Jan | Nowak | 8 | 5500 | 550 |\n| Piotr | Maj | 5 | 4800 | 480 |\n| Anna | Kowal | 2 | 4000 | 200 |\n| Tomek | Bak | 1 | 3500 | 175 |\n\n**Wyjasnienie**: CASE WHEN pozwala na rozne obliczenia w zaleznosci od warunku. BETWEEN 1 AND 3 obejmuje wartosci 1, 2 i 3 (inkluzywnie). Dla stazu > 10 uzywamy ELSE, bo BETWEEN nie pokrywa tych wartosci. Kazda premia jest obliczana jako procent pensji — wyrazenie arytmetyczne w THEN.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie aliasu w ORDER BY**: `ORDER BY premia DESC` — w SQLite dziala, ale w niektorych bazach trzeba powtorzyc wyrazenie CASE WHEN",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Zla kolejnosc BETWEEN**: `BETWEEN 3 AND 1` zamiast `BETWEEN 1 AND 3` — BETWEEN wymaga mniejszej wartosci po lewej, wiekszej po prawej",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak ELSE**: Pracownicy z stazem > 10 dostana NULL zamiast 15% premii",
+      "kara": "-1 pkt"
+    }
+  ]
+}

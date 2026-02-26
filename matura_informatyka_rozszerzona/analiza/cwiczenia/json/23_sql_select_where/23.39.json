@@ -1,0 +1,36 @@
+{
+  "id": "23.39",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane systemem zamowien z rabatami",
+  "tagi": [
+    "IS-NULL",
+    "IS-NOT-NULL",
+    "CASE-WHEN",
+    "obliczenia-w-SELECT",
+    "WHERE",
+    "operatory-porownania",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Zamowienia**:\n\n| id | klient | produkt | cena | rabat | data_wysylki |\n|----|--------|---------|------|-------|--------------|\n| 1 | Kowal | Laptop | 4000 | 10 | 2024-01-15 |\n| 2 | Nowak | Telefon | 2000 | NULL | NULL |\n| 3 | Lis | Tablet | 1500 | 5 | 2024-01-20 |\n| 4 | Maj | Laptop | 3500 | NULL | 2024-01-18 |\n| 5 | Zak | Telefon | 2500 | 15 | NULL |\n| 6 | Bak | Kamera | 3000 | NULL | NULL |\n| 7 | Wrobel | Tablet | 1800 | 20 | 2024-01-22 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli klienta, produkt, cene oraz:\n1. Kolumne `cena_po_rabacie` — jesli rabat IS NOT NULL, oblicz `cena * (100 - rabat) / 100`, w przeciwnym razie pokaz cene bez zmian\n2. Kolumne `status_wysylki` — 'wyslane' jesli data_wysylki IS NOT NULL, 'oczekuje' jesli NULL\n\nPokaz tylko zamowienia z cena > 1500. Posortuj malejaco wg ceny po rabacie.",
+  "wskazowki": [
+    "**Kierunek**: Dwa CASE WHEN — jeden z obliczeniami i IS NOT NULL, drugi z IS NOT NULL do statusu.",
+    "**Podejscie**: `CASE WHEN rabat IS NOT NULL THEN cena*(100-rabat)/100 ELSE cena END` + `CASE WHEN data_wysylki IS NOT NULL THEN 'wyslane' ELSE 'oczekuje' END`.",
+    "**Kluczowy krok**: IS NOT NULL (nie `!= NULL`!) — jedyny poprawny sposob sprawdzenia, czy wartosc nie jest NULL. `!= NULL` zawsze zwraca NULL/FALSE."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT klient, produkt, cena,\n  CASE\n    WHEN rabat IS NOT NULL THEN cena * (100 - rabat) / 100\n    ELSE cena\n  END AS cena_po_rabacie,\n  CASE\n    WHEN data_wysylki IS NOT NULL THEN 'wyslane'\n    ELSE 'oczekuje'\n  END AS status_wysylki\nFROM Zamowienia\nWHERE cena > 1500\nORDER BY cena_po_rabacie DESC;\n```\n\n**Weryfikacja** (cena > 1500):\n- id=1: cena=4000 ✓, rabat=10 → 4000*(100-10)/100 = 4000*90/100 = 3600, data_wysylki NOT NULL → wyslane\n- id=2: cena=2000 ✓, rabat=NULL → 2000, data_wysylki=NULL → oczekuje\n- id=3: cena=1500, nie > 1500 ✗\n- id=4: cena=3500 ✓, rabat=NULL → 3500, data_wysylki NOT NULL → wyslane\n- id=5: cena=2500 ✓, rabat=15 → 2500*85/100 = 2125, data_wysylki=NULL → oczekuje\n- id=6: cena=3000 ✓, rabat=NULL → 3000, data_wysylki=NULL → oczekuje\n- id=7: cena=1800 ✓, rabat=20 → 1800*80/100 = 1440, data_wysylki NOT NULL → wyslane\n\n| klient | produkt | cena | cena_po_rabacie | status_wysylki |\n|--------|---------|------|-----------------|----------------|\n| Kowal | Laptop | 4000 | 3600 | wyslane |\n| Maj | Laptop | 3500 | 3500 | wyslane |\n| Bak | Kamera | 3000 | 3000 | oczekuje |\n| Zak | Telefon | 2500 | 2125 | oczekuje |\n| Nowak | Telefon | 2000 | 2000 | oczekuje |\n| Wrobel | Tablet | 1800 | 1440 | wyslane |\n\n**Wyjasnienie**: NULL oznacza brak wartosci — nie jest zerem ani pustym tekstem. Do sprawdzenia NULL uzywamy IS NULL / IS NOT NULL (NIE `= NULL` czy `!= NULL`). CASE WHEN pozwala na warunkowe obliczenia: jesli rabat istnieje, odejmujemy procent od ceny. Dwa niezalezne bloki CASE WHEN tworza dwie osobne kolumny wynikowe.",
+  "typowe_bledy": [
+    {
+      "opis": "**`!= NULL` zamiast `IS NOT NULL`**: `WHEN rabat != NULL` ZAWSZE zwraca NULL/FALSE — zadne zamowienie nie dostanie rabatu",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Brak ELSE w CASE na cene**: Zamowienia bez rabatu dostana NULL zamiast oryginalnej ceny",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zla kolejnosc dzialan w formule**: `cena * 100 - rabat / 100` zamiast `cena * (100 - rabat) / 100` — nawiasy sa kluczowe",
+      "kara": "-1 pkt"
+    }
+  ]
+}

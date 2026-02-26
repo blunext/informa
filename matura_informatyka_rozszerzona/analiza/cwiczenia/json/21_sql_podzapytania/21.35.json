@@ -1,0 +1,28 @@
+{
+  "id": "21.35",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane systemem dzialow firmy",
+  "tagi": [
+    "EXISTS",
+    "korelacja-podzapytan",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Dzialy**:\n\n| id | nazwa |\n|----|-------|\n| 1 | IT |\n| 2 | HR |\n| 3 | Sprzedaz |\n| 4 | Marketing |\n\nTabela **Pracownicy**:\n\n| id | imie | id_dzialu | wynagrodzenie |\n|----|------|----------|---------------|\n| 1 | Anna | 1 | 9500 |\n| 2 | Jan | 1 | 7000 |\n| 3 | Ewa | 2 | 5000 |\n| 4 | Piotr | 3 | 6500 |\n| 5 | Kasia | 2 | 5500 |\n| 6 | Tomek | 3 | 8500 |\n\n**Polecenie**: Napisz zapytanie SQL z EXISTS, ktore wyswietli nazwy dzialow, w ktorych jest przynajmniej jeden pracownik z wynagrodzeniem powyzej 8000. Posortuj alfabetycznie.",
+  "wskazowki": [
+    "**Kierunek**: EXISTS sprawdza, CZY podzapytanie zwraca jakikolwiek wiersz — nie zwraca wartosci, a jedynie TRUE/FALSE.",
+    "**Podejscie**: `WHERE EXISTS (SELECT 1 FROM Pracownicy WHERE id_dzialu = Dzialy.id AND wynagrodzenie > 8000)`.",
+    "**Kluczowy krok**: Podzapytanie jest skorelowane — `id_dzialu = D.id` laczy je z zapytaniem zewnetrznym."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT D.nazwa\nFROM Dzialy D\nWHERE EXISTS (\n    SELECT 1\n    FROM Pracownicy P\n    WHERE P.id_dzialu = D.id AND P.wynagrodzenie > 8000\n)\nORDER BY D.nazwa;\n```\n\n**Weryfikacja**:\n- IT (id=1): Anna(9500>8000 ✓) → EXISTS = TRUE ✓\n- HR (id=2): Ewa(5000), Kasia(5500) → nikt >8000 → EXISTS = FALSE ✗\n- Sprzedaz (id=3): Tomek(8500>8000 ✓) → EXISTS = TRUE ✓\n- Marketing (id=4): brak pracownikow → EXISTS = FALSE ✗\n\n| nazwa |\n|-------|\n| IT |\n| Sprzedaz |\n\n**Wyjasnienie**: EXISTS zwraca TRUE jesli podzapytanie ma przynajmniej 1 wiersz. `SELECT 1` jest konwencja — EXISTS nie potrzebuje konkretnych danych, tylko sprawdza istnienie. Podzapytanie jest skorelowane (P.id_dzialu = D.id).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak korelacji**: `WHERE wynagrodzenie > 8000` bez `id_dzialu = D.id` — EXISTS zwroci TRUE dla KAZDEGO dzialu (bo ktos w firmie zarabia >8000)",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**IN zamiast EXISTS**: `WHERE D.id IN (SELECT id_dzialu ...)` tez zadziala, ale polecenie wymaga EXISTS",
+      "kara": "-1 pkt"
+    }
+  ]
+}

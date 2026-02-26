@@ -1,0 +1,28 @@
+{
+  "id": "20.32",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane systemem zamowien",
+  "tagi": [
+    "GROUP-BY",
+    "SUM",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Zamowienia**:\n\n| id | klient | produkt | ilosc |\n|----|--------|---------|-------|\n| 1 | Kowalski | Laptop | 2 |\n| 2 | Nowak | Tablet | 3 |\n| 3 | Kowalski | Tablet | 1 |\n| 4 | Maj | Laptop | 1 |\n| 5 | Nowak | Telefon | 2 |\n| 6 | Maj | Tablet | 4 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe produktu i laczna zamowiona ilosc. Posortuj malejaco wg lacznej ilosci.",
+  "wskazowki": [
+    "**Kierunek**: Pogrupuj zamowienia wg produktu i zsumuj ilosci.",
+    "**Podejscie**: GROUP BY na kolumnie produkt, SUM na kolumnie ilosc.",
+    "**Kluczowy krok**: SUM sumuje wartosci w kazdej grupie — kazdy produkt to osobna grupa."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT produkt, SUM(ilosc) AS laczna_ilosc\nFROM Zamowienia\nGROUP BY produkt\nORDER BY laczna_ilosc DESC;\n```\n\n**Weryfikacja**:\n- Tablet: 3+1+4 = **8**\n- Laptop: 2+1 = **3**\n- Telefon: **2**\n\n| produkt | laczna_ilosc |\n|---------|--------------|\n| Tablet | 8 |\n| Laptop | 3 |\n| Telefon | 2 |\n\n**Wyjasnienie**: GROUP BY grupuje wiersze z tym samym produktem. SUM(ilosc) sumuje ilosci w kazdej grupie. ORDER BY DESC sortuje od najwiekszej sumy.",
+  "typowe_bledy": [
+    {
+      "opis": "**COUNT zamiast SUM**: COUNT(*) zliczyloby LICZBE zamowien (Tablet=3), a nie SUME ilosci (Tablet=8)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak aliasu AS**: Bez `AS laczna_ilosc` kolumna wynikowa moze miec niezrozumiala nazwe",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

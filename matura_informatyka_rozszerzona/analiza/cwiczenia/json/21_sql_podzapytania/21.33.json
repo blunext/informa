@@ -1,0 +1,27 @@
+{
+  "id": "21.33",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane systemem miast i lotnisk",
+  "tagi": [
+    "IN",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Miasta**:\n\n| id | nazwa | populacja |\n|----|-------|-----------|\n| 1 | Warszawa | 1790000 |\n| 2 | Krakow | 780000 |\n| 3 | Gdansk | 470000 |\n| 4 | Lublin | 340000 |\n| 5 | Katowice | 290000 |\n\nTabela **Lotniska**:\n\n| id | id_miasta | nazwa_lotniska |\n|----|----------|----------------|\n| 1 | 1 | Chopina |\n| 2 | 2 | Balice |\n| 3 | 3 | Lech Walesa |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe i populacje miast posiadajacych lotnisko. Posortuj malejaco wg populacji.",
+  "wskazowki": [
+    "**Kierunek**: Szukasz miast, ktorych id wystepuje w tabeli Lotniska.",
+    "**Podejscie**: Podzapytanie `(SELECT id_miasta FROM Lotniska)` zwraca id miast z lotniskami.",
+    "**Kluczowy krok**: IN sprawdza, czy wartosc nalezy do zbioru zwroconego przez podzapytanie."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, populacja\nFROM Miasta\nWHERE id IN (SELECT id_miasta FROM Lotniska)\nORDER BY populacja DESC;\n```\n\n**Weryfikacja**:\n- Miasta z lotniskiem (id_miasta w Lotniska): 1, 2, 3\n- Warszawa (1790000), Krakow (780000), Gdansk (470000)\n\n| nazwa | populacja |\n|-------|-----------|\n| Warszawa | 1790000 |\n| Krakow | 780000 |\n| Gdansk | 470000 |\n\n**Wyjasnienie**: IN sprawdza, czy id miasta nalezy do zbioru {1, 2, 3} zwroconego przez podzapytanie. Lublin i Katowice nie maja lotnisk, wiec zostaja odfiltrowane.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zla kolumna w podzapytaniu**: `SELECT id FROM Lotniska` zamiast `SELECT id_miasta FROM Lotniska` — id lotniska to nie id miasta!",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak ORDER BY**: Bez sortowania wyniki moga miec losowa kolejnosc",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

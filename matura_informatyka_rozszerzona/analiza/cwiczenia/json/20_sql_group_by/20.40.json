@@ -1,0 +1,38 @@
+{
+  "id": "20.40",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane analiza e-commerce",
+  "tagi": [
+    "GROUP-BY",
+    "COUNT",
+    "COUNT-DISTINCT",
+    "SUM",
+    "HAVING",
+    "JOIN-z-GROUP-BY",
+    "wielokolumnowe-grupowanie",
+    "aliasy",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Kategorie**:\n\n| id | nazwa | dzial |\n|----|-------|-------|\n| 1 | Laptopy | Elektronika |\n| 2 | Telefony | Elektronika |\n| 3 | Koszulki | Odziez |\n| 4 | Buty | Odziez |\n| 5 | Ksiazki | Media |\n\nTabela **Zakupy**:\n\n| id | id_kategorii | klient | kwota |\n|----|-------------|--------|-------|\n| 1 | 1 | Kowalski | 3500 |\n| 2 | 2 | Nowak | 2000 |\n| 3 | 1 | Maj | 4200 |\n| 4 | 3 | Lis | 150 |\n| 5 | 2 | Kowalski | 1800 |\n| 6 | 4 | Zak | 350 |\n| 7 | 1 | Nowak | 3800 |\n| 8 | 5 | Bak | 45 |\n| 9 | 2 | Maj | 2200 |\n| 10 | 3 | Wrobel | 200 |\n| 11 | 4 | Kowalski | 400 |\n| 12 | 5 | Krol | 60 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli dzial, nazwe kategorii, liczbe zamowien, laczna kwote zakupow i liczbe roznych klientow. Pokaz tylko kategorie z laczna kwota powyzej 500 i z wiecej niz 1 roznym klientem. Posortuj malejaco wg lacznej kwoty.",
+  "wskazowki": [
+    "**Kierunek**: JOIN dwoch tabel, wielokolumnowe GROUP BY, wielokrotne agregaty i zlozony HAVING.",
+    "**Podejscie**: GROUP BY (dzial, nazwa), COUNT(*), SUM(kwota), COUNT(DISTINCT klient), HAVING z dwoma warunkami.",
+    "**Kluczowy krok**: COUNT(DISTINCT klient) zlicza UNIKALNYCH klientow — to cos innego niz COUNT(*) ktore liczy WSZYSTKIE wiersze."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT Ka.dzial, Ka.nazwa,\n       COUNT(*) AS liczba_zamowien,\n       SUM(Z.kwota) AS laczna_kwota,\n       COUNT(DISTINCT Z.klient) AS rozni_klienci\nFROM Kategorie Ka\nJOIN Zakupy Z ON Ka.id = Z.id_kategorii\nGROUP BY Ka.dzial, Ka.nazwa\nHAVING SUM(Z.kwota) > 500 AND COUNT(DISTINCT Z.klient) > 1\nORDER BY laczna_kwota DESC;\n```\n\n**Weryfikacja** per kategoria:\n- Laptopy (Elektronika): Kowalski(3500), Maj(4200), Nowak(3800) → COUNT=3, SUM=**11500**, DISTINCT=3. SUM>500 ✓, DISTINCT>1 ✓\n- Telefony (Elektronika): Nowak(2000), Kowalski(1800), Maj(2200) → COUNT=3, SUM=**6000**, DISTINCT=3. ✓ ✓\n- Koszulki (Odziez): Lis(150), Wrobel(200) → COUNT=2, SUM=**350**. SUM>500 ✗\n- Buty (Odziez): Zak(350), Kowalski(400) → COUNT=2, SUM=**750**, DISTINCT=2. ✓ ✓\n- Ksiazki (Media): Bak(45), Krol(60) → COUNT=2, SUM=**105**. SUM>500 ✗\n\n| dzial | nazwa | liczba_zamowien | laczna_kwota | rozni_klienci |\n|-------|-------|-----------------|--------------|---------------|\n| Elektronika | Laptopy | 3 | 11500 | 3 |\n| Elektronika | Telefony | 3 | 6000 | 3 |\n| Odziez | Buty | 2 | 750 | 2 |\n\n**Wyjasnienie**: COUNT(DISTINCT klient) zlicza unikalnych klientow w grupie. Wielokolumnowe GROUP BY (dzial, nazwa) pozwala wyswietlic oba pola. HAVING z AND wymaga spelnienia obu warunkow jednoczesnie.",
+  "typowe_bledy": [
+    {
+      "opis": "**COUNT(*) zamiast COUNT(DISTINCT klient)**: COUNT(*) liczy zamowienia, nie unikalnych klientow — np. Laptopy: 3 zamowienia, ale 3 roznych klientow (tu sie akurat zgadza, ale to przypadek)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak AND w HAVING**: Tylko jeden warunek przepusci kategorie niespelniajace drugiego",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**GROUP BY tylko po jednej kolumnie**: Bez obu kolumn w GROUP BY nie mozna wyswietlic dzial i nazwa jednoczesnie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "22.34",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane analiza par uczniow",
+  "tagi": [
+    "self-JOIN",
+    "aliasy-tabel",
+    "ON-warunek"
+  ],
+  "tresc": "Tabela **Uczniowie**:\n\n| id | imie | klasa |\n|----|------|-------|\n| 1 | Anna | 3A |\n| 2 | Jan | 3A |\n| 3 | Ewa | 3B |\n| 4 | Piotr | 3A |\n| 5 | Kasia | 3B |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli wszystkie pary uczniow z tej samej klasy. Unikaj powtorzen (para Anna-Jan to to samo co Jan-Anna) i nie paruj ucznia z samym soba. Wyswietl klase, imie pierwszego i imie drugiego ucznia. Posortuj wg klasy, potem wg imienia pierwszego ucznia.",
+  "wskazowki": [
+    "**Kierunek**: Self-JOIN laczy tabele z sama soba — kazdy uczen jest laczony z innymi uczniami z tej samej klasy.",
+    "**Podejscie**: `FROM Uczniowie U1 JOIN Uczniowie U2 ON U1.klasa = U2.klasa AND U1.id < U2.id`.",
+    "**Kluczowy krok**: Warunek `U1.id < U2.id` eliminuje duplikaty (Anna-Jan i Jan-Anna) oraz parowanie z soba (Anna-Anna)."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT U1.klasa, U1.imie AS uczen1, U2.imie AS uczen2\nFROM Uczniowie U1\nJOIN Uczniowie U2 ON U1.klasa = U2.klasa AND U1.id < U2.id\nORDER BY U1.klasa, U1.imie;\n```\n\n**Weryfikacja**:\n3A (id: 1, 2, 4):\n- (1, 2): Anna, Jan\n- (1, 4): Anna, Piotr\n- (2, 4): Jan, Piotr\n\n3B (id: 3, 5):\n- (3, 5): Ewa, Kasia\n\n| klasa | uczen1 | uczen2 |\n|-------|--------|--------|\n| 3A | Anna | Jan |\n| 3A | Anna | Piotr |\n| 3A | Jan | Piotr |\n| 3B | Ewa | Kasia |\n\n**Wyjasnienie**: Self-JOIN laczy tabele z sama soba. `U1.id < U2.id` zapewnia, ze kazda para wystepuje dokladnie raz (nie dostajemy Jan-Anna jesli juz mamy Anna-Jan) i ze uczen nie jest parowany z soba.",
+  "typowe_bledy": [
+    {
+      "opis": "**U1.id != U2.id zamiast <**: Eliminuje parowanie z soba, ale NIE eliminuje duplikatow — dostaniemy Anna-Jan I Jan-Anna",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak warunku na klase w ON**: Bez `U1.klasa = U2.klasa` pary beda miedzy ROZNYMI klasami",
+      "kara": "-2 pkt"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "21.31",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane systemem sklepowym",
+  "tagi": [
+    "podzapytanie-skalarne",
+    "MIN",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Towary**:\n\n| id | nazwa | kategoria | cena |\n|----|-------|-----------|------|\n| 1 | Chleb | Pieczywo | 4 |\n| 2 | Bulka | Pieczywo | 2 |\n| 3 | Mleko | Nabialy | 5 |\n| 4 | Jogurt | Nabialy | 3 |\n| 5 | Sok | Napoje | 6 |\n| 6 | Woda | Napoje | 2 |\n| 7 | Maslo | Nabialy | 8 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe i cene towarow droższych niz najtanszy towar w kategorii 'Nabialy'. Posortuj rosnaco wg ceny.",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz podzapytania, ktore znajdzie minimalna cene w kategorii Nabialy.",
+    "**Podejscie**: Podzapytanie `(SELECT MIN(cena) FROM Towary WHERE kategoria = 'Nabialy')` zwraca jedna wartosc.",
+    "**Kluczowy krok**: Porownaj cene kazdego towaru z ta wartoscia: `WHERE cena > (SELECT ...)`."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, cena\nFROM Towary\nWHERE cena > (SELECT MIN(cena) FROM Towary WHERE kategoria = 'Nabialy')\nORDER BY cena;\n```\n\n**Weryfikacja**:\n- MIN cena w Nabialy: MIN(5, 3, 8) = **3**\n- Towary z cena > 3: Chleb(4), Mleko(5), Sok(6), Maslo(8)\n\n| nazwa | cena |\n|-------|------|\n| Chleb | 4 |\n| Mleko | 5 |\n| Sok | 6 |\n| Maslo | 8 |\n\n**Wyjasnienie**: Podzapytanie zwraca pojedyncza wartosc (3) — najtanszy nabialy. WHERE porownuje cene kazdego towaru z ta wartoscia. Towar Jogurt (cena=3) nie spelnia warunku > 3.",
+  "typowe_bledy": [
+    {
+      "opis": "**>= zamiast >**: Polecenie mowi 'drozszych niz' (scisle), wiec Jogurt (3) nie powinien sie pojawic",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**MIN bez WHERE**: `SELECT MIN(cena) FROM Towary` daloby globalne minimum (2), nie minimum w Nabialach",
+      "kara": "-2 pkt"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "20.38",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane analiza sklepu internetowego",
+  "tagi": [
+    "GROUP-BY",
+    "COUNT",
+    "SUM",
+    "AVG",
+    "ROUND",
+    "obliczenia-w-SELECT",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Produkty**:\n\n| id | nazwa | kategoria | cena | ilosc_sprzedanych |\n|----|-------|-----------|------|-------------------|\n| 1 | Laptop A | Elektronika | 3500 | 12 |\n| 2 | Telefon B | Elektronika | 2000 | 25 |\n| 3 | Koszulka C | Odziez | 80 | 150 |\n| 4 | Spodnie D | Odziez | 120 | 90 |\n| 5 | Tablet E | Elektronika | 1500 | 30 |\n| 6 | Buty F | Odziez | 200 | 60 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli kategorie, liczbe produktow, laczny przychod (cena * ilosc_sprzedanych) oraz srednia cene produktu (zaokraglona do 2 miejsc po przecinku) w kazdej kategorii. Posortuj malejaco wg lacznego przychodu.",
+  "wskazowki": [
+    "**Kierunek**: GROUP BY po kategorii z wieloma agregatami i obliczeniami.",
+    "**Podejscie**: COUNT, SUM(cena * ilosc_sprzedanych) i ROUND(AVG(cena), 2) w jednym zapytaniu.",
+    "**Kluczowy krok**: SUM(cena * ilosc_sprzedanych) oblicza iloczyn PER WIERSZ, a nastepnie sumuje — to nie to samo co SUM(cena) * SUM(ilosc)."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT kategoria,\n       COUNT(*) AS liczba_produktow,\n       SUM(cena * ilosc_sprzedanych) AS laczny_przychod,\n       ROUND(AVG(cena), 2) AS srednia_cena\nFROM Produkty\nGROUP BY kategoria\nORDER BY laczny_przychod DESC;\n```\n\n**Weryfikacja**:\n- Elektronika: COUNT=3, przychody: 3500×12=42000, 2000×25=50000, 1500×30=45000, SUM=**137000**, AVG cena=(3500+2000+1500)/3=2333.33\n- Odziez: COUNT=3, przychody: 80×150=12000, 120×90=10800, 200×60=12000, SUM=**34800**, AVG cena=(80+120+200)/3=133.33\n\n| kategoria | liczba_produktow | laczny_przychod | srednia_cena |\n|-----------|------------------|-----------------|--------------|\n| Elektronika | 3 | 137000 | 2333.33 |\n| Odziez | 3 | 34800 | 133.33 |\n\n**Wyjasnienie**: SUM(cena * ilosc_sprzedanych) mnozy cene i ilosc w KAZDYM wierszu, a potem sumuje wyniki w grupie. To rozni sie od SUM(cena) * SUM(ilosc), ktore daloby bledny wynik.",
+  "typowe_bledy": [
+    {
+      "opis": "**SUM(cena) * SUM(ilosc_sprzedanych)**: Daje zupelnie inny wynik! Np. dla Elektroniki: 7000 * 67 = 469000 zamiast 137000",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Brak ROUND przy AVG**: Srednia moze miec wiele miejsc po przecinku — polecenie wymaga zaokraglenia",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

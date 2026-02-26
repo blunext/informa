@@ -1,0 +1,28 @@
+{
+  "id": "20.33",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane systemem ocen szkolnych",
+  "tagi": [
+    "GROUP-BY",
+    "MAX",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Oceny**:\n\n| id | uczen | przedmiot | ocena |\n|----|-------|-----------|-------|\n| 1 | Anna | Matematyka | 5 |\n| 2 | Anna | Fizyka | 4 |\n| 3 | Jan | Matematyka | 3 |\n| 4 | Jan | Fizyka | 5 |\n| 5 | Ewa | Matematyka | 4 |\n| 6 | Ewa | Fizyka | 4 |\n| 7 | Piotr | Matematyka | 5 |\n| 8 | Piotr | Fizyka | 3 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie ucznia i jego najwyzsza ocene ze wszystkich przedmiotow. Posortuj malejaco wg najwyzszej oceny, a przy remisie — alfabetycznie wg imienia.",
+  "wskazowki": [
+    "**Kierunek**: Pogrupuj oceny wg ucznia i znajdz maksimum w kazdej grupie.",
+    "**Podejscie**: GROUP BY na kolumnie uczen, MAX na kolumnie ocena.",
+    "**Kluczowy krok**: ORDER BY z dwoma kolumnami — malejaco wg MAX, a przy rownosci rosnaco wg imienia."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT uczen, MAX(ocena) AS najwyzsza_ocena\nFROM Oceny\nGROUP BY uczen\nORDER BY najwyzsza_ocena DESC, uczen;\n```\n\n**Weryfikacja**:\n- Anna: MAX(5, 4) = **5**\n- Jan: MAX(3, 5) = **5**\n- Ewa: MAX(4, 4) = **4**\n- Piotr: MAX(5, 3) = **5**\n\nSortowanie: 5 (Anna, Jan, Piotr — alfabetycznie), potem 4 (Ewa)\n\n| uczen | najwyzsza_ocena |\n|-------|-----------------|\n| Anna | 5 |\n| Jan | 5 |\n| Piotr | 5 |\n| Ewa | 4 |\n\n**Wyjasnienie**: MAX wybiera najwieksza wartosc w kazdej grupie. Dwupoziomowe ORDER BY zapewnia determinystyczna kolejnosc przy remisach.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak tiebreakera w ORDER BY**: Bez `uczen` w ORDER BY kolejnosc uczniow z ta sama ocena jest losowa",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**MIN zamiast MAX**: Polecenie prosi o najwyzsza ocene — MIN daloby najnizsza",
+      "kara": "-2 pkt"
+    }
+  ]
+}

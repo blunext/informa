@@ -1,0 +1,28 @@
+{
+  "id": "21.37",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane systemem ocen",
+  "tagi": [
+    "korelacja-podzapytan",
+    "MAX",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Oceny**:\n\n| id | uczen | przedmiot | ocena |\n|----|-------|-----------|-------|\n| 1 | Anna | Matematyka | 5 |\n| 2 | Jan | Matematyka | 4 |\n| 3 | Ewa | Matematyka | 5 |\n| 4 | Anna | Fizyka | 3 |\n| 5 | Jan | Fizyka | 5 |\n| 6 | Ewa | Fizyka | 4 |\n| 7 | Anna | Chemia | 4 |\n| 8 | Jan | Chemia | 3 |\n| 9 | Ewa | Chemia | 5 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie ucznia, przedmiot i ocene dla tych wpisow, w ktorych ocena jest rowna najwyzszej ocenie w danym przedmiocie. Uzyj podzapytania skorelowanego. Posortuj wg przedmiotu, potem wg ucznia.",
+  "wskazowki": [
+    "**Kierunek**: Podzapytanie musi znajdowac MAX(ocena) osobno dla KAZDEGO przedmiotu.",
+    "**Podejscie**: `WHERE O.ocena = (SELECT MAX(O2.ocena) FROM Oceny O2 WHERE O2.przedmiot = O.przedmiot)`.",
+    "**Kluczowy krok**: Jezeli kilku uczniow ma taka sama najwyzsza ocene w przedmiocie, WSZYSCY pojawia sie w wyniku."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT O.uczen, O.przedmiot, O.ocena\nFROM Oceny O\nWHERE O.ocena = (\n    SELECT MAX(O2.ocena)\n    FROM Oceny O2\n    WHERE O2.przedmiot = O.przedmiot\n)\nORDER BY O.przedmiot, O.uczen;\n```\n\n**Weryfikacja** (MAX per przedmiot):\n- Chemia: MAX(4, 3, 5) = **5** → Ewa ✓\n- Fizyka: MAX(3, 5, 4) = **5** → Jan ✓\n- Matematyka: MAX(5, 4, 5) = **5** → Anna ✓, Ewa ✓\n\n| uczen | przedmiot | ocena |\n|-------|-----------|-------|\n| Ewa | Chemia | 5 |\n| Jan | Fizyka | 5 |\n| Anna | Matematyka | 5 |\n| Ewa | Matematyka | 5 |\n\n**Wyjasnienie**: Podzapytanie skorelowane oblicza MAX(ocena) dla kazdego przedmiotu. Matematyka ma dwoch uczniow z ocena 5 (Anna i Ewa), wiec oba wiersze spelniaja warunek. To rozni podzapytanie od prostego MAX — pozwala znalezc WSZYSTKICH najlepszych.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak korelacji**: `SELECT MAX(ocena) FROM Oceny` — da globalne maximum (5) zamiast per przedmiot. Tu przypadkiem daje ten sam wynik, ale przy roznych max per przedmiot byloby bledne",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**LIMIT 1 zamiast podzapytania**: Ograniczy wynik do 1 wiersza, a Matematyka ma 2 najlepszych uczniow",
+      "kara": "-2 pkt"
+    }
+  ]
+}

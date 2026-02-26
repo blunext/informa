@@ -1,0 +1,33 @@
+{
+  "id": "21.36",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane analiza wynagrodzen",
+  "tagi": [
+    "korelacja-podzapytan",
+    "podzapytanie-skalarne",
+    "AVG",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Pracownicy**:\n\n| id | imie | nazwisko | dzial | wynagrodzenie |\n|----|------|----------|-------|---------------|\n| 1 | Anna | Kowalska | IT | 9000 |\n| 2 | Jan | Nowak | IT | 7000 |\n| 3 | Ewa | Maj | IT | 8500 |\n| 4 | Piotr | Lis | HR | 5500 |\n| 5 | Kasia | Zak | HR | 6000 |\n| 6 | Tomek | Bak | HR | 4800 |\n| 7 | Ola | Wrobel | Sprzedaz | 7200 |\n| 8 | Marek | Krol | Sprzedaz | 6800 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko, dzial i wynagrodzenie pracownikow zarabiajacych wiecej niz srednie wynagrodzenie w ICH dziale (nie w calej firmie). Uzyj podzapytania skorelowanego. Posortuj malejaco wg wynagrodzenia.",
+  "wskazowki": [
+    "**Kierunek**: Srednia musi byc obliczana osobno dla kazdego dzialu — potrzebujesz podzapytania skorelowanego.",
+    "**Podejscie**: `WHERE wynagrodzenie > (SELECT AVG(P2.wynagrodzenie) FROM Pracownicy P2 WHERE P2.dzial = P.dzial)`.",
+    "**Kluczowy krok**: Podzapytanie odwoluje sie do `P.dzial` z zapytania zewnetrznego — dlatego jest 'skorelowane'."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT P.imie, P.nazwisko, P.dzial, P.wynagrodzenie\nFROM Pracownicy P\nWHERE P.wynagrodzenie > (\n    SELECT AVG(P2.wynagrodzenie)\n    FROM Pracownicy P2\n    WHERE P2.dzial = P.dzial\n)\nORDER BY P.wynagrodzenie DESC;\n```\n\n**Weryfikacja** (srednie per dzial):\n- IT: (9000+7000+8500)/3 = 24500/3 = **8166.67**\n- HR: (5500+6000+4800)/3 = 16300/3 = **5433.33**\n- Sprzedaz: (7200+6800)/2 = 14000/2 = **7000.00**\n\nSprawdzenie kazdego pracownika:\n- Anna: 9000 > 8166.67 ✓\n- Jan: 7000 > 8166.67 ✗\n- Ewa: 8500 > 8166.67 ✓\n- Piotr: 5500 > 5433.33 ✓\n- Kasia: 6000 > 5433.33 ✓\n- Tomek: 4800 > 5433.33 ✗\n- Ola: 7200 > 7000.00 ✓\n- Marek: 6800 > 7000.00 ✗\n\n| imie | nazwisko | dzial | wynagrodzenie |\n|------|----------|-------|---------------|\n| Anna | Kowalska | IT | 9000 |\n| Ewa | Maj | IT | 8500 |\n| Ola | Wrobel | Sprzedaz | 7200 |\n| Kasia | Zak | HR | 6000 |\n| Piotr | Lis | HR | 5500 |\n\n**Wyjasnienie**: Podzapytanie skorelowane jest wykonywane dla kazdego pracownika z zapytania zewnetrznego. `P2.dzial = P.dzial` filtruje podzapytanie do wspolpracownikow z tego samego dzialu. Kazdy pracownik jest porownywany ze srednia SWOJEGO dzialu.",
+  "typowe_bledy": [
+    {
+      "opis": "**Nieskorelowane podzapytanie**: `SELECT AVG(wynagrodzenie) FROM Pracownicy` — oblicza srednia CALEJ firmy zamiast per dzial",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Te same aliasy w obu zapytaniach**: Uzycie P zamiast P2 w podzapytaniu powoduje niejednoznacznosc",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**>= zamiast >**: Polecenie mowi 'wiecej niz srednia', nie 'wiecej lub rowno' — osoby ze srednia dokladnie rowna sredniej nie powinny sie pojawic",
+      "kara": "-1 pkt"
+    }
+  ]
+}

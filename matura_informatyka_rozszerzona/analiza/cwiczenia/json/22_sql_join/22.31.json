@@ -1,0 +1,28 @@
+{
+  "id": "22.31",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane baza filmow",
+  "tagi": [
+    "INNER-JOIN",
+    "aliasy-tabel",
+    "ORDER-BY-wielokolumnowy"
+  ],
+  "tresc": "Tabela **Rezyserzy**:\n\n| id | imie | nazwisko |\n|----|------|----------|\n| 1 | Steven | Spielberg |\n| 2 | Christopher | Nolan |\n| 3 | Quentin | Tarantino |\n\nTabela **Filmy**:\n\n| id | tytul | id_rezysera | rok |\n|----|-------|------------|-----|\n| 1 | Incepcja | 2 | 2010 |\n| 2 | Lista Schindlera | 1 | 1993 |\n| 3 | Pulp Fiction | 3 | 1994 |\n| 4 | Interstellar | 2 | 2014 |\n| 5 | Jurassic Park | 1 | 1993 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli tytul filmu i nazwisko rezysera. Posortuj alfabetycznie wg nazwiska rezysera, a nastepnie wg tytulu.",
+  "wskazowki": [
+    "**Kierunek**: Dane filmu i rezysera sa w roznych tabelach — potrzebujesz JOIN.",
+    "**Podejscie**: JOIN na wspolnej kolumnie id_rezysera.",
+    "**Kluczowy krok**: ORDER BY z dwoma kolumnami: nazwisko, potem tytul."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT F.tytul, R.nazwisko\nFROM Filmy F\nJOIN Rezyserzy R ON F.id_rezysera = R.id\nORDER BY R.nazwisko, F.tytul;\n```\n\n**Weryfikacja**:\n\n| tytul | nazwisko |\n|-------|----------|\n| Incepcja | Nolan |\n| Interstellar | Nolan |\n| Jurassic Park | Spielberg |\n| Lista Schindlera | Spielberg |\n| Pulp Fiction | Tarantino |\n\n**Wyjasnienie**: JOIN laczy kazdy film z jego rezyserem przez id_rezysera. ORDER BY z dwoma kolumnami sortuje najpierw wg nazwiska, a w ramach tego samego nazwiska — wg tytulu (np. Nolan: Incepcja przed Interstellar).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak ON w JOIN**: `FROM Filmy JOIN Rezyserzy` bez ON tworzy iloczyn kartezjanski (kazdy film z kazdym rezyserem = 15 wierszy)",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Odwrotny warunek ON**: `ON F.id = R.id` zamiast `ON F.id_rezysera = R.id` — laczy po id filmu z id rezysera, co jest bezsensowne",
+      "kara": "-2 pkt"
+    }
+  ]
+}

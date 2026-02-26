@@ -1,0 +1,29 @@
+{
+  "id": "20.31",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane analizami filmowymi",
+  "tagi": [
+    "GROUP-BY",
+    "AVG",
+    "ROUND",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Filmy**:\n\n| id | tytul | gatunek | ocena |\n|----|-------|---------|-------|\n| 1 | Matrix | sci-fi | 8 |\n| 2 | Incepcja | sci-fi | 9 |\n| 3 | Titanic | dramat | 7 |\n| 4 | Gladiator | historyczny | 8 |\n| 5 | Obcy | sci-fi | 8 |\n| 6 | Pianista | dramat | 9 |\n| 7 | Troja | historyczny | 6 |\n| 8 | Interstellar | sci-fi | 9 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli gatunek i srednia ocene filmow w tym gatunku, zaokraglona do 1 miejsca po przecinku. Posortuj malejaco wg sredniej oceny.",
+  "wskazowki": [
+    "**Kierunek**: Pogrupuj filmy wg gatunku i oblicz srednia ocene w kazdej grupie.",
+    "**Podejscie**: GROUP BY na kolumnie gatunek, AVG na kolumnie ocena, ROUND do zaokraglenia.",
+    "**Kluczowy krok**: ORDER BY z DESC sortuje od najwyzszej sredniej do najnizszej."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT gatunek, ROUND(AVG(ocena), 1) AS srednia_ocena\nFROM Filmy\nGROUP BY gatunek\nORDER BY srednia_ocena DESC;\n```\n\n**Weryfikacja**:\n- sci-fi: (8+9+8+9)/4 = 34/4 = **8.5**\n- dramat: (7+9)/2 = 16/2 = **8.0**\n- historyczny: (8+6)/2 = 14/2 = **7.0**\n\n| gatunek | srednia_ocena |\n|---------|---------------|\n| sci-fi | 8.5 |\n| dramat | 8.0 |\n| historyczny | 7.0 |\n\n**Wyjasnienie**: GROUP BY grupuje wiersze o tym samym gatunku. AVG oblicza srednia w kazdej grupie. ROUND(..., 1) zaokragla do 1 miejsca po przecinku.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak ROUND**: Bez zaokraglenia srednia moze miec wiele miejsc po przecinku, co nie spelnia polecenia",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Brak ORDER BY DESC**: Domyslne sortowanie jest rosnace (ASC) — wynik bedzie w odwrotnej kolejnosci",
+      "kara": "-1 pkt"
+    }
+  ]
+}

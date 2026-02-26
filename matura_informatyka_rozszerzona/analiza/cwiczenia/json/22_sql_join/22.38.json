@@ -1,0 +1,29 @@
+{
+  "id": "22.38",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane systemem szkolnym",
+  "tagi": [
+    "JOIN-wielotabelowy",
+    "GROUP-BY-z-JOIN",
+    "ORDER-BY-wielokolumnowy",
+    "aliasy-tabel"
+  ],
+  "tresc": "Tabela **Nauczyciele**:\n\n| id | imie | nazwisko | przedmiot |\n|----|------|----------|-----------|\n| 1 | Anna | Kowal | Matematyka |\n| 2 | Jan | Nowak | Fizyka |\n| 3 | Ewa | Maj | Chemia |\n\nTabela **Klasy**:\n\n| id | nazwa | id_wychowawcy |\n|----|-------|--------------|\n| 1 | 3A | 1 |\n| 2 | 3B | 3 |\n| 3 | 3C | 2 |\n\nTabela **Uczniowie**:\n\n| id | imie | id_klasy |\n|----|------|---------|\n| 1 | Adam | 1 |\n| 2 | Beata | 1 |\n| 3 | Celina | 2 |\n| 4 | Dawid | 2 |\n| 5 | Emil | 3 |\n| 6 | Filip | 1 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe klasy, nazwisko wychowawcy i liczbe uczniow w kazdej klasie. Posortuj malejaco wg liczby uczniow, potem wg nazwy klasy.",
+  "wskazowki": [
+    "**Kierunek**: Polaczenie 3 tabel: Klasy ↔ Nauczyciele (wychowawca) i Klasy ↔ Uczniowie.",
+    "**Podejscie**: Dwa JOIN-y od tabeli Klasy, GROUP BY po nazwie klasy i nazwisku nauczyciela.",
+    "**Kluczowy krok**: id_wychowawcy w Klasy wskazuje na Nauczyciele.id — to laczy klase z wychowawca."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT Kl.nazwa, N.nazwisko AS wychowawca, COUNT(U.id) AS liczba_uczniow\nFROM Klasy Kl\nJOIN Nauczyciele N ON Kl.id_wychowawcy = N.id\nJOIN Uczniowie U ON Kl.id = U.id_klasy\nGROUP BY Kl.nazwa, N.nazwisko\nORDER BY liczba_uczniow DESC, Kl.nazwa;\n```\n\n**Weryfikacja**:\n- 3A (wychowawca: Kowal): Adam, Beata, Filip → **3**\n- 3B (wychowawca: Maj): Celina, Dawid → **2**\n- 3C (wychowawca: Nowak): Emil → **1**\n\n| nazwa | wychowawca | liczba_uczniow |\n|-------|------------|----------------|\n| 3A | Kowal | 3 |\n| 3B | Maj | 2 |\n| 3C | Nowak | 1 |\n\n**Wyjasnienie**: Dwa JOIN-y od tabeli Klasy: jeden do Nauczyciele (wychowawca), drugi do Uczniowie. GROUP BY po obu kolumnach wyswietlanych pozwala uzyc COUNT. Kazda klasa ma dokladnie jednego wychowawce i kilku uczniow.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak GROUP BY**: Bez grupowania COUNT policzy WSZYSTKICH uczniow we WSZYSTKICH klasach (6)",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Zle ON w JOIN**: `ON Kl.id = N.id` zamiast `ON Kl.id_wychowawcy = N.id` — laczy po id klasy z id nauczyciela zamiast po wychowawcy",
+      "kara": "-2 pkt"
+    }
+  ]
+}

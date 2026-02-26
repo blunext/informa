@@ -1,0 +1,28 @@
+{
+  "id": "22.33",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane struktura firmy",
+  "tagi": [
+    "LEFT-JOIN",
+    "COUNT-z-LEFT-JOIN",
+    "GROUP-BY-z-JOIN"
+  ],
+  "tresc": "Tabela **Dzialy**:\n\n| id | nazwa |\n|----|-------|\n| 1 | IT |\n| 2 | HR |\n| 3 | Sprzedaz |\n| 4 | Marketing |\n\nTabela **Pracownicy**:\n\n| id | imie | id_dzialu |\n|----|------|----------|\n| 1 | Anna | 1 |\n| 2 | Jan | 1 |\n| 3 | Ewa | 2 |\n| 4 | Piotr | 3 |\n| 5 | Kasia | 1 |\n| 6 | Tomek | 3 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe dzialu i liczbe pracownikow. Pokaz WSZYSTKIE dzialy, nawet te bez pracownikow (z liczba 0). Posortuj malejaco wg liczby pracownikow, potem alfabetycznie wg nazwy.",
+  "wskazowki": [
+    "**Kierunek**: Zeby pokaze dzialy BEZ pracownikow, potrzebujesz LEFT JOIN (nie INNER JOIN).",
+    "**Podejscie**: LEFT JOIN zachowuje WSZYSTKIE wiersze z lewej tabeli (Dzialy), nawet bez dopasowania.",
+    "**Kluczowy krok**: COUNT(P.id) zamiast COUNT(*) — COUNT(P.id) ignoruje NULL (pusty dzial = 0), a COUNT(*) liczy wiersz z NULL jako 1."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT D.nazwa, COUNT(P.id) AS liczba_pracownikow\nFROM Dzialy D\nLEFT JOIN Pracownicy P ON D.id = P.id_dzialu\nGROUP BY D.nazwa\nORDER BY liczba_pracownikow DESC, D.nazwa;\n```\n\n**Weryfikacja**:\n- IT: Anna, Jan, Kasia → **3**\n- Sprzedaz: Piotr, Tomek → **2**\n- HR: Ewa → **1**\n- Marketing: brak pracownikow → **0** (LEFT JOIN tworzy wiersz z NULL, COUNT(P.id) = 0)\n\n| nazwa | liczba_pracownikow |\n|-------|--------------------|\n| IT | 3 |\n| Sprzedaz | 2 |\n| HR | 1 |\n| Marketing | 0 |\n\n**Wyjasnienie**: LEFT JOIN zachowuje wszystkie dzialy — Marketing dostaje wiersz z NULL w kolumnach Pracownikow. COUNT(P.id) liczy nie-NULL wartosci, wiec Marketing = 0. Gdyby uzyc COUNT(*), Marketing mialby 1.",
+  "typowe_bledy": [
+    {
+      "opis": "**INNER JOIN zamiast LEFT JOIN**: Marketing nie ma pracownikow — INNER JOIN go pominie (wynik 3 zamiast 4 wierszy)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**COUNT(*) zamiast COUNT(P.id)**: Marketing dostanie 1 zamiast 0, bo LEFT JOIN tworzy wiersz z NULL",
+      "kara": "-1 pkt"
+    }
+  ]
+}

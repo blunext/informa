@@ -1,0 +1,34 @@
+{
+  "id": "22.40",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane systemem opinii produktow",
+  "tagi": [
+    "JOIN-wielotabelowy",
+    "LEFT-JOIN",
+    "COUNT-z-LEFT-JOIN",
+    "GROUP-BY-z-JOIN",
+    "ORDER-BY-wielokolumnowy"
+  ],
+  "tresc": "Tabela **Kategorie**:\n\n| id | nazwa |\n|----|-------|\n| 1 | Elektronika |\n| 2 | Odziez |\n| 3 | Sport |\n\nTabela **Produkty**:\n\n| id | nazwa | id_kategorii | cena |\n|----|-------|-------------|------|\n| 1 | Laptop | 1 | 3500 |\n| 2 | Telefon | 1 | 2000 |\n| 3 | Koszulka | 2 | 80 |\n| 4 | Buty | 2 | 250 |\n| 5 | Pilka | 3 | 100 |\n| 6 | Rower | 3 | 1500 |\n\nTabela **Opinie**:\n\n| id | id_produktu | ocena |\n|----|------------|-------|\n| 1 | 1 | 5 |\n| 2 | 1 | 4 |\n| 3 | 2 | 3 |\n| 4 | 3 | 5 |\n| 5 | 5 | 4 |\n| 6 | 1 | 5 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe kategorii, nazwe produktu i liczbe opinii. Pokaz WSZYSTKIE produkty, nawet te bez opinii (z liczba 0). Posortuj wg kategorii, potem malejaco wg liczby opinii.",
+  "wskazowki": [
+    "**Kierunek**: LEFT JOIN na tabeli Opinie zachowuje produkty bez opinii. INNER JOIN na Kategorie jest OK.",
+    "**Podejscie**: Kategorie JOIN Produkty (INNER), Produkty LEFT JOIN Opinie, GROUP BY po kategorii i produkcie.",
+    "**Kluczowy krok**: COUNT(O.id) zamiast COUNT(*) — COUNT(O.id) daje 0 dla NULL (brak opinii), a COUNT(*) daloby 1."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT Ka.nazwa AS kategoria, P.nazwa AS produkt, COUNT(O.id) AS liczba_opinii\nFROM Kategorie Ka\nJOIN Produkty P ON Ka.id = P.id_kategorii\nLEFT JOIN Opinie O ON P.id = O.id_produktu\nGROUP BY Ka.nazwa, P.nazwa\nORDER BY Ka.nazwa, liczba_opinii DESC;\n```\n\n**Weryfikacja**:\n- Elektronika:\n  - Laptop: opinie id 1, 2, 6 → **3**\n  - Telefon: opinia id 3 → **1**\n- Odziez:\n  - Koszulka: opinia id 4 → **1**\n  - Buty: brak opinii → **0**\n- Sport:\n  - Pilka: opinia id 5 → **1**\n  - Rower: brak opinii → **0**\n\n| kategoria | produkt | liczba_opinii |\n|-----------|---------|---------------|\n| Elektronika | Laptop | 3 |\n| Elektronika | Telefon | 1 |\n| Odziez | Koszulka | 1 |\n| Odziez | Buty | 0 |\n| Sport | Pilka | 1 |\n| Sport | Rower | 0 |\n\n**Wyjasnienie**: Polaczenie 3 tabel: INNER JOIN Kategorie z Produkty (kazdy produkt ma kategorie), LEFT JOIN z Opinie (nie kazdy produkt ma opinie). COUNT(O.id) ignoruje NULL — produkty bez opinii dostaja 0. Sortowanie: najpierw kategorii, potem malejaco po liczbie opinii w ramach kategorii.",
+  "typowe_bledy": [
+    {
+      "opis": "**INNER JOIN zamiast LEFT JOIN na Opinie**: Buty i Rower (bez opinii) zostana pominiete — wynik 4 zamiast 6 wierszy",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**COUNT(*) zamiast COUNT(O.id)**: Buty i Rower dostaną 1 zamiast 0, bo LEFT JOIN tworzy wiersz z NULL",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak GROUP BY po obu kolumnach**: GROUP BY tylko po kategorii zsumuje opinie per kategoria, nie per produkt",
+      "kara": "-2 pkt"
+    }
+  ]
+}

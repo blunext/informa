@@ -1,0 +1,39 @@
+{
+  "id": "20.39",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane analiza kadrowa firmy",
+  "tagi": [
+    "GROUP-BY",
+    "COUNT",
+    "AVG",
+    "ROUND",
+    "MIN",
+    "MAX",
+    "HAVING",
+    "JOIN-z-GROUP-BY",
+    "aliasy",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Dzialy**:\n\n| id | nazwa |\n|----|-------|\n| 1 | IT |\n| 2 | HR |\n| 3 | Sprzedaz |\n| 4 | Marketing |\n\nTabela **Pracownicy**:\n\n| id | imie | nazwisko | id_dzialu | wynagrodzenie |\n|----|------|----------|----------|---------------|\n| 1 | Anna | Kowalska | 1 | 9500 |\n| 2 | Jan | Nowak | 1 | 8200 |\n| 3 | Ewa | Maj | 2 | 6000 |\n| 4 | Piotr | Lis | 3 | 7200 |\n| 5 | Kasia | Zak | 1 | 11000 |\n| 6 | Tomek | Bak | 3 | 6800 |\n| 7 | Ola | Wrobel | 2 | 5500 |\n| 8 | Marek | Krol | 4 | 7500 |\n| 9 | Iza | Rak | 3 | 7800 |\n| 10 | Dawid | Duda | 1 | 9800 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe dzialu, liczbe pracownikow, srednie wynagrodzenie (zaokraglone do 2 miejsc po przecinku), minimalne i maksymalne wynagrodzenie. Pokaz tylko dzialy z co najmniej 3 pracownikami i srednim wynagrodzeniem powyzej 7000. Posortuj malejaco wg sredniej.",
+  "wskazowki": [
+    "**Kierunek**: JOIN dwoch tabel, GROUP BY z wieloma agregatami i dwoma warunkami w HAVING.",
+    "**Podejscie**: JOIN Dzialy z Pracownikami, GROUP BY nazwa, HAVING z AND laczacym dwa warunki.",
+    "**Kluczowy krok**: HAVING moze zawierac wiele warunkow polaczonych AND — oba musza byc spelnione."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT D.nazwa,\n       COUNT(*) AS liczba_pracownikow,\n       ROUND(AVG(P.wynagrodzenie), 2) AS srednie_wyn,\n       MIN(P.wynagrodzenie) AS min_wyn,\n       MAX(P.wynagrodzenie) AS max_wyn\nFROM Dzialy D\nJOIN Pracownicy P ON D.id = P.id_dzialu\nGROUP BY D.nazwa\nHAVING COUNT(*) >= 3 AND AVG(P.wynagrodzenie) > 7000\nORDER BY srednie_wyn DESC;\n```\n\n**Weryfikacja**:\n- IT: Anna(9500), Jan(8200), Kasia(11000), Dawid(9800) → COUNT=4 (>=3 ✓), AVG=38500/4=**9625.0** (>7000 ✓), MIN=8200, MAX=11000\n- HR: Ewa(6000), Ola(5500) → COUNT=2 (>=3 ✗)\n- Sprzedaz: Piotr(7200), Tomek(6800), Iza(7800) → COUNT=3 (>=3 ✓), AVG=21800/3=**7266.67** (>7000 ✓), MIN=6800, MAX=7800\n- Marketing: Marek(7500) → COUNT=1 (>=3 ✗)\n\n| nazwa | liczba_pracownikow | srednie_wyn | min_wyn | max_wyn |\n|-------|--------------------|-------------|---------|---------|\n| IT | 4 | 9625.0 | 8200 | 11000 |\n| Sprzedaz | 3 | 7266.67 | 6800 | 7800 |\n\n**Wyjasnienie**: Wiele agregatow (COUNT, AVG, MIN, MAX) moze wystapic w jednym SELECT. HAVING z AND wymaga jednoczesnego spelnienia obu warunkow — dzial musi miec >= 3 pracownikow ORAZ srednia > 7000.",
+  "typowe_bledy": [
+    {
+      "opis": "**Jeden warunek HAVING zamiast dwoch**: Pominiencie COUNT >= 3 lub AVG > 7000 zwroci zbyt wiele lub zbyt malo wynikow",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak JOIN**: Bez polaczenia tabel nie mozna uzyc nazwy dzialu — trzeba JOIN Dzialy z Pracownikami",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**HAVING COUNT > 3 zamiast >= 3**: Polecenie mowi 'co najmniej 3', wiec Sprzedaz (3 osoby) musi byc uwzgledniona",
+      "kara": "-1 pkt"
+    }
+  ]
+}

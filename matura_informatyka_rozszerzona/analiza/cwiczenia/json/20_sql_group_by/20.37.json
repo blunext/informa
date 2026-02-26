@@ -1,0 +1,30 @@
+{
+  "id": "20.37",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane wynikami zawodow sportowych",
+  "tagi": [
+    "GROUP-BY",
+    "COUNT",
+    "HAVING",
+    "WHERE-vs-HAVING",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Zawody**:\n\n| id | zawodnik | dyscyplina | wynik | rok |\n|----|----------|-----------|-------|-----|\n| 1 | Kowalski | bieg 100m | 11.2 | 2022 |\n| 2 | Nowak | skok w dal | 6.5 | 2022 |\n| 3 | Kowalski | skok w dal | 5.8 | 2022 |\n| 4 | Maj | bieg 100m | 10.8 | 2023 |\n| 5 | Kowalski | bieg 100m | 10.9 | 2023 |\n| 6 | Nowak | bieg 100m | 11.5 | 2023 |\n| 7 | Maj | skok w dal | 7.1 | 2023 |\n| 8 | Nowak | skok w dal | 6.8 | 2023 |\n| 9 | Maj | pchn. kula | 12.5 | 2023 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli zawodnika i liczbe jego startow w roku 2023, ale tylko tych zawodnikow, ktorzy w roku 2023 startowali wiecej niz 1 raz. Posortuj malejaco wg liczby startow.",
+  "wskazowki": [
+    "**Kierunek**: Najpierw odfiltruj wiersze z roku 2023 (WHERE), potem pogrupuj i odfiltruj grupy (HAVING).",
+    "**Podejscie**: WHERE rok = 2023 filtruje PRZED grupowaniem, HAVING COUNT(*) > 1 filtruje PO grupowaniu.",
+    "**Kluczowy krok**: WHERE i HAVING dzialaja na roznych etapach — WHERE na wierszach, HAVING na grupach."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT zawodnik, COUNT(*) AS liczba_startow\nFROM Zawody\nWHERE rok = 2023\nGROUP BY zawodnik\nHAVING COUNT(*) > 1\nORDER BY liczba_startow DESC;\n```\n\n**Weryfikacja** (tylko rok 2023):\n- Maj: bieg 100m, skok w dal, pchn. kula → **3** (>1 ✓)\n- Kowalski: bieg 100m → **1** (>1 ✗)\n- Nowak: bieg 100m, skok w dal → **2** (>1 ✓)\n\n| zawodnik | liczba_startow |\n|----------|--------------|\n| Maj | 3 |\n| Nowak | 2 |\n\n**Wyjasnienie**: WHERE rok = 2023 eliminuje wiersze z 2022 PRZED grupowaniem. Nastepnie GROUP BY tworzy grupy per zawodnik, a HAVING odrzuca grupy z <= 1 startem. To klasyczny przyklad wspoldzialania WHERE (filtr wierszy) i HAVING (filtr grup).",
+  "typowe_bledy": [
+    {
+      "opis": "**HAVING rok = 2023 zamiast WHERE**: rok nie jest agregatem — filtrowanie wierszy powinno byc w WHERE, nie HAVING",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak WHERE rok = 2023**: Bez filtra na rok policzymy starty ze WSZYSTKICH lat, nie tylko 2023",
+      "kara": "-2 pkt"
+    }
+  ]
+}

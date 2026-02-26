@@ -1,0 +1,35 @@
+{
+  "id": "23.38",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane systemem kadrowym firmy IT",
+  "tagi": [
+    "CASE-WHEN",
+    "LENGTH",
+    "LIKE",
+    "obliczenia-w-SELECT",
+    "WHERE",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Pracownicy**:\n\n| id | imie | nazwisko | email | pensja | dzial |\n|----|------|----------|-------|--------|-------|\n| 1 | Anna | Kowalska | anna.kowalska@firma.pl | 5000 | IT |\n| 2 | Jan | Nowak | jan@firma.pl | 6000 | IT |\n| 3 | Ewa | Lis | ewa.lis@prywatny.pl | 4500 | HR |\n| 4 | Piotr | Maj | piotr.maj@firma.pl | 7000 | IT |\n| 5 | Kasia | Zak | kzak@firma.pl | 4000 | HR |\n| 6 | Tomek | Bak | tomek.bak@prywatny.pl | 5500 | Finanse |\n| 7 | Ola | Wrobel | ola.wrobel@firma.pl | 8000 | Finanse |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko, email, pensje oraz:\n1. Kolumne `premia` obliczona jako: pensja * 10 / 100 dla dzialu 'IT', pensja * 5 / 100 dla pozostalych (uzyj CASE WHEN)\n2. Kolumne `email_typ` o wartosci 'firmowy' jesli email zawiera 'firma', w przeciwnym razie 'prywatny' (uzyj CASE WHEN z LIKE)\n\nPokaz tylko pracownikow, ktorych email ma wiecej niz 14 znakow (LENGTH). Posortuj malejaco wg premii.",
+  "wskazowki": [
+    "**Kierunek**: Dwa rozne CASE WHEN w jednym SELECT — jeden z obliczeniami, drugi z LIKE.",
+    "**Podejscie**: `CASE WHEN dzial = 'IT' THEN pensja*10/100 ELSE pensja*5/100 END` + `CASE WHEN email LIKE '%firma%' THEN 'firmowy' ELSE 'prywatny' END`.",
+    "**Kluczowy krok**: LENGTH(email) w WHERE filtruje PRZED obliczeniami SELECT. Kazdy CASE WHEN jest niezalezny i musi miec wlasny END."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko, email, pensja,\n  CASE\n    WHEN dzial = 'IT' THEN pensja * 10 / 100\n    ELSE pensja * 5 / 100\n  END AS premia,\n  CASE\n    WHEN email LIKE '%firma%' THEN 'firmowy'\n    ELSE 'prywatny'\n  END AS email_typ\nFROM Pracownicy\nWHERE LENGTH(email) > 14\nORDER BY premia DESC;\n```\n\n**Weryfikacja** (LENGTH emaila):\n- anna.kowalska@firma.pl: 22 > 14 ✓\n- jan@firma.pl: 12 ✗\n- ewa.lis@prywatny.pl: 19 > 14 ✓\n- piotr.maj@firma.pl: 18 > 14 ✓\n- kzak@firma.pl: 13 ✗\n- tomek.bak@prywatny.pl: 21 > 14 ✓\n- ola.wrobel@firma.pl: 19 > 14 ✓\n\nObliczenia (5 osob):\n- Anna: IT → 5000*10/100 = **500**, firma → firmowy\n- Ewa: HR → 4500*5/100 = **225**, prywatny → prywatny\n- Piotr: IT → 7000*10/100 = **700**, firma → firmowy\n- Tomek: Finanse → 5500*5/100 = **275**, prywatny → prywatny\n- Ola: Finanse → 8000*5/100 = **400**, firma → firmowy\n\n| imie | nazwisko | email | pensja | premia | email_typ |\n|------|----------|-------|--------|--------|-----------|\n| Piotr | Maj | piotr.maj@firma.pl | 7000 | 700 | firmowy |\n| Anna | Kowalska | anna.kowalska@firma.pl | 5000 | 500 | firmowy |\n| Ola | Wrobel | ola.wrobel@firma.pl | 8000 | 400 | firmowy |\n| Tomek | Bak | tomek.bak@prywatny.pl | 5500 | 275 | prywatny |\n| Ewa | Lis | ewa.lis@prywatny.pl | 4500 | 225 | prywatny |\n\n**Wyjasnienie**: Dwa niezalezne CASE WHEN w SELECT — kazdy tworzy osobna kolumne. Pierwszy klasyfikuje premie na podstawie dzialu (obliczenia arytmetyczne), drugi klasyfikuje typ emaila na podstawie wzorca LIKE. LENGTH w WHERE filtruje krotkie emaile (Jan i Kasia odpada). Kazdy CASE WHEN musi konczyc sie slowem END.",
+  "typowe_bledy": [
+    {
+      "opis": "**Jeden CASE WHEN zamiast dwoch**: Proba polaczenia obu klasyfikacji w jeden blok CASE WHEN — niemozliwe, bo dotycza roznych kolumn wynikowych",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Alias w WHERE**: `WHERE LENGTH(email) > 14` jest OK, ale `WHERE premia > 200` nie zadziala — alias z SELECT nie jest dostepny w WHERE",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak END**: Kazdy blok CASE WHEN MUSI konczyc sie slowem END — brak END to blad skladni",
+      "kara": "-1 pkt"
+    }
+  ]
+}

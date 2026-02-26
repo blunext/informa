@@ -1,0 +1,30 @@
+{
+  "id": "20.35",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane analizami sprzedazy",
+  "tagi": [
+    "GROUP-BY",
+    "SUM",
+    "HAVING",
+    "wielokolumnowe-grupowanie",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Sprzedaz**:\n\n| id | sprzedawca | kategoria | kwota |\n|----|-----------|-----------|-------|\n| 1 | Kowalski | Elektronika | 1500 |\n| 2 | Nowak | Odziez | 800 |\n| 3 | Kowalski | Odziez | 600 |\n| 4 | Maj | Elektronika | 2200 |\n| 5 | Nowak | Elektronika | 1800 |\n| 6 | Maj | Odziez | 400 |\n| 7 | Kowalski | Elektronika | 1200 |\n| 8 | Nowak | Odziez | 500 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli sprzedawce, kategorie i sume kwot sprzedazy, ale tylko dla tych kombinacji sprzedawca-kategoria, w ktorych laczna kwota przekroczyla 1000. Posortuj malejaco wg lacznej kwoty.",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz grupowania po DWOCH kolumnach jednoczesnie.",
+    "**Podejscie**: GROUP BY (sprzedawca, kategoria) tworzy grupe dla kazdej unikalnej pary.",
+    "**Kluczowy krok**: HAVING SUM(kwota) > 1000 filtruje grupy po obliczeniu sumy."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT sprzedawca, kategoria, SUM(kwota) AS laczna_kwota\nFROM Sprzedaz\nGROUP BY sprzedawca, kategoria\nHAVING SUM(kwota) > 1000\nORDER BY laczna_kwota DESC;\n```\n\n**Weryfikacja** (grupowanie po parach):\n- Kowalski + Elektronika: 1500+1200 = **2700** (>1000 ✓)\n- Kowalski + Odziez: **600** (>1000 ✗)\n- Nowak + Elektronika: **1800** (>1000 ✓)\n- Nowak + Odziez: 800+500 = **1300** (>1000 ✓)\n- Maj + Elektronika: **2200** (>1000 ✓)\n- Maj + Odziez: **400** (>1000 ✗)\n\n| sprzedawca | kategoria | laczna_kwota |\n|-----------|-----------|-------------|\n| Kowalski | Elektronika | 2700 |\n| Maj | Elektronika | 2200 |\n| Nowak | Elektronika | 1800 |\n| Nowak | Odziez | 1300 |\n\n**Wyjasnienie**: Wielokolumnowe GROUP BY tworzy osobna grupe dla kazdej unikalnej pary (sprzedawca, kategoria). HAVING filtruje te grupy po agregacji.",
+  "typowe_bledy": [
+    {
+      "opis": "**GROUP BY po jednej kolumnie**: Grupowanie tylko po sprzedawcy mieszaloby kategorie — sumy bylyby niepoprawne",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**WHERE SUM(kwota) > 1000**: Agregaty nie moga byc w WHERE — uzyj HAVING",
+      "kara": "-2 pkt"
+    }
+  ]
+}

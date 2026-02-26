@@ -1,0 +1,32 @@
+{
+  "id": "21.41",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane systemem zapisu na kursy",
+  "tagi": [
+    "NOT-IN",
+    "korelacja-podzapytan",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Studenci**:\n\n| id | imie | nazwisko | wydzial |\n|----|------|----------|--------|\n| 1 | Anna | Kowalska | Informatyka |\n| 2 | Jan | Nowak | Informatyka |\n| 3 | Ewa | Maj | Matematyka |\n| 4 | Piotr | Lis | Matematyka |\n| 5 | Kasia | Zak | Informatyka |\n\nTabela **Kursy**:\n\n| id | nazwa | wydzial |\n|----|-------|--------|\n| 1 | Algorytmy | Informatyka |\n| 2 | Bazy danych | Informatyka |\n| 3 | Algebra | Matematyka |\n| 4 | Analiza | Matematyka |\n\nTabela **Zapisy**:\n\n| id | id_studenta | id_kursu |\n|----|------------|----------|\n| 1 | 1 | 1 |\n| 2 | 1 | 2 |\n| 3 | 2 | 1 |\n| 4 | 3 | 1 |\n| 5 | 5 | 3 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko studentow, ktorzy NIE sa zapisani na zaden kurs ze SWOJEGO wydzialu. Posortuj wg nazwiska.\n\nUwaga: student moze byc zapisany na kursy z INNEGO wydzialu — to nie przeszkadza.",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz podzapytania skorelowanego z NOT IN, ktore sprawdza kursy z wydzialu studenta.",
+    "**Podejscie**: Podzapytanie musi JOIN-owac Zapisy z Kursy i filtrowac po wydziale studenta: `K.wydzial = S.wydzial`.",
+    "**Kluczowy krok**: Ewa jest na Algorytmach (wydzial Informatyka), ale jej wydzial to Matematyka — NIE jest na zadnym kursie ze SWOJEGO wydzialu."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT S.imie, S.nazwisko\nFROM Studenci S\nWHERE S.id NOT IN (\n    SELECT Z.id_studenta\n    FROM Zapisy Z\n    JOIN Kursy K ON Z.id_kursu = K.id\n    WHERE K.wydzial = S.wydzial\n)\nORDER BY S.nazwisko;\n```\n\n**Weryfikacja** (sprawdzenie per student):\n- Anna (Informatyka): Zapisy → Algorytmy(Info ✓), Bazy(Info ✓) → jest na kursie ze swojego wydzialu → ✗\n- Jan (Informatyka): Zapisy → Algorytmy(Info ✓) → jest na kursie ze swojego wydzialu → ✗\n- Ewa (Matematyka): Zapisy → Algorytmy(Info) → Info ≠ Matematyka → brak kursu z Matematyki → ✓\n- Piotr (Matematyka): Zapisy → brak → brak kursu z Matematyki → ✓\n- Kasia (Informatyka): Zapisy → Algebra(Mat) → Mat ≠ Informatyka → brak kursu z Informatyki → ✓\n\nPodzapytanie per student:\n- Dla Anna (Informatyka): studenci na kursach Info = {1(Algorytmy), 1(Bazy), 2(Algorytmy)} → {1, 2}. Anna (id=1) IN {1,2} → TRUE → NOT IN → nie w wyniku\n- Dla Ewa (Matematyka): studenci na kursach Mat = {5(Algebra)} → {5}. Ewa (id=3) NOT IN {5} → TRUE → w wyniku\n\n| imie | nazwisko |\n|------|----------|\n| Piotr | Lis |\n| Ewa | Maj |\n| Kasia | Zak |\n\n**Wyjasnienie**: Podzapytanie skorelowane laczy Zapisy z Kursy i filtruje po wydziale studenta (`K.wydzial = S.wydzial`). NOT IN sprawdza, czy student NIE jest wsrod zapisanych na kursy ze SWOJEGO wydzialu. Kasia jest na Algebrze (Matematyka), ale jej wydzial to Informatyka — wiec NIE jest na kursie ze swojego wydzialu.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak JOIN z Kursy w podzapytaniu**: Bez `JOIN Kursy K ON Z.id_kursu = K.id WHERE K.wydzial = S.wydzial` podzapytanie ignoruje wydzial kursu",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Nieskorelowane NOT IN**: `NOT IN (SELECT id_studenta FROM Zapisy)` — daloby studentow bez ZADNYCH zapisow, a polecenie chce tych bez zapisow na kursy SWOJEGO wydzialu",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**IN zamiast NOT IN**: Odwrotnosc — pokaze studentow zapisanych na kursy swojego wydzialu",
+      "kara": "-2 pkt"
+    }
+  ]
+}

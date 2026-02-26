@@ -1,0 +1,28 @@
+{
+  "id": "22.37",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane katalogiem wydawnictw",
+  "tagi": [
+    "JOIN-wielotabelowy",
+    "WHERE-z-JOIN",
+    "aliasy-tabel"
+  ],
+  "tresc": "Tabela **Wydawnictwa**:\n\n| id | nazwa | kraj |\n|----|-------|------|\n| 1 | PWN | Polska |\n| 2 | Helion | Polska |\n| 3 | OReilly | USA |\n\nTabela **Autorzy**:\n\n| id | imie | nazwisko |\n|----|------|----------|\n| 1 | Jan | Kowalski |\n| 2 | Anna | Nowak |\n| 3 | John | Smith |\n\nTabela **Ksiazki**:\n\n| id | tytul | id_autora | id_wydawnictwa |\n|----|-------|----------|----------------|\n| 1 | Python | 1 | 2 |\n| 2 | Java | 2 | 1 |\n| 3 | C++ | 1 | 2 |\n| 4 | SQL | 3 | 3 |\n| 5 | Algorytmy | 2 | 2 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli tytul ksiazki, nazwisko autora i nazwe wydawnictwa. Pokaz tylko ksiazki wydane przez wydawnictwa z Polski. Posortuj wg tytulu.",
+  "wskazowki": [
+    "**Kierunek**: Polaczenie 3 tabel: Ksiazki ↔ Autorzy i Ksiazki ↔ Wydawnictwa, z filtrem na kraj.",
+    "**Podejscie**: Dwa JOIN-y + WHERE na kolumnie kraj z tabeli Wydawnictwa.",
+    "**Kluczowy krok**: WHERE filtruje PO wykonaniu JOIN — wiec najpierw laczysz 3 tabele, potem zostawiasz tylko polskie wydawnictwa."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.tytul, A.nazwisko, W.nazwa AS wydawnictwo\nFROM Ksiazki K\nJOIN Autorzy A ON K.id_autora = A.id\nJOIN Wydawnictwa W ON K.id_wydawnictwa = W.id\nWHERE W.kraj = 'Polska'\nORDER BY K.tytul;\n```\n\n**Weryfikacja**:\n- Python: Kowalski, Helion (Polska ✓)\n- Java: Nowak, PWN (Polska ✓)\n- C++: Kowalski, Helion (Polska ✓)\n- SQL: Smith, OReilly (USA ✗)\n- Algorytmy: Nowak, Helion (Polska ✓)\n\n| tytul | nazwisko | wydawnictwo |\n|-------|----------|-------------|\n| Algorytmy | Nowak | Helion |\n| C++ | Kowalski | Helion |\n| Java | Nowak | PWN |\n| Python | Kowalski | Helion |\n\n**Wyjasnienie**: Dwa JOIN-y laczą trzy tabele. WHERE W.kraj = 'Polska' eliminuje SQL (wydawnictwo OReilly z USA). Polskie wydawnictwa to PWN i Helion.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak JOIN z Wydawnictwami**: Bez tego nie mozna filtrowac po kraju wydawnictwa",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Brak JOIN z Autorami**: Bez tego nie mozna wyswietlic nazwiska autora",
+      "kara": "-2 pkt"
+    }
+  ]
+}

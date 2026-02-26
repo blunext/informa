@@ -1,0 +1,31 @@
+{
+  "id": "20.36",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane katalogiem wydawnictw",
+  "tagi": [
+    "GROUP-BY",
+    "AVG",
+    "ROUND",
+    "HAVING",
+    "JOIN-z-GROUP-BY",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Wydawnictwa**:\n\n| id | nazwa |\n|----|-------|\n| 1 | PWN |\n| 2 | Helion |\n| 3 | WSiP |\n\nTabela **Publikacje**:\n\n| id | tytul | id_wydawnictwa | cena |\n|----|-------|---------------|------|\n| 1 | Algebra | 1 | 45 |\n| 2 | C++ dla kazdego | 2 | 69 |\n| 3 | Fizyka | 1 | 52 |\n| 4 | Python | 2 | 59 |\n| 5 | Chemia | 3 | 38 |\n| 6 | Java | 2 | 72 |\n| 7 | Biologia | 1 | 48 |\n| 8 | SQL | 2 | 55 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe wydawnictwa i srednia cene jego publikacji (zaokraglona do 2 miejsc po przecinku). Pokaz tylko wydawnictwa z wiecej niz 2 publikacjami. Posortuj malejaco wg sredniej ceny.",
+  "wskazowki": [
+    "**Kierunek**: Dane wydawnictwa i publikacji sa w roznych tabelach — potrzebujesz JOIN.",
+    "**Podejscie**: JOIN Wydawnictwa z Publikacjami, GROUP BY nazwa wydawnictwa, HAVING na COUNT.",
+    "**Kluczowy krok**: HAVING COUNT(*) > 2 eliminuje wydawnictwa z mala liczba ksiazek."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT W.nazwa, ROUND(AVG(P.cena), 2) AS srednia_cena\nFROM Wydawnictwa W\nJOIN Publikacje P ON W.id = P.id_wydawnictwa\nGROUP BY W.nazwa\nHAVING COUNT(*) > 2\nORDER BY srednia_cena DESC;\n```\n\n**Weryfikacja**:\n- PWN: Algebra(45), Fizyka(52), Biologia(48) → COUNT=3 (>2 ✓), AVG=(45+52+48)/3 = 145/3 = **48.33**\n- Helion: C++(69), Python(59), Java(72), SQL(55) → COUNT=4 (>2 ✓), AVG=(69+59+72+55)/4 = 255/4 = **63.75**\n- WSiP: Chemia(38) → COUNT=1 (>2 ✗)\n\n| nazwa | srednia_cena |\n|-------|--------------|\n| Helion | 63.75 |\n| PWN | 48.33 |\n\n**Wyjasnienie**: JOIN laczy tabele po kluczu obcym. GROUP BY po nazwie wydawnictwa tworzy grupy. HAVING filtruje grupy z <= 2 publikacjami. ROUND zaokragla srednia.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak JOIN**: Bez polaczenia tabel nie mozna uzyc nazwy wydawnictwa w GROUP BY",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**WHERE COUNT(*) > 2**: Funkcje agregujace nie moga byc w WHERE — trzeba uzyc HAVING",
+      "kara": "-2 pkt"
+    }
+  ]
+}

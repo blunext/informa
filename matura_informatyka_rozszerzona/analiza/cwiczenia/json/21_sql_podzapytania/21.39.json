@@ -1,0 +1,33 @@
+{
+  "id": "21.39",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane analiza kadrowa",
+  "tagi": [
+    "podzapytanie-w-HAVING",
+    "AVG",
+    "ROUND",
+    "podzapytanie-skalarne"
+  ],
+  "tresc": "Tabela **Pracownicy**:\n\n| id | imie | nazwisko | dzial | wynagrodzenie |\n|----|------|----------|-------|---------------|\n| 1 | Anna | Kowalska | IT | 9500 |\n| 2 | Jan | Nowak | IT | 8000 |\n| 3 | Ewa | Maj | HR | 5500 |\n| 4 | Piotr | Lis | HR | 6000 |\n| 5 | Kasia | Zak | Sprzedaz | 7500 |\n| 6 | Tomek | Bak | Sprzedaz | 8000 |\n| 7 | Ola | Wrobel | IT | 10000 |\n| 8 | Marek | Krol | HR | 5000 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli dzial i srednie wynagrodzenie (zaokraglone do 2 miejsc po przecinku), ale tylko te dzialy, w ktorych srednia jest wyzsza niz globalna srednia wynagrodzen w firmie. Uzyj podzapytania w HAVING. Posortuj malejaco wg sredniej.",
+  "wskazowki": [
+    "**Kierunek**: HAVING moze zawierac podzapytanie — porownuje agregat grupy z wartoscia z podzapytania.",
+    "**Podejscie**: `HAVING AVG(wynagrodzenie) > (SELECT AVG(wynagrodzenie) FROM Pracownicy)` — podzapytanie oblicza srednia globalna.",
+    "**Kluczowy krok**: Podzapytanie w HAVING jest nieskorelowane — oblicza sie RAZ, a wynik porownuje z KAZDA grupa."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT dzial, ROUND(AVG(wynagrodzenie), 2) AS srednia\nFROM Pracownicy\nGROUP BY dzial\nHAVING AVG(wynagrodzenie) > (SELECT AVG(wynagrodzenie) FROM Pracownicy)\nORDER BY srednia DESC;\n```\n\n**Weryfikacja**:\n- Globalna srednia: (9500+8000+5500+6000+7500+8000+10000+5000)/8 = 59500/8 = **7437.50**\n\nSrednie per dzial:\n- IT: (9500+8000+10000)/3 = 27500/3 = **9166.67** (>7437.50 ✓)\n- Sprzedaz: (7500+8000)/2 = 15500/2 = **7750.00** (>7437.50 ✓)\n- HR: (5500+6000+5000)/3 = 16500/3 = **5500.00** (>7437.50 ✗)\n\n| dzial | srednia |\n|-------|---------|\n| IT | 9166.67 |\n| Sprzedaz | 7750.0 |\n\n**Wyjasnienie**: Podzapytanie w HAVING oblicza globalna srednia (7437.50) jeden raz. Nastepnie HAVING porownuje srednia KAZDEGO dzialu z ta wartoscia. Roznica miedzy podzapytaniem w WHERE (filtr wierszy) a HAVING (filtr grup) jest kluczowa.",
+  "typowe_bledy": [
+    {
+      "opis": "**Podzapytanie w WHERE zamiast HAVING**: `WHERE wynagrodzenie > (SELECT AVG(...))` filtrowalby WIERSZE, nie GRUPY — wynik bylby inny",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Brak GROUP BY**: Bez grupowania nie mozna uzyc AVG per dzial w SELECT i HAVING",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Srednia hardcodowana**: `HAVING AVG(wynagrodzenie) > 7437.50` — zadziala, ale nie jest elastyczne i polecenie wymaga podzapytania",
+      "kara": "-2 pkt"
+    }
+  ]
+}

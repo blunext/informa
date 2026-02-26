@@ -1,0 +1,28 @@
+{
+  "id": "21.38",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane zarzadzaniem projektami",
+  "tagi": [
+    "EXISTS",
+    "korelacja-podzapytan",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Projekty**:\n\n| id | nazwa | budzet |\n|----|-------|--------|\n| 1 | Alfa | 50000 |\n| 2 | Beta | 30000 |\n| 3 | Gamma | 80000 |\n| 4 | Delta | 20000 |\n\nTabela **Zadania**:\n\n| id | id_projektu | opis | status |\n|----|------------|------|--------|\n| 1 | 1 | Analiza | wykonane |\n| 2 | 1 | Implementacja | wykonane |\n| 3 | 2 | Analiza | wykonane |\n| 4 | 2 | Testowanie | w toku |\n| 5 | 3 | Analiza | wykonane |\n| 6 | 3 | Implementacja | wykonane |\n| 7 | 3 | Testowanie | wykonane |\n| 8 | 4 | Planowanie | w toku |\n\n**Polecenie**: Napisz zapytanie SQL z EXISTS, ktore wyswietli nazwy i budzety projektow, dla ktorych istnieje przynajmniej jedno zadanie ze statusem 'w toku'. Posortuj alfabetycznie wg nazwy projektu.",
+  "wskazowki": [
+    "**Kierunek**: EXISTS sprawdza istnienie wiersza w podzapytaniu — zwraca TRUE/FALSE.",
+    "**Podejscie**: `WHERE EXISTS (SELECT 1 FROM Zadania WHERE id_projektu = P.id AND status = 'w toku')`.",
+    "**Kluczowy krok**: Podzapytanie musi byc skorelowane — `id_projektu = P.id` laczy je z konkretnym projektem z zapytania zewnetrznego."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT P.nazwa, P.budzet\nFROM Projekty P\nWHERE EXISTS (\n    SELECT 1\n    FROM Zadania Z\n    WHERE Z.id_projektu = P.id AND Z.status = 'w toku'\n)\nORDER BY P.nazwa;\n```\n\n**Weryfikacja**:\n- Alfa (id=1): zadania 'wykonane', 'wykonane' → brak 'w toku' → ✗\n- Beta (id=2): zadania 'wykonane', 'w toku' → EXISTS = TRUE ✓\n- Gamma (id=3): zadania 'wykonane' ×3 → brak 'w toku' → ✗\n- Delta (id=4): zadanie 'w toku' → EXISTS = TRUE ✓\n\n| nazwa | budzet |\n|-------|--------|\n| Beta | 30000 |\n| Delta | 20000 |\n\n**Wyjasnienie**: EXISTS zwraca TRUE gdy podzapytanie zwraca przynajmniej 1 wiersz. `SELECT 1` jest konwencja — EXISTS nie potrzebuje konkretnych danych. Korelacja `Z.id_projektu = P.id` ogranicza sprawdzenie do zadan danego projektu.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak korelacji**: `WHERE status = 'w toku'` bez `id_projektu = P.id` — EXISTS byloby TRUE dla KAZDEGO projektu (bo jakies zadanie jest 'w toku')",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Apostrofy wokol statusu**: `'w toku'` wymaga apostrofow jako tekst — `w toku` bez nich to blad skladni",
+      "kara": "-1 pkt"
+    }
+  ]
+}

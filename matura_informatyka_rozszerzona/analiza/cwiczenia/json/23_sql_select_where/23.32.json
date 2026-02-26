@@ -1,0 +1,29 @@
+{
+  "id": "23.32",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane baza miast",
+  "tagi": [
+    "SELECT",
+    "WHERE",
+    "LIKE",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Miasta**:\n\n| id | nazwa | populacja |\n|----|-------|-----------|\n| 1 | Warszawa | 1790000 |\n| 2 | Wroclaw | 640000 |\n| 3 | Krakow | 780000 |\n| 4 | Wadowice | 19000 |\n| 5 | Gdansk | 470000 |\n| 6 | Walcz | 26000 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe i populacje miast, ktorych nazwa zaczyna sie na litere 'W'. Posortuj malejaco wg populacji.",
+  "wskazowki": [
+    "**Kierunek**: LIKE z wzorcem pozwala szukac tekstu wg wzorca.",
+    "**Podejscie**: `WHERE nazwa LIKE 'W%'` — 'W' na poczatku, '%' oznacza dowolna reszta.",
+    "**Kluczowy krok**: '%' to symbol wieloznaczny — zastepuje dowolna liczbe znakow (0 lub wiecej)."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, populacja\nFROM Miasta\nWHERE nazwa LIKE 'W%'\nORDER BY populacja DESC;\n```\n\n**Weryfikacja**:\n- Warszawa: 'W%' ✓ (1790000)\n- Wroclaw: 'W%' ✓ (640000)\n- Wadowice: 'W%' ✓ (19000)\n- Walcz: 'W%' ✓ (26000)\n- Krakow: 'K...' ✗\n- Gdansk: 'G...' ✗\n\n| nazwa | populacja |\n|-------|-----------|\n| Warszawa | 1790000 |\n| Wroclaw | 640000 |\n| Walcz | 26000 |\n| Wadowice | 19000 |\n\n**Wyjasnienie**: LIKE 'W%' dopasowuje teksty zaczynajace sie na 'W'. Znak '%' zastepuje dowolna liczbe znakow. Sortowanie malejaco po populacji ustawia Walcz (26000) przed Wadowicami (19000).",
+  "typowe_bledy": [
+    {
+      "opis": "**'%W' zamiast 'W%'**: '%W' szuka tekstu KONCZACEGO sie na 'W', nie zaczynajacego",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**= zamiast LIKE**: `WHERE nazwa = 'W%'` szuka dokladnego tekstu 'W%', nie wzorca",
+      "kara": "-2 pkt"
+    }
+  ]
+}

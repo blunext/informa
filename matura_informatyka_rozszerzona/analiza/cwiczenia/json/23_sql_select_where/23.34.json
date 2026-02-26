@@ -1,0 +1,32 @@
+{
+  "id": "23.34",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane systemem zamowien sklepu",
+  "tagi": [
+    "WHERE",
+    "AND",
+    "OR",
+    "IN",
+    "NOT",
+    "operatory-porownania",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Zamowienia**:\n\n| id | klient | miasto | wartosc | status |\n|----|--------|--------|---------|--------|\n| 1 | Kowal | Krakow | 500 | wyslane |\n| 2 | Nowak | Warszawa | 1200 | wyslane |\n| 3 | Lis | Krakow | 300 | anulowane |\n| 4 | Maj | Gdansk | 800 | wyslane |\n| 5 | Zak | Warszawa | 150 | nowe |\n| 6 | Bak | Krakow | 2000 | nowe |\n| 7 | Wrobel | Gdansk | 600 | anulowane |\n| 8 | Krol | Warszawa | 900 | wyslane |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli wszystkie kolumny zamowien spelniajacych WSZYSTKIE warunki:\n- status NIE jest 'anulowane'\n- miasto to 'Krakow' LUB wartosc > 700\n- wartosc NOT IN (500, 600)\nPosortuj malejaco wg wartosci.",
+  "wskazowki": [
+    "**Kierunek**: Trzy warunki AND — jeden z nich zawiera OR (wymaga nawiasow).",
+    "**Podejscie**: `WHERE status != 'anulowane' AND (miasto = 'Krakow' OR wartosc > 700) AND wartosc NOT IN (500, 600)`.",
+    "**Kluczowy krok**: Nawiasy wokol OR — bez nich AND ma wyzszy priorytet. NOT IN wyklucza konkretne wartosci z listy."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT id, klient, miasto, wartosc, status\nFROM Zamowienia\nWHERE status != 'anulowane'\n  AND (miasto = 'Krakow' OR wartosc > 700)\n  AND wartosc NOT IN (500, 600)\nORDER BY wartosc DESC;\n```\n\n**Weryfikacja** (krok po kroku):\n- id=1: Kowal, wyslane ✓, Krakow ✓, 500 IN(500,600) → NOT IN ✗\n- id=2: Nowak, wyslane ✓, wartosc=1200>700 ✓, NOT IN ✓ → ✓\n- id=3: Lis, anulowane ✗\n- id=4: Maj, wyslane ✓, wartosc=800>700 ✓, NOT IN ✓ → ✓\n- id=5: Zak, nowe ✓, Warszawa i 150<=700 ✗\n- id=6: Bak, nowe ✓, Krakow ✓, NOT IN ✓ → ✓\n- id=7: Wrobel, anulowane ✗\n- id=8: Krol, wyslane ✓, wartosc=900>700 ✓, NOT IN ✓ → ✓\n\n| id | klient | miasto | wartosc | status |\n|----|--------|--------|---------|--------|\n| 6 | Bak | Krakow | 2000 | nowe |\n| 2 | Nowak | Warszawa | 1200 | wyslane |\n| 8 | Krol | Warszawa | 900 | wyslane |\n| 4 | Maj | Gdansk | 800 | wyslane |\n\n**Wyjasnienie**: AND laczy trzy warunki — WSZYSTKIE musza byc spelnione. Nawiasy wokol OR zapewniaja, ze alternatywa jest traktowana jako jeden warunek. NOT IN (500, 600) wyklucza zamowienia o tych dokladnych wartosciach. Zamowienie Kowala (wartosc=500) odpada przez NOT IN, mimo ze spelnilo dwa pozostale warunki.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak nawiasow wokol OR**: `status != 'anulowane' AND miasto = 'Krakow' OR wartosc > 700 AND ...` — AND wiaze silniej niz OR, wynik bedzie zupelnie inny",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**IN zamiast NOT IN**: `wartosc IN (500, 600)` odwraca logike — pokaze TYLKO zamowienia za 500 lub 600",
+      "kara": "-2 pkt"
+    }
+  ]
+}

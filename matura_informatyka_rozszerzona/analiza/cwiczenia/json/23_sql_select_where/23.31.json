@@ -1,0 +1,30 @@
+{
+  "id": "23.31",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane katalogiem produktow",
+  "tagi": [
+    "SELECT",
+    "WHERE",
+    "OR",
+    "ORDER-BY",
+    "operatory-porownania"
+  ],
+  "tresc": "Tabela **Produkty**:\n\n| id | nazwa | kategoria | cena |\n|----|-------|-----------|------|\n| 1 | Laptop | Elektronika | 3500 |\n| 2 | Telefon | Elektronika | 2000 |\n| 3 | Koszulka | Odziez | 80 |\n| 4 | Buty | Odziez | 250 |\n| 5 | Tablet | Elektronika | 1500 |\n| 6 | Spodnie | Odziez | 150 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe i cene produktow z kategorii 'Elektronika' lub z cena powyzej 200. Posortuj malejaco wg ceny.",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz OR, bo wystarczy spelnienie JEDNEGO z dwoch warunkow.",
+    "**Podejscie**: `WHERE kategoria = 'Elektronika' OR cena > 200`.",
+    "**Kluczowy krok**: OR oznacza 'lub' — wystarczy, ze JEDEN warunek jest prawdziwy."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, cena\nFROM Produkty\nWHERE kategoria = 'Elektronika' OR cena > 200\nORDER BY cena DESC;\n```\n\n**Weryfikacja**:\n- Laptop: Elektronika ✓ → ✓\n- Telefon: Elektronika ✓ → ✓\n- Koszulka: Odziez, cena=80 ≤ 200 → ✗\n- Buty: Odziez, cena=250 > 200 ✓ → ✓\n- Tablet: Elektronika ✓ → ✓\n- Spodnie: Odziez, cena=150 ≤ 200 → ✗\n\n| nazwa | cena |\n|-------|------|\n| Laptop | 3500 |\n| Telefon | 2000 |\n| Tablet | 1500 |\n| Buty | 250 |\n\n**Wyjasnienie**: OR laczy dwa warunki — wystarczy spelnic JEDEN z nich. Buty nie sa Elektronika, ale maja cene >200, wiec sie kwalifikuja. Koszulka i Spodnie nie spelniaja zadnego warunku.",
+  "typowe_bledy": [
+    {
+      "opis": "**AND zamiast OR**: Z AND oba warunki musza byc prawdziwe jednoczesnie — Buty nie sa Elektronika, wiec zostana pominiete",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak apostrofow**: `kategoria = Elektronika` zamiast `'Elektronika'` — blad skladni",
+      "kara": "-1 pkt"
+    }
+  ]
+}

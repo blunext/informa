@@ -1,0 +1,28 @@
+{
+  "id": "22.32",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane systemem zamowien",
+  "tagi": [
+    "INNER-JOIN",
+    "aliasy-tabel",
+    "WHERE-z-JOIN"
+  ],
+  "tresc": "Tabela **Klienci**:\n\n| id | imie | nazwisko | miasto |\n|----|------|----------|--------|\n| 1 | Anna | Kowalska | Warszawa |\n| 2 | Jan | Nowak | Krakow |\n| 3 | Ewa | Maj | Warszawa |\n| 4 | Piotr | Lis | Gdansk |\n\nTabela **Zamowienia**:\n\n| id | id_klienta | produkt | kwota |\n|----|-----------|---------|-------|\n| 1 | 1 | Laptop | 3500 |\n| 2 | 2 | Tablet | 1200 |\n| 3 | 1 | Telefon | 2000 |\n| 4 | 3 | Laptop | 4000 |\n| 5 | 4 | Tablet | 1500 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko klienta, produkt i kwote — ale tylko dla zamowien klientow z Warszawy. Posortuj malejaco wg kwoty.",
+  "wskazowki": [
+    "**Kierunek**: JOIN laczy klientow z zamowieniami, a WHERE filtruje po miescie.",
+    "**Podejscie**: JOIN Klienci z Zamowienia po id_klienta, WHERE miasto = 'Warszawa'.",
+    "**Kluczowy krok**: WHERE filtruje wiersze PO wykonaniu JOIN — dostajemy tylko zamowienia klientow warszawskich."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.imie, K.nazwisko, Z.produkt, Z.kwota\nFROM Klienci K\nJOIN Zamowienia Z ON K.id = Z.id_klienta\nWHERE K.miasto = 'Warszawa'\nORDER BY Z.kwota DESC;\n```\n\n**Weryfikacja**:\n- Klienci z Warszawy: Anna (id=1), Ewa (id=3)\n- Anna: Laptop(3500), Telefon(2000)\n- Ewa: Laptop(4000)\n\n| imie | nazwisko | produkt | kwota |\n|------|----------|---------|-------|\n| Ewa | Maj | Laptop | 4000 |\n| Anna | Kowalska | Laptop | 3500 |\n| Anna | Kowalska | Telefon | 2000 |\n\n**Wyjasnienie**: JOIN laczy kazdego klienta z jego zamowieniami. WHERE po JOIN filtruje do klientow z Warszawy. Anna ma 2 zamowienia, wiec pojawia sie 2 razy.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak apostrofow**: `WHERE miasto = Warszawa` zamiast `'Warszawa'` — tekst wymaga apostrofow",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**WHERE przed JOIN**: W SQL standardowym WHERE jest po FROM/JOIN, nie przed",
+      "kara": "-1 pkt"
+    }
+  ]
+}

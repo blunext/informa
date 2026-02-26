@@ -1,0 +1,27 @@
+{
+  "id": "21.32",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane systemem szkolen",
+  "tagi": [
+    "NOT-IN",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Pracownicy**:\n\n| id | imie | nazwisko |\n|----|------|----------|\n| 1 | Anna | Kowalska |\n| 2 | Jan | Nowak |\n| 3 | Ewa | Maj |\n| 4 | Piotr | Lis |\n| 5 | Kasia | Zak |\n\nTabela **Szkolenia**:\n\n| id | id_pracownika | temat |\n|----|--------------|-------|\n| 1 | 1 | BHP |\n| 2 | 2 | Excel |\n| 3 | 1 | Excel |\n| 4 | 4 | BHP |\n| 5 | 2 | BHP |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko pracownikow, ktorzy NIE ukonczyli zadnego szkolenia. Posortuj alfabetycznie wg nazwiska.",
+  "wskazowki": [
+    "**Kierunek**: Szukasz pracownikow, ktorych id NIE wystepuje w tabeli Szkolenia.",
+    "**Podejscie**: Podzapytanie `(SELECT id_pracownika FROM Szkolenia)` zwraca liste id pracownikow ze szkoleniami.",
+    "**Kluczowy krok**: NOT IN odwraca warunek — wybiera tych, ktorzy NIE sa na liscie."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko\nFROM Pracownicy\nWHERE id NOT IN (SELECT id_pracownika FROM Szkolenia)\nORDER BY nazwisko;\n```\n\n**Weryfikacja**:\n- Pracownicy ze szkoleniami: Anna (id=1), Jan (id=2), Piotr (id=4)\n- NOT IN → Ewa (id=3), Kasia (id=5)\n\n| imie | nazwisko |\n|------|----------|\n| Ewa | Maj |\n| Kasia | Zak |\n\n**Wyjasnienie**: NOT IN wyklucza wiersze, ktorych wartosc znajduje sie w zbiorze zwroconym przez podzapytanie. Podzapytanie zwraca {1, 2, 4}, wiec zostaja id 3 i 5.",
+  "typowe_bledy": [
+    {
+      "opis": "**IN zamiast NOT IN**: Wyswietliloby pracownikow, ktorzy MAJA szkolenia — odwrotnosc polecenia",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**JOIN zamiast podzapytania**: JOIN polaczyloby tylko pracownikow ZE szkoleniami — nie znajdzie tych BEZ",
+      "kara": "-2 pkt"
+    }
+  ]
+}

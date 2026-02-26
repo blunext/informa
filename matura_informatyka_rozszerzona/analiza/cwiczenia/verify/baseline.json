@@ -1,7 +1,7 @@
 {
-  "validate_exercises": 746,
+  "validate_exercises": 787,
   "validate_dirs": 23,
-  "verify_pass": 489,
+  "verify_pass": 530,
   "verify_fail": 0,
   "verify_error": 0,
   "verify_manual": 257

@@ -1,0 +1,30 @@
+{
+  "id": "23.35",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane baza uzytkownikow systemu",
+  "tagi": [
+    "LENGTH",
+    "LIKE",
+    "WHERE",
+    "AND",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Uzytkownicy**:\n\n| id | login | email | wiek |\n|----|-------|-------|------|\n| 1 | admin | admin@firma.pl | 35 |\n| 2 | jkowal | jk@poczta.pl | 28 |\n| 3 | ala | ala@firma.pl | 22 |\n| 4 | zbigniew | zb@firma.pl | 45 |\n| 5 | ewa | ewa@poczta.pl | 30 |\n| 6 | longlogin | ll@firma.pl | 40 |\n| 7 | ab | ab@poczta.pl | 19 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli login, email i wiek uzytkownikow, ktorych login ma wiecej niz 3 znaki (uzyj LENGTH) ORAZ email zawiera tekst 'firma' (uzyj LIKE). Posortuj wg wieku rosnaco.",
+  "wskazowki": [
+    "**Kierunek**: LENGTH(login) daje dlugosc tekstu. LIKE '%firma%' szuka tekstu 'firma' w dowolnym miejscu.",
+    "**Podejscie**: `WHERE LENGTH(login) > 3 AND email LIKE '%firma%'` — oba warunki musza byc spelnione.",
+    "**Kluczowy krok**: LENGTH liczy WSZYSTKIE znaki (litery, cyfry, znaki specjalne). LIKE '%firma%' — oba '%' oznaczaja, ze 'firma' moze byc w dowolnym miejscu."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT login, email, wiek\nFROM Uzytkownicy\nWHERE LENGTH(login) > 3\n  AND email LIKE '%firma%'\nORDER BY wiek;\n```\n\n**Weryfikacja**:\n- admin: LENGTH=5 > 3 ✓, firma ✓ → ✓ (35)\n- jkowal: LENGTH=6 > 3 ✓, poczta ✗\n- ala: LENGTH=3, nie > 3 ✗\n- zbigniew: LENGTH=8 > 3 ✓, firma ✓ → ✓ (45)\n- ewa: LENGTH=3, nie > 3 ✗\n- longlogin: LENGTH=9 > 3 ✓, firma ✓ → ✓ (40)\n- ab: LENGTH=2 ✗\n\n| login | email | wiek |\n|-------|-------|------|\n| admin | admin@firma.pl | 35 |\n| longlogin | ll@firma.pl | 40 |\n| zbigniew | zb@firma.pl | 45 |\n\n**Wyjasnienie**: LENGTH(login) zwraca liczbe znakow w loginie. LIKE '%firma%' dopasowuje dowolny tekst zawierajacy 'firma' — znaki '%' na obu koncach oznaczaja dowolna liczbe znakow przed i po. AND wymaga spelnienia OBU warunkow jednoczesnie. jkowal ma dlugi login (6), ale email nie zawiera 'firma', wiec odpada.",
+  "typowe_bledy": [
+    {
+      "opis": "**LEN zamiast LENGTH**: W SQLite poprawna funkcja to LENGTH (nie LEN, nie CHAR_LENGTH)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**LIKE 'firma' zamiast '%firma%'**: Bez '%' LIKE szuka dokladnego tekstu 'firma', nie tekstu ZAWIERAJACEGO 'firma'",
+      "kara": "-2 pkt"
+    }
+  ]
+}

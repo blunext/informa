@@ -1,0 +1,31 @@
+{
+  "id": "23.36",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane analiza sprzedazy sieci sklepow",
+  "tagi": [
+    "DISTINCT",
+    "IN",
+    "WHERE",
+    "AND",
+    "operatory-porownania",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Sprzedaz**:\n\n| id | produkt | miasto | ilosc |\n|----|---------|--------|-------|\n| 1 | Laptop | Krakow | 3 |\n| 2 | Telefon | Warszawa | 5 |\n| 3 | Laptop | Warszawa | 2 |\n| 4 | Tablet | Krakow | 4 |\n| 5 | Telefon | Gdansk | 1 |\n| 6 | Laptop | Gdansk | 7 |\n| 7 | Telefon | Krakow | 3 |\n| 8 | Tablet | Warszawa | 2 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli UNIKALNE (DISTINCT) miasta, w ktorych sprzedano produkty z listy ('Laptop', 'Tablet') w ilosci co najmniej 3 sztuk. Posortuj alfabetycznie wg miasta.",
+  "wskazowki": [
+    "**Kierunek**: DISTINCT eliminuje powtorzenia. IN pozwala sprawdzic, czy wartosc nalezy do listy.",
+    "**Podejscie**: `SELECT DISTINCT miasto FROM Sprzedaz WHERE produkt IN ('Laptop', 'Tablet') AND ilosc >= 3`.",
+    "**Kluczowy krok**: Bez DISTINCT Krakow pojawilby sie dwa razy (Laptop i Tablet). DISTINCT zwraca kazda wartosc tylko raz."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT DISTINCT miasto\nFROM Sprzedaz\nWHERE produkt IN ('Laptop', 'Tablet')\n  AND ilosc >= 3\nORDER BY miasto;\n```\n\n**Weryfikacja**:\n- id=1: Laptop ✓, Krakow, ilosc=3 >= 3 ✓ → Krakow\n- id=2: Telefon ✗ (nie w liscie)\n- id=3: Laptop ✓, Warszawa, ilosc=2 < 3 ✗\n- id=4: Tablet ✓, Krakow, ilosc=4 >= 3 ✓ → Krakow (duplikat)\n- id=5: Telefon ✗\n- id=6: Laptop ✓, Gdansk, ilosc=7 >= 3 ✓ → Gdansk\n- id=7: Telefon ✗\n- id=8: Tablet ✓, Warszawa, ilosc=2 < 3 ✗\n\nBez DISTINCT: Krakow, Krakow, Gdansk. Z DISTINCT: Krakow, Gdansk.\n\n| miasto |\n|--------|\n| Gdansk |\n| Krakow |\n\n**Wyjasnienie**: IN ('Laptop', 'Tablet') sprawdza, czy produkt jest na liscie — rownowazne `produkt = 'Laptop' OR produkt = 'Tablet'`. DISTINCT eliminuje duplikaty — Krakow pojawil sie dwa razy (raz dla Laptopa, raz dla Tabletu), ale wyswietlamy go tylko raz. Warszawa odpada, bo ani Laptop (ilosc=2) ani Tablet (ilosc=2) nie spelniaja warunku ilosc >= 3.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak DISTINCT**: Krakow pojawi sie dwa razy w wynikach (raz dla Laptopa, raz dla Tabletu)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**OR zamiast IN**: `produkt = 'Laptop' OR produkt = 'Tablet'` jest poprawne, ale trzeba uwazac na nawiasy z AND: `(produkt = 'Laptop' OR produkt = 'Tablet') AND ilosc >= 3`",
+      "kara": "-1 pkt"
+    }
+  ]
+}

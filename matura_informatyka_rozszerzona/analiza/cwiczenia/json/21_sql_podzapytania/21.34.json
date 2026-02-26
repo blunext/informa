@@ -1,0 +1,29 @@
+{
+  "id": "21.34",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane katalogiem produktow",
+  "tagi": [
+    "korelacja-podzapytan",
+    "podzapytanie-skalarne",
+    "MIN",
+    "podzapytanie-w-WHERE"
+  ],
+  "tresc": "Tabela **Produkty**:\n\n| id | nazwa | kategoria | cena |\n|----|-------|-----------|------|\n| 1 | Laptop A | Elektronika | 3500 |\n| 2 | Laptop B | Elektronika | 2800 |\n| 3 | Tablet | Elektronika | 1500 |\n| 4 | Koszulka A | Odziez | 80 |\n| 5 | Koszulka B | Odziez | 120 |\n| 6 | Buty | Odziez | 250 |\n| 7 | Ksiazka A | Media | 35 |\n| 8 | Ksiazka B | Media | 45 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe, kategorie i cene produktow, ktore maja NAJNIZSZA cene w swojej kategorii. Uzyj podzapytania skorelowanego. Posortuj wg kategorii.",
+  "wskazowki": [
+    "**Kierunek**: Podzapytanie musi obliczac MIN(cena) osobno dla kategorii KAZDEGO wiersza z zapytania zewnetrznego.",
+    "**Podejscie**: `WHERE P.cena = (SELECT MIN(P2.cena) FROM Produkty P2 WHERE P2.kategoria = P.kategoria)`.",
+    "**Kluczowy krok**: Alias P2 w podzapytaniu rozni sie od P w zapytaniu glownym, ale `P2.kategoria = P.kategoria` laczy je."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT P.nazwa, P.kategoria, P.cena\nFROM Produkty P\nWHERE P.cena = (\n    SELECT MIN(P2.cena)\n    FROM Produkty P2\n    WHERE P2.kategoria = P.kategoria\n)\nORDER BY P.kategoria;\n```\n\n**Weryfikacja** (MIN per kategoria):\n- Elektronika: MIN(3500, 2800, 1500) = **1500** → Tablet ✓\n- Media: MIN(35, 45) = **35** → Ksiazka A ✓\n- Odziez: MIN(80, 120, 250) = **80** → Koszulka A ✓\n\n| nazwa | kategoria | cena |\n|-------|-----------|------|\n| Tablet | Elektronika | 1500 |\n| Ksiazka A | Media | 35 |\n| Koszulka A | Odziez | 80 |\n\n**Wyjasnienie**: Podzapytanie skorelowane jest wykonywane DLA KAZDEGO wiersza z zapytania zewnetrznego. Warunek `P2.kategoria = P.kategoria` powoduje, ze MIN jest obliczane osobno per kategoria. Wynik zawiera dokladnie po jednym produkcie z kazdej kategorii.",
+  "typowe_bledy": [
+    {
+      "opis": "**Nieskorelowane podzapytanie**: `SELECT MIN(cena) FROM Produkty` bez filtra na kategorie — da globalne minimum (35), nie per kategoria",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Te same aliasy**: Uzycie `P` zarowno w zapytaniu glownym jak i podzapytaniu — niejednoznacznosc",
+      "kara": "-1 pkt"
+    }
+  ]
+}

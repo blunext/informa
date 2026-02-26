@@ -1,0 +1,38 @@
+{
+  "id": "23.40",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane systemem magazynowym z kodami produktow",
+  "tagi": [
+    "CASE-WHEN",
+    "SUBSTR",
+    "BETWEEN",
+    "IN",
+    "NOT",
+    "obliczenia-w-SELECT",
+    "WHERE",
+    "AND",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Produkty**:\n\n| id | nazwa | kategoria | cena | magazyn | kod |\n|----|-------|-----------|------|---------|-----|\n| 1 | Laptop X1 | Elektronika | 4500 | 15 | EL-001 |\n| 2 | Koszula | Odziez | 120 | 50 | OD-010 |\n| 3 | Rower Pro | Sport | 2800 | 8 | SP-005 |\n| 4 | Tablet Z | Elektronika | 1800 | 25 | EL-002 |\n| 5 | Buty Trek | Sport | 350 | 30 | SP-008 |\n| 6 | Monitor | Elektronika | 1200 | 0 | EL-003 |\n| 7 | Spodnie | Odziez | 200 | 40 | OD-020 |\n| 8 | Pilka | Sport | 80 | 100 | SP-001 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli nazwe, kategorie, cene, magazyn oraz:\n1. Kolumne `wartosc_magazynu` = cena * magazyn\n2. Kolumne `dostepnosc`: 'brak' jesli magazyn = 0, 'niska' jesli magazyn BETWEEN 1 AND 10, 'wysoka' w pozostalych przypadkach\n3. Kolumne `dzial` = dwie pierwsze litery kodu (uzyj SUBSTR)\n\nPokaz tylko produkty, ktorych kategoria NOT IN ('Odziez') ORAZ cena * magazyn > 5000. Posortuj malejaco wg wartosci magazynu.",
+  "wskazowki": [
+    "**Kierunek**: Laczysz obliczenia (wartosc_magazynu), CASE WHEN z BETWEEN (dostepnosc) i SUBSTR (dzial) w jednym zapytaniu.",
+    "**Podejscie**: SELECT z trzema kolumnami obliczonymi + WHERE z NOT IN i obliczeniem.",
+    "**Kluczowy krok**: W WHERE powtorz formule `cena * magazyn > 5000` — alias `wartosc_magazynu` nie jest dostepny w WHERE. SUBSTR(kod, 1, 2) wyciaga 2 pierwsze znaki."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT nazwa, kategoria, cena, magazyn,\n  cena * magazyn AS wartosc_magazynu,\n  CASE\n    WHEN magazyn = 0 THEN 'brak'\n    WHEN magazyn BETWEEN 1 AND 10 THEN 'niska'\n    ELSE 'wysoka'\n  END AS dostepnosc,\n  SUBSTR(kod, 1, 2) AS dzial\nFROM Produkty\nWHERE kategoria NOT IN ('Odziez')\n  AND cena * magazyn > 5000\nORDER BY wartosc_magazynu DESC;\n```\n\n**Weryfikacja**:\n- Laptop X1: Elektronika ✓, 4500*15=67500 > 5000 ✓ → magazyn=15 → wysoka, EL\n- Koszula: Odziez → NOT IN ✗\n- Rower Pro: Sport ✓, 2800*8=22400 > 5000 ✓ → magazyn=8 → BETWEEN 1 AND 10 → niska, SP\n- Tablet Z: Elektronika ✓, 1800*25=45000 > 5000 ✓ → magazyn=25 → wysoka, EL\n- Buty Trek: Sport ✓, 350*30=10500 > 5000 ✓ → magazyn=30 → wysoka, SP\n- Monitor: Elektronika ✓, 1200*0=0 > 5000 ✗\n- Spodnie: Odziez → NOT IN ✗\n- Pilka: Sport ✓, 80*100=8000 > 5000 ✓ → magazyn=100 → wysoka, SP\n\n| nazwa | kategoria | cena | magazyn | wartosc_magazynu | dostepnosc | dzial |\n|-------|-----------|------|---------|-----------------|------------|-------|\n| Laptop X1 | Elektronika | 4500 | 15 | 67500 | wysoka | EL |\n| Tablet Z | Elektronika | 1800 | 25 | 45000 | wysoka | EL |\n| Rower Pro | Sport | 2800 | 8 | 22400 | niska | SP |\n| Buty Trek | Sport | 350 | 30 | 10500 | wysoka | SP |\n| Pilka | Sport | 80 | 100 | 8000 | wysoka | SP |\n\n**Wyjasnienie**: Zapytanie laczy wiele koncepcji: obliczenia arytmetyczne (cena*magazyn), CASE WHEN z BETWEEN do klasyfikacji, SUBSTR do wyciagania czesci tekstu, NOT IN do wykluczania kategorii. Formule w WHERE trzeba powtorzyc (alias z SELECT nie dziala w WHERE). Monitor odpada mimo bycia Elektronika, bo jego wartosc magazynowa wynosi 0 (brak na stanie).",
+  "typowe_bledy": [
+    {
+      "opis": "**Alias w WHERE**: `WHERE wartosc_magazynu > 5000` — w SQLite aliasy z SELECT nie sa dostepne w WHERE. Trzeba powtorzyc `cena * magazyn > 5000`",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**SUBSTR(kod, 1, 2) vs SUBSTR(kod, 0, 2)**: W SQL pozycje liczymy od 1 — SUBSTR(kod, 0, 2) da tylko 1 znak zamiast 2",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak nawiasow w CASE WHEN z BETWEEN**: `WHEN magazyn BETWEEN 1 AND 10` jest poprawne — BETWEEN nie wymaga dodatkowych nawiasow",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

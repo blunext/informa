@@ -1,0 +1,29 @@
+{
+  "id": "21.40",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane analiza zamowien e-commerce",
+  "tagi": [
+    "podzapytanie-w-HAVING",
+    "podzapytanie-skalarne",
+    "AVG",
+    "MAX"
+  ],
+  "tresc": "Tabela **Zamowienia**:\n\n| id | klient | produkt | kwota |\n|----|--------|---------|-------|\n| 1 | Kowalski | Laptop | 3500 |\n| 2 | Nowak | Tablet | 1200 |\n| 3 | Maj | Laptop | 3800 |\n| 4 | Kowalski | Telefon | 2000 |\n| 5 | Lis | Tablet | 1300 |\n| 6 | Nowak | Laptop | 4200 |\n| 7 | Zak | Telefon | 1800 |\n| 8 | Kowalski | Tablet | 1100 |\n| 9 | Maj | Telefon | 2100 |\n| 10 | Lis | Laptop | 3600 |\n\n**Polecenie**: Wyswietl klienta i jego najwyzsza kwote zamowienia, ale tylko tych klientow, ktorych najwyzsza kwota jest wieksza niz srednia najwyzszych kwot wsrod wszystkich klientow. Posortuj malejaco wg najwyzszej kwoty.\n\nWskazowka: srednia najwyzszych kwot to srednia z (MAX per klient).",
+  "wskazowki": [
+    "**Kierunek**: Najpierw musisz obliczyc MAX per klient, potem srednia tych wartosci, potem porownac.",
+    "**Podejscie**: Podzapytanie zagniezdzene: `(SELECT AVG(mk) FROM (SELECT MAX(kwota) AS mk FROM Zamowienia GROUP BY klient))`.",
+    "**Kluczowy krok**: Podzapytanie w FROM (derived table) oblicza MAX per klient, a zewnetrzne AVG liczy srednia tych wartosci."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT klient, MAX(kwota) AS max_kwota\nFROM Zamowienia\nGROUP BY klient\nHAVING MAX(kwota) > (\n    SELECT AVG(mk)\n    FROM (SELECT MAX(kwota) AS mk FROM Zamowienia GROUP BY klient)\n)\nORDER BY max_kwota DESC;\n```\n\n**Weryfikacja**:\n\nMAX per klient:\n- Kowalski: MAX(3500, 2000, 1100) = **3500**\n- Nowak: MAX(1200, 4200) = **4200**\n- Maj: MAX(3800, 2100) = **3800**\n- Lis: MAX(1300, 3600) = **3600**\n- Zak: MAX(1800) = **1800**\n\nSrednia MAX: (3500+4200+3800+3600+1800)/5 = 16900/5 = **3380.0**\n\nKlienci z MAX > 3380:\n- Nowak: 4200 ✓\n- Maj: 3800 ✓\n- Lis: 3600 ✓\n- Kowalski: 3500 ✓\n- Zak: 1800 ✗\n\n| klient | max_kwota |\n|--------|-----------|\n| Nowak | 4200 |\n| Maj | 3800 |\n| Lis | 3600 |\n| Kowalski | 3500 |\n\n**Wyjasnienie**: To zagniezdzene podzapytanie (subquery w subquery). Wewnetrzne `SELECT MAX(kwota) ... GROUP BY klient` daje MAX per klient. Zewnetrzne `AVG(mk)` oblicza srednia tych wartosci. Calość jest porownywana w HAVING z MAX(kwota) kazdej grupy.",
+  "typowe_bledy": [
+    {
+      "opis": "**AVG(kwota) zamiast AVG(MAX per klient)**: `(SELECT AVG(kwota) FROM Zamowienia)` daje srednia WSZYSTKICH zamowien (2470), nie srednia najwyzszych per klient (3380)",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Brak derived table**: Nie mozna napisac `AVG(MAX(kwota))` — trzeba najpierw obliczyc MAX w podzapytaniu, potem AVG w zewnetrznym",
+      "kara": "-2 pkt"
+    }
+  ]
+}

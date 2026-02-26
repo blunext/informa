@@ -3,7 +3,7 @@
   "nazwa": "SQL — JOIN (laczenie tabel)",
   "kategoria": "SQL",
   "czestotliwosc": "8/11 lat",
-  "punkty_lacznie": 109,
+  "punkty_lacznie": 147,
   "tagi_globalne": [
     "INNER-JOIN",
     "LEFT-JOIN",
@@ -314,6 +314,110 @@
     },
     {
       "id": "22.30",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "LEFT-JOIN",
+        "COUNT-z-LEFT-JOIN",
+        "GROUP-BY-z-JOIN",
+        "ORDER-BY-wielokolumnowy"
+      ]
+    },
+    {
+      "id": "22.31",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "INNER-JOIN",
+        "aliasy-tabel",
+        "ORDER-BY-wielokolumnowy"
+      ]
+    },
+    {
+      "id": "22.32",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "INNER-JOIN",
+        "aliasy-tabel",
+        "WHERE-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.33",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "LEFT-JOIN",
+        "COUNT-z-LEFT-JOIN",
+        "GROUP-BY-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.34",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "self-JOIN",
+        "aliasy-tabel",
+        "ON-warunek"
+      ]
+    },
+    {
+      "id": "22.35",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "GROUP-BY-z-JOIN"
+      ]
+    },
+    {
+      "id": "22.36",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "LEFT-JOIN",
+        "COUNT-z-LEFT-JOIN",
+        "GROUP-BY-z-JOIN",
+        "DISTINCT"
+      ]
+    },
+    {
+      "id": "22.37",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "WHERE-z-JOIN",
+        "aliasy-tabel"
+      ]
+    },
+    {
+      "id": "22.38",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "JOIN-wielotabelowy",
+        "GROUP-BY-z-JOIN",
+        "ORDER-BY-wielokolumnowy",
+        "aliasy-tabel"
+      ]
+    },
+    {
+      "id": "22.39",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "self-JOIN",
+        "aliasy-tabel",
+        "GROUP-BY-z-JOIN",
+        "ORDER-BY-wielokolumnowy"
+      ]
+    },
+    {
+      "id": "22.40",
       "trudnosc": "trudne",
       "punkty": 5,
       "tagi": [

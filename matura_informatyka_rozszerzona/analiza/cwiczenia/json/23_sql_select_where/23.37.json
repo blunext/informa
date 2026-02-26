@@ -1,0 +1,34 @@
+{
+  "id": "23.37",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane systemem ocen szkolnych",
+  "tagi": [
+    "SUBSTR",
+    "BETWEEN",
+    "WHERE",
+    "AND",
+    "ORDER-BY"
+  ],
+  "tresc": "Tabela **Uczniowie**:\n\n| id | imie | nazwisko | klasa | punkty |\n|----|------|----------|-------|--------|\n| 1 | Anna | Kowal | 3A | 85 |\n| 2 | Jan | Nowak | 2B | 72 |\n| 3 | Ewa | Lis | 3B | 95 |\n| 4 | Piotr | Maj | 1A | 80 |\n| 5 | Kasia | Zak | 2A | 65 |\n| 6 | Tomek | Bak | 3A | 90 |\n| 7 | Ola | Wrobel | 1B | 50 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie, nazwisko, klase i punkty uczniow, ktorzy:\n- sa w klasie trzeciej (pierwszy znak klasy to '3' — uzyj SUBSTR)\n- AND punkty mieszcza sie w zakresie od 80 do 100 (uzyj BETWEEN)\nPosortuj malejaco wg punktow.",
+  "wskazowki": [
+    "**Kierunek**: SUBSTR(klasa, 1, 1) wyciaga pierwszy znak z tekstu klasy.",
+    "**Podejscie**: `WHERE SUBSTR(klasa, 1, 1) = '3' AND punkty BETWEEN 80 AND 100`.",
+    "**Kluczowy krok**: SUBSTR(tekst, pozycja, dlugosc) — w SQL pozycje liczymy od 1 (nie od 0!). BETWEEN jest inkluzywne — obejmuje obie granice."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT imie, nazwisko, klasa, punkty\nFROM Uczniowie\nWHERE SUBSTR(klasa, 1, 1) = '3'\n  AND punkty BETWEEN 80 AND 100\nORDER BY punkty DESC;\n```\n\n**Weryfikacja**:\n- Anna: klasa='3A' → SUBSTR='3' ✓, punkty=85 BETWEEN 80 AND 100 ✓ → ✓\n- Jan: klasa='2B' → SUBSTR='2' ✗\n- Ewa: klasa='3B' → SUBSTR='3' ✓, punkty=95 BETWEEN 80 AND 100 ✓ → ✓\n- Piotr: klasa='1A' → SUBSTR='1' ✗\n- Kasia: klasa='2A' → SUBSTR='2' ✗\n- Tomek: klasa='3A' → SUBSTR='3' ✓, punkty=90 BETWEEN 80 AND 100 ✓ → ✓\n- Ola: klasa='1B' → SUBSTR='1' ✗\n\n| imie | nazwisko | klasa | punkty |\n|------|----------|-------|--------|\n| Ewa | Lis | 3B | 95 |\n| Tomek | Bak | 3A | 90 |\n| Anna | Kowal | 3A | 85 |\n\n**Wyjasnienie**: SUBSTR(klasa, 1, 1) wyciaga pierwszy znak z kolumny klasa — dla '3A' to '3', dla '2B' to '2'. Porownanie z '3' filtruje trzecioklasistow. BETWEEN 80 AND 100 jest rownowazne `punkty >= 80 AND punkty <= 100` (inkluzywne na obu koncach). Uczen Ewa ma 95 punktow — miesci sie w zakresie i jest w klasie 3B.",
+  "typowe_bledy": [
+    {
+      "opis": "**SUBSTR(klasa, 0, 1) zamiast SUBSTR(klasa, 1, 1)**: W SQL pozycje liczymy od 1 — pozycja 0 da pusty string lub bledny wynik",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**LEFT(klasa, 1) zamiast SUBSTR**: LEFT nie jest standardowa funkcja SQL — w SQLite nie istnieje, trzeba uzyc SUBSTR",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Porownanie liczbowe zamiast tekstowego**: `SUBSTR(klasa, 1, 1) = 3` (bez apostrofow) — moze dzialac dzieki implicit conversion, ale poprawnie powinno byc '3'",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

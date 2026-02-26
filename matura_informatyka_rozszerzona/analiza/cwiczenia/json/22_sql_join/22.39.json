@@ -1,0 +1,33 @@
+{
+  "id": "22.39",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane analiza hierarchii firmy",
+  "tagi": [
+    "self-JOIN",
+    "aliasy-tabel",
+    "GROUP-BY-z-JOIN",
+    "ORDER-BY-wielokolumnowy"
+  ],
+  "tresc": "Tabela **Pracownicy**:\n\n| id | imie | nazwisko | id_kierownika |\n|----|------|----------|---------------|\n| 1 | Anna | Kowalska | NULL |\n| 2 | Jan | Nowak | 1 |\n| 3 | Ewa | Maj | 1 |\n| 4 | Piotr | Lis | 2 |\n| 5 | Kasia | Zak | 2 |\n| 6 | Tomek | Bak | 3 |\n| 7 | Ola | Wrobel | 2 |\n| 8 | Marek | Krol | 3 |\n\n**Polecenie**: Napisz zapytanie SQL, ktore wyswietli imie i nazwisko kazdego KIEROWNIKA (osoby, ktora ma bezposrednich podwladnych) oraz liczbe jego bezposrednich podwladnych. Posortuj malejaco wg liczby podwladnych, potem wg nazwiska.",
+  "wskazowki": [
+    "**Kierunek**: Self-JOIN: podwladni (P) maja id_kierownika wskazujacy na kierownika (K).",
+    "**Podejscie**: JOIN Pracownicy P z Pracownicy K na P.id_kierownika = K.id, potem GROUP BY po kierowniku.",
+    "**Kluczowy krok**: GROUP BY K.imie, K.nazwisko + COUNT(*) — zlicza podwladnych kazdego kierownika."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT K.imie, K.nazwisko, COUNT(*) AS liczba_podwladnych\nFROM Pracownicy P\nJOIN Pracownicy K ON P.id_kierownika = K.id\nGROUP BY K.imie, K.nazwisko\nORDER BY liczba_podwladnych DESC, K.nazwisko;\n```\n\n**Weryfikacja** (kto jest czyim kierownikiem):\n- Anna Kowalska (id=1): podwladni = Jan(2), Ewa(3) → **2**\n- Jan Nowak (id=2): podwladni = Piotr(4), Kasia(5), Ola(7) → **3**\n- Ewa Maj (id=3): podwladni = Tomek(6), Marek(8) → **2**\n\n| imie | nazwisko | liczba_podwladnych |\n|------|----------|--------------------|\n| Jan | Nowak | 3 |\n| Anna | Kowalska | 2 |\n| Ewa | Maj | 2 |\n\n**Wyjasnienie**: Self-JOIN laczy podwladnego (P) z kierownikiem (K) przez P.id_kierownika = K.id. GROUP BY po kierowniku + COUNT(*) daje liczbe podwladnych. Piotr, Kasia, Tomek, Ola i Marek nie sa kierownikami (nikt ich nie wskazuje jako id_kierownika), wiec nie pojawiaja sie w wynikach.",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwrotny warunek ON**: `ON P.id = K.id_kierownika` — liczy KIEROWNIKOW kazdego pracownika (zawsze 0 lub 1), nie podwladnych",
+      "kara": "-3 pkt"
+    },
+    {
+      "opis": "**Brak GROUP BY**: Bez grupowania COUNT policzy WSZYSTKICH podwladnych (7), nie per kierownik",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**LEFT JOIN**: Niepotrzebny — pracownicy bez podwladnych nie powinni sie pojawiac",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

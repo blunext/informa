@@ -1,0 +1,29 @@
+{
+  "id": "22.36",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane baza autorow i ksiazek",
+  "tagi": [
+    "LEFT-JOIN",
+    "COUNT-z-LEFT-JOIN",
+    "GROUP-BY-z-JOIN",
+    "DISTINCT"
+  ],
+  "tresc": "Tabela **Autorzy**:\n\n| id | imie | nazwisko |\n|----|------|----------|\n| 1 | Adam | Mickiewicz |\n| 2 | Henryk | Sienkiewicz |\n| 3 | Stefan | Zeromski |\n| 4 | Maria | Konopnicka |\n\nTabela **Ksiazki**:\n\n| id | id_autora | tytul | gatunek |\n|----|----------|-------|--------|\n| 1 | 1 | Pan Tadeusz | epopeja |\n| 2 | 1 | Dziady | dramat |\n| 3 | 2 | Quo Vadis | powiesc |\n| 4 | 2 | Potop | powiesc |\n| 5 | 2 | Krzyzacy | powiesc |\n| 6 | 3 | Ludzie bezdomni | powiesc |\n\n**Polecenie**: Wyswietl nazwisko autora i liczbe ROZNYCH gatunkow, w ktorych pisal. Pokaz WSZYSTKICH autorow, nawet tych bez ksiazek w bazie (z liczba 0). Posortuj malejaco wg liczby gatunkow, potem alfabetycznie wg nazwiska.",
+  "wskazowki": [
+    "**Kierunek**: LEFT JOIN zachowuje autorow bez ksiazek, a COUNT(DISTINCT ...) zlicza unikalne gatunki.",
+    "**Podejscie**: LEFT JOIN Autorzy z Ksiazki, GROUP BY nazwisko, COUNT(DISTINCT gatunek).",
+    "**Kluczowy krok**: COUNT(DISTINCT K.gatunek) zlicza unikalne wartosci — Sienkiewicz ma 3 ksiazki, ale 1 gatunek (powiesc)."
+  ],
+  "odpowiedz": "**Zapytanie SQL:**\n```sql\nSELECT A.nazwisko, COUNT(DISTINCT K.gatunek) AS liczba_gatunkow\nFROM Autorzy A\nLEFT JOIN Ksiazki K ON A.id = K.id_autora\nGROUP BY A.nazwisko\nORDER BY liczba_gatunkow DESC, A.nazwisko;\n```\n\n**Weryfikacja**:\n- Mickiewicz: epopeja, dramat → **2** rozne gatunki\n- Sienkiewicz: powiesc, powiesc, powiesc → **1** rozny gatunek\n- Zeromski: powiesc → **1**\n- Konopnicka: brak ksiazek → **0** (LEFT JOIN, COUNT(DISTINCT NULL) = 0)\n\n| nazwisko | liczba_gatunkow |\n|----------|-----------------|\n| Mickiewicz | 2 |\n| Sienkiewicz | 1 |\n| Zeromski | 1 |\n| Konopnicka | 0 |\n\n**Wyjasnienie**: LEFT JOIN zachowuje Konopnicka (bez ksiazek). COUNT(DISTINCT K.gatunek) zlicza unikalne, nie-NULL gatunki — Sienkiewicz ma 3 ksiazki, ale wszystkie to 'powiesc', wiec COUNT DISTINCT = 1. Konopnicka ma NULL (brak ksiazek), wiec COUNT = 0.",
+  "typowe_bledy": [
+    {
+      "opis": "**COUNT(K.gatunek) bez DISTINCT**: Sienkiewicz dosta 3 zamiast 1, bo ma 3 ksiazki gatunku powiesc",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**INNER JOIN zamiast LEFT JOIN**: Konopnicka (bez ksiazek) zostanie pominieta",
+      "kara": "-2 pkt"
+    }
+  ]
+}
