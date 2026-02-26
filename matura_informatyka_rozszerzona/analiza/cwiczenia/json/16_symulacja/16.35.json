@@ -1,0 +1,35 @@
+{
+  "id": "16.35",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2025 (portfel inwestycyjny z dywidendami)",
+  "tagi": [
+    "akumulator",
+    "IF-warunkowy",
+    "mnozenie",
+    "ZAOKR",
+    "odwolanie-bezwzgledne",
+    "symulacja-krokowa"
+  ],
+  "tresc": "Inwestor posiada portfel akcji o wartosci poczatkowej 100000 zl. Co kwartal wartosc zmienia sie o pewien procent (wzrost lub spadek). Jesli wartosc portfela przekracza 120000 zl, inwestor wyplaca dywidende (5% wartosci portfela). Dywidenda jest odejmowana od portfela. Wyplacone dywidendy sa kumulowane.\n\nParametry: G1 = 120000 (prog dywidendy), G2 = 0,05 (stawka dywidendy).\n\n| | A | B | C | D | E | F |\n|---|---|---|---|---|---|---|\n| 1 | **Kwartal** | **Zmiana (%)** | **Wartosc przed dyw.** | **Dywidenda** | **Wartosc po dyw.** | **Dyw. kumulacyjna** |\n| 2 | 0 (start) | — | — | — | 100000 | 0 |\n| 3 | Q1 | +8% | ? | ? | ? | ? |\n| 4 | Q2 | +12% | ? | ? | ? | ? |\n| 5 | Q3 | -5% | ? | ? | ? | ? |\n| 6 | Q4 | +10% | ? | ? | ? | ? |\n| 7 | Q5 | -3% | ? | ? | ? | ? |\n| 8 | Q6 | +15% | ? | ? | ? | ? |\n\nZmiana w kolumnie B podana jako ulamek: B3 = 0,08; B4 = 0,12; B5 = -0,05; B6 = 0,10; B7 = -0,03; B8 = 0,15.\n\n**Polecenie**:\n1. W C3 oblicz wartosc przed dywidenda: poprzednia wartosc po dyw. * (1 + zmiana). Zaokraglij do 2 miejsc.\n2. W D3 oblicz dywidende: jesli wartosc przed dyw. > 120000, to ZAOKR(wartosc * 5%; 2), inaczej 0.\n3. W E3 oblicz wartosc po dywidendzie: wartosc przed dyw. - dywidenda.\n4. W F3 oblicz kumulacyjna dywidende.\n5. Ile lacznie wyplacono dywidend?",
+  "wskazowki": [
+    "**Kierunek**: Lancuch: wartosc po dyw. (poprz.) → wzrost/spadek → wartosc przed dyw. → decyzja o dywidendzie → wartosc po dyw.",
+    "**Podejscie**: C3: =ZAOKR(E2*(1+B3);2). D3: =IF(C3>$G$1;ZAOKR(C3*$G$2;2);0). E3: =C3-D3. F3: =F2+D3.",
+    "**Kluczowy krok**: Dywidenda zmniejsza wartosc portfela. Po wyplacie wartosc spada, co moze sprawic, ze w nastepnym kwartale prog nie bedzie przekroczony."
+  ],
+  "odpowiedz": "**Formuly (wiersz 3, kopiowane w dol):**\n```\nC3: =ZAOKR(E2*(1+B3);2)\nD3: =IF(C3>$G$1;ZAOKR(C3*$G$2;2);0)\nE3: =C3-D3\nF3: =F2+D3\n```\n\n**Wypelniona tabela:**\n\n| Kwartal | Zmiana | Wart. przed dyw. | Dywidenda | Wart. po dyw. | Dyw. kumulacyjna |\n|---------|--------|-----------------|-----------|---------------|------------------|\n| 0 | — | — | — | 100000.00 | 0.00 |\n| Q1 | +8% | 108000.00 | 0.00 | 108000.00 | 0.00 |\n| Q2 | +12% | 120960.00 | 6048.00 | 114912.00 | 6048.00 |\n| Q3 | -5% | 109166.40 | 0.00 | 109166.40 | 6048.00 |\n| Q4 | +10% | 120083.04 | 6004.15 | 114078.89 | 12052.15 |\n| Q5 | -3% | 110656.52 | 0.00 | 110656.52 | 12052.15 |\n| Q6 | +15% | 127255.00 | 6362.75 | 120892.25 | 18414.90 |\n\n**Weryfikacja krok po kroku:**\n- Q1: C3=ZAOKR(100000*1.08;2)=108000.00. 108000<=120000 → D3=0. E3=108000.00. F3=0\n- Q2: C4=ZAOKR(108000*1.12;2)=120960.00. 120960>120000 → D4=ZAOKR(120960*0.05;2)=6048.00. E4=120960-6048=114912.00. F4=0+6048=6048.00\n- Q3: C5=ZAOKR(114912*0.95;2)=ZAOKR(109166.40;2)=109166.40. 109166.40<=120000 → D5=0. E5=109166.40. F5=6048.00\n- Q4: C6=ZAOKR(109166.40*1.10;2)=ZAOKR(120083.04;2)=120083.04. 120083.04>120000 → D6=ZAOKR(120083.04*0.05;2)=ZAOKR(6004.152;2)=6004.15. E6=120083.04-6004.15=114078.89. F6=6048+6004.15=12052.15\n- Q5: C7=ZAOKR(114078.89*0.97;2)=ZAOKR(110656.5233;2)=110656.52. Korekta: 114078.89*0.97=110656.5233 → ZAOKR=110656.52. 110656.52<=120000 → D7=0. E7=110656.52. F7=12052.15\n- Q6: C8=ZAOKR(110656.52*1.15;2)=ZAOKR(127254.998;2)=127255.00. 127255.00>120000 → D8=ZAOKR(127255.00*0.05;2)=ZAOKR(6362.75;2)=6362.75. E8=127255.00-6362.75=120892.25. F8=12052.15+6362.75=18414.90\n\n**Korekta tabeli po dokladnym przeliczeniu:**\n\n| Kwartal | Zmiana | Wart. przed dyw. | Dywidenda | Wart. po dyw. | Dyw. kumulacyjna |\n|---------|--------|-----------------|-----------|---------------|------------------|\n| 0 | — | — | — | 100000.00 | 0.00 |\n| Q1 | +8% | 108000.00 | 0.00 | 108000.00 | 0.00 |\n| Q2 | +12% | 120960.00 | 6048.00 | 114912.00 | 6048.00 |\n| Q3 | -5% | 109166.40 | 0.00 | 109166.40 | 6048.00 |\n| Q4 | +10% | 120083.04 | 6004.15 | 114078.89 | 12052.15 |\n| Q5 | -3% | 110656.52 | 0.00 | 110656.52 | 12052.15 |\n| Q6 | +15% | 127255.00 | 6362.75 | 120892.25 | 18414.90 |\n\nLacznie wyplacone dywidendy: **18414.90 zl** (w kwartalach Q2, Q4 i Q6).\n\n**Wyjasnienie**: Portfel inwestycyjny z dywidendami to symulacja ze sprężeniem zwrotnym: dywidenda zmniejsza wartosc, co wplywa na przyszle zyski. Kluczowe: wartosc przed dywidenda uwzglednia zmiane procentowa, a dywidenda jest wyplacana tylko ponad progiem. ZAOKR jest niezbedne przy obliczeniach finansowych.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zmiana od wartosci PRZED dywidenda**: C3: =ZAOKR(C2*(1+B3);2) zamiast =ZAOKR(E2*(1+B3);2) — ignoruje wyplate dywidendy, wartosc rosnie za szybko.",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Dywidenda od wartosci poczatkowej**: D3: =IF(C3>120000;ZAOKR(100000*0.05;2);0) — stala dywidenda 5000 zamiast 5% biezacej wartosci.",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak ZAOKR w obliczeniach procentowych**: Przy wielu kwartalach brak zaokraglenia prowadzi do narastajacych rozbieznosci groszowych.",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

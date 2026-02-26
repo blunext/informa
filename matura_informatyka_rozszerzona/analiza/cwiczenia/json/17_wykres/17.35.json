@@ -1,0 +1,28 @@
+{
+  "id": "17.35",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "ogolna (handel zagraniczny)",
+  "tagi": ["wykres-kombinowany", "dwie-osie-Y", "wykres-grupowany", "wykres-liniowy", "odczyt-z-wykresu", "formatowanie-wykresu"],
+  "tresc": "Dane o handlu zagranicznym Polski (w mld EUR):\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Rok** | **Eksport** | **Import** | **Saldo** |\n| 2 | 2019 | 235 | 230 | 5 |\n| 3 | 2020 | 240 | 228 | 12 |\n| 4 | 2021 | 285 | 290 | -5 |\n| 5 | 2022 | 320 | 340 | -20 |\n| 6 | 2023 | 330 | 325 | 5 |\n| 7 | 2024 | 350 | 338 | 12 |\n| 8 | 2025 | 370 | 355 | 15 |\n\n**Polecenie**:\n1. Opisz wykres grupowany (eksport i import jako slupki obok siebie).\n2. Opisz nalozona linie salda handlowego na drugiej osi Y.\n3. Zweryfikuj, czy kolumna Saldo jest poprawna (Saldo = Eksport - Import).\n4. W ktorych latach saldo bylo ujemne? Co to oznacza gospodarczo?\n5. Jaki jest trend salda? Czy sytuacja poprawia sie?",
+  "wskazowki": [
+    "**Kierunek**: Wykres kombinowany: grupowany (2 slupki) + linia (saldo) na drugiej osi.",
+    "**Podejscie**: Saldo = Eksport - Import. Ujemne saldo = import przewyzszal eksport (deficyt handlowy).",
+    "**Kluczowy krok**: Linia salda powinna przechodzic przez 0 — potrzebna os Y obejmujaca wartosci ujemne."
+  ],
+  "odpowiedz": "**1-2. Specyfikacja wykresu kombinowanego:**\n\n- Typ: Combo chart — kolumnowy grupowany + linia\n- Os X: A2:A8 (lata)\n- Seria 1 (slupek, os lewa): B2:B8 — Eksport, kolor zielony, skala 0-400\n- Seria 2 (slupek, os lewa): C2:C8 — Import, kolor czerwony, skala 0-400\n- Seria 3 (linia, os prawa): D2:D8 — Saldo, kolor czarny z markerami, skala -25 do 20\n- Linia odniesienia: 0 na osi prawej (linia przerywana)\n- Tytul: \"Handel zagraniczny Polski (mld EUR)\"\n- Os lewa: \"Eksport/Import (mld EUR)\", Os prawa: \"Saldo (mld EUR)\"\n- Legenda\n\n**3. Weryfikacja salda:**\n\n| Rok | Eksport | Import | E - I | Podane saldo | Poprawne? |\n|-----|---------|--------|-------|-------------|----------|\n| 2019 | 235 | 230 | 5 | 5 | TAK |\n| 2020 | 240 | 228 | 12 | 12 | TAK |\n| 2021 | 285 | 290 | -5 | -5 | TAK |\n| 2022 | 320 | 340 | -20 | -20 | TAK |\n| 2023 | 330 | 325 | 5 | 5 | TAK |\n| 2024 | 350 | 338 | 12 | 12 | TAK |\n| 2025 | 370 | 355 | 15 | 15 | TAK |\n\nWszystkie wartosci salda sa **poprawne**.\n\n**4. Lata z ujemnym saldem:**\n- **2021 (saldo -5 mld EUR)** i **2022 (saldo -20 mld EUR)**\n- Ujemne saldo (deficyt handlowy) oznacza, ze Polska importowala wiecej niz eksportowala — pieniadze netto wyplywaly z kraju.\n\n**5. Trend salda:**\n- 2019-2022: pogorszenie (z +5 do -20)\n- 2022-2025: **wyrazna poprawa** (z -20 do +15)\n- Ogolny trend w ostatnich latach jest **pozytywny** — saldo poprawilo sie o 35 mld EUR w ciagu 3 lat (2022-2025). Polska wrucila do nadwyzki handlowej.\n\n**Wyjasnienie**: Wykres kombinowany laczy porownanie wartosci bezwzglednych (slupki eksportu i importu) z wskaznikiem roznicowym (linia salda). Linia odniesienia na poziomie 0 jasno oddziela nadwyzke od deficytu.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak linii odniesienia 0 na osi salda**: Bez niej trudno okreslic, kiedy saldo jest dodatnie, a kiedy ujemne",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Saldo na glownej osi Y**: Saldo (-20 do +15) na osi 0-400 bedzie niewidoczne — potrzebna osobna os",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak interpretacji gospodarczej deficytu**: Na maturze za brak wyjasnienia 'co oznacza ujemne saldo' odejmuje sie punkty",
+      "kara": "-1 pkt"
+    }
+  ]
+}

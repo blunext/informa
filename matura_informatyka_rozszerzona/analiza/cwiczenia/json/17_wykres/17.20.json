@@ -1,0 +1,24 @@
+{
+  "id": "17.20",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "ogolna (turystyka)",
+  "tagi": ["wykres-grupowany", "legenda", "odczyt-z-wykresu", "seria-danych"],
+  "tresc": "Liczba turystow odwiedzajacych 3 muzea w Krakowie (w tysiacach):\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Rok** | **Wawel** | **Sukiennice** | **Fabryka Schindlera** |\n| 2 | 2021 | 320 | 180 | 210 |\n| 3 | 2022 | 450 | 260 | 310 |\n| 4 | 2023 | 520 | 290 | 380 |\n| 5 | 2024 | 510 | 310 | 420 |\n| 6 | 2025 | 540 | 330 | 440 |\n\n**Polecenie**: Opisz, jak utworzyc wykres kolumnowy grupowany porownujacy frekwencje w 3 muzeach. Podaj specyfikacje wykresu. Odpowiedz na pytania:\n1. Ktore muzeum mialo najszybszy wzrost frekwencji miedzy 2021 a 2025?\n2. W ktorym roku laczna frekwencja we wszystkich muzeach byla najwyzsza?",
+  "wskazowki": [
+    "**Kierunek**: Wykres grupowany — 3 slupki obok siebie w kazdym roku (po jednym na muzeum).",
+    "**Podejscie**: Oblicz wzrost procentowy: (wartosc_2025 - wartosc_2021) / wartosc_2021 * 100%.",
+    "**Kluczowy krok**: Laczna frekwencja = suma B+C+D w kazdym wierszu. Porownaj sumy."
+  ],
+  "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kolumnowy grupowany (clustered column)\n2. **Dane**:\n   - Os X: zakres A2:A6 (lata)\n   - Seria 1: B2:B6 (Wawel) — np. kolor czerwony\n   - Seria 2: C2:C6 (Sukiennice) — np. kolor niebieski\n   - Seria 3: D2:D6 (Fabryka Schindlera) — np. kolor zielony\n3. **Tytuly**:\n   - Tytul: \"Frekwencja w muzeach Krakowa (tys.)\"\n   - Os X: \"Rok\"\n   - Os Y: \"Liczba turystow (tys.)\"\n4. **Formatowanie**:\n   - 3 slupki obok siebie w kazdym roku\n   - Legenda u gory: Wawel, Sukiennice, Fabryka Schindlera\n   - Os Y od 0 do 600\n   - Linie siatki poziomej\n\n**1. Najszybszy wzrost frekwencji (2021-2025):**\n\n| Muzeum | 2021 | 2025 | Wzrost | Wzrost % |\n|--------|------|------|--------|----------|\n| Wawel | 320 | 540 | 220 | 68.8% |\n| Sukiennice | 180 | 330 | 150 | 83.3% |\n| Fabryka Schindlera | 210 | 440 | 230 | **109.5%** |\n\nNajszybszy wzrost: **Fabryka Schindlera (109.5%)** — frekwencja ponad podwoila sie.\n\n**2. Laczna frekwencja wg lat:**\n\n| Rok | Wawel + Sukiennice + Schindler | Suma |\n|-----|-------------------------------|------|\n| 2021 | 320+180+210 | 710 |\n| 2022 | 450+260+310 | 1020 |\n| 2023 | 520+290+380 | 1190 |\n| 2024 | 510+310+420 | 1240 |\n| 2025 | 540+330+440 | **1310** |\n\nNajwyzsza laczna frekwencja: **2025 (1310 tys.)**\n\n**Wyjasnienie**: Wykres grupowany pozwala porownywac poszczegolne muzea w ramach jednego roku oraz sledzic trend kazdego muzeum w czasie. Wzrost procentowy lepiej oddaje dynamike niz wzrost bezwzgledny.",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie najwyzszej frekwencji z najszybszym wzrostem**: Wawel mial najwyzsza frekwencje (540 tys.), ale najszybszy wzrost mial Schindler (109.5%) — wartosc bezwzgledna to nie dynamika",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak legendy przy 3 seriach**: Bez legendy nie wiadomo, ktory kolor odpowiada ktoremu muzeum",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "17.22",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "ogolna (nieruchomosci)",
+  "tagi": ["wykres-kolumnowy", "wykres-kolowy", "procent-udzialu", "odczyt-z-wykresu"],
+  "tresc": "Transakcje sprzedazy mieszkan w Krakowie wedlug dzielnic:\n\n| | A | B |\n|---|---|---|\n| 1 | **Dzielnica** | **Liczba transakcji** |\n| 2 | Srodmiescie | 48 |\n| 3 | Krowodrza | 72 |\n| 4 | Podgorze | 65 |\n| 5 | Nowa Huta | 55 |\n| 6 | Pradnik | 60 |\n\n**Polecenie**:\n1. Opisz wykres kolumnowy liczby transakcji wg dzielnic.\n2. Opisz wykres kolowy udzialu procentowego kazdej dzielnicy.\n3. Ktora dzielnica stanowi ponad 20% transakcji?",
+  "wskazowki": [
+    "**Kierunek**: Dwa wykresy — kolumnowy do porownania wartosci, kolowy do pokazania struktury procentowej.",
+    "**Podejscie**: Kolumnowy: os X = dzielnice, os Y = transakcje. Kolowy: kazdy wycinek = dzielnica.",
+    "**Kluczowy krok**: Oblicz sume transakcji, nastepnie udzial kazdej dzielnicy. 20% = suma * 0.2."
+  ],
+  "odpowiedz": "**1. Wykres kolumnowy:**\n\n- Typ: Kolumnowy (slupkowy pionowy)\n- Os X: A2:A6 (dzielnice)\n- Os Y: B2:B6 (liczba transakcji)\n- Tytul: \"Transakcje sprzedazy mieszkan wg dzielnic\"\n- Etykiety danych, os Y od 0 do 80\n\n**2. Wykres kolowy:**\n\n- Typ: Kolowy (pie chart)\n- Kategorie: A2:A6, Wartosci: B2:B6\n- Tytul: \"Udzial dzielnic w sprzedazy mieszkan\"\n- Etykiety: nazwa + procent, legenda\n\n**Obliczenia procentowe:**\n\nSuma: 48 + 72 + 65 + 55 + 60 = **300**\nProg 20% = 300 * 0.2 = 60\n\n| Dzielnica | Transakcje | Udzial |\n|-----------|-----------|--------|\n| Srodmiescie | 48 | 16.0% |\n| Krowodrza | 72 | **24.0%** |\n| Podgorze | 65 | **21.7%** |\n| Nowa Huta | 55 | 18.3% |\n| Pradnik | 60 | **20.0%** |\n\n**3. Dzielnice stanowiace ponad 20% transakcji:**\n- **Krowodrza (24.0%)** — jednoznacznie ponad 20%\n- **Podgorze (21.7%)** — ponad 20%\n\nUwaga: Pradnik (20.0%) ma dokladnie 20%, wiec NIE przekracza tego progu (pytanie brzmi \"ponad 20%\").\n\n**Wyjasnienie**: Wykres kolumnowy pozwala porownywac wartosci bezwzgledne, a kolowy — udzial w calosci. Stosowanie obu typow daje pelniejszy obraz danych.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zaliczenie 20.0% jako 'ponad 20%'**: Dokladnie 20% to nie jest 'ponad 20%' — trzeba uwazac na precyzje warunku",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne obliczenie procentow**: Dzielenie przez inna wartosc niz suma (300) daje zle wyniki",
+      "kara": "-1 pkt"
+    }
+  ]
+}

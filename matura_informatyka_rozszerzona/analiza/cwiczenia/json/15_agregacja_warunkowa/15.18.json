@@ -1,0 +1,28 @@
+{
+  "id": "15.18",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2024 (Hurtownia)",
+  "tagi": [
+    "SUMIFS",
+    "warunek-tekstowy",
+    "wiele-warunkow"
+  ],
+  "tresc": "W arkuszu mamy dane o sprzedazy w sieci sklepow:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Sklep** | **Kategoria** | **Miesiac** | **Przychod** |\n| 2 | Centrum | Elektronika | Styczen | 15000 |\n| 3 | Centrum | Odziez | Styczen | 8000 |\n| 4 | Galeria | Elektronika | Styczen | 12000 |\n| 5 | Centrum | Elektronika | Luty | 18000 |\n| 6 | Galeria | Odziez | Luty | 6000 |\n| 7 | Centrum | Odziez | Luty | 9500 |\n| 8 | Galeria | Elektronika | Luty | 14000 |\n| 9 | Centrum | Elektronika | Marzec | 20000 |\n| 10 | Galeria | Odziez | Marzec | 7000 |\n| 11 | Centrum | Odziez | Marzec | 11000 |\n\n**Polecenie**:\n1. Oblicz laczny przychod sklepu \"Centrum\" z kategorii \"Elektronika\".\n2. Oblicz laczny przychod sklepu \"Galeria\" w miesiacu \"Luty\".",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz sumy z dwoma warunkami — uzyj SUMIFS (nie SUMIF!).",
+    "**Podejscie**: SUMIFS(zakres_sumy; zakres_kryt1; kryt1; zakres_kryt2; kryt2) — pamietaj, ze w SUMIFS zakres sumy jest PIERWSZY.",
+    "**Kluczowy krok**: Punkt 1: =SUMIFS(D2:D11;A2:A11;\"Centrum\";B2:B11;\"Elektronika\"). Punkt 2: zmien kryteria na \"Galeria\" i \"Luty\"."
+  ],
+  "odpowiedz": "**Formuly:**\n```\n1. =SUMIFS(D2:D11;A2:A11;\"Centrum\";B2:B11;\"Elektronika\")\n2. =SUMIFS(D2:D11;A2:A11;\"Galeria\";C2:C11;\"Luty\")\n```\n\n**Weryfikacja:**\n\nPunkt 1 — Centrum + Elektronika:\n- Wiersz 2: Centrum, Elektronika, 15000 ✓\n- Wiersz 5: Centrum, Elektronika, 18000 ✓\n- Wiersz 9: Centrum, Elektronika, 20000 ✓\n- Suma: 15000 + 18000 + 20000 = **53000**\n\nPunkt 2 — Galeria + Luty:\n- Wiersz 6: Galeria, Odziez, Luty, 6000 ✓\n- Wiersz 8: Galeria, Elektronika, Luty, 14000 ✓\n- Suma: 6000 + 14000 = **20000**\n\n**Wyjasnienie**: SUMIFS pozwala filtrowac po kilku kolumnach jednoczesnie. Kazda para (zakres_kryterium; kryterium) dodaje kolejny warunek — wszystkie musza byc spelnione jednoczesnie (AND logiczny).",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie SUMIF zamiast SUMIFS**: SUMIF obsluguje tylko JEDEN warunek — nie mozna podac dwoch par kryterium-zakres",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zla kolejnosc argumentow SUMIFS**: =SUMIFS(A2:A11;\"Centrum\";B2:B11;\"Elektronika\";D2:D11) — zakres sumy musi byc PIERWSZYM argumentem",
+      "kara": "-1 pkt"
+    }
+  ]
+}

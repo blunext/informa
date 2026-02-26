@@ -1,0 +1,24 @@
+{
+  "id": "17.14",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna (ankieta)",
+  "tagi": ["wykres-kolowy", "procent-udzialu", "legenda"],
+  "tresc": "W szkole przeprowadzono ankiete na temat ulubionego sposobu spedzania wolnego czasu. Wyniki:\n\n| | A | B |\n|---|---|---|\n| 1 | **Aktywnosc** | **Liczba glosow** |\n| 2 | Gry komputerowe | 85 |\n| 3 | Sport | 62 |\n| 4 | Czytanie | 28 |\n| 5 | Filmy/seriale | 73 |\n| 6 | Media spolecznosciowe | 52 |\n\n**Polecenie**: Opisz, jak utworzyc wykres kolowy przedstawiajacy wyniki ankiety. Podaj specyfikacje wykresu i oblicz udzial procentowy kazdej aktywnosci.",
+  "wskazowki": [
+    "**Kierunek**: Wykres kolowy pokazuje proporcje — kazda aktywnosc jako czesc calosci (100% glosow).",
+    "**Podejscie**: Oblicz sume wszystkich glosow, nastepnie udzial kazdej aktywnosci: (glosy / suma) * 100%.",
+    "**Kluczowy krok**: Etykiety powinny zawierac nazwe aktywnosci i procent. Legenda rozroznia kolory."
+  ],
+  "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kolowy (pie chart)\n2. **Dane**:\n   - Kategorie: zakres A2:A6 (nazwy aktywnosci)\n   - Wartosci: zakres B2:B6 (liczba glosow)\n3. **Tytul**: \"Ulubione sposoby spedzania wolnego czasu\"\n4. **Formatowanie**:\n   - Kazdy wycinek w innym kolorze\n   - Etykiety: nazwa aktywnosci + procent\n   - Legenda po prawej stronie\n\n**Obliczenia udzialu procentowego:**\n\nSuma glosow: 85 + 62 + 28 + 73 + 52 = **300**\n\n| Aktywnosc | Glosy | Udzial |\n|-----------|-------|--------|\n| Gry komputerowe | 85 | 28.3% |\n| Sport | 62 | 20.7% |\n| Czytanie | 28 | 9.3% |\n| Filmy/seriale | 73 | 24.3% |\n| Media spolecznosciowe | 52 | 17.3% |\n\n**Wyjasnienie**: Wykres kolowy jest odpowiedni, bo pokazujemy udzial poszczegolnych kategorii w calosci. Najpopularniejsza aktywnosc to gry komputerowe (28.3%), a najmniej popularne czytanie (9.3%).",
+  "typowe_bledy": [
+    {
+      "opis": "**Zbyt wiele malych wycinkow**: Przy wiecej niz 6-7 kategoriach wykres kolowy staje sie nieczytelny — wtedy lepszy jest kolumnowy",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak legendy lub etykiet procentowych**: Na maturze trzeba jednoznacznie identyfikowac wycink wykresu kolowego",
+      "kara": "-1 pkt"
+    }
+  ]
+}

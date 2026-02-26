@@ -1,0 +1,28 @@
+{
+  "id": "17.33",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "ogolna (rynek pracy)",
+  "tagi": ["wykres-kombinowany", "dwie-osie-Y", "wykres-skumulowany", "wykres-liniowy", "odczyt-z-wykresu"],
+  "tresc": "Dane o rynku pracy w regionie:\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Rok** | **Zatrudnieni (tys.)** | **Bezrobotni (tys.)** | **Nieaktywni (tys.)** | **Stopa bezrobocia (%)** |\n| 2 | 2019 | 280 | 35 | 85 | 11.1 |\n| 3 | 2020 | 260 | 52 | 88 | 16.7 |\n| 4 | 2021 | 270 | 45 | 85 | 14.3 |\n| 5 | 2022 | 285 | 32 | 83 | 10.1 |\n| 6 | 2023 | 295 | 28 | 77 | 8.7 |\n| 7 | 2024 | 300 | 25 | 75 | 7.7 |\n| 8 | 2025 | 305 | 22 | 73 | 6.7 |\n\n**Polecenie**:\n1. Opisz wykres skumulowany (zatrudnieni + bezrobotni + nieaktywni) pokazujacy strukture populacji aktywnej.\n2. Opisz nalozona linie stopy bezrobocia na drugiej osi Y (wykres kombinowany).\n3. Zweryfikuj obliczenia stopy bezrobocia: stopa = bezrobotni / (zatrudnieni + bezrobotni) * 100%. Czy podane wartosci sa poprawne?\n4. W ktorym roku nastapila najwieksza poprawa na rynku pracy rok do roku?",
+  "wskazowki": [
+    "**Kierunek**: Wykres kombinowany: skumulowany (3 warstwy) + linia (stopa bezrobocia na drugiej osi).",
+    "**Podejscie**: Stopa bezrobocia = bezrobotni / (zatrudnieni + bezrobotni) * 100. Porownaj z podanymi wartosciami.",
+    "**Kluczowy krok**: Poprawa = spadek stopy bezrobocia. Oblicz zmiane rok do roku."
+  ],
+  "odpowiedz": "**1-2. Specyfikacja wykresu kombinowanego:**\n\n- Typ: Combo chart — kolumnowy skumulowany + linia\n- Os X: A2:A8 (lata)\n- Seria 1 (warstwa, os lewa): B2:B8 — Zatrudnieni, kolor zielony\n- Seria 2 (warstwa, os lewa): C2:C8 — Bezrobotni, kolor czerwony\n- Seria 3 (warstwa, os lewa): D2:D8 — Nieaktywni, kolor szary\n- Seria 4 (linia, os prawa): E2:E8 — Stopa bezrobocia (%), kolor czarny z markerami\n- Os lewa: \"Populacja (tys.)\", skala 0-450\n- Os prawa: \"Stopa bezrobocia (%)\", skala 0-20\n- Tytul: \"Rynek pracy w regionie — struktura i stopa bezrobocia\"\n- Legenda\n\n**3. Weryfikacja stopy bezrobocia:**\n\n| Rok | Bezrob. | Zatr.+Bezrob. | Obliczona stopa | Podana | Poprawna? |\n|-----|---------|---------------|-----------------|--------|-----------|\n| 2019 | 35 | 315 | 35/315*100=11.1% | 11.1% | TAK |\n| 2020 | 52 | 312 | 52/312*100=16.7% | 16.7% | TAK |\n| 2021 | 45 | 315 | 45/315*100=14.3% | 14.3% | TAK |\n| 2022 | 32 | 317 | 32/317*100=10.1% | 10.1% | TAK |\n| 2023 | 28 | 323 | 28/323*100=8.7% | 8.7% | TAK |\n| 2024 | 25 | 325 | 25/325*100=7.7% | 7.7% | TAK |\n| 2025 | 22 | 327 | 22/327*100=6.7% | 6.7% | TAK |\n\nWszystkie wartosci sa **poprawne** (po zaokragleniu do 1 miejsca dziesietnego).\n\n**4. Najwieksza poprawa (spadek stopy bezrobocia rok do roku):**\n\n| Przejscie | Zmiana stopy | Spadek |\n|-----------|-------------|--------|\n| 2019→2020 | +5.6 pp | pogorszenie |\n| 2020→2021 | -2.4 pp | poprawa |\n| 2021→2022 | -4.2 pp | **poprawa** |\n| 2022→2023 | -1.4 pp | poprawa |\n| 2023→2024 | -1.0 pp | poprawa |\n| 2024→2025 | -1.0 pp | poprawa |\n\nNajwieksza poprawa: **2021→2022 (spadek o 4.2 punkty procentowe)**\n\n**Wyjasnienie**: Wykres kombinowany (skumulowany + linia) to zaawansowana wizualizacja laczaca dwa typy informacji: strukture bezwzgledna (slupki) i wskaznik procentowy (linia). Na maturze weryfikacja obliczen to kluczowa umiejetnosc.",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledna definicja stopy bezrobocia**: Dzielenie bezrobotnych przez cala populacje (zatr.+bezrob.+nieaktywni) zamiast przez aktywnych zawodowo (zatr.+bezrob.)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Linia stopy bezrobocia na tej samej osi co slupki**: Stopa (6-17%) na osi populacji (0-450) — linia bedzie plaska na dole",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pominiecie roku 2020 jako pogorszenia**: 2020 to jedyny rok ze wzrostem bezrobocia — nie mozna go pominac w analizie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

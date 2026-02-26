@@ -1,0 +1,27 @@
+{
+  "id": "15.15",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2022 (Muzeum)",
+  "tagi": [
+    "SUMIF",
+    "warunek-tekstowy"
+  ],
+  "tresc": "W arkuszu mamy dane o sprzedazy biletow w kinie:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Film** | **Typ biletu** | **Cena** |\n| 2 | Avatar | Normalny | 35 |\n| 3 | Avatar | Ulgowy | 20 |\n| 4 | Diune | Normalny | 30 |\n| 5 | Avatar | Normalny | 35 |\n| 6 | Diune | Ulgowy | 18 |\n| 7 | Hobbit | Normalny | 28 |\n| 8 | Hobbit | Ulgowy | 16 |\n| 9 | Avatar | Ulgowy | 20 |\n| 10 | Diune | Normalny | 30 |\n| 11 | Hobbit | Normalny | 28 |\n\n**Polecenie**: Napisz formule, ktora obliczy laczny przychod ze sprzedazy biletow na film \"Avatar\".",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz sumy warunkowej — SUMIF filtrujacy po nazwie filmu.",
+    "**Podejscie**: SUMIF(zakres_kryterium; kryterium; zakres_sumy) — filtruj kolumne A, sumuj kolumne C.",
+    "**Kluczowy krok**: =SUMIF(A2:A11;\"Avatar\";C2:C11) — sumuje ceny biletow tylko na Avatara."
+  ],
+  "odpowiedz": "**Formula:**\n```\n=SUMIF(A2:A11;\"Avatar\";C2:C11)\n```\n\n**Weryfikacja**: Bilety na \"Avatar\":\n- Wiersz 2: Normalny, 35 ✓\n- Wiersz 3: Ulgowy, 20 ✓\n- Wiersz 5: Normalny, 35 ✓\n- Wiersz 9: Ulgowy, 20 ✓\n\nSuma: 35 + 20 + 35 + 20 = **110**\n\nKontrola: Avatar(110) + Diune(30+18+30=78) + Hobbit(28+16+28=72) = 260 = SUM(C2:C11) ✓\n\n**Wyjasnienie**: SUMIF sumuje wartosci z kolumny C (ceny) tylko dla wierszy, gdzie kolumna A zawiera \"Avatar\". Kolejnosc argumentow: zakres_kryterium, kryterium, zakres_sumy.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zamiana kolejnosci argumentow**: =SUMIF(A2:A11;C2:C11;\"Avatar\") — zakres sumy i kryterium sa zamienione",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie SUMIFS zamiast SUMIF z inna kolejnoscia**: =SUMIFS(A2:A11;\"Avatar\";C2:C11) — SUMIFS ma inna kolejnosc argumentow (zakres_sumy pierwszy)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

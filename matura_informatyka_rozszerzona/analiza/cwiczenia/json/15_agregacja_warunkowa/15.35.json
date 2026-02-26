@@ -1,0 +1,30 @@
+{
+  "id": "15.35",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2023 (Konfitury — procent warunkowy z progiem)",
+  "tagi": [
+    "COUNTIFS",
+    "SUMIFS",
+    "operator-konkatenacji",
+    "kolumna-pomocnicza",
+    "zakres-bezwzgledny"
+  ],
+  "tresc": "W arkuszu mamy dane o pomiarach zanieczyszczen powietrza w 3 stacjach przez 5 dni:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Dzien** | **Stacja** | **PM2.5** | **PM10** |\n| 2 | 1 | Centrum | 45 | 68 |\n| 3 | 1 | Park | 22 | 35 |\n| 4 | 1 | Przemyslowa | 78 | 120 |\n| 5 | 2 | Centrum | 52 | 75 |\n| 6 | 2 | Park | 18 | 28 |\n| 7 | 2 | Przemyslowa | 85 | 130 |\n| 8 | 3 | Centrum | 38 | 55 |\n| 9 | 3 | Park | 25 | 40 |\n| 10 | 3 | Przemyslowa | 62 | 95 |\n| 11 | 4 | Centrum | 60 | 88 |\n| 12 | 4 | Park | 30 | 45 |\n| 13 | 4 | Przemyslowa | 90 | 140 |\n| 14 | 5 | Centrum | 42 | 62 |\n| 15 | 5 | Park | 20 | 32 |\n| 16 | 5 | Przemyslowa | 70 | 110 |\n\nNorma PM2.5: 50 µg/m³. Norma PM10: 80 µg/m³.\n\n**Polecenie**:\n1. W kolumnie E wpisz \"ALARM\" jesli PM2.5 > 50 LUB PM10 > 80, \"OK\" w przeciwnym razie.\n2. Ile razy stacja \"Przemyslowa\" miala status \"ALARM\"?\n3. Jaki procent WSZYSTKICH pomiarow przekroczyl norme PM2.5 (> 50)?\n4. Oblicz srednie PM10 stacji \"Centrum\" w dniach, gdy PM2.5 Centrum > sredniej PM2.5 ze wszystkich stacji.",
+  "wskazowki": [
+    "**Kierunek**: Punkt 1 — IF z OR. Punkt 3 — COUNTIF/COUNT. Punkt 4 — AVERAGEIFS z dynamicznym progiem (srednia globalna).",
+    "**Podejscie**: E2: =IF(OR(C2>50;D2>80);\"ALARM\";\"OK\"). Punkt 4: =AVERAGEIFS(D2:D16;B2:B16;\"Centrum\";C2:C16;\">\"&AVERAGE(C2:C16)).",
+    "**Kluczowy krok**: W punkcie 4 filtrujemy po stacji \"Centrum\" ORAZ wymagamy, by PM2.5 Centrum bylo wyzsze od sredniej globalnej PM2.5."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nE2: =IF(OR(C2>50;D2>80);\"ALARM\";\"OK\")\n\nPunkt 2: =COUNTIFS(B2:B16;\"Przemyslowa\";E2:E16;\"ALARM\")\nPunkt 3: =COUNTIF(C2:C16;\">50\")/COUNT(C2:C16)*100\nPunkt 4: =AVERAGEIFS(D2:D16;B2:B16;\"Centrum\";C2:C16;\">\"&AVERAGE(C2:C16))\n```\n\n**Weryfikacja:**\n\nKolumna E:\n| Dzien | Stacja | PM2.5 | PM10 | Status |\n|-------|--------|-------|------|--------|\n| 1 | Centrum | 45 | 68 | OK |\n| 1 | Park | 22 | 35 | OK |\n| 1 | Przemyslowa | 78 | 120 | ALARM |\n| 2 | Centrum | 52 | 75 | ALARM |\n| 2 | Park | 18 | 28 | OK |\n| 2 | Przemyslowa | 85 | 130 | ALARM |\n| 3 | Centrum | 38 | 55 | OK |\n| 3 | Park | 25 | 40 | OK |\n| 3 | Przemyslowa | 62 | 95 | ALARM |\n| 4 | Centrum | 60 | 88 | ALARM |\n| 4 | Park | 30 | 45 | OK |\n| 4 | Przemyslowa | 90 | 140 | ALARM |\n| 5 | Centrum | 42 | 62 | OK |\n| 5 | Park | 20 | 32 | OK |\n| 5 | Przemyslowa | 70 | 110 | ALARM |\n\nPunkt 2 — Przemyslowa + ALARM:\n- Dzien 1, 2, 3, 4, 5 — wszystkie ALARM\n- Wynik: **5**\n\nPunkt 3 — procent PM2.5 > 50:\n- Przekroczenia: 78, 52, 85, 62, 60, 90, 70 = 7 pomiarow\n- Lacznie: 15 pomiarow\n- Procent: 7/15 × 100 = **46,67%** (w przyblizeniu)\n\nPunkt 4:\n- Srednia PM2.5 globalna: (45+22+78+52+18+85+38+25+62+60+30+90+42+20+70)/15 = 737/15 = 49,13\n- Centrum z PM2.5 > 49,13: Dzien 2 (PM2.5=52, PM10=75), Dzien 4 (PM2.5=60, PM10=88)\n- Srednia PM10: (75+88)/2 = **81,5**\n\n**Wyjasnienie**: OR w IF sprawdza czy KTORYKOLWIEK warunek jest spelniony. AVERAGEIFS z zagniezdzona srednia AVERAGE tworzy dynamiczny prog — zmiana danych automatycznie aktualizuje prog filtrowania.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie AND zamiast OR w punkcie 1**: =IF(AND(C2>50;D2>80);\"ALARM\";\"OK\") — wymaga OBIE normy przekroczone, daje mniej alarmow",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zapomnienie *100 w procentach**: =COUNTIF(C2:C16;\">50\")/COUNT(C2:C16) da 0.467 zamiast 46.67%",
+      "kara": "-1 pkt"
+    }
+  ]
+}

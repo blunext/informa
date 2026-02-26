@@ -1,0 +1,35 @@
+{
+  "id": "16.33",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2025 (kredyt z ratami malejacymi)",
+  "tagi": [
+    "amortyzacja",
+    "akumulator",
+    "ZAOKR",
+    "odwolanie-bezwzgledne",
+    "lancuch-zaleznosci",
+    "symulacja-krokowa"
+  ],
+  "tresc": "Bank udzielil kredytu 60000 zl na 6 rat miesiecznych. Kredyt splacany jest w ratach malejacych: czesc kapitalowa jest stala (= kwota / liczba rat), a odsetki sa naliczane od biezacego salda (stopa miesieczna 0,5%). Rata calkowita = czesc kapitalowa + odsetki.\n\nParametry: G1 = 60000, G2 = 6 (raty), G3 = 0,005 (stopa miesieczna), G4 = =G1/G2 = 10000 (czesc kapitalowa).\n\n| | A | B | C | D | E | F |\n|---|---|---|---|---|---|---|\n| 1 | **Rata** | **Saldo pocz.** | **Odsetki** | **Czesc kapit.** | **Rata calkowita** | **Saldo konc.** |\n| 2 | 1 | ? | ? | ? | ? | ? |\n| 3 | 2 | ? | ? | ? | ? | ? |\n| 4 | 3 | ? | ? | ? | ? | ? |\n| 5 | 4 | ? | ? | ? | ? | ? |\n| 6 | 5 | ? | ? | ? | ? | ? |\n| 7 | 6 | ? | ? | ? | ? | ? |\n\n**Polecenie**:\n1. W B2 wpisz poczatkowe saldo (= G1). Od B3: saldo pocz. = saldo konc. z poprzedniej raty.\n2. W C2 oblicz odsetki: ZAOKR(saldo poczatkowe * stopa; 2).\n3. W D2 wpisz stala czesc kapitalowa (= G4).\n4. W E2 oblicz rate calkowita = odsetki + czesc kapitalowa.\n5. W F2 oblicz saldo koncowe = saldo poczatkowe - czesc kapitalowa.\n6. Sprawdz: saldo koncowe po 6. racie = 0. Porownaj rate 1. i 6.",
+  "wskazowki": [
+    "**Kierunek**: W ratach malejacych czesc kapitalowa jest stala, ale odsetki maleja (bo saldo maleje). Rata calkowita maleje z miesiaca na miesiac.",
+    "**Podejscie**: B2: =$G$1. B3: =F2. C2: =ZAOKR(B2*$G$3;2). D2: =$G$4. E2: =C2+D2. F2: =B2-D2.",
+    "**Kluczowy krok**: Saldo maleje o stala czesc kapitalowa (10000), wiec odsetki tez maleja. Rata 1 jest najwyzsza, rata 6 najnizsza."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nB2: =$G$1\nB3: =F2                    (kopiowane w dol od wiersza 3)\nC2: =ZAOKR(B2*$G$3;2)     (kopiowane w dol)\nD2: =$G$4                  (kopiowane w dol — stala wartosc)\nE2: =C2+D2                 (kopiowane w dol)\nF2: =B2-D2                 (kopiowane w dol)\n```\n\n**Wypelniona tabela:**\n\n| Rata | Saldo pocz. | Odsetki | Czesc kapit. | Rata calkowita | Saldo konc. |\n|------|------------|---------|-------------|----------------|------------|\n| 1 | 60000.00 | 300.00 | 10000 | 10300.00 | 50000.00 |\n| 2 | 50000.00 | 250.00 | 10000 | 10250.00 | 40000.00 |\n| 3 | 40000.00 | 200.00 | 10000 | 10200.00 | 30000.00 |\n| 4 | 30000.00 | 150.00 | 10000 | 10150.00 | 20000.00 |\n| 5 | 20000.00 | 100.00 | 10000 | 10100.00 | 10000.00 |\n| 6 | 10000.00 | 50.00 | 10000 | 10050.00 | 0.00 |\n\n**Weryfikacja (wszystkie raty):**\n- Rata 1: C2=ZAOKR(60000*0.005;2)=300.00. E2=300+10000=10300.00. F2=60000-10000=50000.00\n- Rata 2: B3=50000.00. C3=ZAOKR(50000*0.005;2)=250.00. E3=250+10000=10250.00. F3=50000-10000=40000.00\n- Rata 3: B4=40000.00. C4=ZAOKR(40000*0.005;2)=200.00. E4=200+10000=10200.00. F4=40000-10000=30000.00\n- Rata 4: B5=30000.00. C5=ZAOKR(30000*0.005;2)=150.00. E5=150+10000=10150.00. F5=30000-10000=20000.00\n- Rata 5: B6=20000.00. C6=ZAOKR(20000*0.005;2)=100.00. E6=100+10000=10100.00. F6=20000-10000=10000.00\n- Rata 6: B7=10000.00. C7=ZAOKR(10000*0.005;2)=50.00. E7=50+10000=10050.00. F7=10000-10000=0.00\n\n**Porownanie:** Rata 1 = 10300 zl, rata 6 = 10050 zl. Roznica = 250 zl.\nLaczne odsetki: 300+250+200+150+100+50 = **1050 zl**.\n\n**Wyjasnienie**: Raty malejace roznia sie od annuitetowych tym, ze czesc kapitalowa jest stala, a odsetki maleja. Korzysci: mniejszy calkowity koszt odsetek. Wada: poczatkowe raty sa wyzsze. Na maturze moze pojawic sie porownanie tych dwoch metod. Kluczowe: saldo maleje rownomiernie (o 10000/rate), odsetki sa proporcjonalne do salda.",
+  "typowe_bledy": [
+    {
+      "opis": "**Odsetki od poczatkowej kwoty**: C2: =ZAOKR($G$1*$G$3;2) — stale 300 zl co miesiac zamiast malejacych odsetek. Pomylenie z procentem prostym.",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Saldo pomniejszane o rate calkowita**: F2: =B2-E2 zamiast =B2-D2 — saldo maleje za szybko (o odsetki+kapital zamiast samego kapitalu).",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak ZAOKR**: Przy wiekszych kwotach lub dluzszych okresach brak zaokraglenia prowadzi do groszowych roznic kumulujacych sie w kolejnych ratach.",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

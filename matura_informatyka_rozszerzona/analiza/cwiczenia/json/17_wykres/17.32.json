@@ -1,0 +1,28 @@
+{
+  "id": "17.32",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "ogolna (CO2)",
+  "tagi": ["wykres-liniowy", "seria-danych", "legenda", "odczyt-z-wykresu", "formatowanie-wykresu"],
+  "tresc": "Emisja CO2 (w mln ton) przez 4 kraje w kolejnych latach:\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Rok** | **Polska** | **Niemcy** | **Francja** | **Czechy** |\n| 2 | 2018 | 340 | 750 | 330 | 105 |\n| 3 | 2019 | 325 | 710 | 320 | 100 |\n| 4 | 2020 | 300 | 640 | 280 | 90 |\n| 5 | 2021 | 315 | 680 | 300 | 95 |\n| 6 | 2022 | 305 | 660 | 290 | 88 |\n| 7 | 2023 | 290 | 620 | 270 | 82 |\n| 8 | 2024 | 280 | 590 | 260 | 78 |\n\n**Polecenie**:\n1. Opisz wykres liniowy z 4 seriami danych (po jednej na kraj).\n2. Ktory kraj mial najwiekszy spadek procentowy emisji miedzy 2018 a 2024?\n3. W ktorym roku nastapil wzrost emisji we wszystkich krajach? Co moglo byc przyczyna?",
+  "wskazowki": [
+    "**Kierunek**: Wykres liniowy z 4 liniami — kazdy kraj ma wlasny kolor i markery. Legenda niezbedna.",
+    "**Podejscie**: Spadek procentowy = (wartosc_2018 - wartosc_2024) / wartosc_2018 * 100%.",
+    "**Kluczowy krok**: Szukaj roku, w ktorym WSZYSTKIE 4 wartosci wzrosly wzgledem roku poprzedniego."
+  ],
+  "odpowiedz": "**1. Specyfikacja wykresu liniowego:**\n\n- Typ: Liniowy z markerami (4 serie)\n- Os X: A2:A8 (lata)\n- Seria 1: B2:B8 (Polska) — kolor czerwony\n- Seria 2: C2:C8 (Niemcy) — kolor czarny\n- Seria 3: D2:D8 (Francja) — kolor niebieski\n- Seria 4: E2:E8 (Czechy) — kolor zielony\n- Tytul: \"Emisja CO2 wg krajow (mln ton)\"\n- Os X: \"Rok\", Os Y: \"Emisja CO2 (mln ton)\"\n- Legenda u gory, markery na kazdej linii\n- Os Y od 0 do 800\n\n**2. Spadek procentowy emisji 2018-2024:**\n\n| Kraj | 2018 | 2024 | Spadek | Spadek % |\n|------|------|------|--------|----------|\n| Polska | 340 | 280 | 60 | 17.6% |\n| Niemcy | 750 | 590 | 160 | 21.3% |\n| Francja | 330 | 260 | 70 | 21.2% |\n| Czechy | 105 | 78 | 27 | **25.7%** |\n\nNajwiekszy spadek procentowy: **Czechy (25.7%)**\n\n**3. Rok wzrostu emisji we wszystkich krajach:**\n\n| Przejscie | Polska | Niemcy | Francja | Czechy | Wszystkie rosna? |\n|-----------|--------|--------|---------|--------|-------------------|\n| 2019→2020 | spadek | spadek | spadek | spadek | NIE |\n| 2020→2021 | wzrost | wzrost | wzrost | wzrost | **TAK** |\n| 2021→2022 | spadek | spadek | spadek | spadek | NIE |\n\nWzrost we wszystkich krajach: **2021** (wzgledem 2020). Prawdopodobna przyczyna: odbicie gospodarcze po pandemii COVID-19 — w 2020 emisje spadly z powodu lockdownow, a w 2021 gospodarka sie odzywila.\n\n**Wyjasnienie**: Wykres liniowy z wieloma seriami pozwala porownywac trendy miedzy krajami. Na maturze czesto trzeba porownac spadki procentowe (nie bezwzgledne) i zidentyfikowac lata z odwroceniem trendu.",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownywanie spadkow bezwzglednych zamiast procentowych**: Niemcy mialy najwiekszy spadek bezwzgledny (160), ale nie procentowy — baza (750) jest duzo wieksza",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak legendy przy 4 seriach**: Cztery linie bez legendy sa calkowicie nierozrozniane",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak uzasadnienia przyczyny wzrostu w 2021**: Na maturze oczekuje sie kontekstu (pandemia → odbicie)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

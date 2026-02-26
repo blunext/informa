@@ -1,0 +1,28 @@
+{
+  "id": "16.15",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna (akumulator — odliczanie)",
+  "tagi": [
+    "akumulator",
+    "kopiowanie-formul",
+    "odwolanie-wzgledne"
+  ],
+  "tresc": "W magazynie jest 500 sztuk towaru. Codziennie wydawane sa zamowienia:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Dzien** | **Wydano** | **Stan magazynu** |\n| 2 | Start | — | 500 |\n| 3 | 1 | 45 | ? |\n| 4 | 2 | 80 | ? |\n| 5 | 3 | 30 | ? |\n| 6 | 4 | 65 | ? |\n| 7 | 5 | 120 | ? |\n| 8 | 6 | 55 | ? |\n\n**Polecenie**: Napisz formule w C3 obliczajaca stan magazynu po wydaniu towaru. Wypelnij tabele.",
+  "wskazowki": [
+    "**Kierunek**: Stan po wydaniu = poprzedni stan minus wydana ilosc.",
+    "**Podejscie**: C3 = C2 - B3. Oba odwolania wzgledne.",
+    "**Kluczowy krok**: =C2-B3. Po skopiowaniu w dol formuly automatycznie dostosuja sie do kolejnych wierszy."
+  ],
+  "odpowiedz": "**Formula (C3, kopiowana w dol):**\n```\nC3: =C2-B3\n```\n\n**Wypelniona tabela:**\n\n| Dzien | Wydano | Stan magazynu |\n|-------|--------|---------------|\n| Start | — | 500 |\n| 1 | 45 | 455 |\n| 2 | 80 | 375 |\n| 3 | 30 | 345 |\n| 4 | 65 | 280 |\n| 5 | 120 | 160 |\n| 6 | 55 | 105 |\n\n**Weryfikacja krok po kroku:**\n- C3: 500 - 45 = 455\n- C4: 455 - 80 = 375\n- C5: 375 - 30 = 345\n- C6: 345 - 65 = 280\n- C7: 280 - 120 = 160\n- C8: 160 - 55 = 105\n\nKontrola: 500 - SUM(B3:B8) = 500 - 395 = 105 = C8 ✓\n\n**Wyjasnienie**: Akumulator z odejmowaniem — kazdy wiersz zmniejsza stan o wydana ilosc. Kontrola: poczatkowy stan minus suma wszystkich wydan powinna dac koncowy stan.",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwolanie do C2 zamiast poprzedniego wiersza**: Wpisanie =500-B3 w kazdym wierszu — odejmuje od stanu poczatkowego, nie biezacego",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zly kierunek operacji**: =B3-C2 zamiast =C2-B3 — odejmuje stan od wydania, daje ujemne wyniki",
+      "kara": "-1 pkt"
+    }
+  ]
+}

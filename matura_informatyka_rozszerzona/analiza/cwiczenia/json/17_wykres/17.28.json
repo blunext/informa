@@ -1,0 +1,24 @@
+{
+  "id": "17.28",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "ogolna (fitness)",
+  "tagi": ["wykres-kombinowany", "dwie-osie-Y", "wykres-liniowy", "wykres-kolumnowy", "formatowanie-wykresu"],
+  "tresc": "Dane o treningach biegacza w ciagu 10 tygodni:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Tydzien** | **Dystans (km)** | **Srednie tempo (min/km)** |\n| 2 | 1 | 15 | 6.20 |\n| 3 | 2 | 18 | 6.10 |\n| 4 | 3 | 20 | 6.00 |\n| 5 | 4 | 22 | 5.85 |\n| 6 | 5 | 20 | 5.90 |\n| 7 | 6 | 25 | 5.75 |\n| 8 | 7 | 28 | 5.65 |\n| 9 | 8 | 24 | 5.70 |\n| 10 | 9 | 30 | 5.50 |\n| 11 | 10 | 32 | 5.45 |\n\n**Polecenie**:\n1. Opisz wykres kombinowany: slupki dystansu (os lewa) + linia tempa (os prawa).\n2. Czy wzrost dystansu wplywna na pogorszenie tempa? Uzasadnij.\n3. W ktorym tygodniu nastapil regres (dystans spadl, a tempo pogorszylo sie)?",
+  "wskazowki": [
+    "**Kierunek**: Dwie osie Y — dystans (km) i tempo (min/km) maja rozne skale i jednostki.",
+    "**Podejscie**: Pogorszenie tempa = wyzsze min/km. Porownaj zmiany dystansu i tempa tydzien po tygodniu.",
+    "**Kluczowy krok**: Regres = dystans maleje I tempo rosnie (gorzej). Sprawdz kazdz pare tygodni."
+  ],
+  "odpowiedz": "**1. Specyfikacja wykresu kombinowanego:**\n\n- Typ: Combo chart (slupki + linia) z dwiema osiami Y\n- Os X: A2:A11 (tygodnie)\n- Seria 1 (slupki, os lewa): B2:B11 — Dystans (km), kolor zielony, skala 0-35\n- Seria 2 (linia, os prawa): C2:C11 — Tempo (min/km), kolor czerwony z markerami, skala 5.0-6.5\n- Tytul: \"Postep treningowy — dystans i tempo\"\n- Os lewa: \"Dystans tygodniowy (km)\", Os prawa: \"Srednie tempo (min/km)\"\n- Legenda, linie siatki\n\n**Uwaga**: Os prawa (tempo) powinna byc odwrocona — nizsza wartosc = lepszy wynik. Alternatywnie: pozostawic normalna os, ale zaznaczyc, ze spadek linii = poprawa.\n\n**2. Analiza korelacji dystans-tempo:**\n\n| Tydzien | Dystans | Zmiana | Tempo | Zmiana | Wniosek |\n|---------|---------|--------|-------|--------|---------|\n| 1→2 | 15→18 | +3 | 6.20→6.10 | -0.10 | lepiej |\n| 2→3 | 18→20 | +2 | 6.10→6.00 | -0.10 | lepiej |\n| 3→4 | 20→22 | +2 | 6.00→5.85 | -0.15 | lepiej |\n| 4→5 | 22→20 | -2 | 5.85→5.90 | +0.05 | **regres** |\n| 5→6 | 20→25 | +5 | 5.90→5.75 | -0.15 | lepiej |\n| 6→7 | 25→28 | +3 | 5.75→5.65 | -0.10 | lepiej |\n| 7→8 | 28→24 | -4 | 5.65→5.70 | +0.05 | **regres** |\n| 8→9 | 24→30 | +6 | 5.70→5.50 | -0.20 | lepiej |\n| 9→10 | 30→32 | +2 | 5.50→5.45 | -0.05 | lepiej |\n\nOdpowiedz: **Nie** — ogolnie wzrost dystansu nie pogarszal tempa. W 7 z 9 przejsc tempo poprawilo sie mimo rosnacego dystansu.\n\n**3. Regres (dystans spadl I tempo pogorszylo sie):**\n- **Tydzien 5** (dystans -2 km, tempo +0.05)\n- **Tydzien 8** (dystans -4 km, tempo +0.05)\n\n**Wyjasnienie**: Wykres kombinowany wizualizuje dwie metryki jednoczesnie. Na maturze wazne jest uzasadnienie wniosku konkretnymi liczbami, nie ogolnym wrazeniem.",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwrocona interpretacja tempa**: Nizsza wartosc min/km = szybszy bieg (lepiej), wyzsza = wolniejszy (gorzej)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak drugiej osi Y**: Dystans (15-32) i tempo (5.45-6.20) na jednej skali — jedna seria bedzie nieczytelna",
+      "kara": "-1 pkt"
+    }
+  ]
+}

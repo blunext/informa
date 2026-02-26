@@ -1,0 +1,24 @@
+{
+  "id": "17.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "ogolna (zatrudnienie)",
+  "tagi": ["wykres-skumulowany", "procent-udzialu", "legenda", "seria-danych", "odczyt-z-wykresu"],
+  "tresc": "Struktura zatrudnienia w wojewodztwie wg sektorow (w tys. osob):\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Rok** | **Rolnictwo** | **Przemysl** | **Uslugi** | **IT** |\n| 2 | 2015 | 85 | 120 | 160 | 15 |\n| 3 | 2017 | 75 | 115 | 175 | 25 |\n| 4 | 2019 | 65 | 110 | 190 | 40 |\n| 5 | 2021 | 55 | 100 | 200 | 55 |\n| 6 | 2023 | 48 | 95 | 210 | 72 |\n| 7 | 2025 | 40 | 90 | 215 | 90 |\n\n**Polecenie**:\n1. Opisz wykres kolumnowy skumulowany 100% pokazujacy udzial procentowy kazdego sektora.\n2. Oblicz udzial procentowy sektora IT w kazdym roku.\n3. Ktory sektor mial najwiekszy spadek udzialu procentowego miedzy 2015 a 2025?\n4. Czy calkowite zatrudnienie roslo, malalo, czy bylo stabilne?",
+  "wskazowki": [
+    "**Kierunek**: Wykres skumulowany 100% — kazdy slupek ma taka sama wysokosc (100%), zmieniaja sie proporcje warstw.",
+    "**Podejscie**: Oblicz sumy w kazdym roku, potem udzial procentowy kazdego sektora.",
+    "**Kluczowy krok**: Spadek udzialu = roznica procentow 2025 vs 2015 (nie wartosci bezwzglednych)."
+  ],
+  "odpowiedz": "**1. Specyfikacja wykresu skumulowanego 100%:**\n\n- Typ: Kolumnowy skumulowany 100% (100% stacked column)\n- Os X: A2:A7 (lata)\n- Seria 1: B2:B7 (Rolnictwo) — zielony\n- Seria 2: C2:C7 (Przemysl) — szary\n- Seria 3: D2:D7 (Uslugi) — niebieski\n- Seria 4: E2:E7 (IT) — pomaranczowy\n- Tytul: \"Struktura zatrudnienia wg sektorow\"\n- Os Y: 0-100%, legenda\n\n**2. Udzial procentowy sektora IT:**\n\n| Rok | Suma | IT | Udzial IT |\n|-----|------|-----|----------|\n| 2015 | 380 | 15 | 3.9% |\n| 2017 | 390 | 25 | 6.4% |\n| 2019 | 405 | 40 | 9.9% |\n| 2021 | 410 | 55 | 13.4% |\n| 2023 | 425 | 72 | 16.9% |\n| 2025 | 435 | 90 | **20.7%** |\n\n**3. Zmiany udzialu procentowego 2015 vs 2025:**\n\n| Sektor | 2015 (%) | 2025 (%) | Zmiana |\n|--------|----------|----------|--------|\n| Rolnictwo | 85/380=22.4% | 40/435=9.2% | **-13.2 pp** |\n| Przemysl | 120/380=31.6% | 90/435=20.7% | -10.9 pp |\n| Uslugi | 160/380=42.1% | 215/435=49.4% | +7.3 pp |\n| IT | 15/380=3.9% | 90/435=20.7% | +16.8 pp |\n\nNajwiekszy spadek udzialu: **Rolnictwo (-13.2 punktow procentowych)**\n\n**4. Calkowite zatrudnienie:**\n380 → 390 → 405 → 410 → 425 → 435 tys. — **roslo** (wzrost o 55 tys., tj. 14.5% w ciagu 10 lat).\n\n**Wyjasnienie**: Wykres 100% skumulowany pokazuje zmiany strukturalne, nie bezwzgledne. Rolnictwo maleje procentowo i bezwzglednie, IT rosnie w obu wymiarach. Calkowite zatrudnienie rosnie (suma w kazdym roku jest wyzsza).",
+  "typowe_bledy": [
+    {
+      "opis": "**Mylenie spadku bezwzglednego z procentowym**: Rolnictwo spadlo o 45 tys. (bezwzglednie) i o 13.2 pp (procentowo) — pytanie dotyczy udzialu procentowego",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Uzycie zwyklego wykresu skumulowanego zamiast 100%**: Zwykly nie normalizuje do 100% — nie widac zmian strukturalnych",
+      "kara": "-1 pkt"
+    }
+  ]
+}

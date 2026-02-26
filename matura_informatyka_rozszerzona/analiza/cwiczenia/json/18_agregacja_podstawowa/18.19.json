@@ -1,0 +1,24 @@
+{
+  "id": "18.19",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "ogolna (handel)",
+  "tagi": ["SUM", "AVERAGE", "MAX", "procent"],
+  "tresc": "Sklep zanotowat przychody (w zl) z 5 kategorii produktow w styczniu:\n\n| | A | B |\n|---|---|---|\n| 1 | **Kategoria** | **Przychod** |\n| 2 | Elektronika | 45000 |\n| 3 | Odzież | 28000 |\n| 4 | Zywnosc | 62000 |\n| 5 | Chemia | 15000 |\n| 6 | Ksiazki | 10000 |\n\n**Polecenie**: Napisz formuly obliczajace:\n1. Laczny przychod sklepu.\n2. Sredni przychod na kategorie.\n3. Kategorie z najwyzszym przychodem (wartosc).\n4. W kolumnie C oblicz udzial procentowy kazdej kategorii w lacznym przychodzie (B/suma * 100).",
+  "wskazowki": [
+    "**Kierunek**: SUM dla lacznego przychodu, AVERAGE dla sredniej, MAX dla najwyzszego, potem procent.",
+    "**Podejscie**: Udzial procentowy = przychod kategorii / laczny przychod * 100. Laczny przychod oblicz w komorce pomocniczej.",
+    "**Kluczowy krok**: W formule C2 uzyj bezwzglednego odwolania do sumy (np. $D$1), zeby skopiowac formule w dol."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nLaczny przychod (D1): =SUM(B2:B6)\nSredni przychod:      =AVERAGE(B2:B6)\nNajwyzszy:            =MAX(B2:B6)\n\nC2: =B2/$D$1*100       (kopiowana w dol do C6)\n```\n\n**Weryfikacja:**\n- Wartosci: 45000, 28000, 62000, 15000, 10000\n- Suma: 45000+28000+62000+15000+10000 = **160000**\n- Srednia: 160000/5 = **32000**\n- Max: **62000** (Zywnosc)\n\n| Kategoria | Przychod | C: Udzial % |\n|-----------|----------|-------------|\n| Elektronika | 45000 | 28.13 |\n| Odzież | 28000 | 17.50 |\n| Zywnosc | 62000 | 38.75 |\n| Chemia | 15000 | 9.38 |\n| Ksiazki | 10000 | 6.25 |\n\n**Kontrola**: 28.13+17.50+38.75+9.38+6.25 = 100.01 (roznica z zaokraglen) ~= 100%\n\n**Wyjasnienie**: Udzial procentowy pokazuje proporcje kazdej kategorii w calym przychodzie. Bezwzgledne odwolanie $D$1 jest konieczne, bo wartosc sumy jest stala — bez dolarow formula po skopiowaniu odwolywaby sie do zlych komorek.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak $ w odwolaniu do sumy**: =B2/D1*100 po skopiowaniu do wiersza 3 stanie sie =B3/D2*100 — odwolanie do zlej komorki",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zapomnienie o *100**: =B2/$D$1 daje ulamek (0.2813), a nie procent (28.13)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

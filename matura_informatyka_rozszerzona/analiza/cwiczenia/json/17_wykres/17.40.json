@@ -1,0 +1,32 @@
+{
+  "id": "17.40",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "ogolna (budzet gminy)",
+  "tagi": ["wykres-skumulowany", "wykres-kolowy", "wykres-kombinowany", "dwie-osie-Y", "procent-udzialu", "odczyt-z-wykresu"],
+  "tresc": "Budzet gminy — dochody i wydatki (w mln zl):\n\n**Dochody:**\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Rok** | **Podatki** | **Subwencje** | **Dotacje UE** | **Inne** |\n| 2 | 2021 | 40 | 25 | 10 | 5 |\n| 3 | 2022 | 42 | 26 | 15 | 6 |\n| 4 | 2023 | 45 | 28 | 18 | 7 |\n| 5 | 2024 | 48 | 27 | 12 | 8 |\n| 6 | 2025 | 52 | 30 | 8 | 9 |\n\n**Wydatki calkowite:** 2021: 75, 2022: 85, 2023: 92, 2024: 90, 2025: 95 mln zl.\n\n**Polecenie**:\n1. Opisz wykres kolumnowy skumulowany dochodow (4 zrodla).\n2. Na tym samym wykresie dodaj linie wydatkow (os lewa) — wykres kombinowany.\n3. Oblicz saldo (dochody - wydatki) w kazdym roku. Czy gmina miala deficyt?\n4. Opisz wykres kolowy struktury dochodow dla roku 2025.\n5. Ktore zrodlo dochodow ma trend spadkowy? Czy to zagraza stabilnosci budzetu?",
+  "wskazowki": [
+    "**Kierunek**: Wykres kombinowany: skumulowany (dochody) + linia (wydatki). Osobny kolowy (2025).",
+    "**Podejscie**: Dochody = suma 4 zrodel. Saldo = dochody - wydatki. Deficyt = saldo ujemne.",
+    "**Kluczowy krok**: Jesli slupek (dochody) jest nizszy niz linia (wydatki) — gmina ma deficyt."
+  ],
+  "odpowiedz": "**1-2. Wykres kombinowany (skumulowany + linia):**\n\n- Typ: Combo chart — stacked column (4 warstwy dochodow) + linia (wydatki)\n- Os X: lata (2021-2025)\n- Seria 1 (warstwa): Podatki — niebieski\n- Seria 2 (warstwa): Subwencje — zielony\n- Seria 3 (warstwa): Dotacje UE — zolty\n- Seria 4 (warstwa): Inne — szary\n- Seria 5 (linia): Wydatki — czerwony z markerami\n- Os Y: \"Kwota (mln zl)\", skala 0-100\n- Tytul: \"Dochody i wydatki gminy (mln zl)\"\n- Legenda\n\n**3. Saldo budzetowe:**\n\n| Rok | Dochody (suma) | Wydatki | Saldo |\n|-----|---------------|---------|-------|\n| 2021 | 40+25+10+5=80 | 75 | **+5** |\n| 2022 | 42+26+15+6=89 | 85 | **+4** |\n| 2023 | 45+28+18+7=98 | 92 | **+6** |\n| 2024 | 48+27+12+8=95 | 90 | **+5** |\n| 2025 | 52+30+8+9=99 | 95 | **+4** |\n\nGmina **nie miala deficytu** — saldo bylo dodatnie w kazdym roku (nadwyzka 4-6 mln zl).\n\n**4. Wykres kolowy — struktura dochodow 2025:**\n\nSuma 2025: 99 mln zl\n\n| Zrodlo | Kwota | Udzial |\n|--------|-------|--------|\n| Podatki | 52 | 52.5% |\n| Subwencje | 30 | 30.3% |\n| Dotacje UE | 8 | 8.1% |\n| Inne | 9 | 9.1% |\n\nTytul: \"Struktura dochodow gminy w 2025 roku\"\n\n**5. Zrodlo z trendem spadkowym:**\n\n| Zrodlo | 2021 | 2022 | 2023 | 2024 | 2025 | Trend |\n|--------|------|------|------|------|------|-------|\n| Podatki | 40 | 42 | 45 | 48 | 52 | rosnacy |\n| Subwencje | 25 | 26 | 28 | 27 | 30 | rosnacy (z wahaniami) |\n| Dotacje UE | 10 | 15 | 18 | 12 | 8 | **spadkowy** (od 2023) |\n| Inne | 5 | 6 | 7 | 8 | 9 | rosnacy |\n\n**Dotacje UE** maja trend spadkowy (18 → 12 → 8 mln zl w latach 2023-2025).\n\nCzy zagraza stabilnosci? **Obecnie nie** — spadek dotacji UE (10 mln mniej wzgledem szczytu) jest kompensowany wzrostem podatkow (+7 mln) i subwencji (+2 mln). Jednak jesli dotacje UE spadna do 0 i nie wzrosna inne zrodla, nadwyzka moze sie skurczyc.\n\nNa wykresie kombinowanym: jesli slupek (dochody) zblizy sie do linii (wydatki), gmina zblizy sie do deficytu.\n\n**Wyjasnienie**: To kompleksowe zadanie laczy trzy typy wykresow, obliczenia salda i analize trendow — typowe dla trudnych zadan maturalnych. Kluczowe jest umiejetnosc odczytywania informacji z wykresu kombinowanego.",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledna suma dochodow**: Trzeba zsumowac WSZYSTKIE 4 zrodla, nie tylko najwazniejsze dwa",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Stwierdzenie deficytu**: Dochody w kazdym roku przewyzszaja wydatki — gmina ma nadwyzke, nie deficyt",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pominięcie analizy trendu dotacji UE**: Zadanie wymaga identyfikacji zrodla ze spadkowym trendem i oceny ryzyka",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Linia wydatkow na osobnej osi Y**: Wydatki i dochody maja te sama jednostke (mln zl) — powinny byc na jednej osi",
+      "kara": "-1 pkt"
+    }
+  ]
+}

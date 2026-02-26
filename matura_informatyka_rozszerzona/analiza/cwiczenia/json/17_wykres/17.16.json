@@ -1,0 +1,24 @@
+{
+  "id": "17.16",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna (transport)",
+  "tagi": ["wykres-kolowy", "procent-udzialu", "formatowanie-wykresu"],
+  "tresc": "Wyniki ankiety dotyczacej sposobu dojazdu uczniow do szkoly:\n\n| | A | B |\n|---|---|---|\n| 1 | **Srodek transportu** | **Liczba uczniow** |\n| 2 | Autobus | 95 |\n| 3 | Rower | 40 |\n| 4 | Samochod (rodzice) | 55 |\n| 5 | Pieszo | 60 |\n| 6 | Tramwaj | 50 |\n\n**Polecenie**: Opisz, jak utworzyc wykres kolowy pokazujacy udzial procentowy kazdego srodka transportu. Podaj specyfikacje wykresu i oblicz procenty.",
+  "wskazowki": [
+    "**Kierunek**: Wykres kolowy — pokazujemy czesci jednej calosci (wszyscy uczniowie = 100%).",
+    "**Podejscie**: Oblicz sume uczniow, potem udzial kazdego srodka: (liczba / suma) * 100%.",
+    "**Kluczowy krok**: Wyodrebnij (explode) najwiekszy wycinek, aby podkreslic dominujacy srodek transportu."
+  ],
+  "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kolowy (pie chart)\n2. **Dane**:\n   - Kategorie: zakres A2:A6 (srodki transportu)\n   - Wartosci: zakres B2:B6 (liczba uczniow)\n3. **Tytul**: \"Sposob dojazdu uczniow do szkoly\"\n4. **Formatowanie**:\n   - Kazdy wycinek w innym kolorze\n   - Etykiety: nazwa + procent\n   - Wyodrebniony (exploded) wycinek \"Autobus\" (najwiekszy udzial)\n   - Legenda po prawej\n\n**Obliczenia udzialu procentowego:**\n\nSuma: 95 + 40 + 55 + 60 + 50 = **300**\n\n| Srodek transportu | Liczba | Udzial |\n|--------------------|--------|--------|\n| Autobus | 95 | 31.7% |\n| Rower | 40 | 13.3% |\n| Samochod (rodzice) | 55 | 18.3% |\n| Pieszo | 60 | 20.0% |\n| Tramwaj | 50 | 16.7% |\n\n**Wyjasnienie**: Wykres kolowy jest wlasciwy, bo pokazujemy strukture jednej zbiorowosci. Wyodrebnienie najwiekszego wycinka to element formatowania, ktory poprawia czytelnosc.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak procentow na etykietach**: Sam kolor wycinka bez wartosci procentowej nie pozwala na dokladny odczyt udzialu",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie wykresu kolumnowego zamiast kolowego**: Polecenie wyraznie wymaga wykresu kolowego — zmiana typu to blad",
+      "kara": "-1 pkt"
+    }
+  ]
+}

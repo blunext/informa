@@ -1,0 +1,28 @@
+{
+  "id": "17.37",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "ogolna (e-commerce analityka)",
+  "tagi": ["wykres-kombinowany", "dwie-osie-Y", "wykres-kolowy", "procent-udzialu", "odczyt-z-wykresu", "formatowanie-wykresu"],
+  "tresc": "Dane o ruchu i sprzedazy w sklepie internetowym w 4 kwartalach:\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Kwartal** | **Sesje** | **Zamowienia** | **Przychod (tys. zl)** | **Zwroty (tys. zl)** |\n| 2 | Q1 | 120000 | 3600 | 540 | 32 |\n| 3 | Q2 | 95000 | 3040 | 456 | 28 |\n| 4 | Q3 | 110000 | 3520 | 528 | 45 |\n| 5 | Q4 | 180000 | 7200 | 1080 | 65 |\n\n**Polecenie**:\n1. Opisz wykres kombinowany: slupki przychodu (os lewa) + linia konwersji (os prawa). Konwersja = zamowienia/sesje * 100%.\n2. Opisz wykres kolowy udzialu kwartalow w calkowitym przychodzie.\n3. Oblicz przychod netto (przychod - zwroty) i wskaznik zwrotow (zwroty/przychod * 100%) dla kazdego kwartalu.\n4. Ktory kwartal mial najgorszy wskaznik zwrotow? Ktory najlepsza konwersje?",
+  "wskazowki": [
+    "**Kierunek**: Wykres kombinowany + kolowy. Konwersja obliczana z danych, nie podana bezposrednio.",
+    "**Podejscie**: Konwersja = zamowienia / sesje * 100%. Wskaznik zwrotow = zwroty / przychod * 100%.",
+    "**Kluczowy krok**: Q4 ma najwyzszy przychod, ale tez najwyzsze zwroty — wazny jest wskaznik procentowy, nie kwota."
+  ],
+  "odpowiedz": "**1. Specyfikacja wykresu kombinowanego:**\n\nNajpierw obliczamy konwersje:\n\n| Kwartal | Sesje | Zamowienia | Konwersja |\n|---------|-------|------------|----------|\n| Q1 | 120000 | 3600 | 3.00% |\n| Q2 | 95000 | 3040 | 3.20% |\n| Q3 | 110000 | 3520 | 3.20% |\n| Q4 | 180000 | 7200 | 4.00% |\n\n- Typ: Combo chart z dwiema osiami Y\n- Os X: kwartaly\n- Seria 1 (slupki, os lewa): Przychod (tys. zl), kolor zielony, skala 0-1200\n- Seria 2 (linia, os prawa): Konwersja (%), kolor czerwony z markerami, skala 0-5\n- Tytul: \"Przychod i konwersja wg kwartalow\"\n- Os lewa: \"Przychod (tys. zl)\", Os prawa: \"Konwersja (%)\"\n- Legenda\n\n**2. Wykres kolowy — udzial kwartalow w przychodzie:**\n\nSuma przychodow: 540+456+528+1080 = **2604 tys. zl**\n\n| Kwartal | Przychod | Udzial |\n|---------|----------|--------|\n| Q1 | 540 | 20.7% |\n| Q2 | 456 | 17.5% |\n| Q3 | 528 | 20.3% |\n| Q4 | 1080 | 41.5% |\n\nTytul wykresu kolowego: \"Udzial kwartalow w przychodzie rocznym\"\n\n**3. Przychod netto i wskaznik zwrotow:**\n\n| Kwartal | Przychod | Zwroty | Netto (tys.) | Wsk. zwrotow |\n|---------|----------|--------|-------------|---------------|\n| Q1 | 540 | 32 | 508 | 32/540*100 = 5.93% |\n| Q2 | 456 | 28 | 428 | 28/456*100 = 6.14% |\n| Q3 | 528 | 45 | 483 | 45/528*100 = **8.52%** |\n| Q4 | 1080 | 65 | 1015 | 65/1080*100 = 6.02% |\n\n**4. Odpowiedzi:**\n- Najgorszy wskaznik zwrotow: **Q3 (8.52%)** — mimo ze kwota zwrotow nie jest najwyzsza, procentowo Q3 ma najwiecej zwrotow\n- Najlepsza konwersja: **Q4 (4.00%)** — sezon swiateczny generuje wiecej zakupow na sesje\n\n**Wyjasnienie**: Wykres kombinowany z obliczona konwersja i wykres kolowy uzupelniaja sie — jeden pokazuje trend, drugi strukture. Na maturze kluczowe jest porownywanie wskaznikow procentowych, nie wartosci bezwzglednych.",
+  "typowe_bledy": [
+    {
+      "opis": "**Stwierdzenie, ze Q4 ma najgorsze zwroty**: Q4 ma najwyzsza kwote zwrotow (65 tys.), ale NIE najgorszy wskaznik procentowy (6.02% < 8.52%)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Bledne obliczenie konwersji**: Konwersja = zamowienia/sesje*100, nie sesje/zamowienia",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak wykresu kolowego udzialu kwartalow**: Polecenie explicite wymaga wykresu kolowego — pominięcie to blad",
+      "kara": "-1 pkt"
+    }
+  ]
+}

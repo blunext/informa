@@ -1,0 +1,28 @@
+{
+  "id": "17.25",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "ogolna (media spolecznosciowe)",
+  "tagi": ["wykres-grupowany", "wykres-kolowy", "procent-udzialu", "legenda", "odczyt-z-wykresu"],
+  "tresc": "Liczba obserwujacych (w tysiacach) na roznych platformach dla 3 marek w grudniu 2025:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Platforma** | **Marka A** | **Marka B** | **Marka C** |\n| 2 | Instagram | 120 | 85 | 200 |\n| 3 | TikTok | 95 | 150 | 180 |\n| 4 | YouTube | 60 | 40 | 110 |\n| 5 | Facebook | 80 | 65 | 70 |\n| 6 | X (Twitter) | 45 | 30 | 40 |\n\n**Polecenie**:\n1. Opisz wykres kolumnowy grupowany porownujacy obecnosc marek na platformach.\n2. Dla Marki C opisz wykres kolowy udzialu poszczegolnych platform.\n3. Ktora marka ma laczna najliczniejsza spolecznosc? Ktora platforma jest najwazniejsza dla Marki B?",
+  "wskazowki": [
+    "**Kierunek**: Dwa wykresy — grupowany (3 marki, 5 platform) i kolowy (tylko Marka C, udzial platform).",
+    "**Podejscie**: Wykres grupowany: os X = platformy, 3 serie (marki). Kolowy: 5 wycinkow (platformy Marki C).",
+    "**Kluczowy krok**: Laczna spolecznosc = suma wiersza danej marki. Najwazniejsza platforma = najwyzsza wartosc."
+  ],
+  "odpowiedz": "**1. Wykres kolumnowy grupowany:**\n\n- Typ: Clustered column\n- Os X: A2:A6 (platformy)\n- Seria 1: B2:B6 (Marka A) — niebieski\n- Seria 2: C2:C6 (Marka B) — pomaranczowy\n- Seria 3: D2:D6 (Marka C) — zielony\n- Tytul: \"Obserwujacy wg platformy i marki (tys.)\"\n- Legenda, tytuly osi, os Y od 0 do 220\n\n**2. Wykres kolowy — Marka C:**\n\n- Typ: Kolowy\n- Kategorie: A2:A6 (platformy)\n- Wartosci: D2:D6 (Marka C)\n- Tytul: \"Struktura obserwujacych Marki C\"\n\nSuma Marki C: 200+180+110+70+40 = **600 tys.**\n\n| Platforma | Obserwujacy | Udzial |\n|-----------|-------------|--------|\n| Instagram | 200 | 33.3% |\n| TikTok | 180 | 30.0% |\n| YouTube | 110 | 18.3% |\n| Facebook | 70 | 11.7% |\n| X (Twitter) | 40 | 6.7% |\n\n**3. Laczna spolecznosc:**\n\n| Marka | Instagram + TikTok + YouTube + Facebook + X | Suma |\n|-------|----------------------------------------------|------|\n| Marka A | 120+95+60+80+45 | 400 |\n| Marka B | 85+150+40+65+30 | 370 |\n| Marka C | 200+180+110+70+40 | **600** |\n\nNajliczniejsza spolecznosc: **Marka C (600 tys.)**\n\nNajwazniejsza platforma dla Marki B: **TikTok (150 tys.)** — stanowi 150/370 = 40.5% calej spolecznosci Marki B.\n\n**Wyjasnienie**: Wykres grupowany porownuje marki miedzy soba na kazdej platformie. Wykres kolowy udzialu jest komplementarny — pokazuje, jak dana marka rozklada sily miedzy platformami.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zamiana osi — platformy jako serie zamiast kategorii**: Platformy powinny byc na osi X, marki jako serie (nie odwrotnie)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak legendy na wykresie grupowanym**: 3 serie bez legendy — nie wiadomo, ktory kolor to ktora marka",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne obliczenie procentow na wykresie kolowym**: Dzielenie przez sume wszystkich marek zamiast przez sume jednej marki",
+      "kara": "-2 pkt"
+    }
+  ]
+}

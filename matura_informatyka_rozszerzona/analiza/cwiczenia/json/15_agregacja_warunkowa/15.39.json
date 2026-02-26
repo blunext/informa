@@ -1,0 +1,30 @@
+{
+  "id": "15.39",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2021 (Szyfry — top-N warunkowe)",
+  "tagi": [
+    "SUMIFS",
+    "COUNTIFS",
+    "MAXIFS-MINIFS",
+    "operator-konkatenacji",
+    "wiele-warunkow"
+  ],
+  "tresc": "W arkuszu mamy dane o wynikach sprzedazy pracownikow w dwoch regionach przez 4 kwartaly:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Pracownik** | **Region** | **Sprzedaz** |\n| 2 | Kowalski | Polnoc | 45000 |\n| 3 | Nowak | Poludnie | 38000 |\n| 4 | Wisniewski | Polnoc | 52000 |\n| 5 | Kaminska | Poludnie | 41000 |\n| 6 | Lewandowski | Polnoc | 48000 |\n| 7 | Zielinska | Poludnie | 55000 |\n| 8 | Szymanski | Polnoc | 60000 |\n| 9 | Dabrowska | Poludnie | 35000 |\n| 10 | Mazur | Polnoc | 42000 |\n| 11 | Wojcik | Poludnie | 47000 |\n\nW komorce F1 wpisano prog premiowy: **50000**\n\n**Polecenie**:\n1. Oblicz laczna sprzedaz regionu \"Polnoc\" powyzej progu F1.\n2. Ile osob z regionu \"Poludnie\" ma sprzedaz powyzej sredniej swojego regionu?\n3. Oblicz roznice miedzy najwyzsza a najnizsza sprzedaza w regionie \"Polnoc\".\n4. Oblicz srednia sprzedaz z OBU regionow, ale tylko dla pracownikow powyzej progu F1.",
+  "wskazowki": [
+    "**Kierunek**: Punkt 2 wymaga dwuetapowego podejscia — najpierw srednia regionu, potem COUNTIFS z dynamicznym progiem. Punkt 4 — AVERAGEIF z progiem F1.",
+    "**Podejscie**: Punkt 2: =COUNTIFS(B2:B11;\"Poludnie\";C2:C11;\">\"&AVERAGEIFS(C2:C11;B2:B11;\"Poludnie\")). Punkt 3: =MAXIFS(...)-MINIFS(...).",
+    "**Kluczowy krok**: Zagniezdzone AVERAGEIFS wewnatrz operatora & tworzy dynamiczny prog per region."
+  ],
+  "odpowiedz": "**Formuly:**\n```\n1. =SUMIFS(C2:C11;B2:B11;\"Polnoc\";C2:C11;\">\"&$F$1)\n2. =COUNTIFS(B2:B11;\"Poludnie\";C2:C11;\">\"&AVERAGEIFS(C2:C11;B2:B11;\"Poludnie\"))\n3. =MAXIFS(C2:C11;B2:B11;\"Polnoc\")-MINIFS(C2:C11;B2:B11;\"Polnoc\")\n4. =AVERAGEIF(C2:C11;\">\"&$F$1)\n```\n\n**Weryfikacja:**\n\nPunkt 1 — Polnoc + sprzedaz > 50000:\n- Wisniewski: 52000 > 50000 ✓\n- Szymanski: 60000 > 50000 ✓\n- (Kowalski 45000, Lewandowski 48000, Mazur 42000 — nie)\n- Suma: 52000 + 60000 = **112000 zl**\n\nPunkt 2 — Poludnie + > srednia Poludnie:\n- Srednia Poludnie: (38000+41000+55000+35000+47000)/5 = 216000/5 = 43200\n- Nowak: 38000 — NIE\n- Kaminska: 41000 — NIE\n- Zielinska: 55000 > 43200 ✓\n- Dabrowska: 35000 — NIE\n- Wojcik: 47000 > 43200 ✓\n- Wynik: **2**\n\nPunkt 3 — rozstep Polnoc:\n- Max: 60000 (Szymanski), Min: 42000 (Mazur)\n- Roznica: 60000 - 42000 = **18000 zl**\n\nPunkt 4 — srednia powyzej progu 50000 (oba regiony):\n- Wisniewski: 52000 ✓, Zielinska: 55000 ✓, Szymanski: 60000 ✓\n- Srednia: (52000+55000+60000)/3 = 167000/3 = **55666,67** (w przyblizeniu)\n\n**Wyjasnienie**: Zagniezdzone AVERAGEIFS wewnatrz COUNTIFS tworzy dynamiczny prog — srednia regionu jest obliczana w locie i uzywana jako kryterium. AVERAGEIF bez warunku na region w punkcie 4 filtruje tylko po progu, wlaczajac oba regiony.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak $ przy F1**: =SUMIFS(C2:C11;B2:B11;\"Polnoc\";C2:C11;\">\"&F1) — przy kopiowaniu F1 przesunie sie do F2, F3...",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie AVERAGE zamiast AVERAGEIFS w punkcie 2**: =COUNTIFS(B2:B11;\"Poludnie\";C2:C11;\">\"&AVERAGE(C2:C11)) porownuje ze srednia CALEJ firmy, nie regionu",
+      "kara": "-2 pkt"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "16.22",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2024 (konto bankowe)",
+  "tagi": [
+    "akumulator",
+    "SUM-kumulacyjna",
+    "odwolanie-bezwzgledne",
+    "symulacja-krokowa"
+  ],
+  "tresc": "Firma prowadzi konto bankowe. Co miesiac sa wplywy i wydatki. Nalezy sledzic saldo konta oraz skumulowane wydatki od poczatku roku. Poczatkowe saldo: 10000 zl.\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Miesiac** | **Wplywy** | **Wydatki** | **Saldo** | **Wydatki kumulacyjne** |\n| 2 | 0 (start) | — | — | 10000 | 0 |\n| 3 | Styczen | 5000 | 3200 | ? | ? |\n| 4 | Luty | 4500 | 4800 | ? | ? |\n| 5 | Marzec | 6000 | 2500 | ? | ? |\n| 6 | Kwiecien | 3800 | 5100 | ? | ? |\n| 7 | Maj | 7200 | 3000 | ? | ? |\n| 8 | Czerwiec | 4000 | 6500 | ? | ? |\n\n**Polecenie**:\n1. W D3 oblicz saldo: poprzednie saldo + wplywy - wydatki.\n2. W E3 oblicz skumulowane wydatki od poczatku roku (narastajaca suma kolumny C).\n3. Wypelnij tabele.",
+  "wskazowki": [
+    "**Kierunek**: Saldo to akumulator (wiersz po wierszu). Wydatki kumulacyjne to SUM z rozszerzajacym sie zakresem.",
+    "**Podejscie**: D3: =D2+B3-C3. E3: =SUM($C$3:C3). Oba wzory kopiujemy w dol.",
+    "**Kluczowy krok**: W SUM poczatek zakresu musi byc zakotwiczony ($C$3), koniec wzgledny (C3). Dzieki temu zakres rozszerza sie automatycznie."
+  ],
+  "odpowiedz": "**Formuly (wiersz 3, kopiowane w dol):**\n```\nD3: =D2+B3-C3\nE3: =SUM($C$3:C3)\n```\n\n**Wypelniona tabela:**\n\n| Miesiac | Wplywy | Wydatki | Saldo | Wydatki kumulacyjne |\n|---------|--------|---------|-------|---------------------|\n| 0 | — | — | 10000 | 0 |\n| Styczen | 5000 | 3200 | 11800 | 3200 |\n| Luty | 4500 | 4800 | 11500 | 8000 |\n| Marzec | 6000 | 2500 | 15000 | 10500 |\n| Kwiecien | 3800 | 5100 | 13700 | 15600 |\n| Maj | 7200 | 3000 | 17900 | 18600 |\n| Czerwiec | 4000 | 6500 | 15400 | 25100 |\n\n**Weryfikacja krok po kroku:**\n- Styczen: D3=10000+5000-3200=11800. E3=SUM(3200)=3200\n- Luty: D4=11800+4500-4800=11500. E4=SUM(3200;4800)=8000\n- Marzec: D5=11500+6000-2500=15000. E5=SUM(3200;4800;2500)=10500\n- Kwiecien: D6=15000+3800-5100=13700. E6=SUM(3200;4800;2500;5100)=15600\n- Maj: D7=13700+7200-3000=17900. E7=SUM(3200;4800;2500;5100;3000)=18600\n- Czerwiec: D8=17900+4000-6500=15400. E8=SUM(3200;4800;2500;5100;3000;6500)=25100\n\n**Wyjasnienie**: Cwiczenie laczy dwie techniki: akumulator (saldo) i sume kumulacyjna (narastajace wydatki). Saldo zmienia sie wiersz po wierszu, a wydatki kumulacyjne zawsze sumuja od poczatku. Rozszerzajacy sie zakres SUM($C$3:C3) to kluczowy wzorzec maturalny.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak zakotwiczenia w SUM kumulacyjnej**: =SUM(C3:C3) po skopiowaniu do wiersza 5 staje sie =SUM(C5:C5) zamiast =SUM(C3:C5) — liczy tylko biezacy wydatek, nie kumulacje.",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Odwrotna kolejnosc w saldzie**: =D2-B3+C3 (odejmuje wplywy, dodaje wydatki) — saldo maleje przy wplywach.",
+      "kara": "-1 pkt"
+    }
+  ]
+}

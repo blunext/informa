@@ -1,0 +1,24 @@
+{
+  "id": "17.17",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna (pogoda)",
+  "tagi": ["wykres-liniowy", "tytuly-osi", "odczyt-z-wykresu"],
+  "tresc": "Srednia temperatura powietrza w Warszawie w poszczegolnych miesiacach (dane roczne):\n\n| | A | B |\n|---|---|---|\n| 1 | **Miesiac** | **Srednia temp. (°C)** |\n| 2 | Styczen | -2 |\n| 3 | Luty | -1 |\n| 4 | Marzec | 4 |\n| 5 | Kwiecien | 10 |\n| 6 | Maj | 15 |\n| 7 | Czerwiec | 19 |\n| 8 | Lipiec | 21 |\n| 9 | Sierpien | 20 |\n| 10 | Wrzesien | 14 |\n| 11 | Pazdziernik | 9 |\n| 12 | Listopad | 4 |\n| 13 | Grudzien | 0 |\n\n**Polecenie**: Opisz, jak utworzyc wykres liniowy srednich temperatur. Podaj specyfikacje wykresu. W ktorych miesiacach temperatura jest ponizej 0°C?",
+  "wskazowki": [
+    "**Kierunek**: Wykres liniowy jest najlepszy dla danych zmieniajacych sie cyklicznie w czasie.",
+    "**Podejscie**: Os X = miesiace (12 kategorii), os Y = temperatura. Linia pokaze charakterystyczny przebieg roczny.",
+    "**Kluczowy krok**: Os Y musi obejmowac wartosci ujemne — zakres np. od -5 do 25."
+  ],
+  "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres liniowy z markerami\n2. **Dane**:\n   - Os X: zakres A2:A13 (miesiace)\n   - Os Y: zakres B2:B13 (srednia temperatura)\n3. **Tytuly**:\n   - Tytul wykresu: \"Srednia temperatura w Warszawie\"\n   - Os X: \"Miesiac\"\n   - Os Y: \"Temperatura (°C)\"\n4. **Formatowanie**:\n   - Linia ciagla z markerami, kolor czerwony\n   - Os Y od -5 do 25 (z krokiem co 5)\n   - Linia odniesienia na poziomie 0°C (linia przerywana)\n   - Linie siatki poziomej\n\n**Odpowiedz na pytanie:**\nMiesiace z temperatura ponizej 0°C:\n- **Styczen (-2°C)**\n- **Luty (-1°C)**\n\n**Wyjasnienie**: Wykres liniowy doskonale pokazuje przebieg temperatury w ciagu roku — widac wzrost od zimy do lata i spadek jesienia. Linia odniesienia 0°C ulatwia identyfikacje miesiecy z mrozem.",
+  "typowe_bledy": [
+    {
+      "opis": "**Os Y tylko od 0**: Jesli os Y zaczyna sie od 0, wartosci ujemne (-2, -1) nie beda widoczne na wykresie",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak markerow na linii**: Bez markerow trudno odczytac wartosc w konkretnym miesiacu",
+      "kara": "-1 pkt"
+    }
+  ]
+}

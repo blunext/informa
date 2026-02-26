@@ -1,0 +1,30 @@
+{
+  "id": "16.24",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2024 (amortyzacja liniowa)",
+  "tagi": [
+    "amortyzacja",
+    "akumulator",
+    "odwolanie-bezwzgledne",
+    "symulacja-krokowa",
+    "ZAOKR"
+  ],
+  "tresc": "Firma kupila maszyne za 48000 zl. Maszyna jest amortyzowana metoda liniowa przez 8 lat (stawka roczna = 100%/8 = 12.5%). Co roku wartosc maszyny zmniejsza sie o stala kwote amortyzacji. Nalezy sledzic wartosc poczatkowa, amortyzacje roczna, amortyzacje skumulowana i wartosc koncowa.\n\nParametry: G1 = 48000 (wartosc), G2 = 8 (okres), G3 = =G1/G2 (amortyzacja roczna = 6000).\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Rok** | **Wartosc poczatkowa** | **Amortyzacja** | **Skumulowana amort.** | **Wartosc koncowa** |\n| 2 | 1 | ? | ? | ? | ? |\n| 3 | 2 | ? | ? | ? | ? |\n| 4 | 3 | ? | ? | ? | ? |\n| 5 | 4 | ? | ? | ? | ? |\n| 6 | 5 | ? | ? | ? | ? |\n| 7 | 6 | ? | ? | ? | ? |\n| 8 | 7 | ? | ? | ? | ? |\n| 9 | 8 | ? | ? | ? | ? |\n\n**Polecenie**:\n1. W B2 wpisz wartosc poczatkowa (= G1). Od B3: wartosc poczatkowa = wartosc koncowa z poprzedniego roku.\n2. W C2 oblicz amortyzacje roczna (= G3, stala).\n3. W D2 oblicz skumulowana amortyzacje (narastajaca suma kolumny C).\n4. W E2 oblicz wartosc koncowa = wartosc poczatkowa - amortyzacja roczna.\n5. Sprawdz, czy wartosc koncowa po roku 8 wynosi 0.",
+  "wskazowki": [
+    "**Kierunek**: Amortyzacja liniowa to stala kwota co rok. Wartosc poczatkowa kazdego roku = wartosc koncowa poprzedniego. Skumulowana amortyzacja to narastajaca suma.",
+    "**Podejscie**: B2: =$G$1. B3: =E2 (kopiowane w dol). C2: =$G$3 (stala). D2: =SUM($C$2:C2). E2: =B2-C2.",
+    "**Kluczowy krok**: Amortyzacja liniowa jest najprostsza — stala kwota 6000 rocznie. Po 8 latach: 8 * 6000 = 48000 = wartosc poczatkowa, wiec koncowa wartosc = 0."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nB2: =$G$1\nB3: =E2                    (kopiowane w dol od wiersza 3)\nC2: =$G$3                  (kopiowane w dol — stala wartosc)\nD2: =SUM($C$2:C2)         (kopiowane w dol)\nE2: =B2-C2                 (kopiowane w dol)\n```\n\n**Wypelniona tabela:**\n\n| Rok | Wartosc pocz. | Amortyzacja | Skumul. amort. | Wartosc konc. |\n|-----|--------------|-------------|----------------|---------------|\n| 1 | 48000 | 6000 | 6000 | 42000 |\n| 2 | 42000 | 6000 | 12000 | 36000 |\n| 3 | 36000 | 6000 | 18000 | 30000 |\n| 4 | 30000 | 6000 | 24000 | 24000 |\n| 5 | 24000 | 6000 | 30000 | 18000 |\n| 6 | 18000 | 6000 | 36000 | 12000 |\n| 7 | 12000 | 6000 | 42000 | 6000 |\n| 8 | 6000 | 6000 | 48000 | 0 |\n\n**Weryfikacja (pierwsze 3 lata i ostatni):**\n- Rok 1: B2=48000, C2=6000, D2=6000, E2=48000-6000=42000\n- Rok 2: B3=42000, C3=6000, D3=6000+6000=12000, E3=42000-6000=36000\n- Rok 3: B4=36000, C4=6000, D4=12000+6000=18000, E4=36000-6000=30000\n- Rok 8: B9=6000, C9=6000, D9=8*6000=48000, E9=6000-6000=0 (poprawne)\n\n**Wyjasnienie**: Amortyzacja liniowa to stala kwota odpisu co okres. Tabela tworzy lancuch: wartosc koncowa jednego roku staje sie wartoscia poczatkowa nastepnego. Skumulowana amortyzacja rosnie liniowo i po ostatnim roku rowna sie wartosci poczatkowej maszyny. To najprostszy model amortyzacji — na maturze moze pojawic sie rowniez amortyzacja degresywna (malejaca).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak odwolania bezwzglednego do G3**: Napisanie =G3 w C2 — po skopiowaniu w dol staje sie =G4, =G5 itd. zamiast stalej wartosci.",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledna suma kumulacyjna**: Napisanie =D2+C3 zamiast =SUM($C$2:C3) — daje poprawne wyniki, ale nie jest klasyczna suma kumulacyjna; obie formy sa akceptowalne.",
+      "kara": "-0 pkt"
+    }
+  ]
+}

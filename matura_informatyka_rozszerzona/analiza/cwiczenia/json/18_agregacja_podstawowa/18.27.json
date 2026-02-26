@@ -1,0 +1,24 @@
+{
+  "id": "18.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "ogolna (edukacja)",
+  "tagi": ["RANK", "AVERAGE", "SUM", "zakres-bezwzgledny", "mnozenie-komorek"],
+  "tresc": "8 uczniow pisalo test z matematyki i fizyki. Kazdy przedmiot oceniany w skali 0-50 pkt:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Uczen** | **Matematyka** | **Fizyka** |\n| 2 | Anna | 42 | 38 |\n| 3 | Bartek | 35 | 45 |\n| 4 | Celina | 48 | 41 |\n| 5 | Dawid | 28 | 32 |\n| 6 | Ewa | 39 | 36 |\n| 7 | Filip | 44 | 47 |\n| 8 | Gosia | 31 | 29 |\n| 9 | Hubert | 37 | 40 |\n\n**Polecenie**:\n1. W kolumnie D oblicz sume punktow (mat. + fizyka) dla kazdego ucznia.\n2. W kolumnie E wpisz ranking na podstawie sumy (najwyzszy wynik = pozycja 1).\n3. Oblicz srednia sume punktow.",
+  "wskazowki": [
+    "**Kierunek**: D = B + C, E = RANK(D; zakres_D; 0). AVERAGE na kolumnie D.",
+    "**Podejscie**: Ranking malejacy (0 lub brak 3. argumentu) — najwyzszy wynik = pozycja 1.",
+    "**Kluczowy krok**: Zakres w RANK musi byc $D$2:$D$9 (bezwzgledny), bo formula kopiowana w dol."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nD2: =B2+C2                          (kopiowana w dol do D9)\nE2: =RANK(D2;$D$2:$D$9)            (kopiowana w dol do E9)\n     lub: =RANK(D2;$D$2:$D$9;0)\nSrednia sumy: =AVERAGE(D2:D9)\n```\n\n**Weryfikacja:**\n\n| Uczen | Mat | Fiz | D: Suma | E: Ranking |\n|-------|-----|-----|---------|------------|\n| Anna | 42 | 38 | 80 | 3 |\n| Bartek | 35 | 45 | 80 | 3 |\n| Celina | 48 | 41 | 89 | 2 |\n| Dawid | 28 | 32 | 60 | 7 |\n| Ewa | 39 | 36 | 75 | 6 |\n| Filip | 44 | 47 | 91 | 1 |\n| Gosia | 31 | 29 | 60 | 7 |\n| Hubert | 37 | 40 | 77 | 5 |\n\nSortowanie malejace sum: 91, 89, 80, 80, 77, 75, 60, 60\n- Filip (91) = poz. 1, Celina (89) = poz. 2\n- Anna i Bartek (80) = poz. 3 (obie na 3, pominieta poz. 4)\n- Hubert (77) = poz. 5, Ewa (75) = poz. 6\n- Dawid i Gosia (60) = poz. 7 (obie na 7, pominieta poz. 8)\n\n- Srednia sumy: (80+80+89+60+75+91+60+77)/8 = 612/8 = **76.50**\n\n**Wyjasnienie**: RANK z argumentem 0 (lub bez trzeciego argumentu) sortuje malejaco — najwyzsza wartosc = pozycja 1. Przy remisie obie wartosci dostaja te sama pozycje, a nastepna pozycja jest pomijana (np. dwie pozycje 3 -> nastepna to 5, nie 4).",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak $ w zakresie RANK**: =RANK(D2;D2:D9) po skopiowaniu do wiersza 3 zmieni zakres na D3:D10",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Uzycie argumentu 1 zamiast 0**: =RANK(D2;$D$2:$D$9;1) — najnizsza suma = pozycja 1, co jest odwrotnoscia zamierzonego rankingu",
+      "kara": "-2 pkt"
+    }
+  ]
+}

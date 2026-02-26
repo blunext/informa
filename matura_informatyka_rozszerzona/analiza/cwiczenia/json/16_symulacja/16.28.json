@@ -1,0 +1,34 @@
+{
+  "id": "16.28",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2024 (lokata z kapitalizacja)",
+  "tagi": [
+    "akumulator",
+    "mnozenie",
+    "odwolanie-bezwzgledne",
+    "ZAOKR",
+    "symulacja-krokowa"
+  ],
+  "tresc": "Klient wplacil na lokate 20000 zl z roczna stopa procentowa 4,8% i kapitalizacja miesieczna. Miesieczna stopa = 4,8% / 12 = 0,4% = 0,004. Co miesiac odsetki sa doliczane do kapitalu (procent skladany). Klient nie dokonuje zadnych wplat ani wyplat.\n\nParametry: G1 = 20000 (kapital), G2 = 0,004 (stopa miesieczna).\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Miesiac** | **Kapital na poczatku** | **Odsetki** | **Kapital na koncu** |\n| 2 | 1 | ? | ? | ? |\n| 3 | 2 | ? | ? | ? |\n| 4 | 3 | ? | ? | ? |\n| 5 | 4 | ? | ? | ? |\n| 6 | 5 | ? | ? | ? |\n| 7 | 6 | ? | ? | ? |\n| 8 | 7 | ? | ? | ? |\n| 9 | 8 | ? | ? | ? |\n| 10 | 9 | ? | ? | ? |\n| 11 | 10 | ? | ? | ? |\n| 12 | 11 | ? | ? | ? |\n| 13 | 12 | ? | ? | ? |\n\n**Polecenie**:\n1. W B2 wpisz poczatkowy kapital (= G1). Od B3: kapital = kapital na koncu z poprzedniego miesiaca.\n2. W C2 oblicz odsetki: kapital na poczatku * stopa miesieczna (zaokraglij do 2 miejsc — ZAOKR).\n3. W D2 oblicz kapital na koncu: kapital na poczatku + odsetki.\n4. Wypelnij tabele. Ile wynosi kapital po 12 miesiacach?",
+  "wskazowki": [
+    "**Kierunek**: To procent skladany — odsetki sa doliczane do kapitalu, wiec w nastepnym miesiacu odsetki liczone sa od wyzszej kwoty.",
+    "**Podejscie**: B2: =$G$1. B3: =D2. C2: =ZAOKR(B2*$G$2;2). D2: =B2+C2.",
+    "**Kluczowy krok**: Kazdy miesiac kapital rosnie o odsetki. Po 12 miesiacach efekt procentu skladanego daje wiecej niz 12 * (20000 * 0.004) = 960 zl prostych odsetek."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nB2: =$G$1\nB3: =D2                    (kopiowane w dol od wiersza 3)\nC2: =ZAOKR(B2*$G$2;2)     (kopiowane w dol)\nD2: =B2+C2                 (kopiowane w dol)\n```\n\n**Wypelniona tabela:**\n\n| Miesiac | Kapital pocz. | Odsetki | Kapital konc. |\n|---------|--------------|---------|---------------|\n| 1 | 20000.00 | 80.00 | 20080.00 |\n| 2 | 20080.00 | 80.32 | 20160.32 |\n| 3 | 20160.32 | 80.64 | 20240.96 |\n| 4 | 20240.96 | 80.96 | 20321.92 |\n| 5 | 20321.92 | 81.29 | 20403.21 |\n| 6 | 20403.21 | 81.61 | 20484.82 |\n| 7 | 20484.82 | 81.94 | 20566.76 |\n| 8 | 20566.76 | 82.27 | 20649.03 |\n| 9 | 20649.03 | 82.60 | 20731.63 |\n| 10 | 20731.63 | 82.93 | 20814.56 |\n| 11 | 20814.56 | 83.26 | 20897.82 |\n| 12 | 20897.82 | 83.59 | 20981.41 |\n\n**Weryfikacja (pierwsze 4 miesiace):**\n- M1: C2=ZAOKR(20000*0.004;2)=80.00. D2=20000+80=20080.00\n- M2: B3=20080.00. C3=ZAOKR(20080*0.004;2)=ZAOKR(80.32;2)=80.32. D3=20080.00+80.32=20160.32\n- M3: B4=20160.32. C4=ZAOKR(20160.32*0.004;2)=ZAOKR(80.6413;2)=80.64. D4=20160.32+80.64=20240.96\n- M4: B5=20240.96. C5=ZAOKR(20240.96*0.004;2)=ZAOKR(80.9638;2)=80.96. D5=20240.96+80.96=20321.92\n\nKapital po 12 miesiacach: **20981.41 zl** (zysk: 981.41 zl).\nDla porownania, procent prosty dalby: 12 * 80 = 960.00 zl. Procent skladany dal 981.41 zl — o 21.41 zl wiecej.\n\n**Wyjasnienie**: Lokta z kapitalizacja miesieczna to klasyczny procent skladany. Odsetki rosna z miesiaca na miesiac, bo sa naliczane od coraz wiekszego kapitalu. ZAOKR do 2 miejsc jest konieczne, bo banki zaokraglaja odsetki do groszy. Na maturze takie zadanie moze wymagac porownania z procentem prostym.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie stopy rocznej zamiast miesiecznej**: Mnozenie przez 0.048 zamiast 0.004 — odsetki 10x za duze.",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak ZAOKR**: Odsetki z wieloma miejscami po przecinku (np. 80.6412...) powoduja narastajace rozbieznosci w kolejnych miesiacach.",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Procent prosty zamiast skladanego**: C2: =ZAOKR($G$1*$G$2;2) — odsetki zawsze od poczatkowego kapitalu 20000, nie od aktualnego.",
+      "kara": "-2 pkt"
+    }
+  ]
+}

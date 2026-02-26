@@ -1,0 +1,27 @@
+{
+  "id": "19.15",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "LEFT-RIGHT-MID",
+    "grupowanie-danych"
+  ],
+  "tresc": "Firma ma kody pracownikow w formacie: 2 litery dzialu + 3 cyfry numeru (np. \"IT042\", \"HR015\"):\n\n| | A | B |\n|---|---|---|\n| 1 | **Kod** | **Dzial** |\n| 2 | IT042 | ? |\n| 3 | HR015 | ? |\n| 4 | FN108 | ? |\n| 5 | IT023 | ? |\n| 6 | HR007 | ? |\n| 7 | FN201 | ? |\n| 8 | IT056 | ? |\n\n**Polecenie**: Napisz formule w B2, ktora wyodrebni kod dzialu (pierwsze 2 znaki) z kodu pracownika. Formula powinna dzialac po skopiowaniu w dol.",
+  "wskazowki": [
+    "**Kierunek**: Chcesz pobrac poczatkowe znaki tekstu — uzyj funkcji LEFT.",
+    "**Podejscie**: LEFT(tekst; liczba_znakow) zwraca N pierwszych znakow z tekstu.",
+    "**Kluczowy krok**: LEFT(A2;2) zwroci 2 pierwsze znaki z kodu — np. \"IT\" z \"IT042\"."
+  ],
+  "odpowiedz": "**Formula (B2, kopiowana w dol):**\n```\nB2: =LEFT(A2;2)\n```\n\n**Weryfikacja:**\n- IT042 → LEFT(\"IT042\";2) = **IT**\n- HR015 → LEFT(\"HR015\";2) = **HR**\n- FN108 → LEFT(\"FN108\";2) = **FN**\n- IT023 → LEFT(\"IT023\";2) = **IT**\n- HR007 → LEFT(\"HR007\";2) = **HR**\n- FN201 → LEFT(\"FN201\";2) = **FN**\n- IT056 → LEFT(\"IT056\";2) = **IT**\n\nWynik: IT (3 razy), HR (2 razy), FN (2 razy).\n\n**Wyjasnienie**: LEFT(A2;2) zwraca 2 pierwsze znaki z tekstu w komorce A2. Funkcja LEFT jest uzyteczna do parsowania kodow, gdzie poczatkowe znaki reprezentuja kategorie. Analogicznie RIGHT zwraca znaki od konca, a MID z dowolnej pozycji.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie MID zamiast LEFT**: MID(A2;1;2) tez zadziala, ale LEFT jest prostsza i bardziej czytelna dla poczatkowych znakow",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Bledna liczba znakow**: LEFT(A2;3) zwroci \"IT0\" zamiast \"IT\" — trzeba dokladnie policzyc znaki kodu dzialu",
+      "kara": "-1 pkt"
+    }
+  ]
+}

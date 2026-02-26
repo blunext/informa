@@ -1,0 +1,29 @@
+{
+  "id": "16.18",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2024 (Hurtownia — rabaty narastajace)",
+  "tagi": [
+    "SUM-kumulacyjna",
+    "IF-warunkowy",
+    "odwolanie-bezwzgledne",
+    "prog-warunkowy"
+  ],
+  "tresc": "Klient kupuje towary w hurtowni. Po przekroczeniu lacznej kwoty 500 zl otrzymuje 10% rabatu na kolejne zakupy. Arkusz sledzi kumulacje i rabat:\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Zakup** | **Kwota** | **Kumulacja** | **Rabat (%)** | **Do zaplaty** |\n| 2 | 1 | 180 | ? | ? | ? |\n| 3 | 2 | 220 | ? | ? | ? |\n| 4 | 3 | 150 | ? | ? | ? |\n| 5 | 4 | 90 | ? | ? | ? |\n| 6 | 5 | 200 | ? | ? | ? |\n\nProg rabatowy w G1: **500**. Rabat w G2: **10%**.\n\n**Polecenie**:\n1. W kolumnie C oblicz kumulacje (narastajaca suma zakupow).\n2. W kolumnie D wpisz rabat: 10% jesli kumulacja >= 500, 0% w przeciwnym razie.\n3. W kolumnie E oblicz kwote do zaplaty po rabacie.",
+  "wskazowki": [
+    "**Kierunek**: Kumulacja to SUM z rozszerzajacym zakresem. Rabat zalezy od kumulacji PRZED biezacym zakupem czy PO? Tutaj PO (wlacznie z biezacym).",
+    "**Podejscie**: C2: =SUM($B$2:B2). D2: =IF(C2>=$G$1;$G$2;0). E2: =B2*(1-D2).",
+    "**Kluczowy krok**: Rozszerzajacy zakres $B$2:B2 — poczatek zakotwiczony, koniec wzgledny."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nC2: =SUM($B$2:B2)\nD2: =IF(C2>=$G$1;$G$2;0)\nE2: =B2*(1-D2)\n```\n\n**Wypelniona tabela:**\n\n| Zakup | Kwota | Kumulacja | Rabat (%) | Do zaplaty |\n|-------|-------|-----------|-----------|------------|\n| 1 | 180 | 180 | 0% | 180 |\n| 2 | 220 | 400 | 0% | 220 |\n| 3 | 150 | 550 | 10% | 135 |\n| 4 | 90 | 640 | 10% | 81 |\n| 5 | 200 | 840 | 10% | 180 |\n\n**Weryfikacja krok po kroku:**\n- C2: SUM(B2:B2) = 180. 180 < 500 → D2=0%. E2: 180×1 = 180\n- C3: SUM(B2:B3) = 180+220 = 400. 400 < 500 → D3=0%. E3: 220×1 = 220\n- C4: SUM(B2:B4) = 400+150 = 550. 550 >= 500 → D4=10%. E4: 150×0.9 = 135\n- C5: SUM(B2:B5) = 550+90 = 640. 640 >= 500 → D5=10%. E5: 90×0.9 = 81\n- C6: SUM(B2:B6) = 640+200 = 840. 840 >= 500 → D6=10%. E6: 200×0.9 = 180\n\n**Wyjasnienie**: Rozszerzajacy zakres SUM($B$2:B2) tworzy sume narastajaca — poczatek jest zakotwiczony ($B$2), koniec przesuwa sie w dol. Rabat aktywuje sie od zakupu 3, gdy kumulacja przekracza prog.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak $ na poczatku zakresu**: =SUM(B2:B2) po skopiowaniu do wiersza 4 stanie sie =SUM(B4:B4) zamiast =SUM(B2:B4)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Rabat od calej kumulacji zamiast od biezacego zakupu**: E2: =C2*0.9 zamiast =B2*0.9 — rabat dotyczy tylko biezacej kwoty",
+      "kara": "-1 pkt"
+    }
+  ]
+}

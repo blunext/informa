@@ -1,0 +1,20 @@
+{
+  "id": "18.13",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna (pogoda)",
+  "tagi": ["SUM", "MAX", "MIN"],
+  "tresc": "Stacja meteorologiczna zanotowala opady deszczu (w mm) w ciagu 5 dni:\n\n| | A | B |\n|---|---|---|\n| 1 | **Dzien** | **Opady (mm)** |\n| 2 | Pon | 12 |\n| 3 | Wt | 0 |\n| 4 | Sr | 25 |\n| 5 | Czw | 8 |\n| 6 | Pt | 18 |\n\n**Polecenie**: Napisz formuly obliczajace:\n1. Laczna ilosc opadow w ciagu 5 dni.\n2. Dzien z najwiekszymi opadami (wartosc liczbowa).\n3. Dzien z najmniejszymi opadami (wartosc liczbowa).",
+  "wskazowki": [
+    "**Kierunek**: Uzyj SUM do sumy, MAX do maksimum, MIN do minimum.",
+    "**Podejscie**: Zakres danych to B2:B6 — pieciu komorek z wartosciami opadow.",
+    "**Kluczowy krok**: MIN zwroci 0 (wtorek bez opadow) — to poprawny wynik."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nLaczne opady:     =SUM(B2:B6)\nNajwieksze opady: =MAX(B2:B6)\nNajmniejsze:      =MIN(B2:B6)\n```\n\n**Weryfikacja:**\n- Wartosci: 12, 0, 25, 8, 18\n- Suma: 12+0+25+8+18 = **63**\n- Max: **25** (Sroda)\n- Min: **0** (Wtorek)\n\n**Wyjasnienie**: SUM dodaje wszystkie wartosci w zakresie, wlaczajac zera. MAX i MIN znajduja ekstrema. Uwaga: MIN uwzglednia zero jako wartosc — jesli chcielibysmy pominac dni bez opadow, musielibysmy uzyc innego podejscia (np. MINIFS).",
+  "typowe_bledy": [
+    {
+      "opis": "**Pominiecie zera**: Wtorek (0 mm) to poprawna wartosc — MIN powinno zwrocic 0, nie 8",
+      "kara": "-1 pkt"
+    }
+  ]
+}

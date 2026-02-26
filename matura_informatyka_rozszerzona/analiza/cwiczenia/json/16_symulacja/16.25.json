@@ -1,0 +1,34 @@
+{
+  "id": "16.25",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2025 (energia elektryczna)",
+  "tagi": [
+    "IF-zagniezdzony",
+    "SUM-kumulacyjna",
+    "odwolanie-bezwzgledne",
+    "prog-warunkowy",
+    "symulacja-krokowa"
+  ],
+  "tresc": "Dostawca energii elektrycznej stosuje taryfe progresywna. Cena za kWh zalezy od lacznego zuzycia w roku:\n- do 500 kWh: 0,60 zl/kWh\n- od 501 do 1200 kWh: 0,85 zl/kWh\n- powyzej 1200 kWh: 1,10 zl/kWh\n\nProgi: G1 = 500, G2 = 1200. Ceny: H1 = 0,60, H2 = 0,85, H3 = 1,10.\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Miesiac** | **Zuzycie (kWh)** | **Kumulacja** | **Stawka** | **Rachunek** |\n| 2 | Styczen | 180 | ? | ? | ? |\n| 3 | Luty | 160 | ? | ? | ? |\n| 4 | Marzec | 200 | ? | ? | ? |\n| 5 | Kwiecien | 120 | ? | ? | ? |\n| 6 | Maj | 150 | ? | ? | ? |\n| 7 | Czerwiec | 180 | ? | ? | ? |\n| 8 | Lipiec | 220 | ? | ? | ? |\n\n**Polecenie**:\n1. W C2 oblicz kumulacje (narastajaca suma zuzycia).\n2. W D2 wpisz stawke: 0,60 jesli kumulacja <= 500; 0,85 jesli kumulacja <= 1200; 1,10 w przeciwnym razie.\n3. W E2 oblicz rachunek = zuzycie * stawka.\n4. Wypelnij tabele. W ktorym miesiacu stawka zmienia sie po raz pierwszy?",
+  "wskazowki": [
+    "**Kierunek**: Kumulacja decyduje o stawce. Jesli laczne zuzycie przekroczy prog, caly biezacy miesiac jest w wyzszej stawce (uproszczenie — w praktyce byloby rozdzielenie).",
+    "**Podejscie**: C2: =SUM($B$2:B2). D2: =IF(C2<=$G$1;$H$1;IF(C2<=$G$2;$H$2;$H$3)). E2: =B2*D2.",
+    "**Kluczowy krok**: IF zagniezdzony: najpierw sprawdz najnizszy prog, potem sredni, a w else — najwyzszy. Kolejnosc warunkow jest kluczowa."
+  ],
+  "odpowiedz": "**Formuly (wiersz 2, kopiowane w dol):**\n```\nC2: =SUM($B$2:B2)\nD2: =IF(C2<=$G$1;$H$1;IF(C2<=$G$2;$H$2;$H$3))\nE2: =B2*D2\n```\n\n**Wypelniona tabela:**\n\n| Miesiac | Zuzycie | Kumulacja | Stawka | Rachunek |\n|---------|---------|-----------|--------|----------|\n| Styczen | 180 | 180 | 0,60 | 108,00 |\n| Luty | 160 | 340 | 0,60 | 96,00 |\n| Marzec | 200 | 540 | 0,85 | 170,00 |\n| Kwiecien | 120 | 660 | 0,85 | 102,00 |\n| Maj | 150 | 810 | 0,85 | 127,50 |\n| Czerwiec | 180 | 990 | 0,85 | 153,00 |\n| Lipiec | 220 | 1210 | 1,10 | 242,00 |\n\n**Weryfikacja krok po kroku:**\n- Styczen: C2=180. 180 <= 500 → D2=0.60. E2=180*0.60=108.00\n- Luty: C3=180+160=340. 340 <= 500 → D3=0.60. E3=160*0.60=96.00\n- Marzec: C4=340+200=540. 540 > 500 i 540 <= 1200 → D4=0.85. E4=200*0.85=170.00\n- Kwiecien: C5=540+120=660. 660 <= 1200 → D5=0.85. E5=120*0.85=102.00\n- Maj: C6=660+150=810. 810 <= 1200 → D6=0.85. E6=150*0.85=127.50\n- Czerwiec: C7=810+180=990. 990 <= 1200 → D7=0.85. E7=180*0.85=153.00\n- Lipiec: C8=990+220=1210. 1210 > 1200 → D8=1.10. E8=220*1.10=242.00\n\nStawka zmienia sie po raz pierwszy w **marcu** (z 0,60 na 0,85) i ponownie w **lipcu** (z 0,85 na 1,10).\n\n**Wyjasnienie**: Taryfa progresywna to IF zagniezdzony z dwoma progami. Kumulacja (SUM z rozszerzajacym zakresem) decyduje, do ktorego progu nalezysz. To uproszczony model — w rzeczywistosci nadwyzka ponad prog jest liczona w wyzszej stawce, a reszta w nizszej. Na maturze zwykle stosuje sie uproszczenie, ze caly miesiac ma jedna stawke.",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwrotna kolejnosc w IF zagniezdzonym**: Sprawdzenie najpierw najwyzszego progu (>1200), potem najnizszego — logicznie poprawne, ale latwo o blad w else. Bezpieczniej od najnizszego.",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Uzycie zuzycia miesiecznego zamiast kumulacji w warunku**: D2: =IF(B2<=500;0.60;...) — sprawdza tylko biezacy miesiac, nie narastajace zuzycie.",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak zakotwiczenia progow**: =IF(C2<=G1;...) — po skopiowaniu G1 staje sie G2, G3 itd., dajac bledne progi.",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "17.31",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "ogolna (odzywianie)",
+  "tagi": ["wykres-grupowany", "wykres-kolowy", "procent-udzialu", "legenda"],
+  "tresc": "Sklad odzywczy 3 popularnych posilkow (w gramach na porcje):\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Skladnik** | **Salatka** | **Kanapka** | **Pizza** |\n| 2 | Bialko | 15 | 22 | 28 |\n| 3 | Tluszcze | 8 | 18 | 35 |\n| 4 | Weglowodany | 12 | 40 | 55 |\n| 5 | Blonnik | 5 | 3 | 2 |\n\n**Polecenie**:\n1. Opisz wykres kolumnowy grupowany porownujacy sklad odzywczy 3 posilkow.\n2. Dla pizzy opisz wykres kolowy udzialu skladnikow.\n3. Ktory posilek ma najwyzszy udzial bialka w stosunku do calkowitej masy skladnikow?",
+  "wskazowki": [
+    "**Kierunek**: Grupowany: os X = skladniki, 3 serie (posilki). Kolowy: 4 wycinski (skladniki pizzy).",
+    "**Podejscie**: Udzial bialka = bialko / suma_skladnikow * 100%. Oblicz dla kazdego posilku.",
+    "**Kluczowy krok**: Suma skladnikow rozni sie miedzy posilkami — porownuj procenty, nie gramy."
+  ],
+  "odpowiedz": "**1. Wykres kolumnowy grupowany:**\n\n- Typ: Clustered column\n- Os X: A2:A5 (skladniki: Bialko, Tluszcze, Weglowodany, Blonnik)\n- Seria 1: B2:B5 (Salatka) — zielony\n- Seria 2: C2:C5 (Kanapka) — zloty\n- Seria 3: D2:D5 (Pizza) — czerwony\n- Tytul: \"Sklad odzywczy posilkow (g/porcje)\"\n- Os Y: \"Masa (g)\", Legenda\n\n**2. Wykres kolowy — Pizza:**\n\n- Typ: Kolowy\n- Kategorie: A2:A5, Wartosci: D2:D5\n- Tytul: \"Sklad odzywczy pizzy\"\n\nSuma pizzy: 28+35+55+2 = **120 g**\n\n| Skladnik | Masa (g) | Udzial |\n|----------|----------|--------|\n| Bialko | 28 | 23.3% |\n| Tluszcze | 35 | 29.2% |\n| Weglowodany | 55 | 45.8% |\n| Blonnik | 2 | 1.7% |\n\n**3. Udzial bialka w kazdym posilku:**\n\n| Posilek | Bialko | Suma | Udzial bialka |\n|---------|--------|------|---------------|\n| Salatka | 15 | 40 | **37.5%** |\n| Kanapka | 22 | 83 | 26.5% |\n| Pizza | 28 | 120 | 23.3% |\n\nNajwyzszy udzial bialka: **Salatka (37.5%)** — mimo ze ma najmniej bialka w gramach (15 g), ma najwyzszy udzial procentowy, bo calkowita masa jest najnizsza.\n\n**Wyjasnienie**: Wykres grupowany uwidacznia roznice w wartosciach bezwzglednych, a kolowy — w proporcjach. Porownanie procentowe daje inny wynik niz bezwzgledne — na maturze trzeba uwaznie czytac, o co pyta zadanie.",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownywanie gramow zamiast procentow**: Pizza ma najwiecej bialka (28 g), ale nie ma najwyzszego udzialu procentowego",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Zamiana osi na wykresie grupowanym**: Skladniki powinny byc na osi X (kategorie), posilki jako serie (nie odwrotnie)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "17.29",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "ogolna (edukacja)",
+  "tagi": ["wykres-grupowany", "wykres-skumulowany", "legenda", "seria-danych", "odczyt-z-wykresu"],
+  "tresc": "Wyniki matury z informatyki rozszerzonej w 4 szkolach (liczba uczniow wg przedzialu wynikow):\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Szkola** | **0-30%** | **31-50%** | **51-70%** | **71-100%** |\n| 2 | LO nr 1 | 5 | 12 | 18 | 15 |\n| 3 | LO nr 2 | 8 | 15 | 14 | 8 |\n| 4 | LO nr 3 | 3 | 8 | 20 | 24 |\n| 5 | Technikum | 12 | 18 | 10 | 5 |\n\n**Polecenie**:\n1. Opisz wykres kolumnowy grupowany porownujacy rozklady wynikow 4 szkol.\n2. Opisz alternatywny wykres skumulowany 100% — ktory typ lepiej pasuje do tego porownania i dlaczego?\n3. Ktora szkola miala najwyzszy odsetek uczniow z wynikiem powyzej 50%?",
+  "wskazowki": [
+    "**Kierunek**: Dwa podejscia: grupowany (porownanie wartosci bezwzglednych) vs skumulowany 100% (porownanie struktury).",
+    "**Podejscie**: Odsetek > 50% = (51-70% + 71-100%) / suma * 100%. Oblicz dla kazdej szkoly.",
+    "**Kluczowy krok**: Skumulowany 100% lepiej porownuje struktury, gdy szkoly maja rozna liczbe uczniow."
+  ],
+  "odpowiedz": "**1. Wykres kolumnowy grupowany:**\n\n- Typ: Clustered column\n- Os X: A2:A5 (szkoly)\n- Seria 1: B2:B5 (0-30%) — czerwony\n- Seria 2: C2:C5 (31-50%) — pomaranczowy\n- Seria 3: D2:D5 (51-70%) — zolty\n- Seria 4: E2:E5 (71-100%) — zielony\n- Tytul: \"Wyniki matury z informatyki wg szkol\"\n- Os Y: \"Liczba uczniow\", Legenda\n\n**2. Wykres skumulowany 100%:**\n\n- Typ: 100% stacked column\n- Te same dane, ale kazdy slupek = 100%, warstwy pokazuja udzial przedzialu\n- Tytul: \"Struktura wynikow matury z informatyki\"\n\n**Ktory lepszy?** Wykres **skumulowany 100%** lepiej pasuje, poniewaz szkoly maja rozna liczbe uczniow (50, 45, 55, 45). Grupowany pokazuje wartosci bezwzgledne — faworyzuje szkoly z wieksza liczba uczniow. Skumulowany 100% normalizuje do jednej skali.\n\n**3. Odsetek uczniow z wynikiem > 50%:**\n\n| Szkola | Suma | >50% (51-70%+71-100%) | Odsetek |\n|--------|------|-----------------------|---------|\n| LO nr 1 | 50 | 18+15=33 | 66.0% |\n| LO nr 2 | 45 | 14+8=22 | 48.9% |\n| LO nr 3 | 55 | 20+24=44 | **80.0%** |\n| Technikum | 45 | 10+5=15 | 33.3% |\n\nNajwyzszy odsetek > 50%: **LO nr 3 (80.0%)**\n\n**Wyjasnienie**: Wybor miedzy wykresem grupowanym a skumulowanym 100% zalezy od celu analizy. Grupowany — porownanie wartosci bezwzglednych. Skumulowany 100% — porownanie struktury procentowej (zwlaszcza gdy grupy maja rozna wielkosc).",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownywanie wartosci bezwzglednych zamiast procentowych**: LO nr 3 ma 44 uczniow > 50%, ale tez ma najwiecej uczniow ogolem — wazny jest odsetek",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak uzasadnienia wyboru typu wykresu**: Trzeba wyjasnit, dlaczego skumulowany 100% jest lepszy (rozna liczba uczniow)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

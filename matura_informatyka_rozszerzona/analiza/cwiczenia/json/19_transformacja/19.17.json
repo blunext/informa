@@ -1,0 +1,27 @@
+{
+  "id": "19.17",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "konkatenacja",
+    "LEFT-RIGHT-MID"
+  ],
+  "tresc": "Szkola tworzy identyfikatory uczniow z danych osobowych:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Imie** | **Nazwisko** | **Rok urodzenia** | **Identyfikator** |\n| 2 | Jan | Kowalski | 2008 | ? |\n| 3 | Anna | Nowak | 2007 | ? |\n| 4 | Piotr | Wisniewski | 2008 | ? |\n| 5 | Maria | Kaminska | 2009 | ? |\n| 6 | Adam | Lewandowski | 2007 | ? |\n\nIdentyfikator ma format: pierwsze 3 litery nazwiska + ostatnie 2 cyfry roku urodzenia (np. \"Kow08\" dla Jana Kowalskiego).\n\n**Polecenie**: Napisz formule w D2, ktora utworzy identyfikator. Formula powinna dzialac po skopiowaniu w dol.",
+  "wskazowki": [
+    "**Kierunek**: Laczenie tekstu — uzyj operatora & lub funkcji CONCATENATE.",
+    "**Podejscie**: LEFT(B2;3) da pierwsze 3 litery nazwiska. RIGHT(C2;2) da ostatnie 2 cyfry roku.",
+    "**Kluczowy krok**: Polacz oba fragmenty operatorem &: LEFT(B2;3)&RIGHT(C2;2)."
+  ],
+  "odpowiedz": "**Formula (D2, kopiowana w dol):**\n```\nD2: =LEFT(B2;3)&RIGHT(C2;2)\n```\n\n**Weryfikacja:**\n- Jan Kowalski 2008: LEFT(\"Kowalski\";3)&RIGHT(\"2008\";2) = \"Kow\"&\"08\" = **Kow08**\n- Anna Nowak 2007: LEFT(\"Nowak\";3)&RIGHT(\"2007\";2) = \"Now\"&\"07\" = **Now07**\n- Piotr Wisniewski 2008: LEFT(\"Wisniewski\";3)&RIGHT(\"2008\";2) = \"Wis\"&\"08\" = **Wis08**\n- Maria Kaminska 2009: LEFT(\"Kaminska\";3)&RIGHT(\"2009\";2) = \"Kam\"&\"09\" = **Kam09**\n- Adam Lewandowski 2007: LEFT(\"Lewandowski\";3)&RIGHT(\"2007\";2) = \"Lew\"&\"07\" = **Lew07**\n\n**Wyjasnienie**: Operator & laczy teksty (konkatenacja). LEFT(B2;3) pobiera 3 pierwsze znaki nazwiska, RIGHT(C2;2) pobiera 2 ostatnie znaki roku. Jesli rok jest liczba (nie tekstem), RIGHT automatycznie konwertuje go na tekst. Alternatywnie mozna uzyc: =LEFT(B2;3)&TEXT(C2;\"00\") aby wymusic format dwucyfrowy.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie + zamiast &**: Operator + dodaje liczby, nie laczy teksty. LEFT(B2;3)+RIGHT(C2;2) da blad #VALUE!",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**RIGHT z roku calkowitego**: Jesli rok to liczba 2008, RIGHT(2008;2) moze wymagac konwersji na tekst — w praktyce Excel/Calc robi to automatycznie, ale warto wiedziec",
+      "kara": "-0 pkt"
+    }
+  ]
+}

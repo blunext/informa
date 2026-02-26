@@ -1,0 +1,24 @@
+{
+  "id": "17.24",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "ogolna (e-commerce)",
+  "tagi": ["wykres-kombinowany", "dwie-osie-Y", "wykres-liniowy", "wykres-kolumnowy"],
+  "tresc": "Dane o sprzedazy sklepu internetowego w 6 miesiacach:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Miesiac** | **Przychod (tys. zl)** | **Liczba zamowien** |\n| 2 | Styczen | 180 | 420 |\n| 3 | Luty | 150 | 380 |\n| 4 | Marzec | 210 | 510 |\n| 5 | Kwiecien | 195 | 470 |\n| 6 | Maj | 240 | 580 |\n| 7 | Czerwiec | 220 | 530 |\n\n**Polecenie**:\n1. Opisz wykres kombinowany: slupki przychodu (os lewa) + linia zamowien (os prawa).\n2. Oblicz srednia wartosc zamowienia w kazdym miesiacu (przychod / liczba zamowien * 1000).\n3. W ktorym miesiacu srednia wartosc zamowienia byla najwyzsza?",
+  "wskazowki": [
+    "**Kierunek**: Wykres kombinowany — slupki i linia na jednym wykresie, ale z roznymi skalami (tys. zl vs sztuki).",
+    "**Podejscie**: Przychod (setki tys.) i zamowienia (setki) maja rozne rzedy wielkosci — potrzebne dwie osie Y.",
+    "**Kluczowy krok**: Srednia wartosc = przychod * 1000 / liczba zamowien (bo przychod jest w tys. zl)."
+  ],
+  "odpowiedz": "**1. Specyfikacja wykresu kombinowanego:**\n\n- Typ: Combo chart (slupki + linia) z dwiema osiami Y\n- Os X: A2:A7 (miesiace)\n- Seria 1 (slupki, os lewa): B2:B7 — Przychod (tys. zl), kolor niebieski, skala 0-300\n- Seria 2 (linia, os prawa): C2:C7 — Zamowienia, kolor czerwony z markerami, skala 0-700\n- Tytul: \"Przychod i liczba zamowien\"\n- Os lewa: \"Przychod (tys. zl)\", Os prawa: \"Liczba zamowien\"\n- Legenda u gory\n\n**2. Srednia wartosc zamowienia:**\n\n| Miesiac | Przychod (tys.) | Zamowienia | Srednia (zl) |\n|---------|-----------------|------------|--------------|\n| Styczen | 180 | 420 | 180000/420 = **428.57** |\n| Luty | 150 | 380 | 150000/380 = **394.74** |\n| Marzec | 210 | 510 | 210000/510 = **411.76** |\n| Kwiecien | 195 | 470 | 195000/470 = **414.89** |\n| Maj | 240 | 580 | 240000/580 = **413.79** |\n| Czerwiec | 220 | 530 | 220000/530 = **415.09** |\n\n**3. Najwyzsza srednia wartosc zamowienia:** **Styczen (428.57 zl)**\n\n**Wyjasnienie**: Wykres kombinowany z dwiema osiami Y jest niezbedny, gdy serie maja rozne jednostki (zl vs sztuki). Mimo ze styczen mial niski przychod i malo zamowien, srednia wartosc zamowienia byla najwyzsza — klienci kupowali drozsze produkty.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak przeliczenia jednostek**: Przychod jest w tys. zl — trzeba pomnozyc przez 1000 przed dzieleniem przez zamowienia",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Obie serie na jednej osi Y**: Przychod (150-240) i zamowienia (380-580) na jednej skali — wykres nieczytelny",
+      "kara": "-1 pkt"
+    }
+  ]
+}

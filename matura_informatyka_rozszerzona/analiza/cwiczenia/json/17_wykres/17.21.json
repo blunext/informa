@@ -1,0 +1,24 @@
+{
+  "id": "17.21",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "ogolna (zdrowie)",
+  "tagi": ["wykres-liniowy", "seria-danych", "legenda", "odczyt-z-wykresu"],
+  "tresc": "Pacjent mierzyl cisnienie krwi i tetno przez 7 dni rano:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Dzien** | **Cisnienie skurczowe (mmHg)** | **Tetno (uderzenia/min)** |\n| 2 | Pon | 135 | 78 |\n| 3 | Wt | 128 | 72 |\n| 4 | Sr | 140 | 82 |\n| 5 | Czw | 132 | 75 |\n| 6 | Pt | 138 | 80 |\n| 7 | Sob | 125 | 68 |\n| 8 | Nd | 130 | 74 |\n\n**Polecenie**: Opisz, jak utworzyc wykres liniowy z dwiema seriami danych (cisnienie i tetno) na jednym wykresie. Podaj specyfikacje. W ktorych dniach cisnienie przekroczylo 130 mmHg, a tetno bylo powyzej 75?",
+  "wskazowki": [
+    "**Kierunek**: Dwie linie na jednym wykresie — kazda seria ma wlasny kolor. Legenda rozroznia serie.",
+    "**Podejscie**: Sprawdz kazdy dzien: cisnienie > 130 ORAZ tetno > 75. Oba warunki musza byc spelnione jednoczesnie.",
+    "**Kluczowy krok**: Skale sa rozne (130 vs 75), ale obie sa w zakresie umozliwiajacym jedna os Y."
+  ],
+  "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres liniowy z markerami (dwie serie)\n2. **Dane**:\n   - Os X: zakres A2:A8 (dni tygodnia)\n   - Seria 1: B2:B8 (Cisnienie skurczowe) — kolor czerwony, linia ciagla\n   - Seria 2: C2:C8 (Tetno) — kolor niebieski, linia przerywana\n3. **Tytuly**:\n   - Tytul: \"Pomiary cisnienia i tetna — tydzien\"\n   - Os X: \"Dzien tygodnia\"\n   - Os Y: \"Wartosc pomiaru\"\n4. **Formatowanie**:\n   - Markery na obu liniach\n   - Legenda u gory: Cisnienie skurczowe, Tetno\n   - Os Y od 60 do 150\n   - Linie siatki poziomej\n\n**Analiza — dni spelniajace oba warunki (cisnienie > 130 i tetno > 75):**\n\n| Dzien | Cisnienie | > 130? | Tetno | > 75? | Oba? |\n|-------|-----------|--------|-------|-------|------|\n| Pon | 135 | TAK | 78 | TAK | **TAK** |\n| Wt | 128 | NIE | 72 | NIE | NIE |\n| Sr | 140 | TAK | 82 | TAK | **TAK** |\n| Czw | 132 | TAK | 75 | NIE | NIE |\n| Pt | 138 | TAK | 80 | TAK | **TAK** |\n| Sob | 125 | NIE | 68 | NIE | NIE |\n| Nd | 130 | NIE | 74 | NIE | NIE |\n\nDni spelniajace oba warunki: **Poniedzialek, Sroda, Piatek**\n\n**Wyjasnienie**: Wykres liniowy z dwiema seriami pozwala wizualnie sledzic, czy obie wielkosci rosna i maleja jednoczesnie. Markery i legenda sa niezbedne do identyfikacji serii.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pominięcie warunku koniunkcji**: Trzeba sprawdzic OBA warunki jednoczesnie, nie kazdy osobno",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak legendy**: Dwie linie bez legendy sa nierozrozniane — nie wiadomo, ktora to cisnienie, a ktora tetno",
+      "kara": "-1 pkt"
+    }
+  ]
+}

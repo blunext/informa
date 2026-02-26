@@ -1,0 +1,24 @@
+{
+  "id": "17.26",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "ogolna (jakosc powietrza)",
+  "tagi": ["wykres-kombinowany", "dwie-osie-Y", "wykres-kolumnowy", "wykres-liniowy", "odczyt-z-wykresu"],
+  "tresc": "Dane o jakosci powietrza w miescie (srednie miesieczne):\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Miesiac** | **PM2.5 (ug/m3)** | **Temp. srednia (°C)** |\n| 2 | Styczen | 48 | -3 |\n| 3 | Luty | 42 | -1 |\n| 4 | Marzec | 30 | 5 |\n| 5 | Kwiecien | 18 | 12 |\n| 6 | Maj | 12 | 17 |\n| 7 | Czerwiec | 10 | 21 |\n| 8 | Lipiec | 8 | 23 |\n| 9 | Sierpien | 9 | 22 |\n| 10 | Wrzesien | 15 | 16 |\n| 11 | Pazdziernik | 25 | 10 |\n| 12 | Listopad | 38 | 4 |\n| 13 | Grudzien | 52 | -2 |\n\n**Polecenie**:\n1. Opisz wykres kombinowany: slupki PM2.5 (os lewa) + linia temperatury (os prawa).\n2. W ktorych miesiacach PM2.5 przekracza norme WHO (15 ug/m3)?\n3. Czy widac korelacje miedzy temperatura a zanieczyszczeniem? Uzasadnij.",
+  "wskazowki": [
+    "**Kierunek**: Wykres kombinowany — PM2.5 (slupki) i temperatura (linia) maja rozne jednostki, potrzebne dwie osie.",
+    "**Podejscie**: Porownaj kierunek zmian: gdy temperatura rosnie, PM2.5 maleje (i odwrotnie) — to korelacja ujemna.",
+    "**Kluczowy krok**: Norma WHO PM2.5 = 15 ug/m3. Dodaj linie pozioma na wykresie jako odniesienie."
+  ],
+  "odpowiedz": "**1. Specyfikacja wykresu kombinowanego:**\n\n- Typ: Combo chart (slupki + linia) z dwiema osiami Y\n- Os X: A2:A13 (miesiace)\n- Seria 1 (slupki, os lewa): B2:B13 — PM2.5, kolor szary/czerwony, skala 0-60\n- Seria 2 (linia, os prawa): C2:C13 — Temperatura, kolor niebieski z markerami, skala -5 do 25\n- Linia odniesienia pozioma: 15 ug/m3 (norma WHO), przerywana, kolor czerwony\n- Tytul: \"Jakosc powietrza i temperatura — dane roczne\"\n- Os lewa: \"PM2.5 (ug/m3)\", Os prawa: \"Temperatura (°C)\"\n- Legenda u gory\n\n**2. Miesiace przekraczajace norme WHO (PM2.5 > 15 ug/m3):**\n\n| Miesiac | PM2.5 | > 15? |\n|---------|-------|-------|\n| Styczen | 48 | TAK |\n| Luty | 42 | TAK |\n| Marzec | 30 | TAK |\n| Kwiecien | 18 | TAK |\n| Maj | 12 | NIE |\n| Czerwiec | 10 | NIE |\n| Lipiec | 8 | NIE |\n| Sierpien | 9 | NIE |\n| Wrzesien | 15 | NIE (rowne 15, nie przekracza) |\n| Pazdziernik | 25 | TAK |\n| Listopad | 38 | TAK |\n| Grudzien | 52 | TAK |\n\nNorma przekroczona w **7 miesiacach**: Styczen, Luty, Marzec, Kwiecien, Pazdziernik, Listopad, Grudzien.\n\n**3. Korelacja temperatura-zanieczyszczenie:**\n\nWidac wyrazna **korelacje ujemna** — gdy temperatura rosnie (wiosna-lato), PM2.5 maleje; gdy temperatura spada (jesien-zima), PM2.5 rosnie. Przyczyna: w zimie grzanie domow (piece weglowe) generuje smog. Na wykresie: slupki PM2.5 sa najwyzsze tam, gdzie linia temperatury jest najnizsza.\n\n**Wyjasnienie**: Wykres kombinowany z linia odniesienia (norma) to czesty element maturalny. Pozwala wizualnie ocenic, ktore wartosci sa powyzej/ponizej progu.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak linii odniesienia normy WHO**: Linia przerywana na 15 ug/m3 ulatwia odczyt — bez niej trudniej ocenic przekroczenia",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Stwierdzenie korelacji dodatniej zamiast ujemnej**: Temperatura rosnie → PM2.5 maleje, to korelacja ujemna",
+      "kara": "-2 pkt"
+    }
+  ]
+}

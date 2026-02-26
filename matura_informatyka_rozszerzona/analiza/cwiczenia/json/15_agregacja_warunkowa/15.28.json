@@ -1,0 +1,29 @@
+{
+  "id": "15.28",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2024 (Hurtownia — VLOOKUP + SUMIF)",
+  "tagi": [
+    "SUMIFS",
+    "AVERAGEIFS",
+    "warunek-liczbowy",
+    "zakres-bezwzgledny"
+  ],
+  "tresc": "W arkuszu mamy dane o temperaturach w dwoch stacjach pogodowych przez 10 dni:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Dzien** | **Stacja** | **Temp. dzien (°C)** | **Temp. noc (°C)** |\n| 2 | 1 | Polnoc | 12 | 3 |\n| 3 | 1 | Poludnie | 18 | 8 |\n| 4 | 2 | Polnoc | 8 | -1 |\n| 5 | 2 | Poludnie | 15 | 5 |\n| 6 | 3 | Polnoc | 14 | 4 |\n| 7 | 3 | Poludnie | 22 | 10 |\n| 8 | 4 | Polnoc | 6 | -3 |\n| 9 | 4 | Poludnie | 13 | 3 |\n| 10 | 5 | Polnoc | 10 | 1 |\n| 11 | 5 | Poludnie | 20 | 9 |\n\n**Polecenie**:\n1. Oblicz srednia temperature dzienna stacji \"Polnoc\".\n2. Oblicz sume temperatur nocnych stacji \"Poludnie\" z dni, w ktorych temp. dzienna > 15.\n3. Ile razy temperatura nocna stacji \"Polnoc\" spadla ponizej 0?",
+  "wskazowki": [
+    "**Kierunek**: Punkt 1 to AVERAGEIFS. Punkt 2 laczy warunek tekstowy (stacja) z liczbowym (temp. dzienna > 15). Punkt 3 to COUNTIFS.",
+    "**Podejscie**: Punkt 2: =SUMIFS(D2:D11;B2:B11;\"Poludnie\";C2:C11;\">15\") — sumuje nocne temp. tam, gdzie dzienne > 15.",
+    "**Kluczowy krok**: Zwroc uwage, ze warunek \">15\" dotyczy KOLUMNY C (dzien), a sumujemy KOLUMNE D (noc) — rozne zakresy!"
+  ],
+  "odpowiedz": "**Formuly:**\n```\n1. =AVERAGEIFS(C2:C11;B2:B11;\"Polnoc\")\n2. =SUMIFS(D2:D11;B2:B11;\"Poludnie\";C2:C11;\">15\")\n3. =COUNTIFS(B2:B11;\"Polnoc\";D2:D11;\"<0\")\n```\n\n**Weryfikacja:**\n\nPunkt 1 — srednia temp. dzienna Polnoc:\n- Dzien 1: 12, Dzien 2: 8, Dzien 3: 14, Dzien 4: 6, Dzien 5: 10\n- Srednia: (12 + 8 + 14 + 6 + 10) / 5 = 50 / 5 = **10**\n\nPunkt 2 — suma nocnych Poludnie, gdzie dzienna > 15:\n- Dzien 1: Poludnie, dzien 18 > 15 ✓, noc 8\n- Dzien 3: Poludnie, dzien 22 > 15 ✓, noc 10\n- Dzien 5: Poludnie, dzien 20 > 15 ✓, noc 9\n- (Dzien 2: 15 — nie spelnia > 15; Dzien 4: 13 — nie)\n- Suma: 8 + 10 + 9 = **27**\n\nPunkt 3 — Polnoc + noc < 0:\n- Dzien 2: Polnoc, noc -1 < 0 ✓\n- Dzien 4: Polnoc, noc -3 < 0 ✓\n- (Dzien 1: 3, Dzien 3: 4, Dzien 5: 1 — wszystkie >= 0)\n- Wynik: **2**\n\n**Wyjasnienie**: Kluczowe jest rozroznienie zakresu kryterium od zakresu sumy/sredniej. W punkcie 2 filtrujemy po kolumnie C (temp. dzienna), ale sumujemy kolumne D (temp. nocna).",
+  "typowe_bledy": [
+    {
+      "opis": "**Sumowanie tej samej kolumny co kryterium**: =SUMIFS(C2:C11;B2:B11;\"Poludnie\";C2:C11;\">15\") — sumuje temp. dzienna zamiast nocnej",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pominięcie warunku >= 0**: =COUNTIFS(B2:B11;\"Polnoc\";D2:D11;\"<0\") jest poprawne, ale =COUNTIFS(B2:B11;\"Polnoc\";D2:D11;\"<=0\") wlaczyloby 0 stopni",
+      "kara": "-1 pkt"
+    }
+  ]
+}

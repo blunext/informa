@@ -1,0 +1,20 @@
+{
+  "id": "18.15",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna (transport)",
+  "tagi": ["SUM", "MAX"],
+  "tresc": "Firma kurierska zanotowala liczbe dostarczonych paczek w ciagu 5 dni roboczych:\n\n| | A | B |\n|---|---|---|\n| 1 | **Dzien** | **Paczki** |\n| 2 | Pon | 145 |\n| 3 | Wt | 132 |\n| 4 | Sr | 178 |\n| 5 | Czw | 156 |\n| 6 | Pt | 189 |\n\n**Polecenie**: Napisz formuly obliczajace:\n1. Laczna liczbe dostarczonych paczek w tygodniu.\n2. Rekordowa liczba paczek dostarczonych jednego dnia.",
+  "wskazowki": [
+    "**Kierunek**: SUM sumuje caly tydzien, MAX znajduje rekordowy dzien.",
+    "**Podejscie**: Zakres to B2:B6 — piec wartosci dziennych.",
+    "**Kluczowy krok**: MAX zwroci wartosc z piatku (189) — to dzien z najwieksza liczba paczek."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nLacznie:  =SUM(B2:B6)\nRekord:   =MAX(B2:B6)\n```\n\n**Weryfikacja:**\n- Wartosci: 145, 132, 178, 156, 189\n- Suma: 145+132+178+156+189 = **800**\n- Max: **189** (Piatek)\n\n**Wyjasnienie**: SUM zlicza laczna ilosc paczek w tygodniu. MAX identyfikuje dzien z najwyzsza produktywnoscia. Te dwie funkcje stanowia podstawe analizy danych w arkuszach kalkulacyjnych.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie MAX z MIN**: MAX to wartosc najwieksza (189), MIN to najmniejsza (132)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

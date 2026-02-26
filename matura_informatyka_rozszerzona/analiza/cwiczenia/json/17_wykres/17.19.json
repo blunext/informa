@@ -1,0 +1,24 @@
+{
+  "id": "17.19",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "ogolna (energia)",
+  "tagi": ["wykres-skumulowany", "legenda", "seria-danych", "procent-udzialu"],
+  "tresc": "Zuzycie energii elektrycznej w firmie z podzialem na zrodla (w MWh):\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Kwartal** | **Siec** | **Fotowoltaika** | **Generator** |\n| 2 | Q1 | 180 | 20 | 50 |\n| 3 | Q2 | 150 | 60 | 30 |\n| 4 | Q3 | 120 | 90 | 20 |\n| 5 | Q4 | 170 | 30 | 40 |\n\n**Polecenie**: Opisz, jak utworzyc wykres kolumnowy skumulowany pokazujacy calkowite zuzycie energii w kazdym kwartale z podzialem na zrodla. Podaj specyfikacje wykresu. W ktorym kwartale udzial fotowoltaiki byl najwyzszy?",
+  "wskazowki": [
+    "**Kierunek**: Wykres skumulowany — slupki ulozone jeden na drugim, kazdy kolor = inne zrodlo energii.",
+    "**Podejscie**: Trzy serie danych ulozone warstwowo. Wysokosc calego slupka = suma ze wszystkich zrodel.",
+    "**Kluczowy krok**: Aby obliczyc udzial fotowoltaiki, podziel jej wartosc przez sume wszystkich zrodel w danym kwartale."
+  ],
+  "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kolumnowy skumulowany (stacked column)\n2. **Dane**:\n   - Os X: zakres A2:A5 (kwartaly)\n   - Seria 1: B2:B5 (Siec) — np. kolor szary\n   - Seria 2: C2:C5 (Fotowoltaika) — np. kolor zolty\n   - Seria 3: D2:D5 (Generator) — np. kolor czerwony\n3. **Tytuly**:\n   - Tytul: \"Zuzycie energii wg zrodel (MWh)\"\n   - Os X: \"Kwartal\"\n   - Os Y: \"Zuzycie energii (MWh)\"\n4. **Formatowanie**:\n   - Trzy warstwy w kazdym slupku (Siec na dole, Fotowoltaika w srodku, Generator na gorze)\n   - Legenda u gory lub po prawej\n   - Etykiety danych w kazdej warstwie\n   - Os Y od 0 do 300\n\n**Obliczenie udzialu fotowoltaiki:**\n\n| Kwartal | Suma | Fotowoltaika | Udzial |\n|---------|------|-------------|--------|\n| Q1 | 250 | 20 | 8.0% |\n| Q2 | 240 | 60 | 25.0% |\n| Q3 | 230 | 90 | **39.1%** |\n| Q4 | 240 | 30 | 12.5% |\n\nNajwyzszy udzial fotowoltaiki: **Q3 (39.1%)** — w lecie naslonienie jest najwieksze.\n\n**Wyjasnienie**: Wykres skumulowany pokazuje zarowno calkowite zuzycie (wysokosc slupka), jak i udzial poszczegolnych zrodel (szerokosci warstw). Jest idealny do prezentacji struktury skladnikowej.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie wykresu grupowanego zamiast skumulowanego**: Grupowany nie pokazuje sumy — nie widac calkowitego zuzycia",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne obliczenie udzialu procentowego**: Trzeba dzielic przez sume w danym kwartale, nie przez wartosc z jednego zrodla",
+      "kara": "-1 pkt"
+    }
+  ]
+}

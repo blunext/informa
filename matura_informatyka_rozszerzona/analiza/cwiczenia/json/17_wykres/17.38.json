@@ -1,0 +1,28 @@
+{
+  "id": "17.38",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "ogolna (budowy)",
+  "tagi": ["wykres-skumulowany", "wykres-grupowany", "seria-danych", "legenda", "odczyt-z-wykresu"],
+  "tresc": "Liczba oddanych mieszkan w 3 miastach wg kategorii inwestora:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Miasto** | **Deweloperzy** | **Spoldzielnie** | **Indywidualni** |\n| 2 | Warszawa | 15200 | 1800 | 3200 |\n| 3 | Krakow | 8500 | 900 | 2100 |\n| 4 | Wroclaw | 7200 | 700 | 1800 |\n| 5 | Gdansk | 6800 | 600 | 1500 |\n| 6 | Poznan | 5100 | 500 | 1400 |\n\n**Polecenie**:\n1. Opisz wykres kolumnowy skumulowany (calkowita liczba mieszkan z podzialem na inwestorow).\n2. Opisz alternatywny wykres grupowany.\n3. Ktory typ wykresu lepiej odpowiada na pytanie: \"Ktore miasto oddalo najwiecej mieszkan?\" A ktory na: \"Ktory inwestor dominuje w Krakowie?\" Uzasadnij.\n4. Oblicz udzial deweloperow w kazdym miescie. Czy struktura jest podobna?",
+  "wskazowki": [
+    "**Kierunek**: Skumulowany — porownanie sum. Grupowany — porownanie poszczegolnych kategorii inwestorow.",
+    "**Podejscie**: Skumulowany lepszy do sum (wysokosc slupka = total). Grupowany lepszy do porownania jednej kategorii.",
+    "**Kluczowy krok**: Udzial deweloperow = deweloperzy / suma_miasta * 100%. Porownaj miedzy miastami."
+  ],
+  "odpowiedz": "**1. Wykres kolumnowy skumulowany:**\n\n- Typ: Stacked column (3 warstwy)\n- Os X: A2:A6 (miasta)\n- Seria 1: B2:B6 (Deweloperzy) — niebieski\n- Seria 2: C2:C6 (Spoldzielnie) — zielony\n- Seria 3: D2:D6 (Indywidualni) — pomaranczowy\n- Tytul: \"Oddane mieszkania wg miasta i inwestora\"\n- Os Y: \"Liczba mieszkan\", Legenda\n\n**2. Wykres kolumnowy grupowany:**\n\n- Typ: Clustered column (3 slupki obok siebie)\n- Te same dane, ale slupki nie sa ulozone na sobie\n- Pozwala porownac wartosci poszczegolnych inwestorow bezposrednio\n\n**3. Wybor typu wykresu:**\n\n- **\"Ktore miasto oddalo najwiecej?\"** → **Skumulowany** — wysokosc calego slupka = total. Latwo porownac sumy.\n- **\"Ktory inwestor dominuje w Krakowie?\"** → **Grupowany** — slupki obok siebie pozwalaja porownac wartosci poszczegolnych inwestorow bez nakladania sie warstw.\n\n**4. Udzial deweloperow:**\n\n| Miasto | Dew. | Suma | Udzial dew. |\n|--------|------|------|-------------|\n| Warszawa | 15200 | 20200 | 75.2% |\n| Krakow | 8500 | 11500 | 73.9% |\n| Wroclaw | 7200 | 9700 | 74.2% |\n| Gdansk | 6800 | 8900 | 76.4% |\n| Poznan | 5100 | 7000 | 72.9% |\n\nStruktura jest **bardzo podobna** — udzial deweloperow wynosi 72.9-76.4% we wszystkich miastach (roznica < 4 pp). Deweloperzy dominuja wszedzie z udzialem ok. 3/4.\n\n**Wyjasnienie**: Wykres skumulowany i grupowany to dwa podejscia do tych samych danych. Na maturze kluczowe jest uzasadnienie, DLACZEGO dany typ wykresu lepiej odpowiada na konkretne pytanie.",
+  "typowe_bledy": [
+    {
+      "opis": "**Stwierdzenie, ze oba typy sa rownie dobre**: Kazdy typ ma swoje zalety — trzeba dopasowac do pytania",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak uzasadnienia wyboru**: Samo wskazanie typu bez wyjasnienia dlaczego jest niepelna odpowiedz",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne obliczenie sum**: Suma = deweloperzy + spoldzielnie + indywidualni (3 skladniki, nie 2)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

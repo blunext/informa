@@ -1,0 +1,28 @@
+{
+  "id": "19.30",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "INDEX-MATCH",
+    "VLOOKUP",
+    "kolumna-pomocnicza"
+  ],
+  "tresc": "Restauracja ma cennik dan w tabeli krzyzowej (ceny zalezy od rozmiaru porcji):\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Danie \\ Rozmiar** | **Mala** | **Srednia** | **Duza** |\n| 2 | Pizza | 18 | 28 | 38 |\n| 3 | Burger | 15 | 22 | 30 |\n| 4 | Salatka | 12 | 18 | 25 |\n| 5 | Makaron | 16 | 24 | 32 |\n\nZamowienia:\n\n| | F | G | H | I | J |\n|---|---|---|---|---|---|\n| 1 | **Stolik** | **Danie** | **Rozmiar** | **Ilosc** | **Wartosc** |\n| 2 | 1 | Pizza | Duza | 2 | ? |\n| 3 | 1 | Salatka | Mala | 1 | ? |\n| 4 | 2 | Burger | Srednia | 3 | ? |\n| 5 | 2 | Makaron | Duza | 1 | ? |\n| 6 | 3 | Pizza | Srednia | 2 | ? |\n| 7 | 3 | Burger | Mala | 1 | ? |\n\n**Polecenie**: Napisz formule w J2, ktora obliczy wartosc pozycji zamowienia = ilosc × cena (cene wyszukaj INDEX+MATCH z tabeli krzyzowej). Formula powinna dzialac po skopiowaniu w dol.",
+  "wskazowki": [
+    "**Kierunek**: INDEX+MATCH wyszuka cene z dwuwymiarowej tabeli, potem pomnoz przez ilosc.",
+    "**Podejscie**: J2: =I2*INDEX($B$2:$D$5;MATCH(G2;$A$2:$A$5;0);MATCH(H2;$B$1:$D$1;0)).",
+    "**Kluczowy krok**: INDEX+MATCH w srodku wyrazenia arytmetycznego — najpierw wyszukuje cene, potem mnozy."
+  ],
+  "odpowiedz": "**Formula (J2, kopiowana w dol):**\n```\nJ2: =I2*INDEX($B$2:$D$5;MATCH(G2;$A$2:$A$5;0);MATCH(H2;$B$1:$D$1;0))\n```\n\n**Weryfikacja:**\n\n| Danie | Rozmiar | Cena | Ilosc | Wartosc |\n|-------|---------|------|-------|---------|\n| Pizza | Duza | 38 | 2 | 76 |\n| Salatka | Mala | 12 | 1 | 12 |\n| Burger | Srednia | 22 | 3 | 66 |\n| Makaron | Duza | 32 | 1 | 32 |\n| Pizza | Srednia | 28 | 2 | 56 |\n| Burger | Mala | 15 | 1 | 15 |\n\nKontrola z tabela cennikowa:\n- Pizza Duza = 38 ✓, Salatka Mala = 12 ✓, Burger Srednia = 22 ✓\n- Makaron Duza = 32 ✓, Pizza Srednia = 28 ✓, Burger Mala = 15 ✓\n\nSuma zamowien: 76 + 12 + 66 + 32 + 56 + 15 = **257 zl**\n\nSumy per stolik: Stolik 1 = 76+12 = 88, Stolik 2 = 66+32 = 98, Stolik 3 = 56+15 = 71\nKontrola: 88+98+71 = 257 ✓\n\n**Wyjasnienie**: INDEX+MATCH pozwala wyszukac cene z tabeli 2D (danie×rozmiar), a nastepnie pomnozyc przez ilosc. To rozszerzenie wzorca z cwiczenia 19.9 — dodano mnozenie. Jedna formula zastepuje dwie operacje: wyszukanie ceny i obliczenie wartosci.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie kolejnosci MATCH**: Pierwszy MATCH szuka dania (wiersz), drugi rozmiaru (kolumna). Zamiana da bledne ceny",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak mnozenia przez ilosc**: INDEX+MATCH zwraca cene jednostkowa — trzeba jeszcze pomnozyc przez I2",
+      "kara": "-1 pkt"
+    }
+  ]
+}

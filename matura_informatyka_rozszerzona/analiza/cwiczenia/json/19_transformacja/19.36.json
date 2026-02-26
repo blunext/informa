@@ -1,0 +1,29 @@
+{
+  "id": "19.36",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "INDEX-MATCH",
+    "VLOOKUP",
+    "TEXT",
+    "konkatenacja"
+  ],
+  "tresc": "Firma logistyczna ma tabele kosztow dostawy (zl/kg) zaleznych od strefy i typu przesylki:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Strefa \\ Typ** | **Standard** | **Express** | **Nocna** |\n| 2 | Lokalna | 5 | 12 | 18 |\n| 3 | Regionalna | 8 | 18 | 28 |\n| 4 | Krajowa | 12 | 25 | 40 |\n| 5 | Miedzynarodowa | 20 | 45 | 70 |\n\nLista przesylek:\n\n| | F | G | H | I | J | K |\n|---|---|---|---|---|---|---|\n| 1 | **Nr** | **Strefa** | **Typ** | **Waga (kg)** | **Koszt** | **Etykieta** |\n| 2 | 1 | Regionalna | Express | 3.5 | ? | ? |\n| 3 | 2 | Lokalna | Standard | 8.0 | ? | ? |\n| 4 | 3 | Krajowa | Nocna | 2.0 | ? | ? |\n| 5 | 4 | Miedzynarodowa | Standard | 5.5 | ? | ? |\n| 6 | 5 | Regionalna | Nocna | 1.5 | ? | ? |\n| 7 | 6 | Krajowa | Express | 4.0 | ? | ? |\n| 8 | 7 | Lokalna | Nocna | 6.0 | ? | ? |\n\n**Polecenie**:\n1. W J2 oblicz koszt = waga × stawka (stawke wyszukaj INDEX+MATCH z tabeli).\n2. W K2 utworz etykiete: \"Nr X: Strefa/Typ, W kg\" np. \"Nr 1: Regionalna/Express, 3.5 kg\".",
+  "wskazowki": [
+    "**Kierunek**: INDEX+MATCH do wyszukania stawki z tabeli 2D, pomnoz przez wage.",
+    "**Podejscie**: J2: =I2*INDEX($B$2:$D$5;MATCH(G2;$A$2:$A$5;0);MATCH(H2;$B$1:$D$1;0)). K2: konkatenacja z &.",
+    "**Kluczowy krok**: Etykieta laczy tekst z liczbami — & automatycznie konwertuje liczby na tekst."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nJ2: =I2*INDEX($B$2:$D$5;MATCH(G2;$A$2:$A$5;0);MATCH(H2;$B$1:$D$1;0))\n    (kopiowana w dol)\n\nK2: =\"Nr \"&F2&\": \"&G2&\"/\"&H2&\", \"&I2&\" kg\"\n    (kopiowana w dol)\n```\n\n**Weryfikacja J (koszt = waga × stawka):**\n\n| Nr | Strefa | Typ | Waga | Stawka | Koszt |\n|----|--------|-----|------|--------|-------|\n| 1 | Regionalna | Express | 3.5 | 18 | 63.0 |\n| 2 | Lokalna | Standard | 8.0 | 5 | 40.0 |\n| 3 | Krajowa | Nocna | 2.0 | 40 | 80.0 |\n| 4 | Miedzynarodowa | Standard | 5.5 | 20 | 110.0 |\n| 5 | Regionalna | Nocna | 1.5 | 28 | 42.0 |\n| 6 | Krajowa | Express | 4.0 | 25 | 100.0 |\n| 7 | Lokalna | Nocna | 6.0 | 18 | 108.0 |\n\nKontrola stawek z tabeli:\n- Regionalna×Express = 18 ✓ (wiersz 3, kolumna C)\n- Lokalna×Standard = 5 ✓ (wiersz 2, kolumna B)\n- Krajowa×Nocna = 40 ✓ (wiersz 4, kolumna D)\n- Miedzynarodowa×Standard = 20 ✓ (wiersz 5, kolumna B)\n- Regionalna×Nocna = 28 ✓ (wiersz 3, kolumna D)\n- Krajowa×Express = 25 ✓ (wiersz 4, kolumna C)\n- Lokalna×Nocna = 18 ✓ (wiersz 2, kolumna D)\n\n**Etykiety:**\n- Nr 1: Regionalna/Express, 3.5 kg\n- Nr 2: Lokalna/Standard, 8 kg\n- Nr 3: Krajowa/Nocna, 2 kg\n- Nr 4: Miedzynarodowa/Standard, 5.5 kg\n- Nr 5: Regionalna/Nocna, 1.5 kg\n- Nr 6: Krajowa/Express, 4 kg\n- Nr 7: Lokalna/Nocna, 6 kg\n\nSuma kosztow: 63+40+80+110+42+100+108 = **543 zl**\n\n**Wyjasnienie**: INDEX+MATCH wyszukuje stawke z tabeli 2D (strefa×typ), mnozenie przez wage daje koszt. Konkatenacja & buduje czytelna etykiete z wielu komorek. Na maturze czesto wymagana jest interpretacja wynikow — etykieta ulatwia identyfikacje przesylki.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie wiersza z kolumna w MATCH**: Pierwszy MATCH szuka strefy (wiersz w tabeli), drugi typu (kolumna). Zamiana da bledne stawki",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak spacji/separatorow w etykiecie**: Bez \", \" i \"/\" etykieta bedzie nieczytelna — np. \"Nr1RegionalnaExpress3.5kg\"",
+      "kara": "-1 pkt"
+    }
+  ]
+}

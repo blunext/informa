@@ -1,0 +1,24 @@
+{
+  "id": "17.13",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna (sport)",
+  "tagi": ["wykres-liniowy", "tytuly-osi", "odczyt-z-wykresu"],
+  "tresc": "Biegacz zapisywal swoje czasy na dystansie 5 km w kolejnych tygodniach treningow:\n\n| | A | B |\n|---|---|---|\n| 1 | **Tydzien** | **Czas (min)** |\n| 2 | 1 | 32 |\n| 3 | 2 | 30 |\n| 4 | 3 | 29 |\n| 5 | 4 | 28 |\n| 6 | 5 | 27 |\n| 7 | 6 | 25 |\n| 8 | 7 | 26 |\n| 9 | 8 | 24 |\n\n**Polecenie**: Opisz, jak utworzyc wykres liniowy pokazujacy trend wynikow biegacza. Podaj typ wykresu, dane, tytuly osi i formatowanie. W ktorym tygodniu nastapilo pogorszenie wyniku?",
+  "wskazowki": [
+    "**Kierunek**: Wykres liniowy jest najlepszy do pokazania trendu (zmiany wartosci w czasie).",
+    "**Podejscie**: Os X = tygodnie, os Y = czas. Szukaj miejsca, gdzie linia idzie w gore (czas wzrosl).",
+    "**Kluczowy krok**: Pogorszenie = wyzszy czas niz w poprzednim tygodniu. Porownaj kolejne wartosci."
+  ],
+  "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres liniowy z markerami\n2. **Dane**:\n   - Os X: zakres A2:A9 (numery tygodni)\n   - Os Y: zakres B2:B9 (czas w minutach)\n3. **Tytuly**:\n   - Tytul wykresu: \"Postep treningowy — czas na 5 km\"\n   - Os X: \"Tydzien\"\n   - Os Y: \"Czas (min)\"\n4. **Formatowanie**:\n   - Linia ciagla z markerami (punktami) w kazdym tygodniu\n   - Kolor linii: np. niebieski\n   - Linie siatki poziomej\n   - Os Y od 20 do 35 (z krokiem co 5)\n\n**Odpowiedz na pytanie:**\nPogorszenie wyniku nastapilo w **tygodniu 7** — czas wzrosl z 25 min (tydzien 6) do 26 min (tydzien 7). We wszystkich pozostalych tygodniach czas malal lub utrzymywal sie.\n\n**Wyjasnienie**: Wykres liniowy najlepiej uwidacznia trend — malejaca linia oznacza poprawe wynikow. Markery pozwalaja odczytac dokladne wartosci w kazdym punkcie.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie wykresu kolumnowego zamiast liniowego**: Dla danych czasowych (trend) wykres liniowy jest wlasciwszy niz kolumnowy",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak markerow na linii**: Bez markerow trudno odczytac dokladne wartosci w poszczegolnych tygodniach",
+      "kara": "-1 pkt"
+    }
+  ]
+}

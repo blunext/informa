@@ -3,7 +3,7 @@
   "nazwa": "Symulacja w arkuszu kalkulacyjnym",
   "kategoria": "ARKUSZ",
   "czestotliwosc": "9/11 lat",
-  "punkty_lacznie": 37,
+  "punkty_lacznie": 160,
   "tagi_globalne": [
     "COUNTIF",
     "IF-warunkowy",
@@ -142,6 +142,365 @@
         "lancuch-zaleznosci",
         "symulacja-krokowa",
         "prog-warunkowy"
+      ]
+    },
+    {
+      "id": "16.11",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "akumulator",
+        "kopiowanie-formul",
+        "odwolanie-wzgledne"
+      ]
+    },
+    {
+      "id": "16.12",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "odwolanie-bezwzgledne",
+        "kopiowanie-formul",
+        "mnozenie"
+      ]
+    },
+    {
+      "id": "16.13",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "akumulator",
+        "kopiowanie-formul",
+        "odwolanie-wzgledne"
+      ]
+    },
+    {
+      "id": "16.14",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "akumulator",
+        "odwolanie-bezwzgledne",
+        "kopiowanie-formul"
+      ]
+    },
+    {
+      "id": "16.15",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "akumulator",
+        "kopiowanie-formul",
+        "odwolanie-wzgledne"
+      ]
+    },
+    {
+      "id": "16.16",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "akumulator",
+        "kopiowanie-formul",
+        "odwolanie-wzgledne"
+      ]
+    },
+    {
+      "id": "16.17",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "akumulator",
+        "odwolanie-bezwzgledne",
+        "mnozenie"
+      ]
+    },
+    {
+      "id": "16.18",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "SUM-kumulacyjna",
+        "IF-warunkowy",
+        "odwolanie-bezwzgledne",
+        "prog-warunkowy"
+      ]
+    },
+    {
+      "id": "16.19",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "akumulator",
+        "IF-warunkowy",
+        "symulacja-krokowa",
+        "odwolanie-bezwzgledne"
+      ]
+    },
+    {
+      "id": "16.20",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "akumulator",
+        "IF-warunkowy",
+        "symulacja-krokowa",
+        "odwolanie-wzgledne"
+      ]
+    },
+    {
+      "id": "16.21",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "akumulator",
+        "IF-warunkowy",
+        "symulacja-krokowa",
+        "prog-warunkowy"
+      ]
+    },
+    {
+      "id": "16.22",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "akumulator",
+        "SUM-kumulacyjna",
+        "odwolanie-bezwzgledne",
+        "symulacja-krokowa"
+      ]
+    },
+    {
+      "id": "16.23",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "akumulator",
+        "IF-warunkowy",
+        "odwolanie-bezwzgledne",
+        "prog-warunkowy",
+        "symulacja-krokowa"
+      ]
+    },
+    {
+      "id": "16.24",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "amortyzacja",
+        "akumulator",
+        "odwolanie-bezwzgledne",
+        "symulacja-krokowa",
+        "ZAOKR"
+      ]
+    },
+    {
+      "id": "16.25",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "IF-zagniezdzony",
+        "SUM-kumulacyjna",
+        "odwolanie-bezwzgledne",
+        "prog-warunkowy",
+        "symulacja-krokowa"
+      ]
+    },
+    {
+      "id": "16.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "akumulator",
+        "IF-warunkowy",
+        "mnozenie",
+        "odwolanie-bezwzgledne",
+        "symulacja-krokowa",
+        "prog-warunkowy"
+      ]
+    },
+    {
+      "id": "16.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "akumulator",
+        "IF-warunkowy",
+        "MIN",
+        "odwolanie-bezwzgledne",
+        "symulacja-krokowa"
+      ]
+    },
+    {
+      "id": "16.28",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "akumulator",
+        "mnozenie",
+        "odwolanie-bezwzgledne",
+        "ZAOKR",
+        "symulacja-krokowa"
+      ]
+    },
+    {
+      "id": "16.29",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "IF-warunkowy",
+        "SUM-kumulacyjna",
+        "akumulator",
+        "odwolanie-bezwzgledne",
+        "prog-warunkowy"
+      ]
+    },
+    {
+      "id": "16.30",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "akumulator",
+        "IF-warunkowy",
+        "MAX",
+        "MIN",
+        "symulacja-krokowa",
+        "odwolanie-bezwzgledne"
+      ]
+    },
+    {
+      "id": "16.31",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "amortyzacja",
+        "akumulator",
+        "mnozenie",
+        "odwolanie-bezwzgledne",
+        "ZAOKR",
+        "symulacja-krokowa"
+      ]
+    },
+    {
+      "id": "16.32",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "akumulator",
+        "IF-warunkowy",
+        "SUM-kumulacyjna",
+        "odwolanie-bezwzgledne",
+        "prog-warunkowy",
+        "formatowanie-wyniku"
+      ]
+    },
+    {
+      "id": "16.33",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "amortyzacja",
+        "akumulator",
+        "ZAOKR",
+        "odwolanie-bezwzgledne",
+        "lancuch-zaleznosci",
+        "symulacja-krokowa"
+      ]
+    },
+    {
+      "id": "16.34",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "akumulator",
+        "IF-warunkowy",
+        "IF-zagniezdzony",
+        "MIN",
+        "MAX",
+        "lancuch-zaleznosci",
+        "symulacja-krokowa"
+      ]
+    },
+    {
+      "id": "16.35",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "akumulator",
+        "IF-warunkowy",
+        "mnozenie",
+        "ZAOKR",
+        "odwolanie-bezwzgledne",
+        "symulacja-krokowa"
+      ]
+    },
+    {
+      "id": "16.36",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "akumulator",
+        "IF-warunkowy",
+        "COUNTIF",
+        "lancuch-zaleznosci",
+        "symulacja-krokowa",
+        "prog-warunkowy"
+      ]
+    },
+    {
+      "id": "16.37",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "rata-annuitetowa",
+        "akumulator",
+        "IF-warunkowy",
+        "ZAOKR",
+        "odwolanie-bezwzgledne",
+        "lancuch-zaleznosci",
+        "symulacja-krokowa"
+      ]
+    },
+    {
+      "id": "16.38",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "akumulator",
+        "IF-zagniezdzony",
+        "mnozenie",
+        "odwolanie-bezwzgledne",
+        "ZAOKR",
+        "lancuch-zaleznosci",
+        "symulacja-krokowa"
+      ]
+    },
+    {
+      "id": "16.39",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "akumulator",
+        "IF-warunkowy",
+        "ZAOKR",
+        "odwolanie-bezwzgledne",
+        "mnozenie",
+        "symulacja-krokowa",
+        "prog-warunkowy"
+      ]
+    },
+    {
+      "id": "16.40",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "akumulator",
+        "IF-warunkowy",
+        "IF-zagniezdzony",
+        "INT",
+        "SUM-kumulacyjna",
+        "lancuch-zaleznosci",
+        "symulacja-krokowa",
+        "odwolanie-bezwzgledne"
       ]
     }
   ]

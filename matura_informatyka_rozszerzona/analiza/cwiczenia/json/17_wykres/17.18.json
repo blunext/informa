@@ -1,0 +1,24 @@
+{
+  "id": "17.18",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "ogolna (sprzedaz)",
+  "tagi": ["wykres-grupowany", "legenda", "seria-danych", "odczyt-z-wykresu"],
+  "tresc": "Sklep internetowy porownuje sprzedaz dwoch kategorii produktow w I polroczu:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Miesiac** | **Elektronika (tys. zl)** | **Odziez (tys. zl)** |\n| 2 | Styczen | 120 | 85 |\n| 3 | Luty | 95 | 90 |\n| 4 | Marzec | 110 | 105 |\n| 5 | Kwiecien | 105 | 130 |\n| 6 | Maj | 130 | 140 |\n| 7 | Czerwiec | 140 | 120 |\n\n**Polecenie**: Opisz, jak utworzyc wykres kolumnowy grupowany porownujacy sprzedaz obu kategorii. Podaj pelna specyfikacje wykresu. W ktorym miesiacu roznica miedzy kategoriami byla najwieksza?",
+  "wskazowki": [
+    "**Kierunek**: Wykres grupowany — dwa slupki obok siebie w kazdym miesiacu (jedna para na kategorie).",
+    "**Podejscie**: Dwie serie danych: Elektronika i Odziez. Os X = miesiace. Legenda rozroznia serie.",
+    "**Kluczowy krok**: Oblicz |Elektronika - Odziez| dla kazdego miesiaca, aby znalezc najwieksza roznice."
+  ],
+  "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kolumnowy grupowany (clustered column)\n2. **Dane**:\n   - Os X (kategorie): zakres A2:A7 (miesiace)\n   - Seria 1: B2:B7 (Elektronika) — np. kolor niebieski\n   - Seria 2: C2:C7 (Odziez) — np. kolor pomaranczowy\n3. **Tytuly**:\n   - Tytul: \"Sprzedaz produktow w I polroczu (tys. zl)\"\n   - Os X: \"Miesiac\"\n   - Os Y: \"Sprzedaz (tys. zl)\"\n4. **Formatowanie**:\n   - Dwa slupki obok siebie w kazdym miesiacu\n   - Legenda u gory: Elektronika, Odziez\n   - Etykiety danych nad slupkami\n   - Os Y od 0 do 160\n\n**Obliczenie roznic:**\n\n| Miesiac | Elektronika | Odziez | Roznica |\n|---------|-------------|--------|---------|\n| Styczen | 120 | 85 | 35 |\n| Luty | 95 | 90 | 5 |\n| Marzec | 110 | 105 | 5 |\n| Kwiecien | 105 | 130 | 25 |\n| Maj | 130 | 140 | 10 |\n| Czerwiec | 140 | 120 | 20 |\n\nNajwieksza roznica: **Styczen (35 tys. zl)** — Elektronika (120) znacznie przewyzszala Odziez (85).\n\n**Wyjasnienie**: Wykres grupowany umozliwia bezposrednie porownanie dwoch serii w ramach kazdej kategorii. Legenda jest niezbedna przy wiecej niz jednej serii danych.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak legendy**: Przy dwoch seriach danych bez legendy nie wiadomo, ktory slupek odpowiada ktorej kategorii",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie wykresu skumulowanego zamiast grupowanego**: Skumulowany nie pozwala na bezposrednie porownanie wartosci poszczegolnych serii",
+      "kara": "-1 pkt"
+    }
+  ]
+}

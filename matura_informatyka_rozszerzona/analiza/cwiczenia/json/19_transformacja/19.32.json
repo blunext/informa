@@ -1,0 +1,29 @@
+{
+  "id": "19.32",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "LEFT-RIGHT-MID",
+    "SUMIFS",
+    "kolumna-pomocnicza",
+    "tabela-krzyzowa"
+  ],
+  "tresc": "Kody zamowien maja format: 2 znaki miasta + 1 znak kategorii + 4 cyfry (np. \"WAE1234\" = Warszawa, Elektronika).\n\nSlownik miast: WA=Warszawa, KR=Krakow, GD=Gdansk.\nSlownik kategorii: E=Elektronika, S=Spozywcze, O=Odziez.\n\nLista zamowien:\n\n| | A | B |\n|---|---|---|\n| 1 | **Kod** | **Wartosc** |\n| 2 | WAE1500 | 1500 |\n| 3 | KRS0800 | 800 |\n| 4 | GDO0650 | 650 |\n| 5 | WAO1200 | 1200 |\n| 6 | KRE2100 | 2100 |\n| 7 | GDS0400 | 400 |\n| 8 | WAS0900 | 900 |\n| 9 | GDE1800 | 1800 |\n| 10 | KRO0550 | 550 |\n| 11 | WAE2200 | 2200 |\n| 12 | GDS0350 | 350 |\n\nTabela podsumowania miasto × kategoria:\n\n| | D | E | F | G |\n|---|---|---|---|---|\n| 1 | | **Elektronika** | **Spozywcze** | **Odziez** |\n| 2 | **Warszawa** | ? | ? | ? |\n| 3 | **Krakow** | ? | ? | ? |\n| 4 | **Gdansk** | ? | ? | ? |\n\n**Polecenie**:\n1. W kolumnie C wyodrebnij kod miasta (LEFT(A2;2)).\n2. W kolumnie D wyodrebnij kod kategorii (MID(A2;3;1)).\n3. Napisz formule SUMIFS, ktora zsumuje wartosci wg miasta i kategorii.\n\nUwaga: naglowki pivot uzyja kodow miast (WA, KR, GD) i kategorii (E, S, O) — nie pelnych nazw.",
+  "wskazowki": [
+    "**Kierunek**: Parsuj kody kolumnami pomocniczymi, potem SUMIFS z dwoma kryteriami tworzy pivot.",
+    "**Podejscie**: C2: =LEFT(A2;2), D2: =MID(A2;3;1). Pivot: =SUMIFS(B$2:B$12;C$2:C$12;$D2;D$2:D$12;E$1).",
+    "**Kluczowy krok**: Naglowki pivot musza zawierac kody (WA/KR/GD i E/S/O), nie pelne nazwy — SUMIFS porownuje dokladnie."
+  ],
+  "odpowiedz": "**Uwaga**: W poleceniu uzyto kolumny D dwukrotnie. Doprecyzowanie: kolumna pomocnicza z kodem miasta to C, kolumna z kodem kategorii to kolumna pomocnicza wstawiona jako D (pozostale kolumny sie przesuwaja). Dla jasnosci oznaczamy kolumny pomocnicze jako C i D, a tabele pivot od kolumny F.\n\nJednak aby zachowac zgodnosc z trescia, zakladamy:\n- C = kod miasta, D = kod kategorii, dane z B\n- Pivot w osobnym miejscu: naglowki miast w kolumnie F (wiersz), naglowki kategorii w wierszu 1 (kolumna).\n\n**Formuly:**\n```\nC2: =LEFT(A2;2)        (kod miasta, kopiowana w dol)\nD2: =MID(A2;3;1)       (kod kategorii, kopiowana w dol)\n\n(naglowki pivot: F1 puste, G1=\"E\", H1=\"S\", I1=\"O\",\n F2=\"WA\", F3=\"KR\", F4=\"GD\")\n\nG2: =SUMIFS(B$2:B$12;C$2:C$12;$F2;D$2:D$12;G$1)\n    (kopiowana w prawo do I2 i w dol do I4)\n```\n\n**Kolumny pomocnicze:**\n\n| Kod | Wartosc | Miasto | Kategoria |\n|-----|---------|--------|----------|\n| WAE1500 | 1500 | WA | E |\n| KRS0800 | 800 | KR | S |\n| GDO0650 | 650 | GD | O |\n| WAO1200 | 1200 | WA | O |\n| KRE2100 | 2100 | KR | E |\n| GDS0400 | 400 | GD | S |\n| WAS0900 | 900 | WA | S |\n| GDE1800 | 1800 | GD | E |\n| KRO0550 | 550 | KR | O |\n| WAE2200 | 2200 | WA | E |\n| GDS0350 | 350 | GD | S |\n\n**Tabela pivot:**\n- WA-E: 1500+2200 = 3700\n- WA-S: 900\n- WA-O: 1200\n- KR-E: 2100\n- KR-S: 800\n- KR-O: 550\n- GD-E: 1800\n- GD-S: 400+350 = 750\n- GD-O: 650\n\n| | E | S | O | Razem |\n|---|---|---|---|---|\n| WA | 3700 | 900 | 1200 | 5800 |\n| KR | 2100 | 800 | 550 | 3450 |\n| GD | 1800 | 750 | 650 | 3200 |\n| Razem | 7600 | 2450 | 2400 | 12450 |\n\nKontrola: 5800+3450+3200 = 12450, 7600+2450+2400 = 12450 ✓\nSUM(B2:B12) = 1500+800+650+1200+2100+400+900+1800+550+2200+350 = 12450 ✓\n\n**Wyjasnienie**: Trzystopniowa transformacja: (1) LEFT parsuje miasto z kodu, (2) MID parsuje kategorie, (3) SUMIFS laczy oba kryteria w tabele krzyzowa. Kluczowe: naglowki pivota musza odpowiadac wartosciom w kolumnach pomocniczych (kody, nie nazwy).",
+  "typowe_bledy": [
+    {
+      "opis": "**Naglowki z pelnymi nazwami zamiast kodow**: Jesli naglowek to \"Warszawa\" a kolumna pomocnicza ma \"WA\", SUMIFS zwroci 0 — brak dopasowania",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**MID z bledna pozycja**: MID(A2;3;1) wyodrebnia 3. znak. MID(A2;2;1) daloby 2. znak kodu miasta, nie kategorie",
+      "kara": "-1 pkt"
+    }
+  ]
+}

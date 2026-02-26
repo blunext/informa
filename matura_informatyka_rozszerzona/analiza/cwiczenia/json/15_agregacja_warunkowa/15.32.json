@@ -1,0 +1,29 @@
+{
+  "id": "15.32",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2023 (Konfitury — zliczanie z IF)",
+  "tagi": [
+    "COUNTIFS",
+    "SUMIFS",
+    "IF-AND-OR",
+    "kolumna-pomocnicza"
+  ],
+  "tresc": "W arkuszu mamy dane o wynikach testow sprawnosciowych uczniow:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Uczen** | **Plec** | **Bieg 100m (s)** | **Skok w dal (m)** |\n| 2 | Anna | K | 14.2 | 3.8 |\n| 3 | Bartek | M | 12.5 | 4.5 |\n| 4 | Celina | K | 15.0 | 3.2 |\n| 5 | Dawid | M | 11.8 | 5.1 |\n| 6 | Ewa | K | 13.5 | 4.0 |\n| 7 | Filip | M | 12.0 | 4.8 |\n| 8 | Gosia | K | 14.8 | 3.5 |\n| 9 | Hubert | M | 13.0 | 4.2 |\n| 10 | Iga | K | 13.9 | 3.9 |\n| 11 | Jan | M | 11.5 | 5.3 |\n\nNormy:\n- Bieg 100m: chlopcy <= 12.5 s, dziewczeta <= 14.0 s\n- Skok w dal: chlopcy >= 4.5 m, dziewczeta >= 3.8 m\n\n**Polecenie**:\n1. W kolumnie E wpisz \"TAK\" jesli uczen spelnił norme biegu dla swojej plci, \"NIE\" w przeciwnym razie.\n2. Ile dziewczat spelnia norme skoku w dal?\n3. Ilu chlopcow spelnia OBE normy (bieg I skok)?",
+  "wskazowki": [
+    "**Kierunek**: Punkt 1 wymaga IF z roznymi progami dla M i K. Punkt 3 laczy dwa warunki liczbowe z warunkiem tekstowym.",
+    "**Podejscie**: E2: =IF(AND(B2=\"M\";C2<=12.5);\"TAK\";IF(AND(B2=\"K\";C2<=14);\"TAK\";\"NIE\")). Punkt 3: COUNTIFS z trzema parami.",
+    "**Kluczowy krok**: Punkt 3: =COUNTIFS(B2:B11;\"M\";C2:C11;\"<=12.5\";D2:D11;\">=4.5\") — trzy warunki AND."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nE2: =IF(AND(B2=\"M\";C2<=12.5);\"TAK\";IF(AND(B2=\"K\";C2<=14);\"TAK\";\"NIE\"))\n\nPunkt 2: =COUNTIFS(B2:B11;\"K\";D2:D11;\">=3.8\")\nPunkt 3: =COUNTIFS(B2:B11;\"M\";C2:C11;\"<=12.5\";D2:D11;\">=4.5\")\n```\n\n**Weryfikacja:**\n\nKolumna E (norma biegu):\n| Uczen | Plec | Bieg | Norma | Spelnia? |\n|-------|------|------|-------|----------|\n| Anna | K | 14.2 | <= 14.0 | NIE |\n| Bartek | M | 12.5 | <= 12.5 | TAK |\n| Celina | K | 15.0 | <= 14.0 | NIE |\n| Dawid | M | 11.8 | <= 12.5 | TAK |\n| Ewa | K | 13.5 | <= 14.0 | TAK |\n| Filip | M | 12.0 | <= 12.5 | TAK |\n| Gosia | K | 14.8 | <= 14.0 | NIE |\n| Hubert | M | 13.0 | <= 12.5 | NIE |\n| Iga | K | 13.9 | <= 14.0 | TAK |\n| Jan | M | 11.5 | <= 12.5 | TAK |\n\nPunkt 2 — K + skok >= 3.8:\n- Anna: K, 3.8 >= 3.8 ✓\n- Celina: K, 3.2 — NIE\n- Ewa: K, 4.0 ✓\n- Gosia: K, 3.5 — NIE\n- Iga: K, 3.9 ✓\n- Wynik: **3**\n\nPunkt 3 — M + bieg <= 12.5 + skok >= 4.5:\n- Bartek: M, 12.5, 4.5 ✓ (oba spelnia)\n- Dawid: M, 11.8, 5.1 ✓\n- Filip: M, 12.0, 4.8 ✓\n- Hubert: M, 13.0 — NIE (bieg)\n- Jan: M, 11.5, 5.3 ✓\n- Wynik: **4**\n\n**Wyjasnienie**: IF z AND pozwala rozroznic normy dla roznych plci. COUNTIFS z trzema parami kryteriow sprawdza plec, bieg i skok jednoczesnie — wszystkie warunki musza byc spelnione.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zly kierunek nierówności w biegu**: Norme spelnia sie gdy czas <= normy (mniej = lepiej), nie >= normy",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pominięcie granicznych wartosci**: =COUNTIFS(B2:B11;\"M\";C2:C11;\"<12.5\";D2:D11;\">4.5\") pomija Bartka (dokladnie 12.5 i 4.5)",
+      "kara": "-1 pkt"
+    }
+  ]
+}

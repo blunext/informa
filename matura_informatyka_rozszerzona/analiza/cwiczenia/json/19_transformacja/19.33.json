@@ -1,0 +1,33 @@
+{
+  "id": "19.33",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "SUMIFS",
+    "tabela-krzyzowa",
+    "odwolania-mieszane",
+    "pivot-reczny"
+  ],
+  "tresc": "Siec kin notuje sprzedaz biletow z podanym kinem, gatunkiem i liczba biletow:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Kino** | **Gatunek** | **Bilety** |\n| 2 | Helios | Akcja | 120 |\n| 3 | Cinema | Komedia | 85 |\n| 4 | Multikino | Dramat | 60 |\n| 5 | Helios | Komedia | 95 |\n| 6 | Cinema | Akcja | 110 |\n| 7 | Multikino | Akcja | 75 |\n| 8 | Helios | Dramat | 45 |\n| 9 | Cinema | Dramat | 70 |\n| 10 | Multikino | Komedia | 90 |\n| 11 | Helios | Akcja | 130 |\n| 12 | Cinema | Komedia | 100 |\n| 13 | Multikino | Dramat | 55 |\n| 14 | Helios | Komedia | 80 |\n| 15 | Cinema | Akcja | 95 |\n| 16 | Multikino | Akcja | 85 |\n| 17 | Helios | Dramat | 50 |\n| 18 | Cinema | Dramat | 65 |\n| 19 | Multikino | Komedia | 105 |\n| 20 | Helios | Akcja | 140 |\n| 21 | Cinema | Komedia | 75 |\n\nTabela pivot — suma biletow wg kina i gatunku:\n\n| | E | F | G | H | I |\n|---|---|---|---|---|---|\n| 1 | | **Akcja** | **Komedia** | **Dramat** | **Razem** |\n| 2 | **Helios** | ? | ? | ? | ? |\n| 3 | **Cinema** | ? | ? | ? | ? |\n| 4 | **Multikino** | ? | ? | ? | ? |\n| 5 | **Razem** | ? | ? | ? | ? |\n\n**Polecenie**:\n1. Napisz formule w F2 z SUMIFS i odwolaniami mieszanymi.\n2. Dodaj wiersz i kolumne Razem.\n3. Oblicz udzial procentowy kazdego kina w calkowitej sprzedazy (kolumna J).\n4. Zweryfikuj sumy krzyzowo.",
+  "wskazowki": [
+    "**Kierunek**: SUMIFS z $E2 (kino) i F$1 (gatunek). Udzial: =I2/I$5*100 lub =I2/$I$5*100.",
+    "**Podejscie**: F2: =SUMIFS(C$2:C$21;A$2:A$21;$E2;B$2:B$21;F$1). Razem i procenty to osobne formuly.",
+    "**Kluczowy krok**: Weryfikacja: suma % = 100%, sumy wierszy = sumy kolumn = grand total."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nF2: =SUMIFS(C$2:C$21;A$2:A$21;$E2;B$2:B$21;F$1)\n    (kopiowana w prawo do H2 i w dol do H4)\n\nI2: =SUM(F2:H2)          (suma wiersza)\nF5: =SUM(F2:F4)          (suma kolumny)\nI5: =SUM(I2:I4)          (grand total)\n\nJ2: =I2/I$5*100          (udzial %, kopiowana w dol)\n```\n\n**Szczegolowa weryfikacja (zliczanie wierszy danych):**\n\nHelios-Akcja: wiersze 2(120)+11(130)+20(140) = **390**\nHelios-Komedia: wiersze 5(95)+14(80) = **175**\nHelios-Dramat: wiersze 8(45)+17(50) = **95**\n\nCinema-Akcja: wiersze 6(110)+15(95) = **205**\nCinema-Komedia: wiersze 3(85)+12(100)+21(75) = **260**\nCinema-Dramat: wiersze 9(70)+18(65) = **135**\n\nMultikino-Akcja: wiersze 7(75)+16(85) = **160**\nMultikino-Komedia: wiersze 10(90)+19(105) = **195**\nMultikino-Dramat: wiersze 4(60)+13(55) = **115**\n\n| | Akcja | Komedia | Dramat | Razem | Udzial % |\n|---|---|---|---|---|---|\n| Helios | 390 | 175 | 95 | 660 | 38.2% |\n| Cinema | 205 | 260 | 135 | 600 | 34.7% |\n| Multikino | 160 | 195 | 115 | 470 | 27.2% |\n| Razem | 755 | 630 | 345 | **1730** | |\n\nUdzial: Helios = 660/1730*100 = 38.15% ≈ 38.2%\nCinema = 600/1730*100 = 34.68% ≈ 34.7%\nMultikino = 470/1730*100 = 27.17% ≈ 27.2%\n\n**Weryfikacja krzyzowa:**\n- Suma wierszow: 660 + 600 + 470 = 1730 ✓\n- Suma kolumn: 755 + 630 + 345 = 1730 ✓\n- SUM(C2:C21) = 120+85+60+95+110+75+45+70+90+130+100+55+80+95+85+50+65+105+140+75 = 1730 ✓\n- Suma udzialow: 38.15+34.68+27.17 = 100.00% ✓\n\n**Wyjasnienie**: Pelny pivot z weryfikacja i analiza procentowa. Udzial procentowy wymaga dzielenia przez grand total z zakotwiczonym wierszem ($I$5 lub I$5), aby formula kopiowala sie w dol bez zmiany mianownika.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak $ w mianowniku procentu**: =I2/I5 przy kopiowaniu do J3 stanie sie =I3/I6 — I6 nie ma wartosci. Potrzebne I$5 lub $I$5",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Pomieszanie $ w SUMIFS**: $E2 kotwi kolumne, F$1 kotwi wiersz. Odwrotnie: E$2 i $F1 daje bledne wyniki",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak weryfikacji krzyzowej**: Nie sprawdzenie, czy sumy wierszy = sumy kolumn. Blad w jednej komorce jest trudny do znalezienia bez tej kontroli",
+      "kara": "-1 pkt"
+    }
+  ]
+}

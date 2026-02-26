@@ -3,7 +3,7 @@
   "nazwa": "Wykresy w arkuszu kalkulacyjnym",
   "kategoria": "ARKUSZ",
   "czestotliwosc": "8/11 lat",
-  "punkty_lacznie": 38,
+  "punkty_lacznie": 159,
   "tagi_globalne": [
     "wykres-kolumnowy",
     "wykres-kolowy",
@@ -133,6 +133,349 @@
         "procent-udzialu",
         "odczyt-z-wykresu",
         "formatowanie-wykresu"
+      ]
+    },
+    {
+      "id": "17.11",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wykres-kolumnowy",
+        "tytuly-osi",
+        "etykiety-danych"
+      ]
+    },
+    {
+      "id": "17.12",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wykres-kolowy",
+        "procent-udzialu",
+        "etykiety-danych"
+      ]
+    },
+    {
+      "id": "17.13",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wykres-liniowy",
+        "tytuly-osi",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.14",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wykres-kolowy",
+        "procent-udzialu",
+        "legenda"
+      ]
+    },
+    {
+      "id": "17.15",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wykres-kolumnowy",
+        "etykiety-danych",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.16",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wykres-kolowy",
+        "procent-udzialu",
+        "formatowanie-wykresu"
+      ]
+    },
+    {
+      "id": "17.17",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "wykres-liniowy",
+        "tytuly-osi",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.18",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "wykres-grupowany",
+        "legenda",
+        "seria-danych",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.19",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "wykres-skumulowany",
+        "legenda",
+        "seria-danych",
+        "procent-udzialu"
+      ]
+    },
+    {
+      "id": "17.20",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "wykres-grupowany",
+        "legenda",
+        "odczyt-z-wykresu",
+        "seria-danych"
+      ]
+    },
+    {
+      "id": "17.21",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "wykres-liniowy",
+        "seria-danych",
+        "legenda",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.22",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "wykres-kolumnowy",
+        "wykres-kolowy",
+        "procent-udzialu",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.23",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "wykres-skumulowany",
+        "legenda",
+        "seria-danych",
+        "etykiety-danych"
+      ]
+    },
+    {
+      "id": "17.24",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "wykres-kombinowany",
+        "dwie-osie-Y",
+        "wykres-liniowy",
+        "wykres-kolumnowy"
+      ]
+    },
+    {
+      "id": "17.25",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "wykres-grupowany",
+        "wykres-kolowy",
+        "procent-udzialu",
+        "legenda",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "wykres-kombinowany",
+        "dwie-osie-Y",
+        "wykres-kolumnowy",
+        "wykres-liniowy",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "wykres-skumulowany",
+        "procent-udzialu",
+        "legenda",
+        "seria-danych",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.28",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "wykres-kombinowany",
+        "dwie-osie-Y",
+        "wykres-liniowy",
+        "wykres-kolumnowy",
+        "formatowanie-wykresu"
+      ]
+    },
+    {
+      "id": "17.29",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "wykres-grupowany",
+        "wykres-skumulowany",
+        "legenda",
+        "seria-danych",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.30",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "wykres-kombinowany",
+        "dwie-osie-Y",
+        "wykres-liniowy",
+        "wykres-kolumnowy",
+        "etykiety-danych"
+      ]
+    },
+    {
+      "id": "17.31",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "wykres-grupowany",
+        "wykres-kolowy",
+        "procent-udzialu",
+        "legenda"
+      ]
+    },
+    {
+      "id": "17.32",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "wykres-liniowy",
+        "seria-danych",
+        "legenda",
+        "odczyt-z-wykresu",
+        "formatowanie-wykresu"
+      ]
+    },
+    {
+      "id": "17.33",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "wykres-kombinowany",
+        "dwie-osie-Y",
+        "wykres-skumulowany",
+        "wykres-liniowy",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.34",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "wykres-skumulowany",
+        "wykres-kolowy",
+        "procent-udzialu",
+        "seria-danych",
+        "legenda",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.35",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "wykres-kombinowany",
+        "dwie-osie-Y",
+        "wykres-grupowany",
+        "wykres-liniowy",
+        "odczyt-z-wykresu",
+        "formatowanie-wykresu"
+      ]
+    },
+    {
+      "id": "17.36",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "wykres-skumulowany",
+        "wykres-liniowy",
+        "procent-udzialu",
+        "seria-danych",
+        "legenda"
+      ]
+    },
+    {
+      "id": "17.37",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "wykres-kombinowany",
+        "dwie-osie-Y",
+        "wykres-kolowy",
+        "procent-udzialu",
+        "odczyt-z-wykresu",
+        "formatowanie-wykresu"
+      ]
+    },
+    {
+      "id": "17.38",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "wykres-skumulowany",
+        "wykres-grupowany",
+        "seria-danych",
+        "legenda",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.39",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "wykres-kombinowany",
+        "dwie-osie-Y",
+        "wykres-skumulowany",
+        "wykres-liniowy",
+        "procent-udzialu",
+        "odczyt-z-wykresu"
+      ]
+    },
+    {
+      "id": "17.40",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "wykres-skumulowany",
+        "wykres-kolowy",
+        "wykres-kombinowany",
+        "dwie-osie-Y",
+        "procent-udzialu",
+        "odczyt-z-wykresu"
       ]
     }
   ]

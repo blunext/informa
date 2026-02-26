@@ -1,0 +1,36 @@
+{
+  "id": "16.39",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2024 (oszczedzanie z regularnymi wplatami)",
+  "tagi": [
+    "akumulator",
+    "IF-warunkowy",
+    "ZAOKR",
+    "odwolanie-bezwzgledne",
+    "mnozenie",
+    "symulacja-krokowa",
+    "prog-warunkowy"
+  ],
+  "tresc": "Osoba oszczedza na koncie z oprocentowaniem 3,6% rocznie (0,3% miesiecznie). Co miesiac wplaca stala kwote 500 zl. Odsetki sa naliczane od salda na koncu miesiaca (po wplacie). Gdy saldo przekroczy 5000 zl, bank zwiekasza stope do 0,4% miesiecznie (lokata premiowa).\n\nParametry: G1 = 500 (wplata), G2 = 0,003 (stopa normalna), G3 = 0,004 (stopa premiowa), G4 = 5000 (prog). Poczatkowe saldo: 0 zl.\n\n| | A | B | C | D | E | F |\n|---|---|---|---|---|---|---|\n| 1 | **Miesiac** | **Wplata** | **Saldo po wplacie** | **Stopa** | **Odsetki** | **Saldo koncowe** |\n| 2 | 1 | 500 | ? | ? | ? | ? |\n| 3 | 2 | 500 | ? | ? | ? | ? |\n| 4 | 3 | 500 | ? | ? | ? | ? |\n| 5 | 4 | 500 | ? | ? | ? | ? |\n| 6 | 5 | 500 | ? | ? | ? | ? |\n| 7 | 6 | 500 | ? | ? | ? | ? |\n| 8 | 7 | 500 | ? | ? | ? | ? |\n| 9 | 8 | 500 | ? | ? | ? | ? |\n| 10 | 9 | 500 | ? | ? | ? | ? |\n| 11 | 10 | 500 | ? | ? | ? | ? |\n| 12 | 11 | 500 | ? | ? | ? | ? |\n| 13 | 12 | 500 | ? | ? | ? | ? |\n\n**Polecenie**:\n1. W C2 oblicz saldo po wplacie: poprzednie saldo koncowe + wplata. Dla miesiaca 1: 0 + 500.\n2. W D2 wpisz stope: jesli saldo po wplacie > 5000, to 0,4%, inaczej 0,3%.\n3. W E2 oblicz odsetki: ZAOKR(saldo po wplacie * stopa; 2).\n4. W F2 oblicz saldo koncowe = saldo po wplacie + odsetki.\n5. Wypelnij tabele na 12 miesiecy. W ktorym miesiacu stopa zmienia sie na premiowa?",
+  "wskazowki": [
+    "**Kierunek**: Kolejnosc: wplata → saldo po wplacie → stopa (warunkowa) → odsetki → saldo koncowe. Nastepny miesiac: saldo koncowe staje sie baza.",
+    "**Podejscie**: C2: =0+$G$1 (pierw. mies.). C3: =F2+$G$1. D2: =IF(C2>$G$4;$G$3;$G$2). E2: =ZAOKR(C2*D2;2). F2: =C2+E2.",
+    "**Kluczowy krok**: Stopa zalezy od salda PO wplacie (nie przed). Co miesiac saldo rosnie o 500 + odsetki. Przy stalej wplacie 500 saldo przekroczy 5000 po 10 wplatach (okolo miesiaca 10)."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nC2: =0+$G$1                    (pierwszy miesiac, saldo startowe = 0)\nC3: =F2+$G$1                   (kopiowane w dol od wiersza 3)\nD2: =IF(C2>$G$4;$G$3;$G$2)    (kopiowane w dol)\nE2: =ZAOKR(C2*D2;2)           (kopiowane w dol)\nF2: =C2+E2                     (kopiowane w dol)\n```\n\n**Wypelniona tabela:**\n\n| Miesiac | Wplata | Saldo po wpl. | Stopa | Odsetki | Saldo konc. |\n|---------|--------|---------------|-------|---------|-------------|\n| 1 | 500 | 500.00 | 0,3% | 1.50 | 501.50 |\n| 2 | 500 | 1001.50 | 0,3% | 3.00 | 1004.50 |\n| 3 | 500 | 1504.50 | 0,3% | 4.51 | 1509.01 |\n| 4 | 500 | 2009.01 | 0,3% | 6.03 | 2015.04 |\n| 5 | 500 | 2515.04 | 0,3% | 7.55 | 2522.59 |\n| 6 | 500 | 3022.59 | 0,3% | 9.07 | 3031.66 |\n| 7 | 500 | 3531.66 | 0,3% | 10.59 | 3542.25 |\n| 8 | 500 | 4042.25 | 0,3% | 12.13 | 4054.38 |\n| 9 | 500 | 4554.38 | 0,3% | 13.66 | 4568.04 |\n| 10 | 500 | 5068.04 | 0,4% | 20.27 | 5088.31 |\n| 11 | 500 | 5588.31 | 0,4% | 22.35 | 5610.66 |\n| 12 | 500 | 6110.66 | 0,4% | 24.44 | 6135.10 |\n\n**Weryfikacja (kluczowe miesiace):**\n- M1: C2=0+500=500. 500<=5000 → D2=0.003. E2=ZAOKR(500*0.003;2)=1.50. F2=501.50\n- M2: C3=501.50+500=1001.50. 1001.50<=5000 → D3=0.003. E3=ZAOKR(1001.50*0.003;2)=ZAOKR(3.00450;2)=3.00. F3=1004.50\n- M3: C4=1004.50+500=1504.50. D4=0.003. E4=ZAOKR(1504.50*0.003;2)=ZAOKR(4.5135;2)=4.51. F4=1509.01\n- M4: C5=1509.01+500=2009.01. D5=0.003. E5=ZAOKR(2009.01*0.003;2)=ZAOKR(6.02703;2)=6.03. F5=2015.04\n- M5: C6=2015.04+500=2515.04. D6=0.003. E6=ZAOKR(2515.04*0.003;2)=ZAOKR(7.54512;2)=7.55. F6=2522.59\n- M6: C7=2522.59+500=3022.59. D7=0.003. E7=ZAOKR(3022.59*0.003;2)=ZAOKR(9.06777;2)=9.07. F7=3031.66\n- M7: C8=3031.66+500=3531.66. D8=0.003. E8=ZAOKR(3531.66*0.003;2)=ZAOKR(10.59498;2)=10.59. F8=3542.25\n- M8: C9=3542.25+500=4042.25. D9=0.003. E9=ZAOKR(4042.25*0.003;2)=ZAOKR(12.12675;2)=12.13. F9=4054.38\n- M9: C10=4054.38+500=4554.38. D10=0.003. E10=ZAOKR(4554.38*0.003;2)=ZAOKR(13.66314;2)=13.66. F10=4568.04\n- M10: C11=4568.04+500=5068.04. 5068.04>5000 → D11=0.004. E11=ZAOKR(5068.04*0.004;2)=ZAOKR(20.27216;2)=20.27. F11=5088.31\n- M11: C12=5088.31+500=5588.31. D12=0.004. E12=ZAOKR(5588.31*0.004;2)=ZAOKR(22.35324;2)=22.35. F12=5610.66\n- M12: C13=5610.66+500=6110.66. D13=0.004. E13=ZAOKR(6110.66*0.004;2)=ZAOKR(24.44264;2)=24.44. F13=6135.10\n\nStopa zmienia sie na premiowa w **miesiacu 10** (saldo po wplacie = 5068.04 > 5000).\nSaldo po 12 miesiacach: **6135.10 zl** (wplacono 6000 zl, odsetki = 135.10 zl).\n\n**Wyjasnienie**: Regularne oszczedzanie z procentem skladanym i progowa zmiana stopy. Kluczowe: odsetki sa naliczane od salda PO wplacie, nie przed. Zmiana stopy w miesiacu 10 oznacza, ze od tego momentu odsetki sa wyzsze. Na maturze takie zadanie wymaga dokladnego sledzenia lancucha: wplata → saldo → stopa → odsetki → nowe saldo.",
+  "typowe_bledy": [
+    {
+      "opis": "**Odsetki przed wplata**: E2: =ZAOKR(F1*D2;2) zamiast =ZAOKR(C2*D2;2) — odsetki naliczane od salda PRZED wplata daja nizszy wynik.",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Stala stopa bez warunku**: D2: =$G$2 — pomija zmiane stopy po przekroczeniu progu, odsetki sa za niskie od miesiaca 10.",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak ZAOKR odsetek**: Przy malych kwotach roznice sa groszowe, ale kumuluja sie — po 12 miesiacach moga dac roznice kilkunastu groszy.",
+      "kara": "-0.5 pkt"
+    }
+  ]
+}

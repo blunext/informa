@@ -1,0 +1,30 @@
+{
+  "id": "15.33",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2024 (Hurtownia — rabaty progowe)",
+  "tagi": [
+    "SUMIFS",
+    "COUNTIFS",
+    "IF-AND-OR",
+    "kolumna-pomocnicza",
+    "zagniezdzone-funkcje"
+  ],
+  "tresc": "W arkuszu mamy dane o sprzedazy handlowcow w firmie:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Handlowiec** | **Region** | **Kwartal** | **Sprzedaz (tys. zl)** |\n| 2 | Kowalski | Polnoc | Q1 | 120 |\n| 3 | Nowak | Poludnie | Q1 | 85 |\n| 4 | Kowalski | Polnoc | Q2 | 150 |\n| 5 | Wisniewski | Polnoc | Q1 | 95 |\n| 6 | Nowak | Poludnie | Q2 | 110 |\n| 7 | Wisniewski | Polnoc | Q2 | 130 |\n| 8 | Kowalski | Polnoc | Q3 | 180 |\n| 9 | Nowak | Poludnie | Q3 | 70 |\n| 10 | Wisniewski | Polnoc | Q3 | 160 |\n| 11 | Kowalski | Polnoc | Q4 | 200 |\n| 12 | Nowak | Poludnie | Q4 | 90 |\n| 13 | Wisniewski | Polnoc | Q4 | 140 |\n\nProgi premii: sprzedaz >= 150 tys. zl → \"Premia 10%\", >= 100 → \"Premia 5%\", < 100 → \"Brak premii\".\n\n**Polecenie**:\n1. W kolumnie E wpisz kategorie premii wg progow.\n2. Oblicz laczna sprzedaz Kowalskiego z kwartalow, w ktorych uzyskal premie 10%.\n3. Ile razy handlowcy z regionu \"Polnoc\" osiagneli sprzedaz powyzej sredniej firmy?\n4. Oblicz srednia sprzedaz w kwartalach, w ktorych laczna sprzedaz regionu \"Polnoc\" przekroczyla 300 tys. zl.",
+  "wskazowki": [
+    "**Kierunek**: Punkt 1 — zagniezdzone IF z progami malejacymi. Punkt 3 — COUNTIFS z dynamicznym progiem (srednia). Punkt 4 — wymaga znalezienia kwartalow, w ktorych suma Polnoc > 300.",
+    "**Podejscie**: Punkt 3: =COUNTIFS(B2:B13;\"Polnoc\";D2:D13;\">\"&AVERAGE(D2:D13)). Punkt 4 — najpierw policz SUMIFS per kwartal, potem usrednij te > 300.",
+    "**Kluczowy krok**: Punkt 4: Kolumny pomocnicze z sumami per kwartal, potem AVERAGEIF na nich."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nE2: =IF(D2>=150;\"Premia 10%\";IF(D2>=100;\"Premia 5%\";\"Brak premii\"))\n\nPunkt 2: =SUMIFS(D2:D13;A2:A13;\"Kowalski\";E2:E13;\"Premia 10%\")\n\nPunkt 3: =COUNTIFS(B2:B13;\"Polnoc\";D2:D13;\">\"&AVERAGE(D2:D13))\n\nPunkt 4 (kolumny pomocnicze):\nH2: =SUMIFS(D$2:D$13;C$2:C$13;G2;B$2:B$13;\"Polnoc\")\n(G2:G5 = Q1,Q2,Q3,Q4 — etykiety kwartalow)\nWynik: =AVERAGEIF(H2:H5;\">300\")\n```\n\n**Weryfikacja:**\n\nKolumna E (premia):\n| Handlowiec | Sprzedaz | Premia |\n|------------|----------|--------|\n| Kowalski Q1 | 120 | Premia 5% |\n| Nowak Q1 | 85 | Brak premii |\n| Kowalski Q2 | 150 | Premia 10% |\n| Wisniewski Q1 | 95 | Brak premii |\n| Nowak Q2 | 110 | Premia 5% |\n| Wisniewski Q2 | 130 | Premia 5% |\n| Kowalski Q3 | 180 | Premia 10% |\n| Nowak Q3 | 70 | Brak premii |\n| Wisniewski Q3 | 160 | Premia 10% |\n| Kowalski Q4 | 200 | Premia 10% |\n| Nowak Q4 | 90 | Brak premii |\n| Wisniewski Q4 | 140 | Premia 5% |\n\nPunkt 2 — Kowalski + Premia 10%:\n- Q2: 150, Q3: 180, Q4: 200\n- Suma: 150 + 180 + 200 = **530 tys. zl**\n\nPunkt 3:\n- Srednia firmy: (120+85+150+95+110+130+180+70+160+200+90+140)/12 = 1530/12 = **127,5**\n- Polnoc > 127,5: Kowalski Q2(150)✓, Wisniewski Q2(130)✓, Kowalski Q3(180)✓, Wisniewski Q3(160)✓, Kowalski Q4(200)✓, Wisniewski Q4(140)✓\n- (Kowalski Q1(120) i Wisniewski Q1(95) — nie)\n- Wynik: **6**\n\nPunkt 4:\n- Suma Polnoc per kwartal: Q1: 120+95=215, Q2: 150+130=280, Q3: 180+160=340, Q4: 200+140=340\n- Kwartaly > 300: Q3(340), Q4(340)\n- Srednia: (340+340)/2 = **340 tys. zl**\n\n**Wyjasnienie**: Zadanie laczy wiele technik: zagniezdzone IF, SUMIFS z kolumna pomocnicza, COUNTIFS z dynamicznym progiem, i AVERAGEIF na wynikach posrednich. Punkt 4 wymaga dwuetapowego rozwiazania — najpierw oblicz sumy, potem usrednij.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zla kolejnosc progow w IF**: =IF(D2>=100;\"Premia 5%\";IF(D2>=150;\"Premia 10%\";\"Brak\")) — prog 100 pochłania 150+, wiec nikt nie dostanie 10%",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak kolumny pomocniczej w punkcie 4**: Proba obliczenia sredniej kwartalowej bez posrednich sum — AVERAGEIFS nie moze filtrowac po sumach SUMIFS",
+      "kara": "-2 pkt"
+    }
+  ]
+}

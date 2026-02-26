@@ -1,0 +1,28 @@
+{
+  "id": "16.11",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna (akumulator — zuzycie paliwa)",
+  "tagi": [
+    "akumulator",
+    "kopiowanie-formul",
+    "odwolanie-wzgledne"
+  ],
+  "tresc": "Samochod wyrusza w podroz z pelnym bakiem 60 litrow. W kolejnych etapach zuzywa paliwo:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Etap** | **Zuzycie (l)** | **Paliwo w baku** |\n| 2 | Start | — | 60 |\n| 3 | 1 | 12 | ? |\n| 4 | 2 | 8 | ? |\n| 5 | 3 | 15 | ? |\n| 6 | 4 | 10 | ? |\n| 7 | 5 | 7 | ? |\n| 8 | 6 | 5 | ? |\n\n**Polecenie**: Napisz formule w komorce C3, ktora oblicza ile paliwa zostalo po kazdym etapie (poprzedni stan minus zuzycie). Formula powinna dzialac po skopiowaniu w dol. Wypelnij tabele.",
+  "wskazowki": [
+    "**Kierunek**: Paliwo po etapie = paliwo przed etapem minus zuzycie.",
+    "**Podejscie**: Formula w C3 odwoluje sie do C2 (poprzedni stan) i B3 (zuzycie). Oba odwolania wzgledne.",
+    "**Kluczowy krok**: C3: =C2-B3. Po skopiowaniu w dol C4 stanie sie =C3-B4."
+  ],
+  "odpowiedz": "**Formula (C3, kopiowana w dol):**\n```\nC3: =C2-B3\n```\n\n**Wypelniona tabela:**\n\n| Etap | Zuzycie (l) | Paliwo w baku |\n|------|-------------|---------------|\n| Start | — | 60 |\n| 1 | 12 | 48 |\n| 2 | 8 | 40 |\n| 3 | 15 | 25 |\n| 4 | 10 | 15 |\n| 5 | 7 | 8 |\n| 6 | 5 | 3 |\n\n**Weryfikacja krok po kroku:**\n- C3: 60 - 12 = 48\n- C4: 48 - 8 = 40\n- C5: 40 - 15 = 25\n- C6: 25 - 10 = 15\n- C7: 15 - 7 = 8\n- C8: 8 - 5 = 3\n\n**Wyjasnienie**: Jest to akumulator z odejmowaniem — kazdy wiersz odwoluje sie do poprzedniego stanu i odejmuje zuzycie. Odwolania wzgledne zapewniaja poprawne kopiowanie formuly w dol.",
+  "typowe_bledy": [
+    {
+      "opis": "**Dodawanie zamiast odejmowania**: =C2+B3 zwiekszaloby paliwo zamiast zmniejszac",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Odwolanie do stalej wartosci**: =60-B3 zamiast =C2-B3 — kazdy etap odejmuje od 60, nie od biezacego stanu",
+      "kara": "-1 pkt"
+    }
+  ]
+}

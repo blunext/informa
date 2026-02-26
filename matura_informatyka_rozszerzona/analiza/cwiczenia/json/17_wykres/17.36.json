@@ -1,0 +1,28 @@
+{
+  "id": "17.36",
+  "trudnosc": "trudne",
+  "punkty": 5,
+  "zrodlo": "ogolna (demografia)",
+  "tagi": ["wykres-skumulowany", "wykres-liniowy", "procent-udzialu", "seria-danych", "legenda"],
+  "tresc": "Struktura wiekowa mieszkancow miasta (w tysiacach):\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Rok** | **0-17 lat** | **18-44 lat** | **45-64 lat** | **65+ lat** |\n| 2 | 2010 | 45 | 110 | 75 | 30 |\n| 3 | 2013 | 42 | 108 | 78 | 35 |\n| 4 | 2016 | 40 | 102 | 80 | 42 |\n| 5 | 2019 | 38 | 95 | 82 | 50 |\n| 6 | 2022 | 35 | 90 | 78 | 58 |\n| 7 | 2025 | 32 | 85 | 75 | 65 |\n\n**Polecenie**:\n1. Opisz wykres kolumnowy skumulowany 100% pokazujacy zmiany struktury wiekowej.\n2. Oblicz wskaznik obciazenia demograficznego w kazdym roku: (0-17 + 65+) / (18-64) * 100.\n3. Opisz osobny wykres liniowy wskaznika obciazenia.\n4. Jak zmienila sie populacja calkowita? Jaki jest glowny trend demograficzny?",
+  "wskazowki": [
+    "**Kierunek**: Dwa wykresy: skumulowany 100% (struktura wiekowa) i liniowy (wskaznik obciazenia).",
+    "**Podejscie**: Wskaznik obciazenia = (mlodzi + seniorzy) / doroslych_produkcyjnych * 100.",
+    "**Kluczowy krok**: Sprawdz, czy populacja rosnie/maleje (sumy w wierszach) i jak zmieniaja sie proporcje."
+  ],
+  "odpowiedz": "**1. Wykres kolumnowy skumulowany 100%:**\n\n- Typ: 100% stacked column (4 warstwy)\n- Os X: A2:A7 (lata)\n- Seria 1: B2:B7 (0-17) — jasnoniebieski\n- Seria 2: C2:C7 (18-44) — zielony\n- Seria 3: D2:D7 (45-64) — pomaranczowy\n- Seria 4: E2:E7 (65+) — szary\n- Tytul: \"Struktura wiekowa mieszkancow miasta\"\n- Os Y: 0-100%, Legenda\n\n**2. Wskaznik obciazenia demograficznego:**\n\nWskaznik = (0-17 + 65+) / (18-44 + 45-64) * 100\n\n| Rok | 0-17 | 65+ | Prod. (18-64) | Suma | Wskaznik |\n|-----|------|-----|---------------|------|----------|\n| 2010 | 45 | 30 | 110+75=185 | 260 | 75/185*100 = **40.5** |\n| 2013 | 42 | 35 | 108+78=186 | 263 | 77/186*100 = **41.4** |\n| 2016 | 40 | 42 | 102+80=182 | 264 | 82/182*100 = **45.1** |\n| 2019 | 38 | 50 | 95+82=177 | 265 | 88/177*100 = **49.7** |\n| 2022 | 35 | 58 | 90+78=168 | 261 | 93/168*100 = **55.4** |\n| 2025 | 32 | 65 | 85+75=160 | 257 | 97/160*100 = **60.6** |\n\n**3. Wykres liniowy wskaznika obciazenia:**\n\n- Typ: Liniowy z markerami\n- Os X: lata, Os Y: wskaznik (skala 30-70)\n- Tytul: \"Wskaznik obciazenia demograficznego\"\n- Trend: wyraznie rosnacy (40.5 → 60.6)\n\n**4. Populacja calkowita i trend:**\n\n| Rok | Populacja |\n|-----|-----------|\n| 2010 | 260 tys. |\n| 2013 | 263 tys. |\n| 2016 | 264 tys. |\n| 2019 | 265 tys. |\n| 2022 | 261 tys. |\n| 2025 | 257 tys. |\n\nPopulacja: wzrastala do 2019 (265 tys.), potem zaczela **malec** (257 tys. w 2025).\n\nGlowny trend: **starzenie sie spoleczenstwa** — grupa 65+ rosnie (z 30 do 65 tys.), grupy mlodsze maleja. Wskaznik obciazenia wzrosl o 20 pp — coraz mniej osob w wieku produkcyjnym utrzymuje coraz wieksza grupe nieprodukcyjna.\n\n**Wyjasnienie**: Wykres 100% skumulowany najlepiej uwidacznia zmiany strukturalne, a liniowy — trend wskaznika. Takie zadanie laczy wizualizacje z interpretacja ekonomiczna.",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledna definicja wskaznika obciazenia**: Mianownik to ludnosc w wieku produkcyjnym (18-64), NIE cala populacja",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pominięcie grupy 0-17 we wskazniku**: Wskaznik obciazenia obejmuje MLODYCH i STARYCH, nie tylko seniorow",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak interpretacji trendu demograficznego**: Samo obliczenie bez wyjasnienia (starzenie sie) to niepelna odpowiedz",
+      "kara": "-1 pkt"
+    }
+  ]
+}

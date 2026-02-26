@@ -1,0 +1,30 @@
+{
+  "id": "16.29",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2025 (nadgodziny pracownikow)",
+  "tagi": [
+    "IF-warunkowy",
+    "SUM-kumulacyjna",
+    "akumulator",
+    "odwolanie-bezwzgledne",
+    "prog-warunkowy"
+  ],
+  "tresc": "Pracownik ma miesieczny limit 160 godzin pracy. Za godziny powyzej limitu (nadgodziny) otrzymuje stawke 1,5x normalnej (30 zl/h normalna, 45 zl/h nadgodziny). Nalezy sledzic przepracowane godziny, nadgodziny i wynagrodzenie.\n\nParametry: G1 = 160 (limit), G2 = 30 (stawka), G3 = 45 (stawka nadgodzin).\n\n| | A | B | C | D | E | F |\n|---|---|---|---|---|---|---|\n| 1 | **Tydzien** | **Godziny** | **Kumulacja** | **Nadgodziny tygodnia** | **Wynagrodzenie** | **Wyn. kumulacyjne** |\n| 2 | 1 | 42 | ? | ? | ? | ? |\n| 3 | 2 | 45 | ? | ? | ? | ? |\n| 4 | 3 | 38 | ? | ? | ? | ? |\n| 5 | 4 | 50 | ? | ? | ? | ? |\n\nMiesiac ma 4 tygodnie. Limit 160 h dotyczy calego miesiaca.\n\n**Polecenie**:\n1. W C2 oblicz kumulacje godzin (narastajaca suma kolumny B).\n2. W D2 oblicz nadgodziny tygodnia: jesli kumulacja > 160, to nadwyzka ponad limit (ale tylko przyrost w tym tygodniu, nie calosc). Wzor: MAX(0; kumulacja - MAX(160; kumulacja - godziny biezacego tygodnia)).\n3. W E2 oblicz wynagrodzenie: godziny normalne * 30 + nadgodziny * 45.\n4. W F2 oblicz wynagrodzenie kumulacyjne.\n5. Wypelnij tabele.",
+  "wskazowki": [
+    "**Kierunek**: Nadgodziny pojawiaja sie dopiero gdy kumulacja przekroczy 160. W tygodniu, w ktorym przekraczamy limit, tylko czesc godzin to nadgodziny. Potem wszystkie godziny to nadgodziny.",
+    "**Podejscie**: C2: =SUM($B$2:B2). Prostsza formula: D2: =MAX(0;C2-MAX($G$1;C2-B2)), ale mozna uzyc: =MAX(0;MIN(B2;C2-$G$1)). E2: =(B2-D2)*$G$2+D2*$G$3. F2: =SUM($E$2:E2).",
+    "**Kluczowy krok**: Dla D2 kluczowe: MAX(0; MIN(B2; C2-$G$1)). Jesli C2 <= 160 → D2=0. Jesli C2 > 160 i C2-B2 < 160 → nadgodziny = C2-160 (czesc tygodnia). Jesli C2-B2 >= 160 → nadgodziny = B2 (caly tydzien)."
+  ],
+  "odpowiedz": "**Formuly (wiersz 2, kopiowane w dol):**\n```\nC2: =SUM($B$2:B2)\nD2: =MAX(0;MIN(B2;C2-$G$1))\nE2: =(B2-D2)*$G$2+D2*$G$3\nF2: =SUM($E$2:E2)\n```\n\n**Wypelniona tabela:**\n\n| Tydzien | Godziny | Kumulacja | Nadgodziny | Wynagrodzenie | Wyn. kumulacyjne |\n|---------|---------|-----------|------------|---------------|------------------|\n| 1 | 42 | 42 | 0 | 1260 | 1260 |\n| 2 | 45 | 87 | 0 | 1350 | 2610 |\n| 3 | 38 | 125 | 0 | 1140 | 3750 |\n| 4 | 50 | 175 | 15 | 1725 | 5475 |\n\n**Weryfikacja krok po kroku:**\n- Tydzien 1: C2=42. D2=MAX(0;MIN(42;42-160))=MAX(0;MIN(42;-118))=MAX(0;-118)=0. E2=(42-0)*30+0*45=1260. F2=1260\n- Tydzien 2: C3=42+45=87. D3=MAX(0;MIN(45;87-160))=MAX(0;MIN(45;-73))=MAX(0;-73)=0. E3=(45-0)*30+0*45=1350. F3=1260+1350=2610\n- Tydzien 3: C4=87+38=125. D4=MAX(0;MIN(38;125-160))=MAX(0;MIN(38;-35))=MAX(0;-35)=0. E4=(38-0)*30+0*45=1140. F4=2610+1140=3750\n- Tydzien 4: C5=125+50=175. D5=MAX(0;MIN(50;175-160))=MAX(0;MIN(50;15))=MAX(0;15)=15. E5=(50-15)*30+15*45=35*30+15*45=1050+675=1725. F5=3750+1725=5475\n\n**Sprawdzenie calosciowe:** Lacznie 175 godzin. 160 normalnych * 30 = 4800. 15 nadgodzin * 45 = 675. Suma = 5475. Zgadza sie z F5.\n\n**Wyjasnienie**: Kluczowy wzorzec: nadgodziny oblicza sie w kontekscie kumulacji. Formula MAX(0;MIN(B2;C2-$G$1)) elegancko obsluguje trzy przypadki: (1) kumulacja <= limit → 0 nadgodzin, (2) limit przekroczony w srodku tygodnia → czesc godzin to nadgodziny, (3) caly tydzien po przekroczeniu limitu → wszystkie godziny to nadgodziny.",
+  "typowe_bledy": [
+    {
+      "opis": "**Liczenie nadgodzin od godzin tygodnia**: D2: =IF(B2>40;B2-40;0) — liczy nadgodziny tygodniowo (prog 40h/tydzien), a zadanie mowi o limicie miesiecznym 160h.",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Cala nadwyzka jako nadgodziny tygodnia**: D4: =C5-$G$1 zamiast =MAX(0;MIN(B5;C5-$G$1)) — w tygodniu 4 daje 15 (poprawnie), ale jesli bylyby kolejne tygodnie, daloby calkowita nadwyzke zamiast tygodniowej porcji.",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "17.23",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "ogolna (rolnictwo)",
+  "tagi": ["wykres-skumulowany", "legenda", "seria-danych", "etykiety-danych"],
+  "tresc": "Produkcja zboz w gospodarstwie (w tonach) w ostatnich 5 latach:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Rok** | **Pszenica** | **Jeczmien** | **Kukurydza** |\n| 2 | 2021 | 120 | 45 | 80 |\n| 3 | 2022 | 135 | 50 | 95 |\n| 4 | 2023 | 110 | 55 | 100 |\n| 5 | 2024 | 140 | 40 | 85 |\n| 6 | 2025 | 150 | 60 | 110 |\n\n**Polecenie**: Opisz, jak utworzyc wykres kolumnowy skumulowany pokazujacy calkowita produkcje zboz z podzialem na rodzaje. Podaj specyfikacje. W ktorym roku calkowita produkcja byla najnizsza? Ktore zboze mialo najbardziej stabilna produkcje (najmniejsza roznice miedzy minimum a maximum)?",
+  "wskazowki": [
+    "**Kierunek**: Wykres skumulowany — warstwy ulozone na sobie, kazdy kolor = inne zboze.",
+    "**Podejscie**: Wysokosc calego slupka = suma trzech zboz. Najnizsza suma = najslabszy rok.",
+    "**Kluczowy krok**: Stabilnosc = min(roznica max-min). Oblicz zakres (max-min) dla kazdego zboze."
+  ],
+  "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kolumnowy skumulowany (stacked column)\n2. **Dane**:\n   - Os X: zakres A2:A6 (lata)\n   - Seria 1: B2:B6 (Pszenica) — np. kolor zloty\n   - Seria 2: C2:C6 (Jeczmien) — np. kolor zielony\n   - Seria 3: D2:D6 (Kukurydza) — np. kolor pomaranczowy\n3. **Tytuly**:\n   - Tytul: \"Produkcja zboz w gospodarstwie (tony)\"\n   - Os X: \"Rok\"\n   - Os Y: \"Produkcja (t)\"\n4. **Formatowanie**:\n   - Trzy warstwy w kazdym slupku\n   - Legenda u gory: Pszenica, Jeczmien, Kukurydza\n   - Etykiety danych w kazdej warstwie\n   - Os Y od 0 do 350\n\n**Calkowita produkcja wg lat:**\n\n| Rok | Pszenica + Jeczmien + Kukurydza | Suma |\n|-----|-------------------------------|------|\n| 2021 | 120+45+80 | **245** |\n| 2022 | 135+50+95 | 280 |\n| 2023 | 110+55+100 | 265 |\n| 2024 | 140+40+85 | 265 |\n| 2025 | 150+60+110 | 320 |\n\nNajnizsza calkowita produkcja: **2021 (245 t)**\n\n**Stabilnosc produkcji (zakres max-min):**\n\n| Zboze | Min | Max | Zakres |\n|-------|-----|-----|--------|\n| Pszenica | 110 | 150 | 40 |\n| Jeczmien | 40 | 60 | **20** |\n| Kukurydza | 80 | 110 | 30 |\n\nNajbardziej stabilna produkcja: **Jeczmien (zakres 20 t)** — najmniejsza roznica miedzy najlepsza a najslabsza wartoscia.\n\n**Wyjasnienie**: Wykres skumulowany uwidacznia zarowno calkowita produkcje (wysokosc slupka), jak i udzial poszczegolnych zboz. Stabilnosc mierzymy zakresem (max-min) — im mniejszy, tym bardziej stabilna produkcja.",
+  "typowe_bledy": [
+    {
+      "opis": "**Porownywanie sredniej zamiast zakresu**: Pytanie o stabilnosc — mierzymy rozrzut (max-min), nie srednia produkcje",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak etykiet w warstwach**: Na wykresie skumulowanym bez etykiet trudno odczytac wartosc poszczegolnych skladnikow",
+      "kara": "-1 pkt"
+    }
+  ]
+}

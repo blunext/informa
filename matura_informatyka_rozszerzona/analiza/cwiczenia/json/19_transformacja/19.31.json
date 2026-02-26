@@ -1,0 +1,29 @@
+{
+  "id": "19.31",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "SUMIFS",
+    "VLOOKUP",
+    "kolumna-pomocnicza",
+    "tabela-krzyzowa"
+  ],
+  "tresc": "Firma ma sprzedaz z kodami regionow. Chcemy stworzyc pivot z pelnymi nazwami regionow.\n\nSlownik regionow:\n\n| | A | B |\n|---|---|---|\n| 1 | **Kod** | **Region** |\n| 2 | N | Polnoc |\n| 3 | S | Poludnie |\n| 4 | E | Wschod |\n\nDane sprzedazy:\n\n| | D | E | F |\n|---|---|---|---|\n| 1 | **Produkt** | **Kod regionu** | **Wartosc** |\n| 2 | Rower | N | 3500 |\n| 3 | Hulajnoga | S | 1200 |\n| 4 | Deskorolka | E | 800 |\n| 5 | Rower | S | 4000 |\n| 6 | Hulajnoga | N | 1500 |\n| 7 | Deskorolka | N | 900 |\n| 8 | Rower | E | 3200 |\n| 9 | Hulajnoga | E | 1100 |\n| 10 | Deskorolka | S | 750 |\n| 11 | Rower | N | 3800 |\n| 12 | Hulajnoga | S | 1300 |\n\nTabela pivot produkt × region (z pelnymi nazwami):\n\n| | H | I | J | K |\n|---|---|---|---|---|\n| 1 | | **Polnoc** | **Poludnie** | **Wschod** |\n| 2 | **Rower** | ? | ? | ? |\n| 3 | **Hulajnoga** | ? | ? | ? |\n| 4 | **Deskorolka** | ? | ? | ? |\n\n**Polecenie**:\n1. W kolumnie G dodaj kolumne pomocnicza z pelna nazwa regionu (VLOOKUP ze slownika).\n2. Napisz formule SUMIFS w I2 uzywajac kolumny G i odwolan mieszanych.",
+  "wskazowki": [
+    "**Kierunek**: Dwuetapowo — VLOOKUP tlumaczy kody na nazwy, potem SUMIFS tworzy pivot po nazwach.",
+    "**Podejscie**: G2: =VLOOKUP(E2;$A$2:$B$4;2;0). Potem I2: =SUMIFS(F$2:F$12;D$2:D$12;$H2;G$2:G$12;I$1).",
+    "**Kluczowy krok**: Pivot uzywa kolumny G (nazwy) jako kryterium, nie kolumny E (kody) — naglowki tabeli to nazwy."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nG2: =VLOOKUP(E2;$A$2:$B$4;2;0)    (kopiowana w dol do G12)\n\nI2: =SUMIFS(F$2:F$12;D$2:D$12;$H2;G$2:G$12;I$1)\n    (kopiowana w prawo do K2 i w dol do K4)\n```\n\n**Kolumna G (nazwy regionow):**\n- N → Polnoc, S → Poludnie, E → Wschod\n\n| Wiersz | Produkt | Kod | Nazwa | Wartosc |\n|--------|---------|-----|-------|--------|\n| 2 | Rower | N | Polnoc | 3500 |\n| 3 | Hulajnoga | S | Poludnie | 1200 |\n| 4 | Deskorolka | E | Wschod | 800 |\n| 5 | Rower | S | Poludnie | 4000 |\n| 6 | Hulajnoga | N | Polnoc | 1500 |\n| 7 | Deskorolka | N | Polnoc | 900 |\n| 8 | Rower | E | Wschod | 3200 |\n| 9 | Hulajnoga | E | Wschod | 1100 |\n| 10 | Deskorolka | S | Poludnie | 750 |\n| 11 | Rower | N | Polnoc | 3800 |\n| 12 | Hulajnoga | S | Poludnie | 1300 |\n\n**Wypelniona tabela pivot:**\n- Rower-Polnoc: 3500+3800 = 7300\n- Rower-Poludnie: 4000\n- Rower-Wschod: 3200\n- Hulajnoga-Polnoc: 1500\n- Hulajnoga-Poludnie: 1200+1300 = 2500\n- Hulajnoga-Wschod: 1100\n- Deskorolka-Polnoc: 900\n- Deskorolka-Poludnie: 750\n- Deskorolka-Wschod: 800\n\n| | Polnoc | Poludnie | Wschod | Razem |\n|---|---|---|---|---|\n| Rower | 7300 | 4000 | 3200 | 14500 |\n| Hulajnoga | 1500 | 2500 | 1100 | 5100 |\n| Deskorolka | 900 | 750 | 800 | 2450 |\n| Razem | 9700 | 7250 | 5100 | 22050 |\n\nKontrola: 14500+5100+2450 = 22050, 9700+7250+5100 = 22050 ✓\nSUM(F2:F12) = 3500+1200+800+4000+1500+900+3200+1100+750+3800+1300 = 22050 ✓\n\n**Wyjasnienie**: Dwuetapowa transformacja: VLOOKUP tworzy kolumne pomocnicza z pelnymi nazwami (\"Polnoc\" zamiast \"N\"), a SUMIFS uzywa jej jako kryterium w pivocie. Naglowki tabeli docelowej zawieraja pelne nazwy, wiec kryterium musi porownywac pelne nazwy.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie kodow w SUMIFS zamiast nazw**: Jesli naglowki pivot maja nazwy (\"Polnoc\"), a kryterium porownuje z kodami (\"N\"), SUMIFS zwroci 0",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak kolumny pomocniczej**: Mozna tez uzyc zagniezdzonego IF, ale jest to mniej czytelne i trudniejsze do rozszerzenia",
+      "kara": "-1 pkt"
+    }
+  ]
+}

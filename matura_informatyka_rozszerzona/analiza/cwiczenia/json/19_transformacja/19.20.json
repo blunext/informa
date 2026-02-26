@@ -1,0 +1,28 @@
+{
+  "id": "19.20",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "VLOOKUP",
+    "SUMIF",
+    "kolumna-pomocnicza"
+  ],
+  "tresc": "Magazyn ma liste towarow z kodami kategorii oraz slownik kategorii:\n\nSlownik kategorii:\n\n| | A | B |\n|---|---|---|\n| 1 | **Kod** | **Nazwa kategorii** |\n| 2 | EL | Elektronika |\n| 3 | SP | Spozywcze |\n| 4 | CH | Chemia |\n\nLista towarow:\n\n| | D | E | F | G |\n|---|---|---|---|---|\n| 1 | **Towar** | **Kod kat.** | **Wartosc** | **Kategoria** |\n| 2 | Monitor | EL | 1200 | ? |\n| 3 | Maka | SP | 45 | ? |\n| 4 | Mydlo | CH | 15 | ? |\n| 5 | Klawiatura | EL | 180 | ? |\n| 6 | Cukier | SP | 35 | ? |\n| 7 | Proszek | CH | 28 | ? |\n| 8 | Mysz | EL | 90 | ? |\n| 9 | Ryz | SP | 40 | ? |\n\nTabela podsumowania:\n\n| | I | J |\n|---|---|---|\n| 1 | **Kategoria** | **Suma wartosci** |\n| 2 | Elektronika | ? |\n| 3 | Spozywcze | ? |\n| 4 | Chemia | ? |\n\n**Polecenie**:\n1. Napisz formule w G2, ktora wyszuka pelna nazwe kategorii na podstawie kodu (VLOOKUP).\n2. Napisz formule w J2, ktora zsumuje wartosci towarow danej kategorii (SUMIF po kolumnie G).",
+  "wskazowki": [
+    "**Kierunek**: Dwuetapowa transformacja: VLOOKUP przetlumaczy kody na nazwy, potem SUMIF pogrupuje.",
+    "**Podejscie**: G2: =VLOOKUP(E2;$A$2:$B$4;2;0). Potem J2: =SUMIF(G2:G9;I2;F2:F9).",
+    "**Kluczowy krok**: Kolumna G to kolumna pomocnicza — zamienia krotki kod na pelna nazwe, aby moc grupowac po czytelnej kategorii."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nG2: =VLOOKUP(E2;$A$2:$B$4;2;0)   (kopiowana w dol do G9)\nJ2: =SUMIF(G2:G9;I2;F2:F9)       (kopiowana w dol do J4)\n```\n\n**Kolumna G (kategorie):**\n- Monitor (EL) → Elektronika\n- Maka (SP) → Spozywcze\n- Mydlo (CH) → Chemia\n- Klawiatura (EL) → Elektronika\n- Cukier (SP) → Spozywcze\n- Proszek (CH) → Chemia\n- Mysz (EL) → Elektronika\n- Ryz (SP) → Spozywcze\n\n**Sumy kategorii:**\n- Elektronika: 1200 + 180 + 90 = **1470**\n- Spozywcze: 45 + 35 + 40 = **120**\n- Chemia: 15 + 28 = **43**\n\nKontrola: 1470 + 120 + 43 = 1633 = SUM(F2:F9) = 1200+45+15+180+35+28+90+40 = 1633 ✓\n\n**Wyjasnienie**: To typowy dwuetapowy wzorzec: (1) VLOOKUP tlumaczy kody na czytelne nazwy w kolumnie pomocniczej, (2) SUMIF grupuje wartosci po przetlumaczonej kategorii. Na maturze czesto dane maja kody zamiast pelnych nazw — VLOOKUP sluzy jako \"tlumacz\".",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak $ w zakresie slownika**: Bez $A$2:$B$4 zakres przesunie sie przy kopiowaniu G2 w dol — kolejne wiersze nie znajda kodow",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**SUMIF po kodach zamiast po nazwach**: Mozna tez zrobic SUMIF po kolumnie E z kodami, ale wtedy tabela docelowa musi miec kody, a nie nazwy",
+      "kara": "-1 pkt"
+    }
+  ]
+}

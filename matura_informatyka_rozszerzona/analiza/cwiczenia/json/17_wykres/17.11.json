@@ -1,0 +1,24 @@
+{
+  "id": "17.11",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna (biblioteka)",
+  "tagi": ["wykres-kolumnowy", "tytuly-osi", "etykiety-danych"],
+  "tresc": "Biblioteka szkolna zebrala dane o liczbie wypozyczen w poszczegolnych miesiacach:\n\n| | A | B |\n|---|---|---|\n| 1 | **Miesiac** | **Wypozyczenia** |\n| 2 | Wrzesien | 120 |\n| 3 | Pazdziernik | 145 |\n| 4 | Listopad | 98 |\n| 5 | Grudzien | 67 |\n| 6 | Styczen | 110 |\n| 7 | Luty | 132 |\n\n**Polecenie**: Opisz, jak utworzyc wykres kolumnowy przedstawiajacy liczbe wypozyczen w kazdym miesiacu. Podaj typ wykresu, dane dla osi, tytuly i formatowanie.",
+  "wskazowki": [
+    "**Kierunek**: Wykres kolumnowy — kazdy miesiac to osobna kategoria na osi X.",
+    "**Podejscie**: Jedna seria danych (wypozyczenia). Os X = miesiace, os Y = liczba wypozyczen.",
+    "**Kluczowy krok**: Dodaj etykiety danych nad slupkami i zadbaj o czytelne tytuly osi."
+  ],
+  "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kolumnowy (slupkowy pionowy)\n2. **Dane**:\n   - Os X (kategorie): zakres A2:A7 (miesiace)\n   - Os Y (wartosci): zakres B2:B7 (liczba wypozyczen)\n3. **Tytuly**:\n   - Tytul wykresu: \"Wypozyczenia w bibliotece szkolnej\"\n   - Os X: \"Miesiac\"\n   - Os Y: \"Liczba wypozyczen\"\n4. **Formatowanie**:\n   - Kolumny w jednym kolorze (jedna seria danych)\n   - Etykiety danych nad kazdym slupkiem (120, 145, 98, 67, 110, 132)\n   - Linie siatki poziomej\n   - Os Y od 0 do 160 (z krokiem co 20)\n\n**Wyjasnienie**: Wykres kolumnowy jest odpowiedni, bo porownujemy wartosci liczbowe miedzy kategoriami (miesiacami). Etykiety danych ulatwiaja odczyt dokladnych wartosci.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak tytulu wykresu lub podpisow osi**: Kazdy wykres na maturze musi miec czytelne opisy — tytul, nazwy osi",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Zla kolejnosc miesiecy na osi X**: Miesiace musza byc w kolejnosci chronologicznej, nie alfabetycznej",
+      "kara": "-1 pkt"
+    }
+  ]
+}

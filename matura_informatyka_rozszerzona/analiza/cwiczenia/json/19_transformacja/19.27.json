@@ -1,0 +1,29 @@
+{
+  "id": "19.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "COUNTIFS",
+    "tabela-krzyzowa",
+    "odwolania-mieszane",
+    "pivot-reczny"
+  ],
+  "tresc": "Szpital rejestruje wizyty pacjentow z podanym oddzialem i dniem tygodnia:\n\n| | A | B |\n|---|---|---|\n| 1 | **Oddzial** | **Dzien** |\n| 2 | Chirurgia | Poniedzialek |\n| 3 | Interna | Wtorek |\n| 4 | Chirurgia | Sroda |\n| 5 | Pediatria | Poniedzialek |\n| 6 | Interna | Poniedzialek |\n| 7 | Chirurgia | Poniedzialek |\n| 8 | Pediatria | Sroda |\n| 9 | Interna | Sroda |\n| 10 | Chirurgia | Wtorek |\n| 11 | Pediatria | Wtorek |\n| 12 | Interna | Wtorek |\n| 13 | Chirurgia | Sroda |\n| 14 | Pediatria | Poniedzialek |\n| 15 | Interna | Poniedzialek |\n| 16 | Chirurgia | Wtorek |\n\nTabela krzyzowa — liczba wizyt wg oddzialu i dnia:\n\n| | D | E | F | G | H |\n|---|---|---|---|---|---|\n| 1 | | **Poniedzialek** | **Wtorek** | **Sroda** | **Razem** |\n| 2 | **Chirurgia** | ? | ? | ? | ? |\n| 3 | **Interna** | ? | ? | ? | ? |\n| 4 | **Pediatria** | ? | ? | ? | ? |\n| 5 | **Razem** | ? | ? | ? | ? |\n\n**Polecenie**:\n1. Napisz formule w E2 uzywajac COUNTIFS z odwolaniami mieszanymi.\n2. Dodaj wiersz i kolumne Razem.\n3. Zweryfikuj sumy krzyzowo.",
+  "wskazowki": [
+    "**Kierunek**: COUNTIFS zlicza wiersze — oddzial ($D2) i dzien (E$1) jako kryteria.",
+    "**Podejscie**: E2: =COUNTIFS(A$2:A$16;$D2;B$2:B$16;E$1). Razem: SUM wiersza/kolumny.",
+    "**Kluczowy krok**: Suma calkowita (H5) = liczba wierszy danych = 15. To kontrola poprawnosci."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nE2: =COUNTIFS(A$2:A$16;$D2;B$2:B$16;E$1)\n    (kopiowana w prawo do G2 i w dol do G4)\n\nH2: =SUM(E2:G2)          (suma wiersza)\nE5: =SUM(E2:E4)          (suma kolumny)\nH5: =SUM(H2:H4)          (suma calosci)\n```\n\n**Weryfikacja (zliczanie wierszy):**\n- Chirurgia-Poniedzialek: wiersze 2, 7 → **2**\n- Chirurgia-Wtorek: wiersze 10, 16 → **2**\n- Chirurgia-Sroda: wiersze 4, 13 → **2**\n- Interna-Poniedzialek: wiersze 6, 15 → **2**\n- Interna-Wtorek: wiersze 3, 12 → **2**\n- Interna-Sroda: wiersz 9 → **1**\n- Pediatria-Poniedzialek: wiersze 5, 14 → **2**\n- Pediatria-Wtorek: wiersz 11 → **1**\n- Pediatria-Sroda: wiersz 8 → **1**\n\n| | Poniedzialek | Wtorek | Sroda | Razem |\n|---|---|---|---|---|\n| Chirurgia | 2 | 2 | 2 | 6 |\n| Interna | 2 | 2 | 1 | 5 |\n| Pediatria | 2 | 1 | 1 | 4 |\n| Razem | 6 | 5 | 4 | **15** |\n\n**Weryfikacja krzyzowa:**\n- Suma wierszow: 6 + 5 + 4 = 15 ✓\n- Suma kolumn: 6 + 5 + 4 = 15 ✓\n- Liczba wierszy danych: 15 (wiersze 2-16) ✓\n\n**Wyjasnienie**: COUNTIFS tworzy tabele krzyzowa licznosci — ile razy kazda kombinacja oddzial×dzien wystepuje w danych. Suma calosci musi rowna sie liczbie wierszy zrodlowych (15). To pivot zliczajacy zamiast sumujacego.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomylenie COUNTIFS z SUMIFS**: COUNTIFS zlicza wystapienia, SUMIFS sumuje wartosci. Tu nie ma kolumny z wartosciami — liczymy wizyty",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Blad w odniesieniach mieszanych**: $D2 i E$1 musza miec $ na wlasciwym elemencie. Odwrotnie: D$2 i $E1 daloby bledne wyniki",
+      "kara": "-2 pkt"
+    }
+  ]
+}

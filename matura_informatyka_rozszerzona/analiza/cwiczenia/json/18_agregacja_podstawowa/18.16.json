@@ -1,0 +1,20 @@
+{
+  "id": "18.16",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna (nieruchomosci)",
+  "tagi": ["AVERAGE", "MAX", "MIN"],
+  "tresc": "Agent nieruchomosci zestawil ceny mieszkan (w tys. zl) w pewnej dzielnicy:\n\n| | A | B |\n|---|---|---|\n| 1 | **Mieszkanie** | **Cena (tys. zl)** |\n| 2 | M1 | 320 |\n| 3 | M2 | 475 |\n| 4 | M3 | 280 |\n| 5 | M4 | 510 |\n| 6 | M5 | 395 |\n| 7 | M6 | 350 |\n\n**Polecenie**: Napisz formuly obliczajace:\n1. Srednia cene mieszkania w dzielnicy.\n2. Najdrozsze mieszkanie (wartosc).\n3. Najtansze mieszkanie (wartosc).",
+  "wskazowki": [
+    "**Kierunek**: Trzy podstawowe funkcje: AVERAGE, MAX, MIN — kazda na zakresie B2:B7.",
+    "**Podejscie**: Oblicz kazda wartosc niezaleznie — wszystkie korzystaja z tych samych danych.",
+    "**Kluczowy krok**: Pamietaj, ze ceny sa w tys. zl — nie trzeba ich mnożyc."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nSrednia cena:   =AVERAGE(B2:B7)\nNajdrozsze:     =MAX(B2:B7)\nNajtansze:      =MIN(B2:B7)\n```\n\n**Weryfikacja:**\n- Wartosci: 320, 475, 280, 510, 395, 350\n- Srednia: (320+475+280+510+395+350)/6 = 2330/6 = **388.33** tys. zl\n- Max: **510** tys. zl (M4)\n- Min: **280** tys. zl (M3)\n\n**Wyjasnienie**: AVERAGE oblicza srednia cene mieszkan, co daje obraz typowej ceny w dzielnicy. MAX i MIN wskazuja skrajne wartosci — najdrozsze i najtansze mieszkanie. Te trzy wskazniki razem daja podstawowy obraz rynku.",
+  "typowe_bledy": [
+    {
+      "opis": "**Blad zaokraglenia sredniej**: 2330/6 = 388.3333... — wynik nalezy podac z odpowiednia precyzja (2 miejsca po przecinku)",
+      "kara": "-0 pkt"
+    }
+  ]
+}

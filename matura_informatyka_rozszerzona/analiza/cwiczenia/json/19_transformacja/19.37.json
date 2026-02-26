@@ -1,0 +1,34 @@
+{
+  "id": "19.37",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "SUMIFS",
+    "COUNTIFS",
+    "tabela-krzyzowa",
+    "odwolania-mieszane",
+    "pivot-reczny"
+  ],
+  "tresc": "Szkola notuje wyniki egzaminow:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Uczen** | **Przedmiot** | **Klasa** | **Wynik** |\n| 2 | U01 | Matematyka | 3a | 78 |\n| 3 | U02 | Fizyka | 3b | 65 |\n| 4 | U03 | Informatyka | 3a | 92 |\n| 5 | U04 | Matematyka | 3b | 55 |\n| 6 | U05 | Fizyka | 3a | 70 |\n| 7 | U06 | Informatyka | 3b | 88 |\n| 8 | U07 | Matematyka | 3a | 82 |\n| 9 | U08 | Fizyka | 3b | 73 |\n| 10 | U09 | Informatyka | 3a | 95 |\n| 11 | U10 | Matematyka | 3b | 60 |\n| 12 | U11 | Fizyka | 3a | 68 |\n| 13 | U12 | Informatyka | 3b | 85 |\n\nStworz dwie tabele pivot:\n\nTabela 1 — sumy wynikow:\n\n| | F | G | H | I |\n|---|---|---|---|---|\n| 1 | | **Matematyka** | **Fizyka** | **Informatyka** |\n| 2 | **3a** | ? | ? | ? |\n| 3 | **3b** | ? | ? | ? |\n\nTabela 2 — srednie wynikow (zaokraglone do 1 m.d.):\n\n| | F | G | H | I |\n|---|---|---|---|---|\n| 6 | | **Matematyka** | **Fizyka** | **Informatyka** |\n| 7 | **3a** | ? | ? | ? |\n| 8 | **3b** | ? | ? | ? |\n\n**Polecenie**:\n1. Wypelnij Tabele 1 za pomoca SUMIFS z odwolaniami mieszanymi.\n2. Oblicz Tabele 2 jako SUMIFS/COUNTIFS (srednia = suma/liczba), zaokraglona ROUND do 1 m.d.\n3. Zweryfikuj obie tabele.",
+  "wskazowki": [
+    "**Kierunek**: Tabela sum: SUMIFS. Tabela srednich: SUMIFS/COUNTIFS z ROUND. Oba z tymi samymi odwolaniami mieszanymi.",
+    "**Podejscie**: G2: =SUMIFS(D$2:D$13;C$2:C$13;$F2;B$2:B$13;G$1). G7: =ROUND(SUMIFS(.../COUNTIFS(...);1).",
+    "**Kluczowy krok**: COUNTIFS zlicza uczniow w kombinacji klasa×przedmiot — tu po 1, wiec srednia = suma. Ale wzorzec jest ogolny."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nTabela 1 (sumy):\nG2: =SUMIFS(D$2:D$13;C$2:C$13;$F2;B$2:B$13;G$1)\n    (kopiowana w prawo do I2 i w dol do I3)\n\nTabela 2 (srednie):\nG7: =ROUND(SUMIFS(D$2:D$13;C$2:C$13;$F7;B$2:B$13;G$6)/COUNTIFS(C$2:C$13;$F7;B$2:B$13;G$6);1)\n    (kopiowana w prawo do I7 i w dol do I8)\n```\n\n**Weryfikacja Tabeli 1 (sumy):**\n- 3a-Matematyka: wiersze 2(78)+8(82) = **160**\n- 3a-Fizyka: wiersze 6(70)+12(68) = **138**\n- 3a-Informatyka: wiersze 4(92)+10(95) = **187**\n- 3b-Matematyka: wiersze 5(55)+11(60) = **115**\n- 3b-Fizyka: wiersze 3(65)+9(73) = **138**\n- 3b-Informatyka: wiersze 7(88)+13(85) = **173**\n\n| | Matematyka | Fizyka | Informatyka | Razem |\n|---|---|---|---|---|\n| 3a | 160 | 138 | 187 | 485 |\n| 3b | 115 | 138 | 173 | 426 |\n| Razem | 275 | 276 | 360 | 911 |\n\nKontrola: 485+426 = 911, 275+276+360 = 911 ✓\nSUM(D2:D13) = 78+65+92+55+70+88+82+73+95+60+68+85 = 911 ✓\n\n**Weryfikacja Tabeli 2 (srednie):**\nKazda kombinacja ma 2 uczniow, wiec srednia = suma/2.\n\n| | Matematyka | Fizyka | Informatyka |\n|---|---|---|---|\n| 3a | 160/2 = 80.0 | 138/2 = 69.0 | 187/2 = 93.5 |\n| 3b | 115/2 = 57.5 | 138/2 = 69.0 | 173/2 = 86.5 |\n\nZaokraglone do 1 m.d.:\n\n| | Matematyka | Fizyka | Informatyka |\n|---|---|---|---|\n| 3a | 80.0 | 69.0 | 93.5 |\n| 3b | 57.5 | 69.0 | 86.5 |\n\n**Wyjasnienie**: Tabela srednich uzywa wzorca SUMIFS/COUNTIFS zamiast AVERAGEIFS. To bardziej uniwersalne podejscie, bo widac oba skladniki (sume i liczbe). ROUND(wynik;1) zaokragla do 1 miejsca po przecinku. Na maturze czesto wymagana jest zarowno tabela sum, jak i srednich — mozna je zbudowac z tych samych odwolan mieszanych.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie AVERAGE zamiast SUMIFS/COUNTIFS**: AVERAGEIFS zadziala, ale na maturze czesto wymagaja formuły rozdzielonej. SUMIFS/COUNTIFS jest bardziej przejrzysty",
+      "kara": "-0 pkt"
+    },
+    {
+      "opis": "**Brak ROUND**: Bez zaokraglenia srednia moze miec wiele miejsc dziesietnych — polecenie wymaga 1 m.d.",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Odwolania $F7 zamiast $F2 w tabeli 2**: Tabela 2 zaczyna sie w wierszu 7 — odwolanie do etykiety klasy musi byc $F7, nie $F2",
+      "kara": "-2 pkt"
+    }
+  ]
+}

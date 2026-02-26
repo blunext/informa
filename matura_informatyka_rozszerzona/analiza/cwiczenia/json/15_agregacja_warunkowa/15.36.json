@@ -1,0 +1,30 @@
+{
+  "id": "15.36",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2018 (Rzeki — rozne funkcje warunkowe)",
+  "tagi": [
+    "SUMIFS",
+    "AVERAGEIFS",
+    "MAXIFS-MINIFS",
+    "wiele-warunkow",
+    "zakres-bezwzgledny"
+  ],
+  "tresc": "W arkuszu mamy dane o wynikach egzaminu w trzech klasach:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Uczen** | **Klasa** | **Czesc pisemna** | **Czesc ustna** |\n| 2 | Anna | 3A | 72 | 80 |\n| 3 | Bartek | 3B | 58 | 65 |\n| 4 | Celina | 3A | 85 | 90 |\n| 5 | Dawid | 3C | 45 | 50 |\n| 6 | Ewa | 3B | 78 | 72 |\n| 7 | Filip | 3C | 62 | 68 |\n| 8 | Gosia | 3A | 91 | 85 |\n| 9 | Hubert | 3B | 55 | 60 |\n| 10 | Iga | 3C | 70 | 75 |\n| 11 | Jan | 3A | 65 | 70 |\n| 12 | Kasia | 3B | 82 | 78 |\n| 13 | Leon | 3C | 48 | 55 |\n\n**Polecenie**:\n1. Oblicz srednia czesci pisemnej klasy \"3A\".\n2. Oblicz najwyzszy wynik czesci ustnej w klasie \"3B\".\n3. Oblicz laczna sume czesci pisemnej klasy \"3C\" dla uczniow z wynikiem pisemnym >= 60.\n4. Ile osob z klasy \"3A\" ma OBIE czesci powyzej 75?\n5. Znajdz najnizszy wynik czesci pisemnej wsrod uczniow, ktorych wynik ustny > 70.",
+  "wskazowki": [
+    "**Kierunek**: Punkt 4 wymaga COUNTIFS z trzema warunkami (klasa + pisemna > 75 + ustna > 75). Punkt 5 to MINIFS z warunkiem na inna kolumne.",
+    "**Podejscie**: Punkt 4: =COUNTIFS(B2:B13;\"3A\";C2:C13;\">75\";D2:D13;\">75\"). Punkt 5: =MINIFS(C2:C13;D2:D13;\">70\").",
+    "**Kluczowy krok**: MINIFS z warunkiem na kolumne D (ustna) zwraca minimum z kolumny C (pisemna) — rozne zakresy!"
+  ],
+  "odpowiedz": "**Formuly:**\n```\n1. =AVERAGEIFS(C2:C13;B2:B13;\"3A\")\n2. =MAXIFS(D2:D13;B2:B13;\"3B\")\n3. =SUMIFS(C2:C13;B2:B13;\"3C\";C2:C13;\">=60\")\n4. =COUNTIFS(B2:B13;\"3A\";C2:C13;\">75\";D2:D13;\">75\")\n5. =MINIFS(C2:C13;D2:D13;\">70\")\n```\n\n**Weryfikacja:**\n\nPunkt 1 — srednia pisemna 3A:\n- Anna(72), Celina(85), Gosia(91), Jan(65)\n- Srednia: (72+85+91+65)/4 = 313/4 = **78,25**\n\nPunkt 2 — max ustna 3B:\n- Bartek(65), Ewa(72), Hubert(60), Kasia(78)\n- Max: **78** (Kasia)\n\nPunkt 3 — suma pisemna 3C z pisemna >= 60:\n- Dawid: 45 — NIE\n- Filip: 62 >= 60 ✓\n- Iga: 70 >= 60 ✓\n- Leon: 48 — NIE\n- Suma: 62 + 70 = **132**\n\nPunkt 4 — 3A + pisemna > 75 + ustna > 75:\n- Anna: 72, 80 — pisemna 72 <= 75, NIE\n- Celina: 85 > 75, 90 > 75 ✓\n- Gosia: 91 > 75, 85 > 75 ✓\n- Jan: 65, 70 — NIE\n- Wynik: **2**\n\nPunkt 5 — min pisemna wsrod ustna > 70:\n- Anna: ustna 80 > 70, pisemna 72\n- Celina: ustna 90 > 70, pisemna 85\n- Ewa: ustna 72 > 70, pisemna 78\n- Gosia: ustna 85 > 70, pisemna 91\n- Iga: ustna 75 > 70, pisemna 70\n- Kasia: ustna 78 > 70, pisemna 82\n- Min pisemna: **70** (Iga)\n\n**Wyjasnienie**: Zadanie laczy 5 roznych funkcji warunkowych. Kluczowa umiejetnosc: rozroznianie zakresu wartosci (co obliczamy) od zakresu kryterium (po czym filtrujemy) — moga to byc te same lub rozne kolumny.",
+  "typowe_bledy": [
+    {
+      "opis": "**Punkt 3: uzycie > zamiast >=**: =SUMIFS(C2:C13;B2:B13;\"3C\";C2:C13;\">60\") pominie Filipa (dokladnie 62 przejdzie, ale >=60 jest poprawniejsze logicznie)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Punkt 5: szukanie min ustnej zamiast pisemnej**: =MINIFS(D2:D13;D2:D13;\">70\") — zwraca min z kolumny D zamiast C",
+      "kara": "-2 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "17.12",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna (budzet)",
+  "tagi": ["wykres-kolowy", "procent-udzialu", "etykiety-danych"],
+  "tresc": "Budzet domowy rodziny w danym miesiacu:\n\n| | A | B |\n|---|---|---|\n| 1 | **Kategoria** | **Kwota (zl)** |\n| 2 | Zywnosc | 1800 |\n| 3 | Mieszkanie | 2500 |\n| 4 | Transport | 600 |\n| 5 | Rozrywka | 400 |\n| 6 | Oszczednosci | 700 |\n\n**Polecenie**: Opisz, jak utworzyc wykres kolowy przedstawiajacy udzial procentowy kazdej kategorii w budzecie. Podaj typ wykresu, dane, tytul i formatowanie. Oblicz procent udzialu kazdej kategorii.",
+  "wskazowki": [
+    "**Kierunek**: Wykres kolowy idealnie pokazuje czesci skladowe jednej calosci (100% budzetu).",
+    "**Podejscie**: Zsumuj wszystkie kwoty, a nastepnie oblicz udzial procentowy kazdej kategorii.",
+    "**Kluczowy krok**: Etykiety na wykresie kolowym powinny zawierac nazwe kategorii i procent."
+  ],
+  "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kolowy (pie chart)\n2. **Dane**:\n   - Kategorie: zakres A2:A6 (nazwy kategorii)\n   - Wartosci: zakres B2:B6 (kwoty)\n3. **Tytul**: \"Struktura budzetu domowego\"\n4. **Formatowanie**:\n   - Kazdy wycinek w innym kolorze\n   - Etykiety danych: nazwa kategorii + procent\n   - Legenda po prawej stronie\n\n**Obliczenia udzialu procentowego:**\n\nSuma: 1800 + 2500 + 600 + 400 + 700 = **6000 zl**\n\n| Kategoria | Kwota | Udzial |\n|-----------|-------|--------|\n| Zywnosc | 1800 | 30.0% |\n| Mieszkanie | 2500 | 41.7% |\n| Transport | 600 | 10.0% |\n| Rozrywka | 400 | 6.7% |\n| Oszczednosci | 700 | 11.7% |\n\n**Wyjasnienie**: Wykres kolowy jest najlepszy, gdy chcemy pokazac udzial czesci w calosci. Kazdy wycinek reprezentuje proporcje danej kategorii. Na maturze nalezy podac etykiety z procentami.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak etykiet procentowych**: Wykres kolowy bez procentow jest nieczytelny — nie wiadomo, jaki udzial ma kazdy wycinek",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Bledne obliczenie procentow**: Trzeba dzielic przez sume wszystkich kategorii (6000), nie przez najwieksza wartosc",
+      "kara": "-1 pkt"
+    }
+  ]
+}

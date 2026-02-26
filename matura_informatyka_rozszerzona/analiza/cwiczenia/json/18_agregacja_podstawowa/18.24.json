@@ -1,0 +1,24 @@
+{
+  "id": "18.24",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "ogolna (olimpiada)",
+  "tagi": ["SUM", "RANK", "AVERAGE", "zakres-bezwzgledny"],
+  "tresc": "W zawodach plywackich 7 zawodnikow uzyskalo nastepujace czasy (w sekundach):\n\n| | A | B |\n|---|---|---|\n| 1 | **Zawodnik** | **Czas (s)** |\n| 2 | Nowak | 52.3 |\n| 3 | Kowalski | 48.7 |\n| 4 | Wisniewski | 55.1 |\n| 5 | Lewandowski | 47.2 |\n| 6 | Wojcik | 50.8 |\n| 7 | Kaminski | 49.5 |\n| 8 | Zielinski | 53.6 |\n\n**Polecenie**:\n1. Oblicz sredni czas wszystkich zawodnikow.\n2. Oblicz sume czasow.\n3. W kolumnie C wpisz ranking kazdego zawodnika (najkrotszy czas = pozycja 1). Uzyj funkcji RANK.",
+  "wskazowki": [
+    "**Kierunek**: RANK pozycjonuje wartosc wzgledem zakresu. Dla czasow: krotszy czas = lepsza pozycja.",
+    "**Podejscie**: =RANK(B2;$B$2:$B$8;1) — trzeci argument 1 oznacza sortowanie rosnaco (od najmniejszego).",
+    "**Kluczowy krok**: Zakres w RANK musi byc bezwzgledny ($B$2:$B$8), bo formula jest kopiowana w dol."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nSredni czas:  =AVERAGE(B2:B8)\nSuma czasow:  =SUM(B2:B8)\n\nC2: =RANK(B2;$B$2:$B$8;1)          (kopiowana w dol do C8)\n```\n\n**Weryfikacja:**\n- Wartosci: 52.3, 48.7, 55.1, 47.2, 50.8, 49.5, 53.6\n- Suma: 52.3+48.7+55.1+47.2+50.8+49.5+53.6 = **357.20**\n- Srednia: 357.2/7 = **51.03**\n\nSortowanie rosnaco: 47.2, 48.7, 49.5, 50.8, 52.3, 53.6, 55.1\n\n| Zawodnik | Czas | C: Ranking |\n|----------|------|------------|\n| Nowak | 52.3 | 5 |\n| Kowalski | 48.7 | 2 |\n| Wisniewski | 55.1 | 7 |\n| Lewandowski | 47.2 | 1 |\n| Wojcik | 50.8 | 4 |\n| Kaminski | 49.5 | 3 |\n| Zielinski | 53.6 | 6 |\n\n**Wyjasnienie**: RANK(wartosc; zakres; kolejnosc) zwraca pozycje wartosci w rankingu. Trzeci argument: 0 lub brak = malejaco (najwieksza = 1), 1 = rosnaco (najmniejsza = 1). Dla czasow uzywamy 1 (krotszy czas = lepsza pozycja). Zakres musi byc bezwzgledny ($), bo RANK porownuje kazda wartosc z calym zestawem.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak trzeciego argumentu RANK (lub 0)**: =RANK(B2;$B$2:$B$8) sortuje malejaco — najdluzszy czas dostanie pozycje 1, co jest odwrotnoscia",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak $ w zakresie RANK**: =RANK(B2;B2:B8;1) po skopiowaniu do wiersza 3 zmieni zakres na B3:B9",
+      "kara": "-2 pkt"
+    }
+  ]
+}

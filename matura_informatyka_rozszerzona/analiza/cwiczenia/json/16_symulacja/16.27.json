@@ -1,0 +1,30 @@
+{
+  "id": "16.27",
+  "trudnosc": "srednie-trudne",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2023 (sprzedaz biletow)",
+  "tagi": [
+    "akumulator",
+    "IF-warunkowy",
+    "MIN",
+    "odwolanie-bezwzgledne",
+    "symulacja-krokowa"
+  ],
+  "tresc": "Organizator koncertu sprzedaje bilety online. Sala ma 300 miejsc. Co godzine pojawia sie pewna liczba zamowien. Jesli nie ma wystarczajacej liczby wolnych miejsc, realizowane sa tylko te zamowienia, na ktore starczy biletow. Reszta jest odrzucana.\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Godzina** | **Zamowienia** | **Sprzedane** | **Odrzucone** | **Wolne miejsca** |\n| 2 | 0 (start) | — | — | — | 300 |\n| 3 | 10:00 | 85 | ? | ? | ? |\n| 4 | 11:00 | 120 | ? | ? | ? |\n| 5 | 12:00 | 45 | ? | ? | ? |\n| 6 | 13:00 | 70 | ? | ? | ? |\n| 7 | 14:00 | 30 | ? | ? | ? |\n\nPojemnosc sali w G1: **300**.\n\n**Polecenie**:\n1. W C3 oblicz faktycznie sprzedane bilety: MIN(zamowienia; wolne miejsca z poprzedniej godziny).\n2. W D3 oblicz odrzucone zamowienia: zamowienia - sprzedane.\n3. W E3 oblicz wolne miejsca: poprzednie wolne miejsca - sprzedane.\n4. Wypelnij tabele. Ile biletow pozostalo niesprzedanych po godzinie 14:00?",
+  "wskazowki": [
+    "**Kierunek**: MIN ogranicza sprzedaz do dostepnych miejsc. Odrzucone = zamowienia - to co faktycznie sprzedano. Wolne miejsca malejaco.",
+    "**Podejscie**: C3: =MIN(B3;E2). D3: =B3-C3. E3: =E2-C3.",
+    "**Kluczowy krok**: Lancuch: wolne miejsca (E) → sprzedane (C) → odrzucone (D) → nowe wolne miejsca (E). E zasila C nastepnego wiersza."
+  ],
+  "odpowiedz": "**Formuly (wiersz 3, kopiowane w dol):**\n```\nC3: =MIN(B3;E2)\nD3: =B3-C3\nE3: =E2-C3\n```\n\n**Wypelniona tabela:**\n\n| Godzina | Zamowienia | Sprzedane | Odrzucone | Wolne miejsca |\n|---------|-----------|-----------|-----------|---------------|\n| 0 | — | — | — | 300 |\n| 10:00 | 85 | 85 | 0 | 215 |\n| 11:00 | 120 | 120 | 0 | 95 |\n| 12:00 | 45 | 45 | 0 | 50 |\n| 13:00 | 70 | 50 | 20 | 0 |\n| 14:00 | 30 | 0 | 30 | 0 |\n\n**Weryfikacja krok po kroku:**\n- 10:00: C3=MIN(85;300)=85. D3=85-85=0. E3=300-85=215\n- 11:00: C4=MIN(120;215)=120. D4=120-120=0. E4=215-120=95\n- 12:00: C5=MIN(45;95)=45. D5=45-45=0. E5=95-45=50\n- 13:00: C6=MIN(70;50)=50. D6=70-50=20. E6=50-50=0\n- 14:00: C7=MIN(30;0)=0. D7=30-0=30. E7=0-0=0\n\nPo godzinie 14:00 pozostalo **0** niesprzedanych biletow (sala wyprzedana).\nLaczna liczba odrzuconych zamowien: 0+0+0+20+30 = **50**.\n\n**Wyjasnienie**: Klasyczna symulacja z ograniczeniem zasobu (pojemnosc sali). MIN gwarantuje, ze nie sprzedamy wiecej biletow niz jest dostepnych miejsc. Gdy wolne miejsca = 0, sprzedaz = 0 i wszystkie zamowienia sa odrzucane. Na maturze MIN jest czesto uzywane do modelowania fizycznych ograniczen.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak MIN — sprzedaz wieksza niz dostepne**: C3: =B3 zamiast =MIN(B3;E2) — pozwala na sprzedanie wiecej biletow niz jest miejsc, co daje ujemne wolne miejsca.",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Wolne miejsca od poczatkowej pojemnosci**: E3: =$G$1-C3 zamiast =E2-C3 — nie uwzglednia wczesniejszej sprzedazy, liczy od 300 kazdorazowo.",
+      "kara": "-1 pkt"
+    }
+  ]
+}

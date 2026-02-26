@@ -1,0 +1,24 @@
+{
+  "id": "17.15",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna (oceny)",
+  "tagi": ["wykres-kolumnowy", "etykiety-danych", "odczyt-z-wykresu"],
+  "tresc": "Srednie oceny z przedmiotow scislych w klasie 3A:\n\n| | A | B |\n|---|---|---|\n| 1 | **Przedmiot** | **Srednia ocena** |\n| 2 | Matematyka | 3.8 |\n| 3 | Fizyka | 3.2 |\n| 4 | Chemia | 3.5 |\n| 5 | Informatyka | 4.1 |\n| 6 | Biologia | 3.9 |\n\n**Polecenie**: Opisz, jak utworzyc wykres kolumnowy srednich ocen. Podaj specyfikacje wykresu. Ktory przedmiot ma najwyzsza, a ktory najnizsza srednia?",
+  "wskazowki": [
+    "**Kierunek**: Wykres kolumnowy — kazdy przedmiot to osobna kategoria na osi X.",
+    "**Podejscie**: Jedna seria danych. Etykiety nad slupkami ulatwiaja odczyt srednich.",
+    "**Kluczowy krok**: Zwroc uwage na skale osi Y — moze zaczynac sie od 0 lub od wartosci minimalnej."
+  ],
+  "odpowiedz": "**Specyfikacja wykresu:**\n\n1. **Typ**: Wykres kolumnowy (slupkowy pionowy)\n2. **Dane**:\n   - Os X (kategorie): zakres A2:A6 (przedmioty)\n   - Os Y (wartosci): zakres B2:B6 (srednie oceny)\n3. **Tytuly**:\n   - Tytul wykresu: \"Srednie oceny z przedmiotow scislych — klasa 3A\"\n   - Os X: \"Przedmiot\"\n   - Os Y: \"Srednia ocena\"\n4. **Formatowanie**:\n   - Kolumny w jednym kolorze\n   - Etykiety danych nad slupkami (3.8, 3.2, 3.5, 4.1, 3.9)\n   - Os Y od 0 do 5 (z krokiem co 0.5)\n   - Linie siatki poziomej\n\n**Odpowiedz na pytanie:**\n- Najwyzsza srednia: **Informatyka (4.1)**\n- Najnizsza srednia: **Fizyka (3.2)**\n\n**Wyjasnienie**: Wykres kolumnowy umozliwia bezposrednie porownanie wartosci miedzy kategoriami. Etykiety danych eliminuja potrzebe dokladnego odczytywania wartosci z osi Y.",
+  "typowe_bledy": [
+    {
+      "opis": "**Os Y nie zaczyna sie od 0**: Jesli os Y zaczyna sie np. od 3.0, roznice miedzy slupkami sa sztucznie powiekszone i moga wprowadzac w blad",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak etykiet danych**: Przy srednich ocenach (wartosci dziesietne) etykiety sa szczegolnie wazne dla dokladnego odczytu",
+      "kara": "-1 pkt"
+    }
+  ]
+}

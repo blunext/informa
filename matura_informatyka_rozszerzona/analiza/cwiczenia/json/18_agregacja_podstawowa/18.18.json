@@ -1,0 +1,24 @@
+{
+  "id": "18.18",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "ogolna (biblioteka)",
+  "tagi": ["COUNT", "COUNTA", "COUNTBLANK", "procent"],
+  "tresc": "Biblioteka prowadzi rejestr 8 czytelnikow i ich ostatnich wypozyczen. Nie kazdy czytelnik ma aktywne wypozyczenie:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Czytelnik** | **Tytul ksiazki** | **Termin zwrotu** |\n| 2 | Kowalski | Pan Tadeusz | 2026-03-15 |\n| 3 | Nowak | | |\n| 4 | Wisniewski | Lalka | 2026-03-20 |\n| 5 | Wojcik | Potop | 2026-04-01 |\n| 6 | Kaminska | | |\n| 7 | Lewandowski | Ferdydurke | 2026-03-10 |\n| 8 | Zielinska | | |\n| 9 | Szymanski | Quo Vadis | 2026-03-25 |\n\n**Polecenie**: Napisz formuly obliczajace:\n1. Ilu czytelnikow ma aktywne wypozyczenie (niepuste komorki w kolumnie B)?\n2. Ilu czytelnikow nie ma wypozyczenia (puste komorki w kolumnie B)?\n3. Jaki procent czytelnikow ma aktywne wypozyczenie?\n4. Ile jest dat zwrotu w kolumnie C (komorki z liczbami/datami)?",
+  "wskazowki": [
+    "**Kierunek**: COUNTA zlicza niepuste komorki (tekst i liczby), COUNTBLANK — puste, COUNT — tylko liczby/daty.",
+    "**Podejscie**: Procent = COUNTA(B) / COUNTA(A) * 100, bo kolumna A ma wszystkich czytelnikow.",
+    "**Kluczowy krok**: COUNT(C2:C9) zliczy tylko daty (bo daty sa liczbami), a COUNTA(B2:B9) zliczy tytuly (tekst)."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nAktywne wypozyczenia: =COUNTA(B2:B9)\nBez wypozyczenia:     =COUNTBLANK(B2:B9)\nProcent aktywnych:    =COUNTA(B2:B9)/COUNTA(A2:A9)*100\nLiczba dat zwrotu:    =COUNT(C2:C9)\n```\n\n**Weryfikacja:**\n\nKolumna B: Pan Tadeusz, (puste), Lalka, Potop, (puste), Ferdydurke, (puste), Quo Vadis\n- COUNTA(B2:B9): 5 niepustych (wiersze 2, 4, 5, 7, 9) = **5**\n- COUNTBLANK(B2:B9): 3 puste (wiersze 3, 6, 8) = **3**\n- Procent: 5/8 * 100 = **62.5%**\n\nKolumna C: 2026-03-15, (puste), 2026-03-20, 2026-04-01, (puste), 2026-03-10, (puste), 2026-03-25\n- COUNT(C2:C9): 5 dat (wiersze 2, 4, 5, 7, 9) = **5**\n\n**Wyjasnienie**: COUNTA zlicza wszystkie niepuste komorki (tekst, liczby, daty). COUNT zlicza tylko komorki z wartosciami liczbowymi (w tym daty, ktore w arkuszach sa liczbami). COUNTBLANK zlicza puste komorki. W tym przypadku COUNTA(B) i COUNT(C) daja ten sam wynik (5), bo kazde wypozyczenie ma tytul i date.",
+  "typowe_bledy": [
+    {
+      "opis": "**COUNT zamiast COUNTA dla kolumny B**: COUNT zlicza tylko liczby — tytuly ksiazek to tekst, wiec COUNT(B2:B9) zwroci 0",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Brak mnozenia przez 100 w procencie**: 5/8 = 0.625, a oczekiwany wynik to 62.5%",
+      "kara": "-1 pkt"
+    }
+  ]
+}

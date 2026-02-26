@@ -1,0 +1,31 @@
+{
+  "id": "16.32",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2024 (budżet projektu)",
+  "tagi": [
+    "akumulator",
+    "IF-warunkowy",
+    "SUM-kumulacyjna",
+    "odwolanie-bezwzgledne",
+    "prog-warunkowy",
+    "formatowanie-wyniku"
+  ],
+  "tresc": "Firma realizuje projekt z budzetem 50000 zl. Co miesiac ponoszone sa koszty. Gdy zuzycie budzetu przekroczy 80% (40000 zl), pojawia sie ostrzezenie \"UWAGA\". Gdy przekroczy 100% (50000 zl), pojawia sie \"PRZEKROCZONY\".\n\nParametry: G1 = 50000 (budzet), G2 = 0,80 (prog ostrzezenia).\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Miesiac** | **Koszty** | **Koszty kumulacyjne** | **% budzetu** | **Status** |\n| 2 | Styczen | 8000 | ? | ? | ? |\n| 3 | Luty | 12000 | ? | ? | ? |\n| 4 | Marzec | 9500 | ? | ? | ? |\n| 5 | Kwiecien | 7000 | ? | ? | ? |\n| 6 | Maj | 6500 | ? | ? | ? |\n| 7 | Czerwiec | 11000 | ? | ? | ? |\n\n**Polecenie**:\n1. W C2 oblicz kumulacyjne koszty (narastajaca suma).\n2. W D2 oblicz procent zuzycia budzetu: kumulacja / budzet (sformatuj jako procent).\n3. W E2 wpisz status: \"PRZEKROCZONY\" jesli % > 100%, \"UWAGA\" jesli % > 80%, w przeciwnym razie \"OK\".\n4. Wypelnij tabele. W ktorym miesiacu pojawia sie ostrzezenie?",
+  "wskazowki": [
+    "**Kierunek**: Kumulacja to SUM z rozszerzajacym zakresem. Procent = kumulacja / budzet. Status to IF zagniezdzony z dwoma progami.",
+    "**Podejscie**: C2: =SUM($B$2:B2). D2: =C2/$G$1. E2: =IF(D2>1;\"PRZEKROCZONY\";IF(D2>$G$2;\"UWAGA\";\"OK\")).",
+    "**Kluczowy krok**: W IF zagniezdzonym sprawdzaj NAJPIERW najwyzszy prog (>100%), potem sredni (>80%). Kolejnosc jest wazna — jesli sprawdzisz >80% najpierw, to >100% nigdy nie bedzie osiagniete w tym IF."
+  ],
+  "odpowiedz": "**Formuly (wiersz 2, kopiowane w dol):**\n```\nC2: =SUM($B$2:B2)\nD2: =C2/$G$1\nE2: =IF(D2>1;\"PRZEKROCZONY\";IF(D2>$G$2;\"UWAGA\";\"OK\"))\n```\n\n**Wypelniona tabela:**\n\n| Miesiac | Koszty | Koszty kum. | % budzetu | Status |\n|---------|--------|-------------|-----------|--------|\n| Styczen | 8000 | 8000 | 16% | OK |\n| Luty | 12000 | 20000 | 40% | OK |\n| Marzec | 9500 | 29500 | 59% | OK |\n| Kwiecien | 7000 | 36500 | 73% | OK |\n| Maj | 6500 | 43000 | 86% | UWAGA |\n| Czerwiec | 11000 | 54000 | 108% | PRZEKROCZONY |\n\n**Weryfikacja krok po kroku:**\n- Styczen: C2=8000. D2=8000/50000=0.16 (16%). 0.16 <= 0.80 → E2=\"OK\"\n- Luty: C3=8000+12000=20000. D3=20000/50000=0.40 (40%). 0.40 <= 0.80 → E3=\"OK\"\n- Marzec: C4=20000+9500=29500. D4=29500/50000=0.59 (59%). 0.59 <= 0.80 → E4=\"OK\"\n- Kwiecien: C5=29500+7000=36500. D5=36500/50000=0.73 (73%). 0.73 <= 0.80 → E5=\"OK\"\n- Maj: C6=36500+6500=43000. D6=43000/50000=0.86 (86%). 0.86 > 0.80 i 0.86 <= 1 → E6=\"UWAGA\"\n- Czerwiec: C7=43000+11000=54000. D7=54000/50000=1.08 (108%). 1.08 > 1 → E7=\"PRZEKROCZONY\"\n\nOstrzezenie \"UWAGA\" pojawia sie po raz pierwszy w **maju** (86% budzetu). Budzet zostaje przekroczony w **czerwcu** (108%).\n\n**Wyjasnienie**: Sledzenie budzetu to polaczenie sumy kumulacyjnej, obliczenia procentowego i IF zagniezdzconego. Kluczowe: w IF zagniezdzonym sprawdzamy od najwyzszego progu w dol. Gdybysmy sprawdzili >80% najpierw, kazdy wynik >100% tez jest >80%, wiec dostalbysmy \"UWAGA\" zamiast \"PRZEKROCZONY\".",
+  "typowe_bledy": [
+    {
+      "opis": "**Odwrotna kolejnosc warunkow w IF**: =IF(D2>0.80;\"UWAGA\";IF(D2>1;\"PRZEKROCZONY\";\"OK\")) — status >100% tez spelnia >80%, wiec nigdy nie dostaniemy \"PRZEKROCZONY\".",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Procent jako liczba calkowita**: D2: =C2/$G$1*100 daje 16, 40 itd., ale wtedy progi w IF musza byc 80 i 100 (nie 0.80 i 1).",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "15.38",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2019 (Elektrycznosc — klasyfikacja warunkowa)",
+  "tagi": [
+    "COUNTIFS",
+    "IF-AND-OR",
+    "kolumna-pomocnicza",
+    "zagniezdzone-funkcje",
+    "zakres-bezwzgledny"
+  ],
+  "tresc": "W arkuszu mamy dane o pacjentach przychodni:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Pacjent** | **Wiek** | **Cisn. skurcz.** | **Cisn. rozkurcz.** |\n| 2 | P01 | 45 | 130 | 85 |\n| 3 | P02 | 62 | 155 | 95 |\n| 4 | P03 | 35 | 118 | 75 |\n| 5 | P04 | 58 | 142 | 90 |\n| 6 | P05 | 28 | 110 | 70 |\n| 7 | P06 | 71 | 160 | 100 |\n| 8 | P07 | 50 | 125 | 80 |\n| 9 | P08 | 67 | 148 | 92 |\n| 10 | P09 | 42 | 135 | 88 |\n| 11 | P10 | 55 | 120 | 78 |\n\nKlasyfikacja cisnienia:\n- Prawidlowe: skurczowe < 130 AND rozkurczowe < 85\n- Podwyzszone: skurczowe 130-139 OR rozkurczowe 85-89\n- Wysokie: skurczowe >= 140 OR rozkurczowe >= 90\n\n**Polecenie**:\n1. W kolumnie E wpisz klasyfikacje cisnienia wg podanych kryteriow.\n2. Ile osob w wieku > 50 lat ma cisnienie \"Wysokie\"?\n3. Oblicz srednie cisnienie skurczowe pacjentow z cisnieniem \"Prawidlowe\".\n4. Jaki procent pacjentow ma cisnienie \"Podwyzszone\" lub \"Wysokie\"?",
+  "wskazowki": [
+    "**Kierunek**: Punkt 1 — zagniezdzone IF z OR/AND. Sprawdzaj od najostrzejszego warunku (Wysokie) w dol. Punkt 4 — suma dwoch COUNTIF lub COUNTIFS z <>.",
+    "**Podejscie**: E2: =IF(OR(C2>=140;D2>=90);\"Wysokie\";IF(OR(C2>=130;D2>=85);\"Podwyzszone\";\"Prawidlowe\")).",
+    "**Kluczowy krok**: Punkt 4: =COUNTIF(E2:E11;\"<>Prawidlowe\")/COUNT(B2:B11)*100 — liczymy wszystkich NIE-prawidlowych."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nE2: =IF(OR(C2>=140;D2>=90);\"Wysokie\";IF(OR(C2>=130;D2>=85);\"Podwyzszone\";\"Prawidlowe\"))\n\nPunkt 2: =COUNTIFS(B2:B11;\">50\";E2:E11;\"Wysokie\")\nPunkt 3: =AVERAGEIFS(C2:C11;E2:E11;\"Prawidlowe\")\nPunkt 4: =COUNTIF(E2:E11;\"<>Prawidlowe\")/COUNT(B2:B11)*100\n```\n\n**Weryfikacja:**\n\nKolumna E:\n| Pacjent | Wiek | Skurcz. | Rozkurcz. | Klasyfikacja |\n|---------|------|---------|-----------|-------------|\n| P01 | 45 | 130 | 85 | Podwyzszone |\n| P02 | 62 | 155 | 95 | Wysokie |\n| P03 | 35 | 118 | 75 | Prawidlowe |\n| P04 | 58 | 142 | 90 | Wysokie |\n| P05 | 28 | 110 | 70 | Prawidlowe |\n| P06 | 71 | 160 | 100 | Wysokie |\n| P07 | 50 | 125 | 80 | Prawidlowe |\n| P08 | 67 | 148 | 92 | Wysokie |\n| P09 | 42 | 135 | 88 | Podwyzszone |\n| P10 | 55 | 120 | 78 | Prawidlowe |\n\nPunkt 2 — wiek > 50 + Wysokie:\n- P02: 62, Wysokie ✓\n- P04: 58, Wysokie ✓\n- P06: 71, Wysokie ✓\n- P08: 67, Wysokie ✓\n- (P10: 55, Prawidlowe — NIE)\n- Wynik: **4**\n\nPunkt 3 — srednie skurczowe Prawidlowe:\n- P03: 118, P05: 110, P07: 125, P10: 120\n- Srednia: (118+110+125+120)/4 = 473/4 = **118,25**\n\nPunkt 4 — procent nie-Prawidlowe:\n- Podwyzszone: P01, P09 = 2\n- Wysokie: P02, P04, P06, P08 = 4\n- Lacznie nie-Prawidlowe: 6\n- Procent: 6/10 × 100 = **60%**\n\n**Wyjasnienie**: Kolejnosc warunkow w IF jest kluczowa — najpierw sprawdzamy \"Wysokie\" (najostrzejszy warunek), potem \"Podwyzszone\". Operator \"<>\" w COUNTIF liczy wartosci ROZNE od podanej.",
+  "typowe_bledy": [
+    {
+      "opis": "**Zla kolejnosc warunkow**: Sprawdzenie \"Podwyzszone\" przed \"Wysokie\" spowoduje, ze 140+ tez dostanie \"Podwyzszone\" (bo 140 >= 130)",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Uzycie AND zamiast OR**: Cisnienie \"Wysokie\" gdy skurczowe >= 140 OR rozkurczowe >= 90 (wystarczy JEDEN warunek), nie AND",
+      "kara": "-2 pkt"
+    }
+  ]
+}

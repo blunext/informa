@@ -3,7 +3,7 @@
   "nazwa": "Transformacja danych w arkuszu kalkulacyjnym",
   "kategoria": "ARKUSZ",
   "czestotliwosc": "2/11 lat",
-  "punkty_lacznie": 34,
+  "punkty_lacznie": 154,
   "tagi_globalne": [
     "SUMIF",
     "SUMIFS",
@@ -126,6 +126,322 @@
         "pivot-reczny",
         "odwolania-mieszane",
         "kolumna-pomocnicza"
+      ]
+    },
+    {
+      "id": "19.11",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "SUMIF",
+        "grupowanie-danych"
+      ]
+    },
+    {
+      "id": "19.12",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "VLOOKUP",
+        "grupowanie-danych"
+      ]
+    },
+    {
+      "id": "19.13",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "SUMIF",
+        "grupowanie-danych"
+      ]
+    },
+    {
+      "id": "19.14",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "VLOOKUP",
+        "grupowanie-danych"
+      ]
+    },
+    {
+      "id": "19.15",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "LEFT-RIGHT-MID",
+        "grupowanie-danych"
+      ]
+    },
+    {
+      "id": "19.16",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "SUMIF",
+        "grupowanie-danych"
+      ]
+    },
+    {
+      "id": "19.17",
+      "trudnosc": "latwe",
+      "punkty": 2,
+      "tagi": [
+        "konkatenacja",
+        "LEFT-RIGHT-MID"
+      ]
+    },
+    {
+      "id": "19.18",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "SUMIFS",
+        "tabela-krzyzowa",
+        "odwolania-mieszane"
+      ]
+    },
+    {
+      "id": "19.19",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "INT-dzielenie",
+        "kolumna-pomocnicza",
+        "SUMIF",
+        "grupowanie-danych"
+      ]
+    },
+    {
+      "id": "19.20",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "VLOOKUP",
+        "SUMIF",
+        "kolumna-pomocnicza"
+      ]
+    },
+    {
+      "id": "19.21",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "COUNTIFS",
+        "tabela-krzyzowa",
+        "odwolania-mieszane"
+      ]
+    },
+    {
+      "id": "19.22",
+      "trudnosc": "srednie",
+      "punkty": 3,
+      "tagi": [
+        "VLOOKUP",
+        "kolumna-pomocnicza",
+        "SUMIF"
+      ]
+    },
+    {
+      "id": "19.23",
+      "trudnosc": "srednie",
+      "punkty": 4,
+      "tagi": [
+        "LEFT-RIGHT-MID",
+        "SUMIF",
+        "kolumna-pomocnicza",
+        "grupowanie-danych"
+      ]
+    },
+    {
+      "id": "19.24",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "INDEX-MATCH",
+        "tabela-krzyzowa",
+        "odwolania-mieszane"
+      ]
+    },
+    {
+      "id": "19.25",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "SUMIFS",
+        "tabela-krzyzowa",
+        "odwolania-mieszane",
+        "pivot-reczny"
+      ]
+    },
+    {
+      "id": "19.26",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "INDEX-MATCH",
+        "VLOOKUP",
+        "odwolania-mieszane"
+      ]
+    },
+    {
+      "id": "19.27",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "COUNTIFS",
+        "tabela-krzyzowa",
+        "odwolania-mieszane",
+        "pivot-reczny"
+      ]
+    },
+    {
+      "id": "19.28",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "LEFT-RIGHT-MID",
+        "VLOOKUP",
+        "kolumna-pomocnicza"
+      ]
+    },
+    {
+      "id": "19.29",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "SUMIFS",
+        "INT-dzielenie",
+        "kolumna-pomocnicza",
+        "tabela-krzyzowa"
+      ]
+    },
+    {
+      "id": "19.30",
+      "trudnosc": "srednie-trudne",
+      "punkty": 4,
+      "tagi": [
+        "INDEX-MATCH",
+        "VLOOKUP",
+        "kolumna-pomocnicza"
+      ]
+    },
+    {
+      "id": "19.31",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "SUMIFS",
+        "VLOOKUP",
+        "kolumna-pomocnicza",
+        "tabela-krzyzowa"
+      ]
+    },
+    {
+      "id": "19.32",
+      "trudnosc": "srednie-trudne",
+      "punkty": 5,
+      "tagi": [
+        "LEFT-RIGHT-MID",
+        "SUMIFS",
+        "kolumna-pomocnicza",
+        "tabela-krzyzowa"
+      ]
+    },
+    {
+      "id": "19.33",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "SUMIFS",
+        "tabela-krzyzowa",
+        "odwolania-mieszane",
+        "pivot-reczny"
+      ]
+    },
+    {
+      "id": "19.34",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "INDEX-MATCH",
+        "TEXT",
+        "konkatenacja",
+        "kolumna-pomocnicza"
+      ]
+    },
+    {
+      "id": "19.35",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "SUMIFS",
+        "LEFT-RIGHT-MID",
+        "kolumna-pomocnicza",
+        "tabela-krzyzowa",
+        "pivot-reczny"
+      ]
+    },
+    {
+      "id": "19.36",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "INDEX-MATCH",
+        "VLOOKUP",
+        "TEXT",
+        "konkatenacja"
+      ]
+    },
+    {
+      "id": "19.37",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "SUMIFS",
+        "COUNTIFS",
+        "tabela-krzyzowa",
+        "odwolania-mieszane",
+        "pivot-reczny"
+      ]
+    },
+    {
+      "id": "19.38",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "SUMIFS",
+        "INT-dzielenie",
+        "kolumna-pomocnicza",
+        "tabela-krzyzowa",
+        "odwolania-mieszane",
+        "pivot-reczny"
+      ]
+    },
+    {
+      "id": "19.39",
+      "trudnosc": "trudne",
+      "punkty": 5,
+      "tagi": [
+        "INDEX-MATCH",
+        "LEFT-RIGHT-MID",
+        "VLOOKUP",
+        "konkatenacja",
+        "kolumna-pomocnicza"
+      ]
+    },
+    {
+      "id": "19.40",
+      "trudnosc": "trudne",
+      "punkty": 6,
+      "tagi": [
+        "SUMIFS",
+        "VLOOKUP",
+        "LEFT-RIGHT-MID",
+        "kolumna-pomocnicza",
+        "tabela-krzyzowa",
+        "pivot-reczny",
+        "odwolania-mieszane"
       ]
     }
   ]

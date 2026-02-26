@@ -1,0 +1,29 @@
+{
+  "id": "15.30",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2017 (Zdrowie — wiele warunkow na danych osobowych)",
+  "tagi": [
+    "SUMIFS",
+    "COUNTIFS",
+    "IF-AND-OR",
+    "wiele-warunkow"
+  ],
+  "tresc": "W arkuszu mamy dane o zamowieniach w restauracji:\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Nr** | **Dzien** | **Posilek** | **Ilosc** | **Cena_szt** |\n| 2 | 1 | Poniedzialek | Obiad | 3 | 25 |\n| 3 | 2 | Wtorek | Sniadanie | 5 | 15 |\n| 4 | 3 | Poniedzialek | Sniadanie | 2 | 15 |\n| 5 | 4 | Sroda | Obiad | 4 | 25 |\n| 6 | 5 | Wtorek | Kolacja | 3 | 35 |\n| 7 | 6 | Sroda | Sniadanie | 6 | 15 |\n| 8 | 7 | Poniedzialek | Kolacja | 2 | 35 |\n| 9 | 8 | Wtorek | Obiad | 4 | 25 |\n| 10 | 9 | Sroda | Kolacja | 1 | 35 |\n| 11 | 10 | Poniedzialek | Obiad | 5 | 25 |\n\n**Polecenie**:\n1. Oblicz laczna liczbe porcji zamowionych w \"Poniedzialek\".\n2. Ile zamowien na \"Obiad\" zlozono na wiecej niz 3 porcje?\n3. Oblicz laczna wartosc zamowien kolacji (wartosc = ilosc × cena). Uzyj kolumny pomocniczej F (wartosc zamowienia) lub SUMPRODUCT.",
+  "wskazowki": [
+    "**Kierunek**: Punkt 1 — SUMIF po dniu. Punkt 2 — COUNTIFS z dwoma warunkami. Punkt 3 — wartosc wymaga mnozenia D×E.",
+    "**Podejscie**: Punkt 3: kolumna F2: =D2*E2, potem =SUMIF(C2:C11;\"Kolacja\";F2:F11). Alternatywa: SUMPRODUCT.",
+    "**Kluczowy krok**: =SUMPRODUCT((C2:C11=\"Kolacja\")*D2:D11*E2:E11) — mnozy tablice i filtruje warunkowo."
+  ],
+  "odpowiedz": "**Formuly:**\n```\n1. =SUMIF(B2:B11;\"Poniedzialek\";D2:D11)\n2. =COUNTIFS(C2:C11;\"Obiad\";D2:D11;\">3\")\n3a. F2: =D2*E2  (kopiowana w dol)\n    =SUMIF(C2:C11;\"Kolacja\";F2:F11)\n3b. =SUMPRODUCT((C2:C11=\"Kolacja\")*D2:D11*E2:E11)\n```\n\n**Weryfikacja:**\n\nPunkt 1 — porcje w Poniedzialek:\n- Zam. 1: Pon, 3 ✓\n- Zam. 3: Pon, 2 ✓\n- Zam. 7: Pon, 2 ✓\n- Zam. 10: Pon, 5 ✓\n- Suma: 3 + 2 + 2 + 5 = **12**\n\nPunkt 2 — Obiad + ilosc > 3:\n- Zam. 1: Obiad, 3 — NIE (nie > 3)\n- Zam. 4: Obiad, 4 > 3 ✓\n- Zam. 8: Obiad, 4 > 3 ✓\n- Zam. 10: Obiad, 5 > 3 ✓\n- Wynik: **3**\n\nPunkt 3 — wartosc kolacji:\n- Zam. 5: Kolacja, 3 × 35 = 105\n- Zam. 7: Kolacja, 2 × 35 = 70\n- Zam. 9: Kolacja, 1 × 35 = 35\n- Suma: 105 + 70 + 35 = **210 zl**\n\n**Wyjasnienie**: Kolumna pomocnicza F pozwala policzyc wartosc kazdego zamowienia (ilosc × cena), a potem uzyc prostego SUMIF. SUMPRODUCT robi to samo w jednej formule, ale jest trudniejszy do debugowania.",
+  "typowe_bledy": [
+    {
+      "opis": "**Sumowanie ceny zamiast ilosci w punkcie 1**: =SUMIF(B2:B11;\"Poniedzialek\";E2:E11) — sumuje ceny, nie porcje",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Uzycie > zamiast >3 w punkcie 2**: =COUNTIFS(C2:C11;\"Obiad\";D2:D11;\">=\"&3) wlacza rowniez zamowienia z dokladnie 3 porcjami",
+      "kara": "-1 pkt"
+    }
+  ]
+}

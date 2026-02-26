@@ -1,0 +1,29 @@
+{
+  "id": "19.23",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "LEFT-RIGHT-MID",
+    "SUMIF",
+    "kolumna-pomocnicza",
+    "grupowanie-danych"
+  ],
+  "tresc": "Firma ma kody transakcji w formacie: 2 znaki regionu + 4 cyfry kwoty (np. \"PL0450\" = region PL, kwota 450 zl):\n\n| | A |\n|---|---|\n| 1 | **Kod transakcji** |\n| 2 | PL0450 |\n| 3 | DE1200 |\n| 4 | PL0800 |\n| 5 | FR0350 |\n| 6 | DE0900 |\n| 7 | PL1500 |\n| 8 | FR0600 |\n| 9 | DE0750 |\n| 10 | PL0300 |\n| 11 | FR1100 |\n\nTabela podsumowania wg regionu:\n\n| | D | E |\n|---|---|---|\n| 1 | **Region** | **Suma kwot** |\n| 2 | PL | ? |\n| 3 | DE | ? |\n| 4 | FR | ? |\n\n**Polecenie**:\n1. W kolumnie B wyodrebnij kod regionu (pierwsze 2 znaki).\n2. W kolumnie C wyodrebnij kwote (ostatnie 4 znaki zamienione na liczbe — uzyj funkcji VALUE).\n3. W E2 oblicz sume kwot dla kazdego regionu.",
+  "wskazowki": [
+    "**Kierunek**: LEFT wyodrebnia region, RIGHT wyodrebnia kwote — ale kwota jako tekst wymaga konwersji na liczbe.",
+    "**Podejscie**: B2: =LEFT(A2;2), C2: =VALUE(RIGHT(A2;4)), E2: =SUMIF(B2:B11;D2;C2:C11).",
+    "**Kluczowy krok**: VALUE() konwertuje tekst \"0450\" na liczbe 450. Bez VALUE, SUMIF nie zsumuje tekstow."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nB2: =LEFT(A2;2)            (region, kopiowana w dol)\nC2: =VALUE(RIGHT(A2;4))    (kwota jako liczba, kopiowana w dol)\nE2: =SUMIF(B2:B11;D2;C2:C11)  (suma regionu, kopiowana w dol)\n```\n\n**Kolumny pomocnicze:**\n\n| Kod | B (region) | C (kwota) |\n|-----|------------|----------|\n| PL0450 | PL | 450 |\n| DE1200 | DE | 1200 |\n| PL0800 | PL | 800 |\n| FR0350 | FR | 350 |\n| DE0900 | DE | 900 |\n| PL1500 | PL | 1500 |\n| FR0600 | FR | 600 |\n| DE0750 | DE | 750 |\n| PL0300 | PL | 300 |\n| FR1100 | FR | 1100 |\n\n**Sumy regionow:**\n- PL: 450 + 800 + 1500 + 300 = **3050**\n- DE: 1200 + 900 + 750 = **2850**\n- FR: 350 + 600 + 1100 = **2050**\n\nKontrola: 3050 + 2850 + 2050 = 7950 = SUM(C2:C11) = 450+1200+800+350+900+1500+600+750+300+1100 = 7950 ✓\n\n**Wyjasnienie**: Trzystopniowa transformacja: (1) LEFT wyodrebnia region, (2) VALUE(RIGHT(...)) wyodrebnia kwote jako liczbe, (3) SUMIF grupuje kwoty po regionie. Funkcja VALUE jest kluczowa — RIGHT zwraca tekst (\"0450\"), a SUMIF potrzebuje liczb do sumowania.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak VALUE()**: RIGHT(A2;4) zwraca tekst \"0450\", nie liczbe 450. SUMIF nie zsumuje tekstow poprawnie",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**MID zamiast RIGHT**: MID(A2;3;4) tez zadziala, ale RIGHT jest czytelniejsze gdy bierzemy znaki od konca",
+      "kara": "-0 pkt"
+    }
+  ]
+}

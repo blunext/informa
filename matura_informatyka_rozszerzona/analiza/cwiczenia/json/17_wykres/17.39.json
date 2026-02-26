@@ -1,0 +1,28 @@
+{
+  "id": "17.39",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "ogolna (edukacja wyzsza)",
+  "tagi": ["wykres-kombinowany", "dwie-osie-Y", "wykres-skumulowany", "wykres-liniowy", "procent-udzialu", "odczyt-z-wykresu"],
+  "tresc": "Dane o rekrutacji na studia informatyczne na uczelni:\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Rok** | **Kandydaci** | **Przyjeci** | **Kobiety (sposrod przyjetych)** | **Prog punktowy** |\n| 2 | 2020 | 800 | 120 | 18 | 72 |\n| 3 | 2021 | 950 | 130 | 22 | 78 |\n| 4 | 2022 | 1100 | 140 | 28 | 82 |\n| 5 | 2023 | 1250 | 150 | 33 | 85 |\n| 6 | 2024 | 1400 | 150 | 38 | 90 |\n| 7 | 2025 | 1600 | 160 | 42 | 92 |\n\n**Polecenie**:\n1. Opisz wykres kombinowany: slupki skumulowane (przyjeci = kobiety + mezczyzni) na osi lewej + linia progu punktowego na osi prawej.\n2. Oblicz wskaznik przyjec (przyjeci/kandydaci * 100%) i udzial kobiet sposrod przyjetych.\n3. Opisz osobny wykres liniowy obu wskaznikow (przyjec i udzialu kobiet).\n4. Jakie trendy mozna zaobserwowac? Czy uczelnia staje sie bardziej selektywna?",
+  "wskazowki": [
+    "**Kierunek**: Skumulowany (kobiety + mezczyzni) + linia progu. Osobny liniowy dla wskaznikow procentowych.",
+    "**Podejscie**: Mezczyzni = przyjeci - kobiety. Wskaznik przyjec = przyjeci/kandydaci*100. Selektywnosc = malejacy wskaznik przyjec.",
+    "**Kluczowy krok**: Rosnaczy prog i malejacy wskaznik przyjec = rosnaca selektywnosc mimo wiekszego naboru."
+  ],
+  "odpowiedz": "**1. Wykres kombinowany (skumulowany + linia):**\n\n- Typ: Combo chart\n- Os X: A2:A7 (lata)\n- Seria 1 (warstwa, os lewa): Kobiety — kolor rozowy\n- Seria 2 (warstwa, os lewa): Mezczyzni (przyjeci - kobiety) — kolor niebieski\n  - Mezczyzni: 102, 108, 112, 117, 112, 118\n- Seria 3 (linia, os prawa): E2:E7 — Prog punktowy, kolor czarny, skala 60-100\n- Os lewa: \"Liczba przyjetych\", Os prawa: \"Prog punktowy\"\n- Tytul: \"Rekrutacja na informatyke — przyjeci i prog\"\n- Legenda\n\n**2. Wskazniki procentowe:**\n\n| Rok | Kandydaci | Przyjeci | Kobiety | Wsk. przyjec | Udzial kobiet |\n|-----|-----------|----------|---------|-------------|---------------|\n| 2020 | 800 | 120 | 18 | 15.0% | 15.0% |\n| 2021 | 950 | 130 | 22 | 13.7% | 16.9% |\n| 2022 | 1100 | 140 | 28 | 12.7% | 20.0% |\n| 2023 | 1250 | 150 | 33 | 12.0% | 22.0% |\n| 2024 | 1400 | 150 | 38 | 10.7% | 25.3% |\n| 2025 | 1600 | 160 | 42 | 10.0% | 26.3% |\n\n**3. Wykres liniowy wskaznikow:**\n\n- Typ: Liniowy z markerami (2 serie)\n- Os X: lata, Os Y: procent (0-30%)\n- Seria 1: Wskaznik przyjec (malejacy: 15% → 10%) — czerwony\n- Seria 2: Udzial kobiet (rosnacy: 15% → 26.3%) — rozowy\n- Tytul: \"Wskaznik przyjec i udzial kobiet\"\n- Legenda\n\n**4. Analiza trendow:**\n\n- **Kandydaci**: rosna (800 → 1600, podwojenie) — rosnace zainteresowanie informatyka\n- **Wskaznik przyjec**: maleje (15% → 10%) — **uczelnia staje sie bardziej selektywna**\n- **Prog punktowy**: rosnie (72 → 92) — potwierdza rosnaca selektywnosc\n- **Udzial kobiet**: rosnie (15% → 26.3%) — stopniowe zwiekszanie udzialu kobiet w informatyce\n\nTak, uczelnia jest coraz bardziej selektywna: mimo podwojenia liczby kandydatow, przyjeto tylko o 40 osob wiecej (120 → 160). Prog punktowy wzrosl o 20 punktow.\n\n**Wyjasnienie**: Wykres z dwoma osiami i osobny liniowy wskaznikow to typowy schemat maturalny. Kluczowe jest rozroznienie wartosci bezwzglednych (slupki) od wskaznikow procentowych (linie).",
+  "typowe_bledy": [
+    {
+      "opis": "**Bledne obliczenie mezczyzn**: Mezczyzni = przyjeci - kobiety, NIE kandydaci - kobiety",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Stwierdzenie, ze uczelnia jest mniej selektywna**: Wskaznik przyjec maleje, prog rosnie — to wzrost selektywnosci",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Umieszczenie obu wskaznikow na roznych osiach Y**: Oba sa procentami w podobnym zakresie (10-26%) — moga byc na jednej osi",
+      "kara": "-1 pkt"
+    }
+  ]
+}

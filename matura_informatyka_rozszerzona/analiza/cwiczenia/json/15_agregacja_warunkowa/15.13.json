@@ -1,0 +1,27 @@
+{
+  "id": "15.13",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2025 (Martianeum)",
+  "tagi": [
+    "AVERAGEIF",
+    "warunek-liczbowy"
+  ],
+  "tresc": "W arkuszu kalkulacyjnym mamy dane o temperaturach w ciagu tygodnia:\n\n| | A | B |\n|---|---|---|\n| 1 | **Dzien** | **Temperatura (°C)** |\n| 2 | Poniedzialek | -3 |\n| 3 | Wtorek | 2 |\n| 4 | Sroda | 5 |\n| 5 | Czwartek | -1 |\n| 6 | Piatek | 8 |\n| 7 | Sobota | 4 |\n| 8 | Niedziela | -2 |\n\n**Polecenie**: Napisz formule, ktora obliczy srednia temperature tylko z dni, w ktorych temperatura byla dodatnia (wiecej niz 0).",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz sredniej warunkowej — AVERAGEIF z warunkiem liczbowym.",
+    "**Podejscie**: AVERAGEIF(zakres_kryterium; kryterium; zakres_sredniej) — filtruj po kolumnie B z warunkiem \">0\".",
+    "**Kluczowy krok**: =AVERAGEIF(B2:B8;\">0\") — gdy zakres kryterium i zakres sredniej sa takie same, mozna podac tylko jeden zakres."
+  ],
+  "odpowiedz": "**Formula:**\n```\n=AVERAGEIF(B2:B8;\">0\")\n```\n\n**Weryfikacja**: Dni z temperatura > 0:\n- Wtorek: 2 ✓\n- Sroda: 5 ✓\n- Piatek: 8 ✓\n- Sobota: 4 ✓\n\nSrednia: (2 + 5 + 8 + 4) / 4 = 19 / 4 = **4,75**\n\n**Wyjasnienie**: AVERAGEIF oblicza srednia arytmetyczna tylko z komorek spelniajacych warunek. Gdy zakres kryterium jest taki sam jak zakres wartosci, trzeci argument mozna pominac.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie >=0 zamiast >0**: =AVERAGEIF(B2:B8;\">=0\") wlaczyloby 0 do sredniej (gdyby wystapilo) — w tym zadaniu nie ma roznicy, ale w ogolnosci trzeba uwazac",
+      "kara": "-0.5 pkt"
+    },
+    {
+      "opis": "**Uzycie AVERAGE zamiast AVERAGEIF**: =AVERAGE(B2:B8) policzy srednia ze wszystkich dni (rowniez ujemnych) — wynik 1,86 zamiast 4,75",
+      "kara": "-1 pkt"
+    }
+  ]
+}

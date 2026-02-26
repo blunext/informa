@@ -1,0 +1,29 @@
+{
+  "id": "15.29",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "Inspirowane matura 2019 (Elektrycznosc — procent warunkowy)",
+  "tagi": [
+    "COUNTIFS",
+    "COUNTIF",
+    "warunek-tekstowy",
+    "warunek-liczbowy"
+  ],
+  "tresc": "W arkuszu mamy dane o wynikach ankiety satysfakcji:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Respondent** | **Dzial** | **Ocena (1-10)** |\n| 2 | R01 | Produkcja | 8 |\n| 3 | R02 | Biuro | 6 |\n| 4 | R03 | Produkcja | 4 |\n| 5 | R04 | Magazyn | 9 |\n| 6 | R05 | Biuro | 7 |\n| 7 | R06 | Produkcja | 3 |\n| 8 | R07 | Magazyn | 5 |\n| 9 | R08 | Biuro | 8 |\n| 10 | R09 | Produkcja | 7 |\n| 11 | R10 | Magazyn | 6 |\n| 12 | R11 | Biuro | 9 |\n| 13 | R12 | Produkcja | 5 |\n\n**Polecenie**:\n1. Ile osob z dzialu \"Produkcja\" wystawilo ocene >= 7?\n2. Jaki procent WSZYSTKICH respondentow wystawil ocene >= 7? (uzyj COUNTIF i COUNT)\n3. Ile osob z dzialu \"Biuro\" wystawilo ocene ponizej sredniej ogolnej?",
+  "wskazowki": [
+    "**Kierunek**: Punkt 1 — COUNTIFS z dwoma warunkami. Punkt 2 — COUNTIF/COUNT daje procent. Punkt 3 — COUNTIFS z dynamicznym progiem ze sredniej.",
+    "**Podejscie**: Punkt 2: =COUNTIF(C2:C13;\">=7\")/COUNT(C2:C13)*100. Punkt 3: =COUNTIFS(B2:B13;\"Biuro\";C2:C13;\"<\"&AVERAGE(C2:C13)).",
+    "**Kluczowy krok**: W punkcie 3 mozna zagniezdzyc AVERAGE wewnatrz operatora & zamiast uzywac komorki pomocniczej."
+  ],
+  "odpowiedz": "**Formuly:**\n```\n1. =COUNTIFS(B2:B13;\"Produkcja\";C2:C13;\">=7\")\n2. =COUNTIF(C2:C13;\">=7\")/COUNT(C2:C13)*100\n3. =COUNTIFS(B2:B13;\"Biuro\";C2:C13;\"<\"&AVERAGE(C2:C13))\n```\n\n**Weryfikacja:**\n\nPunkt 1 — Produkcja + ocena >= 7:\n- R01: Produkcja, 8 ✓\n- R03: Produkcja, 4 — NIE\n- R06: Produkcja, 3 — NIE\n- R09: Produkcja, 7 ✓\n- R12: Produkcja, 5 — NIE\n- Wynik: **2**\n\nPunkt 2 — procent ocen >= 7:\n- Oceny >= 7: R01(8), R04(9), R05(7), R08(8), R09(7), R11(9) = 6 osob\n- Lacznie: 12 osob\n- Procent: 6/12 × 100 = **50%**\n\nSrednia ogolna: (8+6+4+9+7+3+5+8+7+6+9+5)/12 = 77/12 = **6,42** (w przyblizeniu)\n\nPunkt 3 — Biuro + ocena < 6,42:\n- R02: Biuro, 6 < 6,42 ✓\n- R05: Biuro, 7 — NIE\n- R08: Biuro, 8 — NIE\n- R11: Biuro, 9 — NIE\n- Wynik: **1**\n\n**Wyjasnienie**: Procent = (liczba spelniajacych / ogol) × 100. AVERAGE mozna zagniezdzyc w kryterium COUNTIFS przez operator & — \"<\"&AVERAGE(...) tworzy dynamiczny prog.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak *100 w procentach**: =COUNTIF(C2:C13;\">=7\")/COUNT(C2:C13) da 0,5 zamiast 50 — w zaleznosci od wymaganego formatu trzeba pomnozyc",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie COUNTA zamiast COUNT**: COUNTA liczy tez naglowki tekstowe — jezeli zakres wlacza naglowek, COUNTA da 13 zamiast 12",
+      "kara": "-1 pkt"
+    }
+  ]
+}

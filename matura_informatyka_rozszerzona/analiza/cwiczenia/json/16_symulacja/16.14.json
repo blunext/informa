@@ -1,0 +1,28 @@
+{
+  "id": "16.14",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna (symulacja — temperatura stygnacego napoju)",
+  "tagi": [
+    "akumulator",
+    "odwolanie-bezwzgledne",
+    "kopiowanie-formul"
+  ],
+  "tresc": "Goracy napoj o poczatkowej temperaturze 90°C stygnie. Co minute traci 10% roznicy miedzy swoja temperatura a temperatura otoczenia (20°C). Temperatura otoczenia wpisana w D1: **20**.\n\n| | A | B |\n|---|---|---|\n| 1 | **Minuta** | **Temperatura (°C)** |\n| 2 | 0 | 90 |\n| 3 | 1 | ? |\n| 4 | 2 | ? |\n| 5 | 3 | ? |\n| 6 | 4 | ? |\n| 7 | 5 | ? |\n\nD1: **20**\n\n**Polecenie**: Napisz formule w B3. Nowa temperatura = poprzednia - 10% × (poprzednia - otoczenie). Wypelnij tabele (zaokraglij do 1 miejsca po przecinku).",
+  "wskazowki": [
+    "**Kierunek**: Kazda minuta: T_nowa = T_stara - 0.1 × (T_stara - T_otoczenia).",
+    "**Podejscie**: B3 = B2 - 0.1*(B2 - $D$1). Temperatura otoczenia ($D$1) jest stala.",
+    "**Kluczowy krok**: =ROUND(B2-0,1*(B2-$D$1);1) — zaokraglenie do 1 miejsca."
+  ],
+  "odpowiedz": "**Formula (B3, kopiowana w dol):**\n```\nB3: =ROUND(B2-0,1*(B2-$D$1);1)\n```\n\n**Wypelniona tabela:**\n\n| Minuta | Temperatura (°C) |\n|--------|-------------------|\n| 0 | 90 |\n| 1 | 83 |\n| 2 | 76.7 |\n| 3 | 71 |\n| 4 | 65.9 |\n| 5 | 61.3 |\n\n**Weryfikacja krok po kroku:**\n- B3: 90 - 0.1×(90-20) = 90 - 7 = 83.0\n- B4: 83 - 0.1×(83-20) = 83 - 6.3 = 76.7\n- B5: 76.7 - 0.1×(76.7-20) = 76.7 - 5.67 = 71.03 ≈ 71.0\n- B6: 71.0 - 0.1×(71.0-20) = 71.0 - 5.1 = 65.9\n- B7: 65.9 - 0.1×(65.9-20) = 65.9 - 4.59 = 61.31 ≈ 61.3\n\n**Wyjasnienie**: To uproszczony model prawa Newtona o stygnięciu. Spadek temperatury jest proporcjonalny do roznicy T - T_otoczenia, wiec napoj stygnie wolniej w miare zblizania sie do temperatury otoczenia.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak $ w D1**: =B2-0,1*(B2-D1) — po skopiowaniu D1 stanie sie D2, D3... ktore sa puste",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Stala wartosc spadku**: =B2-7 zamiast formuly — pierwsza minuta poprawna (90-7=83), ale dalsze sa bledne bo spadek sie zmienia",
+      "kara": "-1 pkt"
+    }
+  ]
+}

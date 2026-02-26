@@ -1,0 +1,28 @@
+{
+  "id": "16.12",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "ogolna (wzrost procentowy — populacja)",
+  "tagi": [
+    "odwolanie-bezwzgledne",
+    "kopiowanie-formul",
+    "mnozenie"
+  ],
+  "tresc": "Populacja miasta wynosi 100000 mieszkancow i rosnie o 3% rocznie. Wspolczynnik wzrostu (1.03) wpisano w komorce D1.\n\n| | A | B |\n|---|---|---|\n| 1 | **Rok** | **Populacja** |\n| 2 | 2024 | 100000 |\n| 3 | 2025 | ? |\n| 4 | 2026 | ? |\n| 5 | 2027 | ? |\n| 6 | 2028 | ? |\n| 7 | 2029 | ? |\n\nD1: **1.03**\n\n**Polecenie**: Napisz formule w B3, ktora mnozy poprzednia populacje przez wspolczynnik wzrostu z D1. Formula powinna dzialac po skopiowaniu w dol. Podaj populacje dla kazdego roku (zaokraglij do calkowitych).",
+  "wskazowki": [
+    "**Kierunek**: Kazdy rok = poprzedni × wspolczynnik. Wspolczynnik jest staly — uzyj odwolania bezwzglednego.",
+    "**Podejscie**: B3 = B2 * $D$1. Odwolanie B2 wzgledne (przesuwa sie), $D$1 bezwzgledne (zostaje).",
+    "**Kluczowy krok**: =ROUND(B2*$D$1;0) jesli chcesz zaokraglone, lub =B2*$D$1 bez zaokraglenia."
+  ],
+  "odpowiedz": "**Formula (B3, kopiowana w dol):**\n```\nB3: =ROUND(B2*$D$1;0)\n```\n\n**Wypelniona tabela:**\n\n| Rok | Populacja |\n|-----|-----------|\n| 2024 | 100000 |\n| 2025 | 103000 |\n| 2026 | 106090 |\n| 2027 | 109273 |\n| 2028 | 112551 |\n| 2029 | 115927 |\n\n**Weryfikacja krok po kroku:**\n- B3: 100000 × 1.03 = 103000\n- B4: 103000 × 1.03 = 106090\n- B5: 106090 × 1.03 = 109272.7 ≈ 109273\n- B6: 109273 × 1.03 = 112551.19 ≈ 112551\n- B7: 112551 × 1.03 = 115927.53 ≈ 115927\n\n**Wyjasnienie**: Odwolanie $D$1 jest bezwzgledne — nie zmienia sie po skopiowaniu formuly w dol. Wzrost procentowy dziala kumulacyjnie (procent skladany): po 5 latach populacja rosnie o wiecej niz 5 × 3% = 15%.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak $ w odwolaniu do D1**: =B2*D1 — po skopiowaniu do B4 stanie sie =B3*D2, a D2 jest pusta",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Dodawanie zamiast mnozenia**: =B2+$D$1 dodaje 1.03 zamiast mnozyc — populacja rosnie o 1 rocznie zamiast o 3%",
+      "kara": "-1 pkt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "18.34",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "ogolna (sklep)",
+  "tagi": ["AVERAGEIF", "SUM", "AVERAGE", "ROUND", "zaokraglanie", "procent"],
+  "tresc": "Sklep prowadzi ewidencje 10 produktow w dwoch kategoriach (Zywnosc i Chemia):\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Produkt** | **Kategoria** | **Cena (zl)** | **Sprzedaz (szt.)** |\n| 2 | Chleb | Zywnosc | 4.50 | 120 |\n| 3 | Mleko | Zywnosc | 3.80 | 95 |\n| 4 | Maslo | Zywnosc | 7.20 | 60 |\n| 5 | Jajka | Zywnosc | 12.00 | 45 |\n| 6 | Ser | Zywnosc | 18.50 | 30 |\n| 7 | Proszek | Chemia | 24.00 | 25 |\n| 8 | Plyn | Chemia | 8.50 | 40 |\n| 9 | Mydlo | Chemia | 3.20 | 55 |\n| 10 | Szampon | Chemia | 15.00 | 35 |\n| 11 | Pasta | Chemia | 6.80 | 50 |\n\n**Polecenie**:\n1. W kolumnie E oblicz wartosc sprzedazy kazdego produktu (cena * sprzedaz).\n2. Oblicz laczna wartosc sprzedazy.\n3. Oblicz srednia cene produktow w kategorii Zywnosc (AVERAGEIF).\n4. Oblicz srednia cene produktow w kategorii Chemia (AVERAGEIF).\n5. Jaki procent lacznej sprzedazy stanowi kategoria Zywnosc?",
+  "wskazowki": [
+    "**Kierunek**: E = C * D. AVERAGEIF na kolumnie C z warunkiem z kolumny B. Procent wymaga sumy warunkowej.",
+    "**Podejscie**: AVERAGEIF(B2:B11;\"Zywnosc\";C2:C11) — srednia cen produktow zywnosciowych.",
+    "**Kluczowy krok**: Procent Zywnosci = SUMIF(B2:B11;\"Zywnosc\";E2:E11) / SUM(E2:E11) * 100."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nE2: =C2*D2                          (kopiowana w dol do E11)\nLaczna sprzedaz:    =SUM(E2:E11)\n\nSrednia cena Zywnosc: =ZAOKR(AVERAGEIF(B2:B11;\"Zywnosc\";C2:C11);2)\nSrednia cena Chemia:  =ZAOKR(AVERAGEIF(B2:B11;\"Chemia\";C2:C11);2)\n\nProcent Zywnosci:   =ZAOKR(SUMIF(B2:B11;\"Zywnosc\";E2:E11)/SUM(E2:E11)*100;1)\n```\n\n**Weryfikacja:**\n\n| Produkt | Kat. | Cena | Szt. | E: Wartosc |\n|---------|------|------|------|------------|\n| Chleb | Zyw. | 4.50 | 120 | 540.00 |\n| Mleko | Zyw. | 3.80 | 95 | 361.00 |\n| Maslo | Zyw. | 7.20 | 60 | 432.00 |\n| Jajka | Zyw. | 12.00 | 45 | 540.00 |\n| Ser | Zyw. | 18.50 | 30 | 555.00 |\n| Proszek | Chem. | 24.00 | 25 | 600.00 |\n| Plyn | Chem. | 8.50 | 40 | 340.00 |\n| Mydlo | Chem. | 3.20 | 55 | 176.00 |\n| Szampon | Chem. | 15.00 | 35 | 525.00 |\n| Pasta | Chem. | 6.80 | 50 | 340.00 |\n\n- Laczna sprzedaz: 540+361+432+540+555+600+340+176+525+340 = **4409.00** zl\n\n- Srednia cena Zywnosc: (4.50+3.80+7.20+12.00+18.50)/5 = 46.00/5 = **9.20** zl\n- Srednia cena Chemia: (24.00+8.50+3.20+15.00+6.80)/5 = 57.50/5 = **11.50** zl\n\n- Suma Zywnosc: 540+361+432+540+555 = 2428\n- Procent Zywnosci: ZAOKR(2428/4409*100; 1) = ZAOKR(55.06; 1) = **55.1%**\n\n**Wyjasnienie**: AVERAGEIF oblicza srednia warunkowo — tylko dla wierszy spelniajacych kryterium. Chemia ma wyzsza srednia cene (11.50 vs 9.20), ale Zywnosc generuje wiecej przychodu (55.1%) dzieki wyzszej sprzedazy sztukowej.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomieszanie AVERAGEIF z AVERAGE**: AVERAGE(C2:C11) da srednia ze wszystkich 10 produktow, a nie z jednej kategorii",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Procent ze sztuk zamiast z wartosci**: Udzial sztukowy Zywnosci to (120+95+60+45+30)/555 = 63.1% — to nie to samo co udzial wartosciowy",
+      "kara": "-2 pkt"
+    }
+  ]
+}

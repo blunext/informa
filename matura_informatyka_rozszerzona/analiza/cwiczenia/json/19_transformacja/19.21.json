@@ -1,0 +1,28 @@
+{
+  "id": "19.21",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "ogolna",
+  "tagi": [
+    "COUNTIFS",
+    "tabela-krzyzowa",
+    "odwolania-mieszane"
+  ],
+  "tresc": "Ankieta wsrod uczniow: kazdy uczen podal ulubiony przedmiot i klase:\n\n| | A | B |\n|---|---|---|\n| 1 | **Klasa** | **Ulubiony przedmiot** |\n| 2 | 1a | Matematyka |\n| 3 | 1a | Informatyka |\n| 4 | 1a | Matematyka |\n| 5 | 1b | Informatyka |\n| 6 | 1b | Fizyka |\n| 7 | 1b | Informatyka |\n| 8 | 1a | Fizyka |\n| 9 | 1b | Matematyka |\n| 10 | 1a | Informatyka |\n| 11 | 1b | Fizyka |\n| 12 | 1a | Matematyka |\n| 13 | 1b | Matematyka |\n\nTabela krzyzowa — ile uczniow w kazdej klasie wybralo dany przedmiot:\n\n| | D | E | F | G |\n|---|---|---|---|---|\n| 1 | | **Matematyka** | **Informatyka** | **Fizyka** |\n| 2 | **1a** | ? | ? | ? |\n| 3 | **1b** | ? | ? | ? |\n\n**Polecenie**: Napisz formule w E2 uzywajac COUNTIFS z odwolaniami mieszanymi, aby mozna ja bylo skopiowac w prawo i w dol.",
+  "wskazowki": [
+    "**Kierunek**: COUNTIFS zlicza wiersze spelniajace wiele warunkow jednoczesnie.",
+    "**Podejscie**: =COUNTIFS(A$2:A$13;$D2;B$2:B$13;E$1) — klasa z $D2, przedmiot z E$1.",
+    "**Kluczowy krok**: $D2 — zakotwiczona kolumna D (klasa), E$1 — zakotwiczony wiersz 1 (przedmiot). Te same zasady co SUMIFS."
+  ],
+  "odpowiedz": "**Formula (E2, kopiowana w prawo do G2 i w dol do G3):**\n```\nE2: =COUNTIFS(A$2:A$13;$D2;B$2:B$13;E$1)\n```\n\n**Weryfikacja:**\n- 1a-Matematyka: wiersze 2, 4, 12 → **3**\n- 1a-Informatyka: wiersze 3, 10 → **2**\n- 1a-Fizyka: wiersz 8 → **1**\n- 1b-Matematyka: wiersze 9, 13 → **2**\n- 1b-Informatyka: wiersze 5, 7 → **2**\n- 1b-Fizyka: wiersze 6, 11 → **2**\n\n| | Matematyka | Informatyka | Fizyka | Razem |\n|---|---|---|---|---|\n| 1a | 3 | 2 | 1 | 6 |\n| 1b | 2 | 2 | 2 | 6 |\n| Razem | 5 | 4 | 3 | 12 |\n\nKontrola: 6 + 6 = 12 = liczba wierszy danych (wiersze 2-13) ✓\n5 + 4 + 3 = 12 ✓\n\n**Wyjasnienie**: COUNTIFS dziala analogicznie do SUMIFS, ale zamiast sumowac wartosci, zlicza wiersze spelniajace wszystkie podane kryteria. Odwolania mieszane sa identyczne jak w SUMIFS: $D2 (klasa — kolumna zakotwiczona), E$1 (przedmiot — wiersz zakotwiczony).",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie COUNTIF zamiast COUNTIFS**: COUNTIF obsluguje tylko 1 kryterium — tu potrzebne sa 2 (klasa i przedmiot)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Odwrotne $ w odwolaniach**: $D2 powinno miec $ przed D (kolumna), nie przed 2 (wiersz) — D$2 daloby bledne wyniki przy kopiowaniu w dol",
+      "kara": "-2 pkt"
+    }
+  ]
+}

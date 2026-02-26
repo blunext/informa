@@ -1,0 +1,28 @@
+{
+  "id": "15.21",
+  "trudnosc": "srednie",
+  "punkty": 4,
+  "zrodlo": "Inspirowane matura 2022 (Muzeum)",
+  "tagi": [
+    "SUMIFS",
+    "warunek-liczbowy",
+    "wiele-warunkow"
+  ],
+  "tresc": "W arkuszu mamy dane o transakcjach w sklepie:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Data** | **Kwota** | **Typ** |\n| 2 | 2024-01-05 | 150 | Gotowka |\n| 3 | 2024-01-08 | 320 | Karta |\n| 4 | 2024-01-12 | 85 | Gotowka |\n| 5 | 2024-01-15 | 450 | Karta |\n| 6 | 2024-01-18 | 200 | Gotowka |\n| 7 | 2024-01-22 | 180 | Karta |\n| 8 | 2024-01-25 | 95 | Gotowka |\n| 9 | 2024-01-28 | 500 | Karta |\n| 10 | 2024-02-02 | 275 | Karta |\n| 11 | 2024-02-05 | 120 | Gotowka |\n\n**Polecenie**: Oblicz laczna kwote transakcji kartowych powyzej 200 zl.",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz sumy z dwoma warunkami — typ = \"Karta\" ORAZ kwota > 200.",
+    "**Podejscie**: SUMIFS z dwoma parami kryteriow — jedna tekstowa (\"Karta\"), druga liczbowa (\">200\").",
+    "**Kluczowy krok**: =SUMIFS(B2:B11;C2:C11;\"Karta\";B2:B11;\">200\") — zakres sumy i zakres kryterium liczbowego to ta sama kolumna B."
+  ],
+  "odpowiedz": "**Formula:**\n```\n=SUMIFS(B2:B11;C2:C11;\"Karta\";B2:B11;\">200\")\n```\n\n**Weryfikacja**: Transakcje kartowe > 200 zl:\n- Wiersz 3: Karta, 320 > 200 ✓\n- Wiersz 5: Karta, 450 > 200 ✓\n- Wiersz 8: Karta, 500 > 200 ✓\n- Wiersz 10: Karta, 275 > 200 ✓\n\nOdrzucone: Wiersz 7: Karta, 180 — nie spelnia > 200\n\nSuma: 320 + 450 + 500 + 275 = **1545**\n\n**Wyjasnienie**: SUMIFS pozwala laczyc warunek tekstowy z liczbowym. Zauwaz, ze kolumna B wystepuje i jako zakres sumy, i jako zakres kryterium liczbowego — to jest poprawne i czesto spotykane.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie >= zamiast >**: =SUMIFS(B2:B11;C2:C11;\"Karta\";B2:B11;\">=200\") wlaczyloby transakcje za dokladnie 200 zl (wiersz 6 jest gotowkowy, wiec tu nie zmienia wyniku, ale w ogolnosci to blad)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak jednego z warunkow**: =SUMIF(C2:C11;\"Karta\";B2:B11) zsumuje WSZYSTKIE transakcje kartowe (1725), nie tylko te > 200",
+      "kara": "-2 pkt"
+    }
+  ]
+}

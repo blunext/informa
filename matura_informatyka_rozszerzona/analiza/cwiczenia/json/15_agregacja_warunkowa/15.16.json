@@ -1,0 +1,27 @@
+{
+  "id": "15.16",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2019 (Elektrycznosc)",
+  "tagi": [
+    "AVERAGEIF",
+    "warunek-tekstowy"
+  ],
+  "tresc": "W arkuszu mamy dane o wzroscie uczniow z dwoch klas:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Uczen** | **Klasa** | **Wzrost (cm)** |\n| 2 | Ania | 3A | 165 |\n| 3 | Bartek | 3B | 178 |\n| 4 | Celina | 3A | 160 |\n| 5 | Dawid | 3B | 182 |\n| 6 | Ewa | 3A | 170 |\n| 7 | Filip | 3B | 175 |\n| 8 | Gosia | 3A | 158 |\n| 9 | Hubert | 3B | 180 |\n\n**Polecenie**: Napisz formule, ktora obliczy sredni wzrost uczniow z klasy \"3A\".",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz sredniej warunkowej — AVERAGEIF filtrujacy po klasie.",
+    "**Podejscie**: AVERAGEIF(zakres_kryterium; kryterium; zakres_sredniej) — filtruj kolumne B, usredniaj kolumne C.",
+    "**Kluczowy krok**: =AVERAGEIF(B2:B9;\"3A\";C2:C9) — srednia wzrostu tylko uczniow z klasy 3A."
+  ],
+  "odpowiedz": "**Formula:**\n```\n=AVERAGEIF(B2:B9;\"3A\";C2:C9)\n```\n\n**Weryfikacja**: Uczniowie z klasy 3A:\n- Ania: 165 ✓\n- Celina: 160 ✓\n- Ewa: 170 ✓\n- Gosia: 158 ✓\n\nSrednia: (165 + 160 + 170 + 158) / 4 = 653 / 4 = **163,25**\n\n**Wyjasnienie**: AVERAGEIF oblicza srednia arytmetyczna z kolumny C tylko dla wierszy, gdzie kolumna B zawiera tekst \"3A\". Trzy argumenty: zakres kryterium, kryterium, zakres wartosci do usrednienia.",
+  "typowe_bledy": [
+    {
+      "opis": "**Pomieszanie AVERAGEIF z AVERAGEIFS**: AVERAGEIF ma kolejnosc (zakres_kryterium; kryterium; zakres_sredniej), a AVERAGEIFS ma (zakres_sredniej; zakres_kryt; kryt)",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak trzeciego argumentu**: =AVERAGEIF(B2:B9;\"3A\") — bez zakresu sredniej funkcja probuje usrednic kolumne B (tekst), co da blad",
+      "kara": "-1 pkt"
+    }
+  ]
+}

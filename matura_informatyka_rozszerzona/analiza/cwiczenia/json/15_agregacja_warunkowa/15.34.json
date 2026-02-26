@@ -1,0 +1,30 @@
+{
+  "id": "15.34",
+  "trudnosc": "trudne",
+  "punkty": 6,
+  "zrodlo": "Inspirowane matura 2025 (Martianeum — agregacja wielopoziomowa)",
+  "tagi": [
+    "SUMIFS",
+    "MAXIFS-MINIFS",
+    "kolumna-pomocnicza",
+    "zakres-bezwzgledny",
+    "zagniezdzone-funkcje"
+  ],
+  "tresc": "W arkuszu mamy dane o wynikach zawodow sportowych w trzech dyscyplinach:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Zawodnik** | **Dyscyplina** | **Proba** | **Wynik** |\n| 2 | Kowalski | Skok | 1 | 5.80 |\n| 3 | Kowalski | Skok | 2 | 6.10 |\n| 4 | Kowalski | Skok | 3 | 5.95 |\n| 5 | Nowak | Skok | 1 | 6.30 |\n| 6 | Nowak | Skok | 2 | 6.05 |\n| 7 | Nowak | Skok | 3 | 6.45 |\n| 8 | Kowalski | Rzut | 1 | 14.20 |\n| 9 | Kowalski | Rzut | 2 | 15.00 |\n| 10 | Kowalski | Rzut | 3 | 14.50 |\n| 11 | Nowak | Rzut | 1 | 13.80 |\n| 12 | Nowak | Rzut | 2 | 14.60 |\n| 13 | Nowak | Rzut | 3 | 13.90 |\n\n**Polecenie**:\n1. Oblicz najlepszy wynik (MAX) Kowalskiego w dyscyplinie \"Skok\".\n2. Oblicz najgorszy wynik (MIN) Nowaka w dyscyplinie \"Rzut\".\n3. Oblicz roznice miedzy najlepszym a najgorszym wynikiem Kowalskiego w \"Rzut\" (rozstep).\n4. Ktory zawodnik ma wyzszy sredni wynik w \"Skok\"? Uzyj formuly porownujacej.",
+  "wskazowki": [
+    "**Kierunek**: Punkty 1-2 to MAXIFS/MINIFS z dwoma warunkami. Punkt 3 to roznica MAXIFS - MINIFS. Punkt 4 wymaga porownania dwoch AVERAGEIFS.",
+    "**Podejscie**: Punkt 4: =IF(AVERAGEIFS(D2:D13;A2:A13;\"Kowalski\";B2:B13;\"Skok\")>AVERAGEIFS(D2:D13;A2:A13;\"Nowak\";B2:B13;\"Skok\");\"Kowalski\";\"Nowak\")",
+    "**Kluczowy krok**: MAXIFS/MINIFS przyjmuja dwie pary kryteriow — zawodnik + dyscyplina."
+  ],
+  "odpowiedz": "**Formuly:**\n```\n1. =MAXIFS(D2:D13;A2:A13;\"Kowalski\";B2:B13;\"Skok\")\n2. =MINIFS(D2:D13;A2:A13;\"Nowak\";B2:B13;\"Rzut\")\n3. =MAXIFS(D2:D13;A2:A13;\"Kowalski\";B2:B13;\"Rzut\")-MINIFS(D2:D13;A2:A13;\"Kowalski\";B2:B13;\"Rzut\")\n4. =IF(AVERAGEIFS(D2:D13;A2:A13;\"Kowalski\";B2:B13;\"Skok\")>AVERAGEIFS(D2:D13;A2:A13;\"Nowak\";B2:B13;\"Skok\");\"Kowalski\";\"Nowak\")\n```\n\n**Weryfikacja:**\n\nPunkt 1 — MAX Kowalski Skok:\n- Proby: 5.80, 6.10, 5.95\n- Max: **6.10**\n\nPunkt 2 — MIN Nowak Rzut:\n- Proby: 13.80, 14.60, 13.90\n- Min: **13.80**\n\nPunkt 3 — rozstep Kowalski Rzut:\n- Proby: 14.20, 15.00, 14.50\n- Max - Min: 15.00 - 14.20 = **0.80**\n\nPunkt 4 — porownanie srednich Skok:\n- Kowalski: (5.80+6.10+5.95)/3 = 17.85/3 = 5.95\n- Nowak: (6.30+6.05+6.45)/3 = 18.80/3 = 6.27 (w przyblizeniu)\n- 5.95 < 6.27 → wynik: **\"Nowak\"**\n\n**Wyjasnienie**: MAXIFS i MINIFS pozwalaja na warunkowe szukanie ekstremow. Rozstep (roznica max-min) to miara rozrzutu wynikow. IF zagniezdzone z AVERAGEIFS porownuje dwie srednie warunkowe.",
+  "typowe_bledy": [
+    {
+      "opis": "**Uzycie MAX zamiast MAXIFS**: =MAX(D2:D13) da 15.00 (max z WSZYSTKICH dyscyplin i zawodnikow), bez filtrowania",
+      "kara": "-2 pkt"
+    },
+    {
+      "opis": "**Pominięcie jednego warunku**: =MAXIFS(D2:D13;A2:A13;\"Kowalski\") — bez filtra dyscypliny, wezmie max z obu dyscyplin",
+      "kara": "-2 pkt"
+    }
+  ]
+}

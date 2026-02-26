@@ -1,0 +1,29 @@
+{
+  "id": "16.20",
+  "trudnosc": "srednie",
+  "punkty": 3,
+  "zrodlo": "Inspirowane matura 2023 (zarządzanie zasobami)",
+  "tagi": [
+    "akumulator",
+    "IF-warunkowy",
+    "symulacja-krokowa",
+    "odwolanie-wzgledne"
+  ],
+  "tresc": "Zbiornik na wode deszczowa ma pojemnosc 500 litrow. Codziennie zbierany jest deszcz (dodawany do zbiornika) i zuzywa sie wode do podlewania ogrodu. Jesli zbiornik jest pelny, nadmiar wody sie przelewa i jest tracony. Poczatkowy poziom wody: 200 litrow.\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Dzien** | **Deszcz (l)** | **Zuzycie (l)** | **Poziom** | **Przelew** |\n| 2 | 0 (start) | — | — | 200 | |\n| 3 | 1 | 120 | 50 | ? | ? |\n| 4 | 2 | 80 | 40 | ? | ? |\n| 5 | 3 | 250 | 30 | ? | ? |\n| 6 | 4 | 60 | 80 | ? | ? |\n| 7 | 5 | 300 | 20 | ? | ? |\n| 8 | 6 | 10 | 90 | ? | ? |\n\nPojemnosc zbiornika w G1: **500**.\n\n**Polecenie**:\n1. Napisz formule w D3 obliczajaca poziom wody: MIN(poprzedni poziom + deszcz - zuzycie; 500). Poziom nie moze przekroczyc 500.\n2. Napisz formule w E3 obliczajaca przelew: jesli poprzedni poziom + deszcz - zuzycie > 500, to nadmiar, w przeciwnym razie 0.",
+  "wskazowki": [
+    "**Kierunek**: Najpierw oblicz surowy poziom (poprzedni + deszcz - zuzycie), potem ogranicz do pojemnosci. Przelew to roznica miedzy surowym a rzeczywistym poziomem.",
+    "**Podejscie**: Surowy poziom = D2+B3-C3. Jesli surowy > 500, to przelew = surowy - 500, a poziom = 500. W przeciwnym razie przelew = 0.",
+    "**Kluczowy krok**: D3: =MIN(D2+B3-C3;$G$1), E3: =IF(D2+B3-C3>$G$1;D2+B3-C3-$G$1;0). Kopiuj obie formuly w dol."
+  ],
+  "odpowiedz": "**Formuly (wiersz 3, kopiowane w dol):**\n```\nD3: =MIN(D2+B3-C3;$G$1)\nE3: =IF(D2+B3-C3>$G$1;D2+B3-C3-$G$1;0)\n```\n\n**Wypelniona tabela:**\n\n| Dzien | Deszcz | Zuzycie | Poziom | Przelew |\n|-------|--------|---------|--------|---------|\n| 0 | — | — | 200 | |\n| 1 | 120 | 50 | 270 | 0 |\n| 2 | 80 | 40 | 310 | 0 |\n| 3 | 250 | 30 | 500 | 30 |\n| 4 | 60 | 80 | 480 | 0 |\n| 5 | 300 | 20 | 500 | 260 |\n| 6 | 10 | 90 | 420 | 0 |\n\n**Weryfikacja krok po kroku:**\n- Dzien 1: surowy = 200+120-50 = 270. 270 <= 500 → D3=270, E3=0\n- Dzien 2: surowy = 270+80-40 = 310. 310 <= 500 → D4=310, E4=0\n- Dzien 3: surowy = 310+250-30 = 530. 530 > 500 → D5=500, E5=530-500=30\n- Dzien 4: surowy = 500+60-80 = 480. 480 <= 500 → D6=480, E6=0\n- Dzien 5: surowy = 480+300-20 = 760. 760 > 500 → D7=500, E7=760-500=260\n- Dzien 6: surowy = 500+10-90 = 420. 420 <= 500 → D8=420, E8=0\n\n**Wyjasnienie**: Zbiornik to akumulator z ograniczeniem gornym (pojemnosc). MIN zapewnia, ze poziom nigdy nie przekroczy 500. Przelew to nadmiar wody — roznica miedzy surowym obliczeniem a pojemnoscia. Na maturze wazne jest rozroznienie miedzy surowym a rzeczywistym poziomem.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak ograniczenia pojemnosci**: Napisanie =D2+B3-C3 bez MIN — poziom moze przekroczyc 500, co jest fizycznie niemozliwe.",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Przelew liczony od rzeczywistego poziomu**: Napisanie =IF(D3>$G$1;...) zamiast =IF(D2+B3-C3>$G$1;...) — jesli D3 juz jest obciete przez MIN, warunek nigdy nie jest spelniony.",
+      "kara": "-1 pkt"
+    }
+  ]
+}

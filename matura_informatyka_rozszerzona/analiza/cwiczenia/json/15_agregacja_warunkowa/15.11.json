@@ -1,0 +1,27 @@
+{
+  "id": "15.11",
+  "trudnosc": "latwe",
+  "punkty": 2,
+  "zrodlo": "Inspirowane matura 2024 (Hurtownia)",
+  "tagi": [
+    "COUNTIF",
+    "warunek-liczbowy"
+  ],
+  "tresc": "W arkuszu kalkulacyjnym mamy wyniki uczniow z testu:\n\n| | A | B |\n|---|---|---|\n| 1 | **Uczen** | **Punkty** |\n| 2 | Anna | 45 |\n| 3 | Bartek | 72 |\n| 4 | Celina | 38 |\n| 5 | Dawid | 91 |\n| 6 | Ewa | 55 |\n| 7 | Filip | 60 |\n| 8 | Gosia | 48 |\n| 9 | Hubert | 85 |\n| 10 | Iga | 67 |\n| 11 | Jan | 50 |\n\n**Polecenie**: Napisz formule, ktora obliczy ilu uczniow uzyskalo co najmniej 60 punktow.",
+  "wskazowki": [
+    "**Kierunek**: Potrzebujesz funkcji zliczajacej komorki spelniajace warunek liczbowy.",
+    "**Podejscie**: Funkcja COUNTIF z kryterium zawierajacym operator porownania — uzyj formatu \">=\".",
+    "**Kluczowy krok**: =COUNTIF(B2:B11;\">=\"&60) lub =COUNTIF(B2:B11;\">=60\") — oba zapisy sa poprawne."
+  ],
+  "odpowiedz": "**Formula:**\n```\n=COUNTIF(B2:B11;\">=60\")\n```\n\n**Weryfikacja**: Uczniowie z >= 60 punktow: Bartek (72), Dawid (91), Filip (60), Hubert (85), Iga (67) = **5**\n\nUczniowie ponizej 60: Anna (45), Celina (38), Ewa (55), Gosia (48), Jan (50) — nie spelniaja warunku.\n\n**Wyjasnienie**: COUNTIF z kryterium \">=60\" zlicza komorki, ktorych wartosc jest wieksza lub rowna 60. Operator porownania jest czescia kryterium w cudzyslowach.",
+  "typowe_bledy": [
+    {
+      "opis": "**Brak cudzyslowow wokol kryterium**: =COUNTIF(B2:B11;>=60) — kryterium z operatorem musi byc w cudzyslowach",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Uzycie > zamiast >=**: =COUNTIF(B2:B11;\">60\") pominie Filipa z dokladnie 60 punktami — wynik 4 zamiast 5",
+      "kara": "-1 pkt"
+    }
+  ]
+}

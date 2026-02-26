@@ -1,0 +1,24 @@
+{
+  "id": "18.32",
+  "trudnosc": "srednie-trudne",
+  "punkty": 5,
+  "zrodlo": "ogolna (deszcz)",
+  "tagi": ["SUM", "AVERAGE", "MAX", "ROUND", "procent", "zaokraglanie", "mnozenie-komorek"],
+  "tresc": "Dane o opadach deszczu (w mm) w 4 regionach przez 3 miesiace:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Region** | **Kwiecien** | **Maj** | **Czerwiec** |\n| 2 | Polnoc | 45 | 62 | 38 |\n| 3 | Poludnie | 52 | 48 | 55 |\n| 4 | Wschod | 35 | 71 | 42 |\n| 5 | Zachod | 58 | 55 | 60 |\n\n**Polecenie**:\n1. W kolumnie E oblicz laczne opady dla kazdego regionu (suma 3 miesiecy).\n2. Oblicz srednie miesieczne opady dla kazdego regionu (E/3), zaokraglone do 1 miejsca (kolumna F).\n3. W wierszu 6 oblicz laczne opady dla kazdego miesiaca (SUM kolumn B, C, D).\n4. Ktory miesiac mial najwyzsze laczne opady?",
+  "wskazowki": [
+    "**Kierunek**: E = SUM(B:D) w wierszu, F = ZAOKR(E/3; 1). Wiersz 6: SUM kolumn.",
+    "**Podejscie**: Dwie osie agregacji — po regionach (wiersze) i po miesiacach (kolumny).",
+    "**Kluczowy krok**: MAX na wierszu 6 pokaze najwyzszy miesieczny laczny opad."
+  ],
+  "odpowiedz": "**Formuly:**\n```\nE2: =SUM(B2:D2)                    (kopiowana w dol do E5)\nF2: =ZAOKR(E2/3;1)                (kopiowana w dol do F5)\n\nB6: =SUM(B2:B5)                    (kopiowana w prawo do D6)\nNajwyzszy miesiac: =MAX(B6:D6)\n```\n\n**Weryfikacja:**\n\n| Region | Kw. | Maj | Cz. | E: Suma | F: Srednia |\n|--------|-----|-----|-----|---------|------------|\n| Polnoc | 45 | 62 | 38 | 145 | ZAOKR(145/3;1) = ZAOKR(48.333;1) = 48.3 |\n| Poludnie | 52 | 48 | 55 | 155 | ZAOKR(155/3;1) = ZAOKR(51.667;1) = 51.7 |\n| Wschod | 35 | 71 | 42 | 148 | ZAOKR(148/3;1) = ZAOKR(49.333;1) = 49.3 |\n| Zachod | 58 | 55 | 60 | 173 | ZAOKR(173/3;1) = ZAOKR(57.667;1) = 57.7 |\n\n**Sumy miesieczne (wiersz 6):**\n- Kwiecien: 45+52+35+58 = **190**\n- Maj: 62+48+71+55 = **236**\n- Czerwiec: 38+55+42+60 = **195**\n\n- MAX(B6:D6) = **236** (Maj)\n\n**Wyjasnienie**: Agregacja w dwoch osiach: E agreguje miesiace dla regionu, wiersz 6 agreguje regiony dla miesiaca. Maj mial najwyzsze laczne opady (236 mm), glownie dzieki duzym opadom na Polnocy (62) i Wschodzie (71).",
+  "typowe_bledy": [
+    {
+      "opis": "**SUM w zlym kierunku**: =SUM(B2:B5) sumuje kolumne (miesiace), =SUM(B2:D2) sumuje wiersz (regiony) — latwo pomylic kierunek",
+      "kara": "-1 pkt"
+    },
+    {
+      "opis": "**Brak ZAOKR w kolumnie F**: 145/3 = 48.333... — bez zaokraglenia wynik ma wiele miejsc po przecinku",
+      "kara": "-1 pkt"
+    }
+  ]
+}
