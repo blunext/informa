@@ -38,9 +38,10 @@ type CommonError struct {
 	Kara string `json:"kara"`
 }
 
-// MaturaExam matches matura_YYYY.json top-level
+// MaturaExam matches matura_YYYYM.json top-level
 type MaturaExam struct {
 	Rok         int        `json:"rok"`
+	Sesja       string     `json:"sesja"`
 	Formula     string     `json:"formula"`
 	CzasMinuty  int        `json:"czas_minuty"`
 	TotalPunkty int        `json:"total_punkty"`
@@ -243,6 +244,7 @@ type CKEOut struct {
 // ExamMetaOut is what exam meta returns
 type ExamMetaOut struct {
 	Rok         int             `json:"rok"`
+	Sesja       string          `json:"sesja"`
 	Formula     string          `json:"formula"`
 	CzasMinuty  int             `json:"czas_minuty"`
 	TotalPunkty int             `json:"total_punkty"`
@@ -299,9 +301,10 @@ type TrapSaveOut struct {
 
 // DataStatsOut is what data stats returns
 type DataStatsOut struct {
-	Cwiczenia   int `json:"cwiczenia"`
-	Podzadania  int `json:"podzadania"`
-	Cheatsheets int `json:"cheatsheets"`
+	Cwiczenia   int            `json:"cwiczenia"`
+	Podzadania  int            `json:"podzadania"`
+	Cheatsheets int            `json:"cheatsheets"`
+	PerSesja    map[string]int `json:"per_sesja,omitempty"`
 }
 
 // DifficultyCount is per-difficulty breakdown for exercise count
@@ -431,9 +434,10 @@ type CKEStatusOut struct {
 	CKEAvailable      int    `json:"cke_available"`
 }
 
-// ExamListEntry is one year in exam list
+// ExamListEntry is one year/session in exam list
 type ExamListEntry struct {
 	Rok          int      `json:"rok"`
+	Sesja        string   `json:"sesja"`
 	Formula      string   `json:"formula"`
 	CzasMin      int      `json:"czas_min"`
 	TotalPkt     int      `json:"total_pkt"`
@@ -447,9 +451,10 @@ type ExamListOut struct {
 	Suggested *ExamSuggestion `json:"suggested,omitempty"`
 }
 
-// ExamSuggestion is a suggested exam year
+// ExamSuggestion is a suggested exam year/session
 type ExamSuggestion struct {
 	Rok     int    `json:"rok"`
+	Sesja   string `json:"sesja"`
 	Formula string `json:"formula"`
 	Reason  string `json:"reason"`
 }

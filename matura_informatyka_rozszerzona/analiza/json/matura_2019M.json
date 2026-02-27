@@ -5,8 +5,18 @@
   "total_punkty": 50,
   "liczba_zadan": 6,
   "czesci": [
-    {"czesc": 1, "czas_minuty": 60, "punkty": 15, "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"},
-    {"czesc": 2, "czas_minuty": 150, "punkty": 35, "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny, bazy danych)"}
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny, bazy danych)"
+    }
   ],
   "zadania": [
     {
@@ -17,7 +27,7 @@
       "kontekst": "Malgosia i Jas lubia liczby. Malgosia lubi liczby nieparzyste, a Jas lubi liczby parzyste. Kazde z dzieci zapisalo po kilka sposrod swoich ulubionych liczb na jednej wspolnej kartce. Najpierw Malgosia zapisala wszystkie swoje liczby, a potem Jas dopisal swoje.",
       "podzadania": [
         {
-          "id": "2019.1.1",
+          "id": "2019M.1.1",
           "numer": "1.1",
           "punkty": 5,
           "typ_zadania": "projektowanie_algorytmu",
@@ -33,7 +43,7 @@
           ]
         },
         {
-          "id": "2019.1.2",
+          "id": "2019M.1.2",
           "numer": "1.2",
           "punkty": 1,
           "typ_zadania": "analiza_algorytmu",
@@ -49,8 +59,16 @@
       "sciezka_danych": null,
       "pliki_danych": [],
       "wymiary": {
-        "tematyczny": ["wyszukiwanie w tablicy", "podzial ciagu na czesci", "parzystosc liczb"],
-        "algorytmiczny": ["wyszukiwanie binarne", "wyszukiwanie liniowe", "analiza zlozonosci"],
+        "tematyczny": [
+          "wyszukiwanie w tablicy",
+          "podzial ciagu na czesci",
+          "parzystosc liczb"
+        ],
+        "algorytmiczny": [
+          "wyszukiwanie binarne",
+          "wyszukiwanie liniowe",
+          "analiza zlozonosci"
+        ],
         "czasowy_min": 20
       }
     },
@@ -62,7 +80,7 @@
       "kontekst": "Przeanalizuj podana funkcje pisz.\n\nSpecyfikacja:\nDane:\n    s -- napis\n    n -- liczba calkowita dodatnia, nie mniejsza niz dlugosc napisu s\n    k -- liczba calkowita z zakresu [2..10]\n\nfunkcja pisz(s, n, k)\n    jezeli dl(s) = n\n        wypisz s\n    w przeciwnym razie\n        dla i = 0, 1, ..., k-1 wykonuj\n            pisz(s + napis(i), n, k)\n\nUwaga:\ndl(x) -- daje w wyniku dlugosc napisu x\ns1 + s2 -- daje w wyniku zlaczenie napisow s1 i s2\nnapis(p) -- daje w wyniku napis bedacy zapisem dziesietnym liczby calkowitej p",
       "podzadania": [
         {
-          "id": "2019.2.1",
+          "id": "2019M.2.1",
           "numer": "2.1",
           "punkty": 2,
           "typ_zadania": "sledzenie_algorytmu",
@@ -76,7 +94,7 @@
           ]
         },
         {
-          "id": "2019.2.2",
+          "id": "2019M.2.2",
           "numer": "2.2",
           "punkty": 2,
           "typ_zadania": "sledzenie_algorytmu",
@@ -91,7 +109,7 @@
           ]
         },
         {
-          "id": "2019.2.3",
+          "id": "2019M.2.3",
           "numer": "2.3",
           "punkty": 2,
           "typ_zadania": "analiza_algorytmu",
@@ -109,8 +127,17 @@
       "sciezka_danych": null,
       "pliki_danych": [],
       "wymiary": {
-        "tematyczny": ["rekurencja", "drzewa wywolan", "generowanie napisow", "systemy liczbowe"],
-        "algorytmiczny": ["rekurencja", "analiza drzewa wywolan", "suma ciagu geometrycznego"],
+        "tematyczny": [
+          "rekurencja",
+          "drzewa wywolan",
+          "generowanie napisow",
+          "systemy liczbowe"
+        ],
+        "algorytmiczny": [
+          "rekurencja",
+          "analiza drzewa wywolan",
+          "suma ciagu geometrycznego"
+        ],
         "czasowy_min": 20
       }
     },
@@ -122,7 +149,7 @@
       "kontekst": "Ocen prawdziwosc podanych zdan. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli jest falszywe.\nW kazdym zadaniu punkt uzyskasz tylko za komplet poprawnych odpowiedzi.",
       "podzadania": [
         {
-          "id": "2019.3.1",
+          "id": "2019M.3.1",
           "numer": "3.1",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -137,7 +164,7 @@
           ]
         },
         {
-          "id": "2019.3.2",
+          "id": "2019M.3.2",
           "numer": "3.2",
           "punkty": 1,
           "typ_zadania": "konwersja_systemow_liczbowych",
@@ -152,7 +179,7 @@
           ]
         },
         {
-          "id": "2019.3.3",
+          "id": "2019M.3.3",
           "numer": "3.3",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -169,8 +196,17 @@
       "sciezka_danych": null,
       "pliki_danych": [],
       "wymiary": {
-        "tematyczny": ["SQL", "systemy liczbowe", "sieci komputerowe", "DNS"],
-        "algorytmiczny": ["analiza zapytan SQL", "konwersja miedzy systemami liczbowymi", "mnozenie binarne"],
+        "tematyczny": [
+          "SQL",
+          "systemy liczbowe",
+          "sieci komputerowe",
+          "DNS"
+        ],
+        "algorytmiczny": [
+          "analiza zapytan SQL",
+          "konwersja miedzy systemami liczbowymi",
+          "mnozenie binarne"
+        ],
         "czasowy_min": 15
       }
     },
@@ -182,7 +218,7 @@
       "kontekst": "W pliku liczby.txt zapisano 500 liczb calkowitych dodatnich po jednej w kazdym wierszu. Kazda liczba jest z zakresu od 1 do 100 000.\n\nNapisz program(-y) dajacy(-e) odpowiedzi do ponizszych zadan. Zapisz uzyskane odpowiedzi w pliku wyniki4.txt, poprzedzajac kazda z nich numerem odpowiedniego zadania.\n\nUwaga: Plik przyklad.txt zawiera przykladowe dane spelniajace warunki zadania. Odpowiedzi dla danych z tego pliku sa podane pod tresciami zadan.",
       "podzadania": [
         {
-          "id": "2019.4.1",
+          "id": "2019M.4.1",
           "numer": "4.1",
           "punkty": 3,
           "typ_zadania": "przetwarzanie_cyfry_liczby",
@@ -197,7 +233,7 @@
           ]
         },
         {
-          "id": "2019.4.2",
+          "id": "2019M.4.2",
           "numer": "4.2",
           "punkty": 4,
           "typ_zadania": "przetwarzanie_cyfry_liczby",
@@ -213,7 +249,7 @@
           ]
         },
         {
-          "id": "2019.4.3",
+          "id": "2019M.4.3",
           "numer": "4.3",
           "punkty": 5,
           "typ_zadania": "przetwarzanie_sekwencje",
@@ -230,10 +266,23 @@
         }
       ],
       "sciezka_danych": "matura_informatyka_rozszerzona/2019_maj/Dane_PR/",
-      "pliki_danych": ["liczby.txt", "przyklad.txt"],
+      "pliki_danych": [
+        "liczby.txt",
+        "przyklad.txt"
+      ],
       "wymiary": {
-        "tematyczny": ["potegi liczb", "silnia cyfr", "NWD", "ciagi kolejnych elementow"],
-        "algorytmiczny": ["sprawdzanie poteg", "obliczanie silni", "algorytm Euklidesa (NWD)", "wyszukiwanie najdluzszego podciagu"],
+        "tematyczny": [
+          "potegi liczb",
+          "silnia cyfr",
+          "NWD",
+          "ciagi kolejnych elementow"
+        ],
+        "algorytmiczny": [
+          "sprawdzanie poteg",
+          "obliczanie silni",
+          "algorytm Euklidesa (NWD)",
+          "wyszukiwanie najdluzszego podciagu"
+        ],
         "czasowy_min": 50
       }
     },
@@ -245,7 +294,7 @@
       "kontekst": "Naukowcy sledza zmiany pogody na odleglej planecie. Chmury wystepujace na niebie tej planety podzielono na dwie kategorie, nazwane przez analogie do ziemskich cirrusami (C) i stratusami (S). W kazdej z kategorii chmury sa klasyfikowane wzgledem wielkosci od 1 do 5. Mamy zatem chmury dziesieciu rodzajow: C1, C2, C3, C4 i C5 oraz S1, S2, S3, S4 i S5. Na tej planecie w jednym dniu moga wystepowac chmury tylko jednego rodzaju.\n\nW kazdym z 500 kolejnych dni stacja badawcza umiejscowiona na planecie mierzyla temperature w stopniach oraz okreslala rodzaj chmur. Dane te zawarte sa w kolejnych wierszach pliku pogoda.txt. Kazdy wiersz pliku pogoda.txt zawiera kolejno:\n- numer dnia (od 1 do 500)\n- zmierzona temperature (z dokladnoscia do jednego miejsca po przecinku, temperatura nigdy nie spada ponizej zera)\n- wielkosc opadu, jaki mial miejsce tego dnia (w milimetrach, zaokraglony do liczby calkowitej)\n- kategorie chmur (C, S lub 0 -- jesli dzien byl bezchmurny)\n- wielkosc chmur (od 1 do 5 lub 0 -- jesli dzien byl bezchmurny)\n\nDane oddzielone sa srednikami, pierwszy wiersz jest wierszem naglowkowym.\n\nPrzyklad:\nDzien;Temperatura;Opad;Kategoria_chmur;Wielkosc_chmur\n1;19;0;0;0\n2;22;1;C;1\n3;23,6;4;C;1\n\nW dniu 301. kamera na stacji badawczej sie zepsuta i od tego dnia stacja raportowala wszystkie dni jako 'bezchmurne', temperatura i opady jednak dalej byly poprawnie mierzone.",
       "podzadania": [
         {
-          "id": "2019.5.1",
+          "id": "2019M.5.1",
           "numer": "5.1",
           "punkty": 2,
           "typ_zadania": "arkusz_agregacja_warunkowa",
@@ -260,7 +309,7 @@
           ]
         },
         {
-          "id": "2019.5.2",
+          "id": "2019M.5.2",
           "numer": "5.2",
           "punkty": 2,
           "typ_zadania": "arkusz_symulacja",
@@ -275,7 +324,7 @@
           ]
         },
         {
-          "id": "2019.5.3",
+          "id": "2019M.5.3",
           "numer": "5.3",
           "punkty": 3,
           "typ_zadania": "arkusz_wykres",
@@ -290,7 +339,7 @@
           ]
         },
         {
-          "id": "2019.5.4",
+          "id": "2019M.5.4",
           "numer": "5.4",
           "punkty": 4,
           "typ_zadania": "arkusz_symulacja",
@@ -308,10 +357,22 @@
         }
       ],
       "sciezka_danych": "matura_informatyka_rozszerzona/2019_maj/Dane_PR/",
-      "pliki_danych": ["pogoda.txt"],
+      "pliki_danych": [
+        "pogoda.txt"
+      ],
       "wymiary": {
-        "tematyczny": ["dane pogodowe", "analiza statystyczna", "srednie warunkowe", "symulacja procesow"],
-        "algorytmiczny": ["filtrowanie danych", "sumowanie warunkowe", "najdluzszy ciag rosnacy", "symulacja krokowa"],
+        "tematyczny": [
+          "dane pogodowe",
+          "analiza statystyczna",
+          "srednie warunkowe",
+          "symulacja procesow"
+        ],
+        "algorytmiczny": [
+          "filtrowanie danych",
+          "sumowanie warunkowe",
+          "najdluzszy ciag rosnacy",
+          "symulacja krokowa"
+        ],
         "czasowy_min": 45
       }
     },
@@ -323,7 +384,7 @@
       "kontekst": "W plikach: marki.txt, perfumy.txt, sklad.txt opisana jest oferta perfumerii 'DlaWas'. W perfumerii dostepne sa perfumy roznych marek. Perfumy skladaja sie z kilku skladnikow. Zestaw skladnikow decyduje, do jakiej rodziny zapachow naleza perfumy. Pierwszy wiersz w kazdym z plikow jest wierszem naglowkowym i zawiera nazwy pol. Dane w kazdym wierszu oddzielone sa znakiem tabulacji.\n\nPlik marki.txt -- kazdy wiersz zawiera:\n  id_marki -- identyfikator marki\n  nazwa_m -- nazwa marki\n\nPlik perfumy.txt -- kazdy wiersz zawiera:\n  id_perfum -- identyfikator perfum\n  nazwa_p -- nazwa perfum\n  id_marki -- identyfikator marki tych perfum\n  rodzina_zapachow -- nazwa rodziny zapachow, do ktorej naleza perfumy\n  cena -- cena perfum\n\nPlik sklad.txt -- kolejne wiersze zawieraja:\n  id_perfum -- identyfikator perfum\n  nazwa_skladnika -- nazwa skladnika",
       "podzadania": [
         {
-          "id": "2019.6.1",
+          "id": "2019M.6.1",
           "numer": "6.1",
           "punkty": 1,
           "typ_zadania": "sql_select_where",
@@ -337,7 +398,7 @@
           ]
         },
         {
-          "id": "2019.6.2",
+          "id": "2019M.6.2",
           "numer": "6.2",
           "punkty": 3,
           "typ_zadania": "sql_group_by",
@@ -352,7 +413,7 @@
           ]
         },
         {
-          "id": "2019.6.3",
+          "id": "2019M.6.3",
           "numer": "6.3",
           "punkty": 3,
           "typ_zadania": "sql_podzapytania",
@@ -368,7 +429,7 @@
           ]
         },
         {
-          "id": "2019.6.4",
+          "id": "2019M.6.4",
           "numer": "6.4",
           "punkty": 3,
           "typ_zadania": "sql_join",
@@ -384,7 +445,7 @@
           ]
         },
         {
-          "id": "2019.6.5",
+          "id": "2019M.6.5",
           "numer": "6.5",
           "punkty": 2,
           "typ_zadania": "sql_group_by",
@@ -400,12 +461,28 @@
         }
       ],
       "sciezka_danych": "matura_informatyka_rozszerzona/2019_maj/Dane_PR/",
-      "pliki_danych": ["marki.txt", "perfumy.txt", "sklad.txt"],
+      "pliki_danych": [
+        "marki.txt",
+        "perfumy.txt",
+        "sklad.txt"
+      ],
       "wymiary": {
-        "tematyczny": ["bazy danych", "relacje miedzy tabelami", "perfumy i sklady zapachowe"],
-        "algorytmiczny": ["zlaczenia tabel (JOIN)", "grupowanie (GROUP BY)", "filtrowanie (WHERE/HAVING)", "sortowanie (ORDER BY)", "podzapytania (NOT IN/NOT EXISTS)", "funkcje agregujace (MIN, COUNT)"],
+        "tematyczny": [
+          "bazy danych",
+          "relacje miedzy tabelami",
+          "perfumy i sklady zapachowe"
+        ],
+        "algorytmiczny": [
+          "zlaczenia tabel (JOIN)",
+          "grupowanie (GROUP BY)",
+          "filtrowanie (WHERE/HAVING)",
+          "sortowanie (ORDER BY)",
+          "podzapytania (NOT IN/NOT EXISTS)",
+          "funkcje agregujace (MIN, COUNT)"
+        ],
         "czasowy_min": 55
       }
     }
-  ]
+  ],
+  "sesja": "maj"
 }

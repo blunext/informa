@@ -21,7 +21,7 @@
       "kontekst": "Adam ma biblioteczke z polkami ponumerowanymi od 0. Polka numer i ma 2^i przegrodek ponumerowanych od 1 do 2^i. Zapis B[i, j] oznacza przegrodke j na polce i.\n\nBiblioteczka Adama jest poczatkowo pusta. Adam wstawia do niej kolejno ksiazki ponumerowane roznymi liczbami naturalnymi. Pierwsza ksiazka jest umieszczana w B[0, 1] -- jedynej przegrodce na polce 0.\n\nKazda kolejna ksiazka jest umieszczana w biblioteczce w nastepujacy sposob: zaczynamy od przegrodki B[0, 1]. Jesli przegrodka B[i, j] jest zajeta, to:\n- jesli numer wstawianej ksiazki jest mniejszy niz numer ksiazki w B[i, j], to przechodzimy do przegrodki B[i+1, 2j-1]\n- jesli numer wstawianej ksiazki jest wiekszy niz numer ksiazki w B[i, j], to przechodzimy do przegrodki B[i+1, 2j]\n\nPowtarzamy, az trafimy na pusta przegrodke i tam umieszczamy ksiazke.\n\nStruktura polki (schemat):\n- Polka 0: 1 przegrodka (B[0,1])\n- Polka 1: 2 przegrodki (B[1,1], B[1,2])\n- Polka 2: 4 przegrodki (B[2,1], B[2,2], B[2,3], B[2,4])\n- Polka 3: 8 przegrodek (B[3,1] ... B[3,8])\n- itd.\n\nPowiazania: B[i,j] -> lewe dziecko B[i+1, 2j-1], prawe dziecko B[i+1, 2j].\nStruktura odpowiada binarnemu drzewu poszukiwan (BST) zapisanemu w tablicy.\n\nInformacja do zadania 1.3:\nAlgorytm A (rekurencyjny, przechodzenie drzewa preorder):\nA(i, j):\n    jezeli B[i, j] nie jest pusta\n        wypisz numer ksiazki z przegrodki B[i, j]\n        A(i + 1, 2j - 1)\n        A(i + 1, 2j)",
       "podzadania": [
         {
-          "id": "2023.1.1",
+          "id": "2023M.1.1",
           "numer": "1.1",
           "punkty": 2,
           "typ_zadania": "sledzenie_algorytmu",
@@ -36,7 +36,7 @@
           ]
         },
         {
-          "id": "2023.1.2",
+          "id": "2023M.1.2",
           "numer": "1.2",
           "punkty": 3,
           "typ_zadania": "analiza_algorytmu",
@@ -51,7 +51,7 @@
           ]
         },
         {
-          "id": "2023.1.3",
+          "id": "2023M.1.3",
           "numer": "1.3",
           "punkty": 2,
           "typ_zadania": "sledzenie_algorytmu",
@@ -90,7 +90,7 @@
       "kontekst": "Zadanie dotyczy binarnej reprezentacji liczb calkowitych dodatnich.\n\nBlokiem nazywamy maksymalny ciag kolejnych takich samych cyfr w zapisie binarnym danej liczby.\n\nPrzyklad: Liczba binarna 11100101 sklada sie z 5 blokow: 111, 00, 1, 0, 1.\nLiczba binarna 11111 sklada sie z 1 bloku.\n\nOperacja XOR (roznica symetryczna) na bitach:\n| a | b | a XOR b |\n|---|---|--------|\n| 0 | 0 | 0      |\n| 0 | 1 | 1      |\n| 1 | 0 | 1      |\n| 1 | 1 | 0      |\n\nOperacja XOR na dwoch liczbach -- wykonujemy XOR na odpowiadajacych sobie bitach (od prawej, krotszy uzupelniamy zerami z lewej).\n\nPlik bin.txt zawiera 100 liczb binarnych (kazda w osobnym wierszu), o dlugosci co najwyzej 20 cyfr. Plik bin_przyklad.txt zawiera dane przykladowe.\n\nOdpowiedzi dla danych z pliku bin_przyklad.txt:\n- Zadanie 2.2: 4\n- Zadanie 2.3: 111010000010110010\n- Zadanie 2.5: odpowiedzi w pliku odp_bin_przyklad.txt",
       "podzadania": [
         {
-          "id": "2023.2.1",
+          "id": "2023M.2.1",
           "numer": "2.1",
           "punkty": 3,
           "typ_zadania": "projektowanie_algorytmu",
@@ -105,7 +105,7 @@
           ]
         },
         {
-          "id": "2023.2.2",
+          "id": "2023M.2.2",
           "numer": "2.2",
           "punkty": 2,
           "typ_zadania": "przetwarzanie_zliczanie",
@@ -119,7 +119,7 @@
           ]
         },
         {
-          "id": "2023.2.3",
+          "id": "2023M.2.3",
           "numer": "2.3",
           "punkty": 2,
           "typ_zadania": "przetwarzanie_minmax",
@@ -133,7 +133,7 @@
           ]
         },
         {
-          "id": "2023.2.4",
+          "id": "2023M.2.4",
           "numer": "2.4",
           "punkty": 1,
           "typ_zadania": "konwersja_systemow_liczbowych",
@@ -147,7 +147,7 @@
           ]
         },
         {
-          "id": "2023.2.5",
+          "id": "2023M.2.5",
           "numer": "2.5",
           "punkty": 3,
           "typ_zadania": "przetwarzanie_cyfry_liczby",
@@ -193,7 +193,7 @@
       "kontekst": "Pewien matematyk jest zafascynowany liczba pi = 3,14159265... do tego stopnia, ze zapisal jej rozwieniecie dziesietne z dokladnoscia do 10 000 cyfr po przecinku. Wszystkie cyfry po przecinku zapisal w pliku tekstowym pi.txt.\n\nPlik pi.txt zawiera 10 000 wierszy, kazdy wiersz zawiera jedna cyfre. W pierwszych 10 wierszach pliku zapisano zatem cyfry:\n1\n4\n1\n5\n9\n2\n6\n5\n3\n5\n\nMatematyk zastanawia sie, jakiego rodzaju regularnosci mozna zaobserwowac w zebranych danych.\n\nNapisz program(y), ktory(-e) da(-dza) odpowiedzi do ponizszych zadan. Odpowiedzi do zadan zapisz w pliku wyniki3.txt, a kazda z nich poprzedz numerem odpowiedniego zadania.\n\nPlik pi_przyklad.txt zawiera 100 pierwszych wierszy pliku pi.txt. Odpowiedzi dla danych z tego pliku sa podane pod tresciami zadan.\n\nDefinicja fragmentu 2-cyfrowego: Fragmentem 2-cyfrowym nazywamy dwie nastepujace po sobie cyfry w pliku pi.txt. Fragment 2-cyfrowy zlozony z cyfr na pozycjach i, i+1 tworzymy laczac je (np. cyfry 1 i 4 tworza fragment 14). Wszystkich fragmentow 2-cyfrowych w pliku jest 9 999. Ostatni rozpoczyna sie w wierszu nr 9 999.\n\nInformacja do zadan 3.3. i 3.4.:\nSkonczony co najmniej 4-elementowy ciag liczb (a1, a2, ..., an) jest rosnaco-malejacy, jesli mozna podzielic go na dwa ciagi, z ktorych pierwszy jest rosnacy, a drugi -- malejacy, tzn. jesli istnieje takie k nalezace do {2, 3, ..., n-2}, ze a1 < a2 < ... < ak oraz a(k+1) > a(k+2) > ... > an.\n\nPrzyklad: Ciag (2, 5, 7, 9, 8, 3, 1) jest rosnaco-malejacy, bo mozna go podzielic na ciag rosnacy (2, 5, 7) i malejacy (9, 8, 3, 1) -- odpowiednio (2, 5, 7, 9) i (8, 3, 1). Ciag (5, 9, 9, 4, 1) takze jest rosnaco-malejacy.\nPrzyklady ciagow, ktore nie sa rosnaco-malejace: (2, 5, 8, 4, 3, 4, 5), (1, 2, 3, 4), (5, 5, 3, 2, 1).",
       "podzadania": [
         {
-          "id": "2023.3.1",
+          "id": "2023M.3.1",
           "numer": "3.1",
           "punkty": 2,
           "typ_zadania": "przetwarzanie_zliczanie",
@@ -207,7 +207,7 @@
           ]
         },
         {
-          "id": "2023.3.2",
+          "id": "2023M.3.2",
           "numer": "3.2",
           "punkty": 3,
           "typ_zadania": "przetwarzanie_minmax",
@@ -222,7 +222,7 @@
           ]
         },
         {
-          "id": "2023.3.3",
+          "id": "2023M.3.3",
           "numer": "3.3",
           "punkty": 3,
           "typ_zadania": "przetwarzanie_sekwencje",
@@ -237,7 +237,7 @@
           ]
         },
         {
-          "id": "2023.3.4",
+          "id": "2023M.3.4",
           "numer": "3.4",
           "punkty": 2,
           "typ_zadania": "przetwarzanie_sekwencje",
@@ -280,7 +280,7 @@
       "kontekst": "Zadanie dotyczace szyfrowania asymetrycznego -- ocena prawdziwosci zdan o zastosowaniu klucza prywatnego w komunikacji miedzy osobami A i B.",
       "podzadania": [
         {
-          "id": "2023.4.1",
+          "id": "2023M.4.1",
           "numer": "4.1",
           "punkty": 1,
           "typ_zadania": "teoria_bezpieczenstwa",
@@ -316,7 +316,7 @@
       "kontekst": "Porownywanie liczb zapisanych w roznych systemach pozycyjnych o podstawach 3, 5 i 6.",
       "podzadania": [
         {
-          "id": "2023.5.1",
+          "id": "2023M.5.1",
           "numer": "5.1",
           "punkty": 1,
           "typ_zadania": "konwersja_systemow_liczbowych",
@@ -352,7 +352,7 @@
       "kontekst": "W pliku owoce.txt zapisano informacje o dostawach owocow do przetworni w okresie od 01.05.2020 do 30.09.2020.\nW kazdym wierszu podane sa: data dostawy (dd.mm.rrrr), liczba kilogramow dostarczonych malin, liczba kilogramow dostarczonych truskawek i liczba kilogramow dostarczonych porzeczek, oddzielone znakiem tabulacji.\nDostawy odbywaly sie kazdego dnia w wymienionym okresie.\n\nPrzyklad:\ndata          dostawa_malin  dostawa_truskawek  dostawa_porzeczek\n01.05.2020    211            281                88\n02.05.2020    393            313                83\n03.05.2020    389            315                104\n04.05.2020    308            221                119\n\nInformacja do zadan 6.3 i 6.4:\nPrzetwornia produkuje konfitury: malinowo-truskawkowe, malinowo-porzeczkowe oraz truskawkowo-porzeczkowe (zawsze w proporcji owocow 1:1 oraz z wykorzystaniem maksymalnej dostepnej ilosci owocow). Decyzja, jaka konfitura w danym dniu bedzie produkowana, zalezy od ilosci owocow w przetworni.\n\nOwoce sa dostarczane do przetworni rano, przed rozpoczeciem produkcji. W danym dniu jest produkowany tylko jeden rodzaj konfitur. Do produkcji sa brane owoce, ktorych jest najwiecej w przetworni (dla danych w pliku owoce.txt nie wystepuje przypadek, gdy ilosc roznych owocow jest taka sama). Owoce niewykorzystane do produkcji sa przechowywane w chlodni do nastepnego dnia. W nastepnym dniu podejmuje sie decyzje o produkcji na ten dzien na podstawie lacznej ilosci owocow pozostalych z poprzedniego dnia oraz dostarczonych rano.\n\nPrzyklad:\nJezeli 01.05.2020 dostarczono 211 kg malin, 281 kg truskawek i 88 kg porzeczek, to w tym dniu bedzie produkowana konfitura malinowo-truskawkowa. Do produkcji wykorzystane zostanie 211 kg malin i 211 kg truskawek. Reszta truskawek i wszystkie porzeczki beda przechowywane w chlodni do nastepnego dnia.\nPo dostawie z 02.05.2020 (393 kg malin, 313 kg truskawek i 83 kg porzeczek) w przetworni bedzie 393 kg malin, 383 kg truskawek i 171 kg porzeczek, czyli znowu bedzie produkowana konfitura malinowo-truskawkowa.",
       "podzadania": [
         {
-          "id": "2023.6.1",
+          "id": "2023M.6.1",
           "numer": "6.1",
           "punkty": 3,
           "typ_zadania": "arkusz_wykres",
@@ -366,7 +366,7 @@
           ]
         },
         {
-          "id": "2023.6.2",
+          "id": "2023M.6.2",
           "numer": "6.2",
           "punkty": 1,
           "typ_zadania": "arkusz_agregacja_warunkowa",
@@ -380,7 +380,7 @@
           ]
         },
         {
-          "id": "2023.6.3",
+          "id": "2023M.6.3",
           "numer": "6.3",
           "punkty": 3,
           "typ_zadania": "arkusz_symulacja",
@@ -394,7 +394,7 @@
           ]
         },
         {
-          "id": "2023.6.4",
+          "id": "2023M.6.4",
           "numer": "6.4",
           "punkty": 3,
           "typ_zadania": "arkusz_symulacja",
@@ -435,7 +435,7 @@
       "kontekst": "Pewien serwis internetowy prowadzi ranking gier planszowych. Baza serwisu zostala zapisana w trzech plikach.\n\nPlik gry.txt zawiera informacje o grach planszowych. W kazdym wierszu zapisano:\nid_gry    -- unikatowy numer gry planszowej\nnazwa     -- tytul gry planszowej\nkategoria -- kategorie, do jakiej zostala zakwalifikowana gra planszowa; kazda gra nalezy tylko do jednej kategorii.\n\nPrzyklad:\nid_gry  nazwa                    kategoria\n1       Wsiasc do Pociagu: Europa  familijna\n2       Pandemia                   kooperacyjna\n3       Splendor                   familijna\n4       Dixit                      familijna\n5       Dobble                     familijna\n\nPlik gracze.txt zawiera informacje o graczach. W kazdym wierszu zapisano:\nid_gracza  -- unikatowy numer gracza\nimie       -- imie gracza\nnazwisko   -- nazwisko gracza\nwiek       -- wiek gracza\n\nPrzyklad:\nid_gracza  imie         nazwisko      wiek\n1          Jozef        Gorecki       29\n2          Przemyslaw   Mazurek       68\n3          Cezary       Kaczmarczyk   41\n4          Kornel       Wysocki       72\n5          Eustachy     Gorecki       74\n\nPlik oceny.txt zawiera oceny wystawione grom przez poszczegolnych graczy. W kazdym wierszu pliku zapisano:\nid_gry    -- numer gry planszowej\nid_gracza -- numer gracza\nstan      -- zawiera jedna z mozliwych wartosci: posiada, chce kupic, sprzedal, opisujaca czy uzytkownik posiada dana gre, czy ja sprzedal lub czy zamierza ja zakupic\nocena     -- zawiera ocene gry przez gracza, wyrazona liczba calkowita w zakresie od 0 do 10.\n\nPrzyklad:\nid_gry  id_gracza  stan         ocena\n66      1          posiada      8\n72      1          chce kupic   3\n79      1          sprzedal     8\n43      2          posiada      9\n\nWe wszystkich plikach dane w wierszach sa rozdzielone znakami tabulacji, a pierwszy wiersz w kazdym pliku jest wierszem naglowkowym.\n\nInformacja do zadania 7.5:\nDo wczesniej opisanych tabel bazy danych dolaczamy kolejna o nazwie sklep, w ktorej zapisano cennik gier sprzedawanych w pewnym sklepie. Tabela zawiera nastepujace pola:\nid_gry   -- identyfikator gry\ncena     -- cena gry\npromocja -- informacja, czy cena jest cena promocyjna (wartosc true -- jesli cena jest promocyjna albo false -- kiedy nie jest promocyjna)\n\nTabele gry i sklep sa polaczone relacja jeden do wielu (jedna gra moze miec dwie ceny: promocyjna i bez promocji).\n\nUwagi:\n- gra moze miec dwie ceny (cena w promocji i cena bez promocji), tj. moze wystepowac w tabeli sklep dwa razy\n- tabela sklep zawiera tylko identyfikatory gier, ktore sa w ofercie sklepu (nie musi zawierac wszystkich identyfikatorow z tabeli gry)",
       "podzadania": [
         {
-          "id": "2023.7.1",
+          "id": "2023M.7.1",
           "numer": "7.1",
           "punkty": 1,
           "typ_zadania": "przetwarzanie_zliczanie",
@@ -448,7 +448,7 @@
           ]
         },
         {
-          "id": "2023.7.2",
+          "id": "2023M.7.2",
           "numer": "7.2",
           "punkty": 2,
           "typ_zadania": "przetwarzanie_zliczanie",
@@ -462,7 +462,7 @@
           ]
         },
         {
-          "id": "2023.7.3",
+          "id": "2023M.7.3",
           "numer": "7.3",
           "punkty": 2,
           "typ_zadania": "przetwarzanie_zlozone",
@@ -476,7 +476,7 @@
           ]
         },
         {
-          "id": "2023.7.4",
+          "id": "2023M.7.4",
           "numer": "7.4",
           "punkty": 3,
           "typ_zadania": "przetwarzanie_zlozone",
@@ -491,7 +491,7 @@
           ]
         },
         {
-          "id": "2023.7.5",
+          "id": "2023M.7.5",
           "numer": "7.5",
           "punkty": 2,
           "typ_zadania": "sql_join",
@@ -529,5 +529,6 @@
         "czasowy_min": 40
       }
     }
-  ]
+  ],
+  "sesja": "maj"
 }

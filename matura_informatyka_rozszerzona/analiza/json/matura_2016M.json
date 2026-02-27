@@ -27,7 +27,7 @@
       "kontekst": "Dwie rozne liczby calkowite a i b wieksze od 1 nazwiemy skojarzonymi, jesli suma wszystkich roznych dodatnich dzielnikow a mniejszych od a jest rowna b+1, a suma wszystkich roznych dodatnich dzielnikow b mniejszych od b jest rowna a+1.\n\nSkojarzone sa np. liczby 140 i 195, poniewaz:\na) dzielnikami 140 sa 1, 2, 4, 5, 7, 10, 14, 20, 28, 35, 70, a ich suma wynosi 196 = 195+1.\nb) dzielnikami 195 sa 1, 3, 5, 13, 15, 39, 65, a suma tych liczb jest rowna 141 = 140+1.",
       "podzadania": [
         {
-          "id": "2016.1.1",
+          "id": "2016M.1.1",
           "numer": "1.1",
           "punkty": 1,
           "typ_zadania": "sledzenie_algorytmu",
@@ -42,7 +42,7 @@
           ]
         },
         {
-          "id": "2016.1.2",
+          "id": "2016M.1.2",
           "numer": "1.2",
           "punkty": 4,
           "typ_zadania": "projektowanie_algorytmu",
@@ -83,7 +83,7 @@
       "kontekst": "Parametrem podanej ponizej funkcji przestaw jest tablica A o dlugosci n, indeksowana od 1, w ktorej znajduja sie liczby calkowite. Niech klucz bedzie wartoscia pierwszego elementu tablicy A. Funkcja przestawia (zamienia wzajemnie) elementy tablicy A tak, aby po jej wykonaniu w lewej czesci tablicy byly wszystkie elementy tablicy mniejsze od klucza, natomiast w prawej czesci -- wszystkie elementy wieksze lub rowne kluczowi.\n\nSpecyfikacja:\nDane:\n    n -- liczba calkowita dodatnia\n    A[1..n] -- tablica liczb calkowitych\nWynik:\n    A[1..n] -- tablica liczb calkowitych ulozona wedlug podanej reguly\n\nfunkcja przestaw(A)\n    klucz <- A[1]\n    w <- 1\n    dla k = 2, 3, ..., n wykonaj\n        jesli A[k] < klucz\n            zamien(A[w], A[k])\n            w <- w+1\n\nUwaga:\nFunkcja zamien(x,y) zamienia wzajemnie wartosci zmiennych x i y -- w powyzszym przypadku zamienia wzajemnie dwa elementy tablicy A.",
       "podzadania": [
         {
-          "id": "2016.2.1",
+          "id": "2016M.2.1",
           "numer": "2.1",
           "punkty": 2,
           "typ_zadania": "sledzenie_algorytmu",
@@ -99,7 +99,7 @@
           ]
         },
         {
-          "id": "2016.2.2",
+          "id": "2016M.2.2",
           "numer": "2.2",
           "punkty": 1,
           "typ_zadania": "analiza_algorytmu",
@@ -114,7 +114,7 @@
           ]
         },
         {
-          "id": "2016.2.3",
+          "id": "2016M.2.3",
           "numer": "2.3",
           "punkty": 3,
           "typ_zadania": "analiza_algorytmu",
@@ -154,7 +154,7 @@
       "kontekst": "Ocen, czy ponizsze zdania sa prawdziwe. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli zdanie jest falszywe.\nW kazdym zadaniu czastkowym punkt uzyskasz tylko za komplet poprawnych odpowiedzi.",
       "podzadania": [
         {
-          "id": "2016.3.1",
+          "id": "2016M.3.1",
           "numer": "3.1",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -169,7 +169,7 @@
           ]
         },
         {
-          "id": "2016.3.2",
+          "id": "2016M.3.2",
           "numer": "3.2",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -185,7 +185,7 @@
           ]
         },
         {
-          "id": "2016.3.3",
+          "id": "2016M.3.3",
           "numer": "3.3",
           "punkty": 1,
           "typ_zadania": "konwersja_systemow_liczbowych",
@@ -200,7 +200,7 @@
           ]
         },
         {
-          "id": "2016.3.4",
+          "id": "2016M.3.4",
           "numer": "3.4",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -240,7 +240,7 @@
       "kontekst": "UWAGA: Tresc zrekonstruowana z odpowiedzi.pdf i plikow danych (brak arkusza Czesci II).\n\nW pliku punkty.txt znajduja sie wspolrzedne (x, y) punktow, gdzie x i y sa liczbami calkowitymi z przedzialu [0, 400]. Punkty naleza do kwadratu o boku 400.\n\nW kwadrat wpisano kolo o promieniu R = 200 i srodku w punkcie (200, 200). Punkt (x, y) lezy wewnatrz kola, jezeli (x-200)^2 + (y-200)^2 <= 200^2. Punkt lezy na okregu, jezeli (x-200)^2 + (y-200)^2 = 200^2.\n\nMetoda Monte Carlo pozwala przyblizac wartosc liczby pi na podstawie stosunku liczby punktow wewnatrz kola do calkowitej liczby punktow w kwadracie:\npi ≈ 4 * (liczba_punktow_w_kole / N)\ngdzie N to liczba rozpatrywanych punktow.\n\nPlik punkty.txt zawiera pary liczb (x, y) oddzielone spacja, po jednej parze w wierszu. Dane nalezy zaimportowac do arkusza kalkulacyjnego.\n\nFormat pliku punkty.txt:\n145 370\n116 330\n389 191\n...",
       "podzadania": [
         {
-          "id": "2016.4.1",
+          "id": "2016M.4.1",
           "numer": "4.1",
           "punkty": 3,
           "typ_zadania": "arkusz_agregacja_warunkowa",
@@ -255,7 +255,7 @@
           ]
         },
         {
-          "id": "2016.4.2",
+          "id": "2016M.4.2",
           "numer": "4.2",
           "punkty": 3,
           "typ_zadania": "arkusz_symulacja",
@@ -270,7 +270,7 @@
           ]
         },
         {
-          "id": "2016.4.3",
+          "id": "2016M.4.3",
           "numer": "4.3",
           "punkty": 5,
           "typ_zadania": "arkusz_wykres",
@@ -312,7 +312,7 @@
       "kontekst": "UWAGA: Tresc zrekonstruowana z odpowiedzi.pdf i plikow danych (brak arkusza Czesci II).\n\nBaza danych zawiera informacje o uniwersytecie: studentach, pokojach w akademiku, oraz wypozyczeniach ksiazek z biblioteki.\n\nTabele w bazie danych:\n- studenci (pesel TEXT, nazwisko TEXT, imie TEXT) -- dane studentow\n- meldunek (pesel TEXT, id_pok INTEGER) -- przypisanie studentow do pokoi w akademiku\n- wypozyczenia (lp INTEGER, pesel TEXT, tytul TEXT) -- wypozyczenia ksiazek\n\nUwaga: Moze istniec dodatkowa tabela z informacjami o ksiazkach i ich autorach (schemat z arkusza Czesci II nieznany).\n\nPlec studenta mozna okreslic na podstawie numeru PESEL: 10. cyfra PESEL (od lewej, liczac od 1) -- jesli parzysta to kobieta, jesli nieparzysta to mezczyzna.\n\nPlik studenci.txt: pesel(TAB)nazwisko(TAB)imie -- 330 studentow\nPlik meldunek.txt: pesel(TAB)id_pok -- przydzial pokoi (70 pokoi, nie wszyscy studenci mieszkaja w akademiku)\nPlik wypozyczenia.txt: lp(TAB)pesel(TAB)tytul -- rejestr wypozyczen",
       "podzadania": [
         {
-          "id": "2016.5.1",
+          "id": "2016M.5.1",
           "numer": "5.1",
           "punkty": 2,
           "typ_zadania": "sql_join",
@@ -327,7 +327,7 @@
           ]
         },
         {
-          "id": "2016.5.2",
+          "id": "2016M.5.2",
           "numer": "5.2",
           "punkty": 2,
           "typ_zadania": "sql_group_by",
@@ -343,7 +343,7 @@
           ]
         },
         {
-          "id": "2016.5.3",
+          "id": "2016M.5.3",
           "numer": "5.3",
           "punkty": 2,
           "typ_zadania": "sql_group_by",
@@ -359,7 +359,7 @@
           ]
         },
         {
-          "id": "2016.5.4",
+          "id": "2016M.5.4",
           "numer": "5.4",
           "punkty": 3,
           "typ_zadania": "sql_podzapytania",
@@ -374,7 +374,7 @@
           ]
         },
         {
-          "id": "2016.5.5",
+          "id": "2016M.5.5",
           "numer": "5.5",
           "punkty": 3,
           "typ_zadania": "sql_podzapytania",
@@ -422,7 +422,7 @@
       "kontekst": "UWAGA: Tresc zrekonstruowana z odpowiedzi.pdf i plikow danych (brak arkusza Czesci II).\n\nZadanie dotyczy szyfru Cezara -- szyfru podstawieniowego, w ktorym kazda litera tekstu jawnego jest zastepowana litera przesunieta o okreslona liczbe pozycji w alfabecie.\n\nAlfabet sklada sie z 26 liter: A=0, B=1, C=2, ..., Z=25.\n\nSzyfrowanie: litera_zaszyfrowana = (litera_jawna + przesuniecie) mod 26\nDeszyfrowanie: litera_jawna = (litera_zaszyfrowana - przesuniecie + 26) mod 26\n\nZadanie 6.1 uzywa stalego przesuniecia = 3 do zaszyfrowania 100 slow z pliku dane_6_1.txt.\nZadania 6.2 i 6.3 uzywaja klucza zmiennego (slowa kluczowego, np. 'KOMPUTER'), gdzie przesuniecie kazdej litery zalezy od odpowiedniej litery klucza (klucz powtarza sie cyklicznie). Przesuniecie = pozycja litery klucza w alfabecie (A=0, B=1, ..., Z=25).\n\nBlad szyfrowania (brak zawijania): gdy litera_jawna + przesuniecie > 25, zamiast zawinac cyklicznie (mod 26), program generuje nieprawidlowy znak (znak spoza alfabetu A-Z).\n\nPliki danych:\n- dane_6_1.txt: 100 slow (wielkie litery A-Z), jedno slowo w wierszu -- do zaszyfrowania\n- dane_6_2.txt: 3000 zaszyfrowanych nazwisk (kluczem zmiennym) -- do odszyfrowania\n- dane_6_3.txt: 3000 nazwisk zaszyfrowanych Z BLEDEM (bez zawijania cyklicznego) -- do analizy bledow",
       "podzadania": [
         {
-          "id": "2016.6.1",
+          "id": "2016M.6.1",
           "numer": "6.1",
           "punkty": 3,
           "typ_zadania": "przetwarzanie_napisy",
@@ -438,7 +438,7 @@
           ]
         },
         {
-          "id": "2016.6.2",
+          "id": "2016M.6.2",
           "numer": "6.2",
           "punkty": 4,
           "typ_zadania": "przetwarzanie_napisy",
@@ -454,7 +454,7 @@
           ]
         },
         {
-          "id": "2016.6.3",
+          "id": "2016M.6.3",
           "numer": "6.3",
           "punkty": 5,
           "typ_zadania": "przetwarzanie_napisy",
@@ -492,5 +492,6 @@
         "czasowy_min": 50
       }
     }
-  ]
+  ],
+  "sesja": "maj"
 }

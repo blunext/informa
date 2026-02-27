@@ -27,7 +27,7 @@
       "kontekst": "W Problemie telewidza mamy program telewizyjny, zawierajacy liste filmow emitowanych w roznych stacjach telewizyjnych jednego dnia. Telewidz zamierza obejrzec jak najwiecej filmow w calosci. Jedyne ograniczenie jest takie, ze telewidz moze ogladac co najwyzej jeden film (stacje telewizyjne) jednoczesnie. Zakladamy, ze jednego dnia wszystkie filmy sa rozne.\n\nProgram telewizyjny emisji filmow w 4 stacjach telewizyjnych:\n\n| Telewizja / stacja | Film i godziny jego emisji     | Czas trwania emisji filmu |\n|---------------------|-------------------------------|---------------------------|\n| TV1                 | film 1: od 9:00 do 12:00     | 3 godziny                 |\n| TV1                 | film 2: od 15:00 do 17:00    | 2 godziny                 |\n| TV2                 | film 3: od 11:00 do 16:00    | 5 godzin                  |\n| TV3                 | film 4: od 12:00 do 14:00    | 2 godziny                 |\n| TV4                 | film 5: od 11:30 do 12:30    | 1 godzina                 |\n\nDla programu podanego powyzej telewidz jest w stanie obejrzec az trzy filmy, np.: film 1, film 4, film 2. Przyjmujemy, ze telewidz nie traci w ogole czasu na przelaczanie pomiedzy stacjami (np. o godz. 12:00 z TV1 na TV3). Innymi slowy, czasy emisji filmow 1 i 4 nie koliduja ze soba.\n\nRozwaz nastepujacy algorytm wyboru filmow do obejrzenia przez telewidza, w ktorym w kroku 2. stosuje sie jedna z czterech strategii opisanych w tabeli 1.\n\nSpecyfikacja:\nDane:\n  T -- zbior filmow z programu telewizyjnego z godzinami emisji i czasami ich trwania,\n  S -- strategia z tabeli 1.\nWynik:\n  P -- zbior filmow, ktore obejrzy telewidz.\n\nAlgorytm:\nKrok 1. Zainicjuj P jako zbior pusty.\nKrok 2. Dopoki T zawiera jakies filmy, wykonuj:\n  - stosujac strategie S, wybierz ze zbioru T film x i usun go z T\n  - dodaj film x do zbioru P\n  - usun ze zbioru T wszystkie filmy, ktorych czasy emisji koliduja z czasem emisji filmu x.\nKrok 3. Zakoncz wykonywanie algorytmu i wypisz wszystkie filmy ze zbioru P.\n\nTabela 1. Cztery strategie (S) w Problemie telewidza:\n\n| Strategia A | Wybierz film, ktory trwa najdluzej, a jesli jest takich wiecej, to wybierz z nich ten, ktory sie najwczesniej konczy. Jesli jest wiecej takich filmow, wybierz dowolny z nich. |\n| Strategia B | Wybierz film, ktory trwa najkrocej, a jesli jest takich wiecej, to wybierz z nich ten, ktory sie najwczesniej konczy. Jesli jest wiecej takich filmow, wybierz dowolny z nich. |\n| Strategia C | Wybierz film, ktory sie najwczesniej zaczyna, a jesli jest takich wiecej, to wybierz z nich ten, ktory sie najwczesniej konczy. Jesli jest wiecej takich filmow, wybierz dowolny z nich. |\n| Strategia D | Wybierz film, ktory sie najwczesniej konczy, a jesli jest takich wiecej, to wybierz z nich ten, ktory sie najpozniej zaczyna. Jesli jest wiecej takich filmow, wybierz dowolny z nich. |\n\nPrzyklad: Dla podanego programu telewizyjnego zastosowanie w kroku 2. strategii A daje wynik P = {film 3}, czyli telewidz obejrzy tylko jeden film.",
       "podzadania": [
         {
-          "id": "2015.1.1",
+          "id": "2015M.1.1",
           "numer": "1.1",
           "punkty": 2,
           "typ_zadania": "sledzenie_algorytmu",
@@ -43,7 +43,7 @@
           ]
         },
         {
-          "id": "2015.1.2",
+          "id": "2015M.1.2",
           "numer": "1.2",
           "punkty": 3,
           "typ_zadania": "analiza_algorytmu",
@@ -85,7 +85,7 @@
       "kontekst": "Ocen, czy ponizsze zdania sa prawdziwe. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli zdanie jest falszywe. W kazdym zadaniu punkt uzyskasz tylko za komplet poprawnych odpowiedzi.",
       "podzadania": [
         {
-          "id": "2015.2.1",
+          "id": "2015M.2.1",
           "numer": "2.1",
           "punkty": 1,
           "typ_zadania": "konwersja_systemow_liczbowych",
@@ -100,7 +100,7 @@
           ]
         },
         {
-          "id": "2015.2.2",
+          "id": "2015M.2.2",
           "numer": "2.2",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -115,7 +115,7 @@
           ]
         },
         {
-          "id": "2015.2.3",
+          "id": "2015M.2.3",
           "numer": "2.3",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -129,7 +129,7 @@
           ]
         },
         {
-          "id": "2015.2.4",
+          "id": "2015M.2.4",
           "numer": "2.4",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -144,7 +144,7 @@
           ]
         },
         {
-          "id": "2015.2.5",
+          "id": "2015M.2.5",
           "numer": "2.5",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -186,7 +186,7 @@
       "kontekst": "Algorytm Euklidesa to algorytm wyznaczania najwiekszego wspolnego dzielnika (NWD) dwoch liczb calkowitych a > 0 i b >= 0.\n\nSpecyfikacja:\nDane: liczby calkowite, a > 0 i b >= 0\nWynik: najwiekszy wspolny dzielnik liczb a i b.\n\nAlgorytm NWD:\nKrok 1. Jezeli b = 0, to NWD jest rowny a i zakoncz wykonywanie algorytmu.\nKrok 2. Oblicz r jako reszte z dzielenia a przez b.\nKrok 3. Zastap a przez b, natomiast b przez r.\nKrok 4. Przejdz do kroku 1.\n\nW niektorych zastosowaniach informatycznych potrzebujemy wyrazic najwiekszy wspolny dzielnik dwoch liczb calkowitych a, b w nastepujacy sposob:\n\nNWD(a, b) = a * x + b * y\n\ngdzie x i y sa liczbami calkowitymi.\n\nDo wyznaczania wartosci x i y wykorzystywana jest nastepujaca zaleznosc:\ndla r = a mod b roznego od zera oraz liczb calkowitych x', y' takich, ze\nNWD(b, r) = b * x' + r * y'\n\npare liczb (x, y) mozna wyrazic wzorami:\nx = y'\ny = x' - (a div b) * y'\n\nUwaga: a mod b, a div b oznaczaja odpowiednio reszte i iloraz z dzielenia calkowitego a przez b.\n\nOpisana zaleznosc pozwala na rekurencyjne obliczenie pary liczb (x, y).\nNiech RozszerzonyEuklides(a, b) bedzie rekurencyjna funkcja realizujaca ten pomysl.\n\nPrzyklad dla a = 231, b = 30:\n\n| i -- nr wywolania | Wartosc a | Wartosc b | Zagniezdz. rek. | Powrot z rek. | Wynik x | Wynik y |\n|-------------------|-----------|-----------|-----------------|---------------|---------|--------|\n| 1                 | 231       | 30        | v               | ^             | 3       | -23    |\n| 2                 | 30        | 21        | v               | ^             | -2      | 3      |\n| 3                 | 21        | 9         | v               | ^             | 1       | -2     |\n| 4                 | 9         | 3         | v               | ^             | 0       | 1      |\n| 5                 | 3         | 0         | v               | ^             | 1       | 0      |\n\nZatem NWD(231, 30) = 3 = 3 * 231 + (-23) * 30.",
       "podzadania": [
         {
-          "id": "2015.3.1",
+          "id": "2015M.3.1",
           "numer": "3.1",
           "punkty": 2,
           "typ_zadania": "sledzenie_algorytmu",
@@ -202,7 +202,7 @@
           ]
         },
         {
-          "id": "2015.3.2",
+          "id": "2015M.3.2",
           "numer": "3.2",
           "punkty": 3,
           "typ_zadania": "projektowanie_algorytmu",
@@ -244,7 +244,7 @@
       "kontekst": "Plik liczby.txt zawiera 1000 napisow zlozonych ze znakow 0 i 1 (reprezentujacych liczby w systemie dwojkowym), kazdy w osobnym wierszu. Dlugosci napisow sa rozne (od 3 do 200 znakow). Kazdy napis zaczyna sie od znaku 1. Napisz program(y), ktore dadza odpowiedzi do ponizszych zadan. Wyniki zapisz w pliku wyniki4.txt.\n\nUwaga: Tresc zadan zrekonstruowana z odpowiedzi CKE -- arkusz Czesci II dla 2015 nie jest dostepny w repozytorium.",
       "podzadania": [
         {
-          "id": "2015.4.1",
+          "id": "2015M.4.1",
           "numer": "4.1",
           "punkty": 3,
           "typ_zadania": "przetwarzanie_cyfry_liczby",
@@ -259,7 +259,7 @@
           ]
         },
         {
-          "id": "2015.4.2",
+          "id": "2015M.4.2",
           "numer": "4.2",
           "punkty": 3,
           "typ_zadania": "przetwarzanie_cyfry_liczby",
@@ -275,7 +275,7 @@
           ]
         },
         {
-          "id": "2015.4.3",
+          "id": "2015M.4.3",
           "numer": "4.3",
           "punkty": 6,
           "typ_zadania": "przetwarzanie_minmax",
@@ -318,7 +318,7 @@
       "kontekst": "Plik kraina.txt zawiera dane demograficzne fikcyjnego panstwa podzielonego na 50 jednostek administracyjnych (w01-w50), pogrupowanych w 4 regiony (A, B, C, D). Kazdy wiersz ma format:\n\nkod;ludnosc_1;ludnosc_2;wartosc_3;wartosc_4\n\ngdzie kod to wNN + litera regionu (np. w01D = jednostka 01 w regionie D).\n\nPrzykladowe dane:\nw01D;1415007;1397195;1499070;1481105\nw05A;2436107;2228622;1831600;1960624\nw12C;3997724;3690756;4339393;4639643\n\nUwaga: Tresc zadan zrekonstruowana z odpowiedzi CKE -- arkusz Czesci II dla 2015 nie jest dostepny w repozytorium.",
       "podzadania": [
         {
-          "id": "2015.5.1",
+          "id": "2015M.5.1",
           "numer": "5.1",
           "punkty": 5,
           "typ_zadania": "arkusz_agregacja_podstawowa",
@@ -333,7 +333,7 @@
           ]
         },
         {
-          "id": "2015.5.2",
+          "id": "2015M.5.2",
           "numer": "5.2",
           "punkty": 2,
           "typ_zadania": "arkusz_agregacja_warunkowa",
@@ -348,7 +348,7 @@
           ]
         },
         {
-          "id": "2015.5.3",
+          "id": "2015M.5.3",
           "numer": "5.3",
           "punkty": 6,
           "typ_zadania": "arkusz_symulacja",
@@ -394,7 +394,7 @@
       "kontekst": "Baza danych zawiera informacje o wyscigach Formuly 1 w trzech tabelach:\n\nTabela Kierowcy (plik Kierowcy.txt):\n| Kolumna      | Opis                          |\n|-------------|-------------------------------|\n| Id_kierowcy | Identyfikator kierowcy (np. z1) |\n| Nazwisko    | Nazwisko kierowcy              |\n| Imie        | Imie kierowcy                  |\n| Kraj        | Kraj pochodzenia               |\n\nPrzykladowe dane:\nz1;Pizzonia;Antonio;Brazylia\nz11;Alonso;Fernando;Hiszpania\nz31;Schumacher;Michael;Niemcy\n\nTabela Wyscigi (plik Wyscigi.txt):\n| Kolumna     | Opis                           |\n|------------|--------------------------------|\n| Id_wyscigu | Identyfikator wyscigu (np. w1) |\n| Rok        | Rok (sezon) wyscigu            |\n| GrandPrix  | Nazwa Grand Prix               |\n\nPrzykladowe dane:\nw1;2000;Australia\nw2;2000;Brazylia\nw10;2000;Austria\n\nTabela Wyniki (plik Wyniki.txt):\n| Kolumna      | Opis                            |\n|-------------|----------------------------------|\n| Id_kierowcy | Id kierowcy                      |\n| Punkty      | Liczba zdobytych punktow         |\n| Id_wyscigu  | Id wyscigu                       |\n\nPrzykladowe dane:\nz31;10;w1  (Schumacher zdobyl 10 pkt w wyscigu w1)\nz42;6;w1   (ktos inny zdobyl 6 pkt w wyscigu w1)\n\nKazdy kierowca moze miec wiele wynikow (po jednym na wyScig). Kierowca moze nie miec zadnych wynikow. Napisz zapytania SQL dajace odpowiedzi na ponizsze pytania.",
       "podzadania": [
         {
-          "id": "2015.6.1",
+          "id": "2015M.6.1",
           "numer": "6.1",
           "punkty": 2,
           "typ_zadania": "sql_select_where",
@@ -409,7 +409,7 @@
           ]
         },
         {
-          "id": "2015.6.2",
+          "id": "2015M.6.2",
           "numer": "6.2",
           "punkty": 2,
           "typ_zadania": "sql_podzapytania",
@@ -424,7 +424,7 @@
           ]
         },
         {
-          "id": "2015.6.3",
+          "id": "2015M.6.3",
           "numer": "6.3",
           "punkty": 3,
           "typ_zadania": "sql_join",
@@ -440,7 +440,7 @@
           ]
         },
         {
-          "id": "2015.6.4",
+          "id": "2015M.6.4",
           "numer": "6.4",
           "punkty": 3,
           "typ_zadania": "sql_group_by",
@@ -481,5 +481,6 @@
         "czasowy_min": 35
       }
     }
-  ]
+  ],
+  "sesja": "maj"
 }

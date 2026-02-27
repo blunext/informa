@@ -265,8 +265,8 @@ func ImportExams(db *sql.DB, sourceDir string) (int, error) {
 	}
 	defer tx.Rollback()
 
-	stmt, err := tx.Prepare(`INSERT INTO egzamin (id, rok, numer_zadania, numer_podzadania, tytul, kontekst, tresc, odpowiedz, zasady_oceniania, typ_zadania, kategoria, punkty, czesc, pulapki, sciezka_danych, pliki_danych)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+	stmt, err := tx.Prepare(`INSERT INTO egzamin (id, rok, sesja, numer_zadania, numer_podzadania, tytul, kontekst, tresc, odpowiedz, zasady_oceniania, typ_zadania, kategoria, punkty, czesc, pulapki, sciezka_danych, pliki_danych)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
 	if err != nil {
 		return 0, err
 	}
@@ -284,6 +284,10 @@ func ImportExams(db *sql.DB, sourceDir string) (int, error) {
 			return 0, fmt.Errorf("parse %s: %w", f, err)
 		}
 
+		if exam.Sesja == "" {
+			exam.Sesja = "maj"
+		}
+
 		for _, task := range exam.Zadania {
 			kontekst := ""
 			if task.Kontekst != nil {
@@ -299,7 +303,7 @@ func ImportExams(db *sql.DB, sourceDir string) (int, error) {
 				pulapkiJSON, _ := json.Marshal(sub.Pulapki)
 
 				_, err = stmt.Exec(
-					sub.ID, exam.Rok, task.Numer, sub.Numer,
+					sub.ID, exam.Rok, exam.Sesja, task.Numer, sub.Numer,
 					task.Tytul, kontekst,
 					sub.Tresc, sub.Odpowiedz, sub.ZasadyOceniania,
 					sub.TypZadania, sub.Kategoria, sub.Punkty,

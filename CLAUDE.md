@@ -64,7 +64,7 @@ analiza/
 ├── podsumowanie_szybkie_wszystkie_lata.md  # Quick summary of all years
 │
 ├── json/                          # Machine-readable analysis data
-│   ├── matura_YYYY.json           # **11 files — COMPLETE exam database** (230 subtasks, self-contained)
+│   ├── matura_YYYYM.json          # **11 files — COMPLETE exam database** (230 subtasks, self-contained)
 │   │                              # Full task text, answers, scoring criteria, typ_zadania, traps
 │   │                              # No PDF needed — each subtask is standalone and solvable
 │   ├── matura_indeks.json         # **Cross-reference index** for all 230 subtasks across 11 years
@@ -122,7 +122,7 @@ analiza/
 
 ### Key Analysis Data
 
-- **Complete exam database**: `matura_YYYY.json` — 11 files, 230 subtasks, 550 points total. Each subtask has full text (`tresc`), answer (`odpowiedz`), scoring (`zasady_oceniania`), type (`typ_zadania`), and traps (`pulapki`). Self-contained: no PDF needed to solve any task.
+- **Complete exam database**: `matura_YYYYM.json` — 11 files, 230 subtasks, 550 points total. Each subtask has full text (`tresc`), answer (`odpowiedz`), scoring (`zasady_oceniania`), type (`typ_zadania`), and traps (`pulapki`). Self-contained: no PDF needed to solve any task. ID format: `YYYYM.Z.S` (e.g. `2025M.1.1`), where M=maj session letter.
 - **Cross-reference index**: `matura_indeks.json` — all 230 subtasks indexed by typ_zadania, kategoria, rok. Supports filtering for cross-year practice (e.g., "all SQL tasks" or "all 2025 tasks").
 - **23 task types** in 4 categories: TEORIA (6), IMPLEMENTACJA (8), ARKUSZ (5), SQL (4). All types use canonical prefixed names (e.g., `przetwarzanie_napisy`, `arkusz_symulacja`, `sql_group_by`).
 - **Topic frequency tiers**: TIER 1 (100%): SQL, number ops, file processing, spreadsheet; TIER 2 (73-82%): number systems, recursion, sorting, GCD

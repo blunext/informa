@@ -27,7 +27,7 @@
       "kontekst": "Rozwazamy nastepujaca rekurencyjna procedure Korale, ktorej parametrem jest dodatnia liczba calkowita n.\n\nKorale(n)\n1. Jezeli n = 1, to\n   1.1. nawlecz czarny koralik na prawy koniec sznurka,\n   1.2. zakoncz dzialanie procedury.\n2. Jezeli n jest parzyste, to\n   2.1. wykonaj Korale(n/2),\n   2.2. nawlecz bialy koralik na prawy koniec sznurka,\n   2.3. zakoncz dzialanie procedury.\n3. Jezeli n jest nieparzyste, to\n   3.1. wykonaj Korale((n-1)/2),\n   3.2. nawlecz czarny koralik na prawy koniec sznurka,\n   3.3. zakoncz dzialanie procedury.\n\nProcedura tworzy naszyjnik z czarnych i bialych koralikow, gdzie:\n- czarny koralik odpowiada bitowi 1\n- bialy koralik odpowiada bitowi 0\nKorale(n) nawleka reprezentacje binarna liczby n od najstarszego bitu (rekurencja) do najmlodszego (powrot).\n\nPrzyklad: Korale(1) = [czarny], Korale(2) = [czarny, bialy], Korale(4) = [czarny, bialy, bialy].",
       "podzadania": [
         {
-          "id": "2014.1a",
+          "id": "2014M.1a",
           "numer": "1a",
           "punkty": 2,
           "typ_zadania": "sledzenie_algorytmu",
@@ -42,7 +42,7 @@
           ]
         },
         {
-          "id": "2014.1b",
+          "id": "2014M.1b",
           "numer": "1b",
           "punkty": 3,
           "typ_zadania": "analiza_algorytmu",
@@ -57,7 +57,7 @@
           ]
         },
         {
-          "id": "2014.1c",
+          "id": "2014M.1c",
           "numer": "1c",
           "punkty": 3,
           "typ_zadania": "projektowanie_algorytmu",
@@ -97,7 +97,7 @@
       "kontekst": "Bisekcja jest jedna z metod szukania przyblizenia miejsca zerowego funkcji rzeczywistej f(x), ciaglej w zadanym przedziale <a, b> i o wartosciach majacych rozne znaki na koncach przedzialu.\n\nAlgorytm bisekcji oblicza wartosci funkcji na obu koncach przedzialu, oraz w jego srodku, tj. dla x = (a+b)/2. Jezeli wartosc funkcji w srodku przedzialu jest zerem, to x jest szukanym miejscem zerowym tej funkcji. W przeciwnym przypadku przedział <a, b> zaweza sie do przedzialu <a, x> lub <x, b> tak, aby na koncach tego nowego przedzialu wartosci funkcji znowu mialy rozne znaki.\n\nWszystkie opisane czynnosci powtarza sie, az do znalezienia miejsca zerowego lub do zmniejszenia sie dlugosci analizowanego przedzialu ponizej zadanej dokladnosci d -- wowczas wynikiem jest srodek ostatniego przedzialu.\n\nDla funkcji f(x) = x^3 - x - 2 oraz przedzialu <0, 2>:",
       "podzadania": [
         {
-          "id": "2014.2a",
+          "id": "2014M.2a",
           "numer": "2a",
           "punkty": 1,
           "typ_zadania": "sledzenie_algorytmu",
@@ -112,7 +112,7 @@
           ]
         },
         {
-          "id": "2014.2b",
+          "id": "2014M.2b",
           "numer": "2b",
           "punkty": 2,
           "typ_zadania": "analiza_algorytmu",
@@ -127,7 +127,7 @@
           ]
         },
         {
-          "id": "2014.2c",
+          "id": "2014M.2c",
           "numer": "2c",
           "punkty": 3,
           "typ_zadania": "projektowanie_algorytmu",
@@ -167,7 +167,7 @@
       "kontekst": "Przeanalizuj ponizszy algorytm dla dodatniej liczby calkowitej n:\n\njezeli n = 1, to suma <- 1\nw przeciwnym przypadku\n    suma <- 1 + n\n    i <- n - 1\n    dopoki i > 1 wykonuj\n        suma <- 1 + i * suma\n        i <- i - 1\n\nDla kolejnych zdan zdecyduj, ktore z podanych odpowiedzi sa prawdziwe, a ktore falszywe. Zaznacz znakiem X odpowiednie pola tabeli.",
       "podzadania": [
         {
-          "id": "2014.3a",
+          "id": "2014M.3a",
           "numer": "3a",
           "punkty": 2,
           "typ_zadania": "sledzenie_algorytmu",
@@ -182,7 +182,7 @@
           ]
         },
         {
-          "id": "2014.3b",
+          "id": "2014M.3b",
           "numer": "3b",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -197,7 +197,7 @@
           ]
         },
         {
-          "id": "2014.3c",
+          "id": "2014M.3c",
           "numer": "3c",
           "punkty": 1,
           "typ_zadania": "konwersja_systemow_liczbowych",
@@ -211,7 +211,7 @@
           ]
         },
         {
-          "id": "2014.3d",
+          "id": "2014M.3d",
           "numer": "3d",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -226,7 +226,7 @@
           ]
         },
         {
-          "id": "2014.3e",
+          "id": "2014M.3e",
           "numer": "3e",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -267,7 +267,7 @@
       "kontekst": "Dane dotycza przychodow i kosztow firmy przez okres okolo 180 dni. Dla kazdego dnia podana jest pora dnia (rano/wieczor) oraz kwota przychodu i kosztu. Dane dostepne sa w pliku dolaczonym do arkusza.\n\nUwaga: Tresc zadan zrekonstruowana z odpowiedzi CKE -- arkusz Czesci II dla 2014 nie jest dostepny w repozytorium.",
       "podzadania": [
         {
-          "id": "2014.4a",
+          "id": "2014M.4a",
           "numer": "4a",
           "punkty": 2,
           "typ_zadania": "arkusz_agregacja_warunkowa",
@@ -282,7 +282,7 @@
           ]
         },
         {
-          "id": "2014.4b",
+          "id": "2014M.4b",
           "numer": "4b",
           "punkty": 2,
           "typ_zadania": "arkusz_agregacja_podstawowa",
@@ -296,7 +296,7 @@
           ]
         },
         {
-          "id": "2014.4c",
+          "id": "2014M.4c",
           "numer": "4c",
           "punkty": 3,
           "typ_zadania": "arkusz_symulacja",
@@ -311,7 +311,7 @@
           ]
         },
         {
-          "id": "2014.4d",
+          "id": "2014M.4d",
           "numer": "4d",
           "punkty": 2,
           "typ_zadania": "arkusz_wykres",
@@ -351,7 +351,7 @@
       "kontekst": "Plik NAPIS.TXT zawiera napisy skladajace sie z wielkich liter alfabetu angielskiego (A-Z), po jednym napisie w kazdym wierszu. Kazdy napis ma dlugosc od 1 do 50 znakow.\n\nPrzykladowe dane z pliku:\nVELEELHXDPVRQCFSE\nBEGPLEC\nRGCUBXAOCEZLDECYYSA\nNHUQLCFZH\n\nUwaga: Tresc zadan zrekonstruowana z odpowiedzi CKE -- arkusz Czesci II dla 2014 nie jest dostepny w repozytorium.",
       "podzadania": [
         {
-          "id": "2014.5a",
+          "id": "2014M.5a",
           "numer": "5a",
           "punkty": 4,
           "typ_zadania": "przetwarzanie_zliczanie",
@@ -366,7 +366,7 @@
           ]
         },
         {
-          "id": "2014.5b",
+          "id": "2014M.5b",
           "numer": "5b",
           "punkty": 4,
           "typ_zadania": "przetwarzanie_napisy",
@@ -381,7 +381,7 @@
           ]
         },
         {
-          "id": "2014.5c",
+          "id": "2014M.5c",
           "numer": "5c",
           "punkty": 2,
           "typ_zadania": "przetwarzanie_napisy",
@@ -424,7 +424,7 @@
       "kontekst": "Baza danych zawiera informacje o rekrutacji dzieci do przedszkoli w trzech tabelach:\n\nTabela DZIECI (plik DZIECI.TXT):\n| Kolumna  | Opis                                    |\n|----------|------------------------------------------|\n| Pesel    | Numer identyfikacyjny dziecka (np. p06281200672) |\n| Nazwisko | Nazwisko dziecka                          |\n| Imie     | Imie dziecka                              |\n| Plec     | 'chlopiec' lub 'dziewczynka'              |\n| Wiek     | Wiek dziecka (5, 6, 7)                    |\n\nTabela PRZEDSZKOLA (plik PRZEDSZKOLA.TXT):\n| Kolumna           | Opis                              |\n|-------------------|------------------------------------|\n| Id_przedszkola    | Numer identyfikacyjny przedszkola  |\n| Nazwa_przedszkola | Pelna nazwa przedszkola            |\n| Liczba_miejsc     | Liczba dostepnych miejsc           |\n\nTabela PREFERENCJE (plik PREFERENCJE.TXT):\n| Kolumna            | Opis                              |\n|--------------------|------------------------------------|\n| Pesel              | Pesel dziecka                      |\n| Numer_preferencji  | 1 = pierwsza preferencja, 2 = druga, itd. |\n| Id_przedszkola     | Id wybranego przedszkola           |\n\nKazde dziecko moze wyrazic wiele preferencji (1., 2., 3., ...) dotyczacych przedszkoli.",
       "podzadania": [
         {
-          "id": "2014.6a",
+          "id": "2014M.6a",
           "numer": "6a",
           "punkty": 2,
           "typ_zadania": "sql_select_where",
@@ -439,7 +439,7 @@
           ]
         },
         {
-          "id": "2014.6b",
+          "id": "2014M.6b",
           "numer": "6b",
           "punkty": 3,
           "typ_zadania": "sql_select_where",
@@ -454,7 +454,7 @@
           ]
         },
         {
-          "id": "2014.6c",
+          "id": "2014M.6c",
           "numer": "6c",
           "punkty": 2,
           "typ_zadania": "sql_join",
@@ -470,7 +470,7 @@
           ]
         },
         {
-          "id": "2014.6d",
+          "id": "2014M.6d",
           "numer": "6d",
           "punkty": 4,
           "typ_zadania": "sql_group_by",
@@ -512,5 +512,6 @@
         "czasowy_min": 30
       }
     }
-  ]
+  ],
+  "sesja": "maj"
 }

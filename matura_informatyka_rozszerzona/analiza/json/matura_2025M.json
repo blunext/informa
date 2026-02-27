@@ -5,7 +5,12 @@
   "total_punkty": 50,
   "liczba_zadan": 7,
   "czesci": [
-    {"czesc": 1, "czas_minuty": 210, "punkty": 50, "opis": "Jedna czesc (nowa formula)"}
+    {
+      "czesc": 1,
+      "czas_minuty": 210,
+      "punkty": 50,
+      "opis": "Jedna czesc (nowa formula)"
+    }
   ],
   "zadania": [
     {
@@ -16,7 +21,7 @@
       "kontekst": "Dana jest rekurencyjna funkcja przestaw, ktorej parametrem jest nieujemna liczba calkowita:\n\nprzestaw(n):\n    r <- n mod 100\n    a <- r div 10\n    b <- r mod 10\n    n <- n div 100\n    jezeli n > 0\n        w <- a + 10 * b + 100 * przestaw(n)\n    w przeciwnym razie\n        jezeli a > 0\n            w <- a + 10 * b\n        w przeciwnym razie\n            w <- b\n    wynikiem jest w\n\nUwaga:\nOperator mod oznacza reszte z dzielenia, natomiast div -- czesc calkowita z dzielenia.",
       "podzadania": [
         {
-          "id": "2025.1.1",
+          "id": "2025M.1.1",
           "numer": "1.1",
           "punkty": 3,
           "typ_zadania": "sledzenie_algorytmu",
@@ -31,7 +36,7 @@
           ]
         },
         {
-          "id": "2025.1.2",
+          "id": "2025M.1.2",
           "numer": "1.2",
           "punkty": 2,
           "typ_zadania": "test_prawda_falsz",
@@ -46,7 +51,7 @@
           ]
         },
         {
-          "id": "2025.1.3",
+          "id": "2025M.1.3",
           "numer": "1.3",
           "punkty": 4,
           "typ_zadania": "projektowanie_algorytmu",
@@ -64,8 +69,18 @@
       "sciezka_danych": null,
       "pliki_danych": [],
       "wymiary": {
-        "tematyczny": ["rekurencja", "analiza algorytmu", "operacje na cyfrach liczby"],
-        "algorytmiczny": ["rekurencja", "iteracja", "dzielenie calkowite", "reszta z dzielenia", "zamiana rekurencji na iteracje"],
+        "tematyczny": [
+          "rekurencja",
+          "analiza algorytmu",
+          "operacje na cyfrach liczby"
+        ],
+        "algorytmiczny": [
+          "rekurencja",
+          "iteracja",
+          "dzielenie calkowite",
+          "reszta z dzielenia",
+          "zamiana rekurencji na iteracje"
+        ],
         "czasowy_min": 35
       }
     },
@@ -77,7 +92,7 @@
       "kontekst": "W pliku symbole.txt zapisano 2000 napisow. Kazdy z nich jest zapisany w osobnym wierszu i sklada sie z dokladnie 12 znakow sposrod: o, +, *.\n\nNapisz program (lub kilka programow) znajdujacy(-ch) odpowiedzi do podanych zadan. Kazda odpowiedz zapisz w pliku wyniki2.txt i poprzedz ja numerem oznaczajacym zadanie.\n\nDo Twojej dyspozycji jest plik symbole_przyklad.txt, ktory zawiera 20 wierszy danych spelniajacych warunki zadania. Odpowiedzi dla pliku symbole_przyklad.txt sa podane pod kazdym zadaniem.\n\nPamietaj, ze Twoj program musi ostatecznie zadzialac na pliku symbole.txt zawierajacym 2000 napisow.",
       "podzadania": [
         {
-          "id": "2025.2.1",
+          "id": "2025M.2.1",
           "numer": "2.1",
           "punkty": 2,
           "typ_zadania": "przetwarzanie_napisy",
@@ -90,7 +105,7 @@
           ]
         },
         {
-          "id": "2025.2.2",
+          "id": "2025M.2.2",
           "numer": "2.2",
           "punkty": 4,
           "typ_zadania": "przetwarzanie_obrazy_2D",
@@ -105,7 +120,7 @@
           ]
         },
         {
-          "id": "2025.2.3",
+          "id": "2025M.2.3",
           "numer": "2.3",
           "punkty": 2,
           "typ_zadania": "przetwarzanie_minmax",
@@ -119,7 +134,7 @@
           ]
         },
         {
-          "id": "2025.2.4",
+          "id": "2025M.2.4",
           "numer": "2.4",
           "punkty": 3,
           "typ_zadania": "przetwarzanie_zlozone",
@@ -135,10 +150,23 @@
         }
       ],
       "sciezka_danych": "matura_informatyka_rozszerzona/2025_maj/dane maj 23/",
-      "pliki_danych": ["symbole.txt", "symbole_przyklad.txt"],
+      "pliki_danych": [
+        "symbole.txt",
+        "symbole_przyklad.txt"
+      ],
       "wymiary": {
-        "tematyczny": ["przetwarzanie tekstow", "systemy liczbowe", "palindromy", "wzorce w danych 2D"],
-        "algorytmiczny": ["porownywanie napisow", "konwersja systemow liczbowych", "wyszukiwanie wzorcow w macierzy 2D", "sumowanie duzych liczb"],
+        "tematyczny": [
+          "przetwarzanie tekstow",
+          "systemy liczbowe",
+          "palindromy",
+          "wzorce w danych 2D"
+        ],
+        "algorytmiczny": [
+          "porownywanie napisow",
+          "konwersja systemow liczbowych",
+          "wyszukiwanie wzorcow w macierzy 2D",
+          "sumowanie duzych liczb"
+        ],
         "czasowy_min": 40
       }
     },
@@ -150,7 +178,7 @@
       "kontekst": "Tor lotu pewnego drona sklada sie z prostych odcinkow. Lot rozpoczyna sie w punkcie (0, 0), a konczy w punkcie (20000, 0). Dron poza startem i ladowaniem jest zawsze na wysokosci wiekszej od zera.\n\nPlik dron.txt zawiera 100 wierszy, w ktorych zapisano dane dotyczace ruchu drona. W kazdym wierszu jest zapisana para liczb calkowitych rozdzielonych znakiem spacji. Pierwsza liczba oznacza przemieszczenie drona (odleglosc) w poziomie od ostatniej pozycji -- jest to zawsze liczba dodatnia. Druga liczba oznacza przemieszczenie w pionie od ostatniej pozycji. Jesli druga liczba jest dodatnia, to dron wykonal ruch w gore, jesli ujemna -- w dol, a jesli rowna 0 -- nie zmienial wysokosci.\n\nPrzyklad 1.\nDla przykladowych danych:\n3000 2000\n2000 9000\n5000 -7000\n5000 4000\n3000 6000\n2000 -14000\nlot drona mozna zilustrować na wykresie (os x: odleglosc w poziomie, os y: wysokosc).\n\nNapisz program (lub kilka programow), ktory(-e) znajdzie(-da) odpowiedzi dla podanych zadan. Kazda odpowiedz zapisz w pliku wyniki3.txt i poprzedz ja numerem oznaczajacym zadanie.\n\nDo Twojej dyspozycji jest plik dron_przyklad.txt zawierajacy 10 wierszy danych w opisanej postaci. Odpowiedzi dla pliku dron_przyklad.txt sa podane pod kazdym zadaniem. Pamietaj, ze Twoj program musi ostatecznie zadzialac na pliku dron.txt zawierajacym 100 wierszy danych.",
       "podzadania": [
         {
-          "id": "2025.3.1",
+          "id": "2025M.3.1",
           "numer": "3.1",
           "punkty": 2,
           "typ_zadania": "przetwarzanie_cyfry_liczby",
@@ -165,7 +193,7 @@
           ]
         },
         {
-          "id": "2025.3.2",
+          "id": "2025M.3.2",
           "numer": "3.2",
           "punkty": 4,
           "typ_zadania": "obliczenia_geometryczne",
@@ -181,10 +209,21 @@
         }
       ],
       "sciezka_danych": "matura_informatyka_rozszerzona/2025_maj/dane maj 23/",
-      "pliki_danych": ["dron.txt", "dron_przyklad.txt"],
+      "pliki_danych": [
+        "dron.txt",
+        "dron_przyklad.txt"
+      ],
       "wymiary": {
-        "tematyczny": ["geometria obliczeniowa", "teoria liczb", "przetwarzanie danych"],
-        "algorytmiczny": ["algorytm Euklidesa (NWD)", "sumy prefiksowe", "wyszukiwanie trojek punktow wspoliniowych"],
+        "tematyczny": [
+          "geometria obliczeniowa",
+          "teoria liczb",
+          "przetwarzanie danych"
+        ],
+        "algorytmiczny": [
+          "algorytm Euklidesa (NWD)",
+          "sumy prefiksowe",
+          "wyszukiwanie trojek punktow wspoliniowych"
+        ],
         "czasowy_min": 35
       }
     },
@@ -196,7 +235,7 @@
       "kontekst": null,
       "podzadania": [
         {
-          "id": "2025.4",
+          "id": "2025M.4",
           "numer": "4",
           "punkty": 1,
           "typ_zadania": "teoria_bezpieczenstwa",
@@ -212,7 +251,10 @@
       "sciezka_danych": null,
       "pliki_danych": [],
       "wymiary": {
-        "tematyczny": ["bezpieczenstwo informatyczne", "malware"],
+        "tematyczny": [
+          "bezpieczenstwo informatyczne",
+          "malware"
+        ],
         "algorytmiczny": [],
         "czasowy_min": 1
       }
@@ -225,7 +267,7 @@
       "kontekst": null,
       "podzadania": [
         {
-          "id": "2025.5",
+          "id": "2025M.5",
           "numer": "5",
           "punkty": 2,
           "typ_zadania": "konwersja_systemow_liczbowych",
@@ -243,8 +285,14 @@
       "sciezka_danych": null,
       "pliki_danych": [],
       "wymiary": {
-        "tematyczny": ["systemy liczbowe", "arytmetyka binarna"],
-        "algorytmiczny": ["dodawanie pisemne w systemie dwojkowym", "przeniesienie (carry)"],
+        "tematyczny": [
+          "systemy liczbowe",
+          "arytmetyka binarna"
+        ],
+        "algorytmiczny": [
+          "dodawanie pisemne w systemie dwojkowym",
+          "przeniesienie (carry)"
+        ],
         "czasowy_min": 5
       }
     },
@@ -256,7 +304,7 @@
       "kontekst": "W 2033 roku na Marsie wyladowala automatyczna stacja wydobywcza wyposarzona w transporter i w autonomiczny dron pobierajacy ladunki skal zawierajacych mineral niewystepujacy na Ziemi -- martianeum.\n\nStacja dziala wedlug nastepujacych zasad:\n- dron codziennie przywozi ladunek z pewnego obszaru Marsa\n- stacja wazy ladunek przywieziony przez drona i bada zawartosc martianeum\n- jesli zawartosc martianeum w przywiezionym ladunku wynosi co najmniej 1%, to stacja automatycznie wydobywa caly mineral z tego ladunku\n- jesli na koniec dnia (po wydobyciu martianeum) ilosc mineralu na stacji osiagnie co najmniej 100 kg, to transporter zabiera 100 kg na orbite, skad ladunek jest wysylany na Ziemie, a transporter wraca do stacji (jesli na stacji zgromadzone jest wiecej niz 100 kg, to nadmiar pozostaje na stacji)\n- poczatkowy stan magazynu na stacji -- 0 kg martianeum.\n\nW pliku tekstowym martianeum.txt w kolejnych wierszach zapisano dane z lat 2033-2038:\ndata            -- data przywozu ladunku w formacie rrrr-mm-dd\nnazwa_obszaru   -- nazwa obszaru Marsa, z ktorego ladunek zostal pobrany\nmasa [kg]       -- masa ladunku drona w kilogramach\nzawartosc [%]   -- zawartosc martianeum w probce w % (nieujemna liczba z jednym miejscem po przecinku, np. 0,1 oznacza 0,1%)\n\nDane w pliku rozdzielono znakami tabulacji.\n\nPrzyklad:\ndata        nazwa_obszaru    masa [kg]    zawartosc [%]\n2033-03-03  Cebrenia         27,8         0,2\n2033-03-04  Amenthes         11,8         1,7\n2033-03-05  Noachis          21,0         6,0\n2033-03-06  Coprates         26,3         11,4\n2033-03-07  Ismenius Lacus   28,8         0,0\n2033-03-08  Mare Boreum      29,2         0,0\n\nZ wykorzystaniem danych zawartych w pliku martianeum.txt oraz dostepnych narzedzi informatycznych wykonaj podane zadania. Wyniki zapisz w pliku tekstowym wyniki6.txt. Odpowiedz do kazdego zadania poprzedz numerem tego zadania.",
       "podzadania": [
         {
-          "id": "2025.6.1",
+          "id": "2025M.6.1",
           "numer": "6.1",
           "punkty": 2,
           "typ_zadania": "arkusz_agregacja_warunkowa",
@@ -271,7 +319,7 @@
           ]
         },
         {
-          "id": "2025.6.2",
+          "id": "2025M.6.2",
           "numer": "6.2",
           "punkty": 1,
           "typ_zadania": "arkusz_agregacja_warunkowa",
@@ -284,7 +332,7 @@
           ]
         },
         {
-          "id": "2025.6.3",
+          "id": "2025M.6.3",
           "numer": "6.3",
           "punkty": 2,
           "typ_zadania": "arkusz_transformacja",
@@ -298,7 +346,7 @@
           ]
         },
         {
-          "id": "2025.6.4",
+          "id": "2025M.6.4",
           "numer": "6.4",
           "punkty": 3,
           "typ_zadania": "arkusz_wykres",
@@ -313,7 +361,7 @@
           ]
         },
         {
-          "id": "2025.6.5",
+          "id": "2025M.6.5",
           "numer": "6.5",
           "punkty": 3,
           "typ_zadania": "arkusz_symulacja",
@@ -330,10 +378,22 @@
         }
       ],
       "sciezka_danych": "matura_informatyka_rozszerzona/2025_maj/dane maj 23/",
-      "pliki_danych": ["martianeum.txt"],
+      "pliki_danych": [
+        "martianeum.txt"
+      ],
       "wymiary": {
-        "tematyczny": ["przetwarzanie danych tabelarycznych", "arkusz kalkulacyjny", "symulacja procesu", "wizualizacja danych"],
-        "algorytmiczny": ["sumowanie warunkowe", "srednia grupowa", "podzial na okresy czasowe", "symulacja krokowa z akumulatorem"],
+        "tematyczny": [
+          "przetwarzanie danych tabelarycznych",
+          "arkusz kalkulacyjny",
+          "symulacja procesu",
+          "wizualizacja danych"
+        ],
+        "algorytmiczny": [
+          "sumowanie warunkowe",
+          "srednia grupowa",
+          "podzial na okresy czasowe",
+          "symulacja krokowa z akumulatorem"
+        ],
         "czasowy_min": 50
       }
     },
@@ -345,7 +405,7 @@
       "kontekst": "W trzech plikach tekstowych o nazwach laziki.txt, obszary.txt, pomiary.txt zapisano informacje zawierajace dane o poszukiwaniu wody na Marsie w latach 2050-2080. Laziki zasilane energia sloneczna poruszaja sie po roznych obszarach Marsa i wykonuja pomiary georadarowe, na podstawie ktorych szacuja ilosc wody i glebokosc, na ktorej sie ona znajduje. Pierwszy wiersz kazdego z plikow jest wierszem naglowkowym, a dane w wierszach rozdzielono znakami tabulacji.\n\nPlik o nazwie laziki.txt zawiera informacje o roznych lazikach, ktore wykonywaly pomiary. W kazdym wierszu tego pliku znajduja sie:\nnr_lazika      -- co najwyzej trzycyfrowy, unikatowy numer lazika\nnazwa_lazika   -- nazwa lazika (tekst do 50 znakow)\nrok_wyslania   -- rok startu z Ziemi\nwsp_ladowania  -- wspolrzedne ladowania na Marsie oddzielone znakiem przecinka i spacja\n\nPrzyklad:\nnr_lazika  nazwa_lazika  rok_wyslania  wsp_ladowania\n1          Mariner 3     2049          50.51N, 70.01E\n2          Mariner 6     2050          11.90N, 119.49E\n3          Mariner 7     2050          44.90S, 130.80W\n\nPlik o nazwie obszary.txt zawiera informacje o obszarach na Marsie. W kazdym wierszu tego pliku znajduja sie:\nkod_obszaru    -- piecioznakowy, unikatowy kod obszaru\nnazwa_obszaru  -- nazwa obszaru (tekst do 50 znakow)\n\nPrzyklad:\nkod_obszaru  nazwa_obszaru\nMC-01        Mare Boreum\nMC-02        Diacria\nMC-03        Arcadia\n\nPlik o nazwie pomiary.txt zawiera informacje o wynikach badan georadarowych wykonanych przez laziki. W kazdym wierszu tego pliku znajduja sie:\nnr_lazika      -- co najwyzej trzycyfrowy numer lazika\ndata_pomiaru   -- data wykonania pomiaru (w formacie rrrr-mm-dd)\nkod_obszaru    -- piecioznakowy kod obszaru, na ktorym zostal wykonany pomiar\nwspolrzedne    -- wspolrzedne wykonania pomiaru, oddzielone znakiem przecinka i spacja\nglebokosc      -- szacowana glebokosc, na ktorej znajduje sie woda (w metrach)\nilosc          -- szacowana ilosc wody (w m^3)\n\nPrzyklad:\nnr_lazika  data_pomiaru  kod_obszaru  wspolrzedne        glebokosc  ilosc\n17         2061-06-03    MC-13        13.17N, 77.80E     344        5622\n17         2056-06-02    MC-14        14.93N, 106.00E    43         2054\n47         2075-10-18    MC-05        45.57N, 3.30E      9          23366\n\nZ wykorzystaniem danych zawartych w podanych plikach oraz dostepnych narzedzi informatycznych podaj odpowiedzi do zadan 7.1-7.4. Odpowiedzi zapisz w pliku wyniki7.txt, a kazda z nich poprzedz numerem odpowiedniego zadania.",
       "podzadania": [
         {
-          "id": "2025.7.1",
+          "id": "2025M.7.1",
           "numer": "7.1",
           "punkty": 2,
           "typ_zadania": "przetwarzanie_zlozone",
@@ -360,7 +420,7 @@
           ]
         },
         {
-          "id": "2025.7.2",
+          "id": "2025M.7.2",
           "numer": "7.2",
           "punkty": 2,
           "typ_zadania": "przetwarzanie_zlozone",
@@ -374,7 +434,7 @@
           ]
         },
         {
-          "id": "2025.7.3",
+          "id": "2025M.7.3",
           "numer": "7.3",
           "punkty": 2,
           "typ_zadania": "przetwarzanie_zlozone",
@@ -389,7 +449,7 @@
           ]
         },
         {
-          "id": "2025.7.4",
+          "id": "2025M.7.4",
           "numer": "7.4",
           "punkty": 2,
           "typ_zadania": "przetwarzanie_zlozone",
@@ -404,7 +464,7 @@
           ]
         },
         {
-          "id": "2025.7.5",
+          "id": "2025M.7.5",
           "numer": "7.5",
           "punkty": 2,
           "typ_zadania": "sql_join",
@@ -421,12 +481,27 @@
         }
       ],
       "sciezka_danych": "matura_informatyka_rozszerzona/2025_maj/dane maj 23/",
-      "pliki_danych": ["laziki.txt", "obszary.txt", "pomiary.txt"],
+      "pliki_danych": [
+        "laziki.txt",
+        "obszary.txt",
+        "pomiary.txt"
+      ],
       "wymiary": {
-        "tematyczny": ["bazy danych", "zapytania SQL", "przetwarzanie danych relacyjnych", "laczenie tabel"],
-        "algorytmiczny": ["filtrowanie warunkowe", "agregacja", "laczenie tabel (JOIN)", "parsowanie wspolrzednych geograficznych"],
+        "tematyczny": [
+          "bazy danych",
+          "zapytania SQL",
+          "przetwarzanie danych relacyjnych",
+          "laczenie tabel"
+        ],
+        "algorytmiczny": [
+          "filtrowanie warunkowe",
+          "agregacja",
+          "laczenie tabel (JOIN)",
+          "parsowanie wspolrzednych geograficznych"
+        ],
         "czasowy_min": 40
       }
     }
-  ]
+  ],
+  "sesja": "maj"
 }

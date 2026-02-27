@@ -1606,7 +1606,7 @@ func progressDiagnoseCmd() *cobra.Command {
 // === cke get ===
 
 func ckeGetCmd() *cobra.Command {
-	var typ, exclude string
+	var typ, exclude, sesja string
 	var force bool
 
 	cmd := &cobra.Command{
@@ -1644,6 +1644,11 @@ func ckeGetCmd() *cobra.Command {
 				query += " AND e.id NOT IN (" + strings.Join(ph, ",") + ")"
 			}
 
+			if sesja != "" {
+				query += " AND e.sesja = ?"
+				params = append(params, sesja)
+			}
+
 			query += " ORDER BY RANDOM() LIMIT 1"
 
 			var out CKEOut
@@ -1679,6 +1684,7 @@ func ckeGetCmd() *cobra.Command {
 
 	cmd.Flags().StringVar(&typ, "typ", "", "Task type (e.g. sledzenie_algorytmu)")
 	cmd.Flags().StringVar(&exclude, "exclude", "", "Comma-separated IDs to exclude")
+	cmd.Flags().StringVar(&sesja, "sesja", "", "Filter by session (empty = all)")
 	cmd.Flags().BoolVar(&force, "force", false, "Bypass unlock check")
 	return cmd
 }
@@ -1794,7 +1800,7 @@ func ckeSaveCmd() *cobra.Command {
 		},
 	}
 
-	cmd.Flags().StringVar(&id, "id", "", "CKE subtask ID (e.g. 2025.1.1)")
+	cmd.Flags().StringVar(&id, "id", "", "CKE subtask ID (e.g. 2025M.1.1)")
 	cmd.Flags().IntVar(&punkty, "punkty", 0, "Points scored")
 	cmd.Flags().IntVar(&maxPunkty, "max", 0, "Maximum points")
 	return cmd
@@ -1804,6 +1810,7 @@ func ckeSaveCmd() *cobra.Command {
 
 func examMetaCmd() *cobra.Command {
 	var rok int
+	var sesja string
 
 	cmd := &cobra.Command{
 		Use:   "meta",
@@ -1818,9 +1825,9 @@ func examMetaCmd() *cobra.Command {
 			rows, err := d.Query(`
 				SELECT e.numer_zadania, e.tytul, SUM(e.punkty) as total_pkt, MIN(e.czesc) as czesc
 				FROM data.egzamin e
-				WHERE e.rok = ?
+				WHERE e.rok = ? AND e.sesja = ?
 				GROUP BY e.numer_zadania, e.tytul
-				ORDER BY e.numer_zadania`, rok)
+				ORDER BY e.numer_zadania`, rok, sesja)
 			if err != nil {
 				return fatal(fmt.Sprintf("query error: %v", err))
 			}
@@ -1858,6 +1865,7 @@ func examMetaCmd() *cobra.Command {
 
 			out := ExamMetaOut{
 				Rok:         rok,
+				Sesja:       sesja,
 				Formula:     formula,
 				CzasMinuty:  czasMinuty,
 				TotalPunkty: totalPunkty,
@@ -1888,6 +1896,7 @@ func examMetaCmd() *cobra.Command {
 	}
 
 	cmd.Flags().IntVar(&rok, "rok", 0, "Exam year (e.g. 2024)")
+	cmd.Flags().StringVar(&sesja, "sesja", "maj", "Session: maj, czerwiec, probna, przykladowy")
 	return cmd
 }
 
@@ -1895,6 +1904,7 @@ func examMetaCmd() *cobra.Command {
 
 func examTaskCmd() *cobra.Command {
 	var rok, zadanie int
+	var sesja string
 
 	cmd := &cobra.Command{
 		Use:   "task",
@@ -1909,8 +1919,8 @@ func examTaskCmd() *cobra.Command {
 			rows, err := d.Query(`
 				SELECT e.id, e.numer_podzadania, e.tytul, e.kontekst, e.typ_zadania, e.kategoria, e.punkty, e.tresc, e.odpowiedz, e.zasady_oceniania, e.pulapki, e.sciezka_danych, e.pliki_danych
 				FROM data.egzamin e
-				WHERE e.rok = ? AND e.numer_zadania = ?
-				ORDER BY e.id`, rok, zadanie)
+				WHERE e.rok = ? AND e.sesja = ? AND e.numer_zadania = ?
+				ORDER BY e.id`, rok, sesja, zadanie)
 			if err != nil {
 				return fatal(fmt.Sprintf("query error: %v", err))
 			}
@@ -1967,6 +1977,7 @@ func examTaskCmd() *cobra.Command {
 	}
 
 	cmd.Flags().IntVar(&rok, "rok", 0, "Exam year")
+	cmd.Flags().StringVar(&sesja, "sesja", "maj", "Session: maj, czerwiec, probna, przykladowy")
 	cmd.Flags().IntVar(&zadanie, "zadanie", 0, "Task number")
 	return cmd
 }
@@ -1975,6 +1986,7 @@ func examTaskCmd() *cobra.Command {
 
 func examSaveCmd() *cobra.Command {
 	var rok int
+	var sesja string
 	var resultsJSON string
 	var czasMin int
 
@@ -2030,8 +2042,8 @@ func examSaveCmd() *cobra.Command {
 				procent = float64(wynikPkt) / float64(maxPkt) * 100
 			}
 
-			if _, err := tx.Exec(`INSERT INTO probne_matury (rok, data, czas_min, wynik_pkt, max_pkt, procent) VALUES (?, ?, ?, ?, ?, ?)`,
-				rok, today, czasMin, wynikPkt, maxPkt, procent); err != nil {
+			if _, err := tx.Exec(`INSERT INTO probne_matury (rok, sesja, data, czas_min, wynik_pkt, max_pkt, procent) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+				rok, sesja, today, czasMin, wynikPkt, maxPkt, procent); err != nil {
 				return fatal(fmt.Sprintf("save error: %v", err))
 			}
 
@@ -2051,6 +2063,7 @@ func examSaveCmd() *cobra.Command {
 	}
 
 	cmd.Flags().IntVar(&rok, "rok", 0, "Exam year")
+	cmd.Flags().StringVar(&sesja, "sesja", "maj", "Session: maj, czerwiec, probna, przykladowy")
 	cmd.Flags().StringVar(&resultsJSON, "results", "", "JSON array of results")
 	cmd.Flags().IntVar(&czasMin, "czas", 0, "Time spent in minutes")
 	return cmd
@@ -2460,6 +2473,7 @@ func ckeStatusCmd() *cobra.Command {
 
 func examListCmd() *cobra.Command {
 	var formula string
+	var sesja string
 	var random bool
 
 	cmd := &cobra.Command{
@@ -2469,10 +2483,10 @@ func examListCmd() *cobra.Command {
 			d := db(cmd)
 
 			rows, err := d.Query(`
-				SELECT rok, SUM(punkty) as total
+				SELECT rok, MIN(sesja) as sesja, SUM(punkty) as total
 				FROM data.egzamin
-				GROUP BY rok
-				ORDER BY rok`)
+				GROUP BY rok, sesja
+				ORDER BY rok, sesja`)
 			if err != nil {
 				return fatal(fmt.Sprintf("query error: %v", err))
 			}
@@ -2480,7 +2494,7 @@ func examListCmd() *cobra.Command {
 			var rawEntries []ExamListEntry
 			for rows.Next() {
 				var e ExamListEntry
-				if err := rows.Scan(&e.Rok, &e.TotalPkt); err != nil {
+				if err := rows.Scan(&e.Rok, &e.Sesja, &e.TotalPkt); err != nil {
 					rows.Close()
 					return fatal(fmt.Sprintf("scan error: %v", err))
 				}
@@ -2509,7 +2523,7 @@ func examListCmd() *cobra.Command {
 			for _, e := range rawEntries {
 				// Check if done (has a non-interrupted mock exam)
 				var procent sql.NullFloat64
-				d.QueryRow("SELECT procent FROM probne_matury WHERE rok = ? AND przerwany = 0 ORDER BY procent DESC LIMIT 1", e.Rok).Scan(&procent)
+				d.QueryRow("SELECT procent FROM probne_matury WHERE rok = ? AND sesja = ? AND przerwany = 0 ORDER BY procent DESC LIMIT 1", e.Rok, e.Sesja).Scan(&procent)
 				if procent.Valid {
 					e.Done = true
 					p := procent.Float64
@@ -2526,6 +2540,11 @@ func examListCmd() *cobra.Command {
 					}
 				}
 
+				// Apply sesja filter
+				if sesja != "" && e.Sesja != sesja {
+					continue
+				}
+
 				entries = append(entries, e)
 			}
 
@@ -2540,6 +2559,7 @@ func examListCmd() *cobra.Command {
 				if !e.Done && e.Formula == "2023" {
 					out.Suggested = &ExamSuggestion{
 						Rok:     e.Rok,
+						Sesja:   e.Sesja,
 						Formula: e.Formula,
 						Reason:  "Nowa formula, jeszcze nie zrobiona",
 					}
@@ -2551,6 +2571,7 @@ func examListCmd() *cobra.Command {
 					if !e.Done {
 						out.Suggested = &ExamSuggestion{
 							Rok:     e.Rok,
+							Sesja:   e.Sesja,
 							Formula: e.Formula,
 							Reason:  "Jeszcze nie zrobiona",
 						}
@@ -2572,6 +2593,7 @@ func examListCmd() *cobra.Command {
 					out.Available = []ExamListEntry{chosen}
 					out.Suggested = &ExamSuggestion{
 						Rok:     chosen.Rok,
+						Sesja:   chosen.Sesja,
 						Formula: chosen.Formula,
 						Reason:  "Losowy wybor z niezrobionych",
 					}
@@ -2580,6 +2602,7 @@ func examListCmd() *cobra.Command {
 					out.Available = []ExamListEntry{chosen}
 					out.Suggested = &ExamSuggestion{
 						Rok:     chosen.Rok,
+						Sesja:   chosen.Sesja,
 						Formula: chosen.Formula,
 						Reason:  "Losowy wybor (wszystkie zrobione)",
 					}
@@ -2592,6 +2615,7 @@ func examListCmd() *cobra.Command {
 	}
 
 	cmd.Flags().StringVar(&formula, "formula", "", "Filter: nowa, stara, or empty for all")
+	cmd.Flags().StringVar(&sesja, "sesja", "", "Filter by session: maj, czerwiec, probna, przykladowy")
 	cmd.Flags().BoolVar(&random, "random", false, "Pick one random year")
 	return cmd
 }
@@ -2692,7 +2716,7 @@ func trapSaveCmd() *cobra.Command {
 		},
 	}
 
-	cmd.Flags().StringVar(&id, "id", "", "CKE subtask ID (e.g. 2024.1.1)")
+	cmd.Flags().StringVar(&id, "id", "", "CKE subtask ID (e.g. 2024M.1.1)")
 	cmd.Flags().StringVar(&typ, "typ", "", "Task type")
 	cmd.Flags().IntVar(&trafienia, "trafienia", 0, "Number of traps correctly identified")
 	cmd.Flags().IntVar(&total, "total", 0, "Total number of traps in the task")
@@ -2861,6 +2885,19 @@ func dataStatsCmd() *cobra.Command {
 			d.QueryRow("SELECT COUNT(*) FROM data.cwiczenia").Scan(&out.Cwiczenia)
 			d.QueryRow("SELECT COUNT(*) FROM data.egzamin").Scan(&out.Podzadania)
 			d.QueryRow("SELECT COUNT(*) FROM data.cheatsheets").Scan(&out.Cheatsheets)
+
+			out.PerSesja = make(map[string]int)
+			rows, _ := d.Query("SELECT COALESCE(sesja, 'maj'), COUNT(*) FROM data.egzamin GROUP BY sesja")
+			if rows != nil {
+				for rows.Next() {
+					var s string
+					var c int
+					rows.Scan(&s, &c)
+					out.PerSesja[s] = c
+				}
+				rows.Close()
+			}
+
 			jsonOut(out)
 			return nil
 		},

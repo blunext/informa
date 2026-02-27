@@ -5,8 +5,18 @@
   "total_punkty": 50,
   "liczba_zadan": 6,
   "czesci": [
-    {"czesc": 1, "czas_minuty": 60, "punkty": 15, "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"},
-    {"czesc": 2, "czas_minuty": 150, "punkty": 35, "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny, bazy danych)"}
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny, bazy danych)"
+    }
   ],
   "zadania": [
     {
@@ -17,7 +27,7 @@
       "kontekst": "Dane sa:\n    liczba calkowita n wieksza od 1\n    zbior A zawierajacy n dodatnich, roznych liczb calkowitych\n    liczba pierwsza p\n\nSzukamy najwiekszego pola powierzchni prostokata, ktore nie jest podzielne przez p, a dlugosci sasiednich bokow tego prostokata sa rozne (nie moze on byc kwadratem) i naleza do zbioru A. Jezeli taki prostokat nie istnieje, jako wynik podajemy liczbe 0 (zero).",
       "podzadania": [
         {
-          "id": "2017.1.1",
+          "id": "2017M.1.1",
           "numer": "1.1",
           "punkty": 2,
           "typ_zadania": "sledzenie_algorytmu",
@@ -33,7 +43,7 @@
           ]
         },
         {
-          "id": "2017.1.2",
+          "id": "2017M.1.2",
           "numer": "1.2",
           "punkty": 4,
           "typ_zadania": "projektowanie_algorytmu",
@@ -53,8 +63,16 @@
       "sciezka_danych": null,
       "pliki_danych": [],
       "wymiary": {
-        "tematyczny": ["optymalizacja", "podzielnosc", "algorytmy_zachlanne"],
-        "algorytmiczny": ["znajdowanie_dwoch_najwiekszych", "podzielnosc_przez_p", "optymalizacja_liniowa"],
+        "tematyczny": [
+          "optymalizacja",
+          "podzielnosc",
+          "algorytmy_zachlanne"
+        ],
+        "algorytmiczny": [
+          "znajdowanie_dwoch_najwiekszych",
+          "podzielnosc_przez_p",
+          "optymalizacja_liniowa"
+        ],
         "czasowy_min": 25
       }
     },
@@ -66,7 +84,7 @@
       "kontekst": "Funkcja licz(x) przyjmuje jako argument dodatnia liczbe calkowita x, natomiast jako wynik daje pewna liczbe calkowita.\n\nlicz(x)\n    jezeli x = 1\n        podaj wynik 1\n    w przeciwnym przypadku\n        w <- licz(x div 2)\n        jezeli x mod 2 = 1\n            podaj wynik w+1\n        w przeciwnym przypadku\n            podaj wynik w-1\n\nUwaga: div -- dzielenie calkowite, mod -- reszta z dzielenia calkowitego.",
       "podzadania": [
         {
-          "id": "2017.2.1",
+          "id": "2017M.2.1",
           "numer": "2.1",
           "punkty": 2,
           "typ_zadania": "sledzenie_algorytmu",
@@ -81,7 +99,7 @@
           ]
         },
         {
-          "id": "2017.2.2",
+          "id": "2017M.2.2",
           "numer": "2.2",
           "punkty": 2,
           "typ_zadania": "analiza_algorytmu",
@@ -95,7 +113,7 @@
           ]
         },
         {
-          "id": "2017.2.3",
+          "id": "2017M.2.3",
           "numer": "2.3",
           "punkty": 2,
           "typ_zadania": "analiza_algorytmu",
@@ -114,8 +132,16 @@
       "sciezka_danych": null,
       "pliki_danych": [],
       "wymiary": {
-        "tematyczny": ["rekurencja", "analiza_algorytmow", "reprezentacja_binarna"],
-        "algorytmiczny": ["sledzenie_rekurencji", "zlozonosc_wywolan", "warunki_brzegowe"],
+        "tematyczny": [
+          "rekurencja",
+          "analiza_algorytmow",
+          "reprezentacja_binarna"
+        ],
+        "algorytmiczny": [
+          "sledzenie_rekurencji",
+          "zlozonosc_wywolan",
+          "warunki_brzegowe"
+        ],
         "czasowy_min": 20
       }
     },
@@ -127,7 +153,7 @@
       "kontekst": "Ocen prawdziwosc podanych zdan. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli jest falzywe.\nW kazdym zadaniu uzyskasz punkt tylko za komplet poprawnych odpowiedzi.",
       "podzadania": [
         {
-          "id": "2017.3.1",
+          "id": "2017M.3.1",
           "numer": "3.1",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -142,7 +168,7 @@
           ]
         },
         {
-          "id": "2017.3.2",
+          "id": "2017M.3.2",
           "numer": "3.2",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -157,7 +183,7 @@
           ]
         },
         {
-          "id": "2017.3.3",
+          "id": "2017M.3.3",
           "numer": "3.3",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -176,8 +202,17 @@
       "sciezka_danych": null,
       "pliki_danych": [],
       "wymiary": {
-        "tematyczny": ["SQL", "kryptografia", "bezpieczenstwo"],
-        "algorytmiczny": ["ORDER_BY", "GROUP_BY_HAVING", "NOT_IN_subquery", "klucz_publiczny"],
+        "tematyczny": [
+          "SQL",
+          "kryptografia",
+          "bezpieczenstwo"
+        ],
+        "algorytmiczny": [
+          "ORDER_BY",
+          "GROUP_BY_HAVING",
+          "NOT_IN_subquery",
+          "klucz_publiczny"
+        ],
         "czasowy_min": 10
       }
     },
@@ -189,7 +224,7 @@
       "kontekst": "Pewna firma handluje cukrem. W pliku cukier.txt zapisano dane o transakcjach sprzedazy cukru z lat 2005-2014. Kazdy wiersz zawiera (rozdzielone tabulatorem): date transakcji (RRRR-MM-DD), numer telefonu klienta (format xxx-xx-xx-xxx) oraz liczbe sprzedanych kilogramow cukru (liczba calkowita).\n\nW pliku cennik.txt zapisano ceny cukru (w zlotych za kilogram) w poszczegolnych latach: rok i cene (z przecinkiem dziesietnym).\n\nPrzykladowe wiersze cukier.txt:\n2005-01-01  872-13-44-365  10\n2005-01-04  369-43-03-176  2\n\nPlik cennik.txt:\n2005  2,00\n2006  2,05\n...\n2014  2,23\n\nUwaga: Oryginalny arkusz czesci II nie jest dostepny w repozytorium. Tresc zadan zrekonstruowano na podstawie odpowiedzi CKE i plikow danych.",
       "podzadania": [
         {
-          "id": "2017.4.1",
+          "id": "2017M.4.1",
           "numer": "4.1",
           "punkty": 1,
           "typ_zadania": "arkusz_transformacja",
@@ -203,7 +238,7 @@
           ]
         },
         {
-          "id": "2017.4.2",
+          "id": "2017M.4.2",
           "numer": "4.2",
           "punkty": 2,
           "typ_zadania": "arkusz_agregacja_podstawowa",
@@ -218,7 +253,7 @@
           ]
         },
         {
-          "id": "2017.4.3",
+          "id": "2017M.4.3",
           "numer": "4.3",
           "punkty": 3,
           "typ_zadania": "arkusz_wykres",
@@ -233,7 +268,7 @@
           ]
         },
         {
-          "id": "2017.4.4",
+          "id": "2017M.4.4",
           "numer": "4.4",
           "punkty": 3,
           "typ_zadania": "arkusz_symulacja",
@@ -249,7 +284,7 @@
           ]
         },
         {
-          "id": "2017.4.5",
+          "id": "2017M.4.5",
           "numer": "4.5",
           "punkty": 4,
           "typ_zadania": "arkusz_symulacja",
@@ -266,10 +301,23 @@
         }
       ],
       "sciezka_danych": "matura_informatyka_rozszerzona/2017_maj/Dane_PR/",
-      "pliki_danych": ["cukier.txt", "cennik.txt"],
+      "pliki_danych": [
+        "cukier.txt",
+        "cennik.txt"
+      ],
       "wymiary": {
-        "tematyczny": ["arkusz_kalkulacyjny", "agregacja", "rabaty_progresywne", "zarzadzanie_magazynem"],
-        "algorytmiczny": ["suma_cyfr", "sumowanie_warunkowe", "rabaty_schodkowe", "symulacja_stanu"],
+        "tematyczny": [
+          "arkusz_kalkulacyjny",
+          "agregacja",
+          "rabaty_progresywne",
+          "zarzadzanie_magazynem"
+        ],
+        "algorytmiczny": [
+          "suma_cyfr",
+          "sumowanie_warunkowe",
+          "rabaty_schodkowe",
+          "symulacja_stanu"
+        ],
         "czasowy_min": 50
       }
     },
@@ -281,7 +329,7 @@
       "kontekst": "Baza danych zawiera informacje o meczach pilki recznej rozgrywanych przez pewna druzyne. Baza sklada sie z trzech tabel:\n\nTabela druzyny (plik druzyny.txt):\n- Id_druzyny (klucz glowny) -- identyfikator druzyny przeciwnika\n- Nazwa -- nazwa druzyny\n- Miasto -- miasto druzyny\n\nTabela wyniki (plik wyniki.txt):\n- Data_meczu -- data meczu (RRRR-MM-DD)\n- Rodzaj_meczu -- typ meczu: T (towarzyski), L (ligowy), P (pucharowy)\n- Gdzie -- D (dom) lub W (wyjazd)\n- Id_druzyny -- identyfikator druzyny przeciwnika (klucz obcy -> druzyny)\n- Nr_licencji -- numer licencji sedziego (klucz obcy -> sedziowie)\n- Bramki_zdobyte -- bramki zdobyte przez nasza druzyne\n- Bramki_stracone -- bramki stracone przez nasza druzyne\n\nTabela sedziowie (plik sedziowie.txt):\n- Nr_licencji (klucz glowny) -- numer licencji sedziego\n- Imie -- imie sedziego\n- Nazwisko -- nazwisko sedziego\n\nPrzykladowe wiersze wyniki.txt:\nData_meczu  Rodzaj_meczu  Gdzie  Id_druzyny  Nr_licencji  Bramki_zdobyte  Bramki_stracone\n2002-10-20  L             D      2           AC6776       0               2\n\nUwaga: Oryginalny arkusz czesci II nie jest dostepny w repozytorium. Tresc zadan zrekonstruowano na podstawie odpowiedzi CKE i plikow danych.",
       "podzadania": [
         {
-          "id": "2017.5.1",
+          "id": "2017M.5.1",
           "numer": "5.1",
           "punkty": 3,
           "typ_zadania": "sql_group_by",
@@ -296,7 +344,7 @@
           ]
         },
         {
-          "id": "2017.5.2",
+          "id": "2017M.5.2",
           "numer": "5.2",
           "punkty": 2,
           "typ_zadania": "sql_group_by",
@@ -311,7 +359,7 @@
           ]
         },
         {
-          "id": "2017.5.3",
+          "id": "2017M.5.3",
           "numer": "5.3",
           "punkty": 3,
           "typ_zadania": "sql_group_by",
@@ -327,7 +375,7 @@
           ]
         },
         {
-          "id": "2017.5.4",
+          "id": "2017M.5.4",
           "numer": "5.4",
           "punkty": 3,
           "typ_zadania": "sql_podzapytania",
@@ -343,10 +391,24 @@
         }
       ],
       "sciezka_danych": "matura_informatyka_rozszerzona/2017_maj/Dane_PR/",
-      "pliki_danych": ["druzyny.txt", "wyniki.txt", "sedziowie.txt"],
+      "pliki_danych": [
+        "druzyny.txt",
+        "wyniki.txt",
+        "sedziowie.txt"
+      ],
       "wymiary": {
-        "tematyczny": ["bazy_danych", "SQL", "JOIN", "agregacja"],
-        "algorytmiczny": ["GROUP_BY", "CASE_WHEN", "LEFT_JOIN", "COUNT"],
+        "tematyczny": [
+          "bazy_danych",
+          "SQL",
+          "JOIN",
+          "agregacja"
+        ],
+        "algorytmiczny": [
+          "GROUP_BY",
+          "CASE_WHEN",
+          "LEFT_JOIN",
+          "COUNT"
+        ],
         "czasowy_min": 40
       }
     },
@@ -358,7 +420,7 @@
       "kontekst": "W pliku dane.txt zapisano obraz rastrowy w skali szarosci o wymiarach 320x200 pikseli. Kazdy wiersz pliku zawiera 320 liczb calkowitych oddzielonych spacjami -- wartosci jasnosci kolejnych pikseli w danym wierszu obrazu. Wartosci pikseli sa z zakresu 0-255 (0 = czarny, 255 = bialy).\n\nPlik przyklad.txt zawiera przykladowy obraz w tym samym formacie (do testowania programu).\n\nSasiedztwo pikseli rozumiane jest jako sasiedztwo 4-kierunkowe: gora, dol, lewo, prawo (nie po przekatnej).\n\nUwaga: Oryginalny arkusz czesci II nie jest dostepny w repozytorium. Tresc zadan zrekonstruowano na podstawie odpowiedzi CKE i plikow danych.",
       "podzadania": [
         {
-          "id": "2017.6.1",
+          "id": "2017M.6.1",
           "numer": "6.1",
           "punkty": 2,
           "typ_zadania": "przetwarzanie_minmax",
@@ -372,7 +434,7 @@
           ]
         },
         {
-          "id": "2017.6.2",
+          "id": "2017M.6.2",
           "numer": "6.2",
           "punkty": 2,
           "typ_zadania": "przetwarzanie_zliczanie",
@@ -386,7 +448,7 @@
           ]
         },
         {
-          "id": "2017.6.3",
+          "id": "2017M.6.3",
           "numer": "6.3",
           "punkty": 3,
           "typ_zadania": "przetwarzanie_obrazy_2D",
@@ -402,7 +464,7 @@
           ]
         },
         {
-          "id": "2017.6.4",
+          "id": "2017M.6.4",
           "numer": "6.4",
           "punkty": 4,
           "typ_zadania": "przetwarzanie_obrazy_2D",
@@ -419,12 +481,26 @@
         }
       ],
       "sciezka_danych": "matura_informatyka_rozszerzona/2017_maj/Dane_PR/",
-      "pliki_danych": ["dane.txt", "przyklad.txt"],
+      "pliki_danych": [
+        "dane.txt",
+        "przyklad.txt"
+      ],
       "wymiary": {
-        "tematyczny": ["przetwarzanie_obrazow", "grafika_rastrowa", "analiza_pikseli", "DFS_BFS"],
-        "algorytmiczny": ["min_max", "srednia", "sasiedztwo_4kierunkowe", "connected_components"],
+        "tematyczny": [
+          "przetwarzanie_obrazow",
+          "grafika_rastrowa",
+          "analiza_pikseli",
+          "DFS_BFS"
+        ],
+        "algorytmiczny": [
+          "min_max",
+          "srednia",
+          "sasiedztwo_4kierunkowe",
+          "connected_components"
+        ],
         "czasowy_min": 50
       }
     }
-  ]
+  ],
+  "sesja": "maj"
 }

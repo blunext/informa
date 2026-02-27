@@ -5,8 +5,18 @@
   "total_punkty": 50,
   "liczba_zadan": 6,
   "czesci": [
-    {"czesc": 1, "czas_minuty": 60, "punkty": 15, "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"},
-    {"czesc": 2, "czas_minuty": 150, "punkty": 35, "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny, bazy danych)"}
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny, bazy danych)"
+    }
   ],
   "zadania": [
     {
@@ -17,7 +27,7 @@
       "kontekst": "Rozważamy następujący algorytm:\n\nDane:\n  n – liczba całkowita dodatnia\nWynik:\n  p – liczba całkowita dodatnia\n\np ← 1\nq ← n\ndopóki p < q wykonuj\n    s ← (p+q) div 2\n(*) jeżeli s*s*s < n wykonaj\n        p ← s+1\n    w przeciwnym wypadku\n        q ← s\n\nUwaga: zapis div oznacza dzielenie całkowite.\n\nAlgorytm ten oblicza pierwiastek sześcienny z n (zaokrąglony w górę do liczby całkowitej) metodą wyszukiwania binarnego (bisekcji). Zmienna p przechowuje dolną granicę, q górną granicę przedziału poszukiwań. W każdej iteracji petli sprawdzamy, czy sześcian środka przedziału (s) jest mniejszy od n.",
       "podzadania": [
         {
-          "id": "2018.1.1",
+          "id": "2018M.1.1",
           "numer": "1.1",
           "punkty": 3,
           "typ_zadania": "sledzenie_algorytmu",
@@ -33,7 +43,7 @@
           ]
         },
         {
-          "id": "2018.1.2",
+          "id": "2018M.1.2",
           "numer": "1.2",
           "punkty": 2,
           "typ_zadania": "analiza_algorytmu",
@@ -48,7 +58,7 @@
           ]
         },
         {
-          "id": "2018.1.3",
+          "id": "2018M.1.3",
           "numer": "1.3",
           "punkty": 1,
           "typ_zadania": "analiza_algorytmu",
@@ -66,8 +76,16 @@
       "sciezka_danych": null,
       "pliki_danych": [],
       "wymiary": {
-        "tematyczny": ["algorytmy_numeryczne", "przeszukiwanie_binarne", "zlozonosc"],
-        "algorytmiczny": ["binary_search", "obliczanie_pierwiastka", "analiza_zlozonosci"],
+        "tematyczny": [
+          "algorytmy_numeryczne",
+          "przeszukiwanie_binarne",
+          "zlozonosc"
+        ],
+        "algorytmiczny": [
+          "binary_search",
+          "obliczanie_pierwiastka",
+          "analiza_zlozonosci"
+        ],
         "czasowy_min": 20
       }
     },
@@ -79,7 +97,7 @@
       "kontekst": "W pewnym paśmie górskim znajduje się n szczytów, które będziemy przedstawiać jako punkty w układzie kartezjańskim na płaszczyźnie. Wszystkie punkty leżą powyżej osi OX, tzn. druga współrzędna (y) każdego punktu jest dodatnia.\n\nW punkcie (0,0) stoi obserwator. Jeśli dwa szczyty A i B mają współrzędne (xA, yA) oraz (xB, yB), to mówimy, że:\n- szczyt A jest dla obserwatora widoczny na lewo od B, jeśli xA/yA < xB/yB;\n- szczyt B jest widoczny na lewo od A, jeśli xA/yA > xB/yB.\n\nWiemy, że żadne dwa szczyty nie leżą w jednej linii z obserwatorem, a zatem dla obserwatora te szczyty nie zasłaniają się nawzajem.\n\nIlustracja przykładowa: szczyty D(-2,2), A(1,3), B(3,4), C(2,1).\nPatrząc od lewej do prawej, obserwator widzi: D, A, B, C.\n(bo -2/2=-1 < 1/3≈0.33 < 3/4=0.75 < 2/1=2)\n\nWspółrzędne szczytów dane są w dwóch tablicach X[1..n] oraz Y[1..n] – szczyt numer i ma współrzędne (X[i], Y[i]).",
       "podzadania": [
         {
-          "id": "2018.2.1",
+          "id": "2018M.2.1",
           "numer": "2.1",
           "punkty": 2,
           "typ_zadania": "projektowanie_algorytmu",
@@ -94,7 +112,7 @@
           ]
         },
         {
-          "id": "2018.2.2",
+          "id": "2018M.2.2",
           "numer": "2.2",
           "punkty": 4,
           "typ_zadania": "projektowanie_algorytmu",
@@ -113,8 +131,14 @@
       "sciezka_danych": null,
       "pliki_danych": [],
       "wymiary": {
-        "tematyczny": ["geometria_obliczeniowa", "sortowanie"],
-        "algorytmiczny": ["sortowanie_punktow", "porownywanie_ilorazow"],
+        "tematyczny": [
+          "geometria_obliczeniowa",
+          "sortowanie"
+        ],
+        "algorytmiczny": [
+          "sortowanie_punktow",
+          "porownywanie_ilorazow"
+        ],
         "czasowy_min": 25
       }
     },
@@ -126,7 +150,7 @@
       "kontekst": "Oceń prawdziwość podanych zdań. Zaznacz P, jeśli zdanie jest prawdziwe, albo F – jeśli jest fałszywe.\n\nW każdym zadaniu punkt uzyskasz tylko za komplet poprawnych odpowiedzi.",
       "podzadania": [
         {
-          "id": "2018.3.1",
+          "id": "2018M.3.1",
           "numer": "3.1",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -141,7 +165,7 @@
           ]
         },
         {
-          "id": "2018.3.2",
+          "id": "2018M.3.2",
           "numer": "3.2",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -156,7 +180,7 @@
           ]
         },
         {
-          "id": "2018.3.3",
+          "id": "2018M.3.3",
           "numer": "3.3",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -174,8 +198,16 @@
       "sciezka_danych": null,
       "pliki_danych": [],
       "wymiary": {
-        "tematyczny": ["technologie_web", "modele_barw", "SQL"],
-        "algorytmiczny": ["analiza_kodu_PHP_JS", "konwersja_barw", "analiza_zapytan_SQL"],
+        "tematyczny": [
+          "technologie_web",
+          "modele_barw",
+          "SQL"
+        ],
+        "algorytmiczny": [
+          "analiza_kodu_PHP_JS",
+          "konwersja_barw",
+          "analiza_zapytan_SQL"
+        ],
         "czasowy_min": 10
       }
     },
@@ -187,7 +219,7 @@
       "kontekst": "W pliku sygnaly.txt znajduje się 1000 wierszy. Każdy wiersz zawiera ciąg znaków (sygnał) złożony z wielkich liter alfabetu angielskiego (A-Z). Każdy sygnał koduje jedno słowo.\n\nZasada kodowania: każdy sygnał to ciąg liter, w którym sąsiednie litery (w alfabecie) kodują jedną literę tekstu. Ostatnia litera każdego sygnału to zakodowana litera tekstu.\n\nPlik przyklad.txt zawiera przykładowe dane w tym samym formacie (1000 wierszy). Każdy sygnał jest ciągiem wielkich liter.\n\nUwaga: Treść zadania zrekonstruowana z odpowiedzi CKE — brak arkusza Części II. Dokładny mechanizm kodowania może się różnić od opisu powyżej. Odpowiedzi i punktacja są zgodne z oficjalnymi zasadami oceniania.",
       "podzadania": [
         {
-          "id": "2018.4.1",
+          "id": "2018M.4.1",
           "numer": "4.1",
           "punkty": 3,
           "typ_zadania": "przetwarzanie_napisy",
@@ -201,7 +233,7 @@
           ]
         },
         {
-          "id": "2018.4.2",
+          "id": "2018M.4.2",
           "numer": "4.2",
           "punkty": 4,
           "typ_zadania": "przetwarzanie_napisy",
@@ -216,7 +248,7 @@
           ]
         },
         {
-          "id": "2018.4.3",
+          "id": "2018M.4.3",
           "numer": "4.3",
           "punkty": 4,
           "typ_zadania": "przetwarzanie_napisy",
@@ -232,10 +264,21 @@
         }
       ],
       "sciezka_danych": "matura_informatyka_rozszerzona/2018_maj/Dane_PR/",
-      "pliki_danych": ["sygnaly.txt", "przyklad.txt"],
+      "pliki_danych": [
+        "sygnaly.txt",
+        "przyklad.txt"
+      ],
       "wymiary": {
-        "tematyczny": ["przetwarzanie_tekstow", "kodowanie", "analiza_ciagow"],
-        "algorytmiczny": ["dekodowanie", "filtrowanie", "min_max"],
+        "tematyczny": [
+          "przetwarzanie_tekstow",
+          "kodowanie",
+          "analiza_ciagow"
+        ],
+        "algorytmiczny": [
+          "dekodowanie",
+          "filtrowanie",
+          "min_max"
+        ],
         "czasowy_min": 40
       }
     },
@@ -247,7 +290,7 @@
       "kontekst": "W pliku woda.txt znajdują się dane o dobowym dopływie wody do zbiornika retencyjnego Wirki. Plik zawiera 3653 wiersze (dane z lat 2008-2017, po jednym wierszu na każdy dzień). Każdy wiersz zawiera datę (w formacie RRRR-MM-DD) oraz liczbę — dobowy dopływ wody w metrach sześciennych (m³), oddzielone tabulatorem.\n\nPrzykładowe wiersze:\n2008-01-01\t2275\n2008-01-02\t2831\n2008-01-03\t4615\n...\n\nZbiornik ma pojemność 1 500 000 m³. Przy założeniu, że 1 stycznia 2008 zbiornik był pusty, woda napływa codziennie zgodnie z danymi, a ze zbiornika nie odpływa żadna woda.\n\n(Treść zrekonstruowana z odpowiedzi CKE — brak arkusza Części II.)",
       "podzadania": [
         {
-          "id": "2018.5.1",
+          "id": "2018M.5.1",
           "numer": "5.1",
           "punkty": 2,
           "typ_zadania": "arkusz_agregacja_warunkowa",
@@ -261,7 +304,7 @@
           ]
         },
         {
-          "id": "2018.5.2",
+          "id": "2018M.5.2",
           "numer": "5.2",
           "punkty": 2,
           "typ_zadania": "arkusz_symulacja",
@@ -276,7 +319,7 @@
           ]
         },
         {
-          "id": "2018.5.3",
+          "id": "2018M.5.3",
           "numer": "5.3",
           "punkty": 3,
           "typ_zadania": "arkusz_wykres",
@@ -291,7 +334,7 @@
           ]
         },
         {
-          "id": "2018.5.4",
+          "id": "2018M.5.4",
           "numer": "5.4",
           "punkty": 5,
           "typ_zadania": "arkusz_symulacja",
@@ -307,10 +350,20 @@
         }
       ],
       "sciezka_danych": "matura_informatyka_rozszerzona/2018_maj/Dane_PR/",
-      "pliki_danych": ["woda.txt"],
+      "pliki_danych": [
+        "woda.txt"
+      ],
       "wymiary": {
-        "tematyczny": ["arkusz_kalkulacyjny", "symulacja", "agregacja_danych"],
-        "algorytmiczny": ["sumowanie_warunkowe", "kumulacja", "ciagi_spojne"],
+        "tematyczny": [
+          "arkusz_kalkulacyjny",
+          "symulacja",
+          "agregacja_danych"
+        ],
+        "algorytmiczny": [
+          "sumowanie_warunkowe",
+          "kumulacja",
+          "ciagi_spojne"
+        ],
         "czasowy_min": 50
       }
     },
@@ -322,7 +375,7 @@
       "kontekst": "Baza danych zawiera informacje o komputerach w pewnej firmie, ich awariach i naprawach. Dane znajdują się w trzech plikach (tabelach):\n\nTabela komputery (komputery.txt, 500 rekordów):\n| Pole | Typ | Opis |\n|------|-----|------|\n| Numer_komputera | INT | klucz główny |\n| Sekcja | CHAR(1) | sekcja firmy (litera A-Z) |\n| Pojemnosc_dysku | INT | pojemność dysku twardego (GB) |\n\nTabela awarie (awarie.txt, 2495 rekordów):\n| Pole | Typ | Opis |\n|------|-----|------|\n| Numer_zgloszenia | INT | klucz główny |\n| Numer_komputera | INT | klucz obcy → komputery |\n| Czas_awarii | DATETIME | data i czas wystąpienia awarii |\n| Priorytet | INT | priorytet zgłoszenia (1-10) |\n\nTabela naprawy (naprawy.txt, 4907 rekordów):\n| Pole | Typ | Opis |\n|------|-----|------|\n| Numer_zgloszenia | INT | klucz obcy → awarie |\n| Czas_naprawy | DATETIME | data i czas naprawy |\n| Rodzaj | VARCHAR | typ naprawy: 'restart' lub 'wymiana' |\n\nRelacje: komputery.Numer_komputera → awarie.Numer_komputera → naprawy.Numer_zgloszenia (przez awarie.Numer_zgloszenia). Jedna awaria może mieć wiele napraw (restart, potem wymiana itp.).\n\n(Treść zrekonstruowana z odpowiedzi CKE — brak arkusza Części II.)",
       "podzadania": [
         {
-          "id": "2018.6.1",
+          "id": "2018M.6.1",
           "numer": "6.1",
           "punkty": 2,
           "typ_zadania": "sql_group_by",
@@ -337,7 +390,7 @@
           ]
         },
         {
-          "id": "2018.6.2",
+          "id": "2018M.6.2",
           "numer": "6.2",
           "punkty": 2,
           "typ_zadania": "sql_join",
@@ -353,7 +406,7 @@
           ]
         },
         {
-          "id": "2018.6.3",
+          "id": "2018M.6.3",
           "numer": "6.3",
           "punkty": 3,
           "typ_zadania": "sql_join",
@@ -368,7 +421,7 @@
           ]
         },
         {
-          "id": "2018.6.4",
+          "id": "2018M.6.4",
           "numer": "6.4",
           "punkty": 3,
           "typ_zadania": "sql_podzapytania",
@@ -383,7 +436,7 @@
           ]
         },
         {
-          "id": "2018.6.5",
+          "id": "2018M.6.5",
           "numer": "6.5",
           "punkty": 2,
           "typ_zadania": "sql_podzapytania",
@@ -399,12 +452,27 @@
         }
       ],
       "sciezka_danych": "matura_informatyka_rozszerzona/2018_maj/Dane_PR/",
-      "pliki_danych": ["komputery.txt", "awarie.txt", "naprawy.txt"],
+      "pliki_danych": [
+        "komputery.txt",
+        "awarie.txt",
+        "naprawy.txt"
+      ],
       "wymiary": {
-        "tematyczny": ["SQL", "bazy_danych", "JOIN", "agregacja"],
-        "algorytmiczny": ["group_by", "join", "podzapytania", "having"],
+        "tematyczny": [
+          "SQL",
+          "bazy_danych",
+          "JOIN",
+          "agregacja"
+        ],
+        "algorytmiczny": [
+          "group_by",
+          "join",
+          "podzapytania",
+          "having"
+        ],
         "czasowy_min": 50
       }
     }
-  ]
+  ],
+  "sesja": "maj"
 }

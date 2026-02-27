@@ -27,7 +27,7 @@
       "kontekst": "Dla dodatniej liczby calkowitej n, n-permutacja nazywamy taki n-elementowy ciag liczb calkowitych, ktory zawiera kazda z liczb 1, 2, ..., n dokladnie jeden raz.\n\nPrzyklad:\nciag (4,2,1,3) jest 4-permutacja,\nciag (6,5,4,1,2,3) jest 6-permutacja,\nciagi (1,3,1,2) i (2,3,4,5) nie sa 4-permutacjami.\n\nW ciagu n liczb calkowitych, ktory nie jest n-permutacja, mozna podmienic niektore elementy tak, aby otrzymac n-permutacje.\n\nPrzyklad:\nw ciagu (1,3,1) wystarczy podmienic jeden element -- pierwsza lub ostatnia jedynke (1) -- na dwojke (2), aby powstaly ciag byl 3-permutacja.",
       "podzadania": [
         {
-          "id": "2022.1.1",
+          "id": "2022M.1.1",
           "numer": "1.1",
           "punkty": 2,
           "typ_zadania": "sledzenie_algorytmu",
@@ -43,7 +43,7 @@
           ]
         },
         {
-          "id": "2022.1.2",
+          "id": "2022M.1.2",
           "numer": "1.2",
           "punkty": 4,
           "typ_zadania": "projektowanie_algorytmu",
@@ -83,7 +83,7 @@
       "kontekst": "Niech n bedzie dodatnia liczba calkowita i niech s bedzie slowem o dlugosci n zbudowanym z liter a lub b. Zapis s[i] oznacza i-ta litere w tym slowie (1 <= i <= n).\nDla slowa s wykonujemy ponizszy algorytm. Wynikiem dzialania algorytmu jest wartosc zmiennej k.\n\nAlgorytm:\n\nA[0] <- 0\ndla i = 1, 2, ..., n\n    jezeli s[i] = 'a'\n        A[i] <- A[i - 1] + 1\n    w przeciwnym razie\n        A[i] <- A[i - 1]\n\nB[n + 1] <- 0\ndla j = n, n - 1, ..., 1\n    jezeli s[j] = 'b'\n        B[j] <- B[j + 1] + 1\n    w przeciwnym razie\n        B[j] <- B[j + 1]\n\nk <- 1\ndla i = 0, 1, 2, ..., n\n    jezeli A[i] + B[i + 1] > k\n        k <- A[i] + B[i + 1]\n\nObjasninie:\n- A[i] = liczba liter 'a' w prefiksie slowa dlugosci i (pierwsze i znakow)\n- B[j] = liczba liter 'b' w sufiksie slowa od pozycji j (od j-tego znaku do konca)\n- k = maksimum z A[i] + B[i+1] dla i = 0, 1, ..., n (inicjalizowane na 1)",
       "podzadania": [
         {
-          "id": "2022.2.1",
+          "id": "2022M.2.1",
           "numer": "2.1",
           "punkty": 2,
           "typ_zadania": "sledzenie_algorytmu",
@@ -99,7 +99,7 @@
           ]
         },
         {
-          "id": "2022.2.2",
+          "id": "2022M.2.2",
           "numer": "2.2",
           "punkty": 2,
           "typ_zadania": "analiza_algorytmu",
@@ -114,7 +114,7 @@
           ]
         },
         {
-          "id": "2022.2.3",
+          "id": "2022M.2.3",
           "numer": "2.3",
           "punkty": 2,
           "typ_zadania": "analiza_algorytmu",
@@ -155,7 +155,7 @@
       "kontekst": "Ocen prawdziwosc podanych zdan. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli jest falszywe.\nW kazdym zadaniu punkt uzyskujesz tylko za komplet poprawnych odpowiedzi.",
       "podzadania": [
         {
-          "id": "2022.3.1",
+          "id": "2022M.3.1",
           "numer": "3.1",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -170,7 +170,7 @@
           ]
         },
         {
-          "id": "2022.3.2",
+          "id": "2022M.3.2",
           "numer": "3.2",
           "punkty": 1,
           "typ_zadania": "konwersja_systemow_liczbowych",
@@ -186,7 +186,7 @@
           ]
         },
         {
-          "id": "2022.3.3",
+          "id": "2022M.3.3",
           "numer": "3.3",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -227,7 +227,7 @@
       "kontekst": "W pliku liczby.txt danych jest 200 roznych liczb calkowitych z zakresu [10, 100000]. Kazda z tych liczb zapisana jest w osobnym wierszu.\n\nNapisz program (lub kilka programow), ktory(-e) znajdzie(-da) odpowiedzi do ponizszych zadan. Odpowiedzi zapisz w pliku wyniki4.txt. Kazda odpowiedz poprzedz numerem oznaczajacym zadanie.\n\nDo dyspozycji masz plik przyklad.txt, ktory takze zawiera 200 liczb -- odpowiedzi dla tego pliku podano w tresciach zadan. Mozesz sprawdzac na nim dzialanie swojego programu.\n\nUwaga: Pamietaj, ze Twoj program musi ostatecznie dzialac dla pliku liczby.txt.",
       "podzadania": [
         {
-          "id": "2022.4.1",
+          "id": "2022M.4.1",
           "numer": "4.1",
           "punkty": 4,
           "typ_zadania": "przetwarzanie_cyfry_liczby",
@@ -243,7 +243,7 @@
           ]
         },
         {
-          "id": "2022.4.2",
+          "id": "2022M.4.2",
           "numer": "4.2",
           "punkty": 4,
           "typ_zadania": "przetwarzanie_cyfry_liczby",
@@ -259,7 +259,7 @@
           ]
         },
         {
-          "id": "2022.4.3",
+          "id": "2022M.4.3",
           "numer": "4.3",
           "punkty": 4,
           "typ_zadania": "przetwarzanie_zlozone",
@@ -303,7 +303,7 @@
       "kontekst": "Plik o nazwie soki.txt zawiera informacje o zamowieniach butelkowanego soku owocowego skladanych w pewnym zakladzie przez cztery magazyny (Gniezno, Malbork, Ogrodzieniec i Przemysl).\nDane w pliku uporzadkowano wedlug kolejnosci zamowien. W kazdym wierszu pliku znajduja sie nastepujace dane: numer zamowienia, data zamowienia, magazyn (ktory skladal dane zamowienie) oraz wielkosc zamowienia (liczba butelek soku). Zaklad przyjmuje zamowienia codziennie. Z kazdego magazynu splywa maksymalnie jedno zamowienie dziennie. Pierwszy wiersz pliku jest wierszem naglowkowym, a dane w wierszach oddzielono znakami tabulacji.\n\nPrzyklad:\nnr_zamowienia  data       magazyn        wielkosc_zamowienia\n1              02.01.2021 Ogrodzieniec   1290\n2              02.01.2021 Przemysl       4420\n3              02.01.2021 Gniezno        5190\n4              03.01.2021 Malbork        950\n5              03.01.2021 Gniezno        6000\n\nInformacje dodatkowe do zadan 5.4 i 5.5:\n- Sok byl produkowany w zakladzie glownym i jego filii.\n- Kazdego dnia roboczego (od poniedzialku do piatku) w zakladzie glownym wytwarzano 12 000 butelek soku, natomiast w soboty i w niedziele -- po 5 000 butelek soku.\n- Kazdego dnia, po zakonczeniu dziennej produkcji, zaklad wysylal do magazynow butelki soku zgodnie z zamowieniem z danego dnia (to oznacza, ze kazde zamowienie bylo realizowane w tym samym dniu, w ktorym bylo zlozone przez magazyn).\n- Zamowienia byly wysylane w takiej kolejnosci, w jakiej zostaly zlozone przez magazyny (czyli zgodnie z ich numeracja zapisana w pliku soki.txt).\n- Kazde zamowienie realizowano zawsze w calosci. Gdy do wykonania calosci danego zamowienia w zakladzie glownym zabraklo butelek soku, to realizacja calosci tego zamowienia przekazywana byla do filii (na potrzeby zadania zakladamy, ze w filii nigdy nie zabraknie soku).\n- Przyjmujemy, ze w dniu 2.01.2021 rano (przed produkcja) w zakladzie glownym znajdowalo sie 30 000 butelek soku.",
       "podzadania": [
         {
-          "id": "2022.5.1",
+          "id": "2022M.5.1",
           "numer": "5.1",
           "punkty": 1,
           "typ_zadania": "arkusz_agregacja_warunkowa",
@@ -317,7 +317,7 @@
           ]
         },
         {
-          "id": "2022.5.2",
+          "id": "2022M.5.2",
           "numer": "5.2",
           "punkty": 2,
           "typ_zadania": "arkusz_symulacja",
@@ -332,7 +332,7 @@
           ]
         },
         {
-          "id": "2022.5.3",
+          "id": "2022M.5.3",
           "numer": "5.3",
           "punkty": 3,
           "typ_zadania": "arkusz_wykres",
@@ -347,7 +347,7 @@
           ]
         },
         {
-          "id": "2022.5.4",
+          "id": "2022M.5.4",
           "numer": "5.4",
           "punkty": 4,
           "typ_zadania": "arkusz_agregacja_warunkowa",
@@ -363,7 +363,7 @@
           ]
         },
         {
-          "id": "2022.5.5",
+          "id": "2022M.5.5",
           "numer": "5.5",
           "punkty": 2,
           "typ_zadania": "arkusz_agregacja_warunkowa",
@@ -408,7 +408,7 @@
       "kontekst": "W plikach klasa.txt, uczen.txt i ewidencja.txt zapisano dane pochodzace z automatycznego systemu kontroli wejsc i wyjsc w pewnej szkole, z 5 dni (od 4 do 8 kwietnia 2022 r.). Uczniowie posiadaja imienne identyfikatory, ktore umozliwiaja rejestracje wejscia do szkoly i wyjscia ze szkoly.\nPierwszy wiersz w kazdym z plikow jest wierszem naglowkowym. Dane w kazdym wierszu oddzielono srednikiem.\n\nUwaga: Jezeli uczen jest obecny, to danego dnia wchodzi do szkoly jeden raz i jeden raz z niej wychodzi.\n\nPlik klasa.txt -- informacje o klasach:\n| Pole | Opis |\n|---|---|\n| IdKlasy | identyfikator klasy |\n| ProfilKlasy | profil ksztalcenia klasy |\n\nPrzyklad:\nIdKlasy;ProfilKlasy\n1a;biologiczno-chemiczny\n1b;humanistyczny\n\nPlik uczen.txt -- informacje o uczniach:\n| Pole | Opis |\n|---|---|\n| IdUcznia | identyfikator ucznia |\n| Imie | imie ucznia |\n| Nazwisko | nazwisko ucznia |\n| IdKlasy | identyfikator klasy |\n\nPrzyklad:\nIdUcznia;Imie;Nazwisko;IdKlasy\n1;Mariusz;Koprowski;3e\n2;Maciej;Machol;3a\n\nPlik ewidencja.txt -- wpisy wejsc/wyjsc:\n| Pole | Opis |\n|---|---|\n| IdEwidencji | identyfikator wpisu |\n| IdUcznia | identyfikator ucznia |\n| Wejscie | data i godzina wejscia (format: rrrr-mm-dd gg:mm:ss) |\n| Wyjscie | data i godzina wyjscia (format: rrrr-mm-dd gg:mm:ss) |\n\nPrzyklad:\nIdEwidencji;IdUcznia;Wejscie;Wyjscie\n1;18;2022-04-04 07:02:00;2022-04-04 14:11:00\n2;94;2022-04-04 07:07:00;2022-04-04 14:14:00\n3;121;2022-04-04 07:07:00;2022-04-04 14:14:00\n4;88;2022-04-04 07:10:00;2022-04-04 14:12:00\n\nWykorzystaj dostepne narzedzia informatyczne i podaj odpowiedzi do zadan 6.1-6.4. Odpowiedzi zapisz w pliku wyniki6.txt. Kazda odpowiedz poprzedz numerem oznaczajacym zadanie.",
       "podzadania": [
         {
-          "id": "2022.6.1",
+          "id": "2022M.6.1",
           "numer": "6.1",
           "punkty": 2,
           "typ_zadania": "sql_join",
@@ -425,7 +425,7 @@
           ]
         },
         {
-          "id": "2022.6.2",
+          "id": "2022M.6.2",
           "numer": "6.2",
           "punkty": 3,
           "typ_zadania": "sql_group_by",
@@ -441,7 +441,7 @@
           ]
         },
         {
-          "id": "2022.6.3",
+          "id": "2022M.6.3",
           "numer": "6.3",
           "punkty": 3,
           "typ_zadania": "sql_group_by",
@@ -458,7 +458,7 @@
           ]
         },
         {
-          "id": "2022.6.4",
+          "id": "2022M.6.4",
           "numer": "6.4",
           "punkty": 3,
           "typ_zadania": "sql_podzapytania",
@@ -496,5 +496,6 @@
         "czasowy_min": 50
       }
     }
-  ]
+  ],
+  "sesja": "maj"
 }

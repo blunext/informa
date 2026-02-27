@@ -9,7 +9,7 @@ import (
 	_ "modernc.org/sqlite"
 )
 
-const currentSchemaVersion = 6
+const currentSchemaVersion = 7
 
 // OpenDB opens progress DB as main, attaches matura.db as "data" read-only.
 // Returns the DB, whether matura.db was attached, and any error.
@@ -92,6 +92,7 @@ func CreateDataSchema(db *sql.DB) error {
 	CREATE TABLE egzamin (
 		id TEXT PRIMARY KEY,
 		rok INTEGER,
+		sesja TEXT DEFAULT 'maj',
 		numer_zadania INTEGER,
 		numer_podzadania TEXT,
 		tytul TEXT,
@@ -121,7 +122,7 @@ func CreateDataSchema(db *sql.DB) error {
 
 	CREATE INDEX idx_cwiczenia_typ ON cwiczenia(typ_nazwa, trudnosc);
 	CREATE INDEX idx_egzamin_typ ON egzamin(typ_zadania);
-	CREATE INDEX idx_egzamin_rok ON egzamin(rok, numer_zadania);
+	CREATE INDEX idx_egzamin_rok ON egzamin(rok, sesja, numer_zadania);
 	`
 	_, err := db.Exec(schema)
 	return err
@@ -216,6 +217,7 @@ func createProgressSchema(db *sql.DB) error {
 	CREATE TABLE IF NOT EXISTS probne_matury (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		rok INTEGER,
+		sesja TEXT DEFAULT 'maj',
 		data TEXT,
 		czas_min INTEGER,
 		wynik_pkt INTEGER,
@@ -368,6 +370,19 @@ var migrations = []Migration{
 			answer_fetched INTEGER NOT NULL DEFAULT 0
 		)`)
 		return err
+	}},
+	{Version: 7, Apply: func(tx *sql.Tx) error {
+		// Re-ID matura_zrobione entries: insert 'M' after 4-digit year prefix
+		if _, err := tx.Exec(`UPDATE matura_zrobione
+			SET id = substr(id, 1, 4) || 'M' || substr(id, 5)
+			WHERE id NOT LIKE '____M%' AND id NOT LIKE '____C%' AND id NOT LIKE '____P%' AND id NOT LIKE '____X%'`); err != nil {
+			return err
+		}
+		// Add sesja column to probne_matury
+		if _, err := tx.Exec(`ALTER TABLE probne_matury ADD COLUMN sesja TEXT DEFAULT 'maj'`); err != nil {
+			return err
+		}
+		return nil
 	}},
 }
 

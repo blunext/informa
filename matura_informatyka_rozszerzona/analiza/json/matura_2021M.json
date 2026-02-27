@@ -27,7 +27,7 @@
       "kontekst": "Niech n bedzie nieujemna liczba calkowita, ktorej najbardziej znaczaca cyfra w zapisie dziesietnym jest wieksza od 0 i mniejsza od 9. Cyfrowym dopelnieniem liczby n nazywamy liczbe calkowita d, ktorej zapis dziesietny otrzymujemy z zapisu dziesietnego liczby n przez zamiane kazdej cyfry tego zapisu na cyfre, ktora jest jej uzupelnieniem do 9.\n\nPrzyklad:\nCyfrowym dopelnieniem liczby 2021 jest liczba 7978.",
       "podzadania": [
         {
-          "id": "2021.1.1",
+          "id": "2021M.1.1",
           "numer": "1.1",
           "punkty": 2,
           "typ_zadania": "analiza_algorytmu",
@@ -43,7 +43,7 @@
           ]
         },
         {
-          "id": "2021.1.2",
+          "id": "2021M.1.2",
           "numer": "1.2",
           "punkty": 4,
           "typ_zadania": "projektowanie_algorytmu",
@@ -81,7 +81,7 @@
       "kontekst": "Niech n bedzie nieujemna liczba calkowita, a T[1..n] -- tablica zawierajaca n liczb calkowitych. Dla n = 0 tablica T jest pusta (nie zawiera zadnego elementu).\nWykonaj analize ponizej zapisanej funkcji d(x), ktora rozszerza tablice T o liczbe calkowita x, a nastepnie przeprowadza pewna reorganizacje zawartosci tej tablicy.\n\nd(x):\n    n <- n + 1\n    T[n] <- x\n    s <- n\n    dopoki ((s div 2) >= 1) oraz (T[s] > T[s div 2]) wykonuj\n        pom <- T[s]\n        T[s] <- T[s div 2]\n        T[s div 2] <- pom\n        s <- s div 2\n\nUwaga: w tym zadaniu przyjmujemy, ze:\n- tablica T moze byc powiekszana;\n- jesli wartosc lewego argumentu operatora 'oraz' jest rowna falsz, to wartosc prawego argumentu nie jest wyliczana;\n- div jest operatorem oznaczajacym czesc calkowita z dzielenia.\n\nAlgorytm realizuje wstawianie elementu do kopca binarnego max (sift-up). Element jest dodawany na koniec tablicy, a nastepnie przesuwany w gore kopca, dopoki jest wiekszy od swojego rodzica (T[s div 2]).",
       "podzadania": [
         {
-          "id": "2021.2.1",
+          "id": "2021M.2.1",
           "numer": "2.1",
           "punkty": 2,
           "typ_zadania": "sledzenie_algorytmu",
@@ -97,7 +97,7 @@
           ]
         },
         {
-          "id": "2021.2.2",
+          "id": "2021M.2.2",
           "numer": "2.2",
           "punkty": 2,
           "typ_zadania": "sledzenie_algorytmu",
@@ -113,7 +113,7 @@
           ]
         },
         {
-          "id": "2021.2.3",
+          "id": "2021M.2.3",
           "numer": "2.3",
           "punkty": 2,
           "typ_zadania": "analiza_algorytmu",
@@ -153,7 +153,7 @@
       "kontekst": "Ocen prawdziwosc podanych zdan. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli jest falszowe. W kazdym zadaniu punkt uzyskasz tylko za komplet poprawnych odpowiedzi.",
       "podzadania": [
         {
-          "id": "2021.3.1",
+          "id": "2021M.3.1",
           "numer": "3.1",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -168,7 +168,7 @@
           ]
         },
         {
-          "id": "2021.3.2",
+          "id": "2021M.3.2",
           "numer": "3.2",
           "punkty": 1,
           "typ_zadania": "konwersja_systemow_liczbowych",
@@ -184,7 +184,7 @@
           ]
         },
         {
-          "id": "2021.3.3",
+          "id": "2021M.3.3",
           "numer": "3.3",
           "punkty": 1,
           "typ_zadania": "test_prawda_falsz",
@@ -224,7 +224,7 @@
       "kontekst": "Pewna firma przygotowuje wyswietlanie napisow zlozonych z wielkich liter alfabetu angielskiego. Na poczatku napis jest pusty (nie zawiera liter). W pliku instrukcje.txt podanych jest 2000 instrukcji, ktore wykonuje automat do generowania napisu. Kazda z instrukcji sklada sie z polecenia, spacji oraz pojedynczego znaku. Polecenia sa czterech rodzajow:\n\n- DOPISZ litera -- oznacza, ze na koncu napisu trzeba dopisac pojedyncza litere;\n- ZMIEN litera -- oznacza, ze ostatnia litere aktualnego napisu nalezy zmienic na podana litere (mozesz zalozyc, ze napis jest niepusty);\n- USUN 1 -- oznacza, ze nalezy usunac ostatnia litere aktualnego napisu (mozesz zalozyc, ze napis jest niepusty);\n- PRZESUN litera -- oznacza, ze pierwsze od lewej wystapienie podanej litery w napisie nalezy zamienic na nastepna litere w alfabecie (jesli litera to A, to nalezy zamienic na B, jesli B to na C itd.) Litere Z nalezy zamienic na A. Jesli litera nie wystepuje w napisie, nie nalezy nic robic.\n\nPrzyklad:\nDany jest nastepujacy ciag instrukcji:\nDOPISZ A\nDOPISZ B\nDOPISZ C\nUSUN 1\nDOPISZ D\nZMIEN B\nDOPISZ E\nPRZESUN B\nPo wykonaniu pierwszych trzech instrukcji napis ma postac ABC, potem AB, ABD, ABB, ABBE, wreszcie ostatnia instrukcja zamieni pierwsze B na C, wiec ostatecznie powstaly napis to ACBE.\n\nNapisz program (lub kilka programow), ktory(-e) znajdzie(-da) odpowiedzi na ponizsze pytania. Kazda odpowiedz zapisz w pliku wyniki4.txt i poprzedz ja numerem oznaczajacym zadanie.\nDo dyspozycji masz rowniez plik przyklad.txt, w ktorym znajduje sie tylko 20 instrukcji -- odpowiedzi dla tego pliku podane sa w tresciach zadan, mozesz wiec sprawdzac na nim dzialanie swojego programu. Pamietaj, ze Twoj program musi ostatecznie dzialac dla 2000 instrukcji.",
       "podzadania": [
         {
-          "id": "2021.4.1",
+          "id": "2021M.4.1",
           "numer": "4.1",
           "punkty": 2,
           "typ_zadania": "przetwarzanie_zliczanie",
@@ -239,7 +239,7 @@
           ]
         },
         {
-          "id": "2021.4.2",
+          "id": "2021M.4.2",
           "numer": "4.2",
           "punkty": 2,
           "typ_zadania": "przetwarzanie_napisy",
@@ -254,7 +254,7 @@
           ]
         },
         {
-          "id": "2021.4.3",
+          "id": "2021M.4.3",
           "numer": "4.3",
           "punkty": 3,
           "typ_zadania": "przetwarzanie_zliczanie",
@@ -269,7 +269,7 @@
           ]
         },
         {
-          "id": "2021.4.4",
+          "id": "2021M.4.4",
           "numer": "4.4",
           "punkty": 4,
           "typ_zadania": "przetwarzanie_zlozone",
@@ -312,7 +312,7 @@
       "kontekst": "Wodociagi miejskie zamierzaja wykonac analize zuzycia wody. W tym celu zgromadzily dane o poborze wody przez wszystkich swoich klientow za rok 2019. Dane sa zapisane w pliku wodociagi.txt. Pierwszy wiersz pliku jest wierszem naglowkowym, a dane rozdzielono srednikami. W kazdym wierszu zapisano informacje dotyczace jednego gospodarstwa domowego jednego klienta: dziesiecioznakowy kod klienta oraz 12 liczb calkowitych oznaczajacych ilosci zuzytej wody w m^3 przez kolejne 12 miesiecy (od stycznia do grudnia).\n\nKod klienta sklada sie z pieciocyfrowego numeru klienta, dwucyfrowej liczby oznaczajacej liczbe osob pozostajacych we wspolnym gospodarstwie domowym oraz trzyliterowego kodu dzielnicy miasta. Kazdy kod klienta jest unikatowy.\n\nFragment pliku wodociagi.txt:\nKodKlienta;I;II;III;IV;V;VI;VII;VIII;IX;X;XI;XII\n0000103WIL;6;6;6;9;6;15;12;12;12;6;9;6\n0000403BEM;6;3;9;9;12;15;15;15;9;6;3;9\n\nKorzystajac z powyzszych danych oraz dostepnych narzedzi informatycznych, wykonaj podane zadania. Wyniki zapisz w pliku tekstowym wyniki5.txt. Odpowiedz poprzedz numerem tego zadania.",
       "podzadania": [
         {
-          "id": "2021.5.1",
+          "id": "2021M.5.1",
           "numer": "5.1",
           "punkty": 3,
           "typ_zadania": "arkusz_agregacja_warunkowa",
@@ -328,7 +328,7 @@
           ]
         },
         {
-          "id": "2021.5.2",
+          "id": "2021M.5.2",
           "numer": "5.2",
           "punkty": 2,
           "typ_zadania": "arkusz_agregacja_warunkowa",
@@ -343,7 +343,7 @@
           ]
         },
         {
-          "id": "2021.5.3",
+          "id": "2021M.5.3",
           "numer": "5.3",
           "punkty": 2,
           "typ_zadania": "arkusz_agregacja_warunkowa",
@@ -358,7 +358,7 @@
           ]
         },
         {
-          "id": "2021.5.4",
+          "id": "2021M.5.4",
           "numer": "5.4",
           "punkty": 4,
           "typ_zadania": "arkusz_symulacja",
@@ -374,7 +374,7 @@
           ]
         },
         {
-          "id": "2021.5.5",
+          "id": "2021M.5.5",
           "numer": "5.5",
           "punkty": 1,
           "typ_zadania": "arkusz_symulacja",
@@ -415,7 +415,7 @@
       "kontekst": "W internetowej grze Bitwa o Kamienna Brame bierze udzial wielu graczy z calego swiata. Kazdy gracz moze budowac roznego rodzaju jednostki (np. robotnikow, piechurów, lucznikow, szpiegow lub magow), ktore moze wykorzystac do budowy wirtualnego ksiestwa lub wystawic do bitwy. Polem gry jest duza plansza, na ktorej kazda jednostka zajmuje pewne miejsce. Kazdy gracz moze miec wiele jednostek, np. kilku robotnikow, drwali, balist i innych.\n\nW plikach gracze.txt, klasy.txt oraz jednostki.txt podano aktualny stan wirtualnej planszy. Dane w tych plikach podane sa w kolejnych wierszach, w kazdym wierszu pola oddzielono znakiem tabulacji. Pierwszy wiersz kazdego z plikow jest wierszem naglowkowym.\n\nPlik gracze.txt zawiera informacje o graczach:\n- id_gracza (unikatowy identyfikator, liczba calkowita naturalna)\n- kraj (kraj pochodzenia)\n- data_dolaczenia (data dolaczenia do gry w formacie rrrr-mm-dd)\n\nPrzyklad:\nid_gracza  kraj             data_dolaczenia\n1          Japonia          2018-02-15\n2          Indie            2017-06-08\n3          Stany Zjednoczone 2019-06-10\n\nW pliku klasy.txt podano klasy jednostek, jakie gracz moze budowac. Kazda klasa jest opisana przez:\n- nazwe klasy jednostek (nazwa)\n- sile (sila), strzal (strzal) oraz magie (magia) -- trzy atrybuty okreslajace zdolnosci jednostek tej klasy\n- szybkosc (szybkosc) -- predkosc poruszania sie jednostek tej klasy\n\nPrzyklad:\nnazwa       sila  strzal  magia  szybkosc\nzwiadowca   8     5       0      25\nlucznik     5     10      0      12\nmag ognia   5     0       15     10\npaladyn     20    0       5      20\n\nW pliku jednostki.txt podano stan planszy, czyli wszystkie jednostki zbudowane przez graczy. Jeden wiersz opisuje jedna jednostke:\n- id_jednostki (unikatowy identyfikator, liczba calkowita naturalna)\n- id_gracza (identyfikator gracza, do ktorego nalezy jednostka)\n- nazwa (nazwa klasy, do ktorej nalezy jednostka)\n- lok_x, lok_y (wspolrzedne x i y jednostki na planszy)\n\nPrzyklad:\nid_jednostki  id_gracza  nazwa     lok_x  lok_y\n1             153        piechur   166    30\n2             60         topornik  36     44\n3             88         drwal     134    88\n4             182        kusznik   3      196\n\nKorzystajac z dostepnych narzedzi informatycznych, wykonaj ponizsze polecenia. Odpowiedzi zapisz w pliku wyniki6.txt, a kazdy podpunkt poprzedz odpowiadajacym mu numerem zadania.",
       "podzadania": [
         {
-          "id": "2021.6.1",
+          "id": "2021M.6.1",
           "numer": "6.1",
           "punkty": 2,
           "typ_zadania": "sql_group_by",
@@ -430,7 +430,7 @@
           ]
         },
         {
-          "id": "2021.6.2",
+          "id": "2021M.6.2",
           "numer": "6.2",
           "punkty": 2,
           "typ_zadania": "sql_join",
@@ -446,7 +446,7 @@
           ]
         },
         {
-          "id": "2021.6.3",
+          "id": "2021M.6.3",
           "numer": "6.3",
           "punkty": 2,
           "typ_zadania": "sql_select_where",
@@ -462,7 +462,7 @@
           ]
         },
         {
-          "id": "2021.6.4",
+          "id": "2021M.6.4",
           "numer": "6.4",
           "punkty": 2,
           "typ_zadania": "sql_group_by",
@@ -478,7 +478,7 @@
           ]
         },
         {
-          "id": "2021.6.5",
+          "id": "2021M.6.5",
           "numer": "6.5",
           "punkty": 4,
           "typ_zadania": "sql_podzapytania",
@@ -516,5 +516,6 @@
         "czasowy_min": 50
       }
     }
-  ]
+  ],
+  "sesja": "maj"
 }

@@ -151,9 +151,9 @@ func TestImportExamFields(t *testing.T) {
 	var id, typZadania, kategoria, tresc, odpowiedz string
 	var rok, numerZadania, punkty int
 	err := db.QueryRow(`SELECT id, rok, numer_zadania, typ_zadania, kategoria, punkty, tresc, odpowiedz
-		FROM data.egzamin WHERE id = '2025.1.1'`).Scan(&id, &rok, &numerZadania, &typZadania, &kategoria, &punkty, &tresc, &odpowiedz)
+		FROM data.egzamin WHERE id = '2025M.1.1'`).Scan(&id, &rok, &numerZadania, &typZadania, &kategoria, &punkty, &tresc, &odpowiedz)
 	if err != nil {
-		t.Fatalf("query 2025.1.1: %v", err)
+		t.Fatalf("query 2025M.1.1: %v", err)
 	}
 
 	if rok != 2025 {
@@ -361,8 +361,8 @@ func TestExerciseExclude(t *testing.T) {
 		WHERE typ_nazwa = 'sql_group_by'
 		AND id NOT IN (SELECT id FROM progress_zrobione)`).Scan(&count)
 
-	if count != 29 { // 30 total - 1 done = 29
-		t.Errorf("expected 29 available, got %d", count)
+	if count != 39 { // 40 total - 1 done = 39
+		t.Errorf("expected 39 available, got %d", count)
 	}
 }
 
@@ -1352,9 +1352,9 @@ func TestExamSaveTransaction(t *testing.T) {
 	}
 
 	tx.Exec(`INSERT OR REPLACE INTO matura_zrobione (id, typ, data, punkty, max_punkty) VALUES (?, ?, ?, ?, ?)`,
-		"2024.1.1", "sledzenie_algorytmu", today, 1, 1)
+		"2024M.1.1", "sledzenie_algorytmu", today, 1, 1)
 	tx.Exec(`INSERT OR REPLACE INTO matura_zrobione (id, typ, data, punkty, max_punkty) VALUES (?, ?, ?, ?, ?)`,
-		"2024.1.2", "sledzenie_algorytmu", today, 2, 2)
+		"2024M.1.2", "sledzenie_algorytmu", today, 2, 2)
 	tx.Exec(`INSERT INTO probne_matury (rok, data, czas_min, wynik_pkt, max_pkt, procent) VALUES (?, ?, ?, ?, ?, ?)`,
 		2024, today, 180, 3, 3, 100.0)
 
@@ -1379,7 +1379,7 @@ func TestExamSaveTransaction(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	tx2.Exec(`INSERT OR REPLACE INTO matura_zrobione (id, typ, data, punkty, max_punkty) VALUES ('2024.2.1', 'test', ?, 1, 1)`, today)
+	tx2.Exec(`INSERT OR REPLACE INTO matura_zrobione (id, typ, data, punkty, max_punkty) VALUES ('2024M.2.1', 'test', ?, 1, 1)`, today)
 	tx2.Exec(`INSERT INTO probne_matury (rok, data, czas_min, wynik_pkt, max_pkt, procent) VALUES (2025, ?, 120, 1, 1, 100.0)`, today)
 	tx2.Rollback()
 
@@ -1407,7 +1407,7 @@ func TestExamSaveAttachedQueryInTx(t *testing.T) {
 
 	// This query must succeed — it reads from the ATTACH'ed data alias
 	var typ string
-	err = tx.QueryRow("SELECT typ_zadania FROM data.egzamin WHERE id = '2024.1.1'").Scan(&typ)
+	err = tx.QueryRow("SELECT typ_zadania FROM data.egzamin WHERE id = '2024M.1.1'").Scan(&typ)
 	if err != nil {
 		t.Fatalf("tx.QueryRow on data.egzamin failed (ATTACH not visible in tx?): %v", err)
 	}
@@ -2477,11 +2477,11 @@ func TestWorkedExampleNotInMatureZrobione(t *testing.T) {
 	db := openTestDB(t, dir)
 
 	// Record a worked example
-	db.Exec("INSERT INTO worked_examples_shown (id, typ, data) VALUES ('2024.1.1', 'sledzenie_algorytmu', '2026-02-19')")
+	db.Exec("INSERT INTO worked_examples_shown (id, typ, data) VALUES ('2024M.1.1', 'sledzenie_algorytmu', '2026-02-19')")
 
 	// It should NOT appear in matura_zrobione
 	var count int
-	db.QueryRow("SELECT COUNT(*) FROM matura_zrobione WHERE id = '2024.1.1'").Scan(&count)
+	db.QueryRow("SELECT COUNT(*) FROM matura_zrobione WHERE id = '2024M.1.1'").Scan(&count)
 	if count != 0 {
 		t.Errorf("worked example appeared in matura_zrobione: count=%d", count)
 	}
@@ -2492,12 +2492,12 @@ func TestWorkedExampleExcludedFromCKEGet(t *testing.T) {
 	db := openTestDB(t, dir)
 
 	// Record a worked example
-	db.Exec("INSERT INTO worked_examples_shown (id, typ, data) VALUES ('2024.1.1', 'sledzenie_algorytmu', '2026-02-19')")
+	db.Exec("INSERT INTO worked_examples_shown (id, typ, data) VALUES ('2024M.1.1', 'sledzenie_algorytmu', '2026-02-19')")
 
 	// cke get query should exclude it
 	var found int
 	db.QueryRow(`SELECT COUNT(*) FROM data.egzamin e
-		WHERE e.id = '2024.1.1'
+		WHERE e.id = '2024M.1.1'
 		AND e.id NOT IN (SELECT id FROM matura_zrobione)
 		AND e.id NOT IN (SELECT id FROM worked_examples_shown)`).Scan(&found)
 	if found != 0 {
@@ -2517,7 +2517,7 @@ func TestCKEStatusSubtractsWorkedExamples(t *testing.T) {
 	}
 
 	// Record a worked example
-	db.Exec("INSERT INTO worked_examples_shown (id, typ, data) VALUES ('2024.1.1', 'sledzenie_algorytmu', '2026-02-19')")
+	db.Exec("INSERT INTO worked_examples_shown (id, typ, data) VALUES ('2024M.1.1', 'sledzenie_algorytmu', '2026-02-19')")
 
 	// Simulate the cke status query logic
 	var done int
@@ -2539,11 +2539,11 @@ func TestWorkedExampleDedup(t *testing.T) {
 	db := openTestDB(t, dir)
 
 	// Insert same example twice
-	db.Exec("INSERT OR IGNORE INTO worked_examples_shown (id, typ, data) VALUES ('2024.1.1', 'sledzenie_algorytmu', '2026-02-19')")
-	db.Exec("INSERT OR IGNORE INTO worked_examples_shown (id, typ, data) VALUES ('2024.1.1', 'sledzenie_algorytmu', '2026-02-20')")
+	db.Exec("INSERT OR IGNORE INTO worked_examples_shown (id, typ, data) VALUES ('2024M.1.1', 'sledzenie_algorytmu', '2026-02-19')")
+	db.Exec("INSERT OR IGNORE INTO worked_examples_shown (id, typ, data) VALUES ('2024M.1.1', 'sledzenie_algorytmu', '2026-02-20')")
 
 	var count int
-	db.QueryRow("SELECT COUNT(*) FROM worked_examples_shown WHERE id = '2024.1.1'").Scan(&count)
+	db.QueryRow("SELECT COUNT(*) FROM worked_examples_shown WHERE id = '2024M.1.1'").Scan(&count)
 	if count != 1 {
 		t.Errorf("expected 1 record after dedup, got %d", count)
 	}
@@ -3317,5 +3317,83 @@ func TestLevenshteinDistance(t *testing.T) {
 		if got != tt.want {
 			t.Errorf("levenshtein(%q, %q) = %d, want %d", tt.a, tt.b, got, tt.want)
 		}
+	}
+}
+
+func TestMigrationV7(t *testing.T) {
+	dir := t.TempDir()
+
+	// Create v6 DB with all required tables
+	progressPath := filepath.Join(dir, "matura_progress.db")
+	db, err := sql.Open("sqlite", progressPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	db.Exec(`CREATE TABLE schema_version (version INTEGER PRIMARY KEY)`)
+	db.Exec(`INSERT INTO schema_version VALUES (6)`)
+	db.Exec(`CREATE TABLE progress_meta (key TEXT PRIMARY KEY, value TEXT)`)
+	db.Exec(`CREATE TABLE progress_typy (typ TEXT PRIMARY KEY, poziom_trudnosci TEXT DEFAULT 'latwe', streak INTEGER DEFAULT 0)`)
+	db.Exec(`CREATE TABLE progress_zrobione (id TEXT PRIMARY KEY, typ TEXT, data TEXT, wynik TEXT, czas_sek INTEGER)`)
+	db.Exec(`CREATE TABLE progress_tagi (tag TEXT PRIMARY KEY, poziom INTEGER DEFAULT 0, nastepna_powtorka TEXT, stability REAL DEFAULT 0, difficulty REAL DEFAULT 5.0, lapses INTEGER DEFAULT 0, reps INTEGER DEFAULT 0, state INTEGER DEFAULT 0, last_review TEXT)`)
+	db.Exec(`CREATE TABLE matura_zrobione (id TEXT PRIMARY KEY, typ TEXT, data TEXT, punkty INTEGER, max_punkty INTEGER)`)
+	db.Exec(`CREATE TABLE probne_matury (id INTEGER PRIMARY KEY AUTOINCREMENT, rok INTEGER, data TEXT, czas_min INTEGER, wynik_pkt INTEGER, max_pkt INTEGER, procent REAL, per_kategoria TEXT, przerwany BOOLEAN DEFAULT 0)`)
+	db.Exec(`CREATE TABLE pulapki_przejrzane (id TEXT PRIMARY KEY, typ TEXT, data TEXT, trafienia INTEGER, total INTEGER)`)
+	db.Exec(`CREATE TABLE progress_bledy (id INTEGER PRIMARY KEY AUTOINCREMENT, exercise_id TEXT NOT NULL, typ TEXT NOT NULL, blad_kod TEXT NOT NULL, blad_opis TEXT, hint_level INTEGER DEFAULT 0, data TEXT NOT NULL)`)
+	db.Exec(`CREATE TABLE worked_examples_shown (id TEXT NOT NULL, typ TEXT NOT NULL, data TEXT, PRIMARY KEY (id, typ))`)
+	db.Exec(`CREATE TABLE active_exercises (exercise_id TEXT PRIMARY KEY, typ TEXT NOT NULL, fetched_at TEXT NOT NULL DEFAULT (datetime('now')), attempt_count INTEGER NOT NULL DEFAULT 0, hint_delay INTEGER NOT NULL DEFAULT 1, hints_fetched INTEGER NOT NULL DEFAULT 0, answer_fetched INTEGER NOT NULL DEFAULT 0)`)
+
+	// Insert old-format matura_zrobione IDs
+	db.Exec(`INSERT INTO matura_zrobione (id, typ, data, punkty, max_punkty) VALUES ('2025.1.1', 'sledzenie_algorytmu', '2026-02-20', 2, 2)`)
+	db.Exec(`INSERT INTO matura_zrobione (id, typ, data, punkty, max_punkty) VALUES ('2024.3.2', 'cyfry_liczby', '2026-02-20', 1, 3)`)
+	// Insert a probne_matury entry (no sesja column yet)
+	db.Exec(`INSERT INTO probne_matury (rok, data, czas_min, wynik_pkt, max_pkt, procent) VALUES (2025, '2026-02-20', 180, 35, 50, 70.0)`)
+	db.Close()
+
+	// Reopen — should migrate to v7
+	db, err = sql.Open("sqlite", progressPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	err = initProgressSchema(db)
+	if err != nil {
+		t.Fatalf("migration v6→v7: %v", err)
+	}
+
+	// Verify IDs have M suffix
+	var id1, id2 string
+	db.QueryRow("SELECT id FROM matura_zrobione WHERE id LIKE '2025M%'").Scan(&id1)
+	db.QueryRow("SELECT id FROM matura_zrobione WHERE id LIKE '2024M%'").Scan(&id2)
+	if id1 != "2025M.1.1" {
+		t.Errorf("expected 2025M.1.1, got %q", id1)
+	}
+	if id2 != "2024M.3.2" {
+		t.Errorf("expected 2024M.3.2, got %q", id2)
+	}
+
+	// Verify no old-format IDs remain
+	var oldCount int
+	db.QueryRow("SELECT COUNT(*) FROM matura_zrobione WHERE id NOT LIKE '____M%'").Scan(&oldCount)
+	if oldCount != 0 {
+		t.Errorf("expected 0 old-format IDs, got %d", oldCount)
+	}
+
+	// Verify probne_matury has sesja column with default 'maj'
+	var sesja string
+	err = db.QueryRow("SELECT sesja FROM probne_matury WHERE rok = 2025").Scan(&sesja)
+	if err != nil {
+		t.Fatalf("sesja column missing: %v", err)
+	}
+	if sesja != "maj" {
+		t.Errorf("expected sesja='maj', got %q", sesja)
+	}
+
+	// Verify schema version is 7
+	var version int
+	db.QueryRow("SELECT version FROM schema_version").Scan(&version)
+	if version != 7 {
+		t.Errorf("expected version 7, got %d", version)
 	}
 }
