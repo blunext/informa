@@ -1,0 +1,439 @@
+{
+  "rok": 2025,
+  "sesja": "czerwiec",
+  "formula": "2023",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 7,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 210,
+      "punkty": 50,
+      "opis": "Jedna czesc (nowa formula)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Funkcja rekurencyjna",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "Zastosowane w ponizszym algorytmie funkcje: skroc, dopisz i ostatnia, przyjmuja jako argument nieujemna liczbe calkowita x.\nWynikiem funkcji skroc(x) jest liczba powstala z x przez usuniecie najmniej znaczacej cyfry w jej zapisie dziesietnym. Jesli x jest liczba jednocyfrowa, wtedy skroc(x) = 0. Przyklady: skroc(249) = 24, skroc(87) = 8, skroc(5) = 0.\nWynikiem funkcji dopisz(x) jest liczba, ktorej zapis dziesietny powstaje z zapisu dziesietnego liczby x przez dopisanie jako najmniej znaczacej cyfry 0. Dla liczby 0 przyjmujemy dopisz(0) = 0. Przyklad: dopisz(29) = 290.\nWynikiem funkcji ostatnia(x) jest liczba -- wartosc najmniej znaczacej cyfry zapisu dziesietnego liczby x. Przyklad: ostatnia(307) = 7.\n\nDana jest funkcja f(a, b), ktora przyjmuje jako argumenty dwie nieujemne liczby calkowite, a jej wynikiem jest nieujemna liczba calkowita:\n\nf(a, b):\n    jezeli b = 0\n        wynik 0\n        zakoncz\n    k <- ostatnia(b)\n    w <- f(a, skroc(b))\n    w <- dopisz(w)\n    dopoki k > 0 powtarzaj\n        w <- w + a\n        k <- k - 1\n    wynik w",
+      "wymiary": {
+        "czasowy_min": 15,
+        "zlozonosc": 2,
+        "trudnosc": 2
+      },
+      "podzadania": [
+        {
+          "id": "2025C.1.1",
+          "numer": "1.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1. (0-2)\nUzupelnij tabele -- wpisz w ostatniej kolumnie wynik funkcji f(a, b) dla podanych wartosci argumentow a i b.\n\n| a | b | f(a, b) |\n|---|---|---|\n| 42 | 2 | |\n| 4 | 125 | |\n| 103 | 104 | |",
+          "odpowiedz": "| a | b | f(a, b) |\n|---|---|---|\n| 42 | 2 | 84 |\n| 4 | 125 | 500 |\n| 103 | 104 | 10712 |",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz poprawna dla dwoch wierszy.\n0 pkt -- odpowiedz niepelna lub niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Funkcja f implementuje mnozenie pisemne -- f(a,b) = a*b, ale trzeba to przesledzicc rekurencyjnie",
+            "dopisz(w) mnozy przez 10, a petla dodaje a*k razy -- laczy sie w mnozenie przez cyfre",
+            "Przypadek f(103, 104): 103*104 = 10712, latwo o blad rachunkowy"
+          ]
+        },
+        {
+          "id": "2025C.1.2",
+          "numer": "1.2",
+          "punkty": 1,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2. (0-1)\nIle razy lacznie zostanie wywolana funkcja f, jesli pierwszym wywolaniem bedzie f(987654321, 123456789)?",
+          "odpowiedz": "10",
+          "zasady_oceniania": "1 pkt -- odpowiedz poprawna.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Liczba wywolan = liczba cyfr b + 1 (kazda rekurencja skraca b o jedna cyfre, plus wywolanie bazowe gdy b=0)",
+            "b = 123456789 ma 9 cyfr, wiec 9+1 = 10 wywolan"
+          ]
+        },
+        {
+          "id": "2025C.1.3",
+          "numer": "1.3",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.3. (0-2)\nIle razy lacznie zostanie wykonana instrukcja w <- w + a, jesli pierwszym wywolaniem bedzie:\n\na) f(2024, 1000)\nb) f(2024, 1234)",
+          "odpowiedz": "a) 1\nb) 10",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz poprawna dla punktu a) ALBO b).\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "w <- w + a wykonuje sie tyle razy ile wynosi suma cyfr b",
+            "f(2024, 1000): suma cyfr 1000 = 1, wiec 1 wykonanie",
+            "f(2024, 1234): suma cyfr 1234 = 1+2+3+4 = 10 wykonan",
+            "Cyfry 0 w b nie generuja wykonan petli (k=0, petla sie nie wykonuje)"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 2,
+      "tytul": "Liczby",
+      "punkty": 10,
+      "czesc": 1,
+      "kontekst": "W tym zadaniu rozpatrujemy operacje ciecia zdefiniowana dla dodatnich liczb calkowitych wiekszych lub rownych 10. Operacja polega na podziale zapisu dziesietnego liczby na dwa niepuste zapisy.\nPrzyklad: Dla liczby 14379 mozliwe ciecia to: 1 i 4379, 14 i 379, 143 i 79, 1437 i 9.\nDla liczby 2302 mozliwe ciecia to: 2 i 302, 23 i 02 (czyli 23 i 2 -- wartosc liczbowa zapisu \"02\" to 2), 230 i 2.",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2025_czerwiec/dane_PR/",
+      "pliki_danych": ["liczby1.txt", "liczby1_przyklad.txt", "liczby2.txt", "liczby2_przyklad.txt"],
+      "wymiary": {
+        "czasowy_min": 40,
+        "zlozonosc": 3,
+        "trudnosc": 3
+      },
+      "podzadania": [
+        {
+          "id": "2025C.2.1",
+          "numer": "2.1",
+          "punkty": 4,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1. (0-4)\nNiech k bedzie dodatnia liczba calkowita, ktorej zapis dziesietny sklada sie z parzystej liczby cyfr. Na zapisie dziesietnym liczby k wykonujemy operacje ciecia na polowe. Powstaja wtedy zapisy dwoch liczb a i b: pierwszy (liczba a), o dlugosci rownej polowie dlugosci zapisu k, zlozony z cyfr nalezacych do lewej strony tego zapisu, i drugi (liczba b) -- zlozony z cyfr z prawej strony zapisu.\n\nNapisz w pseudojezyku lub wybranym jezyku programowania algorytm, ktory dla danej liczby k, ktorej zapis dziesietny sklada sie z parzystej liczby cyfr, obliczy liczby a i b powstale po wykonaniu operacji ciecia na polowe zapisu dziesietnego liczby k.\n\nPrzyklad:\nDla k = 123456 otrzymamy a = 123 i b = 456\nDla k = 120056 otrzymamy a = 120 i b = 56\n\nUwaga: Twoj algorytm moze uzywac wylacznie zmiennych przechowujacych liczby calkowite oraz moze operowac wylacznie na liczbach calkowitych. W zapisie mozesz wykorzystac tylko operacje arytmetyczne: dodawanie, odejmowanie, mnozenie, dzielenie, dzielenie calkowite, reszte z dzielenia oraz porownywanie liczb, instrukcje sterujace, przypisania do zmiennych lub samodzielnie napisane funkcje, wykorzystujace wyzej wymienione operacje. Zabronione jest uzywanie funkcji wbudowanych oraz operatorow i typow innych niz wymienione (w tym -- tablic i list).\n\nSpecyfikacja:\nDane\n    k -- dodatnia liczba calkowita o zapisie dziesietnym skladajacym sie z parzystej liczby cyfr\nWynik\n    a, b -- liczby, powstale w wyniku ciecia na polowe zapisu liczby k",
+          "odpowiedz": "Rozwiazanie 1 (pseudokod):\ndlugosc <- 0\nx <- k\ndopoki (x > 0)\n    x <- x div 10\n    dlugosc <- dlugosc + 1\npotega <- 1\nb <- 0\ndla i = 1, 2, ..., dlugosc div 2\n    b <- b + potega * (k mod 10)\n    k <- k div 10\n    potega <- potega * 10\na <- k\n\nRozwiazanie 2 (Python):\ndlugosc = 0\nx = k\nwhile x > 0:\n    dlugosc += 1\n    x = x//10\n\nileZer = 1\ni = 0\nwhile i < dlugosc//2:\n    ileZer = ileZer*10\n    i += 1\n\na = k // ileZer\nb = k % ileZer",
+          "zasady_oceniania": "4 pkt -- odpowiedz poprawna, w tym:\n    3 pkt za otrzymanie liczby b -- z prawej czesci zapisu, w tym:\n        1 pkt za obliczenie dlugosci zapisu,\n        1 pkt za poprawne pobieranie kolejnych cyfr,\n        1 pkt za otrzymanie poprawnej liczby,\n    1 pkt za otrzymanie liczby a -- z lewej czesci napisu.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Trzeba obsluzyc przypadek z zerami w srodku (np. 120056 -> a=120, b=56)",
+            "Dlugosc zapisu trzeba obliczyc arytmetycznie (div 10 w petli), nie mozna uzywac stringow",
+            "Latwo pomylic kolejnosc cyfr przy budowaniu b z prawej strony"
+          ]
+        },
+        {
+          "id": "2025C.2.2",
+          "numer": "2.2",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 2.2. (0-3)\nNiech k bedzie dodatnia liczba calkowita, ktorej zapis dziesietny sklada sie z parzystej liczby cyfr. Liczbe k nazwiemy polowicznie wzglednie pierwsza, gdy najwiekszy wspolny dzielnik liczb powstalych przez ciecie na polowe zapisu dziesietnego liczby k jest rowny 1.\n\nPrzyklad:\nLiczba 3487 (34|87) jest polowicznie wzglednie pierwsza, poniewaz najwiekszy wspolny dzielnik liczb 34 i 87 jest rowny 1.\nLiczba 230095 (230|095) nie jest polowicznie wzglednie pierwsza, poniewaz najwiekszy wspolny dzielnik liczb 230 i 95 jest rowny 5.\n\nPlik liczby1.txt zawiera 500 dodatnich liczb calkowitych skladajacych sie z 4, 6 lub 8 cyfr. Kazda liczba zapisana jest w osobnym wierszu.\n\nNapisz program, ktory wyznaczy liczbe liczb polowicznie wzglednie pierwszych zapisanych w pliku liczby1.txt. Odpowiedz zapisz w pliku wyniki2_2.txt.\n\nPlik liczby1_przyklad.txt zawiera 50 liczb spelniajacych warunki zadania. Dla danych zawartych w pliku liczby1_przyklad.txt prawidlowa odpowiedzia jest: 28",
+          "odpowiedz": "296",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna.\n2 pkt -- za otrzymanie poprawnego wyniku dla liczb: 4 i 6 albo 4 i 8 albo 6 i 8 cyfrowych.\n1 pkt -- za otrzymanie poprawnego wyniku dla liczb: 4 albo 6 albo 8 cyfrowych.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Ciecie na polowe: trzeba obsluzyc rozne dlugosci (4, 6, 8 cyfr)",
+            "Zera wiodace w drugiej polowie (np. 230095 -> 230 i 095=95)",
+            "NWD musi byc poprawnie zaimplementowany (algorytm Euklidesa)"
+          ]
+        },
+        {
+          "id": "2025C.2.3",
+          "numer": "2.3",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 2.3. (0-3)\nNiech n bedzie dodatnia liczba calkowita wieksza lub rowna 10. Bedziemy rozpatrywac wszystkie mozliwe operacje ciecia liczby n^2. Zliczamy w ilu z tych ciec suma powstalych liczb jest mniejsza lub rowna n. Liczbe ciec n^2 takich, ze suma powstalych liczb jest mniejsza lub rowna n, nazwiemy stopniem Kaprekara liczby n.\n\nPrzyklad:\nDla liczby 89 -- jest 0 takich ciec, poniewaz 89^2 = 7921 i zadna z sum ciec nie jest <= 89.\nDla liczby 2757 -- stopien Kaprekara jest rowny 2, poniewaz 2757^2 = 7601049 i sa 2 ciecia spelniajace warunek: 760|1049 (760+1049=1809<=2757) oraz 76|01049 (76+1049=1125<=2757).\n\nPlik liczby2.txt zawiera 1000 liczb calkowitych z przedzialu [10, 30000]. Napisz program, ktory wyznaczy najwiekszy stopien Kaprekara dla liczb z pliku liczby2.txt oraz poda liczbe, ktora ma taki stopien. Jest tylko jedna taka liczba. Odpowiedz zapisz w pliku wyniki2_3.txt.\n\nPlik liczby2_przyklad.txt zawiera 100 wierszy z danymi spelniajacymi warunki zadania. Dla danych zawartych w pliku liczby2_przyklad.txt prawidlowa odpowiedz to:\n2\n2168",
+          "odpowiedz": "4\n7746",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna, w tym:\n    2 pkt -- za stopien,\n    1 pkt -- za liczbe.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "n^2 moze miec rozna liczbe cyfr -- trzeba rozpatrzec wszystkie mozliwe ciecia",
+            "Zera wiodace w drugiej czesci ciecia (np. 7601|049 = 7601 + 49)",
+            "Dla n=30000 n^2=900000000 -- trzeba uzywac odpowiednio duzych typow calkowitych",
+            "Trzeba znalezc maksymalny stopien i odpowiadajaca mu liczbe, nie tylko jakikolwiek stopien > 0"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 3,
+      "tytul": "Ukryte numery",
+      "punkty": 12,
+      "czesc": 1,
+      "kontekst": "Plik dane.txt zawiera jeden napis zbudowany z 10 000 znakow (o kodach ASCII od 33 do 126), posrod ktorych ukryte sa liczby. Liczba ukryta w tym ciagu to co najmniej jednoelementowy ciag cyfr, przed ktorym i po ktorym nie wystepuje znak bedacy cyfra.\nPrzyklad: W ciagu 356xv@@4vdfvdfD#$%@@#245 sa ukryte 3 liczby: 356, 4 oraz 245.\n\nPlik dane_przyklad.txt zawiera przykladowe dane -- jeden napis zbudowany z 200 znakow. Odpowiedzi dla tego pliku sa podane po kazdym zadaniu.\n\nNapisz program (lub kilka programow) znajdujacy(-ch) odpowiedzi do podanych zadan. Odpowiedzi zapisz odpowiednio w oddzielnych plikach: wyniki3_1.txt, wyniki3_2.txt, wyniki3_3.txt, wyniki3_4.txt.\n\nUwaga: Pamietaj, ze Twoj program musi ostatecznie dzialac na pliku dane.txt zawierajacym 10 000 znakow.\n\nInformacja do zadan 3.3 i 3.4: Numerem telefonu bedziemy nazywac 9-elementowy ciag cyfr, przed ktorym i po ktorym nie wystepuje znak bedacy cyfra.",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2025_czerwiec/dane_PR/",
+      "pliki_danych": ["dane.txt", "dane_przyklad.txt"],
+      "wymiary": {
+        "czasowy_min": 40,
+        "zlozonosc": 2,
+        "trudnosc": 2
+      },
+      "podzadania": [
+        {
+          "id": "2025C.3.1",
+          "numer": "3.1",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.1. (0-3)\nPodaj, ile liczb zapisanych w pliku dane.txt zaczyna sie od ciagu cyfr 50. Jezeli ta sama liczba wystepuje kilkukrotnie, policz kazde jej wystapienie.\n\nPrzyklad:\nW ciagu znakow fs@dx+cd52505050VfF^&x5 nie ma liczby zaczynajacej sie od 50.\nW ciagu znakow fs@dx+cd50450505VfF^&x50 sa 2 liczby zaczynajace sie od 50 (50450505 oraz 50).\n\nDla pliku dane_przyklad.txt poprawna odpowiedzia jest: 2",
+          "odpowiedz": "4",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna.\n2 pkt -- za podanie prawidlowej liczby wystapien 50 na koncu liczby (5).\n1 pkt -- za podanie prawidlowej liczby wystapien ciagu \"50\" (31).\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Liczymy liczby zaczynajace sie od '50', nie wystapienia podciagu '50'",
+            "Liczba musi byc maksymalnym ciagiem cyfr (nie moze byc cyfra przed '50')",
+            "52505050 NIE zaczyna sie od 50 -- zaczyna sie od 5, nie od 50"
+          ]
+        },
+        {
+          "id": "2025C.3.2",
+          "numer": "3.2",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.2. (0-3)\nPodaj najczesciej wystepujaca cyfre w pliku dane.txt oraz liczbe jej wystapien. W pliku jest jedna taka cyfra.\n\nDla pliku dane_przyklad.txt poprawna odpowiedzia jest:\n0 17\n(cyfra 0, ktora wystapila 17 razy)",
+          "odpowiedz": "1 342\n(Cyfra 1, wystapila 342 razy)",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna.\n2 pkt -- za zestawienie liczb wystapien wszystkich cyfr, bez wskazania cyfry najczesciej wystepujacej.\n1 pkt -- za podanie jedynie najczesciej wystepujacej cyfry (1) bez liczby jej wystapienia.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Liczymy wystapienia cyfr we WSZYSTKICH znakach, nie tylko w ukrytych liczbach",
+            "Trzeba zliczac kazda z 10 cyfr osobno i znalezc maksimum"
+          ]
+        },
+        {
+          "id": "2025C.3.3",
+          "numer": "3.3",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.3. (0-3)\nZnajdz i wypisz wszystkie numery telefonow zaczynajace sie od cyfry 5 z pliku dane.txt w kolejnosci ich wystepowania w tym pliku.\n\nDla pliku dane_przyklad.txt odpowiedzia jest:\n577050221\n(w tym pliku jest tylko jeden taki numer telefonu).",
+          "odpowiedz": "588095244\n593151643\n583327270\n565269349\n583672019\n506585224\n574489008\n587103844\n510672749\n529135372\n515437684\n589477488",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna.\n2 pkt -- za podanie wszystkich numerow telefonow (160).\n1 pkt -- za podanie w odpowiedzi wszystkich ciagow cyfr 7 albo 10 znakowych.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Numer telefonu to dokladnie 9-cyfrowy ciag -- nie 8, nie 10 cyfr",
+            "Przed i po numerze nie moze byc cyfry (numer musi byc maksymalnym 9-cyfrowym ciagiem)",
+            "Filtr: tylko numery zaczynajace sie od cyfry 5"
+          ]
+        },
+        {
+          "id": "2025C.3.4",
+          "numer": "3.4",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.4. (0-3)\nSposrod wszystkich numerow telefonow podaj te, ktore skladaja sie z najmniejszej liczby roznych cyfr.\n\nDla pliku dane_przyklad.txt odpowiedzia jest:\n303004411\n(sklada sie z 4 roznych cyfr: 0, 1, 3, 4)",
+          "odpowiedz": "050525250\n033035335",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna.\n2 pkt -- podanie jednego z dwoch poprawnych ciagow.\n1 pkt -- podanie w odpowiedzi telefonu skladajacego sie z najwiekszej liczby cyfr (9 roznych cyfr).\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba znalezc MINIMUM roznych cyfr wsrod WSZYSTKICH numerow telefonow, nie tylko tych z cyfra 5",
+            "Moze byc wiecej niz jeden numer z minimalna liczba roznych cyfr",
+            "Numer 050525250 ma tylko 3 rozne cyfry (0, 2, 5)"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 4,
+      "tytul": "Prawda/Falsz -- formaty graficzne",
+      "punkty": 1,
+      "czesc": 1,
+      "wymiary": {
+        "czasowy_min": 3,
+        "zlozonosc": 1,
+        "trudnosc": 1
+      },
+      "podzadania": [
+        {
+          "id": "2025C.4.1",
+          "numer": "4",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 4. (0-1)\nOcen prawdziwosc podanych zdan. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli jest falszywe.\n\n| Nr | Zdanie | P | F |\n|---|---|---|---|\n| 1. | W pliku w formacie GIF zapiszemy obraz w 16 milionach kolorow bez utraty informacji o nich. | | |\n| 2. | W plikach w formacie JPG sa wykorzystywane metody kompresji danych. | | |\n| 3. | Format JPG obsluguje przezroczyste tla obrazow. | | |",
+          "odpowiedz": "1. F\n2. P\n3. F",
+          "zasady_oceniania": "1 pkt -- odpowiedz poprawna.\n0 pkt -- odpowiedz niepelna lub niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "GIF obsluguje max 256 kolorow (8-bit paleta), nie 16 milionow -- 1. jest falszywe",
+            "JPG uzywa kompresji stratnej (JPEG/DCT) -- 2. jest prawdziwe",
+            "JPG nie obsluguje przezroczystosci (to cecha GIF i PNG) -- 3. jest falszywe"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 5,
+      "tytul": "System trojkowy",
+      "punkty": 2,
+      "czesc": 1,
+      "wymiary": {
+        "czasowy_min": 5,
+        "zlozonosc": 1,
+        "trudnosc": 1
+      },
+      "podzadania": [
+        {
+          "id": "2025C.5.1",
+          "numer": "5",
+          "punkty": 2,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 5. (0-2)\nPonizej sposobem pisemnym dodano dwie liczby zapisane w systemie trojkowym. Uzupelnij brakujace cyfry tak, aby dzialanie bylo wykonane poprawnie.\n\n  1 2 _ 1 2\n+ 2 1 1 0 2\n---------\n1 1 _ 2 _ _",
+          "odpowiedz": "  1 2 1 1 2\n+ 2 1 1 0 2\n---------\n1 1 0 2 2 1",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz z jednym bledem.\n0 pkt -- odpowiedz niepelna lub niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "W systemie trojkowym cyfry to 0, 1, 2 -- przeniesienie nastepuje przy sumie >= 3",
+            "Trzeba uwzglednic przeniesienia z kazdej pozycji",
+            "Cztery brakujace cyfry do uzupelnienia"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 6,
+      "tytul": "Fotowoltaika",
+      "punkty": 10,
+      "czesc": 1,
+      "kontekst": "Pan Iksinski zalozyl panele fotowoltaiczne i przez rok monitorowal wykorzystanie energii w swoim gospodarstwie domowym. Prad wytworzony przez panele jest zuzywany na biezace potrzeby gospodarstwa domowego, a jego nadmiar jest przesylany do zakladu energetycznego. W razie braku wystarczajacej ilosci energii pochodzacej z paneli (np. w godzinach nocnych lub przy pochmurnej pogodzie) energia jest pobierana z zakladu energetycznego.\n\nW kolejnych wierszach pliku fotowoltaika.txt sa zawarte nastepujace informacje, rozdzielone znakami tabulacji:\ndata -- data pomiaru\nwsch -- godzina wschodu slonca\nzach -- godzina zachodu slonca\nst_zach -- stopien zachmurzenia (liczba calkowita od 0 do 8, przy czym liczba 0 oznacza brak zachmurzenia, natomiast liczba 8 -- calkowite zachmurzenie)\nprodukcja -- energia wyprodukowana przez cala dobe przez panele fotowoltaiczne (w kWh)\noddanie -- energia oddana do zakladu energetycznego przez cala dobe (w kWh)\npobranie -- energia pobrana z zakladu energetycznego przez cala dobe (w kWh).",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2025_czerwiec/dane_PR/",
+      "pliki_danych": ["fotowoltaika.txt"],
+      "wymiary": {
+        "czasowy_min": 40,
+        "zlozonosc": 2,
+        "trudnosc": 2
+      },
+      "podzadania": [
+        {
+          "id": "2025C.6.1",
+          "numer": "6.1",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_podstawowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 6.1. (0-2)\nPodaj, ile energii lacznie (w kWh) zuzyl pan Iksinski przez caly rok 2022. Uzywana energia to suma energii pobranej z zakladu energetycznego i energii wyprodukowanej przez pana Iksinskiego pomniejszonej o ilosc oddana do zakladu energetycznego.\n\nUwaga: Przez caly styczen pan Iksinski zuzyl 162,68 kWh.",
+          "odpowiedz": "2715,32",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz otrzymana w wyniku pominiecia jednej z danych (oddawania energii albo pobierania z zakladu).\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Zuzycie = produkcja - oddanie + pobranie (nie sama produkcja!)",
+            "Trzeba zsumowac dla calego roku 2022 (365 wierszy)",
+            "Wartosc kontrolna: styczen = 162,68 kWh -- mozna zweryfikowac"
+          ]
+        },
+        {
+          "id": "2025C.6.2",
+          "numer": "6.2",
+          "punkty": 2,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 6.2. (0-2)\nZnajdz najdluzszy ciag kolejnych dni roku, w ktorych stopien zachmurzenia nie wzrastal w stosunku do dnia poprzedniego i jednoczesnie wartosc wyprodukowanej energii nie malala w stosunku do dnia poprzedniego. Podaj dlugosc tego ciagu oraz date pierwszego dnia tego ciagu. Jest tylko jeden taki ciag.",
+          "odpowiedz": "6\n2022-05-26",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- za dlugosc ciagu,\n    1 pkt -- za date.\n1 pkt -- za odpowiedz 7 i 2022-05-25\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Dwa warunki jednoczesnie: zachmurzenie <= poprzedni ORAZ produkcja >= poprzednia",
+            "Dlugosc ciagu to liczba dni w ciagu, nie liczba przejsc (6 dni, nie 5 przejsc)",
+            "Alternatywna odpowiedz 7/2022-05-25 uznawana za czesciowo poprawna -- rozna interpretacja 'ciagu'"
+          ]
+        },
+        {
+          "id": "2025C.6.3",
+          "numer": "6.3",
+          "punkty": 3,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 6.3. (0-3)\nDla kazdego dnia oblicz czas naslonecznienia w godzinach (czyli czas od wschodu do zachodu slonca). Wynik zaokraglij w dol do liczby calkowitej.\n\nUtworz zestawienie, w ktorym dla kazdej liczby godzin naslonecznienia podasz srednie ilosci wyprodukowanej energii, oddanej energii i pobranej energii. Na podstawie wykonanego zestawienia utworz wykres liniowy porownujacy te wartosci w calym roku. Pamietaj o czytelnym opisie wykresu (tytul, legenda, tytuly osi).",
+          "odpowiedz": "| Liczba godzin | Srednia z produkcja | Srednia z oddanie | Srednia z pobranie |\n|---|---|---|---|\n| 7 | 2,88516129 | 1,086774194 | 4,924516129 |\n| 8 | 3,848085106 | 1,653191489 | 3,385319149 |\n| 9 | 5,400606061 | 2,559090909 | 3,103333333 |\n| 10 | 6,936666667 | 3,020333333 | 2,818 |\n| 11 | 7,154 | 3,481666667 | 2,626333333 |\n| 12 | 11,32266667 | 5,400666667 | 2,658333333 |\n| 13 | 12,23225806 | 6,347419355 | 2,497419355 |\n| 14 | 10,97548387 | 5,513548387 | 2,507741935 |\n| 15 | 13,20810811 | 6,69972973 | 2,444594595 |\n| 16 | 12,59261538 | 6,740615385 | 2,792461538 |\n\nWykres liniowy z trzema seriami danych (produkcja, oddanie, pobranie) w funkcji liczby godzin naslonecznienia.",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- za poprawne zestawienie,\n    1 pkt -- za prawidlowy dobor danych i typ wykresu,\n    1 pkt -- za poprawny opis wykresu i osi (tytul, legenda, tytuly osi, liczby godzin na osi X).\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Czas naslonecznienia w godzinach -- trzeba obliczyc roznice czasu zachodu i wschodu, zaokraglic w dol",
+            "Grupowanie po calkowitej liczbie godzin, nie po dokladnym czasie",
+            "Wykres musi byc liniowy (nie slupkowy), z trzema seriami danych"
+          ]
+        },
+        {
+          "id": "2025C.6.4",
+          "numer": "6.4",
+          "punkty": 3,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 6.4. (0-3)\nZa mozliwosc przeslania wytworzonej, ale niewykorzystanej energii do zakladu energetycznego i pozniejszego jej pobrania w dowolnym momencie przez gospodarstwo domowe zaklad energetyczny pobiera prowizje wynoszaca 20% energii przeslanej przez gospodarstwo.\n\nPrzyklad: Jezeli pan Iksinski przesle do zakladu 1 kWh energii, to moze pobrac bez oplat 0,8 kWh, gdy bedzie tego potrzebowal.\n\nZakladamy, ze na poczatku okresu rozliczeniowego przed 1 stycznia 2022 pan Iksinski mial na swoim koncie w zakladzie (czyli mozliwej do odebrania energii) 100 kWh. Przy danych z zadania ta wartosc powoduje, ze zadnego dnia 2022 roku panu Iksiskiemu nie zabraknie energii (czyli stan konta nie spadnie ponizej 0).\n\na) Po uwzglednieniu powyzszych informacji oraz przesylanej energii do zakladu i odbieranej z zakladu kazdego dnia podaj, ile bylo takich dni w 2022 roku, w ktorych pan Iksinski mial na swoim koncie w zakladzie mniej niz 50 kWh.\n\nUwaga: Pamietaj, ze jesli pan Iksinski przesyla do zakladu 1 kWh, to na jego konto trafia 0,8 kWh energii.\n\nb) Jaki powinien byc minimalny poczatkowy stan konta (stan przed 1 stycznia 2022), aby pan Iksinski mial mozliwosc odbierania energii z zakladu energetycznego, bez potrzeby jej dokupowania? Wynik podaj zaokraglony w gore do liczby calkowitej.\n\nUwaga: Przy poczatkowym stanie sumarycznie przeslanej energii w ilosci 100 kWh pan Iksinski mogl na koniec dnia 31.01.2022 odebrac 78,634 kWh.",
+          "odpowiedz": "a) 71\nb) 67",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- za liczbe dni,\n    2 pkt -- za ilosc energii.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Prowizja 20% -- oddanie * 0.8 trafia na konto, nie oddanie * 1.0",
+            "Stan konta = stan_poprzedni + oddanie*0.8 - pobranie (codziennie)",
+            "Czesc a): liczymy dni gdzie stan < 50, nie <= 50",
+            "Czesc b): szukamy minimum poczatkowego stanu, przy ktorym konto nigdy nie spada ponizej 0",
+            "Zaokraglenie w gore do liczby calkowitej (ceil)"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 7,
+      "tytul": "Fryzjerzy",
+      "punkty": 10,
+      "czesc": 1,
+      "kontekst": "W czterech plikach tekstowych zapisano dane dotyczace wizyt klientow w salonie fryzjerskim. Pierwszy wiersz kazdego z plikow jest wierszem naglowkowym, a dane w plikach sa rozdzielone znakiem tabulacji i sa zapisane bez polskich znakow.\n\nPlik klienci.txt zawiera dane 400 klientow salonu fryzjerskiego:\nid_klienta -- identyfikator klienta\nimie -- imie klienta\nnazwisko -- nazwisko klienta\nemeryt -- informacja o tym, czy klient jest emerytem (TAK/NIE)\n\nPlik fryzjerzy.txt zawiera dane fryzjerow pracujacych w salonie:\nid_fryzjera -- identyfikator fryzjera\nimie -- imie fryzjera\n\nPlik uslugi.txt zawiera nazwy uslug fryzjerskich realizowanych przez salon:\nid_uslugi -- identyfikator uslugi\nnazwa -- nazwa uslugi\ncena -- cena uslugi (w zl.)\n\nPlik wizyty.txt zawiera wykaz zrealizowanych uslug fryzjerskich:\nid_wizyty -- identyfikator wizyty\nid_klienta -- identyfikator klienta korzystajacego z uslugi\nid_fryzjera -- identyfikator fryzjera, ktory realizowal usluge\nid_uslugi -- identyfikator uslugi\ntermin -- data i godzina rozpoczecia uslugi",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2025_czerwiec/dane_PR/",
+      "pliki_danych": ["klienci.txt", "fryzjerzy.txt", "uslugi.txt", "wizyty.txt"],
+      "wymiary": {
+        "czasowy_min": 40,
+        "zlozonosc": 2,
+        "trudnosc": 2
+      },
+      "podzadania": [
+        {
+          "id": "2025C.7.1",
+          "numer": "7.1",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 7.1. (0-2)\nPodaj imie i nazwisko osoby, ktora wydala najwiecej na uslugi fryzjerskie. Podaj rowniez sume jej wydatkow.",
+          "odpowiedz": "Marta Jasczyk 4846",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- za imie i nazwisko,\n    1 pkt -- za sume.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba polaczyc tabele wizyty, uslugi (cena) i klienci (imie, nazwisko)",
+            "Suma wydatkow per klient, potem znalezc maksimum"
+          ]
+        },
+        {
+          "id": "2025C.7.2",
+          "numer": "7.2",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 7.2. (0-2)\nPodaj identyfikatory oraz imiona i nazwiska tych klientow, ktorzy co najmniej jeden raz skorzystali z uslug fryzjera o takim samym imieniu jak ten klient. Otrzymane zestawienie uporzadkuj alfabetycznie wedlug imion.",
+          "odpowiedz": "imie nazwisko id_klienta\nAnna Dymek K358\nAnna Mason K151\nAnna Wiatr K052\nBarbara Wroblewska K275\nGrzegorz Sikora K045\nHanna Mazur K227\nKrzysztof Orlik K224\nKrzysztof Szostak K164\nMarcin Ozga K221\nMarek Sitko K374\nMateusz Szymczyk K277\nNatalia Chwiszczuk K137\nNatalia Kejza K282",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- zestawienie z pominieciem jednego pola (id_klienta, imienia lub nazwiska) albo brak sortowania.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba porownac imie klienta (z klienci.txt) z imieniem fryzjera (z fryzjerzy.txt) przez tabele wizyty",
+            "Klient mogl korzystac z tego samego fryzjera wielokrotnie -- wystarczy 'co najmniej raz'",
+            "Sortowanie alfabetyczne wedlug imion, nie wedlug id"
+          ]
+        },
+        {
+          "id": "2025C.7.3",
+          "numer": "7.3",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 7.3. (0-2)\nCodziennie w godzinach 10:00-12:00 emeryci otrzymuja 10% rabatu na wszystkie uslugi. Rabat przysluguje, gdy usluga rozpoczela sie w godzinach 10:00-12:00 wlacznie. Podaj laczna sume udzielonych rabatow.",
+          "odpowiedz": "1848,6",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- za odpowiedz wynikajaca z blednie wyliczonych godzin obowiazywania rabatow albo bez uwzglednienia, ze rabaty obowiazuja tylko emerytow.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Rabat TYLKO dla emerytow (emeryt='TAK'), nie dla wszystkich klientow",
+            "Godziny 10:00-12:00 wlacznie (>= 10:00 i <= 12:00)",
+            "Rabat = 10% ceny uslugi, trzeba zsumowac wszystkie rabaty",
+            "Godzina rozpoczecia uslugi jest w polu termin (format: YYYY-MM-DD HH:MM)"
+          ]
+        },
+        {
+          "id": "2025C.7.4",
+          "numer": "7.4",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 7.4. (0-2)\nPodaj identyfikatory i imiona tych fryzjerow, ktorzy pracowali w kwietniu, ale nie wykonali w tym miesiacu uslugi o nazwie Strzyzenie meskie.",
+          "odpowiedz": "F02 Natalia\nF03 Krzysztof\nF04 Grzegorz\nF07 Kamila\nF08 Aneta\nF10 Bartosz\nF18 Kalina",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna, w tym\n    1 pkt -- za identyfikatory,\n    1 pkt -- za imiona.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Fryzjer musi pracowac w kwietniu (miec jakiekolwiek wizyty) ALE nie wykonac konkretnej uslugi",
+            "Trzeba polaczyc wizyty z uslugi aby sprawdzic nazwe uslugi",
+            "Kwiecien = miesiac 04 w polu termin"
+          ]
+        },
+        {
+          "id": "2025C.7.5",
+          "numer": "7.5",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 7.5. (0-2)\nZaklad fryzjerski rozwinql sie w siec salonow, zatrudnil wiecej fryzjerow i rozbudowal swoja baze danych. Do tabel utworzonych na podstawie opisanych wczesniej plikow dodano tabele salony, ktora zawiera nastepujace pola:\nid_salonu -- identyfikator salonu\nnazwa_salonu -- nazwa salonu\nmiejsce -- adres salonu.\nDo tabeli fryzjerzy dodano pole id_salonu, ktore okresla miejsce pracy fryzjera.\n\nNapisz w jezyku SQL zapytanie, w wyniku ktorego uzyskasz identyfikatory wszystkich klientow, dla ktorych uslugi byly wykonane przez pracownikow salonu o nazwie Magnolia. Identyfikatory klientow nie moga sie powtarzac.",
+          "odpowiedz": "SELECT DISTINCT Wizyty.id_klienta\nFROM Salony INNER JOIN (Fryzjerzy INNER JOIN Wizyty ON Fryzjerzy.id_fryzjera = Wizyty.id_fryzjera) ON Salony.id_salonu = Fryzjerzy.id_salonu\nWHERE Salony.nazwa_salonu = 'Magnolia';\n\nAlternatywnie z GROUP BY:\nSELECT Wizyty.id_klienta\nFROM Salony INNER JOIN (Fryzjerzy INNER JOIN Wizyty ON Fryzjerzy.id_fryzjera = Wizyty.id_fryzjera) ON Salony.id_salonu = Fryzjerzy.id_salonu\nWHERE Salony.nazwa_salonu = 'Magnolia'\nGROUP BY Wizyty.id_klienta;",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz z jednym bledem np. blad przy JOIN albo blad w warunku po WHERE albo zapytanie dajace w wyniku powtarzajace sie identyfikatory klienta itp.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba polaczyc 3 tabele: Salony-Fryzjerzy-Wizyty (dwa JOINy)",
+            "DISTINCT lub GROUP BY wymagane -- identyfikatory nie moga sie powtarzac",
+            "Filtr po nazwie salonu, nie po id_salonu"
+          ]
+        }
+      ]
+    }
+  ]
+}
