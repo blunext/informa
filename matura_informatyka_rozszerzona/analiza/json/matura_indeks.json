@@ -1,6 +1,6 @@
 {
-  "total_subtasks": 271,
-  "total_punkty": 650,
+  "total_subtasks": 292,
+  "total_punkty": 700,
   "per_rok": {
     "2014_maj": 22,
     "2015_maj": 19,
@@ -13,43 +13,40 @@
     "2023_maj": 23,
     "2024_czerwiec": 20,
     "2024_maj": 22,
+    "2024_probna": 21,
     "2025_czerwiec": 21,
     "2025_maj": 21
   },
   "per_typ": {
-    "analiza_algorytmu": 21,
+    "analiza_algorytmu": 22,
     "arkusz_agregacja_podstawowa": 4,
-    "arkusz_agregacja_warunkowa": 17,
-    "arkusz_symulacja": 19,
+    "arkusz_agregacja_warunkowa": 18,
+    "arkusz_symulacja": 21,
     "arkusz_transformacja": 2,
-    "arkusz_wykres": 11,
-    "konwersja_systemow_liczbowych": 12,
+    "arkusz_wykres": 12,
+    "konwersja_systemow_liczbowych": 13,
     "obliczenia_geometryczne": 1,
-    "projektowanie_algorytmu": 15,
-    "przetwarzanie_cyfry_liczby": 12,
-    "przetwarzanie_minmax": 6,
+    "projektowanie_algorytmu": 16,
+    "przetwarzanie_cyfry_liczby": 15,
+    "przetwarzanie_minmax": 7,
     "przetwarzanie_napisy": 17,
     "przetwarzanie_obrazy_2D": 3,
-    "przetwarzanie_sekwencje": 4,
+    "przetwarzanie_sekwencje": 5,
     "przetwarzanie_zliczanie": 9,
-    "przetwarzanie_zlozone": 17,
-    "sledzenie_algorytmu": 26,
-    "sql_group_by": 18,
-    "sql_join": 12,
+    "przetwarzanie_zlozone": 18,
+    "sledzenie_algorytmu": 28,
+    "sql_group_by": 20,
+    "sql_join": 14,
     "sql_podzapytania": 12,
-    "sql_select_where": 5,
+    "sql_select_where": 6,
     "teoria_bezpieczenstwa": 2,
-    "test_prawda_falsz": 26
+    "test_prawda_falsz": 27
   },
   "per_kategoria": {
-    "ARKUSZ": 53,
-    "IMPLEMENTACJA": 69,
-    "SQL": 47,
-    "TEORIA": 102
-  },
-  "per_sesja": {
-    "czerwiec": 41,
-    "maj": 230
+    "ARKUSZ": 57,
+    "IMPLEMENTACJA": 75,
+    "SQL": 52,
+    "TEORIA": 108
   },
   "subtasks": [
     {
@@ -58,11 +55,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1a",
-      "tytul": "Korale",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Korale"
     },
     {
       "id": "2014M.1b",
@@ -70,11 +66,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1b",
-      "tytul": "Korale",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Korale"
     },
     {
       "id": "2014M.1c",
@@ -82,11 +77,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1c",
-      "tytul": "Korale",
       "typ_zadania": "projektowanie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Korale"
     },
     {
       "id": "2014M.2a",
@@ -94,11 +88,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2a",
-      "tytul": "Bisekcja",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Bisekcja"
     },
     {
       "id": "2014M.2b",
@@ -106,11 +99,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2b",
-      "tytul": "Bisekcja",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Bisekcja"
     },
     {
       "id": "2014M.2c",
@@ -118,11 +110,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2c",
-      "tytul": "Bisekcja",
       "typ_zadania": "projektowanie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Bisekcja"
     },
     {
       "id": "2014M.3a",
@@ -130,11 +121,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3a",
-      "tytul": "Zadania mieszane (algorytm, systemy liczbowe, teoria liczb, kombinatoryka)",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Zadania mieszane (algorytm, systemy liczbowe, teoria liczb, kombinatoryka)"
     },
     {
       "id": "2014M.3b",
@@ -142,11 +132,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3b",
-      "tytul": "Zadania mieszane (algorytm, systemy liczbowe, teoria liczb, kombinatoryka)",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Zadania mieszane (algorytm, systemy liczbowe, teoria liczb, kombinatoryka)"
     },
     {
       "id": "2014M.3c",
@@ -154,11 +143,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3c",
-      "tytul": "Zadania mieszane (algorytm, systemy liczbowe, teoria liczb, kombinatoryka)",
       "typ_zadania": "konwersja_systemow_liczbowych",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Zadania mieszane (algorytm, systemy liczbowe, teoria liczb, kombinatoryka)"
     },
     {
       "id": "2014M.3d",
@@ -166,11 +154,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3d",
-      "tytul": "Zadania mieszane (algorytm, systemy liczbowe, teoria liczb, kombinatoryka)",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Zadania mieszane (algorytm, systemy liczbowe, teoria liczb, kombinatoryka)"
     },
     {
       "id": "2014M.3e",
@@ -178,11 +165,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3e",
-      "tytul": "Zadania mieszane (algorytm, systemy liczbowe, teoria liczb, kombinatoryka)",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Zadania mieszane (algorytm, systemy liczbowe, teoria liczb, kombinatoryka)"
     },
     {
       "id": "2014M.4a",
@@ -190,11 +176,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4a",
-      "tytul": "Arkusz kalkulacyjny - Przychody i koszty",
       "typ_zadania": "arkusz_agregacja_warunkowa",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Arkusz kalkulacyjny - Przychody i koszty"
     },
     {
       "id": "2014M.4b",
@@ -202,11 +187,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4b",
-      "tytul": "Arkusz kalkulacyjny - Przychody i koszty",
       "typ_zadania": "arkusz_agregacja_podstawowa",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Arkusz kalkulacyjny - Przychody i koszty"
     },
     {
       "id": "2014M.4c",
@@ -214,11 +198,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4c",
-      "tytul": "Arkusz kalkulacyjny - Przychody i koszty",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Arkusz kalkulacyjny - Przychody i koszty"
     },
     {
       "id": "2014M.4d",
@@ -226,11 +209,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4d",
-      "tytul": "Arkusz kalkulacyjny - Przychody i koszty",
       "typ_zadania": "arkusz_wykres",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Arkusz kalkulacyjny - Przychody i koszty"
     },
     {
       "id": "2014M.5a",
@@ -238,11 +220,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5a",
-      "tytul": "Programowanie - Napisy",
       "typ_zadania": "przetwarzanie_zliczanie",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 4,
-      "czesc": 2
+      "tytul": "Programowanie - Napisy"
     },
     {
       "id": "2014M.5b",
@@ -250,11 +231,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5b",
-      "tytul": "Programowanie - Napisy",
       "typ_zadania": "przetwarzanie_napisy",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 4,
-      "czesc": 2
+      "tytul": "Programowanie - Napisy"
     },
     {
       "id": "2014M.5c",
@@ -262,11 +242,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5c",
-      "tytul": "Programowanie - Napisy",
       "typ_zadania": "przetwarzanie_napisy",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Programowanie - Napisy"
     },
     {
       "id": "2014M.6a",
@@ -274,11 +253,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6a",
-      "tytul": "Baza danych SQL - Rekrutacja do przedszkoli",
       "typ_zadania": "sql_select_where",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Baza danych SQL - Rekrutacja do przedszkoli"
     },
     {
       "id": "2014M.6b",
@@ -286,11 +264,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6b",
-      "tytul": "Baza danych SQL - Rekrutacja do przedszkoli",
       "typ_zadania": "sql_select_where",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Baza danych SQL - Rekrutacja do przedszkoli"
     },
     {
       "id": "2014M.6c",
@@ -298,11 +275,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6c",
-      "tytul": "Baza danych SQL - Rekrutacja do przedszkoli",
       "typ_zadania": "sql_join",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Baza danych SQL - Rekrutacja do przedszkoli"
     },
     {
       "id": "2014M.6d",
@@ -310,11 +286,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6d",
-      "tytul": "Baza danych SQL - Rekrutacja do przedszkoli",
       "typ_zadania": "sql_group_by",
       "kategoria": "SQL",
       "punkty": 4,
-      "czesc": 2
+      "tytul": "Baza danych SQL - Rekrutacja do przedszkoli"
     },
     {
       "id": "2015M.1.1",
@@ -322,11 +297,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.1",
-      "tytul": "Problem telewidza",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Problem telewidza"
     },
     {
       "id": "2015M.1.2",
@@ -334,11 +308,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.2",
-      "tytul": "Problem telewidza",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Problem telewidza"
     },
     {
       "id": "2015M.2.1",
@@ -346,11 +319,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.1",
-      "tytul": "Test",
       "typ_zadania": "konwersja_systemow_liczbowych",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2015M.2.2",
@@ -358,11 +330,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.2",
-      "tytul": "Test",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2015M.2.3",
@@ -370,11 +341,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.3",
-      "tytul": "Test",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2015M.2.4",
@@ -382,11 +352,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.4",
-      "tytul": "Test",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2015M.2.5",
@@ -394,11 +363,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.5",
-      "tytul": "Test",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2015M.3.1",
@@ -406,11 +374,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.1",
-      "tytul": "Rozszerzony algorytm Euklidesa",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Rozszerzony algorytm Euklidesa"
     },
     {
       "id": "2015M.3.2",
@@ -418,11 +385,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.2",
-      "tytul": "Rozszerzony algorytm Euklidesa",
       "typ_zadania": "projektowanie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Rozszerzony algorytm Euklidesa"
     },
     {
       "id": "2015M.4.1",
@@ -430,11 +396,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.1",
-      "tytul": "Programowanie - Liczby binarne",
       "typ_zadania": "przetwarzanie_cyfry_liczby",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Programowanie - Liczby binarne"
     },
     {
       "id": "2015M.4.2",
@@ -442,11 +407,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.2",
-      "tytul": "Programowanie - Liczby binarne",
       "typ_zadania": "przetwarzanie_cyfry_liczby",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Programowanie - Liczby binarne"
     },
     {
       "id": "2015M.4.3",
@@ -454,11 +418,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.3",
-      "tytul": "Programowanie - Liczby binarne",
       "typ_zadania": "przetwarzanie_minmax",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 6,
-      "czesc": 2
+      "tytul": "Programowanie - Liczby binarne"
     },
     {
       "id": "2015M.5.1",
@@ -466,11 +429,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.1",
-      "tytul": "Arkusz kalkulacyjny - Demografia",
       "typ_zadania": "arkusz_agregacja_podstawowa",
       "kategoria": "ARKUSZ",
       "punkty": 5,
-      "czesc": 2
+      "tytul": "Arkusz kalkulacyjny - Demografia"
     },
     {
       "id": "2015M.5.2",
@@ -478,11 +440,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.2",
-      "tytul": "Arkusz kalkulacyjny - Demografia",
       "typ_zadania": "arkusz_agregacja_warunkowa",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Arkusz kalkulacyjny - Demografia"
     },
     {
       "id": "2015M.5.3",
@@ -490,11 +451,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.3",
-      "tytul": "Arkusz kalkulacyjny - Demografia",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 6,
-      "czesc": 2
+      "tytul": "Arkusz kalkulacyjny - Demografia"
     },
     {
       "id": "2015M.6.1",
@@ -502,11 +462,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.1",
-      "tytul": "Baza danych SQL - Formula 1",
       "typ_zadania": "sql_select_where",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Baza danych SQL - Formula 1"
     },
     {
       "id": "2015M.6.2",
@@ -514,11 +473,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.2",
-      "tytul": "Baza danych SQL - Formula 1",
       "typ_zadania": "sql_podzapytania",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Baza danych SQL - Formula 1"
     },
     {
       "id": "2015M.6.3",
@@ -526,11 +484,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.3",
-      "tytul": "Baza danych SQL - Formula 1",
       "typ_zadania": "sql_join",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Baza danych SQL - Formula 1"
     },
     {
       "id": "2015M.6.4",
@@ -538,11 +495,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.4",
-      "tytul": "Baza danych SQL - Formula 1",
       "typ_zadania": "sql_group_by",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Baza danych SQL - Formula 1"
     },
     {
       "id": "2016M.1.1",
@@ -550,11 +506,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.1",
-      "tytul": "Liczby skojarzone",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Liczby skojarzone"
     },
     {
       "id": "2016M.1.2",
@@ -562,11 +517,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.2",
-      "tytul": "Liczby skojarzone",
       "typ_zadania": "projektowanie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 4,
-      "czesc": 1
+      "tytul": "Liczby skojarzone"
     },
     {
       "id": "2016M.2.1",
@@ -574,11 +528,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.1",
-      "tytul": "Przestawienia w tablicy",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Przestawienia w tablicy"
     },
     {
       "id": "2016M.2.2",
@@ -586,11 +539,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.2",
-      "tytul": "Przestawienia w tablicy",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Przestawienia w tablicy"
     },
     {
       "id": "2016M.2.3",
@@ -598,11 +550,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.3",
-      "tytul": "Przestawienia w tablicy",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Przestawienia w tablicy"
     },
     {
       "id": "2016M.3.1",
@@ -610,11 +561,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.1",
-      "tytul": "Test",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2016M.3.2",
@@ -622,11 +572,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.2",
-      "tytul": "Test",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2016M.3.3",
@@ -634,11 +583,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.3",
-      "tytul": "Test",
       "typ_zadania": "konwersja_systemow_liczbowych",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2016M.3.4",
@@ -646,11 +594,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.4",
-      "tytul": "Test",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2016M.4.1",
@@ -658,11 +605,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.1",
-      "tytul": "Metoda Monte Carlo - przyblizone obliczanie liczby pi",
       "typ_zadania": "arkusz_agregacja_warunkowa",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Metoda Monte Carlo - przyblizone obliczanie liczby pi"
     },
     {
       "id": "2016M.4.2",
@@ -670,11 +616,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.2",
-      "tytul": "Metoda Monte Carlo - przyblizone obliczanie liczby pi",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Metoda Monte Carlo - przyblizone obliczanie liczby pi"
     },
     {
       "id": "2016M.4.3",
@@ -682,11 +627,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.3",
-      "tytul": "Metoda Monte Carlo - przyblizone obliczanie liczby pi",
       "typ_zadania": "arkusz_wykres",
       "kategoria": "ARKUSZ",
       "punkty": 5,
-      "czesc": 2
+      "tytul": "Metoda Monte Carlo - przyblizone obliczanie liczby pi"
     },
     {
       "id": "2016M.5.1",
@@ -694,11 +638,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.1",
-      "tytul": "Baza danych SQL - Uniwersytet",
       "typ_zadania": "sql_join",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Baza danych SQL - Uniwersytet"
     },
     {
       "id": "2016M.5.2",
@@ -706,11 +649,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.2",
-      "tytul": "Baza danych SQL - Uniwersytet",
       "typ_zadania": "sql_group_by",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Baza danych SQL - Uniwersytet"
     },
     {
       "id": "2016M.5.3",
@@ -718,11 +660,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.3",
-      "tytul": "Baza danych SQL - Uniwersytet",
       "typ_zadania": "sql_group_by",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Baza danych SQL - Uniwersytet"
     },
     {
       "id": "2016M.5.4",
@@ -730,11 +671,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.4",
-      "tytul": "Baza danych SQL - Uniwersytet",
       "typ_zadania": "sql_podzapytania",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Baza danych SQL - Uniwersytet"
     },
     {
       "id": "2016M.5.5",
@@ -742,11 +682,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.5",
-      "tytul": "Baza danych SQL - Uniwersytet",
       "typ_zadania": "sql_podzapytania",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Baza danych SQL - Uniwersytet"
     },
     {
       "id": "2016M.6.1",
@@ -754,11 +693,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.1",
-      "tytul": "Szyfr Cezara",
       "typ_zadania": "przetwarzanie_napisy",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Szyfr Cezara"
     },
     {
       "id": "2016M.6.2",
@@ -766,11 +704,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.2",
-      "tytul": "Szyfr Cezara",
       "typ_zadania": "przetwarzanie_napisy",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 4,
-      "czesc": 2
+      "tytul": "Szyfr Cezara"
     },
     {
       "id": "2016M.6.3",
@@ -778,11 +715,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.3",
-      "tytul": "Szyfr Cezara",
       "typ_zadania": "przetwarzanie_napisy",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 5,
-      "czesc": 2
+      "tytul": "Szyfr Cezara"
     },
     {
       "id": "2017M.1.1",
@@ -790,11 +726,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.1",
-      "tytul": "Prosokat",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Prosokat"
     },
     {
       "id": "2017M.1.2",
@@ -802,11 +737,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.2",
-      "tytul": "Prosokat",
       "typ_zadania": "projektowanie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 4,
-      "czesc": 1
+      "tytul": "Prosokat"
     },
     {
       "id": "2017M.2.1",
@@ -814,11 +748,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.1",
-      "tytul": "Rekurencja",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Rekurencja"
     },
     {
       "id": "2017M.2.2",
@@ -826,11 +759,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.2",
-      "tytul": "Rekurencja",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Rekurencja"
     },
     {
       "id": "2017M.2.3",
@@ -838,11 +770,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.3",
-      "tytul": "Rekurencja",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Rekurencja"
     },
     {
       "id": "2017M.3.1",
@@ -850,11 +781,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.1",
-      "tytul": "Test",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2017M.3.2",
@@ -862,11 +792,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.2",
-      "tytul": "Test",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2017M.3.3",
@@ -874,11 +803,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.3",
-      "tytul": "Test",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2017M.4.1",
@@ -886,11 +814,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.1",
-      "tytul": "Arkusz kalkulacyjny - transakcje i rabaty cukru",
       "typ_zadania": "arkusz_transformacja",
       "kategoria": "ARKUSZ",
       "punkty": 1,
-      "czesc": 2
+      "tytul": "Arkusz kalkulacyjny - transakcje i rabaty cukru"
     },
     {
       "id": "2017M.4.2",
@@ -898,11 +825,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.2",
-      "tytul": "Arkusz kalkulacyjny - transakcje i rabaty cukru",
       "typ_zadania": "arkusz_agregacja_podstawowa",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Arkusz kalkulacyjny - transakcje i rabaty cukru"
     },
     {
       "id": "2017M.4.3",
@@ -910,11 +836,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.3",
-      "tytul": "Arkusz kalkulacyjny - transakcje i rabaty cukru",
       "typ_zadania": "arkusz_wykres",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Arkusz kalkulacyjny - transakcje i rabaty cukru"
     },
     {
       "id": "2017M.4.4",
@@ -922,11 +847,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.4",
-      "tytul": "Arkusz kalkulacyjny - transakcje i rabaty cukru",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Arkusz kalkulacyjny - transakcje i rabaty cukru"
     },
     {
       "id": "2017M.4.5",
@@ -934,11 +858,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.5",
-      "tytul": "Arkusz kalkulacyjny - transakcje i rabaty cukru",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 4,
-      "czesc": 2
+      "tytul": "Arkusz kalkulacyjny - transakcje i rabaty cukru"
     },
     {
       "id": "2017M.5.1",
@@ -946,11 +869,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.1",
-      "tytul": "Baza danych SQL - pilka reczna",
       "typ_zadania": "sql_group_by",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Baza danych SQL - pilka reczna"
     },
     {
       "id": "2017M.5.2",
@@ -958,11 +880,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.2",
-      "tytul": "Baza danych SQL - pilka reczna",
       "typ_zadania": "sql_group_by",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Baza danych SQL - pilka reczna"
     },
     {
       "id": "2017M.5.3",
@@ -970,11 +891,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.3",
-      "tytul": "Baza danych SQL - pilka reczna",
       "typ_zadania": "sql_group_by",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Baza danych SQL - pilka reczna"
     },
     {
       "id": "2017M.5.4",
@@ -982,11 +902,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.4",
-      "tytul": "Baza danych SQL - pilka reczna",
       "typ_zadania": "sql_podzapytania",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Baza danych SQL - pilka reczna"
     },
     {
       "id": "2017M.6.1",
@@ -994,11 +913,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.1",
-      "tytul": "Programowanie - obraz rastrowy i piksele",
       "typ_zadania": "przetwarzanie_minmax",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Programowanie - obraz rastrowy i piksele"
     },
     {
       "id": "2017M.6.2",
@@ -1006,11 +924,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.2",
-      "tytul": "Programowanie - obraz rastrowy i piksele",
       "typ_zadania": "przetwarzanie_zliczanie",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Programowanie - obraz rastrowy i piksele"
     },
     {
       "id": "2017M.6.3",
@@ -1018,11 +935,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.3",
-      "tytul": "Programowanie - obraz rastrowy i piksele",
       "typ_zadania": "przetwarzanie_obrazy_2D",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Programowanie - obraz rastrowy i piksele"
     },
     {
       "id": "2017M.6.4",
@@ -1030,11 +946,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.4",
-      "tytul": "Programowanie - obraz rastrowy i piksele",
       "typ_zadania": "przetwarzanie_obrazy_2D",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 4,
-      "czesc": 2
+      "tytul": "Programowanie - obraz rastrowy i piksele"
     },
     {
       "id": "2018M.1.1",
@@ -1042,11 +957,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.1",
-      "tytul": "Analiza algorytmu - pierwiastek szescienny",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Analiza algorytmu - pierwiastek szescienny"
     },
     {
       "id": "2018M.1.2",
@@ -1054,11 +968,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.2",
-      "tytul": "Analiza algorytmu - pierwiastek szescienny",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Analiza algorytmu - pierwiastek szescienny"
     },
     {
       "id": "2018M.1.3",
@@ -1066,11 +979,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.3",
-      "tytul": "Analiza algorytmu - pierwiastek szescienny",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Analiza algorytmu - pierwiastek szescienny"
     },
     {
       "id": "2018M.2.1",
@@ -1078,11 +990,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.1",
-      "tytul": "Krajobraz",
       "typ_zadania": "projektowanie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Krajobraz"
     },
     {
       "id": "2018M.2.2",
@@ -1090,11 +1001,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.2",
-      "tytul": "Krajobraz",
       "typ_zadania": "projektowanie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 4,
-      "czesc": 1
+      "tytul": "Krajobraz"
     },
     {
       "id": "2018M.3.1",
@@ -1102,11 +1012,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.1",
-      "tytul": "Test - PHP/JavaScript, RGB/CMYK, SQL",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test - PHP/JavaScript, RGB/CMYK, SQL"
     },
     {
       "id": "2018M.3.2",
@@ -1114,11 +1023,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.2",
-      "tytul": "Test - PHP/JavaScript, RGB/CMYK, SQL",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test - PHP/JavaScript, RGB/CMYK, SQL"
     },
     {
       "id": "2018M.3.3",
@@ -1126,11 +1034,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.3",
-      "tytul": "Test - PHP/JavaScript, RGB/CMYK, SQL",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test - PHP/JavaScript, RGB/CMYK, SQL"
     },
     {
       "id": "2018M.4.1",
@@ -1138,11 +1045,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.1",
-      "tytul": "Programowanie - Sygnaly",
       "typ_zadania": "przetwarzanie_napisy",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Programowanie - Sygnaly"
     },
     {
       "id": "2018M.4.2",
@@ -1150,11 +1056,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.2",
-      "tytul": "Programowanie - Sygnaly",
       "typ_zadania": "przetwarzanie_napisy",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 4,
-      "czesc": 2
+      "tytul": "Programowanie - Sygnaly"
     },
     {
       "id": "2018M.4.3",
@@ -1162,11 +1067,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.3",
-      "tytul": "Programowanie - Sygnaly",
       "typ_zadania": "przetwarzanie_napisy",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 4,
-      "czesc": 2
+      "tytul": "Programowanie - Sygnaly"
     },
     {
       "id": "2018M.5.1",
@@ -1174,11 +1078,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.1",
-      "tytul": "Arkusz kalkulacyjny - Woda (zbiornik Wirki)",
       "typ_zadania": "arkusz_agregacja_warunkowa",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Arkusz kalkulacyjny - Woda (zbiornik Wirki)"
     },
     {
       "id": "2018M.5.2",
@@ -1186,11 +1089,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.2",
-      "tytul": "Arkusz kalkulacyjny - Woda (zbiornik Wirki)",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Arkusz kalkulacyjny - Woda (zbiornik Wirki)"
     },
     {
       "id": "2018M.5.3",
@@ -1198,11 +1100,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.3",
-      "tytul": "Arkusz kalkulacyjny - Woda (zbiornik Wirki)",
       "typ_zadania": "arkusz_wykres",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Arkusz kalkulacyjny - Woda (zbiornik Wirki)"
     },
     {
       "id": "2018M.5.4",
@@ -1210,11 +1111,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.4",
-      "tytul": "Arkusz kalkulacyjny - Woda (zbiornik Wirki)",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 5,
-      "czesc": 2
+      "tytul": "Arkusz kalkulacyjny - Woda (zbiornik Wirki)"
     },
     {
       "id": "2018M.6.1",
@@ -1222,11 +1122,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.1",
-      "tytul": "Baza danych SQL - Komputery i awarie",
       "typ_zadania": "sql_group_by",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Baza danych SQL - Komputery i awarie"
     },
     {
       "id": "2018M.6.2",
@@ -1234,11 +1133,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.2",
-      "tytul": "Baza danych SQL - Komputery i awarie",
       "typ_zadania": "sql_join",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Baza danych SQL - Komputery i awarie"
     },
     {
       "id": "2018M.6.3",
@@ -1246,11 +1144,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.3",
-      "tytul": "Baza danych SQL - Komputery i awarie",
       "typ_zadania": "sql_join",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Baza danych SQL - Komputery i awarie"
     },
     {
       "id": "2018M.6.4",
@@ -1258,11 +1155,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.4",
-      "tytul": "Baza danych SQL - Komputery i awarie",
       "typ_zadania": "sql_podzapytania",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Baza danych SQL - Komputery i awarie"
     },
     {
       "id": "2018M.6.5",
@@ -1270,11 +1166,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.5",
-      "tytul": "Baza danych SQL - Komputery i awarie",
       "typ_zadania": "sql_podzapytania",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Baza danych SQL - Komputery i awarie"
     },
     {
       "id": "2019M.1.1",
@@ -1282,11 +1177,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.1",
-      "tytul": "Ulubione liczby",
       "typ_zadania": "projektowanie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 5,
-      "czesc": 1
+      "tytul": "Ulubione liczby"
     },
     {
       "id": "2019M.1.2",
@@ -1294,11 +1188,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.2",
-      "tytul": "Ulubione liczby",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Ulubione liczby"
     },
     {
       "id": "2019M.2.1",
@@ -1306,11 +1199,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.1",
-      "tytul": "Analiza algorytmu",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Analiza algorytmu"
     },
     {
       "id": "2019M.2.2",
@@ -1318,11 +1210,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.2",
-      "tytul": "Analiza algorytmu",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Analiza algorytmu"
     },
     {
       "id": "2019M.2.3",
@@ -1330,11 +1221,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.3",
-      "tytul": "Analiza algorytmu",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Analiza algorytmu"
     },
     {
       "id": "2019M.3.1",
@@ -1342,11 +1232,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.1",
-      "tytul": "Test",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2019M.3.2",
@@ -1354,11 +1243,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.2",
-      "tytul": "Test",
       "typ_zadania": "konwersja_systemow_liczbowych",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2019M.3.3",
@@ -1366,11 +1254,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.3",
-      "tytul": "Test",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2019M.4.1",
@@ -1378,11 +1265,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.1",
-      "tytul": "Liczby",
       "typ_zadania": "przetwarzanie_cyfry_liczby",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Liczby"
     },
     {
       "id": "2019M.4.2",
@@ -1390,11 +1276,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.2",
-      "tytul": "Liczby",
       "typ_zadania": "przetwarzanie_cyfry_liczby",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 4,
-      "czesc": 2
+      "tytul": "Liczby"
     },
     {
       "id": "2019M.4.3",
@@ -1402,11 +1287,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.3",
-      "tytul": "Liczby",
       "typ_zadania": "przetwarzanie_sekwencje",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 5,
-      "czesc": 2
+      "tytul": "Liczby"
     },
     {
       "id": "2019M.5.1",
@@ -1414,11 +1298,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.1",
-      "tytul": "Chmury",
       "typ_zadania": "arkusz_agregacja_warunkowa",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Chmury"
     },
     {
       "id": "2019M.5.2",
@@ -1426,11 +1309,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.2",
-      "tytul": "Chmury",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Chmury"
     },
     {
       "id": "2019M.5.3",
@@ -1438,11 +1320,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.3",
-      "tytul": "Chmury",
       "typ_zadania": "arkusz_wykres",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Chmury"
     },
     {
       "id": "2019M.5.4",
@@ -1450,11 +1331,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.4",
-      "tytul": "Chmury",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 4,
-      "czesc": 2
+      "tytul": "Chmury"
     },
     {
       "id": "2019M.6.1",
@@ -1462,11 +1342,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.1",
-      "tytul": "Perfumeria DlaWas",
       "typ_zadania": "sql_select_where",
       "kategoria": "SQL",
       "punkty": 1,
-      "czesc": 2
+      "tytul": "Perfumeria DlaWas"
     },
     {
       "id": "2019M.6.2",
@@ -1474,11 +1353,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.2",
-      "tytul": "Perfumeria DlaWas",
       "typ_zadania": "sql_group_by",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Perfumeria DlaWas"
     },
     {
       "id": "2019M.6.3",
@@ -1486,11 +1364,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.3",
-      "tytul": "Perfumeria DlaWas",
       "typ_zadania": "sql_podzapytania",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Perfumeria DlaWas"
     },
     {
       "id": "2019M.6.4",
@@ -1498,11 +1375,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.4",
-      "tytul": "Perfumeria DlaWas",
       "typ_zadania": "sql_join",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Perfumeria DlaWas"
     },
     {
       "id": "2019M.6.5",
@@ -1510,11 +1386,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.5",
-      "tytul": "Perfumeria DlaWas",
       "typ_zadania": "sql_group_by",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Perfumeria DlaWas"
     },
     {
       "id": "2021M.1.1",
@@ -1522,11 +1397,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.1",
-      "tytul": "Cyfrowe dopelnienie",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Cyfrowe dopelnienie"
     },
     {
       "id": "2021M.1.2",
@@ -1534,11 +1408,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.2",
-      "tytul": "Cyfrowe dopelnienie",
       "typ_zadania": "projektowanie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 4,
-      "czesc": 1
+      "tytul": "Cyfrowe dopelnienie"
     },
     {
       "id": "2021M.2.1",
@@ -1546,11 +1419,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.1",
-      "tytul": "Analiza algorytmu (kopiec binarny)",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Analiza algorytmu (kopiec binarny)"
     },
     {
       "id": "2021M.2.2",
@@ -1558,11 +1430,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.2",
-      "tytul": "Analiza algorytmu (kopiec binarny)",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Analiza algorytmu (kopiec binarny)"
     },
     {
       "id": "2021M.2.3",
@@ -1570,11 +1441,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.3",
-      "tytul": "Analiza algorytmu (kopiec binarny)",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Analiza algorytmu (kopiec binarny)"
     },
     {
       "id": "2021M.3.1",
@@ -1582,11 +1452,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.1",
-      "tytul": "Test",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2021M.3.2",
@@ -1594,11 +1463,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.2",
-      "tytul": "Test",
       "typ_zadania": "konwersja_systemow_liczbowych",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2021M.3.3",
@@ -1606,11 +1474,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.3",
-      "tytul": "Test",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2021M.4.1",
@@ -1618,11 +1485,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.1",
-      "tytul": "Neon cyfrowy",
       "typ_zadania": "przetwarzanie_zliczanie",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Neon cyfrowy"
     },
     {
       "id": "2021M.4.2",
@@ -1630,11 +1496,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.2",
-      "tytul": "Neon cyfrowy",
       "typ_zadania": "przetwarzanie_napisy",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Neon cyfrowy"
     },
     {
       "id": "2021M.4.3",
@@ -1642,11 +1507,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.3",
-      "tytul": "Neon cyfrowy",
       "typ_zadania": "przetwarzanie_zliczanie",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Neon cyfrowy"
     },
     {
       "id": "2021M.4.4",
@@ -1654,11 +1518,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.4",
-      "tytul": "Neon cyfrowy",
       "typ_zadania": "przetwarzanie_zlozone",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 4,
-      "czesc": 2
+      "tytul": "Neon cyfrowy"
     },
     {
       "id": "2021M.5.1",
@@ -1666,11 +1529,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.1",
-      "tytul": "Wodociagi",
       "typ_zadania": "arkusz_agregacja_warunkowa",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Wodociagi"
     },
     {
       "id": "2021M.5.2",
@@ -1678,11 +1540,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.2",
-      "tytul": "Wodociagi",
       "typ_zadania": "arkusz_agregacja_warunkowa",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Wodociagi"
     },
     {
       "id": "2021M.5.3",
@@ -1690,11 +1551,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.3",
-      "tytul": "Wodociagi",
       "typ_zadania": "arkusz_agregacja_warunkowa",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Wodociagi"
     },
     {
       "id": "2021M.5.4",
@@ -1702,11 +1562,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.4",
-      "tytul": "Wodociagi",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 4,
-      "czesc": 2
+      "tytul": "Wodociagi"
     },
     {
       "id": "2021M.5.5",
@@ -1714,11 +1573,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.5",
-      "tytul": "Wodociagi",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 1,
-      "czesc": 2
+      "tytul": "Wodociagi"
     },
     {
       "id": "2021M.6.1",
@@ -1726,11 +1584,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.1",
-      "tytul": "Bitwa",
       "typ_zadania": "sql_group_by",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Bitwa"
     },
     {
       "id": "2021M.6.2",
@@ -1738,11 +1595,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.2",
-      "tytul": "Bitwa",
       "typ_zadania": "sql_join",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Bitwa"
     },
     {
       "id": "2021M.6.3",
@@ -1750,11 +1606,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.3",
-      "tytul": "Bitwa",
       "typ_zadania": "sql_select_where",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Bitwa"
     },
     {
       "id": "2021M.6.4",
@@ -1762,11 +1617,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.4",
-      "tytul": "Bitwa",
       "typ_zadania": "sql_group_by",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Bitwa"
     },
     {
       "id": "2021M.6.5",
@@ -1774,11 +1628,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.5",
-      "tytul": "Bitwa",
       "typ_zadania": "sql_podzapytania",
       "kategoria": "SQL",
       "punkty": 4,
-      "czesc": 2
+      "tytul": "Bitwa"
     },
     {
       "id": "2022M.1.1",
@@ -1786,11 +1639,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.1",
-      "tytul": "n-permutacja",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "n-permutacja"
     },
     {
       "id": "2022M.1.2",
@@ -1798,11 +1650,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.2",
-      "tytul": "n-permutacja",
       "typ_zadania": "projektowanie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 4,
-      "czesc": 1
+      "tytul": "n-permutacja"
     },
     {
       "id": "2022M.2.1",
@@ -1810,11 +1661,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.1",
-      "tytul": "ab-slowo",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "ab-slowo"
     },
     {
       "id": "2022M.2.2",
@@ -1822,11 +1672,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.2",
-      "tytul": "ab-slowo",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "ab-slowo"
     },
     {
       "id": "2022M.2.3",
@@ -1834,11 +1683,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.3",
-      "tytul": "ab-slowo",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "ab-slowo"
     },
     {
       "id": "2022M.3.1",
@@ -1846,11 +1694,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.1",
-      "tytul": "Test",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2022M.3.2",
@@ -1858,11 +1705,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.2",
-      "tytul": "Test",
       "typ_zadania": "konwersja_systemow_liczbowych",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2022M.3.3",
@@ -1870,11 +1716,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.3",
-      "tytul": "Test",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Test"
     },
     {
       "id": "2022M.4.1",
@@ -1882,11 +1727,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.1",
-      "tytul": "Liczby",
       "typ_zadania": "przetwarzanie_cyfry_liczby",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 4,
-      "czesc": 2
+      "tytul": "Liczby"
     },
     {
       "id": "2022M.4.2",
@@ -1894,11 +1738,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.2",
-      "tytul": "Liczby",
       "typ_zadania": "przetwarzanie_cyfry_liczby",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 4,
-      "czesc": 2
+      "tytul": "Liczby"
     },
     {
       "id": "2022M.4.3",
@@ -1906,11 +1749,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.3",
-      "tytul": "Liczby",
       "typ_zadania": "przetwarzanie_zlozone",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 4,
-      "czesc": 2
+      "tytul": "Liczby"
     },
     {
       "id": "2022M.5.1",
@@ -1918,11 +1760,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.1",
-      "tytul": "Sok",
       "typ_zadania": "arkusz_agregacja_warunkowa",
       "kategoria": "ARKUSZ",
       "punkty": 1,
-      "czesc": 2
+      "tytul": "Sok"
     },
     {
       "id": "2022M.5.2",
@@ -1930,11 +1771,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.2",
-      "tytul": "Sok",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Sok"
     },
     {
       "id": "2022M.5.3",
@@ -1942,11 +1782,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.3",
-      "tytul": "Sok",
       "typ_zadania": "arkusz_wykres",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "Sok"
     },
     {
       "id": "2022M.5.4",
@@ -1954,11 +1793,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.4",
-      "tytul": "Sok",
       "typ_zadania": "arkusz_agregacja_warunkowa",
       "kategoria": "ARKUSZ",
       "punkty": 4,
-      "czesc": 2
+      "tytul": "Sok"
     },
     {
       "id": "2022M.5.5",
@@ -1966,11 +1804,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.5",
-      "tytul": "Sok",
       "typ_zadania": "arkusz_agregacja_warunkowa",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "Sok"
     },
     {
       "id": "2022M.6.1",
@@ -1978,11 +1815,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.1",
-      "tytul": "System kontroli dostepu",
       "typ_zadania": "sql_join",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 2
+      "tytul": "System kontroli dostepu"
     },
     {
       "id": "2022M.6.2",
@@ -1990,11 +1826,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.2",
-      "tytul": "System kontroli dostepu",
       "typ_zadania": "sql_group_by",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "System kontroli dostepu"
     },
     {
       "id": "2022M.6.3",
@@ -2002,11 +1837,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.3",
-      "tytul": "System kontroli dostepu",
       "typ_zadania": "sql_group_by",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "System kontroli dostepu"
     },
     {
       "id": "2022M.6.4",
@@ -2014,11 +1848,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.4",
-      "tytul": "System kontroli dostepu",
       "typ_zadania": "sql_podzapytania",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 2
+      "tytul": "System kontroli dostepu"
     },
     {
       "id": "2023M.1.1",
@@ -2026,11 +1859,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.1",
-      "tytul": "Biblioteczka Adama",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Biblioteczka Adama"
     },
     {
       "id": "2023M.1.2",
@@ -2038,11 +1870,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.2",
-      "tytul": "Biblioteczka Adama",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Biblioteczka Adama"
     },
     {
       "id": "2023M.1.3",
@@ -2050,11 +1881,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.3",
-      "tytul": "Biblioteczka Adama",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Biblioteczka Adama"
     },
     {
       "id": "2023M.2.1",
@@ -2062,11 +1892,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.1",
-      "tytul": "Liczby binarne",
       "typ_zadania": "projektowanie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Liczby binarne"
     },
     {
       "id": "2023M.2.2",
@@ -2074,11 +1903,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.2",
-      "tytul": "Liczby binarne",
       "typ_zadania": "przetwarzanie_zliczanie",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Liczby binarne"
     },
     {
       "id": "2023M.2.3",
@@ -2086,11 +1914,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.3",
-      "tytul": "Liczby binarne",
       "typ_zadania": "przetwarzanie_minmax",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Liczby binarne"
     },
     {
       "id": "2023M.2.4",
@@ -2098,11 +1925,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.4",
-      "tytul": "Liczby binarne",
       "typ_zadania": "konwersja_systemow_liczbowych",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Liczby binarne"
     },
     {
       "id": "2023M.2.5",
@@ -2110,11 +1936,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.5",
-      "tytul": "Liczby binarne",
       "typ_zadania": "przetwarzanie_cyfry_liczby",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Liczby binarne"
     },
     {
       "id": "2023M.3.1",
@@ -2122,11 +1947,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.1",
-      "tytul": "Liczba Pi",
       "typ_zadania": "przetwarzanie_zliczanie",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Liczba Pi"
     },
     {
       "id": "2023M.3.2",
@@ -2134,11 +1958,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.2",
-      "tytul": "Liczba Pi",
       "typ_zadania": "przetwarzanie_minmax",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Liczba Pi"
     },
     {
       "id": "2023M.3.3",
@@ -2146,11 +1969,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.3",
-      "tytul": "Liczba Pi",
       "typ_zadania": "przetwarzanie_sekwencje",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Liczba Pi"
     },
     {
       "id": "2023M.3.4",
@@ -2158,11 +1980,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.4",
-      "tytul": "Liczba Pi",
       "typ_zadania": "przetwarzanie_sekwencje",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Liczba Pi"
     },
     {
       "id": "2023M.4.1",
@@ -2170,11 +1991,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.1",
-      "tytul": "Szyfrowanie asymetryczne",
       "typ_zadania": "teoria_bezpieczenstwa",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Szyfrowanie asymetryczne"
     },
     {
       "id": "2023M.5.1",
@@ -2182,11 +2002,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5.1",
-      "tytul": "Systemy pozycyjne",
       "typ_zadania": "konwersja_systemow_liczbowych",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Systemy pozycyjne"
     },
     {
       "id": "2023M.6.1",
@@ -2194,11 +2013,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.1",
-      "tytul": "Konfitury owocowe",
       "typ_zadania": "arkusz_wykres",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Konfitury owocowe"
     },
     {
       "id": "2023M.6.2",
@@ -2206,11 +2024,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.2",
-      "tytul": "Konfitury owocowe",
       "typ_zadania": "arkusz_agregacja_warunkowa",
       "kategoria": "ARKUSZ",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Konfitury owocowe"
     },
     {
       "id": "2023M.6.3",
@@ -2218,11 +2035,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.3",
-      "tytul": "Konfitury owocowe",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Konfitury owocowe"
     },
     {
       "id": "2023M.6.4",
@@ -2230,11 +2046,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.4",
-      "tytul": "Konfitury owocowe",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Konfitury owocowe"
     },
     {
       "id": "2023M.7.1",
@@ -2242,11 +2057,10 @@
       "sesja": "maj",
       "numer_zadania": 7,
       "numer_podzadania": "7.1",
-      "tytul": "Gry planszowe",
       "typ_zadania": "przetwarzanie_zliczanie",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Gry planszowe"
     },
     {
       "id": "2023M.7.2",
@@ -2254,11 +2068,10 @@
       "sesja": "maj",
       "numer_zadania": 7,
       "numer_podzadania": "7.2",
-      "tytul": "Gry planszowe",
       "typ_zadania": "przetwarzanie_zliczanie",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Gry planszowe"
     },
     {
       "id": "2023M.7.3",
@@ -2266,11 +2079,10 @@
       "sesja": "maj",
       "numer_zadania": 7,
       "numer_podzadania": "7.3",
-      "tytul": "Gry planszowe",
       "typ_zadania": "przetwarzanie_zlozone",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Gry planszowe"
     },
     {
       "id": "2023M.7.4",
@@ -2278,11 +2090,10 @@
       "sesja": "maj",
       "numer_zadania": 7,
       "numer_podzadania": "7.4",
-      "tytul": "Gry planszowe",
       "typ_zadania": "przetwarzanie_zlozone",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Gry planszowe"
     },
     {
       "id": "2023M.7.5",
@@ -2290,11 +2101,10 @@
       "sesja": "maj",
       "numer_zadania": 7,
       "numer_podzadania": "7.5",
-      "tytul": "Gry planszowe",
       "typ_zadania": "sql_join",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Gry planszowe"
     },
     {
       "id": "2024C.1.1",
@@ -2302,11 +2112,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 1,
       "numer_podzadania": "1.1",
-      "tytul": "Prostokatna liczba binarna",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Prostokatna liczba binarna"
     },
     {
       "id": "2024C.1.2",
@@ -2314,11 +2123,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 1,
       "numer_podzadania": "1.2",
-      "tytul": "Prostokatna liczba binarna",
       "typ_zadania": "projektowanie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 4,
-      "czesc": 1
+      "tytul": "Prostokatna liczba binarna"
     },
     {
       "id": "2024C.2.1",
@@ -2326,11 +2134,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 2,
       "numer_podzadania": "2.1",
-      "tytul": "Funkcja rekurencyjna",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Funkcja rekurencyjna"
     },
     {
       "id": "2024C.2.2",
@@ -2338,11 +2145,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 2,
       "numer_podzadania": "2.2",
-      "tytul": "Funkcja rekurencyjna",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Funkcja rekurencyjna"
     },
     {
       "id": "2024C.3.1",
@@ -2350,11 +2156,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 3,
       "numer_podzadania": "3.1",
-      "tytul": "Slowa",
       "typ_zadania": "przetwarzanie_napisy",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Slowa"
     },
     {
       "id": "2024C.3.2",
@@ -2362,11 +2167,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 3,
       "numer_podzadania": "3.2",
-      "tytul": "Slowa",
       "typ_zadania": "przetwarzanie_napisy",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Slowa"
     },
     {
       "id": "2024C.3.3",
@@ -2374,11 +2178,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 3,
       "numer_podzadania": "3.3",
-      "tytul": "Slowa",
       "typ_zadania": "przetwarzanie_napisy",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Slowa"
     },
     {
       "id": "2024C.4.1",
@@ -2386,11 +2189,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 4,
       "numer_podzadania": "4.1",
-      "tytul": "Komputery i pakiety",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Komputery i pakiety"
     },
     {
       "id": "2024C.4.2",
@@ -2398,11 +2200,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 4,
       "numer_podzadania": "4.2",
-      "tytul": "Komputery i pakiety",
       "typ_zadania": "przetwarzanie_zlozone",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Komputery i pakiety"
     },
     {
       "id": "2024C.4.3",
@@ -2410,11 +2211,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 4,
       "numer_podzadania": "4.3",
-      "tytul": "Komputery i pakiety",
       "typ_zadania": "przetwarzanie_zlozone",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Komputery i pakiety"
     },
     {
       "id": "2024C.4.4",
@@ -2422,11 +2222,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 4,
       "numer_podzadania": "4.4",
-      "tytul": "Komputery i pakiety",
       "typ_zadania": "przetwarzanie_zlozone",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Komputery i pakiety"
     },
     {
       "id": "2024C.5",
@@ -2434,11 +2233,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 5,
       "numer_podzadania": "5",
-      "tytul": "Prawo autorskie",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Prawo autorskie"
     },
     {
       "id": "2024C.6",
@@ -2446,11 +2244,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 6,
       "numer_podzadania": "6",
-      "tytul": "Systemy liczbowe",
       "typ_zadania": "konwersja_systemow_liczbowych",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Systemy liczbowe"
     },
     {
       "id": "2024C.7.1",
@@ -2458,11 +2255,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 7,
       "numer_podzadania": "7.1",
-      "tytul": "Uzdrowisko",
       "typ_zadania": "arkusz_wykres",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Uzdrowisko"
     },
     {
       "id": "2024C.7.2",
@@ -2470,11 +2266,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 7,
       "numer_podzadania": "7.2",
-      "tytul": "Uzdrowisko",
       "typ_zadania": "arkusz_agregacja_warunkowa",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Uzdrowisko"
     },
     {
       "id": "2024C.7.3",
@@ -2482,11 +2277,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 7,
       "numer_podzadania": "7.3",
-      "tytul": "Uzdrowisko",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 4,
-      "czesc": 1
+      "tytul": "Uzdrowisko"
     },
     {
       "id": "2024C.8.1",
@@ -2494,11 +2288,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 8,
       "numer_podzadania": "8.1",
-      "tytul": "Szczepienia",
       "typ_zadania": "sql_group_by",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Szczepienia"
     },
     {
       "id": "2024C.8.2",
@@ -2506,11 +2299,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 8,
       "numer_podzadania": "8.2",
-      "tytul": "Szczepienia",
       "typ_zadania": "sql_podzapytania",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Szczepienia"
     },
     {
       "id": "2024C.8.3",
@@ -2518,11 +2310,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 8,
       "numer_podzadania": "8.3",
-      "tytul": "Szczepienia",
       "typ_zadania": "sql_group_by",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Szczepienia"
     },
     {
       "id": "2024C.8.4",
@@ -2530,11 +2321,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 8,
       "numer_podzadania": "8.4",
-      "tytul": "Szczepienia",
       "typ_zadania": "sql_join",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Szczepienia"
     },
     {
       "id": "2024M.1.1",
@@ -2542,11 +2332,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.1",
-      "tytul": "Plansza",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Plansza"
     },
     {
       "id": "2024M.1.2",
@@ -2554,11 +2343,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.2",
-      "tytul": "Plansza",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Plansza"
     },
     {
       "id": "2024M.1.3",
@@ -2566,11 +2354,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.3",
-      "tytul": "Plansza",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Plansza"
     },
     {
       "id": "2024M.2.1",
@@ -2578,11 +2365,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.1",
-      "tytul": "Cyfry",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Cyfry"
     },
     {
       "id": "2024M.2.2",
@@ -2590,11 +2376,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.2",
-      "tytul": "Cyfry",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Cyfry"
     },
     {
       "id": "2024M.3.1",
@@ -2602,11 +2387,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.1",
-      "tytul": "Nieparzysty skrot",
       "typ_zadania": "projektowanie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Nieparzysty skrot"
     },
     {
       "id": "2024M.3.2",
@@ -2614,11 +2398,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.2",
-      "tytul": "Nieparzysty skrot",
       "typ_zadania": "przetwarzanie_cyfry_liczby",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Nieparzysty skrot"
     },
     {
       "id": "2024M.3.3",
@@ -2626,11 +2409,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.3",
-      "tytul": "Nieparzysty skrot",
       "typ_zadania": "przetwarzanie_cyfry_liczby",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 4,
-      "czesc": 1
+      "tytul": "Nieparzysty skrot"
     },
     {
       "id": "2024M.4.1",
@@ -2638,11 +2420,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.1",
-      "tytul": "Liczby",
       "typ_zadania": "przetwarzanie_zliczanie",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Liczby"
     },
     {
       "id": "2024M.4.2",
@@ -2650,11 +2431,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.2",
-      "tytul": "Liczby",
       "typ_zadania": "przetwarzanie_minmax",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Liczby"
     },
     {
       "id": "2024M.4.3",
@@ -2662,11 +2442,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.3",
-      "tytul": "Liczby",
       "typ_zadania": "przetwarzanie_cyfry_liczby",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Liczby"
     },
     {
       "id": "2024M.4.4",
@@ -2674,11 +2453,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4.4",
-      "tytul": "Liczby",
       "typ_zadania": "przetwarzanie_sekwencje",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Liczby"
     },
     {
       "id": "2024M.5",
@@ -2686,11 +2464,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5",
-      "tytul": "Protokoly sieciowe",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Protokoly sieciowe"
     },
     {
       "id": "2024M.6",
@@ -2698,11 +2475,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6",
-      "tytul": "Systemy liczbowe",
       "typ_zadania": "konwersja_systemow_liczbowych",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Systemy liczbowe"
     },
     {
       "id": "2024M.7.1",
@@ -2710,11 +2486,10 @@
       "sesja": "maj",
       "numer_zadania": 7,
       "numer_podzadania": "7.1",
-      "tytul": "Hurtownia",
       "typ_zadania": "arkusz_agregacja_warunkowa",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Hurtownia"
     },
     {
       "id": "2024M.7.2",
@@ -2722,11 +2497,10 @@
       "sesja": "maj",
       "numer_zadania": 7,
       "numer_podzadania": "7.2",
-      "tytul": "Hurtownia",
       "typ_zadania": "arkusz_agregacja_warunkowa",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Hurtownia"
     },
     {
       "id": "2024M.7.3",
@@ -2734,11 +2508,10 @@
       "sesja": "maj",
       "numer_zadania": 7,
       "numer_podzadania": "7.3",
-      "tytul": "Hurtownia",
       "typ_zadania": "arkusz_wykres",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Hurtownia"
     },
     {
       "id": "2024M.7.4",
@@ -2746,11 +2519,10 @@
       "sesja": "maj",
       "numer_zadania": 7,
       "numer_podzadania": "7.4",
-      "tytul": "Hurtownia",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Hurtownia"
     },
     {
       "id": "2024M.8.1",
@@ -2758,11 +2530,10 @@
       "sesja": "maj",
       "numer_zadania": 8,
       "numer_podzadania": "8.1",
-      "tytul": "Rejestr wykroczen",
       "typ_zadania": "sql_group_by",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Rejestr wykroczen"
     },
     {
       "id": "2024M.8.2",
@@ -2770,11 +2541,10 @@
       "sesja": "maj",
       "numer_zadania": 8,
       "numer_podzadania": "8.2",
-      "tytul": "Rejestr wykroczen",
       "typ_zadania": "sql_group_by",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Rejestr wykroczen"
     },
     {
       "id": "2024M.8.3",
@@ -2782,11 +2552,10 @@
       "sesja": "maj",
       "numer_zadania": 8,
       "numer_podzadania": "8.3",
-      "tytul": "Rejestr wykroczen",
       "typ_zadania": "sql_podzapytania",
       "kategoria": "SQL",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Rejestr wykroczen"
     },
     {
       "id": "2024M.8.4",
@@ -2794,11 +2563,241 @@
       "sesja": "maj",
       "numer_zadania": 8,
       "numer_podzadania": "8.4",
-      "tytul": "Rejestr wykroczen",
       "typ_zadania": "sql_podzapytania",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Rejestr wykroczen"
+    },
+    {
+      "id": "2024P.1.1",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 1,
+      "numer_podzadania": "1.1",
+      "typ_zadania": "sledzenie_algorytmu",
+      "kategoria": "TEORIA",
+      "punkty": 2,
+      "tytul": "Pozycje jedynek w zapisie dwojkowym"
+    },
+    {
+      "id": "2024P.1.2",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 1,
+      "numer_podzadania": "1.2",
+      "typ_zadania": "projektowanie_algorytmu",
+      "kategoria": "TEORIA",
+      "punkty": 3,
+      "tytul": "Pozycje jedynek w zapisie dwojkowym"
+    },
+    {
+      "id": "2024P.2.1",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 2,
+      "numer_podzadania": "2.1",
+      "typ_zadania": "sledzenie_algorytmu",
+      "kategoria": "TEORIA",
+      "punkty": 3,
+      "tytul": "Rekurencja"
+    },
+    {
+      "id": "2024P.2.2",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 2,
+      "numer_podzadania": "2.2",
+      "typ_zadania": "analiza_algorytmu",
+      "kategoria": "TEORIA",
+      "punkty": 2,
+      "tytul": "Rekurencja"
+    },
+    {
+      "id": "2024P.3.1",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 3,
+      "numer_podzadania": "3.1",
+      "typ_zadania": "przetwarzanie_cyfry_liczby",
+      "kategoria": "IMPLEMENTACJA",
+      "punkty": 2,
+      "tytul": "Liczby czterocyfrowe"
+    },
+    {
+      "id": "2024P.3.2",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 3,
+      "numer_podzadania": "3.2",
+      "typ_zadania": "przetwarzanie_cyfry_liczby",
+      "kategoria": "IMPLEMENTACJA",
+      "punkty": 3,
+      "tytul": "Liczby czterocyfrowe"
+    },
+    {
+      "id": "2024P.3.3",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 3,
+      "numer_podzadania": "3.3",
+      "typ_zadania": "przetwarzanie_cyfry_liczby",
+      "kategoria": "IMPLEMENTACJA",
+      "punkty": 3,
+      "tytul": "Liczby czterocyfrowe"
+    },
+    {
+      "id": "2024P.4.1",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 4,
+      "numer_podzadania": "4.1",
+      "typ_zadania": "przetwarzanie_minmax",
+      "kategoria": "IMPLEMENTACJA",
+      "punkty": 2,
+      "tytul": "Prostokaty"
+    },
+    {
+      "id": "2024P.4.2",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 4,
+      "numer_podzadania": "4.2",
+      "typ_zadania": "przetwarzanie_sekwencje",
+      "kategoria": "IMPLEMENTACJA",
+      "punkty": 2,
+      "tytul": "Prostokaty"
+    },
+    {
+      "id": "2024P.4.3",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 4,
+      "numer_podzadania": "4.3",
+      "typ_zadania": "przetwarzanie_zlozone",
+      "kategoria": "IMPLEMENTACJA",
+      "punkty": 4,
+      "tytul": "Prostokaty"
+    },
+    {
+      "id": "2024P.5.1",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 5,
+      "numer_podzadania": "5",
+      "typ_zadania": "test_prawda_falsz",
+      "kategoria": "TEORIA",
+      "punkty": 1,
+      "tytul": "Podpis elektroniczny"
+    },
+    {
+      "id": "2024P.6.1",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 6,
+      "numer_podzadania": "6",
+      "typ_zadania": "konwersja_systemow_liczbowych",
+      "kategoria": "TEORIA",
+      "punkty": 2,
+      "tytul": "System piatkowy"
+    },
+    {
+      "id": "2024P.7.1",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 7,
+      "numer_podzadania": "7.1",
+      "typ_zadania": "arkusz_agregacja_warunkowa",
+      "kategoria": "ARKUSZ",
+      "punkty": 2,
+      "tytul": "Energia odnawialna"
+    },
+    {
+      "id": "2024P.7.2",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 7,
+      "numer_podzadania": "7.2",
+      "typ_zadania": "arkusz_wykres",
+      "kategoria": "ARKUSZ",
+      "punkty": 3,
+      "tytul": "Energia odnawialna"
+    },
+    {
+      "id": "2024P.7.3",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 7,
+      "numer_podzadania": "7.3",
+      "typ_zadania": "arkusz_symulacja",
+      "kategoria": "ARKUSZ",
+      "punkty": 3,
+      "tytul": "Energia odnawialna"
+    },
+    {
+      "id": "2024P.7.4",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 7,
+      "numer_podzadania": "7.4",
+      "typ_zadania": "arkusz_symulacja",
+      "kategoria": "ARKUSZ",
+      "punkty": 3,
+      "tytul": "Energia odnawialna"
+    },
+    {
+      "id": "2024P.8.1",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 8,
+      "numer_podzadania": "8.1",
+      "typ_zadania": "sql_select_where",
+      "kategoria": "SQL",
+      "punkty": 2,
+      "tytul": "Serwis samochodowy"
+    },
+    {
+      "id": "2024P.8.2",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 8,
+      "numer_podzadania": "8.2",
+      "typ_zadania": "sql_group_by",
+      "kategoria": "SQL",
+      "punkty": 2,
+      "tytul": "Serwis samochodowy"
+    },
+    {
+      "id": "2024P.8.3",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 8,
+      "numer_podzadania": "8.3",
+      "typ_zadania": "sql_join",
+      "kategoria": "SQL",
+      "punkty": 2,
+      "tytul": "Serwis samochodowy"
+    },
+    {
+      "id": "2024P.8.4",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 8,
+      "numer_podzadania": "8.4",
+      "typ_zadania": "sql_group_by",
+      "kategoria": "SQL",
+      "punkty": 2,
+      "tytul": "Serwis samochodowy"
+    },
+    {
+      "id": "2024P.8.5",
+      "rok": 2024,
+      "sesja": "probna_grudzien",
+      "numer_zadania": 8,
+      "numer_podzadania": "8.5",
+      "typ_zadania": "sql_join",
+      "kategoria": "SQL",
+      "punkty": 2,
+      "tytul": "Serwis samochodowy"
     },
     {
       "id": "2025C.1.1",
@@ -2806,11 +2805,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 1,
       "numer_podzadania": "1.1",
-      "tytul": "Funkcja rekurencyjna",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Funkcja rekurencyjna"
     },
     {
       "id": "2025C.1.2",
@@ -2818,11 +2816,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 1,
       "numer_podzadania": "1.2",
-      "tytul": "Funkcja rekurencyjna",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Funkcja rekurencyjna"
     },
     {
       "id": "2025C.1.3",
@@ -2830,11 +2827,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 1,
       "numer_podzadania": "1.3",
-      "tytul": "Funkcja rekurencyjna",
       "typ_zadania": "analiza_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Funkcja rekurencyjna"
     },
     {
       "id": "2025C.2.1",
@@ -2842,11 +2838,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 2,
       "numer_podzadania": "2.1",
-      "tytul": "Liczby",
       "typ_zadania": "projektowanie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 4,
-      "czesc": 1
+      "tytul": "Liczby"
     },
     {
       "id": "2025C.2.2",
@@ -2854,11 +2849,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 2,
       "numer_podzadania": "2.2",
-      "tytul": "Liczby",
       "typ_zadania": "przetwarzanie_cyfry_liczby",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Liczby"
     },
     {
       "id": "2025C.2.3",
@@ -2866,11 +2860,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 2,
       "numer_podzadania": "2.3",
-      "tytul": "Liczby",
       "typ_zadania": "przetwarzanie_zlozone",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Liczby"
     },
     {
       "id": "2025C.3.1",
@@ -2878,11 +2871,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 3,
       "numer_podzadania": "3.1",
-      "tytul": "Ukryte numery",
       "typ_zadania": "przetwarzanie_napisy",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Ukryte numery"
     },
     {
       "id": "2025C.3.2",
@@ -2890,11 +2882,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 3,
       "numer_podzadania": "3.2",
-      "tytul": "Ukryte numery",
       "typ_zadania": "przetwarzanie_napisy",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Ukryte numery"
     },
     {
       "id": "2025C.3.3",
@@ -2902,11 +2893,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 3,
       "numer_podzadania": "3.3",
-      "tytul": "Ukryte numery",
       "typ_zadania": "przetwarzanie_napisy",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Ukryte numery"
     },
     {
       "id": "2025C.3.4",
@@ -2914,11 +2904,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 3,
       "numer_podzadania": "3.4",
-      "tytul": "Ukryte numery",
       "typ_zadania": "przetwarzanie_napisy",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Ukryte numery"
     },
     {
       "id": "2025C.4.1",
@@ -2926,11 +2915,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 4,
       "numer_podzadania": "4",
-      "tytul": "Prawda/Falsz -- formaty graficzne",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Prawda/Falsz -- formaty graficzne"
     },
     {
       "id": "2025C.5.1",
@@ -2938,11 +2926,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 5,
       "numer_podzadania": "5",
-      "tytul": "System trojkowy",
       "typ_zadania": "konwersja_systemow_liczbowych",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "System trojkowy"
     },
     {
       "id": "2025C.6.1",
@@ -2950,11 +2937,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 6,
       "numer_podzadania": "6.1",
-      "tytul": "Fotowoltaika",
       "typ_zadania": "arkusz_agregacja_podstawowa",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Fotowoltaika"
     },
     {
       "id": "2025C.6.2",
@@ -2962,11 +2948,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 6,
       "numer_podzadania": "6.2",
-      "tytul": "Fotowoltaika",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Fotowoltaika"
     },
     {
       "id": "2025C.6.3",
@@ -2974,11 +2959,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 6,
       "numer_podzadania": "6.3",
-      "tytul": "Fotowoltaika",
       "typ_zadania": "arkusz_wykres",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Fotowoltaika"
     },
     {
       "id": "2025C.6.4",
@@ -2986,11 +2970,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 6,
       "numer_podzadania": "6.4",
-      "tytul": "Fotowoltaika",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Fotowoltaika"
     },
     {
       "id": "2025C.7.1",
@@ -2998,11 +2981,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 7,
       "numer_podzadania": "7.1",
-      "tytul": "Fryzjerzy",
       "typ_zadania": "przetwarzanie_zlozone",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Fryzjerzy"
     },
     {
       "id": "2025C.7.2",
@@ -3010,11 +2992,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 7,
       "numer_podzadania": "7.2",
-      "tytul": "Fryzjerzy",
       "typ_zadania": "przetwarzanie_zlozone",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Fryzjerzy"
     },
     {
       "id": "2025C.7.3",
@@ -3022,11 +3003,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 7,
       "numer_podzadania": "7.3",
-      "tytul": "Fryzjerzy",
       "typ_zadania": "przetwarzanie_zlozone",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Fryzjerzy"
     },
     {
       "id": "2025C.7.4",
@@ -3034,11 +3014,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 7,
       "numer_podzadania": "7.4",
-      "tytul": "Fryzjerzy",
       "typ_zadania": "przetwarzanie_zlozone",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Fryzjerzy"
     },
     {
       "id": "2025C.7.5",
@@ -3046,11 +3025,10 @@
       "sesja": "czerwiec",
       "numer_zadania": 7,
       "numer_podzadania": "7.5",
-      "tytul": "Fryzjerzy",
       "typ_zadania": "sql_join",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Fryzjerzy"
     },
     {
       "id": "2025M.1.1",
@@ -3058,11 +3036,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.1",
-      "tytul": "Funkcja rekurencyjna",
       "typ_zadania": "sledzenie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Funkcja rekurencyjna"
     },
     {
       "id": "2025M.1.2",
@@ -3070,11 +3047,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.2",
-      "tytul": "Funkcja rekurencyjna",
       "typ_zadania": "test_prawda_falsz",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Funkcja rekurencyjna"
     },
     {
       "id": "2025M.1.3",
@@ -3082,11 +3058,10 @@
       "sesja": "maj",
       "numer_zadania": 1,
       "numer_podzadania": "1.3",
-      "tytul": "Funkcja rekurencyjna",
       "typ_zadania": "projektowanie_algorytmu",
       "kategoria": "TEORIA",
       "punkty": 4,
-      "czesc": 1
+      "tytul": "Funkcja rekurencyjna"
     },
     {
       "id": "2025M.2.1",
@@ -3094,11 +3069,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.1",
-      "tytul": "Zapis symboliczny",
       "typ_zadania": "przetwarzanie_napisy",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Zapis symboliczny"
     },
     {
       "id": "2025M.2.2",
@@ -3106,11 +3080,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.2",
-      "tytul": "Zapis symboliczny",
       "typ_zadania": "przetwarzanie_obrazy_2D",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 4,
-      "czesc": 1
+      "tytul": "Zapis symboliczny"
     },
     {
       "id": "2025M.2.3",
@@ -3118,11 +3091,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.3",
-      "tytul": "Zapis symboliczny",
       "typ_zadania": "przetwarzanie_minmax",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Zapis symboliczny"
     },
     {
       "id": "2025M.2.4",
@@ -3130,11 +3102,10 @@
       "sesja": "maj",
       "numer_zadania": 2,
       "numer_podzadania": "2.4",
-      "tytul": "Zapis symboliczny",
       "typ_zadania": "przetwarzanie_zlozone",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Zapis symboliczny"
     },
     {
       "id": "2025M.3.1",
@@ -3142,11 +3113,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.1",
-      "tytul": "Dron",
       "typ_zadania": "przetwarzanie_cyfry_liczby",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Dron"
     },
     {
       "id": "2025M.3.2",
@@ -3154,11 +3124,10 @@
       "sesja": "maj",
       "numer_zadania": 3,
       "numer_podzadania": "3.2",
-      "tytul": "Dron",
       "typ_zadania": "obliczenia_geometryczne",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 4,
-      "czesc": 1
+      "tytul": "Dron"
     },
     {
       "id": "2025M.4",
@@ -3166,11 +3135,10 @@
       "sesja": "maj",
       "numer_zadania": 4,
       "numer_podzadania": "4",
-      "tytul": "Keylogger",
       "typ_zadania": "teoria_bezpieczenstwa",
       "kategoria": "TEORIA",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Keylogger"
     },
     {
       "id": "2025M.5",
@@ -3178,11 +3146,10 @@
       "sesja": "maj",
       "numer_zadania": 5,
       "numer_podzadania": "5",
-      "tytul": "Dodawanie binarne",
       "typ_zadania": "konwersja_systemow_liczbowych",
       "kategoria": "TEORIA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Dodawanie binarne"
     },
     {
       "id": "2025M.6.1",
@@ -3190,11 +3157,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.1",
-      "tytul": "Martianeum",
       "typ_zadania": "arkusz_agregacja_warunkowa",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Martianeum"
     },
     {
       "id": "2025M.6.2",
@@ -3202,11 +3168,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.2",
-      "tytul": "Martianeum",
       "typ_zadania": "arkusz_agregacja_warunkowa",
       "kategoria": "ARKUSZ",
       "punkty": 1,
-      "czesc": 1
+      "tytul": "Martianeum"
     },
     {
       "id": "2025M.6.3",
@@ -3214,11 +3179,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.3",
-      "tytul": "Martianeum",
       "typ_zadania": "arkusz_transformacja",
       "kategoria": "ARKUSZ",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Martianeum"
     },
     {
       "id": "2025M.6.4",
@@ -3226,11 +3190,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.4",
-      "tytul": "Martianeum",
       "typ_zadania": "arkusz_wykres",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Martianeum"
     },
     {
       "id": "2025M.6.5",
@@ -3238,11 +3201,10 @@
       "sesja": "maj",
       "numer_zadania": 6,
       "numer_podzadania": "6.5",
-      "tytul": "Martianeum",
       "typ_zadania": "arkusz_symulacja",
       "kategoria": "ARKUSZ",
       "punkty": 3,
-      "czesc": 1
+      "tytul": "Martianeum"
     },
     {
       "id": "2025M.7.1",
@@ -3250,11 +3212,10 @@
       "sesja": "maj",
       "numer_zadania": 7,
       "numer_podzadania": "7.1",
-      "tytul": "Poszukiwanie wody na Marsie",
       "typ_zadania": "przetwarzanie_zlozone",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Poszukiwanie wody na Marsie"
     },
     {
       "id": "2025M.7.2",
@@ -3262,11 +3223,10 @@
       "sesja": "maj",
       "numer_zadania": 7,
       "numer_podzadania": "7.2",
-      "tytul": "Poszukiwanie wody na Marsie",
       "typ_zadania": "przetwarzanie_zlozone",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Poszukiwanie wody na Marsie"
     },
     {
       "id": "2025M.7.3",
@@ -3274,11 +3234,10 @@
       "sesja": "maj",
       "numer_zadania": 7,
       "numer_podzadania": "7.3",
-      "tytul": "Poszukiwanie wody na Marsie",
       "typ_zadania": "przetwarzanie_zlozone",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Poszukiwanie wody na Marsie"
     },
     {
       "id": "2025M.7.4",
@@ -3286,11 +3245,10 @@
       "sesja": "maj",
       "numer_zadania": 7,
       "numer_podzadania": "7.4",
-      "tytul": "Poszukiwanie wody na Marsie",
       "typ_zadania": "przetwarzanie_zlozone",
       "kategoria": "IMPLEMENTACJA",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Poszukiwanie wody na Marsie"
     },
     {
       "id": "2025M.7.5",
@@ -3298,11 +3256,10 @@
       "sesja": "maj",
       "numer_zadania": 7,
       "numer_podzadania": "7.5",
-      "tytul": "Poszukiwanie wody na Marsie",
       "typ_zadania": "sql_join",
       "kategoria": "SQL",
       "punkty": 2,
-      "czesc": 1
+      "tytul": "Poszukiwanie wody na Marsie"
     }
   ]
 }

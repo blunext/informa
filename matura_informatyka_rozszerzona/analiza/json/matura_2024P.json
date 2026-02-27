@@ -1,0 +1,450 @@
+{
+  "rok": 2024,
+  "sesja": "probna_grudzien",
+  "formula": "2023",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 8,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 210,
+      "punkty": 50,
+      "opis": "Jedna czesc (nowa formula)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Pozycje jedynek w zapisie dwojkowym",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "Dla danej dodatniej liczby calkowitej n niech J(n) bedzie ciagiem kolejnych pozycji jedynek (cyfr 1) w jej zapisie dwojkowym, zaczynajac od pozycji najmniej znaczacej (ostatniej).\n\nPozycje cyfr w zapisie liczby numerujemy od 1 (zaczynamy od ostatniej pozycji).\n\nPrzyklad 1.\nDla n = 19: J(19) = (1, 2, 5), poniewaz 19 (dec) = 10011 (bin)",
+      "wymiary": {
+        "czasowy_min": 15,
+        "zlozonosc": 2,
+        "trudnosc": 2
+      },
+      "podzadania": [
+        {
+          "id": "2024P.1.1",
+          "numer": "1.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1. (0-2)\nUzupelnij ponizsza tabele.\n\n| Liczba n | Zapis dwojkowy n | J(n) |\n|---|---|---|\n| 19 | 10011 | (1, 2, 5) |\n| 6 | 110 | |\n| 42 | | |\n| | | (1, 2, 4, 7) |",
+          "odpowiedz": "| Liczba n | Zapis dwojkowy n | J(n) |\n|---|---|---|\n| 19 | 10011 | (1, 2, 5) |\n| 6 | 110 | (2, 3) |\n| 42 | 101010 | (2, 4, 6) |\n| 75 | 1001011 | (1, 2, 4, 7) |",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- poprawne uzupelnienie dwoch wierszy.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Trzeba znalezc liczbe 75, ktorej zapis dwojkowy to 1001011 -- ma jedynki na pozycjach 1,2,4,7",
+            "42 = 101010 -- jedynki na pozycjach 2,4,6 (numeracja od prawej od 1)",
+            "6 = 110 -- jedynki na pozycjach 2,3"
+          ]
+        },
+        {
+          "id": "2024P.1.2",
+          "numer": "1.2",
+          "punkty": 3,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2. (0-3)\nW pseudojezku lub w wybranym jezyku programowania zapisz algorytm, ktory dla danej liczby calkowitej dodatniej n wypisuje kolejne elementy ciagu J(n).\n\nUwaga: Twoj algorytm moze uzywac wylacznie zmiennych przechowujacych liczby calkowite oraz moze operowac wylacznie na liczbach calkowitych. W zapisie mozesz wykorzystac tylko operacje arytmetyczne: dodawanie, odejmowanie, mnozenie, dzielenie, dzielenie calkowite, reszte z dzielenia oraz porownywanie liczb, instrukcje sterujace, przypisania do zmiennych lub samodzielnie napisane funkcje, wykorzystujace wyzej wymienione operacje. Zabronione jest uzywanie funkcji wbudowanych oraz operatorow innych niz wymienione, nie wolno uzywac zwlaszcza zadnych funkcji zamiany typow danych.\n\nSpecyfikacja:\nDane:\n    n -- dodatnia liczba calkowita\nWynik:\n    kolejne elementy ciagu J(n)",
+          "odpowiedz": "b <- 1\ndopoki n > 0 powtarzaj\n    jezeli n mod 2 = 1\n        wypisz(b)\n    n <- n div 2\n    b <- b + 1",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- poprawne wyznaczenie pozycji jedynki,\n    1 pkt -- poprawne sprawdzenie bitu (n mod 2),\n    1 pkt -- poprawne przesuniecie (n div 2) i iteracja.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Wymagane operowanie wylacznie na liczbach calkowitych -- zabronione konwersje typow",
+            "Numeracja pozycji od 1, nie od 0",
+            "Trzeba uzywac mod 2 i div 2 zamiast operacji bitowych"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 2,
+      "tytul": "Rekurencja",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "Przeanalizuj ponizsa funkcje, ktorej parametrami sa nieujemna liczba calkowita x oraz dodatnia liczba calkowita 1 < p < 10.\n\nF(x, p) :\n    jezeli x = 0\n        podaj wynik 0\n    w przeciwnym przypadku\n        c <- x mod p\n        jezeli c mod 2 = 1\n            podaj wynik F( x div p, p ) + c\n        w przeciwnym przypadku\n            podaj wynik F( x div p, p ) - c\n\ngdzie:\na mod b oznacza reszte z dzielenia liczby a przez liczbe b\na div b oznacza dzielenie calkowite liczby a przez liczbe b",
+      "wymiary": {
+        "czasowy_min": 15,
+        "zlozonosc": 2,
+        "trudnosc": 2
+      },
+      "podzadania": [
+        {
+          "id": "2024P.2.1",
+          "numer": "2.1",
+          "punkty": 3,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1. (0-3)\nUzupelnij ponizsa tabele. Dla podanych w tabeli wartosci x i p wpisz wynik funkcji F(x, p) oraz liczbe wywolan funkcji F, lacznie z pierwszym wywolaniem F(x, p).\n\n| x | p | F(x, p) | Liczba wywolan funkcji F |\n|---|---|---|---|\n| 125 | 2 | 6 | 8 |\n| 130 | 3 | | |\n| 220 | 4 | | |",
+          "odpowiedz": "| x | p | F(x, p) | Liczba wywolan funkcji F |\n|---|---|---|---|\n| 125 | 2 | 6 | 8 |\n| 130 | 3 | 2 | 6 |\n| 220 | 4 | 7 | 5 |",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna.\n1 pkt -- prawidlowe wyniki F(x,p) dla obu wierszy.\n1 pkt -- prawidlowe liczby wywolan dla obu wierszy.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "F(130,3): 130/3: c=1(odd)->+1, 43/3: c=1(odd)->+1, 14/3: c=2(even)->-2, 4/3: c=1(odd)->+1, 1/3: c=1(odd)->+1, 0->0. Wynik: 0+1+1-2+1+1=2, 6 wywolan",
+            "F(220,4): 220/4: c=0(even)->-0, 55/4: c=3(odd)->+3, 13/4: c=1(odd)->+1, 3/4: c=3(odd)->+3, 0->0. Wynik: 0+3+1+3-0=7, 5 wywolan",
+            "Trzeba pamietac ze wywolanie bazowe F(0,p)=0 tez liczy sie jako wywolanie"
+          ]
+        },
+        {
+          "id": "2024P.2.2",
+          "numer": "2.2",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2. (0-2)\nUzupelnij ponizsa tabele. Dla podanych wartosci p zapisz najwieksza taka liczbe x < 100, dla ktorej wynikiem funkcji F(x, p) jest 0.\n\n| p | x |\n|---|---|\n| 3 | |\n| 4 | |",
+          "odpowiedz": "| p | x |\n|---|---|\n| 3 | 96 |\n| 4 | 97 |",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- za p=3, x=96.\n    1 pkt -- za p=4, x=97.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "F(x,p)=0 oznacza ze suma nieparzystych cyfr w systemie p-kowym = suma parzystych cyfr",
+            "Dla p=3: 96 = 10120 (base 3), cyfry: 1,0,1,2,0 -> nieparzyste: 1+1=2, parzyste: 0+2+0=2, bilans=0",
+            "Dla p=4: 97 = 1201 (base 4), cyfry: 1,2,0,1 -> nieparzyste: 1+1=2, parzyste: 2+0=2, bilans=0",
+            "Trzeba systematycznie sprawdzac od 99 w dol"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 3,
+      "tytul": "Liczby czterocyfrowe",
+      "punkty": 8,
+      "czesc": 1,
+      "kontekst": "W pliku liczby.txt jest danych 2000 liczb calkowitych z zakresu [1000, 9999], kazda w oddzielnym wierszu. Wszystkie sa rozne.\n\nNapisz program (lub kilka programow), ktory znajdzie odpowiedzi do ponizszych zadan. Kazda odpowiedz zapisz w pliku wyniki3.txt i poprzedz ja numerem oznaczajacym zadanie.\n\nDo Twojej dyspozycji jest plik liczby_przyklad.txt, ktory zawiera 20 liczb w podobnej postaci. Odpowiedzi dla pliku liczby_przyklad.txt sa podane w poleceniach zadan.",
+      "sciezka_danych": "dane_PR/",
+      "pliki_danych": ["liczby.txt", "liczby_przyklad.txt"],
+      "wymiary": {
+        "czasowy_min": 30,
+        "zlozonosc": 3,
+        "trudnosc": 3
+      },
+      "podzadania": [
+        {
+          "id": "2024P.3.1",
+          "numer": "3.1",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.1. (0-2)\nZnajdz w pliku liczby.txt takie liczby, ktore sa kwadratami liczb calkowitych. Podaj, ile jest takich liczb, oraz podaj te, ktora wystepuje w pliku jako pierwsza.\n\nW pliku liczby_przyklad.txt sa 2 kwadraty, pierwszy to 9801.",
+          "odpowiedz": "20 kwadratow, pierwszy to 4489.",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- za liczbe kwadratow.\n    1 pkt -- za pierwszy kwadrat.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Kwadraty w zakresie 1000-9999: od 32^2=1024 do 99^2=9801",
+            "Trzeba znalezc PIERWSZY w kolejnosci wystepowania w pliku, nie najmniejszy"
+          ]
+        },
+        {
+          "id": "2024P.3.2",
+          "numer": "3.2",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.2. (0-3)\nWypisz wszystkie liczby z pliku liczby.txt, ktore maja co najmniej 5 roznych dzielnikow pierwszych.\n\nW pliku liczby_przyklad.txt jest jedna taka liczba: 2730.",
+          "odpowiedz": "2730\n8190\n2310\n4620\n7770\n8610\n4830\n4290\n6930\n6630",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna.\n2 pkt -- w odpowiedzi podano przynajmniej 6 poprawnych liczb i nie ma zadnej nieprawidlowej.\n1 pkt -- w odpowiedzi podana jest przynajmniej jedna prawidlowa liczba, i nie ma zadnej nieprawidlowej.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Roznych dzielnikow pierwszych, nie wszystkich dzielnikow",
+            "Trzeba dobrze rozkladac na czynniki pierwsze i liczyc unikalne",
+            "2730 = 2*3*5*7*13 -- 5 roznych dzielnikow pierwszych"
+          ]
+        },
+        {
+          "id": "2024P.3.3",
+          "numer": "3.3",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.3. (0-3)\nDo kazdej liczby w pliku stosujemy nastepujaca procedure: z jej czterech cyfr tworzymy najwieksza mozliwa oraz najmniejsza mozliwa liczbe, po czym druga z nich odejmujemy od pierwszej. Przykladowo: dla liczby 3151 najwieksza mozliwa liczba to 5311, a najmniejsza to 1135, a wiec wynik -- ich roznica -- wynosi 4176. Jesli w liczbie wystepuja zera, traktujemy je tak samo jak inne cyfry (na przyklad dla liczby 2047 roznica to 7420 - 0247 = 7173).\n\nDla kazdej liczby rozstrzygnij, czy roznica otrzymana w wyniku zastosowania podanej procedury jest mniejsza, wieksza czy rowna danej liczbie. Podaj, ile razy otrzymamy roznice mniejsza, ile razy -- wieksza, a ile razy -- rowna danej liczbie. Ponadto wypisz kazda liczbe, dla ktorej otrzymuje sie w wyniku zastosowania podanej procedury roznice rowna danej liczbie.\n\nDla pliku liczby_przyklad.txt otrzymujemy 8 razy mniejsza roznice i 12 razy wieksza roznice. Ani razu roznica nie bedzie rowna danej liczbie.",
+          "odpowiedz": "Mniejszych: 947\nWiekszych: 1052\n1 liczba rowna: 6174.",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- za liczbe mniejszych liczb.\n    1 pkt -- za liczbe wiekszych liczb.\n    1 pkt -- za podanie jedynej rownej liczby.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "6174 to slynna stala Kaplrekara -- jedyna czterocyfrowa liczba o tej wlasciwosci",
+            "Trzeba poprawnie konstruowac max i min z cyfr (sortowac cyfry)",
+            "Zera w liczbie: np. 2047 -> min = 0247 = 247, max = 7420"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 4,
+      "tytul": "Prostokaty",
+      "punkty": 8,
+      "czesc": 1,
+      "kontekst": "W pliku prostokaty.txt opisano 5000 prostokatow, po jednym w kazdym wierszu. Opis kazdego prostokata sklada sie z dwoch dodatnich liczb calkowitych nie wiekszych od 40 000, oddzielonych spacja. Pierwsza z tych liczb bedziemy nazywac wysokoscia prostokata, a druga -- jego szerokoscia.\n\nNapisz program (lub kilka programow), ktory znajda odpowiedzi do ponizszych zadan. Kazda odpowiedz zapisz w pliku wyniki4.txt i poprzedz ja numerem oznaczajacym zadanie.\n\nDo Twojej dyspozycji jest plik prostokaty_przyklad.txt, ktory zawiera opis 20 prostokatow w tej samej postaci. Odpowiedzi dla pliku prostokaty_przyklad.txt sa zawarte w poleceniach zadan.",
+      "sciezka_danych": "dane_PR/",
+      "pliki_danych": ["prostokaty.txt", "prostokaty_przyklad.txt"],
+      "wymiary": {
+        "czasowy_min": 30,
+        "zlozonosc": 3,
+        "trudnosc": 3
+      },
+      "podzadania": [
+        {
+          "id": "2024P.4.1",
+          "numer": "4.1",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_minmax",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.1. (0-2)\nPodaj najmniejsze i najwieksze pole powierzchni dla prostokatow z pliku prostokaty.txt.\n\nDla pliku prostokaty_przyklad.txt najmniejszym polem jest 252, a najwiekszym jest 9409.",
+          "odpowiedz": "najmniejsze pole to 10425, najwieksze to 1545605418.",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- za najmniejsze pole.\n    1 pkt -- za najwieksze pole.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Iloczyn dwoch liczb do 40000 moze wynosic do 1.6 mld -- wymaga typu 64-bitowego (long long w C++)",
+            "1545605418 > 2^30, wiec typ int moze nie wystarczyc w niektorych jezykach"
+          ]
+        },
+        {
+          "id": "2024P.4.2",
+          "numer": "4.2",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_sekwencje",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.2. (0-2)\nPowiemy, ze prostokat o szerokosci s i wysokosci h miesci sie w prostokacie o szerokosci s' i wysokosci h' wtedy i tylko wtedy, gdy s <= s' oraz h <= h'.\n\nZnajdz najdluzszy ciag kolejnych prostokatow w pliku prostokaty.txt taki, ze kazdy z tych prostokatow, poza pierwszym, miesci sie w poprzednim. Jako odpowiedz podaj dlugosc ciagu oraz wysokosc i szerokosc ostatniego prostokata w tym ciagu.\n\nDla pliku prostokaty_przyklad.txt wynikiem jest 4 83 5 (ciag 4-elementowy, ostatnim elementem ciagu jest prostokat o wysokosci 83 i szerokosci 5).",
+          "odpowiedz": "najdluzszy ciag ma 10 elementow, konczy sie para (1001,627).",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- za dlugosc ciagu.\n    1 pkt -- za pare na koncu.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Kolejne prostokaty w pliku, nie dowolne -- to ciag spojny",
+            "Warunek: s <= s' ORAZ h <= h' -- oba wymiary musza sie miescic",
+            "Trzeba podac ostatni prostokat w najdluzszym ciagu, nie pierwszy"
+          ]
+        },
+        {
+          "id": "2024P.4.3",
+          "numer": "4.3",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.3. (0-4)\nProstokaty o tej samej wysokosci mozna sklejac, zeby uzyskac prostokat o takiej samej wysokosci, co wysokosc sklejanych prostokatow, oraz o szerokosci, ktora jest suma szerokosci sklejanych prostokatow.\n\nPodaj najwieksze szerokosci prostokatow, ktore mozna uzyskac przez sklejanie dokladnie 2, 3 i 5 prostokatow opisanych -- odpowiednio -- w 2, 3 i 5 roznych (niekoniecznie kolejnych) wierszach pliku prostokaty.txt.\n\nDla pliku prostokaty_przyklad.txt wyniki sa nastepujace:\n2 prostokaty: 183\n3 prostokaty: 266\n5 prostokatow: 409.",
+          "odpowiedz": "2: 79506\n3: 118786\n5: 180895",
+          "zasady_oceniania": "4 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- za odpowiedz dla 2 prostokatow.\n    1 pkt -- za odpowiedz dla 3 prostokatow.\n    2 pkt -- za odpowiedz dla 5 prostokatow.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Sklejac mozna tylko prostokaty o TEJ SAMEJ wysokosci",
+            "Trzeba zgrupowac prostokaty wg wysokosci, potem wybierac grupy z najszersza suma",
+            "Dla kazdej grupy o danej wysokosci: sortuj szerokosci malejaco i bierz top-k"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 5,
+      "tytul": "Podpis elektroniczny",
+      "punkty": 1,
+      "czesc": 1,
+      "kontekst": null,
+      "wymiary": {
+        "czasowy_min": 5,
+        "zlozonosc": 1,
+        "trudnosc": 1
+      },
+      "podzadania": [
+        {
+          "id": "2024P.5.1",
+          "numer": "5",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 5. (0-1)\nOcen prawdziwosc podanych zdan dotyczacych podpisu elektronicznego. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli jest falszwe.\n\n1. Podpis elektroniczny jest gwarancja poufnosci tresci (szyfruje zawartosc dokumentu).\n2. Podpis elektroniczny sluzy do uwierzytelniania tozsamosci podmiotu wystawiajacego dokument.\n3. Podpis elektroniczny zabezpiecza przed utrata danych.",
+          "odpowiedz": "FPF\n1. F -- podpis elektroniczny nie szyfruje tresci dokumentu.\n2. P -- podpis elektroniczny sluzy do uwierzytelniania tozsamosci.\n3. F -- podpis elektroniczny nie zabezpiecza przed utrata danych.",
+          "zasady_oceniania": "1 pkt -- odpowiedz poprawna.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Podpis elektroniczny NIE szyfruje -- zapewnia autentycznosc i integralnosc, nie poufnosc",
+            "Podpis NIE chroni przed utrata danych -- to rola kopii zapasowych"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 6,
+      "tytul": "System piatkowy",
+      "punkty": 2,
+      "czesc": 1,
+      "kontekst": null,
+      "wymiary": {
+        "czasowy_min": 10,
+        "zlozonosc": 1,
+        "trudnosc": 2
+      },
+      "podzadania": [
+        {
+          "id": "2024P.6.1",
+          "numer": "6",
+          "punkty": 2,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 6. (0-2)\nWykonaj dzialania na liczbach zapisanych w systemie piatkowym. Wyniki podaj takze w systemie piatkowym.\n\n2024 (base 5) + 1044 (base 5) = ?\n2024 (base 5) - 1044 (base 5) = ?",
+          "odpowiedz": "2024(5) + 1044(5) = 3123(5)\n2024(5) - 1044(5) = 430(5)",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna dla dwoch dzialan.\n1 pkt -- odpowiedz poprawna dla jednego dzialania.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Dzialania w systemie piatkowym -- przeniesienia co 5, nie co 10",
+            "2024(5) = 2*125+0*25+2*5+4 = 264 (dec), 1044(5) = 1*125+0*25+4*5+4 = 149 (dec)",
+            "264+149=413=3123(5), 264-149=115=430(5)"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 7,
+      "tytul": "Energia odnawialna",
+      "punkty": 11,
+      "czesc": 1,
+      "kontekst": "W kolejnych wierszach pliku energia.txt znajduja sie dane o produkcji energii ze zrodel odnawialnych (wiatrowych i fotowoltaicznych). Kazdy wiersz zawiera oddzielone znakami tabulacji informacje o dacie, o godzinie oraz o liczbie megawatogodzin (MWh) wyprodukowanych przez zrodla wiatrowe, a takze liczbie megawatogodzin wyprodukowanych przez zrodla fotowoltaiczne w kwietniu 2024. Dane sa podane chronologicznie i nie zawieraja luk (sa podane dla kazdego dnia i dla kazdej godziny).\n\nFragment pliku:\nData       Godzina  Zrodla_wiatrowe  Zrodla_fotowoltaiczne\n2024-04-01  1       3130,263         0,000\n2024-04-01  2       2765,588         0,000\n...\n2024-04-01  7       2525,225         117,075\n2024-04-01  8       2360,988         1162,075\n2024-04-01  9       1940,838         2680,513",
+      "sciezka_danych": "dane_PR/",
+      "pliki_danych": ["energia.txt", "zapotrzebowanie.txt"],
+      "wymiary": {
+        "czasowy_min": 40,
+        "zlozonosc": 3,
+        "trudnosc": 3
+      },
+      "podzadania": [
+        {
+          "id": "2024P.7.1",
+          "numer": "7.1",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 7.1. (0-2)\nPodaj dzien, w ktorym lacznie wytworzono najwiecej MWh energii ze zrodel wiatrowych, oraz dzien, w ktorym lacznie wytworzono najwiecej MWh energii ze zrodel fotowoltaicznych w badanym okresie. W obu podanych kategoriach jest tylko jeden taki dzien.",
+          "odpowiedz": "Wiatrowych -- 2.04\nFotowoltaicznych -- 30.04",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna, w tym:\n    po 1 pkt -- za dzien, w ktorym lacznie wytworzono najwiecej MWh energii ze zrodel wiatrowych i dzien, w ktorym lacznie wytworzono najwiecej MWh energii ze zrodel fotowoltaicznych.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba zagregowac (SUMIFS) po dacie osobno dla wiatrowych i fotowoltaicznych",
+            "Nastepnie znalezc maksimum z sum dziennych dla kazdego typu"
+          ]
+        },
+        {
+          "id": "2024P.7.2",
+          "numer": "7.2",
+          "punkty": 3,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 7.2. (0-3)\nPodaj dla kazdej godziny w dobie (od 1 do 24) srednia liczbe wyprodukowanych MWh energii ze zrodel fotowoltaicznych w tej godzinie w kwietniu. Podaj wyniki z dokladnoscia do dwoch miejsc po przecinku. Dla tego zestawienia wykonaj wykres kolumnowy. Wstaw tytul wykresu i opisz osie.",
+          "odpowiedz": "| Godzina | Srednia MWh |\n|---|---|\n| 1 | 0 |\n| 2 | 0 |\n| 3 | 0 |\n| 4 | 0 |\n| 5 | 0,028 |\n| 6 | 64,67 |\n| 7 | 491,30 |\n| 8 | 1723,63 |\n| 9 | 3492,93 |\n| 10 | 5164,23 |\n| 11 | 6246,15 |\n| 12 | 6623,02 |\n| 13 | 6658,38 |\n| 14 | 6489,51 |\n| 15 | 6099,17 |\n| 16 | 5410,74 |\n| 17 | 4338,69 |\n| 18 | 2796,16 |\n| 19 | 1240,49 |\n| 20 | 311,03 |\n| 21 | 15,68 |\n| 22 | 0 |\n| 23 | 0 |\n| 24 | 0 |\n\nWykres kolumnowy ze srednia generacja fotowoltaiczna w poszczegolnych godzinach doby, z opisanymi osiami (godzina, srednia generacja [MWh]).",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- za prawidlowe zestawienie,\n    2 pkt -- za prawidlowy wykres, w tym:\n        1 pkt -- typ wykresu i dobor danych,\n        1 pkt -- prawidlowy opis (tytul, legenda, nazwy miesiecy na osi X, opis osi Y).\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Srednia liczona dla kazdej godziny ze wszystkich 30 dni kwietnia",
+            "Godziny 1-4 i 22-24: generacja fotowoltaiczna = 0 (noc)",
+            "Wykres musi miec opis osi i tytul"
+          ]
+        },
+        {
+          "id": "2024P.7.3",
+          "numer": "7.3",
+          "punkty": 3,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 7.3. (0-3)\nZnajdz najdluzszy przedzial czasowy, w ktorym generowanie energii ze zrodel wiatrowych caly czas roslo. Podaj date i godzine poczatku przedzialu oraz date i godzine konca przedzialu. Dla podanych danych jest jeden najdluzszy przedzial.\n\nPrzyklad 1. Dla przykladowych danych:\n2024-04-01  1  120\n2024-04-01  2  111\n2024-04-01  3  124\n2024-04-01  4  125\n2024-04-01  5  120\nData i godzina poczatku przedzialu jest 2024-04-01 godz. 2:00, a data i godzina konca przedzialu jest 2024-04-01 godz. 4:00.",
+          "odpowiedz": "Poczatek -- 2.04, godzina 1\nKoniec -- 2.04, godzina 16",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna, w tym:\n    po 1 pkt -- date, godzine poczatku przedzialu oraz godzine konca przedzialu.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Szukamy najdluzszego spojnego podciagu scisle rosnacego w kolumnie wiatrowych",
+            "Poczatek przedzialu to PIERWSZY element rosnacego ciagu (nie element przed nim)",
+            "Przedzial moze przechodzic miedzy dniami"
+          ]
+        },
+        {
+          "id": "2024P.7.4",
+          "numer": "7.4",
+          "punkty": 3,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 7.4. (0-3)\nZaprojektowano magazyny energii o lacznej pojemnosci 200 000 MWh. W magazynach jest przechowywana energia wygenerowana, ale niewykorzystana. Jesli biezace generowanie energii nie zaspokaja biezacego zapotrzebowania, energia jest pobierana z magazynow. Rozliczenia odbywaja sie w jednostkach godzinowych.\nNa potrzeby zadania wygenerowano dane -- zapotrzebowanie na energie -- i zapisano w pliku zapotrzebowanie.txt. Czasami jest ono mniejsze niz laczne generowanie energii, a czasami -- wieksze. Zakladamy, ze przesylanie i przechowywanie energii nie przynosi strat energii.\n\nPodaj, ile najmniej energii powinno byc zmagazynowane w dniu 1 kwietnia o godzinie 00:00 (na poczatku dnia), aby kwietniowe zapotrzebowanie bylo zaspokojone, tzn. ani razu nie zabrablo energii. W obliczeniach wez pod uwage generowanie energii ze zrodel odnawialnych i energii mozliwa do pobrania z magazynow. Wynik podaj z dokladnoscia do 1 MWh.",
+          "odpowiedz": "179736",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna.\n2 pkt -- odpowiedz poprawna z dokladnoscia do dziesiatek.\n1 pkt -- za odpowiedz z przedzialu 179000-180000.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba symulowac stan magazynu godzina po godzinie",
+            "Bilans = generacja_wiatrowa + generacja_fotowoltaiczna - zapotrzebowanie",
+            "Stan magazynu nie moze spasc ponizej 0 w zadnej godzinie",
+            "Szukamy minimalnego stanu poczatkowego -- maksymalny deficyt skumulowany"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 8,
+      "tytul": "Serwis samochodowy",
+      "punkty": 10,
+      "czesc": 1,
+      "kontekst": "W trzech plikach zgromadzono dane dotyczace uslug swiadczonych w pewnym serwisie samochodowym w listopadzie i w grudniu 2024 roku. Pierwszy wiersz w kazdym z plikow jest wierszem naglowkowym i zawiera nazwy pol. Dane w wierszach sa rozdzielone znakiem tabulacji.\n\nPlik samochody.txt zawiera informacje o samochodach przyjetych do serwisu:\nnr_rejestracyjny, marka, rok_produkcji, id_wlasciciela.\n\nUwaga: W pliku zapisano informacje rowniez o samochodach przyjetych do serwisu, ale jeszcze oczekujacych na wykonanie uslugi.\n\nW pliku uslugi.txt kazdy wiersz zawiera informacje o realizowanych uslugach przez serwis samochodowy: id_uslugi, usluga, rodzaj_uslugi, cena.\n\nW pliku wykonane.txt zapisano informacje o wykonanych uslugach. Kazdy wiersz zawiera nastepujace dane: data, nr_rejestracyjny, id_uslugi.",
+      "sciezka_danych": "dane_PR/",
+      "pliki_danych": ["samochody.txt", "uslugi.txt", "wykonane.txt"],
+      "wymiary": {
+        "czasowy_min": 40,
+        "zlozonosc": 3,
+        "trudnosc": 3
+      },
+      "podzadania": [
+        {
+          "id": "2024P.8.1",
+          "numer": "8.1",
+          "punkty": 2,
+          "typ_zadania": "sql_select_where",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 8.1. (0-2)\nPodaj liczbe roznych samochodow spoza wojewodztwa slaskiego (nr rejestracyjny nie zaczyna sie na litere S), ktore zostaly przyjete do serwisu i dla ktorych wykonano co najmniej jedna usluge.",
+          "odpowiedz": "177",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz nie uwzgledniajaca wojewodztwa ALBO zliczajaca takze samochody oczekujace na usluge (178).\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba wykluczyc samochody z woj. slaskiego (nr rej. zaczyna sie od S)",
+            "Tylko samochody, dla ktorych WYKONANO usluge (sa w wykonane.txt), nie oczekujace",
+            "ROZNYCH samochodow -- COUNT DISTINCT"
+          ]
+        },
+        {
+          "id": "2024P.8.2",
+          "numer": "8.2",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 8.2. (0-2)\nPodaj nazwe najliczniej wykonywanej uslugi (usluga) w badanym okresie oraz podaj, ile razy ja wykonano. Wymien marki samochodow, dla ktorych ta usluga nie byla wykonywana.",
+          "odpowiedz": "wymiana plynu chlodniczego 29 razy\nbmw\ndaewoo\nhonda\nkia\nlancia\nmazda\nnissan\nsaab\nvolkswagen",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- nazwe najczesciej wykonywanej uslugi oraz liczbe wykonan,\n    1 pkt -- marki samochodow, ktore nie byly serwisowane ta usluga.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba zliczyc wykonania kazdej uslugi (JOIN wykonane z uslugi), potem znalezc MAX",
+            "Marki ktore NIE mialy tej uslugi -- NOT IN / LEFT JOIN ... IS NULL"
+          ]
+        },
+        {
+          "id": "2024P.8.3",
+          "numer": "8.3",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 8.3. (0-2)\nPodaj identyfikator wlasciciela samochodu(ow), ktory zaplacil najwiecej za wszystkie wykonane uslugi dla swojego/swoich samochodu(ow). Podaj numer(y) rejestracyjny(e) samochodu(ow) tego wlasciciela oraz nazwy wykonanych uslug serwisowych.",
+          "odpowiedz": "897\nSB 3799    wymiana sprzegla\nSB 3799    wymiana amortyzatora tyl\nSB 9213    felga stalowa do 16 cali\nSB 9213    ozonowanie ukladu klimatyzacji i kabiny\nSB 5822    wymiana oleju silnikowego z filtrem\nSB 5822    wymiana paska rozrzadu",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- identyfikator wlasciciela, ktory zaplacil najwiecej za wszystkie dokonywane naprawy.\n    1 pkt -- numery rejestracyjne samochodow oraz nazwy uslug serwisu.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Wlasciciel moze miec kilka samochodow -- trzeba sumowac koszty po id_wlasciciela",
+            "JOIN: samochody -> wykonane -> uslugi, grupowanie po id_wlasciciela",
+            "Po znalezieniu wlasciciela -- wylistowac jego samochody i wykonane uslugi"
+          ]
+        },
+        {
+          "id": "2024P.8.4",
+          "numer": "8.4",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 8.4. (0-2)\nPodaj kwote przychodu, jaka serwis samochodowy uzyskal za wykonane uslugi w listopadzie, i kwote przychodu, jaka uzyskal w grudniu.",
+          "odpowiedz": "listopad    150530 (lub 150935)\ngrudzien    105860 (lub 106130)",
+          "zasady_oceniania": "2 pkt -- za odpowiedz 150530 i 105860 lub 150935 i 106130\n    (w zaleznosci od uwzglednienia lub nie ceny jednej z uslug).\n1 pkt -- za laczna kwote, bez rozdzielenia na miesiace.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba polaczyc wykonane z uslugi (po id_uslugi) i zsumowac ceny",
+            "Rozdzielenie na miesiace -- filtrowanie po dacie (LIKE '2024-11%' / '2024-12%')",
+            "Dwa poprawne warianty odpowiedzi w zaleznosci od interpretacji jednej uslugi"
+          ]
+        },
+        {
+          "id": "2024P.8.5",
+          "numer": "8.5",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 8.5. (0-2)\nDo wczesniej opisanej bazy danych dolaczono kolejna tabele o nazwie wlasciciele, w ktorej zapisano informacje o wlascicielach serwisowanych samochodow: id_wlasciciela, imie, nazwisko.\nTabele wlasciciele i samochody sa polaczone relacja 'jeden do wielu'.\n\nZapisz zapytanie SQL, w wyniku ktorego uzyskasz imiona i nazwiska wlascicieli samochodow zarejestrowanych w Chorzowie (nr rejestracyjny rozpoczyna sie od liter SH) i wyprodukowanych w 2020 roku. Nazwiska uporzadkuj alfabetycznie.",
+          "odpowiedz": "SELECT Wlasciciele.imie, Wlasciciele.nazwisko\nFROM Wlasciciele\nINNER JOIN Samochody ON Wlasciciele.id_wlasciciela = Samochody.id_wlasciciela\nWHERE Samochody.nr_rejestracyjny LIKE 'SH%' AND Samochody.rok_produkcji=2020\nORDER BY Wlasciciele.nazwisko;",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- za zapytanie z jednym bledem np. nieprawidlowy WHERE albo JOIN albo brak sortowania.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "SH* oznacza Chorzow (powiat miejski) -- LIKE 'SH%'",
+            "Trzeba JOIN Wlasciciele z Samochody po id_wlasciciela",
+            "ORDER BY nazwisko -- sortowanie alfabetyczne"
+          ]
+        }
+      ]
+    }
+  ]
+}

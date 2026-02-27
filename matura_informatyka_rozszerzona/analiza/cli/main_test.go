@@ -95,8 +95,8 @@ func TestImportCounts(t *testing.T) {
 	if exercises != 937 {
 		t.Errorf("exercises: got %d, want 937", exercises)
 	}
-	if exams != 271 {
-		t.Errorf("exams: got %d, want 271", exams)
+	if exams != 292 {
+		t.Errorf("exams: got %d, want 292", exams)
 	}
 	if cheatsheets != 4 {
 		t.Errorf("cheatsheets: got %d, want 4", cheatsheets)
@@ -373,7 +373,7 @@ func TestExamYearCoverage(t *testing.T) {
 	years := []int{2014, 2015, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025}
 	expectedCounts := map[int]int{
 		2014: 22, 2015: 19, 2016: 20, 2017: 21, 2018: 20,
-		2019: 20, 2021: 22, 2022: 20, 2023: 23, 2024: 42, 2025: 42,
+		2019: 20, 2021: 22, 2022: 20, 2023: 23, 2024: 63, 2025: 42,
 	}
 
 	for _, year := range years {
