@@ -1,0 +1,396 @@
+{
+  "rok": 2022,
+  "sesja": "czerwiec",
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc I (teoria, bez komputera)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc II (praktyka, przy komputerze)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Liczby nudne i ciekawe",
+      "punkty": 7,
+      "czesc": 1,
+      "kontekst": "Rozwazmy operacje, ktora dodatniej liczbie calkowitej przyporzadkowuje sume kwadratow jej cyfr w zapisie dziesietnym. Przykladowo: liczbie 123 zostanie przyporzadkowana liczba 14, poniewaz 1^2 + 2^2 + 3^2 = 14. Utworzmy teraz ciag, ktorego pierwszym elementem bedzie dodatnia liczba calkowita n, a kazdy kolejny jego element to wynik zastosowania powyzszej operacji do elementu poprzedzajacego go w tym ciagu. Jesli w otrzymanym w ten sposob ciagu pojawi sie liczba 1, to poczatkowa liczbe n nazywamy nudna, w przeciwnym razie n nazywamy ciekawa.\n\nPrzyklad:\nDla n = 13 otrzymujemy ciag: 13, 10 = 1^2 + 3^2, 1 = 1^2 + 0^2\nTak wiec 13 jest liczba nudna.\n\nLiczba 4 jest liczba ciekawa, poniewaz:\n4, 16 = 4^2, 37 = 1^2 + 6^2, 58 = 3^2 + 7^2, 89 = 5^2 + 8^2, 145 = 8^2 + 9^2, 42 = 1^2 + 4^2 + 5^2, 20 = 4^2 + 2^2, 4 = 2^2 + 0^2, 16, 37, 58, 89, 145, 42, 20, 4, ... itd.\nCzyli nigdy nie otrzymamy liczby 1.",
+      "podzadania": [
+        {
+          "id": "2022C.1.1",
+          "numer": "1.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1. (0-2)\nUzupelnij tabele -- wpisz TAK, jesli podana liczba jest nudna, albo NIE -- jesli nie jest nudna.\n\n| n | Czy nudna? |\n|---|---|\n| 4 | Nie |\n| 229 | |\n| 82 | |",
+          "odpowiedz": "| n | Czy nudna? |\n|---|---|\n| 4 | Nie |\n| 229 | Nie |\n| 82 | Tak |",
+          "zasady_oceniania": "2 pkt -- w tym 1 punkt za kazda poprawna odpowiedz.\n0 pkt -- za podanie odpowiedzi niepoprawnej albo brak odpowiedzi.",
+          "pulapki": [
+            "229: 2^2+2^2+9^2=89, 8^2+9^2=145, 1^2+4^2+5^2=42, 4^2+2^2=20, 2^2+0^2=4, 4^2=16, 1^2+6^2=37, 3^2+7^2=58, 5^2+8^2=89 -- cykl, nigdy 1, wiec NIE nudna (ciekawa)",
+            "82: 8^2+2^2=68, 6^2+8^2=100, 1^2+0^2+0^2=1 -- dochodzi do 1, wiec TAK nudna",
+            "Trzeba sledzic ciag az do 1 lub wykrycia cyklu"
+          ]
+        },
+        {
+          "id": "2022C.1.2",
+          "numer": "1.2",
+          "punkty": 2,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2. (0-2)\nW postaci pseudokodu lub w wybranym jezyku programowania napisz funkcje SumaKwCyfr(n), ktora dla dodatniej liczby calkowitej n oblicza sume kwadratow jej cyfr.\n\nPrzyklad: Dla n = 123 wynikiem SumaKwCyfr(123) jest liczba 1^2 + 2^2 + 3^2 = 14.\n\nUwaga: W zapisie funkcji mozesz korzystac tylko z instrukcji sterujacych, operatorow arytmetycznych: dodawania, odejmowania, mnozenia, dzielenia, dzielenia calkowitego i reszty z dzielenia; operatorow logicznych, porownan i instrukcji przypisania lub samodzielnie napisanych funkcji i procedur wykorzystujacych powyzsze operacje. Zabronione jest uzywanie funkcji wbudowanych dostepnych w jezykach programowania.\n\nSpecyfikacja:\nDane: n -- dodatnia liczba calkowita\nWynik: dodatnia liczba calkowita -- suma kwadratow cyfr liczby n w zapisie dziesietnym",
+          "odpowiedz": "int sumaKwCyfr(int n) {\n  int suma = 0;\n  while(n > 0) {\n    suma += (n % 10) * (n % 10);\n    n /= 10;\n  }\n  return suma;\n}",
+          "zasady_oceniania": "2 pkt -- za poprawny algorytm, w tym:\n    1 pkt -- za prawidlowa petle i prawidlowe pobieranie kolejnych cyfr\n    1 pkt -- za prawidlowe wyznaczenie sumy kwadratow.\n0 pkt -- za odpowiedz bledna lub brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba podnosic cyfre do kwadratu, nie tylko sumowac cyfry",
+            "Petla while(n > 0), nie for z ustalona liczba iteracji",
+            "n%10 daje ostatnia cyfre, n/=10 (dzielenie calkowite) usuwa ja"
+          ]
+        },
+        {
+          "id": "2022C.1.3",
+          "numer": "1.3",
+          "punkty": 3,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.3. (0-3)\nW postaci pseudokodu lub w wybranym jezyku programowania napisz algorytm, ktory dla danej dodatniej liczby calkowitej n < 1000 sprawdza, czy liczba n jest ciekawa czy nudna.\n\nUwaga:\n- w algorytmie mozesz uzyc funkcji SumaKwCyfr(n) z poprzedniego zadania\n- mozesz skorzystac z faktu, ze suma kwadratow cyfr liczby trzycyfrowej jest nie wieksza niz 9^2 + 9^2 + 9^2 = 243\n\nSpecyfikacja:\nDane: n -- dodatnia liczba calkowita mniejsza od 1000\nWynik: Prawda -- gdy liczba jest nudna, albo Falsz -- gdy jest ciekawa (nie jest nudna)",
+          "odpowiedz": "k <- 0\ndopoki n != 1\n    T[k] <- n\n    n <- SumaKwCyfr(n)\n    dla i = 0, 1, 2, ... k\n        jesli T[i] = n\n            wynik Falsz\n            zakoncz dzialanie algorytmu\n    k <- k + 1\nwynik Prawda",
+          "zasady_oceniania": "3 pkt -- za poprawny algorytm, w tym:\n    1 pkt -- prawidlowa konstrukcje glownej petli algorytmu (dzialajaca do trafienia na 1)\n    1 pkt -- prawidlowa realizacje sprawdzania cyklicznosci ciagu sum kwadratow cyfr liczby\n    1 pkt -- za prawidlowe wyznaczenie wyniku.\n0 pkt -- za odpowiedz bledna lub brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba wykrywac cykl (powtorzenie wartosci), nie wystarczy ograniczyc liczbe iteracji",
+            "Tablica T[0..243] wystarczy bo suma kwadratow cyfr < 1000 nie przekroczy 243",
+            "Warunek stopu: albo n == 1 (nudna) albo powtorzenie wartosci (ciekawa)"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 2,
+      "tytul": "Funkcja Koduj",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Dana jest funkcja Koduj(n), ktora dla zadanej dodatniej liczby calkowitej n oblicza pewien jej kod -- slowo puste lub slowo zbudowane tylko z wielkich liter A lub B.\n\nSpecyfikacja:\nDane: n -- dodatnia liczba calkowita\nWynik: Kod liczby n -- slowo puste lub slowo zbudowane z wielkich liter A lub B\n\nFunkcja Koduj(n):\n  jezeli n = 1\n    wynikiem jest \"\"\n  w przeciwnym wypadku\n    k <- n div 2\n    jezeli k mod 2 = 0\n      wynikiem jest Koduj(k) + 'A'\n    w przeciwnym wypadku\n      wynikiem jest 'B' + Koduj(k)\n\nUwaga:\n- div jest operatorem oznaczajacym czesc calkowita z dzielenia\n- mod jest operatorem oznaczajacym reszte z dzielenia\n- slowem nazywamy dowolny ciag znakow\n- \"\" oznacza slowo puste (bez liter)\n- + jest operatorem laczacym znak i slowo lub dwa slowa w jedno slowo.",
+      "podzadania": [
+        {
+          "id": "2022C.2.1",
+          "numer": "2.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1. (0-2)\nUzupelnij tabele -- wpisz wynik dzialania funkcji Koduj(n) dla podanych wartosci n.\n\n| n | Wynik dzialania funkcji Koduj(n) |\n|---|---|\n| 1 | \"\" |\n| 2 | B |\n| 12 | |\n| 33 | |\n| 158 | |",
+          "odpowiedz": "| n | Wynik dzialania funkcji Koduj(n) |\n|---|---|\n| 1 | \"\" |\n| 2 | B |\n| 12 | BBA |\n| 33 | BAAAA |\n| 158 | BBBBBAA |",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz w trzech wierszach.\n1 pkt -- za poprawna odpowiedz w dwoch wierszach.\n0 pkt -- za podanie odpowiedzi niepoprawnej w co najmniej dwoch wierszach albo brak odpowiedzi.",
+          "pulapki": [
+            "Koduj(12): 12 div 2=6, 6 mod 2=0 -> Koduj(6)+'A'. Koduj(6): 6 div 2=3, 3 mod 2=1 -> 'B'+Koduj(3). Koduj(3): 3 div 2=1, 1 mod 2=1 -> 'B'+Koduj(1)='B'. Wiec Koduj(3)='B', Koduj(6)='BB', Koduj(12)='BBA'",
+            "Koduj(33): 33 div 2=16, 16 mod 2=0 -> Koduj(16)+'A'. Koduj(16)=Koduj(8)+'A'. Koduj(8)=Koduj(4)+'A'. Koduj(4)=Koduj(2)+'A'. Koduj(2)='B'. Wiec 'BAAAA'",
+            "Uwaga na kolejnosc: k mod 2=0 -> Koduj(k)+'A' (A na koncu), k mod 2!=0 -> 'B'+Koduj(k) (B na poczatku)"
+          ]
+        },
+        {
+          "id": "2022C.2.2",
+          "numer": "2.2",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2. (0-2)\nUzupelnij tabele -- dla podanych wartosci n wpisz liczbe wszystkich wywolan funkcji Koduj przy pierwszym wywolaniu Koduj(n).\n\n| n | Pierwsze wywolanie | Liczba wszystkich wywolan funkcji Koduj |\n|---|---|---|\n| 1 | Koduj(1) | 1 |\n| 2 | Koduj(2) | 2 |\n| 12 | Koduj(12) | |\n| 33 | Koduj(33) | |\n| 1022 | Koduj(1022) | |",
+          "odpowiedz": "| n | Pierwsze wywolanie | Liczba wszystkich wywolan funkcji Koduj |\n|---|---|---|\n| 1 | Koduj(1) | 1 |\n| 2 | Koduj(2) | 2 |\n| 12 | Koduj(12) | 4 |\n| 33 | Koduj(33) | 6 |\n| 1022 | Koduj(1022) | 10 |",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz w trzech wierszach.\n1 pkt -- za poprawna odpowiedz w dwoch wierszach.\n0 pkt -- za podanie odpowiedzi niepoprawnej w co najmniej dwoch wierszach albo brak odpowiedzi.",
+          "pulapki": [
+            "Kazde wywolanie Koduj liczymy (lacznie z poczatkowym)",
+            "Koduj(12)->Koduj(6)->Koduj(3)->Koduj(1) = 4 wywolania",
+            "Koduj(1022)->Koduj(511)->Koduj(255)->Koduj(127)->Koduj(63)->Koduj(31)->Koduj(15)->Koduj(7)->Koduj(3)->Koduj(1) = 10 wywolan",
+            "Kazde wywolanie zmniejsza n przez n div 2, wiec liczba wywolan = floor(log2(n)) + 1"
+          ]
+        },
+        {
+          "id": "2022C.2.3",
+          "numer": "2.3",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.3. (0-2)\nPodaj dwie rozne dodatnie liczby calkowite, dla ktorych funkcja Koduj da ten sam kod zlozony z szesciu znakow.",
+          "odpowiedz": "Dwie dodatnie liczby naturalne, ktorych zapis w systemie binarnym sklada sie z siedmiu cyfr i liczba jedynek w jednej liczbie jest rowna liczbie jedynek w drugiej jesli nie liczymy ostatniej cyfry.\nNp. 94 (w zapisie binarnym 1011110) i 111 (w zapisie binarnym 1101111) albo 67 (1000011) i 66 (1000010) itd.",
+          "zasady_oceniania": "2 pkt -- za dwie poprawne liczby, czyli takie, dla ktorych wynikiem funkcji Koduj jest taki sam kod zlozony z szesciu znakow.\n1 pkt -- za podanie dwoch roznych liczb, dla ktorych funkcja Koduj daje w wyniku taki sam kod zlozony z pieciu albo siedmiu znakow.\n0 pkt -- za podanie odpowiedzi niepoprawnej lub brak odpowiedzi.",
+          "pulapki": [
+            "Kod ma miec dokladnie 6 znakow, co oznacza 7-bitowa reprezentacje binarna (7 cyfr binarnych)",
+            "Dlugosc kodu = floor(log2(n)), wiec szukamy liczb z zakresu [64, 127]",
+            "Kod zalezy od bitow: parzyste bity daja A, nieparzyste daja B, wiec rozne liczby moga dac ten sam kod"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 3,
+      "tytul": "Test",
+      "punkty": 2,
+      "czesc": 1,
+      "kontekst": "Ocen prawdziwosc podanych zdan. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli jest falczywe. W kazdym zadaniu punkt uzyskasz tylko za komplet poprawnych odpowiedzi.",
+      "podzadania": [
+        {
+          "id": "2022C.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1. (0-1)\nPo dodaniu dwoch liczb 101101_2 i 111011_2 zapisanych w systemie binarnym otrzymamy:\n\n1. 1101000_2 -- P/F\n2. 68_16 -- P/F\n3. 140_8 -- P/F\n4. 1120_4 -- P/F",
+          "odpowiedz": "PPFF",
+          "zasady_oceniania": "1 pkt -- za poprawna odpowiedz.\n0 pkt -- za odpowiedz niepelna lub niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "101101_2 = 45, 111011_2 = 59, suma = 104",
+            "104 = 1101000_2 (P), 104 = 68_16 (P), 104 = 150_8 nie 140_8 (F), 104 = 1220_4 nie 1120_4 (F)",
+            "Trzeba poprawnie dodawac w systemie binarnym i konwertowac na rozne systemy"
+          ]
+        },
+        {
+          "id": "2022C.3.2",
+          "numer": "3.2",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2. (0-1)\nDane sa dwie tabele: Lekarze (Id_lekarza -- Tekst(5) klucz glowny, Imie_lekarza -- Tekst(50), Nazwisko_lekarza -- Tekst(50), Specjalnosc_lekarza -- Tekst(200)) i Wizyty (Id_lekarza -- Tekst(5) klucz obcy, Id_pacjenta -- Tekst(10), Data_wizyty -- Data). Pole Id_lekarza w tabeli Lekarze jest polaczone relacja 'jeden do wielu' z polem Id_lekarza w tabeli Wizyty.\n\nOcen prawdziwosc zdan:\n\n1. Wynikiem zapytania:\nSELECT Imie_lekarza, Nazwisko_lekarza, count(*)\nFROM Lekarze\nJOIN Wizyty ON Lekarze.Id_lekarza = Wizyty.Id_lekarza\nGROUP BY Wizyty.Id_lekarza;\njest zestawienie zawierajace imie i nazwisko kazdego lekarza oraz liczbe wizyt u tego lekarza. -- P/F\n\n2. Wynikiem zapytania:\nSELECT Specjalnosc_lekarza, count(*)\nFROM Lekarze\nJOIN Wizyty ON Lekarze.Id_lekarza = Wizyty.Id_lekarza\nGROUP BY Lekarze.Id_lekarza;\njest zestawienie zawierajace nazwy specjalnosci oraz laczne liczby wizyt u lekarzy tych specjalnosci. -- P/F\n\n3. Wynikiem zapytania:\nSELECT Specjalnosc_lekarza, count(Specjalnosc_lekarza)\nFROM Lekarze\nJOIN Wizyty ON Lekarze.Id_lekarza = Wizyty.Id_lekarza\nGROUP BY Wizyty.Id_lekarza;\njest zestawienie zawierajace nazwy specjalnosci oraz laczne liczby wizyt u lekarzy tych specjalnosci. -- P/F\n\n4. Wynikiem zapytania:\nSELECT Id_pacjenta, count(*)\nFROM Wizyty\nJOIN Lekarze ON Lekarze.Id_lekarza = Wizyty.Id_lekarza\nGROUP BY Lekarze.Id_lekarza;\njest zestawienie zawierajace liczby wizyt pacjentow u poszczegolnych lekarzy. -- P/F",
+          "odpowiedz": "PFFF",
+          "zasady_oceniania": "1 pkt -- za poprawna odpowiedz.\n0 pkt -- za odpowiedz niepelna lub niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Zapytanie 1 (P): GROUP BY Wizyty.Id_lekarza -- poprawnie grupuje po lekarzu, SELECT zawiera imie i nazwisko",
+            "Zapytanie 2 (F): GROUP BY Lekarze.Id_lekarza -- grupuje po lekarzu, nie po specjalnosci, wiec daje liczbe wizyt na lekarza, nie na specjalnosc",
+            "Zapytanie 3 (F): GROUP BY Wizyty.Id_lekarza -- jak wyzej, grupuje po lekarzu, nie po specjalnosci; count(Specjalnosc_lekarza) liczy to samo co count(*) w tym kontekscie",
+            "Zapytanie 4 (F): GROUP BY Lekarze.Id_lekarza -- daje laczna liczbe wizyt u lekarza, ale SELECT Id_pacjenta jest mylacy (pokazuje losowego pacjenta z grupy, nie rozbicie na pacjentow)"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 4,
+      "tytul": "Liczby i ich odbicia",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "W pliku liczby.txt zapisano 100 nieparzystych liczb calkowitych z przedzialu [10, 9999]. Liczby w pliku moga sie powtarzac.\n\nOdbiciem dodatniej nieparzystej liczby calkowitej n nazywamy taka liczbe N, w ktorej zapisie dziesietnym nastapilo odwrocenie kolejnosci cyfr.\n\nPrzyklad: Odbiciem liczby 2019 jest 9102, natomiast odbiciem liczby 12345 jest 54321.\n\nNapisz program (lub kilka programow), ktory(-e) znajdzie(-da) odpowiedzi na ponizsze pytania. Kazda odpowiedz zapisz w pliku wyniki4.txt i poprzedz ja numerem oznaczajacym zadanie.\n\nDo dyspozycji masz rowniez plik przyklad.txt zawierajacy tylko 11 nieparzystych liczb calkowitych z przedzialu [10, 9999] -- odpowiedzi dla tego pliku podane sa w tresciach zadan, mozesz sprawdzac na nim dzialanie swojego programu.\n\nUwaga: Pamietaj, ze Twoj program (lub kilka programow) musi(-sza) ostatecznie dzialac dla 100 liczb zapisanych w pliku liczby.txt.",
+      "podzadania": [
+        {
+          "id": "2022C.4.1",
+          "numer": "4.1",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.1. (0-3)\nWyznacz odbicia wszystkich liczb z pliku liczby.txt. Wypisz te odbicia, ktore sa podzielne przez 17.\n\nDla pliku przyklad.txt odpowiedzia jest 51.",
+          "odpowiedz": "1156\n102\n51\n765\n119\n119\n731",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz (przy tym 119 moze byc zapisana raz).\n2 pkt -- w przypadku nieuwzglednienia warunku, ze odbicia maja byc podzielne przez 17.\n1 pkt -- za wypisanie liczb podzielnych przez 17 zamiast odbic tych liczb.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Wypisujemy ODBICIA podzielne przez 17, nie same liczby",
+            "Liczba 119 moze wystapic dwa razy jesli dwie rozne liczby daja to samo odbicie",
+            "Odbicie: odwrocenie cyfr, np. 6511 -> 1156"
+          ]
+        },
+        {
+          "id": "2022C.4.2",
+          "numer": "4.2",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.2. (0-3)\nDla kazdej liczby z pliku liczby.txt oblicz wartosc bezwzgledna roznicy tej liczby i jej odbicia. Wyznacz taka liczbe n, dla ktorej wartosc bezwzgledna roznicy tej liczby i jej odbicia jest najwieksza. Podaj te liczbe oraz wartosc bezwzgledna roznicy tej liczby i jej odbicia.\nW pliku liczby.txt jest tylko jedna taka liczba.\n\nDla pliku przyklad.txt odpowiedzia jest 741 594.",
+          "odpowiedz": "1129 8082",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za najwieksza wartosc bezwzgledna roznicy\n    2 pkt -- za liczbe.\n2 pkt -- za podanie odpowiedzi bez uwzglednienia wartosci bezwzglednej (6511 5355).\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba uzyc wartosci BEZWZGLEDNEJ roznicy (|n - odbicie(n)|)",
+            "Bez wartosci bezwzglednej mozna dostac inna odpowiedz (6511 i 5355)",
+            "Podajemy liczbe (1129) i wartosc roznicy (8082), nie samo odbicie"
+          ]
+        },
+        {
+          "id": "2022C.4.3",
+          "numer": "4.3",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.3. (0-3)\nWypisz wszystkie liczby pierwsze z pliku liczby.txt, ktorych odbicia rowniez sa liczbami pierwszymi, kazda w oddzielnym wierszu.\n\nDla pliku przyklad.txt odpowiedz to:\n13\n131\n(odbiciem liczby 13 jest 31 -- obie sa liczbami pierwszymi, odbiciem 131 jest 131)",
+          "odpowiedz": "157\n31\n347\n929\n941\n761",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz.\n2 pkt -- za wypisanie wszystkich liczb, ktorych odbicia sa liczbami pierwszymi.\n1 pkt -- wypisanie wszystkich liczb pierwszych.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Obie warunki: liczba MUSI byc pierwsza I jej odbicie MUSI byc pierwsze",
+            "Nie wystarczy sprawdzic tylko jednego warunku",
+            "Trzeba miec poprawny test pierwszosci"
+          ]
+        },
+        {
+          "id": "2022C.4.4",
+          "numer": "4.4",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_zliczanie",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.4. (0-3)\nPodaj:\n- ile roznych liczb zapisano w pliku liczby.txt\n- ile liczb powtarza sie dokladnie dwa razy w pliku liczby.txt\n- ile liczb powtarza sie dokladnie trzy razy w pliku liczby.txt\n\nDla pliku przyklad.txt odpowiedzia jest 10 1 0.",
+          "odpowiedz": "85 (roznych)\n13 (powtarzajacych sie 2 razy)\n1 (powtarzajaca sie 3 razy)",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- liczbe roznych liczb w pliku\n    1 pkt -- liczbe liczb, ktore powtarzaja sie 2 razy\n    1 pkt -- liczbe liczb, ktore powtarzaja sie 3 razy.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Rozne liczby to unikalne wartosci (85 z 100 wpisow)",
+            "Powtarzajace sie 2 razy = wystepujace dokladnie 2 razy",
+            "100 wpisow: 85 roznych = 72 jednokrotne + 13*2=26 dwukrotne + 1*3=3 trzykrotne? Sprawdz: 72+26+3=101 != 100. Hmm, 85 roznych, 13 po 2 razy, 1 po 3 razy: 85-13-1=71 jednokrotne. 71*1+13*2+1*3=71+26+3=100. OK."
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 5,
+      "tytul": "Plazowy biznes",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "Pani Ania postanowila zalozyc firme zajmujaca sie sprzedaza hot-dogow, lodow i kukurydzy turystom wypoczywajacym na plazy. Na potrzeby analizy powodzenia przedsiewziecia swoje obliczenia oparla na prognozowanych wartosciach temperatury w poszczegolnych dniach w okresie od 1 czerwca 2022 roku do 31 sierpnia 2022 roku. Prognozowane temperatury zapisano w pliku temperatury.txt. Kazdy wiersz pliku zawiera informacje o jednym dniu: date i prognozowana temperature tego dnia wyrazona w stopniach Celsjusza. Dane w kazdym wierszu pliku oddzielono srednikiem.\n\nPrzyklad:\n2022-06-01;24\n2022-06-02;25\n2022-06-03;27\n\nPani Ania zalozyla, ze przewidywana liczbe sprzedanych produktow w poszczegolnych dniach uzalezni od temperatury i obliczy ja z wyznaczonego przez siebie wzoru:\n\nLiczba sprzedanych produktow w danym dniu = p * (1 + w * (t - 24) / 2)\n\ngdzie:\np -- liczba sztuk danego produktu sprzedana pierwszego dnia (01 czerwca 2022), to jest (wg zalozen pani Ani): 90 dla hot-dogow, 120 dla lodow i 80 dla kukurydzy\nw -- wspolczynnik sprzedawalnosci danego produktu, to jest (wg zalozen pani Ani): 1/13 dla hot-dogow, 2/29 dla lodow oraz 1/17 dla kukurydzy\nt -- temperatura w danym dniu\n\nOtrzymana liczbe zaokraglamy w dol do najblizszej liczby calkowitej.\n\nCeny produktow: lody 5 zl, kukurydza 6 zl, hot-dog 7 zl.",
+      "podzadania": [
+        {
+          "id": "2022C.5.1",
+          "numer": "5.1",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.1. (0-2)\nDzien nazwiemy cieplym, jesli temperatura tego dnia jest wyzsza niz 20°C. Znajdz najdluzszy spojny ciag cieplych dni w okresie od 1.06.2022r do 31.08.2022r. Podaj date poczatkowa i koncowa tego ciagu.",
+          "odpowiedz": "17.08.2022, 31.08.2022",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za date poczatkowa\n    1 pkt -- za date koncowa.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Cieply dzien: temperatura > 20 (nie >= 20)",
+            "Szukamy NAJdluzszego spojnego ciagu",
+            "Ciag moze siegnac do ostatniego dnia (31.08)"
+          ]
+        },
+        {
+          "id": "2022C.5.2",
+          "numer": "5.2",
+          "punkty": 4,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.2. (0-4)\nWylicz dzienna sprzedaz lodow, kukurydzy i hot-dogow zgodnie ze wzorem pani Ani przedstawionym na poczatku zadania. Nastepnie sporzadz zestawienie ilustrujace liczby sprzedanych lodow, kukurydzy i hot-dogow w poszczegolnych miesiacach. Dane ze sporzadzonego zestawienia przedstaw na jednym wykresie kolumnowym. Zadbaj o czytelnosc i opis wykresu (zastosuj legende, tytul, etykiety danych i opisy osi).",
+          "odpowiedz": "| | hot-dog | lody | kukurydza |\n|---|---|---|---|\n| czerwiec | 2639 | 3527 | 2355 |\n| lipiec | 2747 | 3675 | 2448 |\n| sierpien | 2665 | 3579 | 2390 |\n\nWykres kolumnowy z legenda, tytulem, etykietami danych i opisami osi.",
+          "zasady_oceniania": "4 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za poprawne zestawienie\n    1 pkt -- za prawidlowy dobor danych i typ wykresu\n    1 pkt -- za tytul i legende\n    1 pkt -- etykiety danych i opisy osi.\n0 pkt -- za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Wzor: p*(1 + w*(t-24)/2), wynik zaokraglony w dol (floor)",
+            "Sumowanie dziennej sprzedazy po miesiacach: czerwiec (30 dni), lipiec (31), sierpien (31)",
+            "Wykres kolumnowy z 3 seriami danych, legenda, tytul, opisy osi"
+          ]
+        },
+        {
+          "id": "2022C.5.3",
+          "numer": "5.3",
+          "punkty": 2,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.3. (0-2)\nOblicz dzienny utarg ze sprzedazy lodow, kukurydzy oraz hot-dogow lacznie dla kazdego dnia. Nastepnie dla kazdego dnia oblicz sume dziennych utargow do tego dnia wlacznie. Ktorego dnia suma utargow przekroczy 45 000? Podaj date oraz sume utargow do tego dnia wlacznie.",
+          "odpowiedz": "27.06.2022\n45358",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za poprawna date\n    1 pkt -- za poprawna sume.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Utarg = liczba sprzedanych * cena (lody*5 + kukurydza*6 + hot-dog*7)",
+            "Suma kumulacyjna utargow dziennych",
+            "Szukamy pierwszego dnia, w ktorym suma > 45000"
+          ]
+        },
+        {
+          "id": "2022C.5.4",
+          "numer": "5.4",
+          "punkty": 3,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.4. (0-3)\nZalozmy, ze 1 wrzesnia 2022 roku temperatura powietrza bedzie wynosic 23°C i co drugi dzien bedzie malala o jeden stopien Celsjusza, tzn. pierwszego i drugiego dnia wrzesnia bedzie wynosic 23°C, trzeciego i czwartego dnia bedzie rowna 22°C, piatego i szostego dnia wrzesnia osiagnie wartosc 21°C itd.\n\na) W ktorym dniu wrzesnia po raz pierwszy dzienny utarg ze sprzedazy bedzie mniejszy niz 1 000 zlotych?\n\nb) Jaka jest najmniejsza kwota (z dokladnoscia do 1 grosza), o jaka musialaby pani Ania podniesc cene kazdego z produktow, aby w kazdym dniu wrzesnia dzienny utarg wynosil co najmniej 1 000 zlotych?",
+          "odpowiedz": "a) 23.09.2022\nb) 1,34 zl",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za podanie poprawnego dnia\n    2 pkt -- za podanie poprawnej wartosci podwyzki z dokladnoscia do 1 grosza (2 zlote) lub dziesieciu groszy (1,4 zl).\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Temperatura wrzesnia: 1-2 wrzesnia 23°C, 3-4 wrzesnia 22°C, 5-6 wrzesnia 21°C, ..., 29-30 wrzesnia 9°C",
+            "Utarg maleje z temperatura -- szukamy pierwszego dnia < 1000 zl",
+            "Czesc b: podwyzka dotyczy KAZDEGO produktu o te sama kwote, z dokladnoscia do grosza"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 6,
+      "tytul": "Rozgrywki siatkarskie",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "W pewnej lidze siatkówki w sezonie 2019/2020 rozgrywki rozpoczely sie w pazdzierniku 2019 roku i zakonczyly sie pod koniec maja 2020 roku. Rozegrano ponad 300 spotkan. Mecze rozgrywano w rozne dni tygodnia. Liczby meczow rozgrywanych w rozne dni moga byc rozne. Liczby meczow rozegranych przez poszczegolne druzyny moga byc takze rozne.\n\nDane o wynikach druzyn zostaly zgromadzone w plikach: kluby.txt, sedziowie.txt i mecze.txt. Pierwszy wiersz kazdego z plikow jest wierszem naglowkowym, a dane w wierszach rozdzielono srednikami.\n\nPlik kluby.txt: Id_klubu;Nazwa;Miasto\nPrzyklad:\n101;Sfinks;Szymbark\n102;Zenit;Licowo\n103;Victoria;Radelko\n\nPlik sedziowie.txt: Id_sedziego;Imie;Nazwisko\nPrzyklad:\n301;Jan;Malinowski\n302;Szymon;Rutkowski\n303;Anna;Nowak\n\nPlik mecze.txt: Id_meczu;Data;Id_klubu;Sety_wygrane;Sety_przegrane;Id_sedziego\nPrzyklad:\n1;2019-10-16;102;1;3;319\n2;2019-10-19;106;3;2;306\n3;2019-10-19;109;0;3;317\n\nUwaga: w pliku mecze.txt nie zapisano informacji o druzynach gosci.",
+      "podzadania": [
+        {
+          "id": "2022C.6.1",
+          "numer": "6.1",
+          "punkty": 1,
+          "typ_zadania": "sql_select_where",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.1. (0-1)\nIle meczow zakonczylo sie tzw. tie-breakiem, czyli rozegrano w nich dokladnie piec setow?",
+          "odpowiedz": "109",
+          "zasady_oceniania": "1 pkt -- za poprawna odpowiedz.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Tie-break = 5 setow = Sety_wygrane + Sety_przegrane = 5",
+            "Mecz w siatkowce moze sie zakonczyc 3:0, 3:1, 3:2 (i odwrotnie) -- tie-break to 3:2 lub 2:3"
+          ]
+        },
+        {
+          "id": "2022C.6.2",
+          "numer": "6.2",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.2. (0-2)\nUtworz zestawienie miast z liczba rozegranych w nich meczow. Wyniki posortuj od najwiekszej liczby meczow do najmniejszej.",
+          "odpowiedz": "| Miasto | liczba meczy |\n|---|---|\n| Wiralow | 41 |\n| Kukurykow | 39 |\n| Szymbark | 32 |\n| Preziowo | 30 |\n| Bialowo | 21 |\n| Gorkowo | 18 |\n| Kielkowo | 17 |\n| Licowo | 15 |\n| Sadelko | 15 |\n| Radelko | 15 |\n| Koszalkowo | 15 |\n| Barylkowo | 14 |\n| Orecin | 14 |\n| Rezkow | 13 |\n| Warkowo | 13 |\n| Lewkowo | 12 |",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za poprawne dane\n    1 pkt -- za posortowanie wynikow.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba polaczyc mecze z kluby (JOIN) zeby uzyskac miasto",
+            "Sortowanie DESC po liczbie meczow",
+            "Kazdy wiersz mecze.txt dotyczy jednego meczu goszczonego przez klub"
+          ]
+        },
+        {
+          "id": "2022C.6.3",
+          "numer": "6.3",
+          "punkty": 3,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.3. (0-3)\nPodaj imiona i nazwiska sedziow, ktorzy poprowadzili wiecej spotkan (meczow) niz srednia liczba spotkan przeprowadzonych przez jednego sedziego.",
+          "odpowiedz": "| Imie | Nazwisko | Liczba meczy |\n|---|---|---|\n| Franciszek | Dudek | 27 |\n| Natalia | Jankowska | 36 |\n| Barbara | Kaczmarek | 21 |\n| Monika | Kowalczyk | 26 |\n| Kamila | Majewska | 21 |\n| Katarzyna | Olszewska | 25 |\n| Szymon | Rutkowski | 21 |",
+          "zasady_oceniania": "3 pkt -- za pelna poprawna odpowiedz, w tym:\n    1 pkt -- za liczby meczy\n    2 pkt -- za poprawne imiona i nazwiska sedziow.\n1 pkt -- za poprawne zestawienie liczby sedziowanych meczow przez wszystkich sedziow.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Srednia: AVG(COUNT) wymaga podzapytania -- nie mozna uzyc HAVING > AVG bezposrednio",
+            "Podzapytanie w HAVING lub WHERE: HAVING COUNT(*) > (SELECT AVG(cnt) FROM (SELECT COUNT(*) as cnt ... GROUP BY ...))",
+            "7 sedziow spelnia warunek"
+          ]
+        },
+        {
+          "id": "2022C.6.4",
+          "numer": "6.4",
+          "punkty": 3,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.4. (0-3)\nPodaj imiona i nazwiska sedziow, ktorzy nie prowadzili zadnego spotkania (meczu) ani w Licowie ('Licowo'), ani w Szymbarku ('Szymbark') w okresie od 15 pazdziernika 2019 roku do 15 grudnia 2019 roku.",
+          "odpowiedz": "| Imie | Nazwisko |\n|---|---|\n| Jan | Malinowski |\n| Anna | Nowak |\n| Agnieszka | Wieczorek |\n| Kamila | Majewska |\n| Piotr | Lewandowski |\n| Franciszek | Dudek |\n| Barbara | Kaczmarek |\n| Zofia | Grabowska |",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz.\n2 pkt -- za znalezienie sedziow, ktorzy sedziowali w podanym okresie w podanych miastach.\n1 pkt -- za znalezienie sedziow, ktorzy sedziowali w podanym okresie albo podanych miastach albo wyznaczenie meczy, ktore odbywaly sie w danym okresie i w danych miastach.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "NOT IN / NOT EXISTS -- sedziowie ktorzy NIE prowadzili meczow w tych miastach w tym okresie",
+            "Trzeba polaczyc mecze -> kluby (dla miasta) i filtrowac po dacie I miescie",
+            "Warunki lacza sie AND: miasto IN ('Licowo','Szymbark') AND Data BETWEEN '2019-10-15' AND '2019-12-15'",
+            "Szukamy sedziow SPOZA tej grupy"
+          ]
+        },
+        {
+          "id": "2022C.6.5",
+          "numer": "6.5",
+          "punkty": 3,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.5. (0-3)\nSpotkanie (mecz) jest wygrane, jesli liczba wygranych setow w tym spotkaniu jest wieksza niz liczba setow przegranych. Utworz zestawienie klubow, w przypadku ktorych liczba wygranych spotkan jest wieksza lub rowna liczbie spotkan przegranych. Dla kazdego takiego klubu podaj jego nazwe, miasto oraz liczby spotkan wygranych i przegranych.",
+          "odpowiedz": "| Nazwa | Miasto | przegrana | wygrana |\n|---|---|---|---|\n| Sfinks | Szymbark | 7 | 9 |\n| Zenit | Licowo | 7 | 8 |\n| Victoria | Radelko | 5 | 10 |\n| Zjednoczeni | Kukurykow | 8 | 10 |\n| Olimpia | Orecin | 5 | 9 |\n| Stolar | Wiralow | 9 | 11 |\n| Astecja | Rezkow | 3 | 10 |\n| Bradownia | Preziowo | 9 | 9 |\n| Spirca | Lewkowo | 6 | 6 |\n| Huraganer | Szymbark | 8 | 8 |\n| Waleczni | Preziowo | 5 | 7 |\n| Libero | Warkowo | 5 | 8 |",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za nazwy klubow i miasta\n    1 pkt -- za liczby wygranych\n    1 pkt -- za liczby przegranych meczy.\n1 pkt -- za wyliczenie dla kazdego klubu liczby wygranych meczy albo liczby przegranych meczy.\n0 pkt -- za odpowiedz bledna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Wygrana: Sety_wygrane > Sety_przegrane; przegrana: Sety_wygrane < Sety_przegrane",
+            "Wymaga SUM(CASE WHEN ...) lub dwoch podzapytan i JOIN",
+            "HAVING wygrane >= przegrane -- warunek >= (rowna tez sie liczy)",
+            "JOIN z tabela kluby dla nazwy i miasta"
+          ]
+        }
+      ]
+    }
+  ]
+}

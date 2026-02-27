@@ -1,0 +1,422 @@
+{
+  "rok": 2022,
+  "sesja": "probna_grudzien",
+  "formula": "2023",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 8,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 210,
+      "punkty": 50,
+      "opis": "Jedna czesc (nowa formula)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Kosmiczny mecz",
+      "punkty": 8,
+      "czesc": 1,
+      "kontekst": "Dawno temu, w odleglej galaktyce, rozegrano mecz w gre, ktora przypominala siatkowke. W meczu wystapily dwie druzyny: druzyna A i druzyna B. Mecz skladal sie z 10 000 krotkich rozgrywek. Kazda rozgrywka konczyla sie wygrana jednej z dwoch druzyn, za ktora zwycieska druzyna otrzymywala jeden punkt.\n\nPlik mecz.txt zawiera zapis wynikow kolejnych rozgrywek -- jeden wiersz z napisem zlozonym z 10 000 znakow A i B. Znak A oznacza, ze rozgrywke wygrala druzyna A, natomiast znak B -- ze rozgrywke wygrala druzyna B.\n\nDo dyspozycji masz plik mecz_przyklad.txt, spelniajacy warunki zadania.\n\nOdpowiedzi zapisz w pliku wyniki1.txt, a kazda z nich poprzedz numerem odpowiedniego zadania.",
+      "podzadania": [
+        {
+          "id": "2022P.1.1",
+          "numer": "1.1",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 1.1. (0-2)\nOblicz, ile razy nastapila sytuacja, w ktorej rozgrywke wygrala inna druzyna niz rozgrywke poprzednia (tzn. dwa kolejne znaki A lub B w opisie meczu sie roznia).\n\nPrzyklad: Dla napisu ABBBABA odpowiedzia jest 4.\nNatomiast dla pliku mecz_przyklad.txt odpowiedzia jest 1798.",
+          "odpowiedz": "5030",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz rozniaca sie od poprawnej o 1.\n0 pkt -- inna odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Blad o jeden (off-by-one): porownujemy 9999 par, nie 10000",
+            "Zliczanie zmian zamiast zliczania sytuacji bez zmian (dopelnienie: 9999-5030=4969)"
+          ]
+        },
+        {
+          "id": "2022P.1.2",
+          "numer": "1.2",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 1.2. (0-3)\nPierwszy set w meczu trwa do pierwszej rozgrywki, po ktorej ktoras z druzyn ma co najmniej 1000 punktow za wygranie dotychczasowych rozgrywek, natomiast druzyna przeciwna ma co najmniej 3 punkty mniej. Druzyna, ktora zdobywa w secie wiecej punktow od przeciwnej, wygrywa pierwszego seta.\n\nPrzyklad: pierwszy set moze sie zakonczyc wynikami: 1000:500, 997:1000, 1500:1497. Wyniki 900:100, 999:1000, 1500:1500 nie koncza seta.\n\nPodaj, ktora druzyna wygrala pierwszego seta i jaki w tym momencie byl wynik (liczba zwycieskich rozgrywek druzyny A i liczba zwycieskich rozgrywek druzyny B w pierwszym secie).\n\nDla pliku mecz_przyklad.txt odpowiedzia jest: A 1000:5",
+          "odpowiedz": "B 1001:1004",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- za wskazanie druzyny, ktora wygrywa pierwszego seta\n    2 pkt -- za poprawny wynik, w tym po 1 pkt za wynik kazdej z druzyn.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Warunek zakonczenia seta wymaga JEDNOCZESNIE: co najmniej 1000 pkt u jednej druzyny ORAZ roznica co najmniej 3",
+            "Latwo pominac warunek roznicy 3 punktow (analogia do deucea w tenisie)",
+            "Wynik moze przekroczyc 1000 jesli roznica jest mniejsza niz 3"
+          ]
+        },
+        {
+          "id": "2022P.1.3",
+          "numer": "1.3",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 1.3. (0-3)\nPowiemy, ze druzyna ma dobra passe, jesli wygrywa rozgrywki co najmniej 10 razy z rzedu. Kazda dobra passa rozpoczyna sie albo na poczatku meczu, albo bezposrednio po przegranej rozgrywce. Kazda dobra passa konczy sie albo z koncem meczu, albo bezposrednio przed przegrana rozgrywka.\n\nPodaj laczna liczbe dobrych pass, ktore mialy obie druzyny w meczu. Wyznacz dlugosc najdluzszej dobrej passy i druzyne, ktora ja osiagnela. Tylko jedna druzyna miala dobra passe o tej dlugosci.\n\nPrzyklad: w meczu BBBBBBBBBBAABBAAAAAAAAAAAABA mamy lacznie 2 dobre passy. Najdluzsza dobra passe, o dlugosci 11, osiagnela druzyna A.\n\nDla pliku mecz_przyklad.txt odpowiedzia jest: 2 A 1000 (dwie dobre passy, najdluzsza druzyny A o dlugosci 1000).",
+          "odpowiedz": "6 B 15\n(Liczba dobrych pass: 6. Najdluzsza dobra passa: B, 15 rozgrywek)",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- za podanie liczby wszystkich dobrych pass\n    2 pkt -- za podanie druzyny, ktora miala najdluzsza dobra passe i dlugosc tej passy (po 1 punkcie za nazwe druzyny i liczbe).\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Dobra passa to co najmniej 10 z rzedu, nie dokladnie 10",
+            "Trzeba policzyc passy obu druzyn lacznie",
+            "Passa moze konczyc sie na koncu pliku (nie musi konczyc sie przegrana)"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 2,
+      "tytul": "Strzalki",
+      "punkty": 8,
+      "czesc": 1,
+      "kontekst": "Dla danej, dodatniej liczby calkowitej N, na kartce papieru rysujemy N roznych punktow i numerujemy je liczbami 1, 2, ..., N. W tym zadaniu bedziemy laczyc punkty ze soba strzalkami -- funkcja strzalka(x,y) rysuje strzalke od punktu o numerze x do punktu o numerze y.\n\nWywolanie ponizej zapisanej funkcji rekurencyjnej rysuj(x) skutkuje narysowaniem pewnej liczby strzalek. Jej jedynym argumentem jest pewna liczba calkowita x z przedzialu [1, N]. Przeanalizuj funkcje i znajdz odpowiedzi dla podanych zadan.\n\nfunkcja rysuj(x)\n    jezeli 2*x <= N\n        strzalka(x, 2*x)\n        rysuj(2*x)\n    jezeli 2*x + 1 <= N\n        strzalka(x, 2*x + 1)\n        rysuj(2*x + 1)\n\nPrzyklad: Dla N = 5 i wywolania rysuj(1) otrzymujemy drzewo binarne:\n1 -> 2, 1 -> 3, 2 -> 4, 2 -> 5.",
+      "podzadania": [
+        {
+          "id": "2022P.2.1",
+          "numer": "2.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1. (0-2)\nDla N = 10 narysuj 10 punktow i ponumeruj je liczbami 1, 2, 3, ..., 10, a nastepnie polacz strzalkami tak, zeby otrzymac rysunek, ktory dostalibysmy w wyniku wywolania funkcji rysuj(1). Dobierz punkty tak, aby Twoj rysunek byl czytelny.",
+          "odpowiedz": "Drzewo binarne dla N=10:\n1 -> 2, 1 -> 3\n2 -> 4, 2 -> 5\n3 -> 6, 3 -> 7\n4 -> 8, 4 -> 9\n5 -> 10\n\nStruktura: pelne drzewo binarne do poziomu 3 (wezly 1-7), plus wezly 8,9 pod 4, wezel 10 pod 5.",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- z co najwyzej 1 niepoprawna strzalka lub brakiem jednej strzalki.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Trzeba sledzic rekurencje: rysuj(1) rysuje strzalki 1->2, 1->3, potem rekurencyjnie rysuj(2) i rysuj(3) itd.",
+            "Wezel 5 ma tylko jedno dziecko (10), bo 2*5+1=11 > 10",
+            "Wezly 6,7 nie maja dzieci bo 2*6=12 > 10"
+          ]
+        },
+        {
+          "id": "2022P.2.2",
+          "numer": "2.2",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2. (0-2)\nPodaj, ile strzalek zostanie lacznie narysowanych w wyniku wywolania rysuj(1):\na) dla N = 20\nb) dla dowolnego N",
+          "odpowiedz": "a) 19\nb) N-1",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna, w tym 1 pkt za podpunkt a) i b).\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Kazda strzalka laczy rodzica z dzieckiem -- w drzewie o N wezlach jest dokladnie N-1 krawedzi",
+            "Dla N=20: rysuj(1) tworzy pelne drzewo binarne z 20 wezlami, wiec 19 strzalek"
+          ]
+        },
+        {
+          "id": "2022P.2.3",
+          "numer": "2.3",
+          "punkty": 1,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.3. (0-1)\nNiech N = 2047. Napisz, po ilu narysowanych strzalkach trzeba przejsc z punktu o numerze 1 do punktu o numerze N, jezeli bedziemy sie przemieszczac zgodnie z ich zwrotami.\n\nPrzyklad: Dla N = 5, zeby przemiesic sie z punktu o numerze 1 do punktu o numerze 5 nalezy przejsc po dwoch strzalkach.",
+          "odpowiedz": "10",
+          "zasady_oceniania": "1 pkt -- odpowiedz poprawna.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "2047 = 2^11 - 1, wiec drzewo binarne ma 11 poziomow (od 0 do 10)",
+            "Sciezka od korzenia (1) do wezla 2047 (ostatni wezel na poziomie 10) ma dlugosc 10",
+            "Wezel 2047 jest skrajnie prawym wezlem: 1->3->7->15->31->63->127->255->511->1023->2047"
+          ]
+        },
+        {
+          "id": "2022P.2.4",
+          "numer": "2.4",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 2.4. (0-3)\nW pliku pary.txt danych jest 1000 par liczb calkowitych z przedzialu [1, 100 000], po jednej parze w wierszu. Liczby w kazdym wierszu sa rozdzielone znakiem odstepu. Druga liczba w parze zawsze jest wieksza od pierwszej.\n\nDla N = 100 000 wykonano polecenie rysuj(1) dla pewnego ukladu N punktow.\n\nNapisz program, ktory znajdzie i wypisze te pary liczb z pliku pary.txt, ktore odpowiadaja numerom punktow x i y takich, ze z punktu o numerze x mozna przejsc po jednej lub wielu strzalkach (zawsze zgodnie z ich zwrotami) do punktu o numerze y.\n\nPrzyklad: dla N = 5 po strzalkach mozna przejsc z punktu o numerze 1 do punktu o numerze 4, ale nie mozna przejsc z punktu o numerze 3 do punktu o numerze 5.",
+          "odpowiedz": "47 3044\n7650 61204\n1 245\n7 63669\n9125 18250\n5 43246",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna.\n2 pkt -- za podanie co najmniej 5 poprawnych par.\n1 pkt -- za podanie co najmniej 1 poprawnej pary.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "y jest potomkiem x w drzewie binarnym wtedy i tylko wtedy, gdy dzielac y przez 2 wielokrotnie, w koncu otrzymamy x",
+            "Nie wystarczy sprawdzic jednego poziomu -- trzeba sprawdzic cala sciezke od y do korzenia",
+            "Druga liczba w parze jest wieksza, wiec x jest pierwsza, y druga"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 3,
+      "tytul": "Liczby",
+      "punkty": 12,
+      "czesc": 1,
+      "kontekst": "Zadanie 3.1 dotyczy algorytmu sita Eratostenesa -- algorytmu wyznaczania wszystkich liczb pierwszych nie wiekszych od zadanej liczby calkowitej N > 1.\n\nInformacja do zadan 3.2-3.4: W pliku liczby.txt zapisanych jest 100 liczb parzystych z przedzialu [4, 1 000 000], kazda w oddzielnym wierszu.\n\nDo dyspozycji masz plik liczby_przyklad.txt, spelniajacy warunki zadania.\nOdpowiedzi zapisz w pliku wyniki3.txt.",
+      "podzadania": [
+        {
+          "id": "2022P.3.1",
+          "numer": "3.1",
+          "punkty": 3,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1. (0-3)\nUzupelnij luki oznaczone poziomymi kreskami w ponizszym algorytmie sita Eratostenesa -- algorytmie wyznaczania wszystkich liczb pierwszych nie wiekszych od zadanej liczby calkowitej N > 1.\n\nSpecyfikacja:\nDane: N -- liczba calkowita wieksza od 1\nWynik: SITO[1..N] -- tablica logiczna taka, ze dla i = 1, 2, ..., N, SITO[i] = PRAWDA, gdy i jest liczba pierwsza, natomiast SITO[i] = FALSZ, gdy i jest liczba zlozona.\n\nAlgorytm:\nSITO[1] <- FALSZ\ndla i = 2, 3, ..., N\n    SITO[i] <- PRAWDA\n\ndla i = 2, 3, ..., ____\n    jezeli SITO[i] = ________\n        j <- ________\n        dopoki j <= N wykonuj\n            SITO[j] <- ________\n            j <- ________\n\nLuki do uzupelnienia (5 wartosci).",
+          "odpowiedz": "Luki (od gory do dolu):\n1. N (gorny zakres petli zewnetrznej; akceptowane tez: floor(sqrt(N)), trunc(sqrt(N)))\n2. PRAWDA (warunek: sprawdzamy tylko jesli SITO[i] jest PRAWDA)\n3. i*i (poczatkowa wartosc j; akceptowane tez: 2*i)\n4. FALSZ (ustawiamy wielokrotnosci na FALSZ)\n5. j+i (zwiekszamy j o i, przechodzimy do nastepnej wielokrotnosci)",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna.\n2 pkt -- za poprawne uzupelnienie 4 luk.\n1 pkt -- poprawne uzupelnienie 3 luk.\n0 pkt -- za poprawne uzupelnienie co najwyzej 2 luk albo brak rozwiazania.",
+          "pulapki": [
+            "Gorny zakres petli: N jest poprawne (choc sqrt(N) jest optymalne -- oba akceptowane)",
+            "j zaczyna od i*i (lub 2*i) -- nie od i+1",
+            "j zwiekszamy o i (j <- j+i), nie o 1"
+          ]
+        },
+        {
+          "id": "2022P.3.2",
+          "numer": "3.2",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.2. (0-2)\nDla kazdej liczby x z pliku liczby.txt sprawdz, czy liczba x - 1 jest liczba pierwsza. Podaj, ile liczb z pliku liczby.txt po pomniejszeniu o 1 daje liczbe pierwsza.\n\nDla pliku liczby_przyklad.txt odpowiedzia jest 94.",
+          "odpowiedz": "21",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz mniejsza o 1 od poprawnej.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Sprawdzamy x-1 (nie x) czy jest pierwsza",
+            "Trzeba uzyc wydajnego testu pierwszosci (sito lub dzielniki do sqrt) -- liczby do 999 999",
+            "Mozliwy off-by-one jesli blednie implementujemy sito"
+          ]
+        },
+        {
+          "id": "2022P.3.3",
+          "numer": "3.3",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.3. (0-4)\nHipoteza Goldbacha glosi, ze kazda liczba parzysta wieksza od 2 jest suma dwoch liczb pierwszych. Nie wiemy, czy ta hipoteza jest prawdziwa dla wszystkich liczb parzystych dodatnich, ale zostala potwierdzona dla wszystkich liczb 'rozsadnej wielkosci', zwlaszcza dla nie przekraczajacych 10^18. Oczywiscie liczba moze miec wiecej niz jeden rozklad na sume dwoch liczb pierwszych, np. 22 = 19 + 3 = 17 + 5 = 11 + 11.\n\nDla kazdej z liczb z pliku liczby.txt rozstrzygnij, na ile roznych sposobow da sie ja przedstawic jako sume dwoch liczb pierwszych.\n\nPodaj:\n- liczbe, ktora ma najwiecej roznych rozkladow na sume dwoch liczb pierwszych, oraz liczbe takich rozkladow\n- liczbe, ktora ma najmniej roznych rozkladow na sume dwoch liczb pierwszych, oraz liczbe takich rozkladow.\n\nUwaga: przyjmujemy, ze dwa rozklady sa rozne, jesli nie zawieraja takiej samej pary skladnikow. Przykladowo: rozklady 22 = 19 + 3 i 22 = 3 + 19 sa takie same.\n\nDla pliku liczby_przyklad.txt odpowiedzia jest: 996 37 4 1 (liczba 996 ma 37 rozkladow, a 4 tylko jeden).",
+          "odpowiedz": "910620 9932\n18676 195",
+          "zasady_oceniania": "4 pkt -- odpowiedz poprawna, w tym:\n    1 pkt za kazda poprawna liczbe w odpowiedzi.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Rozklady sa nieuporządkowane: 19+3 = 3+19 to ten sam rozklad -- iterujemy p od 2 do n/2",
+            "Trzeba uzyc sita Eratostenesa do generowania liczb pierwszych do 1 000 000",
+            "Dla kazdej liczby n: zliczamy pary (p, n-p) gdzie p <= n-p i oba sa pierwsze",
+            "Zlozonosc: 100 liczb * do 500 000 sprawdzen -- wymaga wydajnego sita"
+          ]
+        },
+        {
+          "id": "2022P.3.4",
+          "numer": "3.4",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.4. (0-3)\nDla kazdej liczby z pliku liczby.txt znajdz jej reprezentacje w systemie szesnastkowym. Dla kazdej cyfry szesnastkowej podaj, ile razy wystepuje ona lacznie w zapisach szesnastkowych wszystkich liczb z pliku liczby.txt.\n\nDla pliku liczby_przyklad.txt odpowiedzia jest:\n0:2, 1:3, 2:5, 3:2, 4:94, 5:0, 6:1, 7:0, 8:2, 9:2, A:0, B:0, C:1, D:1, E:3, F:0",
+          "odpowiedz": "0:32\n1:26\n2:37\n3:31\n4:43\n5:25\n6:28\n7:23\n8:38\n9:28\nA:45\nB:33\nC:29\nD:23\nE:44\nF:10",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna.\n2 pkt -- odpowiedz poprawna dla przynajmniej 12 cyfr zapisu szesnastkowego.\n1 pkt -- odpowiedz poprawna dla przynajmniej 5 cyfr zapisu szesnastkowego w tym co najmniej jednej litery (cyfry szesnastkowej wiekszej niz 9).\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Cyfry szesnastkowe to 0-9 i A-F (wielkie litery)",
+            "Trzeba policzyc wszystkie wystapienia kazdej cyfry we WSZYSTKICH zapisach hex lacznie",
+            "Konwersja na hex: dzielenie przez 16 z reszta, lub uzycie gotowych funkcji"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 4,
+      "tytul": "EKOdom",
+      "punkty": 9,
+      "czesc": 1,
+      "kontekst": "W EKOdomu dziala instalacja zbierajaca z dachu wode deszczowa, ktora jest retencjonowana w zbiorniku i wykorzystywana do celow gospodarczych. W pliku ekodom.txt zapisano ilosc zebranej wody deszczowej w kolejnych dniach 2022 roku (w litrach).\n\nFragment pliku:\ndata        retencja\n01.01.2022  0\n02.01.2022  0\n03.01.2022  0\n\nSchemat wykorzystania wody deszczowej:\n- Rodzina codziennie (poza przypadkami wymienionymi nizej) zuzywa 190 l wody ze zbiornika.\n- W kazda srode ze wzgledu na dodatkowe prace zuzycie wzrasta do 260 l.\n- Dodatkowo w okresie od 1 kwietnia do 30 wrzesnia, jesli w kolejnych dniach nie wystapiy naturalne opady, to piatego dnia bez opadow jest podlewany ogrodek. Na podlewanie zuzywa sie 300 l wody. Jezeli susza sie przedluza, to kolejne podlewanie jest dziesiatego dnia, pietnastego dnia itd.\n- Jesli zabraknie wody w zbiorniku retencyjnym to rodzina korzysta z wody z sieci wodociagowej.\n- Zakladamy na potrzeby zadania, ze zbiornik na wode retencyjna nigdy sie nie przepelni.\n- Z mysla o uproszczeniu symulacji przyjmujemy, ze w kazdym dniu najpierw nastepuje retencja opadow, a potem zuzycie wody.\n\nW zbiorniku retencyjnym w dniu 1.01.2022 rano (przed uzyciem) znajdowalo sie 5000 l wody.\n\nOdpowiedzi zapisz w pliku wyniki4.txt.",
+      "podzadania": [
+        {
+          "id": "2022P.4.1",
+          "numer": "4.1",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.1. (0-2)\na) Podaj najdluzszy okres bez opadow (kiedy zbiornik nie byl napelniany), date jego poczatku i konca.\nb) Podaj, ile razy w okresie od 1 kwietnia do 30 wrzesnia byl podlewany ogrodek.",
+          "odpowiedz": "a) 21 dni; poczatek 12.08.22, koniec 1.09.22\nb) 18",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- za podpunkt a (uwaga: wystarczy podac date poczatku i konca albo date poczatku i dlugosc okresu)\n    1 pkt -- za podpunkt b.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Najdluzszy okres bez opadow = najdluzsza seria dni z retencja=0",
+            "Podlewanie co 5 dni suszy (nie co 5 dni kalendarzowych) -- tylko w okresie kwiecien-wrzesien",
+            "Podlewanie nastepuje niezaleznie od tego, czy jest woda w zbiorniku (brak wody = woda z wodociagu)"
+          ]
+        },
+        {
+          "id": "2022P.4.2",
+          "numer": "4.2",
+          "punkty": 3,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.2. (0-3)\nUtworz zestawienie lacznej ilosci retencjonowanej wody w kazdym miesiacu od stycznia do grudnia.\nNa podstawie tego zestawienia utworz wykres kolumnowy prezentujacy ilosc retencjonowanej wody w kazdym miesiacu. Opisz osie: os X to nazwa miesiaca, os Y to laczna ilosc retencjonowanej wody w litrach. Dodaj tytul wykresu.",
+          "odpowiedz": "Zestawienie miesieczne:\nstyczen: 2452\nluty: 1381\nmarzec: 3755\nkwiecien: 4213\nmaj: 3935\nczerwiec: 5566\nlipiec: 6516\nsierpien: 2698\nwrzesien: 5680\npazdziernik: 12225\nlistopad: 14761\ngrudzien: 840\n\nWykres kolumnowy z tytulem 'Laczna ilosc retencjonowanej wody', os X: miesiace, os Y: litry.",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna, w tym:\n    2 pkt -- prawidlowy wykres (w tym 1 pkt typ wykresu, 1 pkt opisy osi i tytul wykresu)\n    1 pkt -- prawidlowe zestawienie.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Retencja to ilosc zebranej wody, nie stan zbiornika",
+            "Sumujemy kolumne retencja dla kazdego miesiaca",
+            "Wykres musi miec: tytul, opisy osi, poprawny typ (kolumnowy/slupkowy)"
+          ]
+        },
+        {
+          "id": "2022P.4.3",
+          "numer": "4.3",
+          "punkty": 4,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.3. (0-4)\nW zbiorniku retencyjnym w dniu 1.01.2022 rano (przed uzyciem) znajdowalo sie 5000 l wody.\na) Podaj liczbe dni w ktorych zabraklo wody w zbiorniku, a brakujaca ilosc wody pobierano z wodociagow.\nb) Podaj, ile lacznie litrow wody pobrano z wodociagow.",
+          "odpowiedz": "a) 93\nb) 19152",
+          "zasady_oceniania": "4 pkt -- odpowiedz poprawna, w tym:\n    2 pkt -- podpunkt a.\n    2 pkt -- podpunkt b.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Symulacja dzien po dniu: najpierw dodaj retencje, potem odejmij zuzycie",
+            "Zuzycie: 190 l/dzien, 260 l w srody, +300 l co 5 dni suszy (kwiecien-wrzesien)",
+            "Gdy zbiornik pusty, brakujaca woda idzie z wodociagu -- nie ujemny stan zbiornika",
+            "Poczatkowy stan zbiornika: 5000 l",
+            "Sroda moze sie nakladac z dniem podlewania -- wtedy zuzycie = 260 + 300"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 5,
+      "tytul": "Hotel \"Panorama\"",
+      "punkty": 9,
+      "czesc": 1,
+      "kontekst": "W plikach tekstowych: klienci.txt, pokoje.txt, noclegi.txt zapisano informacje dotyczace realizowanych uslug hotelu 'Panorama' w okresie od 1.07.2022 do 30.09.2022.\n\nPierwszy wiersz kazdego z plikow jest wierszem naglowkowym, a dane w wierszach rozdzielono znakami tabulacji.\n\nPlik klienci.txt: nr_dowodu, nazwisko, imie, miejscowosc.\nPlik pokoje.txt: nr_pokoju, standard (N=normalny, W=wysoki), cena (za dobe).\nPlik noclegi.txt: id_pobytu, data_przyjazdu, data_wyjazdu, nr_dowodu, nr_pokoju.\n\nInformacja do zadan 5.4 i 5.5: Zalozmy, ze do opisanych wczesniej tabel bazy danych (klienci, pokoje, noclegi) dodano jeszcze jedna -- uslugi_dodatkowe, w ktorej zapisano uslugi zamowione przez gosci hotelu.\n\nTabela uslugi_dodatkowe: data_wykonania (data), id_pobytu (identyfikator pobytu goscia), rodzaj (sniadanie, obiad, kolacja, basen, masaz, fryzjer), cena_uslugi (cena).",
+      "podzadania": [
+        {
+          "id": "2022P.5.1",
+          "numer": "5.1",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.1. (0-2)\nPodaj imie i nazwisko goscia, ktory skorzystal lacznie z najwiekszej liczby noclegow podczas wszystkich swoich pobytow w hotelu 'Panorama'. Podaj liczbe tych noclegow.\n\nPrzyklad: dla goscia, ktory przebywal w hotelu od 10.07.2022 do 12.07.2022 oraz od 15.08.2022 do 18.08.2022 laczna liczba noclegow wynosi 2 + 3 = 5.",
+          "odpowiedz": "Mateusz Tokarczyk 9",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- imie i nazwisko\n    1 pkt -- liczba noclegow.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Liczba noclegow = data_wyjazdu - data_przyjazdu (nie +1, bo ostatni dzien to wyjazd)",
+            "Goscie moga miec wiele pobytow -- trzeba zsumowac noclegi po nr_dowodu",
+            "Lacznie identyfikujemy goscia po nr_dowodu, ale wypisujemy imie i nazwisko"
+          ]
+        },
+        {
+          "id": "2022P.5.2",
+          "numer": "5.2",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.2. (0-2)\nPodaj zestawienie (imiona i nazwiska) osob, ktore zaplacily lacznie za noclegi powyzej 2000 zl.",
+          "odpowiedz": "Anna Poplawska\nMarcin Bober\nMateusz Slomka",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz dla warunku wieksze lub rowne 2000 (5 nazwisk).\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Warunek: powyzej 2000 (>2000), nie >= 2000 -- roznica daje 5 vs 3 nazwiska",
+            "Koszt noclegu = liczba_noclegow * cena_pokoju (z tabeli pokoje.txt)",
+            "Goscie moga miec wiele pobytow w roznych pokojach -- sumujemy wszystkie"
+          ]
+        },
+        {
+          "id": "2022P.5.3",
+          "numer": "5.3",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.3. (0-2)\nPodaj numery pokoi o normalnym standardzie (N), ktorych w okresie od 1.07.2022 do 30.09.2022, nie wynajmowal nikt z Opola i nikt z Katowic.",
+          "odpowiedz": "104, 107, 109, 110, 114, 117, 207, 215, 306, 310, 314, 402, 411, 415, 416, 418",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz nie uwzgledniajaca warunku standardu (27 pokoi).\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Warunek podwojny: standard = 'N' ORAZ brak gosci z Opola i Katowic",
+            "Bez warunku standardu odpowiedz ma 27 pokoi (czesciolwa -- 1 pkt)",
+            "Trzeba polaczyc 3 pliki: pokoje (standard), noclegi (nr_pokoju), klienci (miejscowosc)"
+          ]
+        },
+        {
+          "id": "2022P.5.4",
+          "numer": "5.4",
+          "punkty": 1,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 5.4. (0-1)\nNapisz zapytanie SQL, ktorego wynikiem bedzie zestawienie, w ktorym dla kazdego rodzaju uslugi podana bedzie liczba wszystkich zamowien tej uslugi.",
+          "odpowiedz": "SELECT rodzaj, Count(*)\nFROM Uslugi_dodatkowe\nGROUP BY rodzaj;",
+          "zasady_oceniania": "1 pkt -- odpowiedz poprawna.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Proste GROUP BY -- bez JOIN, jedna tabela",
+            "Count(*) zlicza wszystkie wiersze w grupie"
+          ]
+        },
+        {
+          "id": "2022P.5.5",
+          "numer": "5.5",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 5.5. (0-2)\nNapisz zapytanie SQL, ktorego wynikiem bedzie zestawienie zawierajace dane gosci (imie i nazwisko) korzystajacych z uslug dodatkowych oraz laczne kwoty, jakie zaplacili za uslugi dodatkowe.",
+          "odpowiedz": "SELECT Klienci.imie, Klienci.nazwisko, Sum(uslugi_dodatkowe.cena_uslugi)\nFROM uslugi_dodatkowe\nINNER JOIN (Klienci INNER JOIN Noclegi ON Klienci.nr_dowodu = Noclegi.nr_dowodu)\nON uslugi_dodatkowe.id_pobytu = Noclegi.id_pobytu\nGROUP BY Klienci.nr_dowodu, Klienci.imie, Klienci.nazwisko;",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz z jednym bledem, np. brak grupowania, blad przy JOIN itp.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Wymaga JOIN trzech tabel: uslugi_dodatkowe -> noclegi (id_pobytu) -> klienci (nr_dowodu)",
+            "GROUP BY po kluczu goscia (nr_dowodu) -- nie po imieniu/nazwisku (moze byc powtorka)",
+            "SUM(cena_uslugi) -- lacznie za wszystkie uslugi danego goscia"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 6,
+      "tytul": "Protokoly",
+      "punkty": 1,
+      "czesc": 1,
+      "kontekst": "",
+      "podzadania": [
+        {
+          "id": "2022P.6.1",
+          "numer": "6.1",
+          "punkty": 1,
+          "typ_zadania": "teoria_bezpieczenstwa",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 6. Protokoly (0-1)\nDopasuj odpowiedni protokol (FTP, SMTP, IMAP, HTTPS) do podanego opisu:\n\nProtokol wysylania poczty elektronicznej: ......\nProtokol przesylania plikow: ......\nSzyfrowany protokol przesylania dokumentow hipertekstowych: ......\nProtokol odbierania poczty elektronicznej: ......",
+          "odpowiedz": "Protokol wysylania poczty elektronicznej: SMTP\nProtokol przesylania plikow: FTP\nSzyfrowany protokol przesylania dokumentow hipertekstowych: HTTPS\nProtokol odbierania poczty elektronicznej: IMAP",
+          "zasady_oceniania": "1 pkt -- odpowiedz poprawna.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "SMTP = wysylanie, IMAP = odbieranie poczty (nie odwrotnie)",
+            "HTTPS = szyfrowany HTTP (nie mylić z HTTP)",
+            "FTP = przesylanie plikow"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 7,
+      "tytul": "Szyfrowanie",
+      "punkty": 1,
+      "czesc": 1,
+      "kontekst": "",
+      "podzadania": [
+        {
+          "id": "2022P.7.1",
+          "numer": "7.1",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 7. (0-1)\nOcen prawdziwosc podanych zdan. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli jest falszwe.\n\n1. Klucz symetryczny umozliwia przeprowadzanie operacji szyfrowania i deszyfrowania.\n2. W szyfrowaniu symetrycznym uzywa sie dwoch kluczy: prywatnego i publicznego.",
+          "odpowiedz": "1. P (Prawda)\n2. F (Falsz)\n\nOdpowiedz: PF",
+          "zasady_oceniania": "1 pkt -- odpowiedz poprawna.\n0 pkt -- odpowiedz niepelna albo niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Szyfrowanie SYMETRYCZNE uzywa JEDNEGO klucza (tego samego do szyfrowania i deszyfrowania)",
+            "Dwa klucze (prywatny i publiczny) to szyfrowanie ASYMETRYCZNE",
+            "Zdanie 1 jest prawdziwe: ten sam klucz sluzy do szyfrowania i deszyfrowania"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 8,
+      "tytul": "Systemy liczbowe",
+      "punkty": 2,
+      "czesc": 1,
+      "kontekst": "",
+      "podzadania": [
+        {
+          "id": "2022P.8.1",
+          "numer": "8.1",
+          "punkty": 2,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 8. Systemy liczbowe (0-2)\nUzupelnij tabele. Zapisz wyniki dzialan w zapisie czworkowym i szesnastkowym.\n\n| Dzialanie na liczbach zapisanych w systemie czworkowym | Wynik dzialania zapisany w systemie czworkowym | Wynik dzialania zapisany w systemie szesnastkowym |\n|---|---|---|\n| 3211_4 + 2322_4 | | |\n| 3211_4 - 2322_4 | | |",
+          "odpowiedz": "| Dzialanie | Wynik w systemie czworkowym | Wynik w systemie szesnastkowym |\n|---|---|---|\n| 3211_4 + 2322_4 | 12133 | 19F |\n| 3211_4 - 2322_4 | 223 | 2B |",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz poprawna tylko w jednym wierszu albo w jednej kolumnie.\n0 pkt -- odpowiedz niepelna albo niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Dodawanie/odejmowanie w systemie czworkowym -- przenoszenie/pozyczanie co 4",
+            "3211_4 = 3*64+2*16+1*4+1 = 192+32+4+1 = 229, 2322_4 = 2*64+3*16+2*4+2 = 128+48+8+2 = 186",
+            "229+186 = 415 = 19F_16 = 12133_4",
+            "229-186 = 43 = 2B_16 = 223_4",
+            "Konwersja czworkowa->szesnastkowa: kazde 2 cyfry czworkowe = 1 cyfra hex (bo 4^2=16)"
+          ]
+        }
+      ]
+    }
+  ]
+}

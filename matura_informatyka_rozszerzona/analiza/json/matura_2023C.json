@@ -1,0 +1,468 @@
+{
+  "rok": 2023,
+  "sesja": "czerwiec",
+  "formula": "2023",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 7,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 210,
+      "punkty": 50,
+      "opis": "Jedna czesc (nowa formula)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Mnozenie",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Nastepujacy rekurencyjny algorytm mnozenia dwoch liczb calkowitych dodatnich x, y jest realizowany z uzyciem operacji arytmetycznych dodawania i dzielenia calkowitego przez 2.\n\niloczyn(x, y):\n    jezeli y = 1\n        wynikiem jest x\n    w przeciwnym razie\n        k <- y div 2\n        z <- iloczyn(x, k)\n        jezeli y mod 2 = 0\n            wynikiem jest z + z\n        w przeciwnym razie\n            wynikiem jest x + z + z\n\nUwaga: x mod y oznacza reszte z dzielenia x przez y, natomiast x div y oznacza wynik dzielenia calkowitego x przez y.\n\nDla danych liczb x, y interesuje nas liczba wykonywanych operacji dodawania podczas obliczania wyniku funkcji iloczyn(x, y).\n\nPrzyklad: Dla liczb x=9 i y=11 algorytm wykonuje 5 dodawan.\niloczyn(9, 11) = 9 + z + z, gdzie z = iloczyn(9, 5) (dwa dodawania)\niloczyn(9, 5) = 9 + z + z, gdzie z = iloczyn(9, 2) (dwa dodawania)\niloczyn(9, 2) = z + z, gdzie z = iloczyn(9, 1) (jedno dodawanie)\niloczyn(9, 1) = 9",
+      "wymiary": {
+        "czasowy_min": 15,
+        "zlozonosc": 2,
+        "trudnosc": 2
+      },
+      "podzadania": [
+        {
+          "id": "2023C.1.1",
+          "numer": "1.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1. (0-2)\nUzupelnij ponizsze tabele tak, aby ilustrowala obliczenia wykonywane podczas wywolania iloczyn(10, 45).\n\n| Numer wywolania | x | y | k | z | Wynik |\n|---|---|---|---|---|---|\n| 1 | 10 | 45 | 22 | | |\n| 2 | | | | | |\n| 3 | | | | | |\n| 4 | | | | | |\n| 5 | | | | | |\n| 6 | | 1 | - | - | |",
+          "odpowiedz": "| Numer wywolania | x | y | k | z | Wynik |\n|---|---|---|---|---|---|\n| 1 | 10 | 45 | 22 | 220 | 450 |\n| 2 | 10 | 22 | 11 | 110 | 220 |\n| 3 | 10 | 11 | 5 | 50 | 110 |\n| 4 | 10 | 5 | 2 | 20 | 50 |\n| 5 | 10 | 2 | 1 | 10 | 20 |\n| 6 | 10 | 1 | - | - | 10 |",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna w 6 wierszach.\n1 pkt -- odpowiedz poprawna w 5 wierszach.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba sledzic rekurencje od gory (iloczyn(10,45)) do bazy (iloczyn(10,1)), a wyniki wpisywac od dolu",
+            "k = y div 2, wiec dla y=45: k=22 (nie 22.5), dla y=11: k=5 (nie 5.5)",
+            "Gdy y jest nieparzyste, wynik = x + z + z (3 skladniki, 2 dodawania); gdy parzyste, wynik = z + z (1 dodawanie)",
+            "z to wynik rekurencyjnego wywolania iloczyn(x, k), NIE wartosc lokalna"
+          ]
+        },
+        {
+          "id": "2023C.1.2",
+          "numer": "1.2",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2. (0-2)\nDla liczb x, y wymienionych w ponizszej tabeli podaj liczbe operacji dodawania, jaka zostanie wykonana podczas obliczania wyniku funkcji iloczyn(x, y).\n\n| x | y | Liczba dodawan |\n|---|---|---|\n| 9 | 11 | 5 |\n| 8 | 32 | |\n| 2 | 47 | |\n| 112 | 112 | |",
+          "odpowiedz": "| x | y | Liczba dodawan |\n|---|---|---|\n| 9 | 11 | 5 |\n| 8 | 32 | 5 |\n| 2 | 47 | 9 |\n| 112 | 112 | 8 |",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna w 3 wierszach.\n1 pkt -- odpowiedz poprawna w 2 wierszach.\n0 pkt -- inna odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Liczba dodawan zalezy od zapisu binarnego y: kazdy bit '1' daje 2 dodawania (x+z+z), bit '0' daje 1 dodawanie (z+z), ostatni bit (bazowy) daje 0",
+            "Dla y=32=100000(2): 5 zer + 1 jedynka na koncu (baza), wiec 5*1 = 5 dodawan",
+            "Dla y=47=101111(2): suma bitow * dodawan per bit, trzeba dokladnie przeliczyc",
+            "Nie liczyc dodawania w bazie (y=1 zwraca x bez dodawania)"
+          ]
+        },
+        {
+          "id": "2023C.1.3",
+          "numer": "1.3",
+          "punkty": 2,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.3. (0-2)\nPonizej zapisano iteracyjny algorytm realizujacy funkcje iloczyn(x, y). Uzupelnij trzy luki w algorytmie, tak aby byl zgodny z ponizszą specyfikacja.\n\nSpecyfikacja:\n  Dane: x, y -- liczby calkowite dodatnie\n  Wynik: z -- wartosc iloczynu x*y\n\nUWAGA: sposrod operacji arytmetycznych mozesz uzyc tylko: dodawania, odejmowania, dzielenia calkowitego i reszty z dzielenia. Nie mozesz uzyc operacji mnozenia.\n\nAlgorytm:\nz <- ___________\ndopoki ___________ wykonuj:\n  jezeli y mod 2 = 1\n    z <- z + x\n  x <- x + x\n  y <- ___________",
+          "odpowiedz": "z <- 0\ndopoki y >= 1 wykonuj:\n  jezeli y mod 2 = 1\n    z <- z + x\n  x <- x + x\n  y <- y div 2\n\nTrzy luki: z <- 0, y >= 1, y div 2",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna dla 3 luk.\n1 pkt -- odpowiedz poprawna dla 2 luk.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Algorytm to iteracyjna wersja mnozenia rosyjskich chlopow (Russian peasant multiplication)",
+            "Inicjalizacja z <- 0 (nie z <- x, bo dodajemy x tylko gdy bit y jest 1)",
+            "Warunek petli y >= 1 (nie y > 1, bo musimy przetworzyc ostatni bit y=1)",
+            "y <- y div 2 (przesuwamy bity y w prawo, nie y - 1)"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 2,
+      "tytul": "Sufiksy",
+      "punkty": 10,
+      "czesc": 1,
+      "kontekst": "Slowo definiujemy jako ciag zlozony z malych liter alfabetu angielskiego.\nNiech s[1..n] bedzie slowem o dlugosci n > 0.\nSufiksem slowa s nazywamy kazde jego podslowo konczace na ostatniej pozycji slowa s.\nSufiks s[k..n] nazywamy k-tym sufiksem.\n\nPrzyklad: slowo s[1..10] = mascarpone ma 10 sufiksow (mascarpone, ascarpone, scarpone, carpone, arpone, rpone, pone, one, ne, e).\nUporzadkowanie alfabetyczne wszystkich sufiksow slowa mascarpone daje nastepujaca kolejnosc ich numerow (od najmniejszego): 5, 2, 4, 10, 1, 9, 8, 7, 6, 3.\n\nPonizej zapisano funkcje czy_mniejszy(n, s, k1, k2). Wynikiem funkcji jest wartosc PRAWDA, gdy sufiks s[k1..n] jest mniejszy w porzadku alfabetycznym od sufiksu s[k2..n], oraz FALSZ w przeciwnym przypadku.\n\nczy_mniejszy(n, s, k1, k2):\n  i <- k1\n  j <- k2\n  dopoki (i <= n oraz j <= n) wykonuj\n    jezeli (s[i] == s[j])\n      i <- i + 1\n      j <- j + 1\n    w przeciwnym razie\n      jezeli (s[i] < s[j])\n        zakoncz z wynikiem PRAWDA\n      w przeciwnym razie\n        zakoncz z wynikiem FALSZ\n  jezeli (j <= n)\n    zakoncz z wynikiem PRAWDA\n  w przeciwnym razie\n    zakoncz z wynikiem FALSZ",
+      "sciezka_danych": "DANE",
+      "pliki_danych": ["slowa1.txt", "slowa2.txt", "slowa3.txt", "slowa4.txt", "sufiks_1.txt", "sufiks_2.txt", "sufiks_4.txt"],
+      "wymiary": {
+        "czasowy_min": 30,
+        "zlozonosc": 3,
+        "trudnosc": 3
+      },
+      "podzadania": [
+        {
+          "id": "2023C.2.1",
+          "numer": "2.1",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1. (0-2)\nPierwsze dwie instrukcje jezeli w funkcji czy_mniejszy wykonuja porownania dwoch znakow slowa s.\n\nPrzyklad: dla danych s = mascarpone, k1 = 5, k2 = 2 algorytm wykona 3 porownania:\n- (pierwsza instrukcja jezeli) -- sprawdzenie, czy s[5] = s[2]\n- (pierwsza instrukcja jezeli) -- sprawdzenie, czy s[6] = s[3]\n- (druga instrukcja jezeli) -- sprawdzenie, czy s[6] < s[3]\n\nPodaj przyklad slowa s, o dlugosci <= 10 oraz liczb k1, k2, k1 != k2, dla ktorych funkcja czy_mniejszy wykona dokladnie 6 porownan w pierwszej instrukcji jezeli.",
+          "odpowiedz": "Przykladowe rozwiazania:\ns = ababababb, k1 = 1, k2 = 3\ns = aaaaaaaaaa, k1 = 2, k2 = 5",
+          "zasady_oceniania": "2 pkt -- poprawna odpowiedz.\n1 pkt -- za podanie przykladu, dla ktorego algorytm wykona 5 lub 7 porownan w pierwszej instrukcji jezeli.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Porownania w pierwszej instrukcji jezeli to sprawdzenia s[i]==s[j] (rownosc znakow)",
+            "6 porownan w pierwszej instrukcji jezeli oznacza, ze 6 razy znaki sa rowne zanim padnie roznica lub koniec sufiksu",
+            "Slowo musi miec powtarzajacy sie wzorzec, np. ababab..., zeby sufiksy dlugo sie zgadzaly",
+            "k1 i k2 musza byc rozne (k1 != k2)"
+          ]
+        },
+        {
+          "id": "2023C.2.2",
+          "numer": "2.2",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 2.2. (0-2)\nW plikach slowa1.txt, slowa2.txt i slowa3.txt znajduja sie po trzy wiersze:\n- w pierwszym wierszu kazdego pliku zapisana jest liczba calkowita dodatnia n, oznaczajaca dlugosc slowa\n- w drugim wierszu zapisane jest n-literowe slowo s, skladajace sie z malych liter alfabetu angielskiego a-z\n- w trzecim wierszu zapisane sa dwie liczby k1 i k2, oddzielone spacja.\n\nNapisz program z zaimplementowana funkcja czy_mniejszy. Jako wynik Twoj program powinien wypisywac TAK lub NIE, w zaleznosci od wyniku funkcji czy_mniejszy. Odpowiedzi dla poszczegolnych plikow zapisz w pliku wyniki2_2.txt.",
+          "odpowiedz": "slowa1.txt (TAK),\nslowa2.txt (NIE),\nslowa3.txt (NIE)",
+          "zasady_oceniania": "2 pkt -- poprawna odpowiedz.\n1 pkt -- za podanie prawidlowej odpowiedzi dla dwoch plikow.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Trzeba dokladnie zaimplementowac funkcje czy_mniejszy z pseudokodu -- kazdy blad w logice da bledny wynik",
+            "Porownanie znakow ASCII: male litery a-z maja kody 97-122, wiec porownanie < dziala poprawnie",
+            "Uwaga na indeksowanie od 1 (pseudokod) vs od 0 (C++/Python)"
+          ]
+        },
+        {
+          "id": "2023C.2.3",
+          "numer": "2.3",
+          "punkty": 3,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.3. (0-3)\nDana jest dodatnia liczba calkowita n oraz slowo s[1..n]. Naszym celem jest obliczenie wartosci elementow tablicy T[1..n] zawierajacej numery sufiksow slowa s[1..n] uporzadkowanych w porzadku alfabetycznym.\n\nPrzyklad:\ndla slowa mascarpone wynikowa tablica T to [5, 2, 4, 10, 1, 9, 8, 7, 6, 3],\ndla slowa kalafiorowa wynikowa tablica T to [11, 4, 2, 5, 6, 1, 3, 7, 9, 8, 10].\n\nZ wykorzystaniem funkcji czy_mniejszy(n, s, k1, k2) zapisz w wybranej przez siebie notacji (w postaci pseudokodu lub w wybranym jezyku programowania) algorytm, ktory obliczy wartosci elementow tablicy T zawierajacej numery sufiksow zgodnie z porzadkiem alfabetycznym sufiksow slowa s.\n\nSpecyfikacja:\n  Dane: n -- liczba calkowita dodatnia, dlugosc slowa; s[1..n] -- slowo zapisane jako tablica znakow (numerowana od 1)\n  Wynik: T[1..n] -- tablica T taka, ze T[i]-ty sufiks slowa s jest mniejszy w porzadku alfabetycznym od T[i+1]-go sufiksu slowa s dla kazdego 1 <= i < n.",
+          "odpowiedz": "Wypelnienie tablicy T wartosciami poczatkowymi 1..n, a nastepnie sortowanie (np. babelkowe) z wykorzystaniem czy_mniejszy:\n\ndla i = 1, 2, ..., n:\n  T[i] <- i\ndla i = 1, 2, ..., n-1:\n  dla j = 1, 2, ..., n-i:\n    jezeli czy_mniejszy(n, s, T[j+1], T[j]) = PRAWDA:\n      x <- T[j+1]\n      T[j+1] <- T[j]\n      T[j] <- x",
+          "zasady_oceniania": "3 pkt -- poprawna odpowiedz, w tym:\n  1 pkt -- prawidlowa organizacje petli sortujacej (np. sortowanie babelkowe, przez wstawianie),\n  1 pkt -- wypelnienie tablicy wartosciami poczatkowymi (1 do n) oraz prawidlowe porownywanie elementow podczas sortowania (z wykorzystaniem funkcji czy_mniejszy),\n  1 pkt -- za prawidlowe przestawianie elementow tablicy podczas sortowania.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Tablica T przechowuje NUMERY sufiksow, nie same sufiksy -- sortujemy numery wedlug porzadku ich sufiksow",
+            "Porownanie czy_mniejszy(n, s, T[j+1], T[j]) sprawdza czy sufiks T[j+1] < sufiks T[j], jezeli tak to zamieniamy",
+            "Mozna uzyc dowolnego algorytmu sortowania, ale trzeba zamienic porownanie < na wywolanie czy_mniejszy",
+            "Inicjalizacja T[i] = i jest kluczowa -- bez niej sortowanie nie ma czego sortowac"
+          ]
+        },
+        {
+          "id": "2023C.2.4",
+          "numer": "2.4",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 2.4. (0-3)\nW pliku slowa4.txt znajduje sie 10 wierszy. Kazdy wiersz zawiera liczbe n (1 <= n <= 100) oraz n-literowe slowo s skladajace sie z malych liter alfabetu angielskiego. Dane w wierszu sa oddzielone znakiem odstepu.\n\nNapisz program, ktory dla kazdego slowa s z pliku wypisze jego sufiks najmniejszy w porzadku alfabetycznym.\n\nPrzyklad: Sufiksem najmniejszym w porzadku alfabetycznym dla slowa mascarpone jest arpone, a dla slowa truskawki sufiksem najmniejszym w porzadku alfabetycznym jest awki.\n\nWyniki zapisz w pliku wyniki2_4.txt, kazdy sufiks w oddzielnym wierszu, zgodnie z kolejnoscia danych w pliku slowa4.txt.",
+          "odpowiedz": "ato\na\nabracadabrad\nabecadlo\naaababbbcaababaz\na\naaababbbbcaababaaabcaabbccbbccbaaababbbcaababaz\naaababbbcaababaz\naaababbbcaababacaacacaacacacacacb\naaababbbcacbabaaabcaabbccbbccbaabcaabbaabbccbbccbaaababbbccababazbcabbab",
+          "zasady_oceniania": "3 pkt -- poprawna odpowiedz.\n2 pkt -- prawidlowa odpowiedz dla pierwszych 5 slow.\n1 pkt -- prawidlowa odpowiedz dla pierwszych 4 slow.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Sufiks najmniejszy to ten z najmniejszym numerem k w posortowanej tablicy T -- wystarczy znalezc minimum",
+            "Mozna uzyc implementacji czy_mniejszy do porownywania sufiksow parami (bez pelnego sortowania)",
+            "Dla dlugich slow (n do 100) sortowanie babelkowe jest wystarczajace",
+            "Dlugie sufiksy w odpowiedzi -- trzeba wypisac caly sufiks, nie tylko jego numer"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 3,
+      "tytul": "Anagram binarny",
+      "punkty": 11,
+      "czesc": 1,
+      "kontekst": "W pliku anagram.txt znajduje sie 1000 wierszy. Kazdy wiersz zawiera liczbe binarna, skladajaca sie z maksymalnie 14 cyfr: 0 lub 1. Kazda liczba zaczyna sie jedynka i zadna z nich sie nie powtarza.\n\nNapisz program(y), ktory(-e) da(-dza) odpowiedzi do podanych zadan. Odpowiedzi do zadan zapisz w pliku wyniki3.txt, a kazda z nich poprzedz numerem odpowiedniego zadania.\n\nUwaga: plik przyklad.txt zawiera 100 wierszy przykladowych danych spelniajacych warunki zadania.",
+      "sciezka_danych": "DANE",
+      "pliki_danych": ["anagram.txt", "przyklad.txt"],
+      "wymiary": {
+        "czasowy_min": 35,
+        "zlozonosc": 3,
+        "trudnosc": 3
+      },
+      "podzadania": [
+        {
+          "id": "2023C.3.1",
+          "numer": "3.1",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.1. (0-2)\nLiczbe binarna nazywamy zrownowazona, gdy zawiera tyle samo zer i jedynek, natomiast prawie zrownowazona, gdy liczba jedynek rozni sie od liczby zer o 1.\n\nPrzyklad: Liczba 101010 jest liczba zrownowazona. Liczba 1011010 jest liczba prawie zrownowazona.\n\nPodaj, ile jest liczb binarnych zrownowazonych oraz ile jest liczb binarnych prawie zrownowazonych w pliku anagram.txt.\n\nDla danych z pliku przyklad.txt prawidlowa odpowiedzia jest: 21, 15.",
+          "odpowiedz": "118\n219",
+          "zasady_oceniania": "2 pkt -- za podanie prawidlowej odpowiedzi dla obu rodzajow liczb.\n1 pkt -- za podanie poprawnej odpowiedzi dla tylko jednego rodzaju liczb.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Zrownowazona = dokladnie tyle samo 0 i 1 (parzysta dlugosc wymagana)",
+            "Prawie zrownowazona = roznica miedzy liczba 0 i 1 wynosi dokladnie 1 (nieparzysta dlugosc lub parzysta z roznica 1)",
+            "Kazda liczba binarna zaczyna sie od 1, wiec nie ma wiodacych zer do policzenia",
+            "Uwaga: prawie zrownowazona to NIE to samo co zrownowazona -- to oddzielne kategorie"
+          ]
+        },
+        {
+          "id": "2023C.3.2",
+          "numer": "3.2",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.2. (0-3)\nAnagramy cyfrowe to liczby utworzone z tego samego zestawu cyfr ustawionych w roznych kolejnosciach. Przy tym pierwsza cyfra liczby nie moze byc rowna zero.\n\nPrzyklad: Z liczby 209 zapisanej dziesietnie mozna utworzyc 4 anagramy: 209, 902, 290, 920.\nZ liczby binarnej 11100 mozna utworzyc 6 roznych anagramow: 10011, 10101, 10110, 11001, 11010, 11100.\n\nZnajdz wszystkie takie liczby binarne 8-cyfrowe w pliku anagram.txt, z ktorych mozna utworzyc najwieksza liczbe anagramow. Wypisz te liczby w kolejnosci, w jakiej wystepuja w pliku anagram.txt.\n\nDla danych z pliku przyklad.txt prawidlowa odpowiedzia sa: 10001011, 10111000, 10100111, 11111000, 10011100, 11100011, 10111010, 10100011, 10011010, 10110001, 11011010.",
+          "odpowiedz": "10110101\n11010100\n10100101\n11001001\n10110100\n11001101\n11000110",
+          "zasady_oceniania": "3 pkt -- poprawna odpowiedz.\n2 pkt -- podanie odpowiedzi uwzgledniajacej jedynie jeden z warunkow, np. gdy liczba zer i jedynek jest jednakowa ALBO poprawne rozwiazanie zadania dla 7 lub 9-cyfrowej liczby dwojkowej.\n1 pkt -- rozwiazanie zadania bez uwzglednienia warunku, ze 1 musi byc na poczatku liczby dwojkowej i uwzgledniajac jedynie jeden z warunkow.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Liczba anagramow binarnych zalezy od: dlugosci (8 cyfr), liczby jedynek i zer, z warunkiem ze pierwsza cyfra = 1",
+            "Wzor: C(n-1, k-1) gdzie n = dlugosc, k = liczba jedynek (bo pierwsza pozycja zajeta przez 1)",
+            "Dla 8 cyfr maksymalna liczba anagramow to C(7,3)=35 (gdy 4 jedynki i 4 zera)",
+            "Trzeba znalezc 8-cyfrowe liczby z 4 jedynkami i 4 zerami w pliku"
+          ]
+        },
+        {
+          "id": "2023C.3.3",
+          "numer": "3.3",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.3. (0-2)\nPodaj najwieksza wartosc bezwzgledna roznicy miedzy sasiednimi liczbami (to jest liczbami zapisanymi w sasiednim wierszach np. 1 i 2 wierszu, 2 i 3 wierszu itd.) w pliku anagram.txt. Te wartosc podaj w zapisie binarnym.\n\nDla danych z pliku przyklad.txt prawidlowa odpowiedzia jest: 1110001010.",
+          "odpowiedz": "10011000111001",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz podana w systemie dziesietnym (9785) ALBO odpowiedz nie uwzgledniajaca wartosci bezwzglednej (9729 / 10011000000001).\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba porownywac WARTOSCI liczbowe, nie napisy binarne -- najpierw konwersja bin->dec",
+            "Wartosc BEZWZGLEDNA roznicy -- nie wystarczy odejmowac w jednym kierunku",
+            "Wynik trzeba podac w zapisie BINARNYM, nie dziesietnym",
+            "10011000111001(2) = 9785(10) -- latwy blad w konwersji wyniku"
+          ]
+        },
+        {
+          "id": "2023C.3.4",
+          "numer": "3.4",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.4. (0-4)\nZamien wszystkie liczby binarne z pliku anagram.txt na ich odpowiedniki w systemie dziesietnym. Nastepnie sposrod otrzymanych liczb dziesietnych:\na) podaj, ile jest takich, w ktorych nie wystepuje cyfra zero\nb) podaj liczbe, ktora ma najwieksza sume roznych cyfr (jesli liczb, ktore maja te sama, najwieksza sume roznych cyfr, jest wiecej niz jedna -- podaj te, ktora wystepuje jako pierwsza w pliku z danymi).\n\nPrzyklad: Dla liczby 20462 suma jej roznych cyfr to 12 (2+0+4+6+2), dla liczby 344 suma roznych cyfr to 7.\n\nDla danych z pliku przyklad.txt prawidlowa odpowiedzia jest: 81, 895.",
+          "odpowiedz": "728\n7896",
+          "zasady_oceniania": "4 pkt -- odpowiedz poprawna, w tym\n  1 pkt -- za liczbe liczb bez zera,\n  3 pkt -- za liczbe z maksymalna suma roznych cyfr\n    (2 pkt -- za podanie liczby z maksymalna suma roznych cyfr, ale nie pierwsza wystepujaca w pliku;\n    1 pkt -- za podanie liczby z maksymalna suma cyfr -- ale nie roznych).\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Suma ROZNYCH cyfr, nie suma WSZYSTKICH cyfr -- trzeba zliczac kazda cyfre tylko raz",
+            "Przyklad: 20462 ma rozne cyfry {0,2,4,6}, suma roznych = 0+2+4+6 = 12",
+            "Jesli wiele liczb ma te sama maksymalna sume roznych cyfr, podajemy PIERWSZA z pliku",
+            "Konwersja bin->dec moze dawac duze liczby (do 14 bitow = max 16383)"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 4,
+      "tytul": "Konwersja miedzy systemami liczbowymi",
+      "punkty": 2,
+      "czesc": 1,
+      "wymiary": {
+        "czasowy_min": 5,
+        "zlozonosc": 1,
+        "trudnosc": 1
+      },
+      "podzadania": [
+        {
+          "id": "2023C.4.1",
+          "numer": "4",
+          "punkty": 2,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 4. (0-2)\nUzupelnij brakujace pola tabeli:\n- w wierszu pierwszym dla liczby zapisanej w systemie o podstawie 3 podaj jej zapis w systemie o podstawie 9\n- w wierszu drugim dla liczby zapisanej w systemie o podstawie 9 podaj jej zapis w systemie o podstawie 3.\n\n| | system 3 | system 9 |\n|---|---|---|\n| 1. | 101201_3 | |\n| 2. | | 2487_9 |",
+          "odpowiedz": "| | system 3 | system 9 |\n|---|---|---|\n| 1. | 101201_3 | 351_9 |\n| 2. | 2112221_3 | 2487_9 |",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna w dwoch wierszach.\n1 pkt -- odpowiedz poprawna w jednym wierszu.\n0 pkt -- odpowiedz niepoprawna, niepelna albo brak rozwiazania.",
+          "pulapki": [
+            "Konwersja 3->9: grupowanie cyfr trojkowych po 2 od prawej (bo 9 = 3^2), 10_3=3, 12_3=5, 01_3=1 -> 351_9",
+            "Konwersja 9->3: kazda cyfra dziewiatkowo rozpisywana na 2 cyfry trojkowo: 2=02, 4=11, 8=22, 7=21",
+            "Nie zapominac o wiodacych zerach w grupach: np. 1 w systemie 9 to 01 w dwucyfrowym zapisie trojkowym",
+            "Blad: przeliczanie przez system dziesietny zamiast bezposredniej konwersji 3<->9"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 5,
+      "tytul": "Kolor CSS",
+      "punkty": 1,
+      "czesc": 1,
+      "wymiary": {
+        "czasowy_min": 3,
+        "zlozonosc": 1,
+        "trudnosc": 1
+      },
+      "podzadania": [
+        {
+          "id": "2023C.5.1",
+          "numer": "5",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 5. (0-1)\nZapis koloru tla w arkuszu CSS zostal wyrazony w postaci:\n  background-color: #E9967A;\n\nOkresl, czy ponizsze stwierdzenia sa prawdziwe (P) czy falzywe (F).\n\n1. Zapis dziesietny skladowej czerwonej koloru #E9967A to 233.\n2. Zmiana zapisu #E9967A na rgb(255,255,255) da w efekcie bialy kolor tla.",
+          "odpowiedz": "1. P\n2. P",
+          "zasady_oceniania": "1 pkt -- odpowiedz poprawna.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "E9 hex = 14*16 + 9 = 233 dziesietnie -- to skladowa czerwona (pierwsze 2 znaki po #)",
+            "rgb(255,255,255) to bialy kolor niezaleznie od oryginalnego koloru -- zmiana calego koloru, nie dodanie",
+            "Przeoczenie: pytanie mowi o ZMIANIE zapisu na rgb(255,255,255), nie o mieszaniu kolorow"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 6,
+      "tytul": "Fotowoltaika",
+      "punkty": 9,
+      "czesc": 1,
+      "kontekst": "Pan Oszczedny pod koniec roku 2019 zamontowal 18 paneli fotowoltaicznych na dachu swojego domu. Od 1 stycznia 2020 do 31 maja 2020 roku zapisywany byl co godzine przez cala dobe pobor pradu od dostawcy i generowany prad przez panele fotowoltaiczne.\nW pliku fotowoltaika.txt zapisano date i godzine, pobor pradu z sieci energetycznej [kWh] oraz liczbe wygenerowanych kilowatogodzin przez panele. Dane w wierszach oddzielone sa znakiem tabulacji.\n\nGospodarstwo domowe Pana Oszczednego w pierwszej kolejnosci zuzywa prad wygenerowany przez panele fotowoltaiczne. Jezeli potrzeby sa wieksze, to pobiera go z sieci energetycznej. Pobor rowny 0 oznacza, ze ogniwa wytwarzaja co najmniej tyle energii, ile wynosily potrzeby gospodarstwa domowego. Generowanie rowne 0 oznacza, ze panele nie produkuja energii (z powodu braku naslonecznienia).",
+      "sciezka_danych": "DANE",
+      "pliki_danych": ["fotowoltaika.txt"],
+      "wymiary": {
+        "czasowy_min": 40,
+        "zlozonosc": 3,
+        "trudnosc": 2
+      },
+      "podzadania": [
+        {
+          "id": "2023C.6.1",
+          "numer": "6.1",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 6.1. (0-2)\nPodaj dzien, w ktorym panele wytworzyly lacznie w ciagu calego dnia najwiecej energii liczonej w kWh. Podaj date i liczbe wygenerowanych kilowatogodzin.",
+          "odpowiedz": "7.04.2020    41,582",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna\n  1 pkt -- za date,\n  1 pkt -- za wartosc.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Trzeba zsumowac generowanie (kolumna 3) dla kazdego dnia -- SUMIFS po dacie",
+            "Szukamy maksimum sumy dziennej generacji, nie maksymalnej godzinowej wartosci",
+            "Format daty: dd.mm.rrrr -- trzeba wyodrebnic date z pola Data_godzina"
+          ]
+        },
+        {
+          "id": "2023C.6.2",
+          "numer": "6.2",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 6.2. (0-2)\nO ktorej godzinie najczesciej zdarzala sie sytuacja, ze energia wytworzona przez ogniwa pokrywa w calosci zapotrzebowanie gospodarstwa (pobor z sieci wynosil 0)? Podaj te godzine i liczbe dni, w ktorych pobor z sieci wynosil 0 o tej godzinie.",
+          "odpowiedz": "35 razy o 10.00",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna\n  1 pkt -- za czestotliwosc,\n  1 pkt -- za godzine.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Pobor = 0 oznacza, ze panele pokrywaja calkowite zapotrzebowanie (nie ze nie ma zuzycia)",
+            "Trzeba policzyc dla kazdej godziny (0-23) ile razy pobor = 0, a potem znalezc max",
+            "Godzina 10:00 to szczyt sloneczny -- intuicyjnie poprawne"
+          ]
+        },
+        {
+          "id": "2023C.6.3",
+          "numer": "6.3",
+          "punkty": 3,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 6.3. (0-3)\nUtworz zestawienie sredniej liczby wygenerowanych kWh w poszczegolnych godzinach. Wartosci zapisz z dokladnoscia do czterech miejsc po przecinku. Dla swojego zestawienia utworz wykres kolumnowy. Pamietaj o prawidlowym opisie osi oraz o tytule wykresu.",
+          "odpowiedz": "Srednia liczba wygenerowanych kWh:\ngodzina 0: 0, godzina 1: 0, godzina 2: 0, godzina 3: 0, godzina 4: 0, godzina 5: 0, godzina 6: 0.0032, godzina 7: 0.1141, godzina 8: 0.5249, godzina 9: 1.3305, godzina 10: 2.1241, godzina 11: 2.4261, godzina 12: 2.6104, godzina 13: 2.4179, godzina 14: 2.2165, godzina 15: 1.6906, godzina 16: 0.8749, godzina 17: 0.3692, godzina 18: 0.0966, godzina 19: 0.0186, godzina 20: 0.0022, godzina 21: 0, godzina 22: 0, godzina 23: 0\n\nWykres kolumnowy z tytulem 'srednia liczba wygenerowanych kWh', osia X = godzina, osia Y = kWh.",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna, w tym\n  1 pkt -- za poprawne zestawienie,\n  2 pkt -- wykres (w tym 1 punkt za opis i 1 punkt za typ wykresu i dobor danych).\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Srednia = suma generacji o danej godzinie / liczba dni (152 dni od 1.01 do 31.05)",
+            "Dokladnosc do 4 miejsc po przecinku -- nie zaokraglac wczesniej",
+            "Wykres KOLUMNOWY (nie liniowy, nie kolowy) z opisami osi i tytulem",
+            "Godziny 0-5 i 21-23 powinny miec wartosc 0 (brak slonca)"
+          ]
+        },
+        {
+          "id": "2023C.6.4",
+          "numer": "6.4",
+          "punkty": 2,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 6.4. (0-2)\nPan Oszczedny rozwaza rozbudowe systemu generowania energii za pomoca ogniw fotowoltaicznych. Baza do obliczen sa wszystkie dane z kwietnia 2020 roku.\nPodaj minimalna liczbe paneli, o ktora nalezaloby powiekszy system, aby przy kwietniowym zuzyciu pradu i kwietniowym naslonecznieniu, w godzinach od 10 do 15 system nie pobieral pradu z zakladu energetycznego.",
+          "odpowiedz": "10",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz 9.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Aktualne 18 paneli generuje X kWh -- trzeba znalezc godzine 10-15 w kwietniu z najgorsza relacja generacja/pobor",
+            "Skalowanie liniowe: dodatkowe panele zwiekszaja generacje proporcjonalnie (n+18)/18 * generacja",
+            "Szukamy minimalnej liczby DODATKOWYCH paneli (nie calkowitej liczby paneli)",
+            "Odpowiedz 9 daje 1 pkt -- to czesty blad (np. zaokraglenie w dol zamiast w gore)"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 7,
+      "tytul": "Instalacje",
+      "punkty": 11,
+      "czesc": 1,
+      "kontekst": "W bazie danych firmy X zawarte sa informacje o instalacjach pewnej aplikacji, o urzadzeniach, na ktorych ta aplikacja zostala zainstalowana, oraz o krajach, w ktorych przeprowadzono instalacje.\nDane zgromadzono w plikach tekstowych: kraje.txt, instalacje.txt oraz urzadzenia.txt. Pierwszy wiersz kazdego z plikow jest wierszem naglowkowym, a dane w wierszach rozdzielone sa znakami tabulacji.\n\nPlik kraje.txt: kod_k (dwuznakowy), nazwa_k (do 50 znakow), ludnosc_k (do 10 cyfr).\nPlik urzadzenia.txt: kod_u (do 5 cyfr), nazwa_u (do 80 znakow), producent_u (do 35 znakow), typ_u (Tablet, Phone lub PC).\nPlik instalacje.txt: data_i (format dd.mm.rrrr), kod_k (dwuznakowy), kod_u (do 5 cyfr).\n\nUwaga: kod_u nie oznacza pojedynczego egzemplarza urzadzenia, a tylko jego rodzaj -- na urzadzeniach o tym samym kodzie moze byc wykonanych wiele instalacji.",
+      "sciezka_danych": "DANE",
+      "pliki_danych": ["kraje.txt", "instalacje.txt", "urzadzenia.txt"],
+      "wymiary": {
+        "czasowy_min": 40,
+        "zlozonosc": 3,
+        "trudnosc": 2
+      },
+      "podzadania": [
+        {
+          "id": "2023C.7.1",
+          "numer": "7.1",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 7.1. (0-2)\nDla kazdego typu urzadzenia podaj liczbe instalacji aplikacji na tym typie urzadzenia.",
+          "odpowiedz": "typ_u    liczba_instalacji\nPC       16\nPhone    2814\nTablet   267",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz poprawna dla jednego lub dwoch typow urzadzen.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Wymaga JOIN miedzy instalacje (kod_u) i urzadzenia (kod_u, typ_u), potem GROUP BY typ_u",
+            "PC ma tylko 16 instalacji -- moze wydawac sie malo, ale to poprawny wynik",
+            "Nie mylac liczby urzadzen z liczba instalacji -- jedno urzadzenie moze miec wiele instalacji"
+          ]
+        },
+        {
+          "id": "2023C.7.2",
+          "numer": "7.2",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 7.2. (0-2)\nPodaj nazwe producenta urzadzen, dla ktorego w lutym 2019 wykonano najwiecej instalacji. Podaj liczbe tych instalacji.",
+          "odpowiedz": "478\nsamsung",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna\n  1 pkt -- za nazwe,\n  1 pkt -- za liczbe.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Filtrowanie po dacie: luty 2019 = data_i LIKE '__.02.2019' (format dd.mm.rrrr)",
+            "JOIN instalacje z urzadzenia po kod_u, GROUP BY producent_u, ORDER BY COUNT DESC LIMIT 1",
+            "samsung (mala litera) -- dokladnie tak jak w danych"
+          ]
+        },
+        {
+          "id": "2023C.7.3",
+          "numer": "7.3",
+          "punkty": 3,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 7.3. (0-3)\nPodaj nazwy pieciu krajow, w ktorych przeprowadzono najwiecej instalacji w przeliczeniu na 1 000 000 mieszkancow, oraz podaj liczby tych instalacji.\nDla kazdego z tych pieciu krajow podaj liczbe instalacji na 1 000 000 mieszkancow z dokladnoscia do dwoch miejsc po przecinku.\nUwaga: pomin kraje, w ktorych jest mniej niz milion mieszkancow.",
+          "odpowiedz": "| nazwa_k | liczba |\n|---|---|\n| SWITZERLAND | 5,28 |\n| SLOVENIA | 4,35 |\n| IRELAND | 3,91 |\n| AUSTRIA | 3,84 |\n| CZECH REPUBLIC | 3,76 |",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna, w tym:\n  1 pkt -- za nazwy krajow,\n  1 pkt -- za wyliczenie wyniku,\n  1 pkt -- za zaokraglenie wyniku.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba wykluczyc kraje z ludnoscia < 1 000 000 (WHERE ludnosc_k >= 1000000)",
+            "Przeliczenie: COUNT(*) * 1000000.0 / ludnosc_k -- uzyc dzielenia zmiennoprzecinkowego",
+            "Zaokraglenie do 2 miejsc po przecinku (ROUND(..., 2))",
+            "JOIN kraje z instalacje po kod_k, GROUP BY nazwa_k, ORDER BY per_capita DESC LIMIT 5"
+          ]
+        },
+        {
+          "id": "2023C.7.4",
+          "numer": "7.4",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 7.4. (0-2)\nPodaj kod oraz nazwe urzadzenia typu tablet (\"Tablet\"), na ktorym zainstalowano aplikacje w najwiekszej liczbie krajow. Podaj takze liczbe krajow, w ktorych instalowano aplikacje na tym urzadzeniu.",
+          "odpowiedz": "11935 Galaxy Tab A (2016) 20",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna, w tym\n  1 pkt -- za podanie kodu i nazwy,\n  1 pkt -- za podanie liczby krajow.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Filtruj urzadzenia WHERE typ_u = 'Tablet', polacz z instalacje po kod_u",
+            "COUNT(DISTINCT kod_k) -- liczymy ROZNE kraje, nie wszystkie instalacje",
+            "GROUP BY kod_u, nazwa_u ORDER BY count_distinct DESC LIMIT 1",
+            "Galaxy Tab A (2016) -- nazwa z nawiasami i rokiem"
+          ]
+        },
+        {
+          "id": "2023C.7.5",
+          "numer": "7.5",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 7.5. (0-2)\nDo istniejacych juz tabel bazy danych dolaczono tabele firmy zawierajaca dane firm, w ktorych wykonywano instalacje aplikacji.\nTabela firmy zawiera pola id_firmy (identyfikator firmy -- klucz podstawowy) oraz nazwa -- nazwa firmy.\nDo tabeli instalacje (zawierajacej dane z pliku instalacje.txt) dodano pole id_firmy wskazujace, w ktorej firmie na nalezacych do niej urzadzeniach wykonano instalacje.\n\nTabele firmy i instalacje polaczone sa relacja jeden do wielu.\n\nZapisz w jezyku SQL zapytanie, w ktorym dla kazdej nazwy firmy z tabeli firmy zliczysz liczbe instalacji wykonanych w tej firmie. Wynik posortuj nierosnaco wedlug liczby instalacji.",
+          "odpowiedz": "SELECT firmy.nazwa, COUNT(*) AS liczba\nFROM firmy\nINNER JOIN instalacje ON firmy.id_firmy = instalacje.id_firmy\nGROUP BY firmy.id_firmy\nORDER BY COUNT(*) DESC",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz z jednym bledem (np. brak grupowania, blad w JOIN, sortowanie niemalejaco).\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "JOIN miedzy firmy i instalacje po id_firmy -- trzeba znac schemat relacji",
+            "GROUP BY firmy.id_firmy (lub firmy.nazwa) -- grupowanie po firmie",
+            "ORDER BY COUNT(*) DESC -- nierosnaco = malejaco (DESC)",
+            "INNER JOIN (nie LEFT JOIN) -- zakladamy, ze kazda firma ma instalacje"
+          ]
+        }
+      ]
+    }
+  ]
+}
