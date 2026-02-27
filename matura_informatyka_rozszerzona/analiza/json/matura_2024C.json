@@ -1,0 +1,534 @@
+{
+  "rok": 2024,
+  "sesja": "czerwiec",
+  "formula": "2023",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 8,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 210,
+      "punkty": 50,
+      "opis": "Jedna czesc (nowa formula)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Prostokatna liczba binarna",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "Rozwazmy tablice o w wierszach i k kolumnach oraz dodatnia liczbe calkowita n, ktorej zapis w postaci binarnej ma co najwyzej w * k cyfr. Te liczbe zapisujemy w systemie binarnym i wpisujemy cyfry w kolejnych komorkach tablicy, poczawszy od lewego gornego rogu.\n\nCyfry zapisu binarnego najpierw wprowadzamy do pierwszego wiersza, nastepnie do drugiego wiersza itd. Jesli w pewnej komorce zakonczymy wprowadzanie ostatniej cyfry zapisu binarnego, to od nastepnej komorki zaczynamy ponownie wprowadzac cyfry zapisu binarnego tej samej liczby, zaczynajac od pierwszej cyfry. Szukamy cyfry znajdujacej sie w prawym dolnym rogu tablicy.\n\nPrzyklad: w = 5, k = 3, n = 19. Przedstawiamy liczbe 19 w zapisie binarnym: 10011. Wprowadzamy cyfry do tablicy 5 x 3:\n\n| 1 | 0 | 0 |\n| 1 | 1 | 1 |\n| 0 | 0 | 1 |\n| 1 | 1 | 0 |\n| 0 | 1 | 1 |\n\nCyfra w prawym dolnym rogu jest 1.",
+      "podzadania": [
+        {
+          "id": "2024C.1.1",
+          "numer": "1.1",
+          "punkty": 1,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1. (0-1)\nWprowadz cyfry zapisu binarnego liczby n = 179 do tablicy o wymiarach w = 4 i k = 5 wedlug powyzszej metody.\n\n179 w systemie binarnym to 10110011 (8 cyfr). Tablica 4x5 ma 20 komorek, wiec cyfry 10110011 powtarzaja sie cyklicznie.\n\nUzupelnij tablice 4x5:\n\n|   | k=1 | k=2 | k=3 | k=4 | k=5 |\n|---|-----|-----|-----|-----|-----|\n| w=1 | | | | | |\n| w=2 | | | | | |\n| w=3 | | | | | |\n| w=4 | | | | | |",
+          "odpowiedz": "179 = 10110011(2)\n\nTablica 4x5 (20 komorek, cyfry cyklicznie: 10110011|10110011|1011):\n\n| 1 | 0 | 1 | 1 | 0 |\n| 0 | 1 | 1 | 1 | 0 |\n| 1 | 1 | 0 | 0 | 1 |\n| 1 | 1 | 0 | 1 | 1 |",
+          "zasady_oceniania": "1 pkt -- odpowiedz poprawna.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Bledna konwersja 179 na system binarny (poprawnie: 10110011)",
+            "Pomylenie kolejnosci wpisywania (wierszami od lewej do prawej, od gory do dolu)",
+            "Blad przy cyklicznym powtarzaniu cyfr binarnych"
+          ]
+        },
+        {
+          "id": "2024C.1.2",
+          "numer": "1.2",
+          "punkty": 4,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2. (0-4)\nDana jest dodatnia liczba calkowita n. Cyfry zapisu binarnego liczby n wprowadzono w sposob przedstawiony na poczatku zadania do tablicy o wymiarach w x k. W pseudokodzie lub jezyku programowania zapisz algorytm, ktory wyznaczy cyfre zapisu binarnego liczby n, ktora stoi w dolnym prawym rogu tabeli o wymiarach w x k.\n\nUwaga: W zapisie algorytmu mozesz wykorzystac tylko operacje arytmetyczne (dodawanie, odejmowanie, mnozenie, dzielenie, dzielenie calkowite, reszta z dzielenia), porownywanie liczb, odwolywanie sie do pojedynczego elementu tablicy za pomoca jego indeksu, instrukcje sterujace, przypisania do zmiennych lub samodzielnie napisane funkcje, wykorzystujace powyzsze operacje. Zabronione jest uzywanie funkcji wbudowanych oraz operatorow innych niz wymienione.\n\nSpecyfikacja:\nDane:\n    w -- dodatnia liczba calkowita, liczba wierszy tablicy\n    k -- dodatnia liczba calkowita, liczba kolumn tablicy\n    n -- dodatnia liczba calkowita\nWynik:\n    x -- cyfra w zapisie binarnym liczby n, ktora stoi w dolnym prawym rogu tablicy",
+          "odpowiedz": "Przykladowe rozwiazanie:\n\nint dl = 0;\nint pom = n;\nwhile(pom > 0) {\n    pom = pom / 2;\n    dl++;\n}\nif (w*k % dl != 0)\n    for(int i = 0; i < dl - w*k % dl; i++) {\n        n = n / 2;\n    }\nx = n % 2;\n\nWyjasnienie: Obliczamy dlugosc zapisu binarnego (dl). Prawy dolny rog to pozycja w*k (liczona od 1). Pozycja w cyklicznym zapisie binarnym to (w*k) mod dl. Jesli reszta wynosi 0, bierzemy ostatnia cyfre (najstarsza w zapisie). W przeciwnym razie przesuwamy sie do odpowiedniej pozycji od konca.",
+          "zasady_oceniania": "4 pkt -- odpowiedz poprawna, w tym:\n    2 pkt -- za zamiane na system binarny lub zliczenie liczby cyfr w zapisie binarnym,\n    1 pkt -- za poprawne wyluskanie odpowiedniej cyfry,\n    1 pkt -- za podanie odpowiedzi (cyfry z prawego dolnego rogu tabeli).\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Brak zliczenia dlugosci zapisu binarnego",
+            "Bledne obliczenie pozycji w cyklicznym zapisie (off-by-one)",
+            "Uzycie funkcji wbudowanych (zabronione w zadaniu)",
+            "Zapomnienie o przypadku gdy w*k jest wielokrotnoscia dl"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "systemy liczbowe",
+          "system binarny",
+          "tablice dwuwymiarowe",
+          "cykliczne wpisywanie"
+        ],
+        "algorytmiczny": [
+          "konwersja na system binarny",
+          "operacje mod i div",
+          "iteracja"
+        ],
+        "czasowy_min": 25
+      }
+    },
+    {
+      "numer": 2,
+      "tytul": "Funkcja rekurencyjna",
+      "punkty": 4,
+      "czesc": 1,
+      "kontekst": "Dana jest funkcja F(x), ktorej argumentem jest nieujemna liczba calkowita x:\n\nF(x):\n    jezeli x = 0\n        wynikiem jest 0\n    w przeciwnym przypadku\n        wynikiem jest 2 + F(x div 2)\n\nUwaga: div oznacza dzielenie calkowite.",
+      "podzadania": [
+        {
+          "id": "2024C.2.1",
+          "numer": "2.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1. (0-2)\nUzupelnij ponizsa tabele. Dla podanych wartosci x wpisz wyniki dzialania funkcji F oraz podaj laczna liczbe wywolan funkcji F po wywolaniu F(x), lacznie z tym wywolaniem.\n\n| x | wynik | liczba wywolan |\n|---|-------|----------------|\n| 3 | 4 | 3 |\n| 16 | | |\n| 35 | | |",
+          "odpowiedz": "| x | wynik | liczba wywolan |\n|---|-------|----------------|\n| 3 | 4 | 3 |\n| 16 | 10 | 6 |\n| 35 | 12 | 7 |\n\nObliczenia:\nF(16) = 2+F(8) = 2+2+F(4) = 2+2+2+F(2) = 2+2+2+2+F(1) = 2+2+2+2+2+F(0) = 10. Wywolania: F(16),F(8),F(4),F(2),F(1),F(0) = 6.\nF(35) = 2+F(17) = 2+2+F(8) = 2+2+2+F(4) = 2+2+2+2+F(2) = 2+2+2+2+2+F(1) = 2+2+2+2+2+2+F(0) = 12. Wywolania: F(35),F(17),F(8),F(4),F(2),F(1),F(0) = 7.",
+          "zasady_oceniania": "2 pkt -- po dwie poprawne odpowiedzi w obu wierszach.\n1 pkt -- dwie poprawne odpowiedzi w jednym wierszu albo w jednej kolumnie.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Bledne dzielenie calkowite (np. 35 div 2 = 17, nie 17.5)",
+            "Pomylenie liczby wywolan z glebokoscia rekurencji (trzeba liczyc lacznie z poczatkowym wywolaniem)",
+            "Nie dojscie do F(0) = 0 jako przypadek bazowy"
+          ]
+        },
+        {
+          "id": "2024C.2.2",
+          "numer": "2.2",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2. (0-2)\nPodaj najmniejsza i najwieksza wartosc parametru x, dla ktorego wartosc funkcji jest rowna 18.\n\nnajmniejsza: ___\nnajwieksza: ___",
+          "odpowiedz": "najmniejsza: 256\nnajwieksza: 511\n\nWyjasnienie: F(x) = 2 * (liczba kolejnych dzieleni przez 2, az do osiagniecia 0). F(x) = 18 oznacza 9 dzieleni, czyli x nalezy do zakresu [2^8, 2^9 - 1] = [256, 511]. Najmniejsza wartosc x = 256 (= 2^8), najwieksza = 511 (= 2^9 - 1).",
+          "zasady_oceniania": "2 pkt -- poprawna odpowiedz, w tym:\n    1 pkt -- za najmniejsze x,\n    1 pkt -- za najwieksze x.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Niepoprawne rozumienie F(x) = 2 * floor(log2(x) + 1)",
+            "Bledne obliczenie zakresu (2^8 do 2^9-1)",
+            "Podanie x=512 jako max (F(512) = 20, nie 18)"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "rekurencja",
+          "dzielenie calkowite",
+          "funkcje rekurencyjne"
+        ],
+        "algorytmiczny": [
+          "sledzenie rekurencji",
+          "analiza odwrotna",
+          "potegi dwojki"
+        ],
+        "czasowy_min": 15
+      }
+    },
+    {
+      "numer": 3,
+      "tytul": "Slowa",
+      "punkty": 9,
+      "czesc": 1,
+      "kontekst": "W pliku slowa.txt danych jest 1000 slow (napisow) zlozonych z malych liter alfabetu angielskiego. Slowa maja dlugosc mieszczaca sie w przedziale od 1 do 200 znakow.\n\nNapisz program(-my), dajacy(-e) odpowiedzi do ponizszych zadan. Uzyskane odpowiedzi zapisz w pliku wyniki3.txt, a kazda z nich poprzedz numerem odpowiedniego zadania.\n\nDo Twojej dyspozycji jest plik slowa_przyklad.txt, ktory zawiera 10 slow w podanym formacie. Odpowiedzi dla tego pliku sa podane w tresci zadan. Pamietaj, ze Twoj program musi ostatecznie dzialac dla pliku slowa.txt, zawierajacego 1000 slow.",
+      "podzadania": [
+        {
+          "id": "2024C.3.1",
+          "numer": "3.1",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.1. (0-3)\nPodaj, w ilu sposrod podanych slow znajduje sie trojliterowy fragment \"k?t\", gdzie ? oznacza dowolna pojedyncza litere (taki fragment wystepuje na przyklad w slowach \"alamakota\" albo \"brokat\", ale nie w slowie \"krata\").\n\nDla pliku slowa_przyklad.txt odpowiedzia jest 2.",
+          "odpowiedz": "26",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna.\n2 pkt -- odpowiedz, w ktorej nie uwzgledniono trojek na koncu wyrazu (25).\n1 pkt -- odpowiedz, w ktorej nie uwzgledniono trojek na koncu i na poczatku wyrazu (24).\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Nie uwzglednienie fragmentow na koncu lub poczatku slowa",
+            "Szukanie dokladnego wzorca 'kot' zamiast 'k?t' z dowolna litera na srodku",
+            "Bledne indeksowanie -- off-by-one przy sprawdzaniu podciagu"
+          ]
+        },
+        {
+          "id": "2024C.3.2",
+          "numer": "3.2",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.2. (0-3)\nAlfabet angielski zawiera 26 liter. Kodowanie ROT13 zamienia kazda litere na litere, ktora jest na pozycji o 13 miejsc dalej w alfabecie (a->n, b->o itd.), przy czym po przekroczeniu 'z' liczymy z powrotem od 'a' (czyli m->z, ale n->a, o->b, i tak dalej).\n\nSlowo 'aren' ma ciekawa wlasnosc -- po zakodowaniu za pomoca ROT13 staje sie slowem 'nera', czyli tym samym slowem czytanym od tylu.\n\nPodaj, ile w pliku slowa.txt jest slow, ktore maja te wlasnosc. Wypisz ich liczbe oraz najdluzsze z nich.\n\nDla pliku slowa_przyklad.txt odpowiedzia jest:\n2\naren\n(w pliku slowa_przyklad.txt sa 2 slowa o tej wlasnosci: aren i bo).",
+          "odpowiedz": "Liczba slow: 5\nNajdluzsze slowo: rhszzohhubwbojohuubmmfue",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz, w tym:\n    2 pkt -- za podanie prawidlowej liczby slow,\n    1 pkt -- za podanie najdluzszego slowa.\n2 pkt -- za odpowiedz 9, borafgmqmlzivyrlivmyzdztsnebo.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Bledna implementacja ROT13 (szczegolnie dla liter n-z)",
+            "Pomylenie odwracania slowa z kodowaniem ROT13 (trzeba najpierw zakodowac ROT13, potem sprawdzic czy wynik = odwrocone slowo)",
+            "Bledne porownanie -- trzeba sprawdzic ROT13(slowo) == reverse(slowo)"
+          ]
+        },
+        {
+          "id": "2024C.3.3",
+          "numer": "3.3",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 3.3. (0-3)\nZnajdz i wypisz z pliku slowa.txt wszystkie takie slowa, w ktorych ta sama litera wystepuje na co najmniej polowie pozycji (przykladowo: w slowie \"owocowo\" litera 'o' ma 4 wystapienia na ogolna liczbe 7 liter w slowie i spelnia podany warunek, za to w slowie \"ambaras\" litera 'a' ma tylko 3 wystapienia na 7 liter, wiec nie spelnia podanego warunku).\n\nW pliku slowa_przyklad.txt sa 4 takie slowa:\nterefere\nananas\nbo\nalabama",
+          "odpowiedz": "vzwzwgszezvzzlzzzzzzouz\nazaaaasfakaaaxbaaaaau\nppppppnoppnoclpop\nzgggggpegpnovzgg\nnyrpvqycpaylfffffffffffff\nkkkkkkkkkkwpijccdbl\ntstevttebttktnetitbttti\ngvsvjvvvvvqppvuvcvvvi",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz.\n2 pkt -- za wypisanie przynajmniej 5 prawidlowych slow i zadnego niepoprawnego\n    ALBO za wypisanie wszystkich prawidlowych slow oraz niepoprawnych, ktorych dlugosc jest nieparzysta a maksymalna liczba powtorzen znaku wynosi (dlugosc slowa - 1)/2.\n1 pkt -- za wypisanie przynajmniej jednego prawidlowego slowa i zadnego niepoprawnego.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Bledna interpretacja 'co najmniej polowa pozycji' -- >= len/2.0, nie > len/2",
+            "Sprawdzanie tylko jednej litery zamiast zliczenia kazdej litery w slowie",
+            "Dla slow o dlugosci nieparzystej prog wynosi (n+1)/2, np. 7 liter -> >= 4 wystapienia"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2024_czerwiec/dane_PR/",
+      "pliki_danych": [
+        "slowa.txt",
+        "slowa_przyklad.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "przetwarzanie tekstow",
+          "wzorce w napisach",
+          "szyfr ROT13",
+          "palindromy",
+          "czestotliwosc znakow"
+        ],
+        "algorytmiczny": [
+          "wyszukiwanie wzorca",
+          "szyfrowanie ROT13",
+          "odwracanie napisu",
+          "zliczanie wystapien znakow"
+        ],
+        "czasowy_min": 35
+      }
+    },
+    {
+      "numer": 4,
+      "tytul": "Komputery i pakiety",
+      "punkty": 10,
+      "czesc": 1,
+      "kontekst": "W pewnej sieci jest n > 1 komputerow. Komputery przesylaja miedzy soba pakiety informacji. Rozsylanie odbywa sie w rundach. W rundzie zerowej kazdy komputer ma swoj jeden pakiet oznaczony numerem tego komputera. Kazdy komputer ma z gory zadany numer odbiorcy, czyli komputera, do ktorego w kolejnych rundach wysyla pakiety. Na poczatku kazdej rundy kazdy komputer wysyla wszystkie pakiety, ktore mial w rundzie poprzedniej. Pakiety przychodzace do komputera w trakcie rundy sa przechowywane w tym komputerze do poczatku nastepnej rundy.\n\nPrzyklad 1.\nPonizej zapisano numery odbiorcow dla n = 6 komputerow o numerach odpowiadajacych numerom wierszy (od 1 do 6):\n4\n3\n5\n3\n1\n2\n\nOdbiorca dla komputera pierwszego jest komputer 4, odbiorca dla komputera drugiego jest komputer 3 itd.\nZatem w pierwszej rundzie:\n- komputer pierwszy przesyla swoj pakiet (nr 1) do komputera czwartego\n- komputer drugi wysyla swoj pakiet (nr 2) do komputera trzeciego\nitd.\n\nW drugiej rundzie pakiet numer 1, ktory byl w komputerze nr 4, zostanie przez niego wyslany do komputera nr 3 (ktory jest odbiorca komputera nr 4) itd.\n\nTabela lokalizacji pakietow po kolejnych rundach (przyklad 1):\n\n| Nr rundy | Pkt 1 | Pkt 2 | Pkt 3 | Pkt 4 | Pkt 5 | Pkt 6 |\n|----------|-------|-------|-------|-------|-------|-------|\n| 1. runda | 4 | 3 | 5 | 3 | 1 | 2 |\n| 2. runda | 3 | 5 | 1 | 5 | 4 | 3 |\n| 3. runda | 5 | 1 | 4 | 1 | 3 | 5 |\n| 4. runda | 1 | 4 | 3 | 4 | 5 | 1 |\n| 5. runda | 4 | 3 | 5 | 3 | 1 | 4 |\n| 6. runda | 3 | 5 | 1 | 5 | 4 | 3 |",
+      "podzadania": [
+        {
+          "id": "2024C.4.1",
+          "numer": "4.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 4.1. (0-2)\nUzupelnij tabele -- dla ponizszych danych (n = 6) wpisz numery komputerow, w ktorych znajda sie pakiety o numerach od 1 do 6, po kazdej z rund: 2, 3 i 4:\n\nNumery odbiorcow:\n3\n1\n6\n5\n4\n5\n\n| Nr rundy | Pkt 1 | Pkt 2 | Pkt 3 | Pkt 4 | Pkt 5 | Pkt 6 |\n|----------|-------|-------|-------|-------|-------|-------|\n| 1. runda | 3 | 1 | 6 | 5 | 4 | 5 |\n| 2. runda | | | | | | |\n| 3. runda | | | | | | |\n| 4. runda | | | | | | |",
+          "odpowiedz": "| Nr rundy | Pkt 1 | Pkt 2 | Pkt 3 | Pkt 4 | Pkt 5 | Pkt 6 |\n|----------|-------|-------|-------|-------|-------|-------|\n| 1. runda | 3 | 1 | 6 | 5 | 4 | 5 |\n| 2. runda | 6 | 3 | 5 | 4 | 5 | 4 |\n| 3. runda | 5 | 6 | 4 | 5 | 4 | 5 |\n| 4. runda | 4 | 5 | 5 | 4 | 5 | 4 |\n\nObliczenie: w rundzie r, pakiet i jest w komputerze odbiorca^r(i), gdzie odbiorca = [3,1,6,5,4,5].\nRunda 2: kazdy pakiet przesyla sie z lokalizacji po rundzie 1 do odbiorcy tej lokalizacji.\nNp. pakiet 1 w komp. 3 -> odbiorca[3]=6 -> pakiet 1 w komp. 6.",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna w trzech wierszach.\n1 pkt -- odpowiedz poprawna w dwoch wierszach.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Pomylenie numerow pakietow z numerami komputerow",
+            "Niepoprawne prosledzenie kilku rund (trzeba sledzie odbiorca lokalizacji, nie odbiorca pakietu)",
+            "Blad przy sledzeniu pakietow przychodzacych do tego samego komputera"
+          ]
+        },
+        {
+          "id": "2024C.4.2",
+          "numer": "4.2",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.2. (0-2)\nW kolejnych wierszach pliku odbiorcy.txt zapisano numery odbiorcow dla n = 1024 komputerow. W wierszu pierwszym pliku zapisano numer odbiorcy pakietow od komputera pierwszego, w wierszu drugim -- numer odbiorcy od komputera drugiego itd.\n\nDla danych zapisanych w pliku odbiorcy.txt podaj liczbe komputerow, ktore nie sa odbiorcami zadnych pakietow.\n\nW przykladzie 1. jest jeden taki komputer -- komputer 6 nie jest odbiorca zadnego pakietu.\n\nDla pliku odbiorcy_przyklad.txt odpowiedzia jest 3\n(komputery 1, 6 i 10 nie sa odbiorcami pakietow).",
+          "odpowiedz": "395",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz rozna o 1 od poprawnej.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Pomylenie 'nie jest odbiorca' z 'nie ma pakietow' (komputer moze miec pakiety z rundy zerowej)",
+            "Blad w odczycie pliku (numery odbiorcow vs numery komputerow)"
+          ]
+        },
+        {
+          "id": "2024C.4.3",
+          "numer": "4.3",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.3. (0-3)\nW kolejnych rundach moze sie zdarzyc, ze pakiet wroci do komputera, z ktorego zostal poczatkowo wyslany (komputera o numerze takim, jaki ma ten pakiet).\n\nW przykladzie 1. w rundzie czwartej pakiety o numerach 1, 3, 4 i 5 wroca do komputerow, w ktorych znajdowaly sie przed rozpoczeciem rozsylania.\n\nWyznacz najmniejszy numer rundy, w ktorej ktorykolwiek pakiet powroci do komputera, z ktorego startowal (o tym samym numerze co numer tego pakietu). Podaj najmniejszy numer pakietu dla wyznaczonego numeru rundy.\n\nDla przykladu 1. odpowiedzia jest:\n4 1\n(runda 4, numer pakietu 1).\n\nDla danych z pliku odbiorcy_przyklad.txt odpowiedzia jest:\n3 7\n(runda 3, numer pakietu 7).",
+          "odpowiedz": "3 436",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna, w tym:\n    2 pkt -- za odpowiedz za liczbe rund (3),\n    1 pkt -- za numer pakietu (436).\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Szukanie cyklu o najmniejszej dlugosci w permutacji odbiorcow",
+            "Niepoprawna identyfikacja 'powrotu' -- pakiet wraca, gdy komputer[i] = i po k rundach (permutacja^k(i) = i)",
+            "Nieefektywne symulowanie rund zamiast analizy cykli w permutacji"
+          ]
+        },
+        {
+          "id": "2024C.4.4",
+          "numer": "4.4",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.4. (0-3)\nPodaj najwieksze liczby pakietow, ktore trafiaja do jednego komputera -- odpowiednio -- po kazdej z rund: 1, 2, 4 i 8. Jako odpowiedz podaj liczby tych pakietow zapisane w jednym wierszu, rozdzielone znakiem odstepu.\n\nDla pliku odbiorcy_przyklad.txt prawidlowa odpowiedz to\n2 2 3 4.",
+          "odpowiedz": "6 8 15 20",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna.\n2 pkt -- odpowiedz poprawna dla trzech rund.\n1 pkt -- odpowiedz poprawna dla dwoch rund.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Runda 8 wymaga symulacji 8 krokow permutacji (nie 4 czy 2)",
+            "Trzeba liczyc pakiety trafiajace do danego komputera, nie pakiety wychodzace",
+            "Wydajnosc -- trzeba efektywnie symulowac rozsylanie pakietow dla 1024 komputerow"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2024_czerwiec/dane_PR/",
+      "pliki_danych": [
+        "odbiorcy.txt",
+        "odbiorcy_przyklad.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "sieci komputerowe",
+          "permutacje",
+          "cykle w permutacjach",
+          "symulacja"
+        ],
+        "algorytmiczny": [
+          "sledzenie permutacji",
+          "wykrywanie cykli",
+          "symulacja iteracyjna",
+          "zliczanie"
+        ],
+        "czasowy_min": 40
+      }
+    },
+    {
+      "numer": 5,
+      "tytul": "Prawo autorskie",
+      "punkty": 1,
+      "czesc": 1,
+      "kontekst": "Zadanie dotyczace ochrony praw autorskich i programow komputerowych.",
+      "podzadania": [
+        {
+          "id": "2024C.5",
+          "numer": "5",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 5. (0-1)\nOcen prawdziwosc podanych zdan. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli jest falszywe.\n\n| Nr | Zdanie | P | F |\n|---|---|---|---|\n| 1. | Ochrona praw autorskich przysluguje tworcy niezaleznie od spelnienia jakichkolwiek formalnosci. | | |\n| 2. | Programy komputerowe nie sa dzielami chronionymi prawami autorskimi. | | |",
+          "odpowiedz": "1. P (PRAWDA) -- Ochrona praw autorskich jest automatyczna, nie wymaga rejestracji ani innych formalnosci.\n2. F (FALSZ) -- Programy komputerowe SA dzielami chronionymi prawami autorskimi (art. 74 ustawy o prawie autorskim).",
+          "zasady_oceniania": "1 pkt -- odpowiedz poprawna.\n0 pkt -- odpowiedz niepoprawna, niepelna albo brak rozwiazania.",
+          "pulapki": [
+            "Pomylenie ochrony automatycznej z koniecznoscia rejestracji (w Polsce ochrona automatyczna)",
+            "Mylne przekonanie, ze programy komputerowe nie sa chronione prawem autorskim"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "prawo autorskie",
+          "ochrona wlasnosci intelektualnej",
+          "programy komputerowe"
+        ],
+        "algorytmiczny": [],
+        "czasowy_min": 3
+      }
+    },
+    {
+      "numer": 6,
+      "tytul": "Systemy liczbowe",
+      "punkty": 2,
+      "czesc": 1,
+      "kontekst": "Wykonaj dzialania na liczbach zapisanych w systemach pozycyjnych o podstawach 5 i 6. Wynik dodawania liczb w systemie o podstawie 5 zapisz w tym systemie, wynik odejmowania liczb zapisanych w systemie o podstawie 6 zapisz w systemie o podstawie 6.",
+      "podzadania": [
+        {
+          "id": "2024C.6",
+          "numer": "6",
+          "punkty": 2,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 6. (0-2)\nWykonaj dzialania na liczbach zapisanych w systemach pozycyjnych o podstawach 5 i 6. Wynik dodawania liczb w systemie o podstawie 5 zapisz w tym systemie, wynik odejmowania liczb zapisanych w systemie o podstawie 6 zapisz w systemie o podstawie 6.\n\n203(5) + 4401(5) = ___\n\n4541(6) - 2455(6) = ___",
+          "odpowiedz": "203(5) + 4401(5) = 10104(5)\n\n4541(6) - 2455(6) = 2042(6)\n\nObliczenia:\n203(5) = 53(10), 4401(5) = 601(10), 53 + 601 = 654(10) = 10104(5)\n4541(6) = 1069(10), 2455(6) = 611(10), 1069 - 611 = 458(10) = 2042(6)",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna w dwoch wierszach.\n1 pkt -- odpowiedz poprawna w jednym wierszu.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Bledy przeniesien w dodawaniu w systemie o podstawie 5",
+            "Bledy pozyczek w odejmowaniu w systemie o podstawie 6",
+            "Mylenie podstaw systemow (dodawanie w syst. 5, odejmowanie w syst. 6)",
+            "Bledna konwersja do/z systemu dziesietnego"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "systemy liczbowe",
+          "system piatkowo",
+          "system szostkowy",
+          "arytmetyka pozycyjna"
+        ],
+        "algorytmiczny": [
+          "dodawanie w systemach pozycyjnych",
+          "odejmowanie w systemach pozycyjnych",
+          "konwersja miedzy systemami"
+        ],
+        "czasowy_min": 10
+      }
+    },
+    {
+      "numer": 7,
+      "tytul": "Uzdrowisko",
+      "punkty": 9,
+      "czesc": 1,
+      "kontekst": "Pewne uzdrowisko slynie z leczniczego zrodla wody. W pliku uzdrowisko.txt zapisano przyjazdy i wyjazdy kuracjuszy do tego uzdrowiska w okresie od stycznia do grudnia 2023 roku (wszystkie dane sa fikcyjne i wygenerowane na potrzeby zadania).\n\nW kazdym wierszu pliku uzdrowisko.txt zapisano nastepujace dane:\n- date z zakresu od 1 stycznia 2023 do 31 grudnia 2023 w formacie rrrr-mm-dd (data)\n- liczbe kuracjuszy, ktorzy przyjechali w podanym dniu do uzdrowiska (przyjechali)\n- liczbe kuracjuszy, ktorzy w podanym dniu opuscili uzdrowisko (wyjechali)\n\nDane w wierszach sa rozdzielone znakiem tabulacji.\n\nFragment pliku uzdrowisko.txt:\ndata        przyjechali    wyjechali\n2023-01-01  528            484\n2023-01-02  641            625\n2023-01-03  352            603\n2023-01-04  342            412\n\nZ wykorzystaniem powyzszych danych oraz dostepnych narzedzi informatycznych wykonaj ponizsze zadania. Odpowiedzi zapisz w pliku tekstowym wyniki7.txt, a kazda z nich poprzedz numerem odpowiedniego zadania.",
+      "podzadania": [
+        {
+          "id": "2024C.7.1",
+          "numer": "7.1",
+          "punkty": 3,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 7.1. (0-3)\nUtworz zestawienie lacznej liczby kuracjuszy, ktorzy przyjechali do uzdrowiska w kazdym miesiacu 2023 roku.\nDla otrzymanego zestawienia sporzadz wykres kolumnowy ilustrujacy wyniki. Pamietaj o prawidlowym i czytelnym opisie wykresu (wstaw tytul i opisy osi).",
+          "odpowiedz": "Zestawienie miesieczne:\n| Miesiac | Liczba kuracjuszy |\n|---------|--------------------|\n| 1 | 15226 |\n| 2 | 13394 |\n| 3 | 15096 |\n| 4 | 15292 |\n| 5 | 15723 |\n| 6 | 14880 |\n| 7 | 16378 |\n| 8 | 14778 |\n| 9 | 14294 |\n| 10 | 15637 |\n| 11 | 15272 |\n| 12 | 15528 |\n\nWykres kolumnowy z titulem np. 'Liczba kuracjuszy, ktorzy przyjechali w danym miesiacu', osia X = miesiace, osia Y = liczba kuracjuszy.",
+          "zasady_oceniania": "3 pkt -- odpowiedz poprawna, w tym:\n    1 pkt -- za prawidlowe zestawienie,\n    1 pkt -- za prawidlowy dobor danych i typ wykresu,\n    1 pkt -- za poprawny opis wykresu i osi.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Pomylenie przyjezdow z wyjazdami lub z saldo (przyjechali - wyjechali)",
+            "Brak opisow osi lub tytulu wykresu",
+            "Uzycie niewlasciwego typu wykresu (wymaga sie kolumnowego)"
+          ]
+        },
+        {
+          "id": "2024C.7.2",
+          "numer": "7.2",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 7.2. (0-2)\nZakladamy, ze w dniu 31.12.2022 w uzdrowisku przebywalo 10 000 kuracjuszy.\nPodaj, w jakim dniu po raz pierwszy liczba kuracjuszy (po przyjedzie nowych i wyjedzie wszystkich opuszczajacych uzdrowisko w danym dniu) przekroczyla 11 000, oraz podaj date, kiedy liczba kuracjuszy (po przyjedzie nowych i wyjedzie wszystkich opuszczajacych uzdrowisko w danym dniu) byla najwieksza.",
+          "odpowiedz": "16.10.2023\n27.10.2023",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za poprawna date, kiedy liczba kuracjuszy przekroczyla 11000,\n    1 pkt -- za poprawna date, kiedy liczba kuracjuszy byla najwieksza.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Bledne obliczenie bilansu biezacego (trzeba codziennie dodawac przyjezdow i odejmowac wyjezdow od stanu z poprzedniego dnia)",
+            "Pomylenie momentu -- liczba kuracjuszy PO przyjazdach i wyjazdach danego dnia",
+            "Brak uwzglednienia poczatkowego stanu 10000 kuracjuszy"
+          ]
+        },
+        {
+          "id": "2024C.7.3",
+          "numer": "7.3",
+          "punkty": 4,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 7.3. (0-4)\nZrodlo ma wydajnosc 3900 litrow/dobe. Kazdy z kuracjuszy pije dziennie 0,4 litra wody ze zrodla. Jezeli wydajnosc zrodla jest wieksza niz laczne potrzeby kuracjuszy danego dnia, to pozostala ilosc wody uzdrowisko butelkuje w szklanych butelkach o pojemnosci 5 litrow (butelki zawsze wypelnia sie do pelna, a pozostala woda jest zuzywana do innych celow). W przypadku, gdy wydajnosc dobowa zrodla jest zbyt mala, aby zaspokoic potrzeby wszystkich kuracjuszy obecnych w uzdrowisku, pracownicy uzdrowiska brakujaca wode podaja z butelek. Przy tym kazda otwarta butelka zawsze jest zuzywana do konca i w pierwszej kolejnosci na potrzeby kuracjuszy, tj. jesli zostanie jakas czesc wody w ostatniej uzytej butelce, to zostanie wykorzystana do innych celow (nie liczymy jej w nastepnym dniu).\n\nUwaga: zakladamy, ze:\n- w dniu 31.12.2022 w uzdrowisku przebywalo 10 000 kuracjuszy\n- w dniu 31.12.2022 wieczorem w magazynie uzdrowiska znajdowalo sie 120 sztuk 5-litrowych butelek wody\n- kuracjusze otrzymuja wode w dniu przyjazdu, a w dniu odjazdu tej wody nie otrzymuja\n\na) Podaj date, kiedy po raz pierwszy zabraklo zarowno wody ze zrodla, jak i wody butelkowanej, aby zaspokoic potrzeby wszystkich kuracjuszy przebywajacych w danym dniu w uzdrowisku.\nb) Podaj laczna liczbe dni, w ktorych zabraklo wody dla wszystkich kuracjuszy.\nc) Podaj najmniejsza liczbe butelek wody, jaka powinna znajdowac sie w dniu 31.12.2022 w magazynie uzdrowiska, aby wody nie zabraklo przez caly rok.",
+          "odpowiedz": "a) 20.02.2023\nb) 7 dni\nc) 291 butelek",
+          "zasady_oceniania": "4 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za poprawna date, kiedy zabraklo wody,\n    1 pkt -- za poprawna laczna liczbe dni, w ktorych zabraklo wody,\n    2 pkt -- za poprawna liczbe butelek (1 pkt w przypadku wyniku rozniacego sie o 1 od poprawnego).\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Blad w bilansie biezacym kuracjuszy (stan = stan + przyjechali - wyjechali)",
+            "Niepoprawne obliczenie nadwyzki wody (3900 - stan*0.4) i butelkowania (floor(nadwyzka/5))",
+            "Blad kierunkowy: butelki sie zuzywaja (nie dodaja) gdy popyt > podaz",
+            "Zaokraglenie: butelki sa zuzywane calkowicie (ceil(brak/5))",
+            "Niezrozumienie warunku: kuracjusze dostaja wode w dniu przyjazdu, ale NIE w dniu odjazdu"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2024_czerwiec/dane_PR/",
+      "pliki_danych": [
+        "uzdrowisko.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "analiza danych",
+          "arkusz kalkulacyjny",
+          "symulacja",
+          "dane czasowe",
+          "wizualizacja"
+        ],
+        "algorytmiczny": [
+          "sumowanie warunkowe",
+          "obliczenia kumulacyjne",
+          "symulacja dzien po dniu",
+          "butelkowanie i zuzywanie zapasow"
+        ],
+        "czasowy_min": 40
+      }
+    },
+    {
+      "numer": 8,
+      "tytul": "Szczepienia",
+      "punkty": 10,
+      "czesc": 1,
+      "kontekst": "W pewnym centrum medycznym odbywaja sie szczepienia. Lekarz przepisuje pacjentowi odpowiednia szczepionke, a kazda szczepionka ma rekomendowana liczbe dawek. Pacjent zostaje uznany za zaszczepionego, jesli przyjmie wszystkie dawki rekomendowane dla danej szczepionki.\n\nDane dotyczace szczepien od 2 stycznia 2023 do 7 maja 2024 sa zapisane w dwoch plikach: szczepionki.txt oraz wizyty.txt. Pierwszy wiersz w kazdym pliku jest wierszem naglowkowym i zawiera nazwy odpowiednich pol. Dane w wierszach rozdzielono znakiem tabulacji.\n\nPlik szczepionki.txt zawiera informacje o szczepionkach. W kazdym wierszu znajduja sie:\n  kod_szczepionki -- tekst do 10 znakow, okreslajacy jednoznacznie szczepionke\n  liczba_dawek -- liczba rekomendowanych dawek, calkowita wieksza od 0 i mniejsza od 10\n\nPlik wizyty.txt zawiera informacje o podanej pacjentowi dawce szczepionki. W kazdym wierszu znajduja sie:\n  pesel -- numer PESEL pacjenta przyjmujacego dana dawke szczepienia, skladajacy sie z 11 znakow\n  kod_szczepionki -- kod podanej szczepionki\n  data_szczepienia -- data szczepienia w formacie rrrr-mm-dd\n  numer_dawki -- liczba calkowita mniejsza od 10 okreslajaca, ktora dawka szczepionki zostala podana\n\nZ wykorzystaniem danych zawartych w podanych plikach oraz dostepnych narzedzi informatycznych podaj odpowiedzi do zadan 8.1.--8.3. Odpowiedzi zapisz w pliku wyniki8.txt, a kazda z nich poprzedz numerem odpowiedniego zadania.",
+      "podzadania": [
+        {
+          "id": "2024C.8.1",
+          "numer": "8.1",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 8.1. (0-2)\nDla kazdej szczepionki podaj, ile lacznie jej dawek zostalo podanych pacjentom. Jako wynik podaj liste zawierajaca kod szczepionki i liczbe dawek. Lista powinna byc posortowana nierosnaco wedlug liczby podanych dawek.",
+          "odpowiedz": "sz15_5d  111\nsz10_4d  83\nsz21_5d  82\nsz17_4d  81\nsz20_5d  79\nsz9_5d   73\nsz3_5d   72\nsz13_5d  71\nsz1_3d   69\nsz6_3d   64\nsz7_5d   60\nsz12_3d  60\nsz24_3d  59\nsz22_3d  45\nsz18_2d  38\nsz19_2d  35\nsz4_2d   34\nsz8_2d   29\nsz16_1d  28\nsz11_1d  25\nsz23_1d  23\nsz5_1d   23\nsz14_1d  16\nsz2_1d   15",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za poprawne zestawienie liczby podanych dawek kazdej szczepionki,\n    1 pkt -- za poprawne uporzadkowanie zestawienia nierosnaco wedlug liczby podanych dawek.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Sortowanie rosnaco zamiast nierosnaco",
+            "Zliczanie pacjentow zamiast dawek",
+            "Brak GROUP BY po kodzie szczepionki"
+          ]
+        },
+        {
+          "id": "2024C.8.2",
+          "numer": "8.2",
+          "punkty": 3,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 8.2. (0-3)\nPodaj, ilu roznych pacjentow przyjelo przynajmniej jedna dawke szczepionki o kodzie sz12_3d. Podaj, ile wsrod nich bylo kobiet (plec okresla przedostatnia cyfra numeru PESEL, cyfra parzysta oznacza plec zenska).",
+          "odpowiedz": "Liczba pacjentow: 24\nLiczba kobiet: 17",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za podanie poprawnej liczby pacjentow, ktorzy przyjeli przynajmniej jedna dawke szczepionki o kodzie sz12_3d,\n    2 pkt -- za podanie poprawnej liczby kobiet.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Bledna identyfikacja plci z PESEL (przedostatnia cyfra, nie ostatnia)",
+            "Zliczenie dawek zamiast roznych pacjentow (potrzeba COUNT DISTINCT pesel)",
+            "Bledny filtr: trzeba warunek na kod_szczepionki = 'sz12_3d'"
+          ]
+        },
+        {
+          "id": "2024C.8.3",
+          "numer": "8.3",
+          "punkty": 3,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 8.3. (0-3)\nPodaj rok i miesiac, w ktorym najwiecej osob ukonczylo szczepienie (czyli: w tym miesiacu przyjelo ostatnia rekomendowana dawke danego szczepienia). Podaj takze liczbe osob, ktore ukonczyly szczepienie w tym terminie.",
+          "odpowiedz": "maj 2023\nLiczba pacjentow: 48",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz, w tym:\n    2 pkt -- za podanie poprawnej daty (w tym rok -- 1 punkt, miesiac -- 1 punkt),\n    1 pkt -- za podanie poprawnej liczby pacjentow.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Ukonczone szczepienie = numer_dawki = liczba_dawek (dla danej szczepionki) -- trzeba JOINowac z tabela szczepionki",
+            "Szukanie miesiaca z najwieksza liczba dawek ogolnie zamiast ukonczonych szczepien",
+            "Bledna ekstrakcja roku i miesiaca z daty (format rrrr-mm-dd)"
+          ]
+        },
+        {
+          "id": "2024C.8.4",
+          "numer": "8.4",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 8.4. (0-2)\nInformacje o szczepieniach rozszerzono o dodatkowe dane:\n- do tabeli WIZYTY dodano pole kod_punktu -- okreslajace punkt szczepien, w ktorym odbylo sie szczepienie\n- dodano tabele PACJENCI i PUNKT_SZCZEPIEN\n- w tabeli PACJENCI podano numer PESEL pacjenta (pesel) i wojewodztwo (wojewodztwo_pacjenta), w ktorym pacjent mieszka\n- w tabeli PUNKT_SZCZEPIEN podano kod punktu (kod_punktu) szczepienia i wojewodztwo (wojewodztwo_punktu), w ktorym znajduje sie punkt szczepien\n\nRelacje miedzy tabelami:\nPACJENCI (pesel PK) -1:N-> WIZYTY (pesel, kod_szczepionki, data_szczepienia, numer_dawki, kod_punktu)\nPUNKT_SZCZEPIEN (kod_punktu PK) -1:N-> WIZYTY\n\nZapisz w jezyku SQL zapytanie, w ktorym podasz numery PESEL pacjentow, ktorzy przyjeli co najmniej jedna dawke szczepienia w wojewodztwie innym niz to, w ktorym mieszkaja. Twoja odpowiedz bedzie poprawna, takze jezeli PESEL pacjenta bedzie wypisany wiecej niz jeden raz.",
+          "odpowiedz": "Przykladowe rozwiazanie:\n\nSELECT WIZYTY.pesel\nFROM PACJENCI\nJOIN WIZYTY ON PACJENCI.pesel = WIZYTY.pesel\nJOIN PUNKT_SZCZEPIEN ON WIZYTY.kod_punktu = PUNKT_SZCZEPIEN.kod_punktu\nWHERE PACJENCI.wojewodztwo_pacjenta != PUNKT_SZCZEPIEN.wojewodztwo_punktu;",
+          "zasady_oceniania": "2 pkt -- odpowiedz poprawna.\n1 pkt -- odpowiedz z jednym bledem np. nieprawidlowy warunek przy jednym JOIN.\n0 pkt -- odpowiedz niepoprawna albo brak rozwiazania.",
+          "pulapki": [
+            "Bledne warunki JOINow (trzeba polaczyc 3 tabele: PACJENCI, WIZYTY, PUNKT_SZCZEPIEN)",
+            "Bledny warunek WHERE (porownanie wojewodztw pacjenta i punktu)",
+            "Uzycie = zamiast != (szukamy ROZNYCH wojewodztw)",
+            "Zapomnienie o JOINie z tabela PUNKT_SZCZEPIEN"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2024_czerwiec/dane_PR/",
+      "pliki_danych": [
+        "szczepionki.txt",
+        "wizyty.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "bazy danych",
+          "SQL",
+          "relacje miedzy tabelami",
+          "agregacja",
+          "laczenie tabel"
+        ],
+        "algorytmiczny": [
+          "GROUP BY z agregacja (COUNT, SUM)",
+          "JOIN (INNER, wielotabelowy)",
+          "filtrowanie WHERE",
+          "SUBSTR do analizy PESEL",
+          "ORDER BY"
+        ],
+        "czasowy_min": 35
+      }
+    }
+  ]
+}
