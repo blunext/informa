@@ -1,7 +1,7 @@
 # 11. Wyszukiwanie min/max
 
 Typ zadania: **minmax**
-Czestotliwosc: 5/11 lat | Laczna punktacja: 17 pkt
+Czestotliwosc: 5/12 lat | Laczna punktacja: 17 pkt
 Kategoria: IMPLEMENTACJA
 
 ## Umiejetnosci cwiczone w tym zestawie

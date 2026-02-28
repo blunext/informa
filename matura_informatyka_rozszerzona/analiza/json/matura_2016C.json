@@ -1,0 +1,512 @@
+{
+  "rok": 2016,
+  "sesja": "czerwiec",
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Rekurencja",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "Rozwaz nastepujacy algorytm zapisany w postaci rekurencyjnej funkcji F:\nF(n):\n  Jezeli n=1 lub n=2\n    s <- n\n  w przeciwnym razie\n    s <- n*F(n-2)\n  s <- s*(n+1)\n  wynikiem jest s",
+      "podzadania": [
+        {
+          "id": "2016C.1.1",
+          "numer": "1.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1 (0-2)\nUzupelnij ponizszа tabele -- podaj wartosci funkcji F(n) dla n=1, 2, 3, 4, 5, 6.\n| n | F(n) |\n|---|---|\n| 1 | |\n| 2 | |\n| 3 | |\n| 4 | |\n| 5 | |\n| 6 | |",
+          "odpowiedz": "| n | F(n) |\n|---|---|\n| 1 | 2 |\n| 2 | 6 |\n| 3 | 24 |\n| 4 | 120 |\n| 5 | 720 |\n| 6 | 5040 |\n\nF(1) = 1*(1+1) = 2\nF(2) = 2*(2+1) = 6\nF(3) = 3*F(1)*(3+1) = 3*2*4 = 24\nF(4) = 4*F(2)*(4+1) = 4*6*5 = 120\nF(5) = 5*F(3)*(5+1) = 5*24*6 = 720\nF(6) = 6*F(4)*(6+1) = 6*120*7 = 5040",
+          "zasady_oceniania": "2 pkt - za poprawne podanie wszystkich wartosci F(n).\n1 pkt - za podanie wartosci z jednym bledem.\n0 pkt - przy dwoch lub wiekszej liczbie bledow.",
+          "pulapki": [
+            "Instrukcja s <- s*(n+1) wykonuje sie ZAWSZE (nie jest w else) -- latwo to przeoczyc",
+            "F(n) = (n+1)! -- funkcja oblicza silnie z (n+1)"
+          ]
+        },
+        {
+          "id": "2016C.1.2",
+          "numer": "1.2",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2 (0-2)\nWypisz ciag wywolan funkcji F(n) dla n=11.\nPrzyklad: Dla n=3 ciag wywolan ma postac F(3), F(1).",
+          "odpowiedz": "F(11), F(9), F(7), F(5), F(3), F(1).\n\nF(n) wywoluje F(n-2), wiec dla n=11: 11->9->7->5->3->1 (zatrzymuje sie na n=1).",
+          "zasady_oceniania": "2 pkt - za poprawne podanie wszystkich (6) wywolan F(n).\n1 pkt - za podanie poprawnego ciagu wywolan, ale bez pierwszego albo ostatniego wywolania (tzn. bez F(11) albo F(1)).\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Rekurencja idzie co 2: F(n) -> F(n-2), zatrzymuje sie na n=1 lub n=2",
+            "Trzeba wypisac WSZYSTKIE wywolania lacznie z poczatkowym F(11)"
+          ]
+        },
+        {
+          "id": "2016C.1.3",
+          "numer": "1.3",
+          "punkty": 1,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.3 (0-1)\nPodaj wynik dzialania algorytmu -- zaznacz prawidlowa odpowiedz.\nAlgorytm obliczy wartosc:\na) (n+1)(n+2)/2\nb) (n+1)!\nc) n^(n/2)",
+          "odpowiedz": "b) (n+1)!\n\nF(n) = (n+1)! dla kazdego n >= 1. Mozna to sprawdzic: F(1)=2=2!, F(2)=6=3!, F(3)=24=4!, F(4)=120=5!, itd.",
+          "zasady_oceniania": "1 pkt - za zakreslenie prawidlowej odpowiedzi.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Latwo pomylic z innymi formami -- trzeba sprawdzic na obliczonych wartosciach z 1.1"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "rekurencja",
+          "silnia",
+          "sledzenie wywolan"
+        ],
+        "czasowy_min": 15,
+        "zlozonosc": 2,
+        "trudnosc": 2
+      }
+    },
+    {
+      "numer": 2,
+      "tytul": "Dziwny porzadek",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Na planecie X obowiazuje dziwny porzadek wsrod liczb calkowitych dodatnich. Kazda liczba parzysta jest mniejsza od kazdej liczby nieparzystej. Relacje mniejszosci, obowiazujaca na planecie X, oznaczamy symbolem <<.\nTak wiec zachodzа np. nastepujace nierownosci: 2 << 3, 2 << 1, 8 << 5.\nPonadto wsrod liczb parzystych panuje normalny porzadek, taki jak u nas na Ziemi, tzn. 2 << 4 << 6 << 8 << ...\nNatomiast wsrod liczb nieparzystych jest na odwrot -- najwieksza liczba jest 1, tzn. ... << 5 << 3 << 1.\n\nPrzyklad: Ponizej wypisane sa liczby 1,2,3,4,5,6 w kolejnosci od najmniejszej do najwiekszej (zgodnie z porzadkiem obowiazujacym na planecie X):\n2 << 4 << 6 << 5 << 3 << 1\n\nWsrod tych liczb najmniejsza na planecie X jest 2, a najwieksza jest 1.",
+      "podzadania": [
+        {
+          "id": "2016C.2.1",
+          "numer": "2.1",
+          "punkty": 1,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1 (0-1)\nUporzadkuj ponizszy zbior liczb w rosnacej kolejnosci wg porzadku obowiazujacego na planecie X.\n{3, 6, 8, 11, 15, 20, 35, 70, 100, 1000}",
+          "odpowiedz": "6 << 8 << 20 << 70 << 100 << 1000 << 35 << 15 << 11 << 3\n\nParzyste (rosnaco): 6, 8, 20, 70, 100, 1000\nNieparzyste (malejaco): 35, 15, 11, 3",
+          "zasady_oceniania": "1 pkt - za poprawne uporzadkowanie zbioru.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Parzyste w normalnym porzadku rosnacym, nieparzyste w ODWROTNYM (malejacym)",
+            "Wszystkie parzyste przed wszystkimi nieparzystymi"
+          ]
+        },
+        {
+          "id": "2016C.2.2",
+          "numer": "2.2",
+          "punkty": 1,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2 (0-1)\nUzupelnij ponizszy zbior o dwa elementy, tak by jego najmniejszym elementem (wg porzadku obowiazujacego na planecie X) byla liczba 10.\n{____, ____, 27, 16, 7, 32}",
+          "odpowiedz": "Jedna z dwoch brakujacych liczb musi byc 10 (bo 10 ma byc najmniejszym elementem, a jest parzyste i mniejsze od 16 i 32). Druga liczba moze byc dowolna nieparzysta (oprocz 7 i 27) albo liczba parzysta wieksza od 10.\n\nPrzyklad: {10, 5, 27, 16, 7, 32} lub {10, 12, 27, 16, 7, 32}",
+          "zasady_oceniania": "1 pkt - za poprawne uzupelnienie zbioru.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Zbior musi skladac sie z ROZNYCH liczb",
+            "Jedna z brakujacych liczb MUSI byc 10 (parzysta, bo zeby byc najmniejsza musi byc parzysta i <= kazdej innej parzystej)",
+            "Druga musi byc rozna od istniejacych i nie moze byc parzysta mniejsza od 10"
+          ]
+        },
+        {
+          "id": "2016C.2.3",
+          "numer": "2.3",
+          "punkty": 4,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.3 (0-4)\nZaproponuj algorytm, ktory dla danego skonczonego zbioru liczb calkowitych dodatnich wyznacza element NAJWIEKSZY wg porzadku obowiazujacego na planecie X. Algorytm zapisz w postaci pseudokodu albo w wybranym jezyku programowania.\n\nSpecyfikacja:\nDane: liczba calkowita dodatnia n, tablica liczb calkowitych dodatnich A[1], A[2], ..., A[n]\nWynik: najwieksza liczba (wg porzadku obowiazujacego na planecie X) sposrod liczb w tablicy A",
+          "odpowiedz": "Przykladowa odpowiedz (1):\nmax <- A[1]\nDla i = 2, 3, ..., n wykonaj\n    x <- A[i]\n    Jesli max jest nieparzyste, to wykonaj\n        Jesli x jest nieparzyste oraz x < max, to\n            max <- x\n    Jesli max jest parzyste, to wykonaj\n        Jesli x jest nieparzyste lub x > max, to\n            max <- x\nZwroc max\n\nAlternatywnie: szukaj najmniejszej nieparzystej. Jesli nie ma nieparzystych, szukaj najwiekszej parzystej.",
+          "zasady_oceniania": "4 pkt - za poprawnie dzialajacy algorytm, w tym:\n- za poprawne wartosci poczatkowe zmiennych -- 1 pkt\n- za poprawna organizacje petli -- 1 pkt\n- za poprawne porownywanie liczb wg przyjetego porzadku dla co najmniej jednego przypadku -- 1 pkt\n- za poprawne wyznaczanie elementu maksymalnego dla kazdego przypadku (niezaleznie od poprawnosci ustalenia wartosci poczatkowej elementu maksymalnego) -- 1 pkt.",
+          "pulapki": [
+            "Trzeba rozwazyc 4 przypadki: max parzyste vs nieparzyste X parzyste vs nieparzyste",
+            "Najwieksza wg planety X: jesli sa nieparzyste, to ta NAJMNIEJSZA z nich; jesli nie, to NAJWIEKSZA parzysta",
+            "Kazda nieparzysta jest wieksza od kazdej parzystej w tym porzadku"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "niestandardowy porzadek",
+          "parzystosc",
+          "szukanie maksimum",
+          "algorytm"
+        ],
+        "czasowy_min": 20,
+        "zlozonosc": 2,
+        "trudnosc": 2
+      }
+    },
+    {
+      "numer": 3,
+      "tytul": "Test",
+      "punkty": 4,
+      "czesc": 1,
+      "kontekst": "Ocen, czy ponizsze zdania sa prawdziwe. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli zdanie jest falszywe. W kazdym zadaniu czastkowym punkt uzyskujesz tylko za komplet poprawnych odpowiedzi.",
+      "podzadania": [
+        {
+          "id": "2016C.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1 (0-1)\nW jezykach programowania: Pascal, C++, Java tablica jest struktura danych,\n| Stwierdzenie | P | F |\n|---|---|---|\n| 1. ktora ma maksymalnie 256 elementow | | |\n| 2. w ktorej mozna przechowywac tylko liczby | | |\n| 3. w ktorej mozemy sie odwolywac do poszczegolnych elementow za pomoca indeksow | | |",
+          "odpowiedz": "F, F, P\n\n1. Tablica moze miec wiecej niz 256 elementow -- F\n2. Tablica moze przechowywac rozne typy danych (znaki, stringi, struktury) -- F\n3. Dostep do elementow tablicy odbywa sie przez indeksy -- P",
+          "zasady_oceniania": "1 pkt - za zaznaczenie kompletu poprawnych odpowiedzi.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Tablica NIE jest ograniczona do 256 elementow (to ograniczenie byte, nie tablicy)"
+          ]
+        },
+        {
+          "id": "2016C.3.2",
+          "numer": "3.2",
+          "punkty": 1,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2 (0-1)\nSuma 200_10 + 10_2 jest rowna:\n| Stwierdzenie | P | F |\n|---|---|---|\n| 1. 210_10 | | |\n| 2. 312_8 | | |\n| 3. CA_16 | | |",
+          "odpowiedz": "F, P, P\n\n200_10 + 10_2 = 200 + 2 = 202_10\n202_10 = 312_8 (202 = 3*64 + 1*8 + 2)\n202_10 = CA_16 (202 = 12*16 + 10 = C*16 + A)\n210_10 != 202_10, wiec F",
+          "zasady_oceniania": "1 pkt - za zaznaczenie kompletu poprawnych odpowiedzi.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "10_2 to 2 w systemie dziesietnym, NIE 10!",
+            "Trzeba najpierw przeliczyc 10_2 na system dziesietny (= 2), potem dodac 200"
+          ]
+        },
+        {
+          "id": "2016C.3.3",
+          "numer": "3.3",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.3 (0-1)\nJednym z podstawowych pojec w informatyce jest algorytm. Kazdy algorytm powinien spelniac wlasnosc:\n| Stwierdzenie | P | F |\n|---|---|---|\n| 1. dowolnego porzadku operacji, tzn. dzialania wykonywane w algorytmie mozna wykonac w dowolnej kolejnosci | | |\n| 2. skonczonej liczby operacji, tzn. algorytm mozna zapisac w postaci skonczonego ciagu instrukcji lub operacji | | |\n| 3. jednoznacznosci operacji, tzn. algorytm moze zawierac tylko takie operacje, ktorych dzialanie jest jednoznacznie okreslone | | |",
+          "odpowiedz": "F, P, P\n\n1. Kolejnosc operacji w algorytmie jest OKRESLONA, nie dowolna -- F\n2. Algorytm musi miec skonczona liczbe operacji (skonczony zapis) -- P\n3. Operacje musza byc jednoznaczne (deterministyczne) -- P",
+          "zasady_oceniania": "1 pkt - za zaznaczenie kompletu poprawnych odpowiedzi.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Dowolny porzadek operacji to FALSZ -- algorytm ma scisle okreslona kolejnosc krokow"
+          ]
+        },
+        {
+          "id": "2016C.3.4",
+          "numer": "3.4",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.4 (0-1)\nGrafika wektorowa:\n| Stwierdzenie | P | F |\n|---|---|---|\n| 1. pozwala skalowac obraz bez utraty jego jakosci | | |\n| 2. uzywa figur geometrycznych do przechowywania informacji o obrazie | | |\n| 3. jest powszechnie stosowana do zapisu zdjec w tabletach, aparatach fotograficznych i telefonach komorkowych | | |",
+          "odpowiedz": "P, P, F\n\n1. Grafika wektorowa skaluje sie bez strat -- P\n2. Grafika wektorowa przechowuje obraz jako obiekty geometryczne -- P\n3. Zdjecia sa zapisywane w formacie rastrowym, nie wektorowym -- F",
+          "zasady_oceniania": "1 pkt - za zaznaczenie kompletu poprawnych odpowiedzi.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Zdjecia z aparatow cyfrowych to grafika RASTROWA, nie wektorowa"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "tablice",
+          "systemy liczbowe",
+          "wlasciwosci algorytmu",
+          "grafika wektorowa"
+        ],
+        "czasowy_min": 10,
+        "zlozonosc": 1,
+        "trudnosc": 1
+      }
+    },
+    {
+      "numer": 4,
+      "tytul": "Ubezpieczenia",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "Oddzial firmy ubezpieczeniowej TWOJA POLISA pozyskal 331 osob, ktore ubezpieczyly sie na zycie. Dane tych osob zawarte sa w pliku ubezpieczenia.txt. Kazdy wiersz pliku zawiera dane o jednej osobie: nazwisko, imie, date urodzenia oraz miejsce zamieszkania. Dane w wierszu rozdzielone sa srednikami. Pierwszy wiersz jest wierszem naglowkowym.\n\nPrzyklad:\nNazwisko;Imie;Data_urodz;Miejsce_zamieszkania\nCzarnecka;Ewelina;1960-10-01;srednie miasto\nNesterowicz;Piotr;1984-09-27;wies\nAdamus;Magdalena;1967-10-08;duze miasto\n\n1 stycznia 2016 roku wprowadzono nowe zasady obliczania miesiecznej skladki ubezpieczeniowej.\nUwaga: Imiona wszystkich kobiet (i tylko kobiet) sa zakonczone litera 'a'.",
+      "podzadania": [
+        {
+          "id": "2016C.4.1",
+          "numer": "4.1",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_podstawowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.1 (0-2)\nUtworz zestawienie podajace dla kazdego miesiaca (styczen, luty, ...) liczbe osob, ktore maja w nim urodziny.",
+          "odpowiedz": "| miesiac | liczba osob |\n|---|---|\n| 1 | 26 |\n| 2 | 22 |\n| 3 | 30 |\n| 4 | 27 |\n| 5 | 25 |\n| 6 | 31 |\n| 7 | 33 |\n| 8 | 19 |\n| 9 | 29 |\n| 10 | 32 |\n| 11 | 28 |\n| 12 | 29 |",
+          "zasady_oceniania": "2 pkt - za podanie prawidlowego zestawienia.\n1 pkt - za zestawienie z jednym lub dwoma bledami.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba wydobyc miesiac z daty urodzenia (format RRRR-MM-DD)",
+            "Funkcja MONTH() lub ekstrakcja znakow z daty"
+          ]
+        },
+        {
+          "id": "2016C.4.2",
+          "numer": "4.2",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.2 (0-2)\nUtworz zestawienie, w ktorym dla kazdego miejsca zamieszkania podasz liczbe ubezpieczonych kobiet.",
+          "odpowiedz": "| miejsce zam. | liczba kobiet |\n|---|---|\n| wies | 24 |\n| male miasto | 20 |\n| srednie miasto | 59 |\n| duze miasto | 97 |",
+          "zasady_oceniania": "2 pkt - za podanie prawidlowego zestawienia.\n1 pkt - za zestawienie z jednym bledem.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Kobiety identyfikujemy po imionach zakonczonych na 'a'",
+            "COUNTIFS z dwoma warunkami: miejsce zamieszkania + imie konczace sie na 'a'"
+          ]
+        },
+        {
+          "id": "2016C.4.3",
+          "numer": "4.3",
+          "punkty": 4,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.3 (0-4)\nKwota ubezpieczenia dla kobiet jest rowna 25 000 zl, a dla mezczyzn wynosi 30 000 zl. Miesieczna skladka obliczana jest wedlug tabeli:\n| Wiek | Skladka w % kwoty ubezpieczenia |\n|---|---|\n| do 30 lat | 0,1% |\n| od 31 lat do 45 lat | 0,15% |\n| od 46 lat | 0,12% |\nPonadto dla osob, ktorych wiek przekroczyl 60 lat, doliczana jest do miesiecznej skladki dodatkowa kwota 49 zl.\n\nUwaga: W obliczeniach poslugujemy sie rocznikami. Zatem dla osob z przykladu przyjmujemy, ze 1 stycznia 2016 r. maja one odpowiednio: 56, 32, 49 lat.\n\nWykorzystujac powyzsze informacje, oblicz sumy kwot miesiecznych skladek w styczniu 2016 roku: osobna dla kobiet oraz osobna dla mezczyzn. Kazdy z finalnie otrzymanych wynikow podaj, zaokraglajac do dwoch miejsc po przecinku.",
+          "odpowiedz": "Pelna odpowiedz (4 pkt):\nkobiety: 8 961,50 zl\nmezczyzni: 6 261,00 zl\n\nOdpowiedz za 3 pkt (poprawne %, ale doliczenie dodatku od 60 lat zamiast powyzej 60):\nkobiety: 9 255,50 zl\nmezczyzni: 6 310,00 zl\n\nOdpowiedz za 2 pkt (poprawne %, ale bez uwzglednienia dodatku 60+):\nkobiety: 6 217,50 zl\nmezczyzni: 4 791,00 zl",
+          "zasady_oceniania": "4 pkt - za podanie prawidlowego zestawienia.\n3 pkt - za zestawienie z prawidlowo policzonymi %, ale dodatkiem od 60 roku zycia (nie powyzej).\n2 pkt - za zestawienie z prawidlowo policzonymi %, ale bez uwzglednienia dodatku zwiazanego z wiekiem powyzej 60 lat.\n1 pkt - za zestawienie z prawidlowo policzonym dodatkiem zwiazanym z wiekiem powyzej 60 lat, ale z blednymi nierownosciami przy obliczaniu %.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Wiek = 2016 - rok_urodzenia (obliczenia wg rocznikow)",
+            "Przekroczyl 60 lat = wiek > 60 (NIE >= 60)",
+            "Rozne kwoty ubezpieczenia dla kobiet (25000) i mezczyzn (30000)",
+            "Skladka = kwota_ubezp * procent + ewentualny dodatek 49 zl"
+          ]
+        },
+        {
+          "id": "2016C.4.4",
+          "numer": "4.4",
+          "punkty": 3,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.4 (0-3)\nUtworz zestawienie, na dzien 1 stycznia 2016 roku, zawierajace liczbe osob, ktorych wiek nalezy do nastepujacych przedzialow wiekowych: 20-29, 30-39, 40-49, 50-59, 60-69, 70-79. Dla otrzymanego zestawienia sporzadz wykres kolumnowy ilustrujacy wyniki. Pamietaj o prawidlowym i czytelnym opisie wykresu.",
+          "odpowiedz": "| Wiek | Liczba osob |\n|---|---|\n| 20-29 | 62 |\n| 30-39 | 56 |\n| 40-49 | 64 |\n| 50-59 | 56 |\n| 60-69 | 71 |\n| 70-79 | 22 |\n\nWykres kolumnowy z opisem osi: os X -- przedzialy wiekowe, os Y -- liczba osob. Tytul: 'Liczba osob w zadanym wieku'.",
+          "zasady_oceniania": "3 pkt - za poprawne wyniki, w tym:\n- poprawne zestawienie -- 1 pkt\n- wykres kolumnowy ilustrujacy wyniki -- 1 pkt\n- czytelny opis wykresu -- 1 pkt.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Wiek obliczany na dzien 1 stycznia 2016 (= 2016 - rok_urodzenia)",
+            "Wykres KOLUMNOWY (nie liniowy)"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2016_czerwiec/MIN-R2A1P-163_dane/",
+      "pliki_danych": [
+        "ubezpieczenia.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "arkusz kalkulacyjny",
+          "obliczenia warunkowe",
+          "wykres kolumnowy",
+          "skladki ubezpieczeniowe"
+        ],
+        "czasowy_min": 50,
+        "zlozonosc": 2,
+        "trudnosc": 2
+      }
+    },
+    {
+      "numer": 5,
+      "tytul": "Egzamin maturalny",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Wydzial Edukacji Urzedu Miejskiego w miescie X zgromadzil wybrane dane dotyczace przeprowadzonego egzaminu maturalnego.\nLista uczniow zdajacych egzamin maturalny znajduje sie w pliku maturzysta.txt. Lista przedmiotow maturalnych zostala zapisana w pliku przedmioty.txt. W pliku zdaje.txt zostaly zapisane informacje o tym, ktore przedmioty uczen zdawal na egzaminie maturalnym.\nDane w wierszach kazdego pliku oddzielone sa srednikami. Pierwszy wiersz jest naglowkowy.\n\nmaturzysta.txt: Id_zdajacego;Nazwisko;Imie;PESEL;Data_urodzenia\nprzedmioty.txt: Id_przedmiotu;Nazwa_przedmiotu;Data;Godzina;Typ\nzdaje.txt: Id_zdajacego;Id_przedmiotu",
+      "podzadania": [
+        {
+          "id": "2016C.5.1",
+          "numer": "5.1",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.1 (0-2)\nUtworz zestawienie zawierajace nazwiska i imiona zdajacych, ktorzy zdawali egzamin maturalny z informatyki. Wyniki uporzadkuj alfabetycznie wedlug nazwisk zdajacych.",
+          "odpowiedz": "| Nazwisko | Imie |\n|---|---|\n| Badowski | Fryderyk |\n| Barszcz | Tomasz |\n| Makowicz | Magda |\n| Nowak | Pawel |\n| Nowakowski | Marek |\n| Rybicka | Maria |\n| Wysocka | Justyna |",
+          "zasady_oceniania": "2 pkt - za utworzenie zestawienia zawierajacego prawidlowa liste zdajacych (nazwisko i imie), ktorzy zdawali informatyke (7) -- 1 pkt, i uporzadkowanie listy rosnaco wedlug nazwisk zdajacych -- 1 pkt.",
+          "pulapki": [
+            "Trzeba polaczyc 3 pliki: zdaje.txt -> przedmioty.txt (informatyka) -> maturzysta.txt (nazwisko, imie)",
+            "Sortowanie alfabetyczne po NAZWISKU"
+          ]
+        },
+        {
+          "id": "2016C.5.2",
+          "numer": "5.2",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.2 (0-2)\nPodaj nazwe przedmiotu, ktory byl zdawany najczesciej jako przedmiot dodatkowy, oraz liczbe osob, ktore go wybraly.",
+          "odpowiedz": "wiedza o spoleczenstwie -- 8 zdajacych",
+          "zasady_oceniania": "2 pkt - za podanie nazwy przedmiotu, ktory byl najczesciej wybierany -- 1 pkt, i za podanie prawidlowej liczby zdajacych -- 1 pkt.",
+          "pulapki": [
+            "Tylko przedmioty DODATKOWE (Typ='dodatkowy'), nie obowiazkowe",
+            "Trzeba policzyc ile razy kazdy przedmiot dodatkowy wystepuje w zdaje.txt"
+          ]
+        },
+        {
+          "id": "2016C.5.3",
+          "numer": "5.3",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.3 (0-2)\nPodaj nazwiska i imiona wszystkich zdajacych, ktorzy wybrali najwieksza liczbe egzaminow maturalnych z przedmiotow dodatkowych, oraz podaj liczbe tych przedmiotow.",
+          "odpowiedz": "| Nazwisko | Imie | Liczba egzaminow |\n|---|---|---|\n| Baranska | Joanna | 3 |\n| Zalicki | Marcin | 3 |\n| Bajda | Maria | 3 |",
+          "zasady_oceniania": "2 pkt - za podanie prawidlowej listy uczniow (nazwisko i imie) -- 1 pkt, i za podanie prawidlowej liczby egzaminow -- 1 pkt.",
+          "pulapki": [
+            "Tylko przedmioty DODATKOWE licza sie do tego rankingu",
+            "Moze byc wielu zdajacych z ta sama maksymalna liczba"
+          ]
+        },
+        {
+          "id": "2016C.5.4",
+          "numer": "5.4",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.4 (0-2)\nPodaj nazwe przedmiotu dodatkowego, ktory nie zostal ani razu wybrany na egzaminie maturalnym.",
+          "odpowiedz": "jezyk lacinski i kultura antyczna\n\n(Rowniez akceptowane: 'jezyk lacinski' albo 'lacina'.)",
+          "zasady_oceniania": "2 pkt - za prawidlowe podanie listy przedmiotow dodatkowych, ktorych nie wybrano na egzaminie maturalnym.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba znalezc przedmiot dodatkowy z przedmioty.txt, ktorego Id NIE pojawia sie w zdaje.txt"
+          ]
+        },
+        {
+          "id": "2016C.5.5",
+          "numer": "5.5",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.5 (0-2)\nPodaj imie i nazwisko najmlodszego maturzysty oraz nazwy przedmiotow dodatkowych, ktore ta osoba wybrala na egzaminie maturalnym.",
+          "odpowiedz": "Marek Nowakowski\nPrzedmioty dodatkowe: jezyk polski, matematyka, jezyk niemiecki, informatyka",
+          "zasady_oceniania": "2 pkt - za prawidlowe podanie imienia i nazwiska maturzysty (Marek Nowakowski) -- 1 pkt, i za prawidlowe podanie listy przedmiotow -- 1 pkt.",
+          "pulapki": [
+            "Najmlodszy = najpozniejsza data urodzenia",
+            "Trzeba wypisac TYLKO przedmioty dodatkowe, nie obowiazkowe"
+          ]
+        },
+        {
+          "id": "2016C.5.6",
+          "numer": "5.6",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.6 (0-2)\nPodaj liczbe mezczyzn, ktorzy przystapili do egzaminu maturalnego. Wykorzystaj przedostatnia cyfre numeru PESEL, ktora tylko dla mezczyzn jest nieparzysta.",
+          "odpowiedz": "180",
+          "zasady_oceniania": "2 pkt - za podanie prawidlowej liczby mezczyzn.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Przedostatnia cyfra PESEL (10. pozycja, indeksujac od 0) -- nieparzysta = mezczyzna",
+            "PESEL ma 11 cyfr, wiec przedostatnia to indeks 9 (lub 10 licząc od 1)"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2016_czerwiec/MIN-R2A1P-163_dane/",
+      "pliki_danych": [
+        "maturzysta.txt",
+        "przedmioty.txt",
+        "zdaje.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "przetwarzanie plikow",
+          "laczenie danych",
+          "zliczanie warunkowe",
+          "PESEL"
+        ],
+        "czasowy_min": 50,
+        "zlozonosc": 2,
+        "trudnosc": 2
+      }
+    },
+    {
+      "numer": 6,
+      "tytul": "Systemy liczbowe",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "W pliku liczby.txt zapisano 999 kodow liczb, kazdy kod w osobnym wierszu. Ostatnia cyfra kodu oznacza podstawe systemu liczbowego (od dwojkowego do dziewiatego), w jakim zapisano liczbe kolejnymi cyframi kodu, od pierwszej do przedostatniej.\n\nNa przyklad: 12345678 oznacza liczbe 1234567 zapisana w systemie osmkowym.\nKazdy kod liczby zaczyna sie cyfra wieksza od 0, a jego dlugosc (wraz z cyfra oznaczajaca system liczbowy) nie przekracza 10 cyfr.\n\nUwaga: Niektorych 10-cyfrowych liczb calkowitych nie da sie zapisac w pojedynczej 32-bitowej zmiennej calkowitoliczbowej (np. w C++ w zmiennej typu int, a w Pascalu w zmiennej typu integer).",
+      "podzadania": [
+        {
+          "id": "2016C.6.1",
+          "numer": "6.1",
+          "punkty": 1,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 6.1 (0-1)\nPodaj, ile liczb w pliku liczby.txt zapisano w systemie osmkowym.",
+          "odpowiedz": "103",
+          "zasady_oceniania": "1 pkt - za podanie poprawnej liczby wystepujacych kodow liczb reprezentujacych liczby zapisane w systemie osmkowym (103).",
+          "pulapki": [
+            "Ostatnia cyfra kodu = 8 oznacza system osmkowy"
+          ]
+        },
+        {
+          "id": "2016C.6.2",
+          "numer": "6.2",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 6.2 (0-2)\nPodaj, ile wierszy w pliku liczby.txt zawiera liczby zapisane w systemie czworkowym takie, ze w ich zapisie nie wystepuje cyfra 0.",
+          "odpowiedz": "29",
+          "zasady_oceniania": "2 pkt - za podanie poprawnej liczby wystepujacych kodow reprezentujacych liczby zapisane w systemie czworkowym, w ktorych nie wystepuje cyfra 0 (29).",
+          "pulapki": [
+            "System czworkowy = ostatnia cyfra 4",
+            "Sprawdzac brak '0' tylko w cyfrach LICZBY (od pierwszej do przedostatniej), nie w calym kodzie"
+          ]
+        },
+        {
+          "id": "2016C.6.3",
+          "numer": "6.3",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 6.3 (0-2)\nPodaj, ile wierszy w pliku liczby.txt zawiera liczby parzyste zapisane w systemie dwojkowym.",
+          "odpowiedz": "153",
+          "zasady_oceniania": "2 pkt - za podanie poprawnej liczby wystepujacych kodow reprezentujacych liczby parzyste zapisane w systemie dwojkowym (153).",
+          "pulapki": [
+            "System dwojkowy = ostatnia cyfra 2",
+            "Liczba parzysta w systemie dwojkowym konczy sie cyfra 0 (= przedostatnia cyfra kodu to 0)"
+          ]
+        },
+        {
+          "id": "2016C.6.4",
+          "numer": "6.4",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 6.4 (0-3)\nPodaj sume wszystkich liczb z pliku liczby.txt, ktore zapisano w systemie osmkowym. Wynik podaj w systemie dziesietnym.",
+          "odpowiedz": "Suma w systemie dziesietnym: 887918739\nSuma w systemie osmkowym: 64731100223\n\n(Za podanie sumy w systemie osmkowym: 2 pkt)",
+          "zasady_oceniania": "3 pkt - za podanie w systemie dziesietnym poprawnej sumy wszystkich liczb reprezentowanych przez kody zapisane w systemie osmkowym (887918739).\n2 pkt - za podanie sumy w systemie osmkowym (64731100223).",
+          "pulapki": [
+            "Trzeba przekonwertowac kazda liczbe osmkowa na dziesietna przed sumowaniem",
+            "Uwaga na przepelnienie -- niektorych liczb nie da sie zapisac w 32-bitowym int, nalezy uzyc 64-bit (long long w C++, longint/int64 w Pascal)"
+          ]
+        },
+        {
+          "id": "2016C.6.5",
+          "numer": "6.5",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 6.5 (0-4)\nPodaj kod najwiekszej oraz kod najmniejszej sposrod liczb zakodowanych w pliku liczby.txt oraz ich wartosci w systemie dziesietnym.",
+          "odpowiedz": "najmniejsza: 100002, wartosc 16 w systemie dziesietnym\nnajwieksza: 8066218209, wartosc 347931225 w systemie dziesietnym\n\nUwaga: za kazdy poprawny kod i liczbe -- po 1 punkcie.",
+          "zasady_oceniania": "4 pkt - za podanie poprawnej najmniejszej i najwiekszej liczby zakodowanej i w systemie dziesietnym.\n2 pkt - za podanie poprawnego kodu i wartosci dla jednej z nich (min lub max).\n1 pkt - za kazdy poprawny kod i liczbe.",
+          "pulapki": [
+            "Trzeba przekonwertowac WSZYSTKIE liczby na system dziesietny i znalezc min/max",
+            "Podac ZAROWNO kod (jak jest w pliku) JAK I wartosc dziesietna",
+            "Uwaga na przepelnienie 32-bit!"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2016_czerwiec/MIN-R2A1P-163_dane/",
+      "pliki_danych": [
+        "liczby.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "systemy liczbowe",
+          "konwersja",
+          "przetwarzanie plikow",
+          "zliczanie"
+        ],
+        "czasowy_min": 50,
+        "zlozonosc": 2,
+        "trudnosc": 3
+      }
+    }
+  ]
+}

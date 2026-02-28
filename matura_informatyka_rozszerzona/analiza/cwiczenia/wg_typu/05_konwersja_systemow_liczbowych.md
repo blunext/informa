@@ -1,7 +1,7 @@
 # 05. Konwersja systemow liczbowych
 
 Typ zadania: **konwersja_systemow_liczbowych**
-Czestotliwosc: 9/11 lat | Laczna punktacja: 12 pkt
+Czestotliwosc: 10/12 lat | Laczna punktacja: 12 pkt
 Kategoria: TEORIA
 
 ## Umiejetnosci cwiczone w tym zestawie

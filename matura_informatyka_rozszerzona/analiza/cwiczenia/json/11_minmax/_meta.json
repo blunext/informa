@@ -2,7 +2,7 @@
   "typ": "11_minmax",
   "nazwa": "Wyszukiwanie min/max",
   "kategoria": "IMPLEMENTACJA",
-  "czestotliwosc": "5/11 lat",
+  "czestotliwosc": "5/12 lat",
   "punkty_lacznie": 157,
   "tagi_globalne": [
     "akumulator",

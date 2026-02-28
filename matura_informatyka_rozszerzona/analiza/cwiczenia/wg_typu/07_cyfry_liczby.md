@@ -1,7 +1,7 @@
 # 07. Przetwarzanie cyfr i liczb
 
 Typ zadania: **cyfry_liczby**
-Czestotliwosc: 6/11 lat | Laczna punktacja: 36 pkt
+Czestotliwosc: 7/12 lat | Laczna punktacja: 36 pkt
 Kategoria: IMPLEMENTACJA
 
 ## Umiejetnosci cwiczone w tym zestawie

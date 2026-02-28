@@ -1,7 +1,7 @@
 # 17. Wykresy w arkuszu kalkulacyjnym
 
 Typ zadania: **arkusz_wykres**
-Czestotliwosc: 8/11 lat | Laczna punktacja: 25 pkt
+Czestotliwosc: 10/12 lat | Laczna punktacja: 25 pkt
 Kategoria: ARKUSZ
 
 ## Umiejetnosci cwiczone w tym zestawie

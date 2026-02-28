@@ -1,7 +1,7 @@
 # 15. Agregacja warunkowa w arkuszu kalkulacyjnym
 
 Typ zadania: **arkusz_agregacja_warunkowa**
-Czestotliwosc: 9/11 lat | Laczna punktacja: 38 pkt
+Czestotliwosc: 11/12 lat | Laczna punktacja: 38 pkt
 Kategoria: ARKUSZ
 
 ## Umiejetnosci cwiczone w tym zestawie

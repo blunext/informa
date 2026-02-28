@@ -1,7 +1,7 @@
 # 09. Przetwarzanie zlozone (wieloetapowe)
 
 Typ zadania: **zlozone**
-Czestotliwosc: 4/11 lat | Laczna punktacja: 24 pkt
+Czestotliwosc: 5/12 lat | Laczna punktacja: 24 pkt
 Kategoria: IMPLEMENTACJA
 
 ## Umiejetnosci cwiczone w tym zestawie

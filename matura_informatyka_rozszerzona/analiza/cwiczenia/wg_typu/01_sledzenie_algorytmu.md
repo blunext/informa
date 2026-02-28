@@ -1,7 +1,7 @@
 # 01. Sledzenie algorytmu
 
 Typ zadania: **sledzenie_algorytmu**
-Czestotliwosc: 11/11 lat | Laczna punktacja: 45 pkt
+Czestotliwosc: 12/12 lat | Laczna punktacja: 45 pkt
 Kategoria: TEORIA
 
 ## Umiejetnosci cwiczone w tym zestawie

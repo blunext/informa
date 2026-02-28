@@ -1,39 +1,36 @@
-Temat,2014,2015,2016,2017,2018*,2019,2021,2022,2023,2024,2025,Wystapienia,Procent
-SQL_bazy_danych,YES,YES,YES,YES,YES,YES,YES,YES,YES,YES,YES,11/11,100%
-Operacje_na_liczbach_cyfrach,YES,YES,YES,YES,?,YES,YES,YES,YES,YES,YES,10/10,100%
-Przetwarzanie_plikow,YES,YES,YES,YES,?,YES,YES,YES,YES,YES,YES,10/10,100%
-Arkusz_kalkulacyjny,YES,YES,YES,YES,?,YES,YES,YES,YES,YES,YES,10/10,100%
-Systemy_liczbowe,YES,YES,YES,NO,NO,YES,YES,YES,YES,YES,YES,9/11,82%
-Rekurencja,YES,YES,YES,YES,NO,YES,YES,NO,YES,NO,YES,8/11,73%
-Sortowanie_wyszukiwanie,YES,YES,YES,YES,YES,NO,YES,YES,NO,YES,NO,8/11,73%
-Teoria_liczb_NWD_dzielniki,YES,YES,YES,YES,NO,YES,NO,YES,NO,YES,YES,8/11,73%
-Zlozonosc_algorytmow,NO,NO,YES,YES,YES,YES,YES,YES,NO,NO,YES,7/11,64%
-Operacje_na_stringach,YES,NO,YES,NO,?,NO,YES,YES,YES,NO,YES,6/10,60%
-Kryptografia_bezpieczenstwo,NO,NO,YES,YES,NO,NO,NO,NO,YES,NO,YES,4/11,36%
-Sieci_komputerowe,NO,NO,YES,NO,NO,YES,NO,NO,NO,YES,NO,3/11,27%
-Przeszukiwanie_binarne,YES,NO,NO,NO,YES,YES,NO,NO,NO,NO,NO,3/11,27%
-Geometria_matematyka,NO,NO,YES,NO,YES,NO,NO,NO,NO,NO,YES,3/11,27%
-Struktury_danych_kopiec_BST,NO,NO,NO,NO,NO,NO,YES,NO,YES,NO,NO,2/11,18%
-Programowanie_dynamiczne,NO,NO,NO,NO,NO,NO,NO,NO,NO,YES,NO,1/11,9%
-Algorytmy_zachlanne,NO,YES,NO,NO,NO,NO,NO,NO,NO,NO,NO,1/11,9%
-DFS_BFS_connected_components,NO,NO,NO,YES,NO,NO,NO,NO,NO,NO,NO,1/11,9%
-Operacje_bitowe_XOR,NO,NO,NO,NO,NO,NO,NO,NO,YES,NO,NO,1/11,9%
-Modele_barw_RGB_CMYK,NO,NO,NO,NO,YES,NO,NO,NO,NO,NO,NO,1/11,9%
-Technologie_web_PHP_JS,NO,NO,NO,NO,YES,NO,NO,NO,NO,NO,NO,1/11,9%
+Temat,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,Wystapienia,Procent
+SQL_bazy_danych,YES,YES,YES,YES,YES,YES,YES,YES,YES,YES,YES,YES,12/12,100%
+Operacje_na_liczbach_cyfrach,YES,YES,YES,YES,YES,YES,YES,YES,YES,YES,YES,YES,12/12,100%
+Przetwarzanie_plikow,YES,YES,YES,YES,YES,YES,YES,YES,YES,YES,YES,YES,12/12,100%
+Arkusz_kalkulacyjny,YES,YES,YES,YES,YES,YES,YES,YES,YES,YES,YES,YES,12/12,100%
+Systemy_liczbowe,YES,YES,YES,NO,NO,YES,YES,YES,YES,YES,YES,YES,10/12,83%
+Rekurencja,YES,YES,YES,YES,NO,YES,YES,YES,NO,YES,NO,YES,9/12,75%
+Sortowanie_wyszukiwanie,YES,YES,YES,YES,YES,NO,YES,YES,YES,NO,YES,NO,9/12,75%
+Teoria_liczb_NWD_dzielniki,YES,YES,YES,YES,NO,YES,YES,NO,YES,NO,YES,YES,9/12,75%
+Operacje_na_stringach,YES,NO,YES,NO,YES,NO,YES,YES,YES,YES,NO,YES,8/12,67%
+Zlozonosc_algorytmow,NO,NO,YES,YES,YES,YES,NO,YES,YES,NO,NO,YES,7/12,58%
+Kryptografia_bezpieczenstwo,NO,NO,YES,YES,NO,NO,NO,NO,NO,YES,NO,YES,4/12,33%
+Sieci_komputerowe,NO,NO,YES,NO,NO,YES,YES,NO,NO,NO,YES,NO,4/12,33%
+Przeszukiwanie_binarne,YES,NO,NO,NO,YES,YES,NO,NO,NO,NO,NO,NO,3/12,25%
+Geometria_matematyka,NO,NO,YES,NO,YES,NO,NO,NO,NO,NO,NO,YES,3/12,25%
+Struktury_danych_kopiec_BST,NO,NO,NO,NO,NO,NO,NO,YES,NO,YES,NO,NO,2/12,17%
+Technologie_web_PHP_JS,NO,NO,NO,NO,YES,NO,NO,NO,NO,NO,NO,NO,1/12,8%
+Modele_barw_RGB_CMYK,NO,NO,NO,NO,YES,NO,NO,NO,NO,NO,NO,NO,1/12,8%
+Programowanie_dynamiczne,NO,NO,NO,NO,NO,NO,NO,NO,NO,NO,YES,NO,1/12,8%
+Algorytmy_zachlanne,NO,YES,NO,NO,NO,NO,NO,NO,NO,NO,NO,NO,1/12,8%
+DFS_BFS_connected_components,NO,NO,NO,YES,NO,NO,NO,NO,NO,NO,NO,NO,1/12,8%
+Operacje_bitowe_XOR,NO,NO,NO,NO,NO,NO,NO,NO,NO,YES,NO,NO,1/12,8%
 
 Uwagi:
 - Posortowano malejaco wg czestosci wystepowania
 - YES = temat pojawil sie w danym roku
 - NO = temat nie pojawil sie
-- ? = brak danych (2018 - przeanalizowano tylko Czesc I)
-- * 2018 = analiza czesciowa (tylko Czesc I / 15 pkt z 50)
-- Procent obliczony na podstawie znanych lat (pomijajac ?)
-- Dane z pelnych analiz JSON wszystkich 11 lat (2014-2019, 2021-2025)
-- 2020 nie odbyl sie (COVID-19)
+- Dane z pelnych analiz JSON wszystkich 12 lat (2014-2025)
+- 2020: egzamin glowny odbyl sie w czerwcu (COVID-19), nie w maju
 
 TOP 5 tematow (100% lub blisko):
 1. SQL/bazy danych - 100% (w KAZDYM egzaminie)
-2. Operacje na liczbach/cyfrach - 100% (znane lata)
-3. Przetwarzanie plikow - 100% (znane lata)
-4. Arkusz kalkulacyjny - 100% (znane lata)
-5. Systemy liczbowe - 82%
+2. Operacje na liczbach/cyfrach - 100% (w KAZDYM egzaminie)
+3. Przetwarzanie plikow - 100% (w KAZDYM egzaminie)
+4. Arkusz kalkulacyjny - 100% (w KAZDYM egzaminie)
+5. Systemy liczbowe - 83%

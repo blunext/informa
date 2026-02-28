@@ -1,7 +1,7 @@
 # 03. Analiza algorytmu
 
 Typ zadania: **analiza_algorytmu**
-Czestotliwosc: 10/11 lat | Laczna punktacja: 37 pkt
+Czestotliwosc: 10/12 lat | Laczna punktacja: 37 pkt
 Kategoria: TEORIA
 
 ## Umiejetnosci cwiczone w tym zestawie

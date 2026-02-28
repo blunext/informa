@@ -1,7 +1,7 @@
 # 18. Agregacja podstawowa w arkuszu kalkulacyjnym
 
 Typ zadania: **arkusz_agregacja_podstawowa**
-Czestotliwosc: 3/11 lat | Laczna punktacja: 9 pkt
+Czestotliwosc: 3/12 lat | Laczna punktacja: 9 pkt
 Kategoria: ARKUSZ
 
 ## Umiejetnosci cwiczone w tym zestawie

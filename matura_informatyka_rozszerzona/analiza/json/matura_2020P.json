@@ -1,0 +1,489 @@
+{
+  "rok": 2020,
+  "sesja": "probna",
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Rekurencja",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "Dana jest dodatnia liczba calkowita n oraz uporzadkowana rosnaco tablica roznych liczb calkowitych T[1..n]. Przeanalizuj nastepujaca funkcje rekurencyjna, ktorej parametrami sa liczby calkowite x, p, k, przy czym 1 <= p <= k <= n.\n\nRek(x, p, k)\njezeli p < k\n    s <- (p + k) div 2\n    jezeli T[s] >= x\n        wynikiem jest Rek(x, p, s)\n    w przeciwnym razie\n        wynikiem jest Rek(x, s + 1, k)\nw przeciwnym razie\n    jezeli T[p] = x\n        wynikiem jest p\n    w przeciwnym razie\n        wynikiem jest -1\n\nUwaga: div jest operatorem oznaczajacym czesc calkowita z dzielenia.",
+      "podzadania": [
+        {
+          "id": "2020P.1.1",
+          "numer": "1.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1 (0-2)\nPodaj najwieksza i najmniejsza mozliwa liczbe wywolan funkcji Rek w wyniku wywolania Rek(2020, 5, 14) dla n = 17 i pewnej, uporzadkowanej rosnaco tablicy T[1..17] roznych liczb calkowitych.\n\nUwaga: Pierwsze wywolanie funkcji Rek(2020, 5, 14) wlaczamy do ogolnej liczby wywolan.",
+          "odpowiedz": "Najwieksza liczba wywolan: 5\nNajmniejsza liczba wywolan: 4\n\nZakres [5,14] ma 10 elementow. Binarne podzialy: (5+14) div 2 = 9, nastepnie [5,9] (5 elem) lub [10,14] (5 elem). Dalsze podzialy prowadza do 4 lub 5 wywolan w zaleznosci od pozycji x w tablicy.",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz, w tym:\n1 pkt - za podanie najwiekszej liczby wywolan (5),\n1 pkt - za podanie najmniejszej liczby wywolan (4).\n0 pkt - za podanie odpowiedzi blednej albo brak odpowiedzi.",
+          "pulapki": [
+            "Nalezy policzyc WSZYSTKIE wywolania lacznie z pierwszym Rek(2020, 5, 14)",
+            "Przeszukiwanie binarne - glebokosc zalezy od ceil(log2(k-p+1))+1"
+          ],
+          "wymiary": {
+            "czasowy_min": 5,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2020P.1.2",
+          "numer": "1.2",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2 (0-2)\nPodaj, jakie beda wartosci parametrow przekazywanych do funkcji Rek w kolejnych jej wywolaniach dla n = 11, tablicy T = [1, 5, 8, 10, 12, 14, 19, 20, 23, 30, 38] oraz pierwszego wywolania Rek(7, 1, 11).",
+          "odpowiedz": "Kolejne wywolania:\nRek(7, 1, 11) -> s=(1+11) div 2=6, T[6]=14 >= 7 -> Rek(7, 1, 6)\nRek(7, 1, 6) -> s=(1+6) div 2=3, T[3]=8 >= 7 -> Rek(7, 1, 3)\nRek(7, 1, 3) -> s=(1+3) div 2=2, T[2]=5 < 7 -> Rek(7, 3, 3)\nRek(7, 3, 3) -> p=k=3, T[3]=8 != 7 -> wynik -1",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz.\n1 pkt - za dwa kolejne poprawne wywolania funkcji Rek.\n0 pkt - za podanie odpowiedzi blednej albo brak odpowiedzi.",
+          "pulapki": [
+            "div to dzielenie calkowite (zaokraglenie w dol)",
+            "Warunek T[s] >= x decyduje o kierunku rekurencji",
+            "Koncowy wynik to -1, poniewaz 7 nie wystepuje w tablicy"
+          ],
+          "wymiary": {
+            "czasowy_min": 5,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2020P.1.3",
+          "numer": "1.3",
+          "punkty": 1,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.3 (0-1)\nZlozonosc czasowa algorytmu opisanego funkcja Rek dla parametrow x = 1, p = 1, k = n jest\n\nA. szescienna.\nB. kwadratowa.\nC. liniowa.\nD. logarytmiczna.\n\nWybierz wlasciwa odpowiedz.",
+          "odpowiedz": "D. logarytmiczna\n\nFunkcja Rek realizuje przeszukiwanie binarne - w kazdym wywolaniu zakres [p,k] jest redukowany o polowe. Liczba wywolan jest rzedu O(log n).",
+          "zasady_oceniania": "1 pkt - za poprawna odpowiedz.\n0 pkt - za podanie odpowiedzi blednej albo brak odpowiedzi.",
+          "pulapki": [
+            "Funkcja Rek to wariacja przeszukiwania binarnego - zakres zmniejsza sie o polowe w kazdym kroku"
+          ],
+          "wymiary": {
+            "czasowy_min": 2,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        }
+      ]
+    },
+    {
+      "numer": 2,
+      "tytul": "Moda",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Moda (dominanta) zestawu danych to element, ktory wystepuje w tym zestawie najczesciej. Np. dla zestawu danych 2, 3, 4, 2, 3, 5, 2, 100, 67 liczba 2 jest moda tego zestawu. W zestawie danych 2, 3, -4, 2, 3, -5, 2, 3 sa dwie mody: 2 i 3. Jesli wszystkie elementy zestawu wystepuja w nim z taka sama liczebnoscia, to przyjmujemy, ze taki zestaw nie ma mody. Np. w zestawie danych 4, 4, 2, 3, 2, 3 nie ma mody.",
+      "podzadania": [
+        {
+          "id": "2020P.2.1",
+          "numer": "2.1",
+          "punkty": 1,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1 (0-1)\nIle maksymalnie roznych mod (dominant) moze miec 10 elementowy zestaw danych? Podaj przyklad 10 elementowego zestawu danych z dokladnie trzema roznymi modami.",
+          "odpowiedz": "Maksymalna liczba dominant: 4.\nPoprawny jest kazdy przyklad, w ktorym trzy liczby maja po trzy wystapienia, np. [1, 1, 1, 2, 2, 2, 3, 3, 3, 4].",
+          "zasady_oceniania": "1 pkt - za poprawna odpowiedz.\n0 pkt - za podanie odpowiedzi blednej albo brak odpowiedzi.",
+          "pulapki": [
+            "Nalezy pamietac, ze jesli wszystkie elementy maja taka sama liczebnosc, to nie ma mody",
+            "Maksymalnie 4 mody w 10-elem zestawie: 3+3+3+1 (nie 2+2+2+2+2, bo wtedy 5 rownych = brak mody)"
+          ],
+          "wymiary": {
+            "czasowy_min": 5,
+            "zlozonosc": 1,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2020P.2.2",
+          "numer": "2.2",
+          "punkty": 5,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2 (0-5)\nW wybranej przez siebie notacji (w postaci pseudokodu, listy krokow, lub jezyka programowania) napisz algorytm zgodny z ponizszej specyfikacja:\n\nDane:\n  n - dodatnia liczba calkowita wieksza niz 2\n  T[1..n] - tablica n liczb calkowitych, w ktorej wystepuje dokladnie jedna moda\n\nWynik:\n  m - moda zestawu liczb zapisanego w tablicy T\n\nUwaga: w zapisie mozesz wykorzystac tylko operacje arytmetyczne (dodawanie, odejmowanie, mnozenie, dzielenie, dzielenie calkowite, reszta z dzielenia), odwolywanie sie do pojedynczych elementow tablicy, porownywanie liczb, instrukcje sterujace i przypisania do zmiennych lub samodzielnie napisane funkcje zawierajace wyzej wymienione operacje.",
+          "odpowiedz": "Przykladowe rozwiazanie (C++):\n\nint maxL = 0, maxW;\nfor (int i = 0; i < N; i++) {\n  W = Zbior[i];\n  L = 0;\n  for (int j = 0; j < N; j++)\n    if (Zbior[j] == W) L++;\n  if (L > maxL) {\n    maxL = L;\n    maxW = W;\n  }\n}\ncout << \" Moda = \" << maxW;\n\nAlgorytm zlicza wystapienia kazdego elementu i zapamietuje ten o najwiekszej liczbie wystapien.",
+          "zasady_oceniania": "5 pkt - za poprawny algorytm, w tym:\n2 pkt - za zliczenie liczby wystapien kazdej liczby,\n2 pkt - za znalezienie najwiekszej liczby wystapien,\n1 pkt - za znalezienie wyniku - mody.\n0 pkt - za podanie odpowiedzi blednej albo brak odpowiedzi.",
+          "pulapki": [
+            "Ograniczone operacje - nie mozna uzyc sortowania ani struktur danych typu mapa/slownik",
+            "Algorytm O(n^2) z zagniezdzonymi petlami jest wystarczajacy",
+            "Tablica gwarantuje dokladnie jedna mode - nie trzeba obslugi wielu mod"
+          ],
+          "wymiary": {
+            "czasowy_min": 15,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        }
+      ]
+    },
+    {
+      "numer": 3,
+      "tytul": "Test",
+      "punkty": 4,
+      "czesc": 1,
+      "kontekst": "Ocen prawdziwosc podanych zdan. Zaznacz P, jesli zdanie jest prawdziwe, albo F - jesli jest falszwe. W kazdym zadaniu punkt uzyskujesz tylko za komplet poprawnych odpowiedzi.",
+      "podzadania": [
+        {
+          "id": "2020P.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1 (0-1)\nW tabeli T zapisano wiele rekordow danych zawierajacych informacje o zawodnikach. Pola rekordu to: id, nazwisko, imie, plec, wzrost, numer_startowy, punkty, id_klubu.\n\nPolecenie SQL obliczajace srednia punktow zawodnikow z klubu o id_klubu rownym liczbie 100, moze miec postac:\n\n1. select count(punkty) as srednia from T where id_klubu=100; -> P/F\n2. select avg(punkty) as srednia from T where id=100; -> P/F\n3. select sum(punkty) from T where id_klubu=100; -> P/F\n4. select avg(punkty) from T where id_klubu=100; -> P/F",
+          "odpowiedz": "F, F, F, P\n\n1. F - count zlicza rekordy, nie oblicza sredniej\n2. F - filtruje po id, nie po id_klubu\n3. F - sum daje sume, nie srednia\n4. P - avg(punkty) oblicza srednia, where id_klubu=100 filtruje poprawnie",
+          "zasady_oceniania": "1 pkt - za wskazanie czterech poprawnych odpowiedzi.\n0 pkt - za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Roznica miedzy avg, sum, count",
+            "Filtrowanie po id vs id_klubu"
+          ],
+          "wymiary": {
+            "czasowy_min": 3,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2020P.3.2",
+          "numer": "3.2",
+          "punkty": 1,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2 (0-1)\nRoznica 11001001_2 - 1111110_2 (dwoch liczb zapisanych w systemie binarnym) jest rowna\n\n1. 4C_16 -> P/F\n2. 113_8 -> P/F\n3. 1023_4 -> P/F\n4. 1001010_2 -> P/F",
+          "odpowiedz": "F, P, P, F\n\n11001001_2 = 201, 1111110_2 = 126, roznica = 75.\n1. 4C_16 = 76 -> F\n2. 113_8 = 1*64+1*8+3 = 75 -> P\n3. 1023_4 = 1*64+0*16+2*4+3 = 75 -> P\n4. 1001010_2 = 74 -> F",
+          "zasady_oceniania": "1 pkt - za wskazanie czterech poprawnych odpowiedzi.\n0 pkt - za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba poprawnie odjac liczby binarne: 11001001-1111110 = 1001011 = 75",
+            "Sprawdzenie kazdej opcji w odpowiednim systemie liczbowym"
+          ],
+          "wymiary": {
+            "czasowy_min": 3,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2020P.3.3",
+          "numer": "3.3",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.3 (0-1)\nProtokol HTTPS\n\n1. jest protokolem pobierania poczty elektronicznej ze zdalnego serwera przez polaczenie TCP/IP. -> P/F\n2. jest szyfrowana wersja protokolu HTTP. -> P/F\n3. przydziela adresy IP poszczegolnym komputerom. -> P/F\n4. obsluguje system nazywania domen. -> P/F",
+          "odpowiedz": "F, P, F, F\n\n1. F - to protokol POP3/IMAP, nie HTTPS\n2. P - HTTPS to HTTP z szyfrowaniem TLS/SSL\n3. F - to protokol DHCP\n4. F - to system DNS",
+          "zasady_oceniania": "1 pkt - za wskazanie czterech poprawnych odpowiedzi.\n0 pkt - za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "HTTPS to wylacznie szyfrowana wersja HTTP",
+            "Nie mylic z DHCP, DNS ani POP3"
+          ],
+          "wymiary": {
+            "czasowy_min": 3,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2020P.3.4",
+          "numer": "3.4",
+          "punkty": 1,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.4 (0-1)\nLiczba, ktora w zapisie binarnym ma dokladnie 16 cyfr i jedynke na najbardziej znaczacej pozycji, ma w zapisie\n\n1. czworkowym dokladnie 9 cyfr -> P/F\n2. osemkowym dokladnie 7 cyfr -> P/F\n3. szesnastkowym dokladnie 4 cyfry -> P/F\n4. dziesietnym dokladnie 5 cyfr -> P/F",
+          "odpowiedz": "F, F, P, P\n\nLiczba 16-bitowa z 1 na najwyzszej pozycji: zakres 1000000000000000_2 (32768) do 1111111111111111_2 (65535).\n1. F - 16 cyfr binarnych = 8 cyfr czworkowych (kazda cyfra czworkowa = 2 bity)\n2. F - 16 cyfr binarnych = 6 cyfr osemkowych (ceil(16/3) = 6, bo 1 + 5*3 = 16)\n3. P - 16 cyfr binarnych = 4 cyfry szesnastkowe (16/4 = 4)\n4. P - zakres 32768-65535, obie to 5-cyfrowe liczby dziesietne",
+          "zasady_oceniania": "1 pkt - za wskazanie czterech poprawnych odpowiedzi.\n0 pkt - za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Czworkowy: 16/2 = 8 cyfr, nie 9",
+            "Osemkowy: ceil(16/3) = 6 cyfr, nie 7",
+            "Dziesietny: zakres 32768-65535 to zawsze 5 cyfr"
+          ],
+          "wymiary": {
+            "czasowy_min": 3,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        }
+      ]
+    },
+    {
+      "numer": 4,
+      "tytul": "Luki w ciagu",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "Luka w ciagu liczbowym nazywamy bezwzgledna wartosc roznicy miedzy dwoma kolejnymi elementami.\nPrzykladowo - w czterolementowym ciagu 5, 2, 7, 10 sa trzy luki:\n- luka miedzy pierwszym a drugim elementem wynosi 3;\n- luka miedzy drugim a trzecim elementem wynosi 5;\n- luka miedzy trzecim a czwartym elementem wynosi 3.\nNajwieksza luka w tym ciagu ma wartosc 5.\n\nW pliku dane4.txt znajduje sie ciag zlozony z 1000 dodatnich liczb calkowitych nie wiekszych od 2*10^9. Napisz program(-y), ktory(-e) da(-dza) odpowiedzi do ponizszych zadan. Odpowiedzi zapisz w pliku zadanie4.txt, a kazda poprzedz numerem odpowiedniego zadania.",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2020_probna_kwiecien/",
+      "pliki_danych": ["dane4.txt"],
+      "podzadania": [
+        {
+          "id": "2020P.4.1",
+          "numer": "4.1",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_minmax",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.1 (0-3)\nPodaj wartosc najwiekszej luki oraz wartosc najmniejszej luki pomiedzy elementami ciagu z pliku dane4.txt.",
+          "odpowiedz": "Najmniejsza luka: 1\nNajwieksza luka: 1056392131",
+          "zasady_oceniania": "3 pkt - za prawidlowa odpowiedz, w tym:\n2 pkt - za podanie najwiekszej luki,\n1 pkt - za podanie najmniejszej luki.\n0 pkt - za bledna odpowiedz albo brak odpowiedzi.",
+          "pulapki": [
+            "Luka to wartosc bezwzgledna roznicy - abs(a[i]-a[i+1])",
+            "Liczby moga byc duze (do 2*10^9) - uzyj long long"
+          ],
+          "wymiary": {
+            "czasowy_min": 10,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2020P.4.2",
+          "numer": "4.2",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_sekwencje",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.2 (0-4)\nFragment ciagu nazywamy regularnym, jesli wszystkie jego luki maja te sama wartosc. Przykladowo - w ciagu 4, 11, 4, 1, 4, 7, 11, 12, 13, 14, 7, 0, 3 regularnymi sa nastepujace fragmenty:\n- 4, 11, 4 (luka 7)\n- 4, 1, 4, 7 (luka 3)\n- 7, 11 (luka 4)\n- 11, 12, 13, 14 (luka 1)\n- 14, 7, 0 (luka 7)\n- 0, 3 (luka 3)\n\nZnajdz najdluzszy fragment regularny w ciagu z pliku dane4.txt. Podaj jego dlugosc oraz wartosci (liczby) znajdujace sie na poczatku i koncu tego fragmentu. W pliku z danymi jest jeden taki fragment.",
+          "odpowiedz": "Najwieksza dlugosc fragmentu regularnego: 17\nPoczatek: 193134524\nKoniec: 223545714",
+          "zasady_oceniania": "4 pkt - za podanie prawidlowej odpowiedzi, w tym:\n2 pkt - za podanie dlugosci najdluzszego regularnego fragmentu ciagu,\n1 pkt - za podanie poczatku najdluzszego regularnego fragmentu ciagu,\n1 pkt - za podanie konca najdluzszego regularnego fragmentu ciagu.\n0 pkt - za bledna odpowiedz albo brak odpowiedzi.",
+          "pulapki": [
+            "Fragment regularny musi miec luki o tej samej wartosci (nie rosnace/malejace)",
+            "Dlugosc fragmentu to liczba elementow, nie liczba luk",
+            "Uwazaj na poczatek/koniec nowego regularnego podciagu"
+          ],
+          "wymiary": {
+            "czasowy_min": 20,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2020P.4.3",
+          "numer": "4.3",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_zliczanie",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.3 (0-4)\nKrotnoscia luki nazywamy liczbe jej wystapien. Najczestsza luka nazywamy luke o najwiekszej krotnosci.\nPrzykladowo - w ciagu 5, 2, 7, 10 luka 5 ma krotnosc 1, a luka 3 ma krotnosc 2 i wobec tego jest najczestsza luka.\n\nPodaj krotnosc najczestszej luki oraz wartosci wszystkich najczestszych luk w ciagu z pliku dane4.txt.\n\nW przykladzie z zadania 4.2 (ciag 4, 11, 4, 1, 4, 7, 11, 12, 13, 14, 7, 0, 3) krotnosc najczestszej luki wynosi 4. Te krotnosc maja luki 7 i 3.",
+          "odpowiedz": "Krotnosc najczestszej luki: 31\nWartosci najczestszych luk: 149 i 11",
+          "zasady_oceniania": "4 pkt - za podanie prawidlowej odpowiedzi, w tym:\n2 pkt - za podanie krotnosci najczestszej luki,\npo 1 pkt - za podanie wartosci kazdej z dwoch najczestszych luk.\n0 pkt - za bledna odpowiedz albo brak odpowiedzi.",
+          "pulapki": [
+            "Moze byc wiecej niz jedna najczestsza luka (dwie o tej samej krotnosci)",
+            "Trzeba policzyc krotnosc kazdej luki i znalezc maksymalna"
+          ],
+          "wymiary": {
+            "czasowy_min": 15,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        }
+      ]
+    },
+    {
+      "numer": 5,
+      "tytul": "Zbiornik wody",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Wlasciciele ogrodu postanowili zaoszczedzic na oplatach za wode i przed laty zainstalowali zbiornik o pojemnosci 25 000 litrow, w ktorym gromadza wode do podlewania roslin.\n\nPodlewanie roslin woda ze zbiornika i uzupelnianie zbiornika reguluja nastepujace zasady:\n- srednia dobowa temperatura i opady dobowe sa mierzone od godziny 20:00 dnia poprzedniego do godz. 20:00 dnia biezacego,\n- do godziny 20:00 opady uzupelniaja sumarycznie zbiornik w ilosci: 700 * x litrow (gdzie x - opady dobowe deszczu w l/m^2), jednak nie wiecej niz do maksymalnej pojemnosci zbiornika,\n- w dni bezdeszczowe dzienne parowanie wody (ubytek) ze zbiornika jest zalezny od sredniej dobowej temperatury T i wynosi: 0,03% * T^1,5 * y litrow (gdzie y - oznacza stan zbiornika z godziny 21:00 dnia poprzedniego) w zaokragleniu w gore do pelnych litrow,\n- ogrod jest podlewany w kazdym dniu, w ktorym srednia dobowa temperatura przekroczy 15°C, a jednoczesnie opady dobowe nie przekraczaja 0,6 l/m^2,\n- podlewanie, jesli ma miejsce, jest wykonywane o godz. 20:00,\n- do podlewania zuzywa sie 12 000 litrow wody (1 porcja), jesli srednia dobowa temperatura nie przekracza 30°C, oraz 24 000 litrow wody (2 porcje), jesli srednia dobowa temperatura przekracza 30°C,\n- jesli o godz. 20:00 w dniu, w ktorym nalezy podlac rosliny, w zbiorniku jest za malo wody, jest on tuz przed podlaniem uzupelniany woda z wodociagu do pelna,\n- podlewanie konczy sie o godz. 21:00.\n\n31 marca o godzinie 21:00 zbiornik byl pelen.\n\nPlik pogoda.txt zawiera dane dotyczace sredniej temperatury oraz wysokosci opadow dobowych w l/m^2 w okresie od 1 kwietnia do 30 wrzesnia 2015 roku. Pierwszy wiersz pliku jest naglowkowym. Dane w kazdym wierszu oddzielone sa znakiem tabulatora.\n\nUwaga: W calym okresie od kwietnia do wrzesnia 2015 roku do zbiornika dolano 743 427 litrow wody. Wykonujac odpowiednie obliczenia oraz podajac odpowiedzi, wyniki zawsze zaokraglaj w gore do pelnych litrow.",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2020_probna_kwiecien/",
+      "pliki_danych": ["pogoda.txt"],
+      "podzadania": [
+        {
+          "id": "2020P.5.1",
+          "numer": "5.1",
+          "punkty": 3,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.1 (0-3)\nPodaj liczby dni, w ktorych:\n- temperatura powietrza nie przekraczala 15°C,\n- temperatura przekraczala 15°C, a jednoczesnie opady dobowe nie przekraczaly 0,6 l/m^2,\n- temperatura przekraczala 15°C i jednoczesnie opady dobowe przekraczaly 0,6 l/m^2.",
+          "odpowiedz": "temperatura <= 15: 88\ntemperatura > 15 i opady > 0,6: 22\ntemperatura > 15 i opady <= 0,6: 73",
+          "zasady_oceniania": "3 pkt - za podanie poprawnej odpowiedzi, w tym po 1 pkt za podanie poprawnej liczby dni dla kazdego z warunkow w zadaniu.\n0 pkt - za bledna odpowiedz albo brak odpowiedzi.",
+          "pulapki": [
+            "Warunek 'nie przekraczala' oznacza <=, a 'przekraczala' oznacza >",
+            "Suma kategorii powinna dac liczbe wszystkich dni (88+22+73=183)"
+          ],
+          "wymiary": {
+            "czasowy_min": 10,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2020P.5.2",
+          "numer": "5.2",
+          "punkty": 2,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.2 (0-2)\nPodaj date, kiedy pierwszy raz trzeba bylo dolac wode do zbiornika, i podaj ilosc dolanej wody.",
+          "odpowiedz": "6 maja 2015 r.\n13172 litrow",
+          "zasady_oceniania": "2 pkt - za podanie poprawnej odpowiedzi, w tym:\n1 pkt - za podanie poprawnej daty,\n1 pkt - za podanie poprawnej ilosci dolanej wody.\n0 pkt - za bledna odpowiedz albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba symulowac stan zbiornika dzien po dniu uwzgledniajac opady, parowanie i podlewanie",
+            "Dolanie nastepuje tuz przed podlewaniem, gdy wody jest za malo"
+          ],
+          "wymiary": {
+            "czasowy_min": 10,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2020P.5.3",
+          "numer": "5.3",
+          "punkty": 3,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.3 (0-3)\nUtworz wykres liniowy przedstawiajacy ksztaltowanie sie ilosci wody w zbiorniku w okresie od 1 kwietnia do 30 wrzesnia 2015 roku. Pamietaj o czytelnym opisie wykresu (tytul, opis osi). Przyjmij jako stan zbiornika kazdego dnia wartosc o godzinie 21:00 po podlaniu roslin.",
+          "odpowiedz": "Wykres liniowy 'stan zbiornika' pokazujacy poziom wody od 1 kwietnia do 30 wrzesnia 2015. Wykres zaczyna od 25000 litrow i maleje w okresach podlewania, z okresowymi uzupelnieniami do pelna z wodociagu.",
+          "zasady_oceniania": "3 pkt - za podanie poprawnej odpowiedzi (poprawny wykres liniowy), w tym:\n1 pkt - za prawidlowy dobor danych do wykresu,\n1 pkt - za odpowiedni typ wykresu,\n1 pkt - za opis wykresu.\n0 pkt - za bledna odpowiedz albo brak odpowiedzi.",
+          "pulapki": [
+            "Musi byc wykres liniowy, nie inny typ",
+            "Opis osi i tytul sa wymagane za pelna punktacje"
+          ],
+          "wymiary": {
+            "czasowy_min": 10,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2020P.5.4",
+          "numer": "5.4",
+          "punkty": 4,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.4 (0-4)\nWykonaj zestawienie miesieczne (w okresie kwiecien - wrzesien 2015 roku) kosztow dolewanej wody z wodociagu. Wez pod uwage, ze cena 1 m^3 (1000 litrow) jest rowna 11,74 zl. Oplaty sa realizowane miesiecznie i dotycza pelnych m^3 (po zaokragleniu w gore).",
+          "odpowiedz": "miesiac | koszt\nkwiecien | 0\nmaj | 164,36\nczerwiec | 1056,6\nlipiec | 2559,32\nsierpien | 3651,14\nwrzesien | 1326,62",
+          "zasady_oceniania": "4 pkt - za podanie poprawnej odpowiedzi.\n3 pkt - za podanie zestawienia z piecioma poprawnymi wartosciami.\n2 pkt - za podanie zestawienia z czterema poprawnymi wartosciami lub za poprawne obliczenie liczby metrow szesciennych wody w kazdym miesiacu.\n1 pkt - za podanie zestawienia z dwoma poprawnymi wartosciami lub za poprawne zliczenie liczby litrow wody w kazdym miesiacu (bez policzenia liczby metrow szesciennych i kosztow).\n0 pkt - za bledna odpowiedz albo brak odpowiedzi.",
+          "pulapki": [
+            "Zaokraglanie w gore do pelnych m^3 przed mnozeniem przez cene",
+            "Kwiecien moze miec koszt 0 jesli nie bylo dolewania",
+            "Wymaga kompletnej symulacji zbiornika dzien po dniu"
+          ],
+          "wymiary": {
+            "czasowy_min": 20,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        }
+      ]
+    },
+    {
+      "numer": 6,
+      "tytul": "Salon urody",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Salon urody 'BEAUTY' swiadczy uslugi kosmetyczne oraz fryzjerskie. Kazdy klient, korzystajacy z uslug salonu, podczas pierwszej wizyty otrzymuje karte z unikatowym identyfikatorem, ktory jest zlozony z litery oraz liczby. W przypadku mezczyzn jest to litera 'Y', a w przypadku kobiet - litera 'X'. Na przyklad: X10 lub Y20.\n\nListe klientow i przydzielone im identyfikatory zawiera plik klienci.txt. W kazdym wierszu pliku zapisane sa dane jednego klienta (id_klienta, imie i nazwisko).\n\nPlik zabiegi.txt zawiera wykaz zabiegow oferowanych przez salon urody. W kazdym wierszu zapisany jest: kod_zabiegu (zlozony z trzech liter i liczby), nazwa dzialu (dzial), z ktorego zabieg pochodzi, nazwa zabiegu (zabieg) oraz jego cena (cena w zl).\n\nKazda wizyta w salonie jest rejestrowana. Plik wizytydane.txt zawiera id_wizyty, date w formacie rrrr-mm-dd, numer wizyty w danym dniu (nr_wizyty) i id_klienta.\n\nW pliku wizytyzabiegi.txt zapisano informacje, z jakich zabiegow klient korzystal podczas wizyty w salonie. W kazdym wierszu umieszczono id_wizyty i kod_zabiegu. Podczas jednej wizyty klient mogl skorzystac z kilku zabiegow, a wiec id_wizyty moze sie powtarzac.\n\nUwaga: Informacje o wizytach klientow zapisane w plikach wizytydane.txt oraz wizytyzabiegi.txt obejmuja prace salonu 'BEAUTY' w okresie od 10 listopada 2017 roku do 27 stycznia 2018 roku. Pierwszy wiersz kazdego z plikow jest wierszem naglowkowym, a dane sa oddzielone tabulatorami. Dane w plikach sa zapisane bez polskich znakow.",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2020_probna_kwiecien/",
+      "pliki_danych": ["klienci.txt", "zabiegi.txt", "wizytydane.txt", "wizytyzabiegi.txt"],
+      "podzadania": [
+        {
+          "id": "2020P.6.1",
+          "numer": "6.1",
+          "punkty": 1,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.1 (0-1)\nPodaj kwote, jaka za wszystkie wizyty zaplacila Alicja Kowalska.",
+          "odpowiedz": "3841",
+          "zasady_oceniania": "1 pkt - za podanie poprawnej odpowiedzi.\n0 pkt - za bledna odpowiedz albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba polaczyc klienci + wizytydane + wizytyzabiegi + zabiegi",
+            "Suma cen wszystkich zabiegow ze wszystkich wizyt danej klientki"
+          ],
+          "wymiary": {
+            "czasowy_min": 5,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2020P.6.2",
+          "numer": "6.2",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.2 (0-2)\nPodaj imie i nazwisko oraz liczbe wizyt klienta(klientki), ktory(-a) najczesciej korzystal(-a) z uslug salonu.",
+          "odpowiedz": "Johan Bor, 20",
+          "zasady_oceniania": "2 pkt - za podanie poprawnej odpowiedzi, w tym:\n1 pkt - za podanie prawidlowego imienia i nazwiska,\n1 pkt - za podanie liczby wizyt.\n0 pkt - za bledna odpowiedz albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba policzyc wizyty (nie zabiegi) - unikalne id_wizyty na klienta",
+            "Join klienci + wizytydane, GROUP BY id_klienta, COUNT"
+          ],
+          "wymiary": {
+            "czasowy_min": 10,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2020P.6.3",
+          "numer": "6.3",
+          "punkty": 3,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.3 (0-3)\nPodaj liczbe oraz daty (w porzadku nierosnacym) wszystkich wizyt w salonie, podczas ktorych wykonano zabieg Magia Hawajow ('Magia Hawajow').",
+          "odpowiedz": "21\n\n25.01.2018\n20.01.2018\n18.01.2018\n12.01.2018\n10.01.2018\n04.01.2018\n04.01.2018\n03.01.2018\n22.12.2017\n21.12.2017\n19.12.2017\n18.12.2017\n14.12.2017\n12.12.2017\n08.12.2017\n06.12.2017\n04.12.2017\n27.11.2017\n22.11.2017\n20.11.2017\n13.11.2017",
+          "zasady_oceniania": "3 pkt - za podanie poprawnej odpowiedzi, w tym:\n1 pkt - za podanie liczby,\n1 pkt - za podanie dat,\n1 pkt - za posortowanie dat.\n0 pkt - za inna bledna odpowiedz albo brak odpowiedzi.",
+          "pulapki": [
+            "Sortowanie nierosnaco = od najnowszej do najstarszej",
+            "Join wizytydane + wizytyzabiegi + zabiegi, WHERE zabieg = 'Magia Hawajow'"
+          ],
+          "wymiary": {
+            "czasowy_min": 15,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2020P.6.4",
+          "numer": "6.4",
+          "punkty": 3,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.4 (0-3)\nW dniach od 6 grudnia 2017 roku do 15 stycznia 2018 roku (wlacznie) salon urody 'BEAUTY' oferowal dla Pan 20% znizke na dowolny makijaz.\nPodaj liczbe roznych kobiet, ktore skorzystaly z promocji w tym okresie (czyli wykonywaly dowolny makijaz).\nPodaj, ile lacznie zaplacily za makijaz wszystkie kobiety, ktore skorzystaly z promocji (pamietaj o uwzglednieniu 20% znizki).",
+          "odpowiedz": "Liczba: 7\nSuma: 400",
+          "zasady_oceniania": "3 pkt - za podanie poprawnej odpowiedzi.\n2 pkt - za podanie prawidlowej liczby roznych kobiet i sumy kosztow makijazu bez uwzglednienia rabatu lub za podanie poprawnej sumy, ale bez podania liczby kobiet.\n1 pkt - za podanie tylko liczby kobiet lub za zliczenie lacznej sumy kosztow wykonania makijazu w okresie promocji bez uwzglednienia rabatu.\n0 pkt - za bledna odpowiedz albo brak odpowiedzi.",
+          "pulapki": [
+            "Kobiety to id_klienta zaczynajace sie od 'X'",
+            "Makijaz - trzeba zidentyfikowac zabiegi z dzialu makijazu",
+            "Znizka 20% - suma * 0.8",
+            "Okres od 6.12.2017 do 15.01.2018 wlacznie"
+          ],
+          "wymiary": {
+            "czasowy_min": 15,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2020P.6.5",
+          "numer": "6.5",
+          "punkty": 3,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.5 (0-3)\nPodaj nazwy zabiegow z dzialu 'Fryzjer meski', z ktorych nikt nie skorzystal w okresie, ktory obejmuja dane (czyli od 10 listopada 2017 roku do 27 stycznia 2018 roku).",
+          "odpowiedz": "zabiegi:\nOdsiwianie\nKuracja L'Oreal\nRytual Kerastase (dyscyplinujacy)\nMaska Masquargil",
+          "zasady_oceniania": "3 pkt - za podanie poprawnej odpowiedzi.\n2 pkt - za podanie poprawnie tylko trzech nazw.\n1 pkt - za podanie poprawnie tylko dwoch nazw.\n0 pkt - za bledna odpowiedz albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba znalezc zabiegi z 'Fryzjer meski' ktorych kod_zabiegu NIE wystepuje w wizytyzabiegi",
+            "Uzyj NOT IN lub LEFT JOIN ... IS NULL"
+          ],
+          "wymiary": {
+            "czasowy_min": 15,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        }
+      ]
+    }
+  ]
+}

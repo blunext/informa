@@ -1,7 +1,7 @@
 # Przewodnik ucznia — matura rozszerzona z informatyki
 
 > Ten dokument to Twoj punkt startu. Masz przed soba kompletny zestaw
-> materialow do nauki, oparty na analizie 11 lat prawdziwych egzaminow CKE
+> materialow do nauki, oparty na analizie 12 lat prawdziwych egzaminow CKE
 > (2014-2025). Znajdziesz tu arkusze egzaminacyjne, sciagawki, szablony kodu,
 > 937 cwiczen i rozwiazania wzorcowe. Wszystko poukładane tak, zebys nie tracil
 > czasu na szukanie — tylko na nauke.
@@ -36,7 +36,7 @@ zrobienia — wiec zaczynaj od nich, a C++ zostaw na koniec (wiecej w rozdziale 
 
 ## 2. Co musisz umiec — absolutne minimum
 
-Z analizy 11 lat wynika jasna hierarchia. Te tematy pojawiaja sie prawie zawsze:
+Z analizy 12 lat wynika jasna hierarchia. Te tematy pojawiaja sie prawie zawsze:
 
 **MUSISZ umiec (100% egzaminow):**
 
@@ -49,20 +49,20 @@ Z analizy 11 lat wynika jasna hierarchia. Te tematy pojawiaja sie prawie zawsze:
 4. **Arkusz kalkulacyjny** — SUMIFS, COUNTIFS, VLOOKUP, wykresy z opisami.
    Zawsze jest przynajmniej jedno zadanie arkuszowe.
 
-**Bardzo czeste (73-82% egzaminow):**
+**Bardzo czeste (75-83% egzaminow):**
 
-5. **Systemy liczbowe** (82%) — konwersje miedzy bin/dec/hex. Czesto w czesci
+5. **Systemy liczbowe** (83%) — konwersje miedzy bin/dec/hex. Czesto w czesci
    teoretycznej, ale tez w zadaniach programistycznych.
-6. **Rekurencja** (73%) — sledzenie wywolan, obliczanie wartosci. Musisz umiec
+6. **Rekurencja** (75%) — sledzenie wywolan, obliczanie wartosci. Musisz umiec
    "rozpisac" rekurencje na kartce.
-7. **Sortowanie** (73%) — znajomosc algorytmow, zlozonosc, zastosowanie.
-8. **NWD / teoria liczb** (73%) — algorytm Euklidesa, dzielniki, liczby pierwsze.
+7. **Sortowanie** (75%) — znajomosc algorytmow, zlozonosc, zastosowanie.
+8. **NWD / teoria liczb** (75%) — algorytm Euklidesa, dzielniki, liczby pierwsze.
 
 ---
 
 ## 3. Mapa materialow — co gdzie znalezc
 
-### Arkusze egzaminacyjne (11 lat)
+### Arkusze egzaminacyjne (12 lat)
 
 | Sciezka | Co to jest |
 |---------|------------|
@@ -70,8 +70,8 @@ Z analizy 11 lat wynika jasna hierarchia. Te tematy pojawiaja sie prawie zawsze:
 | `YYYY_maj/odpowiedzi.pdf` | Klucz odpowiedzi i zasady oceniania |
 | `YYYY_maj/Dane*/` | Pliki z danymi do zadan programistycznych |
 
-Lata: 2014, 2015, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025.
-Brak 2020 (egzamin odwolany — COVID).
+Lata: 2014-2025 (wszystkie lata, bez przerwy).
+2020: egzamin w czerwcu (COVID-19).
 
 Do cwiczen na pelnych arkuszach korzystaj z lat **2023-2025** (nowa formula).
 Starsze lata (2014-2022) sa przydatne do cwiczen tematycznych, ale maja inny
@@ -381,8 +381,8 @@ Masz do dyspozycji interaktywnego korepetytora AI — wpisz `/matura` zeby zacza
 sesje. Co oferuje:
 
 - **937 cwiczen** z 23 typow zadan (40+ na typ) z 3-poziomowymi hintami
-- **230 prawdziwych zadan CKE** z 11 lat egzaminow (sprawdziany typu)
-- **11 probnych matur** — pelna symulacja egzaminu z ocena wg zasad CKE
+- **641 prawdziwych zadan CKE** z 12 lat egzaminow (sprawdziany typu)
+- **12 probnych matur** — pelna symulacja egzaminu z ocena wg zasad CKE
 - **Spaced repetition (FSRS-5)** — adaptacyjne powtorki rozlozone w czasie (interwaly dobierane indywidualnie)
 - **Auto-trudnosc** — poziom rosnie z kazdym sukcesem, spada po porazce
 - **Metoda sokratejska** — naprowadza pytaniami, nie podaje gotowych odpowiedzi

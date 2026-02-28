@@ -1,7 +1,7 @@
 # 20. SQL — GROUP BY z agregacjami
 
 Typ zadania: **sql_group_by**
-Czestotliwosc: 8/11 lat | Laczna punktacja: 36 pkt
+Czestotliwosc: 9/12 lat | Laczna punktacja: 36 pkt
 Kategoria: SQL
 
 ## Umiejetnosci cwiczone w tym zestawie

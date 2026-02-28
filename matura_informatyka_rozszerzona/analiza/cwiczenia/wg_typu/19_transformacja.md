@@ -1,7 +1,7 @@
 # 19. Transformacja danych w arkuszu kalkulacyjnym
 
 Typ zadania: **arkusz_transformacja**
-Czestotliwosc: 2/11 lat | Laczna punktacja: 3 pkt
+Czestotliwosc: 2/12 lat | Laczna punktacja: 3 pkt
 Kategoria: ARKUSZ
 
 ## Umiejetnosci cwiczone w tym zestawie

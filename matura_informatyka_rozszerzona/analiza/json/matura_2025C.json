@@ -215,6 +215,7 @@
       "tytul": "Prawda/Falsz -- formaty graficzne",
       "punkty": 1,
       "czesc": 1,
+      "kontekst": "Ocena prawdziwosci stwierdzen dotyczacych formatow graficznych (JPEG, PNG, SVG, BMP).",
       "wymiary": {
         "czasowy_min": 3,
         "zlozonosc": 1,
@@ -243,6 +244,7 @@
       "tytul": "System trojkowy",
       "punkty": 2,
       "czesc": 1,
+      "kontekst": "Konwersja miedzy systemami liczbowymi z wykorzystaniem systemu trojkowego.",
       "wymiary": {
         "czasowy_min": 5,
         "zlozonosc": 1,

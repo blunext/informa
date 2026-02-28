@@ -2,20 +2,19 @@
 
 ## Status Wykonania
 
-### Ukonczone Analizy (11/11 lat):
+### Ukonczone Analizy (12/12 lat):
 - 2014 - Pelna analiza
 - 2015 - Pelna analiza
 - 2016 - Pelna analiza
 - 2017 - Pelna analiza
 - 2018 - Czesciowa analiza: tylko Czesc I
 - 2019 - Pelna analiza
+- 2020 - Pelna analiza (egzamin glowny odbyl sie w czerwcu z powodu COVID-19, nie w maju)
 - 2021 - Pelna analiza
 - 2022 - Pelna analiza
 - 2023 - Pelna analiza
 - 2024 - Pelna analiza
 - 2025 - Pelna analiza
-
-Brak: 2020 (egzamin odwolany - COVID-19)
 
 ---
 
@@ -48,38 +47,38 @@ Brak: 2020 (egzamin odwolany - COVID-19)
 
 ---
 
-## Ranking Tematow (Na podstawie 11 lat)
+## Ranking Tematow (Na podstawie 12 lat)
 
 ### TIER 1 - Pewne (100%):
-1. **SQL / Bazy danych** - 11/11 = 100% - ZAWSZE na egzaminie
-2. **Operacje na liczbach/cyfrach** - 10/10 = 100% - mod/div, cyfry, podzielnosc
-3. **Przetwarzanie plikow** - 10/10 = 100% - ifstream, parsowanie danych
-4. **Arkusz kalkulacyjny** - 10/10 = 100% - SUM, IF, COUNTIF, wykresy
+1. **SQL / Bazy danych** - 12/12 = 100% - ZAWSZE na egzaminie
+2. **Operacje na liczbach/cyfrach** - 12/12 = 100% - mod/div, cyfry, podzielnosc
+3. **Przetwarzanie plikow** - 12/12 = 100% - ifstream, parsowanie danych
+4. **Arkusz kalkulacyjny** - 12/12 = 100% - SUM, IF, COUNTIF, wykresy
 
 ### TIER 2 - Bardzo czeste (70-85%):
-5. **Systemy liczbowe** - 9/11 = 82% - bin/oct/hex, konwersje
-6. **Rekurencja** - 8/11 = 73% - sledzenie, konwersja na iteracje
-7. **Sortowanie** - 8/11 = 73% - sort, partition, klucze
-8. **Teoria liczb / NWD** - 8/11 = 73% - Euklides, dzielniki, l. pierwsze
+5. **Systemy liczbowe** - 10/12 = 83% - bin/oct/hex, konwersje
+6. **Rekurencja** - 9/12 = 75% - sledzenie, konwersja na iteracje
+7. **Sortowanie** - 9/12 = 75% - sort, partition, klucze
+8. **Teoria liczb / NWD** - 9/12 = 75% - Euklides, dzielniki, l. pierwsze
 
-### TIER 3 - Czeste (55-65%):
-9. **Zlozonosc algorytmow** - 7/11 = 64% - O(n), O(n^2), O(log n)
-10. **Operacje na stringach** - 6/10 = 60% - ASCII, manipulacja tekstem
+### TIER 3 - Czeste (55-70%):
+9. **Zlozonosc algorytmow** - 7/12 = 58% - O(n), O(n^2), O(log n)
+10. **Operacje na stringach** - 8/12 = 67% - ASCII, manipulacja tekstem
 
 ### TIER 4 - Sporadyczne (25-40%):
-11. **Kryptografia / bezpieczenstwo** - 4/11 = 36%
-12. **Sieci komputerowe** - 3/11 = 27%
-13. **Przeszukiwanie binarne** - 3/11 = 27%
-14. **Geometria / matematyka** - 3/11 = 27%
+11. **Kryptografia / bezpieczenstwo** - 4/12 = 33%
+12. **Sieci komputerowe** - 3/12 = 25%
+13. **Przeszukiwanie binarne** - 3/12 = 25%
+14. **Geometria / matematyka** - 3/12 = 25%
 
 ### TIER 5 - Rzadkie (<20%):
-15. Struktury danych (kopiec, BST) - 2/11 = 18%
-16. Programowanie dynamiczne - 1/11 = 9%
-17. Algorytmy zachlanne - 1/11 = 9%
-18. DFS/BFS - 1/11 = 9%
-19. Operacje bitowe (XOR) - 1/11 = 9%
-20. Modele barw - 1/11 = 9%
-21. Technologie web - 1/11 = 9%
+15. Struktury danych (kopiec, BST) - 2/12 = 17%
+16. Programowanie dynamiczne - 1/12 = 8%
+17. Algorytmy zachlanne - 1/12 = 8%
+18. DFS/BFS - 1/12 = 8%
+19. Operacje bitowe (XOR) - 1/12 = 8%
+20. Modele barw - 1/12 = 8%
+21. Technologie web - 1/12 = 8%
 
 ---
 
@@ -88,41 +87,41 @@ Brak: 2020 (egzamin odwolany - COVID-19)
 ### TEORIA I ANALIZA (6 typow, lacznie 164 pkt):
 | Typ zadania | Lat | Laczne pkt | Opis |
 |-------------|-----|-----------|------|
-| sledzenie_algorytmu | 11/11 | 45 | Przesledzic algorytm krok po kroku |
-| projektowanie_algorytmu | 11/11 | 43 | Napisac algorytm/pseudokod |
-| analiza_algorytmu | 10/11 | 37 | Zlozonosc, wlasciwosci, dowody |
-| test_prawda_falsz | 10/11 | 25 | Ocenic prawdziwosc zdan (P/F) |
-| konwersja_systemow_liczbowych | 9/11 | 12 | Konwersje miedzy bazami |
-| teoria_bezpieczenstwa | 2/11 | 2 | Szyfrowanie, protokoly |
+| sledzenie_algorytmu | 12/12 | 45 | Przesledzic algorytm krok po kroku |
+| projektowanie_algorytmu | 12/12 | 43 | Napisac algorytm/pseudokod |
+| analiza_algorytmu | 10/12 | 37 | Zlozonosc, wlasciwosci, dowody |
+| test_prawda_falsz | 11/12 | 25 | Ocenic prawdziwosc zdan (P/F) |
+| konwersja_systemow_liczbowych | 10/12 | 12 | Konwersje miedzy bazami |
+| teoria_bezpieczenstwa | 2/12 | 2 | Szyfrowanie, protokoly |
 
 ### IMPLEMENTACJA (8 typow, lacznie 147 pkt):
 | Typ zadania | Lat | Laczne pkt | Opis |
 |-------------|-----|-----------|------|
-| przetwarzanie_cyfry_liczby | 6/11 | 36 | Cyfry, NWD, potegi, faktoryzacja |
-| przetwarzanie_napisy | 4/11 | 25 | Palindromy, szyfry, ASCII |
-| przetwarzanie_zlozone | 4/11 | 24 | Wieloetapowy algorytm na danych |
-| przetwarzanie_zliczanie | 5/11 | 17 | Zliczanie/filtrowanie danych |
-| przetwarzanie_minmax | 5/11 | 17 | Min/max, sortowanie, rozklad |
-| przetwarzanie_sekwencje | 3/11 | 13 | Najdluzszy podciag, bloki |
-| przetwarzanie_obrazy_2D | 2/11 | 11 | Piksele, siatki, DFS/BFS |
-| obliczenia_geometryczne | 1/11 | 4 | Odleglosci, srodki, pola |
+| przetwarzanie_cyfry_liczby | 7/12 | 36 | Cyfry, NWD, potegi, faktoryzacja |
+| przetwarzanie_napisy | 6/12 | 25 | Palindromy, szyfry, ASCII |
+| przetwarzanie_zlozone | 5/12 | 24 | Wieloetapowy algorytm na danych |
+| przetwarzanie_zliczanie | 5/12 | 17 | Zliczanie/filtrowanie danych |
+| przetwarzanie_minmax | 5/12 | 17 | Min/max, sortowanie, rozklad |
+| przetwarzanie_sekwencje | 3/12 | 13 | Najdluzszy podciag, bloki |
+| przetwarzanie_obrazy_2D | 2/12 | 11 | Piksele, siatki, DFS/BFS |
+| przetwarzanie_geometryczne | 1/12 | 4 | Odleglosci, srodki, pola |
 
 ### ARKUSZ KALKULACYJNY (5 typow, lacznie 112 pkt):
 | Typ zadania | Lat | Laczne pkt | Opis |
 |-------------|-----|-----------|------|
-| arkusz_agregacja_warunkowa | 9/11 | 38 | SUMIF, COUNTIF, AVERAGEIF |
-| arkusz_symulacja | 9/11 | 37 | Symulacje krokowe, formuly dynamiczne |
-| arkusz_wykres | 8/11 | 25 | Kolumnowy, kolowy, liniowy |
-| arkusz_agregacja_podstawowa | 3/11 | 9 | SUM, COUNT, AVERAGE, MAX/MIN |
-| arkusz_transformacja | 2/11 | 3 | Grupowanie, pivoty |
+| arkusz_agregacja_warunkowa | 11/12 | 38 | SUMIF, COUNTIF, AVERAGEIF |
+| arkusz_symulacja | 12/12 | 37 | Symulacje krokowe, formuly dynamiczne |
+| arkusz_wykres | 10/12 | 25 | Kolumnowy, kolowy, liniowy |
+| arkusz_agregacja_podstawowa | 3/12 | 9 | SUM, COUNT, AVERAGE, MAX/MIN |
+| arkusz_transformacja | 2/12 | 3 | Grupowanie, pivoty |
 
 ### SQL (4 typy, lacznie 92 pkt):
 | Typ zadania | Lat | Laczne pkt | Opis |
 |-------------|-----|-----------|------|
-| sql_group_by | 8/11 | 36 | GROUP BY z COUNT/SUM/AVG |
-| sql_podzapytania | 7/11 | 25 | Podzapytania, NOT IN, EXISTS |
-| sql_join | 8/11 | 21 | Laczenie 2-3 tabel JOIN |
-| sql_select_where | 4/11 | 10 | Prosty SELECT z WHERE |
+| sql_group_by | 9/12 | 36 | GROUP BY z COUNT/SUM/AVG |
+| sql_podzapytania | 8/12 | 25 | Podzapytania, NOT IN, EXISTS |
+| sql_join | 9/12 | 21 | Laczenie 2-3 tabel JOIN |
+| sql_select_where | 4/12 | 10 | Prosty SELECT z WHERE |
 
 ### Podsumowanie kategorii:
 | Kategoria | Typow | Laczne pkt | Srednia/rok |
@@ -331,6 +330,6 @@ sort(arr, arr+n, [](auto& a, auto& b) {
 
 ---
 
-*Ostatnia aktualizacja: 2026-02-17*
-*Przeanalizowane lata: 11 (2014-2019, 2021-2025)*
+*Ostatnia aktualizacja: 2026-02-28*
+*Przeanalizowane lata: 12 (2014-2025, w tym 2020 w czerwcu z powodu COVID-19)*
 *Zidentyfikowane tematy: 21, Zidentyfikowane typy zadan: 23*

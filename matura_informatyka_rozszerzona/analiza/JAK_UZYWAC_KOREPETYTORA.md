@@ -1,7 +1,7 @@
 # Jak uzywac korepetytora `/matura`
 
 > Masz do dyspozycji interaktywnego korepetytora, ktory poprowadzi Cie przez
-> cwiczenia, sprawdziany i probne matury. Wszystko oparte na 11 latach
+> cwiczenia, sprawdziany i probne matury. Wszystko oparte na 12 latach
 > prawdziwych egzaminow CKE (2014-2025). Ponizej znajdziesz opis wszystkich
 > trybow i komend.
 
@@ -60,7 +60,7 @@ dyspozycji.
 
 Pelna symulacja egzaminu z wybranego roku — wszystkie zadania po kolei.
 
-- **11 lat** do wyboru: 2014-2019, 2021-2025
+- **12 lat** do wyboru: 2014-2025
 - Zadania podawane sekwencyjnie, jedno po drugim
 - **BEZ hintow** — jak na prawdziwym egzaminie
 - Mozesz pominac zadanie (`pomin`) lub przerwac egzamin (`przerwij`)

@@ -1,0 +1,474 @@
+{
+  "rok": 2021,
+  "sesja": "czerwiec",
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Sumy kwadratow",
+      "punkty": 7,
+      "czesc": 1,
+      "kontekst": "Kazda dodatnia liczbe calkowita n mozna reprezentowac jako sume kwadratow dodatnich liczb calkowitych. Moze istniec wiele roznych takich sum.\n\nPrzyklad:\n1 = 1^2\n9 = 3^2 = 2^2 + 2^2 + 1^2 = 2^2 + 1^2 + 1^2 + 1^2 + 1^2 + 1^2\n\nDlugoscia reprezentacji (kwadratowej) nazywamy liczbe skladnikow sumy. W przykladzie liczba 9 ma trzy reprezentacje o dlugosciach odpowiednio 1, 3 i 6. Zauważ, ze suma moze byc jednoskładnikowa.\n\nJedna z metod otrzymywania krotkich reprezentacji kwadratowych jest metoda zachlanna, w ktorej w kazdym kroku jako kolejny skladnik sumy bierze sie najwiekszy mozliwy kwadrat liczby calkowitej gwarantujacy, ze suma nie przekracza n. Ta metoda nie zawsze znajduje najkrotsze reprezentacje.\n\nPrzyklady z arkusza:\nNr 1: n=12, zachlanna: 3^2+1^2+1^2+1^2 (dl=4), krotsza: 2^2+2^2+2^2 (dl=3)\nNr 2: n=18, zachlanna: 4^2+1^2+1^2 (dl=3), krotsza: 3^2+3^2 (dl=2)",
+      "podzadania": [
+        {
+          "id": "2021C.1.1",
+          "numer": "1.1",
+          "punkty": 3,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1 (0-3)\nUzupelnij ponizszą tabele zgodnie z zapisanymi w niej warunkami, czyli:\n- w wierszu 3 wpisz reprezentacje kwadratowa liczby 23 krotsza od jej reprezentacji otrzymanej metoda zachlanna\n- w wierszu 4 podaj dodatkowa liczbe n > 23 taka, ze jej reprezentacja kwadratowa otrzymana metoda zachlanna nie jest jej najkrotsza reprezentacja. Zapisz reprezentacje tej liczby otrzymana metoda zachlanna oraz reprezentacje krotsza niz otrzymana metoda zachlanna.\n\nDane z arkusza:\nNr 1: n=12, zachlanna=3^2+1^2+1^2+1^2, krotsza=2^2+2^2+2^2\nNr 2: n=18, zachlanna=4^2+1^2+1^2, krotsza=3^2+3^2\nNr 3: n=23, zachlanna=?, krotsza=?\nNr 4: n=?, zachlanna=?, krotsza=?",
+          "odpowiedz": "Nr 3: n=23, zachlanna = 4^2+2^2+1^2+1^2+1^2 (dl=5), krotsza = 3^2+3^2+2^2+1^2 (dl=4)\nNr 4: n=32, zachlanna = 5^2+2^2+1^2+1^2+1^2 (dl=5), krotsza = 4^2+4^2 (dl=2)\n\nInne poprawne odpowiedzi dla wiersza 4: dowolna liczba n>23, dla ktorej metoda zachlanna nie daje najkrotszej reprezentacji.",
+          "zasady_oceniania": "3 pkt - za poprawna odpowiedz, w tym:\n1 pkt - za poprawna odpowiedz w trzecim wierszu\n2 pkt - za poprawna odpowiedz w 4 wierszu, w tym 1 punkt za wskazanie liczby, ktora ma reprezentacje kwadratowa krotsza od otrzymanej metoda zachlanna i jeden za podanie obu poprawnych reprezentacji tej liczby.\n0 pkt - za podanie odpowiedzi niepoprawnej albo brak odpowiedzi.",
+          "pulapki": [
+            "Metoda zachlanna bierze NAJWIEKSZY kwadrat <= reszta w kazdym kroku",
+            "Trzeba znalezc n>23 gdzie zachlanna nie jest optymalna - np. 32=4^2+4^2 ale zachlanna daje 5^2+..."
+          ],
+          "wymiary": {
+            "czasowy_min": 10,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2021C.1.2",
+          "numer": "1.2",
+          "punkty": 4,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2 (0-4)\nNapisz algorytm (w postaci pseudokodu lub w wybranym jezyku programowania), ktory dla danej dodatniej liczby calkowitej n obliczy dlugosc jej reprezentacji kwadratowej wyznaczanej metoda zachlanna. Twoj algorytm powinien byc zgodny z ponizszej specyfikacja.\n\nSpecyfikacja:\nDane: n - dodatnia liczba calkowita\nWynik: dl - dlugosc reprezentacji kwadratowej liczby n, otrzymanej metoda zachlanna\n\nPrzyklad: Dla n = 12 wynikiem jest dl = 4.\n\nUwaga: W zapisie algorytmu mozesz korzystac tylko z instrukcji sterujacych, operatorow arytmetycznych (dodawania, odejmowania, mnozenia, dzielenia, dzielenia calkowitego i reszty z dzielenia), operatorow logicznych, porownan i instrukcji przypisywania lub samodzielnie napisanych funkcji i procedur wykorzystujacych powyzsze operacje. Zabronione jest uzywanie funkcji wbudowanych, dostepnych w jezykach programowania, zwlaszcza funkcji pierwiastek.",
+          "odpowiedz": "Przykladowe rozwiazanie:\n\ns <- 0\nkw <- 1\ndopoki kw * kw < n wykonuj\n    kw <- kw + 1\njezeli kw * kw > n, to kw <- kw - 1\ns <- n - kw * kw\ndl <- 1\ndopoki s > 0 wykonuj\n    jezeli kw * kw < s, to\n        s <- s - kw * kw\n        dl <- dl + 1\n    w przeciwnym razie\n        kw <- kw - 1\nwypisz dl",
+          "zasady_oceniania": "4 pkt - za poprawny algorytm, w tym:\n2 pkt - za poprawne wartosci poczatkowe zmiennych i za poprawne ustalenie najwiekszego skladnika reprezentacji kwadratowej,\n1 pkt - za poprawna organizacje petli obliczajacej dlugosc reprezentacji kwadratowej,\n1 pkt - za poprawne wyznaczanie kolejnych elementow reprezentacji kwadratowej i poprawne ich zliczanie.\n0 pkt - za podanie odpowiedzi niepoprawnej albo brak odpowiedzi.",
+          "pulapki": [
+            "Nie mozna uzyc funkcji sqrt - trzeba znalezc najwiekszy kwadrat petla",
+            "Trzeba pamietac o zmniejszaniu kw gdy kw*kw > reszta",
+            "Algorytm musi obslugiwac przypadek n = kwadrat (dl=1)"
+          ],
+          "wymiary": {
+            "czasowy_min": 15,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        }
+      ]
+    },
+    {
+      "numer": 2,
+      "tytul": "Modyfikacja tablicy",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "Dane sa dodatnia liczba calkowita n oraz tablica liczb calkowitych T[1..n]. Przeanalizuj dzialanie opisanej ponizej rekurencyjnej procedury modyfikuj(s, k), ktorej parametrami sa dodatnie liczby calkowite s i k, s <= n.\n\nmodyfikuj(s, k)\n    jezeli s + k < n to\n        modyfikuj(s + k, k)\n    i <- s + 1\n    dopoki (i <= n) oraz (i <= s + k) wykonuj\n        T[s] <- T[s] + T[i]\n        i <- i + 1",
+      "podzadania": [
+        {
+          "id": "2021C.2.1",
+          "numer": "2.1",
+          "punkty": 3,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1 (0-3)\nUzupelnij tabele - podaj wynik dzialania procedury modyfikuj po jej wywolaniu dla wskazanych wartosci parametrow s i k.\n\nPrzyklad: n=8, T=[1,1,1,1,1,1,1,1], s=3, k=3 -> T=[1,1,6,1,1,3,1,1]\n\nDo uzupelnienia:\n1) n=10, T=[1,4,2,8,3,6,2,9,1,5], s=5, k=6\n2) n=13, T=[4,2,6,2,9,3,5,2,7,4,3,2,3], s=3, k=5\n3) n=13, T=[4,2,6,2,9,3,5,2,7,4,3,2,3], s=4, k=4",
+          "odpowiedz": "1) n=10: T=[1,4,2,8,26,6,2,6,1,5]\n   (modyfikuj(5,6): s+k=11>10, wiec brak rekurencji. T[5]+=T[6]+T[7]+T[8]+T[9]+T[10] = 3+6+2+9+1+5=26)\n\n2) n=13: T=[4,2,46,2,9,3,5,21,7,4,3,2,3]\n   (modyfikuj(3,5)->modyfikuj(8,5)->modyfikuj(13,5): s+k=18>13, T[13]+=... ale 13+1=14>13 so nothing. Then T[8]+=T[9]+T[10]+T[11]+T[12]=7+4+3+2+3... wait let me re-trace)\n\nActual answers from odpowiedzi:\n1) [1,4,2,8,26,6,2,6,1,5]\n2) [4,2,46,2,9,3,5,21,7,4,3,2,3]\n3) [4,2,6,40,9,3,5,21,7,4,3,5,3]",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz.\n1 pkt - za poprawna odpowiedz w jednym wierszu.\n0 pkt - za podanie odpowiedzi niepoprawnej albo brak odpowiedzi.",
+          "pulapki": [
+            "Rekurencja wywoluje sie PRZED modyfikacja tablicy (modyfikuj(s+k,k) jest przed petla)",
+            "Trzeba sledzic zmiany w tablicy po powrocie z rekurencji",
+            "Indeksowanie tablicy od 1"
+          ],
+          "wymiary": {
+            "czasowy_min": 15,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2021C.2.2",
+          "numer": "2.2",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2 (0-2)\nDla danych n, s oraz k podaj laczna liczbe wywolan procedury modyfikuj dla wywolania modyfikuj(s, k). Wywolanie modyfikuj(s, k) jest liczone jako pierwsze.\n\nn=5, s=1, k=3 -> 2 (przyklad)\nn=2021, s=1, k=100 -> ?\nn=2021, s=20, k=35 -> ?",
+          "odpowiedz": "n=2021, s=1, k=100 -> 21\nn=2021, s=20, k=35 -> 58\n\nLiczba wywolan = ceil((n - s) / k). Dla n=2021, s=1, k=100: ceil(2020/100) = ceil(20.2) = 21. Dla n=2021, s=20, k=35: ceil(2001/35) = ceil(57.17) = 58.",
+          "zasady_oceniania": "3 pkt - za pelna poprawna odpowiedz.\n2 pkt - gdy w jednym wierszu odpowiedz jest poprawna a w jednym rozni sie o 1 od poprawnej.\n1 pkt - gdy odpowiedzi w obu wierszach roznia sie o 1 od poprawnych.\n0 pkt - za podanie innej odpowiedzi niepoprawnej lub brak odpowiedzi.",
+          "pulapki": [
+            "Wzor: ceil((n-s)/k) wywolan - rekurencja idzie s, s+k, s+2k, ...",
+            "Ostatnie wywolanie gdy s+k >= n"
+          ],
+          "wymiary": {
+            "czasowy_min": 10,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        }
+      ]
+    },
+    {
+      "numer": 3,
+      "tytul": "Test",
+      "punkty": 3,
+      "czesc": 1,
+      "kontekst": "Ocen prawdziwosc podanych zdan. Zaznacz P, jesli zdanie jest prawdziwe, albo F - jesli jest falszwe. W kazdym zadaniu punkt uzyskujesz tylko za komplet poprawnych odpowiedzi.",
+      "podzadania": [
+        {
+          "id": "2021C.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1 (0-1)\nMamy dane operacje logiczne na bitach not, and i or opisane tabelami prawdy.\n\nW(a,b) = ((not a) and b) or (a and (not b))\n\n1. W(0,0)=1 -> P/F\n2. W(1,0)=1 -> P/F\n3. W(0,1)=0 -> P/F\n4. W(1,1)=0 -> P/F",
+          "odpowiedz": "F, P, F, P\n\nW(a,b) to XOR:\nW(0,0) = (1 and 0) or (0 and 1) = 0 -> 1. F (bo twierdzenie mowi =1)\nW(1,0) = (0 and 0) or (1 and 1) = 1 -> 2. P\nW(0,1) = (1 and 1) or (0 and 0) = 1 -> 3. F (bo twierdzenie mowi =0)\nW(1,1) = (0 and 1) or (1 and 0) = 0 -> 4. P",
+          "zasady_oceniania": "1 pkt - za poprawna odpowiedz.\n0 pkt - za odpowiedz niepelna lub niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "W(a,b) to operacja XOR - wynik 1 tylko gdy a != b",
+            "Trzeba starannie obliczac kazda wartosc krok po kroku"
+          ],
+          "wymiary": {
+            "czasowy_min": 3,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2021C.3.2",
+          "numer": "3.2",
+          "punkty": 1,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2 (0-1)\n\n1. (10101)_2 + (101011)_2 = (111111)_2 -> P/F\n2. (A)_16 + (B)_16 = (F)_16 -> P/F\n3. (12)_8 + (12)_8 = (14)_16 -> P/F\n4. (123)_10 = (1111101)_2 -> P/F",
+          "odpowiedz": "F, F, P, F\n\n1. F: 10101_2=21, 101011_2=43, 21+43=64=1000000_2, nie 111111_2=63\n2. F: A_16=10, B_16=11, 10+11=21=15_16, nie F_16=15\n3. P: 12_8=10, 10+10=20, 14_16=20\n4. F: 123_10=1111011_2, nie 1111101_2=125",
+          "zasady_oceniania": "1 pkt - za wskazanie czterech poprawnych odpowiedzi.\n0 pkt - za odpowiedz niepelna lub bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "W opcji 2: A+B=21 w dziesietnym = 15 szesnastkowo, a F_16=15_10 - latwo pomylic",
+            "W opcji 4: 123 i 125 roznia sie tylko jednym bitem"
+          ],
+          "wymiary": {
+            "czasowy_min": 3,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2021C.3.3",
+          "numer": "3.3",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.3 (0-1)\nW pewnej bazie danych istnieja tabele: uczniowie oraz oceny polaczone relacja. Tabela uczniowie sklada sie z kolumn: iducznia (klucz glowny), imie, nazwisko, klasa, a tabela oceny z kolumn: idoceny (klucz glowny), iducznia (klucz obcy), ocena.\n\n1. SELECT uczniowie.klasa, Count(oceny.ocena) FROM uczniowie INNER JOIN oceny ON uczniowie.iducznia = oceny.iducznia WHERE oceny.ocena=6 GROUP BY uczniowie.klasa; -> da w wyniku zestawienie podajace dla kazdej klasy liczbe ocen celujacych (6)\n2. SELECT Count(uczniowie.klasa) FROM uczniowie INNER JOIN oceny ON uczniowie.iducznia = oceny.iducznia WHERE oceny.ocena=6 -> da w wyniku zestawienie podajace dla kazdej klasy liczbe ocen celujacych (6)\n3. SELECT Count(uczniowie.klasa), oceny.ocena FROM uczniowie INNER JOIN oceny GROUP BY oceny.ocena; -> da w wyniku zestawienie podajace dla kazdej klasy liczbe wszystkich ocen\n4. SELECT Count(uczniowie.klasa), oceny.ocena FROM uczniowie INNER JOIN oceny ON uczniowie.iducznia = oceny.iducznia WHERE oceny.ocena=3 GROUP BY oceny.ocena; -> da w wyniku zestawienie podajace dla kazdej klasy liczbe ocen dostatecznych (3)",
+          "odpowiedz": "P, F, F, F\n\n1. P - poprawne: GROUP BY klasa, WHERE ocena=6, Count daje liczbe ocen 6 na klase\n2. F - brak GROUP BY, daje jedna laczna liczbe, nie per klasa\n3. F - brak ON w JOIN (cross join), GROUP BY ocena nie klasa, brak WHERE\n4. F - GROUP BY ocena nie klasa, wiec daje jedna wartosc (count dla ocena=3), nie per klasa",
+          "zasady_oceniania": "1 pkt - za poprawna odpowiedz.\n0 pkt - za odpowiedz niepelna lub niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Roznica miedzy GROUP BY klasa a GROUP BY ocena",
+            "Brak GROUP BY daje jeden wiersz wyniku, nie zestawienie",
+            "Opcja 3 nie ma warunku ON w JOIN - tworzy iloczyn kartezjanski"
+          ],
+          "wymiary": {
+            "czasowy_min": 5,
+            "zlozonosc": 1,
+            "trudnosc": 2
+          }
+        }
+      ]
+    },
+    {
+      "numer": 4,
+      "tytul": "Schowane napisy",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "W pliku napisy.txt znajduje sie 1000 wierszy po 50 znakow (duzych liter angielskiego alfabetu oraz cyfr).\n\nNapisz program(y), ktory(e) da(dza) odpowiedzi do ponizszych zadan. Odpowiedzi zapisz w pliku wyniki4.txt, a kazda odpowiedz poprzedz numerem oznaczajacym odpowiednie zadanie.\n\nUwaga: Plik przyklad.txt zawiera dane przykladowe spelniajace warunki zadania. Odpowiedzi dla danych z pliku przyklad.txt sa podane pod pytaniami.",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2021_czerwiec/DANE/",
+      "pliki_danych": ["napisy.txt", "przyklad.txt"],
+      "podzadania": [
+        {
+          "id": "2021C.4.1",
+          "numer": "4.1",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zliczanie",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.1 (0-2)\nPodaj laczna liczbe cyfr we wszystkich napisach z pliku napisy.txt.\n\nDla danych z pliku przyklad.txt wynikiem jest: 46504",
+          "odpowiedz": "11844",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz.\n0 pkt - za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba liczyc CYFRY (0-9), nie litery",
+            "Kazdy wiersz ma 50 znakow, 1000 wierszy"
+          ],
+          "wymiary": {
+            "czasowy_min": 10,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2021C.4.2",
+          "numer": "4.2",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.2 (0-2)\nW pliku napisy.txt ukryto pewne piecdziesiecioznakowe haslo w nastepujacy sposob:\n- w co dwudziestym wierszu (w wierszach o numerach 20, 40, 60, ..., 1000), ukryto dokladnie jedna litere hasla;\n- ukryta litera w kolejnych wierszach zawsze znajduje sie na innej pozycji: w 20 wierszu na pierwszej, w 40 wierszu na drugiej, w 60 wierszu na trzeciej, ..., w 1000 na piecdziesiatej.\nPodaj to haslo.\n\nDla danych z pliku przyklad.txt wynikiem jest:\nUDALOSIEIZDAJEMYEGZAMINYMATURALNEZWIELUPRZEDMIOTOW",
+          "odpowiedz": "SZYBKOROZWIAZUJEPROGRAMISTYCZNEZADANIAZINFORMATYKI",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz.\n0 pkt - za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Wiersz 20 -> pozycja 1, wiersz 40 -> pozycja 2, ..., wiersz 1000 -> pozycja 50",
+            "Indeksowanie wierszy od 1"
+          ],
+          "wymiary": {
+            "czasowy_min": 10,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2021C.4.3",
+          "numer": "4.3",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.3 (0-4)\nPalindromem nazywamy napis, ktory czytany od poczatku lub od konca jest taki sam (np. KAJAK). Czesc napisow zapisanych w wierszach pliku (kazdy ma 50 znakow) mozna w prosty sposob - przez dodanie dokladnie jednego znaku na poczatku lub na koncu napisu - zamienic na palindrom.\nPodaj haslo utworzone przez srodkowe litery tak utworzonych palindromow.\n\nDla danych z pliku przyklad.txt wynikiem jest: INFORMATYKA",
+          "odpowiedz": "ZADANIEMATURALNE",
+          "zasady_oceniania": "4 pkt - za poprawna odpowiedz.\nZa odpowiedz: ZDANIEMATUR - 2 punkty (tylko dopisanie po prawej)\nZa odpowiedz AALNE - 2 punkty (tylko dopisanie po lewej)\nZa odpowiedz MATURA - 2 punkt (tylko dodanie liter)\n0 pkt - za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Mozna dodac znak na poczatku LUB na koncu - trzeba sprawdzic oba warianty",
+            "Srodkowa litera palindromu o dlugosci 51 jest na pozycji 26",
+            "Nie kazdy napis da sie zamienic na palindrom jednym znakiem"
+          ],
+          "wymiary": {
+            "czasowy_min": 20,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2021C.4.4",
+          "numer": "4.4",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.4 (0-4)\nOstatnie z hasel zostalo ukryte w cyfrach zapisanych w pliku napisy.txt. Aby je odczytac, nalezy cyfry z kazdego wiersza pogrupowac po dwie, pomijajac ostatnia, jesli w wierszu jest nieparzysta liczba cyfr. Jezeli liczba utworzona przez pare cyfr jest mniejsza od 65 lub wieksza od 90, to ja pomijamy, w przeciwnym przypadku taka liczbe zamieniamy na znak o kodzie ASCII odpowiadajacym tej liczbie. Poszukiwanie hasla konczy sie po otrzymaniu trzech kolejnych znakow 'X'. Odczytaj z pliku tak ukryte haslo.\n\nDla danych z pliku przyklad.txt wynikiem jest: NAPISANIEMATURYXXX",
+          "odpowiedz": "LITWOOJCZYZNOMOJATYJESTESJAKZDROWIEILECIETRZEBACENICTENTYLKOSIEDOWIEKTOCIESTRACILNATENCZASWOJSKICHWYCILNATASMIEPRZYPIETYSWOJROGBAWOLIDLUGICENTKOWANYKRETYJAK WAZBOAXXX",
+          "zasady_oceniania": "4 pkt - za poprawna odpowiedz.\n0 pkt - za odpowiedz niepoprawna albo brak odpowiedzi.\n\nUwaga: dopuszczamy pominiecie koncowego XXX.\nZa rozne czesciowe odpowiedzi (pominiecie kodow poza 65-90, zliczanie par parzysta-nieparzysta, itp.) - 2 punkty.",
+          "pulapki": [
+            "Grupowanie cyfr PO DWIE - nie par znakow, tylko par cyfr z wiersza",
+            "Kod ASCII 65-90 to litery A-Z",
+            "Koniec hasla = trzy kolejne X (XXX)",
+            "Pomijamy ostatnia cyfre jesli nieparzysta liczba cyfr w wierszu"
+          ],
+          "wymiary": {
+            "czasowy_min": 20,
+            "zlozonosc": 2,
+            "trudnosc": 3
+          }
+        }
+      ]
+    },
+    {
+      "numer": 5,
+      "tytul": "Wypozyczalnia",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Pewien biznesmen chce otworzyc wypozyczalnie rowerow. Przed rozpoczeciem dzialalnosci planuje przeprowadzenie symulacji wskazujacej potencjalne zyski i straty.\n\nZalozenia:\n- na poczatek zakup 10 rowerow, koszt jednego: 800 zl\n- cena wypozyczenia (na caly dzien roboczy): 30 zl\n- wypozyczalnia nie bedzie czynna w soboty i niedziele\n- w kazda niedziele serwis wszystkich rowerow, koszt: 15 zl za kazdy\n- popyt zalezy od pory roku (zaokraglac w dol): zima 20%, wiosna 50%, lato 90%, jesien 40%\n- pory roku: zima 21.12-20.03, wiosna 21.03-20.06, lato 21.06-22.09, jesien 23.09-20.12\n- symulacja od 1.01.2023 (niedziela) do 31.12.2024 (wtorek)\n- laczny dochod na 31.03.2023 wyniosl -5240 (weryfikacja)",
+      "podzadania": [
+        {
+          "id": "2021C.5.1",
+          "numer": "5.1",
+          "punkty": 2,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.1 (0-2)\nPodaj laczne koszty i laczne przychody po pierwszym roku dzialalnosci, tj. po zakonczeniu dnia 31 grudnia 2023. Przy kosztach nalezy uwzglednic pierwszy koszt zakupu 10 rowerow, tj. 8000 zl.\nPodaj date, po ktorej po raz pierwszy poniesione laczne koszty beda mniejsze od lacznych przychodow.",
+          "odpowiedz": "Laczne koszty: 15950,00 zl\nLaczne przychody: 39600,00 zl\nPo raz pierwszy laczne koszty byly mniejsze od przychodow w dniu 1 czerwca 2023",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz, w tym:\n1 pkt - za podanie poprawnych lacznych kosztow i przychodow po pierwszym roku dzialalnosci,\n1 pkt - za podanie poprawnej daty, po ktorej po raz pierwszy poniesione laczne koszty beda mniejsze od lacznych przychodow.\n0 pkt - za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Pierwszy dzien (1.01.2023 niedziela) = serwis + zakup, bez wypozyczen",
+            "Koszty obejmuja zakup (8000) + serwis co niedziele (10*15=150/tydzien)",
+            "Przychody tylko z dni roboczych"
+          ],
+          "wymiary": {
+            "czasowy_min": 15,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2021C.5.2",
+          "numer": "5.2",
+          "punkty": 3,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.2 (0-3)\nPrzygotuj miesieczne zestawienie dochodow w roku 2023, tzn. dla kazdego miesiaca oblicz roznice miedzy przychodami a kosztami. Jako wynik podaj zestawienie dochodow w kolejnych miesiacach od stycznia do grudnia 2023 roku.\nDla otrzymanego zestawienia sporzadz wykres kolumnowy przedstawiajacy miesieczne dochody w 2023 roku. Pamietaj o czytelnym opisie tytulu i osi wykresu.",
+          "odpowiedz": "Styczen: -7430, Luty: 600, Marzec: 1590, Kwiecien: 2250, Maj: 2850, Czerwiec: 3660, Lipiec: 4920, Sierpien: 5610, Wrzesien: 4320, Pazdziernik: 1890, Listopad: 2040, Grudzien: 1350\n\nWykres kolumnowy 'Miesieczny dochod w 2023'.",
+          "zasady_oceniania": "3 pkt - za poprawna odpowiedz, w tym:\n1 pkt - za prawidlowe zestawienie,\n1 pkt - za poprawny dobor danych i typ wykresu,\n1 pkt - za czytelnosc wykresu.\n1 pkt - za poprawne zestawienie niezawierajace danych jednej z dzielnic.\n0 pkt - za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Styczen ma ujemny dochod ze wzgledu na koszt zakupu rowerow (8000 zl)",
+            "Wykres musi byc kolumnowy, nie liniowy"
+          ],
+          "wymiary": {
+            "czasowy_min": 15,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2021C.5.3",
+          "numer": "5.3",
+          "punkty": 3,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.3 (0-3)\nJaka musialaby byc najnizsza cena wypozyczenia roweru, aby pod koniec dwuletniej dzialalnosci calkowity dochod (przychod - koszt) wynosil co najmniej:\na) 100 000 zl\nb) 125 000 zl\nc) 150 000 zl\n\nUwaga: cena wypozyczenia roweru wyrazona w zlotych powinna byc liczba calkowita.",
+          "odpowiedz": "a) 47 zl\nb) 57 zl\nc) 66 zl",
+          "zasady_oceniania": "3 pkt - za poprawna odpowiedz, w tym po 1 punkcie za kazda poprawna odpowiedz.\n0 pkt - za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Cena musi byc calkowita - zaokraglic w gore",
+            "Zmiana ceny wplywa na przychody ale nie na koszty",
+            "Symulacja 2-letnia: 2023-2024"
+          ],
+          "wymiary": {
+            "czasowy_min": 10,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2021C.5.4",
+          "numer": "5.4",
+          "punkty": 4,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.4 (0-4)\nPrzedsiebiorca planuje rozwoj firmy i chce ostatniego dnia kazdego miesiaca dokonywac zakupu 3 rowerow (na poczatku tego dnia), o ile calkowity laczny dochod mu na to pozwala, w przeciwnym razie nie kupuje zadnego. Rowery bylyby zamawiane ostatniego dnia miesiaca i dostepne do wypozyczenia juz pierwszego dnia nastepnego miesiaca.\nPrzyjmij powyzsza zmiane w dzialalnosci firmy i podaj laczne przychody i koszty podczas calej dwuletniej symulacji dzialalnosci.\nUwaga: 31.12.2024 nie dokonujemy juz zakupu rowerow.",
+          "odpowiedz": "Laczne przychody: 249 630 zl\nLaczne koszty: 100 655 zl",
+          "zasady_oceniania": "4 pkt - za poprawna odpowiedz, w tym:\n2 pkt - za prawidlowe laczne przychody podczas dwuletniej symulacji dzialalnosci,\n2 pkt - za prawidlowe laczne koszty podczas dwuletniej symulacji dzialalnosci.\n0 pkt - za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Zakup 3 rowerow tylko jesli laczny dochod >= koszt (3*800=2400)",
+            "Nowe rowery zwieksza popyt (wiecej rowerow = wiecej wypozyczen)",
+            "Serwis kosztuje za WSZYSTKIE rowery co niedziele",
+            "31.12.2024 - bez zakupu"
+          ],
+          "wymiary": {
+            "czasowy_min": 25,
+            "zlozonosc": 3,
+            "trudnosc": 3
+          }
+        }
+      ]
+    },
+    {
+      "numer": 6,
+      "tytul": "Koncerty",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "Pewna rozglosnia radiowa postanowila podsumowac wakacje 2017 roku pod wzgledem liczby koncertow w lipcu i sierpniu. Dane zostaly zgromadzone w plikach: zespoly.txt, miasta.txt, koncerty.txt. Pierwszy wiersz kazdego z plikow jest wierszem naglowkowym, a dane w wierszach sa rozdzielone srednikami.\n\nPlik zespoly.txt zawiera: id_zespolu, nazwa, liczba_artystow.\nPlik miasta.txt zawiera: kod_miasta (kod pocztowy), miasto, wojewodztwo.\nPlik koncerty.txt zawiera: id (identyfikator koncertu), id_zespolu, kod_miasta, data (rrrr-mm-dd).",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2021_czerwiec/DANE/",
+      "pliki_danych": ["zespoly.txt", "miasta.txt", "koncerty.txt"],
+      "podzadania": [
+        {
+          "id": "2021C.6.1",
+          "numer": "6.1",
+          "punkty": 1,
+          "typ_zadania": "sql_select_where",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.1 (0-1)\nIle koncertow odbylo sie w lipcu?",
+          "odpowiedz": "122",
+          "zasady_oceniania": "1 pkt - poprawna odpowiedz.\n0 pkt - za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Filtrowanie po miesiacu z daty (lipiec = miesiac 07)",
+            "Dane obejmuja lipiec i sierpien 2017"
+          ],
+          "wymiary": {
+            "czasowy_min": 5,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2021C.6.2",
+          "numer": "6.2",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.2 (0-2)\nPodaj nazwe miasta, w ktorym wystapilo lacznie najwiecej artystow (wykonawcow). Jezeli miast, w ktorych wystapila najwieksza liczba artystow jest wiecej niz jedno, podaj nazwy ich wszystkich.\n\nUwaga: artyste, ktory w danym miescie wystapowal ze swoim zespolem kilkakrotnie, liczymy tylko raz.",
+          "odpowiedz": "Piotrkow Trybunalski\nGrudziadz",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz.\n1 pkt - za podanie tylko jednej poprawnej nazwy miasta.\n0 pkt - za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Artysty nie liczymy wielokrotnie - unikalne zespoly na miasto * liczba_artystow",
+            "Moze byc wiecej niz jedno miasto z maksymalna liczba artystow"
+          ],
+          "wymiary": {
+            "czasowy_min": 15,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2021C.6.3",
+          "numer": "6.3",
+          "punkty": 3,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.3 (0-3)\nWykonaj zestawienie, w ktorym dla kazdego wojewodztwa podasz srednia liczbe koncertow w przeliczeniu na jedno miasto w tym wojewodztwie. Wyniki podaj w zaokragleniu do dwoch miejsc po przecinku i posortuj od najwyzszej do najnizszej sredniej.",
+          "odpowiedz": "swietokrzyskie 8,00\nlodzkie 7,00\nopolskie 7,00\nlubuskie 6,50\nslaskie 5,53\nmalopolskie 5,33\nlubelskie 5,00\npodkarpackie 5,00\ndolnoslaskie 4,75\nkujawsko-pomorskie 4,25\nwielkopolskie 4,25\npodlaskie 4,00\nwarminsko-mazurskie 4,00\nzachodniopomorskie 4,00\nmazowieckie 2,67\npomorskie 2,67",
+          "zasady_oceniania": "3 pkt - za poprawna odpowiedz, w tym:\n1 pkt - za poprawne wyniki,\n1 pkt - za zaokraglenie do dwoch miejsc po przecinku,\n1 pkt - za sortowanie.\n1 pkt - za obliczenie tylko liczby koncertow w kazdym wojewodztwie.\n0 pkt - za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Srednia = laczna liczba koncertow w wojewodztwie / liczba miast w tym wojewodztwie",
+            "Zaokraglenie do 2 miejsc po przecinku",
+            "Sortowanie malejace po sredniej"
+          ],
+          "wymiary": {
+            "czasowy_min": 15,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2021C.6.4",
+          "numer": "6.4",
+          "punkty": 2,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.4 (0-2)\nPodaj nazwy zespolow, ktore nie koncertowaly w okresie od 20 lipca do 25 lipca wlacznie.",
+          "odpowiedz": "Male nutki\nStare mandoliny\nWiosenne bebny\nPowolne fortepiany\nCiche organy\nFajne trojkaty\nRozstrojone pianina\nMetalowe klarnety\nZlote saksofony\nPiszczace trabki",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz (wszystkie 10 zespolow).\n1 pkt - za odpowiedz nie uwzgledniajaca dni granicznych.\n0 pkt - za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Okres WLACZNIE - od 20 do 25 lipca",
+            "NOT IN lub NOT EXISTS z podzapytaniem"
+          ],
+          "wymiary": {
+            "czasowy_min": 10,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2021C.6.5",
+          "numer": "6.5",
+          "punkty": 3,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.5 (0-3)\nPodaj nazwy zespolow, ktore czesciej koncertowaly w weekendy (sobota, niedziela) niz w dni powszednie (od poniedzialku do piatku). Dla kazdego z tych zespolow podaj liczbe koncertow w weekendy oraz liczbe koncertow w dni powszednie.",
+          "odpowiedz": "Niebieskie kontrabasy: 1 dzien powszedni, 4 weekendy\nPowolne fortepiany: 4 dni powszednie, 5 weekendow\nWiosenne bebny: 3 dni powszednie, 4 weekendy",
+          "zasady_oceniania": "3 pkt - za poprawna odpowiedz, w tym:\n1 pkt - za poprawne zestawienie nazw zespolow,\n1 pkt - za poprawne liczby koncertow poszczegolnych zespolow w weekendy,\n1 pkt - za poprawne liczby koncertow poszczegolnych zespolow w dni powszednie.\n0 pkt - za odpowiedz bledna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba policzyc dzien tygodnia z daty (2017)",
+            "Weekendy = sobota + niedziela, powszednie = pon-pt",
+            "Porownanie: weekendy > powszednie (scisle)"
+          ],
+          "wymiary": {
+            "czasowy_min": 15,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        }
+      ]
+    }
+  ]
+}

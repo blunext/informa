@@ -1,7 +1,7 @@
 # 22. SQL — JOIN (laczenie tabel)
 
 Typ zadania: **sql_join**
-Czestotliwosc: 8/11 lat | Laczna punktacja: 21 pkt
+Czestotliwosc: 9/12 lat | Laczna punktacja: 21 pkt
 Kategoria: SQL
 
 ## Umiejetnosci cwiczone w tym zestawie

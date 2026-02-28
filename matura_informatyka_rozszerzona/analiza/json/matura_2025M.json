@@ -196,7 +196,7 @@
           "id": "2025M.3.2",
           "numer": "3.2",
           "punkty": 4,
-          "typ_zadania": "obliczenia_geometryczne",
+          "typ_zadania": "przetwarzanie_geometryczne",
           "kategoria": "IMPLEMENTACJA",
           "tresc": "Zadanie 3.2. (0-4)\nRozwazmy wszystkie punkty, w ktorych dron znajdowal sie po wykonaniu kolejnych ruchow (przesuniec).\n\nDla danych z przykladu 1. beda to punkty: (3000, 2000), (5000, 11000), (10000, 4000), (15000, 8000), (18000, 14000) i (20000, 0).\n\na) Podaj, ile sposrod wszystkich rozwazan punktow znajduje sie wewnatrz kwadratu o wierzcholkach (0, 0), (0, 5000), (5000, 5000), (5000, 0). Nie liczymy punktow lezacych na krawedziach kwadratu.\n\nb) Sposrod wszystkich rozwazan punktow znajdz i podaj trzy rozne, takie, ze jeden z nich jest srodkiem odcinka o koncach w pozostalych dwoch. Jest tylko jedna taka trojka punktow.\nUwaga: punkty nalezace do szukanej trojki nie musza byc trzema kolejnymi punktami, do ktorych dron przemieszczal sie.\n\nOdpowiedz dla pliku dron_przyklad.txt to\na) 2\nb) (14000, 3014), (16000, 2010), (18000, 1006)",
           "odpowiedz": "a) 24\nb) (5832, 1801) (7410, 1990) (8988, 2179)\n(wspolrzedne trojki punktow: (5832, 1801), (7410, 1990), (8988, 2179))",

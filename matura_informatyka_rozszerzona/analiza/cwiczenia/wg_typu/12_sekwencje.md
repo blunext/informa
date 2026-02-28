@@ -1,7 +1,7 @@
 # 12. Przetwarzanie sekwencji
 
 Typ zadania: **sekwencje**
-Czestotliwosc: 3/11 lat | Laczna punktacja: 13 pkt
+Czestotliwosc: 3/12 lat | Laczna punktacja: 13 pkt
 Kategoria: IMPLEMENTACJA
 
 ## Umiejetnosci cwiczone w tym zestawie

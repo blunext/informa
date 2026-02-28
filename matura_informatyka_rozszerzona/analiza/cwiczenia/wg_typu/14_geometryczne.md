@@ -1,7 +1,7 @@
 # 14. Obliczenia geometryczne
 
 Typ zadania: **geometryczne**
-Czestotliwosc: 1/11 lat | Laczna punktacja: 4 pkt
+Czestotliwosc: 1/12 lat | Laczna punktacja: 4 pkt
 Kategoria: IMPLEMENTACJA
 
 ## Umiejetnosci cwiczone w tym zestawie

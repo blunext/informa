@@ -2,7 +2,7 @@
 name: matura
 description: >
   Interaktywny korepetytor do matury z informatyki rozszerzonej. Metoda sokratejska,
-  powtorki rozlozone w czasie, 937 cwiczen z 23 typow zadan + 230 zadan CKE.
+  powtorki rozlozone w czasie, 937 cwiczen z 23 typow zadan + 641 zadan CKE.
   Uzywaj gdy uczen chce cwiczen, nauki, powtorki, lub pyta o mature/egzamin/algorytmy.
 argument-hint: "[TEORIA|IMPLEMENTACJA|ARKUSZ|SQL|nazwa_typu]"
 ---
@@ -79,7 +79,7 @@ Gdy `typ intro` zwraca `first_in_type=true` ORAZ typ nalezy do TEORIA:
 
 Katalog CLI: `matura_informatyka_rozszerzona/analiza/cli/`
 Binarki: `matura` (macOS/Linux), `matura.exe` (Windows)
-Bazy: `matura.db` (937 cwiczen + 230 zadan CKE + 4 cheatsheets), `matura_progress.db` (postep ucznia)
+Bazy: `matura.db` (937 cwiczen + 641 zadan CKE + 4 cheatsheets), `matura_progress.db` (postep ucznia)
 
 **Auto-detekcja platformy**: Na poczatku sesji ustal sciezke binarki:
 ```bash

@@ -1,6 +1,6 @@
 # Zadania treningowe wg typow zadan maturalnych
 
-Zestaw **937 cwiczen** oparty na analizie 11 lat matur z informatyki rozszerzonej (2014-2025).
+Zestaw **937 cwiczen** oparty na analizie 12 lat matur z informatyki rozszerzonej (2014-2025).
 Kazdy typ zadania ma **40+ cwiczen** o roznej trudnosci, z tagami umiejetnosci, wskazowkami, rozwiazaniami i typowymi bledami.
 
 ## Jak korzystac
@@ -35,25 +35,25 @@ Rozklad w kazdym pliku: 2 latwe + 3 srednie/srednie-trudne + 2 srednie + 1 sredn
 
 | Nr | Plik | Typ zadania | Cwiczen | Punkty na maturach | Czestotliwosc |
 |----|------|-------------|---------|---------------------|---------------|
-| 01 | [01_sledzenie_algorytmu.md](01_sledzenie_algorytmu.md) | sledzenie_algorytmu | 10 | 45 pkt | 11/11 lat |
-| 02 | [02_projektowanie_algorytmu.md](02_projektowanie_algorytmu.md) | projektowanie_algorytmu | 10 | 43 pkt | 11/11 lat |
-| 03 | [03_analiza_algorytmu.md](03_analiza_algorytmu.md) | analiza_algorytmu | 10 | 37 pkt | 10/11 lat |
-| 04 | [04_test_prawda_falsz.md](04_test_prawda_falsz.md) | test_prawda_falsz | 10 | 25 pkt | 10/11 lat |
-| 05 | [05_konwersja_systemow_liczbowych.md](05_konwersja_systemow_liczbowych.md) | konwersja_systemow | 10 | 12 pkt | 9/11 lat |
-| 06 | [06_teoria_bezpieczenstwa.md](06_teoria_bezpieczenstwa.md) | teoria_bezpieczenstwa | 10 | 2 pkt | 2/11 lat |
+| 01 | [01_sledzenie_algorytmu.md](01_sledzenie_algorytmu.md) | sledzenie_algorytmu | 10 | 45 pkt | 12/12 lat |
+| 02 | [02_projektowanie_algorytmu.md](02_projektowanie_algorytmu.md) | projektowanie_algorytmu | 10 | 43 pkt | 12/12 lat |
+| 03 | [03_analiza_algorytmu.md](03_analiza_algorytmu.md) | analiza_algorytmu | 10 | 37 pkt | 10/12 lat |
+| 04 | [04_test_prawda_falsz.md](04_test_prawda_falsz.md) | test_prawda_falsz | 10 | 25 pkt | 11/12 lat |
+| 05 | [05_konwersja_systemow_liczbowych.md](05_konwersja_systemow_liczbowych.md) | konwersja_systemow | 10 | 12 pkt | 10/12 lat |
+| 06 | [06_teoria_bezpieczenstwa.md](06_teoria_bezpieczenstwa.md) | teoria_bezpieczenstwa | 10 | 2 pkt | 2/12 lat |
 
 ## Etap 2: IMPLEMENTACJA (8 typow, 80 cwiczen)
 
 | Nr | Plik | Typ zadania | Cwiczen | Punkty na maturach | Czestotliwosc |
 |----|------|-------------|---------|---------------------|---------------|
-| 07 | [07_cyfry_liczby.md](07_cyfry_liczby.md) | cyfry_liczby | 10 | 36 pkt | 6/11 lat |
-| 08 | [08_napisy.md](08_napisy.md) | napisy | 10 | 25 pkt | 4/11 lat |
-| 09 | [09_zlozone.md](09_zlozone.md) | zlozone | 10 | 24 pkt | 4/11 lat |
-| 10 | [10_zliczanie.md](10_zliczanie.md) | zliczanie | 10 | 17 pkt | 5/11 lat |
-| 11 | [11_minmax.md](11_minmax.md) | minmax | 10 | 17 pkt | 5/11 lat |
-| 12 | [12_sekwencje.md](12_sekwencje.md) | sekwencje | 10 | 13 pkt | 3/11 lat |
-| 13 | [13_obrazy_2D.md](13_obrazy_2D.md) | obrazy_2D | 10 | 11 pkt | 2/11 lat |
-| 14 | [14_geometryczne.md](14_geometryczne.md) | geometryczne | 10 | 4 pkt | 1/11 lat |
+| 07 | [07_cyfry_liczby.md](07_cyfry_liczby.md) | cyfry_liczby | 10 | 36 pkt | 7/12 lat |
+| 08 | [08_napisy.md](08_napisy.md) | napisy | 10 | 25 pkt | 6/12 lat |
+| 09 | [09_zlozone.md](09_zlozone.md) | zlozone | 10 | 24 pkt | 5/12 lat |
+| 10 | [10_zliczanie.md](10_zliczanie.md) | zliczanie | 10 | 17 pkt | 5/12 lat |
+| 11 | [11_minmax.md](11_minmax.md) | minmax | 10 | 17 pkt | 5/12 lat |
+| 12 | [12_sekwencje.md](12_sekwencje.md) | sekwencje | 10 | 13 pkt | 3/12 lat |
+| 13 | [13_obrazy_2D.md](13_obrazy_2D.md) | obrazy_2D | 10 | 11 pkt | 2/12 lat |
+| 14 | [14_geometryczne.md](14_geometryczne.md) | geometryczne | 10 | 4 pkt | 1/12 lat |
 
 ## Etap 3: ARKUSZ (5 typow, 50 cwiczen)
 
@@ -61,11 +61,11 @@ Rozwiazania to formuly Excel/Calc, dane jako tabele markdown, weryfikacja przez 
 
 | Nr | Plik | Typ zadania | Cwiczen | Punkty na maturach | Czestotliwosc |
 |----|------|-------------|---------|---------------------|---------------|
-| 15 | [15_agregacja_warunkowa.md](15_agregacja_warunkowa.md) | agregacja_warunkowa | 10 | 38 pkt | 9/11 lat |
-| 16 | [16_symulacja.md](16_symulacja.md) | symulacja | 10 | 37 pkt | 9/11 lat |
-| 17 | [17_wykres.md](17_wykres.md) | wykres | 10 | 25 pkt | 8/11 lat |
-| 18 | [18_agregacja_podstawowa.md](18_agregacja_podstawowa.md) | agregacja_podstawowa | 10 | 9 pkt | 3/11 lat |
-| 19 | [19_transformacja.md](19_transformacja.md) | transformacja | 10 | 3 pkt | 2/11 lat |
+| 15 | [15_agregacja_warunkowa.md](15_agregacja_warunkowa.md) | agregacja_warunkowa | 10 | 38 pkt | 11/12 lat |
+| 16 | [16_symulacja.md](16_symulacja.md) | symulacja | 10 | 37 pkt | 12/12 lat |
+| 17 | [17_wykres.md](17_wykres.md) | wykres | 10 | 25 pkt | 10/12 lat |
+| 18 | [18_agregacja_podstawowa.md](18_agregacja_podstawowa.md) | agregacja_podstawowa | 10 | 9 pkt | 3/12 lat |
+| 19 | [19_transformacja.md](19_transformacja.md) | transformacja | 10 | 3 pkt | 2/12 lat |
 
 ## Etap 4: SQL (4 typy, 40 cwiczen)
 
@@ -73,10 +73,10 @@ Rozwiazania to zapytania SQL, dane jako tabele markdown, weryfikacja przez reczn
 
 | Nr | Plik | Typ zadania | Cwiczen | Punkty na maturach | Czestotliwosc |
 |----|------|-------------|---------|---------------------|---------------|
-| 20 | [20_sql_group_by.md](20_sql_group_by.md) | sql_group_by | 10 | 36 pkt | 8/11 lat |
-| 21 | [21_sql_podzapytania.md](21_sql_podzapytania.md) | sql_podzapytania | 10 | 25 pkt | 7/11 lat |
-| 22 | [22_sql_join.md](22_sql_join.md) | sql_join | 10 | 21 pkt | 8/11 lat |
-| 23 | [23_sql_select_where.md](23_sql_select_where.md) | sql_select_where | 10 | 10 pkt | 4/11 lat |
+| 20 | [20_sql_group_by.md](20_sql_group_by.md) | sql_group_by | 10 | 36 pkt | 9/12 lat |
+| 21 | [21_sql_podzapytania.md](21_sql_podzapytania.md) | sql_podzapytania | 10 | 25 pkt | 8/12 lat |
+| 22 | [22_sql_join.md](22_sql_join.md) | sql_join | 10 | 21 pkt | 9/12 lat |
+| 23 | [23_sql_select_where.md](23_sql_select_where.md) | sql_select_where | 10 | 10 pkt | 4/12 lat |
 
 ## Samoocena — jak uzywac
 
@@ -125,4 +125,4 @@ Sekcja "Co dalej?" wskazuje na powiazane cheatsheet'y i inne cwiczenia.
 - **937 cwiczen** lacznie (40+ na typ)
 - **4 kategorie**: TEORIA (240), IMPLEMENTACJA (336), ARKUSZ (200), SQL (161)
 - **Kazde cwiczenie zawiera**: tagi, wskazowki, rozwiazanie, typowe bledy
-- Oparte na **11 lat matur** (2014-2025, bez 2020)
+- Oparte na **12 lat matur** (2014-2025)

@@ -1,0 +1,406 @@
+{
+  "rok": 2020,
+  "sesja": "czerwiec",
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Analiza algorytmu",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "Przeanalizuj nastepujacy algorytm:\n\nSpecyfikacja:\nDane:\n  n - liczba calkowita wieksza od 1\n\nAlgorytm:\ndla i = 1, 2, 3, ..., n wykonuj\n    P[i] <- 1\n    S[i] <- 0\ndla j = 2, 3, ..., n wykonuj\n    jezeli P[j] = 1\n        i <- j * j\n        dopoki i <= n wykonuj\n            P[i] <- 0\n            i <- i + j\n    S[j] <- S[j-1] + P[j]\n\nAlgorytm realizuje sito Eratostenesa: P[i]=1 oznacza, ze i jest liczba pierwsza, P[i]=0 ze nie. Tablica S jest suma prefiksowa zliczajaca liczby pierwsze: S[j] = liczba liczb pierwszych w przedziale [1, j].",
+      "podzadania": [
+        {
+          "id": "2020C.1.1",
+          "numer": "1.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1 (0-2)\nDla n >= 10 podaj wartosci dziesieciu pierwszych elementow tablicy P obliczonych za pomoca podanego algorytmu:\n\nP[1] = ..., P[2] = ..., P[3] = ..., P[4] = ..., P[5] = ...,\nP[6] = ..., P[7] = ..., P[8] = ..., P[9] = ..., P[10] = ...",
+          "odpowiedz": "P[1]=1, P[2]=1, P[3]=1, P[4]=0, P[5]=1,\nP[6]=0, P[7]=1, P[8]=0, P[9]=0, P[10]=0.\n\nP[1]=1 (inicjalizacja, nie zmieniane - petla zaczyna od j=2). P[2]=1 (pierwsza, j=2: i zaczyna od 4). P[3]=1 (pierwsza). P[4]=0 (wykreslone przez j=2: 2*2=4). P[5]=1. P[6]=0 (wykreslone przez j=2: 2*3=6). P[7]=1. P[8]=0 (2*4=8). P[9]=0 (3*3=9). P[10]=0 (2*5=10).",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz.\nW przypadku dziewieciu prawidlowych wartosci - 1 pkt.",
+          "pulapki": [
+            "P[1]=1 mimo ze 1 nie jest liczba pierwsza - algorytm nie zmienia P[1]",
+            "Sito wykreslania zaczyna od j*j, nie od 2*j"
+          ]
+        },
+        {
+          "id": "2020C.1.2",
+          "numer": "1.2",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2 (0-2)\nDla n >= 10 podaj wartosci dziesieciu pierwszych elementow tablicy S obliczonych za pomoca podanego algorytmu:\n\nS[1] = ..., S[2] = ..., S[3] = ..., S[4] = ..., S[5] = ...,\nS[6] = ..., S[7] = ..., S[8] = ..., S[9] = ..., S[10] = ...",
+          "odpowiedz": "S[1]=0, S[2]=1, S[3]=2, S[4]=2, S[5]=3,\nS[6]=3, S[7]=4, S[8]=4, S[9]=4, S[10]=4.\n\nS[j] = S[j-1] + P[j]. S[1]=0 (inicjalizacja). S[2]=0+1=1. S[3]=1+1=2. S[4]=2+0=2. S[5]=2+1=3. S[6]=3+0=3. S[7]=3+1=4. S[8]=4+0=4. S[9]=4+0=4. S[10]=4+0=4.",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz.\nW przypadku dziewieciu prawidlowych wartosci - 1 pkt.",
+          "pulapki": [
+            "S[1]=0 (inicjalizacja, petla zaczyna od j=2)",
+            "S jest suma prefiksowa P - kazdy S[j] zalezy od P[j] i S[j-1]"
+          ]
+        },
+        {
+          "id": "2020C.1.3",
+          "numer": "1.3",
+          "punkty": 1,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.3 (0-1)\nDokoncz zdanie. Wybierz i zaznacz wlasciwa odpowiedz sposrod podanych.\n\nDla 1 < a <= b <= n, S[b] - S[a-1] jest rowne\n\nA. liczbie dzielnikow pierwszych liczby b - a.\nB. liczbie liczb pierwszych nalezacych do przedzialu [a, b].\nC. najwiekszemu wspolnemu dzielnikowi a i b.\nD. liczbie liczb pierwszych nalezacych do przedzialu [a - 1, b].",
+          "odpowiedz": "B. liczbie liczb pierwszych nalezacych do przedzialu [a, b].\n\nS[b] - S[a-1] = (liczba pierwszych w [1,b]) - (liczba pierwszych w [1,a-1]) = liczba pierwszych w [a,b].",
+          "zasady_oceniania": "1 pkt - za wybor poprawnej odpowiedzi B.",
+          "pulapki": [
+            "S jest suma prefiksowa - roznica S[b]-S[a-1] daje liczbe pierwszych w przedziale [a,b]",
+            "Odpowiedz D jest bliska prawdzie, ale przedzial to [a,b] nie [a-1,b]"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 2,
+      "tytul": "Ulamki egipskie",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Ulamkami egipskimi nazywamy ulamki postaci 1/m, gdzie m jest liczba calkowita wieksza od 1. Kazda dodatnia liczbe wymierna a < 1 mozna przedstawic w postaci sumy ulamkow egipskich o roznych mianownikach. Takich roznych rozkladow moze byc kilka.\n\nJedna z metod rozkladu liczby wymiernej a na sume ulamkow egipskich jest nastepujaca:\n1. Szukamy najmniejszej liczby calkowitej n nie mniejszej od odwrotnosci danego ulamka 1/a. Ulamek 1/n jest najwiekszym ulamkiem egipskim w rozkladzie liczby a.\n2. Liczbe 1/n odejmujemy od a i otrzymujemy pewna roznice r, ktora jest liczba wymierna mniejsza od 1. Jezeli r jest rowne 0, to rozklad zostal znaleziony. W przeciwnym przypadku znajdujemy w ten sam sposob rozklad liczby r na ulamki egipskie, ktore dopisujemy do rozkladu liczby a.\n\nPrzyklad: Niech a = 4/5. Aby znalezc najwiekszy ulamek egipski, ktory nie jest wiekszy od a, szukamy najmniejszej liczby calkowitej n nie mniejszej od odwrotnosci danego ulamka 1/a = 5/4. Liczba 2 jest taka liczba, zatem najwiekszym ulamkiem egipskim w rozkladzie liczby a jest 1/2.\nW kolejnym kroku znajdujemy rozklad na ulamki egipskie liczby 4/5 - 1/2 = 3/10.\nOstatecznie otrzymujemy rozklad: a = 4/5 = 1/2 + 1/4 + 1/20.",
+      "podzadania": [
+        {
+          "id": "2020C.2.1",
+          "numer": "2.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1 (0-2)\nZa pomoca opisanego powyzej algorytmu wyznacz rozklady na sume ulamkow egipskich nastepujacych liczb:\n\n8/15 = ...\n5/6 = ...",
+          "odpowiedz": "8/15 = 1/2 + 1/30\n\n8/15: 1/a = 15/8 = 1.875, n=2 (ceil). 8/15 - 1/2 = 16/30 - 15/30 = 1/30. Gotowe.\n\n5/6 = 1/2 + 1/3\n\n5/6: 1/a = 6/5 = 1.2, n=2 (ceil). 5/6 - 1/2 = 5/6 - 3/6 = 2/6 = 1/3. Gotowe.",
+          "zasady_oceniania": "2 pkt - za poprawne rozklady, w tym za kazdy poprawny rozklad 1 punkt.",
+          "pulapki": [
+            "ceil(15/8) = ceil(1.875) = 2, nie 1",
+            "Nalezy upraszczac ulamki po odejmowaniu"
+          ]
+        },
+        {
+          "id": "2020C.2.2",
+          "numer": "2.2",
+          "punkty": 4,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2 (0-4)\nNapisz w wybranej przez siebie notacji (w postaci pseudokodu, listy krokow lub w wybranym jezyku programowania) algorytm, ktory dla danej dodatniej liczby wymiernej a < 1, zadanej w postaci p/q (gdzie p, q - liczby calkowite dodatnie, p < q), wypisze jej rozklad na sume ulamkow egipskich.\n\nUwaga: w zapisie mozesz wykorzystac tylko operacje arytmetyczne (dodawanie, odejmowanie, mnozenie, dzielenie, dzielenie calkowite, reszta z dzielenia), porownywanie liczb, wypisywanie liczb, instrukcje sterujace i przypisania do zmiennych lub samodzielnie napisane funkcje zawierajace wyzej wymienione operacje. Mozesz rowniez wykorzystac funkcje zaokraglajaca wartosc liczby rzeczywistej do najmniejszej liczby calkowitej nie mniejszej od danej liczby (tzw. sufit).\n\nSpecyfikacja:\nDane:\n  p, q - dodatnie liczby calkowite, p < q\nWynik:\n  ciag k roznych liczb dodatnich, calkowitych n_1 < n_2 < ... < n_k, gdzie k > 0,\n  taki, ze p/q = 1/n_1 + 1/n_2 + ... + 1/n_k\n\nPrzyklad: dla p = 4 i q = 5 poprawnym wynikiem dzialania algorytmu jest ciag liczb 2, 4, 20.",
+          "odpowiedz": "Przykladowe rozwiazanie (C++):\nvoid ul_egipt(int p, int q) {\n  if (p > 0) {\n    int m = ceil(float(q) / p);\n    cout << m << \" \";\n    ul_egipt(p * m - q, q * m);\n  }\n}\n\nAlgorytm rekurencyjny: oblicza m = ceil(q/p) jako mianownik najwiekszego ulamka egipskiego, wypisuje m, nastepnie rekurencyjnie rozklada reszte (p*m - q) / (q*m).",
+          "zasady_oceniania": "4 pkt - za poprawny algorytm, w tym:\n- za warunek poczatkowy - 1 punkt\n- za uzycie poprawnej metody wyznaczania mianownika ulamkow - 2 punkty\n- za wyprowadzenie wlasciwego wyniku - 1 punkt",
+          "pulapki": [
+            "ceil(q/p) musi byc obliczone na liczbach rzeczywistych lub jako (q+p-1)/p dla calkowitych",
+            "Reszta po odjeciu: p_nowe = p*m - q, q_nowe = q*m",
+            "Warunek konca: p = 0 (lub r = 0)"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 3,
+      "tytul": "Test",
+      "punkty": 4,
+      "czesc": 1,
+      "kontekst": "Ocen prawdziwosc podanych zdan. Zaznacz P, jesli zdanie jest prawdziwe, albo F - jesli jest falszywe. W kazdym zadaniu uzyskasz punkt tylko za komplet poprawnych odpowiedzi.",
+      "podzadania": [
+        {
+          "id": "2020C.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1 (0-1)\nDana jest rekurencyjna funkcja f(n):\n\nf(n):\n  jezeli n = 0\n    wynikiem jest 1\n  w przeciwnym przypadku\n    s <- 1\n    dla i = 0, 1, ..., n - 1\n      s <- s + f(i)\n    wynikiem jest s\n\n1. Dla n < 10 wynikiem dzialania funkcji f jest liczba mniejsza od 1000.\n   -> P / F\n2. Obliczenie poprawnego wyniku f(200) zajmie na komputerze w dowolnej szkolnej pracowni najwyzej kilka sekund.\n   -> P / F\n3. W trakcie obliczania wartosci funkcji f dla dowolnego n > 0 nastapi lacznie co najwyzej 2n wywolan tej funkcji.\n   -> P / F\n4. f(10) = 1024.\n   -> P / F",
+          "odpowiedz": "1. P - Prawda. f(n) = 2^n, wiec f(9) = 512 < 1000.\n2. F - Falsz. Zlozonosc obliczeniowa jest wykladnicza - f(200) wymaga astronomicznej liczby wywolan.\n3. F - Falsz. Liczba wywolan rosnie wykladniczo, nie liniowo.\n4. P - Prawda. f(10) = 2^10 = 1024.\n\nDowod ze f(n) = 2^n: f(0)=1=2^0. f(n) = 1 + f(0)+f(1)+...+f(n-1) = 1 + 2^0+2^1+...+2^(n-1) = 1 + (2^n - 1) = 2^n.\n\nOdpowiedz: P, F, F, P",
+          "zasady_oceniania": "1 pkt - za wszystkie 4 poprawne odpowiedzi (PFFP).\n0 pkt - przy jakimkolwiek bledzie.",
+          "pulapki": [
+            "f(n) = 2^n mimo zlozonej rekurencji",
+            "Zlozonosc obliczeniowa jest wykladnicza - kazde f(n) wywoluje f(0)..f(n-1)"
+          ]
+        },
+        {
+          "id": "2020C.3.2",
+          "numer": "3.2",
+          "punkty": 1,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2 (0-1)\nLiczba BA_16 (zapisana w systemie szesnastkowym) jest rowna\n\n1. 186_10     -> P / F\n2. 252_8      -> P / F\n3. 10111010_2 -> P / F\n4. 2232_4     -> P / F",
+          "odpowiedz": "BA_16 = 11*16 + 10 = 186_10\n\n1. P - 186_10 = 186 ✓\n2. F - 252_8 = 2*64+5*8+2 = 170 ≠ 186\n3. P - 10111010_2 = 128+32+16+8+2 = 186 ✓\n4. F - 2232_4 = 2*64+2*16+3*4+2 = 174 ≠ 186\n\nOdpowiedz: P, F, P, F",
+          "zasady_oceniania": "1 pkt - za wszystkie 4 poprawne odpowiedzi (PFPF).\n0 pkt - przy jakimkolwiek bledzie.",
+          "pulapki": [
+            "B=11, A=10 w systemie szesnastkowym",
+            "Nalezy poprawnie konwertowac do kazdego systemu"
+          ]
+        },
+        {
+          "id": "2020C.3.3",
+          "numer": "3.3",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.3 (0-1)\nDane sa dwie tabele powiazane relacja:\nRezyserzy (idrezysera, imie, nazwisko)\nFilmy (idfilmu, tytul, data_premiery, idrezysera)\n\nWskaz, ktore uzupelnienia luk w zapytaniu SQL spowoduja, ze jego wynikiem bedzie lista zawierajaca dla kazdego rezysera jego nazwisko, imie oraz laczna liczbe filmow przez niego wyrezyserowanych.\n\nSELECT Rezyserzy.nazwisko, Rezyserzy.imie, [1]\nFROM Rezyserzy INNER JOIN Filmy ON [2]\nGROUP BY [3];\n\n1. [1] avg(*)\n   [2] Rezyserzy.idrezysera=Filmy.idrezysera\n   [3] Filmy.nazwisko, Rezyserzy.imie\n   -> P / F\n\n2. [1] *\n   [2] Rezyserzy.idrezysera=Filmy.idfilmu\n   [3] Filmy.idrezysera\n   -> P / F\n\n3. [1] count(nazwisko)\n   [2] Rezyserzy.idrezysera=Filmy.idrezysera\n   [3] Rezyserzy.nazwisko\n   -> P / F\n\n4. [1] count(*)\n   [2] Rezyserzy.idrezysera=Filmy.idrezysera\n   [3] Rezyserzy.imie, Rezyserzy.nazwisko, Rezyserzy.idrezysera\n   -> P / F",
+          "odpowiedz": "1. F - avg(*) nie jest poprawna funkcja agregujaca do zliczania; Filmy.nazwisko nie istnieje.\n2. F - * w SELECT z GROUP BY jest niepoprawne; zly warunek JOIN (idfilmu zamiast idrezysera).\n3. F - count(nazwisko) liczy niepuste wartosci nazwiska, nie filmy; GROUP BY bez imie powoduje problemy.\n4. P - count(*) zlicza filmy; poprawny JOIN; GROUP BY zawiera imie, nazwisko i idrezysera.\n\nOdpowiedz: F, F, F, P",
+          "zasady_oceniania": "1 pkt - za wszystkie 4 poprawne odpowiedzi (FFFP).\n0 pkt - przy jakimkolwiek bledzie.",
+          "pulapki": [
+            "count(*) zlicza wiersze (filmy), avg(*) jest niepoprawne",
+            "JOIN musi byc po idrezysera, nie idfilmu",
+            "GROUP BY musi zawierac wszystkie kolumny z SELECT ktore nie sa agregatami"
+          ]
+        },
+        {
+          "id": "2020C.3.4",
+          "numer": "3.4",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.4 (0-1)\nW komorkach A1 i B1 arkusza kalkulacyjnego zapisano pewne liczby calkowite dodatnie. W komorce C1 wpisano formule:\n\n=JEZELI(MOD(A1;2)=0;JEZELI(MOD(B1;2)=0;A1*B1/4;A1*B1);JEZELI(MOD(B1;2)=0;A1*B1;(A1+B1)/2))\n\nLogika:\n- A1 parzyste, B1 parzyste: A1*B1/4\n- A1 parzyste, B1 nieparzyste: A1*B1\n- A1 nieparzyste, B1 parzyste: A1*B1\n- A1 nieparzyste, B1 nieparzyste: (A1+B1)/2\n\n1. Wartosc w komorce C1 (wynik dzialania formuly) bedzie zawsze liczba calkowita.\n   -> P / F\n2. Jezeli w komorce A1 wpiszemy wartosc 4, a w komorce B1 wpiszemy wartosc 3 to w komorce C1 (wynik dzialania formuly) otrzymamy wartosc 3.\n   -> P / F\n3. Wartosc w komorce C1 (wynik dzialania formuly) bedzie zawsze liczba wieksza lub rowna sredniej arytmetycznej liczb wpisanych w komorkach A1 i B1.\n   -> P / F\n4. Jezeli w komorce A1 wpiszemy wartosc 2, a w komorce B1 wpiszemy wartosc 4 to w komorce C1 (wynik dzialania formuly) otrzymamy wartosc 2.\n   -> P / F",
+          "odpowiedz": "1. P - Prawda. parzyste*parzyste/4 = calkowita (iloczyn podzielny przez 4); parzyste*nieparzyste = calkowita; (nieparzyste+nieparzyste)/2 = calkowita.\n2. F - Falsz. A1=4 (parzyste), B1=3 (nieparzyste): wynik = 4*3 = 12, nie 3.\n3. F - Falsz. Kontrprzyklad: A1=2, B1=4 (oba parzyste): wynik = 2*4/4 = 2, srednia = 3, wiec 2 < 3.\n4. P - Prawda. A1=2 (parzyste), B1=4 (parzyste): wynik = 2*4/4 = 2.\n\nOdpowiedz: P, F, F, P",
+          "zasady_oceniania": "1 pkt - za wszystkie 4 poprawne odpowiedzi (PFFP).\n0 pkt - przy jakimkolwiek bledzie.",
+          "pulapki": [
+            "Nalezy dokladnie prosledzic zagniezdzone JEZELI",
+            "parzyste*parzyste jest zawsze podzielne przez 4",
+            "Sprawdzic konkretne wartosci dla punktow 2 i 4"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 4,
+      "tytul": "Dokumenty",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "Plik identyfikator.txt zawiera 200 wierszy. W kazdym wierszu jest zapisany identyfikator pewnego dokumentu, ktory sklada sie z serii (trzy wielkie litery alfabetu lacinskiego) oraz szesciu cyfr.\n\nUwaga: Plik identyfikator_przyklad.txt zawiera przykladowe dane (20 wierszy). Odpowiedzi dla danych z tego pliku sa podane pod tresciami zadan.\n\nNapisz program(-y), w wyniku dzialania ktorego(-ych) otrzymasz odpowiedzi do ponizszych zadan.",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2020_czerwiec/DANE/",
+      "pliki_danych": ["identyfikator.txt", "identyfikator_przyklad.txt", "myjnia.txt", "dane_ankiet.txt", "zain.txt", "lok.txt"],
+      "podzadania": [
+        {
+          "id": "2020C.4.1",
+          "numer": "4.1",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.1 (0-3)\nPodaj identyfikatory (seria+numer) tych dokumentow z pliku identyfikator.txt, ktorych suma cyfr z numerycznej czesci jest najwieksza. Odpowiedz zapisz w pliku wyniki4_1.txt, po jednym identyfikatorze w wierszu, w kolejnosci zgodnej z kolejnoscia w pliku identyfikator.txt.\n\nW pliku identyfikator_przyklad.txt jest jeden taki identyfikator. Prawidlowa odpowiedz: CHY728985",
+          "odpowiedz": "GYJ959787\nJOK786969",
+          "zasady_oceniania": "3 pkt - za pelna poprawna odpowiedz.\nZa niepelna poprawna odpowiedz (podanie jednego z dwoch identyfikatorow) - 2 punkty.\nZa podanie najwiekszej sumy (45) zamiast identyfikatorow - 1 punkt.",
+          "pulapki": [
+            "Moze byc wiecej niz jeden identyfikator z maksymalna suma cyfr",
+            "Trzeba zachowac kolejnosc z pliku"
+          ]
+        },
+        {
+          "id": "2020C.4.2",
+          "numer": "4.2",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.2 (0-4)\nPodaj wszystkie te identyfikatory dokumentow z pliku identyfikator.txt, ktorych numer lub seria sa palindromami, czyli czytane od lewej do prawej i od prawej do lewej sa takie same. Odpowiedz zapisz w pliku wyniki4_2.txt, po jednym identyfikatorze w wierszu, w kolejnosci zgodnej z kolejnoscia w pliku identyfikator.txt.\n\nPrawidlowa odpowiedz dla pliku identyfikator_przyklad.txt:\nKOK201272\nPIP417543\nMOS302203",
+          "odpowiedz": "MBF340043\nJKJ452719\nGFG148345\nAXA231829\nKIK866983\nLOL695279",
+          "zasady_oceniania": "4 pkt - za prawidlowa odpowiedz.\nW przypadku pominiecia tylko jednego identyfikatora z palindromem w 'serii' (czesci literowej) - 3 punkty.\nZa podanie odpowiedzi zawierajacej tylko identyfikatory z palindromami w 'serii' - czyli pominiecia MBF340043 - 2 punkty.\nZa podanie w wyniku od 1 do 4 prawidlowych identyfikatorow - 1 punkt.",
+          "pulapki": [
+            "Trzeba sprawdzic palindrom zarowno w czesci literowej (3 znaki) jak i numerycznej (6 cyfr)",
+            "Palindrom 3-znakowy: pierwszy = trzeci (np. JKJ, AXA, KIK, LOL, GFG)",
+            "Palindrom 6-cyfrowy: 340043 (czytany od tylu = 340043)"
+          ]
+        },
+        {
+          "id": "2020C.4.3",
+          "numer": "4.3",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.3 (0-4)\nPoprawnosc identyfikatora dokumentu potwierdza pierwsza cyfra z jego numerycznej czesci, ktora jest cyfra kontrolna.\n\nPodczas sprawdzania poprawnosci identyfikatora dokumentu litery jego serii sa zamieniane na liczby wedlug nastepujacego przypisania:\nA=10, B=11, C=12, ..., Z=35.\n\nAby sprawdzic poprawnosc identyfikatora danego dokumentu, nalezy wartosc kazdego elementu identyfikatora (poza cyfra kontrolna) pomnozyc przez odpowiednia wage. Wagi poszczegolnych skladowych identyfikatora to kolejno: 7, 3, 1, 7, 3, 1, 7, 3. Otrzymane iloczyny nalezy zsumowac i policzyc reszte z dzielenia tej sumy przez 10 (mod 10). Jesli uzyskana w ten sposob liczba jest rowna wartosci pierwszej cyfry z identyfikatora dokumentu, to identyfikator jest poprawny.\n\nPrzyklad: CIS459437 -> C=12, I=18, S=28, cyfry: 5,9,4,3,7 (cyfra kontrolna=4)\nIloczyny: 12*7=84, 18*3=54, 28*1=28, 5*7=35, 9*3=27, 4*1=4, 3*7=21, 7*3=21\nSuma: 84+54+28+35+27+4+21+21=274. 274 mod 10 = 4 = cyfra kontrolna. Poprawny.\n\nPodaj wszystkie identyfikatory dokumentow z pliku identyfikator.txt, ktore sa niepoprawne. Odpowiedz zapisz w pliku wyniki4_3.txt.\n\nPrawidlowa odpowiedz dla pliku identyfikator_przyklad.txt:\nNHO307984\nSEH422297\nMOS302203",
+          "odpowiedz": "LIK235378\nMBF340043\nHFG378931\nKIJ511146\nNUK840936\nOKH427482\nRTS278686",
+          "zasady_oceniania": "4 pkt - za pelna prawidlowa odpowiedz (wszystkie 7 niepoprawnych identyfikatorow).\nZa podanie 6 numerow identyfikacyjnych - 3 punkty.\nZa podanie 5 numerow identyfikacyjnych - 2 punkty.\nZa podanie od jednego do czterech numerow - 1 punkt.",
+          "pulapki": [
+            "Litery zamieniamy na liczby: A=10, B=11, ..., Z=35",
+            "Wagi: 7, 3, 1, 7, 3, 1, 7, 3 (dla 3 liter + 5 cyfr po cyfrze kontrolnej)",
+            "Cyfra kontrolna to PIERWSZA cyfra z czesci numerycznej (4-ta pozycja identyfikatora)"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 5,
+      "tytul": "Szybka myjnia automatyczna",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Samochodowa jednostanowiskowa myjnia automatyczna Czyste auta jest otwarta od godziny 6.00 do 24.00. Klienci podjezdzaja do myjni, ustawiaja sie w kolejce i wybieraja jeden z programow mycia. Poszczegolne programy roznia sie czasem realizacji. W myjni jest tylko jedno stanowisko, wiec klienci musza czekac, az skonczy sie mycie poprzednich samochodow. Jezeli czas oczekiwania przekracza 5 minut, klient rezygnuje z kolejki.\n\nPlik myjnia.txt zawiera 144 wiersze danych z jednego dnia dzialania myjni. W kazdym wierszu podano:\n- po ilu minutach od przyjazdu poprzedniego klienta przyjechad dany klient (dla pierwszego klienta jest to liczba minut od otwarcia myjni),\n- czas realizacji wybranego programu mycia - liczba naturalna z przedzialu <1; 15>,\n- numer rejestracyjny - dwie duze litery i trzy cyfry.\n\nDane w wierszach pliku sa rozdzielone srednikami.",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2020_czerwiec/DANE/",
+      "pliki_danych": ["myjnia.txt"],
+      "podzadania": [
+        {
+          "id": "2020C.5.1",
+          "numer": "5.1",
+          "punkty": 1,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.1 (0-1)\nUtworz zestawienie zawierajace dla kazdej dlugosci programu (czasu) mycia liczbe klientow, ktorzy wybrali program o danej dlugosci.",
+          "odpowiedz": "| Czas mycia | Liczba klientow |\n|------------|----------------|\n| 1          | 11             |\n| 2          | 9              |\n| 3          | 9              |\n| 4          | 7              |\n| 5          | 6              |\n| 6          | 10             |\n| 7          | 11             |\n| 8          | 6              |\n| 9          | 12             |\n| 10         | 8              |\n| 11         | 16             |\n| 12         | 14             |\n| 13         | 7              |\n| 14         | 12             |\n| 15         | 6              |",
+          "zasady_oceniania": "1 pkt - za poprawne zestawienie.",
+          "pulapki": [
+            "Nalezy zliczyc wszystkich klientow, w tym tych ktorzy zrezygnowali z kolejki"
+          ]
+        },
+        {
+          "id": "2020C.5.2",
+          "numer": "5.2",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.2 (0-2)\nDwie pierwsze litery tablicy rejestracyjnej jednoznacznie identyfikuja miasto, w ktorym pojazd zostal zarejestrowany. Ile jest miast, z ktorych przyjechal tylko jeden samochod, a ile takich, z ktorych przyjechaly dokladnie dwa samochody tego dnia?",
+          "odpowiedz": "Miast, z ktorych przyjechal tylko jeden samochod: 78\nMiast, z ktorych przyjechaly dokladnie dwa samochody: 21",
+          "zasady_oceniania": "2 pkt - za prawidlowa odpowiedz, w tym po 1 punkcie za kazda liczbe.",
+          "pulapki": [
+            "Dwie pierwsze litery numeru rejestracyjnego = identyfikator miasta",
+            "Trzeba zliczyc unikalne miasta, nie samochody"
+          ]
+        },
+        {
+          "id": "2020C.5.3",
+          "numer": "5.3",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.3 (0-2)\nZakladajac, ze analizujemy prace myjni w godzinach 6:00 - 20:00, podaj:\na) ilu klientow przybylo do myjni przed godzina 20:00,\nb) o ktorej godzinie przyjechal ostatni klient przed godzina 20:00.",
+          "odpowiedz": "a) 114 klientow\nb) 19:54 przybycie ostatniego klienta przed 20:00",
+          "zasady_oceniania": "2 pkt - za prawidlowa odpowiedz, w tym po 1 punkcie za odpowiedz a) i b).",
+          "pulapki": [
+            "Trzeba obliczyc kumulatywny czas przyjazdu kazdego klienta od godziny 6:00",
+            "Czas oczekiwania przed 20:00 = suma odstepoow miedzy klientami od otwarcia"
+          ]
+        },
+        {
+          "id": "2020C.5.4",
+          "numer": "5.4",
+          "punkty": 3,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.4 (0-3)\nIlu klientow przybylo do myjni w pierwszej (czyli od 0 do 59 minut po otwarciu myjni), drugiej, trzeciej, czwartej, piatej i szostej godzinie analizowanego czasu pracy?\nUtworz wykres kolumnowy liczby klientow przybylych w podanych godzinach. Pamietaj o czytelnym opisie wykresu.",
+          "odpowiedz": "| Godzina pracy | Liczba klientow |\n|---------------|----------------|\n| 1             | 9              |\n| 2             | 8              |\n| 3             | 7              |\n| 4             | 9              |\n| 5             | 5              |\n| 6             | 10             |\n\nWykres kolumnowy z tymi danymi, z opisem osi i tytulem.",
+          "zasady_oceniania": "3 pkt - za prawidlowa odpowiedz, w tym:\n- za prawidlowe zestawienie - 1 punkt\n- za wykres - 2 punkty (w tym po jednym punkcie za prawidlowy typ wykresu oraz opis i dobor danych)",
+          "pulapki": [
+            "Godziny pracy liczone od otwarcia (6:00): godzina 1 = 6:00-6:59, itd.",
+            "Wykres kolumnowy (slupkowy), nie liniowy"
+          ]
+        },
+        {
+          "id": "2020C.5.5",
+          "numer": "5.5",
+          "punkty": 4,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.5 (0-4)\nPodaj numer rejestracyjny samochodu klienta, ktory jako drugi zrezygnowal z kolejki, oraz podaj, ilu lacznie klientow zrezygnowalo z kolejki. Podaj, ile maksymalnie osob rezygnowalo z kolejki jedna po drugiej.",
+          "odpowiedz": "Numer rejestracyjny drugiego rezygnujacego: KP566\nLacznie zrezygnowalo: 44 klientow\nMaksymalnie kolejno rezygnujacych: 3",
+          "zasady_oceniania": "4 pkt - za poprawna odpowiedz, w tym:\n- za podanie numeru rejestracyjnego klienta, ktory zrezygnowal jako drugi - 1 punkt\n- za podanie liczby osob, ktore zrezygnowaly - 2 punkty\n- za podanie maksymalnej liczby osob rezygnujacych kolejno - 1 punkt",
+          "pulapki": [
+            "Klient rezygnuje gdy czas oczekiwania > 5 minut (nie >= 5)",
+            "Trzeba symulowac kolejke: sledzic kiedy stanowisko sie zwalnia",
+            "Czas oczekiwania = moment przyjazdu - moment zakonczenia mycia poprzedniego"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 6,
+      "tytul": "Ankieta",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Biuro badan opinii spolecznych przeprowadzilo ankiete wsrod 280 mieszkancow roznych wojewodztw, dotyczaca miedzy innymi zainteresowan oraz wyksztalcenia. Ankietowani mogli podac maksymalnie trzy rodzaje zainteresowan (kazdy musial podac przynajmniej jedno). Zbierano rowniez informacje o dochodach ankietowanych oraz o srodkach lokomocji, z ktorych korzystaja oni w roznych porach roku.\n\nDane uzyskane z ankiety zapisano w trzech plikach tekstowych:\n\nW pliku dane_ankiet.txt: Id, Nazwisko, Imie, Wiek, Wyksztalcenie, Dochod, Wojewodztwo.\n\nW pliku zain.txt: Id, Zainteresowania.\n\nW pliku lok.txt: Id_a, Srod_lok, Pora_roku.",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2020_czerwiec/DANE/",
+      "pliki_danych": ["dane_ankiet.txt", "zain.txt", "lok.txt"],
+      "podzadania": [
+        {
+          "id": "2020C.6.1",
+          "numer": "6.1",
+          "punkty": 2,
+          "typ_zadania": "sql_select_where",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.1 (0-2)\nPodaj liczbe kobiet i liczbe mezczyzn uczestniczacych w ankiecie. Mozesz wykorzystac fakt, ze w danych imiona wszystkich kobiet (i tylko kobiet) koncza sie litera 'a'.",
+          "odpowiedz": "Kobiet: 161\nMezczyzn: 119",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz, w tym:\n- za podanie liczby kobiet - 1 punkt\n- za podanie liczby mezczyzn - 1 punkt.",
+          "pulapki": [
+            "Kryterium plci: imie konczace sie na 'a' = kobieta",
+            "161 + 119 = 280 (sprawdzenie)"
+          ]
+        },
+        {
+          "id": "2020C.6.2",
+          "numer": "6.2",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.2 (0-2)\nUtworz zestawienie zawierajace nazwy poszczegolnych srodkow lokomocji oraz liczby ankietowanych z wojewodztwa mazowieckiego korzystajacych z nich latem.",
+          "odpowiedz": "| Srod_lok  | PoliczOfId |\n|-----------|------------|\n| autobus   | 1          |\n| pociag    | 5          |\n| rower     | 13         |\n| samochod  | 4          |\n| tramwaj   | 20         |",
+          "zasady_oceniania": "2 pkt - za poprawne zestawienie.\nZa podanie zestawienia bez uwzglednienia jednego warunku (np. pory roku) - 1 punkt.",
+          "pulapki": [
+            "Trzeba polaczyc dane_ankiet.txt (Wojewodztwo='Mazowieckie') z lok.txt (Pora_roku='lato')",
+            "Warunki: wojewodztwo = Mazowieckie ORAZ pora roku = lato"
+          ]
+        },
+        {
+          "id": "2020C.6.3",
+          "numer": "6.3",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.3 (0-2)\nUtworz zestawienie zawierajace nazwy wojewodztw, w ktorych w badaniu wzielo udzial wiecej niz 20 osob. Dla kazdego z tych wojewodztw podaj liczbe ankietowanych osob.",
+          "odpowiedz": "| Wojewodztwo    | PoliczOfId |\n|----------------|------------|\n| Dolnoslaskie   | 30         |\n| Mazowieckie    | 43         |\n| Slaskie        | 23         |\n| Wielkopolskie  | 30         |",
+          "zasady_oceniania": "2 pkt - za poprawne zestawienie.\nZa zestawienie dla wszystkich wojewodztw (bez warunku >20) - 1 punkt.",
+          "pulapki": [
+            "Warunek HAVING COUNT(*) > 20, nie >= 20",
+            "Trzeba podac nazwy wojewodztw i liczby osob"
+          ]
+        },
+        {
+          "id": "2020C.6.4",
+          "numer": "6.4",
+          "punkty": 3,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.4 (0-3)\nZnajdz ankietowanych, ktorzy sa w wieku powyzej 50 lat, maja wyksztalcenie wyzsze (wyzsze) lub srednie (srednie) oraz nie interesuja sie ani informatyka (informatyka), ani grami komputerowymi (gry komputerowe). Utworz zestawienie (posortowane alfabetycznie wedlug nazwiska) zawierajace imiona i nazwiska tych ankietowanych oraz nazwy wojewodztw, z ktorych oni pochodza. W zestawieniu dane kazdej osoby moga wystapic tylko raz.",
+          "odpowiedz": "Lista ~24 osob posortowanych alfabetycznie po nazwisku:\nBobowik Maria Lubelskie, Borowska Elzbieta Malopolskie, Borowska Anna Malopolskie, Busma Sebastian Lubuskie, Czajewska Marta Pomorskie, Dziegielewska Barbara Pomorskie, Gawkowski Piotr Podkarpackie, Glowacka Kamila Swietokrzyskie, Iwaszczuk Andrzej Mazowieckie, Janasz Michal Mazowieckie, Jankowska Justyna Mazowieckie, Jasinski Marcin Mazowieckie, Kanadys Grzegorz Warminsko-Mazurskie, Karwowska Katarzyna Mazowieckie, Kimsza Marta Pomorskie, Klimaszewska Klara Dolnoslaskie, Kobeszko Emilia Lubelskie, Korol Maria Malopolskie, Korzunowicz Piotr Dolnoslaskie, Kozlowska Karolina Mazowieckie, Krasowska Monika Lubelskie (i wiecej...)",
+          "zasady_oceniania": "3 pkt - za poprawne zestawienie i odpowiedz, w tym:\n- za zestawienie - 2 punkty (w tym za zestawienie bez uwzglednienia jednego warunku np. wiek lub wyksztalcenie - 1 punkt)\n- sortowanie - 1 punkt.",
+          "pulapki": [
+            "Wiek POWYZEJ 50 = > 50, nie >= 50",
+            "Wyksztalcenie 'wyzsze' LUB 'srednie'",
+            "NIE interesuja sie informatyka ANI grami komputerowymi - wymaga podzapytania z NOT IN",
+            "Kazda osoba moze wystapic TYLKO RAZ (DISTINCT)"
+          ]
+        },
+        {
+          "id": "2020C.6.5",
+          "numer": "6.5",
+          "punkty": 3,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.5 (0-3)\nPodaj sredni dochod kobiet z wojewodztwa zachodniopomorskiego, dla ktorych jednym ze srodkow lokomocji jest rower.",
+          "odpowiedz": "3250",
+          "zasady_oceniania": "3 pkt - za poprawna odpowiedz.\nZa podanie prawidlowo policzonego sredniego dochodu kobiet bez uwzglednienia jednego warunku (wojewodztwo lub srodek lokomocji) - 2 punkty.\nZa rozwiazanie z bledem polegajacym na wielokrotnym policzeniu tej samej osoby (np. 3189,66) - 1 punkt.",
+          "pulapki": [
+            "Kobieta = imie konczace sie na 'a'",
+            "Wojewodztwo = 'Zachodniopomorskie'",
+            "Srod_lok = 'rower' (w dowolnej porze roku)",
+            "Uwaga na wielokrotne policzenie osoby (jesli ktos jezdzi rowerem w wielu porach roku)"
+          ]
+        }
+      ]
+    }
+  ],
+  "wymiary": {
+    "czasowy_min": 210,
+    "zlozonosc": 2,
+    "trudnosc": 2
+  }
+}

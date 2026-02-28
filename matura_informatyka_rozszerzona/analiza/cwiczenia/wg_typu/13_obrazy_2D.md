@@ -1,7 +1,7 @@
 # 13. Przetwarzanie siatek 2D
 
 Typ zadania: **obrazy_2D**
-Czestotliwosc: 2/11 lat | Laczna punktacja: 11 pkt
+Czestotliwosc: 2/12 lat | Laczna punktacja: 11 pkt
 Kategoria: IMPLEMENTACJA
 
 ## Umiejetnosci cwiczone w tym zestawie

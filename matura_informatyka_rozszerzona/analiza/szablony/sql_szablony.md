@@ -29,7 +29,7 @@ FROM → JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMI
 
 ---
 
-## 2. SELECT + WHERE (10 pkt, 4/11 lat)
+## 2. SELECT + WHERE (10 pkt, 4/12 lat)
 
 ### A. Filtrowanie wielowarunkowe (AND / OR)
 
@@ -121,7 +121,7 @@ WHERE rezyser = 'Pawlikowski';
 
 ---
 
-## 3. JOIN — laczenie tabel (21 pkt, 8/11 lat)
+## 3. JOIN — laczenie tabel (21 pkt, 9/12 lat)
 
 ### A. INNER JOIN — 2 tabele
 
@@ -198,7 +198,7 @@ ORDER BY liczba_wypozyczen DESC;
 
 ---
 
-## 4. GROUP BY + agregacje (36 pkt, 8/11 lat — NAJWAZNIEJSZY)
+## 4. GROUP BY + agregacje (36 pkt, 9/12 lat — NAJWAZNIEJSZY)
 
 ### A. COUNT + GROUP BY — zliczanie w grupach
 
@@ -292,7 +292,7 @@ ROUND(COUNT(*) * 1.0 / n, 2) -- stosunek zaokraglony do 2 miejsc
 
 ---
 
-## 5. Podzapytania (25 pkt, 7/11 lat)
+## 5. Podzapytania (25 pkt, 8/12 lat)
 
 ### A. Podzapytanie skalarne — porownanie ze srednia
 

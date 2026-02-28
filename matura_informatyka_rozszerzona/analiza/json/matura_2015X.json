@@ -1,0 +1,493 @@
+{
+  "rok": 2015,
+  "sesja": "przykladowy",
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 20,
+      "opis": "Czesc pisemna - rozwiazania na papierze (test, algorytmy, analiza)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 30,
+      "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny, bazy danych)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Test",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "W kazdym z punktow od a) do e) zaznacz znakiem x poprawna odpowiedz.",
+      "podzadania": [
+        {
+          "id": "2015X.1.1",
+          "numer": "1.1",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1 (0-1)\nDana jest tabela sprawdzian:\n| uczen | klasowka | egzamin |\n|-------|----------|---------|\n| Abacki | 45 | 0 |\n| Babacki | 50 | 80 |\n| Cabacki | 100 | 90 |\n| Dabacki | 80 | 70 |\n\nDla tej tabeli utworzono nastepujace zapytanie w SQL:\nSELECT uczen\nFROM sprawdzian\nWHERE (klasowka > egzamin AND egzamin > 75) OR klasowka < 50\nORDER BY uczen\n\nWynikiem tego zapytania jest:\n| Stwierdzenie | Prawda | Falsz |\n|---|---|---|\n| Abacki, Babacki | | |\n| Babacki, Cabacki | | |\n| Abacki, Cabacki | | |\n| Abacki, Dabacki | | |",
+          "odpowiedz": "F, F, P, F\n\nPoprawna odpowiedz to Abacki, Cabacki.\nAbacki: klasowka(45) < 50 -> TRUE (OR)\nCabacki: klasowka(100) > egzamin(90) AND egzamin(90) > 75 -> TRUE\nORDER BY uczen: Abacki, Cabacki",
+          "zasady_oceniania": "1 pkt - poprawna ocena.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba pamietac o operatorze OR -- wystarczy spelnienie jednego z warunkow",
+            "Babacki: klasowka(50) NIE jest < 50, wiec nie spelnia drugiego warunku; klasowka(50) < egzamin(80) wiec nie spelnia pierwszego",
+            "Dabacki: klasowka(80) > egzamin(70) ale egzamin(70) NIE > 75"
+          ]
+        },
+        {
+          "id": "2015X.1.2",
+          "numer": "1.2",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2 (0-1)\nRozwazmy ponizszy algorytm, gdzie n jest liczba calkowita nieujemna:\n(1) wynik <- 0;\n(2) dopoki n != 0 wykonuj\n(3)     wynik <- wynik + (n mod 10)\n(4)     n <- n div 10\noraz:\nmod to operator reszty z dzielenia,\ndiv to operator dzielenia calkowitego.\n\nDla podanego algorytmu zachodzi:\n| Stwierdzenie | Prawda | Falsz |\n|---|---|---|\n| dla n=36789 wynik=30 | | |\n| dla n=11111111 wynik=8 | | |\n| wynik jest rowny sumie cyfr w zapisie dziesietnym liczby n | | |\n| dla n=1234 zmienna wynik po kolejnych iteracjach petli dopoki przyjmuje wartosci 1, 3, 6, 10 | | |",
+          "odpowiedz": "F, P, P, F\n\nn=36789: 9+8+7+6+3=33, wiec wynik=33 (nie 30) -> F\nn=11111111: 1*8=8 -> P\nAlgorytm oblicza sume cyfr -> P\nn=1234: kolejne iteracje daja wynik: 4, 7, 9, 10 (zaczyna od ostatniej cyfry!) -> F",
+          "zasady_oceniania": "1 pkt - poprawna ocena.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Algorytm przetwarza cyfry OD KONCA (mod 10 daje ostatnia cyfre)",
+            "Dla n=1234: pierwsza iteracja daje 4 (nie 1!), bo 1234 mod 10 = 4",
+            "Dla n=36789: latwo sie pomylic w sumowaniu: 9+8+7+6+3=33, nie 30"
+          ]
+        },
+        {
+          "id": "2015X.1.3",
+          "numer": "1.3",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.3 (0-1)\nZgodnie z przepisami polskiego prawa autorskiego dozwolone jest:\n| Stwierdzenie | Prawda | Falsz |\n|---|---|---|\n| publikowanie pod wlasnym nazwiskiem, na swojej stronie WWW, skopiowanych zasobow internetowych (zdjec i artykulow) | | |\n| zamieszczanie na wlasnej stronie linkow do innych stron WWW | | |\n| zamieszczanie na wlasnej stronie cudzych programow na licencji freeware z podaniem ich autorstwa | | |\n| zamieszczanie na stronie internetowej tresci utworow wydanych wczesniej niz 70 lat temu | | |",
+          "odpowiedz": "F, P, P, P\n\n1. Publikowanie cudzych zasobow pod wlasnym nazwiskiem to plagiat -> F\n2. Linkowanie do innych stron jest dozwolone -> P\n3. Freeware z podaniem autorstwa jest dozwolone -> P\n4. Utwory starsze niz 70 lat sa w domenie publicznej -> P",
+          "zasady_oceniania": "1 pkt - poprawna ocena.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Kluczowe: 'pod wlasnym nazwiskiem' -- to plagiat nawet dla zasobow internetowych",
+            "Freeware pozwala na dystrybucje, wiec zamieszczanie z podaniem autorstwa jest OK"
+          ]
+        },
+        {
+          "id": "2015X.1.4",
+          "numer": "1.4",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.4 (0-1)\nW grafice rastrowej:\n| Stwierdzenie | Prawda | Falsz |\n|---|---|---|\n| kazdy piksel ma jednoznacznie okreslony kolor | | |\n| obraz pamietany jest w postaci obiektow geometrycznych | | |\n| zaleta jest skalowalnosc obrazu | | |\n| zapisywane sa zdjecia z aparatow cyfrowych | | |",
+          "odpowiedz": "P, F, F, P\n\n1. Kazdy piksel ma okreslony kolor -> P (to cecha grafiki rastrowej)\n2. Obiekty geometryczne to grafika wektorowa -> F\n3. Skalowalnosc to zaleta grafiki wektorowej, nie rastrowej -> F\n4. Aparaty cyfrowe zapisuja w formacie rastrowym -> P",
+          "zasady_oceniania": "1 pkt - poprawna ocena.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Mylenie wlasciwosci grafiki rastrowej i wektorowej",
+            "Skalowalnosc to cecha wektorowej, nie rastrowej"
+          ]
+        },
+        {
+          "id": "2015X.1.5",
+          "numer": "1.5",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.5 (0-1)\nDynamicznym przydzielaniem numerow IP w sieci zajmuje sie serwer:\n| Stwierdzenie | Prawda | Falsz |\n|---|---|---|\n| DNS | | |\n| DHCP | | |\n| SMTP | | |\n| FTP | | |",
+          "odpowiedz": "F, P, F, F\n\nDHCP (Dynamic Host Configuration Protocol) -- dynamicznie przydziela adresy IP.\nDNS -- tlumaczenie nazw domenowych na IP.\nSMTP -- protokol poczty elektronicznej.\nFTP -- protokol transferu plikow.",
+          "zasady_oceniania": "1 pkt - poprawna ocena.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "DNS moze sie wydawac poprawny bo tez dotyczy IP, ale DNS tlumacza nazwy, nie przydziela adresy"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "SQL",
+          "sumowanie cyfr",
+          "prawo autorskie",
+          "grafika rastrowa",
+          "sieci komputerowe"
+        ],
+        "czasowy_min": 15,
+        "zlozonosc": 1,
+        "trudnosc": 1
+      }
+    },
+    {
+      "numer": 2,
+      "tytul": "Calkowity pierwiastek kwadratowy",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Niech n bedzie dodatnia liczba calkowita. Calkowitym pierwiastkiem kwadratowym z liczby n nazywamy dodatnia liczbe calkowita k taka, ze k*k <= n i (k+1)*(k+1) > n.\nNa przyklad 3 jest calkowitym pierwiastkiem kwadratowym z liczb 9, 10, 11, 12, 13, 14 i 15.\nW tym zadaniu analizujemy algorytmy obliczania calkowitych pierwiastkow z dodatnich liczb calkowitych, ktore maja byc poprawne wzgledem nastepujacej specyfikacji:\nSpecyfikacja:\nDane: dodatnia liczba calkowita n\nWynik: dodatnia liczba calkowita k -- calkowity pierwiastek kwadratowy z liczby n\nPrzyklad: dla n = 39 wynikiem jest k = 6",
+      "podzadania": [
+        {
+          "id": "2015X.2.1",
+          "numer": "2.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1 (0-2)\na) W ponizszym algorytmie uzupelnij instrukcje w wierszu (3) tak, zeby otrzymany algorytm byl poprawny wzgledem podanej wczesniej specyfikacji.\n(1) k <- 1;\n(2) dopoki (k+1)*(k+1) <= n wykonuj\n(3)     k <- ............;\n\nPodaj, ile razy warunek w wierszu (2) powyzszego algorytmu jest sprawdzany odpowiednio dla n = 32 i n = 1024.\n| n | liczba sprawdzen warunku w wierszu 2 |\n|---|---|\n| 32 | |\n| 1024 | |",
+          "odpowiedz": "Uzupelnienie luki: k <- k+1\n\nLiczba sprawdzen warunku:\nn=32: sqrt(32)~5.66, wiec k konczy na 5. Warunek sprawdzany dla k=1,2,3,4,5 (prawdziwy) i k=5 po ostatniej iteracji k=6 (falszywy). Razem 5 sprawdzen.\nn=1024: sqrt(1024)=32, wiec k konczy na 32. Warunek sprawdzany 32 razy.\n\nTabela: n=32 -> 5, n=1024 -> 32",
+          "zasady_oceniania": "2 pkt - poprawne uzupelnienie instrukcji i tabeli.\n1 pkt - poprawne uzupelnienie algorytmu lub tabeli.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba policzyc WSZYSTKIE sprawdzenia warunku, lacznie z ostatnim (ktore daje falsz i konczy petle)",
+            "Dla n=32: floor(sqrt(32))=5, ale warunek (6)*(6)=36>32 jest sprawdzany i daje falsz -- to tez jest sprawdzenie"
+          ]
+        },
+        {
+          "id": "2015X.2.2",
+          "numer": "2.2",
+          "punkty": 2,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2 (0-2)\nb) W ponizszym algorytmie uzupelnij instrukcje w wierszu (5) tak, zeby otrzymany algorytm byl poprawny wzgledem podanej wczesniej specyfikacji.\n(1) k <- 1; m <- n;\n(2) dopoki (k+1)*(k+1) <= n wykonuj\n(3)     s <- (k+m) div 2;\n(4)     jesli s*s <= n to\n(5)         k <- ........\n(6)     w przeciwnym przypadku\n(7)         m <- s\n\nUwaga: uzyty operator div oznacza dzielenie calkowite, tzn. s jest najwieksza liczba calkowita nie wieksza od (k+m)/2.",
+          "odpowiedz": "Uzupelnienie luki: k <- s\n\nAlgorytm implementuje wyszukiwanie binarne: jesli s*s <= n, to s jest potencjalnym kandydatem na pierwiastek (moze byc wiekszy), wiec przesuwamy dolna granice k na s. W przeciwnym razie przesuwamy gorna granice m na s.",
+          "zasady_oceniania": "2 pkt - poprawne uzupelnienie instrukcji.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "To jest algorytm bisekcji -- k to dolna granica, m to gorna granica",
+            "Jesli s*s <= n, to s moze byc wynikiem lub wynik jest wiekszy, wiec k <- s (nie s+1!)"
+          ]
+        },
+        {
+          "id": "2015X.2.3",
+          "numer": "2.3",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.3 (0-2)\nc) Podaj, ile razy warunek w wierszu (2) z algorytmu z punktu b) jest sprawdzany odpowiednio dla n = 32 i n = 1024.\n| n | liczba sprawdzen warunku w wierszu 2 |\n|---|---|\n| 32 | |\n| 1024 | |",
+          "odpowiedz": "n=32: 6 sprawdzen\nn=1024: 6 sprawdzen\n\nAlgorytm bisekcji jest logarytmiczny -- dla n=32 i n=1024 potrzebuje okolo 6 sprawdzen (w porownaniu z 5 i 32 dla algorytmu liniowego).",
+          "zasady_oceniania": "2 pkt - poprawne uzupelnienie tabeli dla n=32 oraz dla n=1024.\n1 pkt - poprawne uzupelnienie tabeli dla n=32 lub dla n=1024.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba recznie przesledzi iteracje algorytmu bisekcji",
+            "Algorytm bisekcji daje logarytmiczna liczbe sprawdzen vs liniowa w punkcie a)"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "pierwiastek kwadratowy",
+          "wyszukiwanie liniowe",
+          "wyszukiwanie binarne",
+          "zlozonosc algorytmu"
+        ],
+        "czasowy_min": 20,
+        "zlozonosc": 2,
+        "trudnosc": 2
+      }
+    },
+    {
+      "numer": 3,
+      "tytul": "Progi i schody",
+      "punkty": 9,
+      "czesc": 1,
+      "kontekst": "W ciagu liczb naturalnych, para sasiednich liczb nazywamy progiem, jesli nastepna liczba jest mniejsza od poprzedniej.\nW ciagu liczb naturalnych, schodami do dolu nazywamy kazdy jego podciag kolejnych elementow, zlozony z przynajmniej dwoch liczb, w ktorym kazda liczba poza pierwsza nie jest wieksza od poprzedniej, a samego podciagu nie mozna rozszerzyc w zadna strone do innych schodow do dolu. Dlugoscia schodow do dolu nazywamy liczbe zawartych w nim elementow.\n\nPrzyklad:\nCiag: 3, 7, 7, 6, 5, 4, 4, 4, 5 zawiera schody do dolu 7, 7, 6, 5, 4, 4, 4 o dlugosci 7. Te schody zawieraja 3 progi: pierwszy to 7 i 6, drugi to 6 i 5, trzeci to 5 i 4.",
+      "podzadania": [
+        {
+          "id": "2015X.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1 (0-1)\na) Dla nastepujacego ciagu liczb: 2, 2, 2, 3, 1, 1, 3, 3, 1, 10, 11, 7, 7, 6, 7, 7, 8, 9, 9, 7\nwypisz kolejno wszystkie wystepujace w nim schody do dolu i obok kazdych schodow podaj jego dlugosc i liczbe zawartych w nim progow.",
+          "odpowiedz": "Schody do dolu, dlugosc, liczba progow:\n2, 2, 2 -- dlugosc 3, progow 0\n3, 1, 1 -- dlugosc 3, progow 1\n3, 3, 1 -- dlugosc 3, progow 1\n11, 7, 7, 6 -- dlugosc 4, progow 2\n7, 7 -- dlugosc 2, progow 0\n9, 9, 7 -- dlugosc 3, progow 1",
+          "zasady_oceniania": "1 pkt - poprawne podanie wszystkich wartosci.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Schody do dolu to NIEROSNACY podciag (rowne elementy tez naleza do schodow)",
+            "Schody musza byc MAKSYMALNE -- nie mozna ich rozszerzyc",
+            "Para 7, 7 w pozycjach 15-16 tez jest schodami (dlugosc 2, 0 progow) -- latwo ja przeoczyc"
+          ]
+        },
+        {
+          "id": "2015X.3.2",
+          "numer": "3.2",
+          "punkty": 2,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2 (0-2)\nb) Rozwazmy nastepujaca specyfikacje:\nDane: dodatnia liczba calkowita n oraz tablica a[1..n] zawierajaca n-elementowy ciag liczb calkowitych a[1], ..., a[n]\nWynik: liczba calkowita liczba_progow -- liczba wszystkich progow w ciagu zapisanym w tablicy a\n\nW wybranej przez siebie notacji opracuj algorytm zgodny z powyzszą specyfikacja.",
+          "odpowiedz": "liczba_progow := 0;\nfor i := 1 to n-1 do\n    if a[i] > a[i+1] then liczba_progow := liczba_progow + 1;",
+          "zasady_oceniania": "2 pkt - poprawne napisanie algorytmu.\n1 pkt - napisanie algorytmu nieuwzgledniajacego przypadkow brzegowych.\n0 pkt - bledny algorytm lub brak odpowiedzi.",
+          "pulapki": [
+            "Prog to para gdzie NASTEPNA jest mniejsza od POPRZEDNIEJ (a[i] > a[i+1]), nie odwrotnie",
+            "Petla musi isc do n-1 (nie n) zeby nie wyjsc poza tablice"
+          ]
+        },
+        {
+          "id": "2015X.3.3",
+          "numer": "3.3",
+          "punkty": 4,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.3 (0-4)\nc) Rozwazmy nastepujaca specyfikacje:\nDane: dodatnia liczba calkowita n oraz tablica a[1..n] zawierajaca n-elementowy ciag liczb calkowitych a[1], ..., a[n]\nWynik: liczba calkowita najw_liczba_progow -- najwieksza liczba progow w schodach do dolu z ciagu zapisanego w tablicy a\n\nW wybranej przez siebie notacji opracuj algorytm zgodny z powyzszą specyfikacja.",
+          "odpowiedz": "najw_liczba_progow := 0;\nliczba_progow_w_schodach := 0;\nfor i := 1 to n-1 do\n    if a[i] < a[i+1] then\n    { a[i+1] moze byc poczatkiem nowych schodow }\n    begin\n        if liczba_progow_w_schodach > najw_liczba_progow then\n            najw_liczba_progow := liczba_progow_w_schodach;\n        liczba_progow_w_schodach := 0\n    end\n    else\n        if a[i] > a[i+1] then\n            liczba_progow_w_schodach := liczba_progow_w_schodach + 1;\n\nif liczba_progow_w_schodach > najw_liczba_progow then\n    najw_liczba_progow := liczba_progow_w_schodach;",
+          "zasady_oceniania": "4 pkt - poprawne napisanie algorytmu.\n2 pkt - napisanie algorytmu, w ktorym nie uwzgledniono progow w schodach do dolu konczacych sie ostatnim elementem ciagu.\n0 pkt - bledny algorytm lub brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba pamietac o OSTATNICH schodach (konczacych sie na koncu ciagu) -- dodatkowe sprawdzenie po petli",
+            "Gdy a[i] == a[i+1] to jestesmy nadal w schodach (nierosnacy), ale NIE dodajemy progu",
+            "Gdy a[i] < a[i+1] to koniec schodow -- nalezy porownac z maksimum i zresetowac licznik"
+          ]
+        },
+        {
+          "id": "2015X.3.4",
+          "numer": "3.4",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.4 (0-2)\nd) Podaj, ile dokladnie porownan miedzy elementami ciagu danych wykona w pesymistycznym przypadku Twoj algorytm z punktu c). Odpowiedz uzasadnij.",
+          "odpowiedz": "W pesymistycznym przypadku w kazdym obrocie petli wykonywane sa dwa porownania: pierwsze sluzy do wykrycia nowych schodow, a drugie do identyfikacji progu. Zatem w pesymistycznym przypadku algorytm wykona dokladnie 2(n-1) porownan.",
+          "zasady_oceniania": "2 pkt - poprawne podanie liczby porownan i poprawne uzasadnienie.\n1 pkt - poprawne podanie liczby porownan i bledne uzasadnienie lub brak uzasadnienia.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba policzyc porownania MIEDZY ELEMENTAMI ciagu, nie wszystkie operacje",
+            "W najgorszym przypadku oba porownania (a[i]<a[i+1] i a[i]>a[i+1]) wykonuja sie w kazdej iteracji"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "ciagi liczbowe",
+          "podciagi nierosnace",
+          "zliczanie",
+          "analiza zlozonosci"
+        ],
+        "czasowy_min": 25,
+        "zlozonosc": 2,
+        "trudnosc": 2
+      }
+    },
+    {
+      "numer": 4,
+      "tytul": "Anagramy cyfrowe",
+      "punkty": 10,
+      "czesc": 2,
+      "kontekst": "Powiemy, ze dwie liczby naturalne a i b sa anagramami cyfrowymi, jesli liczbe a mozna zapisac dziesietnie za pomoca cyfr wystepujacych w zapisie dziesietnym liczby b, uzywajac kazdej cyfry dokladnie tyle razy, ile razy wystepuje w zapisie b (i symetrycznie).\nUwaga: przyjmujemy, ze w zapisie dziesietnym zadnej liczby nie ma nieznaczacych 0.\n\nW pliku dane_anagramy.txt znajduje sie 1000 par liczb calkowitych dodatnich, z ktorych kazda jest nie wieksza niz 2000000. Kazda para liczb jest zapisana w osobnym wierszu. Liczby w wierszu sa oddzielone pojedynczym znakiem odstepu.",
+      "podzadania": [
+        {
+          "id": "2015X.4.1",
+          "numer": "4.1",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.1 (0-4)\na) W ilu wierszach pliku dane_anagramy.txt zapisane w nich liczby to anagramy cyfrowe?\n\nPrzyklad:\nZalozmy, ze w pliku dane_anagramy.txt mamy nastepujace dane:\n232 322\n112 111\n223 121\n223 322\nWiersze, pierwszy i ostatni, zawieraja anagramy cyfrowe.",
+          "odpowiedz": "258",
+          "zasady_oceniania": "4 pkt - poprawne sortowanie cyfr w liczbach i poprawnie obliczona liczba par anagramow.\n2 pkt - poprawne sortowanie cyfr w liczbach i blednie obliczona liczba par anagramow.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Dwie liczby sa anagramami cyfrowymi gdy po posortowaniu ich cyfr otrzymujemy ten sam ciag",
+            "Trzeba porownywac CALY profil cyfrowy, nie tylko zbiory cyfr (np. 112 i 121 sa anagramami, ale 112 i 12 nie)"
+          ]
+        },
+        {
+          "id": "2015X.4.2",
+          "numer": "4.2",
+          "punkty": 6,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.2 (0-6)\nb) Ile maksymalnie liczb mozna znalezc w pliku dane_anagramy.txt, z ktorych kazde dwie to anagramy cyfrowe?\n\nPrzyklad:\nDla danych:\n232 322\n112 111\n223 121\n223 322\nW pliku znalezc mozna maksymalnie 5 liczb, z ktorych kazde dwie to anagramy cyfrowe: 232, 322, 223, 223, 322.",
+          "odpowiedz": "11",
+          "zasady_oceniania": "6 pkt - poprawne sortowanie cyfr w liczbach, zliczenie danych i obliczanie maksimum.\n4 pkt - poprawne sortowanie cyfr w liczbach, zliczenie danych i bledne obliczanie maksimum.\n2 pkt - poprawne sortowanie cyfr w liczbach, bledne zliczenie danych i obliczenie maksimum.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Liczby moga sie powtarzac w pliku i WSZYSTKIE powtorzenia sie licza",
+            "Trzeba znalezc klase anagramow (po posortowaniu cyfr) z najwieksza liczba wystapien we WSZYSTKICH liczbach pliku (obie kolumny)"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2015_przykladowy/dane_czII/",
+      "pliki_danych": [
+        "dane_anagramy.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "anagramy cyfrowe",
+          "sortowanie cyfr",
+          "zliczanie",
+          "grupowanie"
+        ],
+        "czasowy_min": 40,
+        "zlozonosc": 2,
+        "trudnosc": 2
+      }
+    },
+    {
+      "numer": 5,
+      "tytul": "Rowery",
+      "punkty": 10,
+      "czesc": 2,
+      "kontekst": "Plik rowery.txt zawiera 2000 wierszy z informacjami o sprzedazy rowerow w centrum rowerowym Cyklista w roku 2012. Pierwszy wiersz pliku jest wierszem naglowkowym. Kolejne wiersze skladaja sie z informacji o sprzedanych rowerach: numer sprzedazy (Nr), typ roweru (Typ), rodzaj (Rodzaj), kolor (Kolor), cena (Cena), data sprzedazy roweru (RRRR-MM-DD).\nDane w wierszach rozdzielone sa pojedynczymi znakami tabulacji.",
+      "podzadania": [
+        {
+          "id": "2015X.5.1",
+          "numer": "5.1",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_podstawowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.1 (0-2)\na) Utworz zestawienie zawierajace informacje o liczbach sprzedanych rowerow poszczegolnych typow. Zestawienie posortuj ze wzgledu na liczby rowerow.",
+          "odpowiedz": "| Typ | Liczba |\n|---|---|\n| play-bike | 14 |\n| rowerki_i_pojazdy | 115 |\n| Miejski | 200 |\n| szosowy_miejski | 231 |\n| szosowy_wyczynowy | 259 |\n| gorski_sportowy | 289 |\n| Skladany | 290 |\n| Uniwersalny | 291 |\n| gorski_rekreacyjny | 311 |",
+          "zasady_oceniania": "2 pkt - poprawne zestawienie liczby rowerow poszczegolnych typow i posortowanie ze wzgledu na liczby rowerow.\n1 pkt - poprawne zestawienie liczby rowerow poszczegolnych typow bez sortowania.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Sortowanie po LICZBIE rowerow (rosnaco), nie po nazwie typu"
+          ]
+        },
+        {
+          "id": "2015X.5.2",
+          "numer": "5.2",
+          "punkty": 4,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.2 (0-4)\nb) Utworz zestawienie zawierajace informacje o liczbach sprzedanych rowerow w poszczegolnych miesiacach. Sporzadz wykres kolumnowy przedstawiajacy otrzymane zestawienie. Pamietaj o prawidlowym i czytelnym opisie wykresu.",
+          "odpowiedz": "| Miesiac | Liczba zakupow |\n|---|---|\n| 1 | 45 |\n| 2 | 105 |\n| 3 | 180 |\n| 4 | 227 |\n| 5 | 274 |\n| 6 | 266 |\n| 7 | 241 |\n| 8 | 223 |\n| 9 | 175 |\n| 10 | 161 |\n| 11 | 74 |\n| 12 | 29 |\n\nWykres kolumnowy z opisem osi: os X -- miesiace, os Y -- liczba zakupow. Tytul: 'Liczba zakupow w kolejnych miesiacach'.",
+          "zasady_oceniania": "2 pkt - poprawne zestawienie liczby sprzedanych rowerow w kazdym miesiacu.\n1 pkt - zestawienie z co najmniej szescioma poprawnymi wierszami.\n0 pkt - inna odpowiedz lub brak odpowiedzi.\n\nWykres:\n2 pkt - poprawne wykonanie wykresu (poprawny dobor danych i typu wykresu -- 1 pkt, czytelny opis wykresu -- 1 pkt).\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Wykres musi byc kolumnowy (nie liniowy, nie kolowy)",
+            "Trzeba poprawnie opisac osie i tytul wykresu"
+          ]
+        },
+        {
+          "id": "2015X.5.3",
+          "numer": "5.3",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.3 (0-2)\nc) Dla kazdego rodzaju podaj srednia cene rowerow tego rodzaju (zaokraglona do dwoch miejsc po przecinku).",
+          "odpowiedz": "Zestawienie srednich cen rowerow dla kazdego rodzaju (damskie, meskie, dziecko), zaokraglone do 2 miejsc po przecinku. Obliczenie za pomoca funkcji AVERAGEIF lub tabeli przestawnej.",
+          "zasady_oceniania": "2 pkt - poprawne podanie sredniej ceny dla kazdego rodzaju.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Zaokraglenie do 2 miejsc po przecinku -- uzyc ROUND lub formatowania komorek",
+            "Funkcja AVERAGEIF pozwala liczyc srednia warunkowo"
+          ]
+        },
+        {
+          "id": "2015X.5.4",
+          "numer": "5.4",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.4 (0-2)\nd) Dla kazdego rodzaju rowerow, podaj liczbe sprzedanych rowerow w poszczegolnych kolorach.",
+          "odpowiedz": "Tabela krzyzowa (rodzaj x kolor) z liczbami sprzedanych rowerow. Obliczenie za pomoca COUNTIFS lub tabeli przestawnej.",
+          "zasady_oceniania": "2 pkt - poprawne podanie pelnego zestawienia.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Tabela krzyzowa -- wiersze to rodzaje, kolumny to kolory (lub odwrotnie)",
+            "COUNTIFS z dwoma warunkami: rodzaj i kolor"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2015_przykladowy/dane_czII/",
+      "pliki_danych": [
+        "rowery.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "arkusz kalkulacyjny",
+          "tabela przestawna",
+          "wykres kolumnowy",
+          "agregacja"
+        ],
+        "czasowy_min": 40,
+        "zlozonosc": 2,
+        "trudnosc": 2
+      }
+    },
+    {
+      "numer": 6,
+      "tytul": "Serwis samochodowy",
+      "punkty": 10,
+      "czesc": 2,
+      "kontekst": "W serwisie samochodowym Artem kilka duzych firm serwisuje swoja flote pojazdow. Dane sa cztery pliki tekstowe: pojazd.txt, usluga.txt, firma.txt oraz naprawa.txt. Zawieraja one informacje na temat uslug serwisowych, z jakich korzystaly pojazdy, nalezace do roznych firm, w ciagu calego 2012 roku.\nPierwszy wiersz kazdego z plikow jest wierszem naglowkowym, dane rozdzielone znakami tabulacji.\n\npojazd.txt: nr_rejestr, marka, rok_prod, firma_id\nusluga.txt: id, nazwa, cena\nfirma.txt: id, nazwa\nnaprawa.txt: id, data, nr_rejestr, usluga_id",
+      "podzadania": [
+        {
+          "id": "2015X.6.1",
+          "numer": "6.1",
+          "punkty": 2,
+          "typ_zadania": "sql_select_where",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.1 (0-2)\na) Podaj daty wymiany opon w samochodzie o numerze rejestracyjnym PO 3631H.",
+          "odpowiedz": "data\n2012-04-13\n2012-11-06\n\nSELECT data FROM naprawa JOIN usluga ON usluga_id = usluga.id\nWHERE nazwa = 'wymiana opon' AND nr_rejestr = 'PO 3631H'\nORDER BY data;",
+          "zasady_oceniania": "2 pkt - podanie poprawnej daty wiosennej i jesiennej wymiany opon.\n1 pkt - podanie jednej poprawnej daty wymiany opon.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba polaczyc tabele naprawa i usluga (JOIN) zeby uzyskac nazwe uslugi",
+            "Filtrowanie po nazwie uslugi i numerze rejestracyjnym"
+          ]
+        },
+        {
+          "id": "2015X.6.2",
+          "numer": "6.2",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.2 (0-2)\nb) Wykonaj zestawienie skladajace sie z nazwy kazdej firmy i liczby samochodow skladajacych sie na flote tej firmy. Zestawienie posortuj nierosnaco wg liczby samochodow.",
+          "odpowiedz": "| nazwa | PoliczOfnr_rejestr |\n|---|---|\n| METALEX | 30 |\n| FASAT | 29 |\n| PETROLEUM | 25 |\n| KONSBET | 23 |\n| RENOWATOR | 19 |\n| WERTIX | 18 |\n| LUBEX | 18 |\n| FERMILAB | 18 |\n| FAMUR | 17 |\n\nSELECT nazwa, COUNT(nr_rejestr)\nFROM firma LEFT JOIN pojazd ON firma.id = firma_id\nGROUP BY nazwa ORDER BY COUNT(nr_rejestr) DESC, nazwa;",
+          "zasady_oceniania": "2 pkt - podanie pelnego zestawienia i poprawne posortowanie.\n1 pkt - podanie pelnego zestawienia bez posortowania.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "LEFT JOIN zeby uwzglednic firmy bez samochodow (gdyby takie byly)",
+            "Sortowanie nierosnaco (DESC) wg liczby samochodow"
+          ]
+        },
+        {
+          "id": "2015X.6.3",
+          "numer": "6.3",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.3 (0-2)\nc) Dla kazdego miesiaca w roku podaj sume kosztow poniesionych przez firme LUBEX z tytulu napraw samochodow nalezacych do tej firmy w tym miesiacu.",
+          "odpowiedz": "| miesiac | suma |\n|---|---|\n| 1 | 15 |\n| 2 | 100 |\n| 3 | 476 |\n| 4 | 1065 |\n| 5 | 380 |\n| 6 | 195 |\n| 7 | 411 |\n| 8 | 40 |\n| 9 | 40 |\n| 10 | 460 |\n| 11 | 670 |\n| 12 | 70 |\n\nSELECT EXTRACT(MONTH FROM data) miesiac, SUM(cena) suma\nFROM naprawa JOIN usluga ON usluga_id = usluga.id\nJOIN pojazd ON naprawa.nr_rejestr = pojazd.nr_rejestr\nJOIN firma ON firma_id = firma.id\nWHERE firma.nazwa = 'LUBEX'\nGROUP BY EXTRACT(MONTH FROM data)\nORDER BY EXTRACT(MONTH FROM data);",
+          "zasady_oceniania": "2 pkt - poprawne podanie pelnego zestawienia.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba polaczyc 4 tabele: naprawa -> usluga (cena), naprawa -> pojazd (firma_id), pojazd -> firma (nazwa)",
+            "Wydobycie miesiaca z daty: EXTRACT(MONTH FROM data) lub MONTH(data)",
+            "Grupowanie po miesiacu"
+          ]
+        },
+        {
+          "id": "2015X.6.4",
+          "numer": "6.4",
+          "punkty": 2,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.4 (0-2)\nd) Podaj numer rejestracyjny, marke oraz wlasciciela samochodu, ktory skorzystal z najwiekszej liczby uslug serwisowych. Jest tylko jeden taki samochod.",
+          "odpowiedz": "numer rejestracyjny: PO 60910\nmarka samochodu i nazwa firmy: Ford Transit, FERMILAB\n\nSELECT nr_rejestr, marka, nazwa\nFROM pojazd JOIN firma ON firma_id = firma.id\nWHERE nr_rejestr IN\n    (SELECT nr_rejestr FROM naprawa GROUP BY nr_rejestr\n     HAVING COUNT(*) >= ALL(SELECT COUNT(*) FROM naprawa GROUP BY nr_rejestr));",
+          "zasady_oceniania": "2 pkt - poprawne podanie numeru rejestracyjnego i wlasciciela samochodu.\n1 pkt - poprawne podanie numeru rejestracyjnego lub wlasciciela samochodu.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Podzapytanie z HAVING COUNT(*) >= ALL(...) lub ORDER BY COUNT(*) DESC LIMIT 1",
+            "Trzeba polaczyc pojazd z firma zeby uzyskac nazwe firmy"
+          ]
+        },
+        {
+          "id": "2015X.6.5",
+          "numer": "6.5",
+          "punkty": 2,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.5 (0-2)\ne) Podaj nazwy firm, ktore wykonaly dla swoich samochodow, starszych niz te wyprodukowane 2009 roku, usluge wymiany plynu chlodniczego.",
+          "odpowiedz": "| nazwa |\n|---|\n| FAMUR |\n| KONSBET |\n| LUBEX |\n| RENOWATOR |\n\nSELECT nazwa FROM firma WHERE id IN\n    (SELECT firma_id FROM pojazd WHERE rok_prod < 2009 AND nr_rejestr IN\n        (SELECT nr_rejestr FROM usluga JOIN naprawa ON usluga.id = usluga_id\n         WHERE nazwa = 'wymiana plynu chlodniczego'));",
+          "zasady_oceniania": "2 pkt - poprawne podanie nazw firm.\n1 pkt - poprawne podanie nazw firm z powtorzeniami.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
+          "pulapki": [
+            "Starsze niz wyprodukowane 2009 = rok_prod < 2009 (nie <= 2009)",
+            "Firmy moga sie powtarzac jesli maja wiele takich samochodow -- trzeba uzyc DISTINCT lub IN",
+            "Trzy poziomy zagniezdzen: firma -> pojazd -> naprawa+usluga"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2015_przykladowy/dane_czII/",
+      "pliki_danych": [
+        "firma.txt",
+        "naprawa.txt",
+        "pojazd.txt",
+        "usluga.txt"
+      ],
+      "wymiary": {
+        "tematyczny": [
+          "SQL",
+          "JOIN",
+          "GROUP BY",
+          "podzapytania",
+          "agregacja"
+        ],
+        "czasowy_min": 50,
+        "zlozonosc": 2,
+        "trudnosc": 2
+      }
+    }
+  ]
+}

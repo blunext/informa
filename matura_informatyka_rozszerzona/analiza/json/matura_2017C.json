@@ -1,0 +1,369 @@
+{
+  "rok": 2017,
+  "sesja": "czerwiec",
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Sitko",
+      "punkty": 7,
+      "czesc": 1,
+      "kontekst": "Rozwazmy nastepujaca procedure, ktorej parametrem jest dodatnia liczba calkowita n.\n\nProcedura Sitko(n)\n  dla i=1,2,...,n wykonuj\n    Czyjest[i] <- falsz\n  j <- 1\n  dopoki j*j < n wykonuj\n    j <- j+1\n  dla i = 2,3,...,j wykonuj\n    kw <- i * i\n    poz <- kw\n    dopoki poz <= n\n      (*) Czyjest[poz] <- prawda\n      poz <- poz + kw\n\nProcedura ustawia Czyjest[1..n] na falsz, wyznacza j = ceil(sqrt(n)), potem dla kazdego i od 2 do j ustawia Czyjest na prawda dla pozycji bedacych wielokrotnosciami i^2 (tj. i^2, 2*i^2, 3*i^2, ...).",
+      "podzadania": [
+        {
+          "id": "2017C.1.1",
+          "numer": "1.1",
+          "punkty": 1,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1 (0-1)\nUzupelnij ponizszа tabele -- wpisz wartosci zmiennych j oraz Czyjest[k] po wykonaniu Sitko(n).\n\n| n   | k  | j  | Czyjest[k] |\n|-----|----|----|------------|\n| 10  | 9  | 4  | prawda     |\n| 10  | 5  |    |            |\n| 100 | 10 |    |            |\n| 100 | 75 |    |            |",
+          "odpowiedz": "| n   | k  | j  | Czyjest[k] |\n|-----|----|----|------------|\n| 10  | 9  | 4  | prawda     |\n| 10  | 5  | 4  | falsz      |\n| 100 | 10 | 10 | falsz      |\n| 100 | 75 | 10 | prawda     |\n\nDla n=10: j=4 (bo 3*3=9<10, 4*4=16>=10). Czyjest[9]=prawda (9=1*9, zaznaczone przez i=3). Czyjest[5]=falsz (5 nie jest wielokrotnoscia zadnego kwadratu >=4).\nDla n=100: j=10 (bo 10*10=100>=100). Czyjest[10]=falsz (10 nie jest wielokrotnoscia kwadratu >=4). Czyjest[75]=prawda (75=3*25, zaznaczone przez i=5).",
+          "zasady_oceniania": "1 pkt - za poprawnie wypelniona tabele.\n0 pkt - przy jakimkolwiek bledzie.",
+          "pulapki": [
+            "j to ceil(sqrt(n)), NIE floor(sqrt(n)) - petla 'dopoki j*j < n' daje j=4 dla n=10",
+            "Procedura zaznacza wielokrotnosci kwadratow (i^2, 2*i^2, ...) jako prawda, reszta zostaje falsz"
+          ]
+        },
+        {
+          "id": "2017C.1.2",
+          "numer": "1.2",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2 (0-2)\nRozwazmy dzialanie Sitko(100). Podaj liczbe wykonan instrukcji w wierszu oznaczonym (*) -- dla wartosci zmiennej i wskazanych w tabeli.\n\n| i | Liczba wykonan wiersza (*) |\n|---|---|\n| 2 | 25 |\n| 3 |    |\n| 5 |    |\n| 9 |    |\n\nSposrod ponizszych wartosci zaznacz w prawej kolumnie znakiem X te, ktore sa wieksze niz laczna liczba wykonan instrukcji z wiersza (*) w trakcie wykonywania procedury Sitko(100):\n\n| Wartosc | X |\n|---------|---|\n| ln 100  |   |\n| 100     |   |\n| 100*(1/2^2 + 1/3^2 + ... + 1/10^2) | |\n| sqrt(100) | |",
+          "odpowiedz": "Tabelka:\n| i | Liczba wykonan wiersza (*) |\n|---|---|\n| 2 | 25 |\n| 3 | floor(100/9) = 11 |\n| 5 | floor(100/25) = 4 |\n| 9 | floor(100/81) = 1 |\n\nDla kazdego i: liczba wykonan (*) = floor(n/i^2), bo poz przebiega wartosci i^2, 2*i^2, ..., a ostatnia nie przekraczajaca n to floor(n/i^2)*i^2.\n\nLaczna liczba wykonan: suma floor(100/i^2) dla i=2,...,10 = 25+11+6+4+2+2+1+1+1 = 53.\n\nWartosci wieksze niz 53:\n- ln 100 ≈ 4.6 — NIE\n- 100 — TAK (X)\n- 100*(1/2^2+1/3^2+...+1/10^2) ≈ 54.98 — TAK (X)\n- sqrt(100) = 10 — NIE",
+          "zasady_oceniania": "Za poprawnie wypelniona tabele: 1 punkt.\nZa poprawnie wskazane wartosci: 1 punkt.\nRazem: 2 punkty.",
+          "pulapki": [
+            "Liczba wykonan (*) dla danego i = floor(n/i^2), nie floor(n/i)",
+            "Wartosc 100*(sum 1/i^2) jest bliska lacznej liczbie wykonan, ale nieco wieksza (54.98 > 53)"
+          ]
+        },
+        {
+          "id": "2017C.1.3",
+          "numer": "1.3",
+          "punkty": 4,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.3 (0-4)\nLiczbe calkowita nazwiemy kwadratowa, jezeli da sie ja przedstawic w postaci a*b^2 + c*d^2, gdzie a, b, c, d sa dodatnimi liczbami calkowitymi oraz b i d sa wieksze od 1.\n\nZalozmy, ze dla danej dodatniej liczby calkowitej n za pomoca procedury Sitko(n) obliczymy tablice Czyjest[1..n].\n\nWykorzystujac tablice Czyjest, zapisz (w postaci pseudokodu, listy krokow lub wybranego jezyka programowania) algorytm, ktory sprawdza, czy dana liczba calkowita k, 1 <= k <= n jest liczba kwadratowa.\n\nSpecyfikacja:\nDane: n -- dodatnia liczba calkowita; Czyjest[1..n] -- tablica obliczona przez Sitko(n); k -- liczba calkowita, 1 <= k <= n.\nWynik: prawda, gdy k jest liczba kwadratowa, falsz w przeciwnym przypadku.",
+          "odpowiedz": "Algorytm I (pelny przeglad):\nfor (int i=1; i<=n; i++)\n  for (int j=i; j<=n; j++)\n    if (Czyjest[i] && Czyjest[j] && i+j==k)\n      return true\nreturn false\n\nAlgorytm II (dwukierunkowy):\nint i=1;\nint j=n;\nwhile (i<j)\n  if (!Czyjest[i] || i+j<k)\n    i += 1\n  else\n    if (!Czyjest[j] || i+j>k)\n      j -= 1\n    else\n      return true;\nreturn false;\n\nLiczba kwadratowa k = a*b^2 + c*d^2 oznacza, ze k jest suma dwoch liczb, z ktorych kazda jest wielokrotnoscia kwadratu (>=4), a wlasnie takie liczby maja Czyjest[]=prawda po Sitko(n).",
+          "zasady_oceniania": "Algorytm I:\n- Za poprawna organizacje petli: 1 punkt\n- Za poprawny warunek sumy kwadratowej: 2 punkty\nAlgorytm II:\n- Za poprawny warunek: 2 punkty\nRazem: 4 punkty.\n\nUwaga: Punktowane wedlug zastosowanego podejscia.",
+          "pulapki": [
+            "Kluczowe spostrzezenie: liczba kwadratowa = suma dwoch liczb z tablicy Czyjest (wielokrotnosci kwadratow)",
+            "Algorytm I: O(n^2), Algorytm II: O(n) - obydwa poprawne",
+            "Nalezy sprawdzac Czyjest[i] && Czyjest[j], nie wystarczy samo i+j==k"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 2,
+      "tytul": "Regularnosc",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "W tym zadaniu rozważamy tylko slowa zbudowane z wielkich liter A i B. Slowo nazwiemy palindromem, gdy czytane od lewej do prawej jest takie samo jak czytane od prawej do lewej. Np. ABABA jest palindromem, BAABA nie jest.\n\nDla slowa w definiujemy jego regularnosc reg(w) nastepujaco:\n- jesli w jest slowem jednoliterowym, to jest palindromem, a jego reg(w) = 1\n- jesli w sklada sie z wiecej niz jednej litery, mozna je przedstawic jako:\n  w = w1·Z·w2 (gdy dlugosc nieparzysta, Z to srodkowa litera A lub B)\n  lub w = w1·w2 (gdy dlugosc parzysta)\n  gdzie w1, w2 sa slowami tej samej dlugosci.\n  Jezeli w nie jest palindromem: reg(w) = 0.\n  Natomiast gdy w jest palindromem: reg(w) = reg(w1) + 1.\n\nPrzyklad:\n| W       | reg(w) |\n|---------|--------|\n| A       | 1      |\n| ABB     | 0      |\n| BAAAB   | 1      |\n| BBAAABB | 1      |\n| BABBAB  | 3      |",
+      "podzadania": [
+        {
+          "id": "2017C.2.1",
+          "numer": "2.1",
+          "punkty": 1,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1 (0-1)\nPodaj wartosci funkcji reg(w) dla slow z ponizszej tabeli.\n\n| w        | reg(w) |\n|----------|--------|\n| BABBAB   | 3      |\n| BABBBB   |        |\n| BAAAAB   |        |\n| B        |        |\n| BBB      |        |\n| AAAAAAAA |        |",
+          "odpowiedz": "| w        | reg(w) |\n|----------|--------|\n| BABBAB   | 3      |\n| BABBBB   | 0      |\n| BAAAAB   | 1      |\n| B        | 1      |\n| BBB      | 2      |\n| AAAAAAAA | 4      |\n\nBABBBB: odwrotnie BBBBAB ≠ BABBBB, nie palindrom → 0.\nBAAAAB: palindrom, w1=BAA, reg(BAA)=0 (BAA odwrotnie AAB≠BAA) → 1+0=1.\nB: jednoliterowy → 1.\nBBB: palindrom, w1=B → 1+reg(B)=1+1=2.\nAAAAAAAA: palindrom, w1=AAAA, reg(AAAA): palindrom, w1=AA, reg(AA): palindrom, w1=A → 1+1=2. reg(AAAA)=1+2=3. reg(AAAAAAAA)=1+3=4.",
+          "zasady_oceniania": "1 pkt - za poprawne wypelnienie tabeli.\n0 pkt - przy jakimkolwiek bledzie.",
+          "pulapki": [
+            "Trzeba sprawdzic czy slowo jest palindromem ZANIM liczymy reg -- jesli nie, to reg=0",
+            "AAAAAAAA ma reg=4 (rekurencyjnie: 8->4->2->1 znakow, kazdy palindrom)"
+          ]
+        },
+        {
+          "id": "2017C.2.2",
+          "numer": "2.2",
+          "punkty": 4,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2 (0-4)\nW zaprezentowanej ponizej funkcji REG(w,n) uzupelnij brakujace elementy tak, aby realizowala ona nastepujaca specyfikacje:\n\nSpecyfikacja:\nDane: n -- dodatnia liczba calkowita; w[1..n] -- slowo zlozone z liter A, B.\nWynik: wartosc reg(w).\n\nFunkcja REG(w,n)\n  jezeli n = 1\n    wynikiem jest ........\n  w przeciwnym przypadku\n    jezeli n mod 2 = 0\n      m <- n / 2\n    w przeciwnym przypadku\n      m <- (n - 1) / 2\n    dla i=1,2,...,m wykonuj\n      jezeli w[i] ≠ .........\n        podaj wynik 0 i zakoncz wykonywanie funkcji\n    x <- w[1..m]\n    wynikiem jest 1 + ..........\n\nUwaga: mod -- reszta z dzielenia calkowitego.",
+          "odpowiedz": "Poprawne uzupelnienia:\n1. wynikiem jest 1 (jednoliterowe slowo = palindrom, reg=1)\n2. w[i] ≠ w[n+1-i] (porownanie z lustrzana pozycja -- sprawdzenie palindromu)\n3. wynikiem jest 1 + REG(w,m) lub 1 + REG(x,m) lub 1 + REG(w[1..m],m)\n\nPelna funkcja:\nFunkcja REG(w,n)\n  jezeli n = 1\n    wynikiem jest 1\n  w przeciwnym przypadku\n    jezeli n mod 2 = 0\n      m <- n / 2\n    w przeciwnym przypadku\n      m <- (n - 1) / 2\n    dla i=1,2,...,m wykonuj\n      jezeli w[i] ≠ w[n+1-i]\n        podaj wynik 0 i zakoncz\n    x <- w[1..m]\n    wynikiem jest 1 + REG(w,m)",
+          "zasady_oceniania": "Za poprawne uzupelnienie 'wynikiem jest 1': 1 punkt.\nZa poprawne uzupelnienie 'w[n+1-i]': 1 punkt.\nZa poprawne uzupelnienie '1 + REG(w[1..m],m)' lub '1 + REG(x,m)' lub '1 + REG(w,m)': 2 punkty.\nRazem: 4 punkty.",
+          "pulapki": [
+            "Lustrzana pozycja to w[n+1-i], nie w[n-i] ani w[n-i+1]",
+            "Wywolanie rekurencyjne z m (dlugoscia polowki), nie z n/2 ani (n-1)/2 bezposrednio",
+            "REG(w,m) a nie REG(w,n-1) -- rekurencja na polowke slowa"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 3,
+      "tytul": "Zegary",
+      "punkty": 3,
+      "czesc": 1,
+      "kontekst": "W oddzialach swiatowej korporacji zegary podaja liczbe minut, ktore uplynely od poczatku doby. Wynik podawany jest w roznych systemach pozycyjnych:\n- Oddzial A: system binarny (dwojkowy),\n- Oddzial B: system czworkowy,\n- Oddzial C: system szesnastkowy.\n\nOddzialy A, B i C znajduja sie w roznych strefach czasowych, dlatego zegary nie wskazuja tej samej liczby. W pewnym momencie zegary wskazywaly nastepujace wartosci:\n- Oddzial A: 00010110100\n- Oddzial B: 000330\n- Oddzial C: 078",
+      "podzadania": [
+        {
+          "id": "2017C.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1 (0-1)\nOcen, czy ponizsze zdania sa prawdziwe. Zaznacz P, jesli zdanie jest prawdziwe, lub F -- jesli jest falszye.\n\n| Zdanie | P | F |\n|--------|---|---|\n| Wskazania wszystkich trzech zegarow sa wielokrotnosciami liczby 9(10). | | |\n| Wskazania zegarow sa wielokrotnosciami liczby 6(10). | | |\n| Dla kazdej pary zegarow roznica ich wartosci jest wielokrotnoscia liczby 60(10). | | |\n| Najwieksza wartosc wskazuje zegar w oddziale A, a najmniejsza zegar w oddziale C. | | |",
+          "odpowiedz": "F, P, P, F\n\nOddzial A: 00010110100(2) = 180(10)\nOddzial B: 000330(4) = 3*16+3*4 = 48+12 = 60(10)\nOddzial C: 078(16) = 7*16+8 = 120(10)\n\n1. Wielokrotnosci 9: 180/9=20 OK, 60/9=6.67 NIE → F\n2. Wielokrotnosci 6: 180/6=30, 60/6=10, 120/6=20 → P\n3. Roznice: 180-60=120=2*60, 180-120=60, 120-60=60 → P\n4. Najwieksza A(180) OK, najmniejsza C(120)? Nie, B(60) jest najmniejsza → F",
+          "zasady_oceniania": "1 pkt - za poprawne odpowiedzi (FPPF).\n0 pkt - inna odpowiedz.",
+          "pulapki": [
+            "Trzeba poprawnie przeliczyc wszystkie trzy wartosci na system dziesietny",
+            "Pulapka w zdaniu 4: najmniejsza wartosc jest w B (60), nie w C (120)"
+          ]
+        },
+        {
+          "id": "2017C.3.2",
+          "numer": "3.2",
+          "punkty": 2,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2 (0-2)\nPo pewnym czasie ponownie odczytano wszystkie zegary (jednoczesnie). Niestety, podczas tych odczytow nie wszystkie znaki byly widoczne. Wartosci odczytow to:\n- Oddzial A: 000110100XX (binarny)\n- Oddzial B: 001XX2 (czworkowy)\n- Oddzial C: X96 (szesnastkowy)\n\ngdzie X oznacza znak, ktorego wartosci nie udalo sie odczytac.\n\nPodaj pelne wartosci odczytow poszczegolnych zegarow.",
+          "odpowiedz": "Oddzial A: 00011010010 (210(10))\nOddzial B: 001122 (90(10))\nOddzial C: 096 (150(10))\n\nOd pierwszego odczytu minelo tyle samo czasu dla kazdego zegara. Roznice musza byc rowne:\n- A: 210-180=30\n- B: 90-60=30\n- C: 150-120=30\nWszystkie zegary wzrosly o 30 minut.",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz.\n1 pkt - za odpowiedz z jednym blednym wynikiem.\nRazem: 2 punkty.",
+          "pulapki": [
+            "Kluczowe: odczyty sa jednoczesne, wiec przyrost czasu musi byc taki sam dla wszystkich zegarow",
+            "W systemie czworkowym cyfry to 0-3, w szesnastkowym 0-F",
+            "Trzeba znalezc wspolny przyrost (30 minut) i z niego wyliczyc brakujace cyfry"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 4,
+      "tytul": "Punkty XY",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "Plik punkty.txt zawiera 1000 wierszy, w ktorych zapisane sa po dwie liczby calkowite z przedzialu [0, 10000], oddzielone pojedynczym odstepem. Para liczb w kazdym wierszu odpowiada wspolrzednym (x, y) jednego punktu w ukladzie kartezjanskim. W danych punkty sie nie powtarzaja.\n\nNapisz program(y), ktory(e) da(dza) odpowiedzi do ponizszych zadan. Odpowiedzi zapisz w pliku wyniki4.txt.",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2017_czerwiec/MIN-DANE-2017/",
+      "pliki_danych": ["punkty.txt"],
+      "podzadania": [
+        {
+          "id": "2017C.4.1",
+          "numer": "4.1",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.1 (0-2)\nIle jest punktow, ktorych obie wspolrzedne sa liczbami pierwszymi?",
+          "odpowiedz": "18",
+          "zasady_oceniania": "2 pkt - za podanie poprawnej liczby punktow (18).\n1 pkt - za podanie wyniku 236, ktory oznacza liczbe punktow, ktorych przynajmniej jedna wspolrzedna jest liczba pierwsza.",
+          "pulapki": [
+            "OBIE wspolrzedne musza byc pierwsze, nie tylko jedna",
+            "Czesty blad: liczenie punktow z przynajmniej jedna wspolrzedna pierwsza (236)"
+          ]
+        },
+        {
+          "id": "2017C.4.2",
+          "numer": "4.2",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.2 (0-3)\nDwie liczby sa cyfropodobne, jezeli do zapisania kazdej z nich wykorzystujemy takie same cyfry dziesietne.\n\nPodaj ile jest punktow, ktorych wspolrzedne sa cyfropodobne.\n\nPrzyklad: Liczby bedace wspolrzednymi punktu (123, 1321) sa cyfropodobne, poniewaz obie zostaly zapisane za pomoca cyfr 1, 2, 3.\nPrzyklad: Liczby bedace wspolrzednymi punktu (505, 55) nie sa cyfropodobne, poniewaz do zapisania pierwszej liczby wykorzystano cyfry 0 i 5, a do zapisania drugiej wykorzystano tylko cyfre 5.",
+          "odpowiedz": "5\n\nTrzeba porownac ZBIORY cyfr (nie ilosci) obu wspolrzednych.",
+          "zasady_oceniania": "3 pkt - za podanie poprawnej liczby punktow (5).\n1 pkt - za podanie odpowiedzi nieuwzgledniajacej punktu (829, 2899) czyli (4).",
+          "pulapki": [
+            "Chodzi o ZBIOR cyfr (unikalne cyfry), nie o ich krotnosci",
+            "Punkt (829, 2899) latwo przeoczyc -- cyfry {8,2,9} sa takie same w obu liczbach"
+          ]
+        },
+        {
+          "id": "2017C.4.3",
+          "numer": "4.3",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.3 (0-3)\nZnajdz najbardziej oddalone od siebie punkty. Podaj wspolrzedne znalezionych punktow oraz odleglosc miedzy nimi zaokraglona do liczby calkowitej.\nJest tylko jedna para takich punktow.\n\nUwaga: odleglosc punktow A i B na plaszczyznie okresla wzor:\n|AB| = sqrt((xB-xA)^2 + (yB-yA)^2)",
+          "odpowiedz": "Punkty: (9901, 593) i (35, 9583)\nOdleglosc: 13348 (zaokraglona do liczby calkowitej).\nUwaga: za poprawny uznajemy tez wynik 13347.",
+          "zasady_oceniania": "Za podanie wspolrzednych punktow lezacych najdalej od siebie: 2 punkty (po jednym za kazdy punkt).\nZa podanie najwiekszej odleglosci zaokraglonej do liczby calkowitej (13348): 1 punkt.\nUwaga: za poprawny uznajemy tez wynik 13347.",
+          "pulapki": [
+            "Trzeba sprawdzic WSZYSTKIE pary punktow (1000*999/2 par)",
+            "Zaokraglanie: 13347 lub 13348 sa akceptowane"
+          ]
+        },
+        {
+          "id": "2017C.4.4",
+          "numer": "4.4",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.4 (0-3)\nDlugosc boku kwadratu K rowna sie 10000. Srodek symetrii tego kwadratu znajduje sie w poczatku ukladu wspolrzednych XY, a jego boki sa rownolegle do osi ukladu. Podaj liczbe punktow, ktore leza odpowiednio:\na. wewnatrz kwadratu K (bez jego bokow),\nb. na bokach kwadratu K,\nc. na zewnatrz kwadratu K (bez jego bokow).",
+          "odpowiedz": "a. wewnatrz: 249\nb. na bokach: 2\nc. na zewnatrz: 749\n\nKwadrat K: srodek (0,0), bok 10000. Boki od -5000 do 5000 wzdluz obu osi.\nWewnatrz: -5000 < x < 5000 AND -5000 < y < 5000.\nNa bokach: (|x|=5000 AND |y|<=5000) OR (|y|=5000 AND |x|<=5000).\nNa zewnatrz: reszta (|x|>5000 OR |y|>5000).\nSprawdzenie: 249+2+749=1000.",
+          "zasady_oceniania": "3 pkt - za podanie poprawnych trzech wartosci (249, 2, 749).\nPo jednym punkcie za kazda poprawna wartosc.",
+          "pulapki": [
+            "Srodek kwadratu to (0,0), nie (5000,5000) -- wspolrzedne punktow z [0,10000] wiec wiekszosc na zewnatrz",
+            "Nalezy odroznic 'wewnatrz' (ostry) od 'na bokach' (granica)",
+            "249+2+749=1000 -- kontrola poprawnosci"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 5,
+      "tytul": "Firma transportowa",
+      "punkty": 13,
+      "czesc": 2,
+      "kontekst": "Firma transportowa dysponuje samochodami ciezarowymi. Informacje o wszystkich samochodach zapisano w pliku transport.txt. Kazdy samochod opisano w osobnym wierszu: marka i model (lacznie jako jedno pole), rok produkcji, cena zakupu w zl, numer rejestracyjny, przebieg w km, data ostatniego remontu. Dane oddzielone tabulatorem, pierwszy wiersz naglowkowy.\n\nAmortyzacja:\n- o 5% ceny zakupu za kazdy rok od roku produkcji\n- o 2% ceny zakupu po przejechaniu kazdych 100 000 km\n\nPrzyklad: samochod z 2015 r., cena 70000 zl, w 2017 r. przy przebiegu 350000 km:\n- amortyzacja czasowa: 5%*70000*2 = 7000 zl\n- amortyzacja przebiegu: 2%*70000*3 = 4200 zl\n- wartosc: 70000-7000-4200 = 58800 zl",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2017_czerwiec/MIN-DANE-2017/",
+      "pliki_danych": ["transport.txt"],
+      "podzadania": [
+        {
+          "id": "2017C.5.1",
+          "numer": "5.1",
+          "punkty": 4,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.1 (0-4)\na) Podaj, jaka wartosc w roku 2017 ma samochod Volvo FH o numerze rejestracyjnym ERA 092 TR oraz jego kwote amortyzacji wynikajaca z uplywu czasu i kwote amortyzacji wynikajaca z uzytkowania (przebiegu), aktualne w roku 2017.\nb) Wyszukaj samochod o najnizszej wartosci w roku 2017. Podaj jego marke i model, numer rejestracyjny oraz wartosc w roku 2017.",
+          "odpowiedz": "a) Volvo FH, ERA 092 TR:\n- wartosc w 2017: 43 610 zl\n- amortyzacja czasowa: 40 050 zl\n- amortyzacja przebiegu: 5 340 zl\n\nb) Samochod o najnizszej wartosci: DAF LF45 z roku 2010, numer rejestracyjny ERA 132 TR, wartosc 17 390 zl.",
+          "zasady_oceniania": "4 pkt - za poprawna pelna odpowiedz, w tym:\n- za podanie wartosci Volvo FH ERA092TR w 2017 r (43610 zl): 1 punkt\n- za podanie amortyzacji czasowej (40050 zl): 1 punkt\n- za amortyzacje przebiegu (5340 zl): 1 punkt\n- za wyszukanie samochodu o najnizszej wartosci (DAF LF45, ERA 132 TR, 17390 zl): 1 punkt",
+          "pulapki": [
+            "Amortyzacja przebiegu: floor(przebieg/100000) * 2% * cena -- dzielenie calkowite",
+            "Wartosc moze wyjsc ujemna jesli amortyzacja przekracza cene zakupu"
+          ]
+        },
+        {
+          "id": "2017C.5.2",
+          "numer": "5.2",
+          "punkty": 4,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.2 (0-4)\nPole Marka_i_model kazdego samochodu zawiera dwie informacje: nazwe marki i model, oddzielone pojedynczym znakiem odstępu. Wyluskaj nazwe marki kazdego samochodu. Nastepnie sporzadz zestawienie, w ktorym dla kazdej marki podasz:\na) liczbe samochodow tej marki w firmie\nb) sredni przebieg samochodow tej marki w kilometrach, zaokraglony do liczby calkowitej.\n\nWykonaj wykres kolumnowy ilustrujacy sredni przebieg kazdej marki samochodu. Pamietaj o opisie wykresu (tytul + etykiety osi poziomej).",
+          "odpowiedz": "| Marka    | Liczba | Sredni przebieg (km) |\n|----------|--------|----------------------|\n| DAF      | 30     | 273 239 lub 273 240  |\n| Iveco    | 12     | 657 434 lub 657 435  |\n| MAN      | 18     | 289 637              |\n| Mercedes | 17     | 486 545 lub 486 546  |\n| Renault  | 17     | 519 936              |\n| Scania   | 17     | 557 117 lub 557 118  |\n| Volvo    | 23     | 307 130              |\n\n+ wykres kolumnowy sredniego przebiegu z tytulem i etykietami osi.",
+          "zasady_oceniania": "4 pkt, w tym:\n- za podanie pelnej listy liczby samochodow kazdej marki: 1 punkt\n- za podanie sredniego przebiegu kazdej marki (zaokraglony): 1 punkt\n- za sporzadzenie wykresu ilustrujacego wyniki: 1 punkt\n- za czytelny opis wykresu (tytul + etykiety osi): 1 punkt",
+          "pulapki": [
+            "Wyluzkanie marki: pierwsza czesc pola Marka_i_model (przed spacja)",
+            "Sredni przebieg zaokraglony do calkowitej -- AVERAGEIF lub SUMIF/COUNTIF"
+          ]
+        },
+        {
+          "id": "2017C.5.3",
+          "numer": "5.3",
+          "punkty": 2,
+          "typ_zadania": "arkusz_transformacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.3 (0-2)\nUtworz zestawienie zawierajace liczby samochodow poszczegolnych marek wyprodukowanych w kolejnych latach od 2006 do 2015 wlacznie.",
+          "odpowiedz": "Tabela krzyzowa (lata 2006-2015 × 7 marek):\n\n|      | Volvo | Scania | Renault | Mercedes | MAN | Iveco | DAF |\n|------|-------|--------|---------|----------|-----|-------|-----|\n| 2006 | 0     | 0      | 0       | 0        | 0   | 5     | 0   |\n| 2007 | 0     | 0      | 0       | 1        | 1   | 0     | 0   |\n| 2008 | 4     | 0      | 0       | 0        | 0   | 0     | 0   |\n| 2009 | 8     | 4      | 2       | 4        | 4   | 2     | 2   |\n| 2010 | 2     | 0      | 6       | 4        | 2   | 2     | 4   |\n| 2011 | 0     | 6      | 6       | 4        | 0   | 0     | 2   |\n| 2012 | 4     | 5      | 3       | 1        | 3   | 3     | 8   |\n| 2013 | 0     | 2      | 0       | 0        | 3   | 0     | 11  |\n| 2014 | 0     | 0      | 0       | 1        | 5   | 0     | 3   |\n| 2015 | 5     | 0      | 0       | 2        | 0   | 0     | 0   |",
+          "zasady_oceniania": "2 pkt - za pelne poprawne zestawienie.\n1 pkt - za odpowiedz z jednym blednym wierszem lub kolumna.",
+          "pulapki": [
+            "COUNTIFS z dwoma warunkami: marka + rok produkcji",
+            "Mozna uzyc tabeli przestawnej lub formuly LICZ.WARUNKI (COUNTIFS)"
+          ]
+        },
+        {
+          "id": "2017C.5.4",
+          "numer": "5.4",
+          "punkty": 3,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.4 (0-3)\nWyszukaj cztery samochody, dla ktorych uplynelo najwiecej czasu od daty ostatniego remontu, do dnia 1 stycznia 2017. Dla kazdego z nich podaj: marke i model, numer rejestracyjny oraz liczbe dni, ktore uplynely od daty ich ostatniego remontu do dnia 1 stycznia 2017.",
+          "odpowiedz": "Dzien odniesienia: 2017-01-01\n\n| Marka i model       | Nr rejestracyjny | Dni od remontu |\n|---------------------|------------------|----------------|\n| Mercedes Atego      | ERA 112 TR       | 722            |\n| Iveco Strails       | ERA 212 TR       | 708            |\n| Iveco Strails       | ERA 213 TR       | 708            |\n| Iveco Trakker Euro5 | ERA 214 TR       | 708            |",
+          "zasady_oceniania": "3 pkt - za poprawne zestawienie, w tym:\n- za podanie Mercedes Atego, ERA 112 TR, 722: 1 punkt\n- za podanie Iveco Strails ERA 212 TR 708, Iveco Strails ERA 213 TR 708, Iveco Trakker Euro5 ERA 214 TR 708: 2 punkty",
+          "pulapki": [
+            "Dzien odniesienia to 1 STYCZNIA 2017 (nie koniec roku, nie dzisiejszy dzien)",
+            "Trzy samochody Iveco maja taka sama date remontu (708 dni)"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 6,
+      "tytul": "Sklep internetowy",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "Sklep internetowy prowadzi sprzedaz programow komputerowych roznych firm. Wiekszosc oprogramowania oferowana jest w pakietach po kilka programow. Dane w trzech plikach (tab-separated, naglowek w 1 wierszu):\n\nprogramy.txt: Id_programu, program, rodzaj, cena (w zl).\npakiety.txt: Id_pakietu, nazwa_pakietu, firma.\nzestawy.txt: Id_pakietu, Id_programu (relacja wiele-do-wielu).\n\nPrzykladowe dane:\nprogramy.txt: 1 Photoshop grafika 890; 11 Word edytor dokumentow tekstowych 120; 21 Calc arkusz kalkulacyjny 0\npakiety.txt: 11 Adobe Creative Adobe Systems; 21 MicroStation Bentley; 31 BadCopy JustSoft\nzestawy.txt: 24 64; 24 65; 17 30",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2017_czerwiec/MIN-DANE-2017/",
+      "pliki_danych": ["pakiety.txt", "programy.txt", "zestawy.txt"],
+      "podzadania": [
+        {
+          "id": "2017C.6.1",
+          "numer": "6.1",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.1 (0-2)\nWyszukaj wszystkie programy z rodzaju 'edytor dokumentow tekstowych', ktore sa zawarte przynajmniej w dwoch roznych pakietach. Utworz zestawienie zawierajace dla kazdego z tych programow: jego nazwe, cene oraz liczbe pakietow, w ktorych jest zawarty.",
+          "odpowiedz": "| program                   | cena      | Liczba pakietow |\n|---------------------------|-----------|------------------|\n| Foxit Redactor for Office | 1 621 zl  | 2                |\n| Publisher                 | 170 zl    | 3                |\n| Word                      | 120 zl    | 4                |\n| Writer                    | 0 zl      | 3                |",
+          "zasady_oceniania": "2 pkt - za poprawne zestawienie.\n1 pkt - za odpowiedz z jednym blednym wierszem.\nUwaga: jesli zdajacy wypisze 16 pakietow (programy we WSZYSTKICH pakietach, nie >= 2): 1 pkt.",
+          "pulapki": [
+            "Filtr rodzaju: 'edytor dokumentow tekstowych' (dokladne dopasowanie)",
+            "HAVING COUNT >= 2, nie > 2",
+            "Czesty blad: pokazanie programow we wszystkich pakietach zamiast >= 2"
+          ]
+        },
+        {
+          "id": "2017C.6.2",
+          "numer": "6.2",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.2 (0-2)\nPodaj unikatowa liste nazw pakietow zawierajacych takie programy, w ktorych do opisu rodzaju uzyto slowo: zarzadzanie (unikatowa lista zawiera elementy bez powtorzen).",
+          "odpowiedz": "1. Calligra Suite\n2. DocuPDF\n3. gDOC\n4. GFI Security\n5. IBM Data Software\n6. OKAY\n7. Sales Partner\n8. SolarWinds Free System Management Tools\n9. SolarWinds Systems Management\n10. Subiekt",
+          "zasady_oceniania": "2 pkt - za poprawna liste nazw pakietow.\n1 pkt - za odpowiedz z dwoma bledami lub liste z powtorzeniami.",
+          "pulapki": [
+            "Uzyto slowo 'zarzadzanie' -- moze byc czesc dluzszego opisu rodzaju (LIKE '%zarzadzanie%')",
+            "DISTINCT na nazwach pakietow -- jeden pakiet moze zawierac wiele programow z 'zarzadzanie'"
+          ]
+        },
+        {
+          "id": "2017C.6.3",
+          "numer": "6.3",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.3 (0-2)\nDla kazdego pakietu oblicz jego wartosc, czyli sume cen programow w nim zawartych. Utworz zestawienie zawierajace trzy najdrozsze pakiety (o najwiekszych wartosciach), dla kazdego z nich podaj nazwe pakietu, nazwe firmy i wartosc.",
+          "odpowiedz": "| nazwa_pakietu                    | firma       | wartosc |\n|----------------------------------|-------------|----------|\n| SolarWinds Systems Management    | SolarWinds  | 57520   |\n| MicroStation                     | Bentley     | 35736   |\n| GFI Security                     | GFI Software| 14811   |",
+          "zasady_oceniania": "2 pkt - za poprawne zestawienie zawierajace liste nazw pakietow z firma i wartoscia.\n0 pkt - inna odpowiedz.",
+          "pulapki": [
+            "Wartosc pakietu = SUM(cena) z JOIN zestawy-programy, pogrupowane po pakiecie",
+            "ORDER BY DESC LIMIT 3 (lub TOP 3)"
+          ]
+        },
+        {
+          "id": "2017C.6.4",
+          "numer": "6.4",
+          "punkty": 2,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.4 (0-2)\nPodaj nazwy wszystkich programow, ktore nie wystepuja w zadnym pakiecie.",
+          "odpowiedz": "Adobe PageMaker\nAudition\nLightroom\nQuarkXPress\nScribus",
+          "zasady_oceniania": "2 pkt - za poprawna liste 5 nazw programow.\n0 pkt - inna odpowiedz.",
+          "pulapki": [
+            "NOT IN (SELECT Id_programu FROM zestawy) lub LEFT JOIN ... WHERE z.Id_programu IS NULL",
+            "Dokladnie 5 programow nie nalezy do zadnego pakietu"
+          ]
+        },
+        {
+          "id": "2017C.6.5",
+          "numer": "6.5",
+          "punkty": 3,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.5 (0-3)\nWyszukaj takie pakiety, ktore zawieraja przynajmniej jeden program w cenie wiekszej niz 0 zl (komercyjny) i przynajmniej jeden program w cenie rownej 0 zl (darmowy). Utworz zestawienie, w ktorym podasz nazwy tych pakietow oraz liczbe programow komercyjnych, a takze liczbe programow darmowych w nim zawartych dla kazdego pakietu.",
+          "odpowiedz": "| nazwa_pakietu               | Ile darmowych | Ile komercyjnych |\n|-----------------------------|---------------|------------------|\n| ApexSQL Developer           | 2             | 7                |\n| DaemonTools Lite            | 1             | 8                |\n| dbForge                     | 1             | 5                |\n| Expression Studio           | 1             | 3                |\n| Foxit PDF Development Kits  | 1             | 2                |\n| IconCool Software           | 1             | 4                |\n| Logo-Gry                    | 2             | 8                |\n| MicroStation                | 1             | 4                |\n| Sothink Suite               | 1             | 6                |",
+          "zasady_oceniania": "3 pkt - za poprawne pelne zestawienie 9 pakietow, w tym:\n- za poprawna liste nazw pakietow: 1 punkt\n- za poprawna liczbe programow komercyjnych: 1 punkt\n- za poprawna liczbe programow darmowych w kazdym pakiecie: 1 punkt",
+          "pulapki": [
+            "Pakiet musi miec ZAROWNO darmowe (cena=0) JAK I komercyjne (cena>0) programy",
+            "Warunkowe zliczanie: SUM(CASE WHEN cena=0 THEN 1 ELSE 0 END) + HAVING oba > 0"
+          ]
+        }
+      ]
+    }
+  ]
+}

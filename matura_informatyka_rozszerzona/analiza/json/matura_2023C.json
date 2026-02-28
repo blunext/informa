@@ -82,7 +82,7 @@
       "punkty": 10,
       "czesc": 1,
       "kontekst": "Slowo definiujemy jako ciag zlozony z malych liter alfabetu angielskiego.\nNiech s[1..n] bedzie slowem o dlugosci n > 0.\nSufiksem slowa s nazywamy kazde jego podslowo konczace na ostatniej pozycji slowa s.\nSufiks s[k..n] nazywamy k-tym sufiksem.\n\nPrzyklad: slowo s[1..10] = mascarpone ma 10 sufiksow (mascarpone, ascarpone, scarpone, carpone, arpone, rpone, pone, one, ne, e).\nUporzadkowanie alfabetyczne wszystkich sufiksow slowa mascarpone daje nastepujaca kolejnosc ich numerow (od najmniejszego): 5, 2, 4, 10, 1, 9, 8, 7, 6, 3.\n\nPonizej zapisano funkcje czy_mniejszy(n, s, k1, k2). Wynikiem funkcji jest wartosc PRAWDA, gdy sufiks s[k1..n] jest mniejszy w porzadku alfabetycznym od sufiksu s[k2..n], oraz FALSZ w przeciwnym przypadku.\n\nczy_mniejszy(n, s, k1, k2):\n  i <- k1\n  j <- k2\n  dopoki (i <= n oraz j <= n) wykonuj\n    jezeli (s[i] == s[j])\n      i <- i + 1\n      j <- j + 1\n    w przeciwnym razie\n      jezeli (s[i] < s[j])\n        zakoncz z wynikiem PRAWDA\n      w przeciwnym razie\n        zakoncz z wynikiem FALSZ\n  jezeli (j <= n)\n    zakoncz z wynikiem PRAWDA\n  w przeciwnym razie\n    zakoncz z wynikiem FALSZ",
-      "sciezka_danych": "DANE",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2023_czerwiec/DANE/DANE_M/",
       "pliki_danych": ["slowa1.txt", "slowa2.txt", "slowa3.txt", "slowa4.txt", "sufiks_1.txt", "sufiks_2.txt", "sufiks_4.txt"],
       "wymiary": {
         "czasowy_min": 30,
@@ -161,7 +161,7 @@
       "punkty": 11,
       "czesc": 1,
       "kontekst": "W pliku anagram.txt znajduje sie 1000 wierszy. Kazdy wiersz zawiera liczbe binarna, skladajaca sie z maksymalnie 14 cyfr: 0 lub 1. Kazda liczba zaczyna sie jedynka i zadna z nich sie nie powtarza.\n\nNapisz program(y), ktory(-e) da(-dza) odpowiedzi do podanych zadan. Odpowiedzi do zadan zapisz w pliku wyniki3.txt, a kazda z nich poprzedz numerem odpowiedniego zadania.\n\nUwaga: plik przyklad.txt zawiera 100 wierszy przykladowych danych spelniajacych warunki zadania.",
-      "sciezka_danych": "DANE",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2023_czerwiec/DANE/DANE_M/",
       "pliki_danych": ["anagram.txt", "przyklad.txt"],
       "wymiary": {
         "czasowy_min": 35,
@@ -240,6 +240,7 @@
       "tytul": "Konwersja miedzy systemami liczbowymi",
       "punkty": 2,
       "czesc": 1,
+      "kontekst": "Konwersja liczb miedzy systemami o podstawie 3 i 9. Uzupelnij brakujace pola tabeli.",
       "wymiary": {
         "czasowy_min": 5,
         "zlozonosc": 1,
@@ -269,6 +270,7 @@
       "tytul": "Kolor CSS",
       "punkty": 1,
       "czesc": 1,
+      "kontekst": "Zapis koloru tla w arkuszu CSS w notacji szesnastkowej #E9967A. Ocena prawdziwosci stwierdzen dotyczacych konwersji skladowych koloru.",
       "wymiary": {
         "czasowy_min": 3,
         "zlozonosc": 1,
@@ -298,7 +300,7 @@
       "punkty": 9,
       "czesc": 1,
       "kontekst": "Pan Oszczedny pod koniec roku 2019 zamontowal 18 paneli fotowoltaicznych na dachu swojego domu. Od 1 stycznia 2020 do 31 maja 2020 roku zapisywany byl co godzine przez cala dobe pobor pradu od dostawcy i generowany prad przez panele fotowoltaiczne.\nW pliku fotowoltaika.txt zapisano date i godzine, pobor pradu z sieci energetycznej [kWh] oraz liczbe wygenerowanych kilowatogodzin przez panele. Dane w wierszach oddzielone sa znakiem tabulacji.\n\nGospodarstwo domowe Pana Oszczednego w pierwszej kolejnosci zuzywa prad wygenerowany przez panele fotowoltaiczne. Jezeli potrzeby sa wieksze, to pobiera go z sieci energetycznej. Pobor rowny 0 oznacza, ze ogniwa wytwarzaja co najmniej tyle energii, ile wynosily potrzeby gospodarstwa domowego. Generowanie rowne 0 oznacza, ze panele nie produkuja energii (z powodu braku naslonecznienia).",
-      "sciezka_danych": "DANE",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2023_czerwiec/DANE/DANE_M/",
       "pliki_danych": ["fotowoltaika.txt"],
       "wymiary": {
         "czasowy_min": 40,
@@ -376,7 +378,7 @@
       "punkty": 11,
       "czesc": 1,
       "kontekst": "W bazie danych firmy X zawarte sa informacje o instalacjach pewnej aplikacji, o urzadzeniach, na ktorych ta aplikacja zostala zainstalowana, oraz o krajach, w ktorych przeprowadzono instalacje.\nDane zgromadzono w plikach tekstowych: kraje.txt, instalacje.txt oraz urzadzenia.txt. Pierwszy wiersz kazdego z plikow jest wierszem naglowkowym, a dane w wierszach rozdzielone sa znakami tabulacji.\n\nPlik kraje.txt: kod_k (dwuznakowy), nazwa_k (do 50 znakow), ludnosc_k (do 10 cyfr).\nPlik urzadzenia.txt: kod_u (do 5 cyfr), nazwa_u (do 80 znakow), producent_u (do 35 znakow), typ_u (Tablet, Phone lub PC).\nPlik instalacje.txt: data_i (format dd.mm.rrrr), kod_k (dwuznakowy), kod_u (do 5 cyfr).\n\nUwaga: kod_u nie oznacza pojedynczego egzemplarza urzadzenia, a tylko jego rodzaj -- na urzadzeniach o tym samym kodzie moze byc wykonanych wiele instalacji.",
-      "sciezka_danych": "DANE",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2023_czerwiec/DANE/DANE_M/",
       "pliki_danych": ["kraje.txt", "instalacje.txt", "urzadzenia.txt"],
       "wymiary": {
         "czasowy_min": 40,

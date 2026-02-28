@@ -1,6 +1,6 @@
 # Arkusz Kalkulacyjny — Sciagawka na Mature
 
-**Czestotliwosc**: 100% matur (11/11 lat) | **Punkty**: ~10 pkt/rok (112 pkt lacznie w 5 typach zadan)
+**Czestotliwosc**: 100% matur (12/12 lat) | **Punkty**: ~10 pkt/rok (112 pkt lacznie w 5 typach zadan)
 **Narzedzie**: Excel lub LibreOffice Calc | **Czas**: ~40-50 min na egzaminie
 
 ---
@@ -55,7 +55,7 @@ Formula w F2 kopiowana w prawo i w dol:
 
 ---
 
-## 2. Agregacja warunkowa (38 pkt, 9/11 lat) — NAJWAZNIEJSZY
+## 2. Agregacja warunkowa (38 pkt, 11/12 lat) — NAJWAZNIEJSZY
 
 ### COUNTIF — zliczanie z warunkiem
 
@@ -134,7 +134,7 @@ Prog `">="&1` oznacza "zawartosc >= 1%".
 
 ---
 
-## 3. Symulacja krok-po-kroku (37 pkt, 9/11 lat)
+## 3. Symulacja krok-po-kroku (37 pkt, 12/12 lat)
 
 ### Wzorzec 1: Akumulator prosty
 
@@ -232,7 +232,7 @@ Codziennie produkuj konfitury z dwoch owocow o najwiekszej ilosci (proporcja 1:1
 
 ---
 
-## 4. Wykresy (25 pkt, 8/11 lat)
+## 4. Wykresy (25 pkt, 10/12 lat)
 
 ### 6 typow wykresow — kiedy uzywac
 
@@ -271,7 +271,7 @@ Codziennie produkuj konfitury z dwoch owocow o najwiekszej ilosci (proporcja 1:1
 
 ---
 
-## 5. Agregacja podstawowa (9 pkt, 3/11 lat)
+## 5. Agregacja podstawowa (9 pkt, 3/12 lat)
 
 ### Funkcje
 
@@ -308,7 +308,7 @@ COUNT liczy tylko liczby. COUNTA liczy wszystko niepuste. Na maturze czesto trze
 
 ---
 
-## 6. Transformacja danych (3 pkt, 2/11 lat)
+## 6. Transformacja danych (3 pkt, 2/12 lat)
 
 ### Tabela krzyzowa z SUMIFS
 

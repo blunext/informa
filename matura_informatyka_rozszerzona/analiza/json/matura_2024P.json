@@ -109,7 +109,7 @@
       "punkty": 8,
       "czesc": 1,
       "kontekst": "W pliku liczby.txt jest danych 2000 liczb calkowitych z zakresu [1000, 9999], kazda w oddzielnym wierszu. Wszystkie sa rozne.\n\nNapisz program (lub kilka programow), ktory znajdzie odpowiedzi do ponizszych zadan. Kazda odpowiedz zapisz w pliku wyniki3.txt i poprzedz ja numerem oznaczajacym zadanie.\n\nDo Twojej dyspozycji jest plik liczby_przyklad.txt, ktory zawiera 20 liczb w podobnej postaci. Odpowiedzi dla pliku liczby_przyklad.txt sa podane w poleceniach zadan.",
-      "sciezka_danych": "dane_PR/",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2024_probna_grudzien/dane_PR/",
       "pliki_danych": ["liczby.txt", "liczby_przyklad.txt"],
       "wymiary": {
         "czasowy_min": 30,
@@ -169,7 +169,7 @@
       "punkty": 8,
       "czesc": 1,
       "kontekst": "W pliku prostokaty.txt opisano 5000 prostokatow, po jednym w kazdym wierszu. Opis kazdego prostokata sklada sie z dwoch dodatnich liczb calkowitych nie wiekszych od 40 000, oddzielonych spacja. Pierwsza z tych liczb bedziemy nazywac wysokoscia prostokata, a druga -- jego szerokoscia.\n\nNapisz program (lub kilka programow), ktory znajda odpowiedzi do ponizszych zadan. Kazda odpowiedz zapisz w pliku wyniki4.txt i poprzedz ja numerem oznaczajacym zadanie.\n\nDo Twojej dyspozycji jest plik prostokaty_przyklad.txt, ktory zawiera opis 20 prostokatow w tej samej postaci. Odpowiedzi dla pliku prostokaty_przyklad.txt sa zawarte w poleceniach zadan.",
-      "sciezka_danych": "dane_PR/",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2024_probna_grudzien/dane_PR/",
       "pliki_danych": ["prostokaty.txt", "prostokaty_przyklad.txt"],
       "wymiary": {
         "czasowy_min": 30,
@@ -286,7 +286,7 @@
       "punkty": 11,
       "czesc": 1,
       "kontekst": "W kolejnych wierszach pliku energia.txt znajduja sie dane o produkcji energii ze zrodel odnawialnych (wiatrowych i fotowoltaicznych). Kazdy wiersz zawiera oddzielone znakami tabulacji informacje o dacie, o godzinie oraz o liczbie megawatogodzin (MWh) wyprodukowanych przez zrodla wiatrowe, a takze liczbie megawatogodzin wyprodukowanych przez zrodla fotowoltaiczne w kwietniu 2024. Dane sa podane chronologicznie i nie zawieraja luk (sa podane dla kazdego dnia i dla kazdej godziny).\n\nFragment pliku:\nData       Godzina  Zrodla_wiatrowe  Zrodla_fotowoltaiczne\n2024-04-01  1       3130,263         0,000\n2024-04-01  2       2765,588         0,000\n...\n2024-04-01  7       2525,225         117,075\n2024-04-01  8       2360,988         1162,075\n2024-04-01  9       1940,838         2680,513",
-      "sciezka_danych": "dane_PR/",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2024_probna_grudzien/dane_PR/",
       "pliki_danych": ["energia.txt", "zapotrzebowanie.txt"],
       "wymiary": {
         "czasowy_min": 40,
@@ -362,7 +362,7 @@
       "punkty": 10,
       "czesc": 1,
       "kontekst": "W trzech plikach zgromadzono dane dotyczace uslug swiadczonych w pewnym serwisie samochodowym w listopadzie i w grudniu 2024 roku. Pierwszy wiersz w kazdym z plikow jest wierszem naglowkowym i zawiera nazwy pol. Dane w wierszach sa rozdzielone znakiem tabulacji.\n\nPlik samochody.txt zawiera informacje o samochodach przyjetych do serwisu:\nnr_rejestracyjny, marka, rok_produkcji, id_wlasciciela.\n\nUwaga: W pliku zapisano informacje rowniez o samochodach przyjetych do serwisu, ale jeszcze oczekujacych na wykonanie uslugi.\n\nW pliku uslugi.txt kazdy wiersz zawiera informacje o realizowanych uslugach przez serwis samochodowy: id_uslugi, usluga, rodzaj_uslugi, cena.\n\nW pliku wykonane.txt zapisano informacje o wykonanych uslugach. Kazdy wiersz zawiera nastepujace dane: data, nr_rejestracyjny, id_uslugi.",
-      "sciezka_danych": "dane_PR/",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2024_probna_grudzien/dane_PR/",
       "pliki_danych": ["samochody.txt", "uslugi.txt", "wykonane.txt"],
       "wymiary": {
         "czasowy_min": 40,

@@ -4,7 +4,7 @@ Dedykowany zbior **24 cwiczen** pokrywajacych wszystkie 7 archetypow pseudokodu 
 oraz dodatkowe wzorce maturalne. Kazde cwiczenie zawiera pseudokod, polecenie
 z konkretnymi danymi wejsciowymi i pelna tabelke sledzenia w rozwiazaniu.
 
-**Typ zadania**: `sledzenie_algorytmu` — pojawia sie 11/11 lat, lacznie 45 pkt.
+**Typ zadania**: `sledzenie_algorytmu` — pojawia sie 12/12 lat, lacznie 45 pkt.
 
 **Poziomy trudnosci**: latwe (~2 pkt), srednie (~3 pkt), trudne (~4-5 pkt)
 

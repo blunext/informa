@@ -1,7 +1,7 @@
 # 23. SQL — SELECT z WHERE
 
 Typ zadania: **sql_select_where**
-Czestotliwosc: 4/11 lat | Laczna punktacja: 10 pkt
+Czestotliwosc: 4/12 lat | Laczna punktacja: 10 pkt
 Kategoria: SQL
 
 ## Umiejetnosci cwiczone w tym zestawie

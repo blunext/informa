@@ -2,7 +2,7 @@
   "typ": "15_agregacja_warunkowa",
   "nazwa": "Agregacja warunkowa w arkuszu kalkulacyjnym",
   "kategoria": "ARKUSZ",
-  "czestotliwosc": "9/11 lat",
+  "czestotliwosc": "11/12 lat",
   "punkty_lacznie": 169,
   "tagi_globalne": [
     "AVERAGEIF",

@@ -33,7 +33,7 @@ Lekki indeks (~2KB) z metadanymi typu i lista cwiczen:
   "typ": "07_cyfry_liczby",           // = nazwa katalogu
   "nazwa": "Implementacja — cyfry i liczby",
   "kategoria": "IMPLEMENTACJA",       // TEORIA | IMPLEMENTACJA | ARKUSZ | SQL
-  "czestotliwosc": "8/11 lat",        // format: "N/11 lat"
+  "czestotliwosc": "8/12 lat",        // format: "N/12 lat"
   "punkty_lacznie": 36,               // suma punktow wszystkich cwiczen
   "tagi_globalne": ["petla", "modulo", "dzielenie-calkowite"],
   "cwiczenia": [                       // indeks cwiczen (bez pelnej tresci!)

@@ -1,0 +1,419 @@
+{
+  "rok": 2018,
+  "sesja": "czerwiec",
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Wyszukiwanie liczb",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Funkcja F(T, x) przyjmuje jako argumenty tablice T, w ktorej znajduja sie liczby calkowite uporzadkowane niemalejaco, oraz liczbe calkowita x, ktora ma wyszukac w tablicy.\n\nDane: n - liczba elementow tablicy, n>0; T[1..n] - tablica uporzadkowana niemalejaco; x - liczba calkowita poszukiwana.\nWynik: prawda - jesli x wystepuje w T, falsz - w przeciwnym razie.\n\nfunkcja F(T,x)\n  p <- 1\n  k <- n\n  dopoki p <= k powtarzaj:\n    s <- (p+k) div 2\n    jesli T[s] = x to\n      wynikiem jest prawda\n      zakoncz dzialanie funkcji\n    w przeciwnym razie\n      jesli T[s] < x to p <- s+1\n      w przeciwnym razie k <- s-1\n  wynikiem jest falsz\n\nUwaga: div oznacza dzielenie calkowite.",
+      "podzadania": [
+        {
+          "id": "2018C.1.1",
+          "numer": "1.1",
+          "punkty": 4,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1 (0-4)\nRozwazmy tablice T = [3; 5; 7; 8; 9; 13; 33; 37; 40; 43].\n\nA. Podaj wynik funkcji F(T, x) dla liczby x=7.\n\nB. Podaj, ile razy nastapi modyfikacja wartosci zmiennej p, a ile razy zmiennej k podczas wykonywania petli 'dopoki' dla x=7 oraz dla x=43.\n\n| Zmienna | x=7 | x=43 |\n|---------|-----|------|\n| p       |     |      |\n| k       |     |      |\n\nC. Podaj kolejne wartosci zmiennej s, jakie bedzie ona przyjmowala dla x = 7.",
+          "odpowiedz": "A. prawda\n\nB.\n| Zmienna | x=7 | x=43 |\n|---------|-----|------|\n| p       | 1   | 3    |\n| k       | 1   | 0    |\n\nC. s przyjmuje kolejno wartosci: 5, 2, 3\n\nSledzenie dla x=7: p=1,k=10,s=5,T[5]=9>7→k=4; p=1,k=4,s=2,T[2]=5<7→p=3; p=3,k=4,s=3,T[3]=7=7→prawda.\nSledzenie dla x=43: p=1,k=10,s=5,T[5]=9<43→p=6; p=6,k=10,s=8,T[8]=37<43→p=9; p=9,k=10,s=9,T[9]=40<43→p=10; p=10,k=10,s=10,T[10]=43=43→prawda.",
+          "zasady_oceniania": "4 pkt za poprawne odpowiedzi, w tym:\n1 pkt - za poprawna odpowiedz w 1.1.A\n2 pkt - za poprawna odpowiedz w 1.1.B (po 1 pkt za kazda kolumne tabeli)\n1 pkt - za poprawna odpowiedz w 1.1.C",
+          "pulapki": [
+            "div to dzielenie calkowite -- (p+k) div 2 zaokragla w dol",
+            "Dla x=43: p jest modyfikowane 3 razy (s+1 za kazdym razem gdy T[s]<43), k nigdy"
+          ]
+        },
+        {
+          "id": "2018C.1.2",
+          "numer": "1.2",
+          "punkty": 1,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2 (0-1)\nPodaj, ile razy dla n = 100 jest spelniony warunek 'p <= k' podczas wykonywania petli 'dopoki' w funkcji F(T, x), w sytuacji, gdy poszukiwana liczba jest wieksza od kazdego z elementow zapisanych w tablicy T?",
+          "odpowiedz": "Warunek spelniony 7 razy.\n\nGdy x > max(T), petla zawsze idzie w prawo (p <- s+1). Przedzial [p,k] zmniejsza sie o polowe. Dla n=100: 100→50→25→12→6→3→1→koniec (p>k). Warunek sprawdzany 7 razy (ceil(log2(100))+1 = 7).",
+          "zasady_oceniania": "1 pkt - za poprawna odpowiedz.\n0 pkt - za bledna odpowiedz lub brak.",
+          "pulapki": [
+            "To jest najgorszy przypadek wyszukiwania binarnego: ceil(log2(n)) + 1 = 7 dla n=100",
+            "Warunek jest spelniony 7 razy, a NIEspelniony 1 raz (gdy p>k)"
+          ]
+        },
+        {
+          "id": "2018C.1.3",
+          "numer": "1.3",
+          "punkty": 1,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.3 (0-1)\nSprawdz dzialanie funkcji F(T, x) dla nieuporzeadkowanej tablicy\nT = [3; 5; 7; 8; 90; 13; 33; 37; 40; 43].\nPodaj wynik dzialania tej funkcji dla tablicy T oraz liczby x = 43.",
+          "odpowiedz": "falsz\n\nT[5]=90 > 43, wiec k <- 4. Teraz szukamy w T[1..4]=[3,5,7,8]. Nie znajdziemy 43 w tym podzbiorze → falsz. Wyszukiwanie binarne nie dziala poprawnie dla nieuporzeadkowanej tablicy.",
+          "zasady_oceniania": "1 pkt - za poprawna odpowiedz.\n0 pkt - za bledna odpowiedz lub brak.",
+          "pulapki": [
+            "Kluczowe: T[5]=90 (zamiast 9) powoduje ze algorytm 'skrecza' w lewa polowke i nigdy nie sprawdza 43",
+            "Wyszukiwanie binarne wymaga uporzadkowanej tablicy -- tu demonstrujemy ten wymog"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 2,
+      "tytul": "Liczby Fibonacciego",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "Liczby Fibonacciego sa definiowane nastepujaco:\nF1 = 1, F2 = 1,\nFn = Fn-1 + Fn-2 dla n = 3, 4, ...\n\nRekurencyjny algorytm do obliczania Fn:\nfunkcja F(n)\n  jesli n=1 lub n=2\n    wynikiem jest 1\n  w przeciwnym razie\n    wynikiem jest F(n-1) + F(n-2)",
+      "podzadania": [
+        {
+          "id": "2018C.2.1",
+          "numer": "2.1",
+          "punkty": 2,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1 (0-2)\nZapisz w wybranej przez siebie notacji (w jezyku programowania lub w pseudokodzie) algorytm iteracyjny, ktory sluzy do obliczania wartosci liczby Fn dla dowolnego n >= 1. Algorytm nie moze uzywac tablic.",
+          "odpowiedz": "Przykladowe rozwiazanie (C++):\nint n, f1=1, f2=1, pom;\ncin>>n;\nfor (int i=3; i<=n; i++) {\n  pom=f1;\n  f1=f2;\n  f2=f2+pom;\n}\ncout<<f2;\n\nAlgorytm uzywa dwoch zmiennych (f1, f2) pamietajacych dwa poprzednie wyrazy ciagu.",
+          "zasady_oceniania": "2 pkt - za poprawny algorytm (prawidlowe warunki poczatkowe i iteracji: po 1 pkt).\n1 pkt - za zapamietanie tylko dwoch poprzednich wyrazow ciagu.\n0 pkt - za bledna odpowiedz lub brak.",
+          "pulapki": [
+            "Nie wolno uzywac tablic -- trzeba pamietac tylko 2 poprzednie wartosci",
+            "Warunki brzegowe: F(1)=F(2)=1, petla od 3 do n"
+          ]
+        },
+        {
+          "id": "2018C.2.2",
+          "numer": "2.2",
+          "punkty": 1,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2 (0-1)\nAby obliczyc F45, wywolano najpierw funkcje iteracyjna, a potem -- rekurencyjna. Okazalo sie, ze czas trwania obliczen realizowanych przez funkcje rekurencyjna byl dlugi, podczas gdy funkcja iteracyjna prawie natychmiast podala wynik. Uzasadnij dlugi czas dzialania funkcji rekurencyjnej.",
+          "odpowiedz": "Drzewo wywolan rekurencyjnych zawiera wielokrotne wywolanie tych samych wyrazow co powoduje wielokrotne ich obliczanie. Im dalszy wyraz Fibonacciego jest obliczany, tym jest wiecej takich powtorzen. Co daje zlozonosc wykladnicza od n.",
+          "zasady_oceniania": "1 pkt - za poprawna odpowiedz.\n0 pkt - za bledna odpowiedz lub brak.",
+          "pulapki": [
+            "Kluczowe: wielokrotne obliczanie tych samych podproblemow (np. F(3) obliczane wielokrotnie)",
+            "Zlozonosc wykladnicza O(2^n) vs O(n) dla iteracyjnej"
+          ]
+        },
+        {
+          "id": "2018C.2.3",
+          "numer": "2.3",
+          "punkty": 2,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.3 (0-2)\nAby przyspieszyc rekurencyjne obliczanie wartosci n-tego wyrazu ciagu Fibonacciego, mozna skorzystac z nastepujacych wzorow, prawdziwych dla dowolnego calkowitego k >= 2:\n\nF(2k) = (F(k+1))^2 - (F(k-1))^2\nF(2k-1) = (F(k))^2 + (F(k-1))^2\n\nZapisz w wybranej przez siebie notacji algorytm rekurencyjny, ktory sluzy do obliczania wartosci Fn dla dowolnego n >= 1 i korzysta z tych wzorow.",
+          "odpowiedz": "Przykladowe rozwiazanie (C++):\nlong int kw(long int n) { return n*n; }\nlong int f(long int n) {\n  int i, k;\n  if (n==1 || n==2) return 1;\n  else if (n%2==0) {\n    i = n/2+1;\n    k = n/2-1;\n    return kw(f(i)) - kw(f(k));\n  } else {\n    i = (n+1)/2;\n    k = (n+1)/2-1;\n    return kw(f(i)) + kw(f(k));\n  }\n}\n\nUwaga: dopuszczamy zastosowanie funkcji potegowania wbudowanej w jezyk.",
+          "zasady_oceniania": "2 pkt, w tym:\n1 pkt - za prawidlowe zdefiniowanie warunkow,\n1 pkt - za prawidlowe wywolania rekurencyjne.\n0 pkt - za bledna odpowiedz lub brak.",
+          "pulapki": [
+            "Dla n parzystego: k=n/2, uzyj F(k+1) i F(k-1). Dla n nieparzystego: k=(n+1)/2, uzyj F(k) i F(k-1).",
+            "Ta rekurencja ma zlozonosc O(log n) zamiast O(2^n) -- kazde wywolanie zmniejsza n o polowe"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 3,
+      "tytul": "Test",
+      "punkty": 4,
+      "czesc": 1,
+      "kontekst": "Ocen prawdziwosc podanych zdan. Zaznacz P jesli zdanie jest prawdziwe, albo F -- jesli jest falszywe. W kazdym zadaniu punkt uzyskasz tylko za komplet poprawnych odpowiedzi.",
+      "podzadania": [
+        {
+          "id": "2018C.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1 (0-1)\nW tabeli T zapisano wiele rekordow danych zawierajacych informacje o zawodnikach. Pola rekordu to: id, nazwisko, imie, plec, wzrost, numer_startowy, punkty, id_klubu.\n\nPolecenie SQL obliczajace sume punktow zawodnikow z klubu o id_klubu rownym liczbie 100, moze miec postac:\n\n1. select sum(punkty) as suma from T where id_klubu=100; → P/F\n2. select avg(punkty) from T where id=100; → P/F\n3. select punkty as suma from T where id_klubu=100; → P/F\n4. select sum(punkty) from T where id_klubu=100; → P/F",
+          "odpowiedz": "P, F, F, P\n\n1. P - SUM z WHERE id_klubu=100, alias 'suma' poprawny.\n2. F - AVG (srednia) zamiast SUM + filtr po id zamiast id_klubu.\n3. F - brak SUM, 'punkty as suma' to alias ale nie agregacja.\n4. P - SUM z poprawnym WHERE, brak aliasu ale wynik poprawny.",
+          "zasady_oceniania": "1 pkt - za wskazanie czterech poprawnych odpowiedzi.\n0 pkt - za odpowiedz niepelna lub bledna.",
+          "pulapki": [
+            "Zapytanie 2: filtr po 'id' a nie 'id_klubu' + uzywa AVG zamiast SUM",
+            "Zapytanie 3: 'punkty as suma' to alias kolumny, nie funkcja agregujaca"
+          ]
+        },
+        {
+          "id": "2018C.3.2",
+          "numer": "3.2",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2 (0-1)\nKtore zdania dotyczace struktury danych zwanej stosem sa prawdziwe?\n\n1. Elementy stosu sa zdejmowane w odwrotnej kolejnosci niz ich wkladania na stos. → P/F\n2. Tylko pierwszy dodany element jest zawsze dostepny na stosie. → P/F\n3. Stos moze byc uzywany m.in. przy obliczaniu wartosci wyrazen zapisanych w Odwrotnej Notacji Polskiej (ONP). → P/F\n4. Tylko ostatnio dodany element jest zawsze dostepny na stosie. → P/F",
+          "odpowiedz": "P, F, P, P\n\n1. P - LIFO (Last In, First Out).\n2. F - pierwszy dodany element jest na dnie stosu, NIE jest bezposrednio dostepny.\n3. P - ONP korzysta ze stosu do obliczen.\n4. P - dostepny jest wierzcholek stosu (ostatnio dodany).",
+          "zasady_oceniania": "1 pkt - za wskazanie czterech poprawnych odpowiedzi.\n0 pkt - za odpowiedz niepelna lub bledna.",
+          "pulapki": [
+            "Zdanie 2 vs 4: na stosie dostepny jest OSTATNIO dodany element (wierzcholek), nie pierwszy"
+          ]
+        },
+        {
+          "id": "2018C.3.3",
+          "numer": "3.3",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.3 (0-1)\nDo jednoznacznego zakodowania znakow piecioelementowego alfabetu wystarczy/a:\n\n1. 2 bity → P/F\n2. 3 bity → P/F\n3. 5 bitow → P/F\n4. 8 bitow → P/F",
+          "odpowiedz": "F, P, P, P\n\n5 znakow wymaga ceil(log2(5)) = 3 bitow (2^3=8 >= 5).\n1. F - 2 bity daja tylko 4 kombinacje (2^2=4 < 5).\n2. P - 3 bity daja 8 kombinacji (wystarczy).\n3. P - 5 bitow daje 32 kombinacje (wystarczy).\n4. P - 8 bitow daje 256 kombinacji (wystarczy).",
+          "zasady_oceniania": "1 pkt - za wskazanie czterech poprawnych odpowiedzi.\n0 pkt - za odpowiedz niepelna lub bledna.",
+          "pulapki": [
+            "'Wystarczy' oznacza: ta liczba bitow lub wieksza. 3 bity wystarczaja i kazda wieksza tez."
+          ]
+        },
+        {
+          "id": "2018C.3.4",
+          "numer": "3.4",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.4 (0-1)\nDana jest funkcja rekurencyjna Rek, ktorej argumentem jest nieujemna liczba calkowita n.\n\nfunkcja Rek(n)\n  jesli (n>0) to wykonaj kolejno dwie instrukcje:\n    1. wywolaj Rek dla argumentu n-1\n    2. wypisz n\n\nJesli wywolamy ja dla n rownego 5, to:\n\n1. Zero bedzie wypisane. → P/F\n2. Najwieksza wypisana liczba bedzie 5. → P/F\n3. Zostanie wypisanych 5 liczb. → P/F\n4. Liczby zostana wypisane w kolejnosci malejacej. → P/F",
+          "odpowiedz": "F, P, P, F\n\nRek(5): wywolaj Rek(4), wypisz 5\nRek(4): wywolaj Rek(3), wypisz 4\n...\nRek(1): wywolaj Rek(0), wypisz 1\nRek(0): n=0, nic nie rob\n\nWypisane liczby: 1, 2, 3, 4, 5 (w kolejnosci rosnacej)\n\n1. F - zero nie jest wypisywane (warunek n>0, wiec Rek(0) nic nie robi).\n2. P - 5 jest najwieksza wypisana liczba.\n3. P - wypisanych jest 5 liczb (1,2,3,4,5).\n4. F - kolejnosc rosnaca (1,2,3,4,5), nie malejaca.",
+          "zasady_oceniania": "1 pkt - za wskazanie czterech poprawnych odpowiedzi.\n0 pkt - za odpowiedz niepelna lub bledna.",
+          "pulapki": [
+            "Rekurencja NAJPIERW wywoluje Rek(n-1), POTEM wypisuje n -> kolejnosc ROSNACA",
+            "Rek(0): warunek n>0 nie jest spelniony, wiec 0 NIE jest wypisywane"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 4,
+      "tytul": "Scalanie",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Pliki dane1.txt i dane2.txt zawieraja po 1000 wierszy. W kazdym wierszu tych plikow zapisany jest uporzadkowany niemalejaco ciag dziesieciu liczb calkowitych o wartosciach z przedzialu <0,100>, oddzielonych spacjami.\n\nUwaga: pliki przyklad1.txt oraz przyklad2.txt zawieraja dane przykladowe (po 5 wierszy).",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2018_czerwiec/NM_DANE_PR/",
+      "pliki_danych": ["dane1.txt", "dane2.txt", "przyklad1.txt", "przyklad2.txt"],
+      "podzadania": [
+        {
+          "id": "2018C.4.1",
+          "numer": "4.1",
+          "punkty": 1,
+          "typ_zadania": "przetwarzanie_zliczanie",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.1 (0-1)\nPorownaj ciagi zapisane w odpowiadajacych sobie wierszach plikow dane1.txt i dane2.txt. Podaj, w ilu wierszach zapisane sa ciagi, ktorych ostatnia liczba jest taka sama.\nDla danych z plikow przyklad1.txt oraz przyklad2.txt wynikiem jest 3.",
+          "odpowiedz": "32",
+          "zasady_oceniania": "1 pkt - za podanie prawidlowej odpowiedzi.\n0 pkt - za bledna odpowiedz lub brak.",
+          "pulapki": [
+            "Porownujemy OSTATNIE elementy (10.) w odpowiadajacych sobie wierszach, nie wszystkie"
+          ]
+        },
+        {
+          "id": "2018C.4.2",
+          "numer": "4.2",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_zliczanie",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.2 (0-3)\nPodaj, ile jest par ciagow (w odpowiadajacych sobie wierszach plikow dane1.txt i dane2.txt) takich, ze w jednym i drugim ciagu jest 5 liczb parzystych i 5 liczb nieparzystych.\nDla danych z plikow przyklad1.txt oraz przyklad2.txt wynikiem jest 1.",
+          "odpowiedz": "50\n\nUwaga: Nie przyznaje sie 2 p i 1 p.",
+          "zasady_oceniania": "3 pkt - za podanie prawidlowej odpowiedzi.\n0 pkt - za bledna odpowiedz lub brak.",
+          "pulapki": [
+            "W OBIE ciagach para musi miec dokladnie 5 parzystych i 5 nieparzystych",
+            "Uwaga na warunek: 'w jednym I drugim' -- oba ciagi musza spelniac warunek"
+          ]
+        },
+        {
+          "id": "2018C.4.3",
+          "numer": "4.3",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.3 (0-4)\nPolicz, ile jest par ciagow (w odpowiadajacych sobie wierszach plikow dane1.txt i dane2.txt), ktore utworzone sa z takich samych liczb. Liczba powtorzen takich samych liczb w ciagach moze byc rozna. Wypisz numery wierszy, w ktorych takie pary ciagow sie znajduja.\nDla danych z plikow przyklad1.txt oraz przyklad2.txt:\n2 pary ciagow, numery wierszy: 1, 5",
+          "odpowiedz": "Liczba par ciagow: 1\nWiersz: 999",
+          "zasady_oceniania": "4 pkt za poprawna odpowiedz, w tym:\n3 pkt - za podanie poprawnej liczby par ciagow,\n1 pkt - za podanie poprawnego numeru wiersza.\nUwaga: Nie przyznaje sie 2 p.",
+          "pulapki": [
+            "Porownujemy ZBIORY wartosci (bez powtorzen), nie multizbiory -- rozna liczba powtorzen dozwolona",
+            "Ciagi sa uporzadkowane -- mozna porownac unikalne wartosci"
+          ]
+        },
+        {
+          "id": "2018C.4.4",
+          "numer": "4.4",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.4 (0-4)\nW sortowaniu przez scalanie wykorzystuje sie scalanie dwoch ciagow uporzadkowanych niemalejaco. Polega ono na tym, ze porownujemy pierwsze elementy ciagow i mniejszy lub rowny z nich przepisujemy do trzeciego ciagu, a w ciagu, z ktorego on pochodzi, przechodzimy do kolejnego elementu. Kontynuujemy do czasu wyczerpania elementow jednego z ciagow. Reszte elementow z drugiego ciagu przepisujemy do trzeciego.\n\nNapisz program, ktory utworzy plik wynik4_4.txt zawierajacy w kolejnych wierszach ciagi uporzadkowane, bedace wynikiem scalenia odpowiadajacych im co do kolejnosci ciagow z plikow dane1.txt i dane2.txt. Liczby w ciagach wynikowych zapisz, rozdzielajac je spacjami.",
+          "odpowiedz": "(Plik z 1000 wierszami po 20 scalonych liczb kazdy. Pierwsze 30 wierszy podane w odpowiedziach.)",
+          "zasady_oceniania": "4 pkt, w tym:\n2 pkt - za prawidlowe scalenie do czasu wyczerpania elementow jednego z ciagow,\n1 pkt - za prawidlowe dopisanie pozostalych elementow gdy ciag z dane1.txt wyczerpie sie jako pierwszy,\n1 pkt - za prawidlowe dopisanie pozostalych elementow gdy ciag z dane2.txt wyczerpie sie jako pierwszy.\n0 pkt - za inna bledna odpowiedz.",
+          "pulapki": [
+            "Trzeba obsluzye OBA przypadki: koniec ciagu 1 i koniec ciagu 2",
+            "Wynikowy ciag ma 20 elementow (10+10), musi byc uporzadkowany"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 5,
+      "tytul": "Pomiary temperatury",
+      "punkty": 13,
+      "czesc": 2,
+      "kontekst": "W roznych miejscach laboratorium rozmieszczono 10 czujnikow temperatury. W wybranych dniach i godzinach wszystkie czujniki odczytuja i rejestruja temperature w stopniach Celsjusza z dokladnoscia do setnej czesci. Wyniki odczytow zapisano w dwustu wierszach pliku pomiary.txt.\n\nKazdy wiersz zawiera dwanascie danych oddzielonych srednikami: data, godzina, czujnik1-czujnik10. Pierwszy wiersz pliku jest wierszem naglowkowym.\n\nPrzyklad:\ndata;godzina;czujnik1;...;czujnik10\n2016-01-05;11:11;0,61;-4,98;-1,56;-5,59;-2,80;3,39;2,81;-1,60;1,71;4,53",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2018_czerwiec/NM_DANE_PR/",
+      "pliki_danych": ["pomiary.txt"],
+      "podzadania": [
+        {
+          "id": "2018C.5.1",
+          "numer": "5.1",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.1 (0-2)\nOblicz, jaka jest srednia roczna temperatura zmierzona przez czujnik numer 5 w godzinach od 5:00 do 12:00 wlacznie. Wynik podaj zaokraglony do dwoch miejsc po przecinku.",
+          "odpowiedz": "12,50\n\n1 pkt - za srednia policzona dla wszystkich czujnikow (12,30) lub za srednia dla czujnika 5 dla wszystkich godzin (12,78).",
+          "zasady_oceniania": "2 pkt - za podanie poprawnej odpowiedzi.\n1 pkt - za srednia policzona dla wszystkich czujnikow (12,30) lub za srednia dla czujnika 5 dla wszystkich godzin (12,78).\n0 pkt - za bledna odpowiedz lub brak.",
+          "pulapki": [
+            "Filtr dwojny: czujnik nr 5 ORAZ godzina 5:00-12:00",
+            "Czeste bledy: policzenie sredniej dla wszystkich czujnikow lub wszystkich godzin"
+          ]
+        },
+        {
+          "id": "2018C.5.2",
+          "numer": "5.2",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.2 (0-2)\nTemperatura wyrazona w skali bezwzglednej (skali Kelvina) w powiazaniu ze skala Celsjusza opisywana jest wzorem: T[K]=273,15+T[°C].\nWynik kazdego pomiaru temperatury przedstaw w skali Kelvina zaokraglony w dol do liczby calkowitej. Dla kazdego czujnika podaj, ktora z otrzymanych zaokraglonych wartosci w skali Kelvina wystepuje najczesciej.",
+          "odpowiedz": "| Czujnik | Najczesciej wystepujaca wartosc K |\n|---------|---|\n| 1       | 287 |\n| 2       | 288 (286) |\n| 3       | 283 |\n| 4       | 284 |\n| 5       | 284 |\n| 6       | 287 (296) |\n| 7       | 286 |\n| 8       | 288 |\n| 9       | 285 |\n| 10      | 286 |\n\nDla czujnika 2 moga byc dwa wyniki 286 i 288 (po 18 razy). Dla czujnika 6 moga byc 287 i 296 (po 17 razy).",
+          "zasady_oceniania": "2 pkt - za podanie poprawnej odpowiedzi.\n1 pkt - za obliczenie jednej najczesciej wystepujacej wartosci dla calej tabeli pomiarow lub za wynik w stopniach C.\n0 pkt - za bledna odpowiedz lub brak.",
+          "pulapki": [
+            "Zaokraglenie W DOL (floor), nie standardowe zaokraglenie matematyczne",
+            "T[K] = floor(273.15 + T[C])",
+            "Dla czujnikow 2 i 6 sa po dwie wartosci z taka sama czestotliwoscia"
+          ]
+        },
+        {
+          "id": "2018C.5.3",
+          "numer": "5.3",
+          "punkty": 3,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.3 (0-3)\nPodaj srednie wartosci temperatury (w stopniach Celsjusza), zaokraglone do dwoch miejsc po przecinku, odczytane przez czujnik nr 10 w poszczegolnych miesiacach roku 2016. Przedstaw otrzymane wartosci temperatury na wykresie slupkowym. Umiesc na wykresie etykiety danych, opisy osi oraz tytul wykresu.",
+          "odpowiedz": "| Miesiac | Srednia czujnik10 |\n|---------|---|\n| sty | 0,91 |\n| lut | 0,16 |\n| mar | 2,30 |\n| kwi | 12,84 |\n| maj | 13,56 |\n| cze | 14,54 |\n| lip | 22,22 |\n| sie | 22,23 |\n| wrz | 16,03 |\n| paz | 15,03 |\n| lis | 15,54 |\n| gru | 0,65 |\n\n+ wykres slupkowy z tytulem, etykietami danych i opisami osi.",
+          "zasady_oceniania": "3 pkt, w tym:\n1 pkt - za podanie sredniej wartosci temperatury w poszczegolnych miesiacach,\n1 pkt - za poprawny zakres danych i typ wykresu,\n1 pkt - za czytelny opis wykresu.\n0 pkt - za bledna odpowiedz lub brak.",
+          "pulapki": [
+            "Tylko czujnik nr 10, nie wszystkie czujniki",
+            "Zaokraglenie do 2 miejsc po przecinku"
+          ]
+        },
+        {
+          "id": "2018C.5.4",
+          "numer": "5.4",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.4 (0-2)\nPodaj, w ktorym z przedzialow temperatur: (-10,15>, (15,20> wyrazonych w stopniach Celsjusza, miesci sie wieksza liczba pomiarow, oraz podaj te liczbe.",
+          "odpowiedz": "Zakres: (-10,15], Liczba: 1150",
+          "zasady_oceniania": "2 pkt, w tym:\n1 pkt - za podanie wlasciwego przedzialu,\n1 pkt - za podanie liczby pomiarow.\n0 pkt - za bledna odpowiedz lub brak.",
+          "pulapki": [
+            "Przedzialy sa lewostronnie otwarte, prawostronnie domkniete: (-10,15> = -10 < T <= 15",
+            "Liczymy WSZYSTKIE pomiary (kazdy czujnik, kazdy wiersz), nie per czujnik"
+          ]
+        },
+        {
+          "id": "2018C.5.5",
+          "numer": "5.5",
+          "punkty": 4,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.5 (0-4)\nW wyniku awarii utracono wyniki pomiarow z 2017 roku. Na podstawie analiz stwierdzono, ze w tych samych dniach miesiaca i o tych samych godzinach co w roku 2016 wyniki odczytow w 2017 roku zmienily sie nastepujaco:\n\na) Wniosek I -- w dniach od 5 do 10 kazdego miesiaca odczyty czujnika1, czujnika2 i czujnika9 byly nizsze od tych w 2016 o 1,2°C.\nb) Wniosek II -- wszystkie odczytywane przez czujnik8 wartosci w lipcu i sierpniu wzrosly o 7% w stosunku do odczytow z 2016 r. (w zaokragleniu w dol do 2 miejsc po przecinku).\nc) Wniosek III -- w maju odczyty wszystkich czujnikow byly dodatkowo wyzsze o 0,9°C.\n\nOdtworz zestawienie temperatur czujnika1, czujnika2, czujnika8 i czujnika9 w roku 2017 w dniach i godzinach takich samych jak w roku 2016. Dla wymienionych czujnikow podaj pierwsze pomiary temperatury w °C z dni: 5-05-2017 oraz 7-07-2017 po zastosowaniu wniosku I i wniosku II oraz osobno po zastosowaniu wszystkich trzech wnioskow.\n\nUwaga: jesli zaden z wnioskow nie ma zastosowania, wartosci temperatur sa takie same jak w roku 2016.",
+          "odpowiedz": "Punkt a,b (wnioski I i II):\n| data | godzina | czujnik1 | czujnik2 | czujnik9 | czujnik8 |\n|------|---------|----------|----------|----------|----------|\n| 2017-05-05 | 07:05 | 9,46 | 9,39 | 10,45 | 14,52 |\n| 2017-07-07 | 00:04 | 23,42 | 19,39 | 20,7 | 26,67 |\n\nPunkt c (wszystkie trzy wnioski):\n| data | godzina | czujnik1 | czujnik2 | czujnik9 | czujnik8 |\n|------|---------|----------|----------|----------|----------|\n| 2017-05-05 | 07:05 | 10,36 | 10,29 | 11,35 | 15,42 |\n| 2017-07-07 | 00:04 | 23,42 | 19,39 | 20,7 | 26,67 |",
+          "zasady_oceniania": "4 pkt za poprawna odpowiedz, w tym za podanie poprawnych pomiarow z kazdego dnia po 2 punkty.\n0 pkt - za bledna odpowiedz lub brak.\nUwaga: Jesli zdajacy wykona bledne obliczenia to oceniamy poszczegolne warianty za poprawne wykonanie kazdego z trzech wnioskow - 1 punkt.",
+          "pulapki": [
+            "Wnioski moga sie nakladac: maj + dzien 5-10 = wniosek I + III jednoczesnie",
+            "Wniosek II dotyczy TYLKO czujnika8 w lipcu i sierpniu",
+            "Wniosek III dotyczy WSZYSTKICH czujnikow w maju (dodatkowe +0.9)",
+            "7 lipca: dzien 7 jest w zakresie 5-10 wiec wniosek I obowiazuje dla czujnikow 1,2,9"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 6,
+      "tytul": "Wypozyczalnia samochodow",
+      "punkty": 10,
+      "czesc": 2,
+      "kontekst": "Wypozyczalnia samochodow WYPSA ma przedstawicielstwa w kilku miejscowosciach. Samochody sa klasy B, C lub D.\n\nPlik samochody.txt: Nr_ew, Nr_firmowy (litery okreslajacej klase), Miejscowosc, Nr_rej (zaczyna sie dwiema literami nazwy miejscowosci).\nPlik ceny_za_dobe.txt: Klasa, Cena.\nPlik klienci.txt: Nr_klienta, Imie, Nazwisko.\nPlik wypozyczenia.txt: Nr_ew, Nr_klienta, Wypozyczenie (data), Zwrot (data). Dane za pierwsze polrocze 2015.\n\nDane oddzielone srednikiem, pierwszy wiersz kazdego pliku jest naglowkowy. Format daty: RRRR-MM-DD.",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2018_czerwiec/NM_DANE_PR/",
+      "pliki_danych": ["samochody.txt", "ceny_za_dobe.txt", "klienci.txt", "wypozyczenia.txt"],
+      "podzadania": [
+        {
+          "id": "2018C.6.1",
+          "numer": "6.1",
+          "punkty": 3,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.1 (0-3)\nUtworz zestawienie zawierajace nastepujace informacje: imie, nazwisko, nr rejestracyjny samochodu, czas wypozyczenia (roznica miedzy data wypozyczenia i data zwrotu -- liczba dob), naleznosc za wypozyczenie. Wiersze posortuj rosnaco wedlug nazwiska klienta, a nastepnie -- wedlug imienia klienta i numeru rejestracyjnego samochodu. Podaj pierwszy i ostatni wiersz z uzyskanej tabeli.\nUwaga: dla daty wypozyczenia 2015-05-24 i daty zwrotu 2015-05-28 czas wypozyczenia to 4 doby.",
+          "odpowiedz": "Pierwszy wiersz: Aabacka Nela WI1150 2 160,00 zl\nOstatni wiersz: Zgbacka Aaricia WI1126 11 880,00 zl\n\nJesli zdajacy nie posortowal lub nie obliczyl naleznosci - odejmujemy 1p.",
+          "zasady_oceniania": "3 pkt - za podanie poprawnej odpowiedzi, w tym jesli zdajacy nie posortowal lub nie obliczyl naleznosci - odejmujemy 1p.\n0 pkt - za bledna odpowiedz lub brak.",
+          "pulapki": [
+            "Naleznosc = czas_wypozyczenia * cena_za_dobe_dla_klasy",
+            "Klase samochodu trzeba wyciagnac z Nr_firmowy (pierwsza litera)",
+            "Sortowanie po NAZWISKO, potem IMIE, potem NR_REJ"
+          ]
+        },
+        {
+          "id": "2018C.6.2",
+          "numer": "6.2",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.2 (0-2)\nDla kazdej klasy samochodu podaj liczbe wypozyczeń samochodow tej klasy.",
+          "odpowiedz": "| Klasa | Liczba wypozyczeń |\n|-------|---|\n| B     | 100 |\n| C     | 48  |\n| D     | 53  |\n\nUwaga: Nie przyznaje sie 1p.",
+          "zasady_oceniania": "2 pkt - za podanie poprawnej odpowiedzi.\n0 pkt - za bledna odpowiedz lub brak.",
+          "pulapki": [
+            "Klase samochodu trzeba wyciagnac z tabeli samochody (Nr_firmowy zawiera litere klasy)"
+          ]
+        },
+        {
+          "id": "2018C.6.3",
+          "numer": "6.3",
+          "punkty": 1,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.3 (0-1)\nPodaj imie i nazwisko osoby(osob), ktora(e) wypozyczala(y) samochody najwieksza liczbe razy, oraz liczbe tych wypozyczeń.",
+          "odpowiedz": "Hcbacki Ramzes, 5 wypozyczeń",
+          "zasady_oceniania": "1 pkt - za podanie poprawnej odpowiedzi.\n0 pkt - za bledna odpowiedz lub brak.",
+          "pulapki": [
+            "GROUP BY Nr_klienta + ORDER BY COUNT DESC + JOIN z klienci"
+          ]
+        },
+        {
+          "id": "2018C.6.4",
+          "numer": "6.4",
+          "punkty": 2,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.4 (0-2)\nPrzygotuj zestawienie samochodow, ktore nie byly wypozyczane. Podaj ich liczbe w podziale na klasy i miejscowosci.",
+          "odpowiedz": "| Miejscowosc   | B  | C  | D  |\n|---------------|----|----|----|\n| Aniolkowo     | 12 | 8  | 7  |\n| Manipulatowo  | 31 | 14 | 11 |\n| Nieszczerzyn  | 17 | 9  | 4  |\n\nUwaga: Nie przyznaje sie 1p.",
+          "zasady_oceniania": "2 pkt - za podanie poprawnej odpowiedzi.\n0 pkt - za bledna odpowiedz lub brak.",
+          "pulapki": [
+            "Samochody NIE wystepujace w tabeli wypozyczenia (NOT IN lub LEFT JOIN ... IS NULL)",
+            "Podanie w podziale na klasy I miejscowosci -- tabela krzyzowa"
+          ]
+        },
+        {
+          "id": "2018C.6.5",
+          "numer": "6.5",
+          "punkty": 2,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.5 (0-2)\nPodaj liczbe zarejestrowanych klientow, ktorzy nie wypozyczyli zadnego samochodu.",
+          "odpowiedz": "72\n\nUwaga: Nie przyznaje sie 1p.",
+          "zasady_oceniania": "2 pkt - za podanie poprawnej odpowiedzi.\n0 pkt - za bledna odpowiedz lub brak.",
+          "pulapki": [
+            "Klienci z tabeli klienci, ktorych Nr_klienta NIE wystepuje w tabeli wypozyczenia",
+            "NOT IN (SELECT DISTINCT Nr_klienta FROM wypozyczenia)"
+          ]
+        }
+      ]
+    }
+  ]
+}

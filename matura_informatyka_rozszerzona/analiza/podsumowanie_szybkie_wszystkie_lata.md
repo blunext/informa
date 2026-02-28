@@ -46,7 +46,12 @@
 **Czesc II** (150 min, 35 pkt): Prog. liczby (potegi 3, silnia cyfr, NWD, 12p), Arkusz pogoda (11p), SQL perfumy (12p)
 **Tematy**: binary search, rekurencja, systemy liczbowe, DNS, NWD, SQL LIKE + podzapytania
 
-### 2021 (Formula 2015) - PELNA ANALIZA (pierwszy po COVID)
+### 2020 (Formula 2015) - PELNA ANALIZA (egzamin odbyl sie w czerwcu z powodu COVID-19)
+**Czesc I** (60 min, 15 pkt): dane brak opisu / analiza z JSON
+**Czesc II** (150 min, 35 pkt): dane brak opisu / analiza z JSON
+**Tematy**: systemy liczbowe, rekurencja, przetwarzanie plikow, arkusz kalkulacyjny, SQL
+
+### 2021 (Formula 2015) - PELNA ANALIZA (pierwszy rok egzaminu po powrocie do normalnego terminu)
 **Czesc I** (60 min, 15 pkt): Cyfrowe dopelnienie (6p), Kopiec binarny (6p), Test (3p)
 **Czesc II** (150 min, 35 pkt): Prog. napisy DOPISZ/USUN (11p), Arkusz wodociagi (12p), SQL gra strategiczna (12p)
 **Tematy**: operacje na cyfrach, kopiec binarny (sift-up), rekurencja, systemy liczbowe, SQL COUNT DISTINCT
@@ -77,21 +82,21 @@ Rekurencja przestaw (9p), Zapis symboliczny (11p), Dron NWD+geometria (6p), Keyl
 
 | # | Temat | Wystapienia | Procent |
 |---|-------|------------|---------|
-| 1 | SQL / Bazy danych | 11/11 | 100% |
-| 2 | Operacje na liczbach/cyfrach | 10/10 | 100% |
-| 3 | Przetwarzanie plikow | 10/10 | 100% |
-| 4 | Arkusz kalkulacyjny | 10/10 | 100% |
-| 5 | Systemy liczbowe | 9/11 | 82% |
-| 6 | Rekurencja | 8/11 | 73% |
-| 7 | Sortowanie | 8/11 | 73% |
-| 8 | Teoria liczb / NWD | 8/11 | 73% |
-| 9 | Zlozonosc algorytmow | 7/11 | 64% |
-| 10 | Operacje na stringach | 6/10 | 60% |
-| 11 | Kryptografia / bezpieczenstwo | 4/11 | 36% |
-| 12 | Sieci komputerowe | 3/11 | 27% |
-| 13 | Przeszukiwanie binarne | 3/11 | 27% |
-| 14 | Geometria / matematyka | 3/11 | 27% |
-| 15 | Struktury danych | 2/11 | 18% |
+| 1 | SQL / Bazy danych | 12/12 | 100% |
+| 2 | Operacje na liczbach/cyfrach | 12/12 | 100% |
+| 3 | Przetwarzanie plikow | 12/12 | 100% |
+| 4 | Arkusz kalkulacyjny | 12/12 | 100% |
+| 5 | Systemy liczbowe | 10/12 | 83% |
+| 6 | Rekurencja | 9/12 | 75% |
+| 7 | Sortowanie | 9/12 | 75% |
+| 8 | Teoria liczb / NWD | 9/12 | 75% |
+| 9 | Operacje na stringach | 8/12 | 67% |
+| 10 | Zlozonosc algorytmow | 7/12 | 58% |
+| 11 | Kryptografia / bezpieczenstwo | 4/12 | 33% |
+| 12 | Sieci komputerowe | 4/12 | 33% |
+| 13 | Przeszukiwanie binarne | 3/12 | 25% |
+| 14 | Geometria / matematyka | 3/12 | 25% |
+| 15 | Struktury danych | 2/12 | 17% |
 
 ---
 
@@ -100,41 +105,41 @@ Rekurencja przestaw (9p), Zapis symboliczny (11p), Dron NWD+geometria (6p), Keyl
 ### TEORIA I ANALIZA:
 | # | Typ zadania | Lat | Laczne pkt |
 |---|-------------|-----|-----------|
-| 1 | sledzenie_algorytmu | 11/11 | 45 |
-| 2 | projektowanie_algorytmu | 11/11 | 43 |
-| 3 | analiza_algorytmu | 10/11 | 37 |
-| 4 | test_prawda_falsz | 10/11 | 25 |
-| 5 | konwersja_systemow_liczbowych | 9/11 | 12 |
-| 6 | teoria_bezpieczenstwa | 2/11 | 2 |
+| 1 | sledzenie_algorytmu | 12/12 | 50 |
+| 2 | projektowanie_algorytmu | 12/12 | 51 |
+| 3 | analiza_algorytmu | 10/12 | 36 |
+| 4 | test_prawda_falsz | 11/12 | 27 |
+| 5 | konwersja_systemow_liczbowych | 10/12 | 13 |
+| 6 | teoria_bezpieczenstwa | 2/12 | 2 |
 
 ### IMPLEMENTACJA:
 | # | Typ zadania | Lat | Laczne pkt |
 |---|-------------|-----|-----------|
-| 7 | przetwarzanie_cyfry_liczby | 6/11 | 36 |
-| 8 | przetwarzanie_napisy | 4/11 | 25 |
-| 9 | przetwarzanie_zlozone | 4/11 | 24 |
-| 10 | przetwarzanie_zliczanie | 5/11 | 17 |
-| 11 | przetwarzanie_minmax | 5/11 | 17 |
-| 12 | przetwarzanie_sekwencje | 3/11 | 13 |
-| 13 | przetwarzanie_obrazy_2D | 2/11 | 11 |
-| 14 | obliczenia_geometryczne | 1/11 | 4 |
+| 7 | przetwarzanie_cyfry_liczby | 7/12 | 39 |
+| 8 | przetwarzanie_napisy | 6/12 | 41 |
+| 9 | przetwarzanie_zlozone | 5/12 | 36 |
+| 10 | przetwarzanie_zliczanie | 5/12 | 20 |
+| 11 | przetwarzanie_minmax | 5/12 | 17 |
+| 12 | przetwarzanie_sekwencje | 3/12 | 13 |
+| 13 | przetwarzanie_obrazy_2D | 2/12 | 11 |
+| 14 | przetwarzanie_geometryczne | 1/12 | 4 |
 
 ### ARKUSZ KALKULACYJNY:
 | # | Typ zadania | Lat | Laczne pkt |
 |---|-------------|-----|-----------|
-| 15 | arkusz_agregacja_warunkowa | 9/11 | 38 |
-| 16 | arkusz_symulacja | 9/11 | 37 |
-| 17 | arkusz_wykres | 8/11 | 25 |
-| 18 | arkusz_agregacja_podstawowa | 3/11 | 9 |
-| 19 | arkusz_transformacja | 2/11 | 3 |
+| 15 | arkusz_agregacja_warunkowa | 11/12 | 38 |
+| 16 | arkusz_symulacja | 12/12 | 55 |
+| 17 | arkusz_wykres | 10/12 | 31 |
+| 18 | arkusz_agregacja_podstawowa | 3/12 | 9 |
+| 19 | arkusz_transformacja | 2/12 | 3 |
 
 ### SQL:
 | # | Typ zadania | Lat | Laczne pkt |
 |---|-------------|-----|-----------|
-| 20 | sql_group_by | 8/11 | 36 |
-| 21 | sql_podzapytania | 7/11 | 25 |
-| 22 | sql_join | 8/11 | 21 |
-| 23 | sql_select_where | 4/11 | 10 |
+| 20 | sql_group_by | 9/12 | 40 |
+| 21 | sql_podzapytania | 8/12 | 31 |
+| 22 | sql_join | 9/12 | 23 |
+| 23 | sql_select_where | 4/12 | 10 |
 
 ---
 
@@ -152,5 +157,5 @@ Rekurencja przestaw (9p), Zapis symboliczny (11p), Dron NWD+geometria (6p), Keyl
 
 ---
 
-*Ostatnia aktualizacja: 2026-02-08*
-*Status: Wszystkie 11 lat przeanalizowane*
+*Ostatnia aktualizacja: 2026-02-28*
+*Status: Wszystkie 12 lat przeanalizowane (2014-2025, w tym 2020 w czerwcu z powodu COVID-19)*

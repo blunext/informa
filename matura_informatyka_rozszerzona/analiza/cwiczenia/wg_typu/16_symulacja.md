@@ -1,7 +1,7 @@
 # 16. Symulacja w arkuszu kalkulacyjnym
 
 Typ zadania: **arkusz_symulacja**
-Czestotliwosc: 9/11 lat | Laczna punktacja: 37 pkt
+Czestotliwosc: 12/12 lat | Laczna punktacja: 37 pkt
 Kategoria: ARKUSZ
 
 ## Umiejetnosci cwiczone w tym zestawie

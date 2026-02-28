@@ -1,7 +1,7 @@
 # 06. Teoria bezpieczenstwa
 
 Typ zadania: **teoria_bezpieczenstwa**
-Czestotliwosc: 2/11 lat | Laczna punktacja: 2 pkt
+Czestotliwosc: 2/12 lat | Laczna punktacja: 2 pkt
 Kategoria: TEORIA
 
 ## Umiejetnosci cwiczone w tym zestawie

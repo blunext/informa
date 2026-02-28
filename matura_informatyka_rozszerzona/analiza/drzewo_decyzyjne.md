@@ -1,7 +1,7 @@
 # Schemat Decyzyjny — Drzewo Rozwiazywania Zadan Maturalnych
 
 > Dokument prowadzi od opisu problemu do konkretnego algorytmu i wzorca kodu.
-> Oparty na analizie 11 lat matur (2014-2025, bez 2020).
+> Oparty na analizie 12 lat matur (2014-2025).
 
 ---
 
@@ -283,4 +283,4 @@ Etap 7: TRUDNE PODZADANIA (reszta czasu)
 ---
 
 *Ostatnia aktualizacja: 2026-02-08*
-*Zrodlo danych: analiza 11 lat matur (2014-2025)*
+*Zrodlo danych: analiza 12 lat matur (2014-2025)*

@@ -1,7 +1,7 @@
 # 21. SQL — Podzapytania (subqueries)
 
 Typ zadania: **sql_podzapytania**
-Czestotliwosc: 7/11 lat | Laczna punktacja: 25 pkt
+Czestotliwosc: 8/12 lat | Laczna punktacja: 25 pkt
 Kategoria: SQL
 
 ## Umiejetnosci cwiczone w tym zestawie

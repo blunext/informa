@@ -1,0 +1,393 @@
+{
+  "rok": 2014,
+  "sesja": "probna",
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny, bazy danych)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Liczby Armstronga",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "Liczba calkowita zlozona z n cyfr jest liczba Armstronga (narcystyczna), jezeli jest suma swoich cyfr podniesionych do potegi n. Na przyklad: 153 = 1^3 + 5^3 + 3^3 = 1 + 125 + 27.",
+      "podzadania": [
+        {
+          "id": "2014P.1.1",
+          "numer": "1.1",
+          "punkty": 1,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1. (0-1)\nLiczba calkowita zlozona z n cyfr jest liczba Armstronga (narcystyczna), jezeli jest suma swoich cyfr podniesionych do potegi n. Na przyklad: 153 = 1^3 + 5^3 + 3^3 = 1 + 125 + 27.\n\nSprawdz, czy liczby 6, 407, 2278 sa liczbami Armstronga.\nWpisz odpowiednio P, jesli dana liczba jest liczba Armstronga, albo F, jesli nia nie jest.\n\n| Liczba | P / F |\n|--------|-------|\n| 6      |       |\n| 407    |       |\n| 2278   |       |",
+          "odpowiedz": "6 -> P (6^1 = 6)\n407 -> P (4^3 + 0^3 + 7^3 = 64 + 0 + 343 = 407)\n2278 -> F (2^4 + 2^4 + 7^4 + 8^4 = 16 + 16 + 2401 + 4096 = 6529 != 2278)\n\nOdpowiedz: PPF",
+          "zasady_oceniania": "Za podanie prawidlowej odpowiedzi PPF -- 1 punkt.",
+          "pulapki": [
+            "Potega zalezy od liczby cyfr n, nie jest stala (np. dla 2278 n=4, wiec cyfry podnosimy do potegi 4)",
+            "Liczba jednocyfrowa (6): n=1, wiec 6^1=6 -- jest Armstronga",
+            "Latwo pomylic sie w obliczeniach recznych poteg (szczegolnie 7^4=2401, 8^4=4096)"
+          ]
+        },
+        {
+          "id": "2014P.1.2",
+          "numer": "1.2",
+          "punkty": 2,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2. (0-2)\nW wybranej przez siebie notacji (lista krokow, wybrany jezyk programowania) napisz algorytm:\n- umieszczajacy poszczegolne cyfry liczby k w tablicy tab_cyfr[] w kolejnosci od najmniej do najbardziej znaczacej\n- zwracajacy liczbe cyfr jej zapisu dziesietnego.\n\nSpecyfikacja:\nDane: k -- liczba calkowita dodatnia.\nWynik: n -- liczba cyfr (calkowita dodatnia) w zapisie dziesietnym liczby k, tab_cyfr[] -- tablica zawierajaca kolejne cyfry zapisu dziesietnego liczby k, w kolejnosci od najmniej znaczacej do najbardziej znaczacej.\n\nPrzyklad:\nDane: k = 54321\nWynik: n = 5, tab_cyfr[] = [1,2,3,4,5]",
+          "odpowiedz": "int n = 0;\ndo {\n  cyfry[n] = k % 10;\n  k = k / 10;\n  n++;\n} while (k != 0);\ncout << n;",
+          "zasady_oceniania": "Za prawidlowo napisany algorytm -- 2 punkty.",
+          "pulapki": [
+            "Kolejnosc cyfr od najmniej do najbardziej znaczacej (k%10 daje cyfre jednosci)",
+            "Petla do-while (nie while) -- trzeba przynajmniej raz wykonac operacje (nawet dla k jednocyfrowego)",
+            "Dzielenie calkowite przez 10 usuwa ostatnia cyfre"
+          ]
+        },
+        {
+          "id": "2014P.1.3",
+          "numer": "1.3",
+          "punkty": 2,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.3. (0-2)\nW wybranej przez siebie notacji zapisz algorytm sprawdzajacy, czy zapisana w tablicy tab_cyfr[] liczba k jest liczba narcystyczna. W swoim algorytmie zaloz, ze masz do dyspozycji zarowno funkcje wyliczajaca n-ta potege liczby a, jak i zapisane w tablicy tab_cyfr[], kolejne cyfry zapisu dziesietnego liczby k.\n\nSpecyfikacja:\nDane:\n  k -- liczba calkowita dodatnia,\n  n -- liczba cyfr (calkowita dodatnia) w zapisie dziesietnym liczby k,\n  tab_cyfr[] -- tablica zawierajaca kolejne cyfry zapisu dziesietnego liczby k, w kolejnosci od najmniej znaczacej do najbardziej znaczacej,\n  potega(a,n) -- funkcja zwracajaca n-ta potege liczby a.\nWynik: PRAWDA -- jesli dana liczba jest liczba narcystyczna lub FALSZ -- w przeciwnym wypadku.",
+          "odpowiedz": "(1) j <- 0\n(2) powtarzaj\n(3)   k <- k - potega(cyfry[j], n)\n(4)   j <- j + 1\n(5) dopoki (j <> n)\n(6) jezeli (k = 0) pisz PRAWDA w przeciwnym wypadku pisz FALSZ",
+          "zasady_oceniania": "Za prawidlowo napisany algorytm -- 2 punkty.",
+          "pulapki": [
+            "Trzeba uzyc funkcji potega(a,n) z n jako potega (nie stala)",
+            "Porownanie sumy z k (lub odejmowanie i sprawdzenie czy wynik = 0)",
+            "Iteracja po wszystkich n cyfrach tablicy"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 2,
+      "tytul": "Ocen prawdziwosc zdan",
+      "punkty": 4,
+      "czesc": 1,
+      "kontekst": "Wpisz odpowiednio P, jesli zdanie jest prawdziwe, albo F, jesli zdanie jest falszywe.",
+      "podzadania": [
+        {
+          "id": "2014P.2.1",
+          "numer": "2.1",
+          "punkty": 1,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1. (0-1)\nNiech a=(1001001)_2, b=(211)_9, c=(211)_8, wowczas ocen prawdziwosc zdan:\n\n| Zdanie      | P / F |\n|-------------|-------|\n| b > c       |       |\n| a + b - c = 0 |     |\n| c = (89)_16 |       |",
+          "odpowiedz": "a = 1001001_2 = 73_10\nb = 211_9 = 2*81 + 1*9 + 1 = 172_10\nc = 211_8 = 2*64 + 1*8 + 1 = 137_10\n\nb > c: 172 > 137 -> P\na + b - c = 0: 73 + 172 - 137 = 108 != 0 -> F\nc = (89)_16: 8*16 + 9 = 137 = c -> P\n\nOdpowiedz: PFP",
+          "zasady_oceniania": "Za podanie prawidlowej odpowiedzi PFP -- 1 punkt.",
+          "pulapki": [
+            "Konwersja z bazy 9: b = 2*81 + 1*9 + 1 = 172",
+            "Konwersja z bazy 8: c = 2*64 + 1*8 + 1 = 137",
+            "Latwo pomylic bazy 8 i 9 (rozne wagi pozycyjne)"
+          ]
+        },
+        {
+          "id": "2014P.2.2",
+          "numer": "2.2",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2. (0-1)\nW sieciach komputerowych ocen prawdziwosc zdan:\n\n| Zdanie | P / F |\n|--------|-------|\n| 192.168.0.1 jest adresem petli zwrotnej. | |\n| W klasie adresowej A mamy 2^7 adresow sieci i 2^24 adresy hostow. | |\n| Adresy 94.254.99.1/16 oraz 94.254.168.168/16 naleza do jednej podsieci. | |",
+          "odpowiedz": "192.168.0.1 to adres sieci prywatnej, nie petli zwrotnej (127.0.0.1) -> F\nKlasa A: 2^7 sieci i 2^24 hostow -- to opis klasy A, ale 2^7=128, a faktycznie jest 126 uzytecznych (0 i 127 zarezerwowane) -> F\nMaska /16: 94.254.x.x to ta sama podsiec -> P\n\nOdpowiedz: FFP",
+          "zasady_oceniania": "Za podanie prawidlowej odpowiedzi FFP -- 1 punkt.",
+          "pulapki": [
+            "Adres petli zwrotnej to 127.0.0.1, nie 192.168.0.1 (to adres prywatny klasy C)",
+            "Klasa A: faktycznie 2^7 adresow (0-127), ale adresy 0 i 127 sa zarezerwowane, wiec 126 uzytecznych; 2^24 hostow (minus broadcast i siec)",
+            "Maska /16 oznacza ze pierwsze 16 bitow to adres sieci -- 94.254.x.x to ta sama podsiec"
+          ]
+        },
+        {
+          "id": "2014P.2.3",
+          "numer": "2.3",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.3. (0-1)\nProtokolami sluzacymi do pobierania wiadomosci elektronicznych z serwera sa:\n\n| Protokol | P / F |\n|----------|-------|\n| IMAP     |       |\n| SMTP     |       |\n| POP3     |       |\n| SNMP     |       |",
+          "odpowiedz": "IMAP -> P (protokol pobierania poczty)\nSMTP -> F (protokol wysylania poczty)\nPOP3 -> P (protokol pobierania poczty)\nSNMP -> F (protokol zarzadzania siecia)\n\nOdpowiedz: PFPF",
+          "zasady_oceniania": "Za podanie prawidlowej odpowiedzi PFPF -- 1 punkt.",
+          "pulapki": [
+            "SMTP sluzy do wysylania, nie pobierania poczty",
+            "SNMP (Simple Network Management Protocol) to protokol zarzadzania siecia, nie ma zwiazku z poczta",
+            "IMAP i POP3 to protokoly pobierania poczty -- oba poprawne"
+          ]
+        },
+        {
+          "id": "2014P.2.4",
+          "numer": "2.4",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.4. (0-1)\nLicencja na oprogramowanie GNU GPL:\n\n| Zdanie | P / F |\n|--------|-------|\n| dopuszcza wprowadzanie wlasnych poprawek. | |\n| wymusza wyswietlanie reklam w czasie pracy. | |\n| stosowana jest wylacznie przy tworzeniu programow prototypowych, mogacych dzialac niestabilnie. | |\n| nie zezwala na uzytkowanie zarobkowe. | |",
+          "odpowiedz": "Dopuszcza poprawki -> P (copyleft, wolne oprogramowanie)\nWymusza reklamy -> F\nTylko prototypy -> F\nNie zezwala na zarobek -> F\n\nOdpowiedz: PFFF",
+          "zasady_oceniania": "Za podanie prawidlowej odpowiedzi PFFF -- 1 punkt.",
+          "pulapki": [
+            "GPL pozwala na modyfikacje (copyleft), uzytkowanie zarobkowe i nie jest ograniczona do prototypow",
+            "GPL nie wymusza reklam -- to jest cecha adware/freeware, nie GPL"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 3,
+      "tytul": "Kodowanie",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Domyslnie znak kodowany jest na 8 bitach (1 bajt). Gdy roznych znakow w tekscie jest mniej niz 255, mozna przypisac do kolejnych roznych znakow kolejne kody binarne, uzywajac mniejszej liczby bitow.\n\nPrzyklad: tekst HANIA (4 rozne znaki) -- 3 bity na znak:\nH=001, A=010, N=011, I=100\nZakodowany tekst: 00101001 11000100 (2 bajty: 41 i 196 dziesietnie).",
+      "podzadania": [
+        {
+          "id": "2014P.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1. (0-1)\nZdekoduj tekst ukryty w dwoch kolejnych bajtach o wartosciach dziesietnych 110 i 64.\nTekst zawiera kombinacje trzech roznych znakow, kazdy znak zakodowany na 2 bitach:\nK = 01, A = 10, J = 11\n\nUzupelnij pierwszy wiersz (zapis binarny) i drugi wiersz (odkodowane znaki) w tabeli.\nPonizej wpisz tekst zdekodowany.",
+          "odpowiedz": "110_10 = 01101110_2\n64_10 = 01000000_2\n\nPodział na 2-bitowe grupy: 01|10|11|10 01|00|00|00\nDekodowanie: K A J A K (wolne bity 00 00 00)\n\nPierwszy wiersz: 01101110 01000000\nDrugi wiersz: KAJAK\nTekst zdekodowany: KAJAK",
+          "zasady_oceniania": "Za poprawne uzupelnienie obu wierszy -- 1 punkt:\n- pierwszy wiersz (01101110 01000000)\n- drugi wiersz (KAJAK)",
+          "pulapki": [
+            "Zamiana 110_10 = 01101110_2 (nie 1101110 -- trzeba uzupelnic do 8 bitow)",
+            "Odczytywanie par bitow od lewej: 01|10|11|10 = K,A,J,A",
+            "Kod 00 nie jest przypisany do zadnego znaku -- to wolne bity na koncu"
+          ]
+        },
+        {
+          "id": "2014P.3.2",
+          "numer": "3.2",
+          "punkty": 2,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2. (0-2)\nZapisz algorytm (w postaci listy krokow lub w wybranym jezyku programowania), ktory dla danego lancucha znakow zwraca liczbe roznych znakow.\n\nSpecyfikacja:\nDane: s -- zrodlowy lancuch znakow\nWynik: r -- liczba calkowita okreslajaca liczbe roznych znakow w tekscie s, zalozenie: r < 100",
+          "odpowiedz": "string s = \"AAAABBBCCCBBBAAACC\";\nint n = s.length();\nchar R[100];\nint r = 0;\nfor (int i = 0; i < n; i++) {\n  char c = s[i];\n  int j = 0;\n  while (j < r && R[j] != c) j++;\n  if (j == r) {\n    R[j] = c;\n    r++;\n  }\n}\ncout << r << endl;\n\nAlternatywnie z uzyciem set<char>:\nset<char> R;\nfor (int i = 0; i < s.length(); i++) R.insert(s[i]);\ncout << R.size() << endl;",
+          "zasady_oceniania": "Za poprawny algorytm zliczania roznych znakow -- 2 punkty, w tym za:\n- poprawne testowanie czy znak jeszcze nie wystapil, lub zapis nowego znaku do zbioru -- 1 punkt\n- poprawne okreslenie liczebnosci zbioru roznych znakow -- 1 punkt",
+          "pulapki": [
+            "Trzeba sprawdzic unikalnosc -- przeszukac dotychczasowa tablice dla kazdego nowego znaku",
+            "Mozna uzyc set<char> lub tablicy z liniowym przeszukiwaniem",
+            "Nie wystarczy policzyc dlugosci -- trzeba znalezc unikalne znaki"
+          ]
+        },
+        {
+          "id": "2014P.3.3",
+          "numer": "3.3",
+          "punkty": 3,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.3. (0-3)\nZapisz algorytm dekodowania tekstu, ktory pobiera tablice bajtow tekstu skompresowanego i wyswietla zrodlowy tekst.\n\nDostepne funkcje pomocnicze:\n- testBit(bajt, numerBitu) -- zwraca TRUE jesli bit o podanym numerze ma wartosc 1, lub FALSE jesli 0.\n- ustawBit(bajt, numerBitu) -- zwraca bajt z bitem o podanym numerze ustawionym na 1.\n\nSpecyfikacja:\nDane:\n  v[] -- tablica zawierajaca kolejne bajty tekstu skompresowanego\n  n -- liczba elementow tablicy v[]\n  r -- liczba roznych znakow w tekscie\n  t[] -- tablica przechowujaca pary {znak, kod}, definiujaca przypisanie kodu do znaku\n  bity -- liczba bitow przeznaczonych do przechowywania kodu jednego znaku\nWynik: s -- zrodlowy lancuch znakow",
+          "odpowiedz": "int i = 0; // numer bajtu\nint ib = 0; // indeks bitu w bajcie\nint kod = 0; // kod znaku\nint ik = 0; // indeks bitu w kodzie\nwhile (i < n) {\n  bajt = V[i];\n  ib = 0;\n  while (ik < bity) {\n    if (testBit(bajt, ib))\n      kod = ustawBit(kod, ik);\n    ik++;\n    if (ik == bity) {\n      // odszukaj znak przypisany do kodu\n      int j = 0;\n      while (kod != R[j].kod && j < r) j++;\n      if (j < r) wypisz R[j].znak;\n      ik = 0;\n      kod = 0;\n    }\n    ib++;\n    if (ib == 8) break;\n  }\n  i++;\n}",
+          "zasady_oceniania": "Za poprawny algorytm dekodowania znakow -- 3 punkty, w tym za:\n- poprawne powiazanie testowania bitu w bajcie skompresowanym z ustawieniem bitu w kodzie znaku -- 1 punkt\n- poprawna obsluge indeksowania bitow w bajcie skompresowanym (od 0 do 8) -- 1 punkt\n- poprawna detekcje znaku przypisanego do kodu -- 1 punkt",
+          "pulapki": [
+            "Trzeba sledzic dwie pozycje bitow: w bajcie (0-7) i w kodzie znaku (0 do bity-1)",
+            "Przejscie miedzy bajtami -- gdy skoncza sie bity w jednym bajcie, kontynuacja kodu w nastepnym",
+            "Wolne bity na koncu nie tworza pelnego kodu i powinny byc zignorowane"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 4,
+      "tytul": "Wirujacy dysk i mrowka",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "Rownanie opisujace ruch punktu po okregu o srodku w punkcie (0,0):\nx = r*sin(2*pi*t/T)\ny = r*cos(2*pi*t/T)\ngdzie: r -- promien okregu, t -- czas, T -- czas jednego pelnego okrazenia (okres ruchu).",
+      "podzadania": [
+        {
+          "id": "2014P.4.1",
+          "numer": "4.1",
+          "punkty": 3,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.1. (0-3)\nDokonaj analizy toru mrowki dla r=5, T=12.5, krok czasowy dt=0.05, poczawszy od trzeciej sekundy ruchu (t_pocz=3). Wskaz, po jakim uplywie czasu (z dokladnoscia do setnych czesci sekundy) w polozeniu mrowki wspolrzedna y-owa stanie sie wieksza od x-owej.",
+          "odpowiedz": "4,85 (czas od t_pocz=3)\nlub 7,85 (czas od poczatku ruchu mrowki, z zaznaczeniem)",
+          "zasady_oceniania": "Za poprawne wyliczenie czasu -- 3 punkty. Mozliwe sa dwie odpowiedzi:\n- 4,85\n- 7,85 (z zaznaczeniem, ze jest to czas od poczatku ruchu mrowki)\n- Za podanie odpowiedzi 7,85 bez wyjasnienia -- 1 punkt.",
+          "pulapki": [
+            "Dwie mozliwe interpretacje czasu: od t_pocz=3 (wynik 4,85) lub od poczatku (wynik 7,85)",
+            "Krok dt=0,05 wymaga wielu wierszy w arkuszu",
+            "Uzycie radianow w funkcjach trygonometrycznych (sin, cos)"
+          ]
+        },
+        {
+          "id": "2014P.4.2",
+          "numer": "4.2",
+          "punkty": 4,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.2. (0-4)\nMrowka znajdujaca sie w srodku okraglej plyty obracajacej sie wokol wlasnej osi rozpoczela marsz z szybkoscia v wzdluz promienia. Droga r=v*t. Torem mrowki dla obserwatora z zewnatrz jest spirala.\n\nJezeli T=10, dt=0.5, v=1, wykresl tor ruchu mrowki w ciagu 10 pierwszych sekund ruchu. Zadbaj o czytelnosc i przejrzystosc wykresu. Uzyskany wykres zapisz w pliku.",
+          "odpowiedz": "Wykres spirali (x-y) z parametrami:\nx = v*t*sin(2*pi*t/T)\ny = v*t*cos(2*pi*t/T)\ndla t od 0 do 10, dt=0.5, T=10, v=1\n\nWykres typu XY (punktowy) z podpisanymi osiami.",
+          "zasady_oceniania": "Za poprawne wyliczenia, ktorych efektem jest stworzenie prawidlowego wykresu -- 4 punkty, w tym za:\n- Uzyskany ksztalt spirali -- 2 punkty\n- Czytelne sformatowanie wykresu z podpisami osi ukladu wspolrzednych -- 2 punkty",
+          "pulapki": [
+            "r zmienia sie w czasie (r=v*t), nie jest stale -- to tworzy spirale",
+            "Wykres typu XY (punktowy), nie liniowy",
+            "Odpowiednie formatowanie osi i podpisy"
+          ]
+        },
+        {
+          "id": "2014P.4.3",
+          "numer": "4.3",
+          "punkty": 4,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.3. (0-4)\nOblicz sumaryczna dlugosc odcinkow laczacych punkty lezace na torze, jaki przebyla mrowka w ciagu 10 pierwszych sekund ruchu, poczawszy od punktu (0,0), jezeli dt=0.5. Spiralny tor mrowki opisany zostal w poprzednim podpunkcie. Wynik podaj z dokladnoscia do 4 miejsc po przecinku.",
+          "odpowiedz": "33,6520",
+          "zasady_oceniania": "Za podanie prawidlowego wyniku 33,6520:\n- z dokladnoscia do czterech miejsc po przecinku -- 4 punkty\n- z mniejsza dokladnoscia -- 2 punkty",
+          "pulapki": [
+            "Dlugosc odcinka miedzy kolejnymi punktami: sqrt((x2-x1)^2 + (y2-y1)^2)",
+            "Sumowanie po wszystkich odcinkach od (0,0) do ostatniego punktu",
+            "Dokladnosc do 4 miejsc po przecinku wymagana"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 5,
+      "tytul": "Zawody sportowe",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Mateusz caly rok przygotowuje sie do zawodow sportowych w skoku w dal. Codziennie trenuje, a wynik -- dlugosc najdluzszego skoku podana w centymetrach -- zapisuje w pliku tekstowym dziennik.txt. W pliku tym znajduje sie 310 liczb odpowiadajacych dlugosciom najlepszych skokow Mateusza w kolejnych dniach treningowych.\n\nPozytywna seria treningowa to kazdy ciag kolejnych dni treningowych, w czasie ktorych uzyskuje on kazdego nastepnego dnia treningu lepszy rezultat niz dnia poprzedniego i ktorego to ciagu nie mozna przedluzyc.",
+      "podzadania": [
+        {
+          "id": "2014P.5.1",
+          "numer": "5.1",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_sekwencje",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.1. (0-4)\nW pliku dziennik.txt znajduje sie 310 liczb odpowiadajacych dlugosciom najlepszych skokow Mateusza w kolejnych dniach treningowych. Pozytywna seria treningowa to kazdy ciag kolejnych dni, w czasie ktorych uzyskuje lepszy rezultat niz dnia poprzedniego i ktorego nie mozna przedluzyc.\n\nIle Mateusz mial pozytywnych serii treningowych dluzszych niz 3 dni?",
+          "odpowiedz": "11",
+          "zasady_oceniania": "Za prawidlowe wyliczenie i wskazanie wyniku 11 -- 4 punkty.",
+          "pulapki": [
+            "'Dluzszych niz 3 dni' oznacza > 3, nie >= 3",
+            "Serie musza byc maksymalne (nie mozna ich przedluzyc)",
+            "Poprawne wykrywanie konca serii (nastepny dzien gorszy LUB koniec pliku)"
+          ]
+        },
+        {
+          "id": "2014P.5.2",
+          "numer": "5.2",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_minmax",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.2. (0-4)\nIle wynosza dlugosci najdluzszego oraz najkrotszego skoku Mateusza? Podaj, ktore to byly wyniki, liczac od poczatku prowadzenia dziennika.",
+          "odpowiedz": "Najdluzszy skok: 601, w dniu 176.\nNajkrotszy skok: 401, w dniu 17.",
+          "zasady_oceniania": "Za udzielenie prawidlowych odpowiedzi:\n- Najdluzszy skok, to 601, w dniu 176. -- 2 punkty\n- Najkrotszy skok, to 401, w dniu 17. -- 2 punkty",
+          "pulapki": [
+            "Trzeba podac zarowno wartosc jak i numer dnia",
+            "Numeracja dni od 1 (nie od 0)"
+          ]
+        },
+        {
+          "id": "2014P.5.3",
+          "numer": "5.3",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_sekwencje",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.3. (0-4)\nPodaj, z ilu dni skladala sie najdluzsza pozytywna seria treningowa Mateusza oraz o ile centymetrow poprawil w jej trakcie swoj wynik.",
+          "odpowiedz": "Najdluzsza seria: 6 dni.\nPoprawa wyniku: 158 cm.",
+          "zasady_oceniania": "Za udzielenie prawidlowych odpowiedzi:\n- Najdluzsza seria treningowa, to 6 dni -- 2 punkty\n- Poprawa wyniku w tej serii, to 158 cm -- 2 punkty",
+          "pulapki": [
+            "Poprawa = ostatni element serii - pierwszy element serii",
+            "Najdluzsza seria moze nie byc jedyna o tej dlugosci",
+            "Seria 'nie mozna przedluzyc' -- moze konczyc sie na koncu pliku"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 6,
+      "tytul": "OPALEX Sprzedaz opalu",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "W plikach dane_osobowe.txt, transakcje.txt, asortyment.txt oraz us.txt znajduja sie informacje dotyczace systemu transakcyjnego firmy OPALEX, zajmujacej sie internetowa sprzedaza opalu.\n\nPlik us.txt: powiazanie pierwszych trzech cyfr NIP z nazwa urzedu skarbowego.\nPlik asortyment.txt: id_asortymentu, nazwa_asortymentu, cena_jednostkowa.\nPlik dane_osobowe.txt: id_klienta, imie, nazwisko, prefix_nip, NIP, wojewodztwo, kod, miejscowosc, ulica, nr_domu.\nPlik transakcje.txt: id_transakcji, id_klienta, id_asortymentu, ilosc, data_transakcji.",
+      "podzadania": [
+        {
+          "id": "2014P.6.1",
+          "numer": "6.1",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.1. (0-2)\nW plikach dane_osobowe.txt, transakcje.txt, asortyment.txt oraz us.txt znajduja sie informacje dotyczace systemu transakcyjnego firmy OPALEX.\n\nWykonaj zestawienie zawierajace informacje o wartosci zakupow zrealizowanych w dniu 04 stycznia 2013 roku przez klientow, ktorych nazwiska zaczynaja sie lub koncza na litere 'o'. Zestawienie powinno zawierac nazwiska klientow oraz wartosc transakcji wyrazone w polskiej walucie. Wyniki uporzadkuj niemalejacowedle nazwisk.",
+          "odpowiedz": "Opyrchlo -- 5 872,41 zl (2013-01-04)\nOttenlinger -- 4 449,58 zl (2013-01-04)\nBogdzio -- 7 434,71 zl (2013-01-04)\nTananko -- 4 506,48 zl (2013-01-04)\n\nSuma: 22 263,18 zl",
+          "zasady_oceniania": "Za podanie prawidlowej odpowiedzi 22 263,18 zl -- 2 punkty.\nZa podanie odpowiedzi:\n- Bez zsumowania -- 1 punkt\n- Z zastosowaniem AND zamiast OR, co daje wynik ograniczony do jednego rekordu 5 872,41 zl -- 1 punkt",
+          "pulapki": [
+            "Warunek 'zaczynaja sie LUB koncza' -- trzeba uzyc OR, nie AND",
+            "Wartosc transakcji = ilosc * cena_jednostkowa (join z asortyment)",
+            "Filtr po dacie: 2013-01-04"
+          ]
+        },
+        {
+          "id": "2014P.6.2",
+          "numer": "6.2",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.2. (0-2)\nWykonaj zestawienie finansowe zawierajace miesieczne informacje o wartosci sprzedazy oleju opalowego w okresie od 01 sierpnia 2013 roku do 31 stycznia 2014 roku. Zestawienie powinno zawierac rok, miesiac i wartosc sprzedazy. Dane uporzadkuj chronologicznie.",
+          "odpowiedz": "2013/8: 1 329 996,80 zl\n2013/9: 1 266 883,20 zl\n2013/10: 1 351 785,60 zl\n2013/11: 1 207 324,80 zl\n2013/12: 1 200 320,00 zl\n2014/1: 1 559 324,80 zl",
+          "zasady_oceniania": "Za podanie prawidlowego zestawienia -- 2 punkty.\nZa podanie dobrych wynikow, ale bez sortowania -- 1 punkt.",
+          "pulapki": [
+            "Filtr po asortymencie: olej opalowy (trzeba znalezc prawidlowy identyfikator)",
+            "Grupowanie po roku i miesiacu",
+            "Zakres dat: 2013-08-01 do 2014-01-31",
+            "Sortowanie chronologiczne"
+          ]
+        },
+        {
+          "id": "2014P.6.3",
+          "numer": "6.3",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.3. (0-2)\nPodaj imie i nazwisko klienta, ktory zakupil najwieksza ilosc koksu.",
+          "odpowiedz": "Abdiasz Eleryk (30,68 ton)",
+          "zasady_oceniania": "Za podanie prawidlowej odpowiedzi -- 2 punkty.",
+          "pulapki": [
+            "Trzeba zsumowac ilosci koksu per klient (GROUP BY), potem znalezc MAX",
+            "Join z dane_osobowe i asortyment",
+            "Koks to konkretny id_asortymentu -- trzeba go zidentyfikowac"
+          ]
+        },
+        {
+          "id": "2014P.6.4",
+          "numer": "6.4",
+          "punkty": 3,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.4. (0-3)\nStworz zestawienie klientow z wojewodztwa podlaskiego, ktorzy nie dokonali zakupow.",
+          "odpowiedz": "Eulalia Dryzba\nLuba Kierzek\nTycjan Parobi",
+          "zasady_oceniania": "Za podanie prawidlowej odpowiedzi -- 3 punkty.",
+          "pulapki": [
+            "Anti-join: NOT IN lub LEFT JOIN WHERE transakcje IS NULL",
+            "Filtr wojewodztwo = 'podlaskie'",
+            "Klienci BEZ transakcji, nie z transakcjami"
+          ]
+        },
+        {
+          "id": "2014P.6.5",
+          "numer": "6.5",
+          "punkty": 3,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.5. (0-3)\nWykonaj zestawienie zawierajace wartosc zakupionego koksu i mialu weglowego w calym okresie sprzedazy w podziale na przynaleznosc klientow do danych urzedow skarbowych. Zestawienie powinno skladac sie z 3 kolumn: Nazwa urzedu skarbowego, Wartosc zakupionego koksu i Wartosc zakupionego mialu weglowego. Zestawienie ogranicz do warszawskich urzedow skarbowych.",
+          "odpowiedz": "Zestawienie 10 warszawskich urzedow skarbowych:\n- Pierwszy US Warszawa-srodmiescie: mial 14 105,51 zl, koks 41 086,55 zl\n- Trzeci US Warszawa-srodmiescie: mial 16 808,26 zl, koks 14 105,03 zl\n- US Warszawa-Bemowo: mial 33 149,94 zl, koks 20 433,17 zl\n- US Warszawa-Bielany: mial 11 954,69 zl, koks 35 013,39 zl\n- US Warszawa-Mokotow: mial 17 291,91 zl, koks 27 271,27 zl\n- US Warszawa-Praga: mial 16 552,21 zl, koks 3 094,53 zl\n- US Warszawa-Targowek: mial 8 523,62 zl, koks 27 537,84 zl\n- US Warszawa-Ursynow: mial 10 264,76 zl, koks 8 889,53 zl\n- US Warszawa-Wawer: mial 4 017,14 zl, koks 22 612,09 zl\n- US Warszawa-Wola: mial 28 478,45 zl, koks 6 177,47 zl",
+          "zasady_oceniania": "Za podanie prawidlowej odpowiedzi -- 3 punkty.",
+          "pulapki": [
+            "Pivot: dwie kolumny wartosci (koks osobno, mial osobno) -- wymaga warunkowej agregacji (SUM z IF/CASE)",
+            "Join z 4 tabelami: transakcje, dane_osobowe, asortyment, us",
+            "Filtr na 'warszawskie' urzedy skarbowe (LIKE '%Warszaw%')",
+            "prefix_nip laczy dane_osobowe z us"
+          ]
+        }
+      ]
+    }
+  ]
+}

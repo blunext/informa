@@ -1,7 +1,7 @@
 # 02. Projektowanie algorytmu
 
 Typ zadania: **projektowanie_algorytmu**
-Czestotliwosc: 11/11 lat | Laczna punktacja: 43 pkt
+Czestotliwosc: 12/12 lat | Laczna punktacja: 43 pkt
 Kategoria: TEORIA
 
 ## Umiejetnosci cwiczone w tym zestawie

@@ -1,7 +1,7 @@
 # 10. Zliczanie i filtrowanie
 
 Typ zadania: **zliczanie**
-Czestotliwosc: 5/11 lat | Laczna punktacja: 17 pkt
+Czestotliwosc: 5/12 lat | Laczna punktacja: 17 pkt
 Kategoria: IMPLEMENTACJA
 
 ## Umiejetnosci cwiczone w tym zestawie

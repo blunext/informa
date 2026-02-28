@@ -1,0 +1,397 @@
+{
+  "rok": 2015,
+  "sesja": "czerwiec",
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny, bazy danych)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Kod uzupelnien do dwoch",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "W kodzie uzupelnien do dwoch (U2) zapisujemy liczby calkowite w dwojkowym systemie pozycyjnym. W n-bitowym systemie U2 reprezentujemy liczby z przedzialu [-(2^(n-1)), 2^(n-1)-1]. Zapis (a_{n-1}...a_1 a_0)_U2 oznacza liczbe: -a_{n-1}*2^(n-1) + a_{n-2}*2^(n-2) + ... + a_1*2 + a_0.\nPrzykladowo w 8-bitowym U2: (01110101)_U2 = 117, (10101110)_U2 = -82.",
+      "podzadania": [
+        {
+          "id": "2015C.1.1",
+          "numer": "1.1",
+          "punkty": 2,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1. (0-2)\nZapisz liczby 93 i -42 w 8-bitowym kodzie U2:\n93 = (........)_U2\n-42 = (........)_U2\n\nZapisz w 8-bitowym kodzie U2 wynik dodawania:\n(00101011)_U2 + (10011011)_U2 = ........",
+          "odpowiedz": "93 = (01011101)_U2\n-42 = (11010110)_U2\n(00101011)_U2 + (10011011)_U2 = (11000110)_U2\n\nObjaśnienie: 00101011 = 43, 10011011 = -101, suma = -58 = 11000110",
+          "zasady_oceniania": "Za poprawne wyniki dla 93 i -42 -- 1 punkt.\nZa poprawny wynik sumy -- 1 punkt.\nRazem: 2 punkty.",
+          "pulapki": [
+            "Dla liczb ujemnych w U2: zaneguj bity i dodaj 1 (np. 42=00101010, neg=11010101, +1=11010110)",
+            "Dodawanie binarne z przeniesieniem -- odrzuc nadmiarowy bit jesli wynik jest 8-bitowy",
+            "Sprawdz czy wynik miesci sie w zakresie [-128, 127]"
+          ]
+        },
+        {
+          "id": "2015C.1.2",
+          "numer": "1.2",
+          "punkty": 3,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2. (0-3)\nAlgorytm wyznaczania liczby przeciwnej w kodzie U2:\n1. i <- 0\n2. dopoki a_i = 0 wykonuj: a) b_i <- 0, b) i <- i+1\n3. b_i <- a_i\n4. i <- i+1\n5. dopoki i < n wykonuj: a) b_i <- not(a_i), b) i <- i+1\n\nPodaj wynik wykonania algorytmu dla n=16 i x = (1111001001110000)_U2.\n\nPodaj przyklad liczby zapisanej w 16-bitowym kodzie U2, dla ktorej algorytm nie wykona zadnej instrukcji z wnetrza petli w kroku 2.\n\nPodaj przyklad liczby zapisanej w 16-bitowym kodzie U2, dla ktorej algorytm w petli z kroku 5 wykona dokladnie 7 razy operacje not.",
+          "odpowiedz": "1. Wynik: 0000110110010000 (i=4, a_4=1)\n\n2. Petla w kroku 2 nie wykona sie, gdy a_0=1 (bit najmniej znaczacy = 1). Przyklad: dowolny ciag zakonczony jedynka, np. xxxxxxxxxxxxxxx1.\n\n3. Krok 5 wykona dokladnie 7 razy not, gdy petla w kroku 2 wykona sie 16-1-7-1=8 razy (8 zer poczatkowych) + 1 bit (krok 3) + 7 bitow (krok 5). Czyli 9 ostatnich bitow to 100000000. Przyklad: xxxxxxx100000000.",
+          "zasady_oceniania": "Za podanie poprawnego wyniku algorytmu oraz podanie poprawnego bitu a_i oraz indeksu -- 1 punkt.\nZa podanie poprawnego przykladu (petla 2) -- 1 punkt.\nZa podanie poprawnego przykladu (krok 5, 7 razy not) -- 1 punkt.\nRazem: 3 punkty.",
+          "pulapki": [
+            "Algorytm przetwarza bity od najmniej znaczacego (a_0) do najbardziej (a_{n-1})",
+            "Krok 2 kopiuje zera, krok 3 kopiuje pierwsza jedynke, krok 5 neguje reszte",
+            "Dla przykladu z krokiem 5: trzeba policzyc ile bitow zostanie po petli 2 i kroku 3"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 2,
+      "tytul": "Triady",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Trzy dodatnie liczby a, b i c nazwiemy triada, gdy mozliwe jest utworzenie trojkata, ktorego boki maja dlugosci a, b i c.",
+      "podzadania": [
+        {
+          "id": "2015C.2.1",
+          "numer": "2.1",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1. (0-2)\nUzupelnij stwierdzenie:\nLiczby dodatnie a, b i c spelniajace warunek a <= b tworza triade wtedy i tylko wtedy, gdy zachodza jednoczesnie:\nb - a < ......\nb + a > ......\n\nPodaj, ile wartosci c mozna dobrac ze zbioru C = {2, 3, 5, 6, 9, 10, 11, 13, 14, 15, 17, 19, 20, 23, 24} tak, aby a=5, b=15 oraz c z C tworzyly triade. Wskaz odpowiednie wartosci c.",
+          "odpowiedz": "b - a < c\nb + a > c\n\nDla a=5, b=15: 10 < c < 20\nElementy C tworzace triade: 11, 13, 14, 15, 17, 19\nLiczba elementow: 6",
+          "zasady_oceniania": "Za poprawne uzupelnienie obu nierownosci -- 1 punkt.\nZa poprawne uzupelnienie odpowiedzi dla przykladu -- 1 punkt.\nRazem: 2 punkty.",
+          "pulapki": [
+            "Warunek trojkata: suma dwoch bokow > trzeci bok (dla wszystkich par)",
+            "Przy a <= b: wystarczy sprawdzic b-a < c i b+a > c",
+            "Granice sa ostre (< i >), nie nieostra (<= lub >=)"
+          ]
+        },
+        {
+          "id": "2015C.2.2",
+          "numer": "2.2",
+          "punkty": 4,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2. (0-4)\nZaproponuj algorytm, ktory dla calkowitego n >= 2 wyznaczy wszystkie triady c_1, c_2 i c_k, gdzie 1<=k<=n, w zadanym ciagu liczb c_1,c_2,...,c_n.\n\nSpecyfikacja:\nDane: n -- liczba elementow ciagu, n >= 2; c_1,c_2,...,c_n -- nieposortowany ciag bez powtorzen liczb dodatnich, w ktorym c_1 < c_2\nWynik: liczba wszystkich triad c_1, c_2 i c_k w ciagu c_1,...,c_n, 1 <= k <= n",
+          "odpowiedz": "Algorytm za 4 punkty (liniowy):\n1) min <- c_j - c_i; max <- c_j + c_i\n2) dopoki c_k < max oraz k < n+1:\n   a) jezeli c_k > min: licznik <- licznik + 1\n   b) k <- k+1\n3) Zwroc wartosc licznik\n\nAlgorytm za 3 punkty (przegladanie calego zbioru):\n1) licznik <- 0\n2) dla kolejnych k <- 1, 2, ..., n:\n   a) jezeli (c_j-c_i < c_k oraz c_j+c_i > c_k): licznik <- licznik + 1\n3) Zwroc wartosc licznik",
+          "zasady_oceniania": "Za poprawne wartosci poczatkowe -- 1 punkt.\nZa poprawna organizacje petli -- 1 punkt.\nZa poprawne wyznaczanie koncowej wartosci -- 1 punkt.\nZa rozwiazanie o czasie mniejszym niz liniowy -- 1 punkt.\nRazem: 4 punkty.",
+          "pulapki": [
+            "c_1 < c_2 -- to dane poczatkowe, nie trzeba ich sortowac",
+            "Trzeba sprawdzic warunek trojkata: |c_1-c_2| < c_k < c_1+c_2",
+            "Optymalne rozwiazanie korzysta z faktu ze ciag mozna posortowac i uzyc wyszukiwania binarnego"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 3,
+      "tytul": "Test",
+      "punkty": 4,
+      "czesc": 1,
+      "kontekst": "Ocen, czy ponizsze zdania sa prawdziwe. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli zdanie jest falszywe. W kazdym zadaniu punkt uzyskasz tylko za komplet poprawnych odpowiedzi.",
+      "podzadania": [
+        {
+          "id": "2015C.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1. (0-1)\nAlgorytm Euklidesa:\n1. sluzy do obliczania potegi a^b. (P/F)\n2. sluzy do obliczania NWD dwoch liczb. (P/F)\n3. zastosowany do a=100, b=10 da wynik 5. (P/F)\n4. zastosowany do a=100, b=8 da wynik 4. (P/F)",
+          "odpowiedz": "F, P, F, P (FPFP)\n\nNWD(100,10) = 10 (nie 5)\nNWD(100,8) = 4",
+          "zasady_oceniania": "Za podanie prawidlowej odpowiedzi FPFP -- 1 punkt.",
+          "pulapki": [
+            "Algorytm Euklidesa oblicza NWD, nie potege",
+            "NWD(100,10) = 10, nie 5 (100 = 10*10, wiec NWD=10)",
+            "NWD(100,8): 100 mod 8=4, 8 mod 4=0, wiec NWD=4"
+          ]
+        },
+        {
+          "id": "2015C.3.2",
+          "numer": "3.2",
+          "punkty": 1,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2. (0-1)\nLiczba szesnastkowa (FCA)_16 jest:\n1. mniejsza od (FFF)_16. (P/F)\n2. wieksza od (AAAA)_16. (P/F)\n3. mniejsza od (1111)_16. (P/F)\n4. wieksza od (9999)_16. (P/F)",
+          "odpowiedz": "P, F, P, F (PFPF)\n\nFCA_16 = 4042_10\nFFF_16 = 4095 > 4042 -> P\nAAAA_16 = 43690 > 4042 -> F\n1111_16 = 4369 > 4042 -> P\n9999_16 = 39321 > 4042 -> F",
+          "zasady_oceniania": "Za podanie prawidlowej odpowiedzi PFPF -- 1 punkt.",
+          "pulapki": [
+            "FCA ma 3 cyfry hex, a AAAA i 9999 maja 4 cyfry -- 4-cyfrowe hex sa zawsze wieksze od 3-cyfrowych",
+            "Wystarczy porownac liczbe cyfr lub przeliczyc na dziesietne",
+            "1111_16 = 4369 > FCA_16 = 4042"
+          ]
+        },
+        {
+          "id": "2015C.3.3",
+          "numer": "3.3",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.3. (0-1)\nKlucz obcy w tabeli bazy danych:\n1. pochodzi z innej tabeli. (P/F)\n2. sluzy do laczenia tabeli z inna tabela. (P/F)\n3. musi byc opisany za pomoca jednej kolumny. (P/F)\n4. jednoznacznie identyfikuje wiersze tej tabeli. (P/F)",
+          "odpowiedz": "P, P, F, F (PPFF)\n\nKlucz obcy pochodzi z innej tabeli (jest kluczem glownym tamtej tabeli) i sluzy do laczenia tabel. Moze skladac sie z wielu kolumn. Nie identyfikuje jednoznacznie wierszy (to robi klucz glowny).",
+          "zasady_oceniania": "Za podanie prawidlowej odpowiedzi PPFF -- 1 punkt.",
+          "pulapki": [
+            "Klucz obcy NIE musi byc jednokolumnowy (moze byc zlozony)",
+            "Klucz obcy NIE identyfikuje jednoznacznie wierszy -- to rola klucza glownego",
+            "Klucz obcy pochodzi z innej tabeli i sluzy do relacji"
+          ]
+        },
+        {
+          "id": "2015C.3.4",
+          "numer": "3.4",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.4. (0-1)\nAdres IPv4:\n1. sklada sie z 48 bitow. (P/F)\n2. jest unikatowy w skali swiata. (P/F)\n3. jest unikatowy w skali sieci lokalnej. (P/F)\n4. 300.200.256.1 jest poprawny. (P/F)",
+          "odpowiedz": "F, F, P, F (FFPF)\n\nIPv4 ma 32 bity (nie 48 -- to MAC). Nie jest unikatowy w skali swiata (NAT). Jest unikatowy w sieci lokalnej. 300 i 256 przekraczaja zakres 0-255.",
+          "zasady_oceniania": "Za podanie prawidlowej odpowiedzi FFPF -- 1 punkt.",
+          "pulapki": [
+            "IPv4 = 32 bity, nie 48 (48 bitow to adres MAC)",
+            "IPv4 NIE jest unikatowy globalnie (z powodu NAT, adresy prywatne sie powtarzaja)",
+            "Kazdy oktet IPv4 to 0-255, wiec 300 i 256 sa niepoprawne"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 4,
+      "tytul": "Elektrocieplownia",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Elektrocieplownia Sloneczko podpisala umowe z Kopalnia Piastek na dostawy wegla kamiennego w trzech rodzajach: kostka (685 zl/t), orzech (620 zl/t) i mial (380 zl/t). W pliku piastek.txt opisano dostawy wegla w kolejnych dniach sezonu grzewczego (3 liczby: kostka, orzech, mial, rozdzielone tabulatorem, wiersz zer = brak dostawy).\n\nZuzycie dzienne: 200 ton. Kostka: 1.3x wiecej niz orzech; mial: 1.6x wiecej niz kostka. Kolejnosc spalania: kostka, orzech, mial. Pali jednym rodzajem az zapas < 200t. Jesli orzecha < 260t, pali mialem. Jesli brakuje, podtrzymuje ogien.\n\nSezon: 15.10.2014 - 15.04.2015. Stan poczatkowy: 80 ton kazdego rodzaju.",
+      "podzadania": [
+        {
+          "id": "2015C.4.1",
+          "numer": "4.1",
+          "punkty": 3,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.1. (0-3)\nDla kazdego miesiaca, od pazdziernika do kwietnia, podaj liczbe ton kazdego rodzaju wegla dostarczonego przez Kopalnie Piastek.",
+          "odpowiedz": "miesiac  kostka  orzech  mial\n10       1742    1658    915\n11       2756    2884    1750\n12       2696    2749    1586\n1        2990    2870    1646\n2        2579    2651    1252\n3        3332    3026    1360\n4        1365    966     706",
+          "zasady_oceniania": "Za poprawne zestawienie -- 3 pkt (w tym za poprawna kazda kolumne -- 1 pkt).",
+          "pulapki": [
+            "Sumowanie per miesiac z pliku piastek.txt (3 kolumny: kostka, orzech, mial)",
+            "Wiersz zer oznacza brak dostawy -- trzeba go pominac lub dodac 0"
+          ]
+        },
+        {
+          "id": "2015C.4.2",
+          "numer": "4.2",
+          "punkty": 2,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.2. (0-2)\nDla danych obliczonych w zadaniu 4.1 utworz wykres kolumnowy. Pamietaj o czytelnym opisie wykresu (tytul, legenda, opis osi).",
+          "odpowiedz": "Wykres kolumnowy zgrupowany, 3 serie (kostka, orzech, mial), 7 miesiecy na osi X, tony na osi Y. Tytul: 'Stan magazynu'. Legenda z oznaczeniem rodzajow wegla.",
+          "zasady_oceniania": "Za poprawnie opisany wykres kolumnowy -- 2 pkt (w tym za typ wykresu i dobor danych 1 pkt, za opis wykresu 1 pkt).",
+          "pulapki": [
+            "Musi byc wykres kolumnowy (nie liniowy, nie kolowy)",
+            "Wymagane: tytul, legenda, opisy osi"
+          ]
+        },
+        {
+          "id": "2015C.4.3",
+          "numer": "4.3",
+          "punkty": 1,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.3. (0-2)\nPodaj laczna kwote, jaka elektrocieplownia zaplaci za wegiel z Kopalni Piastek.",
+          "odpowiedz": "25 880 280,00 zl",
+          "zasady_oceniania": "Za poprawna odpowiedz (25 880 280,00 zl) -- 1 pkt.",
+          "pulapki": [
+            "Koszt = suma(kostka*685 + orzech*620 + mial*380) za caly sezon",
+            "Trzeba pomnożyć tony każdego rodzaju przez odpowiednią cenę"
+          ]
+        },
+        {
+          "id": "2015C.4.4",
+          "numer": "4.4",
+          "punkty": 3,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.4. (0-3)\nWykonaj zestawienie zawierajace liczby dni, w ktorych elektrocieplownia palila odpowiednio kostka, orzechem albo mialem.",
+          "odpowiedz": "Zestawienie stanow magazynu (15-go kazdego miesiaca):\n2014-10-15: kostka 280, orzech 200, mial 161\n2014-11-15: kostka 159, orzech 176, mial 599\n2014-12-15: kostka 32, orzech 368, mial 391\n2015-01-15: kostka 133, orzech 312, mial 491\n2015-02-15: kostka 112, orzech 204, mial 1367\n2015-03-15: kostka 87, orzech 541, mial 844\n2015-04-15: kostka 140, orzech 244, mial 335\n\nLiczba dni palenia: kostka 87, orzech 64, mial 29",
+          "zasady_oceniania": "Za przygotowanie poprawnego zestawienia -- 2 pkt.\nZa poprawna odpowiedz (liczba dni) -- 1 pkt.\nRazem: 3 punkty.",
+          "pulapki": [
+            "Symulacja dzien po dniu: dostawa rano, potem decyzja o spalaniu",
+            "Kolejnosc: kostka pierwszy, orzech jesli kostka < 200t, mial jesli orzech < 260t",
+            "Podtrzymywanie ognia gdy brak wegla -- nie liczy sie jako palenie"
+          ]
+        },
+        {
+          "id": "2015C.4.5",
+          "numer": "4.5",
+          "punkty": 1,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.5. (0-1)\nPodaj date, kiedy po raz pierwszy elektrocieplownia palila mialem.",
+          "odpowiedz": "18 pazdziernika (18.10)",
+          "zasady_oceniania": "Za poprawne podanie daty (18.10) -- 1 pkt.",
+          "pulapki": [
+            "Poczatkowy stan: 80t kazdego. Kostka < 200t od razu, wiec orzech. Orzech < 260t szybko -> mial",
+            "Trzeba dokladnie przeledzic symulacje od 15.10"
+          ]
+        },
+        {
+          "id": "2015C.4.6",
+          "numer": "4.6",
+          "punkty": 2,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 4.6. (0-1)\nIle bylo dni, w ktorych elektrocieplownia, z powodu zbyt malych zapasow wegla, jedynie podtrzymywala ogien?",
+          "odpowiedz": "3 dni",
+          "zasady_oceniania": "Za podanie liczby wylaczen (3) -- 1 pkt.",
+          "pulapki": [
+            "Podtrzymywanie ognia = nie ma wystarczajaco zadnego rodzaju wegla",
+            "Trzeba dokladnie sledzic stany magazynowe w symulacji"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 5,
+      "tytul": "Mandaty",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "Dane w plikach: wykroczenia.txt (kod_wyk, nazwa, mandat, punkty), mandaty.txt (pesel, data_wyk, kod_wyk), kierowcy.txt (pesel, data_prawa_jazdy, miasto). Pierwszy wiersz naglowkowy, dane z 2014 roku.",
+      "podzadania": [
+        {
+          "id": "2015C.5.1",
+          "numer": "5.1",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zliczanie",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.1. (0-2)\nPodaj nazwe wykroczenia, za ktore kierowcy byli najczesciej karani, oraz liczbe jego wystapien.",
+          "odpowiedz": "Przekroczenie dopuszczalnej predkosci o 21-30 km/h: 77 wystapien",
+          "zasady_oceniania": "Za podanie nazwy wykroczenia -- 1 pkt.\nZa podanie liczby jego wystapien -- 1 pkt.",
+          "pulapki": [
+            "Trzeba policzyc wystapienia kazdego kod_wyk w mandaty.txt, potem znalezc max",
+            "Nazwa wykroczenia jest w wykroczenia.txt (join po kod_wyk)"
+          ]
+        },
+        {
+          "id": "2015C.5.2",
+          "numer": "5.2",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.2. (0-2)\nWykonaj zestawienie zawierajace numery PESEL tych kierowcow, ktorzy zdali egzamin na prawo jazdy w 2013 roku i otrzymali w sumie wiecej niz 20 punktow karnych. Zestawienie powinno zawierac rowniez uzyskane przez nich laczne liczby punktow karnych.",
+          "odpowiedz": "pesel        punkty\n81011159031  32\n80062465997  27\n81011807736  26",
+          "zasady_oceniania": "Za poprawna liste numerow PESEL -- 1 pkt.\nZa sume punktow -- 1 pkt.",
+          "pulapki": [
+            "Filtr: data_prawa_jazdy z roku 2013 (z kierowcy.txt)",
+            "Suma punktow karnych > 20 (join mandaty + wykroczenia, grupowanie po PESEL)",
+            "Punkty karne sa w wykroczenia.txt, nie w mandaty.txt"
+          ]
+        },
+        {
+          "id": "2015C.5.3",
+          "numer": "5.3",
+          "punkty": 1,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.3. (0-2)\nWykonaj zestawienie zawierajace nazwy wszystkich wykroczen, ktore w swojej nazwie zawieraja tekst 'naruszenie zakazu'. Przy wyszukiwaniu nazw wykroczen nie rozrozniaj wielkosci liter.",
+          "odpowiedz": "Naruszenie zakazu postoju przed lub za przejazdem kolejowym\nNaruszenie zakazu postoju w miejscach utrudniajacych dostep do innego prawidlowo zaparkowanego pojazdu\nNaruszenie zakazu postoju w miejscach utrudniajacych wjazd lub wyjazd\nNaruszenie zakazu postoju w strefie zamieszkania w miejscach innych niz wyznaczone\nNaruszenie zakazu wyprzedzania na skrzyzowaniach\nNaruszenie zakazu wyprzedzania na zakretach oznaczonych znakami ostrzegawczymi\nNaruszenie zakazu wyprzedzania pojazdu silnikowego przy dojezdzaniu do wierzcholka wzniesienia\nNaruszenie zakazu zawracania na autostradzie lub drodze ekspresowej\nW czasie jazdy naruszenie zakazu palenia tytoniu lub spozywania pokarmow",
+          "zasady_oceniania": "Za podanie listy wszystkich wykroczen -- 1 pkt.",
+          "pulapki": [
+            "Case-insensitive search (nie rozrozniaj wielkosci liter)",
+            "Szukaj w kolumnie 'nazwa' w wykroczenia.txt"
+          ]
+        },
+        {
+          "id": "2015C.5.4",
+          "numer": "5.4",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.4. (0-3)\nPodaj, w ktorym miesiacu wypisano najmniej mandatow. Dla tego miesiaca podaj laczna kwote mandatow oraz ich liczbe.",
+          "odpowiedz": "Miesiac z najmniejsza liczba mandatow: marzec (3)\nLiczba mandatow: 67\nKwota: 11 900 zl\n\nPelne zestawienie miesieczne (posortowane malejaco wg kwoty):\nmiesiac  liczba  kwota\n9        113     22000\n11       93      21200\n12       96      18950\n10       106     18650\n8        98      18150\n1        82      16300\n6        68      14150\n7        76      13300\n5        73      12850\n2        63      12750\n4        65      12250\n3        67      11900",
+          "zasady_oceniania": "Za poprawne zestawienie -- 3 pkt, w tym:\n- za liczbe mandatow -- 1 punkt\n- za wplywy z mandatow -- 1 punkt\n- za prawidlowe sortowanie -- 1 punkt",
+          "pulapki": [
+            "Grupowanie po miesiacu z data_wyk w mandaty.txt",
+            "Kwota mandatu jest w wykroczenia.txt (join po kod_wyk)",
+            "Sortowanie malejaco wedlug kwoty mandatow"
+          ]
+        },
+        {
+          "id": "2015C.5.5",
+          "numer": "5.5",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.5. (0-3)\nPodaj liczbe kierowcow, ktorzy nie otrzymali zadnego mandatu. Podaj miasto, z ktorego pochodzi najwiecej takich kierowcow.",
+          "odpowiedz": "Liczba kierowcow bez mandatu: 190\nMiasto: Warszawa",
+          "zasady_oceniania": "Za podanie poprawnej liczby kierowcow (190) -- 2 pkt.\nZa podanie miasta (Warszawa) -- 1 pkt.",
+          "pulapki": [
+            "Anti-join: kierowcy ktorych PESEL nie wystepuje w mandaty.txt",
+            "Potem grupowanie po miastach i znalezienie max"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 6,
+      "tytul": "Kody kreskowe",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Standard Code 25 -- kodowanie towarow. Struktura: znak START (11011010), cyfry kodowane wg tabeli (w pliku cyfra_kodkreskowy.txt), cyfra kontrolna (suma cyfr na pozycjach parzystych * 3 + suma cyfr na nieparzystych, reszta z 10, odjecie od 10, reszta z 10), znak STOP (11010110). Kodowane liczby w pliku kody.txt.",
+      "podzadania": [
+        {
+          "id": "2015C.6.1",
+          "numer": "6.1",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 6.1. (0-4)\nDla kazdej liczby z pliku kody.txt oblicz sume cyfr na pozycjach parzystych oraz sume cyfr na pozycjach nieparzystych. Pozycja 0 = cyfra jednosci, pozycja 1 = cyfra dziesiatek, itd. Wyniki zapisz w pliku kody1.txt.",
+          "odpowiedz": "Plik kody1.txt zawierajacy dla kazdej liczby sume cyfr na pozycjach parzystych i sume cyfr na pozycjach nieparzystych.",
+          "zasady_oceniania": "Za podanie dla kazdej liczby poprawnej wartosci sumy cyfr na pozycjach parzystych -- 2 pkt.\nZa podanie dla kazdej liczby poprawnej wartosci sumy cyfr na pozycjach nieparzystych -- 2 pkt.",
+          "pulapki": [
+            "Pozycja 0 = jednosci (nie od lewej, ale od prawej!)",
+            "Parzystosc pozycji: 0, 2, 4... = parzyste; 1, 3, 5... = nieparzyste"
+          ]
+        },
+        {
+          "id": "2015C.6.2",
+          "numer": "6.2",
+          "punkty": 5,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 6.2. (0-5)\nDla kazdej liczby z pliku kody.txt oblicz cyfre kontrolna w systemie dziesietnym oraz wypisz kod kreskowy odpowiadajacy tej cyfrze. Cyfra kontrolna: zsumuj cyfry na pozycjach parzystych, zsumuj cyfry na pozycjach nieparzystych, dodaj potrojona pierwsza sume do drugiej, wylicz reszte modulo 10, odejmij od 10, ponownie modulo 10. Kody kreskowe cyfr w pliku cyfra_kodkreskowy.txt. Wyniki zapisz w kody2.txt.",
+          "odpowiedz": "Plik kody2.txt zawierajacy dla kazdej liczby wartosc sumy kontrolnej w systemie dziesietnym i odpowiadajacy jej kod kreskowy.",
+          "zasady_oceniania": "Za podanie dla kazdej liczby poprawnej wartosci sumy cyfry kontrolnej w systemie dziesietnym -- 3 pkt.\nZa podanie dla kazdej liczby poprawnego kodu kreskowego odpowiadajacego cyfrze kontrolnej -- 2 pkt.",
+          "pulapki": [
+            "Wzor: (10 - (3*suma_parzystych + suma_nieparzystych) % 10) % 10",
+            "Mapowanie cyfry kontrolnej na kod kreskowy z tabeli"
+          ]
+        },
+        {
+          "id": "2015C.6.3",
+          "numer": "6.3",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 6.3. (0-3)\nDla kazdej liczby z pliku kody.txt wygeneruj pelny kod kreskowy: START + kody kolejnych cyfr + kod cyfry kontrolnej + STOP. Wyniki zapisz w kody3.txt.",
+          "odpowiedz": "Plik kody3.txt zawierajacy dla kazdej liczby pelny kod kreskowy (konkatenacja: START 11011010 + kody cyfr + kod cyfry kontrolnej + STOP 11010110).",
+          "zasady_oceniania": "Za poprawne polaczenie kodow startu, cyfr, cyfry kontrolnej (nawet nieprawidlowo obliczonej) i stopu -- 3 pkt.",
+          "pulapki": [
+            "Kolejnosc: START + cyfry od lewej do prawej + cyfra kontrolna + STOP",
+            "Uzywaj kodow z tabeli (cyfra_kodkreskowy.txt), nie samych cyfr"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -419,7 +419,7 @@ run_layer_2() {
   cheatsheets=$(echo "$stats" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['cheatsheets'])" 2>/dev/null) || cheatsheets=0
 
   [ "$cwiczenia" -ge 583 ] && pass "exercises: $cwiczenia (>= 583)" || fail "exercises: $cwiczenia (expected >= 583)"
-  [ "$podzadania" -ge 230 ] && pass "subtasks: $podzadania (>= 230)" || fail "subtasks: $podzadania (expected >= 230)"
+  [ "$podzadania" -ge 641 ] && pass "subtasks: $podzadania (>= 641)" || fail "subtasks: $podzadania (expected >= 641)"
   [ "$cheatsheets" -ge 4 ] && pass "cheatsheets: $cheatsheets (>= 4)" || fail "cheatsheets: $cheatsheets (expected >= 4)"
 }
 

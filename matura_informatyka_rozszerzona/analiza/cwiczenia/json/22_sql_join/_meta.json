@@ -2,7 +2,7 @@
   "typ": "22_sql_join",
   "nazwa": "SQL — JOIN (laczenie tabel)",
   "kategoria": "SQL",
-  "czestotliwosc": "8/11 lat",
+  "czestotliwosc": "9/12 lat",
   "punkty_lacznie": 147,
   "tagi_globalne": [
     "INNER-JOIN",

@@ -1,7 +1,7 @@
 # 04. Test prawda/falsz
 
 Typ zadania: **test_prawda_falsz**
-Czestotliwosc: 10/11 lat | Laczna punktacja: 25 pkt
+Czestotliwosc: 11/12 lat | Laczna punktacja: 25 pkt
 Kategoria: TEORIA
 
 ## Umiejetnosci cwiczone w tym zestawie

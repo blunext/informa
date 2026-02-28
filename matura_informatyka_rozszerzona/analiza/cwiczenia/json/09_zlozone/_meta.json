@@ -2,7 +2,7 @@
   "typ": "09_zlozone",
   "nazwa": "Przetwarzanie zlozone (wieloetapowe)",
   "kategoria": "IMPLEMENTACJA",
-  "czestotliwosc": "4/11 lat",
+  "czestotliwosc": "5/12 lat",
   "punkty_lacznie": 194,
   "tagi_globalne": [
     "JOIN-tabel",

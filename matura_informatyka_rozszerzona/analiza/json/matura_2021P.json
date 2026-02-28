@@ -1,0 +1,492 @@
+{
+  "rok": 2021,
+  "sesja": "probna",
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Turniej",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "W turnieju siatkowki bierze udzial n druzyn ponumerowanych kolejnymi liczbami calkowitymi od 0 do n-1, gdzie n = 2^k dla pewnej liczby calkowitej k > 0. Turniej odbywa sie w rundach systemem pucharowym - przegrywajacy odpada z turnieju. W kazdej rundzie druzyny graja w parach i do dalszej rundy przechodzi tylko zwyciezca meczu. W kazdej rundzie mecze sa ponumerowane kolejnymi liczbami calkowitymi, poczawszy od 1. W pierwszej rundzie w meczu nr 1 graja druzyny 0 i 1, w meczu nr 2 - druzyny 2 i 3, w meczu nr i - druzyny 2*(i-1) oraz 2*(i-1)+1, itd. W kazdej z kolejnych rund w meczu nr 1 graja zwyciezcy meczow o numerach 1 i 2 z poprzedniej rundy, w meczu nr 2 - zwyciezcy meczow o numerach 3 i 4 z poprzedniej rundy, itd. Turniej trwa dokladnie k rund.\n\nNumer rundy, w ktorej moga zmierzyc sie dwie druzyny o numerach x i y, mozna wyznaczyc z zapisow binarnych liczb x i y o dlugosci k (liczba rund).\n\nPrzyklad: turniej 8-druzynowy (k=3), zwyciezca druzyna nr 6.",
+      "podzadania": [
+        {
+          "id": "2021P.1.1",
+          "numer": "1.1",
+          "punkty": 2,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1 (0-2)\nDla podanej liczby k (liczba rund w turnieju) oraz numerow druzyn x i y wyznacz numer rundy w turnieju, w ktorej te dwie druzyny moga sie zmierzyc ze soba.\n\nk=3, x=2, y=6, x dwojkowo=010, y dwojkowo=110, nr rundy=3\nk=4, x=0, y=3, x dwojkowo=0000, y dwojkowo=0011, nr rundy=2\nk=4, x=3, y=7, x dwojkowo=0011, y dwojkowo=0111, nr rundy=?\nk=5, x=16, y=30, x dwojkowo=10000, y dwojkowo=11110, nr rundy=?",
+          "odpowiedz": "k=4, x=3, y=7: nr rundy = 3\nk=5, x=16, y=30: nr rundy = 4\n\nZasada: numer rundy = k - (liczba wspolnych cyfr binarnych od lewej strony). Porownujemy zapisy binarne x i y od najstarszego bitu. Runda spotkania to pozycja (liczona od lewej, od 1) pierwszego bitu, w ktorym x i y sie roznia.",
+          "zasady_oceniania": "2 pkt - za poprawne wpisanie dwoch numerow rund.\n1 pkt - za poprawne wpisanie jednego numeru rundy.\n0 pkt - za podanie odpowiedzi niepoprawnej albo brak odpowiedzi.",
+          "pulapki": [
+            "Nalezy porownywac zapis binarny od najstarszego bitu (MSB), nie od najmniej znaczacego",
+            "Zapisy binarne musza miec jednakowa dlugosc k (z wiodacymi zerami)"
+          ],
+          "wymiary": {
+            "czasowy_min": 5,
+            "zlozonosc": 1,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2021P.1.2",
+          "numer": "1.2",
+          "punkty": 4,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2 (0-4)\nNapisz algorytm (w pseudokodzie lub w wybranym jezyku programowania), ktory dla danych liczb calkowitych k, x i y obliczy numer rundy w turnieju dla 2^k druzyn, w ktorej moga sie spotkac druzyny x i y.\n\nUwaga: W zapisie algorytmu mozesz korzystac wylacznie z instrukcji sterujacych, operatorow arytmetycznych (w tym dzielenia calkowitego i dzielenia z reszta), operatorow logicznych, porownan i instrukcji przypisywania lub samodzielnie napisanych funkcji i procedur. Zabronione jest uzywanie funkcji wbudowanych, a zwlaszcza funkcji podnoszacej do potegi.\n\nSpecyfikacja algorytmu:\nDane: k - dodatnia liczba calkowita, liczba rund w turnieju; x, y - dwie rozne liczby calkowite z przedzialu [0, 2^k - 1], numery druzyn.\nWynik: runda - nr rundy, w ktorej moga sie spotkac druzyny x i y.",
+          "odpowiedz": "Przykladowe rozwiazanie 1:\nfunkcja dwojkowe(a,k)\n  A[0..k-1] - tablica\n  dla i = 0, 1, ..., k-1\n    A[k-i-1] <- a mod 2\n    a <- a div 2\n  podaj wynik A\n\nX <- dwojkowe(x,k)\nY <- dwojkowe(y,k)\nrunda <- k\ndla i = 0, 1, ..., k-1\n  jezeli X[i] = Y[i]\n    runda <- runda - 1\n  w przeciwnym razie\n    przerwij petle\npodaj wynik runda\n\nPrzykladowe rozwiazanie 2 (krotsze, bez jawnej zamiany na binarny):\nrunda <- 0\ndopoki x != y powtarzaj\n  runda <- runda + 1\n  x <- x/2\n  y <- y/2\npodaj wynik runda",
+          "zasady_oceniania": "4 pkt - za poprawny algorytm, w tym:\n  2 pkt - za poprawna zamiane na system dwojkowy, w tym:\n    1 pkt - za poprawne wyznaczenie cyfr dwojkowych (wewnetrzna czesc petli)\n    1 pkt - za poprawna petle, w tym uwzglednienie zer wiodacych.\n  2 pkt - za poprawne wyznaczenie rundy spotkania, w tym:\n    1 pkt - za poprawny warunek stopu petli (X[i] nie rowne Y[i])\n    1 pkt - za poprawne wyznaczenie wartosci (k-[liczba rownych cyfr na poczatku]).\n0 pkt - za podanie odpowiedzi niepoprawnej albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba pamietac o zerach wiodacych w zapisie binarnym (dlugosc k)",
+            "Mozna tez uzyc prostszego rozwiazania: dzielimy x i y przez 2 dopoki nie sa rowne, liczac kroki"
+          ],
+          "wymiary": {
+            "czasowy_min": 15,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        }
+      ]
+    },
+    {
+      "numer": 2,
+      "tytul": "Analiza algorytmu",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "Wykonaj analize funkcji Algo(n), ktorej argumentem jest dodatnia liczba calkowita n.\n\nAlgo(n)\n  jezeli n <= 2 to\n    wynikiem jest 1\n  w przeciwnym przypadku\n    p <- 1\n    k <- n\n    dopoki k - p > 1 wykonuj\n      s <- (p + k) div 2\n      jezeli s * s <= n to\n        p <- s\n      w przeciwnym przypadku\n        k <- s\n    wynikiem jest p\n\nUwaga: div oznacza dzielenie calkowite.",
+      "podzadania": [
+        {
+          "id": "2021P.2.1",
+          "numer": "2.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1 (0-2)\nUzupelnij tabele - podaj wynik funkcji Algo dla podanych w tabeli wartosci n.\n\nn=5: Algo(5) = 2\nn=35: Algo(35) = ?\nn=1025: Algo(1025) = ?",
+          "odpowiedz": "n=35: Algo(35) = 5\nn=1025: Algo(1025) = 32\n\nFunkcja Algo(n) oblicza floor(sqrt(n)) metoda bisekcji. Dla n=35: sqrt(35) ≈ 5.92, wiec floor = 5. Dla n=1025: sqrt(1025) ≈ 32.02, wiec floor = 32.",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz w obu wierszach.\n1 pkt - za poprawna odpowiedz w jednym wierszu.\n0 pkt - za podanie odpowiedzi niepoprawnej albo brak odpowiedzi.",
+          "pulapki": [
+            "Algorytm oblicza floor(sqrt(n)) - calkowita czesc pierwiastka kwadratowego",
+            "Dla n <= 2 wynik to 1 (warunek bazowy)"
+          ],
+          "wymiary": {
+            "czasowy_min": 8,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2021P.2.2",
+          "numer": "2.2",
+          "punkty": 3,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2 (0-3)\nUzupelnij tabele - podaj liczbe wykonan instrukcji 's <- (p + k) div 2' podczas obliczania wartosci funkcji Algo(n) dla podanych wartosci n.\n\nn=5: liczba wykonan = 2\nn=2: liczba wykonan = ?\nn=63: liczba wykonan = ?\nn=1024: liczba wykonan = ?",
+          "odpowiedz": "n=2: 0 (warunek n <= 2, petla sie nie wykonuje)\nn=63: 6\nn=1024: 10\n\nLiczba iteracji bisekcji to ceil(log2(n-1)) dla n > 2.",
+          "zasady_oceniania": "3 pkt - za poprawna odpowiedz w trzech wierszach.\n2 pkt - za poprawna odpowiedz w dwoch wierszach.\n1 pkt - za poprawna odpowiedz w jednym wierszu.\n0 pkt - za odpowiedz niepoprawna lub brak odpowiedzi.",
+          "pulapki": [
+            "Dla n=2 petla sie w ogole nie wykonuje (wynik z warunku bazowego = 1), wiec 0 wykonan",
+            "Bisekcja dzieli przedzial [1, n] - liczba krokow to ceil(log2(n-1))"
+          ],
+          "wymiary": {
+            "czasowy_min": 10,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        }
+      ]
+    },
+    {
+      "numer": 3,
+      "tytul": "Test",
+      "punkty": 4,
+      "czesc": 1,
+      "kontekst": "Ocen prawdziwosc podanych zdan. Zaznacz P, jesli zdanie jest prawdziwe, albo F - jesli jest falszywe. W kazdym zadaniu punkt uzyskasz tylko za komplet poprawnych odpowiedzi.",
+      "podzadania": [
+        {
+          "id": "2021P.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1 (0-1)\nW komorce C1 arkusza kalkulacyjnego zapisano formule:\n=JEZELI(ORAZ(MOD(A1;2)=1;MOD(B1;2)=1);A1+B1;A1*B1)\n\n1. Jesli w A1 wpisano liczbe 1, a w B1 liczbe 3, to w C1 w wyniku obliczenia formuly pojawi sie liczba 4.\n2. Jesli w A1 wpisano liczbe 4, a w B1 liczbe 3, to w C1 w wyniku obliczenia formuly pojawi sie liczba 3.\n3. Jesli w A1 i B1 wpiszemy dowolna liczbe calkowita dodatnia, to w wyniku obliczenia formuly w C1 zawsze pojawi sie liczba parzysta.\n4. Jesli w A1 i B1 wpiszemy dowolna liczbe calkowita dodatnia, to w wyniku obliczenia formuly w C1 zawsze pojawi sie liczba wieksza niz 1.",
+          "odpowiedz": "PFPP\n\n1. P - A1=1 (nieparzysta), B1=3 (nieparzysta), oba nieparzyste wiec ORAZ=TRUE, wynik = 1+3 = 4. Prawda.\n2. F - A1=4 (parzysta), MOD(4,2)=0, ORAZ=FALSE, wynik = 4*3 = 12, nie 3. Falsz.\n3. P - Jesli oba nieparzyste: suma dwoch nieparzystych jest parzysta. Jesli choc jedno parzyste: iloczyn jest parzysty. Prawda.\n4. P - Jesli oba nieparzyste: A1+B1 >= 1+1 = 2 > 1. Jesli choc jedno parzyste: iloczyn >= 1*2 = 2 > 1. Prawda.",
+          "zasady_oceniania": "1 pkt - za poprawne zaznaczenie czterech odpowiedzi.\n0 pkt - za odpowiedz niepelna lub niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Formula sprawdza czy OBA sa nieparzyste (ORAZ) - jesli tak, sumuje; wpp mnozy",
+            "W punkcie 4: minimum iloczynu to 1*2=2 (bo choc jedno parzyste >= 2), minimum sumy to 1+1=2"
+          ],
+          "wymiary": {
+            "czasowy_min": 5,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2021P.3.2",
+          "numer": "3.2",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2 (0-1)\nMamy dane operacje (bramki) logiczne na bitach: not oraz and.\nOraz wyrazenie W(a,b): (not ((not a) and b)) and (not (a and (not b)))\n\n1. W(0,0) = 0\n2. W(1,0) = 0\n3. W(0,1) = 1\n4. W(1,1) = 1",
+          "odpowiedz": "FPFP\n\nW(a,b) = (not((not a) and b)) and (not(a and (not b)))\n\n1. W(0,0) = (not(1 and 0)) and (not(0 and 1)) = (not 0) and (not 0) = 1 and 1 = 1, nie 0. Falsz.\n2. W(1,0) = (not(0 and 0)) and (not(1 and 1)) = (not 0) and (not 1) = 1 and 0 = 0. Prawda.\n3. W(0,1) = (not(1 and 1)) and (not(0 and 0)) = (not 1) and (not 0) = 0 and 1 = 0, nie 1. Falsz.\n4. W(1,1) = (not(0 and 1)) and (not(1 and 0)) = (not 0) and (not 0) = 1 and 1 = 1. Prawda.\n\nW(a,b) odpowiada funkcji XNOR (rownowaznosc): 1 gdy a=b, 0 gdy a!=b.",
+          "zasady_oceniania": "1 pkt - za poprawne zaznaczenie czterech odpowiedzi.\n0 pkt - za odpowiedz niepelna lub niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Wyrazenie realizuje operacje XNOR (rownosc bitow)",
+            "Nalezy starannie obliczac od wewnatrz nawiasow na zewnatrz"
+          ],
+          "wymiary": {
+            "czasowy_min": 5,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2021P.3.3",
+          "numer": "3.3",
+          "punkty": 1,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.3 (0-1)\nRoznica 1011101_2 - 10111_2 dwoch liczb zapisanych w systemie binarnym jest:\n\n1. mniejsza niz 100111_2\n2. rowna 1000110_2\n3. wieksza niz 10111_2\n4. rowna 1001000_2",
+          "odpowiedz": "FPPF\n\n1011101_2 = 93\n10111_2 = 23\nRoznica = 93 - 23 = 70 = 1000110_2\n\n1. 100111_2 = 39. 70 > 39, wiec NIE mniejsza. Falsz.\n2. 1000110_2 = 70. Rowna 70. Prawda.\n3. 10111_2 = 23. 70 > 23. Prawda.\n4. 1001000_2 = 72. 70 != 72. Falsz.",
+          "zasady_oceniania": "1 pkt - za poprawne zaznaczenie czterech odpowiedzi.\n0 pkt - za odpowiedz niepelna lub niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Nalezy dokladnie wykonac odejmowanie binarne lub przeliczyc na system dziesietny",
+            "Latwo o pomylke: 1001000 (72) vs 1000110 (70) - roznica 2"
+          ],
+          "wymiary": {
+            "czasowy_min": 5,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2021P.3.4",
+          "numer": "3.4",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.4 (0-1)\nW bazie danych istnieje tabela oceny(id_oceny, id_ucznia, przedmiot, ocena), zawierajaca nastepujace dane:\n\nid_oceny | id_ucznia | przedmiot    | ocena\n1        | 1         | matematyka   | 3\n2        | 1         | informatyka  | 4\n3        | 1         | fizyka       | 2\n4        | 2         | matematyka   | 6\n5        | 2         | fizyka       | 3\n6        | 2         | informatyka  | 5\n7        | 3         | matematyka   | 4\n8        | 3         | fizyka       | 2\n9        | 3         | informatyka  | 3\n\n1. Wynikiem zapytania SELECT COUNT(id_ucznia) FROM oceny; jest 3\n2. Wynikiem zapytania SELECT COUNT(id_ucznia) FROM oceny WHERE przedmiot=\"fizyka\"; jest 3\n3. Wynikiem zapytania SELECT COUNT(przedmiot) FROM oceny; jest 9\n4. Wynikiem zapytania SELECT COUNT(przedmiot) FROM oceny WHERE ocena > 3; jest 4",
+          "odpowiedz": "FPPP\n\n1. F - COUNT(id_ucznia) liczy WSZYSTKIE wiersze (nie DISTINCT), wiec wynik = 9, nie 3. Falsz.\n2. P - COUNT(id_ucznia) WHERE przedmiot='fizyka' = 3 (trzy wiersze z fizyka). Prawda.\n3. P - COUNT(przedmiot) liczy wszystkie wiersze = 9. Prawda.\n4. P - Oceny > 3: id_oceny 2 (4), 4 (6), 6 (5), 7 (4) = 4 wiersze. Prawda.",
+          "zasady_oceniania": "1 pkt - za poprawne zaznaczenie czterech odpowiedzi.\n0 pkt - za odpowiedz niepelna lub niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "COUNT(kolumna) liczy wszystkie wiersze z wartosciami nie-NULL, NIE liczy wartosci unikalnych",
+            "COUNT(id_ucznia) bez DISTINCT zwraca 9, nie 3 - czesta pulapka"
+          ],
+          "wymiary": {
+            "czasowy_min": 5,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        }
+      ]
+    },
+    {
+      "numer": 4,
+      "tytul": "Galerie handlowe",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Firma Igloo planuje w wybranych miastach Europy wybudowac galerie handlowe. W kazdej z planowanych galerii moze znajdowac sie rozna liczba lokali handlowych. Wszystkie lokale handlowe beda mialy ksztalt prostokata.\n\nW pliku galerie.txt zapisanych jest 50 wierszy z informacjami dotyczacymi planowanych galerii. Kazdy wiersz w pliku to informacja o jednej galerii. Dane oddzielone sa spacja i zawieraja odpowiednio:\n- kod kraju\n- nazwe miasta (nazwy miast nie powtarzaja sie)\n- 70 par liczb (140 liczb) okreslajacych wymiary (dlugosc i szerokosc w metrach) lokali handlowych. Jezeli liczba lokali w galerii jest mniejsza niz 70, to wiersz uzupelniony jest zerami.\n\nPrzyklad: NL Amsterdam 8 4 5 12 7 5 5 11 9 4 7 6 ... 0 0 0 0 0 0\n\nDo dyspozycji jest pomocniczy plik galerie_przyklad.txt (10 wierszy).",
+      "podzadania": [
+        {
+          "id": "2021P.4.1",
+          "numer": "4.1",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_zliczanie",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.1 (0-4)\nDla kazdego kraju z pliku galerie.txt wyznacz liczbe miast, w ktorych powstana galerie. Wynik zapisz w pliku wynik4_1.txt. W kazdym wierszu pliku powinny znajdowac sie: kod panstwa oraz informacja o liczbie miast.",
+          "odpowiedz": "GB 5\nD 15\nE 6\nI 6\nF 2\nRO 1\nA 1\nH 1\nBG 1\nCZ 1\nB 1\nS 1\nHR 1\nNL 2\nLV 1\nGR 1\nLT 1\nFIN 1\nDK 1\nIRL 1",
+          "zasady_oceniania": "4 pkt - za poprawna odpowiedz, w tym:\n  2 pkt - za wygenerowanie listy kodow krajow bez powtorzen,\n  2 pkt - za wyznaczenie liczby miast w danym panstwie.\n1 pkt - za wygenerowanie listy kodow krajow (z powtorzeniami).\n0 pkt - za odpowiedz niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Kody krajow powtarzaja sie (np. D 15 miast) - trzeba grupowac",
+            "Trzeba obsluzyc kody 1-, 2- i 3-znakowe (np. D, GB, FIN)"
+          ],
+          "wymiary": {
+            "czasowy_min": 15,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2021P.4.2",
+          "numer": "4.2",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.2 (0-4)\na) Oblicz calkowita powierzchnie handlowa kazdej galerii (jako sume powierzchni wszystkich lokali w danej galerii) oraz liczbe lokali. Wyniki zapisz w pliku wynik4_2a.txt (nazwa miasta, powierzchnia, liczba lokali).\n\nb) Podaj nazwe miasta z galeria o najwiekszej powierzchni calkowitej oraz nazwe miasta z galeria o najmniejszej powierzchni calkowitej. Jest dokladnie jedno miasto z galeria o najwiekszej powierzchni i jedno z galeria o najmniejszej powierzchni. Wyniki zapisz w pliku wynik4_2b.txt.",
+          "odpowiedz": "a) 50 miast z powierzchniami i liczbami lokali (fragmenty):\nLondyn 3628 58, Berlin 3777 59, Madryt 2217 34, Rzym 3678 51, Paryz 3889 62, Bukareszt 1957 33, Wieden 2694 42, Hamburg 3518 52, Budapeszt 3598 64, Barcelona 4059 60, Monachium 1734 31, Mediolan 1958 35, Sofia 3631 59, Praga 2622 40, Bruksela 4316 64, Birmingham 1826 25, Kolonia 2104 31, Neapol 3352 48, Turyn 2646 39, Marsylia 3444 56, Sztokholm 2133 33, Walencja 3981 68, Zagrzeb 2177 31, Leeds 2952 44, Amsterdam 3371 60, Sewilla 4305 70, Ryga 1745 30, Frankfurt 3515 57, Palermo 2733 43, Ateny 4435 65, Saragossa 3480 50, Genua 3386 56, Stuttgart 1718 32, Dortmund 3697 57, Rotterdam 3184 49, Essen 4760 67, Glasgow 3731 68, Dusseldorf 3737 63, Wilno 1620 28, Helsinki 3597 56, Malaga 3757 57, Brema 2948 44, Sheffield 2324 36, Hanower 3532 53, Lipsk 1871 29, Kopenhaga 3765 60, Drezno 1900 26, Dublin 1986 31, Norymberga 4178 69, Duisburg 3948 61\n\nb) Essen 4760 (najwieksza)\nWilno 1620 (najmniejsza)",
+          "zasady_oceniania": "4 pkt - za poprawna odpowiedz, w tym:\n  3 pkt - za podanie listy galerii wraz z powierzchniami calkowitymi i liczba lokali\n    (w przypadku listy zawierajacej tylko powierzchnie lub tylko liczbe lokali - 2 pkt),\n  1 pkt - za podanie miasta z najwieksza galeria i miasta z najmniejsza galeria.\n0 pkt - za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Powierzchnia lokalu = dlugosc * szerokosc (iloczyn dwoch kolejnych liczb z pary)",
+            "Lokale z wymiarami 0 0 to dopelnienie - nie liczyc jako lokale",
+            "Para (0,0) oznacza brak lokalu, ale para np. (5,0) tez daje powierzchnie 0"
+          ],
+          "wymiary": {
+            "czasowy_min": 20,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2021P.4.3",
+          "numer": "4.3",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.3 (0-4)\nPowiemy, ze dwa lokale sa tego samego rodzaju, jezeli ich powierzchnia jest taka sama. W ktorym miescie powstanie galeria z najwieksza liczba roznych rodzajow lokali (jest jedno takie miasto), a w ktorym powstanie galeria z najmniejsza liczba roznych rodzajow lokali (jest jedno takie miasto)? Podaj te miasta oraz liczby roznych rodzajow lokali w tych miastach. Wynik zapisz w pliku wynik4_3.txt.",
+          "odpowiedz": "Berlin 35 (najwieksza liczba roznych rodzajow lokali)\nKolonia 18 (najmniejsza liczba roznych rodzajow lokali)",
+          "zasady_oceniania": "4 pkt - za poprawna odpowiedz.\n3 pkt - za wyznaczenie liczby roznych rodzajow lokali dla kazdej galerii.\n2 pkt - za poprawne podanie dwoch nazw miast z najwieksza i z najmniejsza liczba roznych lokali.\n1 pkt - za podanie poprawnej nazwy jednego miasta.\n0 pkt - za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Rodzaj lokalu = jego powierzchnia (nie wymiary!) - lokale 3x4 i 4x3 sa tego samego rodzaju (oba 12 m2)",
+            "Trzeba policzyc liczbe ROZNYCH powierzchni (distinct), nie roznych par wymiarow"
+          ],
+          "wymiary": {
+            "czasowy_min": 20,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        }
+      ]
+    },
+    {
+      "numer": 5,
+      "tytul": "Telefony",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "W pewnym kraju firma codziennie wykonuje wiele telefonow do swoich kontrahentow. W pliku telefony.txt znajduje sie 2148 wierszy z danymi dotyczacymi polaczen wykonanych w lipcu 2017 roku. W kazdym wierszu sa podane dane, oddzielone pojedyncza spacja, opisujace jedno polaczenie: numer telefonu, data wykonania polaczenia, dokladna godzina rozpoczecia i dokladna godzina zakonczenia polaczenia (w formacie: godz:min:sek).\n\nRodzaje numerow telefonow sa rozpoznawane po liczbie cyfr:\n- telefony stacjonarne sa siedmiocyfrowe,\n- telefony komorkowe - osmiocyfrowe,\n- zagraniczne - dziesieciocyfrowe lub dluzsze.\n\nPrzyklad:\nnr data rozpoczecie zakonczenie\n3539762 3-07-2017 08:04:54 08:21:26\n54586484 3-07-2017 08:18:16 08:23:34\n2109147679 3-07-2017 09:36:31 09:52:48",
+      "podzadania": [
+        {
+          "id": "2021P.5.1",
+          "numer": "5.1",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_podstawowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.1 (0-2)\nPodaj trzy numery telefonow, pod ktore wykonano najwiecej polaczen, i liczby tych polaczen.",
+          "odpowiedz": "4546455 - 8 polaczen\n3505978 - 7 polaczen\n4657345 - 6 polaczen",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz.\n1 pkt - za numery telefonow bez liczby polaczen.\n0 pkt - za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba pogrupowac polaczenia po numerze telefonu i policzyc",
+            "Nalezy posortowac malejaco po liczbie polaczen i wziac 3 pierwsze"
+          ],
+          "wymiary": {
+            "czasowy_min": 10,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2021P.5.2",
+          "numer": "5.2",
+          "punkty": 3,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.2 (0-3)\nUtworz zestawienie liczby polaczen - oddzielnie do telefonow stacjonarnych i komorkowych - wykonanych w poszczegolnych dniach. Na podstawie tego zestawienia wykonaj wykres kolumnowy przedstawiajacy liczby polaczen do telefonow komorkowych oraz do stacjonarnych kazdego dnia. Zadbaj o czytelnosc wykresu (opis osi, tytul wykresu, legenda).",
+          "odpowiedz": "Zestawienie dzienne (fragment):\n03.07.2017: komorkowy 27, stacjonarny 67\n04.07.2017: komorkowy 23, stacjonarny 68\n...\n31.07.2017: komorkowy 23, stacjonarny 82\nSuma koncowa: komorkowy 512, stacjonarny 1524\n\nWykres kolumnowy z dwoma seriami danych (komorkowy i stacjonarny) dla kazdego dnia lipca 2017.",
+          "zasady_oceniania": "3 pkt - za poprawna odpowiedz, w tym:\n  1 pkt - za poprawne zestawienie,\n  2 pkt - za wykres, w tym:\n    1 pkt - za poprawne dane i typ wykresu,\n    1 pkt - za legende i opis wykresu.\n0 pkt - za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba rozpoznac typ telefonu po liczbie cyfr numeru (7 = stacjonarny, 8 = komorkowy)",
+            "Polaczenia zagraniczne (10+ cyfr) nie wchodza do zestawienia"
+          ],
+          "wymiary": {
+            "czasowy_min": 20,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2021P.5.3",
+          "numer": "5.3",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.3 (0-2)\nPodaj liczbe polaczen oraz laczny czas ich trwania (w zaokragleniu w gore do pelnych minut) dla numerow stacjonarnych rozpoczynajacych sie od 12.",
+          "odpowiedz": "Liczba polaczen: 21\nCzas: 192 minuty (w zaokragleniu w gore do pelnych minut)",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz, w tym:\n  1 pkt - za obliczenie czasu z wlasciwym zaokragleniem,\n  1 pkt - za liczbe polaczen.\n0 pkt - za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Nalezy filtrowac numery stacjonarne (7 cyfr) zaczynajace sie od '12'",
+            "Czas trwania = zakonczenie - rozpoczecie, zaokraglenie w GORE do pelnych minut"
+          ],
+          "wymiary": {
+            "czasowy_min": 10,
+            "zlozonosc": 1,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2021P.5.4",
+          "numer": "5.4",
+          "punkty": 4,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.4 (0-4)\nRachunek telefoniczny:\n- Pierwsze 800 minut (polaczen stacjonarnych i komorkowych lacznie) wliczone w abonament (50 zl).\n- Po wyczerpaniu limitu: pakiety po 100 minut - za kazdy rozpoczety pakiet stacjonarny 5 zl, komorkowy 6 zl.\n- Rozmowy zagraniczne: 1 zl za kazda rozpoczeta minute rozmowy.\n\nPodaj ogolna kwote rachunku telefonicznego wraz z wyszczegolnieniem osobno abonamentu i kosztow polaczen na numery stacjonarne, komorkowe i zagraniczne.",
+          "odpowiedz": "Rozmowy na stacjonarne: 610 zl\nRozmowy na komorkowe: 240 zl\nRozmowy za granice: 967 zl\nAbonament: 50 zl\nSUMA: 1867 zl\n\nUwaga: Odpowiedz za 2 pkt (bez odliczania 800 minut darmowych):\nStacjonarne: 768 zl, Komorkowe: 252 zl, Zagraniczne: 967 zl, Abonament: 50 zl, SUMA: 2037 zl.",
+          "zasady_oceniania": "4 pkt - za poprawna odpowiedz, w tym:\n  1 pkt - za kazdy z 3 pierwszych wierszy zestawienia (rozmowy na stacjonarne, komorkowe, zagraniczne),\n  1 pkt - za poprawne podsumowanie.\n2 pkt - za poprawne zestawienie nie obejmujace 800 pierwszych minut bezplatnych, w tym:\n  1 pkt - za poprawne obliczenie rozmow zagranicznych.\n0 pkt - za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Pierwsze 800 minut lacznie (stacjonarne + komorkowe) jest darmowe - trzeba odjac od calkowitego czasu",
+            "Rozliczanie w pakietach po 100 minut (ceil(minuty/100) * cena_pakietu)",
+            "Rozmowy zagraniczne rozliczane OSOBNO - kazda rozpoczeta minuta = 1 zl",
+            "Czas rozmowy zaokraglany w gore do pelnych minut PRZED sumowaniem kosztow zagranicznych"
+          ],
+          "wymiary": {
+            "czasowy_min": 25,
+            "zlozonosc": 3,
+            "trudnosc": 3
+          }
+        }
+      ]
+    },
+    {
+      "numer": 6,
+      "tytul": "Wyscigi kolarskie",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Pewien kibic zapisywal sobie w plikach tekstowych informacje o zawodnikach startujacych w corocznym wyscigu kolarskim wraz z wynikami ich startow.\n\nWszystkie dane w plikach zawieraja wiersze naglowkowe z nazwami kolumn, dane w wierszach sa rozdzielone znakami tabulacji.\n\nPlik grupy.txt: kod_grupy (trzyznakowy), nazwa (nazwa grupy kolarskiej), siedziba (panstwo).\nPlik zawodnicy.txt: id_zawodnika, imie, nazwisko, data (urodzenia, format rrrr-mm-dd).\nPlik startujacy.txt: id_startu, rok (edycji wyscigu), id_zawodnika, kod_grupy, obywatel_kraju.\nPlik czasy.txt: id_startu, czas (format mm:ss:ms - godziny:minuty:sekundy) - tylko zawodnicy, ktorzy UKONCZYLI wyscig.",
+      "podzadania": [
+        {
+          "id": "2021P.6.1",
+          "numer": "6.1",
+          "punkty": 1,
+          "typ_zadania": "sql_select_where",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.1 (0-1)\nPodaj imie, nazwisko i czas zawodnika, ktory uzyskal najlepszy czas sposrod wszystkich wynikow osiagnietych przez zawodnikow. Jest tylko jeden taki zawodnik.",
+          "odpowiedz": "Chris Froom - 83:56:40",
+          "zasady_oceniania": "1 pkt - za poprawna odpowiedz.\n0 pkt - za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Najlepszy czas = najkrotszy czas (minimum)",
+            "Trzeba polaczyc tabele czasy + startujacy + zawodnicy po id_startu i id_zawodnika"
+          ],
+          "wymiary": {
+            "czasowy_min": 5,
+            "zlozonosc": 1,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2021P.6.2",
+          "numer": "6.2",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.2 (0-2)\nKtory zawodnik z Polski uczestniczyl w najwiekszej liczbie wyscigow? Podaj jego imie, nazwisko i liczbe wyscigow, w ktorych uczestniczyl. Jest tylko jeden taki zawodnik.",
+          "odpowiedz": "Maciej Bodnar - 5 wyscigow",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz, w tym:\n  1 pkt - za podanie imienia i nazwiska,\n  1 pkt - za podanie liczby wyscigow.\n0 pkt - za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Filtr po obywatel_kraju = 'Polska' w tabeli startujacy",
+            "Trzeba policzyc ROZNE lata (COUNT DISTINCT rok) lub po prostu COUNT jesli zawodnik startuje raz na rok"
+          ],
+          "wymiary": {
+            "czasowy_min": 10,
+            "zlozonosc": 2,
+            "trudnosc": 1
+          }
+        },
+        {
+          "id": "2021P.6.3",
+          "numer": "6.3",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.3 (0-2)\nPodaj imiona i nazwiska najmlodszych uczestnikow wyscigu w kolejnych latach. Do obliczen wykorzystaj rocznikowy wiek zawodnika, tj. liczbe lat, ktora zawodnik ukonczyl w roku zawodow.\n\nPrzyklad: w wyscigu w 2015 roku kazdy z zawodnikow urodzonych w 1990 roku ma 25 lat.",
+          "odpowiedz": "2008: Roman Kreuziger, Gerald Ciolek, John-Lee Augustyn\n2009: Rigoberto Uran\n2010: Fabio Felline\n2011: Anthony Delaplace\n2012: Peter Sagan, Thibaut Pinot\n2013: Danny van Poppel\n2014: Danny van Poppel\n2015: Merhawi Kudus\n2016: Alexis Gougeard, Sondre Holst Enger, Luka Pibernik, Timo Roosen, Dylan Groenewegen\n2017: Elie Gesbert",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz.\n1 pkt - za podanie odpowiedzi z tylko jednym poprawnym zawodnikiem dla kazdego wyscigu (10 wierszy).\n0 pkt - za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Wiek rocznikowy = rok_wyscigu - rok_urodzenia (nie uwzgledniamy miesiecy/dni)",
+            "W niektorych latach jest kilku najmlodszych (ten sam rocznik) - trzeba wypisac wszystkich",
+            "Trzeba polaczyc startujacy z zawodnicy po id_zawodnika"
+          ],
+          "wymiary": {
+            "czasowy_min": 15,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2021P.6.4",
+          "numer": "6.4",
+          "punkty": 2,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.4 (0-2)\nW ktorym roku nie ukonczyla wyscigu najwieksza grupa zawodnikow? Podaj rok oraz liczbe zawodnikow, ktorzy nie ukonczyli wyscigu (jest tylko jeden taki rok).",
+          "odpowiedz": "2012 - 46 zawodnikow nie ukonczylo wyscigu",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz, w tym:\n  1 pkt - za podanie roku,\n  1 pkt - za podanie liczby zawodnikow.\n0 pkt - za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Zawodnik nie ukonczyl = jest w startujacy ale NIE ma wpisu w czasy (LEFT JOIN ... WHERE czasy.id_startu IS NULL)",
+            "Mozna tez uzyc NOT IN lub NOT EXISTS zamiast LEFT JOIN"
+          ],
+          "wymiary": {
+            "czasowy_min": 15,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        },
+        {
+          "id": "2021P.6.5",
+          "numer": "6.5",
+          "punkty": 3,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.5 (0-3)\nW jednej grupie moga startowac zawodnicy, ktorzy pochodza z roznych panstw. Bywa tez tak, ze zawodnicy jednej grupy pochodza z tego samego kraju.\n\nUtworz zestawienie zawierajace dla kazdego roku liczbe takich grup, w ktorych wszyscy zawodnicy byli obywatelami jednego kraju.\n\nPodaj rok, w ktorym grup z wszystkimi zawodnikami z jednego kraju bylo najwiecej, oraz podaj nazwy tych grup. Jest tylko jeden taki rok.",
+          "odpowiedz": "Zestawienie:\n2008: 1, 2009: 1, 2010: 1, 2011: 4, 2012: 2, 2013: 2, 2014: 2, 2015: 1, 2017: 1\n\n2011 - 4 grupy: Direct Energie, Euskaltel-Euskadi, Team Katusha, Sojasun",
+          "zasady_oceniania": "3 pkt - za poprawna odpowiedz, w tym:\n  2 pkt - za podanie poprawnego zestawienia,\n  1 pkt - za podanie roku i nazw czterech druzyn.\n0 pkt - za odpowiedz bledna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Grupa ma 'wszystkich z jednego kraju' gdy COUNT(DISTINCT obywatel_kraju) = 1 w danym roku",
+            "Trzeba polaczyc z tabela grupy aby uzyskac nazwy grup (nie kody)",
+            "W 2016 nie ma ani jednej takiej grupy (brakuje w zestawieniu)"
+          ],
+          "wymiary": {
+            "czasowy_min": 20,
+            "zlozonosc": 3,
+            "trudnosc": 3
+          }
+        },
+        {
+          "id": "2021P.6.6",
+          "numer": "6.6",
+          "punkty": 2,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.6 (0-2)\nCzasami zawodnicy zmieniaja obywatelstwo i reprezentuja wtedy inny kraj. Podaj imiona i nazwiska zawodnikow, ktorzy zmieniali obywatelstwo, oraz nazwy panstw, ktore reprezentowali.",
+          "odpowiedz": "Chris Froom - Kenia, Wielka Brytania\nHeinrich Haussler - Australia, Niemcy",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz.\n1 pkt - za odpowiedz uwzgledniajaca tylko jednego zawodnika\n  ALBO za odpowiedz skladajaca sie jedynie z imion i nazwisk zawodnikow.\n0 pkt - za odpowiedz bledna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Zmiana obywatelstwa = ten sam id_zawodnika ale rozne obywatel_kraju w roznych latach",
+            "Trzeba wypisac WSZYSTKIE panstwa, ktore dany zawodnik reprezentowal"
+          ],
+          "wymiary": {
+            "czasowy_min": 10,
+            "zlozonosc": 2,
+            "trudnosc": 2
+          }
+        }
+      ]
+    }
+  ],
+  "sciezka_danych": "matura_informatyka_rozszerzona/2021_probna_marzec/Dane_2103/",
+  "pliki_danych": [
+    "czasy.txt",
+    "galerie_przyklad.txt",
+    "galerie.txt",
+    "grupy.txt",
+    "startujacy.txt",
+    "telefony.txt",
+    "zawodnicy.txt"
+  ]
+}

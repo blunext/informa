@@ -1,0 +1,504 @@
+{
+  "rok": 2020,
+  "sesja": "maj",
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny, bazy danych)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Podobne tablice",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Niech n bedzie dodatnia liczba calkowita, a A[1..n] i B[1..n] beda n-elementowymi tablicami liczb calkowitych.\nDla nieujemnej liczby calkowitej k, gdzie k < n, powiemy, ze tablice A i B sa k-podobne, gdy A[1..k] = B[n-k+1..n] oraz A[k+1..n] = B[1..n-k].\nLiczbe k nazywamy swiadectwem podobienstwa.\nUwaga: dla k = 0 przyjmujemy, ze prawdziwe jest A[1..0]=B[n+1..n].",
+      "podzadania": [
+        {
+          "id": "2020M.1.1",
+          "numer": "1.1",
+          "punkty": 1,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1. (0-1)\nUzupelnij tabele -- wpisz w pustych kratkach odpowiednie wartosci. W wierszu piatym i siodmym wpisz slowo PRAWDA, jesli tablice A i B sa k-podobne przy podanym k, albo FALSZ w przeciwnym przypadku. W wierszu szostym wpisz takie k, dla ktorego tablice A i B sa k-podobne.\n\n| Lp. | n | Tablica A | Tablica B | k | Odpowiedz |\n|-----|---|-----------|-----------|---|----------|\n| 1. | 3 | [5, 7, 9] | [5, 7, 9] | 0 | PRAWDA |\n| 2. | 5 | [4, 7, 1, 4, 5] | [1, 4, 5, 4, 7] | 2 | PRAWDA |\n| 3. | 5 | [10, 9, 12, 10, 9] | [10, 10, 9, 9, 12] | 3 | FALSZ |\n| 4. | 5 | [3, 6, 5, 1, 8] | [5, 1, 8, 3, 6] | 4 | FALSZ |\n| 5. | 5 | [1, 2, 3, 4, 5] | [3, 4, 5, 1, 2] | 2 | ? |\n| 6. | 9 | [1,1,1,1,3,1,1,1,1] | [3,1,1,1,1,1,1,1,1] | ? | PRAWDA |\n| 7. | 6 | [4, 2, 4, 4, 2, 6] | [4, 4, 2, 6, 4, 2] | 1 | ? |",
+          "odpowiedz": "Wiersz 5: k=2, odpowiedz PRAWDA\nWiersz 6: k=4\nWiersz 7: odpowiedz FALSZ",
+          "zasady_oceniania": "1 pkt -- za poprawna odpowiedz.\n0 pkt -- za podanie odpowiedzi niepoprawnej lub niepelnej albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba uwaznie sprawdzic warunek k-podobienstwa: A[1..k]=B[n-k+1..n] ORAZ A[k+1..n]=B[1..n-k]",
+            "W wierszu 6 istnieje wiele potencjalnych k -- trzeba znalezc takie, dla ktorego oba warunki sa spelnione",
+            "W wierszu 4 i 7: k=4 i k=1 wydaja sie pasowac na pierwszy rzut oka, ale trzeba sprawdzic OBA warunki"
+          ]
+        },
+        {
+          "id": "2020M.1.2",
+          "numer": "1.2",
+          "punkty": 3,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2. (0-3)\nZapisz w wybranej przez siebie notacji (w postaci pseudokodu, listy krokow lub w wybranym jezyku programowania) funkcje czy_k_podobne(n, A, B, k), gdzie A i B sa n-elementowymi tablicami liczb calkowitych. Wynikiem funkcji jest PRAWDA, jesli tablice A i B sa k-podobne dla zadanego parametru k, natomiast FALSZ -- w przeciwnym przypadku.\n\nUwaga: w zapisie mozesz wykorzystac tylko operacje arytmetyczne (dodawanie, odejmowanie, mnozenie, dzielenie, dzielenie calkowite, reszta z dzielenia), odwolywanie sie do pojedynczych elementow tablicy, porownywanie liczb, instrukcje sterujace i przypisania do zmiennych lub samodzielnie napisane funkcje zawierajace wyzej wymienione operacje.\n\nSpecyfikacja:\nDane:\n    n -- dodatnia liczba calkowita\n    A[1..n], B[1..n] -- n-elementowe tablice liczb calkowitych\n    k -- nieujemna liczba calkowita mniejsza niz n\nWynik:\n    PRAWDA, jesli tablice A i B sa k-podobne dla podanego parametru k\n    FALSZ w przeciwnym przypadku.",
+          "odpowiedz": "Sposob I -- jedna petla z modyfikacja indeksow:\nfunkcja czy_k_podobne(n, A, B, k)\n    dla i = 1, 2, ..., n\n        j <- i - k\n        jezeli j < 1\n            j <- j + n\n        jezeli A[i] != B[j]\n            wynik FALSZ\n            zakoncz wykonywanie algorytmu\n    wynik PRAWDA\n\nSposob II -- dwie petle:\nfunkcja czy_k_podobne(n, A, B, k)\n    dla i = 1, 2, ..., k\n        jezeli B[n-k+i] != A[i]\n            wynik FALSZ\n            zakoncz\n    dla i = 1, 2, ..., n-k\n        jezeli B[i] != A[k+i]\n            wynik FALSZ\n            zakoncz\n    wynik PRAWDA\n\nSposob III -- tablica pomocnicza:\nfunkcja czy_k_podobne(n, A, B, k)\n    dla i = 1, 2, ..., k\n        C[i] = B[i-k+n]\n    dla i = k+1, k+2, ..., n\n        C[i] = B[i-k]\n    dla i = 1, 2, ..., n\n        jezeli A[i] != C[i]\n            wynik FALSZ\n            zakoncz\n    wynik PRAWDA",
+          "zasady_oceniania": "3 pkt -- za poprawny algorytm, w tym:\n    Sposob I lub II (jedna lub dwie petle z modyfikacja indeksow):\n        2 pkt -- za prawidlowe porownanie wszystkich elementow tablicy A z odpowiednimi elementami tablicy B\n        1 pkt -- za prawidlowe indeksy tablic\n        1 pkt -- za wykrycie niezgodnej wartosci i otrzymanie prawidlowego wyniku\n    Sposob III (tablica pomocnicza):\n        2 pkt -- za poprawne zapisanie w tablicy pomocniczej przestawionych elementow jednej z tablic\n        1 pkt -- za porownanie tablicy pomocniczej z druga tablica i wykrycie niezgodnosci\nUwaga: Jezeli zdajacy wykonuje porownanie tylko dla jednej czesci tablic A i B to moze otrzymac maksymalnie 1 punkt za cale rozwiazanie.\n0 pkt -- za podanie odpowiedzi niepoprawnej albo brak odpowiedzi.",
+          "pulapki": [
+            "Porownanie tylko jednej czesci (np. A[1..k]=B[n-k+1..n]) bez drugiej daje max 1 punkt",
+            "Bledy w indeksowaniu -- off-by-one przy granicy k/n-k",
+            "Brak obslugi przypadku k=0 (trywialne -- tablice identyczne)"
+          ]
+        },
+        {
+          "id": "2020M.1.3",
+          "numer": "1.3",
+          "punkty": 2,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.3. (0-2)\nZapisz w wybranej przez siebie notacji funkcje czy_podobne(n, A, B), ktora dla danych tablic A i B daje odpowiedz PRAWDA, jesli istnieje takie k, dla ktorego tablice A i B sa k-podobne, natomiast FALSZ -- w przeciwnym przypadku.\n\nUwaga: w zapisie mozesz skorzystac jedynie z operacji wymienionych w zadaniu 1.2. oraz funkcji czy_k_podobne(n, A, B, k) opisanej w zadaniu 1.2.\n\nSpecyfikacja:\nDane:\n    n -- dodatnia liczba calkowita\n    A[1..n], B[1..n] -- n-elementowe tablice liczb calkowitych\nWynik:\n    PRAWDA, jesli istnieje takie k (0 <= k < n), dla ktorego tablice A i B sa k-podobne\n    FALSZ w przeciwnym przypadku.",
+          "odpowiedz": "dla k = 0, 1, ..., n-1\n    jezeli czy_k_podobne(n, A, B, k) = prawda\n        wynik PRAWDA\n        zakoncz algorytm\nwynik FALSZ",
+          "zasady_oceniania": "2 pkt -- za poprawny algorytm, w tym:\n    1 pkt -- za prawidlowa konstrukcje petli uwzgledniajaca wszystkie mozliwe przesuniecia liczb\n    1 pkt -- za prawidlowy warunek prowadzacy do otrzymania prawidlowego wyniku.\n0 pkt -- za podanie odpowiedzi blednej albo brak odpowiedzi.",
+          "pulapki": [
+            "Zakres petli musi byc od 0 do n-1 (nie od 1 do n)",
+            "Wczesne przerwanie petli po znalezieniu pierwszego pasujacego k"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "tablice",
+          "przesuniecie cykliczne",
+          "porownywanie tablic"
+        ],
+        "algorytmiczny": [
+          "iteracja po tablicy",
+          "arytmetyka modulo",
+          "wyszukiwanie liniowe"
+        ],
+        "czasowy_min": 25
+      }
+    },
+    {
+      "numer": 2,
+      "tytul": "Symetryczny ciag",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "Argumentami procedury sym(a, b) sa dwie nieujemne liczby calkowite a i b. Wywolanie tej procedury spowoduje wypisanie pewnego ciagu liczb calkowitych.\n\nsym(a, b)\n    jezeli a != 0\n        sym(a - 1, b + 1)\n        wypisz a * b\n        sym(a - 1, b + 1)",
+      "podzadania": [
+        {
+          "id": "2020M.2.1",
+          "numer": "2.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1. (0-2)\nUzupelnij tabele -- podaj wynik dzialania procedury sym(a, b) dla wskazanych argumentow a i b.\n\n| a | b | sym(a, b) |\n|---|---|----------|\n| 3 | 1 | 3 4 3 3 4 3 |\n| 4 | 2 | 5 8 5 9 5 8 5 8 5 9 5 8 5 |\n| 3 | 3 | ? |\n| 4 | 1 | ? |",
+          "odpowiedz": "| a | b | sym(a, b) |\n|---|---|----------|\n| 3 | 3 | 5 8 5 9 5 8 5 |\n| 4 | 1 | 4 6 4 6 4 4 4 6 4 6 4 6 4 |",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz.\n1 pkt -- za poprawna odpowiedz w jednym wierszu.\n0 pkt -- za podanie odpowiedzi niepoprawnej albo brak odpowiedzi.",
+          "pulapki": [
+            "Procedura jest rekurencyjna i wywoluje sie dwa razy (przed i po wypisz) -- drzewo wywolan jest pelnym drzewem binarnym",
+            "Trzeba sledzic zmiany parametrow a i b w kazdym wywolaniu rekurencyjnym",
+            "Ciag jest symetryczny -- mozna to wykorzystac do weryfikacji"
+          ]
+        },
+        {
+          "id": "2020M.2.2",
+          "numer": "2.2",
+          "punkty": 3,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2. (0-3)\nUzupelnij tabele -- podaj dlugosc ciagu liczbowego otrzymanego w wyniku wywolania procedury sym(a, b) dla wskazanych argumentow a i b.\n\n| a | b | sym(a, b) |\n|---|---|----------|\n| 3 | 2 | 7 |\n| 4 | 4 | 15 |\n| 5 | 1 | ? |\n| 6 | 6 | ? |\n| 10 | 2020 | ? |",
+          "odpowiedz": "| a | b | dlugosc sym(a, b) |\n|---|---|----------|\n| 5 | 1 | 31 |\n| 6 | 6 | 63 |\n| 10 | 2020 | 1023 |\n\nWzor: dlugosc sym(a, b) = 2^a - 1 (niezaleznie od b)",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz we wszystkich wierszach.\n2 pkt -- za poprawna odpowiedz w dwoch wierszach.\n1 pkt -- za poprawna odpowiedz w jednym wierszu.\n0 pkt -- za podanie odpowiedzi niepoprawnej albo brak odpowiedzi.",
+          "pulapki": [
+            "Dlugosc ciagu zalezy TYLKO od parametru a, nie od b",
+            "Wzor 2^a - 1 wynika z pelnego drzewa binarnego o glebokosci a",
+            "Dla a=10 wynik to 1023 -- latwo o blad rachunkowy przy duzych a"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "rekurencja",
+          "drzewa binarne",
+          "ciagi liczbowe"
+        ],
+        "algorytmiczny": [
+          "sledzenie rekurencji",
+          "analiza drzewa wywolan",
+          "potegi dwojki"
+        ],
+        "czasowy_min": 20
+      }
+    },
+    {
+      "numer": 3,
+      "tytul": "Test",
+      "punkty": 4,
+      "czesc": 1,
+      "kontekst": "Ocen prawdziwosc podanych zdan. Zaznacz P, jesli zdanie jest prawdziwe, albo F -- jesli jest falszywe. W kazdym zadaniu punkt uzyskasz tylko za komplet poprawnych odpowiedzi.",
+      "podzadania": [
+        {
+          "id": "2020M.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1. (0-1)\nCzas mozna odczytywac na zegarach tradycyjnych i na zegarach binarnych. Ponizej zamieszczono przykladowy sposob zapisu godziny 12:46:39 na zegarze binarnym.\n\nKazda kolumna odpowiada jednej cyfrze zapisu dziesietnego godziny przedstawionej w postaci binarnej.\n- czarny kwadrat (np. dioda zegara swieci) oznacza 1\n- bialy kwadrat (np. dioda zegara nie swieci) oznacza 0\n- kwadraty w najnizszym wierszu odpowiadaja najmniej znaczacym cyfrom zapisu binarnego.\n\nOcen prawdziwosc zdan:\n1. Zegar A wskazuje godzine 22:30:48.\n2. Zegar B wskazuje godzine 07:58:35.\n3. Zegar C wskazuje godzine 10:44:24.\n4. Zegar D wskazuje godzine 17:48:54.",
+          "odpowiedz": "FPPF\n\n1. F -- Zegar A nie wskazuje 22:30:48 (bledny odczyt)\n2. P -- Zegar B wskazuje 07:58:35\n3. P -- Zegar C wskazuje 10:44:24\n4. F -- Zegar D nie wskazuje 17:48:54 (bledny odczyt)",
+          "zasady_oceniania": "1 pkt -- za poprawna odpowiedz.\n0 pkt -- za odpowiedz niepelna lub niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba pamietac ze kwadraty w najnizszym wierszu odpowiadaja bitom o najmniejszej wadze (1)",
+            "Kazda kolumna to osobna cyfra dziesietna, nie cala wartosc godziny/minuty/sekundy",
+            "Latwo o pomylke przy odczytywaniu zegarow z wieloma swiecacymi diodami"
+          ]
+        },
+        {
+          "id": "2020M.3.2",
+          "numer": "3.2",
+          "punkty": 1,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2. (0-1)\nW ponizszym algorytmie n jest nieujemna liczba calkowita, mod to operator reszty z dzielenia, div to operator dzielenia calkowitego.\n\nw <- 0\ndopoki n != 0 wykonuj\n    w <- w + (n mod 10)\n    n <- n div 10\n\nOcen prawdziwosc zdan:\n1. Po wykonaniu algorytmu dla n = 45778 zmienna w przyjmuje wartosc 30.\n2. Po wykonaniu algorytmu dla liczby n wartoscia zmiennej w jest suma cyfr liczby n w zapisie dziesietnym.\n3. Podczas wykonywania algorytmu dla n = 1234 w kolejnych iteracjach petli dopoki, zmienna w przyjmuje wartosci 1, 3, 6, 10.\n4. Po wykonaniu algorytmu dla n = 11111 zmienna w przyjmuje wartosc 5.",
+          "odpowiedz": "FPFP\n\n1. F -- Suma cyfr 45778: 4+5+7+7+8 = 31, nie 30\n2. P -- Algorytm oblicza sume cyfr liczby n w zapisie dziesietnym\n3. F -- Kolejne wartosci w to: 4, 7, 10, 10 (nie 1, 3, 6, 10 -- bo mod 10 najpierw daje ostatnia cyfre, nie pierwsza)\n4. P -- Suma cyfr 11111: 1+1+1+1+1 = 5",
+          "zasady_oceniania": "1 pkt -- za poprawna odpowiedz.\n0 pkt -- za odpowiedz niepelna lub niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Algorytm przetwarza cyfry od OSTATNIEJ (mod 10 daje ostatnia cyfre), nie od pierwszej",
+            "W punkcie 3 kolejne wartosci w to 4, 7, 10, 10 -- NIE 1, 3, 6, 10",
+            "Latwo policzyc zle sume cyfr w punkcie 1 (31 vs 30)"
+          ]
+        },
+        {
+          "id": "2020M.3.3",
+          "numer": "3.3",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.3. (0-1)\nDana jest konfiguracja interfejsu sieciowego komputerow A i B.\n\nDla komputera A:\nAdres IPv4: 192.168.10.65\nMaska sieci: 255.255.255.0\n\nDla komputera B:\nAdres IPv4: 192.168.10.128\nMaska sieci: 255.255.255.0\n\nOcen prawdziwosc zdan:\n1. Komputer A i komputer B sa w tej samej sieci.\n2. Adresem sieci dla komputera A jest adres 192.168.10.0.\n3. Dla maski 255.255.255.0 sa dostepne 254 adresy hostow.\n4. Adres rozgloszeniowy sieci, do ktorej nalezy komputer B, to 192.168.255.255.",
+          "odpowiedz": "PPPF\n\n1. P -- Oba komputery sa w sieci 192.168.10.0/24\n2. P -- 192.168.10.65 AND 255.255.255.0 = 192.168.10.0\n3. P -- Maska /24 daje 256 - 2 = 254 adresow hostow (minus adres sieci i broadcast)\n4. F -- Adres rozgloszeniowy to 192.168.10.255, nie 192.168.255.255",
+          "zasady_oceniania": "1 pkt -- za poprawna odpowiedz.\n0 pkt -- za odpowiedz niepelna lub niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "Adres rozgloszeniowy: ustawiamy czesc hostowa na same jedynki -- dla /24 to x.x.x.255, nie x.x.255.255",
+            "254 hostow = 2^8 - 2 (bez adresu sieci .0 i rozgloszeniowego .255)"
+          ]
+        },
+        {
+          "id": "2020M.3.4",
+          "numer": "3.4",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.4. (0-1)\nDana jest tabela pracownicy:\n\n| nr_p | nazwisko | imie | staz | pensja |\n|------|----------|------|------|--------|\n| 736 | Smitko | Alan | 10 | 2000 |\n| 7499 | Nowak | Kazimierz | 15 | 3000 |\n| 7521 | Wiecek | Mariusz | 11 | 3500 |\n| 7566 | Jonas | Kamil | 12 | 2500 |\n| 7654 | Martin | Leon | 20 | 2300 |\n| 7698 | Bracki | Bartosz | 15 | 1530 |\n| 7782 | Celerek | Agnieszka | 12 | 1680 |\n| 7788 | Skotnik | Natalia | 21 | 2000 |\n| 7839 | King | Miroslaw | 22 | 1500 |\n\noraz zapytanie SQL:\nSELECT * FROM pracownicy WHERE pensja < 2000 ORDER BY staz DESC;\n\nOcen prawdziwosc zdan:\n1. Wynik powyzszego zapytania to 3.\n2. Wynikiem zapytania jest zestawienie: 7839 King Miroslaw 22 1500 / 7698 Bracki Bartosz 15 1530 / 7782 Celerek Agnieszka 12 1680\n3. Wynikiem zapytania beda wiersze z tabeli pracownicy, zawierajace wszystkie dane dotyczace pracownikow, dla ktorych wartosc z kolumny pensja jest mniejsza niz 2000, posortowane nierosnaco wedlug parametru staz.\n4. Wynikiem zapytania jest zestawienie: nr_p staz pensja / 7782 12 1680 / 7698 15 1530 / 7839 22 1500",
+          "odpowiedz": "FPPF\n\n1. F -- Wynikiem nie jest pojedyncza liczba 3, lecz trzy wiersze danych (SELECT * zwraca wiersze, nie COUNT)\n2. P -- Poprawne zestawienie posortowane malejaco po stazu\n3. P -- Opis slowny jest poprawny\n4. F -- SELECT * zwraca WSZYSTKIE kolumny, nie tylko nr_p, staz, pensja",
+          "zasady_oceniania": "1 pkt -- za poprawna odpowiedz.\n0 pkt -- za odpowiedz niepelna lub niepoprawna albo brak odpowiedzi.",
+          "pulapki": [
+            "SELECT * zwraca WSZYSTKIE kolumny, nie podzbiór",
+            "ORDER BY staz DESC sortuje malejaco (nierosnaco) po stazu",
+            "Warunek pensja < 2000 (ostro mniejsze) -- pensja rowna 2000 NIE jest wlaczona"
+          ]
+        }
+      ],
+      "sciezka_danych": null,
+      "pliki_danych": [],
+      "wymiary": {
+        "tematyczny": [
+          "zegary binarne",
+          "konwersja systemow liczbowych",
+          "suma cyfr",
+          "sieci komputerowe",
+          "maski sieci",
+          "SQL"
+        ],
+        "algorytmiczny": [
+          "konwersja bin-dec",
+          "sledzenie algorytmu iteracyjnego",
+          "adresowanie IP",
+          "zapytania SQL"
+        ],
+        "czasowy_min": 15
+      }
+    },
+    {
+      "numer": 4,
+      "tytul": "Pary",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "W pliku pary.txt znajduje sie 100 wierszy. Kazdy wiersz zawiera pare danych skladajaca sie z liczby calkowitej z przedzialu od 3 do 100 i slowa (ciagu znakow) zlozonego z malych liter alfabetu angielskiego o dlugosci od 1 do 50 znakow. Liczba i slowo sa oddzielone znakiem spacji.\n\nUwaga: plik przyklad.txt zawiera przykladowe dane spelniajace warunki zadania. Odpowiedzi dla danych z pliku przyklad.txt sa podane pod tresciami zadan oraz w pliku odp_przyklad.txt.",
+      "podzadania": [
+        {
+          "id": "2020M.4.1",
+          "numer": "4.1",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.1. (0-3)\nMocna hipoteza Goldbacha mowi, ze kazda parzysta liczba calkowita wieksza od 4 jest suma dwoch nieparzystych liczb pierwszych, np. liczba 20 jest rowna sumie 3 + 17 lub sumie 7 + 13.\n\nKazda liczbe parzysta z pliku pary.txt przedstaw w postaci sumy dwoch liczb pierwszych. Wypisz te liczbe oraz dwa skladniki sumy w kolejnosci niemalejacej. Jezeli istnieje wiecej rozwiazan (tak jak dla liczby 20) nalezy wypisac skladniki sumy o najwiekszej roznicy.\n\nWyniki podaj w oddzielnych wierszach, w kolejnosci zgodnej z kolejnoscia danych z pliku pary.txt. Liczby w kazdym wierszu rozdziel znakiem spacji, np. dla liczby 20 nalezy wypisac 20 3 17.\n\nDla danych z pliku przyklad.txt prawidlowa odpowiedzia jest:\n24 5 19\n6 3 3\n6 3 3",
+          "odpowiedz": "68 7 61\n24 5 19\n48 5 43\n12 5 7\n42 5 37\n66 5 61\n78 5 73\n88 5 83\n76 3 73\n64 3 61\n24 5 19\n22 3 19\n64 3 61\n18 5 13\n36 5 31\n42 5 37\n56 3 53\n30 7 23\n44 3 41\n28 5 23\n94 5 89\n28 5 23\n52 5 47\n28 5 23\n6 3 3\n36 5 31\n34 3 31\n58 5 53",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz.\n2 pkt -- za odpowiedz, w ktorej jest podany dowolny poprawny rozklad na dwie liczby pierwsze dla kazdej liczby parzystej ALBO jesli zdajacy nie uwzgledni warunku, ze liczba, ktorej rozkladu szukamy, musi byc parzysta, i szuka takze rozkladow liczb nieparzystych (ale rozklady dla liczb parzystych otrzymuje poprawnie).\n1 pkt -- za odpowiedz zawierajaca rozklady, w ktorych dla kazdej liczby parzystej wystepuje przynajmniej jedna liczba pierwsza wieksza od 3.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba szukac rozkladu TYLKO dla liczb parzystych (nie nieparzystych)",
+            "Nalezy wypisac skladniki o NAJWIEKSZEJ roznicy (zaczynamy szukanie od najmniejszej liczby pierwszej)",
+            "Liczba 2 jest parzysta pierwsza -- ale w hipotezie Goldbacha chodzi o sumy NIEPARZYSTYCH pierwszych"
+          ]
+        },
+        {
+          "id": "2020M.4.2",
+          "numer": "4.2",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.2. (0-4)\nDla kazdego slowa z pliku pary.txt znajdz dlugosc najdluzszego spojnego fragmentu tego slowa zlozonego z identycznych liter. Wypisz znalezione fragmenty slow i ich dlugosci oddzielone spacjami, po jednej parze w kazdym wierszu. Jezeli istnieja dwa fragmenty o takiej samej najwiekszej dlugosci, podaj pierwszy z nich. Wyniki podaj w kolejnosci zgodnej z kolejnoscia danych w pliku pary.txt.\n\nPrzyklad:\ndla slowa zxyzzzz wynikiem jest:\nzzzz 4\nnatomiast dla slowa kkkabbb wynikiem jest:\nkkk 3\n\nDla danych z pliku przyklad.txt odpowiedzi podano w pliku odp_przyklad.txt.",
+          "odpowiedz": "(100 wynikow -- fragment slowa i dlugosc najdluzszego spojnego fragmentu identycznych liter, np.:\nd 1\ntt 2\na 1\nlllllll 7\nooooo 5\nwwwwww 6\naaaaaaaaaaa 11\n...itd.)",
+          "zasady_oceniania": "4 pkt -- za poprawna odpowiedz.\n3 pkt -- za odpowiedz, w ktorej zdajacy pomija pierwsza lub ostatnia litere fragmentu slowa (ale nie gubi wynikow skladajacych sie z pojedynczych liter) ALBO poda tylko jedna kolumne wyniku (fragmenty bez dlugosci, lub dlugosci bez fragmentow).\n2 pkt -- za odpowiedz, w ktorej zdajacy pomija pierwsza i ostatnia litere fragmentu slowa ALBO pomija pierwsza lub ostatnia litere i gubi wyniki z pojedynczych liter.\n1 pkt -- za odpowiedz, w ktorej zdajacy wypisze liste fragmentow slow z identycznych liter (istniejace), ale nie o najwiekszej dlugosci.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Fragment moze byc na poczatku, w srodku lub na koncu slowa",
+            "Dla slow z samymi roznymi literami wynik to pierwsza litera i dlugosc 1",
+            "Dwa fragmenty o tej samej dlugosci -- podajemy PIERWSZY (nie ostatni)"
+          ]
+        },
+        {
+          "id": "2020M.4.3",
+          "numer": "4.3",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_napisy",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.3. (0-4)\nPara (liczba1, slowo1) jest mniejsza od pary (liczba2, slowo2), gdy:\n- liczba1 < liczba2,\nalbo\n- liczba1 = liczba2 oraz slowo1 jest leksykograficznie (w porzadku alfabetycznym) mniejsze od slowo2.\n\nPrzyklad: para (1, bbbb) jest mniejsza od pary (2, aaa), natomiast para (3, aaa) jest mniejsza od pary (3, ab).\n\nRozwaz wszystkie pary (liczba, slowo) zapisane w wierszach pliku pary.txt, dla ktorych liczba jest rowna dlugosci slowa, i wypisz sposrod nich taka pare, ktora jest mniejsza od wszystkich pozostalych. W pliku pary.txt jest jedna taka para.\n\nDla danych z pliku przyklad.txt odpowiedzia jest:\n6 abbbbc",
+          "odpowiedz": "3 asd",
+          "zasady_oceniania": "4 pkt -- za poprawna odpowiedz.\n3 pkt -- za odpowiedz: 3 ast albo 3 asq.\n2 pkt -- za odpowiedz, w ktorej zdajacy nie uwzglednia zalozenia, ze para ma sie skladac z liczby i slowa o dlugosci rownej danej liczbie (czyli otrzymuje w wyniku pare: 3 aaaooooooooooooooop).\n1 pkt -- za odpowiedz, w ktorej zdajacy wypisze liczbe 3 w parze z dowolnym innym niz wczesniej slowem trzyliterowym ALBO jako wynik wypisze wszystkie dziewiec slow o dlugosci takiej jak liczba w parze.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba najpierw odfiltrowac pary gdzie liczba = dlugosc slowa",
+            "Porownywanie par: najpierw po liczbie, potem leksykograficznie po slowie",
+            "Szukamy MINIMUM (para mniejsza od wszystkich pozostalych)"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2020_maj/Dane_PR2/",
+      "pliki_danych": ["pary.txt", "przyklad.txt", "odp_przyklad.txt"],
+      "wymiary": {
+        "tematyczny": [
+          "liczby pierwsze",
+          "hipoteza Goldbacha",
+          "przetwarzanie napisow",
+          "fragmenty spojne",
+          "porownywanie par"
+        ],
+        "algorytmiczny": [
+          "test pierwszosci",
+          "wyszukiwanie w napisie",
+          "sortowanie",
+          "filtrowanie"
+        ],
+        "czasowy_min": 50
+      }
+    },
+    {
+      "numer": 5,
+      "tytul": "Jezyki",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "W plikach panstwa.txt, jezyki.txt i uzytkownicy.txt zawarte sa informacje o 40 najwiekszych panstwach swiata, jezykach swiata i ich uzytkownikach. Pierwszy wiersz w kazdym z plikow jest wierszem naglowkowym i zawiera nazwy pol. Dane w kazdym wierszu oddzielone sa znakami tabulacji.\n\nW pliku panstwa.txt kazdy wiersz zawiera informacje o panstwach:\nPanstwo -- nazwa panstwa\nKontynent -- kontynent, na ktorym lezy stolica panstwa\nPopulacja -- calkowita liczba mieszkancow podana w milionach, z dokladnoscia do jednego miejsca po przecinku\n\nW pliku jezyki.txt kazdy wiersz pliku zawiera informacje o danym jezyku:\nJezyk -- nazwa jezyka\nRodzina -- przynaleznosc jezyka do rodziny jezykowej lub okreslenie 'jezyk izolowany'\n\nW pliku uzytkownicy.txt kazdy wiersz zawiera informacje o uzytkownikach danego jezyka:\nPanstwo -- nazwa panstwa\nJezyk -- nazwa jezyka\nUzytkownicy -- liczba poslugujacych sie danym jezykiem mieszkancow tego panstwa podana w milionach, z dokladnoscia do jednego miejsca po przecinku\nUrzedowy -- informacja (tak/nie), czy jest to w danym panstwie jezyk urzedowy\n\nUwaga: w jednym panstwie moze byc kilka jezykow urzedowych. Dany jezyk moze byc jezykiem urzedowym w jednym panstwie, a w innym -- nie. Mieszkaniec panstwa moze poslugiwac sie jednym lub wieloma jezykami.",
+      "podzadania": [
+        {
+          "id": "2020M.5.1",
+          "numer": "5.1",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.1. (0-2)\nUtworz zestawienie, ktore dla kazdej rodziny jezykowej podaje, ile jezykow do niej nalezy. Posortuj zestawienie nierosnaco wedlug liczby jezykow.",
+          "odpowiedz": "nigero-kongijska 137\naustronezyjska 65\nindoeuropejska 63\nsino-tybetanska 43\nnilo-saharyjska 30\nafroazjatycka 28\ndajska 23\naustroazjatycka 20\nturecka 15\ndrawidyjska 15\notomang 7\npolnocno-wschodniokaukaska 7\nmajanska 5\nmongolska 5\nhmong-mien 4\nuralska 3\nabchasko-adygijska 3\nna-dene 1\ntungusko-mandzurska 1\nalgijska 1\nuto-aztecka 1\nkeczua 1\ntupi 1",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz.\n1 pkt -- za prawidlowe zestawienie nieposortowane.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.\nUwaga: Akceptowane jest rozwiazanie, w ktorym zdajacy potraktuje 'jezyk izolowany' (liczba jezykow 8) jako nazwe rodziny jezykowej.",
+          "pulapki": [
+            "Trzeba zdecydowac czy 'jezyk izolowany' to rodzina jezykowa (akceptowane oba podejscia)",
+            "Sortowanie nierosnaco -- od najwiekszej do najmniejszej liczby jezykow"
+          ]
+        },
+        {
+          "id": "2020M.5.2",
+          "numer": "5.2",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.2. (0-2)\nPodaj liczbe jezykow, ktore nie sa jezykami urzedowymi w zadnym panstwie. Przy rozwiazywaniu zadania pamietaj, ze w jednym panstwie moze byc kilka jezykow urzedowych oraz ze dany jezyk moze byc jezykiem urzedowym w jednym panstwie, a w innym -- nie.",
+          "odpowiedz": "445",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz.\n1 pkt -- w przypadku, gdy zdajacy zliczy tylko jezyki urzedowe (42 jezyki).\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Jezyk moze byc urzedowy w jednym panstwie i nieurzedowy w innym -- trzeba sprawdzic czy istnieje JAKIEKOLWIEK panstwo gdzie jest urzedowy",
+            "Trzeba odjac od calkowitej liczby jezykow te, ktore sa urzedowe gdziekolwiek"
+          ]
+        },
+        {
+          "id": "2020M.5.3",
+          "numer": "5.3",
+          "punkty": 2,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.3. (0-2)\nPodaj wszystkie jezyki, ktorymi posluguja sie uzytkownicy na co najmniej czterech kontynentach.\nUwaga: dla uproszczenia przyjmujemy, ze panstwo lezy na tym kontynencie, na ktorym znajduje sie jego stolica.",
+          "odpowiedz": "angielski\narabski\ngudzaracki\ntamilski",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz.\n1 pkt -- w przypadku, gdy zdajacy poda odpowiedz zawierajaca tylko trzy z czterech jezykow ALBO policzy liczbe kontynentow dla kazdego jezyka i na tym zakonczy.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba polaczyc tabele uzytkownicy z panstwa (przez nazwe panstwa) aby uzyskac kontynent",
+            "Uwaga na 'co najmniej czterech' -- >= 4, nie dokladnie 4"
+          ]
+        },
+        {
+          "id": "2020M.5.4",
+          "numer": "5.4",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.4. (0-3)\nZnajdz 6 jezykow, ktorymi posluguje sie lacznie najwiecej mieszkancow obu Ameryk ('Ameryka Polnocna' i 'Ameryka Poludniowa'), a ktore NIE naleza do rodziny indoeuropejskiej ('indoeuropejska'). Dla kazdego z nich podaj nazwe, rodzine jezykowa i liczbe uzytkownikow w obu Amerykach lacznie.",
+          "odpowiedz": "mandarynski sino-tybetanska 3,1\narabski afroazjatycka 2,7\ntagalog austronezyjska 1,9\nwietnamski austroazjatycka 1,5\nnahuatl uto-aztecka 1,4\nkoreanski jezyk izolowany 1,2",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz, w tym 1 pkt za kazda prawidlowa kolumne wyniku.\n2 pkt -- w przypadku, gdy zdajacy dla kazdego jezyka zliczy liczbe uzytkownikow, ktorzy sa mieszkancami obu Ameryk i wykona posortowane zestawienie (z pokazanymi rodzinami jezykowymi), ale nie uwzgledni, ze jezyki maja nie nalezec do rodziny indoeuropejskiej i na tym zakonczy.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba wykluczyc jezyki z rodziny indoeuropejskiej",
+            "Kontynenty to 'Ameryka Polnocna' i 'Ameryka Poludniowa' -- sumujemy uzytkownikow z obu",
+            "Trzeba polaczyc 3 tabele: uzytkownicy + panstwa (dla kontynentu) + jezyki (dla rodziny)"
+          ]
+        },
+        {
+          "id": "2020M.5.5",
+          "numer": "5.5",
+          "punkty": 3,
+          "typ_zadania": "przetwarzanie_zlozone",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 5.5. (0-3)\nZnajdz panstwa, w ktorych co najmniej 30% populacji posluguje sie jezykiem, ktory nie jest jezykiem urzedowym obowiazujacym w tym panstwie. Dla kazdego takiego panstwa podaj jego nazwe i jezyk, ktorym posluguje sie co najmniej 30% populacji, a ktory nie jest urzedowym jezykiem w tym panstwie, oraz procent populacji poslugujacej sie tym jezykiem.",
+          "odpowiedz": "Panstwo   procent   Jezyk\nEtiopia   35,51     oromo\nIndonezja 32,73     jawajski\nPakistan  40,44     pendżabski",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz, w tym 1 pkt za kazda prawidlowa kolumne wyniku.\n2 pkt -- w przypadku, gdy zdajacy wykonа poprawne zestawienie dla kazdego jezyka (ze wszystkimi trzema kolumnami i poprawnie wyliczonym procentem poslugujaсych sie danym jezykiem w danym panstwie) ale nie zastosuje warunku, ze uzytkownikow jezyka powinno byc powyzej 30%.\n0 pkt -- za odpowiedz bledna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Procent = (uzytkownicy jezyka w panstwie / populacja panstwa) * 100",
+            "Jezyk NIE moze byc urzedowy w tym panstwie (ale moze byc urzedowy w innym)",
+            "Prog 30% jest wlaczny (co najmniej 30%)"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2020_maj/Dane_PR2/",
+      "pliki_danych": ["panstwa.txt", "jezyki.txt", "uzytkownicy.txt"],
+      "wymiary": {
+        "tematyczny": [
+          "przetwarzanie wielu plikow",
+          "laczenie danych",
+          "agregacja",
+          "filtrowanie warunkowe",
+          "procenty"
+        ],
+        "algorytmiczny": [
+          "JOIN tabel",
+          "GROUP BY",
+          "sortowanie",
+          "filtrowanie"
+        ],
+        "czasowy_min": 50
+      }
+    },
+    {
+      "numer": 6,
+      "tytul": "Statek",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Statek towarowy 'Kormoran' plywal po Morzu Srodziemnym pomiedzy dziesiecioma portami, przewozac piec roznych rodzajow towarow (T1, T2, ..., T5). Statek wyplywal z portu zawsze tego samego dnia, w ktorym do portu przyplynal.\n\nW pliku statek.txt podano informacje o kursach wykonanych przez statek w okresie od 2016-01-01 do 2018-12-18. W kazdym wierszu, oddzielone znakiem tabulacji, podane sa:\ndata -- data przebywania statku w porcie (w formacie rrrr-mm-dd),\nport -- nazwa portu,\ntowar -- rodzaj towaru,\nZ/W -- informacja, czy to byl zaladunек (Z) czy wyladunek (W),\nile ton -- informacja, jaka masa (w tonach) towaru byla wyladowana/zaladowana,\ncena za tone w talarach -- cena towaru w talarach za tone.",
+      "podzadania": [
+        {
+          "id": "2020M.6.1",
+          "numer": "6.1",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 6.1. (0-2)\nPodaj, ktory towar byl ladowany na statek najwiecej razy i jaka byla laczna masa tych zaladunkow.",
+          "odpowiedz": "T4\n905",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za rodzaj towaru,\n    1 pkt -- za liczbe ton.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Ladowanie = zaladunек (Z/W = 'Z'), nie wyladunek",
+            "Najwiecej RAZY (liczba operacji), nie najwiecej TON -- ale pytanie tez pyta o mase"
+          ]
+        },
+        {
+          "id": "2020M.6.2",
+          "numer": "6.2",
+          "punkty": 1,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 6.2. (0-1)\nPodaj, ile bylo kursow, w ktorych statek spedzil wiecej niz 20 pelnych dni na morzu, bez zawijania do portow.\n\nPrzyklad: Jesli statek wyplynal z jednego portu w dniu 2016-01-10 i wplynal do nastepnego portu w dniu 2016-01-16, to spedzil na morzu 5 pelnych dni (11.01, 12.01, 13.01, 14.01, 15.01).",
+          "odpowiedz": "22",
+          "zasady_oceniania": "1 pkt -- za poprawna odpowiedz.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Pelne dni na morzu = roznica dat minus 1 (dzien wyjazdu i przyjazdu nie licza sie jako pelne dni na morzu)",
+            "Wiecej niz 20 pelnych dni (> 20, nie >= 20)"
+          ]
+        },
+        {
+          "id": "2020M.6.3",
+          "numer": "6.3",
+          "punkty": 2,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 6.3. (0-2)\nW dniach 2016-02-01 i 2018-08-01 statek nie zawijal do portu.\nDla kazdego z tych dni podaj:\n- rodzaj i liczbe ton towaru, ktorego bylo najwiecej na statku,\n- rodzaj i liczbe ton towaru, ktorego bylo najmniej na statku (przyjmujemy, ze towar byl na statku, jesli liczba ton tego towaru byla wieksza od 0).",
+          "odpowiedz": "1.02.2016  min: T4 24  max: T2 48\n1.08.2018  min: T1 3   max: T5 125",
+          "zasady_oceniania": "2 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za dane z dnia 1.02.2016,\n    1 pkt -- za dane z dnia 1.08.2018.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Trzeba obliczyc stan towaru na statku w danym dniu -- sumowac zaladunki (Z) i odejmowac wyladunki (W) od poczatku",
+            "Uwzglednic tylko towary ze stanem > 0 przy szukaniu minimum",
+            "Statek nie zawijal do portu w tych dniach -- trzeba policzyc stan na podstawie WSZYSTKICH operacji PRZED tym dniem"
+          ]
+        },
+        {
+          "id": "2020M.6.4",
+          "numer": "6.4",
+          "punkty": 3,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 6.4. (0-3)\nSporzadz wykres kolumnowy przedstawiajacy, ile zaladowano i ile wyladowano towaru T5 w kazdym miesiacu od 1 stycznia 2016 r. do 18 grudnia 2018 r. Zaladunек i wyladunek dla kazdego miesiaca przedstaw w dwoch kolumnach. Pamietaj o opisaniu obu osi (dla osi poziomej uzyj formatu rrrr-mm) i o tytule wykresu.",
+          "odpowiedz": "Wykres kolumnowy z danymi miesiecznymi zaladunku (Z) i wyladunku (W) towaru T5 od 2016-01 do 2018-12. Dane w formacie: Miesiac Z W\n2016-01: 76 32\n2016-02: 8 0\n2016-03: 0 50\n2016-04: 68 0\n2016-05: 0 0\n2016-06: 42 0\n2016-07: 83 0\n2016-08: 0 191\n2016-09: 44 4\n2016-10: 0 0\n2016-11: 30 0\n2016-12: 0 0\n2017-01: 39 112\n2017-02: 0 1\n2017-03: 35 0\n2017-04: 1 0\n2017-05: 33 68\n2017-06: 8 0\n2017-07: 42 0\n2017-08: 4 48\n2017-09: 0 0\n2017-10: 0 6\n2017-11: 12 1\n2017-12: 0 0\n2018-01: 10 22\n2018-02: 34 0\n2018-03: 0 34\n2018-04: 5 0\n2018-05: 0 0\n2018-06: 95 0\n2018-07: 25 0\n2018-08: 22 121\n2018-09: 0 26\n2018-10: 20 0\n2018-11: 48 64\n2018-12: 0 4",
+          "zasady_oceniania": "3 pkt -- za poprawna odpowiedz, w tym:\n    1 pkt -- za prawidlowe zestawienie danych,\n    2 pkt -- za prawidlowy wykres (w tym po 1 punkcie za typ i dobor danych oraz prawidlowy opis).\n2 pkt -- za odpowiedz, w ktorej uwzgledniono tylko dane o zaladunku lub rozladunku.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Wykres musi miec DWA slupki na miesiac (zaladunек i wyladunek osobno)",
+            "Os pozioma w formacie rrrr-mm (nie dd.mm.rrrr)",
+            "Trzeba filtrować tylko towar T5"
+          ]
+        },
+        {
+          "id": "2020M.6.5",
+          "numer": "6.5",
+          "punkty": 4,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 6.5. (0-4)\nKapitan przy zaladunku placil za towar, a przy wyladunku otrzymywal za niego zaplate.\n\na) Przyjmij, ze kapitan przed pierwszym rejsem mial w kasie 500 000 talarow, a nastepnie:\n- oblicz, ile talarow mial 18 grudnia 2018 roku po zakonczeniu wszystkich transakcji\n- znajdz dzien, w ktorym po wyplynieciu z portu stan kasy kapitana byl najwiekszy -- podaj ten dzien oraz stan kasy tego dnia\n\nb) Podaj, ile minimum talarow powinien miec kapitan przed pierwszym rejsem, aby mogl wykonac wszystkie transakcje, tzn. zaplacic za kazdy zaladunек, kazdego dnia.",
+          "odpowiedz": "a)\nStan kasy 18.12.2018: 545844\nMax stan kasy dnia: 08.10.2018\nMax stan: 550079\n\nb)\nMinimum talarow: 6399",
+          "zasady_oceniania": "4 pkt -- za poprawna odpowiedz, w tym:\n    podpunkt a)\n        1 pkt -- za stan kasy kapitana 18.12.2018,\n        1 pkt -- za date najwiekszego stanu kasy kapitana na koniec dnia,\n        1 pkt -- za najwiekszy stan kasy kapitana na koniec dnia,\n    podpunkt b)\n        1 pkt -- za minimalna liczbe talarow.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
+          "pulapki": [
+            "Zaladunек (Z) to wydatek (minus), wyladunek (W) to przychod (plus)",
+            "Stan kasy zmienia sie w ciagu dnia -- trzeba sledzic stan PO KAZDEJ operacji danego dnia",
+            "Minimum talarow w (b) to taki poczatkowy stan, aby kasa nigdy nie spadla ponizej 0"
+          ]
+        }
+      ],
+      "sciezka_danych": "matura_informatyka_rozszerzona/2020_maj/Dane_PR2/",
+      "pliki_danych": ["statek.txt"],
+      "wymiary": {
+        "tematyczny": [
+          "analiza danych tabelarycznych",
+          "obliczenia na datach",
+          "bilans finansowy",
+          "wykres kolumnowy"
+        ],
+        "algorytmiczny": [
+          "agregacja warunkowa",
+          "symulacja",
+          "obliczenia kumulacyjne",
+          "minimum prefix sum"
+        ],
+        "czasowy_min": 50
+      }
+    }
+  ],
+  "uwagi": "Egzamin z 2020 roku -- termin glowny odbyl sie w czerwcu 2020 (opozniony z maja z powodu pandemii COVID-19). Arkusz datowany jest na 11 maja 2020 r., ale faktycznie egzamin odbyl sie 22 czerwca 2020 r. Formula 2015 (stara) -- dwie czesci: I (60 min, 15 pkt) + II (150 min, 35 pkt)."
+}

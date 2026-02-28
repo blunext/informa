@@ -1,7 +1,7 @@
 # 08. Przetwarzanie napisow
 
 Typ zadania: **napisy**
-Czestotliwosc: 4/11 lat | Laczna punktacja: 25 pkt
+Czestotliwosc: 6/12 lat | Laczna punktacja: 25 pkt
 Kategoria: IMPLEMENTACJA
 
 ## Umiejetnosci cwiczone w tym zestawie

@@ -2,7 +2,7 @@
   "typ": "20_sql_group_by",
   "nazwa": "SQL — GROUP BY z agregacjami",
   "kategoria": "SQL",
-  "czestotliwosc": "8/11 lat",
+  "czestotliwosc": "9/12 lat",
   "punkty_lacznie": 149,
   "tagi_globalne": [
     "AVG",

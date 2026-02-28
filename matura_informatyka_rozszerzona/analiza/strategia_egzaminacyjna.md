@@ -402,14 +402,14 @@
 
 ## Przewodnik po Typach Zadan
 
-Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
+Analiza 12 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 ---
 
 ### KATEGORIA: TEORIA I ANALIZA
 
 #### 1. sledzenie_algorytmu
 **Co to jest**: Przesledzic algorytm krok po kroku dla podanych danych, podac wynik.
-**Czestotliwosc**: 11/11 lat, 45 pkt lacznie — PEWNE na egzaminie!
+**Czestotliwosc**: 12/12 lat, 45 pkt lacznie — PEWNE na egzaminie!
 **Jak podejsc**:
 1. Zrob tabele zmiennych (kolumny = zmienne, wiersze = kroki)
 2. Wykonuj instrukcje linia po linii, zapisujac wartosci
@@ -423,7 +423,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 2. projektowanie_algorytmu
 **Co to jest**: Napisac algorytm/pseudokod rozwiazujacy problem. Czesto ograniczenia: tylko int, brak builtinow.
-**Czestotliwosc**: 11/11 lat, 43 pkt lacznie — PEWNE na egzaminie!
+**Czestotliwosc**: 12/12 lat, 43 pkt lacznie — PEWNE na egzaminie!
 **Jak podejsc**:
 1. Zrozum dokladnie co algorytm ma robic (wejscie/wyjscie)
 2. Pomysl o przypadkach brzegowych
@@ -438,7 +438,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 3. analiza_algorytmu
 **Co to jest**: Okresl zlozonosc, udowodnij wlasciwosci, podaj min/max, znajdz kontrprzyklad.
-**Czestotliwosc**: 10/11 lat, 37 pkt lacznie
+**Czestotliwosc**: 10/12 lat, 37 pkt lacznie
 **Jak podejsc**:
 1. Zidentyfikuj petle zagniezdzenie — to daje zlozonosc
 2. Dla dowodow: uzyj kontrprzykadow (udowodnij ze NIE dziala)
@@ -452,7 +452,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 4. test_prawda_falsz
 **Co to jest**: Ocen prawdziwosc 4 zdan (P/F). Tematy: algorytmy, SQL, sieci, grafika.
-**Czestotliwosc**: 10/11 lat, 25 pkt lacznie
+**Czestotliwosc**: 11/12 lat, 25 pkt lacznie
 **Jak podejsc**:
 1. Czytaj DOKLADNIE — jedno slowo moze zmienic odpowiedz
 2. Jezeli nie jestes pewien, szukaj kontrprzykladu
@@ -466,7 +466,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 5. konwersja_systemow_liczbowych
 **Co to jest**: Konwersje miedzy bazami (bin/oct/hex/dec), arytmetyka w roznych systemach.
-**Czestotliwosc**: 9/11 lat, 12 pkt lacznie
+**Czestotliwosc**: 10/12 lat, 12 pkt lacznie
 **Jak podejsc**:
 1. bin->hex: grupuj po 4 bity od prawej
 2. bin->oct: grupuj po 3 bity od prawej
@@ -480,7 +480,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 6. teoria_bezpieczenstwa
 **Co to jest**: Szyfrowanie, protokoly sieciowe, bezpieczenstwo (quick wins za 1 pkt).
-**Czestotliwosc**: 2/11 lat, 2 pkt lacznie — pojawia sie od 2023
+**Czestotliwosc**: 2/12 lat, 2 pkt lacznie — pojawia sie od 2023
 **Jak podejsc**:
 1. Znaj roznice: szyfrowanie symetryczne vs asymetryczne
 2. Znaj podstawowe protokoly (HTTP, HTTPS, FTP, DHCP)
@@ -493,7 +493,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 7. przetwarzanie_cyfry_liczby
 **Co to jest**: Analiza cyfr (mod/div), NWD, potegi, faktoryzacja, podzielnosc.
-**Czestotliwosc**: 6/11 lat, 36 pkt lacznie
+**Czestotliwosc**: 7/12 lat, 36 pkt lacznie
 **Jak podejsc**:
 1. Wzorzec: `while(n>0) { cyfra = n%10; n /= 10; }`
 2. NWD: algorytm Euklidesa (while b!=0)
@@ -507,7 +507,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 8. przetwarzanie_napisy
 **Co to jest**: Palindromy, szyfry, ASCII, manipulacja tekstem.
-**Czestotliwosc**: 4/11 lat, 25 pkt lacznie
+**Czestotliwosc**: 6/12 lat, 25 pkt lacznie
 **Jak podejsc**:
 1. Kody ASCII: A=65, a=97, 0=48, roznica a-A=32
 2. Palindrom: porownaj s[i] z s[n-1-i]
@@ -521,7 +521,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 9. przetwarzanie_zlozone
 **Co to jest**: Wieloetapowy algorytm na danych z pliku — wymaga kilku krokow logiki.
-**Czestotliwosc**: 4/11 lat, 24 pkt lacznie
+**Czestotliwosc**: 5/12 lat, 24 pkt lacznie
 **Jak podejsc**:
 1. Rozbij problem na etapy (wczytaj -> przetworz -> wypisz)
 2. Kazdy etap testuj osobno
@@ -535,7 +535,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 10. przetwarzanie_zliczanie
 **Co to jest**: Zlicz elementy spelniajace warunek, filtruj dane z pliku.
-**Czestotliwosc**: 5/11 lat, 17 pkt lacznie
+**Czestotliwosc**: 5/12 lat, 17 pkt lacznie
 **Jak podejsc**:
 1. Wzorzec: `int count=0; for(auto x : data) if(warunek(x)) count++;`
 2. Wczytaj dane z pliku do tablicy/vectora
@@ -549,7 +549,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 11. przetwarzanie_minmax
 **Co to jest**: Znajdz min/max, posortuj, analizuj rozklad danych.
-**Czestotliwosc**: 5/11 lat, 17 pkt lacznie
+**Czestotliwosc**: 5/12 lat, 17 pkt lacznie
 **Jak podejsc**:
 1. Inicjalizuj min = INT_MAX, max = INT_MIN (lub pierwszym elementem)
 2. Iteruj i aktualizuj
@@ -563,7 +563,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 12. przetwarzanie_sekwencje
 **Co to jest**: Najdluzszy podciag, bloki, wzorce w ciagach.
-**Czestotliwosc**: 3/11 lat, 13 pkt lacznie
+**Czestotliwosc**: 3/12 lat, 13 pkt lacznie
 **Jak podejsc**:
 1. Uzyj zmiennych: current_len, max_len
 2. Iteruj i sprawdzaj warunek kontynuacji sekwencji
@@ -577,7 +577,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 13. przetwarzanie_obrazy_2D
 **Co to jest**: Piksele, siatki 2D, connected components (DFS/BFS).
-**Czestotliwosc**: 2/11 lat, 11 pkt lacznie
+**Czestotliwosc**: 2/12 lat, 11 pkt lacznie
 **Jak podejsc**:
 1. Wczytaj dane do tablicy 2D
 2. DFS/BFS do przeszukiwania sasiadow
@@ -591,7 +591,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 14. obliczenia_geometryczne
 **Co to jest**: Odleglosci, srodki odcinkow, pola, Monte Carlo.
-**Czestotliwosc**: 1/11 lat, 4 pkt lacznie
+**Czestotliwosc**: 1/12 lat, 4 pkt lacznie
 **Jak podejsc**:
 1. Odleglosc: sqrt((x2-x1)^2 + (y2-y1)^2)
 2. Srodek: ((x1+x2)/2, (y1+y2)/2)
@@ -607,7 +607,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 15. arkusz_agregacja_warunkowa
 **Co to jest**: SUMIF, COUNTIF, AVERAGEIF, SUMIFS — agregacja z warunkami.
-**Czestotliwosc**: 9/11 lat, 38 pkt lacznie
+**Czestotliwosc**: 11/12 lat, 38 pkt lacznie
 **Jak podejsc**:
 1. Zidentyfikuj ZAKRES danych, KRYTERIUM, i ZAKRES_SUMOWANIA
 2. SUMIF(zakres_kryt, kryterium, zakres_sum)
@@ -621,7 +621,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 16. arkusz_symulacja
 **Co to jest**: Symulacje krokowe, formuly dynamiczne, prognozy.
-**Czestotliwosc**: 9/11 lat, 37 pkt lacznie
+**Czestotliwosc**: 12/12 lat, 37 pkt lacznie
 **Jak podejsc**:
 1. Zrozum model (wzor przyrostu, rabat progresywny, etc.)
 2. Utworz kolumny pomocnicze dla kolejnych krokow
@@ -635,7 +635,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 17. arkusz_wykres
 **Co to jest**: Tworzenie wykresow: kolumnowy, kolowy, liniowy.
-**Czestotliwosc**: 8/11 lat, 25 pkt lacznie
+**Czestotliwosc**: 10/12 lat, 25 pkt lacznie
 **Jak podejsc**:
 1. Zaznacz dane RAZEM z etykietami
 2. Wstaw wykres odpowiedniego typu
@@ -649,7 +649,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 18. arkusz_agregacja_podstawowa
 **Co to jest**: SUM, COUNT, AVERAGE, MAX/MIN — proste agregacje bez warunkow.
-**Czestotliwosc**: 3/11 lat, 9 pkt lacznie
+**Czestotliwosc**: 3/12 lat, 9 pkt lacznie
 **Jak podejsc**:
 1. SUM(zakres), AVERAGE(zakres), COUNT(zakres)
 2. MAX(zakres), MIN(zakres)
@@ -661,7 +661,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 19. arkusz_transformacja
 **Co to jest**: Grupowanie, pivoty, restrukturyzacja danych.
-**Czestotliwosc**: 2/11 lat, 3 pkt lacznie
+**Czestotliwosc**: 2/12 lat, 3 pkt lacznie
 **Jak podejsc**:
 1. Zrozum strukture wejsciowa i docelowa
 2. Uzyj SUMIF/COUNTIF do przeorganizowania danych
@@ -674,7 +674,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 20. sql_group_by
 **Co to jest**: GROUP BY z COUNT/SUM/AVG/MAX/MIN, czesto z HAVING.
-**Czestotliwosc**: 8/11 lat, 36 pkt lacznie
+**Czestotliwosc**: 9/12 lat, 36 pkt lacznie
 **Jak podejsc**:
 1. SELECT kolumna_grupujaca, funkcja_agregujaca(kolumna)
 2. FROM tabela
@@ -689,7 +689,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 21. sql_podzapytania
 **Co to jest**: Podzapytania zagniezdzone, NOT IN, EXISTS, IN.
-**Czestotliwosc**: 7/11 lat, 25 pkt lacznie
+**Czestotliwosc**: 8/12 lat, 25 pkt lacznie
 **Jak podejsc**:
 1. Napisz najpierw podzapytanie (wewnetrzne)
 2. Przetestuj podzapytanie osobno
@@ -703,7 +703,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 22. sql_join
 **Co to jest**: Laczenie 2-3 tabel przez INNER JOIN lub LEFT JOIN.
-**Czestotliwosc**: 8/11 lat, 21 pkt lacznie
+**Czestotliwosc**: 9/12 lat, 21 pkt lacznie
 **Jak podejsc**:
 1. Zidentyfikuj tabele i klucze laczenia
 2. INNER JOIN: tylko pasujace rekordy
@@ -717,7 +717,7 @@ Analiza 11 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 
 #### 23. sql_select_where
 **Co to jest**: Prosty SELECT z WHERE na 1 tabeli — najlatwiejszy typ SQL.
-**Czestotliwosc**: 4/11 lat, 10 pkt lacznie
+**Czestotliwosc**: 4/12 lat, 10 pkt lacznie
 **Jak podejsc**:
 1. SELECT kolumny FROM tabela WHERE warunek
 2. Operatory: =, <>, <, >, LIKE, BETWEEN, IN
@@ -1219,10 +1219,10 @@ int count_components(vector<vector<int>>& grid) {
 
 2. **Gwarancja punktow** — Zadania P/F i proste sledzenie algorytmu maja najwyzszy stosunek punktow do czasu. Nawet jesli zabraknie czasu na koncu, te punkty juz masz zabezpieczone.
 
-3. **Dane z analizy 11 lat matur potwierdzaja to**:
-   - `sledzenie_algorytmu` — 45 pkt lacznie, 11/11 lat, a pierwsze podzadania sa zwykle proste
-   - `test_prawda_falsz` — 25 pkt lacznie, 10/11 lat, wymaga tylko wiedzy (zero programowania)
-   - `konwersja_systemow` — 12 pkt, 9/11 lat, czysto mechaniczne obliczenia
+3. **Dane z analizy 12 lat matur potwierdzaja to**:
+   - `sledzenie_algorytmu` — 45 pkt lacznie, 12/12 lat, a pierwsze podzadania sa zwykle proste
+   - `test_prawda_falsz` — 25 pkt lacznie, 11/12 lat, wymaga tylko wiedzy (zero programowania)
+   - `konwersja_systemow` — 12 pkt, 10/12 lat, czysto mechaniczne obliczenia
 
 4. **Rozpoznanie arkusza** — Przegladajac caly arkusz w 2 min na starcie, wiesz co Cie czeka i mozesz zaplanowac czas na reszte.
 

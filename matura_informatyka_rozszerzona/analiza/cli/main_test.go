@@ -95,8 +95,8 @@ func TestImportCounts(t *testing.T) {
 	if exercises != 937 {
 		t.Errorf("exercises: got %d, want 937", exercises)
 	}
-	if exams != 379 {
-		t.Errorf("exams: got %d, want 379", exams)
+	if exams != 641 {
+		t.Errorf("exams: got %d, want 641", exams)
 	}
 	if cheatsheets != 4 {
 		t.Errorf("cheatsheets: got %d, want 4", cheatsheets)
@@ -370,10 +370,10 @@ func TestExamYearCoverage(t *testing.T) {
 	dir := testDir(t)
 	db := openTestDB(t, dir)
 
-	years := []int{2014, 2015, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025}
+	years := []int{2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025}
 	expectedCounts := map[int]int{
-		2014: 22, 2015: 19, 2016: 20, 2017: 21, 2018: 20,
-		2019: 20, 2021: 22, 2022: 63, 2023: 67, 2024: 63, 2025: 42,
+		2014: 43, 2015: 64, 2016: 45, 2017: 41, 2018: 44,
+		2019: 41, 2020: 65, 2021: 63, 2022: 63, 2023: 67, 2024: 63, 2025: 42,
 	}
 
 	for _, year := range years {
@@ -657,11 +657,11 @@ func TestExamList(t *testing.T) {
 	dir := testDir(t)
 	db := openTestDB(t, dir)
 
-	// Check all 11 years are in data.egzamin
+	// Check all 12 years are in data.egzamin
 	var yearCount int
 	db.QueryRow("SELECT COUNT(DISTINCT rok) FROM data.egzamin").Scan(&yearCount)
-	if yearCount != 11 {
-		t.Errorf("years: got %d, want 11", yearCount)
+	if yearCount != 12 {
+		t.Errorf("years: got %d, want 12", yearCount)
 	}
 
 	// No mock exams → none Done
@@ -1134,15 +1134,15 @@ func TestTypIntroWithCKEStats(t *testing.T) {
 	dir := testDir(t)
 	db := openTestDB(t, dir)
 
-	// sledzenie_algorytmu appears in every year (11/11)
+	// sledzenie_algorytmu appears in every year (12/12)
 	ckeNames := exerciseTypToCKETypes("sledzenie_algorytmu", "TEORIA")
 	var wystapienia int
 	db.QueryRow(
 		`SELECT COUNT(DISTINCT rok) FROM data.egzamin WHERE typ_zadania IN (`+placeholders(len(ckeNames))+`)`,
 		toAny(ckeNames)...).Scan(&wystapienia)
 
-	if wystapienia != 11 {
-		t.Errorf("sledzenie_algorytmu wystapienia: got %d, want 11", wystapienia)
+	if wystapienia != 12 {
+		t.Errorf("sledzenie_algorytmu wystapienia: got %d, want 12", wystapienia)
 	}
 }
 

@@ -1,0 +1,391 @@
+{
+  "rok": 2019,
+  "sesja": "czerwiec",
+  "formula": "2015",
+  "czas_minuty": 210,
+  "total_punkty": 50,
+  "liczba_zadan": 6,
+  "czesci": [
+    {
+      "czesc": 1,
+      "czas_minuty": 60,
+      "punkty": 15,
+      "opis": "Czesc pisemna - rozwiazania na papierze (algorytmy, analiza, test)"
+    },
+    {
+      "czesc": 2,
+      "czas_minuty": 150,
+      "punkty": 35,
+      "opis": "Czesc praktyczna - rozwiazania przy komputerze (programowanie, arkusz kalkulacyjny)"
+    }
+  ],
+  "zadania": [
+    {
+      "numer": 1,
+      "tytul": "Rekurencja",
+      "punkty": 5,
+      "czesc": 1,
+      "kontekst": "Dana jest dodatnia liczba calkowita n oraz uporzadkowana rosnaco tablica roznych liczb calkowitych T[1..n]. Przeanalizuj nastepujaca funkcje rekurencyjna, ktorej parametrami sa liczby calkowite x, p, k, przy czym 1 <= p <= k <= n.\n\nRek(x, p, k)\njezeli p < k\n    s <- (p + k) div 2\n    jezeli T[s] >= x\n        wynikiem jest Rek(x, p, s)\n    w przeciwnym razie\n        wynikiem jest Rek(x, s + 1, k)\nw przeciwnym razie\n    jezeli T[p] = x\n        wynikiem jest p\n    w przeciwnym razie\n        wynikiem jest -1\n\nUwaga: div jest operatorem oznaczajacym czesc calkowita z dzielenia.",
+      "podzadania": [
+        {
+          "id": "2019C.1.1",
+          "numer": "1.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.1 (0-2)\nPodaj najwieksza i najmniejsza mozliwa liczbe wywolan funkcji Rek w wyniku wywolania Rek(2019, 6, 14) dla n = 17 i pewnej, uporzadkowanej rosnaco tablicy T[1..17] roznych liczb calkowitych.\n\nUwaga: Pierwsze wywolanie funkcji Rek(2019, 6, 14) wlaczamy do ogolnej liczby wywolan.",
+          "odpowiedz": "Najmniejsza liczba wywolan: 4\nNajwieksza liczba wywolan: 5\n\nZakres przeszukiwania [6,14] zawiera 9 elementow. Binarne podzialy: (6+14) div 2 = 10, nastepnie albo [6,10] (5 elem) albo [11,14] (4 elem). Dalsze podzialy prowadza do 4 lub 5 wywolan w zaleznosci od pozycji x w tablicy.",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz,\nw tym:\n- za podanie najwiekszej liczby wywolan (5) - 1 punkt\n- za podanie najmniejszej liczby wywolan (4) - 1 punkt.",
+          "pulapki": [
+            "Nalezy policzyc WSZYSTKIE wywolania lacznie z pierwszym Rek(2019, 6, 14)",
+            "Przeszukiwanie binarne - glebokosc zalezy od ceil(log2(k-p+1))+1"
+          ]
+        },
+        {
+          "id": "2019C.1.2",
+          "numer": "1.2",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.2 (0-2)\nPodaj, jakie beda wartosci parametrow przekazywanych do funkcji Rek w kolejnych jej wywolaniach dla n = 11, tablicy T = [1, 5, 8, 10, 12, 14, 19, 20, 23, 30, 38] oraz pierwszego wywolania Rek(37, 1, 11).",
+          "odpowiedz": "Kolejne wywolania:\nRek(37, 1, 11) -> s=(1+11) div 2=6, T[6]=14 < 37 -> Rek(37, 7, 11)\nRek(37, 7, 11) -> s=(7+11) div 2=9, T[9]=23 < 37 -> Rek(37, 10, 11)\nRek(37, 10, 11) -> s=(10+11) div 2=10, T[10]=30 < 37 -> Rek(37, 11, 11)\nRek(37, 11, 11) -> p=k=11, T[11]=38 != 37 -> wynik -1",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz (3 kolejne poprawne wywolania).\nZa 2 kolejne poprawne wywolania - 1 punkt.\nZa podkreslenie poprawnej odpowiedzi - 1 punkt.",
+          "pulapki": [
+            "div to dzielenie calkowite (zaokraglenie w dol)",
+            "Warunek T[s] >= x decyduje o kierunku rekurencji",
+            "Koncowy wynik to -1, poniewaz 37 nie wystepuje w tablicy"
+          ]
+        },
+        {
+          "id": "2019C.1.3",
+          "numer": "1.3",
+          "punkty": 1,
+          "typ_zadania": "analiza_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 1.3 (0-1)\nZlozonosc czasowa algorytmu opisanego funkcja Rek dla parametrow x = 1, p = 1, k = n jest\n\nA. szescienna.\nB. kwadratowa.\nC. liniowa.\nD. logarytmiczna.\n\nWybierz wlasciwa odpowiedz.",
+          "odpowiedz": "D. logarytmiczna\n\nFunkcja Rek realizuje przeszukiwanie binarne - w kazdym wywolaniu zakres [p,k] jest redukowany o polowe. Liczba wywolan jest rzedu O(log n).",
+          "zasady_oceniania": "1 pkt - za wybor poprawnej odpowiedzi D.",
+          "pulapki": [
+            "Funkcja Rek to wariacja przeszukiwania binarnego - zakres zmniejsza sie o polowe w kazdym kroku"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 2,
+      "tytul": "Szyfr kolumnowy",
+      "punkty": 6,
+      "czesc": 1,
+      "kontekst": "Szyfrowanie kolumnowe jest jedna z metod szyfrowania przestawieniowego, polegajacego na zmianie kolejnosci znakow w szyfrowanym tekscie. W tej metodzie wykorzystywana jest tabela o dodatniej liczbie wierszy rownej k. Liczba k jest nazywana kluczem. Wiersze i kolumny tabeli sa numerowane liczbami naturalnymi, poczawszy od 1. Znaki tekstu, ktory ma byc zaszyfrowany, wpisujemy do kolejnych kolumn tabeli, zaczynajac od jej lewego gornego rogu. W kolumnach nieparzystych znaki wpisujemy od gory do dolu, a w parzystych od dolu do gory. Puste miejsca w ostatniej rozpoczetej kolumnie wypelniamy znakiem '_' oznaczajacym spacje. Nastepnie odczytujemy kolejne wiersze od gory do dolu (kazdy z nich od lewej do prawej), w wyniku czego uzyskujemy szyfrogram.\n\nPrzyklad: dla klucza k=3 i tekstu MATURA_Z_INFORMATYKI budujemy tabele:\n\n| M | A | _ | F | O | Y | K |\n| A | R | Z | N | R | T | I |\n| T | U | _ | I | M | A | _ |\n\ni otrzymujemy szyfrogram MA_FOYKARZNRTITU_IMA_.",
+      "podzadania": [
+        {
+          "id": "2019C.2.1",
+          "numer": "2.1",
+          "punkty": 2,
+          "typ_zadania": "sledzenie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.1 (0-2)\nDo zaszyfrowania pewnego 40-znakowego cytatu z wypowiedzi Juliusza Cezara uzyto metody szyfru kolumnowego o kluczu 10. Otrzymano szyfrogram:\n\nNKI_ATE_USGACYOKZZ_YYSJTCWEKI_SAEMTRLE_P\n\nRozszyfruj ten cytat.",
+          "odpowiedz": "NAUCZYCIELEM_WSZYSTKIEGO_JEST_PRAKTYKA__\n\nOdkodowanie: tabela ma k=10 wierszy. Szyfrogram ma 40 znakow, wiec tabela ma 40/10=4 kolumny. Wpisujemy szyfrogram po wierszach (po 4 znaki), a odczytujemy po kolumnach (nieparzyste gora-dol, parzyste dol-gora).",
+          "zasady_oceniania": "2 pkt - za poprawne odszyfrowanie.\nZa odpowiedz z jednym bledem - 1 punkt.",
+          "pulapki": [
+            "Nalezy pamietac o roznicy miedzy kolumnami parzystymi (dol-gora) i nieparzystymi (gora-dol)",
+            "Znak '_' oznacza spacje - nalezy zachowac w wyniku"
+          ]
+        },
+        {
+          "id": "2019C.2.2",
+          "numer": "2.2",
+          "punkty": 4,
+          "typ_zadania": "projektowanie_algorytmu",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 2.2 (0-4)\nW wybranym przez siebie jezyku programowania, w pseudokodzie lub w postaci listy krokow, napisz algorytm deszyfrujacy tekst, ktory zostal zakodowany szyfrem kolumnowym.\n\nSpecyfikacja:\nDane:\n  k - klucz, liczba calkowita wieksza od 0\n  n - liczba znakow w tekscie zaszyfrowanym, n jest wielokrotnoscia k\n  S[1..n] - ciag znakow (tekst do odszyfrowania)\nWynik:\n  T[1..n] - ciag znakow (tekst odszyfrowany)",
+          "odpowiedz": "Przykladowe rozwiazanie:\nP <- n/k;\nW <- 0; z <- P;\ndla i = 1, ..., P wykonuj\n    W <- W + 1;\n    dla j = 1 ... k wykonuj\n        T <- T + S[W]; W <- W + z;\n    W <- W - z;\n    z <- z * (-1);\n\nAlgorytm oblicza P (liczba kolumn), potem iteruje po kolumnach. Dla kolumn nieparzystych czyta co P pozycji w dol, dla parzystych co P pozycji w gore.",
+          "zasady_oceniania": "4 pkt - za poprawny algorytm, w tym:\n- za poprawne przestawianie wskaznika elementu poczatkowego dla petli wewnetrznych (po wykonaniu petli wewnetrznej +1) - 1 punkt\n- za poprawne indeksowanie komorek przy nieparzystej iteracji (zwiekszanie o P) - 1 punkt\n- za poprawne indeksowanie komorek przy nieparzystej iteracji (zmniejszanie o P) - 1 punkt\n- za poprawny kierunek indeksowania petli odczytujacych - 1 punkt",
+          "pulapki": [
+            "Rozne kierunki odczytu dla kolumn parzystych i nieparzystych",
+            "Trzeba poprawnie sledzic pozycje w tablicy zrodlowej i docelowej",
+            "n jest wielokrotnoscia k - upraszcza obliczenia"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 3,
+      "tytul": "Test",
+      "punkty": 4,
+      "czesc": 1,
+      "kontekst": "Ocen, czy ponizsze zdania sa prawdziwe. Zaznacz litere P, jesli zdanie jest prawdziwe, albo litere F - jesli zdanie jest falszywe. W kazdym zadaniu uzyskasz punkt tylko za wszystkie poprawne odpowiedzi.",
+      "podzadania": [
+        {
+          "id": "2019C.3.1",
+          "numer": "3.1",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.1 (0-1)\nDane sa tabele Uczniowie i Oceny. Przeanalizuj i ocen ponizsze zapytanie w jezyku SQL.\n\nSELECT Uczniowie.imie, Uczniowie.nazwisko, AVG(Oceny.ocena)\nFROM Uczniowie INNER JOIN Oceny ON Uczniowie.id_ucznia = Oceny.id_ucznia\nGROUP BY Uczniowie.id_ucznia, Uczniowie.imie, Uczniowie.nazwisko\nHAVING AVG(Oceny.ocena) >= 4\nORDER BY AVG(Oceny.ocena), Uczniowie.nazwisko;\n\n1. W wyniku zapytania, przy odpowiednich danych, moga pojawic sie nastepujace po sobie wiersze:\n   Jan Abacki    4.08\n   Jan Kowalski  4.85\n   -> P / F\n\n2. W wyniku zapytania to samo imie i nazwisko moze pojawic sie tylko raz, nawet jesli dwoch uczniow ma takie samo imie i nazwisko.\n   -> P / F\n\n3. W wyniku zapytania otrzymamy trzy kolumny z danymi.\n   -> P / F\n\n4. Jedynym kryterium okreslajacym kolejnosc wierszy w odpowiedzi jest srednia ocena.\n   -> P / F",
+          "odpowiedz": "1. P - Prawda. Oba wiersze maja AVG >= 4, a Abacki (4.08) jest przed Kowalskim (4.85) wedlug ORDER BY AVG(ocena) rosnaco.\n2. F - Falsz. GROUP BY zawiera id_ucznia, wiec dwoch uczniow o tym samym imieniu i nazwisku bedzie w osobnych wierszach.\n3. P - Prawda. SELECT zwraca 3 kolumny: imie, nazwisko, AVG(ocena).\n4. F - Falsz. ORDER BY ma dwa kryteria: AVG(ocena) i nazwisko.\n\nOdpowiedz: P, F, P, F",
+          "zasady_oceniania": "1 pkt - za wszystkie 4 poprawne odpowiedzi (PFPF).\n0 pkt - przy jakimkolwiek bledzie.",
+          "pulapki": [
+            "GROUP BY id_ucznia oznacza, ze uczniowie o tym samym imieniu i nazwisku moga miec osobne wiersze",
+            "ORDER BY ma dwa kryteria: AVG(ocena), Uczniowie.nazwisko"
+          ]
+        },
+        {
+          "id": "2019C.3.2",
+          "numer": "3.2",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.2 (0-1)\nW arkuszu kalkulacyjnym dana jest tabela kwadratow w zakresie B2:K10. Kolumna A zawiera wartosci 10,20,...,90. Wiersz 1 zawiera wartosci 0,1,2,...,9. Wartosci w tabeli to kwadraty sum (np. B2 = (10+0)^2 = 100, C2 = (10+1)^2 = 121, itd.).\n\nPowyzszа tablice kwadratow w arkuszu kalkulacyjnym mozna otrzymac, jesli skopiuje sie tylko jedna formule z komorki B2 do pozostalych komorek z zakresu B2:K10. W tym celu do komorki B2 nalezy wpisac:\n\n1. =($A2+B$1)*($A2+B$1)  -> P / F\n2. =(A2+B1)*(A2+B1)       -> P / F\n3. =($A2+B$1)^2           -> P / F\n4. =($A$2+$B$1)^2         -> P / F",
+          "odpowiedz": "1. P - Prawda. $A2 blokuje kolumne A, B$1 blokuje wiersz 1. Przy kopiowaniu w prawo i w dol daje poprawne wyniki.\n2. F - Falsz. Brak dolarow - przy kopiowaniu w prawo A2 stanie sie B2 (wartosc z tabeli zamiast z kolumny A).\n3. P - Prawda. Identyczne adresowanie jak w 1, tylko zapis ^2 zamiast mnozenia.\n4. F - Falsz. $A$2 i $B$1 sa w pelni zablokowane - przy kopiowaniu zawsze daje (10+0)^2 = 100.\n\nOdpowiedz: P, F, P, F",
+          "zasady_oceniania": "1 pkt - za wszystkie 4 poprawne odpowiedzi (PFPF).\n0 pkt - przy jakimkolwiek bledzie.",
+          "pulapki": [
+            "$A2 blokuje kolumne (poprawne), A2 bez dolara przesuwa sie w prawo (bledne)",
+            "$A$2 blokuje i kolumne i wiersz - zawsze wskazuje na te sama komorke"
+          ]
+        },
+        {
+          "id": "2019C.3.3",
+          "numer": "3.3",
+          "punkty": 1,
+          "typ_zadania": "test_prawda_falsz",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.3 (0-1)\nProtokol HTTPS\n\n1. jest protokolem pobierania poczty elektronicznej ze zdalnego serwera przez polaczenie TCP/IP.\n   -> P / F\n2. obsluguje system nazywania domen.\n   -> P / F\n3. przydziela adresy IP poszczegolnym komputerom.\n   -> P / F\n4. jest szyfrowana wersja protokolu http.\n   -> P / F",
+          "odpowiedz": "1. F - Falsz. Protokolem pobierania poczty jest POP3 lub IMAP, nie HTTPS.\n2. F - Falsz. System nazywania domen obsluguje DNS, nie HTTPS.\n3. F - Falsz. Adresy IP przydziela DHCP, nie HTTPS.\n4. P - Prawda. HTTPS = HTTP + TLS/SSL (szyfrowana wersja HTTP).\n\nOdpowiedz: F, F, F, P",
+          "zasady_oceniania": "1 pkt - za wszystkie 4 poprawne odpowiedzi (FFFP).\n0 pkt - przy jakimkolwiek bledzie.",
+          "pulapki": [
+            "Nalezy rozroznic HTTPS od POP3/IMAP (poczta), DNS (domeny), DHCP (adresy IP)",
+            "HTTPS to po prostu HTTP z szyfrowaniem TLS/SSL"
+          ]
+        },
+        {
+          "id": "2019C.3.4",
+          "numer": "3.4",
+          "punkty": 1,
+          "typ_zadania": "konwersja_systemow_liczbowych",
+          "kategoria": "TEORIA",
+          "tresc": "Zadanie 3.4 (0-1)\nRoznica 11001001_2 - 1111111_2 jest rowna\n\n1. 2A_16  -> P / F\n2. 112_8  -> P / F\n3. 2110_4 -> P / F\n4. 1001010_2 -> P / F",
+          "odpowiedz": "11001001_2 = 201, 1111111_2 = 127\n201 - 127 = 74\n\n1. F - 2A_16 = 42 != 74\n2. P - 112_8 = 1*64 + 1*8 + 2 = 74 ✓\n3. F - 2110_4 = 2*64 + 1*16 + 1*4 + 0 = 148 != 74\n4. P - 1001010_2 = 64 + 8 + 2 = 74 ✓\n\nSprawdzenie: 11001001 - 1111111 = 1001010 (odejmowanie binarne)\n74 = 112_8 = 1022_4 = 4A_16\n\nOdpowiedz: F, P, F, P",
+          "zasady_oceniania": "1 pkt - za wszystkie 4 poprawne odpowiedzi (FPFP).\n0 pkt - przy jakimkolwiek bledzie.",
+          "pulapki": [
+            "Trzeba uwaznie policzyc cyfry binarne - 11001001 (8 cyfr) minus 1111111 (7 cyfr)",
+            "Wynik = 74 nalezy poprawnie skonwertowac do roznych systemow liczbowych"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 4,
+      "tytul": "Wybrane liczby",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Liczby pierwsze to liczby naturalne wieksze od 1, ktore maja dokladnie dwa dzielniki: jedynke i sama siebie.\nDane sa dwa pliki: liczby.txt i pierwsze.txt. Plik liczby.txt zawiera 300 wierszy. W kazdym wierszu tego pliku znajduje sie jedna liczba calkowita dodatnia z zakresu od 1 do 100 000.\nPlik pierwsze.txt zawiera 200 wierszy. W kazdym wierszu tego pliku znajduje sie jedna liczba pierwsza z zakresu od 10 do 1 300 000.\n\nUwaga: pomocnicze pliki liczby_przyklad.txt i pierwsze_przyklad.txt zawieraja dane, ktore mozesz wykorzystac, aby sprawdzic poprawnosc dzialania swojego programu(-ow). Kazdy z nich zawiera po 50 wierszy.\n\nNapisz program(-y), w wyniku dzialania ktorego(-ych) otrzymasz odpowiedzi do ponizszych zadan.",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2019_czerwiec/MIN-R2A1P-193_dane/",
+      "pliki_danych": ["liczby.txt", "liczby_przyklad.txt", "pierwsze.txt", "pierwsze_przyklad.txt", "pogoda.txt", "agenci.txt", "oferty.txt", "klienci.txt", "zainteresowanie.txt"],
+      "podzadania": [
+        {
+          "id": "2019C.4.1",
+          "numer": "4.1",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.1 (0-4)\nPodaj, (zachowujac ich kolejnosc) te liczby z pliku liczby.txt, ktore sa liczbami pierwszymi z przedzialu (100; 5000). Odpowiedz zapisz w pliku wyniki4_1.txt.\n\nDla pliku liczby_przyklad.txt odpowiedzia sa liczby: 103, 163, 173, 701, 1033, 2137, 3529, 4933, 977, 2143.",
+          "odpowiedz": "Odpowiedz (zawartosc pliku wyniki4_1.txt):\n563, 521, 2087, 4201, 163, 877, 2423, 1301, 3581, 2749, 911, 4919, 997, 1213, 113, 2039, 1049, 4111, 1511, 3331, 2467, 401, 283, 2221, 3559",
+          "zasady_oceniania": "4 pkt - za podanie wszystkich liczb pierwszych z przedzialu.\nZa podanie wszystkich liczb pierwszych z danego pliku - 2 punkty.\nZa pominiecie jednej liczby 3p, dwoch 2p, trzech 1p.",
+          "pulapki": [
+            "Przedzial otwarty (100; 5000) - NIE zawiera 100 ani 5000",
+            "Trzeba zachowac kolejnosc wystepowania w pliku"
+          ]
+        },
+        {
+          "id": "2019C.4.2",
+          "numer": "4.2",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.2 (0-4)\nPodaj, w kolejnosci ich wystepowania w pliku pierwsze.txt, wszystkie te liczby, ktore czytane od prawej do lewej rowniez sa liczbami pierwszymi. Odpowiedz zapisz w pliku wyniki4_2.txt.\n\nPrzyklad: Jesli odczytamy liczbe pierwsza 17 od prawej do lewej, otrzymamy liczbe 71, ktora jest rowniez liczba pierwsza.\n\nDla pliku pierwsze_przyklad.txt liczbami spelniajacymi warunek zadania sa: 701, 709, 1033, 167, 1109, 1619, 1009, 179, 1499, 76001, 1601, 31873.",
+          "odpowiedz": "Odpowiedz - zawartosc pliku wyniki4_2 (51 liczb):\n31, 1223, 100271, 701, 37, 7027, 100279, 383, 101, 7043, 181957, 389, 1009, 3821, 13, 1103, 1021, 31873, 112163, 1109, 113, 1511, 112181, 31721, 1499, 140527, 3803, 1583, 1213, 151169, 76001, 1597, 1217, 151189, 160183, 1601, 1229, 193261, 160201, 1619, 1231, 1297001, 160243, 3571, 1237, 1061, 17, 112111, 1487, 100267, 907",
+          "zasady_oceniania": "4 pkt - za podanie wszystkich liczb (51 sztuk).\nZa pominiecie dowolnej liczby - 1 punkt (mozna pominac maksymalnie 3 liczby).\nJesli z powodu np. braku zmiany licznika z 300 na 200 (plik liczby.txt ma 300 wierszy a pierwsze.txt - 200 wierszy) po poprawnym zestawie liczb pojawia sie liczby 'nieuprawnione' - odejmujemy 1 punkt.",
+          "pulapki": [
+            "Odwrocona liczba tez musi byc pierwsza (nie wystarczy palindrom)",
+            "Trzeba pamietac o roznym rozmiarze plikow: liczby.txt=300, pierwsze.txt=200"
+          ]
+        },
+        {
+          "id": "2019C.4.3",
+          "numer": "4.3",
+          "punkty": 4,
+          "typ_zadania": "przetwarzanie_cyfry_liczby",
+          "kategoria": "IMPLEMENTACJA",
+          "tresc": "Zadanie 4.3 (0-4)\nNiech w(N) oznacza sume cyfr liczby N. Dla danej liczby N tworzymy ciag, w ktorym N_1 = w(N), a kazdy kolejny element jest suma cyfr wystepujacych w poprzednim elemencie:\nN_1 = w(N)\nN_2 = w(N_1)\nN_3 = w(N_2)\n...\nCiag konczy sie, gdy jego wyraz jest liczba jednocyfrowa. Te liczbe nazywamy waga liczby N.\n\nPrzyklad 1: N=1109, N_1=1+1+0+9=11, N_2=1+1=2. Waga liczby 1109 jest rowna 2.\nPrzyklad 2: N=31699, N_1=3+1+6+9+9=28, N_2=2+8=10, N_3=1+0=1. Waga liczby 31699 jest rowna 1.\n\nPodaj, ile jest liczb w pliku pierwsze.txt, ktorych waga jest rowna 1. Odpowiedz zapisz w pliku wyniki4_3.txt.\n\nPrawidlowa odpowiedz dla pliku pierwsze_przyklad.txt: 6 liczb.",
+          "odpowiedz": "Odpowiedz: 27\n\nLiczby z waga 1 (z pliku pierwsze.txt):\n37, 1009, 109, 31699, 31663, 6733, 4663, 7039, 66601, 80191, 140527, 151201, 440821, 440893, 440911, 100207, 100279, 171253, 181981, 75997, 80173, 160183, 160201, 1621, 2017, 15787, 20809",
+          "zasady_oceniania": "4 pkt - za poprawna odpowiedz (27).\nZa odpowiedz rozna (+/-1) - 3 punkty.\nZa wypisanie wszystkich liczb, ktorych waga jest rowna 1 (zamiast zliczenia ich liczby) - 3 punkty.\nZa obliczenie wagi wszystkich liczb - 2 punkty.\nZa znalezienie przynajmniej 5 liczb z waga 1 - 1 punkt.",
+          "pulapki": [
+            "Waga (digital root) to iteracyjna suma cyfr az do jednej cyfry",
+            "Waga rowna 1 to te same co N mod 9 == 1 (ale uwaga na N=1: waga=1, N=10: waga=1)",
+            "Nalezy przetwarzac plik pierwsze.txt (200 wierszy), nie liczby.txt"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 5,
+      "tytul": "Zbiornik wody",
+      "punkty": 11,
+      "czesc": 2,
+      "kontekst": "Wlasciciele ogrodu postanowili zaoszczedzic na oplatach za wode i przed laty zainstalowali zbiornik o pojemnosci 25 000 litrow, w ktorym gromadza wode do podlewania roslin.\n\nPodlewanie roslin woda ze zbiornika i uzupelnianie zbiornika reguluja nastepujace zasady:\n- srednia dobowa temperatura i opady dobowe sa mierzone od godziny 20:00 dnia poprzedniego do godz. 20:00 dnia biezacego,\n- do godziny 20:00 opady uzupelniaja sumarycznie zbiornik w ilosci: 700 * x litrow (gdzie x - opady dobowe w l/m^2), jednak nie wiecej niz do maksymalnej pojemnosci zbiornika,\n- w dni bezdeszczowe dzienne parowanie wody (ubytek) ze zbiornika jest zalezny od sredniej dobowej temperatury T i wynosi: 0,03% * T^1,5 * y litrow (gdzie y - oznacza stan zbiornika z godziny 21:00 dnia poprzedniego w zaokragleniu w gore do pelnych litrow),\n- ogrod jest podlewany w kazdym dniu, w ktorym srednia dobowa temperatura przekroczy 15°C, a jednoczesnie opady dobowe nie przekraczaja 0,6 l/m^2,\n- podlewanie, jesli ma miejsce, jest wykonywane o godz. 20:00,\n- do podlewania zuzywa sie 12 000 litrow wody (1 porcja), jesli srednia dobowa temperatura nie przekracza 30°C, oraz 24 000 litrow wody (2 porcje), jesli srednia dobowa temperatura przekracza 30°C,\n- jesli o godz. 20:00 w dniu, w ktorym nalezy podlac rosliny, w zbiorniku jest za malo wody, jest on tuz przed podlaniem uzupelniany woda z wodociagu do pelna,\n- podlewanie konczy sie o godz. 21:00.\n\n31 marca o godzinie 21:00 zbiornik byl pelen.\nPlik pogoda.txt zawiera dane dotyczace sredniej temperatury oraz wysokosci opadow dobowych w l/m^2 w okresie od 1 kwietnia do 30 wrzesnia 2015 roku.\n\nUwaga: W calym okresie od kwietnia do wrzesnia 2015 roku do zbiornika dolano 743 427 litrow wody - wykorzystaj te informacje do sprawdzenia wynikow swoich obliczen. Wykonujac odpowiednie obliczenia oraz podajac odpowiedzi, wyniki zawsze zaokraglaj w gore do pelnych litrow.",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2019_czerwiec/MIN-R2A1P-193_dane/",
+      "pliki_danych": ["pogoda.txt"],
+      "podzadania": [
+        {
+          "id": "2019C.5.1",
+          "numer": "5.1",
+          "punkty": 2,
+          "typ_zadania": "arkusz_symulacja",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.1 (0-2)\nPodaj date, kiedy pierwszy raz trzeba bylo dolac wode do zbiornika, i podaj ilosc dolanej wody.",
+          "odpowiedz": "6 maja 2015 r.\n13172 litrow",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz,\nw tym:\n- za poprawna date - 1 punkt\n- za poprawna ilosc dolanej wody - 1 punkt.",
+          "pulapki": [
+            "Trzeba symulowac dzien po dniu od 1 kwietnia, uwzgledniajac parowanie, opady, podlewanie",
+            "Zbiornik jest uzupelniany DO PELNA (25000 litrow) przed podlewaniem"
+          ]
+        },
+        {
+          "id": "2019C.5.2",
+          "numer": "5.2",
+          "punkty": 2,
+          "typ_zadania": "arkusz_wykres",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.2 (0-2)\nUtworz wykres liniowy przedstawiajacy ksztaltowanie sie ilosci wody w zbiorniku w okresie od 1 kwietnia do 30 wrzesnia 2015 roku. Pamietaj o czytelnym opisie wykresu (tytul, opis osi). Przyjmij jako stan zbiornika kazdego dnia wartosc z godziny 21.00 po podlaniu roslin.",
+          "odpowiedz": "Wykres liniowy ze stanem zbiornika (os Y: 0-30000 litrow, os X: daty od 1.04 do 30.09.2015). Wykres powinien miec tytul i opisy osi.",
+          "zasady_oceniania": "2 pkt - za poprawnie opisany wykres liniowy,\nw tym:\n- za typ wykresu i dobor danych - 1 punkt\n- za opis wykresu - 1 punkt.\n\nUwaga: ponizszy wykres to wynik 'przed podlaniem ale po dolaniu wody' - wtedy 1 p. punkt.",
+          "pulapki": [
+            "Stan zbiornika to wartosc z godziny 21:00 PO podlaniu",
+            "Trzeba czytelnie opisac osie i dodac tytul"
+          ]
+        },
+        {
+          "id": "2019C.5.3",
+          "numer": "5.3",
+          "punkty": 4,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.3 (0-4)\nZrob zestawienie miesieczne (w okresie kwiecien - wrzesien 2015 roku) kosztow dolewanej wody z wodociagu. Wez pod uwage, ze cena 1 m^3 (1000 litrow) jest rowna 11,74 zl. Oplaty sa realizowane miesiecznie i dotycza pelnych m^3 (po zaokragleniu w gore).",
+          "odpowiedz": "| Miesiac   | ile litrow | ile m^3 | cena     |\n|-----------|------------|---------|----------|\n| kwiecien  | 0          | 0       | 0        |\n| maj       | 13172      | 14      | 164,36   |\n| czerwiec  | 89444      | 90      | 1056,60  |\n| lipiec    | 217938     | 218     | 2559,32  |\n| sierpien  | 310099     | 311     | 3651,14  |\n| wrzesien  | 112774     | 113     | 1326,62  |\n\nUwaga: zaliczamy jesli jest tylko cena (poprawna).",
+          "zasady_oceniania": "4 pkt - za poprawne zestawienie.\nZa zestawienie z 1 blednym wierszem - 3 punkty.\nZa zestawienie z 2 blednymi wierszami - 2 punkty.\nZa zestawienie z 3 blednymi wierszami - 1 punkt.\n\nZa poprawne zestawienie ilosci litrow w kazdym miesiacu (bez policzenia ceny i liczby metrow szesciennych) - 1 punkt.\nZa policzenie ilosci metrow szesciennych - 2 punkty.",
+          "pulapki": [
+            "Oplaty za pelne m^3 zaokraglone W GORE",
+            "1 m^3 = 1000 litrow, cena 11,74 zl/m^3",
+            "Trzeba poprawnie zsumowac dolana wode w kazdym miesiacu"
+          ]
+        },
+        {
+          "id": "2019C.5.4",
+          "numer": "5.4",
+          "punkty": 3,
+          "typ_zadania": "arkusz_agregacja_warunkowa",
+          "kategoria": "ARKUSZ",
+          "tresc": "Zadanie 5.4 (0-3)\nPodaj liczby dni, w ktorych:\n- temperatura powietrza nie przekraczala 15°C,\n- temperatura przekraczala 15°C, a jednoczesnie opady dobowe nie przekraczaly 0,6 l/m^2,\n- temperatura przekraczala 15°C i jednoczesnie opady dobowe przekraczaly 0,6 l/m^2.",
+          "odpowiedz": "| Warunek                                           | Liczba dni |\n|---------------------------------------------------|------------|\n| temperatura <= 15 (nie trzeba podlewac)            | 88         |\n| temperatura > 15 i opady > 0,6                    | 22         |\n| temperatura > 15 i opady <= 0,6                   | 73         |",
+          "zasady_oceniania": "3 pkt - za poprawna odpowiedz, w tym za kazdy wiersz - 1 punkt.",
+          "pulapki": [
+            "Temperatura 'przekracza' 15 oznacza > 15, nie >= 15",
+            "Opady 'nie przekraczaly 0,6' oznacza <= 0,6",
+            "Suma dni powinna wyniesc 183 (kwiecien-wrzesien: 30+31+30+31+31+30)"
+          ]
+        }
+      ]
+    },
+    {
+      "numer": 6,
+      "tytul": "\"Wymarzony Dom\"",
+      "punkty": 12,
+      "czesc": 2,
+      "kontekst": "Biuro obrotu nieruchomosci \"Wymarzony Dom\" w swej ofercie ma wiele propozycji mieszkan i domow z calej Polski. Informacje o aktualnych i juz sprzedanych lokalach oraz o agentach, ktorzy zajmuja sie sprzedaza konkretnych nieruchomosci, sa przechowywane w plikach: agenci.txt, oferty.txt, klienci.txt, zainteresowanie.txt.\nKazdy plik ma wiersz naglowkowy. Dane w wierszach rozdzielone sa znakiem tabulacji.\n\nPlik agenci.txt zawiera informacje o agentach pracujacych w biurze: niepowtarzalny identyfikator agenta (Id_agenta), jego imie (Imie) i nazwisko (Nazwisko).\n\nPlik oferty.txt zawiera szczegolowe informacje o kazdej z oferowanych nieruchomosci:\n- unikatowy identyfikator oferty (Id_oferty), ktorego przedostatni znak informuje o rodzaju nieruchomosci (D - dom, M - mieszkanie), a ostatni znak zawiera informacje o tym, czy przy nieruchomosci jest basen (T - tak, N - nie),\n- wojewodztwo (Woj),\n- status oferty (Status): A - aktualna, S - sprzedane,\n- powierzchnia (Pow),\n- liczba pokoi (L_pokoi),\n- liczba lazienek (L_laz),\n- cena sprzedazy (Cena),\n- data zgloszenia oferty sprzedazy nieruchomosci (Data_zglosz, w formacie rrrr-mm-dd),\n- identyfikator agenta (Id_agenta).\n\nPlik klienci.txt zawiera informacje o klientach biura (Id_klienta, Nazwisko, Imie).\n\nPlik zainteresowanie.txt zawiera informacje o tym, ktorymi ofertami interesowali sie klienci biura (Id_oferty, Id_klienta).",
+      "sciezka_danych": "matura_informatyka_rozszerzona/2019_czerwiec/MIN-R2A1P-193_dane/",
+      "pliki_danych": ["agenci.txt", "oferty.txt", "klienci.txt", "zainteresowanie.txt"],
+      "podzadania": [
+        {
+          "id": "2019C.6.1",
+          "numer": "6.1",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.1 (0-2)\nKtora oferta wzbudzila zainteresowanie najwiekszej liczby klientow? Podaj jej identyfikator oraz imie i nazwisko agenta, ktory sie nia zajomowal. Jest tylko jedna taka oferta.",
+          "odpowiedz": "Nazwisko: Zakowicz, Imie: Karol, Id_oferty: AB553DN",
+          "zasady_oceniania": "2 pkt - za poprawna odpowiedz,\nw tym:\n- za podanie imienia i nazwiska agenta - 1 punkt\n- za podanie id oferty - 1 punkt.",
+          "pulapki": [
+            "Nalezy zliczyc rekordy w zainteresowanie.txt pogrupowane po Id_oferty",
+            "Trzeba polaczyc z agenci.txt przez oferty.txt (Id_agenta)"
+          ]
+        },
+        {
+          "id": "2019C.6.2",
+          "numer": "6.2",
+          "punkty": 2,
+          "typ_zadania": "sql_group_by",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.2 (0-2)\nPodaj srednia cene ofert w kazdym wojewodztwie. Zestawienie uporzadkuj alfabetycznie wedlug nazw wojewodztw. Wyniki podaj z dokladnoscia do dwoch miejsc po przecinku.",
+          "odpowiedz": "| Wojewodztwo          | SredniaOfCena    |\n|----------------------|------------------|\n| dolnoslaskie         | 345 000,00 zl    |\n| kujawsko-pomorskie   | 299 000,00 zl    |\n| lodzkie              | 304 100,00 zl    |\n| lubelskie            | 260 879,33 zl    |\n| lubuskie             | 227 283,33 zl    |\n| malopolskie          | 650 000,00 zl    |\n| mazowieckie          | 267 082,83 zl    |\n| opolskie             | 400 000,00 zl    |\n| podkarpackie         | 301 312,50 zl    |\n| podlaskie            | 271 206,95 zl    |\n| pomorskie            | 414 150,00 zl    |\n| swietokrzyskie       | 319 207,63 zl    |\n| warminsko-mazurskie  | 132 450,00 zl    |\n| wielkopolskie        | 298 600,00 zl    |\n| zachodniopomorskie   | 269 025,20 zl    |",
+          "zasady_oceniania": "2 pkt - za poprawne uporzadkowane zestawienie,\nw tym:\n- za podanie sredniej ceny dla kazdego wojewodztwa - 1 punkt\n- za poprawne wyniki bez wlasciwego zaokraglenia i/lub uporzadkowania - 1 punkt.",
+          "pulapki": [
+            "Srednia ze WSZYSTKICH ofert (aktualnych i sprzedanych)",
+            "Wyniki z dokladnoscia do 2 miejsc po przecinku",
+            "Sortowanie alfabetyczne po nazwie wojewodztwa"
+          ]
+        },
+        {
+          "id": "2019C.6.3",
+          "numer": "6.3",
+          "punkty": 3,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.3 (0-3)\nKtorzy agenci maja aktualne oferty mieszkan z basenem? Przygotuj zestawienie, ktore bedzie zawieralo nastepujace elementy: imie i nazwisko agenta opiekujacego sie dana oferta, identyfikator oferty, wojewodztwo, powierzchnie i cene mieszkania w danej ofercie.",
+          "odpowiedz": "| Id_oferty | Nazwisko  | Imie      | Wojewodztwo    | Powierzchnia | Cena   |\n|-----------|-----------|-----------|----------------|-------------|--------|\n| AB543MT   | Kopacz    | Piotr     | podlaskie      | 85          | 325000 |\n| AB557MT   | Nowak     | Adam      | lubelskie      | 83          | 349000 |\n| AB644MT   | Zakowicz  | Karol     | mazowieckie    | 76          | 174500 |\n| AB691MT   | Karwik    | Milena    | lubuskie       | 39          | 170000 |\n| AB695MT   | Nowak     | Adam      | podkarpackie   | 162         | 420800 |\n| AB696MT   | Siedlecka | Rozalia   | wielkopolskie  | 42          | 160000 |\n| AB699MT   | Szwarc    | Karol     | lodzkie        | 68          | 190500 |\n| AB700MT   | Nowak     | Krzysztof | mazowieckie    | 85          | 265000 |\n| AB702MT   | Nowak     | Adam      | mazowieckie    | 49          | 186000 |",
+          "zasady_oceniania": "3 pkt - za poprawne zestawienie, w tym:\n- za podanie opisu ofert (id_oferty, lokalizacja, powierzchnia i cena) oraz Id_agenta (zamiast nazwiska) - 2 punkty\n- za podanie tylko imienia i nazwiska agenta - 1 punkt.\n\nZa podanie mieszkan i domow (aktualnych ofert) - 2 punkty.\nZa podanie mieszkan i domow bez uwzglednienia aktualnosci oferty - 1 punkt.",
+          "pulapki": [
+            "Tylko MIESZKANIA (M w przedostatnim znaku Id_oferty) z BASENEM (T w ostatnim znaku)",
+            "Tylko oferty AKTUALNE (Status = 'A')",
+            "Trzeba polaczyc oferty.txt z agenci.txt po Id_agenta"
+          ]
+        },
+        {
+          "id": "2019C.6.4",
+          "numer": "6.4",
+          "punkty": 3,
+          "typ_zadania": "sql_podzapytania",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.4 (0-3)\nPodaj imiona i nazwiska agentow, ktorzy sposrod swoich ofert z 2017 roku nie sprzedali zadnego domu ani mieszkania.",
+          "odpowiedz": "| Imie      | Nazwisko      |\n|-----------|---------------|\n| Jerzy     | Andrzejewski  |\n| Krzysztof | Nowak         |\n| Milena    | Karwik        |",
+          "zasady_oceniania": "3 pkt - za poprawna odpowiedz.\nZa podanie id_agenta (zamiast imienia i nazwiska) - 2 punkty.\nZa podanie zestawienia z jednym bledem - 1 punkt.",
+          "pulapki": [
+            "Agenci ktorzy MIELI oferty z 2017 (Data_zglosz rok 2017) ale ZADNEJ nie sprzedali (Status != 'S' lub brak sprzedazy)",
+            "Nalezy sprawdzic rok w dacie zgloszenia, nie w dacie sprzedazy"
+          ]
+        },
+        {
+          "id": "2019C.6.5",
+          "numer": "6.5",
+          "punkty": 2,
+          "typ_zadania": "sql_join",
+          "kategoria": "SQL",
+          "tresc": "Zadanie 6.5 (0-2)\nPodaj liste aktualnych ofert sprzedazy tych domow i mieszkan, ktore maja powierzchnie powyzej 180 m^2 i co najmniej 2 lazienki. W zestawieniu uwzglednij identyfikator oferty, powierzchnie nieruchomosci, liczbe pokoi i liczbe lazienek, cene oraz imie i nazwisko agenta opiekujacego sie dana oferta.",
+          "odpowiedz": "Oferty aktualne (Status='A'):\n| Id_oferty | Powierzchnia | L_pokoi | L_lazienek | Cena   | Imie      | Nazwisko | Status |\n|-----------|-------------|---------|------------|--------|-----------|----------|--------|\n| AB672DT   | 212         | 6       | 2          | 575000 | Sebastian | Babij    | A      |\n| AB683DN   | 195         | 5       | 2          | 395800 | Piotr     | Kopacz   | A      |\n| AB692DT   | 244         | 8       | 3          | 650000 | Piotr     | Kopacz   | A      |\n| AB682DN   | 203         | 5       | 3          | 485000 | Adam      | Nowak    | A      |\n| AB686MN   | 192         | 6       | 2          | 375000 | Adam      | Nowak    | A      |\n| AB680DT   | 220         | 6       | 2          | 520000 | Adam      | Nowak    | A      |\n| AB666DN   | 220         | 6       | 3          | 450000 | Krzysztof | Nowak    | A      |\n| AB693DN   | 182         | 7       | 2          | 425000 | Krzysztof | Nowak    | A      |\n| AB697DN   | 195         | 6       | 2          | 460000 | Karol     | Szwarc   | A      |\n| AB694DN   | 212         | 8       | 3          | 630000 | Karol     | Szwarc   | A      |\n| AB670DN   | 208         | 5       | 3          | 358400 | Karol     | Zakowicz | A      |",
+          "zasady_oceniania": "2 pkt - za poprawne zestawienie.\nZa poprawne zestawienie bez uwzglednienia aktualnosci oferty - 1 punkt.\nZa zestawienie bez danych agenta - 1 punkt.",
+          "pulapki": [
+            "Powierzchnia POWYZEJ 180 (>180, nie >=180)",
+            "Co najmniej 2 lazienki (>=2)",
+            "Tylko oferty AKTUALNE (Status = 'A')",
+            "Trzeba dolaczyc dane agenta z agenci.txt"
+          ]
+        }
+      ]
+    }
+  ],
+  "wymiary": {
+    "czasowy_min": 210,
+    "zlozonosc": 2,
+    "trudnosc": 2
+  }
+}
