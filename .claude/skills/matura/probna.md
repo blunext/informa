@@ -38,6 +38,7 @@ Dla kazdego zadania sekwencyjnie:
    Oceniaj WYLACZNIE wg `zasady_oceniania` z odpowiedzi `exam task`.
 6. **Jesli uczen popelni blad** — zapisz:
    `./matura progress blad --exercise-id {rok}.{zad}.{podzad} --typ {typ} --kod {kod} --hint 0`
+   Jesli CLI odrzuci kod (zwroci `suggestions[]`) — wywolaj ponownie z sugestia (patrz SKILL.md F.3).
 7. Prowadz bufor wynikow: `Zad 1.1: 2/3 pkt | Zad 1.2: 1/1 pkt | ...`
 
 Komendy w trakcie: `pomin` (0 pkt za podzadanie), `przerwij` (koniec egzaminu → podsumowanie)

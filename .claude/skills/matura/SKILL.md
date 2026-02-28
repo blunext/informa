@@ -125,7 +125,7 @@ CLI automatycznie blokuje hinty/odpowiedz jesli uczen nie sprobowa:
 
 - `exercise answer --id X` PRZED proba ucznia → zwraca `{"status":"LAZY_LOADING_BLOCKED","action":"..."}` zamiast odpowiedzi. Nagraj blad przez `progress blad` zeby odblokowac.
 - `exercise hints --id X` PRZED wymagana liczba prob → zwraca `{"status":"HINT_LOCKED","attempt":N,"hint_delay":D,"action":"Zadaj pytanie sokratejskie BEZ hintow"}`. Nagraj kolejny blad zeby odblokowac.
-- `progress blad --kod Z` z niepoprawnym kodem → CLI zwroci JSON z `suggestions[]` (kody z opisami). Uzyj `suggestions[0].kod` jesli opis pasuje do bledu ucznia.
+- `progress blad --kod Z` z niepoprawnym kodem → CLI zwroci JSON z `suggestions[]` (kody z opisami). **Natychmiast** wywolaj `progress blad` ponownie z `suggestions[0].kod` (jesli opis pasuje) lub kolejna sugestia. NIE kontynuuj bez zapisania bledu.
 - `progress blad` BEZ `--hint N` → CLI odrzuci. Podaj `--hint 0` (przed hintem) lub `--hint 1/2/3` (po hincie).
 - `progress update` co 5 cwiczen → automatycznie dolacza `auto_diagnose` z top bledami i rekomendacja.
 
@@ -339,8 +339,10 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
 **3. Jesli BLEDNA** — zapisz blad (CLI waliduje kod i wymaga --hint):
    `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint N`
    - `--hint 0` = przed hintem, `--hint 1/2/3` = po odpowiednim hincie
-   - CLI odrzuci niepoprawny kod i zwroci `suggestions[]` z opisami — uzyj pierwszej pasujacej sugestii
+   - CLI odrzuci niepoprawny kod i zwroci `suggestions[]` z opisami — **natychmiast** wywolaj ponownie z `suggestions[0].kod` (jesli opis pasuje) lub kolejna sugestia. NIE kontynuuj bez zapisania bledu.
    - Wiele bledow = wiele osobnych komend `progress blad`
+   - Jesli `--kod` jest zwiazany z tagiem z `coaching_actions` WARN_LEECH → powiaz explicite:
+     "To ten sam problem z {tag}, o ktorym mowilismy na poczatku. Zwroc szczegolna uwage."
    - **[GATE]** Jesli to 3. bledna proba LUB uczen mowi "poddaje sie" → POMIN krok 4, przejdz BEZPOSREDNIO do kroku 5 (walk_through). NIE probuj kolejnego hintu.
 
 **4. Sprobuj podac hint:**
@@ -392,6 +394,9 @@ Regula ogolna: jesli uczen ma poprawny tok rozumowania ale drobny blad rachunkow
 - **analiza_algorytmu**: narysuj wykres zlozonosci (ASCII: os X = n, os Y = operacje)
 - **konwersja_systemow_liczbowych**: pokaz kolumne dzielenia z resztami
 - **teoria_bezpieczenstwa**: narysuj schemat ataku/obrony lub diagram protokolu
+- **IMPLEMENTACJA** (cyfry, napisy, ...): tabelka operacji mod/div na przykladowych danych LUB schemat petli/algorytmu
+- **ARKUSZ**: schemat formuly z referencjami ($A$1 vs A1) LUB tabela krokow symulacji
+- **SQL**: tabela wyniku zapytania (oczekiwana vs uzyskana) LUB schemat JOIN-ow
 
 Przyklad drzewa rekurencji:
 ```
