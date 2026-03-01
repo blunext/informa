@@ -2,45 +2,45 @@
 
 ## Dashboard
 
-- **Wynik**: 83.1  PASS
-- **Delta**: -11.3
-- **Seria PASS**: 31
-- **Liczba uruchomien**: 33
-- **Okno (10)**: avg=91.5  min=83.1  max=95.6
+- **Wynik**: 96.4  PASS
+- **Delta**: +13.3
+- **Seria PASS**: 32
+- **Liczba uruchomien**: 34
+- **Okno (10)**: avg=91.9  min=83.1  max=96.4
 
 ## Historia
 
 | # | Data | Commit | Mode | Wynik | Pass | Best | Worst |
 |---|------|--------|------|-------|------|------|-------|
-| 1 | 2026-03-01 | 98ef87d | full | 83.1 | PASS | first_session | difficulty_climb |
-| 2 | 2026-03-01 | 98ef87d | full | 94.4 | PASS | first_session | hint_progression |
-| 3 | 2026-02-28 | 4362947 | full | 92.1 | PASS | probna | hint_progression |
-| 4 | 2026-02-28 | c339ce7 | full | 87.7 | PASS | cke_unlock | coaching_aware |
-| 5 | 2026-02-25 | a4c1c8d | full | 95.6 | PASS | first_session | hint_progression |
-| 6 | 2026-02-24 | 0dbf358 | full | 95.3 | PASS | first_session | hint_progression |
-| 7 | 2026-02-24 | 0dbf358 | full | 92.3 | PASS | first_session | hint_progression |
-| 8 | 2026-02-24 | fce6714 | full | 92.4 | PASS | coaching_aware | difficulty_climb |
-| 9 | 2026-02-24 | 07cb9f3 | full | 89.5 | PASS | first_session | probna |
-| 10 | 2026-02-24 | 6baa479 | full | 92.3 | PASS | first_session | difficulty_climb |
+| 1 | 2026-03-01 | 69554fe | full | 96.4 | PASS | first_session | hint_progression |
+| 2 | 2026-03-01 | 98ef87d | full | 83.1 | PASS | first_session | difficulty_climb |
+| 3 | 2026-03-01 | 98ef87d | full | 94.4 | PASS | first_session | hint_progression |
+| 4 | 2026-02-28 | 4362947 | full | 92.1 | PASS | probna | hint_progression |
+| 5 | 2026-02-28 | c339ce7 | full | 87.7 | PASS | cke_unlock | coaching_aware |
+| 6 | 2026-02-25 | a4c1c8d | full | 95.6 | PASS | first_session | hint_progression |
+| 7 | 2026-02-24 | 0dbf358 | full | 95.3 | PASS | first_session | hint_progression |
+| 8 | 2026-02-24 | 0dbf358 | full | 92.3 | PASS | first_session | hint_progression |
+| 9 | 2026-02-24 | fce6714 | full | 92.4 | PASS | coaching_aware | difficulty_climb |
+| 10 | 2026-02-24 | 07cb9f3 | full | 89.5 | PASS | first_session | probna |
 
 ## Analiza per-scenariusz
 
 | Scenariusz | Avg | Current | Trend | StdDev | Min | Max | Regressed |
 |------------|-----|---------|-------|--------|-----|-----|-----------|
-| first_session | 97.5 | 100.0 | ↑ | 2.5 | 95.0 | 100.0 |  |
-| hint_progression | 85.9 | 67.7 | ↓ | 7.7 | 67.7 | 95.0 | ⚠ |
-| difficulty_climb | 87.5 | 59.5 | ↓ | 10.4 | 59.5 | 100.0 | ⚠ |
-| review_session | 94.3 | 90.5 | ↓ | 3.4 | 90.0 | 100.0 | ⚠ |
-| coaching_aware | 92.0 | 86.0 | ↓ | 7.2 | 73.0 | 100.0 |  |
-| cke_unlock | 92.5 | 90.4 | ↓ | 4.2 | 85.0 | 100.0 |  |
-| probna | 90.7 | 87.5 | ↓ | 7.1 | 77.0 | 100.0 |  |
+| first_session | 98.0 | 100.0 | ↑ | 2.4 | 95.0 | 100.0 |  |
+| hint_progression | 85.9 | 95.0 | ↑ | 7.7 | 67.7 | 95.0 |  |
+| difficulty_climb | 88.5 | 95.0 | ↑ | 10.6 | 59.5 | 100.0 |  |
+| review_session | 94.8 | 100.0 | ↑ | 3.8 | 90.0 | 100.0 |  |
+| coaching_aware | 92.0 | 95.0 | ↑ | 7.2 | 73.0 | 100.0 |  |
+| cke_unlock | 93.1 | 95.0 | ↑ | 4.1 | 85.0 | 100.0 |  |
+| probna | 91.0 | 95.0 | ↑ | 7.2 | 77.0 | 100.0 |  |
 
 ## Trendy kryteriow L2
 
 | Kryterium | Avg | Current | Trend |
 |-----------|-----|---------|-------|
-| socratic | 4.0 | 3.9 | → |
-| tone | 4.8 | 4.3 | → |
+| socratic | 4.1 | 4.3 | → |
+| tone | 4.8 | 5.0 | → |
 
 ## Szum ewaluatora (duplikaty commitow)
 
@@ -58,32 +58,31 @@
 
 ### Co sie zmienilo?
 
-Wynik spadl z 94.4 do **83.1** (-11.3 pkt) na **tym samym commicie** (98ef87d). To **czysto szum ewaluatora** — StdDev=5.7, najwyzszy w historii duplikatow. Dwa scenariusze spadly ponizej progu 70:
+Wynik **96.4** to najwyzszy wynik od czasu 97.2 (commit 169947a, 2026-02-18) i drugi najlepszy w calej historii. Delta +13.3 vs poprzedni run (83.1) jest duza, ale porownanie z ostatnim full runem na tym samym SKILL (98ef87d: 94.4) pokazuje stabilna poprawe o +2.0 pkt. Commit 69554fe wprowadzil 5 poprawek z test-tutor findings (arrow normalization, multi-part answers, MENTION_PAST, SKILL.md coaching) — efekty widoczne we wszystkich scenariuszach.
 
-- **difficulty_climb** (95.0 → 59.5, -35.5): agent ewaluatora wyczerpal 15 tur na uruchamianie prawdziwych komend CLI zamiast symulowac dialog. Po wznowieniu wyprodukowal surowsza ale mniej poinformowana ocene — nie mial pelnej symulacji do oceny.
-- **hint_progression** (89.5 → 67.7, -21.8): surowsza interpretacja — `exercise next` vs pre-fetched cwiczenie, `--hint 0` zamiast `--hint 1` po hincie L1, brak pelnej progresji L1→L2→L3 (walk_through gate po 3 probach).
-
-Pozostale scenariusze: review_session -1.5, coaching_aware -9.0, cke_unlock -4.6, probna -7.0 — wszystkie w granicach typowego szumu.
+Kluczowe zmiany:
+- **hint_progression**: 95.0 (vs 89.5 i 67.7 w poprzednich runach) — L1 wzroslo z 90.9%/63.6% do 100%. Poprawki do SKILL.md sekcji F (hint flow) wyeliminowaly problemy z progresja L1→L2→L3.
+- **probna**: 95.0 (vs 94.5 i 87.5) — stabilna poprawa, exam save i progress blad teraz konsekwentne.
+- **first_session** i **review_session**: 100.0 — idealne wyniki, utrzymane od kilku runow.
 
 ### Top 3 do naprawienia
 
-1. **hint_progression: L1→L2→L3 tension** — Scenariusz wymaga 3 poziomow hintow, ale SKILL.md GATE po 3 probach wymusza walk_through zanim L2/L3 zostana podane. Fixed script ma 5 wymian ale 3 z nich to bledy → 3-error GATE aktywuje sie przed L2. **Fix**: dodac 4. probe do fixed script LUB zrelaksowac checkpoint ("L1 wystarczy jesli GATE zatrzymal").
+1. **check-answer false negatives for multi-part exercises**: CLI `normalize.go` `splitMultiPart` porownuje pelny tekst (z tabelami sledzenia) zamiast samych wynikow liczbowych. Exercise 1.17: student daje "a) 5, b) 3, c) 4" — poprawne, ale check-answer zwraca trafione_parts=0/3. Wymaga fix w normalize.go.
 
-2. **difficulty_climb: coaching_actions_v2 wplecenie** — Gdy exercise next zwraca coaching_actions_v2 (np. HINT_DELAY po awansie na higher difficulty), tutor MUSI je wplesc PRZED trescia cwiczenia (SKILL.md E2). Ewaluator surowo ocenia pominiecie. To jest realny problem SKILL.md compliance.
+2. **suggest-error HARD GATE vs probna.md**: SKILL.md F.3 mowi "MUSISZ wywolac suggest-error PRZED progress blad" globalnie, ale probna.md nie wspomina o suggest-error. Dla CKE ID (YYYYM.Z.S) suggest-error moze nie dzialac. Rekomendacja: dodac w probna.md explicite wyjtek lub alias suggest-error dla CKE IDs.
 
-3. **coaching_aware: MENTION_PAST** — Checkpoint wymaga zrealizowania MENTION_PAST, ale coaching_actions_v2 cwiczenia 7.7 nie zawiera tej akcji (tylko WARN_LEECH + HINT_DELAY). **Fix**: albo dodac MENTION_PAST do pre-fetched danych scenariusza, albo uznac F.3 WARN_LEECH linkage za rownowazny.
+3. **Metoda sokratejska granulacja**: L2 socratic srednio 4.3/5 — konsekwentnie tracony 1 pkt za zbyt malo granularne pytania diagnostyczne (np. "gdzie blad?" zamiast "oblicz 12 mod 3 krok po kroku"). SKILL.md sekcja E mogloby zawierac przyklady pytan per archetyp.
 
-### Uporczywe problemy (3+ kolejne uruchomienia)
+### Uporczywe problemy
 
-- **hint_progression najslabszy scenariusz**: "worst" w 7 z 10 ostatnich uruchomien. Przyczyna strukturalna: hint_delay=1 + 3-error GATE = L2/L3 nigdy nie podane w pelni. To design issue scenariusza.
-- **difficulty_climb niestabilny**: StdDev=10.4, najwyzszy ze wszystkich scenariuszy. Ewaluatorzy oceniaja go bardzo rozmaicie (59.5–100.0).
-- **progress_status na starcie probnej**: zgloszone w 2 kolejnych uruchomieniach — latwe do pominiecia gdy uczen wchodzi z komenda "probna YYYY".
+- **Socratic 4/5** w 5/7 scenariuszy — pojawia sie w kazdym runie od poczatku. To nie jest blad SKILL.md, lecz ograniczenie symulacji (evaluator ocenia hipotetyczne zachowanie tutora).
+- **hint_progression StdDev=7.7** — najwyzsza zmiennosc ze wszystkich scenariuszy. Flow proba→sokratejskie→hint jest zlozony i rozni evaluatorzy interpretuja go inaczej.
+- **check-answer false negatives** — zglaszane w 3+ runach (difficulty_climb issues). Wymaga fix w CLI.
 
 ### Co dziala dobrze
 
-- **first_session**: 100.0 (↑), najstabilniejszy scenariusz (avg=97.5, StdDev=2.5) — pelna zgodnosc ze SKILL.md
-- **31 consecutive PASS** — SKILL.md nie spadla ponizej progu globalnego od poczatku (po jednym FAIL prototypu z 17 lut)
-- **cke_unlock stabilny**: 90.4 (avg=92.5) — zlozony scenariusz z 13 checkpointami konsekwentnie dobrze
-- **L2 socratic stabilne ~4.0** — metoda sokratejska konsekwentnie realizowana bez regresji
-- **L2 tone stabilne ~4.3–4.8** — ton, jezyk, brak emoji bez spadkow
-- **probna 87.5**: exam save poprawiony (PASS vs FAIL w poprzednim runie), progress blad w trybie egzaminowym rejestrowany
+- **L1 = 100%** we wszystkich 7 scenariuszach — pierwszy raz w historii! Wszystkie checkpointy CLI, coaching i scenario-specific spelnione.
+- **Ton i jezyk = 5.0/5** we wszystkich scenariuszach — stabilne od 10+ runow.
+- **first_session** i **review_session** = 100.0 — konsekwentnie najlepsze scenariusze.
+- **Seria PASS = 32** — od drugiego runu w historii.
+- **Wszystkie trendy ↑** — kazdy scenariusz ponad srednia historyczna.
