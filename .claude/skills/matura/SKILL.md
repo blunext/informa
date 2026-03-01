@@ -102,8 +102,10 @@ Wywoluj przez Bash. JSON na stdout. Exit: 0=OK, 1=not found, 2=error.
 | Pobierz odpowiedz | `./matura exercise answer --id {id}` |
 | Zaleglosc powtorkowa | `./matura exercise review [--limit N]` |
 | Info o typie | `./matura typ intro --typ {typ}` |
-| Zapisz wynik | `./matura progress update --id {id} --wynik {w} [--czas S]` |
+| Zapisz wynik | `./matura progress update --id {id} --wynik {w} [--punktacja P] [--czas S]` |
 | Zapisz blad | `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint N` |
+| Sugestia kodu bledu | `./matura exercise suggest-error --id {id} [--student-answer Y]` |
+| Auto-scoring (TEORIA) | `./matura exercise check-answer --id {id} --answer Y` |
 | Punktacja typu | `./matura exercise rubric --typ {typ}` |
 | Diagnoza bledow | `./matura progress diagnose [--typ {typ}] [--limit N]` |
 | Status | `./matura progress status [--typ {typ}]` |
@@ -125,6 +127,7 @@ CLI automatycznie blokuje hinty/odpowiedz jesli uczen nie sprobowa:
 
 - `exercise answer --id X` PRZED proba ucznia → zwraca `{"status":"LAZY_LOADING_BLOCKED","action":"..."}` zamiast odpowiedzi. Nagraj blad przez `progress blad` zeby odblokowac.
 - `exercise hints --id X` PRZED wymagana liczba prob → zwraca `{"status":"HINT_LOCKED","attempt":N,"hint_delay":D,"action":"Zadaj pytanie sokratejskie BEZ hintow"}`. Nagraj kolejny blad zeby odblokowac.
+- `exercise hints --id X` BEZ proby od ostatniego hinta → zwraca `{"status":"HINT_BLOCKED_NO_ATTEMPT","action":"..."}`. Najpierw nagraj probe (progress blad), potem sprobuj ponownie.
 - `progress blad --kod Z` z niepoprawnym kodem → CLI zwroci JSON z `suggestions[]` (kody z opisami). **Natychmiast** wywolaj `progress blad` ponownie z `suggestions[0].kod` (jesli opis pasuje) lub kolejna sugestia. NIE kontynuuj bez zapisania bledu.
 - `progress blad` BEZ `--hint N` → CLI odrzuci. Podaj `--hint 0` (przed hintem) lub `--hint 1/2/3` (po hincie).
 - `progress update` co 5 cwiczen → automatycznie dolacza `auto_diagnose` z top bledami i rekomendacja.
@@ -256,12 +259,14 @@ Pole `coaching` w odpowiedzi `exercise next` / `exercise review` zawiera:
 - `previous_result`: ostatni wynik tego cwiczenia (jesli powtorka)
 - **`coaching_actions`**: lista gotowych instrukcji do wlaczenia w dialog
 
-**Przeczytaj `coaching_actions` i wlacz kazda naturalnie w dialog PRZED podaniem tresci cwiczenia:**
-- `WARN_LEECH: Tag 'X' sprawia Ci trudnosc` → "Uwaga — temat X sprawia Ci trudnosc, zwroc uwage"
-- `MENTION_PAST: Ostatnio mialeS problem z 'Y'` → "Ostatnio miales problem z Y — uwazaj"
-- `HINT_DELAY: N (Od teraz mniej podpowiedzi)` → "Od teraz mniej podpowiedzi — rozwijasz samodzielnosc"
+**Przeczytaj `coaching_actions_v2` (preferowane) lub `coaching_actions` (legacy) i wlacz naturalnie w dialog PRZED podaniem tresci cwiczenia.**
 
-Jesli `coaching_actions` puste → pomin, przejdz do tresci.
+`coaching_actions_v2` zwraca gotowe zdania — mozesz je parafrazowac, ale zachowaj kluczowy przekaz:
+- `typ: "WARN_LEECH"` (priorytet: wysoki) → tekst o leech tagu, MUSI byc wlaczony
+- `typ: "MENTION_PAST"` (priorytet: niski) → tekst o poprzednich bledach
+- `typ: "HINT_DELAY"` (priorytet: niski) → tekst o zmniejszonej liczbie podpowiedzi
+
+Jesli `coaching_actions_v2` puste → pomin, przejdz do tresci.
 
 ### Tryb krok-po-kroku
 
@@ -314,7 +319,12 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
 **[WYMAGANE]** Wykonaj kroki 1-6 w tej kolejnosci:
 
 **1. Porownaj odpowiedz ucznia z wzorcowa:**
-   `./matura exercise answer --id {id}` → `odpowiedz` + `typowe_bledy[]`
+
+   **[HARD GATE — auto-scoring]** Dla typow auto-scorable (sledzenie_algorytmu, test_prawda_falsz, konwersja_systemow_liczbowych):
+   MUSISZ uzyc `./matura exercise check-answer --id {id} --answer "{odpowiedz_ucznia}"` zamiast oceniac sam.
+   CLI porownuje z normalizacja (whitespace, case, format liczbowy). Wynik: `poprawne: true/false`.
+
+   Dla pozostalych typow: `./matura exercise answer --id {id}` → `odpowiedz` + `typowe_bledy[]`
    CLI zablokuje jesli uczen nie probowal (zwroci LAZY_LOADING_BLOCKED — patrz guardrails).
    Uwzglednij rownowazne formy (alias SQL, kolejnosc kolumn). Czesciowo poprawna → potwierdz co dobrze, naprowadz na reszte.
 
@@ -336,8 +346,14 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
      Czekaj na odpowiedz, krotki feedback, potem nastepne cwiczenie.
    - Przejdz do nastepnego cwiczenia (sekcja D).
 
-**3. Jesli BLEDNA** — zapisz blad (CLI waliduje kod i wymaga --hint):
-   `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint N`
+**3. Jesli BLEDNA** — najpierw uzyskaj sugestie kodu, potem zapisz blad:
+
+   **[HARD GATE — suggest-error]** PRZED `progress blad` MUSISZ wywolac:
+   `./matura exercise suggest-error --id {id} --student-answer "{odpowiedz_ucznia}"`
+   - Jesli `auto_detected=true` → uzyj `rekomendowany.kod` (chyba ze ewidentnie nie pasuje)
+   - Jesli `auto_detected=false` → wybierz najbardziej pasujacy kod z `kody_dla_typu[]`
+
+   Nastepnie zapisz: `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint N`
    - `--hint 0` = przed hintem, `--hint 1/2/3` = po odpowiednim hincie
    - CLI odrzuci niepoprawny kod i zwroci `suggestions[]` z opisami — **natychmiast** wywolaj ponownie z `suggestions[0].kod` (jesli opis pasuje) lub kolejna sugestia. NIE kontynuuj bez zapisania bledu.
    - Wiele bledow = wiele osobnych komend `progress blad`
@@ -347,8 +363,8 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
 
 **4. Sprobuj podac hint:**
    `./matura exercise hints --id {id}`
-   - CLI zwroci hinty LUB `HINT_LOCKED` z instrukcja (patrz guardrails)
-   - Jesli HINT_LOCKED → zadaj pytanie sokratejskie BEZ hintow, popros ucznia o kolejna probe
+   - CLI zwroci hinty LUB `HINT_LOCKED`/`HINT_BLOCKED_NO_ATTEMPT` z instrukcja (patrz guardrails)
+   - Jesli HINT_LOCKED lub HINT_BLOCKED_NO_ATTEMPT → zadaj pytanie sokratejskie BEZ hintow, popros ucznia o kolejna probe
    - Jesli hinty dostepne → podaj nastepna wskazowke z `wskazowki[]`:
 
      **[STOP — HARD GATE]**
@@ -384,6 +400,13 @@ Pobierz kryteria punktacji: `./matura exercise rubric --typ {typ}`
 Zwraca: `{rubric: {full: {opis, procent}, half: {opis, procent}, zero: {opis, procent}, notes}}`.
 Stosuj te kryteria przy ocenie odpowiedzi ucznia.
 Regula ogolna: jesli uczen ma poprawny tok rozumowania ale drobny blad rachunkowy -> 50-75% pkt.
+
+**[HARD GATE — punktacja]** Przy `progress update` ZAWSZE dodaj `--punktacja` z jednym z:
+- `pelne` (100%) — odpowiedz w pelni poprawna
+- `prawie_pelne` (75%) — poprawny tok, drobny blad
+- `czesciowe` (50%) — czesciowo poprawna
+- `minimalne` (25%) — poprawny poczatek, reszta bledna
+- `zero` (0%) — zupelnie bledna lub brak odpowiedzi
 
 ### Wizualizacje (proaktywne)
 

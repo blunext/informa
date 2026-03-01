@@ -12,8 +12,8 @@ import (
 func registerFetch(d *sql.DB, exerciseID, typ string, hintDelay int) error {
 	_, err := d.Exec(`
 		INSERT OR REPLACE INTO active_exercises
-			(exercise_id, typ, fetched_at, attempt_count, hint_delay, hints_fetched, answer_fetched)
-		VALUES (?, ?, datetime('now'), 0, ?, 0, 0)
+			(exercise_id, typ, fetched_at, attempt_count, hint_delay, hints_fetched, answer_fetched, hints_given)
+		VALUES (?, ?, datetime('now'), 0, ?, 0, 0, 0)
 	`, exerciseID, typ, hintDelay)
 	return err
 }
@@ -64,6 +64,32 @@ func checkCanFetchHints(d *sql.DB, exerciseID string) (bool, int, int, error) {
 		return false, 0, 0, err
 	}
 	return attemptCount >= hintDelay, attemptCount, hintDelay, nil
+}
+
+// checkCanFetchHintsSinceAttempt checks if student attempted since last hint.
+// First hint is always allowed. After that, requires new attempt.
+// Returns (allowed, attempts_since_last_hint, error).
+func checkCanFetchHintsSinceAttempt(d *sql.DB, exerciseID string) (bool, int, error) {
+	var attemptCount, hintsGiven int
+	err := d.QueryRow(`
+		SELECT attempt_count, hints_given FROM active_exercises WHERE exercise_id = ?
+	`, exerciseID).Scan(&attemptCount, &hintsGiven)
+	if err == sql.ErrNoRows {
+		return true, 0, nil // Not tracked = allow (backwards compat)
+	}
+	if err != nil {
+		return false, 0, err
+	}
+	if hintsGiven == 0 {
+		return true, attemptCount, nil
+	}
+	return attemptCount > hintsGiven, attemptCount - hintsGiven, nil
+}
+
+// markHintsFetched records that hints were given at current attempt count.
+func markHintsFetched(d *sql.DB, exerciseID string) error {
+	_, err := d.Exec(`UPDATE active_exercises SET hints_given = attempt_count WHERE exercise_id = ?`, exerciseID)
+	return err
 }
 
 // runDiagnose returns a lightweight DiagnoseOut (top errors + leech tags).

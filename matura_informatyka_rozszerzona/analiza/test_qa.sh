@@ -380,8 +380,8 @@ print('yes' if ok else 'no')
   echo "  -- Error handling --"
   test_cmd_exitcode "exercise question --typ NIEISTNIEJACY (expect error)" 1 \
     "$MATURA" exercise question --typ NIEISTNIEJACY
-  test_cmd_exitcode "exam meta --rok 2020 (expect not found)" 1 \
-    "$MATURA" exam meta --rok 2020
+  test_cmd_exitcode "exam meta --rok 2013 (expect not found)" 1 \
+    "$MATURA" exam meta --rok 2013
 }
 
 # =============================================================================

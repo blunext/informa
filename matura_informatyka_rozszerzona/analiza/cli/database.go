@@ -9,7 +9,7 @@ import (
 	_ "modernc.org/sqlite"
 )
 
-const currentSchemaVersion = 7
+const currentSchemaVersion = 8
 
 // OpenDB opens progress DB as main, attaches matura.db as "data" read-only.
 // Returns the DB, whether matura.db was attached, and any error.
@@ -255,7 +255,8 @@ func createProgressSchema(db *sql.DB) error {
 		attempt_count INTEGER NOT NULL DEFAULT 0,
 		hint_delay INTEGER NOT NULL DEFAULT 1,
 		hints_fetched INTEGER NOT NULL DEFAULT 0,
-		answer_fetched INTEGER NOT NULL DEFAULT 0
+		answer_fetched INTEGER NOT NULL DEFAULT 0,
+		hints_given INTEGER NOT NULL DEFAULT 0
 	);
 	`
 	_, err := db.Exec(schema, currentSchemaVersion)
@@ -383,6 +384,10 @@ var migrations = []Migration{
 			return err
 		}
 		return nil
+	}},
+	{Version: 8, Apply: func(tx *sql.Tx) error {
+		_, err := tx.Exec(`ALTER TABLE active_exercises ADD COLUMN hints_given INTEGER NOT NULL DEFAULT 0`)
+		return err
 	}},
 }
 

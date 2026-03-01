@@ -3390,10 +3390,339 @@ func TestMigrationV7(t *testing.T) {
 		t.Errorf("expected sesja='maj', got %q", sesja)
 	}
 
-	// Verify schema version is 7
+	// Verify schema version is 8 (v7 re-IDs + sesja, v8 adds hints_given)
 	var version int
 	db.QueryRow("SELECT version FROM schema_version").Scan(&version)
-	if version != 7 {
-		t.Errorf("expected version 7, got %d", version)
+	if version != 8 {
+		t.Errorf("expected version 8, got %d", version)
+	}
+
+	// Verify v8 migration: hints_given column exists in active_exercises
+	var hintsGivenExists int
+	db.QueryRow("SELECT COUNT(*) FROM pragma_table_info('active_exercises') WHERE name='hints_given'").Scan(&hintsGivenExists)
+	if hintsGivenExists != 1 {
+		t.Error("v8 migration: hints_given column should exist in active_exercises")
+	}
+}
+
+func TestProgressUpdatePunktacja(t *testing.T) {
+	// Valid punktacja values
+	validValues := []string{"pelne", "prawie_pelne", "czesciowe", "minimalne", "zero"}
+	for _, v := range validValues {
+		if !isValidPunktacja(v) {
+			t.Errorf("expected %q to be valid punktacja", v)
+		}
+	}
+
+	// Invalid values
+	invalidValues := []string{"3", "75%", "4/5", "full", ""}
+	for _, v := range invalidValues {
+		if isValidPunktacja(v) {
+			t.Errorf("expected %q to be invalid punktacja", v)
+		}
+	}
+}
+
+func TestPunktacjaToPercent(t *testing.T) {
+	cases := []struct {
+		input   string
+		percent int
+	}{
+		{"pelne", 100},
+		{"prawie_pelne", 75},
+		{"czesciowe", 50},
+		{"minimalne", 25},
+		{"zero", 0},
+	}
+	for _, c := range cases {
+		got := punktacjaToPercent(c.input)
+		if got != c.percent {
+			t.Errorf("punktacjaToPercent(%q) = %d, want %d", c.input, got, c.percent)
+		}
+	}
+}
+
+func TestHintBlockedNoAttemptSinceLastHint(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Register exercise
+	registerFetch(db, "1.1", "sledzenie_algorytmu", 1)
+
+	// First attempt (to pass hint_delay)
+	incrementAttempt(db, "1.1")
+
+	// First hints fetch should succeed (hintsGiven == 0)
+	canH, _, err := checkCanFetchHintsSinceAttempt(db, "1.1")
+	if err != nil {
+		t.Fatalf("first check: %v", err)
+	}
+	if !canH {
+		t.Error("first hint fetch should be allowed")
+	}
+
+	// Mark hints fetched
+	markHintsFetched(db, "1.1")
+
+	// Second hints fetch without new attempt should FAIL
+	canH2, _, err := checkCanFetchHintsSinceAttempt(db, "1.1")
+	if err != nil {
+		t.Fatalf("second check: %v", err)
+	}
+	if canH2 {
+		t.Error("second hint fetch without attempt should be blocked")
+	}
+
+	// New attempt should unblock
+	incrementAttempt(db, "1.1")
+	canH3, _, err := checkCanFetchHintsSinceAttempt(db, "1.1")
+	if err != nil {
+		t.Fatalf("third check: %v", err)
+	}
+	if !canH3 {
+		t.Error("hint fetch after new attempt should be allowed")
+	}
+}
+
+func TestCoachingActionsStructured(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Insert a leech tag (lapses >= 3, low stability + old review = low retrievability)
+	db.Exec(`INSERT INTO progress_tagi (tag, lapses, stability, last_review, nastepna_powtorka, poziom, difficulty, reps, state)
+		VALUES ('off_by_one', 4, 1.0, '2026-01-01', '2026-01-01', 1, 5.0, 4, 2)`)
+
+	// Insert a past mistake
+	db.Exec(`INSERT INTO progress_bledy (exercise_id, typ, blad_kod, blad_opis, hint_level, data)
+		VALUES ('7.1', 'cyfry_liczby', 'off_by_one', 'Pomylka o 1', 1, '2026-01-01')`)
+
+	// Add done exercises so past mistakes query can find sessions
+	db.Exec(`INSERT INTO progress_zrobione (id, typ, data, wynik) VALUES ('7.1', 'cyfry_liczby', '2026-01-01', 'poprawne_bez_pomocy')`)
+
+	coaching := buildCoaching(db, "cyfry_liczby", []string{"off_by_one"})
+
+	if len(coaching.StructuredActions) == 0 {
+		t.Fatal("expected structured coaching actions")
+	}
+
+	// Check WARN_LEECH action exists with required fields
+	foundLeech := false
+	for _, a := range coaching.StructuredActions {
+		if a.Typ == "WARN_LEECH" {
+			foundLeech = true
+			if a.Tekst == "" {
+				t.Error("WARN_LEECH action should have tekst")
+			}
+			if a.Priorytet != PriorytetWysoki {
+				t.Errorf("WARN_LEECH priorytet: got %q, want wysoki", a.Priorytet)
+			}
+			if a.Tag == "" {
+				t.Error("WARN_LEECH action should have tag")
+			}
+		}
+	}
+	if !foundLeech {
+		t.Error("expected WARN_LEECH action for leech tag")
+	}
+
+	// Legacy actions should still work
+	if len(coaching.Actions) == 0 {
+		t.Error("legacy coaching_actions should still be populated")
+	}
+}
+
+func TestCoachingActionsStructuredEmpty(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// No progress data = no actions
+	coaching := buildCoaching(db, "cyfry_liczby", []string{"some_tag"})
+
+	if coaching.StructuredActions == nil {
+		t.Error("StructuredActions should be empty slice, not nil")
+	}
+	if len(coaching.StructuredActions) != 0 {
+		t.Errorf("expected 0 structured actions, got %d", len(coaching.StructuredActions))
+	}
+}
+
+// === Feature: exercise suggest-error ===
+
+func TestSuggestErrorCodeList(t *testing.T) {
+	codes := getCodesForType("cyfry_liczby")
+	if len(codes) == 0 {
+		t.Fatal("expected codes for cyfry_liczby")
+	}
+	for _, c := range codes {
+		if c.Kod == "" {
+			t.Error("code should have kod")
+		}
+		if c.Opis == "" {
+			t.Errorf("code %q should have opis", c.Kod)
+		}
+	}
+}
+
+func TestSuggestErrorUnknownType(t *testing.T) {
+	codes := getCodesForType("unknown_type")
+	if codes == nil {
+		t.Fatal("should return empty slice, not nil")
+	}
+	if len(codes) != 0 {
+		t.Errorf("expected 0 codes, got %d", len(codes))
+	}
+}
+
+func TestDetectErrorPatternOffByOne(t *testing.T) {
+	cases := []struct {
+		correct, student string
+		expectedCode     string
+	}{
+		{"6", "5", "off_by_one"},
+		{"6", "7", "off_by_one"},
+		{"100", "99", "off_by_one"},
+	}
+	for _, c := range cases {
+		result := detectErrorPattern(c.correct, c.student)
+		if result == nil {
+			t.Errorf("detectErrorPattern(%q, %q) = nil, want %q", c.correct, c.student, c.expectedCode)
+			continue
+		}
+		if result.Kod != c.expectedCode {
+			t.Errorf("detectErrorPattern(%q, %q).Kod = %q, want %q", c.correct, c.student, result.Kod, c.expectedCode)
+		}
+	}
+}
+
+func TestDetectErrorPatternBoolean(t *testing.T) {
+	cases := []struct {
+		correct, student string
+	}{
+		{"PRAWDA", "FALSZ"},
+		{"prawda", "fałsz"},
+		{"P", "F"},
+	}
+	for _, c := range cases {
+		result := detectErrorPattern(c.correct, c.student)
+		if result == nil || result.Kod != "odwrocona_logika" {
+			t.Errorf("detectErrorPattern(%q, %q) should detect odwrocona_logika", c.correct, c.student)
+		}
+	}
+}
+
+func TestDetectErrorPatternNoAlgorithm(t *testing.T) {
+	result := detectErrorPattern("42", "0")
+	if result == nil || result.Kod != "brak_algorytmu" {
+		t.Error("expected brak_algorytmu for student=0, correct=42")
+	}
+	result2 := detectErrorPattern("42", "")
+	if result2 == nil || result2.Kod != "brak_algorytmu" {
+		t.Error("expected brak_algorytmu for empty student answer")
+	}
+}
+
+func TestDetectErrorPatternNoMatch(t *testing.T) {
+	result := detectErrorPattern("42", "24")
+	if result != nil {
+		t.Errorf("expected nil for no pattern match, got %+v", result)
+	}
+}
+
+// === exercise check-answer tests ===
+
+func TestNormalizeAnswer(t *testing.T) {
+	cases := []struct {
+		input, expected string
+	}{
+		{"  42  ", "42"},
+		{"42.0", "42"},
+		{"PRAWDA", "prawda"},
+		{" Fałsz ", "falsz"},
+		{"13.00", "13"},
+		{"  hello world  ", "hello world"},
+		{"0013", "13"},
+	}
+	for _, c := range cases {
+		got := normalizeAnswer(c.input)
+		if got != c.expected {
+			t.Errorf("normalizeAnswer(%q) = %q, want %q", c.input, got, c.expected)
+		}
+	}
+}
+
+func TestCheckAnswerAutoScorable(t *testing.T) {
+	scorable := []string{"sledzenie_algorytmu", "test_prawda_falsz", "konwersja_systemow_liczbowych"}
+	for _, typ := range scorable {
+		if !isAutoScorable(typ) {
+			t.Errorf("expected %q to be auto-scorable", typ)
+		}
+	}
+	notScorable := []string{"projektowanie_algorytmu", "cyfry_liczby", "sql_group_by", "symulacja"}
+	for _, typ := range notScorable {
+		if isAutoScorable(typ) {
+			t.Errorf("expected %q to NOT be auto-scorable", typ)
+		}
+	}
+}
+
+func TestCheckAnswerCorrect(t *testing.T) {
+	result := checkAnswer("42", "42")
+	if !result.Poprawne {
+		t.Error("expected correct answer to be poprawne")
+	}
+	if result.Wynik != "pelne" {
+		t.Errorf("expected wynik=pelne, got %q", result.Wynik)
+	}
+}
+
+func TestCheckAnswerCorrectNormalized(t *testing.T) {
+	result := checkAnswer("42", " 42.0 ")
+	if !result.Poprawne {
+		t.Error("normalized answers should match")
+	}
+}
+
+func TestCheckAnswerIncorrect(t *testing.T) {
+	result := checkAnswer("42", "43")
+	if result.Poprawne {
+		t.Error("expected incorrect answer")
+	}
+	if result.Wynik != "zero" {
+		t.Errorf("expected wynik=zero, got %q", result.Wynik)
+	}
+	if result.PoprawnaOdpowiedz != "42" {
+		t.Errorf("expected poprawna_odpowiedz=42, got %q", result.PoprawnaOdpowiedz)
+	}
+}
+
+func TestCheckAnswerBoolean(t *testing.T) {
+	result := checkAnswer("PRAWDA", "prawda")
+	if !result.Poprawne {
+		t.Error("case-insensitive boolean should match")
+	}
+}
+
+func TestUniversalErrorCodesAccepted(t *testing.T) {
+	// Auto-detected codes must be valid for any type
+	for _, typ := range []string{"sledzenie_algorytmu", "test_prawda_falsz", "cyfry_liczby", "sql_group_by"} {
+		for _, kod := range []string{"brak_algorytmu", "odwrocona_logika", "off_by_one"} {
+			valid, _ := validateErrorCode(typ, kod)
+			if !valid {
+				t.Errorf("universal code %q should be valid for type %q", kod, typ)
+			}
+		}
+	}
+}
+
+func TestCheckAnswerNonAutoScorable(t *testing.T) {
+	// check-answer should report non-auto-scorable types
+	if isAutoScorable("cyfry_liczby") {
+		t.Error("cyfry_liczby should NOT be auto-scorable")
+	}
+	if isAutoScorable("sql_group_by") {
+		t.Error("sql_group_by should NOT be auto-scorable")
+	}
+	if !isAutoScorable("sledzenie_algorytmu") {
+		t.Error("sledzenie_algorytmu SHOULD be auto-scorable")
 	}
 }

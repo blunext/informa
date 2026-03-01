@@ -1,6 +1,12 @@
 package main
 
-import "sort"
+import (
+	"fmt"
+	"math"
+	"sort"
+	"strconv"
+	"strings"
+)
 
 // errorCodeWhitelist maps exercise type → allowed error codes.
 // CLI rejects any code not in the whitelist for the given type.
@@ -51,9 +57,19 @@ var errorCodeWhitelist = map[string][]string{
 	"transformacja":        {"zle_adresowanie", "brak_dolara", "zla_formula_warunkowa", "stala_zamiast_odwolania", "brak_kolumny_pomocniczej"},
 }
 
+// universalErrorCodes are auto-detected codes valid for any exercise type.
+// These are returned by detectErrorPattern and must be accepted by progress blad.
+var universalErrorCodes = []string{"brak_algorytmu", "odwrocona_logika", "off_by_one"}
+
 // validateErrorCode checks if kod is allowed for the given typ.
 // Returns allowed list if invalid.
 func validateErrorCode(typ, kod string) (valid bool, allowed []string) {
+	// Universal codes are always valid
+	for _, u := range universalErrorCodes {
+		if u == kod {
+			return true, nil
+		}
+	}
 	codes, ok := errorCodeWhitelist[typ]
 	if !ok {
 		// Unknown type — allow any code (backwards compat)
@@ -127,6 +143,9 @@ var errorCodeDescriptions = map[string]string{
 	"zla_formula_warunkowa":    "Zla formula warunkowa (SUMIFS, COUNTIF)",
 	"stala_zamiast_odwolania":  "Stala zamiast odwolania do komorki",
 	"brak_kolumny_pomocniczej": "Brak kolumny pomocniczej",
+	// Universal (auto-detected by detectErrorPattern)
+	"brak_algorytmu":   "Brak odpowiedzi lub wynik zerowy",
+	"odwrocona_logika": "Odwrocona wartosc logiczna (PRAWDA<->FALSZ)",
 }
 
 // levenshtein computes the Levenshtein edit distance between two strings.
@@ -193,4 +212,64 @@ func suggestClosestCodes(typ, kod string) []CodeSuggestion {
 		result[i] = CodeSuggestion{Kod: list[i].code, Opis: errorCodeDescriptions[list[i].code]}
 	}
 	return result
+}
+
+// getCodesForType returns all error codes with descriptions for a given type.
+func getCodesForType(typ string) []CodeSuggestion {
+	codes, ok := errorCodeWhitelist[typ]
+	if !ok {
+		return []CodeSuggestion{}
+	}
+	result := make([]CodeSuggestion, len(codes))
+	for i, c := range codes {
+		result[i] = CodeSuggestion{Kod: c, Opis: errorCodeDescriptions[c]}
+	}
+	return result
+}
+
+// Boolean value maps for detectErrorPattern (package-level to avoid per-call allocation).
+var (
+	boolTrueValues  = map[string]bool{"prawda": true, "p": true, "true": true, "tak": true}
+	boolFalseValues = map[string]bool{"falsz": true, "f": true, "false": true, "nie": true}
+)
+
+// detectErrorPattern compares correct and student answers, returns detected error code or nil.
+func detectErrorPattern(correct, student string) *CodeSuggestion {
+	correct = strings.TrimSpace(correct)
+	student = strings.TrimSpace(student)
+
+	// Empty/zero answer = no algorithm
+	if student == "" || student == "0" {
+		if correct != "0" && correct != "" {
+			return &CodeSuggestion{Kod: "brak_algorytmu", Opis: "Brak odpowiedzi lub wynik zerowy"}
+		}
+	}
+
+	// Boolean inversion: PRAWDA <-> FALSZ
+	cLow := strings.ToLower(correct)
+	sLow := strings.ToLower(student)
+	cLow = strings.ReplaceAll(cLow, "ł", "l")
+	sLow = strings.ReplaceAll(sLow, "ł", "l")
+	if (boolTrueValues[cLow] && boolFalseValues[sLow]) || (boolFalseValues[cLow] && boolTrueValues[sLow]) {
+		return &CodeSuggestion{Kod: "odwrocona_logika", Opis: "Odwrocona wartosc logiczna (PRAWDA<->FALSZ)"}
+	}
+
+	// Numeric off-by-one (epsilon compare for IEEE 754 safety)
+	cNum, cErr := strconv.ParseFloat(correct, 64)
+	sNum, sErr := strconv.ParseFloat(student, 64)
+	if cErr == nil && sErr == nil {
+		diff := math.Abs(cNum - sNum)
+		if diff > 0.999 && diff < 1.001 {
+			dir := "maly"
+			if sNum > cNum {
+				dir = "duzy"
+			}
+			return &CodeSuggestion{
+				Kod:  "off_by_one",
+				Opis: fmt.Sprintf("Wynik o 1 za %s (student=%s, poprawna=%s)", dir, student, correct),
+			}
+		}
+	}
+
+	return nil
 }

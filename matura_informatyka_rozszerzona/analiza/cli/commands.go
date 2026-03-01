@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"math/rand"
 	"os"
@@ -227,21 +228,44 @@ func buildCoaching(d *sql.DB, typ string, exerciseTags []string) Coaching {
 		}
 	}
 
-	// Generate coaching_actions
+	// Generate coaching_actions (legacy string format + new structured)
 	var actions []string
+	var structured []CoachingAction
+
 	for _, tag := range c.LeechTags {
 		actions = append(actions, fmt.Sprintf("WARN_LEECH: Tag '%s' sprawia Ci trudnosc — zwroc uwage", tag))
+		structured = append(structured, CoachingAction{
+			Typ:       "WARN_LEECH",
+			Tag:       tag,
+			Tekst:     fmt.Sprintf("Błędy z tagiem '%s' powtarzają się — to Twój leech tag. Zwróć szczególną uwagę na ten wzorzec.", tag),
+			Priorytet: PriorytetWysoki,
+		})
 	}
 	for _, m := range c.PastMistakes {
 		actions = append(actions, fmt.Sprintf("MENTION_PAST: Ostatnio mialeS problem z '%s'", m))
+		structured = append(structured, CoachingAction{
+			Typ:       "MENTION_PAST",
+			Tekst:     fmt.Sprintf("Ostatnio miałeś problem z: %s. Sprawdź czy tym razem jest lepiej.", m),
+			Priorytet: PriorytetNiski,
+		})
 	}
 	if c.HintDelay >= 2 {
 		actions = append(actions, fmt.Sprintf("HINT_DELAY: %d (Od teraz mniej podpowiedzi — rozwijasz samodzielnosc)", c.HintDelay))
+		structured = append(structured, CoachingAction{
+			Typ:       "HINT_DELAY",
+			Tekst:     fmt.Sprintf("Od teraz mniej podpowiedzi (opóźnienie: %d próby) — rozwijasz samodzielność.", c.HintDelay),
+			Priorytet: PriorytetNiski,
+		})
 	}
+
 	if actions == nil {
 		actions = []string{}
 	}
+	if structured == nil {
+		structured = []CoachingAction{}
+	}
 	c.Actions = actions
+	c.StructuredActions = structured
 
 	return c
 }
@@ -531,18 +555,33 @@ func exerciseHintsCmd() *cobra.Command {
 				return fmt.Errorf("checkCanFetchHints: %w", err)
 			}
 			if !canH {
-				out := map[string]interface{}{
-					"status":      "HINT_LOCKED",
-					"exercise_id": id,
-					"attempt":     attempts,
-					"hint_delay":  delay,
-					"action":      "Zadaj pytanie sokratejskie BEZ hintow",
-				}
-				jsonOut(out)
+				jsonOut(HintBlockedOut{
+					Status:     "HINT_LOCKED",
+					ExerciseID: id,
+					Attempt:    attempts,
+					HintDelay:  delay,
+					Action:     "Zadaj pytanie sokratejskie BEZ hintow",
+				})
+				return nil
+			}
+			// Additional guard: block hints if no attempt since last hint
+			canSince, attSince, err := checkCanFetchHintsSinceAttempt(d, id)
+			if err != nil {
+				return fmt.Errorf("checkCanFetchHintsSinceAttempt: %w", err)
+			}
+			if !canSince {
+				jsonOut(HintBlockedOut{
+					Status:            "HINT_BLOCKED_NO_ATTEMPT",
+					ExerciseID:        id,
+					AttemptsSinceHint: attSince,
+					Action:            "Uczen nie podjal proby od ostatniego hinta. Zarejestruj probe (progress blad) przed kolejnym hintem.",
+				})
 				return nil
 			}
 			// Mark hints as fetched
-			d.Exec(`UPDATE active_exercises SET hints_fetched = 1 WHERE exercise_id = ?`, id)
+			if _, err := d.Exec(`UPDATE active_exercises SET hints_fetched = 1 WHERE exercise_id = ?`, id); err != nil {
+				return fmt.Errorf("mark hints_fetched: %w", err)
+			}
 			var typ string
 			d.QueryRow("SELECT typ_nazwa FROM data.cwiczenia WHERE id = ?", id).Scan(&typ)
 			level := getLevel(d, typ)
@@ -551,6 +590,9 @@ func exerciseHintsCmd() *cobra.Command {
 				addWeight(d, 3)
 			} else {
 				addWeight(d, 1)
+			}
+			if err := markHintsFetched(d, id); err != nil {
+				return fmt.Errorf("markHintsFetched: %w", err)
 			}
 			jsonOut(hints)
 			return nil
@@ -705,7 +747,7 @@ func exerciseReviewCmd() *cobra.Command {
 // === progress update ===
 
 func progressUpdateCmd() *cobra.Command {
-	var id, wynik string
+	var id, wynik, punktacja string
 	var czas int
 
 	cmd := &cobra.Command{
@@ -724,6 +766,10 @@ func progressUpdateCmd() *cobra.Command {
 			}
 			if !validWynik[wynik] {
 				return fatal("--wynik must be one of: poprawne_bez_pomocy, poprawne_z_pomoca_1, poprawne_z_pomoca_2, walk_through")
+			}
+
+			if punktacja != "" && !isValidPunktacja(punktacja) {
+				return fatal("--punktacja must be one of: pelne, prawie_pelne, czesciowe, minimalne, zero")
 			}
 
 			d := db(cmd)
@@ -826,6 +872,13 @@ func progressUpdateCmd() *cobra.Command {
 				NextReviewDates:  nextReviewDates,
 			}
 
+			// Punktacja scoring (optional)
+			if punktacja != "" {
+				out.Punktacja = &punktacja
+				pct := punktacjaToPercent(punktacja)
+				out.PunktacjaPct = &pct
+			}
+
 			// FSRS stats from updated tags
 			var totalS float64
 			var maxLapses int
@@ -898,8 +951,27 @@ func progressUpdateCmd() *cobra.Command {
 
 	cmd.Flags().StringVar(&id, "id", "", "Exercise ID (e.g. 7.3)")
 	cmd.Flags().StringVar(&wynik, "wynik", "", "Result: poprawne_bez_pomocy, poprawne_z_pomoca_1, poprawne_z_pomoca_2, walk_through")
+	cmd.Flags().StringVar(&punktacja, "punktacja", "", "Scoring level: pelne, prawie_pelne, czesciowe, minimalne, zero")
 	cmd.Flags().IntVar(&czas, "czas", 0, "Time spent in seconds")
 	return cmd
+}
+
+// validPunktacja maps punktacja enum values to their percentage equivalents.
+var validPunktacja = map[string]int{
+	"pelne":        100,
+	"prawie_pelne": 75,
+	"czesciowe":    50,
+	"minimalne":    25,
+	"zero":         0,
+}
+
+func isValidPunktacja(s string) bool {
+	_, ok := validPunktacja[s]
+	return ok
+}
+
+func punktacjaToPercent(s string) int {
+	return validPunktacja[s]
 }
 
 func calculateLevel(streak int, wynik string) string {
@@ -2999,7 +3071,7 @@ var typKategoriaMap = map[string]string{
 	"agregacja_warunkowa": "ARKUSZ", "symulacja": "ARKUSZ",
 	"wykres": "ARKUSZ", "agregacja_podstawowa": "ARKUSZ",
 	"transformacja": "ARKUSZ",
-	"sql_group_by": "SQL", "sql_podzapytania": "SQL",
+	"sql_group_by":  "SQL", "sql_podzapytania": "SQL",
 	"sql_join": "SQL", "sql_select_where": "SQL",
 }
 
@@ -3069,14 +3141,14 @@ var rubricData = map[string]RubricDetail{
 		Notes: "Przy pytaniach otwartych: wymagana precyzyjna definicja, nie ogolniki.",
 	},
 	// IMPLEMENTACJA — shared rubric
-	"cyfry_liczby":  implRubric(),
-	"napisy":        implRubric(),
-	"zlozone":       implRubric(),
-	"zliczanie":     implRubric(),
-	"minmax":        implRubric(),
-	"sekwencje":     implRubric(),
-	"obrazy_2D":     implRubric(),
-	"geometryczne":  implRubric(),
+	"cyfry_liczby": implRubric(),
+	"napisy":       implRubric(),
+	"zlozone":      implRubric(),
+	"zliczanie":    implRubric(),
+	"minmax":       implRubric(),
+	"sekwencje":    implRubric(),
+	"obrazy_2D":    implRubric(),
+	"geometryczne": implRubric(),
 	// ARKUSZ — shared rubric
 	"agregacja_warunkowa":  arkuszRubric(),
 	"symulacja":            arkuszRubric(),
@@ -3084,10 +3156,10 @@ var rubricData = map[string]RubricDetail{
 	"agregacja_podstawowa": arkuszRubric(),
 	"transformacja":        arkuszRubric(),
 	// SQL — shared rubric
-	"sql_group_by":      sqlRubric(),
-	"sql_podzapytania":  sqlRubric(),
-	"sql_join":          sqlRubric(),
-	"sql_select_where":  sqlRubric(),
+	"sql_group_by":     sqlRubric(),
+	"sql_podzapytania": sqlRubric(),
+	"sql_join":         sqlRubric(),
+	"sql_select_where": sqlRubric(),
 }
 
 func getRubric(typ string) (RubricOut, error) {
@@ -3198,5 +3270,95 @@ func exerciseCountCmd() *cobra.Command {
 	}
 
 	cmd.Flags().StringVar(&typ, "typ", "", "Filter by exercise type")
+	return cmd
+}
+
+// === exercise check-answer ===
+
+func exerciseCheckAnswerCmd() *cobra.Command {
+	var id, answer string
+
+	cmd := &cobra.Command{
+		Use:   "check-answer",
+		Short: "Auto-score exercise answer (TEORIA types only)",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if id == "" || answer == "" {
+				return fatal("--id and --answer are required")
+			}
+			d := db(cmd)
+
+			var typNazwa, odpowiedz string
+			err := d.QueryRow("SELECT typ_nazwa, odpowiedz FROM data.cwiczenia WHERE id = ?", id).
+				Scan(&typNazwa, &odpowiedz)
+			if errors.Is(err, sql.ErrNoRows) {
+				return notFound(fmt.Sprintf("exercise %s not found", id))
+			}
+			if err != nil {
+				return fmt.Errorf("query exercise: %w", err)
+			}
+
+			if !isAutoScorable(typNazwa) {
+				return fatal(fmt.Sprintf("typ %q is not auto-scorable. Use manual scoring.", typNazwa))
+			}
+
+			result := checkAnswer(odpowiedz, answer)
+			jsonOut(CheckAnswerOut{
+				ID:                id,
+				Poprawne:          result.Poprawne,
+				Wynik:             result.Wynik,
+				AutoScored:        true,
+				PoprawnaOdpowiedz: result.PoprawnaOdpowiedz,
+			})
+			return nil
+		},
+	}
+
+	cmd.Flags().StringVar(&id, "id", "", "Exercise ID (e.g. 1.1)")
+	cmd.Flags().StringVar(&answer, "answer", "", "Student's answer")
+	return cmd
+}
+
+func exerciseSuggestErrorCmd() *cobra.Command {
+	var id, studentAnswer string
+
+	cmd := &cobra.Command{
+		Use:   "suggest-error",
+		Short: "Suggest error code based on exercise and student answer",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if id == "" {
+				return fatal("--id is required")
+			}
+			d := db(cmd)
+
+			var typNazwa, odpowiedz string
+			err := d.QueryRow("SELECT typ_nazwa, odpowiedz FROM data.cwiczenia WHERE id = ?", id).
+				Scan(&typNazwa, &odpowiedz)
+			if errors.Is(err, sql.ErrNoRows) {
+				return notFound(fmt.Sprintf("exercise %s not found", id))
+			}
+			if err != nil {
+				return fmt.Errorf("query exercise: %w", err)
+			}
+
+			out := SuggestErrorOut{
+				KodyDlaTypu: getCodesForType(typNazwa),
+			}
+
+			if studentAnswer != "" {
+				pattern := detectErrorPattern(odpowiedz, studentAnswer)
+				if pattern != nil {
+					out.AutoDetected = true
+					out.Rekomendowany = pattern
+					out.Powod = pattern.Opis
+				}
+			}
+
+			jsonOut(out)
+			return nil
+		},
+	}
+
+	cmd.Flags().StringVar(&id, "id", "", "Exercise ID (e.g. 1.1)")
+	cmd.Flags().StringVar(&studentAnswer, "student-answer", "", "Student's answer for auto-detection")
 	return cmd
 }

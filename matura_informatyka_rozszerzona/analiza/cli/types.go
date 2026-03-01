@@ -119,14 +119,39 @@ type QuestionOut struct {
 	Coaching  Coaching `json:"coaching"`
 }
 
+// Priorytet constants for CoachingAction
+const (
+	PriorytetWysoki = "wysoki"
+	PriorytetNiski  = "niski"
+)
+
+// CoachingAction is a structured coaching action with pre-formatted text.
+type CoachingAction struct {
+	Typ       string `json:"typ"`           // WARN_LEECH, MENTION_PAST, HINT_DELAY
+	Tag       string `json:"tag,omitempty"` // relevant tag (for WARN_LEECH)
+	Tekst     string `json:"tekst"`         // pre-formatted Polish sentence
+	Priorytet string `json:"priorytet"`     // PriorytetWysoki or PriorytetNiski
+}
+
 // Coaching provides student context computed from progress.db
 type Coaching struct {
-	StudentLevel   string   `json:"student_level"`
-	HintDelay      int      `json:"hint_delay"`
-	LeechTags      []string `json:"leech_tags"`
-	PastMistakes   []string `json:"past_mistakes"`
-	PreviousResult string   `json:"previous_result,omitempty"`
-	Actions        []string `json:"coaching_actions"`
+	StudentLevel      string           `json:"student_level"`
+	HintDelay         int              `json:"hint_delay"`
+	LeechTags         []string         `json:"leech_tags"`
+	PastMistakes      []string         `json:"past_mistakes"`
+	PreviousResult    string           `json:"previous_result,omitempty"`
+	Actions           []string         `json:"coaching_actions"`
+	StructuredActions []CoachingAction `json:"coaching_actions_v2"`
+}
+
+// HintBlockedOut is what exercise hints returns when blocked by guardrails.
+type HintBlockedOut struct {
+	Status            string `json:"status"`
+	ExerciseID        string `json:"exercise_id"`
+	AttemptsSinceHint int    `json:"attempts_since_last_hint,omitempty"`
+	Attempt           int    `json:"attempt,omitempty"`
+	HintDelay         int    `json:"hint_delay,omitempty"`
+	Action            string `json:"action"`
 }
 
 // HintsOut is what exercise hints returns
@@ -186,6 +211,8 @@ type ProgressUpdateOut struct {
 	Tempo            *string      `json:"tempo,omitempty"`
 	FeedbackCzasowy  *string      `json:"feedback_czasowy,omitempty"`
 	BladWarning      *string      `json:"blad_warning,omitempty"`
+	Punktacja        *string      `json:"punktacja,omitempty"`
+	PunktacjaPct     *int         `json:"punktacja_pct,omitempty"`
 	Stability        *float64     `json:"stability,omitempty"`
 	Lapses           *int         `json:"lapses,omitempty"`
 	AutoDiagnose     *DiagnoseOut `json:"auto_diagnose,omitempty"`
@@ -457,4 +484,21 @@ type ExamSuggestion struct {
 	Sesja   string `json:"sesja"`
 	Formula string `json:"formula"`
 	Reason  string `json:"reason"`
+}
+
+// CheckAnswerOut is what exercise check-answer returns
+type CheckAnswerOut struct {
+	ID                string `json:"id"`
+	Poprawne          bool   `json:"poprawne"`
+	Wynik             string `json:"wynik"`
+	AutoScored        bool   `json:"auto_scored"`
+	PoprawnaOdpowiedz string `json:"poprawna_odpowiedz,omitempty"`
+}
+
+// SuggestErrorOut is what exercise suggest-error returns
+type SuggestErrorOut struct {
+	AutoDetected  bool             `json:"auto_detected"`
+	Rekomendowany *CodeSuggestion  `json:"rekomendowany,omitempty"`
+	Powod         string           `json:"powod,omitempty"`
+	KodyDlaTypu   []CodeSuggestion `json:"kody_dla_typu"`
 }
