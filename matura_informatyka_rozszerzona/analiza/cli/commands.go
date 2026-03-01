@@ -153,7 +153,7 @@ func exerciseToQuestion(ex ExerciseOut) QuestionOut {
 }
 
 // buildCoaching computes student context from progress.db for the given exercise type and tags.
-func buildCoaching(d *sql.DB, typ string, exerciseTags []string) Coaching {
+func buildCoaching(d *sql.DB, typ string, _ []string) Coaching {
 	c := Coaching{
 		StudentLevel: "new",
 		HintDelay:    1,
@@ -205,19 +205,12 @@ func buildCoaching(d *sql.DB, typ string, exerciseTags []string) Coaching {
 		}
 	}
 
-	// Past mistakes: from last 5 sessions, filtered by exercise tags
-	if len(exerciseTags) > 0 {
-		placeholders := make([]string, len(exerciseTags))
-		params := []any{typ}
-		for i, tag := range exerciseTags {
-			placeholders[i] = "?"
-			params = append(params, tag)
-		}
-		query := fmt.Sprintf(`SELECT blad_opis FROM progress_bledy
-			WHERE typ = ? AND blad_kod IN (%s)
+	// Past mistakes: from last 5 sessions, filtered by type
+	{
+		rows, err := d.Query(`SELECT blad_opis FROM progress_bledy
+			WHERE typ = ?
 			AND data IN (SELECT DISTINCT data FROM progress_zrobione ORDER BY data DESC LIMIT 5)
-			GROUP BY blad_opis ORDER BY MAX(data) DESC LIMIT 3`, strings.Join(placeholders, ","))
-		rows, err := d.Query(query, params...)
+			GROUP BY blad_opis ORDER BY MAX(data) DESC LIMIT 3`, typ)
 		if err == nil {
 			defer rows.Close()
 			for rows.Next() {
@@ -1447,11 +1440,17 @@ func progressBladCmd() *cobra.Command {
 
 			d := db(cmd)
 
-			// Validate exercise exists
+			// Validate exercise exists (cwiczenia first, then egzamin fallback)
 			var exists int
+			isExamID := false
 			d.QueryRow("SELECT COUNT(*) FROM data.cwiczenia WHERE id = ?", exerciseID).Scan(&exists)
 			if exists == 0 {
-				return fatal(fmt.Sprintf("exercise %s not found", exerciseID))
+				// Fallback: check egzamin table (exam IDs like 2024M.1.1)
+				d.QueryRow("SELECT COUNT(*) FROM data.egzamin WHERE id = ?", exerciseID).Scan(&exists)
+				if exists == 0 {
+					return fatal(fmt.Sprintf("exercise %s not found (checked cwiczenia and egzamin)", exerciseID))
+				}
+				isExamID = true
 			}
 
 			today := time.Now().Format("2006-01-02")
@@ -1465,9 +1464,11 @@ func progressBladCmd() *cobra.Command {
 
 			lastID, _ := result.LastInsertId()
 
-			// Track attempt for guardrails
-			if err := incrementAttempt(d, exerciseID); err != nil {
-				fmt.Fprintf(os.Stderr, "warning: incrementAttempt: %v\n", err)
+			// Track attempt for guardrails (skip for exam IDs — no active_exercises tracking)
+			if !isExamID {
+				if err := incrementAttempt(d, exerciseID); err != nil {
+					fmt.Fprintf(os.Stderr, "warning: incrementAttempt: %v\n", err)
+				}
 			}
 
 			addWeight(d, 1)
@@ -3301,13 +3302,15 @@ func exerciseCheckAnswerCmd() *cobra.Command {
 				return fatal(fmt.Sprintf("typ %q is not auto-scorable. Use manual scoring.", typNazwa))
 			}
 
-			result := checkAnswer(odpowiedz, answer)
+			result := checkMultiPartAnswer(odpowiedz, answer)
 			jsonOut(CheckAnswerOut{
 				ID:                id,
 				Poprawne:          result.Poprawne,
 				Wynik:             result.Wynik,
 				AutoScored:        true,
 				PoprawnaOdpowiedz: result.PoprawnaOdpowiedz,
+				TrafioneParts:     result.TrafioneParts,
+				TotalParts:        result.TotalParts,
 			})
 			return nil
 		},

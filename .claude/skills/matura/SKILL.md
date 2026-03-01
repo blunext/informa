@@ -259,14 +259,20 @@ Pole `coaching` w odpowiedzi `exercise next` / `exercise review` zawiera:
 - `previous_result`: ostatni wynik tego cwiczenia (jesli powtorka)
 - **`coaching_actions`**: lista gotowych instrukcji do wlaczenia w dialog
 
-**Przeczytaj `coaching_actions_v2` (preferowane) lub `coaching_actions` (legacy) i wlacz naturalnie w dialog PRZED podaniem tresci cwiczenia.**
+**Realizuj `coaching_actions_v2` (preferowane) w tej kolejnosci:**
+
+1. **PRZED trescia cwiczenia** (priorytet: wysoki → niski):
+   - `WARN_LEECH` → powiedz uczniowi o leech tagu ("Ten temat sprawia Ci trudnosc...")
+   - `HINT_DELAY` → poinformuj ("Od teraz czekam {N} prob zanim dam podpowiedz")
+2. **PO pierwszym bledzie ucznia**:
+   - `MENTION_PAST` → nawiaz do historii bledow ("Ostatnio miales problem z...")
+
+Jesli `coaching_actions_v2` puste → pomin, przejdz do tresci.
 
 `coaching_actions_v2` zwraca gotowe zdania — mozesz je parafrazowac, ale zachowaj kluczowy przekaz:
 - `typ: "WARN_LEECH"` (priorytet: wysoki) → tekst o leech tagu, MUSI byc wlaczony
 - `typ: "MENTION_PAST"` (priorytet: niski) → tekst o poprzednich bledach
 - `typ: "HINT_DELAY"` (priorytet: niski) → tekst o zmniejszonej liczbie podpowiedzi
-
-Jesli `coaching_actions_v2` puste → pomin, przejdz do tresci.
 
 ### Tryb krok-po-kroku
 
@@ -322,7 +328,9 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
 
    **[HARD GATE — auto-scoring]** Dla typow auto-scorable (sledzenie_algorytmu, test_prawda_falsz, konwersja_systemow_liczbowych):
    MUSISZ uzyc `./matura exercise check-answer --id {id} --answer "{odpowiedz_ucznia}"` zamiast oceniac sam.
-   CLI porownuje z normalizacja (whitespace, case, format liczbowy). Wynik: `poprawne: true/false`.
+   CLI porownuje z normalizacja (whitespace, case, format liczbowy, Unicode strzalki).
+   Wynik: `poprawne: true/false`, `wynik: "pelne"/"czesciowe"/"zero"`.
+   Dla odpowiedzi wieloczesciowych (a/b/c): `trafione_parts` i `total_parts` w odpowiedzi.
 
    Dla pozostalych typow: `./matura exercise answer --id {id}` → `odpowiedz` + `typowe_bledy[]`
    CLI zablokuje jesli uczen nie probowal (zwroci LAZY_LOADING_BLOCKED — patrz guardrails).
@@ -359,7 +367,10 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
    - Wiele bledow = wiele osobnych komend `progress blad`
    - Jesli `--kod` jest zwiazany z tagiem z `coaching_actions` WARN_LEECH → powiaz explicite:
      "To ten sam problem z {tag}, o ktorym mowilismy na poczatku. Zwroc szczegolna uwage."
-   - **[GATE]** Jesli to 3. bledna proba LUB uczen mowi "poddaje sie" → POMIN krok 4, przejdz BEZPOSREDNIO do kroku 5 (walk_through). NIE probuj kolejnego hintu.
+   - **[GATE]** Jesli to 3. bledna **proba ucznia** (kazda odpowiedz ucznia po hincie = osobna proba;
+     pytanie sokratejskie bez odpowiedzi NIE liczy sie jako proba) LUB uczen mowi "poddaje sie"
+     → POMIN krok 4, przejdz BEZPOSREDNIO do kroku 5 (walk_through). NIE probuj kolejnego hintu.
+     Progresja: proba 1 (bez hinta) → proba 2 (po L1) → proba 3 (po L2 + cheatsheet) → walk_through (z L3).
 
 **4. Sprobuj podac hint:**
    `./matura exercise hints --id {id}`
@@ -372,6 +383,8 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
      NIGDY nie wysylaj pytania i hinta w jednej wiadomosci.
      Sekwencja: (1) pytanie → CZEKAJ na odpowiedz ucznia → (2) hint.
      Zlamanie tej reguly = najczestszy blad w test-tutor.
+     **Wyjatek**: Jesli uczen ma <= 1 probe do walk_through LUB powiedzial "poddaje sie",
+     pytanie i hint MOGA byc w 1 turze (brak czasu na pelna sekwencje 2-turowa).
 
      * **Poziom 1**: NAJPIERW zapytaj: "Gdzie wedlug Ciebie jest blad?" (czekaj na odpowiedz).
        POTEM: `wskazowki[0]` + pytanie sokratejskie

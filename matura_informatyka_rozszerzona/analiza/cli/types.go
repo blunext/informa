@@ -493,6 +493,8 @@ type CheckAnswerOut struct {
 	Wynik             string `json:"wynik"`
 	AutoScored        bool   `json:"auto_scored"`
 	PoprawnaOdpowiedz string `json:"poprawna_odpowiedz,omitempty"`
+	TrafioneParts     int    `json:"trafione_parts"`
+	TotalParts        int    `json:"total_parts"`
 }
 
 // SuggestErrorOut is what exercise suggest-error returns

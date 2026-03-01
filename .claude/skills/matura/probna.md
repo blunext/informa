@@ -37,7 +37,8 @@ Dla kazdego zadania sekwencyjnie:
 5. **[NIGDY]** nie uzywaj `exercise answer` na ID egzaminowych (YYYY.N.M).
    Oceniaj WYLACZNIE wg `zasady_oceniania` z odpowiedzi `exam task`.
 6. **Jesli uczen popelni blad** — zapisz:
-   `./matura progress blad --exercise-id {rok}.{zad}.{podzad} --typ {typ} --kod {kod} --hint 0`
+   `./matura progress blad --exercise-id {sesja_id}.{zad}.{podzad} --typ {typ} --kod {kod} --hint 0`
+   Gdzie `{sesja_id}` = rok z litera sesji z `exam meta` (np. `2024M`, `2023M`).
    Jesli CLI odrzuci kod (zwroci `suggestions[]`) — wywolaj ponownie z sugestia (patrz SKILL.md F.3).
 7. Prowadz bufor wynikow: `Zad 1.1: 2/3 pkt | Zad 1.2: 1/1 pkt | ...`
 
@@ -84,4 +85,4 @@ Gdzie status: `v` (pelne pkt), `~` (czesciowe), `x` (0 pkt), `-` (pominiete).
    ```
    ELAPSED_MIN=$(( ($(date +%s) - START_TS) / 60 ))
    ```
-5. Zapisz: `./matura exam save --rok {rok} --results '[{"id":"2024.1.1","pkt":2,"max":3},...]' --czas $ELAPSED_MIN`
+5. Zapisz: `./matura exam save --rok {rok} --results '[{"id":"2024M.1.1","pkt":2,"max":3},...]' --czas $ELAPSED_MIN`

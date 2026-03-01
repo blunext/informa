@@ -981,6 +981,33 @@ func TestProgressBlad(t *testing.T) {
 	}
 }
 
+func TestProgressBladExamID(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Exam IDs (e.g. 2023M.1.1) should be accepted in progress_bledy
+	result, err := db.Exec(
+		`INSERT INTO progress_bledy (exercise_id, typ, blad_kod, blad_opis, hint_level, data)
+		VALUES ('2023M.1.1', 'sledzenie_algorytmu', 'brak_tabeli_sledzenia', '', 0, '2026-03-01')`)
+	if err != nil {
+		t.Fatalf("insert exam blad: %v", err)
+	}
+
+	lastID, _ := result.LastInsertId()
+	if lastID < 1 {
+		t.Errorf("lastID: got %d, want >= 1", lastID)
+	}
+
+	var exerciseID string
+	err = db.QueryRow(`SELECT exercise_id FROM progress_bledy WHERE id = ?`, lastID).Scan(&exerciseID)
+	if err != nil {
+		t.Fatalf("query exam blad: %v", err)
+	}
+	if exerciseID != "2023M.1.1" {
+		t.Errorf("exercise_id: got %q, want 2023M.1.1", exerciseID)
+	}
+}
+
 func TestProgressDiagnose(t *testing.T) {
 	dir := testDir(t)
 	db := openTestDB(t, dir)
@@ -2738,7 +2765,7 @@ func TestBuildCoachingPastMistakes(t *testing.T) {
 	db.Exec(`INSERT INTO progress_bledy (exercise_id, typ, blad_kod, blad_opis, data)
 		VALUES ('7.1', 'cyfry_liczby', 'cyfry-mod-div', 'inicjalizacja iloczynu na 0', '2026-02-20')`)
 	db.Exec(`INSERT INTO progress_bledy (exercise_id, typ, blad_kod, blad_opis, data)
-		VALUES ('7.1', 'cyfry_liczby', 'unrelated-tag', 'nieistotny blad', '2026-02-20')`)
+		VALUES ('8.1', 'sql_group_by', 'unrelated-tag', 'nieistotny blad', '2026-02-20')`)
 
 	coaching := buildCoaching(db, "cyfry_liczby", []string{"cyfry-mod-div"})
 	if len(coaching.PastMistakes) != 1 {
@@ -2746,6 +2773,25 @@ func TestBuildCoachingPastMistakes(t *testing.T) {
 	}
 	if len(coaching.PastMistakes) > 0 && coaching.PastMistakes[0] != "inicjalizacja iloczynu na 0" {
 		t.Errorf("expected 'inicjalizacja iloczynu na 0', got %q", coaching.PastMistakes[0])
+	}
+}
+
+func TestBuildCoachingPastMistakesRealErrorCodes(t *testing.T) {
+	dir := testDir(t)
+	db := openTestDB(t, dir)
+
+	// Insert error with a REAL error code (not a tag name)
+	db.Exec("INSERT INTO progress_zrobione (id, typ, data, wynik) VALUES ('7.1', 'cyfry_liczby', '2026-02-20', 'poprawne_z_pomoca_1')")
+	db.Exec(`INSERT INTO progress_bledy (exercise_id, typ, blad_kod, blad_opis, data)
+		VALUES ('7.1', 'cyfry_liczby', 'mylenie_div_mod', 'Pomylenie div z mod', '2026-02-20')`)
+
+	// Exercise tags are skill tags, NOT error codes
+	coaching := buildCoaching(db, "cyfry_liczby", []string{"cyfry-mod-div", "cyfry-dzielniki"})
+	if len(coaching.PastMistakes) != 1 {
+		t.Errorf("expected 1 past_mistake with real error code, got %d: %v", len(coaching.PastMistakes), coaching.PastMistakes)
+	}
+	if len(coaching.PastMistakes) > 0 && coaching.PastMistakes[0] != "Pomylenie div z mod" {
+		t.Errorf("expected 'Pomylenie div z mod', got %q", coaching.PastMistakes[0])
 	}
 }
 
@@ -3641,6 +3687,10 @@ func TestNormalizeAnswer(t *testing.T) {
 		{"13.00", "13"},
 		{"  hello world  ", "hello world"},
 		{"0013", "13"},
+		{"2 → 5 → 8", "2 -> 5 -> 8"},
+		{"A ← B", "a <- b"},
+		{"1⟶2⟶3", "1->2->3"},
+		{"tak → nie → tak", "tak -> nie -> tak"},
 	}
 	for _, c := range cases {
 		got := normalizeAnswer(c.input)
@@ -3724,5 +3774,52 @@ func TestCheckAnswerNonAutoScorable(t *testing.T) {
 	}
 	if !isAutoScorable("sledzenie_algorytmu") {
 		t.Error("sledzenie_algorytmu SHOULD be auto-scorable")
+	}
+}
+
+func TestCheckMultiPartAnswerAllCorrect(t *testing.T) {
+	result := checkMultiPartAnswer("a) 5  b) 13  c) PRAWDA", "a) 5 b) 13 c) prawda")
+	if !result.Poprawne {
+		t.Error("all parts correct should be poprawne")
+	}
+	if result.Wynik != "pelne" {
+		t.Errorf("expected wynik=pelne, got %q", result.Wynik)
+	}
+}
+
+func TestCheckMultiPartAnswerPartial(t *testing.T) {
+	result := checkMultiPartAnswer("a) 5  b) 13  c) PRAWDA", "a) 5 b) 99 c) prawda")
+	if result.Poprawne {
+		t.Error("partial answer should not be poprawne")
+	}
+	if result.Wynik != "czesciowe" {
+		t.Errorf("expected wynik=czesciowe, got %q", result.Wynik)
+	}
+	if result.TrafioneParts != 2 || result.TotalParts != 3 {
+		t.Errorf("expected 2/3 parts, got %d/%d", result.TrafioneParts, result.TotalParts)
+	}
+}
+
+func TestCheckMultiPartAnswerAllWrong(t *testing.T) {
+	result := checkMultiPartAnswer("a) 5  b) 13  c) PRAWDA", "a) 1 b) 2 c) falsz")
+	if result.Poprawne {
+		t.Error("all wrong should not be poprawne")
+	}
+	if result.Wynik != "zero" {
+		t.Errorf("expected wynik=zero, got %q", result.Wynik)
+	}
+}
+
+func TestCheckMultiPartAnswerSinglePart(t *testing.T) {
+	result := checkMultiPartAnswer("42", "42")
+	if !result.Poprawne {
+		t.Error("single-part correct should be poprawne")
+	}
+}
+
+func TestCheckMultiPartAnswerNewlineSeparated(t *testing.T) {
+	result := checkMultiPartAnswer("a) 5\nb) 13\nc) PRAWDA", "a) 5\nb) 13\nc) prawda")
+	if !result.Poprawne {
+		t.Error("newline-separated all correct should be poprawne")
 	}
 }
