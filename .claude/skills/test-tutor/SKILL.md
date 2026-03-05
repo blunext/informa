@@ -35,65 +35,67 @@ Domyslne scenariusze per persona:
 Na poczatku pobierz dane potrzebne agentom (unikaj powtarzania CLI calls w agentach):
 
 ```bash
+set -e
 CLI_DIR="matura_informatyka_rozszerzona/analiza/cli"
 MATURA="$CLI_DIR/matura"
+TEST_DIR="/tmp/test-tutor-$(date +%s)"
 
 # Testowany skill
 SKILL_CONTENT=$(cat .claude/skills/matura/SKILL.md)
 
 # Utworz temp DB (izolacja od user progress)
-mkdir -p /tmp/test-tutor-$$
-cp "$CLI_DIR/matura.db" /tmp/test-tutor-$$/matura.db
+mkdir -p "$TEST_DIR"
+cp "$CLI_DIR/matura.db" "$TEST_DIR/matura.db"
 
 # Przykladowe cwiczenia (po 1 na typ)
-EX_TEORIA=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ sledzenie_algorytmu --trudnosc latwe)
-EX_IMPL=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ cyfry_liczby --trudnosc latwe)
-EX_SQL=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ sql_group_by --trudnosc latwe)
-EX_ARKUSZ=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ agregacja_warunkowa --trudnosc latwe)
+EX_TEORIA=$($MATURA --db-dir $TEST_DIR exercise question --typ sledzenie_algorytmu --trudnosc latwe)
+EX_IMPL=$($MATURA --db-dir $TEST_DIR exercise question --typ cyfry_liczby --trudnosc latwe)
+EX_SQL=$($MATURA --db-dir $TEST_DIR exercise question --typ sql_group_by --trudnosc latwe)
+EX_ARKUSZ=$($MATURA --db-dir $TEST_DIR exercise question --typ agregacja_warunkowa --trudnosc latwe)
 
 # Exercise IDs (for hints/answer fetch)
 EX_TEORIA_ID=$(printf '%s' "$EX_TEORIA" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
 EX_IMPL_ID=$(printf '%s' "$EX_IMPL" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
 
 # Unblock guardrails for pre-fetch (exercise question registers with attempt_count=0)
-sqlite3 /tmp/test-tutor-$$/matura_progress.db "UPDATE active_exercises SET attempt_count = 99;"
+sqlite3 $TEST_DIR/matura_progress.db "UPDATE active_exercises SET attempt_count = 99;"
 
 # Hinty i odpowiedzi (lazy loading — osobne wywolania)
-HINTS_TEORIA=$($MATURA --db-dir /tmp/test-tutor-$$ exercise hints --id $EX_TEORIA_ID)
-HINTS_IMPL=$($MATURA --db-dir /tmp/test-tutor-$$ exercise hints --id $EX_IMPL_ID)
-ANSWER_TEORIA=$($MATURA --db-dir /tmp/test-tutor-$$ exercise answer --id $EX_TEORIA_ID)
-ANSWER_IMPL=$($MATURA --db-dir /tmp/test-tutor-$$ exercise answer --id $EX_IMPL_ID)
+HINTS_TEORIA=$($MATURA --db-dir $TEST_DIR exercise hints --id $EX_TEORIA_ID)
+HINTS_IMPL=$($MATURA --db-dir $TEST_DIR exercise hints --id $EX_IMPL_ID)
+ANSWER_TEORIA=$($MATURA --db-dir $TEST_DIR exercise answer --id $EX_TEORIA_ID)
+ANSWER_IMPL=$($MATURA --db-dir $TEST_DIR exercise answer --id $EX_IMPL_ID)
 
 # Typ intro
-INTRO_TEORIA=$($MATURA --db-dir /tmp/test-tutor-$$ typ intro --typ sledzenie_algorytmu)
+INTRO_TEORIA=$($MATURA --db-dir $TEST_DIR typ intro --typ sledzenie_algorytmu)
 
 # Progress status (fresh)
-STATUS=$($MATURA --db-dir /tmp/test-tutor-$$ progress status)
+STATUS=$($MATURA --db-dir $TEST_DIR progress status)
 
 # Cheatsheet excerpt
-CHEAT_TEORIA=$($MATURA --db-dir /tmp/test-tutor-$$ cheatsheet get --kategoria TEORIA --sekcja "archetyp")
+CHEAT_TEORIA=$($MATURA --db-dir $TEST_DIR cheatsheet get --kategoria TEORIA --sekcja "archetyp")
 
 # Coaching_aware: zasymuluj progressed studenta
-sqlite3 /tmp/test-tutor-$$/matura_progress.db "
+sqlite3 $TEST_DIR/matura_progress.db "
 INSERT INTO progress_typy (typ, poziom_trudnosci, streak) VALUES ('cyfry_liczby', 'srednie', 4);
 INSERT INTO progress_tagi (tag, lapses, stability, last_review) VALUES ('cyfry-mod-div', 4, 1.0, '$(date -v-30d +%Y-%m-%d)');
 INSERT INTO progress_bledy (exercise_id, typ, blad_kod, blad_opis, data) VALUES ('7.1', 'cyfry_liczby', 'mylenie_div_mod', 'Pomylenie div z mod', '$(date +%Y-%m-%d)');
 INSERT INTO progress_zrobione (id, typ, data, wynik) VALUES ('7.1','cyfry_liczby','$(date +%Y-%m-%d)','poprawne_z_pomoca_1');
 "
-EX_COACHING=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ cyfry_liczby)
+EX_COACHING=$($MATURA --db-dir $TEST_DIR exercise question --typ cyfry_liczby)
 EX_COACHING_ID=$(printf '%s' "$EX_COACHING" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
-sqlite3 /tmp/test-tutor-$$/matura_progress.db "UPDATE active_exercises SET attempt_count = 99 WHERE exercise_id = '$EX_COACHING_ID';"
-HINTS_COACHING=$($MATURA --db-dir /tmp/test-tutor-$$ exercise hints --id $EX_COACHING_ID)
-ANSWER_COACHING=$($MATURA --db-dir /tmp/test-tutor-$$ exercise answer --id $EX_COACHING_ID)
+sqlite3 $TEST_DIR/matura_progress.db "UPDATE active_exercises SET attempt_count = 99 WHERE exercise_id = '$EX_COACHING_ID';"
+HINTS_COACHING=$($MATURA --db-dir $TEST_DIR exercise hints --id $EX_COACHING_ID)
+ANSWER_COACHING=$($MATURA --db-dir $TEST_DIR exercise answer --id $EX_COACHING_ID)
 
 # cke_unlock: zasymuluj studenta tuz przed progiem trudne (streak=7, srednie-trudne)
-sqlite3 /tmp/test-tutor-$$/matura_progress.db "
+sqlite3 $TEST_DIR/matura_progress.db "
 INSERT OR REPLACE INTO progress_typy (typ, poziom_trudnosci, streak) VALUES ('sledzenie_algorytmu', 'srednie-trudne', 7);
 "
-EX_CKE_PRE=$($MATURA --db-dir /tmp/test-tutor-$$ exercise question --typ sledzenie_algorytmu --trudnosc srednie-trudne)
+EX_CKE_PRE=$($MATURA --db-dir $TEST_DIR exercise question --typ sledzenie_algorytmu --trudnosc srednie-trudne)
 EX_CKE_PRE_ID=$(printf '%s' "$EX_CKE_PRE" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['id'])")
-$MATURA --db-dir /tmp/test-tutor-$$ progress blad --exercise-id $EX_CKE_PRE_ID --typ sledzenie_algorytmu --kod zly_wynik --hint 0 > /dev/null 2>&1
-ANSWER_CKE_PRE=$($MATURA --db-dir /tmp/test-tutor-$$ exercise answer --id $EX_CKE_PRE_ID)
+$MATURA --db-dir $TEST_DIR progress blad --exercise-id $EX_CKE_PRE_ID --typ sledzenie_algorytmu --kod zly_wynik --hint 0 > /dev/null 2>&1
+ANSWER_CKE_PRE=$($MATURA --db-dir $TEST_DIR exercise answer --id $EX_CKE_PRE_ID)
 
 # Raport metadata
 REPORT_DATE=$(date +%Y-%m-%d)
@@ -160,7 +162,7 @@ overall = 0.6 * L1_percent + 0.4 * (L2_avg / 5 * 100)
 
 | # | Kryterium | Warstwa | Waga | Opis |
 |---|-----------|---------|------|------|
-| 1 | CLI compliance | L1 binary | 35% | Checkpoints CLI: exercise next (nie question), lazy loading, progress blad z --kod i --hint, progress update z --wynik i --czas, exercise hints/answer w odpowiednim momencie |
+| 1 | CLI compliance | L1 binary | 35% | Checkpoints CLI: exercise next (nie question), lazy loading, progress blad z --kod i --hint, progress update z --wynik, --punktacja i --czas, exercise hints/answer w odpowiednim momencie |
 | 2 | Metoda sokratejska | L2 holistic | 25% | Pytania naprowadzajace, uczen probuje pierwszy, brak gotowych odpowiedzi |
 | 3 | Ton i jezyk | L2 holistic | 15% | Polski, "ty", bez emoji, zachecanie, cierpliwosc, feedback czasowy, konsolidacja |
 | 4 | Coaching reaction | L1 binary | 15% | coaching_actions zrealizowane: WARN_LEECH, MENTION_PAST, HINT_DELAY |
@@ -192,7 +194,7 @@ CLI compliance:
 [ ] exercise next --typ sledzenie_algorytmu (NIE exercise question)
 [ ] exercise answer --id X NIE pobrane przed proba ucznia
 [ ] progress blad --exercise-id X --typ Y --kod Z --hint N (po wymiana_3)
-[ ] progress update --id X --wynik Y --czas Z (po kazdym cwiczeniu)
+[ ] progress update --id X --wynik Y --punktacja P --czas Z (po kazdym cwiczeniu)
 
 Coaching reaction:
 [ ] coaching_actions zrealizowane (jesli obecne w exercise next)
@@ -220,7 +222,7 @@ CLI compliance:
 [ ] exercise answer NIE pobrane przed proba ucznia
 [ ] progress blad PRZED exercise hints (kazdorazowo)
 [ ] progress blad z --hint 0 (przed hintem) i --hint 1/2/3 (po hincie)
-[ ] progress update --wynik walk_through --czas Z na koncu
+[ ] progress update --wynik walk_through --punktacja zero --czas Z na koncu
 
 Coaching reaction:
 [ ] coaching_actions zrealizowane (jesli obecne)
@@ -415,13 +417,15 @@ Przeprowadz symulacje sesji korepetycji, grajac OBIE role:
 - Question (IMPL): {EX_IMPL}
 - Hints (IMPL): {HINTS_IMPL}
 - Answer (IMPL): {ANSWER_IMPL}
-- Question (COACHING): {EX_COACHING} (only for coaching_aware scenario)
-- Hints (COACHING): {HINTS_COACHING}
-- Answer (COACHING): {ANSWER_COACHING}
-- Question (CKE_PRE): {EX_CKE_PRE} (only for cke_unlock — exercise before unlock)
-- Answer (CKE_PRE): {ANSWER_CKE_PRE}
+- Question (COACHING): {EX_COACHING} (TYLKO dla coaching_aware)
+- Hints (COACHING): {HINTS_COACHING} (TYLKO dla coaching_aware)
+- Answer (COACHING): {ANSWER_COACHING} (TYLKO dla coaching_aware)
+- Question (CKE_PRE): {EX_CKE_PRE} (TYLKO dla cke_unlock)
+- Answer (CKE_PRE): {ANSWER_CKE_PRE} (TYLKO dla cke_unlock)
 - Typ intro: {INTRO_TEORIA}
 - Progress status: {STATUS}
+
+Uzywaj TYLKO danych istotnych dla Twojego scenariusza. Ignoruj dane oznaczone jako "TYLKO dla X" jesli Twoj scenariusz != X.
 
 ## Instrukcje
 
@@ -557,7 +561,7 @@ Po zakonczeniu wszystkich agentow:
    - Append as a SINGLE LINE (JSONL format) using Bash: `echo '{JSON}' >> {REPORT_DIR}/historia.json`
    - Do NOT pretty-print. One JSON object per line.
 6. **Generate cumulative report**:
-   a. Run (Bash): `{CLI_PATH} test-report summary --historia {REPORT_DIR}/historia.json --format md`
+   a. Run (Bash): `$MATURA test-report summary --historia {REPORT_DIR}/historia.json --format md`
    b. Capture the markdown output — this is the deterministic Go-computed section (dashboard, history table, per-scenario trends, L2 trends, evaluator noise)
    c. Write an **Interpretacja** section after the Go output. Read the numbers and trends from the Go output and write:
       - **Co sie zmienilo?** — explain score changes vs previous run using delta and per-scenario trends
@@ -571,5 +575,5 @@ Po zakonczeniu wszystkich agentow:
 ## 10. Cleanup
 
 ```bash
-rm -rf /tmp/test-tutor-$$
+rm -rf "$TEST_DIR"
 ```

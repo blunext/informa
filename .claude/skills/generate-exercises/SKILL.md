@@ -43,7 +43,7 @@ Algorytm propozycji (od najwazniejszego):
 
 Wyswietl propozycje w formie:
 ```
-📊 Propozycja generacji:
+Propozycja generacji:
 1. agregacja_warunkowa: +7 (brakuje: Ś-T ×4, T ×3) → docelowo 10/10/5/5
 2. symulacja: +6 (brakuje: L ×2, Ś-T ×2, T ×2) → docelowo 10/10/5/5
 3. sql_select_where: +10 (cel: 10/10/10/10)

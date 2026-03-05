@@ -102,7 +102,7 @@ Wywoluj przez Bash. JSON na stdout. Exit: 0=OK, 1=not found, 2=error.
 | Pobierz odpowiedz | `./matura exercise answer --id {id}` |
 | Zaleglosc powtorkowa | `./matura exercise review [--limit N]` |
 | Info o typie | `./matura typ intro --typ {typ}` |
-| Zapisz wynik | `./matura progress update --id {id} --wynik {w} [--punktacja P] [--czas S]` |
+| Zapisz wynik | `./matura progress update --id {id} --wynik {w} --punktacja P [--czas S]` |
 | Zapisz blad | `./matura progress blad --exercise-id {id} --typ {typ} --kod {kod} --hint N` |
 | Sugestia kodu bledu | `./matura exercise suggest-error --id {id} [--student-answer Y]` |
 | Auto-scoring (TEORIA) | `./matura exercise check-answer --id {id} --answer Y` |
@@ -214,7 +214,7 @@ CLI automatycznie: liczy wage kontekstu (kazda komenda dodaje swoja wage), revie
 Pola odpowiedzi:
 - `mode`: "review", "interleave", "new"
 - `review_tag`, `days_overdue`: wypelnione przy mode=review
-- `pool_warning`: ostrzezenie gdy <= 2 cwiczenia dostepne
+- `pool_warning`: ostrzezenie gdy <= 2 cwiczenia dostepne. Jesli pool = 0 → zaproponuj uczniowi inny typ lub inny poziom trudnosci
 - `session_count`: ile cwiczen w dzisiejszej sesji
 - `session_weight`: aktualna waga kontekstu sesji (auto-tracked by CLI)
 - `reset_suggested`: true gdy session_weight >= 80 (patrz sekcja I)
@@ -246,9 +246,9 @@ Gdy `exercise next` zwraca `mode: "interleave"`:
    ```
 3. **[GATE]** Przed prosba o rozwiazanie sprawdz:
    - Jesli `trudnosc` >= `srednie-trudne` ORAZ `typ` in (`sledzenie_algorytmu`, `projektowanie_algorytmu`):
-     → Przejdz do "Tryb krok-po-kroku" ponizej (sekcja E). NIE mow "Podaj rozwiazanie".
+     → Przejdz do "Tryb krok-po-kroku" ponizej. NIE mow "Podaj rozwiazanie".
    - Jesli `trudnosc` >= `trudne` (dowolny typ):
-     → Przejdz do "Tryb krok-po-kroku" ponizej (sekcja E). NIE mow "Podaj rozwiazanie".
+     → Przejdz do "Tryb krok-po-kroku" ponizej. NIE mow "Podaj rozwiazanie".
    - W przeciwnym razie: "Podaj swoje rozwiazanie."
 
 ### E2. Coaching (kontekst ucznia z CLI)
@@ -339,7 +339,7 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
 **2. Jesli POPRAWNA** → zapis wyniku:
    ```
    ELAPSED=$(($(date +%s) - START_TS))
-   ./matura progress update --id {id} --wynik {wynik} --czas $ELAPSED
+   ./matura progress update --id {id} --wynik {wynik} --punktacja {punktacja} --czas $ELAPSED
    ```
    - Jesli `blad_warning` w odpowiedzi → `progress blad` natychmiast
    - Jesli `lapses >= 3` → "Ten temat ({tag}) sprawia Ci trudnosc juz po raz {lapses}."
@@ -402,7 +402,7 @@ Jesli uczen odpowie poprawnie na 3 kroki z rzedu -> "Widze ze lapiesz — chcesz
    - **[WYMAGANE] Wizualizacja** (typy: sledzenie, projektowanie, analiza, konwersja, bezpieczenstwo):
      narysuj ASCII diagram (tabelka, drzewo, schemat, kolumna dzielenia, wykres)
    - Walk_through resetuje poziom do "new" → hint_delay wraca do 1.
-   - Zapis: `progress update --id {id} --wynik walk_through --czas $ELAPSED`
+   - Zapis: `progress update --id {id} --wynik walk_through --punktacja zero --czas $ELAPSED`
 
 **6. Wizualizacja proaktywna** — po cwiczeniu z bledem (wynik != poprawne_bez_pomocy):
    patrz sekcja "Wizualizacje" ponizej.
@@ -486,7 +486,7 @@ W trakcie sesji uczen moze wpisac ponizsze komendy ale tez rozmawiac naturalnie:
 | `nastepny` / `dalej` | Zapisz biezace cwiczenie (jesli nie zapisano), przejdz do nastepnego |
 | `zmien temat` | Wyswietl 4 kategorie + 23 typy, uczen wybiera |
 | `podsumowanie` | Postep w biezacej sesji: ile cwiczen, wyniki |
-| `strategia` | Porady egzaminacyjne: Read `{BASE}/cheatsheets/podczas_egzaminu.md` |
+| `strategia` | Porady egzaminacyjne: Read `matura_informatyka_rozszerzona/analiza/cheatsheets/podczas_egzaminu.md` |
 | `powtorka` | `./matura exercise review` |
 | `status` | `./matura progress diagnose` — dashboard z rekomendacja, retencja, zaleglosci |
 | `diagnoza [typ]` | `./matura progress diagnose` — analiza powtarzajacych sie bledow |
