@@ -21,6 +21,7 @@ func main() {
 		Short: "CLI for matura informatyka exam preparation",
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 			// Resolve dbDir
+			explicitDbDir := dbDir != "" || os.Getenv("MATURA_DB_DIR") != ""
 			if dbDir == "" {
 				if d := os.Getenv("MATURA_DB_DIR"); d != "" {
 					dbDir = d
@@ -32,6 +33,13 @@ func main() {
 						dbDir = "."
 					}
 				}
+			}
+
+			// Safety guard: MATURA_TEST_MODE=1 requires explicit isolation.
+			// Prevents test-tutor (and other test harnesses) from accidentally
+			// writing to the real matura_progress.db when --db-dir is forgotten.
+			if os.Getenv("MATURA_TEST_MODE") == "1" && !explicitDbDir {
+				return fmt.Errorf("MATURA_TEST_MODE=1 but no --db-dir or MATURA_DB_DIR set — refusing to write to default DB at %s", dbDir)
 			}
 
 			// Skip DB open for "data import" — it opens its own DB

@@ -40,6 +40,18 @@ CLI_DIR="matura_informatyka_rozszerzona/analiza/cli"
 MATURA="$CLI_DIR/matura"
 TEST_DIR="/tmp/test-tutor-$(date +%s)"
 
+# === SAFETY GUARDS ===
+# Aktywuj guard w CLI: bez --db-dir / MATURA_DB_DIR binarka odmowi zapisu do domyslnej progress.db
+export MATURA_TEST_MODE=1
+
+# Backup hash prawdziwej bazy ucznia — wykryjemy jesli cokolwiek ja zmodyfikuje
+REAL_PROGRESS="$CLI_DIR/matura_progress.db"
+REAL_PROGRESS_HASH_PRE=""
+if [ -f "$REAL_PROGRESS" ]; then
+  REAL_PROGRESS_HASH_PRE=$(shasum -a 256 "$REAL_PROGRESS" | awk '{print $1}')
+fi
+# === END SAFETY GUARDS ===
+
 # Testowany skill
 SKILL_CONTENT=$(cat .claude/skills/matura/SKILL.md)
 
@@ -576,4 +588,17 @@ Po zakonczeniu wszystkich agentow:
 
 ```bash
 rm -rf "$TEST_DIR"
+
+# === SAFETY CHECK ===
+# Zweryfikuj ze prawdziwa progress.db ucznia NIE zostala zmieniona
+if [ -n "$REAL_PROGRESS_HASH_PRE" ] && [ -f "$REAL_PROGRESS" ]; then
+  REAL_PROGRESS_HASH_POST=$(shasum -a 256 "$REAL_PROGRESS" | awk '{print $1}')
+  if [ "$REAL_PROGRESS_HASH_PRE" != "$REAL_PROGRESS_HASH_POST" ]; then
+    echo "FATAL: test-tutor zmodyfikowal prawdziwa matura_progress.db!" >&2
+    echo "  pre:  $REAL_PROGRESS_HASH_PRE" >&2
+    echo "  post: $REAL_PROGRESS_HASH_POST" >&2
+    exit 2
+  fi
+fi
+unset MATURA_TEST_MODE
 ```
