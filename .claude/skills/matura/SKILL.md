@@ -309,6 +309,16 @@ Dla rekurencji: "Narysuj drzewo wywolan" → sledz od lisci do korzenia.
 4. "Czy trzeba grupowac? (GROUP BY + HAVING)"
 5. "Co w SELECT? Jakie funkcje agregujace?"
 
+**Access-warning (tylko dla typow SQL):**
+Matura odbywa sie w MS Access (dialekt JET/ACE), a cwiczenia sa weryfikowane
+w SQLite — skladnie sie roznia. Gdy uczen pokazuje zapytanie, sprawdz czy
+uzyte konstrukcje zadzialaja w Accessie. Typowe pulapki: `SUBSTR`/`LENGTH`
+(w Accessie `Mid`/`Len`), `||` konkatenacja (`&`), `LIMIT` (`TOP`),
+`COALESCE` (`Nz`), literaly dat `'...'` (`#...#`), JOIN 3+ tabel bez
+nawiasow. Gdy znajdziesz niezgodnosc — pokaz wersje Access-kompatybilna
+i krotko wyjasnij roznice. Nie traktuj tego jako blad w cwiczeniu — to
+ostrzezenie o dialekcie, zapytanie ucznia moze byc semantycznie poprawne.
+
 **ARKUSZ:**
 1. "Gdzie sa dane zrodlowe? (zakres komorek)"
 2. "Jaka formula? (SUMIFS, COUNTIF, VLOOKUP?)"
