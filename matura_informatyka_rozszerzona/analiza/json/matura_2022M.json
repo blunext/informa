@@ -40,6 +40,11 @@
             "Duplikaty: kazdy powtorzony element ponad 1 wymaga podmiany",
             "Ciag (4,2,3,1) jest juz 4-permutacja -- odpowiedz 0",
             "Trzeba policzyc ILE brakuje, nie KTORE brakuja"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "akumulator-licznik",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -56,6 +61,10 @@
             "Tablica zliczajaca wymaga sprawdzenia zakresu przed indeksowaniem",
             "Brute-force O(n^2) jest akceptowalny, ale wymaga poprawnej logiki",
             "Nie wolno uzywac funkcji wbudowanych (sort, count, itp.)"
+          ],
+          "algorytmy": [
+            "akumulator-licznik",
+            "wyszukiwanie-liniowe"
           ]
         }
       ],
@@ -96,6 +105,10 @@
             "A[i] liczy 'a' w prefiksie, B[j] liczy 'b' w sufiksie",
             "k szuka maximum z A[i]+B[i+1], nie A[i]+B[i]",
             "k jest inicjalizowane na 1, nie na 0"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "prefix-sum"
           ]
         },
         {
@@ -111,6 +124,10 @@
             "Dla k=10: slowo musi miec dokladnie 10 liter",
             "Dla k=5: trzeba zrozumiec ze algorytm szuka optymalnego podzialu slowa na 'czesc a' i 'czesc b'",
             "Nie kazde slowo z 5a i 5b daje k=5 -- np. aaaaabbbbb daje k=10"
+          ],
+          "algorytmy": [
+            "prefix-sum",
+            "current-max"
           ]
         },
         {
@@ -128,6 +145,11 @@
             "Optymalny split jest tuz przed ostatnim blokiem b^110: A=880 (wszystkie a), B=110",
             "Bledna odpowiedz 967 wynika z podzialu po pierwszym bloku a^300 (300+667=967)",
             "Bledna odpowiedz 989 moze wynikac z bledu w obliczeniu dlugosci blokow"
+          ],
+          "algorytmy": [
+            "prefix-sum",
+            "current-max",
+            "analiza-zlozonosci"
           ]
         }
       ],
@@ -167,6 +189,9 @@
             "Petla j=i..n wykonuje sie (n-i+1) razy, lacznie n(n+1)/2 = O(n^2)",
             "Zdanie 4 jest prawdziwe bo O(n^2) jest podzbiorem O(n^3)",
             "Typowy blad: uznanie ze jest liniowa (mylenie z pojedyncza petla)"
+          ],
+          "algorytmy": [
+            "analiza-zlozonosci"
           ]
         },
         {
@@ -183,6 +208,10 @@
             "Potem skonwertowac 3303_4 = 243_10 do pozostalych systemow",
             "243_10 = 11110011_2 (8 cyfr, nie 7!) -- latwo zgubic cyfre",
             "243_10 = 363_8 (nie 362!) -- blad o 1 w konwersji"
+          ],
+          "algorytmy": [
+            "konwersja-systemow",
+            "Horner"
           ]
         },
         {
@@ -199,6 +228,12 @@
             "Zdanie 1: suma dla id_osoby=1 to 5+14+2=21 (nie 14!) bo sa 3 mandaty",
             "Zdanie 3: SELECT bez GROUP BY zwraca wiele wierszy, nie pojedyncza wartosc",
             "Zdanie 3: numer+punkty to operacja per wiersz, nie agregacja"
+          ],
+          "algorytmy": [
+            "SQL-GROUP-BY",
+            "SQL-HAVING",
+            "SQL-aggregacja",
+            "SQL-WHERE"
           ]
         }
       ],
@@ -240,6 +275,11 @@
             "Ostatnia cyfra: mod 10",
             "Trzeba podac PIERWSZA taka liczbe wg kolejnosci w pliku, nie najmniejsza",
             "Zakres [10, 100000] -- liczby moga miec 2-6 cyfr"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "iteracja-po-cyfrach",
+            "akumulator-licznik"
           ]
         },
         {
@@ -256,6 +296,11 @@
             "Wiele liczb moze miec te sama maksymalna liczbe czynnikow (3 liczby maja po 10)",
             "Trzeba podac LICZBE i JEJ LICZBE czynnikow, nie same czynniki",
             "Faktoryzacja: dzielimy przez 2, potem 3, 5, 7, ... az do sqrt(n)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "faktoryzacja",
+            "current-max"
           ]
         },
         {
@@ -272,6 +317,10 @@
             "Kolejnosc ma znaczenie: (x,y,z) gdzie x < y < z (rosnaco wg podzielnosci)",
             "Brute-force O(n^3) moze byc za wolny -- mozna optymalizowac sortujac i sprawdzajac pary",
             "Dobre piatki: analogicznie do trojek ale z 5 liczbami -- wymaga sprytnego podejscia"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik"
           ]
         }
       ],
@@ -314,6 +363,9 @@
           "pulapki": [
             "Proste COUNTIF per magazyn",
             "Uwaga na pisownie nazw magazynow w danych"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -329,6 +381,10 @@
             "Trzeba znalezc najdluzszy ciag KOLEJNYCH dni z zamowieniami z Ogrodzienca",
             "Nie wystarczy policzyc dni -- trzeba znalezc ciag bez przerw",
             "Analiza przerw w datach (gap detection)"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "current-max"
           ]
         },
         {
@@ -344,6 +400,9 @@
             "SUMIFS per magazyn -- proste ale trzeba poprawnie zsumowac",
             "Wykres musi byc KOLOWY (pie chart), nie slupkowy",
             "Wymagane: tytul, legenda, wartosci procentowe"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -360,6 +419,9 @@
             "Produkcja zalezy od dnia tygodnia (WEEKDAY)",
             "Zamowienia realizowane w kolejnosci numeracji",
             "Pierwsze zamowienie do filii = to ktore przekroczylro stan magazynu"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
           ]
         },
         {
@@ -376,6 +438,9 @@
             "Produkcja w weekendy pozostaje 5000 -- nie zmienia sie",
             "Wymaga symulacji z parametrem lub wyszukiwania binarnego",
             "Odpowiedz to MINIMALNA liczba butelek dziennie, nie laczna produkcja"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
           ]
         }
       ],
@@ -422,6 +487,12 @@
             "Warunek na profil: ProfilKlasy = 'biologiczno-chemiczny'",
             "Liczymy WEJSCIA (rekordy ewidencji), nie liczbe dziewczat",
             "360 = wejscia dziewczat (bez filtra profilu), 886 = wejscia z profilu bio-chem (bez filtra plci)"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE",
+            "SQL-LIKE",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -438,6 +509,11 @@
             "Liczymy tych co NIE spoznili sie, nie tych co sie spoznili",
             "Trzeba pogrupowac po dniach (5 wierszy w wyniku)",
             "Roznica w interpretacji: <= 08:00:00 vs < 08:00:00 daje rozne wyniki dla srody"
+          ],
+          "algorytmy": [
+            "SQL-GROUP-BY",
+            "SQL-WHERE",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -455,6 +531,12 @@
             "Bez identyfikatora: jezeli szuszszemy po samym imieniu/nazwisku (bez IdUcznia), mozna dostac inny wynik",
             "ORDER BY DESC + LIMIT 3 -- szukamy NAJDLUZSZEGO czasu",
             "JOIN z uczen zeby dostac imie i nazwisko"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-ORDER-BY",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -471,6 +553,10 @@
             "Trzeba sprawdzic date 2022-04-06 (6 kwietnia = sroda)",
             "Alternatywne podejscie: LEFT JOIN ewidencja WHERE ewidencja.IdUcznia IS NULL",
             "Trzeba podac imie i nazwisko, nie sam identyfikator"
+          ],
+          "algorytmy": [
+            "SQL-podzapytanie-niezalezne",
+            "SQL-WHERE"
           ]
         }
       ],

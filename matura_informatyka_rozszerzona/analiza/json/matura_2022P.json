@@ -33,6 +33,11 @@
           "pulapki": [
             "Blad o jeden (off-by-one): porownujemy 9999 par, nie 10000",
             "Zliczanie zmian zamiast zliczania sytuacji bez zmian (dopelnienie: 9999-5030=4969)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik",
+            "porownywanie-tekstow"
           ]
         },
         {
@@ -48,6 +53,11 @@
             "Warunek zakonczenia seta wymaga JEDNOCZESNIE: co najmniej 1000 pkt u jednej druzyny ORAZ roznica co najmniej 3",
             "Latwo pominac warunek roznicy 3 punktow (analogia do deucea w tenisie)",
             "Wynik moze przekroczyc 1000 jesli roznica jest mniejsza niz 3"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik",
+            "porownywanie-tekstow"
           ]
         },
         {
@@ -63,6 +73,12 @@
             "Dobra passa to co najmniej 10 z rzedu, nie dokladnie 10",
             "Trzeba policzyc passy obu druzyn lacznie",
             "Passa moze konczyc sie na koncu pliku (nie musi konczyc sie przegrana)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik",
+            "current-max",
+            "najdluzszy-podciag-niemalejacy"
           ]
         }
       ]
@@ -87,6 +103,11 @@
             "Trzeba sledzic rekurencje: rysuj(1) rysuje strzalki 1->2, 1->3, potem rekurencyjnie rysuj(2) i rysuj(3) itd.",
             "Wezel 5 ma tylko jedno dziecko (10), bo 2*5+1=11 > 10",
             "Wezly 6,7 nie maja dzieci bo 2*6=12 > 10"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "rekurencja",
+            "drzewo"
           ]
         },
         {
@@ -101,6 +122,11 @@
           "pulapki": [
             "Kazda strzalka laczy rodzica z dzieckiem -- w drzewie o N wezlach jest dokladnie N-1 krawedzi",
             "Dla N=20: rysuj(1) tworzy pelne drzewo binarne z 20 wezlami, wiec 19 strzalek"
+          ],
+          "algorytmy": [
+            "rekurencja",
+            "drzewo",
+            "analiza-zlozonosci"
           ]
         },
         {
@@ -116,6 +142,10 @@
             "2047 = 2^11 - 1, wiec drzewo binarne ma 11 poziomow (od 0 do 10)",
             "Sciezka od korzenia (1) do wezla 2047 (ostatni wezel na poziomie 10) ma dlugosc 10",
             "Wezel 2047 jest skrajnie prawym wezlem: 1->3->7->15->31->63->127->255->511->1023->2047"
+          ],
+          "algorytmy": [
+            "drzewo",
+            "analiza-zlozonosci"
           ]
         },
         {
@@ -131,6 +161,11 @@
             "y jest potomkiem x w drzewie binarnym wtedy i tylko wtedy, gdy dzielac y przez 2 wielokrotnie, w koncu otrzymamy x",
             "Nie wystarczy sprawdzic jednego poziomu -- trzeba sprawdzic cala sciezke od y do korzenia",
             "Druga liczba w parze jest wieksza, wiec x jest pierwsza, y druga"
+          ],
+          "algorytmy": [
+            "drzewo",
+            "iteracja-po-pliku",
+            "iteracja-po-cyfrach"
           ]
         }
       ]
@@ -155,6 +190,10 @@
             "Gorny zakres petli: N jest poprawne (choc sqrt(N) jest optymalne -- oba akceptowane)",
             "j zaczyna od i*i (lub 2*i) -- nie od i+1",
             "j zwiekszamy o i (j <- j+i), nie o 1"
+          ],
+          "algorytmy": [
+            "sito-Eratostenesa",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -170,6 +209,12 @@
             "Sprawdzamy x-1 (nie x) czy jest pierwsza",
             "Trzeba uzyc wydajnego testu pierwszosci (sito lub dzielniki do sqrt) -- liczby do 999 999",
             "Mozliwy off-by-one jesli blednie implementujemy sito"
+          ],
+          "algorytmy": [
+            "sito-Eratostenesa",
+            "iteracja-po-pliku",
+            "akumulator-licznik",
+            "test-pierwszosci"
           ]
         },
         {
@@ -186,6 +231,13 @@
             "Trzeba uzyc sita Eratostenesa do generowania liczb pierwszych do 1 000 000",
             "Dla kazdej liczby n: zliczamy pary (p, n-p) gdzie p <= n-p i oba sa pierwsze",
             "Zlozonosc: 100 liczb * do 500 000 sprawdzen -- wymaga wydajnego sita"
+          ],
+          "algorytmy": [
+            "sito-Eratostenesa",
+            "iteracja-po-pliku",
+            "current-max",
+            "current-min",
+            "akumulator-licznik"
           ]
         },
         {
@@ -201,6 +253,12 @@
             "Cyfry szesnastkowe to 0-9 i A-F (wielkie litery)",
             "Trzeba policzyc wszystkie wystapienia kazdej cyfry we WSZYSTKICH zapisach hex lacznie",
             "Konwersja na hex: dzielenie przez 16 z reszta, lub uzycie gotowych funkcji"
+          ],
+          "algorytmy": [
+            "konwersja-systemow",
+            "iteracja-po-cyfrach",
+            "iteracja-po-pliku",
+            "akumulator-licznik"
           ]
         }
       ]
@@ -225,6 +283,10 @@
             "Najdluzszy okres bez opadow = najdluzsza seria dni z retencja=0",
             "Podlewanie co 5 dni suszy (nie co 5 dni kalendarzowych) -- tylko w okresie kwiecien-wrzesien",
             "Podlewanie nastepuje niezaleznie od tego, czy jest woda w zbiorniku (brak wody = woda z wodociagu)"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "current-max"
           ]
         },
         {
@@ -240,6 +302,9 @@
             "Retencja to ilosc zebranej wody, nie stan zbiornika",
             "Sumujemy kolumne retencja dla kazdego miesiaca",
             "Wykres musi miec: tytul, opisy osi, poprawny typ (kolumnowy/slupkowy)"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -257,6 +322,11 @@
             "Gdy zbiornik pusty, brakujaca woda idzie z wodociagu -- nie ujemny stan zbiornika",
             "Poczatkowy stan zbiornika: 5000 l",
             "Sroda moze sie nakladac z dniem podlewania -- wtedy zuzycie = 260 + 300"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "akumulator-licznik",
+            "akumulator-suma"
           ]
         }
       ]
@@ -281,6 +351,11 @@
             "Liczba noclegow = data_wyjazdu - data_przyjazdu (nie +1, bo ostatni dzien to wyjazd)",
             "Goscie moga miec wiele pobytow -- trzeba zsumowac noclegi po nr_dowodu",
             "Lacznie identyfikujemy goscia po nr_dowodu, ale wypisujemy imie i nazwisko"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-suma",
+            "current-max"
           ]
         },
         {
@@ -296,6 +371,10 @@
             "Warunek: powyzej 2000 (>2000), nie >= 2000 -- roznica daje 5 vs 3 nazwiska",
             "Koszt noclegu = liczba_noclegow * cena_pokoju (z tabeli pokoje.txt)",
             "Goscie moga miec wiele pobytow w roznych pokojach -- sumujemy wszystkie"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-warunkowy"
           ]
         },
         {
@@ -311,6 +390,11 @@
             "Warunek podwojny: standard = 'N' ORAZ brak gosci z Opola i Katowic",
             "Bez warunku standardu odpowiedz ma 27 pokoi (czesciolwa -- 1 pkt)",
             "Trzeba polaczyc 3 pliki: pokoje (standard), noclegi (nr_pokoju), klienci (miejscowosc)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-warunkowy",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -325,6 +409,10 @@
           "pulapki": [
             "Proste GROUP BY -- bez JOIN, jedna tabela",
             "Count(*) zlicza wszystkie wiersze w grupie"
+          ],
+          "algorytmy": [
+            "SQL-GROUP-BY",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -340,6 +428,11 @@
             "Wymaga JOIN trzech tabel: uslugi_dodatkowe -> noclegi (id_pobytu) -> klienci (nr_dowodu)",
             "GROUP BY po kluczu goscia (nr_dowodu) -- nie po imieniu/nazwisku (moze byc powtorka)",
             "SUM(cena_uslugi) -- lacznie za wszystkie uslugi danego goscia"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja"
           ]
         }
       ]
@@ -364,7 +457,8 @@
             "SMTP = wysylanie, IMAP = odbieranie poczty (nie odwrotnie)",
             "HTTPS = szyfrowany HTTP (nie mylić z HTTP)",
             "FTP = przesylanie plikow"
-          ]
+          ],
+          "algorytmy": []
         }
       ]
     },
@@ -388,6 +482,9 @@
             "Szyfrowanie SYMETRYCZNE uzywa JEDNEGO klucza (tego samego do szyfrowania i deszyfrowania)",
             "Dwa klucze (prywatny i publiczny) to szyfrowanie ASYMETRYCZNE",
             "Zdanie 1 jest prawdziwe: ten sam klucz sluzy do szyfrowania i deszyfrowania"
+          ],
+          "algorytmy": [
+            "szyfrowanie-klucz-publiczny"
           ]
         }
       ]
@@ -414,6 +511,10 @@
             "229+186 = 415 = 19F_16 = 12133_4",
             "229-186 = 43 = 2B_16 = 223_4",
             "Konwersja czworkowa->szesnastkowa: kazde 2 cyfry czworkowe = 1 cyfra hex (bo 4^2=16)"
+          ],
+          "algorytmy": [
+            "konwersja-systemow",
+            "Horner"
           ]
         }
       ]

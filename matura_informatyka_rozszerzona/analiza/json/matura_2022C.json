@@ -40,6 +40,10 @@
             "229: 2^2+2^2+9^2=89, 8^2+9^2=145, 1^2+4^2+5^2=42, 4^2+2^2=20, 2^2+0^2=4, 4^2=16, 1^2+6^2=37, 3^2+7^2=58, 5^2+8^2=89 -- cykl, nigdy 1, wiec NIE nudna (ciekawa)",
             "82: 8^2+2^2=68, 6^2+8^2=100, 1^2+0^2+0^2=1 -- dochodzi do 1, wiec TAK nudna",
             "Trzeba sledzic ciag az do 1 lub wykrycia cyklu"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "iteracja-po-cyfrach"
           ]
         },
         {
@@ -55,6 +59,10 @@
             "Trzeba podnosic cyfre do kwadratu, nie tylko sumowac cyfry",
             "Petla while(n > 0), nie for z ustalona liczba iteracji",
             "n%10 daje ostatnia cyfre, n/=10 (dzielenie calkowite) usuwa ja"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach",
+            "akumulator-suma"
           ]
         },
         {
@@ -70,6 +78,10 @@
             "Trzeba wykrywac cykl (powtorzenie wartosci), nie wystarczy ograniczyc liczbe iteracji",
             "Tablica T[0..243] wystarczy bo suma kwadratow cyfr < 1000 nie przekroczy 243",
             "Warunek stopu: albo n == 1 (nudna) albo powtorzenie wartosci (ciekawa)"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach",
+            "wyszukiwanie-liniowe"
           ]
         }
       ]
@@ -94,6 +106,10 @@
             "Koduj(12): 12 div 2=6, 6 mod 2=0 -> Koduj(6)+'A'. Koduj(6): 6 div 2=3, 3 mod 2=1 -> 'B'+Koduj(3). Koduj(3): 3 div 2=1, 1 mod 2=1 -> 'B'+Koduj(1)='B'. Wiec Koduj(3)='B', Koduj(6)='BB', Koduj(12)='BBA'",
             "Koduj(33): 33 div 2=16, 16 mod 2=0 -> Koduj(16)+'A'. Koduj(16)=Koduj(8)+'A'. Koduj(8)=Koduj(4)+'A'. Koduj(4)=Koduj(2)+'A'. Koduj(2)='B'. Wiec 'BAAAA'",
             "Uwaga na kolejnosc: k mod 2=0 -> Koduj(k)+'A' (A na koncu), k mod 2!=0 -> 'B'+Koduj(k) (B na poczatku)"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "rekurencja"
           ]
         },
         {
@@ -110,6 +126,10 @@
             "Koduj(12)->Koduj(6)->Koduj(3)->Koduj(1) = 4 wywolania",
             "Koduj(1022)->Koduj(511)->Koduj(255)->Koduj(127)->Koduj(63)->Koduj(31)->Koduj(15)->Koduj(7)->Koduj(3)->Koduj(1) = 10 wywolan",
             "Kazde wywolanie zmniejsza n przez n div 2, wiec liczba wywolan = floor(log2(n)) + 1"
+          ],
+          "algorytmy": [
+            "rekurencja",
+            "analiza-zlozonosci"
           ]
         },
         {
@@ -125,6 +145,10 @@
             "Kod ma miec dokladnie 6 znakow, co oznacza 7-bitowa reprezentacje binarna (7 cyfr binarnych)",
             "Dlugosc kodu = floor(log2(n)), wiec szukamy liczb z zakresu [64, 127]",
             "Kod zalezy od bitow: parzyste bity daja A, nieparzyste daja B, wiec rozne liczby moga dac ten sam kod"
+          ],
+          "algorytmy": [
+            "rekurencja",
+            "konwersja-systemow"
           ]
         }
       ]
@@ -149,6 +173,9 @@
             "101101_2 = 45, 111011_2 = 59, suma = 104",
             "104 = 1101000_2 (P), 104 = 68_16 (P), 104 = 150_8 nie 140_8 (F), 104 = 1220_4 nie 1120_4 (F)",
             "Trzeba poprawnie dodawac w systemie binarnym i konwertowac na rozne systemy"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         },
         {
@@ -165,6 +192,11 @@
             "Zapytanie 2 (F): GROUP BY Lekarze.Id_lekarza -- grupuje po lekarzu, nie po specjalnosci, wiec daje liczbe wizyt na lekarza, nie na specjalnosc",
             "Zapytanie 3 (F): GROUP BY Wizyty.Id_lekarza -- jak wyzej, grupuje po lekarzu, nie po specjalnosci; count(Specjalnosc_lekarza) liczy to samo co count(*) w tym kontekscie",
             "Zapytanie 4 (F): GROUP BY Lekarze.Id_lekarza -- daje laczna liczbe wizyt u lekarza, ale SELECT Id_pacjenta jest mylacy (pokazuje losowego pacjenta z grupy, nie rozbicie na pacjentow)"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja"
           ]
         }
       ]
@@ -189,6 +221,10 @@
             "Wypisujemy ODBICIA podzielne przez 17, nie same liczby",
             "Liczba 119 moze wystapic dwa razy jesli dwie rozne liczby daja to samo odbicie",
             "Odbicie: odwrocenie cyfr, np. 6511 -> 1156"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "iteracja-po-cyfrach"
           ]
         },
         {
@@ -204,6 +240,11 @@
             "Trzeba uzyc wartosci BEZWZGLEDNEJ roznicy (|n - odbicie(n)|)",
             "Bez wartosci bezwzglednej mozna dostac inna odpowiedz (6511 i 5355)",
             "Podajemy liczbe (1129) i wartosc roznicy (8082), nie samo odbicie"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "iteracja-po-cyfrach",
+            "current-max"
           ]
         },
         {
@@ -219,6 +260,11 @@
             "Obie warunki: liczba MUSI byc pierwsza I jej odbicie MUSI byc pierwsze",
             "Nie wystarczy sprawdzic tylko jednego warunku",
             "Trzeba miec poprawny test pierwszosci"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "iteracja-po-cyfrach",
+            "test-pierwszosci"
           ]
         },
         {
@@ -234,6 +280,10 @@
             "Rozne liczby to unikalne wartosci (85 z 100 wpisow)",
             "Powtarzajace sie 2 razy = wystepujace dokladnie 2 razy",
             "100 wpisow: 85 roznych = 72 jednokrotne + 13*2=26 dwukrotne + 1*3=3 trzykrotne? Sprawdz: 72+26+3=101 != 100. Hmm, 85 roznych, 13 po 2 razy, 1 po 3 razy: 85-13-1=71 jednokrotne. 71*1+13*2+1*3=71+26+3=100. OK."
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "znajdz-i-policz"
           ]
         }
       ]
@@ -258,6 +308,10 @@
             "Cieply dzien: temperatura > 20 (nie >= 20)",
             "Szukamy NAJdluzszego spojnego ciagu",
             "Ciag moze siegnac do ostatniego dnia (31.08)"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "current-max"
           ]
         },
         {
@@ -273,6 +327,9 @@
             "Wzor: p*(1 + w*(t-24)/2), wynik zaokraglony w dol (floor)",
             "Sumowanie dziennej sprzedazy po miesiacach: czerwiec (30 dni), lipiec (31), sierpien (31)",
             "Wykres kolumnowy z 3 seriami danych, legenda, tytul, opisy osi"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -288,6 +345,10 @@
             "Utarg = liczba sprzedanych * cena (lody*5 + kukurydza*6 + hot-dog*7)",
             "Suma kumulacyjna utargow dziennych",
             "Szukamy pierwszego dnia, w ktorym suma > 45000"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "prefix-sum"
           ]
         },
         {
@@ -303,6 +364,9 @@
             "Temperatura wrzesnia: 1-2 wrzesnia 23°C, 3-4 wrzesnia 22°C, 5-6 wrzesnia 21°C, ..., 29-30 wrzesnia 9°C",
             "Utarg maleje z temperatura -- szukamy pierwszego dnia < 1000 zl",
             "Czesc b: podwyzka dotyczy KAZDEGO produktu o te sama kwote, z dokladnoscia do grosza"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
           ]
         }
       ]
@@ -326,6 +390,10 @@
           "pulapki": [
             "Tie-break = 5 setow = Sety_wygrane + Sety_przegrane = 5",
             "Mecz w siatkowce moze sie zakonczyc 3:0, 3:1, 3:2 (i odwrotnie) -- tie-break to 3:2 lub 2:3"
+          ],
+          "algorytmy": [
+            "SQL-WHERE",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -341,6 +409,12 @@
             "Trzeba polaczyc mecze z kluby (JOIN) zeby uzyskac miasto",
             "Sortowanie DESC po liczbie meczow",
             "Kazdy wiersz mecze.txt dotyczy jednego meczu goszczonego przez klub"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-ORDER-BY",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -356,6 +430,13 @@
             "Srednia: AVG(COUNT) wymaga podzapytania -- nie mozna uzyc HAVING > AVG bezposrednio",
             "Podzapytanie w HAVING lub WHERE: HAVING COUNT(*) > (SELECT AVG(cnt) FROM (SELECT COUNT(*) as cnt ... GROUP BY ...))",
             "7 sedziow spelnia warunek"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-HAVING",
+            "SQL-podzapytanie-niezalezne",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -372,6 +453,11 @@
             "Trzeba polaczyc mecze -> kluby (dla miasta) i filtrowac po dacie I miescie",
             "Warunki lacza sie AND: miasto IN ('Licowo','Szymbark') AND Data BETWEEN '2019-10-15' AND '2019-12-15'",
             "Szukamy sedziow SPOZA tej grupy"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-podzapytanie-niezalezne",
+            "SQL-WHERE"
           ]
         },
         {
@@ -388,6 +474,12 @@
             "Wymaga SUM(CASE WHEN ...) lub dwoch podzapytan i JOIN",
             "HAVING wygrane >= przegrane -- warunek >= (rowna tez sie liczy)",
             "JOIN z tabela kluby dla nazwy i miasta"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-HAVING",
+            "SQL-aggregacja-warunkowa"
           ]
         }
       ]
