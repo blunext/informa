@@ -40,6 +40,11 @@
             "k = y div 2, wiec dla y=45: k=22 (nie 22.5), dla y=11: k=5 (nie 5.5)",
             "Gdy y jest nieparzyste, wynik = x + z + z (3 skladniki, 2 dodawania); gdy parzyste, wynik = z + z (1 dodawanie)",
             "z to wynik rekurencyjnego wywolania iloczyn(x, k), NIE wartosc lokalna"
+          ],
+          "algorytmy": [
+            "rekurencja",
+            "sledzenie-pseudokod",
+            "szybkie-potegowanie"
           ]
         },
         {
@@ -56,6 +61,12 @@
             "Dla y=32=100000(2): 5 zer + 1 jedynka na koncu (baza), wiec 5*1 = 5 dodawan",
             "Dla y=47=101111(2): suma bitow * dodawan per bit, trzeba dokladnie przeliczyc",
             "Nie liczyc dodawania w bazie (y=1 zwraca x bez dodawania)"
+          ],
+          "algorytmy": [
+            "analiza-zlozonosci",
+            "konwersja-systemow",
+            "iteracja-po-cyfrach",
+            "rekurencja"
           ]
         },
         {
@@ -72,6 +83,10 @@
             "Inicjalizacja z <- 0 (nie z <- x, bo dodajemy x tylko gdy bit y jest 1)",
             "Warunek petli y >= 1 (nie y > 1, bo musimy przetworzyc ostatni bit y=1)",
             "y <- y div 2 (przesuwamy bity y w prawo, nie y - 1)"
+          ],
+          "algorytmy": [
+            "szybkie-potegowanie",
+            "iteracja-po-cyfrach"
           ]
         }
       ]
@@ -83,7 +98,15 @@
       "czesc": 1,
       "kontekst": "Slowo definiujemy jako ciag zlozony z malych liter alfabetu angielskiego.\nNiech s[1..n] bedzie slowem o dlugosci n > 0.\nSufiksem slowa s nazywamy kazde jego podslowo konczace na ostatniej pozycji slowa s.\nSufiks s[k..n] nazywamy k-tym sufiksem.\n\nPrzyklad: slowo s[1..10] = mascarpone ma 10 sufiksow (mascarpone, ascarpone, scarpone, carpone, arpone, rpone, pone, one, ne, e).\nUporzadkowanie alfabetyczne wszystkich sufiksow slowa mascarpone daje nastepujaca kolejnosc ich numerow (od najmniejszego): 5, 2, 4, 10, 1, 9, 8, 7, 6, 3.\n\nPonizej zapisano funkcje czy_mniejszy(n, s, k1, k2). Wynikiem funkcji jest wartosc PRAWDA, gdy sufiks s[k1..n] jest mniejszy w porzadku alfabetycznym od sufiksu s[k2..n], oraz FALSZ w przeciwnym przypadku.\n\nczy_mniejszy(n, s, k1, k2):\n  i <- k1\n  j <- k2\n  dopoki (i <= n oraz j <= n) wykonuj\n    jezeli (s[i] == s[j])\n      i <- i + 1\n      j <- j + 1\n    w przeciwnym razie\n      jezeli (s[i] < s[j])\n        zakoncz z wynikiem PRAWDA\n      w przeciwnym razie\n        zakoncz z wynikiem FALSZ\n  jezeli (j <= n)\n    zakoncz z wynikiem PRAWDA\n  w przeciwnym razie\n    zakoncz z wynikiem FALSZ",
       "sciezka_danych": "matura_informatyka_rozszerzona/2023_czerwiec/DANE/DANE_M/",
-      "pliki_danych": ["slowa1.txt", "slowa2.txt", "slowa3.txt", "slowa4.txt", "sufiks_1.txt", "sufiks_2.txt", "sufiks_4.txt"],
+      "pliki_danych": [
+        "slowa1.txt",
+        "slowa2.txt",
+        "slowa3.txt",
+        "slowa4.txt",
+        "sufiks_1.txt",
+        "sufiks_2.txt",
+        "sufiks_4.txt"
+      ],
       "wymiary": {
         "czasowy_min": 30,
         "zlozonosc": 3,
@@ -104,6 +127,10 @@
             "6 porownan w pierwszej instrukcji jezeli oznacza, ze 6 razy znaki sa rowne zanim padnie roznica lub koniec sufiksu",
             "Slowo musi miec powtarzajacy sie wzorzec, np. ababab..., zeby sufiksy dlugo sie zgadzaly",
             "k1 i k2 musza byc rozne (k1 != k2)"
+          ],
+          "algorytmy": [
+            "porownywanie-tekstow",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -119,6 +146,10 @@
             "Trzeba dokladnie zaimplementowac funkcje czy_mniejszy z pseudokodu -- kazdy blad w logice da bledny wynik",
             "Porownanie znakow ASCII: male litery a-z maja kody 97-122, wiec porownanie < dziala poprawnie",
             "Uwaga na indeksowanie od 1 (pseudokod) vs od 0 (C++/Python)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "porownywanie-tekstow"
           ]
         },
         {
@@ -135,6 +166,10 @@
             "Porownanie czy_mniejszy(n, s, T[j+1], T[j]) sprawdza czy sufiks T[j+1] < sufiks T[j], jezeli tak to zamieniamy",
             "Mozna uzyc dowolnego algorytmu sortowania, ale trzeba zamienic porownanie < na wywolanie czy_mniejszy",
             "Inicjalizacja T[i] = i jest kluczowa -- bez niej sortowanie nie ma czego sortowac"
+          ],
+          "algorytmy": [
+            "sortowanie-babelkowe",
+            "porownywanie-tekstow"
           ]
         },
         {
@@ -151,6 +186,11 @@
             "Mozna uzyc implementacji czy_mniejszy do porownywania sufiksow parami (bez pelnego sortowania)",
             "Dla dlugich slow (n do 100) sortowanie babelkowe jest wystarczajace",
             "Dlugie sufiksy w odpowiedzi -- trzeba wypisac caly sufiks, nie tylko jego numer"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "porownywanie-tekstow",
+            "current-min"
           ]
         }
       ]
@@ -162,7 +202,10 @@
       "czesc": 1,
       "kontekst": "W pliku anagram.txt znajduje sie 1000 wierszy. Kazdy wiersz zawiera liczbe binarna, skladajaca sie z maksymalnie 14 cyfr: 0 lub 1. Kazda liczba zaczyna sie jedynka i zadna z nich sie nie powtarza.\n\nNapisz program(y), ktory(-e) da(-dza) odpowiedzi do podanych zadan. Odpowiedzi do zadan zapisz w pliku wyniki3.txt, a kazda z nich poprzedz numerem odpowiedniego zadania.\n\nUwaga: plik przyklad.txt zawiera 100 wierszy przykladowych danych spelniajacych warunki zadania.",
       "sciezka_danych": "matura_informatyka_rozszerzona/2023_czerwiec/DANE/DANE_M/",
-      "pliki_danych": ["anagram.txt", "przyklad.txt"],
+      "pliki_danych": [
+        "anagram.txt",
+        "przyklad.txt"
+      ],
       "wymiary": {
         "czasowy_min": 35,
         "zlozonosc": 3,
@@ -183,6 +226,11 @@
             "Prawie zrownowazona = roznica miedzy liczba 0 i 1 wynosi dokladnie 1 (nieparzysta dlugosc lub parzysta z roznica 1)",
             "Kazda liczba binarna zaczyna sie od 1, wiec nie ma wiodacych zer do policzenia",
             "Uwaga: prawie zrownowazona to NIE to samo co zrownowazona -- to oddzielne kategorie"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "iteracja-po-cyfrach",
+            "akumulator-licznik"
           ]
         },
         {
@@ -199,6 +247,11 @@
             "Wzor: C(n-1, k-1) gdzie n = dlugosc, k = liczba jedynek (bo pierwsza pozycja zajeta przez 1)",
             "Dla 8 cyfr maksymalna liczba anagramow to C(7,3)=35 (gdy 4 jedynki i 4 zera)",
             "Trzeba znalezc 8-cyfrowe liczby z 4 jedynkami i 4 zerami w pliku"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "iteracja-po-cyfrach",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -215,6 +268,11 @@
             "Wartosc BEZWZGLEDNA roznicy -- nie wystarczy odejmowac w jednym kierunku",
             "Wynik trzeba podac w zapisie BINARNYM, nie dziesietnym",
             "10011000111001(2) = 9785(10) -- latwy blad w konwersji wyniku"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "konwersja-systemow",
+            "current-max"
           ]
         },
         {
@@ -231,6 +289,13 @@
             "Przyklad: 20462 ma rozne cyfry {0,2,4,6}, suma roznych = 0+2+4+6 = 12",
             "Jesli wiele liczb ma te sama maksymalna sume roznych cyfr, podajemy PIERWSZA z pliku",
             "Konwersja bin->dec moze dawac duze liczby (do 14 bitow = max 16383)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "konwersja-systemow",
+            "iteracja-po-cyfrach",
+            "current-max",
+            "znajdz-i-policz"
           ]
         }
       ]
@@ -261,6 +326,9 @@
             "Konwersja 9->3: kazda cyfra dziewiatkowo rozpisywana na 2 cyfry trojkowo: 2=02, 4=11, 8=22, 7=21",
             "Nie zapominac o wiodacych zerach w grupach: np. 1 w systemie 9 to 01 w dwucyfrowym zapisie trojkowym",
             "Blad: przeliczanie przez system dziesietny zamiast bezposredniej konwersji 3<->9"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         }
       ]
@@ -290,6 +358,9 @@
             "E9 hex = 14*16 + 9 = 233 dziesietnie -- to skladowa czerwona (pierwsze 2 znaki po #)",
             "rgb(255,255,255) to bialy kolor niezaleznie od oryginalnego koloru -- zmiana calego koloru, nie dodanie",
             "Przeoczenie: pytanie mowi o ZMIANIE zapisu na rgb(255,255,255), nie o mieszaniu kolorow"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         }
       ]
@@ -301,7 +372,9 @@
       "czesc": 1,
       "kontekst": "Pan Oszczedny pod koniec roku 2019 zamontowal 18 paneli fotowoltaicznych na dachu swojego domu. Od 1 stycznia 2020 do 31 maja 2020 roku zapisywany byl co godzine przez cala dobe pobor pradu od dostawcy i generowany prad przez panele fotowoltaiczne.\nW pliku fotowoltaika.txt zapisano date i godzine, pobor pradu z sieci energetycznej [kWh] oraz liczbe wygenerowanych kilowatogodzin przez panele. Dane w wierszach oddzielone sa znakiem tabulacji.\n\nGospodarstwo domowe Pana Oszczednego w pierwszej kolejnosci zuzywa prad wygenerowany przez panele fotowoltaiczne. Jezeli potrzeby sa wieksze, to pobiera go z sieci energetycznej. Pobor rowny 0 oznacza, ze ogniwa wytwarzaja co najmniej tyle energii, ile wynosily potrzeby gospodarstwa domowego. Generowanie rowne 0 oznacza, ze panele nie produkuja energii (z powodu braku naslonecznienia).",
       "sciezka_danych": "matura_informatyka_rozszerzona/2023_czerwiec/DANE/DANE_M/",
-      "pliki_danych": ["fotowoltaika.txt"],
+      "pliki_danych": [
+        "fotowoltaika.txt"
+      ],
       "wymiary": {
         "czasowy_min": 40,
         "zlozonosc": 3,
@@ -321,6 +394,10 @@
             "Trzeba zsumowac generowanie (kolumna 3) dla kazdego dnia -- SUMIFS po dacie",
             "Szukamy maksimum sumy dziennej generacji, nie maksymalnej godzinowej wartosci",
             "Format daty: dd.mm.rrrr -- trzeba wyodrebnic date z pola Data_godzina"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa",
+            "current-max"
           ]
         },
         {
@@ -336,6 +413,10 @@
             "Pobor = 0 oznacza, ze panele pokrywaja calkowite zapotrzebowanie (nie ze nie ma zuzycia)",
             "Trzeba policzyc dla kazdej godziny (0-23) ile razy pobor = 0, a potem znalezc max",
             "Godzina 10:00 to szczyt sloneczny -- intuicyjnie poprawne"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa",
+            "current-max"
           ]
         },
         {
@@ -352,6 +433,9 @@
             "Dokladnosc do 4 miejsc po przecinku -- nie zaokraglac wczesniej",
             "Wykres KOLUMNOWY (nie liniowy, nie kolowy) z opisami osi i tytulem",
             "Godziny 0-5 i 21-23 powinny miec wartosc 0 (brak slonca)"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -368,6 +452,9 @@
             "Skalowanie liniowe: dodatkowe panele zwiekszaja generacje proporcjonalnie (n+18)/18 * generacja",
             "Szukamy minimalnej liczby DODATKOWYCH paneli (nie calkowitej liczby paneli)",
             "Odpowiedz 9 daje 1 pkt -- to czesty blad (np. zaokraglenie w dol zamiast w gore)"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
           ]
         }
       ]
@@ -379,7 +466,11 @@
       "czesc": 1,
       "kontekst": "W bazie danych firmy X zawarte sa informacje o instalacjach pewnej aplikacji, o urzadzeniach, na ktorych ta aplikacja zostala zainstalowana, oraz o krajach, w ktorych przeprowadzono instalacje.\nDane zgromadzono w plikach tekstowych: kraje.txt, instalacje.txt oraz urzadzenia.txt. Pierwszy wiersz kazdego z plikow jest wierszem naglowkowym, a dane w wierszach rozdzielone sa znakami tabulacji.\n\nPlik kraje.txt: kod_k (dwuznakowy), nazwa_k (do 50 znakow), ludnosc_k (do 10 cyfr).\nPlik urzadzenia.txt: kod_u (do 5 cyfr), nazwa_u (do 80 znakow), producent_u (do 35 znakow), typ_u (Tablet, Phone lub PC).\nPlik instalacje.txt: data_i (format dd.mm.rrrr), kod_k (dwuznakowy), kod_u (do 5 cyfr).\n\nUwaga: kod_u nie oznacza pojedynczego egzemplarza urzadzenia, a tylko jego rodzaj -- na urzadzeniach o tym samym kodzie moze byc wykonanych wiele instalacji.",
       "sciezka_danych": "matura_informatyka_rozszerzona/2023_czerwiec/DANE/DANE_M/",
-      "pliki_danych": ["kraje.txt", "instalacje.txt", "urzadzenia.txt"],
+      "pliki_danych": [
+        "kraje.txt",
+        "instalacje.txt",
+        "urzadzenia.txt"
+      ],
       "wymiary": {
         "czasowy_min": 40,
         "zlozonosc": 3,
@@ -399,6 +490,11 @@
             "Wymaga JOIN miedzy instalacje (kod_u) i urzadzenia (kod_u, typ_u), potem GROUP BY typ_u",
             "PC ma tylko 16 instalacji -- moze wydawac sie malo, ale to poprawny wynik",
             "Nie mylac liczby urzadzen z liczba instalacji -- jedno urzadzenie moze miec wiele instalacji"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -414,6 +510,13 @@
             "Filtrowanie po dacie: luty 2019 = data_i LIKE '__.02.2019' (format dd.mm.rrrr)",
             "JOIN instalacje z urzadzenia po kod_u, GROUP BY producent_u, ORDER BY COUNT DESC LIMIT 1",
             "samsung (mala litera) -- dokladnie tak jak w danych"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-WHERE",
+            "SQL-LIKE"
           ]
         },
         {
@@ -430,6 +533,13 @@
             "Przeliczenie: COUNT(*) * 1000000.0 / ludnosc_k -- uzyc dzielenia zmiennoprzecinkowego",
             "Zaokraglenie do 2 miejsc po przecinku (ROUND(..., 2))",
             "JOIN kraje z instalacje po kod_k, GROUP BY nazwa_k, ORDER BY per_capita DESC LIMIT 5"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-WHERE",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -446,6 +556,13 @@
             "COUNT(DISTINCT kod_k) -- liczymy ROZNE kraje, nie wszystkie instalacje",
             "GROUP BY kod_u, nazwa_u ORDER BY count_distinct DESC LIMIT 1",
             "Galaxy Tab A (2016) -- nazwa z nawiasami i rokiem"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-WHERE",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -462,6 +579,12 @@
             "GROUP BY firmy.id_firmy (lub firmy.nazwa) -- grupowanie po firmie",
             "ORDER BY COUNT(*) DESC -- nierosnaco = malejaco (DESC)",
             "INNER JOIN (nie LEFT JOIN) -- zakladamy, ze kazda firma ma instalacje"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-ORDER-BY"
           ]
         }
       ]

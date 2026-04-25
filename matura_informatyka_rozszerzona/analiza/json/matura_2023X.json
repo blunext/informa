@@ -33,6 +33,12 @@
             "Kolumna jest pusta gdy w calej kolumnie (8 wierszy) nie ma zadnej bierki - nie mylic z wierszem",
             "Trzeba iterowac po kolumnach (indeks j staly, i zmienne) a nie po wierszach",
             "Plik przykladowy ma 9 plansz ale docelowy 125 - pamietaj o ogolnosci rozwiazania"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "tablica-2D",
+            "akumulator-licznik",
+            "current-max"
           ]
         },
         {
@@ -48,6 +54,12 @@
             "Rownowaga = tyle samo bierek kazdego typu osobno (np. tyle samo wiezow bialych co czarnych, tyle samo skoczkow itd.), a nie tylko lacznie taka sama liczba",
             "Wielkie litery = biale bierki, male litery = czarne bierki - trzeba zliczac wystapienia kazdej litery",
             "Najczestszy blad: porownanie tylko lacznej liczby bierek zamiast sprawdzenia kazdego typu osobno"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "tablica-2D",
+            "znajdz-i-policz",
+            "current-min"
           ]
         },
         {
@@ -64,6 +76,11 @@
             "Moze byc wiecej niz jedna wieza na planszy - trzeba sprawdzic wszystkie wiezy",
             "Biala wieza = W, czarny krol = k; czarna wieza = w, bialy krol = K - nie pomylic oznaczeń",
             "Sprawdzac zarowno wiersz jak i kolumne (wieza porusza sie w obu kierunkach)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "tablica-2D",
+            "akumulator-licznik"
           ]
         }
       ]
@@ -88,6 +105,9 @@
             "Petla w Tura(k) idzie od s w dol do A[k] - wazna kolejnosc iteracji (od konca)",
             "Pionek stawiamy na B[i] tylko jesli B[i-A[k]] ma pionek ORAZ B[i] jest puste",
             "Trzeba uwazac na kolejnosc - przenoszenie od konca zapobiega kaskadowemu propagowaniu w jednej turze"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -103,6 +123,10 @@
             "A = [5, 10, 15, ..., 100] to 20 elementow (wielokrotnosci 5 od 5 do 100)",
             "Tura z A[1]=5 postawi pionki na B[5], B[10], ..., B[500] (bo pionek na B[0] + krok 5, a iteracja od konca nie koliduje)",
             "Kolejne tury nie dodaja nowych pionkow bo pola juz sa zajete - wynik to 101 (B[0] do B[500] co 5)"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "analiza-zlozonosci"
           ]
         },
         {
@@ -118,6 +142,9 @@
             "Potegi dwojki A=[1,2,4,8,...,128] gwarantuja pokrycie kazdego s do 255 (jak reprezentacja binarna)",
             "Trzeba max 10 elementow - potegi 2 od 1 do 128 to 8 elementow, idealnie miesci sie w limicie",
             "Gra odpowiada problemowi reprezentacji liczb jako sum podzbiorow elementow A"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         }
       ]
@@ -143,6 +170,9 @@
             "5^2 mod 31 = 25 mod 31 = 25 (25 < 31 wiec reszta to 25)",
             "2^6 mod 59 = 64 mod 59 = 5 (trzeba znalezc x metoda prob)",
             "9^2 mod 80 = 81 mod 80 = 1"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -159,6 +189,10 @@
             "Trzeba redukowac modulo M na kazdym kroku mnozenia, inaczej przepelnienie dla duzych liczb",
             "Szybkie potegowanie: jesli x parzyste, a^x = (a^(x/2))^2; jesli nieparzyste, a^x = a * (a^((x-1)/2))^2",
             "Przypadek bazowy: a^0 mod M = 1 (nie 0!)"
+          ],
+          "algorytmy": [
+            "szybkie-potegowanie",
+            "rekurencja"
           ]
         },
         {
@@ -174,6 +208,11 @@
             "Test pierwszosci musi byc poprawny - sprawdzac dzielniki od 2 do sqrt(M)",
             "M >= 2 wg tresci, wiec nie trzeba obslugi M=0 i M=1",
             "Nie mylic z pierwszoscia a - pytanie dotyczy TYLKO liczby M"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "test-pierwszosci",
+            "akumulator-licznik"
           ]
         },
         {
@@ -189,6 +228,11 @@
             "Wzglednie pierwsze = NWD(M, a) == 1, nie mylic z 'obie sa pierwsze'",
             "Uzyc algorytmu Euklidesa do obliczenia NWD",
             "Liczby M i a sa obie >= 2 wg tresci"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "NWD-Euklidesa",
+            "akumulator-licznik"
           ]
         },
         {
@@ -205,6 +249,11 @@
             "Uzywac szybkiego potegowania z zadania 3.2 zeby uniknac przepelnienia",
             "Mozna tez iteracyjnie: wynik=1, petla x razy: wynik = wynik*a % M, sprawdzic czy rowne b",
             "Dla M do 10000 i a do 10000 - petla do M-1 iteracji na wiersz, 1000 wierszy - wciaz wykonalne"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "szybkie-potegowanie",
+            "wyszukiwanie-liniowe"
           ]
         }
       ]
@@ -229,6 +278,10 @@
             "Amplituda = max(temp) - min(temp) w danym dniu, nie w danej godzinie",
             "Trzeba pogrupowac dane wg dnia i dla kazdego dnia znalezc max i min temperatury",
             "Separator dziesietny w danych to przecinek (format polski) - uwazac przy parsowaniu"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa",
+            "current-max"
           ]
         },
         {
@@ -244,6 +297,9 @@
             "Srednia dla kazdej godziny to srednia ze wszystkich 365 pomiarow o tej godzinie",
             "Zaokraglenie do 2 miejsc po przecinku - uzyc odpowiedniej funkcji",
             "Wykres musi byc LINIOWY (nie slupkowy) z czytelnym opisem osi"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -259,6 +315,12 @@
             "Deszcz = temperatura > 0 ORAZ opad > 0 (oba warunki jednoczesnie)",
             "Szukamy najdluzszego CIAGU (nieprzerwanego) pomiarow spelniajacych oba warunki",
             "Trzeba podac zarowno dlugosc (37 godz), jak i daty poczatku/konca i sume opadow"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "current-max",
+            "akumulator-suma",
+            "najdluzszy-podciag-niemalejacy"
           ]
         },
         {
@@ -276,6 +338,12 @@
             "Deszcz (temp > 0 i opad > 0) NIE resetuje akumulatora sniegu - jedynie odsniezanie go resetuje",
             "Odsniezanie trwa 1 godzine - opad w tej godzinie jest usuwany razem ze sniegiem",
             "Prog > 4 cm (nie >= 4 cm) - plugi ruszaja dopiero gdy PRZEKROCZY 4"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "akumulator-warunkowy",
+            "akumulator-licznik",
+            "akumulator-suma"
           ]
         }
       ]
@@ -299,6 +367,10 @@
           "pulapki": [
             "Rok trzeba wyekstrahowac z daty w formacie dd.mm.rrrr (ostatnie 4 znaki)",
             "Liczymy wplywniecia (wiersze w przybycia.txt), nie unikalne statki"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik"
           ]
         },
         {
@@ -314,6 +386,10 @@
             "Trzeba polaczyc (join) dane z przybycia.txt (Nabrzeze, Nr_IMO) i statki.txt (Nr_IMO, Nazwa_statku, Ladownosc)",
             "Dla kazdego nabrzeza znalezc statek z MAX(Ladownosc)",
             "Jezeli dwa statki o tej samej ladownosci - mozna podac dowolny z nich"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "current-max"
           ]
         },
         {
@@ -329,6 +405,10 @@
             "Trzeba polaczyc przybycia.txt (Bandera, Nabrzeze) z kody.txt (Bandera, Kontynent) aby sprawdzic kontynent",
             "Szukamy nabrezy, gdzie ZADNE przybycie nie mialo bandery europejskiej",
             "Kontynent 'EUROPA' w pliku kody.txt - sprawdzic dokladna pisownie"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -344,6 +424,10 @@
             "Proste GROUP BY z COUNT - typowe zadanie SQL",
             "Odpowiedzi CKE uzywa 'Armatorzy' zamiast 'Armator' z tresci - obie formy akceptowane",
             "Nie trzeba JOIN - dane sa w jednej tabeli Armator"
+          ],
+          "algorytmy": [
+            "SQL-GROUP-BY",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -360,6 +444,11 @@
             "DISTINCT lub GROUP BY potrzebne aby uzyskac ROZNE nazwy statkow",
             "XYZ to nazwa armatora - WHERE Armator.Armator LIKE 'XYZ' lub = 'XYZ'",
             "Klucze polaczenia: Armator.Id_armatora = Przybycia.Id_armatora, Statki.Nr_IMO = Przybycia.Nr_IMO"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE",
+            "SQL-LIKE"
           ]
         }
       ]
@@ -384,7 +473,8 @@
             "Punkt 1 to plagiat - zmiana sformulowan bez podania zrodla to naruszenie praw autorskich",
             "Punkt 2 - Wikipedia uzywa licencji CC, zdjecia mozna uzywac z podaniem zrodla i autora",
             "Punkt 3 - Wikipedia pozwala kazdemu dodawac tresci (jest otwarta encyklopedia)"
-          ]
+          ],
+          "algorytmy": []
         }
       ]
     },
@@ -409,7 +499,8 @@
             "Haslo NIGDY nie powinno byc przechowywane w calosci - tylko hash (bcrypt, argon2 itp.)",
             "Dane karty kredytowej NIE powinny byc przechowywane w bazie sklepu (standard PCI DSS)",
             "Najczestszy blad: myslenie ze haslo tez trzeba przechowywac w calosci zeby je porownac"
-          ]
+          ],
+          "algorytmy": []
         }
       ]
     }

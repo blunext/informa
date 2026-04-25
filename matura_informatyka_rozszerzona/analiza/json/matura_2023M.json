@@ -33,6 +33,10 @@
             "Pomylenie kierunku: mniejszy idzie do B[i+1, 2j-1] (lewo), wiekszy do B[i+1, 2j] (prawo)",
             "Bledne obliczenie indeksow przegrodek na nizszych polkach (np. 2j-1 vs 2j)",
             "Struktura jest BST ale w nietypowej notacji tablicowej"
+          ],
+          "algorytmy": [
+            "drzewo",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -48,6 +52,10 @@
             "Trudnosc z uogolnieniem na 2^k-1 -- wymaga zrozumienia ze minimalna liczba polek to ceil(log2(n+1))",
             "Minimalna liczba polek = ceil(log2(n+1)) = k gdy n = 2^k - 1",
             "Maksymalna liczba polek = n (drzewo zdegenerowane do listy)"
+          ],
+          "algorytmy": [
+            "drzewo",
+            "analiza-zlozonosci"
           ]
         },
         {
@@ -62,6 +70,11 @@
           "pulapki": [
             "Pominiecie galezi rekurencji lub niepoprawna kolejnosc (preorder: korzen-lewy-prawy)",
             "Bledne odczytanie indeksow przegrodek z tabelki"
+          ],
+          "algorytmy": [
+            "drzewo",
+            "rekurencja",
+            "sledzenie-pseudokod"
           ]
         }
       ],
@@ -102,6 +115,10 @@
             "Uzycie zabronionych funkcji wbudowanych (bin(), int(), str()) dyskwalifikuje rozwiazanie",
             "Zapomnienie o inicjalizacji b=1 (pierwszy blok nie jest zliczany w petli)",
             "Bledna kolejnosc ekstrakcji cyfr (mod 2 daje ostatnia cyfre, nie pierwsza)"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach",
+            "akumulator-licznik"
           ]
         },
         {
@@ -116,6 +133,11 @@
           "pulapki": [
             "Warunek 'co najwyzej dwoch' (<=2) a nie 'dokladnie dwoch' (==2)",
             "Jeden blok to tez <= 2 bloków"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "iteracja-po-cyfrach",
+            "akumulator-licznik"
           ]
         },
         {
@@ -130,6 +152,11 @@
           "pulapki": [
             "Porownywanie liczb binarnych jako stringi wymaga uwzglednienia roznej dlugosci (dluzsza jest wieksza jesli zaczyna sie od 1)",
             "Nie wystarczy porownywac leksykograficznie -- najpierw porownaj dlugosci"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "current-max",
+            "porownywanie-tekstow"
           ]
         },
         {
@@ -144,6 +171,9 @@
           "pulapki": [
             "Kluczowa obserwacja: 101101(2) = 2D(16) = 45(10), wiec XOR dwukrotnie ta sama liczba daje oryginalna wartosc",
             "Bez tej obserwacji trzeba recznie XOR-owac binarnie -- latwo o blad"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         },
         {
@@ -159,6 +189,11 @@
             "Wyniki musza byc w systemie binarnym (nie dziesietnym) -- czesty blad za 2 zamiast 3 pkt",
             "Dzielenie p div 2 dla liczby binarnej to przesuniecie w prawo o 1 bit",
             "Trzeba poprawnie implementowac XOR na stringach binarnych lub uzyc operatorow bitowych"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "iteracja-po-cyfrach",
+            "konwersja-systemow"
           ]
         }
       ],
@@ -204,6 +239,11 @@
           "pulapki": [
             "Warunek 'wiekszych od 90' (>90, nie >=90) -- pomylka daje 1014 zamiast 902",
             "Fragment 2-cyfrowy to 10*cyfra[i] + cyfra[i+1]"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "sliding-window",
+            "akumulator-licznik"
           ]
         },
         {
@@ -219,6 +259,13 @@
             "Przy remisach nalezy wybrac fragment o mniejszej wartosci liczbowej",
             "Trzeba stworzyc tablice zliczen dla 100 fragmentow (00-99)",
             "Fragment 00 to tez poprawny fragment (wiodace zero)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "sliding-window",
+            "znajdz-i-policz",
+            "current-min",
+            "current-max"
           ]
         },
         {
@@ -234,6 +281,11 @@
             "Definicja dopuszcza rownosc na granicy (np. 5,9,9,4,1 jest poprawny: rosnacy 5<9, malejacy 9>4>1)",
             "Warunek k w {2,...,n-2} wymaga co najmniej 2 elementow w czesci rosnacej i 2 w czesci malejacej",
             "Dla ciagu 6-elementowego: czesc rosnaca moze miec 2-4 elementy, malejaca odpowiednio 4-2"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "sliding-window",
+            "akumulator-licznik"
           ]
         },
         {
@@ -249,6 +301,10 @@
             "Ciag musi byc 'dokladnie' rosnaco-malejacy, nie mozna go rozszerzyc w zadna strone",
             "Podanie dlugosci zamiast samego ciagu kosztuje 1 punkt",
             "Ciag zaczyna sie od 0 (014576540) -- nie obcinaj wiodacego zera"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "current-max"
           ]
         }
       ],
@@ -291,6 +347,9 @@
           "pulapki": [
             "Mylenie roli klucza prywatnego (deszyfrowanie wlasnych wiadomosci, podpis cyfrowy) z kluczem publicznym",
             "Uwierzytelnianie osoby B wymaga klucza publicznego B, nie klucza prywatnego A"
+          ],
+          "algorytmy": [
+            "szyfrowanie-klucz-publiczny"
           ]
         }
       ],
@@ -328,6 +387,10 @@
             "Ta sama sekwencja cyfr w systemie o wyzszej podstawie daje wieksza wartosc",
             "Bledne obliczenie poteg podstawy systemu",
             "Weryfikacja podpowiedzi: (2011)_3 = 2*27+0*9+1*3+1 = 58 = (134)_6"
+          ],
+          "algorytmy": [
+            "konwersja-systemow",
+            "Horner"
           ]
         }
       ],
@@ -363,6 +426,9 @@
           "pulapki": [
             "Brak opisu wykresu (tytul, legenda, opisy osi) kosztuje 1 punkt",
             "Trzeba pogrupowac dane wg miesiecy (wyodrebnic miesiac z daty)"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -377,6 +443,9 @@
           "pulapki": [
             "Trzeba sprawdzic czy porzeczki > malin AND porzeczki > truskawek w danym dniu",
             "Mozna uzyc COUNTIFS lub formuły tablicowej"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -391,6 +460,9 @@
           "pulapki": [
             "Symulacja wymaga uwzglednienia zapasow z poprzedniego dnia -- kazdy blad kumuluje sie na kolejne dni",
             "Dwa owoce z najwieksza iloscia ida do produkcji, trzeci do chlodni"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
           ]
         },
         {
@@ -406,6 +478,10 @@
             "1 kg konfitur = 1 kg owocu A + 1 kg owocu B (wynik to minimum z dwoch najwiekszych ilosci, nie polowa sumy)",
             "Czesty blad: liczenie 2 kg owocow na 1 kg konfitur daje wynik 2x za duzy",
             "Symulacja musi byc spojona z zadaniem 6.3 (te same decyzje produkcyjne)"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "akumulator-suma"
           ]
         }
       ],
@@ -445,6 +521,10 @@
           "zasady_oceniania": "1 pkt -- odpowiedz poprawna (K2).\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
           "pulapki": [
             "Trzeba policzyc liczbę wierszy w oceny.txt per id_gry, a potem znalezc max i dolaczyc nazwe z gry.txt"
+          ],
+          "algorytmy": [
+            "znajdz-i-policz",
+            "current-max"
           ]
         },
         {
@@ -459,6 +539,12 @@
           "pulapki": [
             "Zaokraglenie do 2 miejsc po przecinku (ROUND, nie TRUNCATE)",
             "Trzeba polaczyc gry.txt z oceny.txt po id_gry i filtrowac kategoria='imprezowa'"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -473,6 +559,10 @@
           "pulapki": [
             "Warunek 'wystawili co najmniej jedna ocene' wyklucza graczy bez zadnych ocen (351 vs 334)",
             "Gracz nie ma stanu 'posiada' w ZADNYM wierszu oceny, ale ma inne stany (chce kupic, sprzedal)"
+          ],
+          "algorytmy": [
+            "SQL-LEFT-JOIN-NULL",
+            "SQL-WHERE"
           ]
         },
         {
@@ -488,6 +578,12 @@
             "Juniorzy maja dwie gry z ta sama maksymalna liczba ocen (Terraformacja Marsa i K2, po 6) -- trzeba podac obie",
             "Podanie id_gry zamiast nazwy kosztuje 1 punkt",
             "Kategorie wiekowe: juniorzy <= 19, seniorzy 20-49, weterani >= 50"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-podzapytanie-skorelowane"
           ]
         },
         {
@@ -503,6 +599,11 @@
             "Gra moze wystepowac w tabeli sklep dwa razy (cena promocyjna i normalna) -- trzeba filtrowac po promocja=true",
             "Tabela sklep nie musi zawierac wszystkich gier z tabeli gry -- INNER JOIN jest wlasciwym zlaczeniem",
             "Trzeba uzyc SUM(cena) a nie COUNT -- pytanie o laczna kwote"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE",
+            "SQL-aggregacja"
           ]
         }
       ],
