@@ -39,6 +39,10 @@
             "Trzeba znalezc liczbe 75, ktorej zapis dwojkowy to 1001011 -- ma jedynki na pozycjach 1,2,4,7",
             "42 = 101010 -- jedynki na pozycjach 2,4,6 (numeracja od prawej od 1)",
             "6 = 110 -- jedynki na pozycjach 2,3"
+          ],
+          "algorytmy": [
+            "konwersja-systemow",
+            "iteracja-po-cyfrach"
           ]
         },
         {
@@ -54,6 +58,10 @@
             "Wymagane operowanie wylacznie na liczbach calkowitych -- zabronione konwersje typow",
             "Numeracja pozycji od 1, nie od 0",
             "Trzeba uzywac mod 2 i div 2 zamiast operacji bitowych"
+          ],
+          "algorytmy": [
+            "konwersja-systemow",
+            "iteracja-po-cyfrach"
           ]
         }
       ]
@@ -83,6 +91,11 @@
             "F(130,3): 130/3: c=1(odd)->+1, 43/3: c=1(odd)->+1, 14/3: c=2(even)->-2, 4/3: c=1(odd)->+1, 1/3: c=1(odd)->+1, 0->0. Wynik: 0+1+1-2+1+1=2, 6 wywolan",
             "F(220,4): 220/4: c=0(even)->-0, 55/4: c=3(odd)->+3, 13/4: c=1(odd)->+1, 3/4: c=3(odd)->+3, 0->0. Wynik: 0+3+1+3-0=7, 5 wywolan",
             "Trzeba pamietac ze wywolanie bazowe F(0,p)=0 tez liczy sie jako wywolanie"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "rekurencja",
+            "konwersja-systemow"
           ]
         },
         {
@@ -99,6 +112,11 @@
             "Dla p=3: 96 = 10120 (base 3), cyfry: 1,0,1,2,0 -> nieparzyste: 1+1=2, parzyste: 0+2+0=2, bilans=0",
             "Dla p=4: 97 = 1201 (base 4), cyfry: 1,2,0,1 -> nieparzyste: 1+1=2, parzyste: 2+0=2, bilans=0",
             "Trzeba systematycznie sprawdzac od 99 w dol"
+          ],
+          "algorytmy": [
+            "analiza-zlozonosci",
+            "rekurencja",
+            "konwersja-systemow"
           ]
         }
       ]
@@ -110,7 +128,10 @@
       "czesc": 1,
       "kontekst": "W pliku liczby.txt jest danych 2000 liczb calkowitych z zakresu [1000, 9999], kazda w oddzielnym wierszu. Wszystkie sa rozne.\n\nNapisz program (lub kilka programow), ktory znajdzie odpowiedzi do ponizszych zadan. Kazda odpowiedz zapisz w pliku wyniki3.txt i poprzedz ja numerem oznaczajacym zadanie.\n\nDo Twojej dyspozycji jest plik liczby_przyklad.txt, ktory zawiera 20 liczb w podobnej postaci. Odpowiedzi dla pliku liczby_przyklad.txt sa podane w poleceniach zadan.",
       "sciezka_danych": "matura_informatyka_rozszerzona/2024_probna_grudzien/dane_PR/",
-      "pliki_danych": ["liczby.txt", "liczby_przyklad.txt"],
+      "pliki_danych": [
+        "liczby.txt",
+        "liczby_przyklad.txt"
+      ],
       "wymiary": {
         "czasowy_min": 30,
         "zlozonosc": 3,
@@ -129,6 +150,11 @@
           "pulapki": [
             "Kwadraty w zakresie 1000-9999: od 32^2=1024 do 99^2=9801",
             "Trzeba znalezc PIERWSZY w kolejnosci wystepowania w pliku, nie najmniejszy"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "pierwiastek-kwadratowy",
+            "akumulator-licznik"
           ]
         },
         {
@@ -144,6 +170,11 @@
             "Roznych dzielnikow pierwszych, nie wszystkich dzielnikow",
             "Trzeba dobrze rozkladac na czynniki pierwsze i liczyc unikalne",
             "2730 = 2*3*5*7*13 -- 5 roznych dzielnikow pierwszych"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "faktoryzacja",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -159,6 +190,12 @@
             "6174 to slynna stala Kaplrekara -- jedyna czterocyfrowa liczba o tej wlasciwosci",
             "Trzeba poprawnie konstruowac max i min z cyfr (sortowac cyfry)",
             "Zera w liczbie: np. 2047 -> min = 0247 = 247, max = 7420"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "iteracja-po-cyfrach",
+            "akumulator-licznik",
+            "sortowanie-babelkowe"
           ]
         }
       ]
@@ -170,7 +207,10 @@
       "czesc": 1,
       "kontekst": "W pliku prostokaty.txt opisano 5000 prostokatow, po jednym w kazdym wierszu. Opis kazdego prostokata sklada sie z dwoch dodatnich liczb calkowitych nie wiekszych od 40 000, oddzielonych spacja. Pierwsza z tych liczb bedziemy nazywac wysokoscia prostokata, a druga -- jego szerokoscia.\n\nNapisz program (lub kilka programow), ktory znajda odpowiedzi do ponizszych zadan. Kazda odpowiedz zapisz w pliku wyniki4.txt i poprzedz ja numerem oznaczajacym zadanie.\n\nDo Twojej dyspozycji jest plik prostokaty_przyklad.txt, ktory zawiera opis 20 prostokatow w tej samej postaci. Odpowiedzi dla pliku prostokaty_przyklad.txt sa zawarte w poleceniach zadan.",
       "sciezka_danych": "matura_informatyka_rozszerzona/2024_probna_grudzien/dane_PR/",
-      "pliki_danych": ["prostokaty.txt", "prostokaty_przyklad.txt"],
+      "pliki_danych": [
+        "prostokaty.txt",
+        "prostokaty_przyklad.txt"
+      ],
       "wymiary": {
         "czasowy_min": 30,
         "zlozonosc": 3,
@@ -189,6 +229,10 @@
           "pulapki": [
             "Iloczyn dwoch liczb do 40000 moze wynosic do 1.6 mld -- wymaga typu 64-bitowego (long long w C++)",
             "1545605418 > 2^30, wiec typ int moze nie wystarczyc w niektorych jezykach"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "jednoczesne-min-max"
           ]
         },
         {
@@ -204,6 +248,11 @@
             "Kolejne prostokaty w pliku, nie dowolne -- to ciag spojny",
             "Warunek: s <= s' ORAZ h <= h' -- oba wymiary musza sie miescic",
             "Trzeba podac ostatni prostokat w najdluzszym ciagu, nie pierwszy"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "najdluzszy-podciag-niemalejacy",
+            "current-max"
           ]
         },
         {
@@ -219,6 +268,11 @@
             "Sklejac mozna tylko prostokaty o TEJ SAMEJ wysokosci",
             "Trzeba zgrupowac prostokaty wg wysokosci, potem wybierac grupy z najszersza suma",
             "Dla kazdej grupy o danej wysokosci: sortuj szerokosci malejaco i bierz top-k"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "sortowanie-szybkie",
+            "zachlanne"
           ]
         }
       ]
@@ -247,6 +301,9 @@
           "pulapki": [
             "Podpis elektroniczny NIE szyfruje -- zapewnia autentycznosc i integralnosc, nie poufnosc",
             "Podpis NIE chroni przed utrata danych -- to rola kopii zapasowych"
+          ],
+          "algorytmy": [
+            "szyfrowanie-klucz-publiczny"
           ]
         }
       ]
@@ -276,6 +333,9 @@
             "Dzialania w systemie piatkowym -- przeniesienia co 5, nie co 10",
             "2024(5) = 2*125+0*25+2*5+4 = 264 (dec), 1044(5) = 1*125+0*25+4*5+4 = 149 (dec)",
             "264+149=413=3123(5), 264-149=115=430(5)"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         }
       ]
@@ -287,7 +347,10 @@
       "czesc": 1,
       "kontekst": "W kolejnych wierszach pliku energia.txt znajduja sie dane o produkcji energii ze zrodel odnawialnych (wiatrowych i fotowoltaicznych). Kazdy wiersz zawiera oddzielone znakami tabulacji informacje o dacie, o godzinie oraz o liczbie megawatogodzin (MWh) wyprodukowanych przez zrodla wiatrowe, a takze liczbie megawatogodzin wyprodukowanych przez zrodla fotowoltaiczne w kwietniu 2024. Dane sa podane chronologicznie i nie zawieraja luk (sa podane dla kazdego dnia i dla kazdej godziny).\n\nFragment pliku:\nData       Godzina  Zrodla_wiatrowe  Zrodla_fotowoltaiczne\n2024-04-01  1       3130,263         0,000\n2024-04-01  2       2765,588         0,000\n...\n2024-04-01  7       2525,225         117,075\n2024-04-01  8       2360,988         1162,075\n2024-04-01  9       1940,838         2680,513",
       "sciezka_danych": "matura_informatyka_rozszerzona/2024_probna_grudzien/dane_PR/",
-      "pliki_danych": ["energia.txt", "zapotrzebowanie.txt"],
+      "pliki_danych": [
+        "energia.txt",
+        "zapotrzebowanie.txt"
+      ],
       "wymiary": {
         "czasowy_min": 40,
         "zlozonosc": 3,
@@ -306,6 +369,9 @@
           "pulapki": [
             "Trzeba zagregowac (SUMIFS) po dacie osobno dla wiatrowych i fotowoltaicznych",
             "Nastepnie znalezc maksimum z sum dziennych dla kazdego typu"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -321,6 +387,9 @@
             "Srednia liczona dla kazdej godziny ze wszystkich 30 dni kwietnia",
             "Godziny 1-4 i 22-24: generacja fotowoltaiczna = 0 (noc)",
             "Wykres musi miec opis osi i tytul"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -336,6 +405,10 @@
             "Szukamy najdluzszego spojnego podciagu scisle rosnacego w kolumnie wiatrowych",
             "Poczatek przedzialu to PIERWSZY element rosnacego ciagu (nie element przed nim)",
             "Przedzial moze przechodzic miedzy dniami"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "najdluzszy-podciag-niemalejacy"
           ]
         },
         {
@@ -352,6 +425,11 @@
             "Bilans = generacja_wiatrowa + generacja_fotowoltaiczna - zapotrzebowanie",
             "Stan magazynu nie moze spasc ponizej 0 w zadnej godzinie",
             "Szukamy minimalnego stanu poczatkowego -- maksymalny deficyt skumulowany"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "current-min",
+            "prefix-sum"
           ]
         }
       ]
@@ -363,7 +441,11 @@
       "czesc": 1,
       "kontekst": "W trzech plikach zgromadzono dane dotyczace uslug swiadczonych w pewnym serwisie samochodowym w listopadzie i w grudniu 2024 roku. Pierwszy wiersz w kazdym z plikow jest wierszem naglowkowym i zawiera nazwy pol. Dane w wierszach sa rozdzielone znakiem tabulacji.\n\nPlik samochody.txt zawiera informacje o samochodach przyjetych do serwisu:\nnr_rejestracyjny, marka, rok_produkcji, id_wlasciciela.\n\nUwaga: W pliku zapisano informacje rowniez o samochodach przyjetych do serwisu, ale jeszcze oczekujacych na wykonanie uslugi.\n\nW pliku uslugi.txt kazdy wiersz zawiera informacje o realizowanych uslugach przez serwis samochodowy: id_uslugi, usluga, rodzaj_uslugi, cena.\n\nW pliku wykonane.txt zapisano informacje o wykonanych uslugach. Kazdy wiersz zawiera nastepujace dane: data, nr_rejestracyjny, id_uslugi.",
       "sciezka_danych": "matura_informatyka_rozszerzona/2024_probna_grudzien/dane_PR/",
-      "pliki_danych": ["samochody.txt", "uslugi.txt", "wykonane.txt"],
+      "pliki_danych": [
+        "samochody.txt",
+        "uslugi.txt",
+        "wykonane.txt"
+      ],
       "wymiary": {
         "czasowy_min": 40,
         "zlozonosc": 3,
@@ -383,6 +465,12 @@
             "Trzeba wykluczyc samochody z woj. slaskiego (nr rej. zaczyna sie od S)",
             "Tylko samochody, dla ktorych WYKONANO usluge (sa w wykonane.txt), nie oczekujace",
             "ROZNYCH samochodow -- COUNT DISTINCT"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE",
+            "SQL-LIKE",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -397,6 +485,12 @@
           "pulapki": [
             "Trzeba zliczyc wykonania kazdej uslugi (JOIN wykonane z uslugi), potem znalezc MAX",
             "Marki ktore NIE mialy tej uslugi -- NOT IN / LEFT JOIN ... IS NULL"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-LEFT-JOIN-NULL"
           ]
         },
         {
@@ -412,6 +506,11 @@
             "Wlasciciel moze miec kilka samochodow -- trzeba sumowac koszty po id_wlasciciela",
             "JOIN: samochody -> wykonane -> uslugi, grupowanie po id_wlasciciela",
             "Po znalezieniu wlasciciela -- wylistowac jego samochody i wykonane uslugi"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -427,6 +526,12 @@
             "Trzeba polaczyc wykonane z uslugi (po id_uslugi) i zsumowac ceny",
             "Rozdzielenie na miesiace -- filtrowanie po dacie (LIKE '2024-11%' / '2024-12%')",
             "Dwa poprawne warianty odpowiedzi w zaleznosci od interpretacji jednej uslugi"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-LIKE"
           ]
         },
         {
@@ -442,6 +547,12 @@
             "SH* oznacza Chorzow (powiat miejski) -- LIKE 'SH%'",
             "Trzeba JOIN Wlasciciele z Samochody po id_wlasciciela",
             "ORDER BY nazwisko -- sortowanie alfabetyczne"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE",
+            "SQL-LIKE",
+            "SQL-ORDER-BY"
           ]
         }
       ]

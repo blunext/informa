@@ -33,6 +33,11 @@
             "Pomylenie kierunkow ruchu (algorytm sprawdza sciezki prawo/dol, nie dowolne)",
             "Niepoprawne prosledzenie operacji OR (lub) na wartosciach logicznych w tablicy P",
             "Bledne odczytanie planszy -- pomylenie wierszy z kolumnami"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "tablica-2D",
+            "programowanie-dynamiczne"
           ]
         },
         {
@@ -48,6 +53,10 @@
             "W a) trudnosc znalezienia 2 pol blokujacych WSZYSTKIE sciezki -- klucz: zablokowac pola (1,2) i (2,1) lub (n-1,m) i (n,m-1)",
             "W b) trudnosc znalezienia planszy z 9 czarnymi polami i istniejaca sciezka -- klucz: sciezka schodkowa uzywa 2n-1 pol",
             "Zapomnienie, ze A[1][1] i A[n][m] musza byc biale"
+          ],
+          "algorytmy": [
+            "tablica-2D",
+            "programowanie-dynamiczne"
           ]
         },
         {
@@ -63,6 +72,10 @@
             "Nieuwzglednienie, ze sciezka minimalna zajmuje 2n-1 pol bialych",
             "Bledne wyprowadzenie wzoru: n^2 - (2n-1) = (n-1)^2",
             "Podanie wyniku jako n^2 - 2n zamiast (n-1)^2"
+          ],
+          "algorytmy": [
+            "tablica-2D",
+            "analiza-zlozonosci"
           ]
         }
       ],
@@ -104,6 +117,10 @@
             "Blad w obliczeniach dla bardzo duzej 17-cyfrowej liczby",
             "Pomylenie galezi if/else (parzyste vs nieparzyste)",
             "Nierozpoznanie wzorca: parzyste cyfry -> polowa, nieparzyste -> 1"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "iteracja-po-cyfrach"
           ]
         },
         {
@@ -119,6 +136,10 @@
             "Blad przy manualnym przetwarzaniu 18 cyfr",
             "Nierozpoznanie wzorca: 3->1, 6->3, 9->1",
             "Pomylenie kolejnosci cyfr w wyniku"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach",
+            "sledzenie-pseudokod"
           ]
         }
       ],
@@ -159,6 +180,10 @@
             "Odwrocona kolejnosc cyfr w wyniku (trzeba budowac od prawej z uzyciem zmiennej p)",
             "Brak zmiennej pozycyjnej p (potegi 10) do budowania wyniku",
             "Pomylenie warunku parzystosci (mod 2 = 0 to parzyste, mod 2 != 0 to nieparzyste)"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach",
+            "Horner"
           ]
         },
         {
@@ -174,6 +199,12 @@
             "Pomylenie minimum z maksimum",
             "Bledna identyfikacja liczb bez nieparzystego skrotu (same cyfry parzyste)",
             "Nieuwzglednienie cyfry 0 jako parzystej"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "iteracja-po-cyfrach",
+            "akumulator-licznik",
+            "current-max"
           ]
         },
         {
@@ -190,6 +221,11 @@
             "Bledna implementacja nieparzystego skrotu",
             "Nie uwzglednienie warunku rownosci NWD dokladnie 7 (nie wielokrotnosci 7)",
             "Pomylenie NWD(liczba, skrot) = 7 z: liczba % 7 == 0"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "iteracja-po-cyfrach",
+            "NWD-Euklidesa"
           ]
         }
       ],
@@ -236,6 +272,10 @@
             "Policzenie liczb NIE bedacych dzielnikami zamiast bedacych (3000-212=2788)",
             "Nieuwzglednienie duplikatow w pierwszym wierszu (ta sama liczba pierwsza moze wystepowac wielokrotnie)",
             "Nieefektywny algorytm -- sprawdzanie podzielnosci dla kazdej pary"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik"
           ]
         },
         {
@@ -251,6 +291,10 @@
             "Sortowanie od najmniejszej zamiast od najwiekszej",
             "Usuwanie duplikatow przed sortowaniem (nie nalezy -- sortujemy 3000 elementow z powtorzeniami)",
             "Bledne indeksowanie (0-based vs 1-based)"
+          ],
+          "algorytmy": [
+            "sortowanie-szybkie",
+            "iteracja-po-pliku"
           ]
         },
         {
@@ -267,6 +311,10 @@
             "Duze liczby (do 10^9) wymagaja efektywnego rozkladu na czynniki",
             "Brak zliczania wystapien kazdej liczby pierwszej w wierszu 1",
             "Proby dzielenia przez czynniki nie z wiersza 1"
+          ],
+          "algorytmy": [
+            "faktoryzacja",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -283,6 +331,11 @@
             "Przy remisie -- nalezy wybrac pierwszy wystepujacy fragment",
             "Nieefektywny algorytm brute-force O(n^2) zamiast sliding window",
             "Bledy precyzji zmiennoprzecinkowej przy obliczaniu sredniej"
+          ],
+          "algorytmy": [
+            "sliding-window",
+            "prefix-sum",
+            "current-max"
           ]
         }
       ],
@@ -330,7 +383,8 @@
             "Pomylenie HTTP z SMTP (oba dotycza internetu, ale HTTP to WWW, SMTP to poczta)",
             "Pomylenie FTP z DNS (FTP to transfer plikow, DNS to nazwy domenowe)",
             "Wszystkie 3 zdania musza byc poprawne -- blad w jednym = 0 pkt"
-          ]
+          ],
+          "algorytmy": []
         }
       ],
       "sciezka_danych": null,
@@ -368,6 +422,9 @@
             "Bledy przeniesien przy dodawaniu w systemie trojkowym",
             "Bledy pozyczek przy odejmowaniu w systemie trojkowym",
             "Zapomnienie, ze 9=3^2, wiec konwersja jest bezposrednia (bez przechodzenia przez system 10)"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         }
       ],
@@ -407,6 +464,9 @@
             "Nieuwzglednienie filtra na odmiany zimowe (Z) -- zsumowanie wszystkich odmian",
             "Pomylenie odmian L/J/Z",
             "Blad w laczeniu danych -- przypisanie zlych NIP-ow do sum"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -422,6 +482,10 @@
             "Bledy w laczeniu danych z cennika z transakcjami (VLOOKUP/INDEX-MATCH)",
             "Nieuwzglednienie formatu ceny z przecinkiem dziesietnym (2,9 zamiast 2.9)",
             "Pomylenie przychodu (cena*kg) z liczba kg"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa",
+            "arkusz-agregacja-podstawowa"
           ]
         },
         {
@@ -438,6 +502,9 @@
             "Pomieszanie najpopularniejszej odmiany z odmiana o najwiekszym przychodzie (tu liczy sie kg, nie zl)",
             "Brak tytulu wykresu",
             "Uzycie innego typu wykresu niz kolumnowy"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -454,6 +521,10 @@
             "Pomylenie progow rabatowych (5 gr dla 15000-19999, 10 gr dla 20000+)",
             "Kolejnosc transakcji ma znaczenie dla obliczen kumulacyjnych",
             "Rabat dotyczy kg w biezacej transakcji, nie wszystkich dotychczasowych kg"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "arkusz-agregacja-warunkowa"
           ]
         }
       ],
@@ -500,6 +571,12 @@
             "Blad w JOINie miedzy tabelami kierowcy-rejestr-taryfikator",
             "Pomylenie sumy kwot z liczba mandatow",
             "Brak GROUP BY lub bledne grupowanie"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -515,6 +592,13 @@
             "Szukanie maksimum zamiast minimum punktow",
             "Nieuwzglednienie filtra na IdWykroczenia 3-6 (>20 km/h)",
             "Blad w ekstrakcji miesiaca z daty (format rrrr-mm-dd)"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-WHERE",
+            "SQL-funkcje-tekstowe"
           ]
         },
         {
@@ -531,6 +615,10 @@
             "Brak warunku WHERE IdOsoby IS NULL przy LEFT JOIN",
             "Zapomnienie o sortowaniu alfabetycznym wg NrRejestracyjny",
             "Sortowanie wg nazwiska zamiast wg numeru rejestracyjnego"
+          ],
+          "algorytmy": [
+            "SQL-LEFT-JOIN-NULL",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -547,6 +635,10 @@
             "Zapomnienie warunku WHERE IS NULL przy LEFT JOIN",
             "Brak slowa kluczowego DISTINCT w podzapytaniu NOT IN",
             "Pomylenie kierunku JOINa (Fotoradar LEFT JOIN Rejestr, nie odwrotnie)"
+          ],
+          "algorytmy": [
+            "SQL-LEFT-JOIN-NULL",
+            "SQL-podzapytanie-niezalezne"
           ]
         }
       ],

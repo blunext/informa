@@ -34,6 +34,11 @@
             "Bledna konwersja 179 na system binarny (poprawnie: 10110011)",
             "Pomylenie kolejnosci wpisywania (wierszami od lewej do prawej, od gory do dolu)",
             "Blad przy cyklicznym powtarzaniu cyfr binarnych"
+          ],
+          "algorytmy": [
+            "konwersja-systemow",
+            "tablica-2D",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -50,6 +55,10 @@
             "Bledne obliczenie pozycji w cyklicznym zapisie (off-by-one)",
             "Uzycie funkcji wbudowanych (zabronione w zadaniu)",
             "Zapomnienie o przypadku gdy w*k jest wielokrotnoscia dl"
+          ],
+          "algorytmy": [
+            "konwersja-systemow",
+            "iteracja-po-cyfrach"
           ]
         }
       ],
@@ -90,6 +99,10 @@
             "Bledne dzielenie calkowite (np. 35 div 2 = 17, nie 17.5)",
             "Pomylenie liczby wywolan z glebokoscia rekurencji (trzeba liczyc lacznie z poczatkowym wywolaniem)",
             "Nie dojscie do F(0) = 0 jako przypadek bazowy"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "rekurencja"
           ]
         },
         {
@@ -105,6 +118,10 @@
             "Niepoprawne rozumienie F(x) = 2 * floor(log2(x) + 1)",
             "Bledne obliczenie zakresu (2^8 do 2^9-1)",
             "Podanie x=512 jako max (F(512) = 20, nie 18)"
+          ],
+          "algorytmy": [
+            "rekurencja",
+            "analiza-zlozonosci"
           ]
         }
       ],
@@ -144,6 +161,11 @@
             "Nie uwzglednienie fragmentow na koncu lub poczatku slowa",
             "Szukanie dokladnego wzorca 'kot' zamiast 'k?t' z dowolna litera na srodku",
             "Bledne indeksowanie -- off-by-one przy sprawdzaniu podciagu"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "wyszukiwanie-wzorca-naiwne",
+            "akumulator-licznik"
           ]
         },
         {
@@ -159,6 +181,12 @@
             "Bledna implementacja ROT13 (szczegolnie dla liter n-z)",
             "Pomylenie odwracania slowa z kodowaniem ROT13 (trzeba najpierw zakodowac ROT13, potem sprawdzic czy wynik = odwrocone slowo)",
             "Bledne porownanie -- trzeba sprawdzic ROT13(slowo) == reverse(slowo)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "szyfr-Cezara",
+            "porownywanie-tekstow",
+            "current-max"
           ]
         },
         {
@@ -174,6 +202,10 @@
             "Bledna interpretacja 'co najmniej polowa pozycji' -- >= len/2.0, nie > len/2",
             "Sprawdzanie tylko jednej litery zamiast zliczenia kazdej litery w slowie",
             "Dla slow o dlugosci nieparzystej prog wynosi (n+1)/2, np. 7 liter -> >= 4 wystapienia"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "znajdz-i-policz"
           ]
         }
       ],
@@ -219,6 +251,9 @@
             "Pomylenie numerow pakietow z numerami komputerow",
             "Niepoprawne prosledzenie kilku rund (trzeba sledzie odbiorca lokalizacji, nie odbiorca pakietu)",
             "Blad przy sledzeniu pakietow przychodzacych do tego samego komputera"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -233,6 +268,10 @@
           "pulapki": [
             "Pomylenie 'nie jest odbiorca' z 'nie ma pakietow' (komputer moze miec pakiety z rundy zerowej)",
             "Blad w odczycie pliku (numery odbiorcow vs numery komputerow)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -248,6 +287,12 @@
             "Szukanie cyklu o najmniejszej dlugosci w permutacji odbiorcow",
             "Niepoprawna identyfikacja 'powrotu' -- pakiet wraca, gdy komputer[i] = i po k rundach (permutacja^k(i) = i)",
             "Nieefektywne symulowanie rund zamiast analizy cykli w permutacji"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "current-min",
+            "graf",
+            "wyszukiwanie-liniowe"
           ]
         },
         {
@@ -263,6 +308,11 @@
             "Runda 8 wymaga symulacji 8 krokow permutacji (nie 4 czy 2)",
             "Trzeba liczyc pakiety trafiajace do danego komputera, nie pakiety wychodzace",
             "Wydajnosc -- trzeba efektywnie symulowac rozsylanie pakietow dla 1024 komputerow"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "current-max",
+            "znajdz-i-policz"
           ]
         }
       ],
@@ -306,7 +356,8 @@
           "pulapki": [
             "Pomylenie ochrony automatycznej z koniecznoscia rejestracji (w Polsce ochrona automatyczna)",
             "Mylne przekonanie, ze programy komputerowe nie sa chronione prawem autorskim"
-          ]
+          ],
+          "algorytmy": []
         }
       ],
       "sciezka_danych": null,
@@ -342,6 +393,9 @@
             "Bledy pozyczek w odejmowaniu w systemie o podstawie 6",
             "Mylenie podstaw systemow (dodawanie w syst. 5, odejmowanie w syst. 6)",
             "Bledna konwersja do/z systemu dziesietnego"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         }
       ],
@@ -382,6 +436,9 @@
             "Pomylenie przyjezdow z wyjazdami lub z saldo (przyjechali - wyjechali)",
             "Brak opisow osi lub tytulu wykresu",
             "Uzycie niewlasciwego typu wykresu (wymaga sie kolumnowego)"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -397,6 +454,9 @@
             "Bledne obliczenie bilansu biezacego (trzeba codziennie dodawac przyjezdow i odejmowac wyjezdow od stanu z poprzedniego dnia)",
             "Pomylenie momentu -- liczba kuracjuszy PO przyjazdach i wyjazdach danego dnia",
             "Brak uwzglednienia poczatkowego stanu 10000 kuracjuszy"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
           ]
         },
         {
@@ -414,6 +474,9 @@
             "Blad kierunkowy: butelki sie zuzywaja (nie dodaja) gdy popyt > podaz",
             "Zaokraglenie: butelki sa zuzywane calkowicie (ceil(brak/5))",
             "Niezrozumienie warunku: kuracjusze dostaja wode w dniu przyjazdu, ale NIE w dniu odjazdu"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
           ]
         }
       ],
@@ -458,6 +521,11 @@
             "Sortowanie rosnaco zamiast nierosnaco",
             "Zliczanie pacjentow zamiast dawek",
             "Brak GROUP BY po kodzie szczepionki"
+          ],
+          "algorytmy": [
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -473,6 +541,11 @@
             "Bledna identyfikacja plci z PESEL (przedostatnia cyfra, nie ostatnia)",
             "Zliczenie dawek zamiast roznych pacjentow (potrzeba COUNT DISTINCT pesel)",
             "Bledny filtr: trzeba warunek na kod_szczepionki = 'sz12_3d'"
+          ],
+          "algorytmy": [
+            "SQL-WHERE",
+            "SQL-aggregacja",
+            "SQL-funkcje-tekstowe"
           ]
         },
         {
@@ -488,6 +561,13 @@
             "Ukonczone szczepienie = numer_dawki = liczba_dawek (dla danej szczepionki) -- trzeba JOINowac z tabela szczepionki",
             "Szukanie miesiaca z najwieksza liczba dawek ogolnie zamiast ukonczonych szczepien",
             "Bledna ekstrakcja roku i miesiaca z daty (format rrrr-mm-dd)"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-WHERE",
+            "SQL-funkcje-tekstowe"
           ]
         },
         {
@@ -504,6 +584,10 @@
             "Bledny warunek WHERE (porownanie wojewodztw pacjenta i punktu)",
             "Uzycie = zamiast != (szukamy ROZNYCH wojewodztw)",
             "Zapomnienie o JOINie z tabela PUNKT_SZCZEPIEN"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE"
           ]
         }
       ],
