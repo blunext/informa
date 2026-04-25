@@ -39,6 +39,10 @@
           "pulapki": [
             "div to dzielenie calkowite -- (p+k) div 2 zaokragla w dol",
             "Dla x=43: p jest modyfikowane 3 razy (s+1 za kazdym razem gdy T[s]<43), k nigdy"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "przeszukiwanie-binarne"
           ]
         },
         {
@@ -53,6 +57,10 @@
           "pulapki": [
             "To jest najgorszy przypadek wyszukiwania binarnego: ceil(log2(n)) + 1 = 7 dla n=100",
             "Warunek jest spelniony 7 razy, a NIEspelniony 1 raz (gdy p>k)"
+          ],
+          "algorytmy": [
+            "przeszukiwanie-binarne",
+            "analiza-zlozonosci"
           ]
         },
         {
@@ -67,6 +75,10 @@
           "pulapki": [
             "Kluczowe: T[5]=90 (zamiast 9) powoduje ze algorytm 'skrecza' w lewa polowke i nigdy nie sprawdza 43",
             "Wyszukiwanie binarne wymaga uporzadkowanej tablicy -- tu demonstrujemy ten wymog"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "przeszukiwanie-binarne"
           ]
         }
       ]
@@ -90,6 +102,9 @@
           "pulapki": [
             "Nie wolno uzywac tablic -- trzeba pamietac tylko 2 poprzednie wartosci",
             "Warunki brzegowe: F(1)=F(2)=1, petla od 3 do n"
+          ],
+          "algorytmy": [
+            "ciag-Fibonacciego"
           ]
         },
         {
@@ -104,6 +119,11 @@
           "pulapki": [
             "Kluczowe: wielokrotne obliczanie tych samych podproblemow (np. F(3) obliczane wielokrotnie)",
             "Zlozonosc wykladnicza O(2^n) vs O(n) dla iteracyjnej"
+          ],
+          "algorytmy": [
+            "ciag-Fibonacciego",
+            "rekurencja",
+            "analiza-zlozonosci"
           ]
         },
         {
@@ -118,6 +138,11 @@
           "pulapki": [
             "Dla n parzystego: k=n/2, uzyj F(k+1) i F(k-1). Dla n nieparzystego: k=(n+1)/2, uzyj F(k) i F(k-1).",
             "Ta rekurencja ma zlozonosc O(log n) zamiast O(2^n) -- kazde wywolanie zmniejsza n o polowe"
+          ],
+          "algorytmy": [
+            "ciag-Fibonacciego",
+            "rekurencja",
+            "dziel-i-zwyciezaj"
           ]
         }
       ]
@@ -141,6 +166,10 @@
           "pulapki": [
             "Zapytanie 2: filtr po 'id' a nie 'id_klubu' + uzywa AVG zamiast SUM",
             "Zapytanie 3: 'punkty as suma' to alias kolumny, nie funkcja agregujaca"
+          ],
+          "algorytmy": [
+            "SQL-WHERE",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -154,6 +183,10 @@
           "zasady_oceniania": "1 pkt - za wskazanie czterech poprawnych odpowiedzi.\n0 pkt - za odpowiedz niepelna lub bledna.",
           "pulapki": [
             "Zdanie 2 vs 4: na stosie dostepny jest OSTATNIO dodany element (wierzcholek), nie pierwszy"
+          ],
+          "algorytmy": [
+            "stos",
+            "ONP"
           ]
         },
         {
@@ -167,7 +200,8 @@
           "zasady_oceniania": "1 pkt - za wskazanie czterech poprawnych odpowiedzi.\n0 pkt - za odpowiedz niepelna lub bledna.",
           "pulapki": [
             "'Wystarczy' oznacza: ta liczba bitow lub wieksza. 3 bity wystarczaja i kazda wieksza tez."
-          ]
+          ],
+          "algorytmy": []
         },
         {
           "id": "2018C.3.4",
@@ -181,6 +215,10 @@
           "pulapki": [
             "Rekurencja NAJPIERW wywoluje Rek(n-1), POTEM wypisuje n -> kolejnosc ROSNACA",
             "Rek(0): warunek n>0 nie jest spelniony, wiec 0 NIE jest wypisywane"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "rekurencja"
           ]
         }
       ]
@@ -192,7 +230,12 @@
       "czesc": 2,
       "kontekst": "Pliki dane1.txt i dane2.txt zawieraja po 1000 wierszy. W kazdym wierszu tych plikow zapisany jest uporzadkowany niemalejaco ciag dziesieciu liczb calkowitych o wartosciach z przedzialu <0,100>, oddzielonych spacjami.\n\nUwaga: pliki przyklad1.txt oraz przyklad2.txt zawieraja dane przykladowe (po 5 wierszy).",
       "sciezka_danych": "matura_informatyka_rozszerzona/2018_czerwiec/NM_DANE_PR/",
-      "pliki_danych": ["dane1.txt", "dane2.txt", "przyklad1.txt", "przyklad2.txt"],
+      "pliki_danych": [
+        "dane1.txt",
+        "dane2.txt",
+        "przyklad1.txt",
+        "przyklad2.txt"
+      ],
       "podzadania": [
         {
           "id": "2018C.4.1",
@@ -205,6 +248,11 @@
           "zasady_oceniania": "1 pkt - za podanie prawidlowej odpowiedzi.\n0 pkt - za bledna odpowiedz lub brak.",
           "pulapki": [
             "Porownujemy OSTATNIE elementy (10.) w odpowiadajacych sobie wierszach, nie wszystkie"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik",
+            "porownywanie-tekstow"
           ]
         },
         {
@@ -219,6 +267,10 @@
           "pulapki": [
             "W OBIE ciagach para musi miec dokladnie 5 parzystych i 5 nieparzystych",
             "Uwaga na warunek: 'w jednym I drugim' -- oba ciagi musza spelniac warunek"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik"
           ]
         },
         {
@@ -233,6 +285,11 @@
           "pulapki": [
             "Porownujemy ZBIORY wartosci (bez powtorzen), nie multizbiory -- rozna liczba powtorzen dozwolona",
             "Ciagi sa uporzadkowane -- mozna porownac unikalne wartosci"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "porownywanie-tekstow",
+            "akumulator-licznik"
           ]
         },
         {
@@ -247,6 +304,10 @@
           "pulapki": [
             "Trzeba obsluzye OBA przypadki: koniec ciagu 1 i koniec ciagu 2",
             "Wynikowy ciag ma 20 elementow (10+10), musi byc uporzadkowany"
+          ],
+          "algorytmy": [
+            "sortowanie-przez-scalanie",
+            "iteracja-po-pliku"
           ]
         }
       ]
@@ -258,7 +319,9 @@
       "czesc": 2,
       "kontekst": "W roznych miejscach laboratorium rozmieszczono 10 czujnikow temperatury. W wybranych dniach i godzinach wszystkie czujniki odczytuja i rejestruja temperature w stopniach Celsjusza z dokladnoscia do setnej czesci. Wyniki odczytow zapisano w dwustu wierszach pliku pomiary.txt.\n\nKazdy wiersz zawiera dwanascie danych oddzielonych srednikami: data, godzina, czujnik1-czujnik10. Pierwszy wiersz pliku jest wierszem naglowkowym.\n\nPrzyklad:\ndata;godzina;czujnik1;...;czujnik10\n2016-01-05;11:11;0,61;-4,98;-1,56;-5,59;-2,80;3,39;2,81;-1,60;1,71;4,53",
       "sciezka_danych": "matura_informatyka_rozszerzona/2018_czerwiec/NM_DANE_PR/",
-      "pliki_danych": ["pomiary.txt"],
+      "pliki_danych": [
+        "pomiary.txt"
+      ],
       "podzadania": [
         {
           "id": "2018C.5.1",
@@ -272,6 +335,9 @@
           "pulapki": [
             "Filtr dwojny: czujnik nr 5 ORAZ godzina 5:00-12:00",
             "Czeste bledy: policzenie sredniej dla wszystkich czujnikow lub wszystkich godzin"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -287,6 +353,10 @@
             "Zaokraglenie W DOL (floor), nie standardowe zaokraglenie matematyczne",
             "T[K] = floor(273.15 + T[C])",
             "Dla czujnikow 2 i 6 sa po dwie wartosci z taka sama czestotliwoscia"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa",
+            "current-max"
           ]
         },
         {
@@ -301,6 +371,9 @@
           "pulapki": [
             "Tylko czujnik nr 10, nie wszystkie czujniki",
             "Zaokraglenie do 2 miejsc po przecinku"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -315,6 +388,9 @@
           "pulapki": [
             "Przedzialy sa lewostronnie otwarte, prawostronnie domkniete: (-10,15> = -10 < T <= 15",
             "Liczymy WSZYSTKIE pomiary (kazdy czujnik, kazdy wiersz), nie per czujnik"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -331,6 +407,11 @@
             "Wniosek II dotyczy TYLKO czujnika8 w lipcu i sierpniu",
             "Wniosek III dotyczy WSZYSTKICH czujnikow w maju (dodatkowe +0.9)",
             "7 lipca: dzien 7 jest w zakresie 5-10 wiec wniosek I obowiazuje dla czujnikow 1,2,9"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "arkusz-agregacja-warunkowa",
+            "tablica-2D"
           ]
         }
       ]
@@ -342,7 +423,12 @@
       "czesc": 2,
       "kontekst": "Wypozyczalnia samochodow WYPSA ma przedstawicielstwa w kilku miejscowosciach. Samochody sa klasy B, C lub D.\n\nPlik samochody.txt: Nr_ew, Nr_firmowy (litery okreslajacej klase), Miejscowosc, Nr_rej (zaczyna sie dwiema literami nazwy miejscowosci).\nPlik ceny_za_dobe.txt: Klasa, Cena.\nPlik klienci.txt: Nr_klienta, Imie, Nazwisko.\nPlik wypozyczenia.txt: Nr_ew, Nr_klienta, Wypozyczenie (data), Zwrot (data). Dane za pierwsze polrocze 2015.\n\nDane oddzielone srednikiem, pierwszy wiersz kazdego pliku jest naglowkowy. Format daty: RRRR-MM-DD.",
       "sciezka_danych": "matura_informatyka_rozszerzona/2018_czerwiec/NM_DANE_PR/",
-      "pliki_danych": ["samochody.txt", "ceny_za_dobe.txt", "klienci.txt", "wypozyczenia.txt"],
+      "pliki_danych": [
+        "samochody.txt",
+        "ceny_za_dobe.txt",
+        "klienci.txt",
+        "wypozyczenia.txt"
+      ],
       "podzadania": [
         {
           "id": "2018C.6.1",
@@ -357,6 +443,11 @@
             "Naleznosc = czas_wypozyczenia * cena_za_dobe_dla_klasy",
             "Klase samochodu trzeba wyciagnac z Nr_firmowy (pierwsza litera)",
             "Sortowanie po NAZWISKO, potem IMIE, potem NR_REJ"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-ORDER-BY",
+            "SQL-funkcje-tekstowe"
           ]
         },
         {
@@ -370,6 +461,12 @@
           "zasady_oceniania": "2 pkt - za podanie poprawnej odpowiedzi.\n0 pkt - za bledna odpowiedz lub brak.",
           "pulapki": [
             "Klase samochodu trzeba wyciagnac z tabeli samochody (Nr_firmowy zawiera litere klasy)"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-funkcje-tekstowe"
           ]
         },
         {
@@ -383,6 +480,12 @@
           "zasady_oceniania": "1 pkt - za podanie poprawnej odpowiedzi.\n0 pkt - za bledna odpowiedz lub brak.",
           "pulapki": [
             "GROUP BY Nr_klienta + ORDER BY COUNT DESC + JOIN z klienci"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -397,6 +500,11 @@
           "pulapki": [
             "Samochody NIE wystepujace w tabeli wypozyczenia (NOT IN lub LEFT JOIN ... IS NULL)",
             "Podanie w podziale na klasy I miejscowosci -- tabela krzyzowa"
+          ],
+          "algorytmy": [
+            "SQL-LEFT-JOIN-NULL",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -411,6 +519,11 @@
           "pulapki": [
             "Klienci z tabeli klienci, ktorych Nr_klienta NIE wystepuje w tabeli wypozyczenia",
             "NOT IN (SELECT DISTINCT Nr_klienta FROM wypozyczenia)"
+          ],
+          "algorytmy": [
+            "SQL-LEFT-JOIN-NULL",
+            "SQL-podzapytanie-niezalezne",
+            "SQL-aggregacja"
           ]
         }
       ]
