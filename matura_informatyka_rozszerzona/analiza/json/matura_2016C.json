@@ -39,6 +39,10 @@
           "pulapki": [
             "Instrukcja s <- s*(n+1) wykonuje sie ZAWSZE (nie jest w else) -- latwo to przeoczyc",
             "F(n) = (n+1)! -- funkcja oblicza silnie z (n+1)"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "rekurencja"
           ]
         },
         {
@@ -53,6 +57,10 @@
           "pulapki": [
             "Rekurencja idzie co 2: F(n) -> F(n-2), zatrzymuje sie na n=1 lub n=2",
             "Trzeba wypisac WSZYSTKIE wywolania lacznie z poczatkowym F(11)"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "rekurencja"
           ]
         },
         {
@@ -66,6 +74,10 @@
           "zasady_oceniania": "1 pkt - za zakreslenie prawidlowej odpowiedzi.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
           "pulapki": [
             "Latwo pomylic z innymi formami -- trzeba sprawdzic na obliczonych wartosciach z 1.1"
+          ],
+          "algorytmy": [
+            "rekurencja",
+            "analiza-zlozonosci"
           ]
         }
       ],
@@ -101,7 +113,8 @@
           "pulapki": [
             "Parzyste w normalnym porzadku rosnacym, nieparzyste w ODWROTNYM (malejacym)",
             "Wszystkie parzyste przed wszystkimi nieparzystymi"
-          ]
+          ],
+          "algorytmy": []
         },
         {
           "id": "2016C.2.2",
@@ -116,7 +129,8 @@
             "Zbior musi skladac sie z ROZNYCH liczb",
             "Jedna z brakujacych liczb MUSI byc 10 (parzysta, bo zeby byc najmniejsza musi byc parzysta i <= kazdej innej parzystej)",
             "Druga musi byc rozna od istniejacych i nie moze byc parzysta mniejsza od 10"
-          ]
+          ],
+          "algorytmy": []
         },
         {
           "id": "2016C.2.3",
@@ -131,6 +145,10 @@
             "Trzeba rozwazyc 4 przypadki: max parzyste vs nieparzyste X parzyste vs nieparzyste",
             "Najwieksza wg planety X: jesli sa nieparzyste, to ta NAJMNIEJSZA z nich; jesli nie, to NAJWIEKSZA parzysta",
             "Kazda nieparzysta jest wieksza od kazdej parzystej w tym porzadku"
+          ],
+          "algorytmy": [
+            "wyszukiwanie-liniowe",
+            "current-max"
           ]
         }
       ],
@@ -166,7 +184,8 @@
           "zasady_oceniania": "1 pkt - za zaznaczenie kompletu poprawnych odpowiedzi.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
           "pulapki": [
             "Tablica NIE jest ograniczona do 256 elementow (to ograniczenie byte, nie tablicy)"
-          ]
+          ],
+          "algorytmy": []
         },
         {
           "id": "2016C.3.2",
@@ -180,6 +199,9 @@
           "pulapki": [
             "10_2 to 2 w systemie dziesietnym, NIE 10!",
             "Trzeba najpierw przeliczyc 10_2 na system dziesietny (= 2), potem dodac 200"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         },
         {
@@ -193,7 +215,8 @@
           "zasady_oceniania": "1 pkt - za zaznaczenie kompletu poprawnych odpowiedzi.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
           "pulapki": [
             "Dowolny porzadek operacji to FALSZ -- algorytm ma scisle okreslona kolejnosc krokow"
-          ]
+          ],
+          "algorytmy": []
         },
         {
           "id": "2016C.3.4",
@@ -206,7 +229,8 @@
           "zasady_oceniania": "1 pkt - za zaznaczenie kompletu poprawnych odpowiedzi.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
           "pulapki": [
             "Zdjecia z aparatow cyfrowych to grafika RASTROWA, nie wektorowa"
-          ]
+          ],
+          "algorytmy": []
         }
       ],
       "sciezka_danych": null,
@@ -242,6 +266,9 @@
           "pulapki": [
             "Trzeba wydobyc miesiac z daty urodzenia (format RRRR-MM-DD)",
             "Funkcja MONTH() lub ekstrakcja znakow z daty"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -256,6 +283,9 @@
           "pulapki": [
             "Kobiety identyfikujemy po imionach zakonczonych na 'a'",
             "COUNTIFS z dwoma warunkami: miejsce zamieszkania + imie konczace sie na 'a'"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -272,6 +302,9 @@
             "Przekroczyl 60 lat = wiek > 60 (NIE >= 60)",
             "Rozne kwoty ubezpieczenia dla kobiet (25000) i mezczyzn (30000)",
             "Skladka = kwota_ubezp * procent + ewentualny dodatek 49 zl"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -286,6 +319,9 @@
           "pulapki": [
             "Wiek obliczany na dzien 1 stycznia 2016 (= 2016 - rok_urodzenia)",
             "Wykres KOLUMNOWY (nie liniowy)"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         }
       ],
@@ -324,6 +360,11 @@
           "pulapki": [
             "Trzeba polaczyc 3 pliki: zdaje.txt -> przedmioty.txt (informatyka) -> maturzysta.txt (nazwisko, imie)",
             "Sortowanie alfabetyczne po NAZWISKU"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "porownywanie-tekstow",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -338,6 +379,11 @@
           "pulapki": [
             "Tylko przedmioty DODATKOWE (Typ='dodatkowy'), nie obowiazkowe",
             "Trzeba policzyc ile razy kazdy przedmiot dodatkowy wystepuje w zdaje.txt"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik",
+            "current-max"
           ]
         },
         {
@@ -352,6 +398,11 @@
           "pulapki": [
             "Tylko przedmioty DODATKOWE licza sie do tego rankingu",
             "Moze byc wielu zdajacych z ta sama maksymalna liczba"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik",
+            "current-max"
           ]
         },
         {
@@ -365,6 +416,10 @@
           "zasady_oceniania": "2 pkt - za prawidlowe podanie listy przedmiotow dodatkowych, ktorych nie wybrano na egzaminie maturalnym.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
           "pulapki": [
             "Trzeba znalezc przedmiot dodatkowy z przedmioty.txt, ktorego Id NIE pojawia sie w zdaje.txt"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "wyszukiwanie-liniowe"
           ]
         },
         {
@@ -379,6 +434,10 @@
           "pulapki": [
             "Najmlodszy = najpozniejsza data urodzenia",
             "Trzeba wypisac TYLKO przedmioty dodatkowe, nie obowiazkowe"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "current-max"
           ]
         },
         {
@@ -393,6 +452,11 @@
           "pulapki": [
             "Przedostatnia cyfra PESEL (10. pozycja, indeksujac od 0) -- nieparzysta = mezczyzna",
             "PESEL ma 11 cyfr, wiec przedostatnia to indeks 9 (lub 10 licząc od 1)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "iteracja-po-cyfrach",
+            "akumulator-licznik"
           ]
         }
       ],
@@ -432,6 +496,11 @@
           "zasady_oceniania": "1 pkt - za podanie poprawnej liczby wystepujacych kodow liczb reprezentujacych liczby zapisane w systemie osmkowym (103).",
           "pulapki": [
             "Ostatnia cyfra kodu = 8 oznacza system osmkowy"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik",
+            "iteracja-po-cyfrach"
           ]
         },
         {
@@ -446,6 +515,11 @@
           "pulapki": [
             "System czworkowy = ostatnia cyfra 4",
             "Sprawdzac brak '0' tylko w cyfrach LICZBY (od pierwszej do przedostatniej), nie w calym kodzie"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik",
+            "iteracja-po-cyfrach"
           ]
         },
         {
@@ -460,6 +534,11 @@
           "pulapki": [
             "System dwojkowy = ostatnia cyfra 2",
             "Liczba parzysta w systemie dwojkowym konczy sie cyfra 0 (= przedostatnia cyfra kodu to 0)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik",
+            "iteracja-po-cyfrach"
           ]
         },
         {
@@ -474,6 +553,12 @@
           "pulapki": [
             "Trzeba przekonwertowac kazda liczbe osmkowa na dziesietna przed sumowaniem",
             "Uwaga na przepelnienie -- niektorych liczb nie da sie zapisac w 32-bitowym int, nalezy uzyc 64-bit (long long w C++, longint/int64 w Pascal)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-suma",
+            "konwersja-systemow",
+            "Horner"
           ]
         },
         {
@@ -489,6 +574,13 @@
             "Trzeba przekonwertowac WSZYSTKIE liczby na system dziesietny i znalezc min/max",
             "Podac ZAROWNO kod (jak jest w pliku) JAK I wartosc dziesietna",
             "Uwaga na przepelnienie 32-bit!"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "current-max",
+            "current-min",
+            "konwersja-systemow",
+            "Horner"
           ]
         }
       ],

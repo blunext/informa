@@ -39,6 +39,10 @@
             "Suma dzielnikow BEZ samej liczby (dzielniki wlasciwe mniejsze od n)",
             "Para (20,21): suma_dz(20)=22=21+1, ale suma_dz(21)=11!=20+1, wiec NIE",
             "Trzeba sprawdzic OBA warunki (suma_dz(a)=b+1 ORAZ suma_dz(b)=a+1)"
+          ],
+          "algorytmy": [
+            "wyszukiwanie-liniowe",
+            "akumulator-suma"
           ]
         },
         {
@@ -56,6 +60,11 @@
             "Rozpocznij sume od 1 (1 zawsze jest dzielnikiem)",
             "Sprawdz OBA warunki: suma_dz(a)=b+1 i suma_dz(b)=a+1",
             "Kandydat b = suma_dz(a) - 1, potem weryfikacja"
+          ],
+          "algorytmy": [
+            "wyszukiwanie-liniowe",
+            "akumulator-suma",
+            "analiza-zlozonosci"
           ]
         }
       ],
@@ -96,6 +105,10 @@
             "Zamiana odbywa sie A[w] z A[k], nie sasiadow",
             "Po zamianie w zwieksza sie o 1",
             "Element klucza (4) tez sie przesuwa -- konczy na pozycji 6"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "sortowanie-szybkie"
           ]
         },
         {
@@ -111,6 +124,11 @@
             "Funkcja zamien wykonuje sie gdy A[k] < klucz (ostro mniejsze)",
             "Trzeba dokladnie 5 z 6 elementow mniejszych od pierwszego",
             "Element rowny kluczowi NIE powoduje zamiany (warunek < nie <=)"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "sortowanie-szybkie",
+            "analiza-zlozonosci"
           ]
         },
         {
@@ -127,6 +145,10 @@
             "klucz = 10, wiec elementy < 10 to 1-9 (9 elementow)",
             "w startuje od 1, po 9 zamianach w = 10",
             "Kolejnosc zamienianych elementow: 9 napotkane jako pierwszy < 10"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "sortowanie-szybkie"
           ]
         }
       ],
@@ -166,7 +188,8 @@
             "SMTP = poczta, nie WWW",
             "DNS tlumaCzy nazwy domenowe na IP -- awaria DNS = IP dziala, domena nie",
             "Klucz szyfrujacy dotyczy HTTPS, nie HTTP"
-          ]
+          ],
+          "algorytmy": []
         },
         {
           "id": "2016M.3.2",
@@ -182,6 +205,10 @@
             "f(8) = -1/3, NIE 1/3 (roznica znaku!)",
             "f(100): (99 mod 3 = 0) → f(100) = f(1) = 4, nie -1/3",
             "Trzeba obliczyc kilka wartosci aby zauwazyc cykl"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "rekurencja"
           ]
         },
         {
@@ -197,6 +224,9 @@
             "Dodawanie binarne z przeniesieniem: 1111+101=10100, NIE 10110",
             "Iloczyn: 15*5=75=1001011₍₂₎, co jest wieksze od 110000₍₂₎=48",
             "Iloraz calkowity: 15 div 5 = 3 = 11₍₂₎ > 10₍₂₎ = 2"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         },
         {
@@ -212,7 +242,8 @@
             "ROM przechowuje BIOS/UEFI, nie caly system operacyjny",
             "System moze byc uruchamiany z USB, CD, sieci -- nie musi byc na HDD",
             "Dual boot jest mozliwy na jednym dysku"
-          ]
+          ],
+          "algorytmy": []
         }
       ],
       "sciezka_danych": null,
@@ -252,6 +283,10 @@
             "Warunek na okregu: (x-200)^2 + (y-200)^2 = R^2 (rownosc, nie nierownosc)",
             "Warunek wewnatrz kola: <= R^2 (wlacznie z brzegiem)",
             "Punkty na okregu TEZ licza sie jako wewnatrz kola"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -267,6 +302,9 @@
             "Roznica z/bez brzegu kola: (x-200)^2+(y-200)^2 <= R^2 vs < R^2",
             "Zaokraglenie do 4 miejsc po przecinku",
             "Formula: pi = 4 * count_inside / N"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -282,6 +320,9 @@
             "Blad bezwzgledny = |wartosc_przyblizana - pi|, NIE (pi - wartosc)",
             "Wykres musi pokazywac trend malejacy",
             "Czytelne osie i etykiety na wykresie"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         }
       ],
@@ -324,6 +365,12 @@
             "Wymaga JOIN z tabela ksiazek/autorow",
             "Najdluzsze tytuly -- LENGTH/LEN w roznych DBMS",
             "Trzeba podac WSZYSTKIE tytuly tego autora"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-ORDER-BY",
+            "SQL-aggregacja",
+            "SQL-funkcje-tekstowe"
           ]
         },
         {
@@ -340,6 +387,10 @@
             "Srednia = COUNT(studenci w akademiku) / COUNT(DISTINCT id_pok z meldunek)",
             "Nie wszystkie 70 pokoi musza byc zajete -- liczyc tylko zajete pokoje",
             "Wynik 4,6429 = 325/70 (bledne: liczy wszystkie pokoje)"
+          ],
+          "algorytmy": [
+            "SQL-aggregacja",
+            "SQL-GROUP-BY"
           ]
         },
         {
@@ -356,6 +407,13 @@
             "10. cyfra PESEL okresla plec: parzysta=K, nieparzysta=M",
             "SUBSTR/MID indeksowanie: PESEL ma 11 cyfr, 10. od lewej",
             "Bledne wyniki 153/177 = wszyscy studenci (nie tylko w akademiku)"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE",
+            "SQL-aggregacja",
+            "SQL-aggregacja-warunkowa",
+            "SQL-funkcje-tekstowe"
           ]
         },
         {
@@ -371,6 +429,11 @@
             "NOT IN lub LEFT JOIN ... IS NULL dla znalezienia studentow bez wypozyczen",
             "Sortowanie alfabetyczne wg nazwiska (ORDER BY nazwisko)",
             "Brak sortowania = -1 punkt"
+          ],
+          "algorytmy": [
+            "SQL-LEFT-JOIN-NULL",
+            "SQL-ORDER-BY",
+            "SQL-podzapytanie-niezalezne"
           ]
         },
         {
@@ -387,6 +450,11 @@
             "GROUP BY pesel HAVING COUNT(*) > 3",
             "Bledny wynik 311 = tylko studenci z meldunek, a trzeba wszystkich",
             "Podzapytanie z GROUP BY + HAVING, zewnetrzne COUNT"
+          ],
+          "algorytmy": [
+            "SQL-GROUP-BY",
+            "SQL-HAVING",
+            "SQL-aggregacja"
           ]
         }
       ],
@@ -435,6 +503,10 @@
             "Brak zawijania = czesc punktow",
             "Pominiecie ostatniego wiersza = -1 punkt",
             "Kazda litera przesuwana o 3, bez wyjatkow"
+          ],
+          "algorytmy": [
+            "szyfr-Cezara",
+            "iteracja-po-pliku"
           ]
         },
         {
@@ -451,6 +523,10 @@
             "Klucz powtarza sie cyklicznie (dlugosc klucza moze byc krotsza niz slowo)",
             "Blad zawijania: ujemna roznica bez dodania 26 daje nieprawidlowy znak",
             "Blad dlugosci alfabetu: mod 25 zamiast mod 26 zmienia wyniki"
+          ],
+          "algorytmy": [
+            "szyfr-Cezara",
+            "iteracja-po-pliku"
           ]
         },
         {
@@ -467,6 +543,11 @@
             "Trzeba porownac bledne szyfrowanie z poprawnym dla kazdego nazwiska",
             "Odpowiedz to nazwy JAWNE (odszyfrowane), nie zaszyfrowane",
             "2992 poprawnych + 8 blednych = 3000 w pliku"
+          ],
+          "algorytmy": [
+            "szyfr-Cezara",
+            "iteracja-po-pliku",
+            "porownywanie-tekstow"
           ]
         }
       ],
