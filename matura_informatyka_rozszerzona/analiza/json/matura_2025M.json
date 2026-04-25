@@ -33,6 +33,11 @@
             "Przypadek liczby o nieparzystej liczbie cyfr -- ostatnia pojedyncza cyfra wymaga osobnego warunku",
             "Pominiecie wiodacych zer w wyniku (np. 154005710 -> 145007501 -- zero w srodku)",
             "Bledne okreslenie liczby wywolan dla duzych liczb (15-cyfrowa liczba = 8 wywolan)"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "rekurencja",
+            "iteracja-po-cyfrach"
           ]
         },
         {
@@ -48,6 +53,10 @@
             "Rozroznienie miedzy dzieleniem calkowitym (div) a dzieleniem zwyklym (/)",
             "Zdania 2 i 3 sa rownowazne -- oba prawdziwe",
             "Zdanie 4 uzywa zwyklego dzielenia (k+1)/2 -- daje wynik niecalkowity dla k parzystego"
+          ],
+          "algorytmy": [
+            "analiza-zlozonosci",
+            "rekurencja"
           ]
         },
         {
@@ -63,6 +72,10 @@
             "Przypadek liczby o nieparzystej liczbie cyfr -- ostatnia pojedyncza cyfra wymaga osobnego warunku (n > 9 vs n > 0)",
             "Bledne sledzenie zmiennej p (potegi 100) w wersji iteracyjnej",
             "Pomylenie warunku n > 0 z n > 9 przy budowaniu wyniku iteracyjnie"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach",
+            "Horner"
           ]
         }
       ],
@@ -102,6 +115,11 @@
           "zasady_oceniania": "2 pkt -- poprawne podanie wszystkich palindromow.\n1 pkt -- poprawne podanie 3 palindromow.\n0 pkt -- odpowiedz niepelna lub niepoprawna albo brak odpowiedzi.",
           "pulapki": [
             "Porownanie znakow od przodu i od tylu -- napis ma 12 znakow, wiec porownujemy pozycje 1-6 z 12-7"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "porownywanie-tekstow",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -117,6 +135,12 @@
             "Bledne traktowanie siatki 2D -- kwadraty 3x3 wymagaja sprawdzenia trzech kolejnych wierszy",
             "Krawedzie siatki -- srodek moze byc na pozycjach 2-11 (nie 1 ani 12) i w wierszach 2-1999",
             "Trzeba sprawdzic 9 pol (3 wiersze x 3 pozycje) czy sa identyczne"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "tablica-2D",
+            "wyszukiwanie-wzorca-naiwne",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -131,6 +155,12 @@
           "pulapki": [
             "Konwersja z systemu trojkowego na dziesietny -- potegi 3 od 3^0 do 3^11",
             "Najwieksza liczba = napis z najwieksza wartoscia po konwersji, nie leksykograficznie najwiekszy"
+          ],
+          "algorytmy": [
+            "konwersja-systemow",
+            "Horner",
+            "current-max",
+            "iteracja-po-pliku"
           ]
         },
         {
@@ -146,6 +176,12 @@
             "Przepelnienie przy sumowaniu 2000 liczb 12-cyfrowych w systemie trojkowym (max ~531441 * 2000 ~ 10^9)",
             "Konwersja sumy z powrotem na system trojkowy z uzyciem symboli o/+/* zamiast 0/1/2",
             "Pomylenie kolejnosci cyfr przy konwersji trojkowej (MSB vs LSB)"
+          ],
+          "algorytmy": [
+            "konwersja-systemow",
+            "Horner",
+            "akumulator-suma",
+            "iteracja-po-pliku"
           ]
         }
       ],
@@ -190,6 +226,11 @@
             "Obsluga NWD z zerem -- NWD(A, 0) = A",
             "Wartosc bezwzgledna B moze byc ujemna -- trzeba uzyc |B|",
             "NWD > 1, nie NWD >= 1"
+          ],
+          "algorytmy": [
+            "NWD-Euklidesa",
+            "iteracja-po-pliku",
+            "akumulator-licznik"
           ]
         },
         {
@@ -205,6 +246,11 @@
             "Punkty na krawedziach kwadratu nie sa liczone (ostry warunek: 0 < x < 5000 i 0 < y < 5000)",
             "Trojka punktow wspoliniowych -- srodek odcinka musi miec calkowite wspolrzedne",
             "Zlozonosc O(n^3) dla 100 punktow jest akceptowalna"
+          ],
+          "algorytmy": [
+            "prefix-sum",
+            "tablica-2D",
+            "akumulator-licznik"
           ]
         }
       ],
@@ -245,7 +291,8 @@
           "zasady_oceniania": "1 pkt -- odpowiedz poprawna.\n0 pkt -- odpowiedz niepoprawna albo brak odpowiedzi.",
           "pulapki": [
             "Mylenie keyloggera z menedzerem hasel (B) lub programem szyfrujacym (A)"
-          ]
+          ],
+          "algorytmy": []
         }
       ],
       "sciezka_danych": null,
@@ -279,6 +326,9 @@
             "Bledne sledzenie przeniesien (carry) pomiedzy pozycjami",
             "Pomylenie kolumn przy recznym dodawaniu",
             "Wynik moze miec o jedna cyfre wiecej niz dluzszy skladnik"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         }
       ],
@@ -316,6 +366,10 @@
             "Zawartosc martianeum >= 1% -- warunek progowy, nie > 1%",
             "Wydobycie calego mineralu z ladunku (masa * zawartosc/100), nie tylko nadwyzki powyzej progu",
             "Laczna masa ladunkow to suma WSZYSTKICH mas, niezaleznie od zawartosci martianeum"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa",
+            "arkusz-agregacja-podstawowa"
           ]
         },
         {
@@ -329,6 +383,10 @@
           "zasady_oceniania": "1 pkt -- za poprawna odpowiedz.\n0 pkt -- za odpowiedz niepoprawna albo za brak odpowiedzi.",
           "pulapki": [
             "Srednia masa ladunkow -- dzielenie przez liczbe ladunkow z danego obszaru, nie przez liczbe dni"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa",
+            "current-min"
           ]
         },
         {
@@ -343,6 +401,11 @@
           "pulapki": [
             "Okresy 7-dniowe liczone od 03.03.2033, nie od poczatku miesiaca",
             "Data poczatku okresu, nie data najwiekszego ladunku"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa",
+            "sliding-window",
+            "current-max"
           ]
         },
         {
@@ -358,6 +421,9 @@
             "Wykres musi byc skumulowany (stacked), nie zgrupowany (grouped)",
             "Wszystkie 30 obszarow musza byc uwzglednione",
             "Legenda musi zawierac lata 2033-2038"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -374,6 +440,10 @@
             "Jesli jest np. 250 kg, transporter zabiera tylko raz 100 kg (nie 200 kg) -- jedno wyslanie dziennie",
             "Wydobycie i wyslanie w tym samym dniu -- kolejnosc: wydobycie, potem sprawdzenie >= 100 kg",
             "Separator dziesietny -- dane uzywaja przecinka (format polski)"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "akumulator-licznik"
           ]
         }
       ],
@@ -417,6 +487,11 @@
             "Glebokosc do 100 metrow WLACZNIE (<=, nie <)",
             "Suma ilosc (m^3) per obszar, nie per lazik",
             "Nalezy podac nazwe obszaru, nie kod"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-warunkowy",
+            "current-max"
           ]
         },
         {
@@ -431,6 +506,11 @@
           "pulapki": [
             "Najdluzszy okres mierzony od pierwszego do ostatniego pomiaru, nie liczba pomiarow",
             "Moze byc wielu lazikow -- szukamy tego z najwieksza roznica dat"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "jednoczesne-min-max",
+            "current-max"
           ]
         },
         {
@@ -446,6 +526,10 @@
             "Pytanie o obszary gdzie ZADEN lazik NIE wykonal pomiaru w roku wyslania (negacja warunku)",
             "Rok wyslania lazika (z laziki.txt) vs rok pomiaru (z pomiary.txt)",
             "Trzeba polaczyc 3 pliki: laziki + pomiary + obszary"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -461,6 +545,10 @@
             "Laziki wyladowaly na polkuli poludniowej (S w wspolrzednych ladowania)",
             "ALE pomiary na obu polkulach (N i S w wspolrzednych pomiarow)",
             "Rozroznienie miedzy wspolrzednymi ladowania a wspolrzednymi pomiarow"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "porownywanie-tekstow"
           ]
         },
         {
@@ -477,6 +565,10 @@
             "Laczenie 4 tabel (Producent-Laziki-Pomiary-Obszary)",
             "Filtrowanie po nazwie obszaru i roku pomiaru jednoczesnie",
             "YEAR() na kolumnie data_pomiaru do wyciagniecia roku"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE"
           ]
         }
       ],

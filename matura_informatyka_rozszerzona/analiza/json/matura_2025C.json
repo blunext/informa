@@ -39,6 +39,11 @@
             "Funkcja f implementuje mnozenie pisemne -- f(a,b) = a*b, ale trzeba to przesledzicc rekurencyjnie",
             "dopisz(w) mnozy przez 10, a petla dodaje a*k razy -- laczy sie w mnozenie przez cyfre",
             "Przypadek f(103, 104): 103*104 = 10712, latwo o blad rachunkowy"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "rekurencja",
+            "iteracja-po-cyfrach"
           ]
         },
         {
@@ -53,6 +58,10 @@
           "pulapki": [
             "Liczba wywolan = liczba cyfr b + 1 (kazda rekurencja skraca b o jedna cyfre, plus wywolanie bazowe gdy b=0)",
             "b = 123456789 ma 9 cyfr, wiec 9+1 = 10 wywolan"
+          ],
+          "algorytmy": [
+            "analiza-zlozonosci",
+            "rekurencja"
           ]
         },
         {
@@ -69,6 +78,10 @@
             "f(2024, 1000): suma cyfr 1000 = 1, wiec 1 wykonanie",
             "f(2024, 1234): suma cyfr 1234 = 1+2+3+4 = 10 wykonan",
             "Cyfry 0 w b nie generuja wykonan petli (k=0, petla sie nie wykonuje)"
+          ],
+          "algorytmy": [
+            "analiza-zlozonosci",
+            "iteracja-po-cyfrach"
           ]
         }
       ]
@@ -80,7 +93,12 @@
       "czesc": 1,
       "kontekst": "W tym zadaniu rozpatrujemy operacje ciecia zdefiniowana dla dodatnich liczb calkowitych wiekszych lub rownych 10. Operacja polega na podziale zapisu dziesietnego liczby na dwa niepuste zapisy.\nPrzyklad: Dla liczby 14379 mozliwe ciecia to: 1 i 4379, 14 i 379, 143 i 79, 1437 i 9.\nDla liczby 2302 mozliwe ciecia to: 2 i 302, 23 i 02 (czyli 23 i 2 -- wartosc liczbowa zapisu \"02\" to 2), 230 i 2.",
       "sciezka_danych": "matura_informatyka_rozszerzona/2025_czerwiec/dane_PR/",
-      "pliki_danych": ["liczby1.txt", "liczby1_przyklad.txt", "liczby2.txt", "liczby2_przyklad.txt"],
+      "pliki_danych": [
+        "liczby1.txt",
+        "liczby1_przyklad.txt",
+        "liczby2.txt",
+        "liczby2_przyklad.txt"
+      ],
       "wymiary": {
         "czasowy_min": 40,
         "zlozonosc": 3,
@@ -100,6 +118,10 @@
             "Trzeba obsluzyc przypadek z zerami w srodku (np. 120056 -> a=120, b=56)",
             "Dlugosc zapisu trzeba obliczyc arytmetycznie (div 10 w petli), nie mozna uzywac stringow",
             "Latwo pomylic kolejnosc cyfr przy budowaniu b z prawej strony"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach",
+            "Horner"
           ]
         },
         {
@@ -115,6 +137,12 @@
             "Ciecie na polowe: trzeba obsluzyc rozne dlugosci (4, 6, 8 cyfr)",
             "Zera wiodace w drugiej polowie (np. 230095 -> 230 i 095=95)",
             "NWD musi byc poprawnie zaimplementowany (algorytm Euklidesa)"
+          ],
+          "algorytmy": [
+            "NWD-Euklidesa",
+            "iteracja-po-cyfrach",
+            "akumulator-licznik",
+            "iteracja-po-pliku"
           ]
         },
         {
@@ -131,6 +159,12 @@
             "Zera wiodace w drugiej czesci ciecia (np. 7601|049 = 7601 + 49)",
             "Dla n=30000 n^2=900000000 -- trzeba uzywac odpowiednio duzych typow calkowitych",
             "Trzeba znalezc maksymalny stopien i odpowiadajaca mu liczbe, nie tylko jakikolwiek stopien > 0"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach",
+            "current-max",
+            "akumulator-licznik",
+            "iteracja-po-pliku"
           ]
         }
       ]
@@ -142,7 +176,10 @@
       "czesc": 1,
       "kontekst": "Plik dane.txt zawiera jeden napis zbudowany z 10 000 znakow (o kodach ASCII od 33 do 126), posrod ktorych ukryte sa liczby. Liczba ukryta w tym ciagu to co najmniej jednoelementowy ciag cyfr, przed ktorym i po ktorym nie wystepuje znak bedacy cyfra.\nPrzyklad: W ciagu 356xv@@4vdfvdfD#$%@@#245 sa ukryte 3 liczby: 356, 4 oraz 245.\n\nPlik dane_przyklad.txt zawiera przykladowe dane -- jeden napis zbudowany z 200 znakow. Odpowiedzi dla tego pliku sa podane po kazdym zadaniu.\n\nNapisz program (lub kilka programow) znajdujacy(-ch) odpowiedzi do podanych zadan. Odpowiedzi zapisz odpowiednio w oddzielnych plikach: wyniki3_1.txt, wyniki3_2.txt, wyniki3_3.txt, wyniki3_4.txt.\n\nUwaga: Pamietaj, ze Twoj program musi ostatecznie dzialac na pliku dane.txt zawierajacym 10 000 znakow.\n\nInformacja do zadan 3.3 i 3.4: Numerem telefonu bedziemy nazywac 9-elementowy ciag cyfr, przed ktorym i po ktorym nie wystepuje znak bedacy cyfra.",
       "sciezka_danych": "matura_informatyka_rozszerzona/2025_czerwiec/dane_PR/",
-      "pliki_danych": ["dane.txt", "dane_przyklad.txt"],
+      "pliki_danych": [
+        "dane.txt",
+        "dane_przyklad.txt"
+      ],
       "wymiary": {
         "czasowy_min": 40,
         "zlozonosc": 2,
@@ -162,6 +199,11 @@
             "Liczymy liczby zaczynajace sie od '50', nie wystapienia podciagu '50'",
             "Liczba musi byc maksymalnym ciagiem cyfr (nie moze byc cyfra przed '50')",
             "52505050 NIE zaczyna sie od 50 -- zaczyna sie od 5, nie od 50"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "wyszukiwanie-wzorca-naiwne",
+            "akumulator-licznik"
           ]
         },
         {
@@ -176,6 +218,11 @@
           "pulapki": [
             "Liczymy wystapienia cyfr we WSZYSTKICH znakach, nie tylko w ukrytych liczbach",
             "Trzeba zliczac kazda z 10 cyfr osobno i znalezc maksimum"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "znajdz-i-policz",
+            "current-max"
           ]
         },
         {
@@ -191,6 +238,10 @@
             "Numer telefonu to dokladnie 9-cyfrowy ciag -- nie 8, nie 10 cyfr",
             "Przed i po numerze nie moze byc cyfry (numer musi byc maksymalnym 9-cyfrowym ciagiem)",
             "Filtr: tylko numery zaczynajace sie od cyfry 5"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "wyszukiwanie-wzorca-naiwne"
           ]
         },
         {
@@ -206,6 +257,11 @@
             "Trzeba znalezc MINIMUM roznych cyfr wsrod WSZYSTKICH numerow telefonow, nie tylko tych z cyfra 5",
             "Moze byc wiecej niz jeden numer z minimalna liczba roznych cyfr",
             "Numer 050525250 ma tylko 3 rozne cyfry (0, 2, 5)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "znajdz-i-policz",
+            "current-min"
           ]
         }
       ]
@@ -235,7 +291,8 @@
             "GIF obsluguje max 256 kolorow (8-bit paleta), nie 16 milionow -- 1. jest falszywe",
             "JPG uzywa kompresji stratnej (JPEG/DCT) -- 2. jest prawdziwe",
             "JPG nie obsluguje przezroczystosci (to cecha GIF i PNG) -- 3. jest falszywe"
-          ]
+          ],
+          "algorytmy": []
         }
       ]
     },
@@ -264,6 +321,9 @@
             "W systemie trojkowym cyfry to 0, 1, 2 -- przeniesienie nastepuje przy sumie >= 3",
             "Trzeba uwzglednic przeniesienia z kazdej pozycji",
             "Cztery brakujace cyfry do uzupelnienia"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         }
       ]
@@ -275,7 +335,9 @@
       "czesc": 1,
       "kontekst": "Pan Iksinski zalozyl panele fotowoltaiczne i przez rok monitorowal wykorzystanie energii w swoim gospodarstwie domowym. Prad wytworzony przez panele jest zuzywany na biezace potrzeby gospodarstwa domowego, a jego nadmiar jest przesylany do zakladu energetycznego. W razie braku wystarczajacej ilosci energii pochodzacej z paneli (np. w godzinach nocnych lub przy pochmurnej pogodzie) energia jest pobierana z zakladu energetycznego.\n\nW kolejnych wierszach pliku fotowoltaika.txt sa zawarte nastepujace informacje, rozdzielone znakami tabulacji:\ndata -- data pomiaru\nwsch -- godzina wschodu slonca\nzach -- godzina zachodu slonca\nst_zach -- stopien zachmurzenia (liczba calkowita od 0 do 8, przy czym liczba 0 oznacza brak zachmurzenia, natomiast liczba 8 -- calkowite zachmurzenie)\nprodukcja -- energia wyprodukowana przez cala dobe przez panele fotowoltaiczne (w kWh)\noddanie -- energia oddana do zakladu energetycznego przez cala dobe (w kWh)\npobranie -- energia pobrana z zakladu energetycznego przez cala dobe (w kWh).",
       "sciezka_danych": "matura_informatyka_rozszerzona/2025_czerwiec/dane_PR/",
-      "pliki_danych": ["fotowoltaika.txt"],
+      "pliki_danych": [
+        "fotowoltaika.txt"
+      ],
       "wymiary": {
         "czasowy_min": 40,
         "zlozonosc": 2,
@@ -295,6 +357,9 @@
             "Zuzycie = produkcja - oddanie + pobranie (nie sama produkcja!)",
             "Trzeba zsumowac dla calego roku 2022 (365 wierszy)",
             "Wartosc kontrolna: styczen = 162,68 kWh -- mozna zweryfikowac"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-podstawowa"
           ]
         },
         {
@@ -310,6 +375,10 @@
             "Dwa warunki jednoczesnie: zachmurzenie <= poprzedni ORAZ produkcja >= poprzednia",
             "Dlugosc ciagu to liczba dni w ciagu, nie liczba przejsc (6 dni, nie 5 przejsc)",
             "Alternatywna odpowiedz 7/2022-05-25 uznawana za czesciowo poprawna -- rozna interpretacja 'ciagu'"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "current-max"
           ]
         },
         {
@@ -325,6 +394,9 @@
             "Czas naslonecznienia w godzinach -- trzeba obliczyc roznice czasu zachodu i wschodu, zaokraglic w dol",
             "Grupowanie po calkowitej liczbie godzin, nie po dokladnym czasie",
             "Wykres musi byc liniowy (nie slupkowy), z trzema seriami danych"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -342,6 +414,11 @@
             "Czesc a): liczymy dni gdzie stan < 50, nie <= 50",
             "Czesc b): szukamy minimum poczatkowego stanu, przy ktorym konto nigdy nie spada ponizej 0",
             "Zaokraglenie w gore do liczby calkowitej (ceil)"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "current-min",
+            "akumulator-licznik"
           ]
         }
       ]
@@ -353,7 +430,12 @@
       "czesc": 1,
       "kontekst": "W czterech plikach tekstowych zapisano dane dotyczace wizyt klientow w salonie fryzjerskim. Pierwszy wiersz kazdego z plikow jest wierszem naglowkowym, a dane w plikach sa rozdzielone znakiem tabulacji i sa zapisane bez polskich znakow.\n\nPlik klienci.txt zawiera dane 400 klientow salonu fryzjerskiego:\nid_klienta -- identyfikator klienta\nimie -- imie klienta\nnazwisko -- nazwisko klienta\nemeryt -- informacja o tym, czy klient jest emerytem (TAK/NIE)\n\nPlik fryzjerzy.txt zawiera dane fryzjerow pracujacych w salonie:\nid_fryzjera -- identyfikator fryzjera\nimie -- imie fryzjera\n\nPlik uslugi.txt zawiera nazwy uslug fryzjerskich realizowanych przez salon:\nid_uslugi -- identyfikator uslugi\nnazwa -- nazwa uslugi\ncena -- cena uslugi (w zl.)\n\nPlik wizyty.txt zawiera wykaz zrealizowanych uslug fryzjerskich:\nid_wizyty -- identyfikator wizyty\nid_klienta -- identyfikator klienta korzystajacego z uslugi\nid_fryzjera -- identyfikator fryzjera, ktory realizowal usluge\nid_uslugi -- identyfikator uslugi\ntermin -- data i godzina rozpoczecia uslugi",
       "sciezka_danych": "matura_informatyka_rozszerzona/2025_czerwiec/dane_PR/",
-      "pliki_danych": ["klienci.txt", "fryzjerzy.txt", "uslugi.txt", "wizyty.txt"],
+      "pliki_danych": [
+        "klienci.txt",
+        "fryzjerzy.txt",
+        "uslugi.txt",
+        "wizyty.txt"
+      ],
       "wymiary": {
         "czasowy_min": 40,
         "zlozonosc": 2,
@@ -372,6 +454,11 @@
           "pulapki": [
             "Trzeba polaczyc tabele wizyty, uslugi (cena) i klienci (imie, nazwisko)",
             "Suma wydatkow per klient, potem znalezc maksimum"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-suma",
+            "current-max"
           ]
         },
         {
@@ -387,6 +474,10 @@
             "Trzeba porownac imie klienta (z klienci.txt) z imieniem fryzjera (z fryzjerzy.txt) przez tabele wizyty",
             "Klient mogl korzystac z tego samego fryzjera wielokrotnie -- wystarczy 'co najmniej raz'",
             "Sortowanie alfabetyczne wedlug imion, nie wedlug id"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "porownywanie-tekstow"
           ]
         },
         {
@@ -403,6 +494,10 @@
             "Godziny 10:00-12:00 wlacznie (>= 10:00 i <= 12:00)",
             "Rabat = 10% ceny uslugi, trzeba zsumowac wszystkie rabaty",
             "Godzina rozpoczecia uslugi jest w polu termin (format: YYYY-MM-DD HH:MM)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-warunkowy"
           ]
         },
         {
@@ -418,6 +513,10 @@
             "Fryzjer musi pracowac w kwietniu (miec jakiekolwiek wizyty) ALE nie wykonac konkretnej uslugi",
             "Trzeba polaczyc wizyty z uslugi aby sprawdzic nazwe uslugi",
             "Kwiecien = miesiac 04 w polu termin"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -433,6 +532,10 @@
             "Trzeba polaczyc 3 tabele: Salony-Fryzjerzy-Wizyty (dwa JOINy)",
             "DISTINCT lub GROUP BY wymagane -- identyfikatory nie moga sie powtarzac",
             "Filtr po nazwie salonu, nie po id_salonu"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE"
           ]
         }
       ]
