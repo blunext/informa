@@ -39,6 +39,11 @@
             "Koraliki sa dodawane na PRAWY koniec -- kolejnosc od najstarszego bitu",
             "n=3: Korale(1) + czarny = czarny,czarny (nie czarny,bialy)",
             "Wynik to reprezentacja binarna n (czarny=1, bialy=0)"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "rekurencja",
+            "konwersja-systemow"
           ]
         },
         {
@@ -54,6 +59,10 @@
             "Odpowiedz to floor(log2(n))+1, NIE log2(n)",
             "Uzasadnienie musi wyjasniac DLACZEGO (kazde wywolanie = 1 koralik)",
             "Alternatywna postac: ceil(log2(n+1))"
+          ],
+          "algorytmy": [
+            "rekurencja",
+            "analiza-zlozonosci"
           ]
         },
         {
@@ -70,6 +79,10 @@
             "Jezeli nawlekamy na prawy koniec, trzeba najpierw znalezc najstarszy bit",
             "n mod 2 = 0 -> bialy (0), n mod 2 = 1 -> czarny (1)",
             "n div 2 w kazdej iteracji -- operacja dzielenia calkowitego"
+          ],
+          "algorytmy": [
+            "konwersja-systemow",
+            "iteracja-po-cyfrach"
           ]
         }
       ],
@@ -109,6 +122,10 @@
             "f(1.5) = 1.5^3 - 1.5 - 2 = 3.375 - 1.5 - 2 = -0.125 (ujemne!)",
             "Porownywanie znakow: f(a) i f(x) oba ujemne -> ten sam znak",
             "Nowy przedzial <x,b>, nie <a,x>, bo szukamy zmiany znaku"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "bisekcja"
           ]
         },
         {
@@ -124,6 +141,10 @@
             "Poczatkowa dlugosc przedzialu = 2 (nie 1)",
             "Dlugosc maleje o polowe w kazdym kroku: 2, 1, 0.5, 0.25, 0.125, 0.0625...",
             "Odpowiedzi 5 lub 7 daja czesciowe punkty (off-by-one)"
+          ],
+          "algorytmy": [
+            "bisekcja",
+            "analiza-zlozonosci"
           ]
         },
         {
@@ -140,6 +161,9 @@
             "Sprawdzanie ZNAKU iloczynu f(a)*f(x), nie porownywanie wartosci",
             "Jezeli f(a)*f(x) < 0 to miejsce zerowe w <a,x>, wiec b<-x",
             "Na koniec wypisz x = (a+b)/2 -- srodek ostatniego przedzialu"
+          ],
+          "algorytmy": [
+            "bisekcja"
           ]
         }
       ],
@@ -179,6 +203,10 @@
             "Petla idzie od i=n-1 do i=2 (malejaco)",
             "suma = 1 + i * suma (nie suma = suma + i)",
             "Algorytm oblicza sume silni: 1!+2!+...+n!"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "Horner"
           ]
         },
         {
@@ -194,6 +222,10 @@
             "Wzor 1 i 3 sa ROWNOWAZNE (rozne zapisy tej samej sumy silni)",
             "Wzor 2 to 1+4+27+256+... (potegi, nie silnie)",
             "Algorytm uzywa schematu Hornera do obliczenia sumy silni"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "Horner"
           ]
         },
         {
@@ -208,6 +240,9 @@
           "pulapki": [
             "Grupowanie od PRAWEJ po 4 bity: 1010 | 1111 | 1100",
             "AEC vs AFC -- roznica w srodkowej cyfrze (E=1110 vs F=1111)"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         },
         {
@@ -223,6 +258,11 @@
             "262 = 2 * 131 (nie jest kwadratem zadnej liczby)",
             "NWD(1310, 524) = 262 (algorytm Euklidesa)",
             "NWW(31, 42) = 1302, nie 262"
+          ],
+          "algorytmy": [
+            "NWD-Euklidesa",
+            "NWW",
+            "faktoryzacja"
           ]
         },
         {
@@ -238,7 +278,8 @@
             "n*(n-1)/2 = C(n,2) to jedyna poprawna odpowiedz",
             "n²-n/2 wyglada podobnie ale to (2n²-n)/2, nie n(n-1)/2",
             "n²/2 nie ma odejmowania n"
-          ]
+          ],
+          "algorytmy": []
         }
       ],
       "sciezka_danych": null,
@@ -279,6 +320,10 @@
             "Trzeba filtrowac po porze dnia (wieczor/zmrok)",
             "MAX z warunkowym filtrowaniem (MAX.WARUNKI lub pomocnicza kolumna)",
             "Znalezienie numeru dnia dla maksymalnego przychodu wieczornego"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa",
+            "current-max"
           ]
         },
         {
@@ -293,6 +338,9 @@
           "pulapki": [
             "Prosta suma SUMA/SUM calej kolumny przychodow",
             "Uwaga na format walutowy i grosze"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-podstawowa"
           ]
         },
         {
@@ -308,6 +356,11 @@
             "Narastajaca suma przychodow MINUS narastajaca suma kosztow",
             "Trzeba obliczyc skumulowana roznice dla kazdego dnia",
             "Potem znalezc MAX z tej kolumny i odpowiadajacy dzien"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "prefix-sum",
+            "current-max"
           ]
         },
         {
@@ -323,7 +376,8 @@
             "Dwie serie danych na jednym wykresie",
             "Odpowiednie etykiety osi i legendy",
             "Typ wykresu: slupkowy lub liniowy"
-          ]
+          ],
+          "algorytmy": []
         }
       ],
       "sciezka_danych": null,
@@ -363,6 +417,10 @@
             "Dlugosc napisu = 6 (dokladnie, nie >= 6)",
             "CRLF line endings mogа zafalszowac dlugosc napisu",
             "Bledne trim/strip moze dac 121 lub 123"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik"
           ]
         },
         {
@@ -378,6 +436,11 @@
             "Grupowanie po sumie kodow ASCII (np. 'AB' = 65+66 = 131)",
             "Z kazdej grupy: napis PIERWSZY ALFABETYCZNIE (leksykograficznie)",
             "Czesciowy wynik (2p) jesli dodano LVV i HHO (bledne grupowanie)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-suma",
+            "porownywanie-tekstow"
           ]
         },
         {
@@ -393,6 +456,11 @@
             "Dla kazdego napisu: max_char - min_char (kody ASCII)",
             "Znalezc WSZYSTKIE napisy z ta sama maksymalna roznica",
             "6 napisow ma te sama najwieksza roznice"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "jednoczesne-min-max",
+            "current-max"
           ]
         }
       ],
@@ -436,6 +504,10 @@
             "Filtrowanie po plci = 'dziewczynka'",
             "Filtrowanie po dzielnicy (moze byc w peselu lub w innej tabeli)",
             "Uporzadkowanie alfabetyczne"
+          ],
+          "algorytmy": [
+            "SQL-WHERE",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -451,6 +523,11 @@
             "Rok urodzenia zakodowany w PESEL (pozycje 1-2 lub w specjalnym formacie)",
             "LIKE 'A%' dla imienia lub nazwiska",
             "WHERE (Imie LIKE 'A%' OR Nazwisko LIKE 'A%')"
+          ],
+          "algorytmy": [
+            "SQL-WHERE",
+            "SQL-LIKE",
+            "SQL-funkcje-tekstowe"
           ]
         },
         {
@@ -467,6 +544,13 @@
             "GROUP BY Id_przedszkola + COUNT(*)",
             "JOIN z PRZEDSZKOLA dla nazwy",
             "ORDER BY COUNT(*) DESC LIMIT 1"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -484,6 +568,12 @@
             "JOIN PREFERENCJE z PRZEDSZKOLA",
             "ORDER BY srednia ASC LIMIT 3",
             "Dzielenie calkowite vs rzeczywiste -- uzyc CAST lub 1.0*"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-ORDER-BY"
           ]
         }
       ],

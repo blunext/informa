@@ -1,0 +1,410 @@
+{
+  "$schema_version": "1.0",
+  "opis": "Centralny rejestr kanonicznych nazw algorytmow/technik/struktur/wzorcow uzywanych w klasyfikacji 641 podzadan CKE 2014-2025.",
+  "konwencja": "PL + mysln + bez polskich znakow (a->a, e->e, l->l, o->o, s->s, z->z, c->c, n->n)",
+  "regula_klasyfikacji": "Tag = algorytm/technika/struktura WYMAGANA do rozwiazania zadania. NIE 'wspomniana w tresci'. Typowo 1-3 tagi/podzadanie. Pusta lista [] dozwolona dla zadan bez konkretnego algorytmu (P/F sieci, RODO, prawo).",
+  "rejestr_zamkniety": true,
+  "instrukcja_dla_agentow": "Wybieraj WYLACZNIE z tego rejestru. Jesli zadne nie pasuje, zwroc pusta liste [] i wyjasnij w 'uzasadnienie'. NIE proponuj nowych nazw.",
+  "zrodla": {
+    "podstawa_programowa": "Rozporzadzenie MEN z 28.06.2024 r., Dz.U. 2024 poz. 1019. Zalacznik: podstawa programowa ksztalcenia ogolnego dla liceum, technikum, BS II stopnia. Sekcja: Informatyka (zakres podstawowy + rozszerzony).",
+    "informator_cke": "Informator o egzaminie maturalnym z informatyki od roku szkolnego 2022/2023 (Formula 2023), wraz z aneksem 2024."
+  },
+  "kategorie": {
+    "klasyczne": "Konkretne algorytmy nazwane wprost w podstawie programowej (zakres podstawowy + rozszerzony).",
+    "techniki": "Paradygmaty algorytmiczne i metody analizy (rekurencja, dziel-i-zwyciezaj, greedy, DP, analiza zlozonosci).",
+    "struktury": "Struktury danych (stos, kolejka, lista, graf, drzewo, tablice).",
+    "wzorce": "Wzorce kodowe i CKE-specific tagi (iteracja-po-cyfrach, akumulator-*, arkusz-*, SQL-*) ktore nie sa wprost w podstawie programowej, ale sa empirycznie obecne w arkuszach CKE."
+  },
+  "algorytmy": {
+    "NWD-Euklidesa": {
+      "kategoria": "klasyczne",
+      "definicja": "Najwiekszy wspolny dzielnik metoda Euklidesa (mod lub odejmowanie), wersja iteracyjna i rekurencyjna.",
+      "podstawa": ["I.2.a", "I+II.1.a"],
+      "formula_2024": true
+    },
+    "NWW": {
+      "kategoria": "klasyczne",
+      "definicja": "Najmniejsza wspolna wielokrotnosc, zwykle przez NWW(a,b) = a*b/NWD(a,b).",
+      "podstawa": ["I.2.a"],
+      "formula_2024": true
+    },
+    "test-pierwszosci": {
+      "kategoria": "klasyczne",
+      "definicja": "Sprawdzenie czy liczba jest pierwsza (probne dzielenia do sqrt(n) lub do n-1).",
+      "podstawa": ["I.2.a"],
+      "formula_2024": true
+    },
+    "konwersja-systemow": {
+      "kategoria": "klasyczne",
+      "definicja": "Zamiana reprezentacji liczby miedzy pozycyjnymi systemami liczbowymi (bin/dec/hex/oct, dowolna baza).",
+      "podstawa": ["I.2.a", "I+II.2.b"],
+      "formula_2024": true
+    },
+    "porownywanie-tekstow": {
+      "kategoria": "klasyczne",
+      "definicja": "Porownywanie napisow znak po znaku (rownosc, leksykograficzne).",
+      "podstawa": ["I.2.b"],
+      "formula_2024": true
+    },
+    "wyszukiwanie-wzorca-naiwne": {
+      "kategoria": "klasyczne",
+      "definicja": "Wyszukiwanie wzorca w tekscie metoda naiwna (przesuwanie okna i porownywanie).",
+      "podstawa": ["I.2.b"],
+      "formula_2024": true
+    },
+    "szyfr-Cezara": {
+      "kategoria": "klasyczne",
+      "definicja": "Szyfr przesuwajacy: kazda litera o ustalona liczbe pozycji w alfabecie.",
+      "podstawa": ["I.2.b"],
+      "formula_2024": true
+    },
+    "sortowanie-babelkowe": {
+      "kategoria": "klasyczne",
+      "definicja": "Sortowanie metoda babelkowa: porownywanie sasiadow i zamiana, O(n^2).",
+      "podstawa": ["I.2.c"],
+      "formula_2024": true
+    },
+    "sortowanie-przez-wstawianie": {
+      "kategoria": "klasyczne",
+      "definicja": "Sortowanie przez wstawianie: kazdy element wstawiany w posortowana czesc, O(n^2).",
+      "podstawa": ["I.2.c"],
+      "formula_2024": true
+    },
+    "sortowanie-przez-scalanie": {
+      "kategoria": "klasyczne",
+      "definicja": "Merge sort: dziel-i-zwyciezaj, scalanie posortowanych podtablic, O(n log n).",
+      "podstawa": ["I+II.1.e", "I+II.3.c"],
+      "formula_2024": true
+    },
+    "sortowanie-szybkie": {
+      "kategoria": "klasyczne",
+      "definicja": "Quicksort: dziel-i-zwyciezaj z pivotem, srednio O(n log n).",
+      "podstawa": ["I+II.3.c"],
+      "formula_2024": true
+    },
+    "ciag-Fibonacciego": {
+      "kategoria": "klasyczne",
+      "definicja": "Wyznaczanie elementow ciagu Fibonacciego (iteracyjnie lub rekurencyjnie).",
+      "podstawa": ["I.2.d"],
+      "formula_2024": true
+    },
+    "przeszukiwanie-binarne": {
+      "kategoria": "klasyczne",
+      "definicja": "Wyszukiwanie binarne: znajdowanie elementu w zbiorze uporzadkowanym przez polowienie, O(log n).",
+      "podstawa": ["I+II.1.b", "I+II.3.a"],
+      "formula_2024": true
+    },
+    "sito-Eratostenesa": {
+      "kategoria": "klasyczne",
+      "definicja": "Generowanie liczb pierwszych metoda sita Eratostenesa: wykreslanie wielokrotnosci.",
+      "podstawa": ["I+II.1.c"],
+      "formula_2024": true
+    },
+    "jednoczesne-min-max": {
+      "kategoria": "klasyczne",
+      "definicja": "Jednoczesne wyszukiwanie elementu najmniejszego i najwiekszego w jednym przebiegu (parami, ~3n/2 porownan).",
+      "podstawa": ["I+II.1.d", "I+II.3.c"],
+      "formula_2024": true
+    },
+    "bisekcja": {
+      "kategoria": "klasyczne",
+      "definicja": "Metoda polowienia: wyznaczanie miejsc zerowych funkcji ciaglej przez polowienie przedzialu.",
+      "podstawa": ["I+II.1.f", "I+II.3.a"],
+      "formula_2024": true
+    },
+    "pierwiastek-kwadratowy": {
+      "kategoria": "klasyczne",
+      "definicja": "Obliczanie przyblizonej wartosci pierwiastka kwadratowego (np. metoda Newtona, polowienia).",
+      "podstawa": ["I+II.1.g"],
+      "formula_2024": true
+    },
+    "Horner": {
+      "kategoria": "klasyczne",
+      "definicja": "Schemat Hornera: obliczanie wartosci wielomianu w punkcie w O(n) (bez potegowania).",
+      "podstawa": ["I+II.1.h"],
+      "formula_2024": true
+    },
+    "szybkie-potegowanie": {
+      "kategoria": "klasyczne",
+      "definicja": "Szybkie potegowanie a^n w O(log n) (iteracyjne lub rekurencyjne).",
+      "podstawa": ["I+II.1.i"],
+      "formula_2024": true
+    },
+    "fraktale-rekurencyjne": {
+      "kategoria": "klasyczne",
+      "definicja": "Rekurencyjne tworzenie fraktali (drzewo binarne, plotek Kocha, dywan Sierpinskiego itp.).",
+      "podstawa": ["I+II.1.j"],
+      "formula_2024": true
+    },
+    "faktoryzacja": {
+      "kategoria": "klasyczne",
+      "definicja": "Rozklad liczby na czynniki pierwsze (probne dzielenia od 2 wzwyz).",
+      "podstawa": ["I+II.2.a"],
+      "formula_2024": true
+    },
+    "podciag-najwieksza-suma": {
+      "kategoria": "klasyczne",
+      "definicja": "Najwiekszy podciag spojny o najwiekszej sumie (algorytm Kadane'a, O(n)).",
+      "podstawa": ["I+II.2.c"],
+      "formula_2024": true
+    },
+    "najdluzszy-podciag-niemalejacy": {
+      "kategoria": "klasyczne",
+      "definicja": "Najdluzszy spojny podciag niemalejacy (lub innej wlasnosci monotonicznej).",
+      "podstawa": ["I+II.2.c"],
+      "formula_2024": true
+    },
+    "ONP": {
+      "kategoria": "klasyczne",
+      "definicja": "Odwrotna notacja polska: zamiana wyrazenia infiksowego na ONP i ewaluacja na stosie.",
+      "podstawa": ["I+II.2.d", "I+II.3.g"],
+      "formula_2024": true
+    },
+    "najdluzszy-wspolny-podciag": {
+      "kategoria": "klasyczne",
+      "definicja": "Longest Common Subsequence (LCS) za pomoca programowania dynamicznego, O(n*m).",
+      "podstawa": ["I+II.3.e"],
+      "formula_2024": true
+    },
+    "szyfrowanie-klucz-publiczny": {
+      "kategoria": "klasyczne",
+      "definicja": "Asymetryczne szyfrowanie z kluczem publicznym/prywatnym (RSA, podpis elektroniczny).",
+      "podstawa": ["I+II.3.f"],
+      "formula_2024": true
+    },
+    "rekurencja": {
+      "kategoria": "techniki",
+      "definicja": "Funkcja wywolujaca sama siebie z mniejszym argumentem (warunek bazowy + krok rekurencyjny).",
+      "podstawa": ["I.zr.1", "I+II.3.b"],
+      "formula_2024": true
+    },
+    "wyszukiwanie-liniowe": {
+      "kategoria": "techniki",
+      "definicja": "Wyszukiwanie elementu przez przegladanie kolejnych elementow, O(n).",
+      "podstawa": ["I+II.3.a"],
+      "formula_2024": true
+    },
+    "dziel-i-zwyciezaj": {
+      "kategoria": "techniki",
+      "definicja": "Podzial problemu na podproblemy, rozwiazanie rekurencyjne, polaczenie wynikow.",
+      "podstawa": ["I+II.3.c"],
+      "formula_2024": true
+    },
+    "zachlanne": {
+      "kategoria": "techniki",
+      "definicja": "Podejscie zachlanne (greedy): w kazdym kroku najlepszy lokalny wybor (wydawanie reszty, najkrotsza droga).",
+      "podstawa": ["I.zr.1", "I+II.3.d"],
+      "formula_2024": true
+    },
+    "programowanie-dynamiczne": {
+      "kategoria": "techniki",
+      "definicja": "Rozwiazywanie problemu przez tablicowanie wynikow podproblemow (bottom-up lub top-down z memoizacja).",
+      "podstawa": ["I+II.3.e"],
+      "formula_2024": true
+    },
+    "analiza-zlozonosci": {
+      "kategoria": "techniki",
+      "definicja": "Ocena efektywnosci algorytmu w notacji O (czasowa, pamieciowa).",
+      "podstawa": ["I.zr.5"],
+      "formula_2024": true
+    },
+    "metoda-wstepujaca-zstepujaca": {
+      "kategoria": "techniki",
+      "definicja": "Top-down (dekompozycja od ogolu) vs bottom-up (od szczegolow do calosci).",
+      "podstawa": ["I.zr.3"],
+      "formula_2024": true
+    },
+    "stos": {
+      "kategoria": "struktury",
+      "definicja": "Struktura LIFO (last-in-first-out). Operacje: push, pop, top.",
+      "podstawa": ["I+II.3.g"],
+      "formula_2024": true
+    },
+    "kolejka": {
+      "kategoria": "struktury",
+      "definicja": "Struktura FIFO (first-in-first-out). Operacje: enqueue, dequeue, front.",
+      "podstawa": ["I+II.3.g"],
+      "formula_2024": true
+    },
+    "lista-dynamiczna": {
+      "kategoria": "struktury",
+      "definicja": "Dynamiczna lista (linked list) jako alternatywa dla tablic statycznych.",
+      "podstawa": ["I+II.3.g"],
+      "formula_2024": true
+    },
+    "graf": {
+      "kategoria": "struktury",
+      "definicja": "Graf jako abstrakcyjny model: wezly + krawedzie, reprezentacja macierzowa lub listowa.",
+      "podstawa": ["I+II.3.h"],
+      "formula_2024": true
+    },
+    "drzewo": {
+      "kategoria": "struktury",
+      "definicja": "Drzewo: graf acykliczny spojny. Drzewa binarne, BST.",
+      "podstawa": ["I+II.3.h"],
+      "formula_2024": true
+    },
+    "tablica-2D": {
+      "kategoria": "struktury",
+      "definicja": "Tablica dwuwymiarowa (matryca, plansza, obraz). Iteracja po wierszach/kolumnach.",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "iteracja-po-cyfrach": {
+      "kategoria": "wzorce",
+      "definicja": "Wzorzec wydobywania cyfr liczby przez kolejne mod 10 i div 10 (lub odwrotnie).",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "iteracja-po-pliku": {
+      "kategoria": "wzorce",
+      "definicja": "Czytanie pliku linia po linii lub w innych jednostkach (record by record).",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "akumulator-suma": {
+      "kategoria": "wzorce",
+      "definicja": "Wzorzec sumowania: suma += element w petli.",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "akumulator-licznik": {
+      "kategoria": "wzorce",
+      "definicja": "Wzorzec zliczania (warunkowego): if(cond) count++.",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "akumulator-warunkowy": {
+      "kategoria": "wzorce",
+      "definicja": "Akumulacja z warunkiem (suma/srednia z filtrowaniem): if(cond) sum+=x.",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "current-max": {
+      "kategoria": "wzorce",
+      "definicja": "Sledzenie biezacego maksimum przez iteracje: if(x>max) max=x.",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "current-min": {
+      "kategoria": "wzorce",
+      "definicja": "Sledzenie biezacego minimum przez iteracje: if(x<min) min=x.",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "prefix-sum": {
+      "kategoria": "wzorce",
+      "definicja": "Sumy prefiksowe / kumulatywne (precomputed sumy do indeksu i).",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "sliding-window": {
+      "kategoria": "wzorce",
+      "definicja": "Okno przesuwne o stalej lub zmiennej szerokosci, O(n).",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "znajdz-i-policz": {
+      "kategoria": "wzorce",
+      "definicja": "Wzorzec: znajdz elementy spelniajace warunek, jednoczesnie zlicz.",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "sledzenie-pseudokod": {
+      "kategoria": "wzorce",
+      "definicja": "Symulacja krok po kroku zadanego pseudokodu lub algorytmu (wynik dla konkretnych danych).",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "arkusz-symulacja-iteracyjna": {
+      "kategoria": "wzorce",
+      "definicja": "Arkusz: symulacja krok po kroku z formulami iterujacymi po wierszach (komorka_n = f(komorka_n-1)).",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "arkusz-agregacja-warunkowa": {
+      "kategoria": "wzorce",
+      "definicja": "Arkusz: SUMIFS, COUNTIFS, AVERAGEIFS, MAXIFS itp. - agregacja z warunkami.",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "arkusz-agregacja-podstawowa": {
+      "kategoria": "wzorce",
+      "definicja": "Arkusz: SUM, COUNT, AVG, MAX, MIN bez warunkow na calej kolumnie.",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "SQL-WHERE": {
+      "kategoria": "wzorce",
+      "definicja": "SQL: filtrowanie wierszy klauzula WHERE z warunkami.",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "SQL-ORDER-BY": {
+      "kategoria": "wzorce",
+      "definicja": "SQL: sortowanie wynikow ORDER BY (z ASC/DESC).",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "SQL-LIKE": {
+      "kategoria": "wzorce",
+      "definicja": "SQL: wzorce tekstowe LIKE z % i _.",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "SQL-JOIN": {
+      "kategoria": "wzorce",
+      "definicja": "SQL: laczenie tabel (INNER JOIN, USING, ON).",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "SQL-LEFT-JOIN-NULL": {
+      "kategoria": "wzorce",
+      "definicja": "SQL anti-join: LEFT JOIN ... WHERE col IS NULL (rekordy bez dopasowania w prawej tabeli).",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "SQL-GROUP-BY": {
+      "kategoria": "wzorce",
+      "definicja": "SQL: grupowanie wynikow GROUP BY z agregacja.",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "SQL-HAVING": {
+      "kategoria": "wzorce",
+      "definicja": "SQL: filtrowanie po agregatach klauzula HAVING (po GROUP BY).",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "SQL-aggregacja": {
+      "kategoria": "wzorce",
+      "definicja": "SQL: funkcje agregujace COUNT, SUM, AVG, MAX, MIN.",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "SQL-aggregacja-warunkowa": {
+      "kategoria": "wzorce",
+      "definicja": "SQL: SUM/COUNT z CASE WHEN dla pivotowania kolumn.",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "SQL-podzapytanie-skorelowane": {
+      "kategoria": "wzorce",
+      "definicja": "SQL: podzapytanie odwolujace sie do zewnetrznego zapytania (correlated subquery).",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "SQL-podzapytanie-niezalezne": {
+      "kategoria": "wzorce",
+      "definicja": "SQL: niezalezne podzapytanie (uncorrelated, w klauzuli IN, EXISTS, FROM).",
+      "podstawa": null,
+      "formula_2024": false
+    },
+    "SQL-funkcje-tekstowe": {
+      "kategoria": "wzorce",
+      "definicja": "SQL: SUBSTR, LEFT, RIGHT, UPPER, LOWER, LENGTH, CONCAT - funkcje na napisach.",
+      "podstawa": null,
+      "formula_2024": false
+    }
+  }
+}

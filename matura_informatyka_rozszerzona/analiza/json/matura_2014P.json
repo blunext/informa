@@ -40,6 +40,10 @@
             "Potega zalezy od liczby cyfr n, nie jest stala (np. dla 2278 n=4, wiec cyfry podnosimy do potegi 4)",
             "Liczba jednocyfrowa (6): n=1, wiec 6^1=6 -- jest Armstronga",
             "Latwo pomylic sie w obliczeniach recznych poteg (szczegolnie 7^4=2401, 8^4=4096)"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -55,6 +59,9 @@
             "Kolejnosc cyfr od najmniej do najbardziej znaczacej (k%10 daje cyfre jednosci)",
             "Petla do-while (nie while) -- trzeba przynajmniej raz wykonac operacje (nawet dla k jednocyfrowego)",
             "Dzielenie calkowite przez 10 usuwa ostatnia cyfre"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach"
           ]
         },
         {
@@ -70,6 +77,10 @@
             "Trzeba uzyc funkcji potega(a,n) z n jako potega (nie stala)",
             "Porownanie sumy z k (lub odejmowanie i sprawdzenie czy wynik = 0)",
             "Iteracja po wszystkich n cyfrach tablicy"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach",
+            "akumulator-suma"
           ]
         }
       ]
@@ -94,6 +105,9 @@
             "Konwersja z bazy 9: b = 2*81 + 1*9 + 1 = 172",
             "Konwersja z bazy 8: c = 2*64 + 1*8 + 1 = 137",
             "Latwo pomylic bazy 8 i 9 (rozne wagi pozycyjne)"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         },
         {
@@ -109,7 +123,8 @@
             "Adres petli zwrotnej to 127.0.0.1, nie 192.168.0.1 (to adres prywatny klasy C)",
             "Klasa A: faktycznie 2^7 adresow (0-127), ale adresy 0 i 127 sa zarezerwowane, wiec 126 uzytecznych; 2^24 hostow (minus broadcast i siec)",
             "Maska /16 oznacza ze pierwsze 16 bitow to adres sieci -- 94.254.x.x to ta sama podsiec"
-          ]
+          ],
+          "algorytmy": []
         },
         {
           "id": "2014P.2.3",
@@ -124,7 +139,8 @@
             "SMTP sluzy do wysylania, nie pobierania poczty",
             "SNMP (Simple Network Management Protocol) to protokol zarzadzania siecia, nie ma zwiazku z poczta",
             "IMAP i POP3 to protokoly pobierania poczty -- oba poprawne"
-          ]
+          ],
+          "algorytmy": []
         },
         {
           "id": "2014P.2.4",
@@ -138,7 +154,8 @@
           "pulapki": [
             "GPL pozwala na modyfikacje (copyleft), uzytkowanie zarobkowe i nie jest ograniczona do prototypow",
             "GPL nie wymusza reklam -- to jest cecha adware/freeware, nie GPL"
-          ]
+          ],
+          "algorytmy": []
         }
       ]
     },
@@ -162,6 +179,10 @@
             "Zamiana 110_10 = 01101110_2 (nie 1101110 -- trzeba uzupelnic do 8 bitow)",
             "Odczytywanie par bitow od lewej: 01|10|11|10 = K,A,J,A",
             "Kod 00 nie jest przypisany do zadnego znaku -- to wolne bity na koncu"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "konwersja-systemow"
           ]
         },
         {
@@ -177,6 +198,10 @@
             "Trzeba sprawdzic unikalnosc -- przeszukac dotychczasowa tablice dla kazdego nowego znaku",
             "Mozna uzyc set<char> lub tablicy z liniowym przeszukiwaniem",
             "Nie wystarczy policzyc dlugosci -- trzeba znalezc unikalne znaki"
+          ],
+          "algorytmy": [
+            "wyszukiwanie-liniowe",
+            "akumulator-licznik"
           ]
         },
         {
@@ -192,6 +217,10 @@
             "Trzeba sledzic dwie pozycje bitow: w bajcie (0-7) i w kodzie znaku (0 do bity-1)",
             "Przejscie miedzy bajtami -- gdy skoncza sie bity w jednym bajcie, kontynuacja kodu w nastepnym",
             "Wolne bity na koncu nie tworza pelnego kodu i powinny byc zignorowane"
+          ],
+          "algorytmy": [
+            "wyszukiwanie-liniowe",
+            "konwersja-systemow"
           ]
         }
       ]
@@ -216,6 +245,10 @@
             "Dwie mozliwe interpretacje czasu: od t_pocz=3 (wynik 4,85) lub od poczatku (wynik 7,85)",
             "Krok dt=0,05 wymaga wielu wierszy w arkuszu",
             "Uzycie radianow w funkcjach trygonometrycznych (sin, cos)"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -231,6 +264,9 @@
             "r zmienia sie w czasie (r=v*t), nie jest stale -- to tworzy spirale",
             "Wykres typu XY (punktowy), nie liniowy",
             "Odpowiednie formatowanie osi i podpisy"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
           ]
         },
         {
@@ -246,6 +282,10 @@
             "Dlugosc odcinka miedzy kolejnymi punktami: sqrt((x2-x1)^2 + (y2-y1)^2)",
             "Sumowanie po wszystkich odcinkach od (0,0) do ostatniego punktu",
             "Dokladnosc do 4 miejsc po przecinku wymagana"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "akumulator-suma"
           ]
         }
       ]
@@ -270,6 +310,11 @@
             "'Dluzszych niz 3 dni' oznacza > 3, nie >= 3",
             "Serie musza byc maksymalne (nie mozna ich przedluzyc)",
             "Poprawne wykrywanie konca serii (nastepny dzien gorszy LUB koniec pliku)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "najdluzszy-podciag-niemalejacy",
+            "akumulator-licznik"
           ]
         },
         {
@@ -284,6 +329,10 @@
           "pulapki": [
             "Trzeba podac zarowno wartosc jak i numer dnia",
             "Numeracja dni od 1 (nie od 0)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "jednoczesne-min-max"
           ]
         },
         {
@@ -299,6 +348,11 @@
             "Poprawa = ostatni element serii - pierwszy element serii",
             "Najdluzsza seria moze nie byc jedyna o tej dlugosci",
             "Seria 'nie mozna przedluzyc' -- moze konczyc sie na koncu pliku"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "najdluzszy-podciag-niemalejacy",
+            "current-max"
           ]
         }
       ]
@@ -323,6 +377,12 @@
             "Warunek 'zaczynaja sie LUB koncza' -- trzeba uzyc OR, nie AND",
             "Wartosc transakcji = ilosc * cena_jednostkowa (join z asortyment)",
             "Filtr po dacie: 2013-01-04"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE",
+            "SQL-LIKE",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -339,6 +399,13 @@
             "Grupowanie po roku i miesiacu",
             "Zakres dat: 2013-08-01 do 2014-01-31",
             "Sortowanie chronologiczne"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -354,6 +421,11 @@
             "Trzeba zsumowac ilosci koksu per klient (GROUP BY), potem znalezc MAX",
             "Join z dane_osobowe i asortyment",
             "Koks to konkretny id_asortymentu -- trzeba go zidentyfikowac"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -369,6 +441,10 @@
             "Anti-join: NOT IN lub LEFT JOIN WHERE transakcje IS NULL",
             "Filtr wojewodztwo = 'podlaskie'",
             "Klienci BEZ transakcji, nie z transakcjami"
+          ],
+          "algorytmy": [
+            "SQL-LEFT-JOIN-NULL",
+            "SQL-WHERE"
           ]
         },
         {
@@ -385,6 +461,12 @@
             "Join z 4 tabelami: transakcje, dane_osobowe, asortyment, us",
             "Filtr na 'warszawskie' urzedy skarbowe (LIKE '%Warszaw%')",
             "prefix_nip laczy dane_osobowe z us"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja-warunkowa",
+            "SQL-LIKE"
           ]
         }
       ]
