@@ -196,6 +196,13 @@ def render_markdown(rejestr, subtasks, by_alg, pair_counter):
     lines.append("")
     lines.append("Lista wszystkich algorytmow uzytych w zadaniach CKE 2014-2025, posortowana wg liczby wystapien.")
     lines.append("")
+    lines.append("**Legenda kolumn**:")
+    lines.append("- **Wystapien** = ile razy tag pojawia sie w klasyfikacji 641 podzadan (jedno podzadanie moze miec wiele tagow).")
+    lines.append("- **Punkty** = suma punktow podzadan w ktorych tag wystapil (z wielokrotnym liczeniem przy wielu tagach).")
+    lines.append("- **Lat** = w ilu z 12 lat (2014-2025) tag wystapil przynajmniej raz.")
+    lines.append("- **Podstawa** = punkt podstawy programowej 2024 (Dz.U. 2024 poz. 1019, zalacznik o informatyce). `I.2.a` = zakres podstawowy, `I+II.1.a` = zakres rozszerzony, `I.zr.X` = wymagania ogolne. **`—` = tag NIE jest wprost w podstawie programowej**, lecz jest **wzorcem CKE-pragmatycznym** (np. `iteracja-po-pliku`, wzorce arkusza/SQL ktore CKE wymaga w zadaniach, ale podstawa wprost ich nie wymienia).")
+    lines.append("- **Przyklady** = 3 najwczesniejsze ID podzadan ktore uzywaja tagu.")
+    lines.append("")
     lines.append("| # | Algorytm | Kategoria | Wystapien | Punkty | Lat | Podstawa | Przyklady |")
     lines.append("|---|---|---|---:|---:|---:|---|---|")
     for i, r in enumerate(rows, 1):

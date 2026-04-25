@@ -34,6 +34,13 @@ _Zrodla: 30 plikow `matura_*.json` (641 podzadan) + `algorytmy_rejestr.json` (65
 
 Lista wszystkich algorytmow uzytych w zadaniach CKE 2014-2025, posortowana wg liczby wystapien.
 
+**Legenda kolumn**:
+- **Wystapien** = ile razy tag pojawia sie w klasyfikacji 641 podzadan (jedno podzadanie moze miec wiele tagow).
+- **Punkty** = suma punktow podzadan w ktorych tag wystapil (z wielokrotnym liczeniem przy wielu tagach).
+- **Lat** = w ilu z 12 lat (2014-2025) tag wystapil przynajmniej raz.
+- **Podstawa** = punkt podstawy programowej 2024 (Dz.U. 2024 poz. 1019, zalacznik o informatyce). `I.2.a` = zakres podstawowy, `I+II.1.a` = zakres rozszerzony, `I.zr.X` = wymagania ogolne. **`—` = tag NIE jest wprost w podstawie programowej**, lecz jest **wzorcem CKE-pragmatycznym** (np. `iteracja-po-pliku`, wzorce arkusza/SQL ktore CKE wymaga w zadaniach, ale podstawa wprost ich nie wymienia).
+- **Przyklady** = 3 najwczesniejsze ID podzadan ktore uzywaja tagu.
+
 | # | Algorytm | Kategoria | Wystapien | Punkty | Lat | Podstawa | Przyklady |
 |---|---|---|---:|---:|---:|---|---|
 | 1 | `iteracja-po-pliku` | wzorce | 150 | 435 | 12/12 | — | `2014M.5a`, `2014M.5b`, `2014M.5c` |
