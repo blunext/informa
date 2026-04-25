@@ -44,7 +44,12 @@
             "czasowy_min": 5,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "analiza-zlozonosci",
+            "przeszukiwanie-binarne",
+            "rekurencja"
+          ]
         },
         {
           "id": "2020P.1.2",
@@ -64,7 +69,12 @@
             "czasowy_min": 5,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "przeszukiwanie-binarne",
+            "rekurencja",
+            "sledzenie-pseudokod"
+          ]
         },
         {
           "id": "2020P.1.3",
@@ -82,7 +92,11 @@
             "czasowy_min": 2,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "przeszukiwanie-binarne",
+            "analiza-zlozonosci"
+          ]
         }
       ]
     },
@@ -110,7 +124,8 @@
             "czasowy_min": 5,
             "zlozonosc": 1,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": []
         },
         {
           "id": "2020P.2.2",
@@ -130,7 +145,12 @@
             "czasowy_min": 15,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "akumulator-licznik",
+            "current-max",
+            "wyszukiwanie-liniowe"
+          ]
         }
       ]
     },
@@ -158,7 +178,11 @@
             "czasowy_min": 3,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "SQL-WHERE",
+            "SQL-aggregacja"
+          ]
         },
         {
           "id": "2020P.3.2",
@@ -177,7 +201,10 @@
             "czasowy_min": 3,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "konwersja-systemow"
+          ]
         },
         {
           "id": "2020P.3.3",
@@ -196,7 +223,8 @@
             "czasowy_min": 3,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": []
         },
         {
           "id": "2020P.3.4",
@@ -216,7 +244,10 @@
             "czasowy_min": 3,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "konwersja-systemow"
+          ]
         }
       ]
     },
@@ -227,7 +258,9 @@
       "czesc": 2,
       "kontekst": "Luka w ciagu liczbowym nazywamy bezwzgledna wartosc roznicy miedzy dwoma kolejnymi elementami.\nPrzykladowo - w czterolementowym ciagu 5, 2, 7, 10 sa trzy luki:\n- luka miedzy pierwszym a drugim elementem wynosi 3;\n- luka miedzy drugim a trzecim elementem wynosi 5;\n- luka miedzy trzecim a czwartym elementem wynosi 3.\nNajwieksza luka w tym ciagu ma wartosc 5.\n\nW pliku dane4.txt znajduje sie ciag zlozony z 1000 dodatnich liczb calkowitych nie wiekszych od 2*10^9. Napisz program(-y), ktory(-e) da(-dza) odpowiedzi do ponizszych zadan. Odpowiedzi zapisz w pliku zadanie4.txt, a kazda poprzedz numerem odpowiedniego zadania.",
       "sciezka_danych": "matura_informatyka_rozszerzona/2020_probna_kwiecien/",
-      "pliki_danych": ["dane4.txt"],
+      "pliki_danych": [
+        "dane4.txt"
+      ],
       "podzadania": [
         {
           "id": "2020P.4.1",
@@ -246,7 +279,11 @@
             "czasowy_min": 10,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "jednoczesne-min-max"
+          ]
         },
         {
           "id": "2020P.4.2",
@@ -266,7 +303,12 @@
             "czasowy_min": 20,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "najdluzszy-podciag-niemalejacy",
+            "current-max"
+          ]
         },
         {
           "id": "2020P.4.3",
@@ -285,7 +327,13 @@
             "czasowy_min": 15,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "akumulator-licznik",
+            "current-max",
+            "iteracja-po-pliku",
+            "znajdz-i-policz"
+          ]
         }
       ]
     },
@@ -296,7 +344,9 @@
       "czesc": 2,
       "kontekst": "Wlasciciele ogrodu postanowili zaoszczedzic na oplatach za wode i przed laty zainstalowali zbiornik o pojemnosci 25 000 litrow, w ktorym gromadza wode do podlewania roslin.\n\nPodlewanie roslin woda ze zbiornika i uzupelnianie zbiornika reguluja nastepujace zasady:\n- srednia dobowa temperatura i opady dobowe sa mierzone od godziny 20:00 dnia poprzedniego do godz. 20:00 dnia biezacego,\n- do godziny 20:00 opady uzupelniaja sumarycznie zbiornik w ilosci: 700 * x litrow (gdzie x - opady dobowe deszczu w l/m^2), jednak nie wiecej niz do maksymalnej pojemnosci zbiornika,\n- w dni bezdeszczowe dzienne parowanie wody (ubytek) ze zbiornika jest zalezny od sredniej dobowej temperatury T i wynosi: 0,03% * T^1,5 * y litrow (gdzie y - oznacza stan zbiornika z godziny 21:00 dnia poprzedniego) w zaokragleniu w gore do pelnych litrow,\n- ogrod jest podlewany w kazdym dniu, w ktorym srednia dobowa temperatura przekroczy 15°C, a jednoczesnie opady dobowe nie przekraczaja 0,6 l/m^2,\n- podlewanie, jesli ma miejsce, jest wykonywane o godz. 20:00,\n- do podlewania zuzywa sie 12 000 litrow wody (1 porcja), jesli srednia dobowa temperatura nie przekracza 30°C, oraz 24 000 litrow wody (2 porcje), jesli srednia dobowa temperatura przekracza 30°C,\n- jesli o godz. 20:00 w dniu, w ktorym nalezy podlac rosliny, w zbiorniku jest za malo wody, jest on tuz przed podlaniem uzupelniany woda z wodociagu do pelna,\n- podlewanie konczy sie o godz. 21:00.\n\n31 marca o godzinie 21:00 zbiornik byl pelen.\n\nPlik pogoda.txt zawiera dane dotyczace sredniej temperatury oraz wysokosci opadow dobowych w l/m^2 w okresie od 1 kwietnia do 30 wrzesnia 2015 roku. Pierwszy wiersz pliku jest naglowkowym. Dane w kazdym wierszu oddzielone sa znakiem tabulatora.\n\nUwaga: W calym okresie od kwietnia do wrzesnia 2015 roku do zbiornika dolano 743 427 litrow wody. Wykonujac odpowiednie obliczenia oraz podajac odpowiedzi, wyniki zawsze zaokraglaj w gore do pelnych litrow.",
       "sciezka_danych": "matura_informatyka_rozszerzona/2020_probna_kwiecien/",
-      "pliki_danych": ["pogoda.txt"],
+      "pliki_danych": [
+        "pogoda.txt"
+      ],
       "podzadania": [
         {
           "id": "2020P.5.1",
@@ -315,7 +365,10 @@
             "czasowy_min": 10,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
+          ]
         },
         {
           "id": "2020P.5.2",
@@ -334,7 +387,10 @@
             "czasowy_min": 10,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
+          ]
         },
         {
           "id": "2020P.5.3",
@@ -353,7 +409,10 @@
             "czasowy_min": 10,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
+          ]
         },
         {
           "id": "2020P.5.4",
@@ -373,7 +432,11 @@
             "czasowy_min": 20,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "arkusz-agregacja-warunkowa"
+          ]
         }
       ]
     },
@@ -384,7 +447,12 @@
       "czesc": 2,
       "kontekst": "Salon urody 'BEAUTY' swiadczy uslugi kosmetyczne oraz fryzjerskie. Kazdy klient, korzystajacy z uslug salonu, podczas pierwszej wizyty otrzymuje karte z unikatowym identyfikatorem, ktory jest zlozony z litery oraz liczby. W przypadku mezczyzn jest to litera 'Y', a w przypadku kobiet - litera 'X'. Na przyklad: X10 lub Y20.\n\nListe klientow i przydzielone im identyfikatory zawiera plik klienci.txt. W kazdym wierszu pliku zapisane sa dane jednego klienta (id_klienta, imie i nazwisko).\n\nPlik zabiegi.txt zawiera wykaz zabiegow oferowanych przez salon urody. W kazdym wierszu zapisany jest: kod_zabiegu (zlozony z trzech liter i liczby), nazwa dzialu (dzial), z ktorego zabieg pochodzi, nazwa zabiegu (zabieg) oraz jego cena (cena w zl).\n\nKazda wizyta w salonie jest rejestrowana. Plik wizytydane.txt zawiera id_wizyty, date w formacie rrrr-mm-dd, numer wizyty w danym dniu (nr_wizyty) i id_klienta.\n\nW pliku wizytyzabiegi.txt zapisano informacje, z jakich zabiegow klient korzystal podczas wizyty w salonie. W kazdym wierszu umieszczono id_wizyty i kod_zabiegu. Podczas jednej wizyty klient mogl skorzystac z kilku zabiegow, a wiec id_wizyty moze sie powtarzac.\n\nUwaga: Informacje o wizytach klientow zapisane w plikach wizytydane.txt oraz wizytyzabiegi.txt obejmuja prace salonu 'BEAUTY' w okresie od 10 listopada 2017 roku do 27 stycznia 2018 roku. Pierwszy wiersz kazdego z plikow jest wierszem naglowkowym, a dane sa oddzielone tabulatorami. Dane w plikach sa zapisane bez polskich znakow.",
       "sciezka_danych": "matura_informatyka_rozszerzona/2020_probna_kwiecien/",
-      "pliki_danych": ["klienci.txt", "zabiegi.txt", "wizytydane.txt", "wizytyzabiegi.txt"],
+      "pliki_danych": [
+        "klienci.txt",
+        "zabiegi.txt",
+        "wizytydane.txt",
+        "wizytyzabiegi.txt"
+      ],
       "podzadania": [
         {
           "id": "2020P.6.1",
@@ -403,7 +471,12 @@
             "czasowy_min": 5,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE",
+            "SQL-aggregacja"
+          ]
         },
         {
           "id": "2020P.6.2",
@@ -422,7 +495,13 @@
             "czasowy_min": 10,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-ORDER-BY"
+          ]
         },
         {
           "id": "2020P.6.3",
@@ -441,7 +520,12 @@
             "czasowy_min": 15,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-ORDER-BY",
+            "SQL-WHERE"
+          ]
         },
         {
           "id": "2020P.6.4",
@@ -462,7 +546,13 @@
             "czasowy_min": 15,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE",
+            "SQL-LIKE",
+            "SQL-aggregacja"
+          ]
         },
         {
           "id": "2020P.6.5",
@@ -481,7 +571,11 @@
             "czasowy_min": 15,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "SQL-LEFT-JOIN-NULL",
+            "SQL-WHERE"
+          ]
         }
       ]
     }

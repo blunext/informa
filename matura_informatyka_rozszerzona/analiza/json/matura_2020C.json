@@ -39,6 +39,10 @@
           "pulapki": [
             "P[1]=1 mimo ze 1 nie jest liczba pierwsza - algorytm nie zmienia P[1]",
             "Sito wykreslania zaczyna od j*j, nie od 2*j"
+          ],
+          "algorytmy": [
+            "sito-Eratostenesa",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -53,6 +57,10 @@
           "pulapki": [
             "S[1]=0 (inicjalizacja, petla zaczyna od j=2)",
             "S jest suma prefiksowa P - kazdy S[j] zalezy od P[j] i S[j-1]"
+          ],
+          "algorytmy": [
+            "prefix-sum",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -67,6 +75,9 @@
           "pulapki": [
             "S jest suma prefiksowa - roznica S[b]-S[a-1] daje liczbe pierwszych w przedziale [a,b]",
             "Odpowiedz D jest bliska prawdzie, ale przedzial to [a,b] nie [a-1,b]"
+          ],
+          "algorytmy": [
+            "prefix-sum"
           ]
         }
       ]
@@ -90,6 +101,10 @@
           "pulapki": [
             "ceil(15/8) = ceil(1.875) = 2, nie 1",
             "Nalezy upraszczac ulamki po odejmowaniu"
+          ],
+          "algorytmy": [
+            "zachlanne",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -105,6 +120,10 @@
             "ceil(q/p) musi byc obliczone na liczbach rzeczywistych lub jako (q+p-1)/p dla calkowitych",
             "Reszta po odjeciu: p_nowe = p*m - q, q_nowe = q*m",
             "Warunek konca: p = 0 (lub r = 0)"
+          ],
+          "algorytmy": [
+            "zachlanne",
+            "rekurencja"
           ]
         }
       ]
@@ -128,6 +147,11 @@
           "pulapki": [
             "f(n) = 2^n mimo zlozonej rekurencji",
             "Zlozonosc obliczeniowa jest wykladnicza - kazde f(n) wywoluje f(0)..f(n-1)"
+          ],
+          "algorytmy": [
+            "analiza-zlozonosci",
+            "rekurencja",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -142,6 +166,9 @@
           "pulapki": [
             "B=11, A=10 w systemie szesnastkowym",
             "Nalezy poprawnie konwertowac do kazdego systemu"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         },
         {
@@ -157,6 +184,11 @@
             "count(*) zlicza wiersze (filmy), avg(*) jest niepoprawne",
             "JOIN musi byc po idrezysera, nie idfilmu",
             "GROUP BY musi zawierac wszystkie kolumny z SELECT ktore nie sa agregatami"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -172,6 +204,9 @@
             "Nalezy dokladnie prosledzic zagniezdzone JEZELI",
             "parzyste*parzyste jest zawsze podzielne przez 4",
             "Sprawdzic konkretne wartosci dla punktow 2 i 4"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod"
           ]
         }
       ]
@@ -183,7 +218,14 @@
       "czesc": 2,
       "kontekst": "Plik identyfikator.txt zawiera 200 wierszy. W kazdym wierszu jest zapisany identyfikator pewnego dokumentu, ktory sklada sie z serii (trzy wielkie litery alfabetu lacinskiego) oraz szesciu cyfr.\n\nUwaga: Plik identyfikator_przyklad.txt zawiera przykladowe dane (20 wierszy). Odpowiedzi dla danych z tego pliku sa podane pod tresciami zadan.\n\nNapisz program(-y), w wyniku dzialania ktorego(-ych) otrzymasz odpowiedzi do ponizszych zadan.",
       "sciezka_danych": "matura_informatyka_rozszerzona/2020_czerwiec/DANE/",
-      "pliki_danych": ["identyfikator.txt", "identyfikator_przyklad.txt", "myjnia.txt", "dane_ankiet.txt", "zain.txt", "lok.txt"],
+      "pliki_danych": [
+        "identyfikator.txt",
+        "identyfikator_przyklad.txt",
+        "myjnia.txt",
+        "dane_ankiet.txt",
+        "zain.txt",
+        "lok.txt"
+      ],
       "podzadania": [
         {
           "id": "2020C.4.1",
@@ -197,6 +239,12 @@
           "pulapki": [
             "Moze byc wiecej niz jeden identyfikator z maksymalna suma cyfr",
             "Trzeba zachowac kolejnosc z pliku"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "iteracja-po-cyfrach",
+            "akumulator-suma",
+            "current-max"
           ]
         },
         {
@@ -212,6 +260,10 @@
             "Trzeba sprawdzic palindrom zarowno w czesci literowej (3 znaki) jak i numerycznej (6 cyfr)",
             "Palindrom 3-znakowy: pierwszy = trzeci (np. JKJ, AXA, KIK, LOL, GFG)",
             "Palindrom 6-cyfrowy: 340043 (czytany od tylu = 340043)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "porownywanie-tekstow"
           ]
         },
         {
@@ -227,6 +279,11 @@
             "Litery zamieniamy na liczby: A=10, B=11, ..., Z=35",
             "Wagi: 7, 3, 1, 7, 3, 1, 7, 3 (dla 3 liter + 5 cyfr po cyfrze kontrolnej)",
             "Cyfra kontrolna to PIERWSZA cyfra z czesci numerycznej (4-ta pozycja identyfikatora)"
+          ],
+          "algorytmy": [
+            "Horner",
+            "iteracja-po-cyfrach",
+            "iteracja-po-pliku"
           ]
         }
       ]
@@ -238,7 +295,9 @@
       "czesc": 2,
       "kontekst": "Samochodowa jednostanowiskowa myjnia automatyczna Czyste auta jest otwarta od godziny 6.00 do 24.00. Klienci podjezdzaja do myjni, ustawiaja sie w kolejce i wybieraja jeden z programow mycia. Poszczegolne programy roznia sie czasem realizacji. W myjni jest tylko jedno stanowisko, wiec klienci musza czekac, az skonczy sie mycie poprzednich samochodow. Jezeli czas oczekiwania przekracza 5 minut, klient rezygnuje z kolejki.\n\nPlik myjnia.txt zawiera 144 wiersze danych z jednego dnia dzialania myjni. W kazdym wierszu podano:\n- po ilu minutach od przyjazdu poprzedniego klienta przyjechad dany klient (dla pierwszego klienta jest to liczba minut od otwarcia myjni),\n- czas realizacji wybranego programu mycia - liczba naturalna z przedzialu <1; 15>,\n- numer rejestracyjny - dwie duze litery i trzy cyfry.\n\nDane w wierszach pliku sa rozdzielone srednikami.",
       "sciezka_danych": "matura_informatyka_rozszerzona/2020_czerwiec/DANE/",
-      "pliki_danych": ["myjnia.txt"],
+      "pliki_danych": [
+        "myjnia.txt"
+      ],
       "podzadania": [
         {
           "id": "2020C.5.1",
@@ -251,6 +310,9 @@
           "zasady_oceniania": "1 pkt - za poprawne zestawienie.",
           "pulapki": [
             "Nalezy zliczyc wszystkich klientow, w tym tych ktorzy zrezygnowali z kolejki"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -265,6 +327,9 @@
           "pulapki": [
             "Dwie pierwsze litery numeru rejestracyjnego = identyfikator miasta",
             "Trzeba zliczyc unikalne miasta, nie samochody"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -279,6 +344,10 @@
           "pulapki": [
             "Trzeba obliczyc kumulatywny czas przyjazdu kazdego klienta od godziny 6:00",
             "Czas oczekiwania przed 20:00 = suma odstepoow miedzy klientami od otwarcia"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "prefix-sum"
           ]
         },
         {
@@ -293,6 +362,9 @@
           "pulapki": [
             "Godziny pracy liczone od otwarcia (6:00): godzina 1 = 6:00-6:59, itd.",
             "Wykres kolumnowy (slupkowy), nie liniowy"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -308,6 +380,11 @@
             "Klient rezygnuje gdy czas oczekiwania > 5 minut (nie >= 5)",
             "Trzeba symulowac kolejke: sledzic kiedy stanowisko sie zwalnia",
             "Czas oczekiwania = moment przyjazdu - moment zakonczenia mycia poprzedniego"
+          ],
+          "algorytmy": [
+            "akumulator-licznik",
+            "arkusz-symulacja-iteracyjna",
+            "kolejka"
           ]
         }
       ]
@@ -319,7 +396,11 @@
       "czesc": 2,
       "kontekst": "Biuro badan opinii spolecznych przeprowadzilo ankiete wsrod 280 mieszkancow roznych wojewodztw, dotyczaca miedzy innymi zainteresowan oraz wyksztalcenia. Ankietowani mogli podac maksymalnie trzy rodzaje zainteresowan (kazdy musial podac przynajmniej jedno). Zbierano rowniez informacje o dochodach ankietowanych oraz o srodkach lokomocji, z ktorych korzystaja oni w roznych porach roku.\n\nDane uzyskane z ankiety zapisano w trzech plikach tekstowych:\n\nW pliku dane_ankiet.txt: Id, Nazwisko, Imie, Wiek, Wyksztalcenie, Dochod, Wojewodztwo.\n\nW pliku zain.txt: Id, Zainteresowania.\n\nW pliku lok.txt: Id_a, Srod_lok, Pora_roku.",
       "sciezka_danych": "matura_informatyka_rozszerzona/2020_czerwiec/DANE/",
-      "pliki_danych": ["dane_ankiet.txt", "zain.txt", "lok.txt"],
+      "pliki_danych": [
+        "dane_ankiet.txt",
+        "zain.txt",
+        "lok.txt"
+      ],
       "podzadania": [
         {
           "id": "2020C.6.1",
@@ -333,6 +414,11 @@
           "pulapki": [
             "Kryterium plci: imie konczace sie na 'a' = kobieta",
             "161 + 119 = 280 (sprawdzenie)"
+          ],
+          "algorytmy": [
+            "SQL-LIKE",
+            "SQL-WHERE",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -347,6 +433,12 @@
           "pulapki": [
             "Trzeba polaczyc dane_ankiet.txt (Wojewodztwo='Mazowieckie') z lok.txt (Pora_roku='lato')",
             "Warunki: wojewodztwo = Mazowieckie ORAZ pora roku = lato"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -361,6 +453,11 @@
           "pulapki": [
             "Warunek HAVING COUNT(*) > 20, nie >= 20",
             "Trzeba podac nazwy wojewodztw i liczby osob"
+          ],
+          "algorytmy": [
+            "SQL-GROUP-BY",
+            "SQL-HAVING",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -377,6 +474,12 @@
             "Wyksztalcenie 'wyzsze' LUB 'srednie'",
             "NIE interesuja sie informatyka ANI grami komputerowymi - wymaga podzapytania z NOT IN",
             "Kazda osoba moze wystapic TYLKO RAZ (DISTINCT)"
+          ],
+          "algorytmy": [
+            "SQL-WHERE",
+            "SQL-JOIN",
+            "SQL-podzapytanie-niezalezne",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -393,6 +496,13 @@
             "Wojewodztwo = 'Zachodniopomorskie'",
             "Srod_lok = 'rower' (w dowolnej porze roku)",
             "Uwaga na wielokrotne policzenie osoby (jesli ktos jezdzi rowerem w wielu porach roku)"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-LIKE",
+            "SQL-WHERE",
+            "SQL-aggregacja",
+            "SQL-podzapytanie-niezalezne"
           ]
         }
       ]

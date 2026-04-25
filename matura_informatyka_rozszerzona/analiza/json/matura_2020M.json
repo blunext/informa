@@ -40,6 +40,10 @@
             "Trzeba uwaznie sprawdzic warunek k-podobienstwa: A[1..k]=B[n-k+1..n] ORAZ A[k+1..n]=B[1..n-k]",
             "W wierszu 6 istnieje wiele potencjalnych k -- trzeba znalezc takie, dla ktorego oba warunki sa spelnione",
             "W wierszu 4 i 7: k=4 i k=1 wydaja sie pasowac na pierwszy rzut oka, ale trzeba sprawdzic OBA warunki"
+          ],
+          "algorytmy": [
+            "porownywanie-tekstow",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -55,6 +59,10 @@
             "Porownanie tylko jednej czesci (np. A[1..k]=B[n-k+1..n]) bez drugiej daje max 1 punkt",
             "Bledy w indeksowaniu -- off-by-one przy granicy k/n-k",
             "Brak obslugi przypadku k=0 (trywialne -- tablice identyczne)"
+          ],
+          "algorytmy": [
+            "porownywanie-tekstow",
+            "wyszukiwanie-liniowe"
           ]
         },
         {
@@ -69,6 +77,9 @@
           "pulapki": [
             "Zakres petli musi byc od 0 do n-1 (nie od 1 do n)",
             "Wczesne przerwanie petli po znalezieniu pierwszego pasujacego k"
+          ],
+          "algorytmy": [
+            "wyszukiwanie-liniowe"
           ]
         }
       ],
@@ -108,6 +119,10 @@
             "Procedura jest rekurencyjna i wywoluje sie dwa razy (przed i po wypisz) -- drzewo wywolan jest pelnym drzewem binarnym",
             "Trzeba sledzic zmiany parametrow a i b w kazdym wywolaniu rekurencyjnym",
             "Ciag jest symetryczny -- mozna to wykorzystac do weryfikacji"
+          ],
+          "algorytmy": [
+            "rekurencja",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -123,6 +138,10 @@
             "Dlugosc ciagu zalezy TYLKO od parametru a, nie od b",
             "Wzor 2^a - 1 wynika z pelnego drzewa binarnego o glebokosci a",
             "Dla a=10 wynik to 1023 -- latwo o blad rachunkowy przy duzych a"
+          ],
+          "algorytmy": [
+            "rekurencja",
+            "analiza-zlozonosci"
           ]
         }
       ],
@@ -162,6 +181,9 @@
             "Trzeba pamietac ze kwadraty w najnizszym wierszu odpowiadaja bitom o najmniejszej wadze (1)",
             "Kazda kolumna to osobna cyfra dziesietna, nie cala wartosc godziny/minuty/sekundy",
             "Latwo o pomylke przy odczytywaniu zegarow z wieloma swiecacymi diodami"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         },
         {
@@ -177,6 +199,11 @@
             "Algorytm przetwarza cyfry od OSTATNIEJ (mod 10 daje ostatnia cyfre), nie od pierwszej",
             "W punkcie 3 kolejne wartosci w to 4, 7, 10, 10 -- NIE 1, 3, 6, 10",
             "Latwo policzyc zle sume cyfr w punkcie 1 (31 vs 30)"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach",
+            "akumulator-suma",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -191,7 +218,8 @@
           "pulapki": [
             "Adres rozgloszeniowy: ustawiamy czesc hostowa na same jedynki -- dla /24 to x.x.x.255, nie x.x.255.255",
             "254 hostow = 2^8 - 2 (bez adresu sieci .0 i rozgloszeniowego .255)"
-          ]
+          ],
+          "algorytmy": []
         },
         {
           "id": "2020M.3.4",
@@ -206,6 +234,10 @@
             "SELECT * zwraca WSZYSTKIE kolumny, nie podzbiór",
             "ORDER BY staz DESC sortuje malejaco (nierosnaco) po stazu",
             "Warunek pensja < 2000 (ostro mniejsze) -- pensja rowna 2000 NIE jest wlaczona"
+          ],
+          "algorytmy": [
+            "SQL-WHERE",
+            "SQL-ORDER-BY"
           ]
         }
       ],
@@ -249,6 +281,10 @@
             "Trzeba szukac rozkladu TYLKO dla liczb parzystych (nie nieparzystych)",
             "Nalezy wypisac skladniki o NAJWIEKSZEJ roznicy (zaczynamy szukanie od najmniejszej liczby pierwszej)",
             "Liczba 2 jest parzysta pierwsza -- ale w hipotezie Goldbacha chodzi o sumy NIEPARZYSTYCH pierwszych"
+          ],
+          "algorytmy": [
+            "test-pierwszosci",
+            "iteracja-po-pliku"
           ]
         },
         {
@@ -264,6 +300,11 @@
             "Fragment moze byc na poczatku, w srodku lub na koncu slowa",
             "Dla slow z samymi roznymi literami wynik to pierwsza litera i dlugosc 1",
             "Dwa fragmenty o tej samej dlugosci -- podajemy PIERWSZY (nie ostatni)"
+          ],
+          "algorytmy": [
+            "current-max",
+            "iteracja-po-pliku",
+            "najdluzszy-podciag-niemalejacy"
           ]
         },
         {
@@ -279,11 +320,20 @@
             "Trzeba najpierw odfiltrowac pary gdzie liczba = dlugosc slowa",
             "Porownywanie par: najpierw po liczbie, potem leksykograficznie po slowie",
             "Szukamy MINIMUM (para mniejsza od wszystkich pozostalych)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "porownywanie-tekstow",
+            "current-min"
           ]
         }
       ],
       "sciezka_danych": "matura_informatyka_rozszerzona/2020_maj/Dane_PR2/",
-      "pliki_danych": ["pary.txt", "przyklad.txt", "odp_przyklad.txt"],
+      "pliki_danych": [
+        "pary.txt",
+        "przyklad.txt",
+        "odp_przyklad.txt"
+      ],
       "wymiary": {
         "tematyczny": [
           "liczby pierwsze",
@@ -320,6 +370,10 @@
           "pulapki": [
             "Trzeba zdecydowac czy 'jezyk izolowany' to rodzina jezykowa (akceptowane oba podejscia)",
             "Sortowanie nierosnaco -- od najwiekszej do najmniejszej liczby jezykow"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -334,6 +388,10 @@
           "pulapki": [
             "Jezyk moze byc urzedowy w jednym panstwie i nieurzedowy w innym -- trzeba sprawdzic czy istnieje JAKIEKOLWIEK panstwo gdzie jest urzedowy",
             "Trzeba odjac od calkowitej liczby jezykow te, ktore sa urzedowe gdziekolwiek"
+          ],
+          "algorytmy": [
+            "akumulator-licznik",
+            "iteracja-po-pliku"
           ]
         },
         {
@@ -348,6 +406,10 @@
           "pulapki": [
             "Trzeba polaczyc tabele uzytkownicy z panstwa (przez nazwe panstwa) aby uzyskac kontynent",
             "Uwaga na 'co najmniej czterech' -- >= 4, nie dokladnie 4"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -363,6 +425,10 @@
             "Trzeba wykluczyc jezyki z rodziny indoeuropejskiej",
             "Kontynenty to 'Ameryka Polnocna' i 'Ameryka Poludniowa' -- sumujemy uzytkownikow z obu",
             "Trzeba polaczyc 3 tabele: uzytkownicy + panstwa (dla kontynentu) + jezyki (dla rodziny)"
+          ],
+          "algorytmy": [
+            "akumulator-warunkowy",
+            "iteracja-po-pliku"
           ]
         },
         {
@@ -378,11 +444,19 @@
             "Procent = (uzytkownicy jezyka w panstwie / populacja panstwa) * 100",
             "Jezyk NIE moze byc urzedowy w tym panstwie (ale moze byc urzedowy w innym)",
             "Prog 30% jest wlaczny (co najmniej 30%)"
+          ],
+          "algorytmy": [
+            "akumulator-warunkowy",
+            "iteracja-po-pliku"
           ]
         }
       ],
       "sciezka_danych": "matura_informatyka_rozszerzona/2020_maj/Dane_PR2/",
-      "pliki_danych": ["panstwa.txt", "jezyki.txt", "uzytkownicy.txt"],
+      "pliki_danych": [
+        "panstwa.txt",
+        "jezyki.txt",
+        "uzytkownicy.txt"
+      ],
       "wymiary": {
         "tematyczny": [
           "przetwarzanie wielu plikow",
@@ -419,6 +493,9 @@
           "pulapki": [
             "Ladowanie = zaladunек (Z/W = 'Z'), nie wyladunek",
             "Najwiecej RAZY (liczba operacji), nie najwiecej TON -- ale pytanie tez pyta o mase"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -433,6 +510,9 @@
           "pulapki": [
             "Pelne dni na morzu = roznica dat minus 1 (dzien wyjazdu i przyjazdu nie licza sie jako pelne dni na morzu)",
             "Wiecej niz 20 pelnych dni (> 20, nie >= 20)"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -448,6 +528,11 @@
             "Trzeba obliczyc stan towaru na statku w danym dniu -- sumowac zaladunki (Z) i odejmowac wyladunki (W) od poczatku",
             "Uwzglednic tylko towary ze stanem > 0 przy szukaniu minimum",
             "Statek nie zawijal do portu w tych dniach -- trzeba policzyc stan na podstawie WSZYSTKICH operacji PRZED tym dniem"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "current-max",
+            "current-min"
           ]
         },
         {
@@ -463,6 +548,9 @@
             "Wykres musi miec DWA slupki na miesiac (zaladunек i wyladunek osobno)",
             "Os pozioma w formacie rrrr-mm (nie dd.mm.rrrr)",
             "Trzeba filtrować tylko towar T5"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -478,11 +566,18 @@
             "Zaladunек (Z) to wydatek (minus), wyladunek (W) to przychod (plus)",
             "Stan kasy zmienia sie w ciagu dnia -- trzeba sledzic stan PO KAZDEJ operacji danego dnia",
             "Minimum talarow w (b) to taki poczatkowy stan, aby kasa nigdy nie spadla ponizej 0"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "current-max",
+            "current-min"
           ]
         }
       ],
       "sciezka_danych": "matura_informatyka_rozszerzona/2020_maj/Dane_PR2/",
-      "pliki_danych": ["statek.txt"],
+      "pliki_danych": [
+        "statek.txt"
+      ],
       "wymiary": {
         "tematyczny": [
           "analiza danych tabelarycznych",
