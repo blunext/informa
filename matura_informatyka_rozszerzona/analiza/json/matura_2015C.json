@@ -40,6 +40,9 @@
             "Dla liczb ujemnych w U2: zaneguj bity i dodaj 1 (np. 42=00101010, neg=11010101, +1=11010110)",
             "Dodawanie binarne z przeniesieniem -- odrzuc nadmiarowy bit jesli wynik jest 8-bitowy",
             "Sprawdz czy wynik miesci sie w zakresie [-128, 127]"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         },
         {
@@ -55,6 +58,11 @@
             "Algorytm przetwarza bity od najmniej znaczacego (a_0) do najbardziej (a_{n-1})",
             "Krok 2 kopiuje zera, krok 3 kopiuje pierwsza jedynke, krok 5 neguje reszte",
             "Dla przykladu z krokiem 5: trzeba policzyc ile bitow zostanie po petli 2 i kroku 3"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "iteracja-po-cyfrach",
+            "konwersja-systemow"
           ]
         }
       ]
@@ -79,6 +87,10 @@
             "Warunek trojkata: suma dwoch bokow > trzeci bok (dla wszystkich par)",
             "Przy a <= b: wystarczy sprawdzic b-a < c i b+a > c",
             "Granice sa ostre (< i >), nie nieostra (<= lub >=)"
+          ],
+          "algorytmy": [
+            "wyszukiwanie-liniowe",
+            "akumulator-licznik"
           ]
         },
         {
@@ -94,6 +106,11 @@
             "c_1 < c_2 -- to dane poczatkowe, nie trzeba ich sortowac",
             "Trzeba sprawdzic warunek trojkata: |c_1-c_2| < c_k < c_1+c_2",
             "Optymalne rozwiazanie korzysta z faktu ze ciag mozna posortowac i uzyc wyszukiwania binarnego"
+          ],
+          "algorytmy": [
+            "analiza-zlozonosci",
+            "przeszukiwanie-binarne",
+            "wyszukiwanie-liniowe"
           ]
         }
       ]
@@ -118,6 +135,9 @@
             "Algorytm Euklidesa oblicza NWD, nie potege",
             "NWD(100,10) = 10, nie 5 (100 = 10*10, wiec NWD=10)",
             "NWD(100,8): 100 mod 8=4, 8 mod 4=0, wiec NWD=4"
+          ],
+          "algorytmy": [
+            "NWD-Euklidesa"
           ]
         },
         {
@@ -133,6 +153,9 @@
             "FCA ma 3 cyfry hex, a AAAA i 9999 maja 4 cyfry -- 4-cyfrowe hex sa zawsze wieksze od 3-cyfrowych",
             "Wystarczy porownac liczbe cyfr lub przeliczyc na dziesietne",
             "1111_16 = 4369 > FCA_16 = 4042"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         },
         {
@@ -148,7 +171,8 @@
             "Klucz obcy NIE musi byc jednokolumnowy (moze byc zlozony)",
             "Klucz obcy NIE identyfikuje jednoznacznie wierszy -- to rola klucza glownego",
             "Klucz obcy pochodzi z innej tabeli i sluzy do relacji"
-          ]
+          ],
+          "algorytmy": []
         },
         {
           "id": "2015C.3.4",
@@ -163,7 +187,8 @@
             "IPv4 = 32 bity, nie 48 (48 bitow to adres MAC)",
             "IPv4 NIE jest unikatowy globalnie (z powodu NAT, adresy prywatne sie powtarzaja)",
             "Kazdy oktet IPv4 to 0-255, wiec 300 i 256 sa niepoprawne"
-          ]
+          ],
+          "algorytmy": []
         }
       ]
     },
@@ -186,6 +211,10 @@
           "pulapki": [
             "Sumowanie per miesiac z pliku piastek.txt (3 kolumny: kostka, orzech, mial)",
             "Wiersz zer oznacza brak dostawy -- trzeba go pominac lub dodac 0"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa",
+            "iteracja-po-pliku"
           ]
         },
         {
@@ -200,7 +229,8 @@
           "pulapki": [
             "Musi byc wykres kolumnowy (nie liniowy, nie kolowy)",
             "Wymagane: tytul, legenda, opisy osi"
-          ]
+          ],
+          "algorytmy": []
         },
         {
           "id": "2015C.4.3",
@@ -214,6 +244,9 @@
           "pulapki": [
             "Koszt = suma(kostka*685 + orzech*620 + mial*380) za caly sezon",
             "Trzeba pomnożyć tony każdego rodzaju przez odpowiednią cenę"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-podstawowa"
           ]
         },
         {
@@ -229,6 +262,10 @@
             "Symulacja dzien po dniu: dostawa rano, potem decyzja o spalaniu",
             "Kolejnosc: kostka pierwszy, orzech jesli kostka < 200t, mial jesli orzech < 260t",
             "Podtrzymywanie ognia gdy brak wegla -- nie liczy sie jako palenie"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "akumulator-licznik"
           ]
         },
         {
@@ -243,6 +280,9 @@
           "pulapki": [
             "Poczatkowy stan: 80t kazdego. Kostka < 200t od razu, wiec orzech. Orzech < 260t szybko -> mial",
             "Trzeba dokladnie przeledzic symulacje od 15.10"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
           ]
         },
         {
@@ -257,6 +297,10 @@
           "pulapki": [
             "Podtrzymywanie ognia = nie ma wystarczajaco zadnego rodzaju wegla",
             "Trzeba dokladnie sledzic stany magazynowe w symulacji"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "akumulator-licznik"
           ]
         }
       ]
@@ -280,6 +324,11 @@
           "pulapki": [
             "Trzeba policzyc wystapienia kazdego kod_wyk w mandaty.txt, potem znalezc max",
             "Nazwa wykroczenia jest w wykroczenia.txt (join po kod_wyk)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "current-max",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -295,6 +344,10 @@
             "Filtr: data_prawa_jazdy z roku 2013 (z kierowcy.txt)",
             "Suma punktow karnych > 20 (join mandaty + wykroczenia, grupowanie po PESEL)",
             "Punkty karne sa w wykroczenia.txt, nie w mandaty.txt"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-warunkowy"
           ]
         },
         {
@@ -309,6 +362,10 @@
           "pulapki": [
             "Case-insensitive search (nie rozrozniaj wielkosci liter)",
             "Szukaj w kolumnie 'nazwa' w wykroczenia.txt"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "wyszukiwanie-wzorca-naiwne"
           ]
         },
         {
@@ -324,6 +381,12 @@
             "Grupowanie po miesiacu z data_wyk w mandaty.txt",
             "Kwota mandatu jest w wykroczenia.txt (join po kod_wyk)",
             "Sortowanie malejaco wedlug kwoty mandatow"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik",
+            "akumulator-suma",
+            "current-min"
           ]
         },
         {
@@ -338,6 +401,11 @@
           "pulapki": [
             "Anti-join: kierowcy ktorych PESEL nie wystepuje w mandaty.txt",
             "Potem grupowanie po miastach i znalezienie max"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik",
+            "current-max"
           ]
         }
       ]
@@ -361,6 +429,11 @@
           "pulapki": [
             "Pozycja 0 = jednosci (nie od lewej, ale od prawej!)",
             "Parzystosc pozycji: 0, 2, 4... = parzyste; 1, 3, 5... = nieparzyste"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "iteracja-po-cyfrach",
+            "akumulator-suma"
           ]
         },
         {
@@ -375,6 +448,10 @@
           "pulapki": [
             "Wzor: (10 - (3*suma_parzystych + suma_nieparzystych) % 10) % 10",
             "Mapowanie cyfry kontrolnej na kod kreskowy z tabeli"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach",
+            "akumulator-suma"
           ]
         },
         {
@@ -389,6 +466,10 @@
           "pulapki": [
             "Kolejnosc: START + cyfry od lewej do prawej + cyfra kontrolna + STOP",
             "Uzywaj kodow z tabeli (cyfra_kodkreskowy.txt), nie samych cyfr"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach",
+            "porownywanie-tekstow"
           ]
         }
       ]

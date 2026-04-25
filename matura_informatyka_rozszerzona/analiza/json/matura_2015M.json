@@ -40,6 +40,10 @@
             "Strategia B: najkrotszy film 5 (1h), nie film 4 (2h)",
             "Strategie C i D daja ten sam wynik {film 1, film 4, film 2} = 3 filmy (optymalna)",
             "Strategia D (earliest finish) jest optymalna dla Activity Selection Problem"
+          ],
+          "algorytmy": [
+            "zachlanne",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -57,6 +61,9 @@
             "Strategia D NIE wymaga kontrprzykladu (jest optymalna - earliest finish time)",
             "Kontrprzyklad musi dzialac dla KONKRETNEJ strategii, nie wszystkich naraz",
             "Trzeba podac WYNIK algorytmu I optymalny zbior"
+          ],
+          "algorytmy": [
+            "zachlanne"
           ]
         }
       ],
@@ -97,6 +104,9 @@
             "1032_4 to NIE jest 1032 dziesietnie -- to 78 dziesietnie",
             "Trzeba pomnozyc 78 * 29 = 2262, nie 1032 * 131",
             "Konwersja na system dwojkowy: 2262 = 100011010110, nie 100110101110"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         },
         {
@@ -112,7 +122,8 @@
             "BMP jest formatem BEZstratnym (raw bitmap)",
             "Kompresja STRATNA = utrata szczegolow (lossy), BEZstratna = bez utraty (lossless)",
             "RSA to szyfrowanie asymetryczne, nie kompresja"
-          ]
+          ],
+          "algorytmy": []
         },
         {
           "id": "2015M.2.3",
@@ -126,7 +137,8 @@
           "pulapki": [
             "Filtrowanie to SELEKCJA (wybor wierszy), nie PROJEKCJA (wybor kolumn)",
             "Filtrowanie NIE zmienia danych -- jest operacja tylko-do-odczytu"
-          ]
+          ],
+          "algorytmy": []
         },
         {
           "id": "2015M.2.4",
@@ -141,7 +153,8 @@
             "ADWARE =/= open-source (otwarty kod)",
             "ADWARE =/= shareware (ograniczone czasowo)",
             "ADWARE jest finansowane z reklam, nie przez uzytkownika"
-          ]
+          ],
+          "algorytmy": []
         },
         {
           "id": "2015M.2.5",
@@ -156,6 +169,9 @@
             "$2 blokuje WIERSZ, nie kolumne -- A$2 przy kopiowaniu w prawo zmienia sie na B$2",
             "C2 = B$2*C1 = 2*3 = 6, nie 4",
             "B10 = 2^10 = 1024 (ciaг geometryczny: B2=4, B3=8, ..., Bn=2^n)"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
           ]
         }
       ],
@@ -199,6 +215,11 @@
             "188 div 12 = 15 (nie 16), 188 mod 12 = 8",
             "Wzor: x = y', y = x' - (a div b) * y'",
             "Warunek bazowy: b=0 -> (1, 0), NIE (0, 1)"
+          ],
+          "algorytmy": [
+            "NWD-Euklidesa",
+            "rekurencja",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -215,6 +236,10 @@
             "Krok 4: para wynikowa to (y, x - (a div b) * y), NIE (x, y)",
             "Kolejnosc: x staje sie y', a y oblicza sie z formuly",
             "a div b to dzielenie calkowite, nie reszta"
+          ],
+          "algorytmy": [
+            "NWD-Euklidesa",
+            "rekurencja"
           ]
         }
       ],
@@ -256,6 +281,10 @@
             "Plik ma 1000 wierszy, nie 250 (plik przykladowy vs pelny)",
             "Uwaga na ostatni znak w wierszu (CRLF line endings)",
             "Poprawna obsluga dlugich napisow binarnych"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik"
           ]
         },
         {
@@ -272,6 +301,10 @@
             "Podzielnosc przez 8 w systemie binarnym: ostatnie 3 bity = 000",
             "Plik ma 1000 wierszy, nie 250",
             "CRLF endings mogа zaklocic odczyt ostatniego znaku"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik"
           ]
         },
         {
@@ -288,6 +321,12 @@
             "Porownywanie jako napisy: najpierw po dlugosci, potem leksykograficznie",
             "Wiersze numerowane od 1, nie od 0",
             "Plik ma 1000 wierszy, nie 250"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "current-min",
+            "current-max",
+            "porownywanie-tekstow"
           ]
         }
       ],
@@ -330,6 +369,9 @@
             "Sumowanie warunkowe: SUMIF po ostatnim znaku kodu (litera regionu)",
             "Wyodrebnienie regionu: PRAWY(kod;1) lub MID/RIGHT",
             "Wykres musi miec etykiety regionow i wartosci"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -345,6 +387,9 @@
             "LICZ.WARUNKI / COUNTIF z odpowiednim kryterium",
             "50 jednostek w pliku, ale tylko 19 spelnia warunek",
             "Wyodrebnienie litery regionu z kodu"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -361,6 +406,11 @@
             "Przeludnienie = ludnosc > powierzchnia (lub inny prog z tresci)",
             "w12C jest najludniejsze (region C, powyzej 4.6 mln)",
             "Trzeba znalezc MAX i porownac z progiem dla kazdej jednostki"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa",
+            "arkusz-symulacja-iteracyjna",
+            "current-max"
           ]
         }
       ],
@@ -406,6 +456,10 @@
             "Trzeba znalezc najwczesniejszy ROK, nie najnizsze Id_wyscigu",
             "Moze byc wiele wyscigew w najwczesniejszym roku -- trzeba wziac pierwszy",
             "SELECT MIN(Rok) jako podzapytanie lub ORDER BY + LIMIT 1"
+          ],
+          "algorytmy": [
+            "SQL-ORDER-BY",
+            "SQL-podzapytanie-niezalezne"
           ]
         },
         {
@@ -421,6 +475,10 @@
             "LEFT JOIN + IS NULL lub NOT IN z podzapytaniem",
             "Szukamy wyscigu bez WYNIKOW, nie kierowcy bez wynikow",
             "DISTINCT jezeli wiele wyscigew w tym samym miejscu"
+          ],
+          "algorytmy": [
+            "SQL-LEFT-JOIN-NULL",
+            "SQL-podzapytanie-niezalezne"
           ]
         },
         {
@@ -437,6 +495,13 @@
             "GROUP BY kierowca + rok, potem MAX(SUM) per rok",
             "Podzapytanie lub ORDER BY + LIMIT per rok",
             "IN (2000, 2006, 2012) aby filtrowac sezony"
+          ],
+          "algorytmy": [
+            "SQL-GROUP-BY",
+            "SQL-HAVING",
+            "SQL-JOIN",
+            "SQL-aggregacja",
+            "SQL-podzapytanie-skorelowane"
           ]
         },
         {
@@ -453,6 +518,11 @@
             "Bledne grupowanie (bez DISTINCT) daje np. Niemcy:46 zamiast 4",
             "Tylko kierowcy z punktami (INNER JOIN), nie wszyscy z bazy",
             "GROUP BY Kraj"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja"
           ]
         }
       ],

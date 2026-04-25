@@ -40,6 +40,10 @@
             "Trzeba pamietac o operatorze OR -- wystarczy spelnienie jednego z warunkow",
             "Babacki: klasowka(50) NIE jest < 50, wiec nie spelnia drugiego warunku; klasowka(50) < egzamin(80) wiec nie spelnia pierwszego",
             "Dabacki: klasowka(80) > egzamin(70) ale egzamin(70) NIE > 75"
+          ],
+          "algorytmy": [
+            "SQL-WHERE",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -55,6 +59,11 @@
             "Algorytm przetwarza cyfry OD KONCA (mod 10 daje ostatnia cyfre)",
             "Dla n=1234: pierwsza iteracja daje 4 (nie 1!), bo 1234 mod 10 = 4",
             "Dla n=36789: latwo sie pomylic w sumowaniu: 9+8+7+6+3=33, nie 30"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach",
+            "akumulator-suma",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -69,7 +78,8 @@
           "pulapki": [
             "Kluczowe: 'pod wlasnym nazwiskiem' -- to plagiat nawet dla zasobow internetowych",
             "Freeware pozwala na dystrybucje, wiec zamieszczanie z podaniem autorstwa jest OK"
-          ]
+          ],
+          "algorytmy": []
         },
         {
           "id": "2015X.1.4",
@@ -83,7 +93,8 @@
           "pulapki": [
             "Mylenie wlasciwosci grafiki rastrowej i wektorowej",
             "Skalowalnosc to cecha wektorowej, nie rastrowej"
-          ]
+          ],
+          "algorytmy": []
         },
         {
           "id": "2015X.1.5",
@@ -96,7 +107,8 @@
           "zasady_oceniania": "1 pkt - poprawna ocena.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
           "pulapki": [
             "DNS moze sie wydawac poprawny bo tez dotyczy IP, ale DNS tlumacza nazwy, nie przydziela adresy"
-          ]
+          ],
+          "algorytmy": []
         }
       ],
       "sciezka_danych": null,
@@ -133,6 +145,12 @@
           "pulapki": [
             "Trzeba policzyc WSZYSTKIE sprawdzenia warunku, lacznie z ostatnim (ktore daje falsz i konczy petle)",
             "Dla n=32: floor(sqrt(32))=5, ale warunek (6)*(6)=36>32 jest sprawdzany i daje falsz -- to tez jest sprawdzenie"
+          ],
+          "algorytmy": [
+            "pierwiastek-kwadratowy",
+            "sledzenie-pseudokod",
+            "wyszukiwanie-liniowe",
+            "analiza-zlozonosci"
           ]
         },
         {
@@ -147,6 +165,10 @@
           "pulapki": [
             "To jest algorytm bisekcji -- k to dolna granica, m to gorna granica",
             "Jesli s*s <= n, to s moze byc wynikiem lub wynik jest wiekszy, wiec k <- s (nie s+1!)"
+          ],
+          "algorytmy": [
+            "pierwiastek-kwadratowy",
+            "bisekcja"
           ]
         },
         {
@@ -161,6 +183,12 @@
           "pulapki": [
             "Trzeba recznie przesledzi iteracje algorytmu bisekcji",
             "Algorytm bisekcji daje logarytmiczna liczbe sprawdzen vs liniowa w punkcie a)"
+          ],
+          "algorytmy": [
+            "analiza-zlozonosci",
+            "bisekcja",
+            "pierwiastek-kwadratowy",
+            "sledzenie-pseudokod"
           ]
         }
       ],
@@ -198,6 +226,10 @@
             "Schody do dolu to NIEROSNACY podciag (rowne elementy tez naleza do schodow)",
             "Schody musza byc MAKSYMALNE -- nie mozna ich rozszerzyc",
             "Para 7, 7 w pozycjach 15-16 tez jest schodami (dlugosc 2, 0 progow) -- latwo ja przeoczyc"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "najdluzszy-podciag-niemalejacy"
           ]
         },
         {
@@ -212,6 +244,9 @@
           "pulapki": [
             "Prog to para gdzie NASTEPNA jest mniejsza od POPRZEDNIEJ (a[i] > a[i+1]), nie odwrotnie",
             "Petla musi isc do n-1 (nie n) zeby nie wyjsc poza tablice"
+          ],
+          "algorytmy": [
+            "akumulator-licznik"
           ]
         },
         {
@@ -227,6 +262,11 @@
             "Trzeba pamietac o OSTATNICH schodach (konczacych sie na koncu ciagu) -- dodatkowe sprawdzenie po petli",
             "Gdy a[i] == a[i+1] to jestesmy nadal w schodach (nierosnacy), ale NIE dodajemy progu",
             "Gdy a[i] < a[i+1] to koniec schodow -- nalezy porownac z maksimum i zresetowac licznik"
+          ],
+          "algorytmy": [
+            "akumulator-licznik",
+            "current-max",
+            "najdluzszy-podciag-niemalejacy"
           ]
         },
         {
@@ -241,6 +281,9 @@
           "pulapki": [
             "Trzeba policzyc porownania MIEDZY ELEMENTAMI ciagu, nie wszystkie operacje",
             "W najgorszym przypadku oba porownania (a[i]<a[i+1] i a[i]>a[i+1]) wykonuja sie w kazdej iteracji"
+          ],
+          "algorytmy": [
+            "analiza-zlozonosci"
           ]
         }
       ],
@@ -277,6 +320,12 @@
           "pulapki": [
             "Dwie liczby sa anagramami cyfrowymi gdy po posortowaniu ich cyfr otrzymujemy ten sam ciag",
             "Trzeba porownywac CALY profil cyfrowy, nie tylko zbiory cyfr (np. 112 i 121 sa anagramami, ale 112 i 12 nie)"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach",
+            "iteracja-po-pliku",
+            "akumulator-licznik",
+            "porownywanie-tekstow"
           ]
         },
         {
@@ -291,6 +340,12 @@
           "pulapki": [
             "Liczby moga sie powtarzac w pliku i WSZYSTKIE powtorzenia sie licza",
             "Trzeba znalezc klase anagramow (po posortowaniu cyfr) z najwieksza liczba wystapien we WSZYSTKICH liczbach pliku (obie kolumny)"
+          ],
+          "algorytmy": [
+            "current-max",
+            "iteracja-po-cyfrach",
+            "iteracja-po-pliku",
+            "znajdz-i-policz"
           ]
         }
       ],
@@ -328,6 +383,9 @@
           "zasady_oceniania": "2 pkt - poprawne zestawienie liczby rowerow poszczegolnych typow i posortowanie ze wzgledu na liczby rowerow.\n1 pkt - poprawne zestawienie liczby rowerow poszczegolnych typow bez sortowania.\n0 pkt - inna odpowiedz lub brak odpowiedzi.",
           "pulapki": [
             "Sortowanie po LICZBIE rowerow (rosnaco), nie po nazwie typu"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -342,6 +400,9 @@
           "pulapki": [
             "Wykres musi byc kolumnowy (nie liniowy, nie kolowy)",
             "Trzeba poprawnie opisac osie i tytul wykresu"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -356,6 +417,9 @@
           "pulapki": [
             "Zaokraglenie do 2 miejsc po przecinku -- uzyc ROUND lub formatowania komorek",
             "Funkcja AVERAGEIF pozwala liczyc srednia warunkowo"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -370,6 +434,9 @@
           "pulapki": [
             "Tabela krzyzowa -- wiersze to rodzaje, kolumny to kolory (lub odwrotnie)",
             "COUNTIFS z dwoma warunkami: rodzaj i kolor"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         }
       ],
@@ -408,6 +475,11 @@
           "pulapki": [
             "Trzeba polaczyc tabele naprawa i usluga (JOIN) zeby uzyskac nazwe uslugi",
             "Filtrowanie po nazwie uslugi i numerze rejestracyjnym"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-ORDER-BY",
+            "SQL-WHERE"
           ]
         },
         {
@@ -422,6 +494,12 @@
           "pulapki": [
             "LEFT JOIN zeby uwzglednic firmy bez samochodow (gdyby takie byly)",
             "Sortowanie nierosnaco (DESC) wg liczby samochodow"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -437,6 +515,12 @@
             "Trzeba polaczyc 4 tabele: naprawa -> usluga (cena), naprawa -> pojazd (firma_id), pojazd -> firma (nazwa)",
             "Wydobycie miesiaca z daty: EXTRACT(MONTH FROM data) lub MONTH(data)",
             "Grupowanie po miesiacu"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-WHERE"
           ]
         },
         {
@@ -451,6 +535,13 @@
           "pulapki": [
             "Podzapytanie z HAVING COUNT(*) >= ALL(...) lub ORDER BY COUNT(*) DESC LIMIT 1",
             "Trzeba polaczyc pojazd z firma zeby uzyskac nazwe firmy"
+          ],
+          "algorytmy": [
+            "SQL-GROUP-BY",
+            "SQL-HAVING",
+            "SQL-JOIN",
+            "SQL-aggregacja",
+            "SQL-podzapytanie-niezalezne"
           ]
         },
         {
@@ -466,6 +557,10 @@
             "Starsze niz wyprodukowane 2009 = rok_prod < 2009 (nie <= 2009)",
             "Firmy moga sie powtarzac jesli maja wiele takich samochodow -- trzeba uzyc DISTINCT lub IN",
             "Trzy poziomy zagniezdzen: firma -> pojazd -> naprawa+usluga"
+          ],
+          "algorytmy": [
+            "SQL-WHERE",
+            "SQL-podzapytanie-niezalezne"
           ]
         }
       ],
