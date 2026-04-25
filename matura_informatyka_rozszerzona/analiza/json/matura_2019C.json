@@ -39,6 +39,11 @@
           "pulapki": [
             "Nalezy policzyc WSZYSTKIE wywolania lacznie z pierwszym Rek(2019, 6, 14)",
             "Przeszukiwanie binarne - glebokosc zalezy od ceil(log2(k-p+1))+1"
+          ],
+          "algorytmy": [
+            "rekurencja",
+            "przeszukiwanie-binarne",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -54,6 +59,11 @@
             "div to dzielenie calkowite (zaokraglenie w dol)",
             "Warunek T[s] >= x decyduje o kierunku rekurencji",
             "Koncowy wynik to -1, poniewaz 37 nie wystepuje w tablicy"
+          ],
+          "algorytmy": [
+            "rekurencja",
+            "przeszukiwanie-binarne",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -67,6 +77,10 @@
           "zasady_oceniania": "1 pkt - za wybor poprawnej odpowiedzi D.",
           "pulapki": [
             "Funkcja Rek to wariacja przeszukiwania binarnego - zakres zmniejsza sie o polowe w kazdym kroku"
+          ],
+          "algorytmy": [
+            "przeszukiwanie-binarne",
+            "analiza-zlozonosci"
           ]
         }
       ]
@@ -90,6 +104,10 @@
           "pulapki": [
             "Nalezy pamietac o roznicy miedzy kolumnami parzystymi (dol-gora) i nieparzystymi (gora-dol)",
             "Znak '_' oznacza spacje - nalezy zachowac w wyniku"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "tablica-2D"
           ]
         },
         {
@@ -105,6 +123,9 @@
             "Rozne kierunki odczytu dla kolumn parzystych i nieparzystych",
             "Trzeba poprawnie sledzic pozycje w tablicy zrodlowej i docelowej",
             "n jest wielokrotnoscia k - upraszcza obliczenia"
+          ],
+          "algorytmy": [
+            "tablica-2D"
           ]
         }
       ]
@@ -128,6 +149,13 @@
           "pulapki": [
             "GROUP BY id_ucznia oznacza, ze uczniowie o tym samym imieniu i nazwisku moga miec osobne wiersze",
             "ORDER BY ma dwa kryteria: AVG(ocena), Uczniowie.nazwisko"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-HAVING",
+            "SQL-ORDER-BY",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -142,7 +170,8 @@
           "pulapki": [
             "$A2 blokuje kolumne (poprawne), A2 bez dolara przesuwa sie w prawo (bledne)",
             "$A$2 blokuje i kolumne i wiersz - zawsze wskazuje na te sama komorke"
-          ]
+          ],
+          "algorytmy": []
         },
         {
           "id": "2019C.3.3",
@@ -156,7 +185,8 @@
           "pulapki": [
             "Nalezy rozroznic HTTPS od POP3/IMAP (poczta), DNS (domeny), DHCP (adresy IP)",
             "HTTPS to po prostu HTTP z szyfrowaniem TLS/SSL"
-          ]
+          ],
+          "algorytmy": []
         },
         {
           "id": "2019C.3.4",
@@ -170,6 +200,9 @@
           "pulapki": [
             "Trzeba uwaznie policzyc cyfry binarne - 11001001 (8 cyfr) minus 1111111 (7 cyfr)",
             "Wynik = 74 nalezy poprawnie skonwertowac do roznych systemow liczbowych"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         }
       ]
@@ -181,7 +214,17 @@
       "czesc": 2,
       "kontekst": "Liczby pierwsze to liczby naturalne wieksze od 1, ktore maja dokladnie dwa dzielniki: jedynke i sama siebie.\nDane sa dwa pliki: liczby.txt i pierwsze.txt. Plik liczby.txt zawiera 300 wierszy. W kazdym wierszu tego pliku znajduje sie jedna liczba calkowita dodatnia z zakresu od 1 do 100 000.\nPlik pierwsze.txt zawiera 200 wierszy. W kazdym wierszu tego pliku znajduje sie jedna liczba pierwsza z zakresu od 10 do 1 300 000.\n\nUwaga: pomocnicze pliki liczby_przyklad.txt i pierwsze_przyklad.txt zawieraja dane, ktore mozesz wykorzystac, aby sprawdzic poprawnosc dzialania swojego programu(-ow). Kazdy z nich zawiera po 50 wierszy.\n\nNapisz program(-y), w wyniku dzialania ktorego(-ych) otrzymasz odpowiedzi do ponizszych zadan.",
       "sciezka_danych": "matura_informatyka_rozszerzona/2019_czerwiec/MIN-R2A1P-193_dane/",
-      "pliki_danych": ["liczby.txt", "liczby_przyklad.txt", "pierwsze.txt", "pierwsze_przyklad.txt", "pogoda.txt", "agenci.txt", "oferty.txt", "klienci.txt", "zainteresowanie.txt"],
+      "pliki_danych": [
+        "liczby.txt",
+        "liczby_przyklad.txt",
+        "pierwsze.txt",
+        "pierwsze_przyklad.txt",
+        "pogoda.txt",
+        "agenci.txt",
+        "oferty.txt",
+        "klienci.txt",
+        "zainteresowanie.txt"
+      ],
       "podzadania": [
         {
           "id": "2019C.4.1",
@@ -195,6 +238,11 @@
           "pulapki": [
             "Przedzial otwarty (100; 5000) - NIE zawiera 100 ani 5000",
             "Trzeba zachowac kolejnosc wystepowania w pliku"
+          ],
+          "algorytmy": [
+            "test-pierwszosci",
+            "iteracja-po-pliku",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -209,6 +257,11 @@
           "pulapki": [
             "Odwrocona liczba tez musi byc pierwsza (nie wystarczy palindrom)",
             "Trzeba pamietac o roznym rozmiarze plikow: liczby.txt=300, pierwsze.txt=200"
+          ],
+          "algorytmy": [
+            "test-pierwszosci",
+            "iteracja-po-cyfrach",
+            "iteracja-po-pliku"
           ]
         },
         {
@@ -224,6 +277,11 @@
             "Waga (digital root) to iteracyjna suma cyfr az do jednej cyfry",
             "Waga rowna 1 to te same co N mod 9 == 1 (ale uwaga na N=1: waga=1, N=10: waga=1)",
             "Nalezy przetwarzac plik pierwsze.txt (200 wierszy), nie liczby.txt"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach",
+            "iteracja-po-pliku",
+            "akumulator-licznik"
           ]
         }
       ]
@@ -235,7 +293,9 @@
       "czesc": 2,
       "kontekst": "Wlasciciele ogrodu postanowili zaoszczedzic na oplatach za wode i przed laty zainstalowali zbiornik o pojemnosci 25 000 litrow, w ktorym gromadza wode do podlewania roslin.\n\nPodlewanie roslin woda ze zbiornika i uzupelnianie zbiornika reguluja nastepujace zasady:\n- srednia dobowa temperatura i opady dobowe sa mierzone od godziny 20:00 dnia poprzedniego do godz. 20:00 dnia biezacego,\n- do godziny 20:00 opady uzupelniaja sumarycznie zbiornik w ilosci: 700 * x litrow (gdzie x - opady dobowe w l/m^2), jednak nie wiecej niz do maksymalnej pojemnosci zbiornika,\n- w dni bezdeszczowe dzienne parowanie wody (ubytek) ze zbiornika jest zalezny od sredniej dobowej temperatury T i wynosi: 0,03% * T^1,5 * y litrow (gdzie y - oznacza stan zbiornika z godziny 21:00 dnia poprzedniego w zaokragleniu w gore do pelnych litrow),\n- ogrod jest podlewany w kazdym dniu, w ktorym srednia dobowa temperatura przekroczy 15°C, a jednoczesnie opady dobowe nie przekraczaja 0,6 l/m^2,\n- podlewanie, jesli ma miejsce, jest wykonywane o godz. 20:00,\n- do podlewania zuzywa sie 12 000 litrow wody (1 porcja), jesli srednia dobowa temperatura nie przekracza 30°C, oraz 24 000 litrow wody (2 porcje), jesli srednia dobowa temperatura przekracza 30°C,\n- jesli o godz. 20:00 w dniu, w ktorym nalezy podlac rosliny, w zbiorniku jest za malo wody, jest on tuz przed podlaniem uzupelniany woda z wodociagu do pelna,\n- podlewanie konczy sie o godz. 21:00.\n\n31 marca o godzinie 21:00 zbiornik byl pelen.\nPlik pogoda.txt zawiera dane dotyczace sredniej temperatury oraz wysokosci opadow dobowych w l/m^2 w okresie od 1 kwietnia do 30 wrzesnia 2015 roku.\n\nUwaga: W calym okresie od kwietnia do wrzesnia 2015 roku do zbiornika dolano 743 427 litrow wody - wykorzystaj te informacje do sprawdzenia wynikow swoich obliczen. Wykonujac odpowiednie obliczenia oraz podajac odpowiedzi, wyniki zawsze zaokraglaj w gore do pelnych litrow.",
       "sciezka_danych": "matura_informatyka_rozszerzona/2019_czerwiec/MIN-R2A1P-193_dane/",
-      "pliki_danych": ["pogoda.txt"],
+      "pliki_danych": [
+        "pogoda.txt"
+      ],
       "podzadania": [
         {
           "id": "2019C.5.1",
@@ -249,6 +309,9 @@
           "pulapki": [
             "Trzeba symulowac dzien po dniu od 1 kwietnia, uwzgledniajac parowanie, opady, podlewanie",
             "Zbiornik jest uzupelniany DO PELNA (25000 litrow) przed podlewaniem"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
           ]
         },
         {
@@ -263,6 +326,9 @@
           "pulapki": [
             "Stan zbiornika to wartosc z godziny 21:00 PO podlaniu",
             "Trzeba czytelnie opisac osie i dodac tytul"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
           ]
         },
         {
@@ -278,6 +344,10 @@
             "Oplaty za pelne m^3 zaokraglone W GORE",
             "1 m^3 = 1000 litrow, cena 11,74 zl/m^3",
             "Trzeba poprawnie zsumowac dolana wode w kazdym miesiacu"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa",
+            "arkusz-symulacja-iteracyjna"
           ]
         },
         {
@@ -293,6 +363,9 @@
             "Temperatura 'przekracza' 15 oznacza > 15, nie >= 15",
             "Opady 'nie przekraczaly 0,6' oznacza <= 0,6",
             "Suma dni powinna wyniesc 183 (kwiecien-wrzesien: 30+31+30+31+31+30)"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         }
       ]
@@ -304,7 +377,12 @@
       "czesc": 2,
       "kontekst": "Biuro obrotu nieruchomosci \"Wymarzony Dom\" w swej ofercie ma wiele propozycji mieszkan i domow z calej Polski. Informacje o aktualnych i juz sprzedanych lokalach oraz o agentach, ktorzy zajmuja sie sprzedaza konkretnych nieruchomosci, sa przechowywane w plikach: agenci.txt, oferty.txt, klienci.txt, zainteresowanie.txt.\nKazdy plik ma wiersz naglowkowy. Dane w wierszach rozdzielone sa znakiem tabulacji.\n\nPlik agenci.txt zawiera informacje o agentach pracujacych w biurze: niepowtarzalny identyfikator agenta (Id_agenta), jego imie (Imie) i nazwisko (Nazwisko).\n\nPlik oferty.txt zawiera szczegolowe informacje o kazdej z oferowanych nieruchomosci:\n- unikatowy identyfikator oferty (Id_oferty), ktorego przedostatni znak informuje o rodzaju nieruchomosci (D - dom, M - mieszkanie), a ostatni znak zawiera informacje o tym, czy przy nieruchomosci jest basen (T - tak, N - nie),\n- wojewodztwo (Woj),\n- status oferty (Status): A - aktualna, S - sprzedane,\n- powierzchnia (Pow),\n- liczba pokoi (L_pokoi),\n- liczba lazienek (L_laz),\n- cena sprzedazy (Cena),\n- data zgloszenia oferty sprzedazy nieruchomosci (Data_zglosz, w formacie rrrr-mm-dd),\n- identyfikator agenta (Id_agenta).\n\nPlik klienci.txt zawiera informacje o klientach biura (Id_klienta, Nazwisko, Imie).\n\nPlik zainteresowanie.txt zawiera informacje o tym, ktorymi ofertami interesowali sie klienci biura (Id_oferty, Id_klienta).",
       "sciezka_danych": "matura_informatyka_rozszerzona/2019_czerwiec/MIN-R2A1P-193_dane/",
-      "pliki_danych": ["agenci.txt", "oferty.txt", "klienci.txt", "zainteresowanie.txt"],
+      "pliki_danych": [
+        "agenci.txt",
+        "oferty.txt",
+        "klienci.txt",
+        "zainteresowanie.txt"
+      ],
       "podzadania": [
         {
           "id": "2019C.6.1",
@@ -318,6 +396,12 @@
           "pulapki": [
             "Nalezy zliczyc rekordy w zainteresowanie.txt pogrupowane po Id_oferty",
             "Trzeba polaczyc z agenci.txt przez oferty.txt (Id_agenta)"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -333,6 +417,11 @@
             "Srednia ze WSZYSTKICH ofert (aktualnych i sprzedanych)",
             "Wyniki z dokladnoscia do 2 miejsc po przecinku",
             "Sortowanie alfabetyczne po nazwie wojewodztwa"
+          ],
+          "algorytmy": [
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -348,6 +437,11 @@
             "Tylko MIESZKANIA (M w przedostatnim znaku Id_oferty) z BASENEM (T w ostatnim znaku)",
             "Tylko oferty AKTUALNE (Status = 'A')",
             "Trzeba polaczyc oferty.txt z agenci.txt po Id_agenta"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE",
+            "SQL-funkcje-tekstowe"
           ]
         },
         {
@@ -362,6 +456,12 @@
           "pulapki": [
             "Agenci ktorzy MIELI oferty z 2017 (Data_zglosz rok 2017) ale ZADNEJ nie sprzedali (Status != 'S' lub brak sprzedazy)",
             "Nalezy sprawdzic rok w dacie zgloszenia, nie w dacie sprzedazy"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-LEFT-JOIN-NULL",
+            "SQL-WHERE",
+            "SQL-podzapytanie-niezalezne"
           ]
         },
         {
@@ -378,6 +478,10 @@
             "Co najmniej 2 lazienki (>=2)",
             "Tylko oferty AKTUALNE (Status = 'A')",
             "Trzeba dolaczyc dane agenta z agenci.txt"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE"
           ]
         }
       ]

@@ -40,6 +40,11 @@
             "Bledne wyznaczenie granic przeszukiwania w wyszukiwaniu binarnym",
             "Pominiecie przypadku, gdy element srodkowy jest parzysty - trzeba przesunac prawy koniec",
             "Niezgodnosc miedzy algorytmem a podana zlozonoscia w 1.2"
+          ],
+          "algorytmy": [
+            "przeszukiwanie-binarne",
+            "wyszukiwanie-liniowe",
+            "analiza-zlozonosci"
           ]
         },
         {
@@ -53,6 +58,9 @@
           "zasady_oceniania": "1 pkt -- za poprawna odpowiedz.\n0 pkt -- za podanie odpowiedzi blednej albo brak odpowiedzi.",
           "pulapki": [
             "Odpowiedz musi byc spojnia z algorytmem z zadania 1.1"
+          ],
+          "algorytmy": [
+            "analiza-zlozonosci"
           ]
         }
       ],
@@ -91,6 +99,11 @@
           "pulapki": [
             "Pomylenie kolejnosci DFS (depth-first) z BFS (breadth-first) przy numerowaniu wywolan",
             "Brakujace wywolania to pisz(\"10\",2,2) i pisz(\"11\",2,2) -- analogicznie do lewego poddrzewa"
+          ],
+          "algorytmy": [
+            "rekurencja",
+            "drzewo",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -106,6 +119,10 @@
             "pisz(\"\",3,2) generuje wszystkie 3-znakowe napisy w systemie o podstawie 2 (binarnym) -- 2^3 = 8 napisow",
             "pisz(\"\",2,3) generuje wszystkie 2-znakowe napisy w systemie o podstawie 3 (trojkowym) -- 3^2 = 9 napisow",
             "Pomylenie parametrow n i k: n to dlugosc napisu, k to podstawa"
+          ],
+          "algorytmy": [
+            "rekurencja",
+            "sledzenie-pseudokod"
           ]
         },
         {
@@ -121,6 +138,10 @@
             "Blad o 1 we wzorze -- uzycie k^n zamiast k^(n+1) w liczniku lub pominiecie +1 w sumie",
             "Pominiecie samego pierwszego wywolania przy liczeniu lacznej liczby wywolan",
             "Niezrozumienie ze to suma ciagu geometrycznego: 1 + k + k^2 + ... + k^n"
+          ],
+          "algorytmy": [
+            "rekurencja",
+            "analiza-zlozonosci"
           ]
         }
       ],
@@ -161,6 +182,12 @@
             "COUNT(Stanowisko) liczy wiersze (nie unikalne wartosci) -- COUNT(DISTINCT Stanowisko) liczyloby unikalne",
             "LIKE '*nik' (Access SQL) -- gwiazdka zastepuje dowolny ciag znakow, pasuje do urzedNIK, kierowNIK i analityK (bo 'k' != 'nik'? -- nie, analityk konczy sie na 'tyk' nie 'nik')",
             "W standardowym SQL uzylibysmy % zamiast * w LIKE"
+          ],
+          "algorytmy": [
+            "SQL-aggregacja",
+            "SQL-WHERE",
+            "SQL-GROUP-BY",
+            "SQL-LIKE"
           ]
         },
         {
@@ -176,6 +203,9 @@
             "Blad w mnozeniu binarnym -- latwo o pomylke przy dodawaniu czesciowych iloczynow",
             "630 binarnie to 1001110110, nie 1001010110 (roznica w 5. bicie od lewej)",
             "Trzeba poprawnie konwertowac miedzy systemami: 630 = 21312_4 = 1166_8 = 276_16"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         },
         {
@@ -190,7 +220,8 @@
           "pulapki": [
             "Mylne przekonanie ze DNS ma centralna baze danych",
             "Mylenie koniecznosci zmiany domeny ze zmiana IP -- wystarczy aktualizacja rekordu A w DNS"
-          ]
+          ],
+          "algorytmy": []
         }
       ],
       "sciezka_danych": null,
@@ -230,6 +261,10 @@
             "Pominiecie 1 = 3^0 jako potegi trojki",
             "Potegi trojki do 100000: 1, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683, 59049",
             "Mozna sprawdzac przez wielokrotne dzielenie przez 3 az do 1 lub porownywac z predefiniowana lista"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik"
           ]
         },
         {
@@ -246,6 +281,11 @@
             "Przepelnienie arytmetyczne przy obliczaniu silni wiekszych cyfr (9! = 362880)",
             "Warto predefiniowac tablice silni cyfr 0-9: [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880]",
             "Podawac w kolejnosci wystepowania w pliku, nie rosnacej"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "iteracja-po-cyfrach",
+            "znajdz-i-policz"
           ]
         },
         {
@@ -262,6 +302,11 @@
             "NWD calego ciagu trzeba liczyc kumulacyjnie: NWD(NWD(a,b),c)...",
             "Ciag konczy sie gdy NWD staje sie rowny 1 -- trzeba sledzic biezacy NWD",
             "Pamietac o przypadku brzegowym na koncu pliku"
+          ],
+          "algorytmy": [
+            "NWD-Euklidesa",
+            "iteracja-po-pliku",
+            "current-max"
           ]
         }
       ],
@@ -306,6 +351,9 @@
             "Temperatura >= 20 (nieostra), nie > 20",
             "Opad <= 5 (nieostra), nie < 5",
             "Dotyczy WSZYSTKICH 500 dni, nie tylko pierwszych 300"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -321,6 +369,11 @@
             "Najdluzszy ciag ROSNACEJ temperatury (kazdy dzien wyzszy niz poprzedni), nie najdluzszy ciag w ogole",
             "Ciag 448-455 to 8 kolejnych dni rosnacej temperatury",
             "Szukamy ciagu w calym pliku (500 dni), nie tylko w pierwszych 300"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "najdluzszy-podciag-niemalejacy",
+            "current-max"
           ]
         },
         {
@@ -336,6 +389,9 @@
             "TYLKO pierwsze 300 dni (do wiersza 300), nie wszystkie 500",
             "Sredni opad -- srednia arytmetyczna opadow dla danego rodzaju chmur",
             "10 kategorii chmur (C1-C5 i S1-S5), dni bezchmurne (0) nie sa uwzgledniane"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -353,6 +409,10 @@
             "Kategorii (C/S) nie zmienia sie w trakcie cyklu -- zalezy od temperatury w dniu pojawienia sie chmur (wielkosc 1)",
             "Dzien 1 jest bezchmurny (wielkosc 0) -- to jest warunek poczatkowy",
             "Podpunkt b) i c) dotycza TYLKO pierwszych 300 dni"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "arkusz-agregacja-warunkowa"
           ]
         }
       ],
@@ -395,6 +455,10 @@
           "pulapki": [
             "Wymaga zlaczenia tabel perfumy i sklad (JOIN na id_perfum)",
             "Dokladna nazwa skladnika: 'absolut jasminu' (nie LIKE, tylko dokladne dopasowanie)"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE"
           ]
         },
         {
@@ -410,6 +474,12 @@
             "Znalezienie nazwy perfum o minimalnej cenie wymaga podzapytania lub samozlaczenia (nie wystarczy MIN + GROUP BY)",
             "18 roznych rodzin zapachow w bazie danych",
             "Jezeli dwie perfumy maja ta sama minimalna cene w danej rodzinie -- obydwie sa poprawne"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-podzapytanie-skorelowane"
           ]
         },
         {
@@ -426,6 +496,12 @@
             "Trzeba uzyc LIKE '*paczula*' (Access) lub LIKE '%paczula%' (standard SQL) -- aby wychwycic skladniki jak 'olejek paczulowy'",
             "Wymaga zlaczenia trzech tabel: marki + perfumy + sklad",
             "Lista posortowana ALFABETYCZNIE"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-LIKE",
+            "SQL-ORDER-BY",
+            "SQL-podzapytanie-niezalezne"
           ]
         },
         {
@@ -442,6 +518,11 @@
             "Filtrowanie po DWOCH warunkach: marka = 'Mou De Rosine' AND rodzina = 'orientalno-drzewna'",
             "Wymaga zlaczenia tabel marki i perfumy (JOIN na id_marki)",
             "Sortowanie niemalejaaco (ASC) wedlug ceny po obnizce"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -457,6 +538,12 @@
             "Wymaga GROUP BY id_marki HAVING COUNT(DISTINCT rodzina_zapachow) = 1",
             "Trzeba zlaczyc tabele marki i perfumy",
             "Nie mozna po prostu policzyc perfumow -- trzeba sprawdzic ile ROZNYCH rodzin zapachow ma marka"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-HAVING",
+            "SQL-aggregacja"
           ]
         }
       ],
