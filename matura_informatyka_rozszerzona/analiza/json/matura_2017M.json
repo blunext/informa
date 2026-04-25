@@ -40,6 +40,10 @@
             "Pole musi byc niepodzielne przez p, nie boki",
             "Dla p=2 jest tylko jeden element niepodzielny (7), wiec wynik to 0",
             "Trzeba znalezc dwa NAJWIEKSZE elementy niepodzielne przez p"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "jednoczesne-min-max"
           ]
         },
         {
@@ -57,6 +61,10 @@
             "Algorytm liniowy wymaga sledzenia dwoch najwiekszych (max1, max2)",
             "Jezeli max2 = 0, wynik S = 0 (nie mozna zbudowac prostokata)",
             "Boki musza byc rozne -- max1 != max2 jest gwarantowane przez roznosc elementow A"
+          ],
+          "algorytmy": [
+            "jednoczesne-min-max",
+            "analiza-zlozonosci"
           ]
         }
       ],
@@ -96,6 +104,10 @@
             "Funkcja operuje na reprezentacji binarnej: nieparzyste bity +1, parzyste bity -1",
             "licz(32) = -4 bo 32 = 100000 (same zera po poczatkowej jedynce)",
             "Latwo pomylic div i mod -- div to dzielenie calkowite, mod to reszta"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "rekurencja"
           ]
         },
         {
@@ -110,6 +122,10 @@
           "pulapki": [
             "Latwo pomylic 2^(k-1) z 2^k -- roznica wynika z tego, ze liczymy TAKSE pierwsze wywolanie",
             "Przyklad: licz(13) = 4 wywolania (13->6->3->1), 13 >= 2^3 = 8, wiec k=4 -> x=2^3=8"
+          ],
+          "algorytmy": [
+            "rekurencja",
+            "analiza-zlozonosci"
           ]
         },
         {
@@ -126,6 +142,11 @@
             "licz(x)=0 oznacza rowna liczbe jedynek i zer w zapisie binarnym",
             "128=10000000 (1 jedynka, 7 zer) -> licz(128)=-6, nie pasuje",
             "135=10000111 to najmniejsze x>100 z 4 jedynkami i 4 zerami"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "rekurencja",
+            "konwersja-systemow"
           ]
         }
       ],
@@ -165,6 +186,10 @@
             "ORDER BY z wieloma kolumnami -- pierwsza kolumna ma priorytet",
             "GROUP BY NIE gwarantuje sortowania (to zalezne od implementacji)",
             "Tylko ORDER BY explicite gwarantuje kolejnosc wynikow"
+          ],
+          "algorytmy": [
+            "SQL-ORDER-BY",
+            "SQL-GROUP-BY"
           ]
         },
         {
@@ -180,6 +205,12 @@
             "GROUP BY gwarantuje unikatowe wartosci w kolumnie grupujacej",
             "HAVING COUNT(*) > 1 oznacza ze minimalna wartosc COUNT to 2",
             "NOT IN z podzapytaniem -- wyklucza pesele z dokumenty_zastrzezone"
+          ],
+          "algorytmy": [
+            "SQL-WHERE",
+            "SQL-GROUP-BY",
+            "SQL-HAVING",
+            "SQL-podzapytanie-niezalezne"
           ]
         },
         {
@@ -196,6 +227,9 @@
             "Klucz publiczny NIE pozwala obliczyc klucza prywatnego",
             "E-mail spoofing jest mozliwy -- naglowek Od: nie jest weryfikowany",
             "Kazdy moze zalozyc konto z dowolna nazwa"
+          ],
+          "algorytmy": [
+            "szyfrowanie-klucz-publiczny"
           ]
         }
       ],
@@ -235,6 +269,9 @@
           "pulapki": [
             "Trzeba zsumowac kilogramy po numerze telefonu (SUMIF lub tabela przestawna)",
             "Numer telefonu pelni role identyfikatora klienta"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -250,6 +287,10 @@
             "Trzeba polaczyc dane z cukier.txt z cenami z cennik.txt wg roku",
             "Ceny w cennik.txt maja format z przecinkiem (polski format liczb)",
             "Przychod = suma_kg_w_roku * cena_za_kg_w_roku"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa",
+            "akumulator-suma"
           ]
         },
         {
@@ -265,6 +306,9 @@
             "Dane do wykresu to KILOGRAMY (nie przychod w zlotych)",
             "Os pionowa musi byc prawidlowo wyskalowana",
             "Wykres liniowy lub slupkowy -- oba akceptowalne"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -281,6 +325,10 @@
             "Rabat NIE obejmuje biezacej transakcji (ktora przekracza prog)",
             "Progi rabatowe: 100, 1000, 10000 kg",
             "Zlozony IF z wieloma progami w arkuszu kalkulacyjnym"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "akumulator-suma"
           ]
         },
         {
@@ -297,6 +345,9 @@
             "Zamowienie musi byc >= 4000 kg w PELNYCH paletach",
             "Trzeba symulowac stan magazynu dzien po dniu",
             "Sierpien 2010 -- przypadek brzegowy, gdzie stan nie spada ponizej 5000"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
           ]
         }
       ],
@@ -341,6 +392,13 @@
             "5.1.a wymaga prostego GROUP BY po Rodzaj_meczu",
             "5.1.b wymaga JOIN z tabela druzyny i filtrowania po Miasto",
             "Miasto naszej druzyny musi byc znane z tresci zadania"
+          ],
+          "algorytmy": [
+            "SQL-GROUP-BY",
+            "SQL-JOIN",
+            "SQL-aggregacja",
+            "SQL-WHERE",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -356,6 +414,13 @@
             "Trzeba podac NAZWY druzyn (nie ID), wymaga JOIN",
             "Filtr: Gdzie = 'D' (mecze domowe)",
             "Trzeba znalezc zarowno MAX jak i MIN"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-WHERE",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -372,6 +437,10 @@
             "CASE WHEN do klasyfikacji wynikow (wygrana/remis/przegrana)",
             "Bez filtra daje inna odpowiedz (910/352/1185) -- czesty blad",
             "Filtrowanie dat: BETWEEN '2005-01-01' AND '2008-12-31' lub YEAR(Data_meczu)"
+          ],
+          "algorytmy": [
+            "SQL-WHERE",
+            "SQL-aggregacja-warunkowa"
           ]
         },
         {
@@ -387,6 +456,10 @@
             "Sedziowie bez meczy wymagaja LEFT JOIN lub COUNT z tabeli sedziowie",
             "Czesty blad: COUNT(DISTINCT Nr_licencji) z samej tabeli wyniki = 18 (pomija sedziow bez meczy)",
             "Najprostrze rozwiazanie: SELECT COUNT(*) FROM sedziowie"
+          ],
+          "algorytmy": [
+            "SQL-LEFT-JOIN-NULL",
+            "SQL-aggregacja"
           ]
         }
       ],
@@ -431,6 +504,11 @@
           "pulapki": [
             "Najjasniejszy = MAX wartosci (nie 255!), najciemniejszy = MIN (nie 0!)",
             "Trzeba przeszukac WSZYSTKIE 320*200 = 64000 pikseli"
+          ],
+          "algorytmy": [
+            "tablica-2D",
+            "jednoczesne-min-max",
+            "iteracja-po-pliku"
           ]
         },
         {
@@ -445,6 +523,11 @@
           "pulapki": [
             "Suma wszystkich pikseli moze przekroczyc zakres int (320*200*255 > 16 mln) -- uzyc long/long long",
             "Srednia = suma / (320*200), zaokraglenie do calkowitej"
+          ],
+          "algorytmy": [
+            "tablica-2D",
+            "akumulator-suma",
+            "iteracja-po-pliku"
           ]
         },
         {
@@ -461,6 +544,10 @@
             "Trzeba uzyc wartosci bezwzglednej (abs) roznicy",
             "Piksel liczymy JEDEN RAZ nawet jesli kontrastuje z wieloma sasiadami",
             "Piksele brzegowe maja mniej sasiadow (2 lub 3 zamiast 4) -- tez je liczymy"
+          ],
+          "algorytmy": [
+            "tablica-2D",
+            "akumulator-licznik"
           ]
         },
         {
@@ -477,6 +564,12 @@
             "Bazuje na wynikach z 6.3 -- blad w 6.3 propaguje sie do 6.4",
             "Tablica visited[] zeby nie liczyc pikseli wielokrotnie",
             "Sasiedztwo 4-kierunkowe (nie 8-kierunkowe)"
+          ],
+          "algorytmy": [
+            "graf",
+            "rekurencja",
+            "tablica-2D",
+            "akumulator-licznik"
           ]
         }
       ],

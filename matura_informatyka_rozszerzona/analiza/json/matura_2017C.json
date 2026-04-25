@@ -39,6 +39,10 @@
           "pulapki": [
             "j to ceil(sqrt(n)), NIE floor(sqrt(n)) - petla 'dopoki j*j < n' daje j=4 dla n=10",
             "Procedura zaznacza wielokrotnosci kwadratow (i^2, 2*i^2, ...) jako prawda, reszta zostaje falsz"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "sito-Eratostenesa"
           ]
         },
         {
@@ -53,6 +57,11 @@
           "pulapki": [
             "Liczba wykonan (*) dla danego i = floor(n/i^2), nie floor(n/i)",
             "Wartosc 100*(sum 1/i^2) jest bliska lacznej liczbie wykonan, ale nieco wieksza (54.98 > 53)"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "analiza-zlozonosci",
+            "sito-Eratostenesa"
           ]
         },
         {
@@ -68,6 +77,10 @@
             "Kluczowe spostrzezenie: liczba kwadratowa = suma dwoch liczb z tablicy Czyjest (wielokrotnosci kwadratow)",
             "Algorytm I: O(n^2), Algorytm II: O(n) - obydwa poprawne",
             "Nalezy sprawdzac Czyjest[i] && Czyjest[j], nie wystarczy samo i+j==k"
+          ],
+          "algorytmy": [
+            "przeszukiwanie-binarne",
+            "wyszukiwanie-liniowe"
           ]
         }
       ]
@@ -91,6 +104,11 @@
           "pulapki": [
             "Trzeba sprawdzic czy slowo jest palindromem ZANIM liczymy reg -- jesli nie, to reg=0",
             "AAAAAAAA ma reg=4 (rekurencyjnie: 8->4->2->1 znakow, kazdy palindrom)"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "rekurencja",
+            "porownywanie-tekstow"
           ]
         },
         {
@@ -106,6 +124,10 @@
             "Lustrzana pozycja to w[n+1-i], nie w[n-i] ani w[n-i+1]",
             "Wywolanie rekurencyjne z m (dlugoscia polowki), nie z n/2 ani (n-1)/2 bezposrednio",
             "REG(w,m) a nie REG(w,n-1) -- rekurencja na polowke slowa"
+          ],
+          "algorytmy": [
+            "rekurencja",
+            "porownywanie-tekstow"
           ]
         }
       ]
@@ -129,6 +151,10 @@
           "pulapki": [
             "Trzeba poprawnie przeliczyc wszystkie trzy wartosci na system dziesietny",
             "Pulapka w zdaniu 4: najmniejsza wartosc jest w B (60), nie w C (120)"
+          ],
+          "algorytmy": [
+            "konwersja-systemow",
+            "Horner"
           ]
         },
         {
@@ -144,6 +170,10 @@
             "Kluczowe: odczyty sa jednoczesne, wiec przyrost czasu musi byc taki sam dla wszystkich zegarow",
             "W systemie czworkowym cyfry to 0-3, w szesnastkowym 0-F",
             "Trzeba znalezc wspolny przyrost (30 minut) i z niego wyliczyc brakujace cyfry"
+          ],
+          "algorytmy": [
+            "konwersja-systemow",
+            "Horner"
           ]
         }
       ]
@@ -155,7 +185,9 @@
       "czesc": 2,
       "kontekst": "Plik punkty.txt zawiera 1000 wierszy, w ktorych zapisane sa po dwie liczby calkowite z przedzialu [0, 10000], oddzielone pojedynczym odstepem. Para liczb w kazdym wierszu odpowiada wspolrzednym (x, y) jednego punktu w ukladzie kartezjanskim. W danych punkty sie nie powtarzaja.\n\nNapisz program(y), ktory(e) da(dza) odpowiedzi do ponizszych zadan. Odpowiedzi zapisz w pliku wyniki4.txt.",
       "sciezka_danych": "matura_informatyka_rozszerzona/2017_czerwiec/MIN-DANE-2017/",
-      "pliki_danych": ["punkty.txt"],
+      "pliki_danych": [
+        "punkty.txt"
+      ],
       "podzadania": [
         {
           "id": "2017C.4.1",
@@ -169,6 +201,11 @@
           "pulapki": [
             "OBIE wspolrzedne musza byc pierwsze, nie tylko jedna",
             "Czesty blad: liczenie punktow z przynajmniej jedna wspolrzedna pierwsza (236)"
+          ],
+          "algorytmy": [
+            "test-pierwszosci",
+            "akumulator-licznik",
+            "iteracja-po-pliku"
           ]
         },
         {
@@ -183,6 +220,12 @@
           "pulapki": [
             "Chodzi o ZBIOR cyfr (unikalne cyfry), nie o ich krotnosci",
             "Punkt (829, 2899) latwo przeoczyc -- cyfry {8,2,9} sa takie same w obu liczbach"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach",
+            "akumulator-licznik",
+            "porownywanie-tekstow",
+            "iteracja-po-pliku"
           ]
         },
         {
@@ -197,6 +240,11 @@
           "pulapki": [
             "Trzeba sprawdzic WSZYSTKIE pary punktow (1000*999/2 par)",
             "Zaokraglanie: 13347 lub 13348 sa akceptowane"
+          ],
+          "algorytmy": [
+            "current-max",
+            "wyszukiwanie-liniowe",
+            "iteracja-po-pliku"
           ]
         },
         {
@@ -212,6 +260,10 @@
             "Srodek kwadratu to (0,0), nie (5000,5000) -- wspolrzedne punktow z [0,10000] wiec wiekszosc na zewnatrz",
             "Nalezy odroznic 'wewnatrz' (ostry) od 'na bokach' (granica)",
             "249+2+749=1000 -- kontrola poprawnosci"
+          ],
+          "algorytmy": [
+            "akumulator-licznik",
+            "iteracja-po-pliku"
           ]
         }
       ]
@@ -223,7 +275,9 @@
       "czesc": 2,
       "kontekst": "Firma transportowa dysponuje samochodami ciezarowymi. Informacje o wszystkich samochodach zapisano w pliku transport.txt. Kazdy samochod opisano w osobnym wierszu: marka i model (lacznie jako jedno pole), rok produkcji, cena zakupu w zl, numer rejestracyjny, przebieg w km, data ostatniego remontu. Dane oddzielone tabulatorem, pierwszy wiersz naglowkowy.\n\nAmortyzacja:\n- o 5% ceny zakupu za kazdy rok od roku produkcji\n- o 2% ceny zakupu po przejechaniu kazdych 100 000 km\n\nPrzyklad: samochod z 2015 r., cena 70000 zl, w 2017 r. przy przebiegu 350000 km:\n- amortyzacja czasowa: 5%*70000*2 = 7000 zl\n- amortyzacja przebiegu: 2%*70000*3 = 4200 zl\n- wartosc: 70000-7000-4200 = 58800 zl",
       "sciezka_danych": "matura_informatyka_rozszerzona/2017_czerwiec/MIN-DANE-2017/",
-      "pliki_danych": ["transport.txt"],
+      "pliki_danych": [
+        "transport.txt"
+      ],
       "podzadania": [
         {
           "id": "2017C.5.1",
@@ -237,6 +291,10 @@
           "pulapki": [
             "Amortyzacja przebiegu: floor(przebieg/100000) * 2% * cena -- dzielenie calkowite",
             "Wartosc moze wyjsc ujemna jesli amortyzacja przekracza cene zakupu"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-podstawowa",
+            "current-min"
           ]
         },
         {
@@ -251,6 +309,9 @@
           "pulapki": [
             "Wyluzkanie marki: pierwsza czesc pola Marka_i_model (przed spacja)",
             "Sredni przebieg zaokraglony do calkowitej -- AVERAGEIF lub SUMIF/COUNTIF"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -265,6 +326,9 @@
           "pulapki": [
             "COUNTIFS z dwoma warunkami: marka + rok produkcji",
             "Mozna uzyc tabeli przestawnej lub formuly LICZ.WARUNKI (COUNTIFS)"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -279,6 +343,10 @@
           "pulapki": [
             "Dzien odniesienia to 1 STYCZNIA 2017 (nie koniec roku, nie dzisiejszy dzien)",
             "Trzy samochody Iveco maja taka sama date remontu (708 dni)"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-podstawowa",
+            "current-max"
           ]
         }
       ]
@@ -290,7 +358,11 @@
       "czesc": 2,
       "kontekst": "Sklep internetowy prowadzi sprzedaz programow komputerowych roznych firm. Wiekszosc oprogramowania oferowana jest w pakietach po kilka programow. Dane w trzech plikach (tab-separated, naglowek w 1 wierszu):\n\nprogramy.txt: Id_programu, program, rodzaj, cena (w zl).\npakiety.txt: Id_pakietu, nazwa_pakietu, firma.\nzestawy.txt: Id_pakietu, Id_programu (relacja wiele-do-wielu).\n\nPrzykladowe dane:\nprogramy.txt: 1 Photoshop grafika 890; 11 Word edytor dokumentow tekstowych 120; 21 Calc arkusz kalkulacyjny 0\npakiety.txt: 11 Adobe Creative Adobe Systems; 21 MicroStation Bentley; 31 BadCopy JustSoft\nzestawy.txt: 24 64; 24 65; 17 30",
       "sciezka_danych": "matura_informatyka_rozszerzona/2017_czerwiec/MIN-DANE-2017/",
-      "pliki_danych": ["pakiety.txt", "programy.txt", "zestawy.txt"],
+      "pliki_danych": [
+        "pakiety.txt",
+        "programy.txt",
+        "zestawy.txt"
+      ],
       "podzadania": [
         {
           "id": "2017C.6.1",
@@ -305,6 +377,13 @@
             "Filtr rodzaju: 'edytor dokumentow tekstowych' (dokladne dopasowanie)",
             "HAVING COUNT >= 2, nie > 2",
             "Czesty blad: pokazanie programow we wszystkich pakietach zamiast >= 2"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE",
+            "SQL-GROUP-BY",
+            "SQL-HAVING",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -319,6 +398,10 @@
           "pulapki": [
             "Uzyto slowo 'zarzadzanie' -- moze byc czesc dluzszego opisu rodzaju (LIKE '%zarzadzanie%')",
             "DISTINCT na nazwach pakietow -- jeden pakiet moze zawierac wiele programow z 'zarzadzanie'"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-LIKE"
           ]
         },
         {
@@ -333,6 +416,12 @@
           "pulapki": [
             "Wartosc pakietu = SUM(cena) z JOIN zestawy-programy, pogrupowane po pakiecie",
             "ORDER BY DESC LIMIT 3 (lub TOP 3)"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -347,6 +436,10 @@
           "pulapki": [
             "NOT IN (SELECT Id_programu FROM zestawy) lub LEFT JOIN ... WHERE z.Id_programu IS NULL",
             "Dokladnie 5 programow nie nalezy do zadnego pakietu"
+          ],
+          "algorytmy": [
+            "SQL-LEFT-JOIN-NULL",
+            "SQL-podzapytanie-niezalezne"
           ]
         },
         {
@@ -361,6 +454,12 @@
           "pulapki": [
             "Pakiet musi miec ZAROWNO darmowe (cena=0) JAK I komercyjne (cena>0) programy",
             "Warunkowe zliczanie: SUM(CASE WHEN cena=0 THEN 1 ELSE 0 END) + HAVING oba > 0"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-HAVING",
+            "SQL-aggregacja-warunkowa"
           ]
         }
       ]
