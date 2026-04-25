@@ -44,7 +44,11 @@
             "czasowy_min": 5,
             "zlozonosc": 1,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "konwersja-systemow",
+            "porownywanie-tekstow"
+          ]
         },
         {
           "id": "2021P.1.2",
@@ -63,7 +67,11 @@
             "czasowy_min": 15,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "konwersja-systemow",
+            "iteracja-po-cyfrach"
+          ]
         }
       ]
     },
@@ -91,7 +99,12 @@
             "czasowy_min": 8,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "bisekcja",
+            "pierwiastek-kwadratowy"
+          ]
         },
         {
           "id": "2021P.2.2",
@@ -110,7 +123,11 @@
             "czasowy_min": 10,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "analiza-zlozonosci",
+            "bisekcja"
+          ]
         }
       ]
     },
@@ -138,7 +155,10 @@
             "czasowy_min": 5,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "sledzenie-pseudokod"
+          ]
         },
         {
           "id": "2021P.3.2",
@@ -157,7 +177,10 @@
             "czasowy_min": 5,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "sledzenie-pseudokod"
+          ]
         },
         {
           "id": "2021P.3.3",
@@ -176,7 +199,10 @@
             "czasowy_min": 5,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "konwersja-systemow"
+          ]
         },
         {
           "id": "2021P.3.4",
@@ -195,7 +221,11 @@
             "czasowy_min": 5,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "SQL-WHERE",
+            "SQL-aggregacja"
+          ]
         }
       ]
     },
@@ -223,7 +253,11 @@
             "czasowy_min": 15,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik"
+          ]
         },
         {
           "id": "2021P.4.2",
@@ -243,7 +277,13 @@
             "czasowy_min": 20,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-suma",
+            "current-max",
+            "current-min"
+          ]
         },
         {
           "id": "2021P.4.3",
@@ -262,7 +302,13 @@
             "czasowy_min": 20,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "current-max",
+            "current-min",
+            "znajdz-i-policz"
+          ]
         }
       ]
     },
@@ -290,7 +336,10 @@
             "czasowy_min": 10,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
+          ]
         },
         {
           "id": "2021P.5.2",
@@ -309,7 +358,10 @@
             "czasowy_min": 20,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
+          ]
         },
         {
           "id": "2021P.5.3",
@@ -328,7 +380,10 @@
             "czasowy_min": 10,
             "zlozonosc": 1,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
+          ]
         },
         {
           "id": "2021P.5.4",
@@ -349,7 +404,11 @@
             "czasowy_min": 25,
             "zlozonosc": 3,
             "trudnosc": 3
-          }
+          },
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa",
+            "arkusz-symulacja-iteracyjna"
+          ]
         }
       ]
     },
@@ -377,7 +436,12 @@
             "czasowy_min": 5,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-aggregacja",
+            "SQL-ORDER-BY"
+          ]
         },
         {
           "id": "2021P.6.2",
@@ -396,7 +460,13 @@
             "czasowy_min": 10,
             "zlozonosc": 2,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja"
+          ]
         },
         {
           "id": "2021P.6.3",
@@ -416,7 +486,13 @@
             "czasowy_min": 15,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-podzapytanie-skorelowane",
+            "SQL-funkcje-tekstowe"
+          ]
         },
         {
           "id": "2021P.6.4",
@@ -435,7 +511,12 @@
             "czasowy_min": 15,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "SQL-LEFT-JOIN-NULL",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja"
+          ]
         },
         {
           "id": "2021P.6.5",
@@ -455,7 +536,13 @@
             "czasowy_min": 20,
             "zlozonosc": 3,
             "trudnosc": 3
-          }
+          },
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-HAVING",
+            "SQL-aggregacja"
+          ]
         },
         {
           "id": "2021P.6.6",
@@ -474,7 +561,13 @@
             "czasowy_min": 10,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-HAVING",
+            "SQL-aggregacja"
+          ]
         }
       ]
     }

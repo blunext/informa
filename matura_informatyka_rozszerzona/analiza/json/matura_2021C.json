@@ -44,7 +44,11 @@
             "czasowy_min": 10,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "zachlanne",
+            "sledzenie-pseudokod"
+          ]
         },
         {
           "id": "2021C.1.2",
@@ -64,7 +68,11 @@
             "czasowy_min": 15,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "zachlanne",
+            "pierwiastek-kwadratowy"
+          ]
         }
       ]
     },
@@ -93,7 +101,11 @@
             "czasowy_min": 15,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "rekurencja"
+          ]
         },
         {
           "id": "2021C.2.2",
@@ -112,7 +124,11 @@
             "czasowy_min": 10,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "analiza-zlozonosci",
+            "rekurencja"
+          ]
         }
       ]
     },
@@ -140,7 +156,10 @@
             "czasowy_min": 3,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "sledzenie-pseudokod"
+          ]
         },
         {
           "id": "2021C.3.2",
@@ -159,7 +178,10 @@
             "czasowy_min": 3,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "konwersja-systemow"
+          ]
         },
         {
           "id": "2021C.3.3",
@@ -179,7 +201,13 @@
             "czasowy_min": 5,
             "zlozonosc": 1,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-WHERE",
+            "SQL-aggregacja"
+          ]
         }
       ]
     },
@@ -190,7 +218,10 @@
       "czesc": 2,
       "kontekst": "W pliku napisy.txt znajduje sie 1000 wierszy po 50 znakow (duzych liter angielskiego alfabetu oraz cyfr).\n\nNapisz program(y), ktory(e) da(dza) odpowiedzi do ponizszych zadan. Odpowiedzi zapisz w pliku wyniki4.txt, a kazda odpowiedz poprzedz numerem oznaczajacym odpowiednie zadanie.\n\nUwaga: Plik przyklad.txt zawiera dane przykladowe spelniajace warunki zadania. Odpowiedzi dla danych z pliku przyklad.txt sa podane pod pytaniami.",
       "sciezka_danych": "matura_informatyka_rozszerzona/2021_czerwiec/DANE/",
-      "pliki_danych": ["napisy.txt", "przyklad.txt"],
+      "pliki_danych": [
+        "napisy.txt",
+        "przyklad.txt"
+      ],
       "podzadania": [
         {
           "id": "2021C.4.1",
@@ -209,7 +240,11 @@
             "czasowy_min": 10,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik"
+          ]
         },
         {
           "id": "2021C.4.2",
@@ -228,7 +263,10 @@
             "czasowy_min": 10,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "iteracja-po-pliku"
+          ]
         },
         {
           "id": "2021C.4.3",
@@ -248,7 +286,11 @@
             "czasowy_min": 20,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "porownywanie-tekstow"
+          ]
         },
         {
           "id": "2021C.4.4",
@@ -269,7 +311,12 @@
             "czasowy_min": 20,
             "zlozonosc": 2,
             "trudnosc": 3
-          }
+          },
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "iteracja-po-cyfrach",
+            "konwersja-systemow"
+          ]
         }
       ]
     },
@@ -298,7 +345,11 @@
             "czasowy_min": 15,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna",
+            "arkusz-agregacja-podstawowa"
+          ]
         },
         {
           "id": "2021C.5.2",
@@ -317,7 +368,10 @@
             "czasowy_min": 15,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
+          ]
         },
         {
           "id": "2021C.5.3",
@@ -337,7 +391,10 @@
             "czasowy_min": 10,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
+          ]
         },
         {
           "id": "2021C.5.4",
@@ -358,7 +415,10 @@
             "czasowy_min": 25,
             "zlozonosc": 3,
             "trudnosc": 3
-          }
+          },
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
+          ]
         }
       ]
     },
@@ -369,7 +429,11 @@
       "czesc": 2,
       "kontekst": "Pewna rozglosnia radiowa postanowila podsumowac wakacje 2017 roku pod wzgledem liczby koncertow w lipcu i sierpniu. Dane zostaly zgromadzone w plikach: zespoly.txt, miasta.txt, koncerty.txt. Pierwszy wiersz kazdego z plikow jest wierszem naglowkowym, a dane w wierszach sa rozdzielone srednikami.\n\nPlik zespoly.txt zawiera: id_zespolu, nazwa, liczba_artystow.\nPlik miasta.txt zawiera: kod_miasta (kod pocztowy), miasto, wojewodztwo.\nPlik koncerty.txt zawiera: id (identyfikator koncertu), id_zespolu, kod_miasta, data (rrrr-mm-dd).",
       "sciezka_danych": "matura_informatyka_rozszerzona/2021_czerwiec/DANE/",
-      "pliki_danych": ["zespoly.txt", "miasta.txt", "koncerty.txt"],
+      "pliki_danych": [
+        "zespoly.txt",
+        "miasta.txt",
+        "koncerty.txt"
+      ],
       "podzadania": [
         {
           "id": "2021C.6.1",
@@ -388,7 +452,11 @@
             "czasowy_min": 5,
             "zlozonosc": 1,
             "trudnosc": 1
-          }
+          },
+          "algorytmy": [
+            "SQL-WHERE",
+            "SQL-aggregacja"
+          ]
         },
         {
           "id": "2021C.6.2",
@@ -407,7 +475,12 @@
             "czasowy_min": 15,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja"
+          ]
         },
         {
           "id": "2021C.6.3",
@@ -427,7 +500,13 @@
             "czasowy_min": 15,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja",
+            "SQL-ORDER-BY"
+          ]
         },
         {
           "id": "2021C.6.4",
@@ -446,7 +525,11 @@
             "czasowy_min": 10,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "SQL-podzapytanie-niezalezne",
+            "SQL-WHERE"
+          ]
         },
         {
           "id": "2021C.6.5",
@@ -466,7 +549,12 @@
             "czasowy_min": 15,
             "zlozonosc": 2,
             "trudnosc": 2
-          }
+          },
+          "algorytmy": [
+            "SQL-aggregacja-warunkowa",
+            "SQL-GROUP-BY",
+            "SQL-HAVING"
+          ]
         }
       ]
     }

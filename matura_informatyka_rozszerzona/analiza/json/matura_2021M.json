@@ -40,6 +40,9 @@
             "d(n) = 9999 - n, wiec |n - d(n)| = |2n - 9999|",
             "Minimum dla n=5000 lub 4999 (roznica = 1), NIE dla 5555 (roznica = 1111)",
             "Maksimum dla n=8999 (roznica = 7999), NIE dla 9000 (niedozwolone bo cyfra 9)"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach"
           ]
         },
         {
@@ -56,6 +59,10 @@
             "Budowanie wyniku wymaga sledzenia pozycji (potegi 10)",
             "Alternatywna metoda: 999...9 - n dziala ale wymaga obliczenia liczby cyfr",
             "Petla while n > 0 z mod 10 / div 10 to standardowy wzorzec ekstrakcji cyfr"
+          ],
+          "algorytmy": [
+            "iteracja-po-cyfrach",
+            "Horner"
           ]
         }
       ],
@@ -94,6 +101,10 @@
             "Dla x=30: 30 przesuwa sie az na szczyt (do T[1]) -- 3 zamiany",
             "Leniwa ewaluacja: jesli (s div 2) >= 1 jest FALSE, drugi warunek nie jest sprawdzany",
             "Indeksowanie rodzica: s div 2 (dzielenie calkowite)"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "drzewo"
           ]
         },
         {
@@ -110,6 +121,10 @@
             "Kazde wstawienie moze wymagac wielu zamian (sift-up az do korzenia)",
             "Latwo sie pomylic przy recznym sledzeniu -- warto rysowac drzewo",
             "Wynik to kopiec max: T[1] >= T[2], T[1] >= T[3], itd."
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "drzewo"
           ]
         },
         {
@@ -126,6 +141,10 @@
             "Liczba SPRAWDZEN warunku = liczba zamian + 1 (ostatnie sprawdzenie konczy petle)",
             "k=16: 4 zamiany + 1 sprawdzenie konczace = 5",
             "k=1025: 10 zamian + 1 = 11 (bo log2(1025) ~ 10.0)"
+          ],
+          "algorytmy": [
+            "analiza-zlozonosci",
+            "drzewo"
           ]
         }
       ],
@@ -165,6 +184,10 @@
             "f(n) z warunkiem n > 0: f(0) i f(-1) nic nie wypisuja (brak bloku else)",
             "f(8): rekurencja konczy sie na f(0) ktore nic nie drukuje -- NIE drukuje '0 0'",
             "f(5): wypisuje n PRZED i PO rekurencji, ale rozne poziomy daja rozne wartosci"
+          ],
+          "algorytmy": [
+            "sledzenie-pseudokod",
+            "rekurencja"
           ]
         },
         {
@@ -181,6 +204,9 @@
             "(A9)_16: A=10, wiec 10*16+9=169, nie np. 109",
             "(1111)_4: to NIE to samo co (1111)_2 -- system czworkowy",
             "Roznica miedzy (3003)_4 a (C2)_16 to tylko 1 (195 vs 194)"
+          ],
+          "algorytmy": [
+            "konwersja-systemow"
           ]
         },
         {
@@ -197,6 +223,10 @@
             "BETWEEN 2 AND 4 jest inkluzywne -- zawiera 2, 3 i 4 (okladka ma cene 3)",
             "COUNT(cena) liczy wiersze z niepusta cena -- tu 3, nie 2",
             "AVG: srednia z 2 i 8 to 5, nie z wszystkich wartosci"
+          ],
+          "algorytmy": [
+            "SQL-WHERE",
+            "SQL-aggregacja"
           ]
         }
       ],
@@ -236,6 +266,10 @@
             "Trzeba uwzglednic ze USUN zmniejsza dlugosc -- nie wystarczy policzyc DOPISZ",
             "ZMIEN i PRZESUN nie zmieniaja dlugosci napisu",
             "Typowy blad: 563 (tylko DOPISZ bez USUN)"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik"
           ]
         },
         {
@@ -251,6 +285,11 @@
             "Trzeba sledzic najdluzszy ciag KOLEJNYCH instrukcji tego samego typu",
             "Nie chodzi o najczestszy typ ogolnie, lecz o najdluzszy ciag bez przerw",
             "ZMIEN 7 = siedem instrukcji ZMIEN pod rzad"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik",
+            "current-max"
           ]
         },
         {
@@ -266,6 +305,11 @@
             "Trzeba filtrowac TYLKO instrukcje DOPISZ (nie ZMIEN, PRZESUN)",
             "Trzeba zliczyc czestosci LITER w instrukcjach DOPISZ, nie wszystkich znakow",
             "Za odpowiedz 36 lub 38 (blad o 1): 1 pkt za liczbe zamiast 2"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "akumulator-licznik",
+            "current-max"
           ]
         },
         {
@@ -282,6 +326,11 @@
             "USUN zmniejsza dlugosc napisu -- trzeba uwzglednic przy indeksowaniu",
             "ZMIEN zamienia ostatnia litere -- napis musi byc niepusty",
             "Wynik to tekst literacki (poczatek Wiedzmina) -- mozna uzyc do weryfikacji"
+          ],
+          "algorytmy": [
+            "iteracja-po-pliku",
+            "wyszukiwanie-wzorca-naiwne",
+            "lista-dynamiczna"
           ]
         }
       ],
@@ -325,6 +374,10 @@
             "Srednie zuzycie NA OSOBE -- trzeba dzielic laczne zuzycie przez liczbe osob (2 cyfry z kodu)",
             "Zaokraglenie do 2 miejsc po przecinku",
             "Sortowanie NIEROSNACO (malejaco) wedlug sredniej"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-podstawowa",
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -340,6 +393,9 @@
             "17 dzielnic Warszawy -- trzeba poprawnie zagregowac po 3-literowym kodzie",
             "Kod dzielnicy to ostatnie 3 znaki kodu klienta",
             "Suma calkowitego zuzycia = suma 12 miesiecy dla wszystkich klientow z danej dzielnicy"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -355,6 +411,9 @@
             "Trzeba najpierw zsumowac zuzycie per dzielnica per miesiac, potem wziac MAX",
             "Nie chodzi o MAX z calego roku, lecz MAX z 12 miesiecznych sum",
             "Alternatywnie: pelna tabela 17x12 z zaznaczonym MAX -- za to 1 pkt"
+          ],
+          "algorytmy": [
+            "arkusz-agregacja-warunkowa"
           ]
         },
         {
@@ -371,6 +430,9 @@
             "Lipiec to miesiac z najwyzszym zuzyciem -- przekroczy 160000 jako pierwszy",
             "Trzeba liczyc od danych 2019, nie 2020",
             "Wykres musi miec poprawny opis osi i tytul (1 pkt za opis)"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
           ]
         },
         {
@@ -386,6 +448,9 @@
             "Limit rosnie o 1000 m^3 rocznie od 2021 (160000, 161000, 162000, ...)",
             "W 2035 limit = 160000 + 15*1000 = 175000",
             "Zuzycie nadal rosnie 1% rocznie -- trzeba porownac rosnace zuzycie z rosnacym limitem"
+          ],
+          "algorytmy": [
+            "arkusz-symulacja-iteracyjna"
           ]
         }
       ],
@@ -427,6 +492,12 @@
             "Trzeba uwzglednic rok dolaczenia = 2018 (WHERE YEAR(data_dolaczenia) = 2018 lub LIKE '2018%')",
             "Bez warunku roku: inna kolejnosc i inne liczby (za to 1 pkt)",
             "TOP 5 / LIMIT 5 po ORDER BY COUNT(*) DESC"
+          ],
+          "algorytmy": [
+            "SQL-WHERE",
+            "SQL-GROUP-BY",
+            "SQL-ORDER-BY",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -443,6 +514,12 @@
             "Trzeba zlaczyc jednostki z klasy (JOIN) zeby miec strzal per jednostka",
             "SUM(strzal) z GROUP BY nazwa klasy",
             "4 klasy zawieraja 'elf': ciemny elf, elfi czarodziej, lesny elf, wysoki elf-gwardzista"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-LIKE",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -459,6 +536,11 @@
             "Gracze moga miec inne jednostki ale nie artylerzystow",
             "Sortowanie ASC po id_gracza",
             "20 wynikow -- latwo pominac lub dodac nadmiarowy"
+          ],
+          "algorytmy": [
+            "SQL-LEFT-JOIN-NULL",
+            "SQL-podzapytanie-niezalezne",
+            "SQL-ORDER-BY"
           ]
         },
         {
@@ -475,6 +557,12 @@
             "Trzeba JOIN jednostki z klasy zeby miec szybkosc",
             "23 rozne klasy w wyniku -- trzeba wymieniac wszystkie",
             "Lekki jezdziec dominuje (19 jednostek) -- duza szybkosc"
+          ],
+          "algorytmy": [
+            "SQL-JOIN",
+            "SQL-WHERE",
+            "SQL-GROUP-BY",
+            "SQL-aggregacja"
           ]
         },
         {
@@ -492,6 +580,12 @@
             "Z udzialem Polakow != WYLACZNIE Polakow -- wystarczy ze JEDEN gracz z Polski uczestniczy",
             "Nie liczyc tej samej bitwy dwukrotnie jesli 2 Polakow w niej uczestniczy",
             "NAJTRUDNIEJSZE zadanie -- wymaga COUNT DISTINCT na zlaczeniu wielu tabel"
+          ],
+          "algorytmy": [
+            "SQL-podzapytanie-skorelowane",
+            "SQL-JOIN",
+            "SQL-aggregacja",
+            "SQL-GROUP-BY"
           ]
         }
       ],
