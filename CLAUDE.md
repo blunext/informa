@@ -69,6 +69,12 @@ analiza/
 │   │                              # No PDF needed — each subtask is standalone and solvable
 │   ├── matura_indeks.json         # **Cross-reference index** for all 641 subtasks across 30 exams
 │   │                              # Filter by typ_zadania, kategoria, rok — instant access
+│   ├── algorytmy_rejestr.json     # **65 algorytmów w 4 kategoriach** — kanoniczny słownik dla
+│   │                              # pola `algorytmy` w matura_*.json (faza 1, 2026-04).
+│   │                              # 26 klasyczne + 7 techniki + 6 struktury + 26 wzorce.
+│   │                              # 38 z linkiem do podstawy programowej 2024 (Dz.U. 2024 poz. 1019),
+│   │                              # 27 wzorców CKE-pragmatycznych (iteracja-po-pliku, akumulator-*,
+│   │                              # SQL-*, arkusz-*) bez direct linku do podstawy.
 │   ├── ranking_tematow.csv        # Topic frequency matrix: 21 topics × 11 years
 │   └── ranking_typow_zadan.csv    # Task type frequency: 23 types × 11 years + total points
 │
@@ -113,16 +119,37 @@ analiza/
 │   ├── go.mod, go.sum
 │   └── matura_progress.db        # Student progress (auto-created, .gitignore)
 │
-└── rozwiazania_wzorcowe/          # Model solutions for real past exam problems
-    ├── implementacja_cpp.md       # C++ implementations (e.g., 2024 Zad.3)
-    ├── sql_zapytania.md           # SQL queries (e.g., 2023 Zad.7)
-    ├── teoria_algorytmy.md        # Theory/tracing (e.g., 2025 Zad.1)
-    └── arkusz_kalkulacyjny.md     # Spreadsheet (e.g., 2023 Zad.6)
+├── rozwiazania_wzorcowe/          # Model solutions for real past exam problems
+│   ├── implementacja_cpp.md       # C++ implementations (e.g., 2024 Zad.3)
+│   ├── sql_zapytania.md           # SQL queries (e.g., 2023 Zad.7)
+│   ├── teoria_algorytmy.md        # Theory/tracing (e.g., 2025 Zad.1)
+│   └── arkusz_kalkulacyjny.md     # Spreadsheet (e.g., 2023 Zad.6)
+│
+├── RANKING_ALGORYTMOW.md          # **Raport pedagogiczny algorytmów** (faza 1, 2026-04, 336 linii).
+│                                  # TIER 1/2/3 algorytmów, heatmapa rok×algorytm, top kombinacje,
+│                                  # algorytmy z podstawy programowej NIE testowane przez CKE.
+│                                  # Generowany skryptem — reproducible po dodaniu nowych roczników.
+│
+└── scripts/
+    ├── validate_algorytmy.py      # Walidator klasyfikacji algorytmów (sprawdza pole algorytmy
+    │                              # we wszystkich matura_*.json względem rejestru, statystyki użycia)
+    └── generate_ranking.py        # Generator RANKING_ALGORYTMOW.md z 30 plików JSON + rejestru
 ```
+
+### Klasyfikacja algorytmów (faza 1 ukończona 2026-04-25)
+
+Wszystkie 641 podzadań w `matura_*.json` ma pole `algorytmy: [...]` z tagami z zamkniętego rejestru `algorytmy_rejestr.json`.
+
+- **Pokrycie**: 604/641 podzadań (94.2%) z tagami, 1456 wystąpień łącznie, średnio 2.41 tagu/podzadanie.
+- **TIER 1 (16 algorytmów ≥30 wystąpień) pokrywa 93.2% punktów na maturze** — patrz `analiza/RANKING_ALGORYTMOW.md`. Top 5: `iteracja-po-pliku`, `SQL-JOIN`, `SQL-aggregacja`, `akumulator-licznik`, `sledzenie-pseudokod`.
+- **4 algorytmy z podstawy programowej NIE testowane przez CKE 2014-2025**: `fraktale-rekurencyjne`, `najdluzszy-wspolny-podciag` (LCS), `podciag-najwieksza-suma` (Kadane), `metoda-wstepujaca-zstepujaca`.
+- **Walidacja**: `python3 analiza/scripts/validate_algorytmy.py` — sprawdza wszystkie tagi w polu `algorytmy` względem rejestru (exit 0 = OK).
+- **Regeneracja raportu**: `python3 analiza/scripts/generate_ranking.py` po dodaniu nowych roczników.
+- **Faza 2 (NIE zaimplementowana, na później)**: import pola `algorytmy` do `matura.db`, CLI commands typu `cke get --algorytm`, integracja ze `SKILL.md` (filtrowanie zadań po algorytmie), tagowanie 937 ćwiczeń treningowych.
 
 ### Key Analysis Data
 
-- **Complete exam database**: `matura_YYYYS.json` — 30 files (12 maj + 8 czerwiec + 3 probna + 2 przykladowy + 5 other), 641 subtasks, 1500 points total. Each subtask has full text (`tresc`), answer (`odpowiedz`), scoring (`zasady_oceniania`), type (`typ_zadania`), and traps (`pulapki`). Self-contained: no PDF needed to solve any task. ID format: `YYYYS.Z.S` (e.g. `2025M.1.1`, `2024C.3.2`, `2024P.1.1`), where S=session letter (M=maj, C=czerwiec, P=probna, X=przykladowy).
+- **Complete exam database**: `matura_YYYYS.json` — 30 files (12 maj + 8 czerwiec + 3 probna + 2 przykladowy + 5 other), 641 subtasks, 1500 points total. Each subtask has full text (`tresc`), answer (`odpowiedz`), scoring (`zasady_oceniania`), type (`typ_zadania`), traps (`pulapki`), and **`algorytmy: [...]`** (faza 1, 2026-04 — tagi algorytmów z `algorytmy_rejestr.json`). Self-contained: no PDF needed to solve any task. ID format: `YYYYS.Z.S` (e.g. `2025M.1.1`, `2024C.3.2`, `2024P.1.1`), where S=session letter (M=maj, C=czerwiec, P=probna, X=przykladowy).
 - **Cross-reference index**: `matura_indeks.json` — all 641 subtasks indexed by typ_zadania, kategoria, rok. Supports filtering for cross-year practice (e.g., "all SQL tasks" or "all 2025 tasks").
 - **23 task types** in 4 categories: TEORIA (6), IMPLEMENTACJA (8), ARKUSZ (5), SQL (4). All types use canonical prefixed names (e.g., `przetwarzanie_napisy`, `arkusz_symulacja`, `sql_group_by`).
 - **Topic frequency tiers**: TIER 1 (100%): SQL, number ops, file processing, spreadsheet; TIER 2 (73-82%): number systems, recursion, sorting, GCD

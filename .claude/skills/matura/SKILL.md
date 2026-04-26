@@ -497,6 +497,7 @@ W trakcie sesji uczen moze wpisac ponizsze komendy ale tez rozmawiac naturalnie:
 | `zmien temat` | Wyswietl 4 kategorie + 23 typy, uczen wybiera |
 | `podsumowanie` | Postep w biezacej sesji: ile cwiczen, wyniki |
 | `strategia` | Porady egzaminacyjne: Read `matura_informatyka_rozszerzona/analiza/cheatsheets/podczas_egzaminu.md` |
+| `co_najwazniejsze` / `ranking algorytmow` | Read `matura_informatyka_rozszerzona/analiza/RANKING_ALGORYTMOW.md` — TIER 1/2/3 algorytmów z 12 lat CKE. TIER 1 (16 algo) = 93.2% punktów na maturze. |
 | `powtorka` | `./matura exercise review` |
 | `status` | `./matura progress diagnose` — dashboard z rekomendacja, retencja, zaleglosci |
 | `diagnoza [typ]` | `./matura progress diagnose` — analiza powtarzajacych sie bledow |
