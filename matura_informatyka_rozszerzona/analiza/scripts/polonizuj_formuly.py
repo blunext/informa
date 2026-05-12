@@ -48,7 +48,14 @@ def load_warstwa2():
 def is_whitelisted(path: str, warstwa: str) -> bool:
     """Zwraca True jesli sciezka jest na liscie pozwolen dla danej warstwy."""
     p = Path(path)
-    rel = str(p.relative_to(REPO_ROOT)) if p.is_absolute() else path
+    if p.is_absolute():
+        try:
+            rel = str(p.relative_to(REPO_ROOT))
+        except ValueError:
+            # Sciezka poza REPO_ROOT - z definicji nie jest whitelisted
+            return False
+    else:
+        rel = path
     if warstwa in ("1", "all") and rel in WHITELIST_WARSTWA_1:
         return True
     if warstwa in ("2", "all"):
@@ -292,19 +299,98 @@ def normalizuj_separator(path: Path) -> int:
     return 0
 
 
+def run_warstwa1(mapa, apply: bool):
+    total = 0
+    for rel in WHITELIST_WARSTWA_1:
+        path = REPO_ROOT / rel
+        if not path.exists():
+            print(f"SKIP: {rel} (nie istnieje)")
+            continue
+        if not apply:
+            count = sum(len(re.findall(r"\b" + re.escape(en) + r"\s*\(", path.read_text()))
+                        for en in mapa["mapowanie"])
+            print(f"DRY-RUN {rel}: {count} potencjalnych zamian")
+            total += count
+        else:
+            count = polonizuj_md_warstwa1(path, mapa)
+            normalizuj_separator(path)
+            print(f"APPLIED {rel}: {count} zamian")
+            total += count
+    print(f"Warstwa 1: {total} zmian")
+    return total
+
+
+def run_warstwa2(apply: bool):
+    w2 = load_warstwa2()
+    if not apply:
+        print(f"DRY-RUN warstwa 2: {len(w2['zamiany'])} planowanych zamian")
+        return len(w2["zamiany"])
+    total = polonizuj_md_warstwa2(w2["zamiany"])
+    for plik in {z["plik"] for z in w2["zamiany"]}:
+        normalizuj_separator(Path(plik))
+    print(f"Warstwa 2: {total} zamian")
+    return total
+
+
+def run_warstwa3(mapa, apply: bool):
+    total = 0
+    for d in WHITELIST_WARSTWA_3_DIRS:
+        dpath = REPO_ROOT / d
+        if not dpath.exists():
+            print(f"SKIP: {d}")
+            continue
+        for json_file in sorted(dpath.glob("*.json")):
+            if json_file.name == "_meta.json":
+                if apply:
+                    total += polonizuj_json_meta(json_file, mapa)
+            else:
+                if apply:
+                    total += polonizuj_json_cwiczenie(json_file, mapa)
+    print(f"Warstwa 3: {total} zmian")
+    return total
+
+
+def run_warstwa4(mapa, apply: bool):
+    total = 0
+    for rel in WHITELIST_WARSTWA_4:
+        path = REPO_ROOT / rel
+        if not path.exists():
+            continue
+        if not apply:
+            print(f"DRY-RUN {rel}")
+            continue
+        if "tagi_rejestr" in rel:
+            total += polonizuj_tagi_rejestr(path, mapa)
+        elif "algorytmy_rejestr" in rel:
+            total += polonizuj_algorytmy_rejestr(path)
+    print(f"Warstwa 4: {total} zmian")
+    return total
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     g = parser.add_mutually_exclusive_group(required=True)
-    g.add_argument("--dry-run", action="store_true", help="Pokaz diff, nic nie zmieniaj")
-    g.add_argument("--apply", action="store_true", help="Wykonaj zamiany")
+    g.add_argument("--dry-run", action="store_true")
+    g.add_argument("--apply", action="store_true")
     parser.add_argument("--warstwa", choices=["1", "2", "3", "4", "all"], default="all")
     args = parser.parse_args()
 
     mapa = load_mapa()
     print(f"Mapa: {len(mapa['mapowanie'])} funkcji EN->PL")
     print(f"Warstwa: {args.warstwa}, Tryb: {'DRY-RUN' if args.dry_run else 'APPLY'}")
-    # Faza implementacji per warstwa - dodane w kolejnych zadaniach
-    print("TODO: implementuj logike per warstwa")
+
+    apply = args.apply
+    grand_total = 0
+    if args.warstwa in ("1", "all"):
+        grand_total += run_warstwa1(mapa, apply)
+    if args.warstwa in ("2", "all"):
+        grand_total += run_warstwa2(apply)
+    if args.warstwa in ("3", "all"):
+        grand_total += run_warstwa3(mapa, apply)
+    if args.warstwa in ("4", "all"):
+        grand_total += run_warstwa4(mapa, apply)
+
+    print(f"\nTOTAL: {grand_total} zmian")
 
 
 if __name__ == "__main__":

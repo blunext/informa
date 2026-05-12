@@ -167,3 +167,11 @@ def test_separator_obsluguje_warunki_porownan(tmp_path):
     assert '=ZAOKR(3,14; 2)' in content
     # SUMA: 1.5 has period (English decimal), so comma is separator
     assert '=SUMA(A1; B1; 1.5)' in content
+
+
+def test_whitelist_guard_odmawia_edycji_pliku_sql(tmp_path):
+    """Skrypt nie moze edytowac plikow spoza whitelisty."""
+    src = FIXTURES / "fixture_sql_NOT_TOUCH.md"
+    dst = tmp_path / "fixture_sql.md"
+    shutil.copy(src, dst)
+    assert not pf.is_whitelisted(str(dst), "all")
