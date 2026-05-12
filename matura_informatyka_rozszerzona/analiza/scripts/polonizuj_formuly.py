@@ -237,6 +237,56 @@ def polonizuj_json_meta(path: Path, mapa: dict) -> int:
     return 0
 
 
+def polonizuj_tagi_rejestr(path: Path, mapa: dict) -> int:
+    """Rename 7 wpisow w tagi_rejestr.json (centralna lista tagow)."""
+    data = json.loads(path.read_text())
+    if "tagi" not in data:
+        return 0
+    tagi_map = mapa["tagi_rejestr_rename"]
+    new = sorted({_rename_tag(t, tagi_map) for t in data["tagi"]})
+    changes = sum(1 for old in data["tagi"] if old in tagi_map)
+    data["tagi"] = new
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n")
+    return changes
+
+
+def polonizuj_algorytmy_rejestr(path: Path) -> int:
+    """1 linia tekstu opisowego w algorytmy_rejestr.json."""
+    content = path.read_text()
+    stary = "Arkusz: SUMIFS, COUNTIFS, AVERAGEIFS, MAXIFS itp. - agregacja z warunkami."
+    nowy = "Arkusz: SUMA.WARUNKÓW, LICZ.WARUNKI, ŚREDNIA.WARUNKÓW, MAKS.WARUNKÓW itp. - agregacja z warunkami."
+    if stary not in content:
+        return 0
+    content = content.replace(stary, nowy, 1)
+    path.write_text(content)
+    return 1
+
+
+def normalizuj_separator(path: Path) -> int:
+    """Zamienia ',' -> ';' tylko jako separator argumentow formul arkusza.
+
+    Heurystyka: w obrebie formuly arkusza (between `=NAZWA(` i matching `)`),
+    przecinek jest separatorem argumentow jesli NIE jest otoczony cyframi
+    z obu stron (np. 3,14 = liczba dziesietna, zostaje).
+    """
+    content = path.read_text()
+    original = content
+
+    def replace_in_formula(match):
+        body = match.group(2)
+        new_body = re.sub(r"(?<!\d),(?!\d)", ";", body)
+        return "=" + match.group(1) + "(" + new_body + ")"
+
+    # Wzorzec: =NAZWA(zawartosc)  bez zagniezdzonych nawiasow
+    pattern = r"=([A-ZŁŻŚĆŃÓĄĘŹ.]+)\(([^()]*)\)"
+    content = re.sub(pattern, replace_in_formula, content)
+
+    if content != original:
+        path.write_text(content)
+        return 1
+    return 0
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     g = parser.add_mutually_exclusive_group(required=True)

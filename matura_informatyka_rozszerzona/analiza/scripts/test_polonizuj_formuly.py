@@ -121,3 +121,35 @@ def test_warstwa3_polonizuje_meta_json(tmp_path):
     pf.polonizuj_json_meta(f, mapa)
     data = json.loads(f.read_text())
     assert data["tagi_globalne"] == ["SUMA.JEŻELI", "SUMA.WARUNKÓW", "ŚREDNIA.WARUNKÓW", "warunek-liczbowy"]
+
+
+def test_warstwa4_rename_w_tagi_rejestr(tmp_path):
+    """tagi_rejestr.json: rename 7 specyficznych wpisow."""
+    f = tmp_path / "tagi_rejestr.json"
+    f.write_text(json.dumps({
+        "_meta": "central tag registry",
+        "tagi": ["AVERAGEIF", "AVERAGEIFS", "COUNTIF", "COUNTIFS", "SUMIF", "SUMIFS", "VLOOKUP",
+                 "warunek-tekstowy", "warunek-liczbowy", "JOIN", "GROUP_BY"]
+    }))
+    mapa = pf.load_mapa()
+    changes = pf.polonizuj_tagi_rejestr(f, mapa)
+    data = json.loads(f.read_text())
+    for stary in ["AVERAGEIF", "AVERAGEIFS", "COUNTIF", "COUNTIFS", "SUMIF", "SUMIFS", "VLOOKUP"]:
+        assert stary not in data["tagi"]
+    for nowy in ["ŚREDNIA.JEŻELI", "ŚREDNIA.WARUNKÓW", "LICZ.JEŻELI", "LICZ.WARUNKI",
+                 "SUMA.JEŻELI", "SUMA.WARUNKÓW", "WYSZUKAJ.PIONOWO"]:
+        assert nowy in data["tagi"]
+    assert "warunek-tekstowy" in data["tagi"]
+    assert "JOIN" in data["tagi"]
+    assert "GROUP_BY" in data["tagi"]
+    assert changes == 7
+
+
+def test_separator_normalizuje_przecinek_w_formule(tmp_path):
+    """Separator argumentow ',' -> ';' w formulach arkusza."""
+    f = tmp_path / "test.md"
+    f.write_text("Test: =SUMA(A:A, \"X\", B:B) oraz =ZAOKR(3,14; 2)")
+    pf.normalizuj_separator(f)
+    content = f.read_text()
+    assert "=SUMA(A:A; \"X\"; B:B)" in content
+    assert "=ZAOKR(3,14; 2)" in content
