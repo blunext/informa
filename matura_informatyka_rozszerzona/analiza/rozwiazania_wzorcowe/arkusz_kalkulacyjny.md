@@ -287,10 +287,12 @@ Generujemy numery okresow 0, 1, 2, ... i szukamy tego z MAX suma. Data poczatku 
 **Tabela**: 30 wierszy (obszary) x 6 kolumn (lata 2033-2038).
 
 ```
-=COUNTIFS($B$2:$B$9999, $F2, YEAR($A$2:$A$9999), G$1)
+=SUMPRODUCT(($B$2:$B$9999=$F2)*(YEAR($A$2:$A$9999)=G$1))
 ```
 
 gdzie F2 = nazwa obszaru, G1 = rok (2033).
+
+⚠️ **Uwaga**: w COUNTIFS argument `criteria_range` musi byc zakresem komorek — `YEAR(zakres)` jako tablicowa funkcja NIE jest akceptowane (zwroci `#VALUE!`). Dlatego uzywamy SUMPRODUCT, ktore poprawnie obsluguje arytmetyke tablicowa. Alternatywa: kolumna pomocnicza `=YEAR(A2)` + COUNTIFS po niej.
 
 **Wykres**: Kolumnowy **skumulowany** (stacked bar chart).
 - Os X: nazwy obszarow (30)

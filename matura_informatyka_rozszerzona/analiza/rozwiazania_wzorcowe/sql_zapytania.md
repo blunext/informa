@@ -244,22 +244,25 @@ LIMIT 1;
 #### 7.2 — Lazik z najdluzszym okresem pomiarow (2 pkt)
 
 ```sql
-SELECT l.nazwa_lazika,
+-- Wersja Access (dialekt CKE): DateDiff jako roznica dat w dniach
+SELECT TOP 1 l.nazwa_lazika,
        MIN(p.data_pomiaru) AS pierwszy,
        MAX(p.data_pomiaru) AS ostatni
 FROM Pomiary p
-JOIN Laziki l ON p.nr_lazika = l.nr_lazika
+INNER JOIN Laziki l ON p.nr_lazika = l.nr_lazika
 GROUP BY l.nr_lazika, l.nazwa_lazika
-ORDER BY (MAX(p.data_pomiaru) - MIN(p.data_pomiaru)) DESC
-LIMIT 1;
+ORDER BY DateDiff('d', MIN(p.data_pomiaru), MAX(p.data_pomiaru)) DESC;
 ```
 
-Alternatywnie z DATEDIFF:
-```sql
-ORDER BY DATEDIFF(MAX(p.data_pomiaru), MIN(p.data_pomiaru)) DESC
-```
+⚠️ **Wazne — dialekt SQL**: arytmetyka dat zalezy od silnika.
+- **Access** (CKE): `DateDiff('d', d1, d2)` zwraca liczbe dni; bezposrednie `d2 - d1` na typie `Date` tez dziala.
+- **SQLite** (do testow): daty sa typu `TEXT`, wiec `MAX(d) - MIN(d)` daje **bledny wynik** (odejmuje numerycznie prefiks ISO, czyli rok). Trzeba uzyc `julianday`:
+  ```sql
+  ORDER BY (julianday(MAX(p.data_pomiaru)) - julianday(MIN(p.data_pomiaru))) DESC
+  ```
+- **MySQL**: `DATEDIFF(d2, d1)` (uwaga na kolejnosc argumentow w przeciwienstwie do Access).
 
-**Wynik**: Spirit 14, pierwszy: 29.08.2066, ostatni: 25.07.2076
+**Wynik**: Spirit 14, pierwszy: 29.08.2066, ostatni: 25.07.2076 (3618 dni)
 
 **Uwaga**: "Najdluzszy okres" = roznica miedzy datami, NIE liczba pomiarow.
 
@@ -315,7 +318,7 @@ WHERE l.wsp_ladowania LIKE '%S%'
 ORDER BY l.nazwa_lazika;
 ```
 
-**Wynik**: Mariner 14, Mariner 15, Mariner 20, Viking 17, Spirit 7, Spirit 12, Rosetta 1, Rosetta 8, Phoenix 3, Phoenix 13
+**Wynik** (alfabetycznie, zgodnie z `ORDER BY l.nazwa_lazika`): Mariner 14, Mariner 15, Mariner 20, Phoenix 13, Phoenix 3, Rosetta 1, Rosetta 8, Spirit 12, Spirit 7, Viking 17
 
 **Kluczowe**: Rozroznienie miedzy `wsp_ladowania` (skad wyladowal) a `wspolrzedne` w Pomiary (gdzie mierzyl).
 

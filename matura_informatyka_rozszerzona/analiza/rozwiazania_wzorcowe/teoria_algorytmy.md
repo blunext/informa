@@ -10,20 +10,28 @@ Trzy pelne rozwiazania prawdziwych zadan maturalnych — z procesem myslowym, sl
 
 ### Tresc (skrot)
 
-Funkcja `przestaw(n)` przetwarza liczbe parami cyfr:
+Funkcja `przestaw(n)` przetwarza liczbe parami cyfr (oryginalny pseudokod CKE):
 
 ```
-funkcja przestaw(n):
-    jesli n < 10:
-        zwroc n
-    w przeciwnym razie:
-        a <- n mod 10           // ostatnia cyfra
-        b <- (n div 10) mod 10  // przedostatnia cyfra
-        zwroc przestaw(n div 100) * 100 + a * 10 + b
+przestaw(n):
+    r <- n mod 100
+    a <- r div 10
+    b <- r mod 10
+    n <- n div 100
+    jezeli n > 0
+        w <- a + 10*b + 100*przestaw(n)
+    w przeciwnym razie
+        jezeli a > 0
+            w <- a + 10*b
+        w przeciwnym razie
+            w <- b
+    wynikiem jest w
 ```
 
-Efekt: zamienia miejscami cyfry w kazdej parze (od prawej), np. 43657688 -> 34566788.
+Efekt: zamienia miejscami cyfry w kazdej parze (od prawej), np. 316498 -> 134689 (3 wywolania), 43657688 -> 34566788 (4 wywolania).
 Dla nieparzystej liczby cyfr — ostatnia (najstarsza) cyfra zostaje sama.
+
+**Kluczowa obserwacja**: warunek bazowy to `n = 0` po podziale (NIE wywoluje rekurencji), nie `n < 10`. Dla parzystej liczby cyfr: ostatnie wywolanie wpada w galaz `a > 0` (zwraca `a + 10*b`). Dla nieparzystej: ostatnie wywolanie wpada w galaz `a = 0` (zwraca samo `b`).
 
 - **1.1** (3 pkt): Wynik `przestaw(n)` i liczba wywolan dla trzech wartosci n.
 - **1.2** (2 pkt): Prawda/Falsz o liczbie wywolan w zaleznosci od liczby cyfr k.
@@ -31,61 +39,54 @@ Dla nieparzystej liczby cyfr — ostatnia (najstarsza) cyfra zostaje sama.
 
 ### Podejscie — jak myslec
 
-1. **1.1**: Sledzenie krok po kroku. Funkcja bierze ostatnie 2 cyfry (mod 100), zamienia je (a*10+b), i rekurencyjnie przetwarza reszte (n div 100). Liczymy kazde wywolanie, lacznie z pierwszym.
-2. **1.2**: Kazde wywolanie przetwarza 2 cyfry (mod 100, div 100). Dla k cyfr potrzeba ceil(k/2) = (k+1) div 2 wywolan.
-3. **1.3**: Zamiast rekurencji — petla. W kazdej iteracji wyciagamy pare cyfr (mod 100), zamieniamy, dostawiamy do wyniku z odpowiednia potega.
+1. **1.1**: Sledzenie krok po kroku. Funkcja bierze ostatnie 2 cyfry (mod 100), zamienia je (a + 10*b), i rekurencyjnie przetwarza reszte (n div 100). Rekurencja konczy sie gdy po podziale `n = 0`. Liczymy kazde wywolanie, lacznie z pierwszym.
+2. **1.2**: Kazde wywolanie przetwarza dokladnie 2 cyfry (mod 100, potem div 100). Dla k cyfr potrzeba `ceil(k/2) = (k+1) div 2` wywolan: k=6 → 3, k=8 → 4, k=9 → 5, k=15 → 8.
+3. **1.3**: Zamiast rekurencji — petla. W kazdej iteracji wyciagamy pare cyfr (mod 100), zamieniamy, dostawiamy do wyniku z odpowiednia potega 100.
 
 ### Rozwiazanie
 
 #### 1.1 — Sledzenie (3 pkt)
 
-**n = 43657688**:
+**n = 43657688** (8 cyfr → `ceil(8/2) = 4` wywolania):
 
-| Wywolanie | n | a (n%10) | b ((n/10)%10) | Zwraca |
-|---|---|---|---|---|
-| 1 | 43657688 | 8 | 8 | przestaw(436576) * 100 + 88 |
-| 2 | 436576 | 6 | 7 | przestaw(4365) * 100 + 67 |
-| 3 | 4365 | 5 | 6 | przestaw(43) * 100 + 56 |
-| 4 | 43 | 3 | 4 | przestaw(0) * 100 + 34 |
+| Wywolanie | n na wejsciu | r = n mod 100 | a = r div 10 | b = r mod 10 | n po `div 100` | Galaz | Zwraca |
+|---|---|---|---|---|---|---|---|
+| 1 | 43657688 | 88 | 8 | 8 | 436576 | n > 0 → rekurencja | 8 + 80 + 100·przestaw(436576) |
+| 2 | 436576 | 76 | 7 | 6 | 4365 | n > 0 → rekurencja | 7 + 60 + 100·przestaw(4365) |
+| 3 | 4365 | 65 | 6 | 5 | 43 | n > 0 → rekurencja | 6 + 50 + 100·przestaw(43) |
+| 4 | 43 | 43 | 4 | 3 | 0 | n = 0, a > 0 → stop | 4 + 30 = **34** |
 
-Ale przestaw(0) — tu n=0, n < 10, wiec zwraca 0. Czekaj...
+Rozwijanie od dolu: `34` → `56 + 100·34 = 3456` → `67 + 100·3456 = 345667` → `88 + 100·345667 = `**`34566788`**.
 
-Poprawnie: po `n div 100` z 43 dostajemy 0. `przestaw(0) = 0` (bo 0 < 10).
-Wynik: 0 * 100 + 34 = 34, potem 34 * 100 + 56 = 3456, potem 3456 * 100 + 67 = 345667, potem 345667 * 100 + 88 = **34566788**.
-Wywolania: **5** (lacznie z przestaw(0)).
+**n = 316498** (6 cyfr → `ceil(6/2) = 3` wywolania) — przyklad z tresci zadania:
 
-Hmm, sprawdzmy jeszcze raz: przestaw(43) wywoluje przestaw(0) — to dodatkowe wywolanie.
-Wlasciwie: 43657688 -> 436576 -> 4365 -> 43 -> 0. To 4 wywolania wlaczajac oryginalne, ale 0 < 10 to warunek stopu w 5. wywolaniu? Nie, przestaw(43) wywoluje wewnatrz siebie przestaw(43 div 100) = przestaw(0), czyli jest 5 wywolan.
+| Wywolanie | n | r | a | b | n po `div 100` | Zwraca |
+|---|---|---|---|---|---|---|
+| 1 | 316498 | 98 | 9 | 8 | 3164 | 9 + 80 + 100·przestaw(3164) |
+| 2 | 3164 | 64 | 6 | 4 | 31 | 6 + 40 + 100·przestaw(31) |
+| 3 | 31 | 31 | 3 | 1 | 0 | n = 0, a > 0 → `3 + 10 = `**`13`** |
 
-Sprawdzmy z odpowiedzia z JSON: {"wynik": "34566788", "wywolania": 4}.
+Rozwijanie: `13` → `46 + 1300 = 1346` → `89 + 134600 = `**`134689`**.
 
-Cofam sie — moze liczymy inaczej. Jezeli "lacznie z pierwszym wywolaniem" to:
-- przestaw(43657688) — wywolanie 1
-- przestaw(436576) — wywolanie 2
-- przestaw(4365) — wywolanie 3
-- przestaw(43) — wywolanie 4, i tu n=43, n >= 10, wiec a=3, b=4, n div 100 = 0, przestaw(0) = 0 (warunek bazowy, n < 10 → zwraca n).
-
-Jezeli przestaw(0) NIE liczymy jako osobne wywolanie bo jest czescia przypadku bazowego... Nie, kazde wywolanie to wywolanie. Ale moze JSON liczy 4 bo 43657688 ma 8 cyfr, 8/2 = 4.
-
-Odpowiedz CKE mowi 4 wywolania. Oznacza to ze: przestaw(43) dotyczy n=43 >= 10, wiec przetwarza pare i wywoluje przestaw(0), ale samo przestaw(0) to tez wywolanie... Albo CKE liczy tylko "petla" wywolania? Bez roznicy — kluczowe jest podanie tego co CKE oczekuje.
-
-Przyjmijmy odpowiedz CKE: 4 wywolania.
+**Pelna tabela wynikow**:
 
 | n | wynik przestaw(n) | liczba wywolan |
 |---|---|---|
+| 316498 | **134689** | **3** |
 | 43657688 | **34566788** | **4** |
 | 154005710 | **145007501** | **5** |
 | 998877665544321 | **989786756453412** | **8** |
 
-**Jak sledzic szybko**: Podziel cyfry na pary od prawej, zamien cyfry w kazdej parze.
+**Jak sledzic szybko**: podziel cyfry na pary OD PRAWEJ, zamien cyfry w kazdej parze. Kazda para = jedno wywolanie.
 
 ```
-43|65|76|88  ->  34|56|67|88  ->  34566788   (4 pary = 4 wywolania)
-1|54|00|57|10  ->  1|45|00|75|01  ->  145007501  (5 grup = 5 wywolan)
-9|98|87|76|65|54|43|21  ->  9|89|78|67|56|45|34|12  ->  989786756453412  (8 grup = 8 wywolan)
+316498:           31|64|98       ->  13|46|89          ->  134689           (3 wywolania)
+43657688:         43|65|76|88    ->  34|56|67|88       ->  34566788         (4 wywolania)
+154005710:        1|54|00|57|10  ->  1|45|00|75|01     ->  145007501        (5 wywolan, ostatnie wpada w galaz a=0 → zwraca b)
+998877665544321:  9|98|87|76|65|54|43|21 -> 9|89|78|67|56|45|34|12 -> 989786756453412 (8 wywolan)
 ```
 
-**Sztuczka**: Dla nieparzystej liczby cyfr — najstarsza cyfra zostaje sama (to jest ta 1-cyfrowa grupa).
+**Sztuczka**: dla nieparzystej liczby cyfr — najstarsza cyfra zostaje sama (ostatnie wywolanie wpada w galaz `a = 0`, zwraca samo `b`).
 
 #### 1.2 — Prawda/Falsz (2 pkt)
 
@@ -258,11 +259,13 @@ Drzewo:
       10
      /  \
     8    15
-   / \   / \
-  4   ? 12   ?
-   \    / \
-    6  ?  13
+   / \   /
+  4   ? 12
+   \    /
+    6  13
 ```
+
+(`13` to **lewy** syn `12`, bo w arkuszu B[3,5]=13, a `2·3 - 1 = 5` → lewy. Prawy syn 12 oraz prawy syn 8 i 15 sa puste.)
 
 Preorder: 10, 8, 4, 6, 15, 12, 13
 

@@ -282,17 +282,18 @@ Fragment 2-cyfrowy = para kolejnych cyfr (np. cyfry na pozycjach 1-2, 2-3, ..., 
 - **3.4** (2 pkt): Najdluzszy ciag rosnaco-malejacy — podaj pozycje i ciag.
 
 Ciag rosnaco-malejacy (dlugosc >= 4): istnieje `k` (2 <= k <= n-2) takie ze:
-`a[1] < a[2] < ... < a[k]` oraz `a[k] > a[k+1] > ... > a[n]`.
-Rownosc na granicy jest dopuszczalna (np. 5,9,9,4,1 — czesc rosnaca 5,9; malejaca 9,4,1).
+`a[1] < a[2] < ... < a[k]` oraz `a[k+1] > a[k+2] > ... > a[n]`.
+
+**Kluczowe**: czesc rosnaca konczy sie na `a[k]`, malejaca **zaczyna sie od `a[k+1]`** — to dwa rozne elementy ciagu, miedzy ktorymi **NIE MA zadnego warunku**. Mozna miec `a[k] == a[k+1]` (np. 028841 — rosnaca 0,2,8 dlugosci 3 i malejaca 8,4,1 dlugosci 3, czyli n=6, k=3, a[k]=a[k+1]=8) lub nawet `a[k] < a[k+1]`.
 
 ### Podejscie — jak myslec
 
 1. **3.1**: Proste — tworzymy pary, liczymy ile > 90. Uwaga: `> 90`, nie `>= 90`.
 2. **3.2**: Histogram 100 komorek (00-99). Szukamy min i max z warunkiem remisu.
 3. **3.3/3.4**: To najtrudniejsze. Trzeba rozpoznac wzorzec "rośnie-maleje":
-   - Czesc rosnaca: **ostro rosnaca** (a[i] < a[i+1])
-   - Punkt "szczytu": a[k-1] < a[k] >= a[k+1] (rownosc na granicy!)
-   - Czesc malejaca: **ostro malejaca** (a[i] > a[i+1])
+   - Czesc rosnaca: **ostro rosnaca** (`a[i] < a[i+1]`) — `k` elementow
+   - Czesc malejaca: **ostro malejaca** (`a[i] > a[i+1]`) — `n-k` elementow, zaczyna sie od **kolejnego** elementu (a[k+1])
+   - Brak warunku miedzy `a[k]` a `a[k+1]` (moga byc rowne, lub `a[k] < a[k+1]`)
    - Minimum 2 elementy w czesci rosnacej i 2 w malejacej.
 
 ### Rozwiazanie
@@ -336,64 +337,65 @@ int main() {
     // min=88 (80 wyst.), max=65 (124 wyst.)
 
     // --- 3.3: Ciagi rosnaco-malejace z dokladnie 6 cyfr ---
+    // Zgodnie z definicja CKE: k_ros = dlugosc czesci rosnacej (2..4 dla n=6),
+    // czesc malejaca to (6 - k_ros) elementow rozpoczynajacych sie OD KOLEJNEGO indeksu.
+    // Miedzy ostatnim rosnacym (c[i+k_ros-1]) a pierwszym malejacym (c[i+k_ros]) BRAK warunku.
     int cnt_rm = 0;
     for (int i = 0; i <= n - 6; i++) {
-        // Sprawdzamy 6-elementowy podciag c[i..i+5]
-        // Szukamy punktu szczytu k (indeks 1..4, bo min 2 rosnace i 2 malejace)
-        // k = pozycja ostatniego elementu czesci rosnacej (wzgl. poczatku okna)
-        for (int k = 1; k <= 4; k++) {
-            // Czesc rosnaca: c[i]..c[i+k] ostro rosnaca
-            bool rosnaca = true;
-            for (int j = 0; j < k; j++) {
-                if (c[i + j] >= c[i + j + 1]) { rosnaca = false; break; }
+        for (int k_ros = 2; k_ros <= 4; k_ros++) {
+            // Czesc rosnaca: c[i..i+k_ros-1] — wymaga (k_ros - 1) nierownosci '<'
+            bool ros = true;
+            for (int j = 0; j < k_ros - 1; j++) {
+                if (c[i + j] >= c[i + j + 1]) { ros = false; break; }
             }
-            if (!rosnaca) continue;
+            if (!ros) continue;
 
-            // Czesc malejaca: c[i+k]..c[i+5] ostro malejaca
-            bool malejaca = true;
-            for (int j = k; j < 5; j++) {
-                if (c[i + j] <= c[i + j + 1]) { malejaca = false; break; }
+            // Czesc malejaca: c[i+k_ros..i+5] — wymaga (5 - k_ros) nierownosci '>'
+            bool mal = true;
+            for (int j = k_ros; j < 5; j++) {
+                if (c[i + j] <= c[i + j + 1]) { mal = false; break; }
             }
-            if (!malejaca) continue;
+            if (!mal) continue;
 
-            // Znaleziono rosnaco-malejacy z k elementow rosnacej, 6-k malejacej
-            // Warunek: k >= 1 (min 2 w rosnacej: elem 0..k) i k <= 4 (min 2 w malejacej: elem k..5)
             cnt_rm++;
-            break;  // Nie liczymy podwojnie tego samego okna
+            break;  // Nie liczymy podwojnie tego samego okna startujacego od i
         }
     }
     cout << "3.3: " << cnt_rm << endl;  // 214
 
     // --- 3.4: Najdluzszy ciag rosnaco-malejacy ---
+    // Dla kazdego potencjalnego podzialu (i, p) gdzie p = poczatek czesci malejacej:
+    //   - czesc rosnaca: c[i..p-1], musi miec dlugosc >= 2 (czyli p >= i+2) i byc ostro rosnaca
+    //   - czesc malejaca: c[p..q], musi miec dlugosc >= 2 (czyli q >= p+1) i byc ostro malejaca
+    // Brak warunku miedzy c[p-1] a c[p].
+
+    // Preliminuj: len_inc[i] = dlugosc najdluzszego ostro rosnacego lancucha KONCZACEGO sie w i.
+    //            len_dec[i] = dlugosc najdluzszego ostro malejacego lancucha STARTUJACEGO od i.
+    vector<int> len_inc(n, 1), len_dec(n, 1);
+    for (int i = 1; i < n; i++)
+        if (c[i - 1] < c[i]) len_inc[i] = len_inc[i - 1] + 1;
+    for (int i = n - 2; i >= 0; i--)
+        if (c[i] > c[i + 1]) len_dec[i] = len_dec[i + 1] + 1;
+
     int best_pos = -1, best_len = 0;
-
-    for (int i = 0; i < n; i++) {
-        // Znajdz dlugosc czesci rosnacej od i
-        int j = i;
-        while (j + 1 < n && c[j] < c[j + 1]) j++;
-        int rosnaca_do = j;  // szczyt na pozycji j
-
-        // Czesc rosnaca musi miec >= 2 elementy (pozycje i..j, j > i)
-        if (rosnaca_do == i) continue;
-
-        // Znajdz dlugosc czesci malejacej od j
-        while (j + 1 < n && c[j] > c[j + 1]) j++;
-        int malejaca_do = j;
-
-        // Czesc malejaca musi miec >= 2 elementy (pozycje rosnaca_do..j, j > rosnaca_do)
-        if (malejaca_do == rosnaca_do) continue;
-
-        int len = malejaca_do - i + 1;  // dlugosc calego ciagu
-        if (len >= 4 && len > best_len) {
+    for (int p = 1; p < n; p++) {
+        // Czesc rosnaca konczy sie na p-1, ma dlugosc len_inc[p-1] (musi byc >= 2)
+        // Czesc malejaca startuje od p, ma dlugosc len_dec[p] (musi byc >= 2)
+        int r = len_inc[p - 1];
+        int d = len_dec[p];
+        if (r < 2 || d < 2) continue;
+        int len = r + d;
+        int start = p - r;
+        if (len > best_len) {
             best_len = len;
-            best_pos = i;
+            best_pos = start;
         }
     }
 
     cout << "3.4: pozycja=" << best_pos + 1 << " dlugosc=" << best_len << " ciag=";
     for (int j = best_pos; j < best_pos + best_len; j++) cout << c[j];
     cout << endl;
-    // pozycja=2781, ciag=014576540, dlugosc 9
+    // CKE: pozycja=2781, ciag=014576540, dlugosc 9
 
     return 0;
 }
