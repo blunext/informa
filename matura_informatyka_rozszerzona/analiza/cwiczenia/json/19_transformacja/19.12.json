@@ -4,23 +4,23 @@
   "punkty": 2,
   "zrodlo": "ogolna",
   "tagi": [
-    "VLOOKUP",
+    "WYSZUKAJ.PIONOWO",
     "grupowanie-danych"
   ],
   "tresc": "Sklep ma cennik produktow:\n\n| | A | B |\n|---|---|---|\n| 1 | **Kod produktu** | **Cena** |\n| 2 | P001 | 29.90 |\n| 3 | P002 | 49.90 |\n| 4 | P003 | 19.90 |\n| 5 | P004 | 39.90 |\n| 6 | P005 | 59.90 |\n\nLista zamowien:\n\n| | D | E | F |\n|---|---|---|---|\n| 1 | **Nr zamowienia** | **Kod produktu** | **Cena** |\n| 2 | Z01 | P003 | ? |\n| 3 | Z02 | P001 | ? |\n| 4 | Z03 | P005 | ? |\n| 5 | Z04 | P002 | ? |\n| 6 | Z05 | P004 | ? |\n| 7 | Z06 | P001 | ? |\n\n**Polecenie**: Napisz formule w F2, ktora wyszuka cene produktu z cennika na podstawie kodu. Formula powinna dzialac po skopiowaniu w dol.",
   "wskazowki": [
-    "**Kierunek**: Potrzebujesz wyszukiwania pionowego — uzyj VLOOKUP.",
-    "**Podejscie**: VLOOKUP(szukana_wartosc; tabela; numer_kolumny; 0) — szukaj kodu E2 w tabeli A2:B6.",
+    "**Kierunek**: Potrzebujesz wyszukiwania pionowego — uzyj WYSZUKAJ.PIONOWO.",
+    "**Podejscie**: WYSZUKAJ.PIONOWO(szukana_wartosc; tabela; numer_kolumny; 0) — szukaj kodu E2 w tabeli A2:B6.",
     "**Kluczowy krok**: Ostatni argument musi byc 0 (dokladne dopasowanie). Zakres tabeli powinien miec $ aby nie przesuwac sie przy kopiowaniu."
   ],
-  "odpowiedz": "**Formula (F2, kopiowana w dol):**\n```\nF2: =VLOOKUP(E2;$A$2:$B$6;2;0)\n```\n\n**Weryfikacja:**\n- Z01: P003 → 19.90\n- Z02: P001 → 29.90\n- Z03: P005 → 59.90\n- Z04: P002 → 49.90\n- Z05: P004 → 39.90\n- Z06: P001 → 29.90\n\nKontrola z cennikiem: P003=19.90 ✓, P001=29.90 ✓, P005=59.90 ✓, P002=49.90 ✓, P004=39.90 ✓\n\n**Wyjasnienie**: VLOOKUP(E2;$A$2:$B$6;2;0) szuka wartosci z E2 w pierwszej kolumnie zakresu A2:B6, a nastepnie zwraca wartosc z 2. kolumny tego zakresu (czyli cene z kolumny B). Argument 0 oznacza dokladne dopasowanie. Znaki $ w zakresie tabeli zapobiegaja przesuwaniu sie zakresu przy kopiowaniu formuly w dol.",
+  "odpowiedz": "**Formula (F2, kopiowana w dol):**\n```\nF2: =WYSZUKAJ.PIONOWO(E2;$A$2:$B$6;2;0)\n```\n\n**Weryfikacja:**\n- Z01: P003 → 19.90\n- Z02: P001 → 29.90\n- Z03: P005 → 59.90\n- Z04: P002 → 49.90\n- Z05: P004 → 39.90\n- Z06: P001 → 29.90\n\nKontrola z cennikiem: P003=19.90 ✓, P001=29.90 ✓, P005=59.90 ✓, P002=49.90 ✓, P004=39.90 ✓\n\n**Wyjasnienie**: WYSZUKAJ.PIONOWO(E2;$A$2:$B$6;2;0) szuka wartosci z E2 w pierwszej kolumnie zakresu A2:B6, a nastepnie zwraca wartosc z 2. kolumny tego zakresu (czyli cene z kolumny B). Argument 0 oznacza dokladne dopasowanie. Znaki $ w zakresie tabeli zapobiegaja przesuwaniu sie zakresu przy kopiowaniu formuly w dol.",
   "typowe_bledy": [
     {
       "opis": "**Brak $ w zakresie tabeli**: Bez $A$2:$B$6 zakres przesunie sie przy kopiowaniu — np. w F3 stanie sie A3:B7, co pominie pierwsze produkty",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**Brak 0 jako ostatni argument**: Bez 0 VLOOKUP uzyje przyblizzonego dopasowania, co moze zwrocic bledna cene",
+      "opis": "**Brak 0 jako ostatni argument**: Bez 0 WYSZUKAJ.PIONOWO uzyje przyblizzonego dopasowania, co moze zwrocic bledna cene",
       "kara": "-1 pkt"
     }
   ]

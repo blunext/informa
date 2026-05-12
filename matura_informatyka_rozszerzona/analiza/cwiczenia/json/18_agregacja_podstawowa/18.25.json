@@ -3,21 +3,27 @@
   "trudnosc": "srednie-trudne",
   "punkty": 4,
   "zrodlo": "ogolna (pogoda)",
-  "tagi": ["AVERAGE", "MEDIAN", "MAX", "MIN", "rozstep"],
+  "tagi": [
+    "AVERAGE",
+    "MEDIAN",
+    "MAX",
+    "MIN",
+    "rozstep"
+  ],
   "tresc": "Stacja pogodowa zanotowala temperatury (w °C) o godzinie 12:00 przez 9 dni:\n\n| | A | B |\n|---|---|---|\n| 1 | **Dzien** | **Temp (°C)** |\n| 2 | 1 | 18 |\n| 3 | 2 | 22 |\n| 4 | 3 | 15 |\n| 5 | 4 | 25 |\n| 6 | 5 | 20 |\n| 7 | 6 | 28 |\n| 8 | 7 | 17 |\n| 9 | 8 | 23 |\n| 10 | 9 | 19 |\n\n**Polecenie**: Napisz formuly obliczajace:\n1. Srednia temperature.\n2. Mediane temperatury.\n3. Najwyzsza i najnizsza temperature.\n4. Rozstep temperatur.\n5. Czy srednia i mediana sa rozne? Jak interpretujesz te roznice?",
   "wskazowki": [
-    "**Kierunek**: AVERAGE to srednia arytmetyczna, MEDIAN to wartosc srodkowa po posortowaniu.",
+    "**Kierunek**: ŚREDNIA to srednia arytmetyczna, MEDIAN to wartosc srodkowa po posortowaniu.",
     "**Podejscie**: Dla 9 wartosci mediana to 5. wartosc w ciagu posortowanym rosnaco.",
     "**Kluczowy krok**: Posortuj wartosci mentalnie: 15, 17, 18, 19, 20, 22, 23, 25, 28 — mediana to srodkowa (5. z 9)."
   ],
-  "odpowiedz": "**Formuly:**\n```\nSrednia:     =AVERAGE(B2:B10)\nMediana:     =MEDIAN(B2:B10)\nNajwyzsza:   =MAX(B2:B10)\nNajnizsza:   =MIN(B2:B10)\nRozstep:     =MAX(B2:B10)-MIN(B2:B10)\n```\n\n**Weryfikacja:**\n- Wartosci: 18, 22, 15, 25, 20, 28, 17, 23, 19\n- Suma: 18+22+15+25+20+28+17+23+19 = 187\n- Srednia: 187/9 = **20.78** (zaokr. do 2 miejsc)\n- Posortowane: 15, 17, 18, 19, 20, 22, 23, 25, 28\n- Mediana (5. z 9): **20**\n- Max: **28** (Dzien 6)\n- Min: **15** (Dzien 3)\n- Rozstep: 28 - 15 = **13**\n\n**Interpretacja**: Srednia (20.78) jest nieco wyzsza od mediany (20), co sugeruje lekka asymetrie w kierunku wyzszych temperatur — kilka cieplych dni (25, 28) podnosi srednia bardziej niz chlodne dni ja obnizaja.\n\n**Wyjasnienie**: MEDIAN zwraca wartosc srodkowa — jest odporna na wartosci skrajne (outliers). Jesli zamiast 28 bylaby temperatura 45, srednia wzroslaby znacznie, ale mediana pozostalaby 20. Dlatego mediana jest czesto lepsza miara \"typowej\" wartosci.",
+  "odpowiedz": "**Formuly:**\n```\nSrednia:     =ŚREDNIA(B2:B10)\nMediana:     =MEDIAN(B2:B10)\nNajwyzsza:   =MAX(B2:B10)\nNajnizsza:   =MIN(B2:B10)\nRozstep:     =MAX(B2:B10)-MIN(B2:B10)\n```\n\n**Weryfikacja:**\n- Wartosci: 18, 22, 15, 25, 20, 28, 17, 23, 19\n- Suma: 18+22+15+25+20+28+17+23+19 = 187\n- Srednia: 187/9 = **20.78** (zaokr. do 2 miejsc)\n- Posortowane: 15, 17, 18, 19, 20, 22, 23, 25, 28\n- Mediana (5. z 9): **20**\n- Max: **28** (Dzien 6)\n- Min: **15** (Dzien 3)\n- Rozstep: 28 - 15 = **13**\n\n**Interpretacja**: Srednia (20.78) jest nieco wyzsza od mediany (20), co sugeruje lekka asymetrie w kierunku wyzszych temperatur — kilka cieplych dni (25, 28) podnosi srednia bardziej niz chlodne dni ja obnizaja.\n\n**Wyjasnienie**: MEDIAN zwraca wartosc srodkowa — jest odporna na wartosci skrajne (outliers). Jesli zamiast 28 bylaby temperatura 45, srednia wzroslaby znacznie, ale mediana pozostalaby 20. Dlatego mediana jest czesto lepsza miara \"typowej\" wartosci.",
   "typowe_bledy": [
     {
       "opis": "**Branie mediany bez sortowania**: Mediana to NIE wartosc z srodkowego wiersza tabeli (20 to przypadek) — to wartosc srodkowa po posortowaniu",
       "kara": "-2 pkt"
     },
     {
-      "opis": "**Pomieszanie MEDIAN z AVERAGE**: MEDIAN=20, AVERAGE=20.78 — to rozne miary tendencji centralnej",
+      "opis": "**Pomieszanie MEDIAN z ŚREDNIA**: MEDIAN=20, ŚREDNIA=20.78 — to rozne miary tendencji centralnej",
       "kara": "-1 pkt"
     }
   ]

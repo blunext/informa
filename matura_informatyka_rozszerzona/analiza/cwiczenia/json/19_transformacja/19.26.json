@@ -5,19 +5,19 @@
   "zrodlo": "ogolna",
   "tagi": [
     "INDEX-MATCH",
-    "VLOOKUP",
+    "WYSZUKAJ.PIONOWO",
     "odwolania-mieszane"
   ],
   "tresc": "Firma kurierska ma tabele odleglosci miedzy miastami (w km):\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Z \\ Do** | **Warszawa** | **Krakow** | **Gdansk** | **Wroclaw** |\n| 2 | Warszawa | 0 | 295 | 340 | 350 |\n| 3 | Krakow | 295 | 0 | 590 | 270 |\n| 4 | Gdansk | 340 | 590 | 0 | 460 |\n| 5 | Wroclaw | 350 | 270 | 460 | 0 |\n\nLista przesylek:\n\n| | G | H | I |\n|---|---|---|---|\n| 1 | **Z miasta** | **Do miasta** | **Odleglosc** |\n| 2 | Krakow | Gdansk | ? |\n| 3 | Warszawa | Wroclaw | ? |\n| 4 | Gdansk | Krakow | ? |\n| 5 | Wroclaw | Warszawa | ? |\n| 6 | Krakow | Wroclaw | ? |\n| 7 | Gdansk | Warszawa | ? |\n\n**Polecenie**: Napisz formule w I2 uzywajac INDEX+MATCH, ktora wyszuka odleglosc miedzy dwoma miastami z tabeli. Formula powinna dzialac po skopiowaniu w dol.",
   "wskazowki": [
-    "**Kierunek**: INDEX+MATCH dwuwymiarowy — szukaj miasta poczatkowego w kolumnie A i docelowego w wierszu 1.",
-    "**Podejscie**: INDEX($B$2:$E$5; MATCH(G2;$A$2:$A$5;0); MATCH(H2;$B$1:$E$1;0)).",
-    "**Kluczowy krok**: Zakres INDEX = B2:E5 (same liczby), MATCH szuka w A2:A5 (wiersz) i B1:E1 (kolumna)."
+    "**Kierunek**: INDEKS+PODAJ.POZYCJĘ dwuwymiarowy — szukaj miasta poczatkowego w kolumnie A i docelowego w wierszu 1.",
+    "**Podejscie**: INDEKS($B$2:$E$5; PODAJ.POZYCJĘ(G2;$A$2:$A$5;0); PODAJ.POZYCJĘ(H2;$B$1:$E$1;0)).",
+    "**Kluczowy krok**: Zakres INDEKS = B2:E5 (same liczby), PODAJ.POZYCJĘ szuka w A2:A5 (wiersz) i B1:E1 (kolumna)."
   ],
-  "odpowiedz": "**Formula (I2, kopiowana w dol):**\n```\nI2: =INDEX($B$2:$E$5;MATCH(G2;$A$2:$A$5;0);MATCH(H2;$B$1:$E$1;0))\n```\n\n**Weryfikacja:**\n\n| Z | Do | MATCH wiersz | MATCH kolumna | Odleglosc |\n|---|---|---|---|---|\n| Krakow | Gdansk | 2 | 3 | 590 |\n| Warszawa | Wroclaw | 1 | 4 | 350 |\n| Gdansk | Krakow | 3 | 2 | 590 |\n| Wroclaw | Warszawa | 4 | 1 | 350 |\n| Krakow | Wroclaw | 2 | 4 | 270 |\n| Gdansk | Warszawa | 3 | 1 | 340 |\n\nKontrola z tabela:\n- Krakow→Gdansk = 590 ✓ (wiersz 3, kolumna D)\n- Warszawa→Wroclaw = 350 ✓ (wiersz 2, kolumna E)\n- Gdansk→Krakow = 590 ✓ (wiersz 4, kolumna C) — symetryczna\n- Wroclaw→Warszawa = 350 ✓ (wiersz 5, kolumna B) — symetryczna\n- Krakow→Wroclaw = 270 ✓ (wiersz 3, kolumna E)\n- Gdansk→Warszawa = 340 ✓ (wiersz 4, kolumna B)\n\nUwaga: tabela jest symetryczna (Krakow→Gdansk = Gdansk→Krakow), co pozwala na dodatkowa weryfikacje.\n\n**Wyjasnienie**: INDEX+MATCH jest idealny do tabel symetrycznych (odleglosci, czasy przejazdu). Szukamy jednoczesnie w dwoch wymiarach: miasto poczatkowe w kolumnie A i docelowe w wierszu 1. VLOOKUP nie wystarczy, bo szuka tylko w pierwszej kolumnie.",
+  "odpowiedz": "**Formula (I2, kopiowana w dol):**\n```\nI2: =INDEKS($B$2:$E$5;PODAJ.POZYCJĘ(G2;$A$2:$A$5;0);PODAJ.POZYCJĘ(H2;$B$1:$E$1;0))\n```\n\n**Weryfikacja:**\n\n| Z | Do | MATCH wiersz | MATCH kolumna | Odleglosc |\n|---|---|---|---|---|\n| Krakow | Gdansk | 2 | 3 | 590 |\n| Warszawa | Wroclaw | 1 | 4 | 350 |\n| Gdansk | Krakow | 3 | 2 | 590 |\n| Wroclaw | Warszawa | 4 | 1 | 350 |\n| Krakow | Wroclaw | 2 | 4 | 270 |\n| Gdansk | Warszawa | 3 | 1 | 340 |\n\nKontrola z tabela:\n- Krakow→Gdansk = 590 ✓ (wiersz 3, kolumna D)\n- Warszawa→Wroclaw = 350 ✓ (wiersz 2, kolumna E)\n- Gdansk→Krakow = 590 ✓ (wiersz 4, kolumna C) — symetryczna\n- Wroclaw→Warszawa = 350 ✓ (wiersz 5, kolumna B) — symetryczna\n- Krakow→Wroclaw = 270 ✓ (wiersz 3, kolumna E)\n- Gdansk→Warszawa = 340 ✓ (wiersz 4, kolumna B)\n\nUwaga: tabela jest symetryczna (Krakow→Gdansk = Gdansk→Krakow), co pozwala na dodatkowa weryfikacje.\n\n**Wyjasnienie**: INDEX+MATCH jest idealny do tabel symetrycznych (odleglosci, czasy przejazdu). Szukamy jednoczesnie w dwoch wymiarach: miasto poczatkowe w kolumnie A i docelowe w wierszu 1. VLOOKUP nie wystarczy, bo szuka tylko w pierwszej kolumnie.",
   "typowe_bledy": [
     {
-      "opis": "**Zakres INDEX obejmujacy naglowki**: B2:E5 nie zawiera naglowkow — jesli uzyjesz B1:E5, wyniki MATCH beda przesuniete o 1",
+      "opis": "**Zakres INDEKS obejmujacy naglowki**: B2:E5 nie zawiera naglowkow — jesli uzyjesz B1:E5, wyniki PODAJ.POZYCJĘ beda przesuniete o 1",
       "kara": "-1 pkt"
     },
     {

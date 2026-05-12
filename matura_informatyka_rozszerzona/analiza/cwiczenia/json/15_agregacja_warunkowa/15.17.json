@@ -4,23 +4,23 @@
   "punkty": 2,
   "zrodlo": "Inspirowane matura 2021 (Szyfry)",
   "tagi": [
-    "COUNTIF",
+    "LICZ.JEŻELI",
     "warunek-liczbowy"
   ],
   "tresc": "W arkuszu mamy dane o cenach produktow w sklepie internetowym:\n\n| | A | B |\n|---|---|---|\n| 1 | **Produkt** | **Cena (zl)** |\n| 2 | Koszulka | 49 |\n| 3 | Spodnie | 129 |\n| 4 | Buty | 259 |\n| 5 | Czapka | 35 |\n| 6 | Kurtka | 349 |\n| 7 | Skarpetki | 15 |\n| 8 | Szalik | 65 |\n| 9 | Rękawiczki | 42 |\n| 10 | Bluza | 99 |\n| 11 | Pasek | 55 |\n\n**Polecenie**: Napisz formule, ktora obliczy ile produktow kosztuje mniej niz 50 zl.",
   "wskazowki": [
     "**Kierunek**: Potrzebujesz funkcji zliczajacej komorki spelniajace warunek liczbowy \"mniej niz\".",
-    "**Podejscie**: COUNTIF z kryterium \"<50\" przeszuka kolumne cen.",
-    "**Kluczowy krok**: =COUNTIF(B2:B11;\"<50\") — zlicza ceny mniejsze niz 50."
+    "**Podejscie**: LICZ.JEŻELI z kryterium \"<50\" przeszuka kolumne cen.",
+    "**Kluczowy krok**: =LICZ.JEŻELI(B2:B11;\"<50\") — zlicza ceny mniejsze niz 50."
   ],
-  "odpowiedz": "**Formula:**\n```\n=COUNTIF(B2:B11;\"<50\")\n```\n\n**Weryfikacja**: Produkty z cena < 50 zl:\n- Koszulka: 49 ✓\n- Czapka: 35 ✓\n- Skarpetki: 15 ✓\n- Rękawiczki: 42 ✓\n\nWynik: **4**\n\nProdukty >= 50 zl: Spodnie (129), Buty (259), Kurtka (349), Szalik (65), Bluza (99), Pasek (55) — nie spelniaja warunku.\n\n**Wyjasnienie**: COUNTIF z kryterium \"<50\" zlicza komorki z wartoscia scisle mniejsza niz 50. Koszulka (49) jest policzona, bo 49 < 50.",
+  "odpowiedz": "**Formula:**\n```\n=LICZ.JEŻELI(B2:B11;\"<50\")\n```\n\n**Weryfikacja**: Produkty z cena < 50 zl:\n- Koszulka: 49 ✓\n- Czapka: 35 ✓\n- Skarpetki: 15 ✓\n- Rękawiczki: 42 ✓\n\nWynik: **4**\n\nProdukty >= 50 zl: Spodnie (129), Buty (259), Kurtka (349), Szalik (65), Bluza (99), Pasek (55) — nie spelniaja warunku.\n\n**Wyjasnienie**: COUNTIF z kryterium \"<50\" zlicza komorki z wartoscia scisle mniejsza niz 50. Koszulka (49) jest policzona, bo 49 < 50.",
   "typowe_bledy": [
     {
-      "opis": "**Uzycie <= zamiast <**: =COUNTIF(B2:B11;\"<=50\") policzy tez produkty za dokladnie 50 zl — w tym przypadku nie ma takiego produktu, ale w ogolnosci zmienia wynik",
+      "opis": "**Uzycie <= zamiast <**: =LICZ.JEŻELI(B2:B11;\"<=50\") policzy tez produkty za dokladnie 50 zl — w tym przypadku nie ma takiego produktu, ale w ogolnosci zmienia wynik",
       "kara": "-0.5 pkt"
     },
     {
-      "opis": "**Brak cudzyslowow**: =COUNTIF(B2:B11;<50) — kryterium z operatorem musi byc tekstem w cudzyslowach",
+      "opis": "**Brak cudzyslowow**: =LICZ.JEŻELI(B2:B11;<50) — kryterium z operatorem musi byc tekstem w cudzyslowach",
       "kara": "-1 pkt"
     }
   ]

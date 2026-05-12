@@ -5,23 +5,23 @@
   "zrodlo": "ogolna",
   "tagi": [
     "LEFT-RIGHT-MID",
-    "VLOOKUP",
+    "WYSZUKAJ.PIONOWO",
     "kolumna-pomocnicza"
   ],
   "tresc": "Kody produktow maja format: 2 litery kategorii + 1 litera rozmiaru + 3 cyfry numeru (np. \"ELS045\").\n\nSlownik rozmiarow:\n\n| | A | B |\n|---|---|---|\n| 1 | **Kod** | **Rozmiar** |\n| 2 | S | Maly |\n| 3 | M | Sredni |\n| 4 | L | Duzy |\n\nLista produktow:\n\n| | D | E | F | G |\n|---|---|---|---|---|\n| 1 | **Kod produktu** | **Kategoria** | **Rozmiar** | **Numer** |\n| 2 | ELS045 | ? | ? | ? |\n| 3 | ODM112 | ? | ? | ? |\n| 4 | SPL003 | ? | ? | ? |\n| 5 | ELM078 | ? | ? | ? |\n| 6 | ODS201 | ? | ? | ? |\n| 7 | SPM150 | ? | ? | ? |\n\n**Polecenie**:\n1. W kolumnie E wyodrebnij kod kategorii (pierwsze 2 znaki).\n2. W kolumnie F wyszukaj pelna nazwe rozmiaru — wyodrebnij litere rozmiaru (3. znak) i uzyj VLOOKUP.\n3. W kolumnie G wyodrebnij numer (ostatnie 3 znaki).",
   "wskazowki": [
-    "**Kierunek**: MID(D2;3;1) wyodrebni 3. znak (litere rozmiaru). VLOOKUP przetlumaczy ja na pelna nazwe.",
-    "**Podejscie**: E2: =LEFT(D2;2), F2: =VLOOKUP(MID(D2;3;1);$A$2:$B$4;2;0), G2: =RIGHT(D2;3).",
-    "**Kluczowy krok**: MID(tekst;start;dlugosc) — MID(D2;3;1) zaczyna od 3. znaku i bierze 1 znak."
+    "**Kierunek**: FRAGMENT.TEKSTU(D2;3;1) wyodrebni 3. znak (litere rozmiaru). WYSZUKAJ.PIONOWO przetlumaczy ja na pelna nazwe.",
+    "**Podejscie**: E2: =LEWY(D2;2), F2: =WYSZUKAJ.PIONOWO(FRAGMENT.TEKSTU(D2;3;1);$A$2:$B$4;2;0), G2: =PRAWY(D2;3).",
+    "**Kluczowy krok**: FRAGMENT.TEKSTU(tekst;start;dlugosc) — FRAGMENT.TEKSTU(D2;3;1) zaczyna od 3. znaku i bierze 1 znak."
   ],
-  "odpowiedz": "**Formuly (kopiowane w dol):**\n```\nE2: =LEFT(D2;2)\nF2: =VLOOKUP(MID(D2;3;1);$A$2:$B$4;2;0)\nG2: =RIGHT(D2;3)\n```\n\n**Weryfikacja:**\n\n| Kod | LEFT(;2) | MID(;3;1) | VLOOKUP | RIGHT(;3) |\n|-----|----------|-----------|---------|------------|\n| ELS045 | EL | S | Maly | 045 |\n| ODM112 | OD | M | Sredni | 112 |\n| SPL003 | SP | L | Duzy | 003 |\n| ELM078 | EL | M | Sredni | 078 |\n| ODS201 | OD | S | Maly | 201 |\n| SPM150 | SP | M | Sredni | 150 |\n\nKontrola: \"ELS045\" → LEFT=\"EL\", MID(3,1)=\"S\"→\"Maly\", RIGHT=\"045\" ✓\n\"SPL003\" → LEFT=\"SP\", MID(3,1)=\"L\"→\"Duzy\", RIGHT=\"003\" ✓\n\n**Wyjasnienie**: Parsowanie kodu produktu na skladowe: LEFT pobiera poczatek, MID srodek, RIGHT koniec. VLOOKUP tlumaczy kod rozmiaru na pelna nazwe. Na maturze kody produktow czesto koduja wiele informacji — umiejetnosc parsowania jest kluczowa. MID(D2;3;1) — startuje od pozycji 3, bierze 1 znak.",
+  "odpowiedz": "**Formuly (kopiowane w dol):**\n```\nE2: =LEWY(D2;2)\nF2: =WYSZUKAJ.PIONOWO(FRAGMENT.TEKSTU(D2;3;1);$A$2:$B$4;2;0)\nG2: =PRAWY(D2;3)\n```\n\n**Weryfikacja:**\n\n| Kod | LEWY(;2) | FRAGMENT.TEKSTU(;3;1) | VLOOKUP | PRAWY(;3) |\n|-----|----------|-----------|---------|------------|\n| ELS045 | EL | S | Maly | 045 |\n| ODM112 | OD | M | Sredni | 112 |\n| SPL003 | SP | L | Duzy | 003 |\n| ELM078 | EL | M | Sredni | 078 |\n| ODS201 | OD | S | Maly | 201 |\n| SPM150 | SP | M | Sredni | 150 |\n\nKontrola: \"ELS045\" → LEFT=\"EL\", FRAGMENT.TEKSTU(3,1)=\"S\"→\"Maly\", RIGHT=\"045\" ✓\n\"SPL003\" → LEFT=\"SP\", FRAGMENT.TEKSTU(3,1)=\"L\"→\"Duzy\", RIGHT=\"003\" ✓\n\n**Wyjasnienie**: Parsowanie kodu produktu na skladowe: LEFT pobiera poczatek, MID srodek, RIGHT koniec. VLOOKUP tlumaczy kod rozmiaru na pelna nazwe. Na maturze kody produktow czesto koduja wiele informacji — umiejetnosc parsowania jest kluczowa. FRAGMENT.TEKSTU(D2;3;1) — startuje od pozycji 3, bierze 1 znak.",
   "typowe_bledy": [
     {
-      "opis": "**Bledna pozycja w MID**: MID(D2;3;1) zaczyna od 3. znaku. MID(D2;2;1) daloby 2. znak, a MID(D2;4;1) — 4. znak",
+      "opis": "**Bledna pozycja w MID**: FRAGMENT.TEKSTU(D2;3;1) zaczyna od 3. znaku. FRAGMENT.TEKSTU(D2;2;1) daloby 2. znak, a FRAGMENT.TEKSTU(D2;4;1) — 4. znak",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**Brak $ w zakresie slownika rozmiarow**: Bez $A$2:$B$4 VLOOKUP przy kopiowaniu w dol przesunie zakres slownika",
+      "opis": "**Brak $ w zakresie slownika rozmiarow**: Bez $A$2:$B$4 WYSZUKAJ.PIONOWO przy kopiowaniu w dol przesunie zakres slownika",
       "kara": "-1 pkt"
     }
   ]

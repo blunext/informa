@@ -12,16 +12,16 @@
   "wskazowki": [
     "**Kierunek**: Kazdy miesiac: saldo_nowe = saldo_stare × 1.005 + wplata.",
     "**Podejscie**: B3 = B2 * 1.005 + $D$1. Wplata ($D$1) jest stala — odwolanie bezwzgledne.",
-    "**Kluczowy krok**: =ROUND(B2*1,005+$D$1;2)"
+    "**Kluczowy krok**: =ZAOKR(B2*1,005+$D$1;2)"
   ],
-  "odpowiedz": "**Formula (B3, kopiowana w dol):**\n```\nB3: =ROUND(B2*1,005+$D$1;2)\n```\n\n**Wypelniona tabela:**\n\n| Miesiac | Saldo |\n|---------|-------|\n| 0 (start) | 0 |\n| 1 | 1000 |\n| 2 | 2005 |\n| 3 | 3015.03 |\n| 4 | 4030.10 |\n\n**Weryfikacja krok po kroku:**\n- B3: 0 × 1.005 + 1000 = 1000.00\n- B4: 1000 × 1.005 + 1000 = 1005 + 1000 = 2005.00\n- B5: 2005 × 1.005 + 1000 = 2015.025 + 1000 = 3015.03\n- B6: 3015.03 × 1.005 + 1000 = 3030.10 + 1000 = 4030.10\n\n**Wyjasnienie**: Odsetki naliczane sa od biezacego salda (procent skladany), potem dodawana jest wplata. Z kazdym miesiacem odsetki rosna, bo saldo jest wieksze. $D$1 gwarantuje, ze wplata nie zmieni sie po skopiowaniu formuly.",
+  "odpowiedz": "**Formula (B3, kopiowana w dol):**\n```\nB3: =ZAOKR(B2*1,005+$D$1;2)\n```\n\n**Wypelniona tabela:**\n\n| Miesiac | Saldo |\n|---------|-------|\n| 0 (start) | 0 |\n| 1 | 1000 |\n| 2 | 2005 |\n| 3 | 3015.03 |\n| 4 | 4030.10 |\n\n**Weryfikacja krok po kroku:**\n- B3: 0 × 1.005 + 1000 = 1000.00\n- B4: 1000 × 1.005 + 1000 = 1005 + 1000 = 2005.00\n- B5: 2005 × 1.005 + 1000 = 2015.025 + 1000 = 3015.03\n- B6: 3015.03 × 1.005 + 1000 = 3030.10 + 1000 = 4030.10\n\n**Wyjasnienie**: Odsetki naliczane sa od biezacego salda (procent skladany), potem dodawana jest wplata. Z kazdym miesiacem odsetki rosna, bo saldo jest wieksze. $D$1 gwarantuje, ze wplata nie zmieni sie po skopiowaniu formuly.",
   "typowe_bledy": [
     {
       "opis": "**Brak $ w D1**: =B2*1,005+D1 — po skopiowaniu D1 stanie sie D2, D3... (puste komorki, wplata = 0)",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**Odsetki od salda PO wplacie**: =ROUND((B2+$D$1)*1,005;2) — nalicza odsetki rowniez od nowej wplaty, zawyza wynik",
+      "opis": "**Odsetki od salda PO wplacie**: =ZAOKR((B2+$D$1)*1,005;2) — nalicza odsetki rowniez od nowej wplaty, zawyza wynik",
       "kara": "-1 pkt"
     }
   ]

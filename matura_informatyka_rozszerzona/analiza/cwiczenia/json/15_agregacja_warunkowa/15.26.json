@@ -4,25 +4,25 @@
   "punkty": 5,
   "zrodlo": "Inspirowane matura 2023 (Konfitury — porownanie z progiem)",
   "tagi": [
-    "COUNTIFS",
-    "SUMIFS",
+    "LICZ.WARUNKI",
+    "SUMA.WARUNKÓW",
     "operator-konkatenacji",
     "zakres-bezwzgledny"
   ],
-  "tresc": "W arkuszu mamy dane o wynikach sportowcow z roznych dyscyplin:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Zawodnik** | **Dyscyplina** | **Wynik (pkt)** |\n| 2 | Kowalski | Skok | 85 |\n| 3 | Nowak | Bieg | 92 |\n| 4 | Wisniewski | Skok | 78 |\n| 5 | Kaminska | Bieg | 88 |\n| 6 | Lewandowski | Rzut | 71 |\n| 7 | Zielinska | Skok | 90 |\n| 8 | Szymanski | Bieg | 95 |\n| 9 | Dabrowska | Rzut | 82 |\n| 10 | Mazur | Skok | 65 |\n| 11 | Wojcik | Rzut | 77 |\n\nW komorce F1 wpisano sredni wynik ze wszystkich dyscyplin (=AVERAGE(C2:C11)).\n\n**Polecenie**:\n1. Ile wynikow z dyscypliny \"Skok\" jest wyzszych od sredniej ogolnej (F1)?\n2. Oblicz sume wynikow z dyscypliny \"Bieg\", ktore sa wyzsze od 90 pkt.\n3. Ile wynikow z dowolnej dyscypliny miesci sie w przedziale od 75 do 90 (wlacznie)?",
+  "tresc": "W arkuszu mamy dane o wynikach sportowcow z roznych dyscyplin:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Zawodnik** | **Dyscyplina** | **Wynik (pkt)** |\n| 2 | Kowalski | Skok | 85 |\n| 3 | Nowak | Bieg | 92 |\n| 4 | Wisniewski | Skok | 78 |\n| 5 | Kaminska | Bieg | 88 |\n| 6 | Lewandowski | Rzut | 71 |\n| 7 | Zielinska | Skok | 90 |\n| 8 | Szymanski | Bieg | 95 |\n| 9 | Dabrowska | Rzut | 82 |\n| 10 | Mazur | Skok | 65 |\n| 11 | Wojcik | Rzut | 77 |\n\nW komorce F1 wpisano sredni wynik ze wszystkich dyscyplin (=ŚREDNIA(C2:C11)).\n\n**Polecenie**:\n1. Ile wynikow z dyscypliny \"Skok\" jest wyzszych od sredniej ogolnej (F1)?\n2. Oblicz sume wynikow z dyscypliny \"Bieg\", ktore sa wyzsze od 90 pkt.\n3. Ile wynikow z dowolnej dyscypliny miesci sie w przedziale od 75 do 90 (wlacznie)?",
   "wskazowki": [
-    "**Kierunek**: Punkt 1 wymaga COUNTIFS z dynamicznym progiem (komorka F1). Punkt 3 wymaga dwoch warunkow liczbowych na tej samej kolumnie.",
-    "**Podejscie**: Punkt 1: =COUNTIFS(B2:B11;\"Skok\";C2:C11;\">\"&$F$1). Punkt 3: =COUNTIFS(C2:C11;\">=75\";C2:C11;\"<=90\").",
-    "**Kluczowy krok**: COUNTIFS moze uzyc tej samej kolumny w dwoch parach kryteriow — to tworzy warunek AND (przedzial)."
+    "**Kierunek**: Punkt 1 wymaga LICZ.WARUNKI z dynamicznym progiem (komorka F1). Punkt 3 wymaga dwoch warunkow liczbowych na tej samej kolumnie.",
+    "**Podejscie**: Punkt 1: =LICZ.WARUNKI(B2:B11;\"Skok\";C2:C11;\">\"&$F$1). Punkt 3: =LICZ.WARUNKI(C2:C11;\">=75\";C2:C11;\"<=90\").",
+    "**Kluczowy krok**: LICZ.WARUNKI moze uzyc tej samej kolumny w dwoch parach kryteriow — to tworzy warunek ORAZ (przedzial)."
   ],
-  "odpowiedz": "**Formuly:**\n```\nF1: =AVERAGE(C2:C11)\n\n1. =COUNTIFS(B2:B11;\"Skok\";C2:C11;\">\"&$F$1)\n2. =SUMIFS(C2:C11;B2:B11;\"Bieg\";C2:C11;\">90\")\n3. =COUNTIFS(C2:C11;\">=75\";C2:C11;\"<=90\")\n```\n\n**Weryfikacja:**\n\nSrednia ogolna F1: (85+92+78+88+71+90+95+82+65+77)/10 = 823/10 = **82,3**\n\nPunkt 1 — Skok + wynik > 82,3:\n- Kowalski: Skok, 85 > 82,3 ✓\n- Wisniewski: Skok, 78 — NIE\n- Zielinska: Skok, 90 > 82,3 ✓\n- Mazur: Skok, 65 — NIE\n- Wynik: **2**\n\nPunkt 2 — Bieg + wynik > 90:\n- Nowak: Bieg, 92 > 90 ✓\n- Kaminska: Bieg, 88 — NIE\n- Szymanski: Bieg, 95 > 90 ✓\n- Suma: 92 + 95 = **187**\n\nPunkt 3 — wynik w przedziale [75, 90]:\n- 85 ✓, 78 ✓, 88 ✓, 90 ✓, 82 ✓, 77 ✓\n- 92, 95 — za duze; 71, 65 — za male\n- Wynik: **6**\n\n**Wyjasnienie**: COUNTIFS moze uzyc tej samej kolumny wielokrotnie — kazde kryterium tworzy dodatkowy filtr. Dwa kryteria na tej samej kolumnie (>= i <=) tworza przedzial zamkniety.",
+  "odpowiedz": "**Formuly:**\n```\nF1: =ŚREDNIA(C2:C11)\n\n1. =LICZ.WARUNKI(B2:B11;\"Skok\";C2:C11;\">\"&$F$1)\n2. =SUMA.WARUNKÓW(C2:C11;B2:B11;\"Bieg\";C2:C11;\">90\")\n3. =LICZ.WARUNKI(C2:C11;\">=75\";C2:C11;\"<=90\")\n```\n\n**Weryfikacja:**\n\nSrednia ogolna F1: (85+92+78+88+71+90+95+82+65+77)/10 = 823/10 = **82,3**\n\nPunkt 1 — Skok + wynik > 82,3:\n- Kowalski: Skok, 85 > 82,3 ✓\n- Wisniewski: Skok, 78 — NIE\n- Zielinska: Skok, 90 > 82,3 ✓\n- Mazur: Skok, 65 — NIE\n- Wynik: **2**\n\nPunkt 2 — Bieg + wynik > 90:\n- Nowak: Bieg, 92 > 90 ✓\n- Kaminska: Bieg, 88 — NIE\n- Szymanski: Bieg, 95 > 90 ✓\n- Suma: 92 + 95 = **187**\n\nPunkt 3 — wynik w przedziale [75, 90]:\n- 85 ✓, 78 ✓, 88 ✓, 90 ✓, 82 ✓, 77 ✓\n- 92, 95 — za duze; 71, 65 — za male\n- Wynik: **6**\n\n**Wyjasnienie**: COUNTIFS moze uzyc tej samej kolumny wielokrotnie — kazde kryterium tworzy dodatkowy filtr. Dwa kryteria na tej samej kolumnie (>= i <=) tworza przedzial zamkniety.",
   "typowe_bledy": [
     {
-      "opis": "**Brak $ w odwolaniu do F1**: =COUNTIFS(B2:B11;\"Skok\";C2:C11;\">\"&F1) — jesli formula jest kopiowana, F1 zmieni sie na F2, F3...",
+      "opis": "**Brak $ w odwolaniu do F1**: =LICZ.WARUNKI(B2:B11;\"Skok\";C2:C11;\">\"&F1) — jesli formula jest kopiowana, F1 zmieni sie na F2, F3...",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**Przedzialy otwarte zamiast zamknietych**: =COUNTIFS(C2:C11;\">75\";C2:C11;\"<90\") pomija wartosci 75 i 90 (otwarte z obu stron)",
+      "opis": "**Przedzialy otwarte zamiast zamknietych**: =LICZ.WARUNKI(C2:C11;\">75\";C2:C11;\"<90\") pomija wartosci 75 i 90 (otwarte z obu stron)",
       "kara": "-1 pkt"
     }
   ]

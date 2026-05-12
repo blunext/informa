@@ -4,7 +4,7 @@
   "punkty": 6,
   "zrodlo": "ogolna",
   "tagi": [
-    "SUMIFS",
+    "SUMA.WARUNKÓW",
     "LEFT-RIGHT-MID",
     "kolumna-pomocnicza",
     "tabela-krzyzowa",
@@ -12,22 +12,22 @@
   ],
   "tresc": "Hurtownia ma kody zamowien w formacie: litera kwartalu (A=Q1, B=Q2, C=Q3, D=Q4) + 2 znaki regionu + 4 cyfry numer (np. \"APN0150\" = Q1, region PN).\n\nDane zamowien:\n\n| | A | B |\n|---|---|---|\n| 1 | **Kod** | **Wartosc** |\n| 2 | APN0500 | 500 |\n| 3 | BPD1200 | 1200 |\n| 4 | CWS0800 | 800 |\n| 5 | AZA0650 | 650 |\n| 6 | DPN0900 | 900 |\n| 7 | BWS1100 | 1100 |\n| 8 | APN0700 | 700 |\n| 9 | CPD1500 | 1500 |\n| 10 | DZA0400 | 400 |\n| 11 | BWS0850 | 850 |\n| 12 | CPN1300 | 1300 |\n| 13 | DPD0600 | 600 |\n| 14 | AZA0550 | 550 |\n| 15 | BWS0950 | 950 |\n| 16 | DPN1100 | 1100 |\n\nSlownik kwartalow: A=Q1, B=Q2, C=Q3, D=Q4.\nSlownik regionow: PN=Polnoc, PD=Poludnie, WS=Wschod, ZA=Zachod.\n\nTabela pivot region × kwartal (sumy wartosci):\n\n| | E | F | G | H | I | J |\n|---|---|---|---|---|---|---|\n| 1 | | **Q1** | **Q2** | **Q3** | **Q4** | **Razem** |\n| 2 | **Polnoc** | ? | ? | ? | ? | ? |\n| 3 | **Poludnie** | ? | ? | ? | ? | ? |\n| 4 | **Wschod** | ? | ? | ? | ? | ? |\n| 5 | **Zachod** | ? | ? | ? | ? | ? |\n| 6 | **Razem** | ? | ? | ? | ? | ? |\n\n**Polecenie**:\n1. Wyodrebnij kwartal i region z kodu (kolumny pomocnicze).\n2. Zbuduj tabele pivot z SUMIFS.\n3. Zweryfikuj krzyzowo.",
   "wskazowki": [
-    "**Kierunek**: LEFT(A2;1) → litera kwartalu, MID(A2;2;2) → kod regionu. Przeloz litere na numer kwartalu.",
-    "**Podejscie**: Kolumna C: kwartal (IF lub CODE), D: region (MID). Pivot: SUMIFS po C i D z naglowkami kodowymi.",
-    "**Kluczowy krok**: Naglowki pivot musza pasowac do wartosci w kolumnach pomocniczych. Jesli uzywasz pelnych nazw, VLOOKUP przetlumaczy kody."
+    "**Kierunek**: LEWY(A2;1) → litera kwartalu, FRAGMENT.TEKSTU(A2;2;2) → kod regionu. Przeloz litere na numer kwartalu.",
+    "**Podejscie**: Kolumna C: kwartal (IF lub CODE), D: region (MID). Pivot: SUMA.WARUNKÓW po C i D z naglowkami kodowymi.",
+    "**Kluczowy krok**: Naglowki pivot musza pasowac do wartosci w kolumnach pomocniczych. Jesli uzywasz pelnych nazw, WYSZUKAJ.PIONOWO przetlumaczy kody."
   ],
-  "odpowiedz": "**Formuly:**\n```\nC2: =IF(LEFT(A2;1)=\"A\";\"Q1\";IF(LEFT(A2;1)=\"B\";\"Q2\";IF(LEFT(A2;1)=\"C\";\"Q3\";\"Q4\")))\n    (kwartal — kopiowana w dol)\n\nD2: =MID(A2;2;2)    (kod regionu — kopiowana w dol)\n```\n\nDla pivota uzywamy naglowkow: F1=\"Q1\", G1=\"Q2\", H1=\"Q3\", I1=\"Q4\" oraz E2=\"PN\", E3=\"PD\", E4=\"WS\", E5=\"ZA\".\n\n```\nF2: =SUMIFS(B$2:B$16;D$2:D$16;$E2;C$2:C$16;F$1)\n    (kopiowana w prawo do I2 i w dol do I5)\n\nJ2: =SUM(F2:I2)          (razem wiersz)\nF6: =SUM(F2:F5)          (razem kolumna)\nJ6: =SUM(J2:J5)          (grand total)\n```\n\n**Kolumny pomocnicze:**\n\n| Kod | Wartosc | Kwartal | Region |\n|-----|---------|---------|--------|\n| APN0500 | 500 | Q1 | PN |\n| BPD1200 | 1200 | Q2 | PD |\n| CWS0800 | 800 | Q3 | WS |\n| AZA0650 | 650 | Q1 | ZA |\n| DPN0900 | 900 | Q4 | PN |\n| BWS1100 | 1100 | Q2 | WS |\n| APN0700 | 700 | Q1 | PN |\n| CPD1500 | 1500 | Q3 | PD |\n| DZA0400 | 400 | Q4 | ZA |\n| BWS0850 | 850 | Q2 | WS |\n| CPN1300 | 1300 | Q3 | PN |\n| DPD0600 | 600 | Q4 | PD |\n| AZA0550 | 550 | Q1 | ZA |\n| BWS0950 | 950 | Q2 | WS |\n| DPN1100 | 1100 | Q4 | PN |\n\n**Tabela pivot:**\n- PN-Q1: 500+700 = 1200\n- PN-Q2: 0\n- PN-Q3: 1300\n- PN-Q4: 900+1100 = 2000\n- PD-Q1: 0\n- PD-Q2: 1200\n- PD-Q3: 1500\n- PD-Q4: 600\n- WS-Q1: 0\n- WS-Q2: 1100+850+950 = 2900\n- WS-Q3: 800\n- WS-Q4: 0\n- ZA-Q1: 650+550 = 1200\n- ZA-Q2: 0\n- ZA-Q3: 0\n- ZA-Q4: 400\n\n| | Q1 | Q2 | Q3 | Q4 | Razem |\n|---|---|---|---|---|---|\n| Polnoc (PN) | 1200 | 0 | 1300 | 2000 | 4500 |\n| Poludnie (PD) | 0 | 1200 | 1500 | 600 | 3300 |\n| Wschod (WS) | 0 | 2900 | 800 | 0 | 3700 |\n| Zachod (ZA) | 1200 | 0 | 0 | 400 | 1600 |\n| Razem | 2400 | 4100 | 3600 | 3000 | **13100** |\n\n**Weryfikacja krzyzowa:**\n- Suma wierszow: 4500+3300+3700+1600 = 13100 ✓\n- Suma kolumn: 2400+4100+3600+3000 = 13100 ✓\n- SUM(B2:B16) = 500+1200+800+650+900+1100+700+1500+400+850+1300+600+550+950+1100 = 13100 ✓\n\n**Wyjasnienie**: Pelna transformacja: parsowanie kodu → kolumny pomocnicze → pivot z SUMIFS. Zera w tabeli sa poprawne (brak zamowien z danej kombinacji). IF zamieniajacy litery na etykiety kwartalow to prost a alternatywa dla VLOOKUP ze slownikiem.",
+  "odpowiedz": "**Formuly:**\n```\nC2: =JEŻELI(LEWY(A2;1)=\"A\";\"Q1\";JEŻELI(LEWY(A2;1)=\"B\";\"Q2\";JEŻELI(LEWY(A2;1)=\"C\";\"Q3\";\"Q4\")))\n    (kwartal — kopiowana w dol)\n\nD2: =FRAGMENT.TEKSTU(A2;2;2)    (kod regionu — kopiowana w dol)\n```\n\nDla pivota uzywamy naglowkow: F1=\"Q1\", G1=\"Q2\", H1=\"Q3\", I1=\"Q4\" oraz E2=\"PN\", E3=\"PD\", E4=\"WS\", E5=\"ZA\".\n\n```\nF2: =SUMA.WARUNKÓW(B$2:B$16;D$2:D$16;$E2;C$2:C$16;F$1)\n    (kopiowana w prawo do I2 i w dol do I5)\n\nJ2: =SUMA(F2:I2)          (razem wiersz)\nF6: =SUMA(F2:F5)          (razem kolumna)\nJ6: =SUMA(J2:J5)          (grand total)\n```\n\n**Kolumny pomocnicze:**\n\n| Kod | Wartosc | Kwartal | Region |\n|-----|---------|---------|--------|\n| APN0500 | 500 | Q1 | PN |\n| BPD1200 | 1200 | Q2 | PD |\n| CWS0800 | 800 | Q3 | WS |\n| AZA0650 | 650 | Q1 | ZA |\n| DPN0900 | 900 | Q4 | PN |\n| BWS1100 | 1100 | Q2 | WS |\n| APN0700 | 700 | Q1 | PN |\n| CPD1500 | 1500 | Q3 | PD |\n| DZA0400 | 400 | Q4 | ZA |\n| BWS0850 | 850 | Q2 | WS |\n| CPN1300 | 1300 | Q3 | PN |\n| DPD0600 | 600 | Q4 | PD |\n| AZA0550 | 550 | Q1 | ZA |\n| BWS0950 | 950 | Q2 | WS |\n| DPN1100 | 1100 | Q4 | PN |\n\n**Tabela pivot:**\n- PN-Q1: 500+700 = 1200\n- PN-Q2: 0\n- PN-Q3: 1300\n- PN-Q4: 900+1100 = 2000\n- PD-Q1: 0\n- PD-Q2: 1200\n- PD-Q3: 1500\n- PD-Q4: 600\n- WS-Q1: 0\n- WS-Q2: 1100+850+950 = 2900\n- WS-Q3: 800\n- WS-Q4: 0\n- ZA-Q1: 650+550 = 1200\n- ZA-Q2: 0\n- ZA-Q3: 0\n- ZA-Q4: 400\n\n| | Q1 | Q2 | Q3 | Q4 | Razem |\n|---|---|---|---|---|---|\n| Polnoc (PN) | 1200 | 0 | 1300 | 2000 | 4500 |\n| Poludnie (PD) | 0 | 1200 | 1500 | 600 | 3300 |\n| Wschod (WS) | 0 | 2900 | 800 | 0 | 3700 |\n| Zachod (ZA) | 1200 | 0 | 0 | 400 | 1600 |\n| Razem | 2400 | 4100 | 3600 | 3000 | **13100** |\n\n**Weryfikacja krzyzowa:**\n- Suma wierszow: 4500+3300+3700+1600 = 13100 ✓\n- Suma kolumn: 2400+4100+3600+3000 = 13100 ✓\n- SUMA(B2:B16) = 500+1200+800+650+900+1100+700+1500+400+850+1300+600+550+950+1100 = 13100 ✓\n\n**Wyjasnienie**: Pelna transformacja: parsowanie kodu → kolumny pomocnicze → pivot z SUMIFS. Zera w tabeli sa poprawne (brak zamowien z danej kombinacji). IF zamieniajacy litery na etykiety kwartalow to prost a alternatywa dla VLOOKUP ze slownikiem.",
   "typowe_bledy": [
     {
-      "opis": "**Pominiecie zer w pivocie**: Jesli SUMIFS nie znajduje danych dla kombinacji (np. PN-Q2), zwraca 0 — to poprawne, nie blad",
+      "opis": "**Pominiecie zer w pivocie**: Jesli SUMA.WARUNKÓW nie znajduje danych dla kombinacji (np. PN-Q2), zwraca 0 — to poprawne, nie blad",
       "kara": "-0 pkt"
     },
     {
-      "opis": "**MID z bledna pozycja startu**: MID(A2;2;2) zaczyna od 2. znaku. MID(A2;1;2) daloby litere kwartalu + pierwszy znak regionu",
+      "opis": "**MID z bledna pozycja startu**: FRAGMENT.TEKSTU(A2;2;2) zaczyna od 2. znaku. FRAGMENT.TEKSTU(A2;1;2) daloby litere kwartalu + pierwszy znak regionu",
       "kara": "-2 pkt"
     },
     {
-      "opis": "**Niezgodnosc typow naglowkow z kolumnami**: Jesli kolumna C zawiera \"Q1\" a naglowek F1 = 1 (liczba), SUMIFS nie dopasuje",
+      "opis": "**Niezgodnosc typow naglowkow z kolumnami**: Jesli kolumna C zawiera \"Q1\" a naglowek F1 = 1 (liczba), SUMA.WARUNKÓW nie dopasuje",
       "kara": "-2 pkt"
     }
   ]

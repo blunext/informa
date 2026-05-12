@@ -3,17 +3,21 @@
   "trudnosc": "latwe",
   "punkty": 2,
   "zrodlo": "ogolna (edukacja)",
-  "tagi": ["SUM", "AVERAGE", "mnozenie-komorek"],
+  "tagi": [
+    "SUM",
+    "AVERAGE",
+    "mnozenie-komorek"
+  ],
   "tresc": "Uczen otrzymal oceny z 5 przedmiotow w pierwszym semestrze:\n\n| | A | B |\n|---|---|---|\n| 1 | **Przedmiot** | **Ocena** |\n| 2 | Matematyka | 4 |\n| 3 | Polski | 3 |\n| 4 | Angielski | 5 |\n| 5 | Fizyka | 3 |\n| 6 | Informatyka | 5 |\n\n**Polecenie**: Napisz formuly obliczajace:\n1. Sume ocen.\n2. Srednia ocen.",
   "wskazowki": [
-    "**Kierunek**: SUM sumuje wartosci, AVERAGE oblicza srednia arytmetyczna.",
+    "**Kierunek**: SUM sumuje wartosci, ŚREDNIA oblicza srednia arytmetyczna.",
     "**Podejscie**: Zakres to B2:B6 — piec komorek z ocenami.",
-    "**Kluczowy krok**: AVERAGE automatycznie dzieli sume przez 5 — nie trzeba tego robic recznie."
+    "**Kluczowy krok**: ŚREDNIA automatycznie dzieli sume przez 5 — nie trzeba tego robic recznie."
   ],
-  "odpowiedz": "**Formuly:**\n```\nSuma ocen:   =SUM(B2:B6)\nSrednia:     =AVERAGE(B2:B6)\n```\n\n**Weryfikacja:**\n- Wartosci: 4, 3, 5, 3, 5\n- Suma: 4+3+5+3+5 = **20**\n- Srednia: 20/5 = **4.00**\n\n**Wyjasnienie**: SUM i AVERAGE to dwie najczesciej uzywane funkcje w arkuszach kalkulacyjnych. SUM zwraca sume, AVERAGE — srednia arytmetyczna (suma / liczba elementow). Obie operuja na zakresie komorek.",
+  "odpowiedz": "**Formuly:**\n```\nSuma ocen:   =SUMA(B2:B6)\nSrednia:     =ŚREDNIA(B2:B6)\n```\n\n**Weryfikacja:**\n- Wartosci: 4, 3, 5, 3, 5\n- Suma: 4+3+5+3+5 = **20**\n- Srednia: 20/5 = **4.00**\n\n**Wyjasnienie**: SUM i AVERAGE to dwie najczesciej uzywane funkcje w arkuszach kalkulacyjnych. SUM zwraca sume, AVERAGE — srednia arytmetyczna (suma / liczba elementow). Obie operuja na zakresie komorek.",
   "typowe_bledy": [
     {
-      "opis": "**Wlaczenie naglowka do zakresu**: =AVERAGE(B1:B6) wlaczy tekst 'Ocena' — funkcja moze zignorowac tekst lub zwrocic blad",
+      "opis": "**Wlaczenie naglowka do zakresu**: =ŚREDNIA(B1:B6) wlaczy tekst 'Ocena' — funkcja moze zignorowac tekst lub zwrocic blad",
       "kara": "-1 pkt"
     }
   ]

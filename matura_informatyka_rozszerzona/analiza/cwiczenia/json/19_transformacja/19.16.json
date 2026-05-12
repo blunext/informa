@@ -4,16 +4,16 @@
   "punkty": 2,
   "zrodlo": "ogolna",
   "tagi": [
-    "SUMIF",
+    "SUMA.JEŻELI",
     "grupowanie-danych"
   ],
   "tresc": "Stacja pogodowa zapisuje dzienne opady z podana pora roku:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Data** | **Pora roku** | **Opad (mm)** |\n| 2 | 01-01 | Zima | 5 |\n| 3 | 15-02 | Zima | 8 |\n| 4 | 20-03 | Wiosna | 12 |\n| 5 | 10-04 | Wiosna | 15 |\n| 6 | 05-05 | Wiosna | 7 |\n| 7 | 18-06 | Lato | 3 |\n| 8 | 25-07 | Lato | 2 |\n| 9 | 12-08 | Lato | 20 |\n| 10 | 03-09 | Jesien | 18 |\n| 11 | 22-10 | Jesien | 25 |\n| 12 | 15-11 | Jesien | 10 |\n| 13 | 08-12 | Zima | 6 |\n\nTabela podsumowania opadow:\n\n| | E | F |\n|---|---|---|\n| 1 | **Pora roku** | **Suma opadow** |\n| 2 | Wiosna | ? |\n| 3 | Lato | ? |\n| 4 | Jesien | ? |\n| 5 | Zima | ? |\n\n**Polecenie**: Napisz formule w F2, ktora zsumuje opady dla danej pory roku. Formula powinna dzialac po skopiowaniu w dol.",
   "wskazowki": [
-    "**Kierunek**: Suma warunkowa po jednym kryterium — SUMIF.",
-    "**Podejscie**: SUMIF(B2:B13;E2;C2:C13) — filtruj w kolumnie B (pora roku), sumuj z kolumny C (opad).",
+    "**Kierunek**: Suma warunkowa po jednym kryterium — SUMA.JEŻELI.",
+    "**Podejscie**: SUMA.JEŻELI(B2:B13;E2;C2:C13) — filtruj w kolumnie B (pora roku), sumuj z kolumny C (opad).",
     "**Kluczowy krok**: Pamietaj, ze Zima ma wpisy w roznych czesciach roku (styczen, luty, grudzien)."
   ],
-  "odpowiedz": "**Formula (F2, kopiowana w dol):**\n```\nF2: =SUMIF(B2:B13;E2;C2:C13)\n```\n\n**Weryfikacja:**\n- Wiosna: 12 + 15 + 7 = **34**\n- Lato: 3 + 2 + 20 = **25**\n- Jesien: 18 + 25 + 10 = **53**\n- Zima: 5 + 8 + 6 = **19**\n\nKontrola: 34 + 25 + 53 + 19 = 131 = SUM(C2:C13) = 5+8+12+15+7+3+2+20+18+25+10+6 = 131 ✓\n\n**Wyjasnienie**: SUMIF automatycznie znajduje wszystkie wystapienia danej pory roku — nawet jesli nie sa obok siebie (np. Zima w wierszach 2, 3 i 13). Nie trzeba sortowac danych zrodlowych. Kryterium E2 odnosi sie do nazwy pory roku w tabeli docelowej.",
+  "odpowiedz": "**Formula (F2, kopiowana w dol):**\n```\nF2: =SUMA.JEŻELI(B2:B13;E2;C2:C13)\n```\n\n**Weryfikacja:**\n- Wiosna: 12 + 15 + 7 = **34**\n- Lato: 3 + 2 + 20 = **25**\n- Jesien: 18 + 25 + 10 = **53**\n- Zima: 5 + 8 + 6 = **19**\n\nKontrola: 34 + 25 + 53 + 19 = 131 = SUMA(C2:C13) = 5+8+12+15+7+3+2+20+18+25+10+6 = 131 ✓\n\n**Wyjasnienie**: SUMIF automatycznie znajduje wszystkie wystapienia danej pory roku — nawet jesli nie sa obok siebie (np. Zima w wierszach 2, 3 i 13). Nie trzeba sortowac danych zrodlowych. Kryterium E2 odnosi sie do nazwy pory roku w tabeli docelowej.",
   "typowe_bledy": [
     {
       "opis": "**Pominiecie wiersza 13 (grudzien=Zima)**: Zakres musi siegac do wiersza 13, inaczej Zima bedzie zanizona o 6 mm",

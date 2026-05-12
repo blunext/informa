@@ -4,23 +4,23 @@
   "punkty": 2,
   "zrodlo": "ogolna",
   "tagi": [
-    "SUMIF",
+    "SUMA.JEŻELI",
     "grupowanie-danych"
   ],
   "tresc": "Biblioteka prowadzi rejestr wypozyczen ksiazek z podanym gatunkiem:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Tytul** | **Gatunek** | **Liczba wypozyczen** |\n| 2 | Potop | Historyczna | 15 |\n| 3 | Solaris | Sci-fi | 22 |\n| 4 | Krzyżacy | Historyczna | 18 |\n| 5 | Diuna | Sci-fi | 30 |\n| 6 | Zbrodnia i kara | Kryminalna | 12 |\n| 7 | Fundacja | Sci-fi | 25 |\n| 8 | Imie rozy | Kryminalna | 14 |\n| 9 | Quo Vadis | Historyczna | 20 |\n| 10 | Sherlock Holmes | Kryminalna | 28 |\n\nW osobnej tabeli chcemy policzyc sume wypozyczen dla kazdego gatunku:\n\n| | E | F |\n|---|---|---|\n| 1 | **Gatunek** | **Suma wypozyczen** |\n| 2 | Historyczna | ? |\n| 3 | Sci-fi | ? |\n| 4 | Kryminalna | ? |\n\n**Polecenie**: Napisz formule w F2, ktora zsumuje wypozyczenia dla danego gatunku. Formula powinna dzialac po skopiowaniu w dol.",
   "wskazowki": [
-    "**Kierunek**: Potrzebujesz sumy warunkowej — uzyj funkcji SUMIF.",
-    "**Podejscie**: SUMIF(zakres_kryterium; kryterium; zakres_sumy) — szukaj w kolumnie B, sumuj kolumne C.",
+    "**Kierunek**: Potrzebujesz sumy warunkowej — uzyj funkcji SUMA.JEŻELI.",
+    "**Podejscie**: SUMA.JEŻELI(zakres_kryterium; kryterium; zakres_sumy) — szukaj w kolumnie B, sumuj kolumne C.",
     "**Kluczowy krok**: Kryterium to odwolanie do E2, nie wpisany tekst — dzieki temu formula skopiuje sie w dol."
   ],
-  "odpowiedz": "**Formula (F2, kopiowana w dol):**\n```\nF2: =SUMIF(B2:B10;E2;C2:C10)\n```\n\n**Weryfikacja:**\n- Historyczna: 15 + 18 + 20 = **53**\n- Sci-fi: 22 + 30 + 25 = **77**\n- Kryminalna: 12 + 14 + 28 = **54**\n\nKontrola: 53 + 77 + 54 = 184 = SUM(C2:C10) = 15+22+18+30+12+25+14+20+28 = 184 ✓\n\n**Wyjasnienie**: SUMIF przeszukuje kolumne B (gatunek) i dla kazdego wiersza, gdzie wartosc = E2, dodaje odpowiadajaca wartosc z kolumny C. Odwolanie E2 jest wzgledne — po skopiowaniu do F3 zmieni sie na E3 (\"Sci-fi\"), a do F4 — E4 (\"Kryminalna\").",
+  "odpowiedz": "**Formula (F2, kopiowana w dol):**\n```\nF2: =SUMA.JEŻELI(B2:B10;E2;C2:C10)\n```\n\n**Weryfikacja:**\n- Historyczna: 15 + 18 + 20 = **53**\n- Sci-fi: 22 + 30 + 25 = **77**\n- Kryminalna: 12 + 14 + 28 = **54**\n\nKontrola: 53 + 77 + 54 = 184 = SUMA(C2:C10) = 15+22+18+30+12+25+14+20+28 = 184 ✓\n\n**Wyjasnienie**: SUMIF przeszukuje kolumne B (gatunek) i dla kazdego wiersza, gdzie wartosc = E2, dodaje odpowiadajaca wartosc z kolumny C. Odwolanie E2 jest wzgledne — po skopiowaniu do F3 zmieni sie na E3 (\"Sci-fi\"), a do F4 — E4 (\"Kryminalna\").",
   "typowe_bledy": [
     {
-      "opis": "**Wpisanie tekstu zamiast odwolania**: =SUMIF(B2:B10;\"Historyczna\";C2:C10) zadziala tylko dla jednego wiersza — nie skopiujesz formuly w dol",
+      "opis": "**Wpisanie tekstu zamiast odwolania**: =SUMA.JEŻELI(B2:B10;\"Historyczna\";C2:C10) zadziala tylko dla jednego wiersza — nie skopiujesz formuly w dol",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**Zamiana zakresow w SUMIF**: SUMIF ma kolejnosc: zakres_kryterium; kryterium; zakres_sumy — nie odwrotnie",
+      "opis": "**Zamiana zakresow w SUMA.JEŻELI**: SUMA.JEŻELI ma kolejnosc: zakres_kryterium; kryterium; zakres_sumy — nie odwrotnie",
       "kara": "-1 pkt"
     }
   ]

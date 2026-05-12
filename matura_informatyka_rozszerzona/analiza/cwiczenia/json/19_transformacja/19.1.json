@@ -4,23 +4,23 @@
   "punkty": 2,
   "zrodlo": "ogolna",
   "tagi": [
-    "SUMIF",
+    "SUMA.JEŻELI",
     "grupowanie-danych"
   ],
   "tresc": "W arkuszu mamy dane dziennej sprzedazy z podanym miesiacem:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Data** | **Miesiac** | **Sprzedaz** |\n| 2 | 2024-01-03 | Styczen | 1200 |\n| 3 | 2024-01-15 | Styczen | 800 |\n| 4 | 2024-01-22 | Styczen | 1500 |\n| 5 | 2024-02-05 | Luty | 900 |\n| 6 | 2024-02-18 | Luty | 1100 |\n| 7 | 2024-03-02 | Marzec | 1400 |\n| 8 | 2024-03-10 | Marzec | 600 |\n| 9 | 2024-03-21 | Marzec | 1300 |\n| 10 | 2024-03-28 | Marzec | 700 |\n\nW osobnej tabeli chcemy uzyskac sumy miesieczne:\n\n| | E | F |\n|---|---|---|\n| 1 | **Miesiac** | **Suma sprzedazy** |\n| 2 | Styczen | ? |\n| 3 | Luty | ? |\n| 4 | Marzec | ? |\n\n**Polecenie**: Napisz formule w F2, ktora zsumuje sprzedaz ze wszystkich dni nalezacych do danego miesiaca.",
   "wskazowki": [
-    "**Kierunek**: Potrzebujesz sumy warunkowej — SUMIF.",
-    "**Podejscie**: SUMIF(zakres_kryterium; kryterium; zakres_sumy) — filtruj po kolumnie B, sumuj kolumne C.",
+    "**Kierunek**: Potrzebujesz sumy warunkowej — SUMA.JEŻELI.",
+    "**Podejscie**: SUMA.JEŻELI(zakres_kryterium; kryterium; zakres_sumy) — filtruj po kolumnie B, sumuj kolumne C.",
     "**Kluczowy krok**: Kryterium to E2 (nazwa miesiaca z tabeli docelowej), nie wpisany tekst."
   ],
-  "odpowiedz": "**Formula (F2, kopiowana w dol):**\n```\nF2: =SUMIF(B2:B10;E2;C2:C10)\n```\n\n**Weryfikacja:**\n- Styczen: 1200 + 800 + 1500 = **3500**\n- Luty: 900 + 1100 = **2000**\n- Marzec: 1400 + 600 + 1300 + 700 = **4000**\n\nKontrola: 3500 + 2000 + 4000 = 9500 = SUM(C2:C10) ✓\n\n**Wyjasnienie**: SUMIF(zakres_kryterium; kryterium; zakres_sumy) sumuje wartosci z kolumny C tylko dla wierszy, gdzie kolumna B odpowiada wartosci z E2. To najprostsza forma transformacji — grupowanie danych szczegolowych w podsumowanie. Kryterium E2 jest wzgledne, wiec po skopiowaniu do F3 stanie sie E3 (\"Luty\"), a do F4 — E4 (\"Marzec\").",
+  "odpowiedz": "**Formula (F2, kopiowana w dol):**\n```\nF2: =SUMA.JEŻELI(B2:B10;E2;C2:C10)\n```\n\n**Weryfikacja:**\n- Styczen: 1200 + 800 + 1500 = **3500**\n- Luty: 900 + 1100 = **2000**\n- Marzec: 1400 + 600 + 1300 + 700 = **4000**\n\nKontrola: 3500 + 2000 + 4000 = 9500 = SUMA(C2:C10) ✓\n\n**Wyjasnienie**: SUMA.JEŻELI(zakres_kryterium; kryterium; zakres_sumy) sumuje wartosci z kolumny C tylko dla wierszy, gdzie kolumna B odpowiada wartosci z E2. To najprostsza forma transformacji — grupowanie danych szczegolowych w podsumowanie. Kryterium E2 jest wzgledne, wiec po skopiowaniu do F3 stanie sie E3 (\"Luty\"), a do F4 — E4 (\"Marzec\").",
   "typowe_bledy": [
     {
-      "opis": "**Wpisanie tekstu zamiast odwolania**: =SUMIF(B2:B10;\"Styczen\";C2:C10) zadziala, ale nie skopiujesz formuly w dol (kazdy wiersz bedzie mial \"Styczen\")",
+      "opis": "**Wpisanie tekstu zamiast odwolania**: =SUMA.JEŻELI(B2:B10;\"Styczen\";C2:C10) zadziala, ale nie skopiujesz formuly w dol (kazdy wiersz bedzie mial \"Styczen\")",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**Zly porzadek argumentow SUMIF**: SUMIF ma zakres_kryterium PRZED zakresem_sumy (odwrotnie niz SUMIFS!)",
+      "opis": "**Zly porzadek argumentow SUMA.JEŻELI**: SUMA.JEŻELI ma zakres_kryterium PRZED zakresem_sumy (odwrotnie niz SUMA.WARUNKÓW!)",
       "kara": "-1 pkt"
     }
   ]

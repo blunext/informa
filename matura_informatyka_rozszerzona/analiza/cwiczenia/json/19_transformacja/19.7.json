@@ -4,20 +4,20 @@
   "punkty": 3,
   "zrodlo": "Matura 2018 (Szkolna biblioteka)",
   "tagi": [
-    "VLOOKUP",
+    "WYSZUKAJ.PIONOWO",
     "kolumna-pomocnicza",
     "grupowanie-danych"
   ],
   "tresc": "W arkuszu mamy liste wypozyczen z biblioteki:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **ID czytelnika** | **Tytul** | **Data zwrotu** |\n| 2 | C001 | Harry Potter | 2024-02-15 |\n| 3 | C002 | Lalka | 2024-02-20 |\n| 4 | C001 | Solaris | 2024-03-01 |\n| 5 | C003 | Ferdydurke | 2024-02-28 |\n| 6 | C002 | Pan Tadeusz | 2024-03-10 |\n| 7 | C001 | Diune | 2024-03-15 |\n| 8 | C003 | Potop | 2024-02-25 |\n| 9 | C002 | Hobbit | 2024-03-05 |\n\nW osobnym arkuszu mamy dane czytelnikow:\n\n| | E | F | G |\n|---|---|---|---|\n| 1 | **ID** | **Imie** | **Klasa** |\n| 2 | C001 | Anna | 3A |\n| 3 | C002 | Bartek | 3B |\n| 4 | C003 | Celina | 3A |\n\n**Polecenie**:\n1. W kolumnie D wyszukaj imie czytelnika na podstawie ID (uzyj VLOOKUP).\n2. Ile wypozyczen mial kazdy czytelnik (uzyj COUNTIF)?\n3. Ile wypozyczen przypadlo na klase 3A?",
   "wskazowki": [
-    "**Kierunek**: VLOOKUP szuka wartosci w pierwszej kolumnie tabeli i zwraca wartosc z innej kolumny.",
-    "**Podejscie**: VLOOKUP(A2;$E$2:$G$4;2;0) — szuka ID w tabeli E:G, zwraca kolumne 2 (imie).",
-    "**Kluczowy krok**: Dla klasy 3A — najpierw wyszukaj klase (VLOOKUP z kolumna 3), potem COUNTIF po klasie."
+    "**Kierunek**: WYSZUKAJ.PIONOWO szuka wartosci w pierwszej kolumnie tabeli i zwraca wartosc z innej kolumny.",
+    "**Podejscie**: WYSZUKAJ.PIONOWO(A2;$E$2:$G$4;2;0) — szuka ID w tabeli E:G, zwraca kolumne 2 (imie).",
+    "**Kluczowy krok**: Dla klasy 3A — najpierw wyszukaj klase (WYSZUKAJ.PIONOWO z kolumna 3), potem LICZ.JEŻELI po klasie."
   ],
-  "odpowiedz": "**Formuly:**\n```\nD2: =VLOOKUP(A2;$E$2:$G$4;2;0)     (kopiowana w dol)\n\nWypozyczenia C001: =COUNTIF(A2:A9;\"C001\")\nWypozyczenia C002: =COUNTIF(A2:A9;\"C002\")\nWypozyczenia C003: =COUNTIF(A2:A9;\"C003\")\n\nKlasa czytelnika (kolumna pomocnicza H):\nH2: =VLOOKUP(A2;$E$2:$G$4;3;0)     (kopiowana w dol)\n\nWypozyczenia klasy 3A: =COUNTIF(H2:H9;\"3A\")\n```\n\n**Wyniki:**\n\n| ID | Tytul | Data | D: Imie | H: Klasa |\n|----|-------|------|---------|----------|\n| C001 | Harry Potter | 2024-02-15 | Anna | 3A |\n| C002 | Lalka | 2024-02-20 | Bartek | 3B |\n| C001 | Solaris | 2024-03-01 | Anna | 3A |\n| C003 | Ferdydurke | 2024-02-28 | Celina | 3A |\n| C002 | Pan Tadeusz | 2024-03-10 | Bartek | 3B |\n| C001 | Diune | 2024-03-15 | Anna | 3A |\n| C003 | Potop | 2024-02-25 | Celina | 3A |\n| C002 | Hobbit | 2024-03-05 | Bartek | 3B |\n\n- C001 (Anna): **3** wypozyczenia\n- C002 (Bartek): **3** wypozyczenia\n- C003 (Celina): **2** wypozyczenia\n\nKlasa 3A (Anna + Celina): 3 + 2 = **5** wypozyczen\nKlasa 3B (Bartek): **3** wypozyczenia\n\n**Wyjasnienie**: VLOOKUP(szukana; tabela; kolumna; dokladnosc) wyszukuje wartosci w tabeli referencyjnej. Czwarty argument 0 (lub FALSE) oznacza dokladne dopasowanie. Tabela referencjna musi miec klucz (ID) w PIERWSZEJ kolumnie. VLOOKUP + COUNTIF to czesty wzorzec na maturze — laczymy dane z dwoch tabel.",
+  "odpowiedz": "**Formuly:**\n```\nD2: =WYSZUKAJ.PIONOWO(A2;$E$2:$G$4;2;0)     (kopiowana w dol)\n\nWypozyczenia C001: =LICZ.JEŻELI(A2:A9;\"C001\")\nWypozyczenia C002: =LICZ.JEŻELI(A2:A9;\"C002\")\nWypozyczenia C003: =LICZ.JEŻELI(A2:A9;\"C003\")\n\nKlasa czytelnika (kolumna pomocnicza H):\nH2: =WYSZUKAJ.PIONOWO(A2;$E$2:$G$4;3;0)     (kopiowana w dol)\n\nWypozyczenia klasy 3A: =LICZ.JEŻELI(H2:H9;\"3A\")\n```\n\n**Wyniki:**\n\n| ID | Tytul | Data | D: Imie | H: Klasa |\n|----|-------|------|---------|----------|\n| C001 | Harry Potter | 2024-02-15 | Anna | 3A |\n| C002 | Lalka | 2024-02-20 | Bartek | 3B |\n| C001 | Solaris | 2024-03-01 | Anna | 3A |\n| C003 | Ferdydurke | 2024-02-28 | Celina | 3A |\n| C002 | Pan Tadeusz | 2024-03-10 | Bartek | 3B |\n| C001 | Diune | 2024-03-15 | Anna | 3A |\n| C003 | Potop | 2024-02-25 | Celina | 3A |\n| C002 | Hobbit | 2024-03-05 | Bartek | 3B |\n\n- C001 (Anna): **3** wypozyczenia\n- C002 (Bartek): **3** wypozyczenia\n- C003 (Celina): **2** wypozyczenia\n\nKlasa 3A (Anna + Celina): 3 + 2 = **5** wypozyczen\nKlasa 3B (Bartek): **3** wypozyczenia\n\n**Wyjasnienie**: WYSZUKAJ.PIONOWO(szukana; tabela; kolumna; dokladnosc) wyszukuje wartosci w tabeli referencyjnej. Czwarty argument 0 (lub FALSE) oznacza dokladne dopasowanie. Tabela referencjna musi miec klucz (ID) w PIERWSZEJ kolumnie. VLOOKUP + COUNTIF to czesty wzorzec na maturze — laczymy dane z dwoch tabel.",
   "typowe_bledy": [
     {
-      "opis": "**Brak 0 (FALSE) jako czwarty argument**: Bez niego VLOOKUP uzywa przyblizonego dopasowania, co wymaga posortowanych danych",
+      "opis": "**Brak 0 (FALSE) jako czwarty argument**: Bez niego WYSZUKAJ.PIONOWO uzywa przyblizonego dopasowania, co wymaga posortowanych danych",
       "kara": "-1 pkt"
     },
     {

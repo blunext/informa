@@ -13,16 +13,16 @@
   "wskazowki": [
     "**Wskazowka 1**: Zapas to akumulator z dwoma zrodlami zmian: przyjecia (dodajesz) i wydania (odejmujesz). Alarm to osobna kolumna z warunkiem IF.",
     "**Wskazowka 2**: Formula D3 odwoluje sie do D2 (poprzedni zapas), B3 (przyjecie) i C3 (wydanie). Formula E3 sprawdza wartosc D3 wzgledem progu 50.",
-    "**Wskazowka 3**: D3: `=D2+B3-C3`, E3: `=IF(D3<50;\"NISKI STAN\";\"\")`. Obie formuly kopiujemy w dol — wszystkie odwolania sa wzgledne."
+    "**Wskazowka 3**: D3: `=D2+B3-C3`, E3: `=JEŻELI(D3<50;\"NISKI STAN\";\"\")`. Obie formuly kopiujemy w dol — wszystkie odwolania sa wzgledne."
   ],
-  "odpowiedz": "**Formuly (wiersz 3, kopiowane w dol):**\n```\nD3: =D2+B3-C3\nE3: =IF(D3<50;\"NISKI STAN\";\"\")\n```\n\n**Wypelniona tabela:**\n\n| Dzien | Przyjecie | Wydanie | Zapas | Alarm |\n|-------|-----------|---------|-------|-------|\n| 0 (start) | — | — | 200 | |\n| 1 | 0 | 80 | 120 | |\n| 2 | 50 | 60 | 110 | |\n| 3 | 0 | 70 | 40 | NISKI STAN |\n| 4 | 100 | 30 | 110 | |\n| 5 | 0 | 90 | 20 | NISKI STAN |\n| 6 | 20 | 50 | -10 | NISKI STAN |\n| 7 | 0 | 40 | -50 | NISKI STAN |\n\n**Weryfikacja:**\n- D3: 200 + 0 - 80 = 120 (>=50, brak alarmu)\n- D4: 120 + 50 - 60 = 110 (>=50, brak alarmu)\n- D5: 110 + 0 - 70 = 40 (<50, NISKI STAN)\n- D6: 40 + 100 - 30 = 110 (>=50, brak alarmu)\n- D7: 110 + 0 - 90 = 20 (<50, NISKI STAN)\n- D8: 20 + 20 - 50 = -10 (<50, NISKI STAN)\n- D9: -10 + 0 - 40 = -50 (<50, NISKI STAN)\n\n**Wyjasnienie**: Kolumna D to akumulator z dwoma zrodlami zmian (przyjecia i wydania). Kolumna E uzywa IF do warunkowego wyswietlania tekstu. Ujemny zapas oznacza, ze magazyn jest \"na minusie\" (zamowienia przekraczaja stan).",
+  "odpowiedz": "**Formuly (wiersz 3, kopiowane w dol):**\n```\nD3: =D2+B3-C3\nE3: =JEŻELI(D3<50;\"NISKI STAN\";\"\")\n```\n\n**Wypelniona tabela:**\n\n| Dzien | Przyjecie | Wydanie | Zapas | Alarm |\n|-------|-----------|---------|-------|-------|\n| 0 (start) | — | — | 200 | |\n| 1 | 0 | 80 | 120 | |\n| 2 | 50 | 60 | 110 | |\n| 3 | 0 | 70 | 40 | NISKI STAN |\n| 4 | 100 | 30 | 110 | |\n| 5 | 0 | 90 | 20 | NISKI STAN |\n| 6 | 20 | 50 | -10 | NISKI STAN |\n| 7 | 0 | 40 | -50 | NISKI STAN |\n\n**Weryfikacja:**\n- D3: 200 + 0 - 80 = 120 (>=50, brak alarmu)\n- D4: 120 + 50 - 60 = 110 (>=50, brak alarmu)\n- D5: 110 + 0 - 70 = 40 (<50, NISKI STAN)\n- D6: 40 + 100 - 30 = 110 (>=50, brak alarmu)\n- D7: 110 + 0 - 90 = 20 (<50, NISKI STAN)\n- D8: 20 + 20 - 50 = -10 (<50, NISKI STAN)\n- D9: -10 + 0 - 40 = -50 (<50, NISKI STAN)\n\n**Wyjasnienie**: Kolumna D to akumulator z dwoma zrodlami zmian (przyjecia i wydania). Kolumna E uzywa IF do warunkowego wyswietlania tekstu. Ujemny zapas oznacza, ze magazyn jest \"na minusie\" (zamowienia przekraczaja stan).",
   "typowe_bledy": [
     {
       "opis": "**Odwrotna kolejnosc odejmowania**: Napisanie `=D2-B3+C3` (odjecie przyjecia i dodanie wydania) — odwrocona logika daje calkowicie bledne wyniki.",
       "kara": "-0 pkt"
     },
     {
-      "opis": "**Porownanie alarmu z odwrotnym znakiem**: Napisanie `IF(D3>50;...)` zamiast `IF(D3<50;...)` — alarm pojawia sie gdy zapas jest wysoki, a znika gdy jest niski.",
+      "opis": "**Porownanie alarmu z odwrotnym znakiem**: Napisanie `JEŻELI(D3>50;...)` zamiast `JEŻELI(D3<50;...)` — alarm pojawia sie gdy zapas jest wysoki, a znika gdy jest niski.",
       "kara": "-0 pkt"
     },
     {

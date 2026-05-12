@@ -4,25 +4,25 @@
   "punkty": 4,
   "zrodlo": "Inspirowane matura 2018 (Rzeki)",
   "tagi": [
-    "COUNTIFS",
+    "LICZ.WARUNKI",
     "operator-konkatenacji",
     "warunek-liczbowy",
     "wiele-warunkow"
   ],
   "tresc": "W arkuszu mamy dane o temperaturach mierzonych w dwoch miastach:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Dzien** | **Miasto** | **Temperatura** |\n| 2 | 1 | Warszawa | 5 |\n| 3 | 1 | Krakow | 3 |\n| 4 | 2 | Warszawa | -2 |\n| 5 | 2 | Krakow | -4 |\n| 6 | 3 | Warszawa | 8 |\n| 7 | 3 | Krakow | 6 |\n| 8 | 4 | Warszawa | 12 |\n| 9 | 4 | Krakow | 10 |\n| 10 | 5 | Warszawa | -1 |\n| 11 | 5 | Krakow | 0 |\n\nProg temperatury wpisano w komorce F1: **0**\n\n**Polecenie**: Napisz formule, ktora policzy ile pomiarow w \"Warszawa\" odnotowalo temperature wyzszą niz prog z F1.",
   "wskazowki": [
-    "**Kierunek**: Potrzebujesz COUNTIFS z dwoma warunkami — miasto i temperatura.",
+    "**Kierunek**: Potrzebujesz LICZ.WARUNKI z dwoma warunkami — miasto i temperatura.",
     "**Podejscie**: Warunek liczbowy musi byc dynamiczny — uzyj operatora konkatenacji & do polaczenia \">\" z wartoscia komorki F1.",
-    "**Kluczowy krok**: =COUNTIFS(B2:B11;\"Warszawa\";C2:C11;\">\"&F1) — operator & laczy tekst \">\" z wartoscia z komorki F1."
+    "**Kluczowy krok**: =LICZ.WARUNKI(B2:B11;\"Warszawa\";C2:C11;\">\"&F1) — operator & laczy tekst \">\" z wartoscia z komorki F1."
   ],
-  "odpowiedz": "**Formula:**\n```\n=COUNTIFS(B2:B11;\"Warszawa\";C2:C11;\">\"&F1)\n```\n\n**Weryfikacja** (F1 = 0, szukamy Warszawa z temperatura > 0):\n- Dzien 1: Warszawa, 5 > 0 ✓\n- Dzien 2: Warszawa, -2 — NIE\n- Dzien 3: Warszawa, 8 > 0 ✓\n- Dzien 4: Warszawa, 12 > 0 ✓\n- Dzien 5: Warszawa, -1 — NIE\n\nWynik: **3**\n\n**Wyjasnienie**: Operator & (konkatenacja) pozwala tworzyc dynamiczne kryteria. Tekst \">\" jest laczony z wartoscia z komorki F1 (=0), tworzac kryterium \">0\". Jezeli uzytkownik zmieni F1 na np. 5, formula automatycznie policzy pomiary > 5.",
+  "odpowiedz": "**Formula:**\n```\n=LICZ.WARUNKI(B2:B11;\"Warszawa\";C2:C11;\">\"&F1)\n```\n\n**Weryfikacja** (F1 = 0, szukamy Warszawa z temperatura > 0):\n- Dzien 1: Warszawa, 5 > 0 ✓\n- Dzien 2: Warszawa, -2 — NIE\n- Dzien 3: Warszawa, 8 > 0 ✓\n- Dzien 4: Warszawa, 12 > 0 ✓\n- Dzien 5: Warszawa, -1 — NIE\n\nWynik: **3**\n\n**Wyjasnienie**: Operator & (konkatenacja) pozwala tworzyc dynamiczne kryteria. Tekst \">\" jest laczony z wartoscia z komorki F1 (=0), tworzac kryterium \">0\". Jezeli uzytkownik zmieni F1 na np. 5, formula automatycznie policzy pomiary > 5.",
   "typowe_bledy": [
     {
-      "opis": "**Wpisanie wartosci zamiast odwolania**: =COUNTIFS(B2:B11;\"Warszawa\";C2:C11;\">0\") — dziala, ale nie jest dynamiczne. Zmiana progu w F1 nie zmieni wyniku formuly",
+      "opis": "**Wpisanie wartosci zamiast odwolania**: =LICZ.WARUNKI(B2:B11;\"Warszawa\";C2:C11;\">0\") — dziala, ale nie jest dynamiczne. Zmiana progu w F1 nie zmieni wyniku formuly",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**Brak cudzyslowow wokol operatora**: =COUNTIFS(B2:B11;\"Warszawa\";C2:C11;>&F1) — operator > musi byc w cudzyslowach jako tekst",
+      "opis": "**Brak cudzyslowow wokol operatora**: =LICZ.WARUNKI(B2:B11;\"Warszawa\";C2:C11;>&F1) — operator > musi byc w cudzyslowach jako tekst",
       "kara": "-1 pkt"
     }
   ]

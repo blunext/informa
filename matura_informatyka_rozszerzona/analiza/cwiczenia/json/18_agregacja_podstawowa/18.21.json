@@ -3,21 +3,27 @@
   "trudnosc": "srednie",
   "punkty": 4,
   "zrodlo": "ogolna (zdrowie)",
-  "tagi": ["AVERAGE", "MAX", "MIN", "COUNT", "rozstep"],
+  "tagi": [
+    "AVERAGE",
+    "MAX",
+    "MIN",
+    "COUNT",
+    "rozstep"
+  ],
   "tresc": "Lekarz zmierzyl cisnienie skurczowe (w mmHg) u 8 pacjentow:\n\n| | A | B |\n|---|---|---|\n| 1 | **Pacjent** | **Cisnienie** |\n| 2 | P1 | 125 |\n| 3 | P2 | 138 |\n| 4 | P3 | 110 |\n| 5 | P4 | 145 |\n| 6 | P5 | 132 |\n| 7 | P6 | 118 |\n| 8 | P7 | 155 |\n| 9 | P8 | 127 |\n\n**Polecenie**: Napisz formuly obliczajace:\n1. Srednie cisnienie w grupie.\n2. Najwyzsze i najnizsze cisnienie.\n3. Rozstep cisnien.\n4. Liczbe pomiarow (ile jest wartosci liczbowych w kolumnie B).",
   "wskazowki": [
-    "**Kierunek**: AVERAGE, MAX, MIN operuja na zakresie B2:B9. COUNT zlicza wartosci liczbowe.",
-    "**Podejscie**: Rozstep = MAX - MIN. COUNT weryfikuje, ile jest poprawnych pomiarow.",
-    "**Kluczowy krok**: COUNT(B2:B9) powinno dac 8 — jesli daje mniej, znaczy ze sa puste lub tekstowe komorki."
+    "**Kierunek**: ŚREDNIA, MAX, MIN operuja na zakresie B2:B9. ILE.LICZB zlicza wartosci liczbowe.",
+    "**Podejscie**: Rozstep = MAX - MIN. ILE.LICZB weryfikuje, ile jest poprawnych pomiarow.",
+    "**Kluczowy krok**: ILE.LICZB(B2:B9) powinno dac 8 — jesli daje mniej, znaczy ze sa puste lub tekstowe komorki."
   ],
-  "odpowiedz": "**Formuly:**\n```\nSrednie cisnienie: =AVERAGE(B2:B9)\nNajwyzsze:         =MAX(B2:B9)\nNajnizsze:         =MIN(B2:B9)\nRozstep:           =MAX(B2:B9)-MIN(B2:B9)\nLiczba pomiarow:   =COUNT(B2:B9)\n```\n\n**Weryfikacja:**\n- Wartosci: 125, 138, 110, 145, 132, 118, 155, 127\n- Srednia: (125+138+110+145+132+118+155+127)/8 = 1050/8 = **131.25**\n- Max: **155** (P7)\n- Min: **110** (P3)\n- Rozstep: 155 - 110 = **45**\n- COUNT: **8** pomiarow\n\n**Wyjasnienie**: Srednie cisnienie 131.25 mmHg jest nieco podwyzszone (norma <120). Rozstep 45 mmHg wskazuje na duze zroznicowanie — od normalnego (P3: 110) do wysokiego (P7: 155). COUNT potwierdza, ze wszystkie 8 pomiarow jest kompletnych.",
+  "odpowiedz": "**Formuly:**\n```\nSrednie cisnienie: =ŚREDNIA(B2:B9)\nNajwyzsze:         =MAX(B2:B9)\nNajnizsze:         =MIN(B2:B9)\nRozstep:           =MAX(B2:B9)-MIN(B2:B9)\nLiczba pomiarow:   =ILE.LICZB(B2:B9)\n```\n\n**Weryfikacja:**\n- Wartosci: 125, 138, 110, 145, 132, 118, 155, 127\n- Srednia: (125+138+110+145+132+118+155+127)/8 = 1050/8 = **131.25**\n- Max: **155** (P7)\n- Min: **110** (P3)\n- Rozstep: 155 - 110 = **45**\n- COUNT: **8** pomiarow\n\n**Wyjasnienie**: Srednie cisnienie 131.25 mmHg jest nieco podwyzszone (norma <120). Rozstep 45 mmHg wskazuje na duze zroznicowanie — od normalnego (P3: 110) do wysokiego (P7: 155). COUNT potwierdza, ze wszystkie 8 pomiarow jest kompletnych.",
   "typowe_bledy": [
     {
       "opis": "**Odwrocenie MAX-MIN w rozstepie**: =MIN(...)-MAX(...) da wartosc ujemna (-45)",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**Uzycie COUNTA zamiast COUNT**: Dla samych liczb daja ten sam wynik, ale COUNT jest semantycznie poprawniejszy dla danych liczbowych",
+      "opis": "**Uzycie ILE.NIEPUSTYCH zamiast ILE.LICZB**: Dla samych liczb daja ten sam wynik, ale ILE.LICZB jest semantycznie poprawniejszy dla danych liczbowych",
       "kara": "-0 pkt"
     }
   ]

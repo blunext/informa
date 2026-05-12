@@ -4,20 +4,20 @@
   "punkty": 4,
   "zrodlo": "Inspirowane matura 2025 (Martianeum)",
   "tagi": [
-    "AVERAGEIF",
-    "COUNTIF",
+    "ŚREDNIA.JEŻELI",
+    "LICZ.JEŻELI",
     "warunek-tekstowy"
   ],
   "tresc": "W arkuszu mamy dane o wynikach egzaminow z roznych przedmiotow:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Uczen** | **Przedmiot** | **Wynik (%)** |\n| 2 | Anna | Matematyka | 78 |\n| 3 | Bartek | Fizyka | 65 |\n| 4 | Celina | Matematyka | 82 |\n| 5 | Dawid | Chemia | 71 |\n| 6 | Ewa | Fizyka | 90 |\n| 7 | Filip | Matematyka | 55 |\n| 8 | Gosia | Chemia | 88 |\n| 9 | Hubert | Fizyka | 73 |\n| 10 | Iga | Matematyka | 91 |\n| 11 | Jan | Chemia | 60 |\n\n**Polecenie**:\n1. Oblicz sredni wynik z egzaminu z \"Fizyka\".\n2. Ile osob zdawalo egzamin z \"Chemia\"?\n3. Oblicz sredni wynik z egzaminu z \"Matematyka\".",
   "wskazowki": [
-    "**Kierunek**: Dwa rozne typy agregatow warunkowych — srednia (AVERAGEIF) i zliczanie (COUNTIF).",
-    "**Podejscie**: Oba filtruja po kolumnie B (przedmiot). AVERAGEIF usrednia kolumne C, COUNTIF zlicza wystapienia.",
-    "**Kluczowy krok**: AVERAGEIF(B2:B11;\"Fizyka\";C2:C11) i COUNTIF(B2:B11;\"Chemia\")."
+    "**Kierunek**: Dwa rozne typy agregatow warunkowych — srednia (ŚREDNIA.JEŻELI) i zliczanie (LICZ.JEŻELI).",
+    "**Podejscie**: Oba filtruja po kolumnie B (przedmiot). ŚREDNIA.JEŻELI usrednia kolumne C, LICZ.JEŻELI zlicza wystapienia.",
+    "**Kluczowy krok**: ŚREDNIA.JEŻELI(B2:B11;\"Fizyka\";C2:C11) i LICZ.JEŻELI(B2:B11;\"Chemia\")."
   ],
-  "odpowiedz": "**Formuly:**\n```\n1. =AVERAGEIF(B2:B11;\"Fizyka\";C2:C11)\n2. =COUNTIF(B2:B11;\"Chemia\")\n3. =AVERAGEIF(B2:B11;\"Matematyka\";C2:C11)\n```\n\n**Weryfikacja:**\n\nPunkt 1 — srednia Fizyka:\n- Bartek: 65, Ewa: 90, Hubert: 73\n- Srednia: (65 + 90 + 73) / 3 = 228 / 3 = **76**\n\nPunkt 2 — liczba zdajacych Chemie:\n- Dawid, Gosia, Jan = **3**\n\nPunkt 3 — srednia Matematyka:\n- Anna: 78, Celina: 82, Filip: 55, Iga: 91\n- Srednia: (78 + 82 + 55 + 91) / 4 = 306 / 4 = **76,5**\n\n**Wyjasnienie**: AVERAGEIF i COUNTIF sa podstawowymi funkcjami agregacji warunkowej. AVERAGEIF potrzebuje trzech argumentow (zakres kryterium, kryterium, zakres wartosci), COUNTIF tylko dwoch (zakres, kryterium).",
+  "odpowiedz": "**Formuly:**\n```\n1. =ŚREDNIA.JEŻELI(B2:B11;\"Fizyka\";C2:C11)\n2. =LICZ.JEŻELI(B2:B11;\"Chemia\")\n3. =ŚREDNIA.JEŻELI(B2:B11;\"Matematyka\";C2:C11)\n```\n\n**Weryfikacja:**\n\nPunkt 1 — srednia Fizyka:\n- Bartek: 65, Ewa: 90, Hubert: 73\n- Srednia: (65 + 90 + 73) / 3 = 228 / 3 = **76**\n\nPunkt 2 — liczba zdajacych Chemie:\n- Dawid, Gosia, Jan = **3**\n\nPunkt 3 — srednia Matematyka:\n- Anna: 78, Celina: 82, Filip: 55, Iga: 91\n- Srednia: (78 + 82 + 55 + 91) / 4 = 306 / 4 = **76,5**\n\n**Wyjasnienie**: AVERAGEIF i COUNTIF sa podstawowymi funkcjami agregacji warunkowej. AVERAGEIF potrzebuje trzech argumentow (zakres kryterium, kryterium, zakres wartosci), COUNTIF tylko dwoch (zakres, kryterium).",
   "typowe_bledy": [
     {
-      "opis": "**Pomieszanie zakresow w AVERAGEIF**: =AVERAGEIF(C2:C11;\"Fizyka\";B2:B11) — zakres kryterium i zakres wartosci sa zamienione",
+      "opis": "**Pomieszanie zakresow w ŚREDNIA.JEŻELI**: =ŚREDNIA.JEŻELI(C2:C11;\"Fizyka\";B2:B11) — zakres kryterium i zakres wartosci sa zamienione",
       "kara": "-2 pkt"
     },
     {

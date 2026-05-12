@@ -4,29 +4,29 @@
   "punkty": 4,
   "zrodlo": "Matura 2019 (Pogoda)",
   "tagi": [
-    "AVERAGEIF",
-    "COUNTIFS",
+    "ŚREDNIA.JEŻELI",
+    "LICZ.WARUNKI",
     "operator-konkatenacji",
     "warunek-liczbowy"
   ],
   "tresc": "W arkuszu mamy dane pogodowe z 12 miesiecy:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Dzien** | **Miesiac** | **Temperatura** |\n| 2 | 1 | Styczeń | -5.2 |\n| 3 | 2 | Styczeń | -3.1 |\n| 4 | 3 | Styczeń | 0.4 |\n| 5 | 4 | Luty | -1.8 |\n| 6 | 5 | Luty | 2.3 |\n| 7 | 6 | Luty | -0.5 |\n| 8 | 7 | Marzec | 5.1 |\n| 9 | 8 | Marzec | 8.7 |\n| 10 | 9 | Marzec | 3.2 |\n| 11 | 10 | Marzec | 7.4 |\n\nZalozmy, ze normy temperatur sa podane w osobnej tabeli:\n\n| | E | F |\n|---|---|---|\n| 1 | **Miesiac** | **Norma** |\n| 2 | Styczeń | -2.0 |\n| 3 | Luty | 0.0 |\n| 4 | Marzec | 5.0 |\n\n**Polecenie**:\n1. Napisz formule obliczajaca srednia temperature w styczniu (AVERAGEIF).\n2. Napisz formule zliczajaca dni w marcu z temperatura powyzej normy (5.0°C) uzywajac COUNTIFS.",
   "wskazowki": [
-    "**Kierunek**: Punkt 1 to standardowy AVERAGEIF. Punkt 2 wymaga dwoch warunkow — COUNTIFS.",
+    "**Kierunek**: Punkt 1 to standardowy ŚREDNIA.JEŻELI. Punkt 2 wymaga dwoch warunkow — LICZ.WARUNKI.",
     "**Podejscie**: W punkcie 2 kryterium liczbowe musi byc polaczone z operatorem porownania za pomoca `&`.",
     "**Kluczowy krok**: Kryterium `\">\"&F4` laczy tekst \">\" z wartoscia komorki F4 (5.0), dajac \">5\"."
   ],
-  "odpowiedz": "**Formuly:**\n```\n1. Srednia temperatura w styczniu:\n   =AVERAGEIF(B2:B11;\"Styczeń\";C2:C11)\n\n2. Dni w marcu powyzej normy:\n   =COUNTIFS(B2:B11;\"Marzec\";C2:C11;\">\"&F4)\n```\n\n**Weryfikacja**:\n\n1. Srednia w styczniu:\n   - Dni w styczniu: -5.2, -3.1, 0.4\n   - Srednia: (-5.2 + (-3.1) + 0.4) / 3 = -7.9/3 = **-2.633...**\n\n2. Dni w marcu powyzej normy (>5.0):\n   - Marzec: 5.1 (>5.0 ✓), 8.7 (>5.0 ✓), 3.2 (≤5.0 ✗), 7.4 (>5.0 ✓)\n   - Wynik: **3** dni\n\n**Wyjasnienie**:\n- AVERAGEIF dziala analogicznie do SUMIF — uśrednia wartosci C tylko tam, gdzie B spelnia kryterium.\n- W COUNTIFS kryterium `\">\"&F4` laczy operator porownania `\">\"` z wartoscia komorki F4 (5.0), tworzac warunek `\">5\"`. Operator `&` sluzy do laczenia tekstu (konkatenacji).",
+  "odpowiedz": "**Formuly:**\n```\n1. Srednia temperatura w styczniu:\n   =ŚREDNIA.JEŻELI(B2:B11;\"Styczeń\";C2:C11)\n\n2. Dni w marcu powyzej normy:\n   =LICZ.WARUNKI(B2:B11;\"Marzec\";C2:C11;\">\"&F4)\n```\n\n**Weryfikacja**:\n\n1. Srednia w styczniu:\n   - Dni w styczniu: -5.2, -3.1, 0.4\n   - Srednia: (-5.2 + (-3.1) + 0.4) / 3 = -7.9/3 = **-2.633...**\n\n2. Dni w marcu powyzej normy (>5.0):\n   - Marzec: 5.1 (>5.0 ✓), 8.7 (>5.0 ✓), 3.2 (≤5.0 ✗), 7.4 (>5.0 ✓)\n   - Wynik: **3** dni\n\n**Wyjasnienie**:\n- AVERAGEIF dziala analogicznie do SUMIF — uśrednia wartosci C tylko tam, gdzie B spelnia kryterium.\n- W COUNTIFS kryterium `\">\"&F4` laczy operator porownania `\">\"` z wartoscia komorki F4 (5.0), tworzac warunek `\">5\"`. Operator `&` sluzy do laczenia tekstu (konkatenacji).",
   "typowe_bledy": [
     {
       "opis": "**Brak cudzyslowow wokol operatora**: =\">\"&F4 jest poprawne, ale >F4 bez cudzyslowow nie zadziala",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**Uzycie COUNTIF zamiast COUNTIFS**: COUNTIF obsluguje tylko jeden warunek (np. tylko \">5\"), ale nie filtruje jednoczesnie po miesiacu",
+      "opis": "**Uzycie LICZ.JEŻELI zamiast LICZ.WARUNKI**: LICZ.JEŻELI obsluguje tylko jeden warunek (np. tylko \">5\"), ale nie filtruje jednoczesnie po miesiacu",
       "kara": "-2 pkt"
     },
     {
-      "opis": "**Wpisanie wartosci zamiast odwolania**: =COUNTIFS(B2:B11;\"Marzec\";C2:C11;\">5\") zadziala, ale traci elastycznosc — lepiej uzywac odwolania do komorki z norma",
+      "opis": "**Wpisanie wartosci zamiast odwolania**: =LICZ.WARUNKI(B2:B11;\"Marzec\";C2:C11;\">5\") zadziala, ale traci elastycznosc — lepiej uzywac odwolania do komorki z norma",
       "kara": "-0 pkt"
     }
   ]

@@ -7,20 +7,20 @@
   "tagi_globalne": [
     "ABS",
     "AVERAGE",
-    "AVERAGEIF",
     "COUNT",
     "COUNTA",
     "COUNTBLANK",
     "MAX",
     "MEDIAN",
     "MIN",
-    "RANK",
-    "ROUND",
-    "SUM",
     "mnozenie-komorek",
     "odchylenie-od-sredniej",
     "procent",
+    "RANK",
+    "ROUND",
     "rozstep",
+    "SUM",
+    "ŚREDNIA.JEŻELI",
     "zakres-bezwzgledny",
     "zaokraglanie"
   ],
@@ -145,181 +145,360 @@
       "id": "18.11",
       "trudnosc": "latwe",
       "punkty": 2,
-      "tagi": ["SUM", "AVERAGE"]
+      "tagi": [
+        "SUM",
+        "AVERAGE"
+      ]
     },
     {
       "id": "18.12",
       "trudnosc": "latwe",
       "punkty": 2,
-      "tagi": ["MAX", "MIN", "rozstep"]
+      "tagi": [
+        "MAX",
+        "MIN",
+        "rozstep"
+      ]
     },
     {
       "id": "18.13",
       "trudnosc": "latwe",
       "punkty": 2,
-      "tagi": ["SUM", "MAX", "MIN"]
+      "tagi": [
+        "SUM",
+        "MAX",
+        "MIN"
+      ]
     },
     {
       "id": "18.14",
       "trudnosc": "latwe",
       "punkty": 2,
-      "tagi": ["SUM", "AVERAGE", "mnozenie-komorek"]
+      "tagi": [
+        "SUM",
+        "AVERAGE",
+        "mnozenie-komorek"
+      ]
     },
     {
       "id": "18.15",
       "trudnosc": "latwe",
       "punkty": 2,
-      "tagi": ["SUM", "MAX"]
+      "tagi": [
+        "SUM",
+        "MAX"
+      ]
     },
     {
       "id": "18.16",
       "trudnosc": "latwe",
       "punkty": 2,
-      "tagi": ["AVERAGE", "MAX", "MIN"]
+      "tagi": [
+        "AVERAGE",
+        "MAX",
+        "MIN"
+      ]
     },
     {
       "id": "18.17",
       "trudnosc": "latwe",
       "punkty": 2,
-      "tagi": ["SUM", "AVERAGE", "MIN"]
+      "tagi": [
+        "SUM",
+        "AVERAGE",
+        "MIN"
+      ]
     },
     {
       "id": "18.18",
       "trudnosc": "srednie",
       "punkty": 3,
-      "tagi": ["COUNT", "COUNTA", "COUNTBLANK", "procent"]
+      "tagi": [
+        "COUNT",
+        "COUNTA",
+        "COUNTBLANK",
+        "procent"
+      ]
     },
     {
       "id": "18.19",
       "trudnosc": "srednie",
       "punkty": 3,
-      "tagi": ["SUM", "AVERAGE", "MAX", "procent"]
+      "tagi": [
+        "SUM",
+        "AVERAGE",
+        "MAX",
+        "procent"
+      ]
     },
     {
       "id": "18.20",
       "trudnosc": "srednie",
       "punkty": 3,
-      "tagi": ["SUM", "AVERAGE", "mnozenie-komorek", "procent"]
+      "tagi": [
+        "SUM",
+        "AVERAGE",
+        "mnozenie-komorek",
+        "procent"
+      ]
     },
     {
       "id": "18.21",
       "trudnosc": "srednie",
       "punkty": 4,
-      "tagi": ["AVERAGE", "MAX", "MIN", "COUNT", "rozstep"]
+      "tagi": [
+        "AVERAGE",
+        "MAX",
+        "MIN",
+        "COUNT",
+        "rozstep"
+      ]
     },
     {
       "id": "18.22",
       "trudnosc": "srednie",
       "punkty": 3,
-      "tagi": ["SUM", "AVERAGE", "MAX", "mnozenie-komorek"]
+      "tagi": [
+        "SUM",
+        "AVERAGE",
+        "MAX",
+        "mnozenie-komorek"
+      ]
     },
     {
       "id": "18.23",
       "trudnosc": "srednie",
       "punkty": 4,
-      "tagi": ["SUM", "AVERAGE", "COUNTA", "COUNTBLANK", "procent"]
+      "tagi": [
+        "SUM",
+        "AVERAGE",
+        "COUNTA",
+        "COUNTBLANK",
+        "procent"
+      ]
     },
     {
       "id": "18.24",
       "trudnosc": "srednie-trudne",
       "punkty": 4,
-      "tagi": ["SUM", "RANK", "AVERAGE", "zakres-bezwzgledny"]
+      "tagi": [
+        "SUM",
+        "RANK",
+        "AVERAGE",
+        "zakres-bezwzgledny"
+      ]
     },
     {
       "id": "18.25",
       "trudnosc": "srednie-trudne",
       "punkty": 4,
-      "tagi": ["AVERAGE", "MEDIAN", "MAX", "MIN", "rozstep"]
+      "tagi": [
+        "AVERAGE",
+        "MEDIAN",
+        "MAX",
+        "MIN",
+        "rozstep"
+      ]
     },
     {
       "id": "18.26",
       "trudnosc": "srednie-trudne",
       "punkty": 5,
-      "tagi": ["AVERAGE", "ROUND", "MAX", "MIN", "zaokraglanie", "mnozenie-komorek"]
+      "tagi": [
+        "AVERAGE",
+        "ROUND",
+        "MAX",
+        "MIN",
+        "zaokraglanie",
+        "mnozenie-komorek"
+      ]
     },
     {
       "id": "18.27",
       "trudnosc": "srednie-trudne",
       "punkty": 5,
-      "tagi": ["RANK", "AVERAGE", "SUM", "zakres-bezwzgledny", "mnozenie-komorek"]
+      "tagi": [
+        "RANK",
+        "AVERAGE",
+        "SUM",
+        "zakres-bezwzgledny",
+        "mnozenie-komorek"
+      ]
     },
     {
       "id": "18.28",
       "trudnosc": "srednie-trudne",
       "punkty": 4,
-      "tagi": ["SUM", "AVERAGE", "ROUND", "procent", "zaokraglanie"]
+      "tagi": [
+        "SUM",
+        "AVERAGE",
+        "ROUND",
+        "procent",
+        "zaokraglanie"
+      ]
     },
     {
       "id": "18.29",
       "trudnosc": "srednie-trudne",
       "punkty": 5,
-      "tagi": ["AVERAGE", "MEDIAN", "COUNT", "ROUND", "zaokraglanie"]
+      "tagi": [
+        "AVERAGE",
+        "MEDIAN",
+        "COUNT",
+        "ROUND",
+        "zaokraglanie"
+      ]
     },
     {
       "id": "18.30",
       "trudnosc": "srednie-trudne",
       "punkty": 4,
-      "tagi": ["SUM", "RANK", "AVERAGE", "zakres-bezwzgledny", "procent"]
+      "tagi": [
+        "SUM",
+        "RANK",
+        "AVERAGE",
+        "zakres-bezwzgledny",
+        "procent"
+      ]
     },
     {
       "id": "18.31",
       "trudnosc": "srednie-trudne",
       "punkty": 5,
-      "tagi": ["AVERAGE", "MEDIAN", "MAX", "MIN", "ROUND", "zaokraglanie"]
+      "tagi": [
+        "AVERAGE",
+        "MEDIAN",
+        "MAX",
+        "MIN",
+        "ROUND",
+        "zaokraglanie"
+      ]
     },
     {
       "id": "18.32",
       "trudnosc": "srednie-trudne",
       "punkty": 5,
-      "tagi": ["SUM", "AVERAGE", "MAX", "ROUND", "procent", "zaokraglanie", "mnozenie-komorek"]
+      "tagi": [
+        "SUM",
+        "AVERAGE",
+        "MAX",
+        "ROUND",
+        "procent",
+        "zaokraglanie",
+        "mnozenie-komorek"
+      ]
     },
     {
       "id": "18.33",
       "trudnosc": "trudne",
       "punkty": 5,
-      "tagi": ["AVERAGE", "ABS", "odchylenie-od-sredniej", "zakres-bezwzgledny", "ROUND", "zaokraglanie"]
+      "tagi": [
+        "AVERAGE",
+        "ABS",
+        "odchylenie-od-sredniej",
+        "zakres-bezwzgledny",
+        "ROUND",
+        "zaokraglanie"
+      ]
     },
     {
       "id": "18.34",
       "trudnosc": "trudne",
       "punkty": 6,
-      "tagi": ["AVERAGEIF", "SUM", "AVERAGE", "ROUND", "zaokraglanie", "procent"]
+      "tagi": [
+        "AVERAGEIF",
+        "SUM",
+        "AVERAGE",
+        "ROUND",
+        "zaokraglanie",
+        "procent"
+      ]
     },
     {
       "id": "18.35",
       "trudnosc": "trudne",
       "punkty": 6,
-      "tagi": ["AVERAGEIF", "AVERAGE", "ABS", "odchylenie-od-sredniej", "zakres-bezwzgledny", "RANK"]
+      "tagi": [
+        "AVERAGEIF",
+        "AVERAGE",
+        "ABS",
+        "odchylenie-od-sredniej",
+        "zakres-bezwzgledny",
+        "RANK"
+      ]
     },
     {
       "id": "18.36",
       "trudnosc": "trudne",
       "punkty": 5,
-      "tagi": ["AVERAGEIF", "AVERAGE", "MAX", "MIN", "MEDIAN", "ROUND", "zaokraglanie"]
+      "tagi": [
+        "AVERAGEIF",
+        "AVERAGE",
+        "MAX",
+        "MIN",
+        "MEDIAN",
+        "ROUND",
+        "zaokraglanie"
+      ]
     },
     {
       "id": "18.37",
       "trudnosc": "trudne",
       "punkty": 6,
-      "tagi": ["AVERAGE", "ABS", "odchylenie-od-sredniej", "AVERAGEIF", "zakres-bezwzgledny", "ROUND", "zaokraglanie"]
+      "tagi": [
+        "AVERAGE",
+        "ABS",
+        "odchylenie-od-sredniej",
+        "AVERAGEIF",
+        "zakres-bezwzgledny",
+        "ROUND",
+        "zaokraglanie"
+      ]
     },
     {
       "id": "18.38",
       "trudnosc": "trudne",
       "punkty": 5,
-      "tagi": ["SUM", "AVERAGE", "RANK", "ROUND", "procent", "zakres-bezwzgledny", "zaokraglanie", "mnozenie-komorek"]
+      "tagi": [
+        "SUM",
+        "AVERAGE",
+        "RANK",
+        "ROUND",
+        "procent",
+        "zakres-bezwzgledny",
+        "zaokraglanie",
+        "mnozenie-komorek"
+      ]
     },
     {
       "id": "18.39",
       "trudnosc": "trudne",
       "punkty": 6,
-      "tagi": ["AVERAGEIF", "AVERAGE", "ABS", "odchylenie-od-sredniej", "MEDIAN", "RANK", "zakres-bezwzgledny"]
+      "tagi": [
+        "AVERAGEIF",
+        "AVERAGE",
+        "ABS",
+        "odchylenie-od-sredniej",
+        "MEDIAN",
+        "RANK",
+        "zakres-bezwzgledny"
+      ]
     },
     {
       "id": "18.40",
       "trudnosc": "trudne",
       "punkty": 6,
-      "tagi": ["AVERAGEIF", "SUM", "AVERAGE", "ABS", "odchylenie-od-sredniej", "zakres-bezwzgledny", "ROUND", "zaokraglanie", "procent"]
+      "tagi": [
+        "AVERAGEIF",
+        "SUM",
+        "AVERAGE",
+        "ABS",
+        "odchylenie-od-sredniej",
+        "zakres-bezwzgledny",
+        "ROUND",
+        "zaokraglanie",
+        "procent"
+      ]
     }
   ]
 }

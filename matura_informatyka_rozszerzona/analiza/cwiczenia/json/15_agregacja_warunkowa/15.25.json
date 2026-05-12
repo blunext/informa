@@ -4,25 +4,25 @@
   "punkty": 5,
   "zrodlo": "Inspirowane matura 2025 (Martianeum — progi zawartosci)",
   "tagi": [
-    "SUMIFS",
-    "COUNTIFS",
+    "SUMA.WARUNKÓW",
+    "LICZ.WARUNKI",
     "IF-AND-OR",
     "kolumna-pomocnicza"
   ],
   "tresc": "W arkuszu mamy dane o dostawach towarow do magazynu:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Dostawca** | **Towar** | **Masa (kg)** | **Jakosc** |\n| 2 | Alfa | Maka | 500 | A |\n| 3 | Beta | Cukier | 300 | B |\n| 4 | Alfa | Cukier | 200 | A |\n| 5 | Gamma | Maka | 800 | C |\n| 6 | Beta | Maka | 450 | A |\n| 7 | Alfa | Sol | 150 | B |\n| 8 | Gamma | Cukier | 350 | A |\n| 9 | Beta | Sol | 250 | B |\n| 10 | Gamma | Maka | 600 | B |\n| 11 | Alfa | Maka | 400 | A |\n\n**Polecenie**:\n1. W kolumnie E wpisz \"Duza\" jesli masa >= 400 kg, \"Mala\" w przeciwnym razie.\n2. Oblicz laczna mase dostaw \"Duza\" o jakosci \"A\".\n3. Ile dostaw towaru \"Maka\" ma jakosc inna niz \"C\"?",
   "wskazowki": [
     "**Kierunek**: Punkt 1 wymaga IF. Punkt 2 laczy kolumne pomocnicza E z warunkiem na jakosc D. Punkt 3 uzywa operatora \"<>\".",
-    "**Podejscie**: Punkt 2: SUMIFS z warunkami E=\"Duza\" i D=\"A\". Punkt 3: COUNTIFS z B=\"Maka\" i D=\"<>C\".",
-    "**Kluczowy krok**: Operator \"<>C\" w COUNTIFS oznacza \"rozne od C\" — to negacja warunku tekstowego."
+    "**Podejscie**: Punkt 2: SUMA.WARUNKÓW z warunkami E=\"Duza\" i D=\"A\". Punkt 3: LICZ.WARUNKI z B=\"Maka\" i D=\"<>C\".",
+    "**Kluczowy krok**: Operator \"<>C\" w LICZ.WARUNKI oznacza \"rozne od C\" — to negacja warunku tekstowego."
   ],
-  "odpowiedz": "**Formuly:**\n```\nE2: =IF(C2>=400;\"Duza\";\"Mala\")\n\nPunkt 2: =SUMIFS(C2:C11;E2:E11;\"Duza\";D2:D11;\"A\")\n\nPunkt 3: =COUNTIFS(B2:B11;\"Maka\";D2:D11;\"<>C\")\n```\n\n**Weryfikacja:**\n\nKolumna E:\n| Dostawca | Masa | Rozmiar |\n|----------|------|---------|\n| Alfa | 500 | Duza |\n| Beta | 300 | Mala |\n| Alfa | 200 | Mala |\n| Gamma | 800 | Duza |\n| Beta | 450 | Duza |\n| Alfa | 150 | Mala |\n| Gamma | 350 | Mala |\n| Beta | 250 | Mala |\n| Gamma | 600 | Duza |\n| Alfa | 400 | Duza |\n\nPunkt 2 — Duza + jakosc A:\n- Wiersz 2: Duza, A, 500 ✓\n- Wiersz 6: Duza, A, 450 ✓\n- Wiersz 11: Duza, A, 400 ✓\n- (Wiersz 5: Duza, C — nie spelnia jakosci A; Wiersz 10: Duza, B — nie)\n- Suma: 500 + 450 + 400 = **1350 kg**\n\nPunkt 3 — Maka + jakosc <> C:\n- Wiersz 2: Maka, A ✓\n- Wiersz 5: Maka, C — NIE\n- Wiersz 6: Maka, A ✓\n- Wiersz 10: Maka, B ✓\n- Wiersz 11: Maka, A ✓\n- Wynik: **4**\n\n**Wyjasnienie**: Kolumna pomocnicza (E) pozwala uzyc kategorii (Duza/Mala) w dalszych obliczeniach. Operator \"<>\" w COUNTIFS wyklucza konkretna wartosc.",
+  "odpowiedz": "**Formuly:**\n```\nE2: =JEŻELI(C2>=400;\"Duza\";\"Mala\")\n\nPunkt 2: =SUMA.WARUNKÓW(C2:C11;E2:E11;\"Duza\";D2:D11;\"A\")\n\nPunkt 3: =LICZ.WARUNKI(B2:B11;\"Maka\";D2:D11;\"<>C\")\n```\n\n**Weryfikacja:**\n\nKolumna E:\n| Dostawca | Masa | Rozmiar |\n|----------|------|---------|\n| Alfa | 500 | Duza |\n| Beta | 300 | Mala |\n| Alfa | 200 | Mala |\n| Gamma | 800 | Duza |\n| Beta | 450 | Duza |\n| Alfa | 150 | Mala |\n| Gamma | 350 | Mala |\n| Beta | 250 | Mala |\n| Gamma | 600 | Duza |\n| Alfa | 400 | Duza |\n\nPunkt 2 — Duza + jakosc A:\n- Wiersz 2: Duza, A, 500 ✓\n- Wiersz 6: Duza, A, 450 ✓\n- Wiersz 11: Duza, A, 400 ✓\n- (Wiersz 5: Duza, C — nie spelnia jakosci A; Wiersz 10: Duza, B — nie)\n- Suma: 500 + 450 + 400 = **1350 kg**\n\nPunkt 3 — Maka + jakosc <> C:\n- Wiersz 2: Maka, A ✓\n- Wiersz 5: Maka, C — NIE\n- Wiersz 6: Maka, A ✓\n- Wiersz 10: Maka, B ✓\n- Wiersz 11: Maka, A ✓\n- Wynik: **4**\n\n**Wyjasnienie**: Kolumna pomocnicza (E) pozwala uzyc kategorii (Duza/Mala) w dalszych obliczeniach. Operator \"<>\" w COUNTIFS wyklucza konkretna wartosc.",
   "typowe_bledy": [
     {
-      "opis": "**Brak kolumny pomocniczej**: Proba uzycia SUMIFS z warunkiem C2:C11;\">=400\" zamiast E2:E11;\"Duza\" tez zadziala, ale pomija sens kolumny pomocniczej",
+      "opis": "**Brak kolumny pomocniczej**: Proba uzycia SUMA.WARUNKÓW z warunkiem C2:C11;\">=400\" zamiast E2:E11;\"Duza\" tez zadziala, ale pomija sens kolumny pomocniczej",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**Zly operator negacji**: =COUNTIFS(B2:B11;\"Maka\";D2:D11;\"!=C\") — w arkuszu nie istnieje operator !=, uzywamy <>",
+      "opis": "**Zly operator negacji**: =LICZ.WARUNKI(B2:B11;\"Maka\";D2:D11;\"!=C\") — w arkuszu nie istnieje operator !=, uzywamy <>",
       "kara": "-2 pkt"
     }
   ]

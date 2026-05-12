@@ -13,18 +13,18 @@
   ],
   "tresc": "Sklep sprzedaje produkty w 3 kategoriach. Dane za tydzien:\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Dzien** | **Elektronika** | **Odzież** | **Żywność** | **Razem** |\n| 2 | Pon | 2500 | 1800 | 3200 | ? |\n| 3 | Wt | 1900 | 2100 | 2800 | ? |\n| 4 | Sr | 3100 | 1500 | 3500 | ? |\n| 5 | Czw | 2200 | 1900 | 2600 | ? |\n| 6 | Pt | 4500 | 2800 | 4100 | ? |\n| 7 | Sob | 5200 | 3500 | 4800 | ? |\n| 8 | Ndz | 800 | 900 | 1200 | ? |\n\n**Polecenie**:\n1. W kolumnie E oblicz laczna sprzedaz dnia (suma trzech kategorii).\n2. Oblicz srednia, najwyzsza i najnizsza dzienna sprzedaz (z kolumny E).\n3. W kolumnie F oblicz udzial elektroniki w sprzedazy dnia (B/E × 100), zaokraglony do 1 miejsca.\n4. W ktorym dniu udzial elektroniki byl najwyzszy?",
   "wskazowki": [
-    "**Kierunek**: E = SUM trzech kolumn, F = B/E × 100 zaokraglone ROUND.",
-    "**Podejscie**: Oblicz E, potem F korzysta z E. Na koniec MAX/MIN/AVERAGE na E, oraz analiza F.",
-    "**Kluczowy krok**: Udzial = ROUND(B2/E2*100;1). Sprawdz, ktory dzien ma najwyzszy F."
+    "**Kierunek**: E = SUM trzech kolumn, F = B/E × 100 zaokraglone ZAOKR.",
+    "**Podejscie**: Oblicz E, potem F korzysta z E. Na koniec MAX/MIN/ŚREDNIA na E, oraz analiza F.",
+    "**Kluczowy krok**: Udzial = ZAOKR(B2/E2*100;1). Sprawdz, ktory dzien ma najwyzszy F."
   ],
-  "odpowiedz": "**Formuly:**\n```\nE2: =SUM(B2:D2)                    (kopiowana w dol)\nF2: =ROUND(B2/E2*100;1)            (kopiowana w dol)\n\nSrednia dzienna: =AVERAGE(E2:E8)\nNajwyzsza:       =MAX(E2:E8)\nNajnizsza:       =MIN(E2:E8)\n```\n\n**Obliczenia:**\n\n| Dzien | Elek. | Odzież | Żywn. | E: Razem | F: % Elek. |\n|-------|-------|--------|-------|----------|------------|\n| Pon | 2500 | 1800 | 3200 | 7500 | 33.3 |\n| Wt | 1900 | 2100 | 2800 | 6800 | 27.9 |\n| Sr | 3100 | 1500 | 3500 | 8100 | 38.3 |\n| Czw | 2200 | 1900 | 2600 | 6700 | 32.8 |\n| Pt | 4500 | 2800 | 4100 | 11400 | 39.5 |\n| Sob | 5200 | 3500 | 4800 | 13500 | 38.5 |\n| Ndz | 800 | 900 | 1200 | 2900 | 27.6 |\n\n- Srednia: (7500+6800+8100+6700+11400+13500+2900)/7 = 56900/7 = **8128.57**\n- Najwyzsza: **13500** (Sob)\n- Najnizsza: **2900** (Ndz)\n- Najwyzszy udzial elektroniki: **39.5%** (Piatek)\n\n**Wyjasnienie**: Udzial procentowy pozwala porownac proporcje niezaleznie od calkowitej sprzedazy. Piatek ma najwyzszy udzial elektroniki (39.5%), mimo ze sobota ma wyzsza bezwzgledna sprzedaz elektroniki (5200 vs 4500). To pokazuje roznice miedzy wartoscia bezwzgledna a wzgledna (procentowa).",
+  "odpowiedz": "**Formuly:**\n```\nE2: =SUMA(B2:D2)                    (kopiowana w dol)\nF2: =ZAOKR(B2/E2*100;1)            (kopiowana w dol)\n\nSrednia dzienna: =ŚREDNIA(E2:E8)\nNajwyzsza:       =MAX(E2:E8)\nNajnizsza:       =MIN(E2:E8)\n```\n\n**Obliczenia:**\n\n| Dzien | Elek. | Odzież | Żywn. | E: Razem | F: % Elek. |\n|-------|-------|--------|-------|----------|------------|\n| Pon | 2500 | 1800 | 3200 | 7500 | 33.3 |\n| Wt | 1900 | 2100 | 2800 | 6800 | 27.9 |\n| Sr | 3100 | 1500 | 3500 | 8100 | 38.3 |\n| Czw | 2200 | 1900 | 2600 | 6700 | 32.8 |\n| Pt | 4500 | 2800 | 4100 | 11400 | 39.5 |\n| Sob | 5200 | 3500 | 4800 | 13500 | 38.5 |\n| Ndz | 800 | 900 | 1200 | 2900 | 27.6 |\n\n- Srednia: (7500+6800+8100+6700+11400+13500+2900)/7 = 56900/7 = **8128.57**\n- Najwyzsza: **13500** (Sob)\n- Najnizsza: **2900** (Ndz)\n- Najwyzszy udzial elektroniki: **39.5%** (Piatek)\n\n**Wyjasnienie**: Udzial procentowy pozwala porownac proporcje niezaleznie od calkowitej sprzedazy. Piatek ma najwyzszy udzial elektroniki (39.5%), mimo ze sobota ma wyzsza bezwzgledna sprzedaz elektroniki (5200 vs 4500). To pokazuje roznice miedzy wartoscia bezwzgledna a wzgledna (procentowa).",
   "typowe_bledy": [
     {
       "opis": "**Dzielenie przez B+C+D zamiast E**: =B2/(B2+C2+D2)*100 zadziala, ale lepiej uzyc E2 (unika duplikacji obliczen)",
       "kara": "-0 pkt"
     },
     {
-      "opis": "**Zapomnienie o ROUND**: Bez zaokraglenia wyniki beda mialy wiele miejsc po przecinku (np. 33.333...)",
+      "opis": "**Zapomnienie o ZAOKR**: Bez zaokraglenia wyniki beda mialy wiele miejsc po przecinku (np. 33.333...)",
       "kara": "-1 pkt"
     },
     {

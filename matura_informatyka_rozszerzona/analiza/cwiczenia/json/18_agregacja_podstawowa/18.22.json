@@ -3,17 +3,22 @@
   "trudnosc": "srednie",
   "punkty": 3,
   "zrodlo": "ogolna (sport)",
-  "tagi": ["SUM", "AVERAGE", "MAX", "mnozenie-komorek"],
+  "tagi": [
+    "SUM",
+    "AVERAGE",
+    "MAX",
+    "mnozenie-komorek"
+  ],
   "tresc": "Pilkarz zanotowat swoje statystyki z 5 meczow:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Mecz** | **Bramki** | **Asysty** | **Minuty** |\n| 2 | Mecz 1 | 2 | 1 | 78 |\n| 3 | Mecz 2 | 0 | 3 | 90 |\n| 4 | Mecz 3 | 1 | 0 | 65 |\n| 5 | Mecz 4 | 3 | 2 | 90 |\n| 6 | Mecz 5 | 1 | 1 | 82 |\n\n**Polecenie**:\n1. W kolumnie E oblicz laczny udzial w bramkach (bramki + asysty) dla kazdego meczu.\n2. Oblicz laczna liczbe bramek, asyst i minut we wszystkich meczach.\n3. Oblicz srednia liczbe bramek na mecz.\n4. W ktorym meczu pilkarz mial najwyzszy udzial w bramkach (wartosc E)?",
   "wskazowki": [
     "**Kierunek**: E = B + C (suma bramek i asyst). SUM na kolumnach B, C, D osobno.",
-    "**Podejscie**: Najpierw E2:E6, potem SUM i AVERAGE na odpowiednich kolumnach.",
+    "**Podejscie**: Najpierw E2:E6, potem SUM i ŚREDNIA na odpowiednich kolumnach.",
     "**Kluczowy krok**: MAX(E2:E6) wskazuje mecz z najwyzszym udzialem."
   ],
-  "odpowiedz": "**Formuly:**\n```\nE2: =B2+C2                          (kopiowana w dol do E6)\nLaczne bramki:    =SUM(B2:B6)\nLaczne asysty:    =SUM(C2:C6)\nLaczne minuty:    =SUM(D2:D6)\nSrednia bramek:   =AVERAGE(B2:B6)\nMax udzial:       =MAX(E2:E6)\n```\n\n**Weryfikacja:**\n\n| Mecz | Bramki | Asysty | Minuty | E: Udzial |\n|------|--------|--------|--------|----------|\n| Mecz 1 | 2 | 1 | 78 | 3 |\n| Mecz 2 | 0 | 3 | 90 | 3 |\n| Mecz 3 | 1 | 0 | 65 | 1 |\n| Mecz 4 | 3 | 2 | 90 | 5 |\n| Mecz 5 | 1 | 1 | 82 | 2 |\n\n- Laczne bramki: 2+0+1+3+1 = **7**\n- Laczne asysty: 1+3+0+2+1 = **7**\n- Laczne minuty: 78+90+65+90+82 = **405**\n- Srednia bramek: 7/5 = **1.40**\n- Max udzial: **5** (Mecz 4)\n\n**Wyjasnienie**: Kolumna E laczy bramki i asysty — daje pelny obraz udzialu pilkarza w ataku. MAX(E) wskazuje najlepszy mecz pod wzgledem ofensywnym (Mecz 4: 3 bramki + 2 asysty = 5).",
+  "odpowiedz": "**Formuly:**\n```\nE2: =B2+C2                          (kopiowana w dol do E6)\nLaczne bramki:    =SUMA(B2:B6)\nLaczne asysty:    =SUMA(C2:C6)\nLaczne minuty:    =SUMA(D2:D6)\nSrednia bramek:   =ŚREDNIA(B2:B6)\nMax udzial:       =MAX(E2:E6)\n```\n\n**Weryfikacja:**\n\n| Mecz | Bramki | Asysty | Minuty | E: Udzial |\n|------|--------|--------|--------|----------|\n| Mecz 1 | 2 | 1 | 78 | 3 |\n| Mecz 2 | 0 | 3 | 90 | 3 |\n| Mecz 3 | 1 | 0 | 65 | 1 |\n| Mecz 4 | 3 | 2 | 90 | 5 |\n| Mecz 5 | 1 | 1 | 82 | 2 |\n\n- Laczne bramki: 2+0+1+3+1 = **7**\n- Laczne asysty: 1+3+0+2+1 = **7**\n- Laczne minuty: 78+90+65+90+82 = **405**\n- Srednia bramek: 7/5 = **1.40**\n- Max udzial: **5** (Mecz 4)\n\n**Wyjasnienie**: Kolumna E laczy bramki i asysty — daje pelny obraz udzialu pilkarza w ataku. MAX(E) wskazuje najlepszy mecz pod wzgledem ofensywnym (Mecz 4: 3 bramki + 2 asysty = 5).",
   "typowe_bledy": [
     {
-      "opis": "**SUM na kolumnie E zamiast MAX**: SUM(E2:E6) = 14 — to laczny udzial, nie najwyzszy pojedynczy mecz",
+      "opis": "**SUM na kolumnie E zamiast MAX**: SUMA(E2:E6) = 14 — to laczny udzial, nie najwyzszy pojedynczy mecz",
       "kara": "-1 pkt"
     },
     {

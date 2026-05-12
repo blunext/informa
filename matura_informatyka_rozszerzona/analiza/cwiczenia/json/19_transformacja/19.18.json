@@ -4,24 +4,24 @@
   "punkty": 3,
   "zrodlo": "ogolna",
   "tagi": [
-    "SUMIFS",
+    "SUMA.WARUNKÓW",
     "tabela-krzyzowa",
     "odwolania-mieszane"
   ],
   "tresc": "Firma notuje sprzedaz z podanym produktem i miastem:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Produkt** | **Miasto** | **Sprzedaz** |\n| 2 | Laptop | Warszawa | 5000 |\n| 3 | Telefon | Krakow | 2500 |\n| 4 | Tablet | Warszawa | 1800 |\n| 5 | Laptop | Krakow | 4200 |\n| 6 | Telefon | Wroclaw | 3100 |\n| 7 | Tablet | Krakow | 1500 |\n| 8 | Laptop | Wroclaw | 4800 |\n| 9 | Telefon | Warszawa | 2800 |\n| 10 | Tablet | Wroclaw | 2000 |\n\nTabela podsumowania:\n\n| | E | F | G | H |\n|---|---|---|---|---|\n| 1 | | **Warszawa** | **Krakow** | **Wroclaw** |\n| 2 | **Laptop** | ? | ? | ? |\n| 3 | **Telefon** | ? | ? | ? |\n| 4 | **Tablet** | ? | ? | ? |\n\n**Polecenie**: Napisz formule w F2 uzywajac SUMIFS z odwolaniami mieszanymi, ktora pozwoli ja skopiowac w prawo i w dol, aby wypelnic cala tabele.",
   "wskazowki": [
-    "**Kierunek**: SUMIFS z dwoma kryteriami — produkt ($E2) i miasto (F$1).",
-    "**Podejscie**: =SUMIFS(C$2:C$10;A$2:A$10;$E2;B$2:B$10;F$1) — zakotwicz E w kolumnie i 1 w wierszu.",
+    "**Kierunek**: SUMA.WARUNKÓW z dwoma kryteriami — produkt ($E2) i miasto (F$1).",
+    "**Podejscie**: =SUMA.WARUNKÓW(C$2:C$10;A$2:A$10;$E2;B$2:B$10;F$1) — zakotwicz E w kolumnie i 1 w wierszu.",
     "**Kluczowy krok**: $E2 zmienia wiersz przy kopiowaniu w dol, F$1 zmienia kolumne przy kopiowaniu w prawo."
   ],
-  "odpowiedz": "**Formula (F2, kopiowana w prawo do H2 i w dol do H4):**\n```\nF2: =SUMIFS(C$2:C$10;A$2:A$10;$E2;B$2:B$10;F$1)\n```\n\n**Weryfikacja:**\n- Laptop-Warszawa: wiersz 2 (5000) = **5000**\n- Laptop-Krakow: wiersz 5 (4200) = **4200**\n- Laptop-Wroclaw: wiersz 8 (4800) = **4800**\n- Telefon-Warszawa: wiersz 9 (2800) = **2800**\n- Telefon-Krakow: wiersz 3 (2500) = **2500**\n- Telefon-Wroclaw: wiersz 6 (3100) = **3100**\n- Tablet-Warszawa: wiersz 4 (1800) = **1800**\n- Tablet-Krakow: wiersz 7 (1500) = **1500**\n- Tablet-Wroclaw: wiersz 10 (2000) = **2000**\n\n| | Warszawa | Krakow | Wroclaw |\n|---|---|---|---|\n| Laptop | 5000 | 4200 | 4800 |\n| Telefon | 2800 | 2500 | 3100 |\n| Tablet | 1800 | 1500 | 2000 |\n\nKontrola: 5000+4200+4800+2800+2500+3100+1800+1500+2000 = 27700 = SUM(C2:C10) ✓\n\n**Wyjasnienie odniesien:**\n- `$E2` — kolumna E zakotwiczona (produkt), wiersz wzgledny → w dol E2→E3→E4\n- `F$1` — wiersz 1 zakotwiczony (miasto), kolumna wzgledna → w prawo F→G→H\n- Zakresy danych C$2:C$10, A$2:A$10, B$2:B$10 — $ na wierszach, nie zmieniaja sie przy kopiowaniu",
+  "odpowiedz": "**Formula (F2, kopiowana w prawo do H2 i w dol do H4):**\n```\nF2: =SUMA.WARUNKÓW(C$2:C$10;A$2:A$10;$E2;B$2:B$10;F$1)\n```\n\n**Weryfikacja:**\n- Laptop-Warszawa: wiersz 2 (5000) = **5000**\n- Laptop-Krakow: wiersz 5 (4200) = **4200**\n- Laptop-Wroclaw: wiersz 8 (4800) = **4800**\n- Telefon-Warszawa: wiersz 9 (2800) = **2800**\n- Telefon-Krakow: wiersz 3 (2500) = **2500**\n- Telefon-Wroclaw: wiersz 6 (3100) = **3100**\n- Tablet-Warszawa: wiersz 4 (1800) = **1800**\n- Tablet-Krakow: wiersz 7 (1500) = **1500**\n- Tablet-Wroclaw: wiersz 10 (2000) = **2000**\n\n| | Warszawa | Krakow | Wroclaw |\n|---|---|---|---|\n| Laptop | 5000 | 4200 | 4800 |\n| Telefon | 2800 | 2500 | 3100 |\n| Tablet | 1800 | 1500 | 2000 |\n\nKontrola: 5000+4200+4800+2800+2500+3100+1800+1500+2000 = 27700 = SUMA(C2:C10) ✓\n\n**Wyjasnienie odniesien:**\n- `$E2` — kolumna E zakotwiczona (produkt), wiersz wzgledny → w dol E2→E3→E4\n- `F$1` — wiersz 1 zakotwiczony (miasto), kolumna wzgledna → w prawo F→G→H\n- Zakresy danych C$2:C$10, A$2:A$10, B$2:B$10 — $ na wierszach, nie zmieniaja sie przy kopiowaniu",
   "typowe_bledy": [
     {
       "opis": "**Pomieszanie $ w odwolaniach**: $E2 vs E$2 — $ przed litera kotwi kolumne, $ przed cyfra kotwi wiersz. Odwrotne ustawienie zniszczy formule przy kopiowaniu",
       "kara": "-2 pkt"
     },
     {
-      "opis": "**Uzycie SUMIF z jednym kryterium**: SUMIF obsluguje tylko 1 warunek — tu potrzebne sa 2 (produkt i miasto)",
+      "opis": "**Uzycie SUMA.JEŻELI z jednym kryterium**: SUMA.JEŻELI obsluguje tylko 1 warunek — tu potrzebne sa 2 (produkt i miasto)",
       "kara": "-1 pkt"
     }
   ]

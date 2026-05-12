@@ -3,21 +3,31 @@
   "trudnosc": "trudne",
   "punkty": 6,
   "zrodlo": "ogolna (energia)",
-  "tagi": ["AVERAGEIF", "SUM", "AVERAGE", "ABS", "odchylenie-od-sredniej", "zakres-bezwzgledny", "ROUND", "zaokraglanie", "procent"],
+  "tagi": [
+    "ŚREDNIA.JEŻELI",
+    "SUM",
+    "AVERAGE",
+    "ABS",
+    "odchylenie-od-sredniej",
+    "zakres-bezwzgledny",
+    "ROUND",
+    "zaokraglanie",
+    "procent"
+  ],
   "tresc": "Dane o miesiecznym zuzyciu energii (kWh) w 12 mieszkaniach, podzielonych na dwa typy budynku:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Mieszkanie** | **Typ** | **kWh** |\n| 2 | M1 | Blok | 180 |\n| 3 | M2 | Dom | 320 |\n| 4 | M3 | Blok | 210 |\n| 5 | M4 | Dom | 280 |\n| 6 | M5 | Blok | 165 |\n| 7 | M6 | Dom | 350 |\n| 8 | M7 | Blok | 195 |\n| 9 | M8 | Dom | 290 |\n| 10 | M9 | Blok | 220 |\n| 11 | M10 | Dom | 310 |\n| 12 | M11 | Blok | 175 |\n| 13 | M12 | Dom | 340 |\n\n**Polecenie**:\n1. Oblicz srednie zuzycie ogolne.\n2. Oblicz srednie zuzycie osobno dla Bloku i Domu (AVERAGEIF).\n3. W kolumnie D oblicz odchylenie kazdego mieszkania od sredniej ogolnej.\n4. W kolumnie E oblicz wartosc bezwzgledna odchylenia.\n5. Oblicz srednie odchylenie bezwzgledne, zaokraglone do 1 miejsca.\n6. Jaki procent lacznego zuzycia stanowia mieszkania w bloku?",
   "wskazowki": [
-    "**Kierunek**: Srednia w F1. AVERAGEIF na kolumnie C z warunkiem z B. D = C - F1, E = ABS(D).",
-    "**Podejscie**: Procent Bloku = SUMIF(B;\"Blok\";C) / SUM(C) * 100.",
+    "**Kierunek**: Srednia w F1. ŚREDNIA.JEŻELI na kolumnie C z warunkiem z B. D = C - F1, E = MODUŁ.LICZBY(D).",
+    "**Podejscie**: Procent Bloku = SUMA.JEŻELI(B;\"Blok\";C) / SUMA(C) * 100.",
     "**Kluczowy krok**: Porownaj srednie Blok vs Dom i srednie |odchylenie| — ktory typ jest bardziej jednorodny?"
   ],
-  "odpowiedz": "**Formuly:**\n```\nSrednia ogolna (F1):  =AVERAGE(C2:C13)\nSrednia Blok:         =AVERAGEIF(B2:B13;\"Blok\";C2:C13)\nSrednia Dom:          =AVERAGEIF(B2:B13;\"Dom\";C2:C13)\n\nD2: =C2-$F$1                        (kopiowana w dol do D13)\nE2: =ABS(D2)                        (kopiowana w dol do E13)\n\nSrednie |odchylenie|: =ZAOKR(AVERAGE(E2:E13);1)\n\nProcent Bloku:        =ZAOKR(SUMIF(B2:B13;\"Blok\";C2:C13)/SUM(C2:C13)*100;1)\n```\n\n**Weryfikacja:**\n- Wartosci kWh: 180, 320, 210, 280, 165, 350, 195, 290, 220, 310, 175, 340\n- Suma: 180+320+210+280+165+350+195+290+220+310+175+340 = 3035\n- Srednia ogolna: 3035/12 = **252.92** (dokladnie 252.9167)\n\n- Blok: 180, 210, 165, 195, 220, 175 → suma = 1145, srednia = 1145/6 = **190.83**\n- Dom: 320, 280, 350, 290, 310, 340 → suma = 1890, srednia = 1890/6 = **315.00**\n\n| Mieszk. | Typ | kWh | D: Odch. | E: |Odch.| |\n|---------|------|-----|----------|----------|\n| M1 | Blok | 180 | -72.92 | 72.92 |\n| M2 | Dom | 320 | +67.08 | 67.08 |\n| M3 | Blok | 210 | -42.92 | 42.92 |\n| M4 | Dom | 280 | +27.08 | 27.08 |\n| M5 | Blok | 165 | -87.92 | 87.92 |\n| M6 | Dom | 350 | +97.08 | 97.08 |\n| M7 | Blok | 195 | -57.92 | 57.92 |\n| M8 | Dom | 290 | +37.08 | 37.08 |\n| M9 | Blok | 220 | -32.92 | 32.92 |\n| M10 | Dom | 310 | +57.08 | 57.08 |\n| M11 | Blok | 175 | -77.92 | 77.92 |\n| M12 | Dom | 340 | +87.08 | 87.08 |\n\n- Kontrola: suma odchylen = (-72.92+67.08)+(-42.92+27.08)+(-87.92+97.08)+(-57.92+37.08)+(-32.92+57.08)+(-77.92+87.08) = (-5.84)+(-15.84)+(9.16)+(-20.84)+(24.16)+(9.16) = -0.04 ~= 0 ✓ (roznica z zaokraglen)\n\n- Suma |odchylen|: 72.92+67.08+42.92+27.08+87.92+97.08+57.92+37.08+32.92+57.08+77.92+87.08 = 745.00\n- Srednie |odchylenie|: 745.00/12 = 62.0833\n- ZAOKR(62.0833; 1) = **62.1**\n\n- Procent Bloku: ZAOKR(1145/3035*100; 1) = ZAOKR(37.726; 1) = **37.7%**\n\n**Wyjasnienie**: Domy zuzywa srednio o 124.17 kWh wiecej niz bloki (315.00 vs 190.83). Duze srednie odchylenie (62.1) wynika glownie z roznic miedzy typami budynkow. Bloki stanowia tylko 37.7% lacznego zuzycia, mimo ze sa polowa mieszkan — wynika to z nizszego zuzycia jednostkowego.",
+  "odpowiedz": "**Formuly:**\n```\nSrednia ogolna (F1):  =ŚREDNIA(C2:C13)\nSrednia Blok:         =ŚREDNIA.JEŻELI(B2:B13;\"Blok\";C2:C13)\nSrednia Dom:          =ŚREDNIA.JEŻELI(B2:B13;\"Dom\";C2:C13)\n\nD2: =C2-$F$1                        (kopiowana w dol do D13)\nE2: =MODUŁ.LICZBY(D2)                        (kopiowana w dol do E13)\n\nSrednie |odchylenie|: =ZAOKR(ŚREDNIA(E2:E13);1)\n\nProcent Bloku:        =ZAOKR(SUMA.JEŻELI(B2:B13;\"Blok\";C2:C13)/SUMA(C2:C13)*100;1)\n```\n\n**Weryfikacja:**\n- Wartosci kWh: 180, 320, 210, 280, 165, 350, 195, 290, 220, 310, 175, 340\n- Suma: 180+320+210+280+165+350+195+290+220+310+175+340 = 3035\n- Srednia ogolna: 3035/12 = **252.92** (dokladnie 252.9167)\n\n- Blok: 180, 210, 165, 195, 220, 175 → suma = 1145, srednia = 1145/6 = **190.83**\n- Dom: 320, 280, 350, 290, 310, 340 → suma = 1890, srednia = 1890/6 = **315.00**\n\n| Mieszk. | Typ | kWh | D: Odch. | E: |Odch.| |\n|---------|------|-----|----------|----------|\n| M1 | Blok | 180 | -72.92 | 72.92 |\n| M2 | Dom | 320 | +67.08 | 67.08 |\n| M3 | Blok | 210 | -42.92 | 42.92 |\n| M4 | Dom | 280 | +27.08 | 27.08 |\n| M5 | Blok | 165 | -87.92 | 87.92 |\n| M6 | Dom | 350 | +97.08 | 97.08 |\n| M7 | Blok | 195 | -57.92 | 57.92 |\n| M8 | Dom | 290 | +37.08 | 37.08 |\n| M9 | Blok | 220 | -32.92 | 32.92 |\n| M10 | Dom | 310 | +57.08 | 57.08 |\n| M11 | Blok | 175 | -77.92 | 77.92 |\n| M12 | Dom | 340 | +87.08 | 87.08 |\n\n- Kontrola: suma odchylen = (-72.92+67.08)+(-42.92+27.08)+(-87.92+97.08)+(-57.92+37.08)+(-32.92+57.08)+(-77.92+87.08) = (-5.84)+(-15.84)+(9.16)+(-20.84)+(24.16)+(9.16) = -0.04 ~= 0 ✓ (roznica z zaokraglen)\n\n- Suma |odchylen|: 72.92+67.08+42.92+27.08+87.92+97.08+57.92+37.08+32.92+57.08+77.92+87.08 = 745.00\n- Srednie |odchylenie|: 745.00/12 = 62.0833\n- ZAOKR(62.0833; 1) = **62.1**\n\n- Procent Bloku: ZAOKR(1145/3035*100; 1) = ZAOKR(37.726; 1) = **37.7%**\n\n**Wyjasnienie**: Domy zuzywa srednio o 124.17 kWh wiecej niz bloki (315.00 vs 190.83). Duze srednie odchylenie (62.1) wynika glownie z roznic miedzy typami budynkow. Bloki stanowia tylko 37.7% lacznego zuzycia, mimo ze sa polowa mieszkan — wynika to z nizszego zuzycia jednostkowego.",
   "typowe_bledy": [
     {
       "opis": "**Brak $ w odwolaniu do sredniej**: =C2-F1 po skopiowaniu zmieni F1 na F2, F3 itd.",
       "kara": "-2 pkt"
     },
     {
-      "opis": "**SUMIF zamiast AVERAGEIF (lub odwrotnie)**: SUMIF daje laczne zuzycie Bloku (1145), AVERAGEIF daje srednie (190.83) — to rozne miary",
+      "opis": "**SUMA.JEŻELI zamiast ŚREDNIA.JEŻELI (lub odwrotnie)**: SUMA.JEŻELI daje laczne zuzycie Bloku (1145), ŚREDNIA.JEŻELI daje srednie (190.83) — to rozne miary",
       "kara": "-2 pkt"
     },
     {

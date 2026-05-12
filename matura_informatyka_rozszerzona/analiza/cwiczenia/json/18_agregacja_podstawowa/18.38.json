@@ -3,21 +3,30 @@
   "trudnosc": "trudne",
   "punkty": 5,
   "zrodlo": "ogolna (firma)",
-  "tagi": ["SUM", "AVERAGE", "RANK", "ROUND", "procent", "zakres-bezwzgledny", "zaokraglanie", "mnozenie-komorek"],
+  "tagi": [
+    "SUM",
+    "AVERAGE",
+    "RANK",
+    "ROUND",
+    "procent",
+    "zakres-bezwzgledny",
+    "zaokraglanie",
+    "mnozenie-komorek"
+  ],
   "tresc": "Firma podsumowuje kwartalne przychody (w tys. zl) z 5 produktow:\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Produkt** | **Q1** | **Q2** | **Q3** | **Q4** |\n| 2 | Alfa | 120 | 135 | 150 | 165 |\n| 3 | Beta | 90 | 85 | 95 | 100 |\n| 4 | Gamma | 200 | 180 | 210 | 220 |\n| 5 | Delta | 75 | 80 | 70 | 85 |\n| 6 | Epsilon | 160 | 170 | 155 | 175 |\n\n**Polecenie**:\n1. W kolumnie F oblicz roczny przychod kazdego produktu (suma 4 kwartalow).\n2. W kolumnie G oblicz sredni kwartalny przychod (F/4), zaokraglony do 1 miejsca.\n3. W kolumnie H wpisz ranking rocznych przychodow (najwyzszy = 1).\n4. Oblicz laczny roczny przychod firmy.\n5. W kolumnie I oblicz udzial procentowy kazdego produktu w lacznym przychodzie, zaokraglony do 1 miejsca.",
   "wskazowki": [
-    "**Kierunek**: F = SUM(B:E), G = ZAOKR(F/4;1), H = RANK(F; $F$; 0), I = ZAOKR(F/$J$1*100;1).",
+    "**Kierunek**: F = SUMA(B:E), G = ZAOKR(F/4;1), H = POZYCJA(F; $F$; 0), I = ZAOKR(F/$J$1*100;1).",
     "**Podejscie**: Najpierw F, G, H, potem laczny w J1, na koncu I z bezwzglednym odwolaniem.",
-    "**Kluczowy krok**: Trzy rozne bezwzgledne odwolania: zakres RANK ($F$2:$F$6), laczny przychod ($J$1)."
+    "**Kluczowy krok**: Trzy rozne bezwzgledne odwolania: zakres POZYCJA ($F$2:$F$6), laczny przychod ($J$1)."
   ],
-  "odpowiedz": "**Formuly:**\n```\nF2: =SUM(B2:E2)                    (kopiowana w dol do F6)\nG2: =ZAOKR(F2/4;1)                (kopiowana w dol do G6)\nH2: =RANK(F2;$F$2:$F$6)           (kopiowana w dol do H6)\n\nLaczny przychod (J1): =SUM(F2:F6)\n\nI2: =ZAOKR(F2/$J$1*100;1)         (kopiowana w dol do I6)\n```\n\n**Weryfikacja:**\n\nObliczenia F (roczne):\n- Alfa: 120+135+150+165 = 570\n- Beta: 90+85+95+100 = 370\n- Gamma: 200+180+210+220 = 810\n- Delta: 75+80+70+85 = 310\n- Epsilon: 160+170+155+175 = 660\n\n- Laczny: 570+370+810+310+660 = **2720** tys. zl\n\nSortowanie malejace F: 810, 660, 570, 370, 310\n\n| Produkt | F: Rok | G: Sred.kw. | H: Rank | I: % |\n|---------|--------|-------------|---------|------|\n| Alfa | 570 | 142.5 | 3 | 21.0 |\n| Beta | 370 | 92.5 | 4 | 13.6 |\n| Gamma | 810 | 202.5 | 1 | 29.8 |\n| Delta | 310 | 77.5 | 5 | 11.4 |\n| Epsilon | 660 | 165.0 | 2 | 24.3 |\n\nWeryfikacja I (procenty):\n- Alfa: ZAOKR(570/2720*100;1) = ZAOKR(20.956;1) = 21.0\n- Beta: ZAOKR(370/2720*100;1) = ZAOKR(13.603;1) = 13.6\n- Gamma: ZAOKR(810/2720*100;1) = ZAOKR(29.779;1) = 29.8\n- Delta: ZAOKR(310/2720*100;1) = ZAOKR(11.397;1) = 11.4\n- Epsilon: ZAOKR(660/2720*100;1) = ZAOKR(24.265;1) = 24.3\n\n**Kontrola**: 21.0+13.6+29.8+11.4+24.3 = 100.1 ~= 100% ✓\n\n**Wyjasnienie**: Gamma dominuje z 29.8% lacznego przychodu. RANK, ZAOKR i procenty wymagaja bezwzglednych odwolan ($), bo formuly sa kopiowane w dol. Gamma rosnie najszybciej (Q1: 200 -> Q4: 220), co wskazuje na rosnacy trend.",
+  "odpowiedz": "**Formuly:**\n```\nF2: =SUMA(B2:E2)                    (kopiowana w dol do F6)\nG2: =ZAOKR(F2/4;1)                (kopiowana w dol do G6)\nH2: =POZYCJA(F2;$F$2:$F$6)           (kopiowana w dol do H6)\n\nLaczny przychod (J1): =SUMA(F2:F6)\n\nI2: =ZAOKR(F2/$J$1*100;1)         (kopiowana w dol do I6)\n```\n\n**Weryfikacja:**\n\nObliczenia F (roczne):\n- Alfa: 120+135+150+165 = 570\n- Beta: 90+85+95+100 = 370\n- Gamma: 200+180+210+220 = 810\n- Delta: 75+80+70+85 = 310\n- Epsilon: 160+170+155+175 = 660\n\n- Laczny: 570+370+810+310+660 = **2720** tys. zl\n\nSortowanie malejace F: 810, 660, 570, 370, 310\n\n| Produkt | F: Rok | G: Sred.kw. | H: Rank | I: % |\n|---------|--------|-------------|---------|------|\n| Alfa | 570 | 142.5 | 3 | 21.0 |\n| Beta | 370 | 92.5 | 4 | 13.6 |\n| Gamma | 810 | 202.5 | 1 | 29.8 |\n| Delta | 310 | 77.5 | 5 | 11.4 |\n| Epsilon | 660 | 165.0 | 2 | 24.3 |\n\nWeryfikacja I (procenty):\n- Alfa: ZAOKR(570/2720*100;1) = ZAOKR(20.956;1) = 21.0\n- Beta: ZAOKR(370/2720*100;1) = ZAOKR(13.603;1) = 13.6\n- Gamma: ZAOKR(810/2720*100;1) = ZAOKR(29.779;1) = 29.8\n- Delta: ZAOKR(310/2720*100;1) = ZAOKR(11.397;1) = 11.4\n- Epsilon: ZAOKR(660/2720*100;1) = ZAOKR(24.265;1) = 24.3\n\n**Kontrola**: 21.0+13.6+29.8+11.4+24.3 = 100.1 ~= 100% ✓\n\n**Wyjasnienie**: Gamma dominuje z 29.8% lacznego przychodu. RANK, ZAOKR i procenty wymagaja bezwzglednych odwolan ($), bo formuly sa kopiowane w dol. Gamma rosnie najszybciej (Q1: 200 -> Q4: 220), co wskazuje na rosnacy trend.",
   "typowe_bledy": [
     {
       "opis": "**Brak $ w odwolaniu do lacznego przychodu**: =F2/J1*100 po skopiowaniu zmieni J1 na J2",
       "kara": "-2 pkt"
     },
     {
-      "opis": "**Brak $ w zakresie RANK**: =RANK(F2;F2:F6) — zakres sie przesunie po skopiowaniu formuly",
+      "opis": "**Brak $ w zakresie RANK**: =POZYCJA(F2;F2:F6) — zakres sie przesunie po skopiowaniu formuly",
       "kara": "-2 pkt"
     }
   ]

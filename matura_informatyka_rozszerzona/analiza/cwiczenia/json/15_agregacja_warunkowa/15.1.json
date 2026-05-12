@@ -4,23 +4,23 @@
   "punkty": 2,
   "zrodlo": "Matura 2024 (Hurtownia)",
   "tagi": [
-    "COUNTIF",
+    "LICZ.JEŻELI",
     "warunek-tekstowy"
   ],
   "tresc": "W arkuszu kalkulacyjnym mamy liste produktow w sklepie:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Produkt** | **Kategoria** | **Cena** |\n| 2 | Mleko | Nabiał | 4.50 |\n| 3 | Chleb | Pieczywo | 5.20 |\n| 4 | Jogurt | Nabiał | 3.80 |\n| 5 | Bułka | Pieczywo | 0.60 |\n| 6 | Ser | Nabiał | 8.90 |\n| 7 | Masło | Nabiał | 7.40 |\n| 8 | Bagietka | Pieczywo | 3.50 |\n| 9 | Kefir | Nabiał | 4.20 |\n| 10 | Rogal | Pieczywo | 1.80 |\n| 11 | Śmietana | Nabiał | 2.90 |\n\n**Polecenie**: Napisz formule, ktora obliczy ile produktow nalezy do kategorii \"Nabiał\".",
   "wskazowki": [
     "**Kierunek**: Potrzebujesz funkcji zliczajacej komorki spelniajace warunek tekstowy.",
-    "**Podejscie**: Funkcja COUNTIF przyjmuje zakres i kryterium — przeszukaj kolumne kategorii.",
-    "**Kluczowy krok**: =COUNTIF(B2:B11;\"Nabiał\") — zakres to kolumna B, kryterium to dokladny tekst."
+    "**Podejscie**: Funkcja LICZ.JEŻELI przyjmuje zakres i kryterium — przeszukaj kolumne kategorii.",
+    "**Kluczowy krok**: =LICZ.JEŻELI(B2:B11;\"Nabiał\") — zakres to kolumna B, kryterium to dokladny tekst."
   ],
-  "odpowiedz": "**Formula:**\n```\n=COUNTIF(B2:B11;\"Nabiał\")\n```\n\n**Weryfikacja**: Produkty z kategorii \"Nabiał\": Mleko, Jogurt, Ser, Masło, Kefir, Śmietana = **6**\n\n**Wyjasnienie**: COUNTIF(zakres; kryterium) zlicza komorki w zakresie B2:B11, ktore zawieraja tekst \"Nabiał\". Srednik oddziela argumenty (konwencja polska/europejska).",
+  "odpowiedz": "**Formula:**\n```\n=LICZ.JEŻELI(B2:B11;\"Nabiał\")\n```\n\n**Weryfikacja**: Produkty z kategorii \"Nabiał\": Mleko, Jogurt, Ser, Masło, Kefir, Śmietana = **6**\n\n**Wyjasnienie**: LICZ.JEŻELI(zakres; kryterium) zlicza komorki w zakresie B2:B11, ktore zawieraja tekst \"Nabiał\". Srednik oddziela argumenty (konwencja polska/europejska).",
   "typowe_bledy": [
     {
-      "opis": "**Przecinek zamiast srednika**: =COUNTIF(B2:B11,\"Nabiał\") — w polskiej wersji Excela separatorem jest srednik",
+      "opis": "**Przecinek zamiast srednika**: =LICZ.JEŻELI(B2:B11,\"Nabiał\") — w polskiej wersji Excela separatorem jest srednik",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**Brak cudzyslowow wokol tekstu**: =COUNTIF(B2:B11;Nabiał) — kryterium tekstowe musi byc w cudzyslowach",
+      "opis": "**Brak cudzyslowow wokol tekstu**: =LICZ.JEŻELI(B2:B11;Nabiał) — kryterium tekstowe musi byc w cudzyslowach",
       "kara": "-1 pkt"
     }
   ]

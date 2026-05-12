@@ -3,14 +3,21 @@
   "trudnosc": "srednie-trudne",
   "punkty": 5,
   "zrodlo": "ogolna (samochody)",
-  "tagi": ["AVERAGE", "ROUND", "MAX", "MIN", "zaokraglanie", "mnozenie-komorek"],
+  "tagi": [
+    "AVERAGE",
+    "ROUND",
+    "MAX",
+    "MIN",
+    "zaokraglanie",
+    "mnozenie-komorek"
+  ],
   "tresc": "Salon samochodowy sprzedal 6 aut w ciagu miesiaca. Dane o cenach i zuzyciu paliwa:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Model** | **Cena (tys. zl)** | **Zuzycie (l/100km)** |\n| 2 | Sedan A | 85 | 6.8 |\n| 3 | SUV B | 120 | 9.2 |\n| 4 | Hatchback C | 65 | 5.4 |\n| 5 | Kombi D | 95 | 7.5 |\n| 6 | Coupe E | 150 | 8.1 |\n| 7 | Minivan F | 110 | 8.9 |\n\n**Polecenie**:\n1. W kolumnie D oblicz koszt paliwa na 1000 km dla kazdego modelu (cena benzyny: 6.50 zl/l). Formula: zuzycie/100 * 1000 * 6.5.\n2. Oblicz sredni koszt paliwa na 1000 km, zaokraglony do 2 miejsc (ZAOKR).\n3. Znajdz najtanszy i najdrozszy model w eksploatacji (MIN i MAX kolumny D).",
   "wskazowki": [
     "**Kierunek**: D = C * 10 * 6.5 (zuzycie na 1000 km * cena litra). ZAOKR zaokragla wynik.",
     "**Podejscie**: Zuzycie l/100km * 10 = zuzycie l/1000km. Potem * 6.5 zl/l = koszt.",
-    "**Kluczowy krok**: =ZAOKR(AVERAGE(D2:D7);2) — zaokragla srednia do 2 miejsc po przecinku."
+    "**Kluczowy krok**: =ZAOKR(ŚREDNIA(D2:D7);2) — zaokragla srednia do 2 miejsc po przecinku."
   ],
-  "odpowiedz": "**Formuly:**\n```\nD2: =C2/100*1000*6,5               (kopiowana w dol do D7)\n  lub prosciej: =C2*10*6,5\n\nSredni koszt:  =ZAOKR(AVERAGE(D2:D7);2)\nNajtanszy:     =MIN(D2:D7)\nNajdrozszy:    =MAX(D2:D7)\n```\n\n**Weryfikacja:**\n\n| Model | Zuzycie | D: Koszt/1000km |\n|-------|---------|-----------------|\n| Sedan A | 6.8 | 6.8*65 = 442.00 |\n| SUV B | 9.2 | 9.2*65 = 598.00 |\n| Hatchback C | 5.4 | 5.4*65 = 351.00 |\n| Kombi D | 7.5 | 7.5*65 = 487.50 |\n| Coupe E | 8.1 | 8.1*65 = 526.50 |\n| Minivan F | 8.9 | 8.9*65 = 578.50 |\n\n- Srednia: (442+598+351+487.5+526.5+578.5)/6 = 2983.5/6 = 497.25\n- ZAOKR(497.25; 2) = **497.25**\n- Min: **351.00** (Hatchback C)\n- Max: **598.00** (SUV B)\n\n**Wyjasnienie**: Zuzycie w l/100km przeliczamy na l/1000km (mnożymy przez 10), potem mnożymy przez cene litra. ZAOKR(wartosc; miejsca) zaokragla do podanej liczby miejsc po przecinku. SUV jest najdrozszy w eksploatacji mimo ze nie jest najdrozszy w cenie zakupu.",
+  "odpowiedz": "**Formuly:**\n```\nD2: =C2/100*1000*6,5               (kopiowana w dol do D7)\n  lub prosciej: =C2*10*6,5\n\nSredni koszt:  =ZAOKR(ŚREDNIA(D2:D7);2)\nNajtanszy:     =MIN(D2:D7)\nNajdrozszy:    =MAX(D2:D7)\n```\n\n**Weryfikacja:**\n\n| Model | Zuzycie | D: Koszt/1000km |\n|-------|---------|-----------------|\n| Sedan A | 6.8 | 6.8*65 = 442.00 |\n| SUV B | 9.2 | 9.2*65 = 598.00 |\n| Hatchback C | 5.4 | 5.4*65 = 351.00 |\n| Kombi D | 7.5 | 7.5*65 = 487.50 |\n| Coupe E | 8.1 | 8.1*65 = 526.50 |\n| Minivan F | 8.9 | 8.9*65 = 578.50 |\n\n- Srednia: (442+598+351+487.5+526.5+578.5)/6 = 2983.5/6 = 497.25\n- ZAOKR(497.25; 2) = **497.25**\n- Min: **351.00** (Hatchback C)\n- Max: **598.00** (SUV B)\n\n**Wyjasnienie**: Zuzycie w l/100km przeliczamy na l/1000km (mnożymy przez 10), potem mnożymy przez cene litra. ZAOKR(wartosc; miejsca) zaokragla do podanej liczby miejsc po przecinku. SUV jest najdrozszy w eksploatacji mimo ze nie jest najdrozszy w cenie zakupu.",
   "typowe_bledy": [
     {
       "opis": "**Zla kolejnosc operacji**: =C2*1000/100*6.5 — poprawne (bo mnozenie/dzielenie sa przemienne), ale latwo sie pomylic",

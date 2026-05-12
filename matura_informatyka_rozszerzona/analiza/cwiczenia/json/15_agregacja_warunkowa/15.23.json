@@ -4,24 +4,24 @@
   "punkty": 4,
   "zrodlo": "Inspirowane matura 2021 (Szyfry)",
   "tagi": [
-    "AVERAGEIFS",
+    "ŚREDNIA.WARUNKÓW",
     "warunek-tekstowy",
     "wiele-warunkow"
   ],
   "tresc": "W arkuszu mamy dane o ocenach uczniow z roznych semestrów:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Uczen** | **Przedmiot** | **Semestr** | **Ocena** |\n| 2 | Anna | Matematyka | I | 4 |\n| 3 | Bartek | Matematyka | I | 3 |\n| 4 | Celina | Fizyka | I | 5 |\n| 5 | Anna | Matematyka | II | 5 |\n| 6 | Bartek | Fizyka | I | 4 |\n| 7 | Celina | Matematyka | II | 4 |\n| 8 | Anna | Fizyka | II | 3 |\n| 9 | Bartek | Matematyka | II | 4 |\n| 10 | Celina | Fizyka | II | 5 |\n| 11 | Anna | Fizyka | I | 4 |\n\n**Polecenie**: Oblicz srednia ocene z \"Matematyka\" w semestrze \"II\".",
   "wskazowki": [
-    "**Kierunek**: Potrzebujesz sredniej z dwoma warunkami — uzyj AVERAGEIFS (nie AVERAGEIF!).",
-    "**Podejscie**: AVERAGEIFS(zakres_sredniej; zakres_kryt1; kryt1; zakres_kryt2; kryt2) — uwaga na kolejnosc: zakres sredniej jest PIERWSZY.",
-    "**Kluczowy krok**: =AVERAGEIFS(D2:D11;B2:B11;\"Matematyka\";C2:C11;\"II\")"
+    "**Kierunek**: Potrzebujesz sredniej z dwoma warunkami — uzyj ŚREDNIA.WARUNKÓW (nie ŚREDNIA.JEŻELI!).",
+    "**Podejscie**: ŚREDNIA.WARUNKÓW(zakres_sredniej; zakres_kryt1; kryt1; zakres_kryt2; kryt2) — uwaga na kolejnosc: zakres sredniej jest PIERWSZY.",
+    "**Kluczowy krok**: =ŚREDNIA.WARUNKÓW(D2:D11;B2:B11;\"Matematyka\";C2:C11;\"II\")"
   ],
-  "odpowiedz": "**Formula:**\n```\n=AVERAGEIFS(D2:D11;B2:B11;\"Matematyka\";C2:C11;\"II\")\n```\n\n**Weryfikacja** — Matematyka + semestr II:\n- Wiersz 5: Anna, Matematyka, II, ocena 5 ✓\n- Wiersz 7: Celina, Matematyka, II, ocena 4 ✓\n- Wiersz 9: Bartek, Matematyka, II, ocena 4 ✓\n\nSrednia: (5 + 4 + 4) / 3 = 13 / 3 = **4,33** (w przyblizeniu)\n\n**Wyjasnienie**: AVERAGEIFS oblicza srednia arytmetyczna z kolumny D, ale tylko dla wierszy spelniajacych OBA warunki: przedmiot = \"Matematyka\" i semestr = \"II\". Kolejnosc argumentow jest taka sama jak w SUMIFS — zakres wartosci PIERWSZY.",
+  "odpowiedz": "**Formula:**\n```\n=ŚREDNIA.WARUNKÓW(D2:D11;B2:B11;\"Matematyka\";C2:C11;\"II\")\n```\n\n**Weryfikacja** — Matematyka + semestr II:\n- Wiersz 5: Anna, Matematyka, II, ocena 5 ✓\n- Wiersz 7: Celina, Matematyka, II, ocena 4 ✓\n- Wiersz 9: Bartek, Matematyka, II, ocena 4 ✓\n\nSrednia: (5 + 4 + 4) / 3 = 13 / 3 = **4,33** (w przyblizeniu)\n\n**Wyjasnienie**: AVERAGEIFS oblicza srednia arytmetyczna z kolumny D, ale tylko dla wierszy spelniajacych OBA warunki: przedmiot = \"Matematyka\" i semestr = \"II\". Kolejnosc argumentow jest taka sama jak w SUMIFS — zakres wartosci PIERWSZY.",
   "typowe_bledy": [
     {
-      "opis": "**Uzycie AVERAGEIF zamiast AVERAGEIFS**: AVERAGEIF obsluguje tylko jeden warunek — dwa warunki wymagaja AVERAGEIFS",
+      "opis": "**Uzycie ŚREDNIA.JEŻELI zamiast ŚREDNIA.WARUNKÓW**: ŚREDNIA.JEŻELI obsluguje tylko jeden warunek — dwa warunki wymagaja ŚREDNIA.WARUNKÓW",
       "kara": "-2 pkt"
     },
     {
-      "opis": "**Pomieszanie kolejnosci AVERAGEIF i AVERAGEIFS**: AVERAGEIF ma zakres_kryterium pierwszy, AVERAGEIFS ma zakres_sredniej pierwszy — latwiej o pomylke niz sie wydaje",
+      "opis": "**Pomieszanie kolejnosci ŚREDNIA.JEŻELI i ŚREDNIA.WARUNKÓW**: ŚREDNIA.JEŻELI ma zakres_kryterium pierwszy, ŚREDNIA.WARUNKÓW ma zakres_sredniej pierwszy — latwiej o pomylke niz sie wydaje",
       "kara": "-1 pkt"
     }
   ]

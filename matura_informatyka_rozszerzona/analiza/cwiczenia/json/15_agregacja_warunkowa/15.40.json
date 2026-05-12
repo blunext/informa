@@ -4,27 +4,27 @@
   "punkty": 6,
   "zrodlo": "Inspirowane matura 2025 (Martianeum — analiza calosciowa)",
   "tagi": [
-    "SUMIFS",
-    "COUNTIFS",
-    "AVERAGEIFS",
+    "SUMA.WARUNKÓW",
+    "LICZ.WARUNKI",
+    "ŚREDNIA.WARUNKÓW",
     "IF-AND-OR",
     "kolumna-pomocnicza",
     "zakres-bezwzgledny"
   ],
   "tresc": "W arkuszu mamy dane o dostawach surowcow do fabryki:\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Dostawca** | **Surowiec** | **Masa (t)** | **Jakosc (%)** | **Cena/t** |\n| 2 | Alfa | Zelizo | 50 | 95 | 800 |\n| 3 | Beta | Miedz | 30 | 88 | 1500 |\n| 4 | Alfa | Miedz | 25 | 92 | 1500 |\n| 5 | Gamma | Zelizo | 80 | 78 | 800 |\n| 6 | Beta | Zelizo | 60 | 91 | 800 |\n| 7 | Alfa | Aluminium | 40 | 96 | 1200 |\n| 8 | Gamma | Miedz | 35 | 82 | 1500 |\n| 9 | Beta | Aluminium | 20 | 89 | 1200 |\n| 10 | Gamma | Aluminium | 45 | 85 | 1200 |\n| 11 | Alfa | Zelizo | 70 | 94 | 800 |\n\nProg jakosci premium: 90%.\n\n**Polecenie**:\n1. W kolumnie F oblicz wartosc dostawy (masa × cena/t).\n2. W kolumnie G wpisz \"Premium\" jesli jakosc >= 90%, \"Standard\" w przeciwnym razie.\n3. Oblicz laczna wartosc dostaw \"Premium\" od dostawcy \"Alfa\".\n4. Oblicz srednia jakosc dostaw \"Zelizo\" o masie >= 60 t.\n5. Jaki procent lacznej wartosci dostaw stanowia dostawy \"Premium\"?",
   "wskazowki": [
-    "**Kierunek**: 5 punktow wymaga kolumn pomocniczych F i G, potem SUMIFS/AVERAGEIFS/procentu. Punkt 4 laczy dwa warunki: surowiec + masa.",
-    "**Podejscie**: Punkt 3: =SUMIFS(F2:F11;G2:G11;\"Premium\";A2:A11;\"Alfa\"). Punkt 5: =SUMIF(G2:G11;\"Premium\";F2:F11)/SUM(F2:F11)*100.",
+    "**Kierunek**: 5 punktow wymaga kolumn pomocniczych F i G, potem SUMA.WARUNKÓW/ŚREDNIA.WARUNKÓW/procentu. Punkt 4 laczy dwa warunki: surowiec + masa.",
+    "**Podejscie**: Punkt 3: =SUMA.WARUNKÓW(F2:F11;G2:G11;\"Premium\";A2:A11;\"Alfa\"). Punkt 5: =SUMA.JEŻELI(G2:G11;\"Premium\";F2:F11)/SUMA(F2:F11)*100.",
     "**Kluczowy krok**: Kolumny F i G sa niezbedne — bez nich formuly w punktach 3-5 nie zadziałaja."
   ],
-  "odpowiedz": "**Formuly:**\n```\nF2: =C2*E2\nG2: =IF(D2>=90;\"Premium\";\"Standard\")\n\nPunkt 3: =SUMIFS(F2:F11;G2:G11;\"Premium\";A2:A11;\"Alfa\")\nPunkt 4: =AVERAGEIFS(D2:D11;B2:B11;\"Zelizo\";C2:C11;\">=60\")\nPunkt 5: =SUMIF(G2:G11;\"Premium\";F2:F11)/SUM(F2:F11)*100\n```\n\n**Weryfikacja:**\n\nKolumna F (wartosc) i G (jakosc):\n| Dostawca | Surowiec | Masa | Jakosc | Cena/t | Wartosc | Kategoria |\n|----------|----------|------|--------|--------|---------|----------|\n| Alfa | Zelizo | 50 | 95 | 800 | 40000 | Premium |\n| Beta | Miedz | 30 | 88 | 1500 | 45000 | Standard |\n| Alfa | Miedz | 25 | 92 | 1500 | 37500 | Premium |\n| Gamma | Zelizo | 80 | 78 | 800 | 64000 | Standard |\n| Beta | Zelizo | 60 | 91 | 800 | 48000 | Premium |\n| Alfa | Aluminium | 40 | 96 | 1200 | 48000 | Premium |\n| Gamma | Miedz | 35 | 82 | 1500 | 52500 | Standard |\n| Beta | Aluminium | 20 | 89 | 1200 | 24000 | Standard |\n| Gamma | Aluminium | 45 | 85 | 1200 | 54000 | Standard |\n| Alfa | Zelizo | 70 | 94 | 800 | 56000 | Premium |\n\nPunkt 3 — Premium + Alfa:\n- Alfa Zelizo: 40000 ✓\n- Alfa Miedz: 37500 ✓\n- Alfa Aluminium: 48000 ✓\n- Alfa Zelizo: 56000 ✓\n- Suma: 40000 + 37500 + 48000 + 56000 = **181500 zl**\n\nPunkt 4 — Zelizo + masa >= 60:\n- Gamma Zelizo: masa 80 >= 60, jakosc 78 ✓\n- Beta Zelizo: masa 60 >= 60, jakosc 91 ✓\n- Alfa Zelizo: masa 70 >= 60, jakosc 94 ✓\n- (Alfa Zelizo: masa 50 < 60 — NIE)\n- Srednia: (78+91+94)/3 = 263/3 = **87,67** (w przyblizeniu)\n\nPunkt 5 — procent Premium:\n- Wartosc Premium: 40000+37500+48000+48000+56000 = 229500\n- Wartosc calkowita: 40000+45000+37500+64000+48000+48000+52500+24000+54000+56000 = 469000\n- Procent: 229500/469000 × 100 = **48,93%** (w przyblizeniu)\n\n**Wyjasnienie**: Zadanie wymaga dwoch kolumn pomocniczych i laczy rozne typy agregacji warunkowej. Kluczowe jest prawidlowe obliczenie kolumny F (wartosc) przed uzyciem jej w SUMIFS, oraz klasyfikacja jakosci w G dla dalszego filtrowania.",
+  "odpowiedz": "**Formuly:**\n```\nF2: =C2*E2\nG2: =JEŻELI(D2>=90;\"Premium\";\"Standard\")\n\nPunkt 3: =SUMA.WARUNKÓW(F2:F11;G2:G11;\"Premium\";A2:A11;\"Alfa\")\nPunkt 4: =ŚREDNIA.WARUNKÓW(D2:D11;B2:B11;\"Zelizo\";C2:C11;\">=60\")\nPunkt 5: =SUMA.JEŻELI(G2:G11;\"Premium\";F2:F11)/SUMA(F2:F11)*100\n```\n\n**Weryfikacja:**\n\nKolumna F (wartosc) i G (jakosc):\n| Dostawca | Surowiec | Masa | Jakosc | Cena/t | Wartosc | Kategoria |\n|----------|----------|------|--------|--------|---------|----------|\n| Alfa | Zelizo | 50 | 95 | 800 | 40000 | Premium |\n| Beta | Miedz | 30 | 88 | 1500 | 45000 | Standard |\n| Alfa | Miedz | 25 | 92 | 1500 | 37500 | Premium |\n| Gamma | Zelizo | 80 | 78 | 800 | 64000 | Standard |\n| Beta | Zelizo | 60 | 91 | 800 | 48000 | Premium |\n| Alfa | Aluminium | 40 | 96 | 1200 | 48000 | Premium |\n| Gamma | Miedz | 35 | 82 | 1500 | 52500 | Standard |\n| Beta | Aluminium | 20 | 89 | 1200 | 24000 | Standard |\n| Gamma | Aluminium | 45 | 85 | 1200 | 54000 | Standard |\n| Alfa | Zelizo | 70 | 94 | 800 | 56000 | Premium |\n\nPunkt 3 — Premium + Alfa:\n- Alfa Zelizo: 40000 ✓\n- Alfa Miedz: 37500 ✓\n- Alfa Aluminium: 48000 ✓\n- Alfa Zelizo: 56000 ✓\n- Suma: 40000 + 37500 + 48000 + 56000 = **181500 zl**\n\nPunkt 4 — Zelizo + masa >= 60:\n- Gamma Zelizo: masa 80 >= 60, jakosc 78 ✓\n- Beta Zelizo: masa 60 >= 60, jakosc 91 ✓\n- Alfa Zelizo: masa 70 >= 60, jakosc 94 ✓\n- (Alfa Zelizo: masa 50 < 60 — NIE)\n- Srednia: (78+91+94)/3 = 263/3 = **87,67** (w przyblizeniu)\n\nPunkt 5 — procent Premium:\n- Wartosc Premium: 40000+37500+48000+48000+56000 = 229500\n- Wartosc calkowita: 40000+45000+37500+64000+48000+48000+52500+24000+54000+56000 = 469000\n- Procent: 229500/469000 × 100 = **48,93%** (w przyblizeniu)\n\n**Wyjasnienie**: Zadanie wymaga dwoch kolumn pomocniczych i laczy rozne typy agregacji warunkowej. Kluczowe jest prawidlowe obliczenie kolumny F (wartosc) przed uzyciem jej w SUMIFS, oraz klasyfikacja jakosci w G dla dalszego filtrowania.",
   "typowe_bledy": [
     {
-      "opis": "**Brak kolumny pomocniczej G**: Proba SUMIFS z warunkiem D2:D11;\">=90\" zamiast G2:G11;\"Premium\" — zadziala, ale nie odpowiada poleceniu ktore wymaga kolumny G",
+      "opis": "**Brak kolumny pomocniczej G**: Proba SUMA.WARUNKÓW z warunkiem D2:D11;\">=90\" zamiast G2:G11;\"Premium\" — zadziala, ale nie odpowiada poleceniu ktore wymaga kolumny G",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**Punkt 5: dzielenie przez COUNT zamiast SUM**: =SUMIF(...)/COUNT(F2:F11) — dzieli wartosc przez liczbe wierszy zamiast przez laczna wartosc",
+      "opis": "**Punkt 5: dzielenie przez ILE.LICZB zamiast SUM**: =SUMA.JEŻELI(...)/ILE.LICZB(F2:F11) — dzieli wartosc przez liczbe wierszy zamiast przez laczna wartosc",
       "kara": "-2 pkt"
     }
   ]

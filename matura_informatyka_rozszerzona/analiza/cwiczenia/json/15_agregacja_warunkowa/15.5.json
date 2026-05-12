@@ -4,19 +4,19 @@
   "punkty": 5,
   "zrodlo": "Matura 2025 (Martianeum)",
   "tagi": [
-    "SUMIFS",
+    "SUMA.WARUNKÓW",
     "kolumna-pomocnicza",
     "IF-AND-OR",
-    "AVERAGEIF",
+    "ŚREDNIA.JEŻELI",
     "zagniezdzone-funkcje"
   ],
   "tresc": "Fabryka produkuje czesci metalowe. Kazda czesc ma wymiary i wagi mierzone na 3 stanowiskach kontroli jakosci. Czesc przechodzi kontrole, jezeli:\n- srednia waga z 3 pomiarow miesci sie w zakresie [95g, 105g]\n- zaden pojedynczy pomiar nie odbiega od sredniej o wiecej niz 5g\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **ID** | **Typ** | **Pomiar1** | **Pomiar2** | **Pomiar3** |\n| 2 | P001 | A | 98 | 101 | 100 |\n| 3 | P002 | B | 94 | 96 | 95 |\n| 4 | P003 | A | 102 | 108 | 99 |\n| 5 | P004 | A | 100 | 100 | 101 |\n| 6 | P005 | B | 92 | 88 | 95 |\n| 7 | P006 | A | 103 | 104 | 105 |\n| 8 | P007 | B | 97 | 99 | 98 |\n| 9 | P008 | A | 110 | 112 | 108 |\n| 10 | P009 | B | 100 | 101 | 99 |\n| 11 | P010 | A | 96 | 97 | 98 |\n\n**Polecenie**:\n1. W kolumnie F oblicz srednia wage kazdej czesci (F2: srednia z C2:E2).\n2. W kolumnie G sprawdz warunek zakresu: czy srednia F jest miedzy 95 a 105 (TRUE/FALSE).\n3. W kolumnie H sprawdz warunek odchylenia: czy kazdy pomiar jest w odleglosci ≤5 od sredniej (TRUE/FALSE).\n4. W kolumnie I wyznacz wynik kontroli: \"OK\" jezeli G=TRUE i H=TRUE, \"ODRZUT\" w przeciwnym razie.\n5. Napisz formule obliczajaca laczna mase (sume srednich wag) czesci typu \"A\", ktore przeszly kontrole (\"OK\").",
   "wskazowki": [
     "**Kierunek**: Zadanie wymaga budowania rozwiazania etapami — kazda kolumna pomocnicza odpowiada jednemu krokowi logicznemu.",
     "**Podejscie**: AND laczy wiele warunkow logicznych. ABS oblicza wartosc bezwzgledna. IF zamienia TRUE/FALSE na teksty.",
-    "**Kluczowy krok**: Koncowa formula SUMIFS filtruje po kolumnach pomocniczych — typ=\"A\" i wynik=\"OK\"."
+    "**Kluczowy krok**: Koncowa formula SUMA.WARUNKÓW filtruje po kolumnach pomocniczych — typ=\"A\" i wynik=\"OK\"."
   ],
-  "odpowiedz": "**Formuly (w wierszu 2, kopiowane w dol):**\n```\nF2: =AVERAGE(C2:E2)\nG2: =AND(F2>=95;F2<=105)\nH2: =AND(ABS(C2-F2)<=5;ABS(D2-F2)<=5;ABS(E2-F2)<=5)\nI2: =IF(AND(G2;H2);\"OK\";\"ODRZUT\")\n```\n\n**Obliczenia krok po kroku:**\n\n| ID | Typ | P1 | P2 | P3 | F: Srednia | G: Zakres? | H: Odchylenie? | I: Wynik |\n|----|-----|----|----|----|-----------|-----------|----------------|----------|\n| P001 | A | 98 | 101 | 100 | 99.67 | TRUE (95-105) | TRUE (max odch: 1.67) | OK |\n| P002 | B | 94 | 96 | 95 | 95.00 | TRUE (95-105) | TRUE (max odch: 1.00) | OK |\n| P003 | A | 102 | 108 | 99 | 103.00 | TRUE (95-105) | TRUE (max odch: 5.00) | OK |\n| P004 | A | 100 | 100 | 101 | 100.33 | TRUE | TRUE (max odch: 0.67) | OK |\n| P005 | B | 92 | 88 | 95 | 91.67 | FALSE (<95) | TRUE (max odch: 3.67) | ODRZUT |\n| P006 | A | 103 | 104 | 105 | 104.00 | TRUE | TRUE (max odch: 1.00) | OK |\n| P007 | B | 97 | 99 | 98 | 98.00 | TRUE | TRUE (max odch: 1.00) | OK |\n| P008 | A | 110 | 112 | 108 | 110.00 | FALSE (>105) | TRUE (max odch: 2.00) | ODRZUT |\n| P009 | B | 100 | 101 | 99 | 100.00 | TRUE | TRUE (max odch: 1.00) | OK |\n| P010 | A | 96 | 97 | 98 | 97.00 | TRUE | TRUE (max odch: 1.00) | OK |\n\nKorekta P003: srednia = (102+108+99)/3 = 309/3 = 103.00. Odchylenia: |102-103|=1 ≤5 ✓, |108-103|=5 ≤5 ✓, |99-103|=4 ≤5 ✓. Wiec H=TRUE, wynik=OK.\n\n**Formula koncowa (laczna masa czesci typu A z wynikiem OK):**\n```\n=SUMIFS(F2:F11;B2:B11;\"A\";I2:I11;\"OK\")\n```\n\nCzesci typu A z wynikiem OK: P001 (99.67), P003 (103.00), P004 (100.33), P006 (104.00), P010 (97.00)\nSuma: 99.67 + 103.00 + 100.33 + 104.00 + 97.00 = **504.00**\n\n**Wyjasnienie**: Cwiczenie laczy kilka krokow: kolumny pomocnicze z AVERAGE i AND, a nastepnie SUMIFS z wieloma warunkami na kolumnach pomocniczych. Jest to typowy wzorzec na maturze — budowanie rozwiazania etapami.",
+  "odpowiedz": "**Formuly (w wierszu 2, kopiowane w dol):**\n```\nF2: =ŚREDNIA(C2:E2)\nG2: =ORAZ(F2>=95;F2<=105)\nH2: =ORAZ(MODUŁ.LICZBY(C2-F2)<=5;MODUŁ.LICZBY(D2-F2)<=5;MODUŁ.LICZBY(E2-F2)<=5)\nI2: =JEŻELI(ORAZ(G2;H2);\"OK\";\"ODRZUT\")\n```\n\n**Obliczenia krok po kroku:**\n\n| ID | Typ | P1 | P2 | P3 | F: Srednia | G: Zakres? | H: Odchylenie? | I: Wynik |\n|----|-----|----|----|----|-----------|-----------|----------------|----------|\n| P001 | A | 98 | 101 | 100 | 99.67 | TRUE (95-105) | TRUE (max odch: 1.67) | OK |\n| P002 | B | 94 | 96 | 95 | 95.00 | TRUE (95-105) | TRUE (max odch: 1.00) | OK |\n| P003 | A | 102 | 108 | 99 | 103.00 | TRUE (95-105) | TRUE (max odch: 5.00) | OK |\n| P004 | A | 100 | 100 | 101 | 100.33 | TRUE | TRUE (max odch: 0.67) | OK |\n| P005 | B | 92 | 88 | 95 | 91.67 | FALSE (<95) | TRUE (max odch: 3.67) | ODRZUT |\n| P006 | A | 103 | 104 | 105 | 104.00 | TRUE | TRUE (max odch: 1.00) | OK |\n| P007 | B | 97 | 99 | 98 | 98.00 | TRUE | TRUE (max odch: 1.00) | OK |\n| P008 | A | 110 | 112 | 108 | 110.00 | FALSE (>105) | TRUE (max odch: 2.00) | ODRZUT |\n| P009 | B | 100 | 101 | 99 | 100.00 | TRUE | TRUE (max odch: 1.00) | OK |\n| P010 | A | 96 | 97 | 98 | 97.00 | TRUE | TRUE (max odch: 1.00) | OK |\n\nKorekta P003: srednia = (102+108+99)/3 = 309/3 = 103.00. Odchylenia: |102-103|=1 ≤5 ✓, |108-103|=5 ≤5 ✓, |99-103|=4 ≤5 ✓. Wiec H=TRUE, wynik=OK.\n\n**Formula koncowa (laczna masa czesci typu A z wynikiem OK):**\n```\n=SUMA.WARUNKÓW(F2:F11;B2:B11;\"A\";I2:I11;\"OK\")\n```\n\nCzesci typu A z wynikiem OK: P001 (99.67), P003 (103.00), P004 (100.33), P006 (104.00), P010 (97.00)\nSuma: 99.67 + 103.00 + 100.33 + 104.00 + 97.00 = **504.00**\n\n**Wyjasnienie**: Cwiczenie laczy kilka krokow: kolumny pomocnicze z AVERAGE i AND, a nastepnie SUMIFS z wieloma warunkami na kolumnach pomocniczych. Jest to typowy wzorzec na maturze — budowanie rozwiazania etapami.",
   "typowe_bledy": [
     {
       "opis": "**Brak ABS w warunku odchylenia**: Bez ABS roznica moze byc ujemna i warunek ≤5 bedzie falszywiy dla pomiarow nizszych od sredniej",
@@ -27,7 +27,7 @@
       "kara": "-2 pkt"
     },
     {
-      "opis": "**Zapomnienie o kolumnach pomocniczych**: Proba napisania jednej ogromnej formuly SUMIFS bez etapow posrednich — trudne do debugowania i czesto bledne",
+      "opis": "**Zapomnienie o kolumnach pomocniczych**: Proba napisania jednej ogromnej formuly SUMA.WARUNKÓW bez etapow posrednich — trudne do debugowania i czesto bledne",
       "kara": "-0 pkt"
     }
   ]

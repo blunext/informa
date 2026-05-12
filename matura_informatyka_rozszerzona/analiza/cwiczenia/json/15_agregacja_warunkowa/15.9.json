@@ -4,8 +4,8 @@
   "punkty": 5,
   "zrodlo": "Matura 2021 (Szyfry)",
   "tagi": [
-    "COUNTIFS",
-    "SUMIFS",
+    "LICZ.WARUNKI",
+    "SUMA.WARUNKÓW",
     "kolumna-pomocnicza",
     "IF-AND-OR",
     "zakres-bezwzgledny"
@@ -13,17 +13,17 @@
   "tresc": "W arkuszu mamy dane pracownikow firmy:\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Pracownik** | **Dzial** | **Staz (lata)** | **Pensja** | **Wyksztalcenie** |\n| 2 | Kowalski | IT | 8 | 9500 | Wyzsze |\n| 3 | Nowak | HR | 3 | 5200 | Srednie |\n| 4 | Wisniewski | IT | 12 | 11000 | Wyzsze |\n| 5 | Wojcik | Sprzedaz | 5 | 6800 | Wyzsze |\n| 6 | Kaminska | HR | 7 | 6100 | Wyzsze |\n| 7 | Lewandowski | IT | 2 | 7200 | Wyzsze |\n| 8 | Zielinska | Sprzedaz | 10 | 8500 | Srednie |\n| 9 | Szymanski | IT | 15 | 13000 | Wyzsze |\n| 10 | Dabrowska | HR | 4 | 5800 | Srednie |\n| 11 | Mazur | Sprzedaz | 6 | 7000 | Wyzsze |\n\n**Polecenie**:\n1. W kolumnie F wpisz \"Senior\" jesli staz >= 10, \"Mid\" jesli staz >= 5, \"Junior\" jesli staz < 5.\n2. Oblicz srednia pensje seniorow z dzialu IT.\n3. Ile osob z wyzszym wyksztalceniem zarabia powyzej sredniej firmy?\n4. Oblicz laczna pensje juniorow (staz < 5).",
   "wskazowki": [
     "**Kierunek**: Punkt 1 wymaga zagniezdzanego IF. Punkt 3 wymaga odwolania do sredniej firmy jako progu — uzyj komorki pomocniczej.",
-    "**Podejscie**: Zagniezdzone IF: =IF(C2>=10;\"Senior\";IF(C2>=5;\"Mid\";\"Junior\")). COUNTIFS w punkcie 3 z operatorem `\">\"&komorka_sredniej`.",
-    "**Kluczowy krok**: Srednia firmy w komorce pomocniczej (np. H1), potem COUNTIFS z odwolaniem do niej."
+    "**Podejscie**: Zagniezdzone IF: =JEŻELI(C2>=10;\"Senior\";JEŻELI(C2>=5;\"Mid\";\"Junior\")). LICZ.WARUNKI w punkcie 3 z operatorem `\">\"&komorka_sredniej`.",
+    "**Kluczowy krok**: Srednia firmy w komorce pomocniczej (np. H1), potem LICZ.WARUNKI z odwolaniem do niej."
   ],
-  "odpowiedz": "**Formuly:**\n```\nF2: =IF(C2>=10;\"Senior\";IF(C2>=5;\"Mid\";\"Junior\"))\n\nSrednia pensja seniorow IT:\n=AVERAGEIFS(D2:D11;F2:F11;\"Senior\";B2:B11;\"IT\")\n\nSrednia firmy (w H1): =AVERAGE(D2:D11)\n\nOsoby wyzsze powyzej sredniej:\n=COUNTIFS(E2:E11;\"Wyzsze\";D2:D11;\">\"&H1)\n\nLaczna pensja juniorow:\n=SUMIF(F2:F11;\"Junior\";D2:D11)\n```\n\n**Weryfikacja:**\n\nKolumna F (poziom stazu):\n| Pracownik | Staz | Poziom |\n|-----------|------|--------|\n| Kowalski | 8 | Mid |\n| Nowak | 3 | Junior |\n| Wisniewski | 12 | Senior |\n| Wojcik | 5 | Mid |\n| Kaminska | 7 | Mid |\n| Lewandowski | 2 | Junior |\n| Zielinska | 10 | Senior |\n| Szymanski | 15 | Senior |\n| Dabrowska | 4 | Junior |\n| Mazur | 6 | Mid |\n\nSrednia pensja seniorow IT:\n- Seniorzy z IT: Wisniewski (11000), Szymanski (13000)\n- Srednia: (11000+13000)/2 = **12000**\n\nSrednia firmy: (9500+5200+11000+6800+6100+7200+8500+13000+5800+7000)/10 = 80100/10 = **8010**\n\nOsoby z wyzszym wyksztalceniem zarabiajace >8010:\n- Kowalski (9500, Wyzsze) ✓\n- Wisniewski (11000, Wyzsze) ✓\n- Szymanski (13000, Wyzsze) ✓\n- (Wojcik 6800 ✗, Kaminska 6100 ✗, Lewandowski 7200 ✗, Mazur 7000 ✗)\n- Wynik: **3**\n\nLaczna pensja juniorow:\n- Nowak (5200) + Lewandowski (7200) + Dabrowska (5800) = **18200**\n\n**Wyjasnienie**: Zagniezdzone IF tworzy warunki kaskadowe — sprawdza od najwyzszego progu w dol. AVERAGEIFS filtruje po dwoch kolumnach jednoczesnie (F i B). Komorka pomocnicza ze srednia (H1) pozwala uzyc jej dynamicznie w COUNTIFS.",
+  "odpowiedz": "**Formuly:**\n```\nF2: =JEŻELI(C2>=10;\"Senior\";JEŻELI(C2>=5;\"Mid\";\"Junior\"))\n\nSrednia pensja seniorow IT:\n=ŚREDNIA.WARUNKÓW(D2:D11;F2:F11;\"Senior\";B2:B11;\"IT\")\n\nSrednia firmy (w H1): =ŚREDNIA(D2:D11)\n\nOsoby wyzsze powyzej sredniej:\n=LICZ.WARUNKI(E2:E11;\"Wyzsze\";D2:D11;\">\"&H1)\n\nLaczna pensja juniorow:\n=SUMA.JEŻELI(F2:F11;\"Junior\";D2:D11)\n```\n\n**Weryfikacja:**\n\nKolumna F (poziom stazu):\n| Pracownik | Staz | Poziom |\n|-----------|------|--------|\n| Kowalski | 8 | Mid |\n| Nowak | 3 | Junior |\n| Wisniewski | 12 | Senior |\n| Wojcik | 5 | Mid |\n| Kaminska | 7 | Mid |\n| Lewandowski | 2 | Junior |\n| Zielinska | 10 | Senior |\n| Szymanski | 15 | Senior |\n| Dabrowska | 4 | Junior |\n| Mazur | 6 | Mid |\n\nSrednia pensja seniorow IT:\n- Seniorzy z IT: Wisniewski (11000), Szymanski (13000)\n- Srednia: (11000+13000)/2 = **12000**\n\nSrednia firmy: (9500+5200+11000+6800+6100+7200+8500+13000+5800+7000)/10 = 80100/10 = **8010**\n\nOsoby z wyzszym wyksztalceniem zarabiajace >8010:\n- Kowalski (9500, Wyzsze) ✓\n- Wisniewski (11000, Wyzsze) ✓\n- Szymanski (13000, Wyzsze) ✓\n- (Wojcik 6800 ✗, Kaminska 6100 ✗, Lewandowski 7200 ✗, Mazur 7000 ✗)\n- Wynik: **3**\n\nLaczna pensja juniorow:\n- Nowak (5200) + Lewandowski (7200) + Dabrowska (5800) = **18200**\n\n**Wyjasnienie**: Zagniezdzone IF tworzy warunki kaskadowe — sprawdza od najwyzszego progu w dol. AVERAGEIFS filtruje po dwoch kolumnach jednoczesnie (F i B). Komorka pomocnicza ze srednia (H1) pozwala uzyc jej dynamicznie w COUNTIFS.",
   "typowe_bledy": [
     {
-      "opis": "**Zla kolejnosc warunkow w IF**: =IF(C2>=5;\"Mid\";IF(C2>=10;\"Senior\";\"Junior\")) — warunek >=5 jest sprawdzany pierwszy i „pochłania\" tez seniorow. Sprawdzaj od NAJWYZSZEGO progu",
+      "opis": "**Zla kolejnosc warunkow w IF**: =JEŻELI(C2>=5;\"Mid\";JEŻELI(C2>=10;\"Senior\";\"Junior\")) — warunek >=5 jest sprawdzany pierwszy i „pochłania\" tez seniorow. Sprawdzaj od NAJWYZSZEGO progu",
       "kara": "-2 pkt"
     },
     {
-      "opis": "**Brak komorki pomocniczej ze srednia**: Wpisanie =COUNTIFS(E2:E11;\"Wyzsze\";D2:D11;\">\"&AVERAGE(D2:D11)) tez zadziala, ale jest mniej czytelne i trudniejsze do debugowania.",
+      "opis": "**Brak komorki pomocniczej ze srednia**: Wpisanie =LICZ.WARUNKI(E2:E11;\"Wyzsze\";D2:D11;\">\"&ŚREDNIA(D2:D11)) tez zadziala, ale jest mniej czytelne i trudniejsze do debugowania.",
       "kara": "-0 pkt"
     },
     {

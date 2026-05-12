@@ -3,17 +3,21 @@
   "trudnosc": "latwe",
   "punkty": 2,
   "zrodlo": "ogolna (energia)",
-  "tagi": ["SUM", "AVERAGE", "MIN"],
+  "tagi": [
+    "SUM",
+    "AVERAGE",
+    "MIN"
+  ],
   "tresc": "Rodzina zapisywala miesieczne zuzycie energii elektrycznej (w kWh) przez pol roku:\n\n| | A | B |\n|---|---|---|\n| 1 | **Miesiac** | **kWh** |\n| 2 | Styczen | 310 |\n| 3 | Luty | 285 |\n| 4 | Marzec | 260 |\n| 5 | Kwiecien | 220 |\n| 6 | Maj | 195 |\n| 7 | Czerwiec | 230 |\n\n**Polecenie**: Napisz formuly obliczajace:\n1. Calkowite zuzycie energii w polroczu.\n2. Srednie miesieczne zuzycie.\n3. Miesiac z najnizszym zuzyciem (wartosc liczbowa).",
   "wskazowki": [
-    "**Kierunek**: SUM, AVERAGE i MIN — trzy podstawowe funkcje na zakresie B2:B7.",
+    "**Kierunek**: SUM, ŚREDNIA i MIN — trzy podstawowe funkcje na zakresie B2:B7.",
     "**Podejscie**: Kazda formula operuje niezaleznie na tym samym zakresie.",
     "**Kluczowy krok**: MIN zwroci 195 — najnizsze zuzycie w maju."
   ],
-  "odpowiedz": "**Formuly:**\n```\nCalkowite zuzycie:  =SUM(B2:B7)\nSrednie zuzycie:    =AVERAGE(B2:B7)\nNajnizsze:          =MIN(B2:B7)\n```\n\n**Weryfikacja:**\n- Wartosci: 310, 285, 260, 220, 195, 230\n- Suma: 310+285+260+220+195+230 = **1500**\n- Srednia: 1500/6 = **250.00**\n- Min: **195** (Maj)\n\n**Wyjasnienie**: SUM pozwala okreslic calkowite zuzycie za polrocze. AVERAGE daje srednie miesieczne zuzycie, przydatne do planowania budzetu. MIN identyfikuje miesiac z najnizszym zuzyciem — w tym przypadku maj, co jest typowe dla cieplejszych miesiecy (mniej ogrzewania).",
+  "odpowiedz": "**Formuly:**\n```\nCalkowite zuzycie:  =SUMA(B2:B7)\nSrednie zuzycie:    =ŚREDNIA(B2:B7)\nNajnizsze:          =MIN(B2:B7)\n```\n\n**Weryfikacja:**\n- Wartosci: 310, 285, 260, 220, 195, 230\n- Suma: 310+285+260+220+195+230 = **1500**\n- Srednia: 1500/6 = **250.00**\n- Min: **195** (Maj)\n\n**Wyjasnienie**: SUM pozwala okreslic calkowite zuzycie za polrocze. AVERAGE daje srednie miesieczne zuzycie, przydatne do planowania budzetu. MIN identyfikuje miesiac z najnizszym zuzyciem — w tym przypadku maj, co jest typowe dla cieplejszych miesiecy (mniej ogrzewania).",
   "typowe_bledy": [
     {
-      "opis": "**Pomieszanie SUM z AVERAGE**: SUM daje laczne zuzycie (1500), AVERAGE — srednie miesieczne (250). To rozne miary",
+      "opis": "**Pomieszanie SUM z ŚREDNIA**: SUM daje laczne zuzycie (1500), ŚREDNIA — srednie miesieczne (250). To rozne miary",
       "kara": "-1 pkt"
     }
   ]

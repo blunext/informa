@@ -5,20 +5,20 @@
   "czestotliwosc": "2/12 lat",
   "punkty_lacznie": 154,
   "tagi_globalne": [
-    "SUMIF",
-    "SUMIFS",
-    "COUNTIFS",
-    "tabela-krzyzowa",
-    "kolumna-pomocnicza",
-    "INT-dzielenie",
-    "odwolania-mieszane",
     "grupowanie-danych",
-    "VLOOKUP",
     "INDEX-MATCH",
-    "LEFT-RIGHT-MID",
-    "TEXT",
+    "INT-dzielenie",
+    "kolumna-pomocnicza",
     "konkatenacja",
-    "pivot-reczny"
+    "LEFT-RIGHT-MID",
+    "LICZ.WARUNKI",
+    "odwolania-mieszane",
+    "pivot-reczny",
+    "SUMA.JEŻELI",
+    "SUMA.WARUNKÓW",
+    "TEXT",
+    "tabela-krzyzowa",
+    "WYSZUKAJ.PIONOWO"
   ],
   "cwiczenia": [
     {

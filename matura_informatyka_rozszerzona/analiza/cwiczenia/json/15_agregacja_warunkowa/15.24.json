@@ -4,25 +4,25 @@
   "punkty": 5,
   "zrodlo": "Inspirowane matura 2024 (Hurtownia — progi rabatowe)",
   "tagi": [
-    "SUMIFS",
-    "COUNTIFS",
+    "SUMA.WARUNKÓW",
+    "LICZ.WARUNKI",
     "warunek-liczbowy",
     "wiele-warunkow"
   ],
   "tresc": "W arkuszu mamy dane o zamowieniach klientow w hurtowni:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Klient** | **Produkt** | **Ilosc (kg)** | **Cena/kg** |\n| 2 | Firma_A | Jablka | 500 | 3.50 |\n| 3 | Firma_B | Gruszki | 200 | 4.80 |\n| 4 | Firma_A | Gruszki | 350 | 4.80 |\n| 5 | Firma_C | Jablka | 800 | 3.50 |\n| 6 | Firma_B | Jablka | 150 | 3.50 |\n| 7 | Firma_A | Sliwki | 400 | 5.20 |\n| 8 | Firma_C | Gruszki | 600 | 4.80 |\n| 9 | Firma_B | Sliwki | 300 | 5.20 |\n| 10 | Firma_C | Sliwki | 250 | 5.20 |\n| 11 | Firma_A | Jablka | 700 | 3.50 |\n\n**Polecenie**:\n1. Oblicz laczna ilosc kg jablek zamowionych przez Firma_A.\n2. Ile zamowien zlozyla Firma_C na wiecej niz 300 kg?\n3. Oblicz laczna wartosc zamowien Firma_B (wartosc = ilosc × cena/kg). Uzyj formuly SUMPRODUCT lub kolumny pomocniczej.",
   "wskazowki": [
-    "**Kierunek**: Punkty 1-2 to SUMIFS/COUNTIFS z dwoma warunkami. Punkt 3 wymaga obliczenia wartosci — SUMPRODUCT lub kolumna pomocnicza E.",
-    "**Podejscie**: Punkt 3 — SUMPRODUCT mnozy tablice i sumuje: =SUMPRODUCT((A2:A11=\"Firma_B\")*C2:C11*D2:D11).",
-    "**Kluczowy krok**: W SUMPRODUCT warunek tekstowy (A2:A11=\"Firma_B\") tworzy tablice 0/1, ktora mnozy przez wartosci."
+    "**Kierunek**: Punkty 1-2 to SUMA.WARUNKÓW/LICZ.WARUNKI z dwoma warunkami. Punkt 3 wymaga obliczenia wartosci — SUMA.ILOCZYNÓW lub kolumna pomocnicza E.",
+    "**Podejscie**: Punkt 3 — SUMA.ILOCZYNÓW mnozy tablice i sumuje: =SUMA.ILOCZYNÓW((A2:A11=\"Firma_B\")*C2:C11*D2:D11).",
+    "**Kluczowy krok**: W SUMA.ILOCZYNÓW warunek tekstowy (A2:A11=\"Firma_B\") tworzy tablice 0/1, ktora mnozy przez wartosci."
   ],
-  "odpowiedz": "**Formuly:**\n```\n1. =SUMIFS(C2:C11;A2:A11;\"Firma_A\";B2:B11;\"Jablka\")\n2. =COUNTIFS(A2:A11;\"Firma_C\";C2:C11;\">300\")\n3. =SUMPRODUCT((A2:A11=\"Firma_B\")*C2:C11*D2:D11)\n```\n\n**Weryfikacja:**\n\nPunkt 1 — Firma_A + Jablka:\n- Wiersz 2: Firma_A, Jablka, 500 ✓\n- Wiersz 11: Firma_A, Jablka, 700 ✓\n- Suma: 500 + 700 = **1200 kg**\n\nPunkt 2 — Firma_C + > 300 kg:\n- Wiersz 5: Firma_C, 800 > 300 ✓\n- Wiersz 8: Firma_C, 600 > 300 ✓\n- Wiersz 10: Firma_C, 250 — NIE\n- Wynik: **2**\n\nPunkt 3 — wartosc zamowien Firma_B:\n- Wiersz 3: Firma_B, 200 × 4.80 = 960\n- Wiersz 6: Firma_B, 150 × 3.50 = 525\n- Wiersz 9: Firma_B, 300 × 5.20 = 1560\n- Suma: 960 + 525 + 1560 = **3045 zl**\n\n**Wyjasnienie**: SUMPRODUCT z warunkiem tekstowym tworzy tablice TRUE/FALSE (1/0) i mnozy ja przez wartosci — to elegancki sposob na wazenie warunkowe bez kolumny pomocniczej.",
+  "odpowiedz": "**Formuly:**\n```\n1. =SUMA.WARUNKÓW(C2:C11;A2:A11;\"Firma_A\";B2:B11;\"Jablka\")\n2. =LICZ.WARUNKI(A2:A11;\"Firma_C\";C2:C11;\">300\")\n3. =SUMA.ILOCZYNÓW((A2:A11=\"Firma_B\")*C2:C11*D2:D11)\n```\n\n**Weryfikacja:**\n\nPunkt 1 — Firma_A + Jablka:\n- Wiersz 2: Firma_A, Jablka, 500 ✓\n- Wiersz 11: Firma_A, Jablka, 700 ✓\n- Suma: 500 + 700 = **1200 kg**\n\nPunkt 2 — Firma_C + > 300 kg:\n- Wiersz 5: Firma_C, 800 > 300 ✓\n- Wiersz 8: Firma_C, 600 > 300 ✓\n- Wiersz 10: Firma_C, 250 — NIE\n- Wynik: **2**\n\nPunkt 3 — wartosc zamowien Firma_B:\n- Wiersz 3: Firma_B, 200 × 4.80 = 960\n- Wiersz 6: Firma_B, 150 × 3.50 = 525\n- Wiersz 9: Firma_B, 300 × 5.20 = 1560\n- Suma: 960 + 525 + 1560 = **3045 zl**\n\n**Wyjasnienie**: SUMPRODUCT z warunkiem tekstowym tworzy tablice TRUE/FALSE (1/0) i mnozy ja przez wartosci — to elegancki sposob na wazenie warunkowe bez kolumny pomocniczej.",
   "typowe_bledy": [
     {
-      "opis": "**Uzycie SUMIFS zamiast SUMPRODUCT w punkcie 3**: SUMIFS nie mnozy kolumn — nie mozna policzyc ilosc × cena jednym SUMIFS",
+      "opis": "**Uzycie SUMA.WARUNKÓW zamiast SUMA.ILOCZYNÓW w punkcie 3**: SUMA.WARUNKÓW nie mnozy kolumn — nie mozna policzyc ilosc × cena jednym SUMA.WARUNKÓW",
       "kara": "-2 pkt"
     },
     {
-      "opis": "**Brak nawiasow wokol warunku w SUMPRODUCT**: =SUMPRODUCT(A2:A11=\"Firma_B\"*C2:C11*D2:D11) — mnozenie ma priorytet przed porownaniem",
+      "opis": "**Brak nawiasow wokol warunku w SUMA.ILOCZYNÓW**: =SUMA.ILOCZYNÓW(A2:A11=\"Firma_B\"*C2:C11*D2:D11) — mnozenie ma priorytet przed porownaniem",
       "kara": "-1 pkt"
     }
   ]

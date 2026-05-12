@@ -4,25 +4,25 @@
   "punkty": 5,
   "zrodlo": "ogolna",
   "tagi": [
-    "SUMIFS",
+    "SUMA.WARUNKÓW",
     "tabela-krzyzowa",
     "odwolania-mieszane",
     "pivot-reczny"
   ],
   "tresc": "Fabryka notuje produkcje na trzech liniach przez cztery tygodnie:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Linia** | **Tydzien** | **Sztuki** |\n| 2 | L1 | T1 | 120 |\n| 3 | L2 | T1 | 95 |\n| 4 | L3 | T1 | 110 |\n| 5 | L1 | T2 | 135 |\n| 6 | L2 | T2 | 100 |\n| 7 | L3 | T2 | 125 |\n| 8 | L1 | T3 | 140 |\n| 9 | L2 | T3 | 88 |\n| 10 | L3 | T3 | 130 |\n| 11 | L1 | T4 | 150 |\n| 12 | L2 | T4 | 105 |\n| 13 | L3 | T4 | 115 |\n| 14 | L1 | T1 | 125 |\n| 15 | L2 | T2 | 92 |\n| 16 | L3 | T3 | 118 |\n| 17 | L1 | T4 | 145 |\n| 18 | L2 | T1 | 98 |\n\nTabela pivot — suma produkcji wg linii i tygodnia:\n\n| | E | F | G | H | I | J |\n|---|---|---|---|---|---|---|\n| 1 | | **T1** | **T2** | **T3** | **T4** | **Razem** |\n| 2 | **L1** | ? | ? | ? | ? | ? |\n| 3 | **L2** | ? | ? | ? | ? | ? |\n| 4 | **L3** | ? | ? | ? | ? | ? |\n| 5 | **Razem** | ? | ? | ? | ? | ? |\n\n**Polecenie**:\n1. Napisz formule w F2 uzywajac SUMIFS z odwolaniami mieszanymi (kopiowalna w prawo i w dol).\n2. Napisz formuly dla wiersza i kolumny Razem.\n3. Wypelnij tabele i zweryfikuj sumy krzyzowo.",
   "wskazowki": [
-    "**Kierunek**: SUMIFS z $E2 (linia) i F$1 (tydzien) — odwolania mieszane do tabeli krzyzowej.",
-    "**Podejscie**: F2: =SUMIFS(C$2:C$18;A$2:A$18;$E2;B$2:B$18;F$1). Razem: SUM wiersza/kolumny.",
-    "**Kluczowy krok**: Uwaga — niektore kombinacje linia×tydzien maja wiele wierszy (np. L1-T1: wiersze 2 i 14). SUMIFS poprawnie je zsumuje."
+    "**Kierunek**: SUMA.WARUNKÓW z $E2 (linia) i F$1 (tydzien) — odwolania mieszane do tabeli krzyzowej.",
+    "**Podejscie**: F2: =SUMA.WARUNKÓW(C$2:C$18;A$2:A$18;$E2;B$2:B$18;F$1). Razem: SUM wiersza/kolumny.",
+    "**Kluczowy krok**: Uwaga — niektore kombinacje linia×tydzien maja wiele wierszy (np. L1-T1: wiersze 2 i 14). SUMA.WARUNKÓW poprawnie je zsumuje."
   ],
-  "odpowiedz": "**Formuly:**\n```\nF2: =SUMIFS(C$2:C$18;A$2:A$18;$E2;B$2:B$18;F$1)\n    (kopiowana w prawo do I2 i w dol do I4)\n\nJ2: =SUM(F2:I2)          (suma wiersza, kopiowana w dol)\nF5: =SUM(F2:F4)          (suma kolumny, kopiowana w prawo)\nJ5: =SUM(J2:J4)          (suma calosci)\n```\n\n**Wypelniona tabela:**\n\nL1: T1 = wiersze 2(120)+14(125) = 245, T2 = wiersz 5(135) = 135, T3 = wiersz 8(140) = 140, T4 = wiersze 11(150)+17(145) = 295\nL2: T1 = wiersze 3(95)+18(98) = 193, T2 = wiersze 6(100)+15(92) = 192, T3 = wiersz 9(88) = 88, T4 = wiersz 12(105) = 105\nL3: T1 = wiersz 4(110) = 110, T2 = wiersz 7(125) = 125, T3 = wiersze 10(130)+16(118) = 248, T4 = wiersz 13(115) = 115\n\n| | T1 | T2 | T3 | T4 | Razem |\n|---|---|---|---|---|---|\n| L1 | 245 | 135 | 140 | 295 | 815 |\n| L2 | 193 | 192 | 88 | 105 | 578 |\n| L3 | 110 | 125 | 248 | 115 | 598 |\n| Razem | 548 | 452 | 476 | 515 | **1991** |\n\n**Weryfikacja krzyzowa:**\n- Suma wierszow: 815 + 578 + 598 = 1991 ✓\n- Suma kolumn: 548 + 452 + 476 + 515 = 1991 ✓\n- SUM(C2:C18) = 120+95+110+135+100+125+140+88+130+150+105+115+125+92+118+145+98 = 1991 ✓\n\n**Wyjasnienie odniesien w SUMIFS:**\n- `$E2` — zakotwiczona kolumna E (linia), wiersz wzgledny → E2→E3→E4\n- `F$1` — zakotwiczony wiersz 1 (tydzien), kolumna wzgledna → F→G→H→I\n- Zakresy danych z $ na wierszach — nie zmieniaja sie",
+  "odpowiedz": "**Formuly:**\n```\nF2: =SUMA.WARUNKÓW(C$2:C$18;A$2:A$18;$E2;B$2:B$18;F$1)\n    (kopiowana w prawo do I2 i w dol do I4)\n\nJ2: =SUMA(F2:I2)          (suma wiersza, kopiowana w dol)\nF5: =SUMA(F2:F4)          (suma kolumny, kopiowana w prawo)\nJ5: =SUMA(J2:J4)          (suma calosci)\n```\n\n**Wypelniona tabela:**\n\nL1: T1 = wiersze 2(120)+14(125) = 245, T2 = wiersz 5(135) = 135, T3 = wiersz 8(140) = 140, T4 = wiersze 11(150)+17(145) = 295\nL2: T1 = wiersze 3(95)+18(98) = 193, T2 = wiersze 6(100)+15(92) = 192, T3 = wiersz 9(88) = 88, T4 = wiersz 12(105) = 105\nL3: T1 = wiersz 4(110) = 110, T2 = wiersz 7(125) = 125, T3 = wiersze 10(130)+16(118) = 248, T4 = wiersz 13(115) = 115\n\n| | T1 | T2 | T3 | T4 | Razem |\n|---|---|---|---|---|---|\n| L1 | 245 | 135 | 140 | 295 | 815 |\n| L2 | 193 | 192 | 88 | 105 | 578 |\n| L3 | 110 | 125 | 248 | 115 | 598 |\n| Razem | 548 | 452 | 476 | 515 | **1991** |\n\n**Weryfikacja krzyzowa:**\n- Suma wierszow: 815 + 578 + 598 = 1991 ✓\n- Suma kolumn: 548 + 452 + 476 + 515 = 1991 ✓\n- SUMA(C2:C18) = 120+95+110+135+100+125+140+88+130+150+105+115+125+92+118+145+98 = 1991 ✓\n\n**Wyjasnienie odniesien w SUMIFS:**\n- `$E2` — zakotwiczona kolumna E (linia), wiersz wzgledny → E2→E3→E4\n- `F$1` — zakotwiczony wiersz 1 (tydzien), kolumna wzgledna → F→G→H→I\n- Zakresy danych z $ na wierszach — nie zmieniaja sie",
   "typowe_bledy": [
     {
       "opis": "**Zakresy nie obejmuja wszystkich danych**: Dane siegaja do wiersza 18, a nie 13 — pominiecie wierszy 14-18 zanizy wyniki o 583",
       "kara": "-2 pkt"
     },
     {
-      "opis": "**Brak weryfikacji krzyzowej**: Suma wierszy Razem musi = suma kolumn Razem = SUM(C2:C18). Jesli nie — blad w formule",
+      "opis": "**Brak weryfikacji krzyzowej**: Suma wierszy Razem musi = suma kolumn Razem = SUMA(C2:C18). Jesli nie — blad w formule",
       "kara": "-1 pkt"
     }
   ]

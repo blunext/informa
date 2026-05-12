@@ -12,13 +12,13 @@
   "tresc": "Sklep codziennie sprzedaje produkty. Jesli zapas spadnie ponizej 20 szt., nastepnego dnia przychodzi dostawa 50 szt. Poczatkowy zapas: 80.\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Dzien** | **Sprzedaz** | **Dostawa** | **Zapas** |\n| 2 | 0 (start) | — | — | 80 |\n| 3 | 1 | 25 | ? | ? |\n| 4 | 2 | 30 | ? | ? |\n| 5 | 3 | 15 | ? | ? |\n| 6 | 4 | 20 | ? | ? |\n| 7 | 5 | 35 | ? | ? |\n| 8 | 6 | 10 | ? | ? |\n\nProg zamowienia w G1: **20**. Wielkosc dostawy w G2: **50**.\n\n**Polecenie**:\n1. W kolumnie C wpisz dostawe: 50 jesli zapas POPRZEDNIEGO dnia < 20, 0 w przeciwnym razie.\n2. W kolumnie D oblicz zapas: poprzedni zapas + dostawa - sprzedaz.\n3. Wypelnij tabele.",
   "wskazowki": [
     "**Kierunek**: Dostawa zalezy od zapasu z POPRZEDNIEGO dnia (D z wiersza wyzej). Zapas = poprzedni + dostawa - sprzedaz.",
-    "**Podejscie**: C3: =IF(D2<$G$1;$G$2;0). D3: =D2+C3-B3.",
+    "**Podejscie**: C3: =JEŻELI(D2<$G$1;$G$2;0). D3: =D2+C3-B3.",
     "**Kluczowy krok**: Kolejnosc obliczen jest wazna — najpierw dostawa (C), potem zapas (D), bo zapas zalezy od dostawy."
   ],
-  "odpowiedz": "**Formuly:**\n```\nC3: =IF(D2<$G$1;$G$2;0)\nD3: =D2+C3-B3\n```\n\n**Wypelniona tabela:**\n\n| Dzien | Sprzedaz | Dostawa | Zapas |\n|-------|----------|---------|-------|\n| 0 | — | — | 80 |\n| 1 | 25 | 0 | 55 |\n| 2 | 30 | 0 | 25 |\n| 3 | 15 | 0 | 10 |\n| 4 | 20 | 50 | 40 |\n| 5 | 35 | 0 | 5 |\n| 6 | 10 | 50 | 45 |\n\n**Weryfikacja krok po kroku:**\n- Dzien 1: D2=80 >= 20 → C3=0. D3: 80+0-25 = 55\n- Dzien 2: D3=55 >= 20 → C4=0. D4: 55+0-30 = 25\n- Dzien 3: D4=25 >= 20 → C5=0. D5: 25+0-15 = 10\n- Dzien 4: D5=10 < 20 → C6=50. D6: 10+50-20 = 40\n- Dzien 5: D6=40 >= 20 → C7=0. D7: 40+0-35 = 5\n- Dzien 6: D7=5 < 20 → C8=50. D8: 5+50-10 = 45\n\n**Wyjasnienie**: Lancuch zaleznosci: zapas dnia N decyduje o dostawie dnia N+1, ktora wplywa na zapas dnia N+1. To typowa symulacja z progiem i sprężeniem zwrotnym.",
+  "odpowiedz": "**Formuly:**\n```\nC3: =JEŻELI(D2<$G$1;$G$2;0)\nD3: =D2+C3-B3\n```\n\n**Wypelniona tabela:**\n\n| Dzien | Sprzedaz | Dostawa | Zapas |\n|-------|----------|---------|-------|\n| 0 | — | — | 80 |\n| 1 | 25 | 0 | 55 |\n| 2 | 30 | 0 | 25 |\n| 3 | 15 | 0 | 10 |\n| 4 | 20 | 50 | 40 |\n| 5 | 35 | 0 | 5 |\n| 6 | 10 | 50 | 45 |\n\n**Weryfikacja krok po kroku:**\n- Dzien 1: D2=80 >= 20 → C3=0. D3: 80+0-25 = 55\n- Dzien 2: D3=55 >= 20 → C4=0. D4: 55+0-30 = 25\n- Dzien 3: D4=25 >= 20 → C5=0. D5: 25+0-15 = 10\n- Dzien 4: D5=10 < 20 → C6=50. D6: 10+50-20 = 40\n- Dzien 5: D6=40 >= 20 → C7=0. D7: 40+0-35 = 5\n- Dzien 6: D7=5 < 20 → C8=50. D8: 5+50-10 = 45\n\n**Wyjasnienie**: Lancuch zaleznosci: zapas dnia N decyduje o dostawie dnia N+1, ktora wplywa na zapas dnia N+1. To typowa symulacja z progiem i sprężeniem zwrotnym.",
   "typowe_bledy": [
     {
-      "opis": "**Sprawdzanie zapasu BIEZACEGO zamiast POPRZEDNIEGO**: C3: =IF(D3<20;50;0) — odwolanie cykliczne (D3 zalezy od C3, C3 zalezy od D3)",
+      "opis": "**Sprawdzanie zapasu BIEZACEGO zamiast POPRZEDNIEGO**: C3: =JEŻELI(D3<20;50;0) — odwolanie cykliczne (D3 zalezy od C3, C3 zalezy od D3)",
       "kara": "-2 pkt"
     },
     {

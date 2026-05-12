@@ -3,17 +3,25 @@
   "trudnosc": "trudne",
   "punkty": 6,
   "zrodlo": "ogolna (sport)",
-  "tagi": ["AVERAGEIF", "AVERAGE", "ABS", "odchylenie-od-sredniej", "MEDIAN", "RANK", "zakres-bezwzgledny"],
+  "tagi": [
+    "ŚREDNIA.JEŻELI",
+    "AVERAGE",
+    "ABS",
+    "odchylenie-od-sredniej",
+    "MEDIAN",
+    "RANK",
+    "zakres-bezwzgledny"
+  ],
   "tresc": "Trener zestawia wyniki 10 biegaczy z dwoch treningow (czas w sekundach, krotszy = lepszy):\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Biegacz** | **Trening 1** | **Trening 2** |\n| 2 | B1 | 58.2 | 56.8 |\n| 3 | B2 | 62.5 | 61.0 |\n| 4 | B3 | 55.0 | 54.2 |\n| 5 | B4 | 67.8 | 65.5 |\n| 6 | B5 | 59.4 | 60.1 |\n| 7 | B6 | 53.1 | 52.8 |\n| 8 | B7 | 64.0 | 62.3 |\n| 9 | B8 | 56.7 | 55.9 |\n| 10 | B9 | 61.3 | 59.7 |\n| 11 | B10 | 57.5 | 58.0 |\n\n**Polecenie**:\n1. W kolumnie D oblicz sredni czas kazdego biegacza ((T1+T2)/2).\n2. Oblicz mediane srednich czasow (kolumna D).\n3. W kolumnie E oblicz odchylenie kazdego biegacza od mediany.\n4. W kolumnie F oblicz wartosc bezwzgledna odchylenia.\n5. W kolumnie G wpisz ranking na podstawie sredniego czasu (najkrotszy = 1).",
   "wskazowki": [
-    "**Kierunek**: D = (B+C)/2. MEDIAN na kolumnie D. E = D - mediana. F = ABS(E). G = RANK z argumentem 1.",
+    "**Kierunek**: D = (B+C)/2. MEDIAN na kolumnie D. E = D - mediana. F = MODUŁ.LICZBY(E). G = RANK z argumentem 1.",
     "**Podejscie**: Mediana w komorce pomocniczej (np. I1). Odchylenie = D - mediana. Ranking rosnacy (krotszy = lepszy).",
-    "**Kluczowy krok**: RANK(D2;$D$2:$D$11;1) — argument 1 = ranking rosnacy, bo krotszy czas = lepsza pozycja."
+    "**Kluczowy krok**: POZYCJA(D2;$D$2:$D$11;1) — argument 1 = ranking rosnacy, bo krotszy czas = lepsza pozycja."
   ],
-  "odpowiedz": "**Formuly:**\n```\nD2: =(B2+C2)/2                      (kopiowana w dol do D11)\nMediana (I1): =MEDIAN(D2:D11)\n\nE2: =D2-$I$1                        (kopiowana w dol do E11)\nF2: =ABS(E2)                        (kopiowana w dol do F11)\nG2: =RANK(D2;$D$2:$D$11;1)         (kopiowana w dol do G11)\n```\n\n**Weryfikacja:**\n\n| Biegacz | T1 | T2 | D: Sredni | E: Odch. | F: |Odch.| | G: Rank |\n|---------|------|------|-----------|----------|-----------|--------|\n| B1 | 58.2 | 56.8 | 57.50 | -1.25 | 1.25 | 4 |\n| B2 | 62.5 | 61.0 | 61.75 | +3.00 | 3.00 | 8 |\n| B3 | 55.0 | 54.2 | 54.60 | -4.15 | 4.15 | 2 |\n| B4 | 67.8 | 65.5 | 66.65 | +7.90 | 7.90 | 10 |\n| B5 | 59.4 | 60.1 | 59.75 | +1.00 | 1.00 | 6 |\n| B6 | 53.1 | 52.8 | 52.95 | -5.80 | 5.80 | 1 |\n| B7 | 64.0 | 62.3 | 63.15 | +4.40 | 4.40 | 9 |\n| B8 | 56.7 | 55.9 | 56.30 | -2.45 | 2.45 | 3 |\n| B9 | 61.3 | 59.7 | 60.50 | +1.75 | 1.75 | 7 |\n| B10 | 57.5 | 58.0 | 57.75 | -1.00 | 1.00 | 5 |\n\nObliczenia D:\n- B1: (58.2+56.8)/2 = 57.50\n- B2: (62.5+61.0)/2 = 61.75\n- B3: (55.0+54.2)/2 = 54.60\n- B4: (67.8+65.5)/2 = 66.65\n- B5: (59.4+60.1)/2 = 59.75\n- B6: (53.1+52.8)/2 = 52.95\n- B7: (64.0+62.3)/2 = 63.15\n- B8: (56.7+55.9)/2 = 56.30\n- B9: (61.3+59.7)/2 = 60.50\n- B10: (57.5+58.0)/2 = 57.75\n\nMediana: posortowane D: 52.95, 54.60, 56.30, 57.50, 57.75, 59.75, 60.50, 61.75, 63.15, 66.65\nMediana (srednia 5. i 6.): (57.75+59.75)/2 = **58.75**\n\nKontrola sum odchylen: -1.25+3.00-4.15+7.90+1.00-5.80+4.40-2.45+1.75-1.00 = 3.40\nUwaga: Suma odchylen od mediany NIE musi byc rowna 0 (to wlasciwosc sredniej, nie mediany).\n\nRanking (rosnaco): 52.95(1), 54.60(2), 56.30(3), 57.50(4), 57.75(5), 59.75(6), 60.50(7), 61.75(8), 63.15(9), 66.65(10)\n\n**Wyjasnienie**: Odchylenie od mediany (nie sredniej!) pokazuje inne rozproszenie — mediana jest odporna na wartosci skrajne. B6 jest najszybszy (52.95s, rank 1), B4 najwolniejszy (66.65s, rank 10). Ranking rosnacy (argument 1) jest kluczowy, bo krotszy czas = lepsza pozycja.",
+  "odpowiedz": "**Formuly:**\n```\nD2: =(B2+C2)/2                      (kopiowana w dol do D11)\nMediana (I1): =MEDIAN(D2:D11)\n\nE2: =D2-$I$1                        (kopiowana w dol do E11)\nF2: =MODUŁ.LICZBY(E2)                        (kopiowana w dol do F11)\nG2: =POZYCJA(D2;$D$2:$D$11;1)         (kopiowana w dol do G11)\n```\n\n**Weryfikacja:**\n\n| Biegacz | T1 | T2 | D: Sredni | E: Odch. | F: |Odch.| | G: Rank |\n|---------|------|------|-----------|----------|-----------|--------|\n| B1 | 58.2 | 56.8 | 57.50 | -1.25 | 1.25 | 4 |\n| B2 | 62.5 | 61.0 | 61.75 | +3.00 | 3.00 | 8 |\n| B3 | 55.0 | 54.2 | 54.60 | -4.15 | 4.15 | 2 |\n| B4 | 67.8 | 65.5 | 66.65 | +7.90 | 7.90 | 10 |\n| B5 | 59.4 | 60.1 | 59.75 | +1.00 | 1.00 | 6 |\n| B6 | 53.1 | 52.8 | 52.95 | -5.80 | 5.80 | 1 |\n| B7 | 64.0 | 62.3 | 63.15 | +4.40 | 4.40 | 9 |\n| B8 | 56.7 | 55.9 | 56.30 | -2.45 | 2.45 | 3 |\n| B9 | 61.3 | 59.7 | 60.50 | +1.75 | 1.75 | 7 |\n| B10 | 57.5 | 58.0 | 57.75 | -1.00 | 1.00 | 5 |\n\nObliczenia D:\n- B1: (58.2+56.8)/2 = 57.50\n- B2: (62.5+61.0)/2 = 61.75\n- B3: (55.0+54.2)/2 = 54.60\n- B4: (67.8+65.5)/2 = 66.65\n- B5: (59.4+60.1)/2 = 59.75\n- B6: (53.1+52.8)/2 = 52.95\n- B7: (64.0+62.3)/2 = 63.15\n- B8: (56.7+55.9)/2 = 56.30\n- B9: (61.3+59.7)/2 = 60.50\n- B10: (57.5+58.0)/2 = 57.75\n\nMediana: posortowane D: 52.95, 54.60, 56.30, 57.50, 57.75, 59.75, 60.50, 61.75, 63.15, 66.65\nMediana (srednia 5. i 6.): (57.75+59.75)/2 = **58.75**\n\nKontrola sum odchylen: -1.25+3.00-4.15+7.90+1.00-5.80+4.40-2.45+1.75-1.00 = 3.40\nUwaga: Suma odchylen od mediany NIE musi byc rowna 0 (to wlasciwosc sredniej, nie mediany).\n\nRanking (rosnaco): 52.95(1), 54.60(2), 56.30(3), 57.50(4), 57.75(5), 59.75(6), 60.50(7), 61.75(8), 63.15(9), 66.65(10)\n\n**Wyjasnienie**: Odchylenie od mediany (nie sredniej!) pokazuje inne rozproszenie — mediana jest odporna na wartosci skrajne. B6 jest najszybszy (52.95s, rank 1), B4 najwolniejszy (66.65s, rank 10). Ranking rosnacy (argument 1) jest kluczowy, bo krotszy czas = lepsza pozycja.",
   "typowe_bledy": [
     {
-      "opis": "**RANK z 0 zamiast 1**: =RANK(D2;$D$2:$D$11;0) da ranking malejacy — najdluzszy czas = pozycja 1, co jest odwrotnoscia",
+      "opis": "**RANK z 0 zamiast 1**: =POZYCJA(D2;$D$2:$D$11;0) da ranking malejacy — najdluzszy czas = pozycja 1, co jest odwrotnoscia",
       "kara": "-2 pkt"
     },
     {

@@ -3,21 +3,29 @@
   "trudnosc": "trudne",
   "punkty": 6,
   "zrodlo": "ogolna (zdrowie)",
-  "tagi": ["AVERAGE", "ABS", "odchylenie-od-sredniej", "AVERAGEIF", "zakres-bezwzgledny", "ROUND", "zaokraglanie"],
+  "tagi": [
+    "AVERAGE",
+    "ABS",
+    "odchylenie-od-sredniej",
+    "ŚREDNIA.JEŻELI",
+    "zakres-bezwzgledny",
+    "ROUND",
+    "zaokraglanie"
+  ],
   "tresc": "Dietetyk zebral dane o BMI 10 pacjentow w dwoch grupach wiekowych:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Pacjent** | **Grupa** | **BMI** |\n| 2 | P1 | Mlodzi | 22.5 |\n| 3 | P2 | Starsi | 28.3 |\n| 4 | P3 | Mlodzi | 19.8 |\n| 5 | P4 | Starsi | 31.2 |\n| 6 | P5 | Mlodzi | 24.1 |\n| 7 | P6 | Starsi | 26.7 |\n| 8 | P7 | Mlodzi | 21.0 |\n| 9 | P8 | Starsi | 29.5 |\n| 10 | P9 | Mlodzi | 23.6 |\n| 11 | P10 | Starsi | 27.8 |\n\n**Polecenie**:\n1. Oblicz srednie BMI ogolne.\n2. Oblicz srednie BMI osobno dla Mlodych i Starszych (AVERAGEIF).\n3. W kolumnie D oblicz odchylenie BMI kazdego pacjenta od sredniej ogolnej.\n4. W kolumnie E oblicz wartosc bezwzgledna odchylenia.\n5. Oblicz srednie odchylenie bezwzgledne, zaokraglone do 2 miejsc.",
   "wskazowki": [
-    "**Kierunek**: Srednia w G1. AVERAGEIF na kolumnie C z warunkiem z B. D = C - G1, E = ABS(D).",
-    "**Podejscie**: $G$1 (bezwzgledne) w formule D. ZAOKR(AVERAGE(E); 2) na koncu.",
+    "**Kierunek**: Srednia w G1. ŚREDNIA.JEŻELI na kolumnie C z warunkiem z B. D = C - G1, E = MODUŁ.LICZBY(D).",
+    "**Podejscie**: $G$1 (bezwzgledne) w formule D. ZAOKR(ŚREDNIA(E); 2) na koncu.",
     "**Kluczowy krok**: Porownaj srednie grup — roznica pomiedzy Mlodymi a Starszymi pokazuje wplyw wieku na BMI."
   ],
-  "odpowiedz": "**Formuly:**\n```\nSrednia ogolna (G1):  =AVERAGE(C2:C11)\nSrednia Mlodzi:       =AVERAGEIF(B2:B11;\"Mlodzi\";C2:C11)\nSrednia Starsi:       =AVERAGEIF(B2:B11;\"Starsi\";C2:C11)\n\nD2: =C2-$G$1                        (kopiowana w dol do D11)\nE2: =ABS(D2)                        (kopiowana w dol do E11)\n\nSrednie |odchylenie|: =ZAOKR(AVERAGE(E2:E11);2)\n```\n\n**Weryfikacja:**\n- Wartosci BMI: 22.5, 28.3, 19.8, 31.2, 24.1, 26.7, 21.0, 29.5, 23.6, 27.8\n- Suma: 22.5+28.3+19.8+31.2+24.1+26.7+21.0+29.5+23.6+27.8 = 254.5\n- Srednia ogolna: 254.5/10 = **25.45**\n\n- Mlodzi: 22.5, 19.8, 24.1, 21.0, 23.6 → suma = 111.0, srednia = 111.0/5 = **22.20**\n- Starsi: 28.3, 31.2, 26.7, 29.5, 27.8 → suma = 143.5, srednia = 143.5/5 = **28.70**\n\n| Pacjent | Grupa | BMI | D: Odch. | E: |Odch.| |\n|---------|-------|-----|----------|----------|\n| P1 | Mlodzi | 22.5 | -2.95 | 2.95 |\n| P2 | Starsi | 28.3 | +2.85 | 2.85 |\n| P3 | Mlodzi | 19.8 | -5.65 | 5.65 |\n| P4 | Starsi | 31.2 | +5.75 | 5.75 |\n| P5 | Mlodzi | 24.1 | -1.35 | 1.35 |\n| P6 | Starsi | 26.7 | +1.25 | 1.25 |\n| P7 | Mlodzi | 21.0 | -4.45 | 4.45 |\n| P8 | Starsi | 29.5 | +4.05 | 4.05 |\n| P9 | Mlodzi | 23.6 | -1.85 | 1.85 |\n| P10 | Starsi | 27.8 | +2.35 | 2.35 |\n\n- Kontrola: suma odchylen = -2.95+2.85-5.65+5.75-1.35+1.25-4.45+4.05-1.85+2.35 = **0.00** ✓\n- Suma |odchylen|: 2.95+2.85+5.65+5.75+1.35+1.25+4.45+4.05+1.85+2.35 = 32.50\n- Srednie |odchylenie|: 32.50/10 = 3.25\n- ZAOKR(3.25; 2) = **3.25**\n\n**Wyjasnienie**: Starsi maja znacznie wyzsze srednie BMI (28.70 vs 22.20 — roznica 6.50). Srednie odchylenie bezwzgledne (3.25) mierzy typowe rozproszenie od sredniej ogolnej. Wiekszosc tego rozproszenia wynika z roznic miedzy grupami wiekowymi, a nie wewnatrz grup.",
+  "odpowiedz": "**Formuly:**\n```\nSrednia ogolna (G1):  =ŚREDNIA(C2:C11)\nSrednia Mlodzi:       =ŚREDNIA.JEŻELI(B2:B11;\"Mlodzi\";C2:C11)\nSrednia Starsi:       =ŚREDNIA.JEŻELI(B2:B11;\"Starsi\";C2:C11)\n\nD2: =C2-$G$1                        (kopiowana w dol do D11)\nE2: =MODUŁ.LICZBY(D2)                        (kopiowana w dol do E11)\n\nSrednie |odchylenie|: =ZAOKR(ŚREDNIA(E2:E11);2)\n```\n\n**Weryfikacja:**\n- Wartosci BMI: 22.5, 28.3, 19.8, 31.2, 24.1, 26.7, 21.0, 29.5, 23.6, 27.8\n- Suma: 22.5+28.3+19.8+31.2+24.1+26.7+21.0+29.5+23.6+27.8 = 254.5\n- Srednia ogolna: 254.5/10 = **25.45**\n\n- Mlodzi: 22.5, 19.8, 24.1, 21.0, 23.6 → suma = 111.0, srednia = 111.0/5 = **22.20**\n- Starsi: 28.3, 31.2, 26.7, 29.5, 27.8 → suma = 143.5, srednia = 143.5/5 = **28.70**\n\n| Pacjent | Grupa | BMI | D: Odch. | E: |Odch.| |\n|---------|-------|-----|----------|----------|\n| P1 | Mlodzi | 22.5 | -2.95 | 2.95 |\n| P2 | Starsi | 28.3 | +2.85 | 2.85 |\n| P3 | Mlodzi | 19.8 | -5.65 | 5.65 |\n| P4 | Starsi | 31.2 | +5.75 | 5.75 |\n| P5 | Mlodzi | 24.1 | -1.35 | 1.35 |\n| P6 | Starsi | 26.7 | +1.25 | 1.25 |\n| P7 | Mlodzi | 21.0 | -4.45 | 4.45 |\n| P8 | Starsi | 29.5 | +4.05 | 4.05 |\n| P9 | Mlodzi | 23.6 | -1.85 | 1.85 |\n| P10 | Starsi | 27.8 | +2.35 | 2.35 |\n\n- Kontrola: suma odchylen = -2.95+2.85-5.65+5.75-1.35+1.25-4.45+4.05-1.85+2.35 = **0.00** ✓\n- Suma |odchylen|: 2.95+2.85+5.65+5.75+1.35+1.25+4.45+4.05+1.85+2.35 = 32.50\n- Srednie |odchylenie|: 32.50/10 = 3.25\n- ZAOKR(3.25; 2) = **3.25**\n\n**Wyjasnienie**: Starsi maja znacznie wyzsze srednie BMI (28.70 vs 22.20 — roznica 6.50). Srednie odchylenie bezwzgledne (3.25) mierzy typowe rozproszenie od sredniej ogolnej. Wiekszosc tego rozproszenia wynika z roznic miedzy grupami wiekowymi, a nie wewnatrz grup.",
   "typowe_bledy": [
     {
       "opis": "**Brak $ w odwolaniu do sredniej**: =C2-G1 — po skopiowaniu zmieni G1 na G2, G3 itd.",
       "kara": "-2 pkt"
     },
     {
-      "opis": "**Uzycie AVERAGE zamiast AVERAGEIF**: AVERAGE(C2:C11) daje srednia ogolna (25.45), nie per grupa",
+      "opis": "**Uzycie ŚREDNIA zamiast ŚREDNIA.JEŻELI**: ŚREDNIA(C2:C11) daje srednia ogolna (25.45), nie per grupa",
       "kara": "-2 pkt"
     },
     {

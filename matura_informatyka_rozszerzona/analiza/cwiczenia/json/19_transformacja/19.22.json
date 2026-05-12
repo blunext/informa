@@ -4,24 +4,24 @@
   "punkty": 3,
   "zrodlo": "ogolna",
   "tagi": [
-    "VLOOKUP",
+    "WYSZUKAJ.PIONOWO",
     "kolumna-pomocnicza",
-    "SUMIF"
+    "SUMA.JEŻELI"
   ],
   "tresc": "Hurtownia ma cennik oraz liste zamowien z ilosciami:\n\nCennik:\n\n| | A | B |\n|---|---|---|\n| 1 | **Produkt** | **Cena jedn.** |\n| 2 | Maka | 3.50 |\n| 3 | Cukier | 4.20 |\n| 4 | Ryz | 5.00 |\n| 5 | Makaron | 3.80 |\n\nZamowienia:\n\n| | D | E | F | G |\n|---|---|---|---|---|\n| 1 | **Klient** | **Produkt** | **Ilosc** | **Wartosc** |\n| 2 | Sklep A | Maka | 20 | ? |\n| 3 | Sklep B | Ryz | 15 | ? |\n| 4 | Sklep A | Cukier | 10 | ? |\n| 5 | Sklep C | Makaron | 25 | ? |\n| 6 | Sklep B | Maka | 30 | ? |\n| 7 | Sklep C | Ryz | 12 | ? |\n| 8 | Sklep A | Makaron | 18 | ? |\n\n**Polecenie**:\n1. Napisz formule w G2, ktora obliczy wartosc zamowienia = ilosc × cena jednostkowa (cene wyszukaj VLOOKUP-em).\n2. Podaj sumaryczna wartosc zamowien kazdego klienta.",
   "wskazowki": [
-    "**Kierunek**: VLOOKUP wyszuka cene, potem pomnoz przez ilosc w tej samej formule.",
-    "**Podejscie**: G2: =F2*VLOOKUP(E2;$A$2:$B$5;2;0) — ilosc × cena z cennika.",
-    "**Kluczowy krok**: Mozna polaczyc VLOOKUP z mnozeniem w jednej formule — nie potrzeba osobnej kolumny na cene."
+    "**Kierunek**: WYSZUKAJ.PIONOWO wyszuka cene, potem pomnoz przez ilosc w tej samej formule.",
+    "**Podejscie**: G2: =F2*WYSZUKAJ.PIONOWO(E2;$A$2:$B$5;2;0) — ilosc × cena z cennika.",
+    "**Kluczowy krok**: Mozna polaczyc WYSZUKAJ.PIONOWO z mnozeniem w jednej formule — nie potrzeba osobnej kolumny na cene."
   ],
-  "odpowiedz": "**Formuly:**\n```\nG2: =F2*VLOOKUP(E2;$A$2:$B$5;2;0)   (kopiowana w dol do G8)\n```\n\n**Weryfikacja G (wartosc = ilosc × cena):**\n- Sklep A, Maka: 20 × 3.50 = **70.00**\n- Sklep B, Ryz: 15 × 5.00 = **75.00**\n- Sklep A, Cukier: 10 × 4.20 = **42.00**\n- Sklep C, Makaron: 25 × 3.80 = **95.00**\n- Sklep B, Maka: 30 × 3.50 = **105.00**\n- Sklep C, Ryz: 12 × 5.00 = **60.00**\n- Sklep A, Makaron: 18 × 3.80 = **68.40**\n\n**Sumy klientow (np. SUMIF):**\n- Sklep A: 70.00 + 42.00 + 68.40 = **180.40**\n- Sklep B: 75.00 + 105.00 = **180.00**\n- Sklep C: 95.00 + 60.00 = **155.00**\n\nKontrola: 180.40 + 180.00 + 155.00 = 515.40 = SUM(G2:G8) = 70+75+42+95+105+60+68.40 = 515.40 ✓\n\n**Wyjasnienie**: VLOOKUP uzyty wewnatrz wyrazenia arytmetycznego — F2*VLOOKUP(...) — pobiera cene z cennika i od razu mnozy przez ilosc. To czesty wzorzec: zamiast tworzyc kolumne pomocnicza z cenami, laczymy wyszukiwanie z obliczeniem w jednej formule.",
+  "odpowiedz": "**Formuly:**\n```\nG2: =F2*WYSZUKAJ.PIONOWO(E2;$A$2:$B$5;2;0)   (kopiowana w dol do G8)\n```\n\n**Weryfikacja G (wartosc = ilosc × cena):**\n- Sklep A, Maka: 20 × 3.50 = **70.00**\n- Sklep B, Ryz: 15 × 5.00 = **75.00**\n- Sklep A, Cukier: 10 × 4.20 = **42.00**\n- Sklep C, Makaron: 25 × 3.80 = **95.00**\n- Sklep B, Maka: 30 × 3.50 = **105.00**\n- Sklep C, Ryz: 12 × 5.00 = **60.00**\n- Sklep A, Makaron: 18 × 3.80 = **68.40**\n\n**Sumy klientow (np. SUMIF):**\n- Sklep A: 70.00 + 42.00 + 68.40 = **180.40**\n- Sklep B: 75.00 + 105.00 = **180.00**\n- Sklep C: 95.00 + 60.00 = **155.00**\n\nKontrola: 180.40 + 180.00 + 155.00 = 515.40 = SUMA(G2:G8) = 70+75+42+95+105+60+68.40 = 515.40 ✓\n\n**Wyjasnienie**: VLOOKUP uzyty wewnatrz wyrazenia arytmetycznego — F2*WYSZUKAJ.PIONOWO(...) — pobiera cene z cennika i od razu mnozy przez ilosc. To czesty wzorzec: zamiast tworzyc kolumne pomocnicza z cenami, laczymy wyszukiwanie z obliczeniem w jednej formule.",
   "typowe_bledy": [
     {
       "opis": "**Brak $ w zakresie cennika**: Bez $A$2:$B$5 zakres przesunie sie przy kopiowaniu w dol — np. G3 bedzie szukac w A3:B6, co pominie pierwszy produkt",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**Osobna kolumna na cene zamiast wbudowania VLOOKUP**: Nie jest bledem, ale wymaga dodatkowej kolumny — na maturze za punkt jest bardziej eleganckie rozwiazanie",
+      "opis": "**Osobna kolumna na cene zamiast wbudowania WYSZUKAJ.PIONOWO**: Nie jest bledem, ale wymaga dodatkowej kolumny — na maturze za punkt jest bardziej eleganckie rozwiazanie",
       "kara": "-0 pkt"
     }
   ]

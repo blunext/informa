@@ -3,21 +3,27 @@
   "trudnosc": "srednie",
   "punkty": 4,
   "zrodlo": "ogolna (finanse)",
-  "tagi": ["SUM", "AVERAGE", "COUNTA", "COUNTBLANK", "procent"],
+  "tagi": [
+    "SUM",
+    "AVERAGE",
+    "COUNTA",
+    "COUNTBLANK",
+    "procent"
+  ],
   "tresc": "Firma zbiera miesieczne raporty od 10 oddzialow. Nie wszystkie oddzialy przeslaly raport:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Oddzial** | **Przychod (tys.)** | **Raport** |\n| 2 | Warszawa | 450 | Tak |\n| 3 | Krakow | 320 | Tak |\n| 4 | Wroclaw | 280 | |\n| 5 | Poznan | 195 | Tak |\n| 6 | Gdansk | 310 | |\n| 7 | Lodz | 175 | Tak |\n| 8 | Katowice | 260 | Tak |\n| 9 | Lublin | 140 | |\n| 10 | Szczecin | 210 | Tak |\n| 11 | Bialystok | 125 | |\n\n**Polecenie**: Napisz formuly obliczajace:\n1. Laczny przychod wszystkich oddzialow.\n2. Sredni przychod na oddzial.\n3. Ile oddzialow przeslalo raport (niepuste w C)?\n4. Ile oddzialow nie przeslalo raportu (puste w C)?\n5. Jaki procent oddzialow przeslal raport?",
   "wskazowki": [
-    "**Kierunek**: SUM i AVERAGE na kolumnie B, COUNTA i COUNTBLANK na kolumnie C.",
-    "**Podejscie**: Procent = COUNTA(C) / COUNTA(A) * 100. Kolumna A ma wszystkie nazwy oddzialow.",
-    "**Kluczowy krok**: COUNTA zlicza niepuste komorki z tekstem, COUNTBLANK — puste. Sa komplementarne."
+    "**Kierunek**: SUM i ŚREDNIA na kolumnie B, ILE.NIEPUSTYCH i COUNTBLANK na kolumnie C.",
+    "**Podejscie**: Procent = ILE.NIEPUSTYCH(C) / ILE.NIEPUSTYCH(A) * 100. Kolumna A ma wszystkie nazwy oddzialow.",
+    "**Kluczowy krok**: ILE.NIEPUSTYCH zlicza niepuste komorki z tekstem, COUNTBLANK — puste. Sa komplementarne."
   ],
-  "odpowiedz": "**Formuly:**\n```\nLaczny przychod:      =SUM(B2:B11)\nSredni przychod:      =AVERAGE(B2:B11)\nPrzeslaly raport:     =COUNTA(C2:C11)\nNie przeslaly:        =COUNTBLANK(C2:C11)\nProcent raportow:     =COUNTA(C2:C11)/COUNTA(A2:A11)*100\n```\n\n**Weryfikacja:**\n- Przychody: 450, 320, 280, 195, 310, 175, 260, 140, 210, 125\n- Suma: 450+320+280+195+310+175+260+140+210+125 = **2465** tys. zl\n- Srednia: 2465/10 = **246.50** tys. zl\n\nKolumna C: Tak, Tak, (puste), Tak, (puste), Tak, Tak, (puste), Tak, (puste)\n- COUNTA(C2:C11): **6** (Warszawa, Krakow, Poznan, Lodz, Katowice, Szczecin)\n- COUNTBLANK(C2:C11): **4** (Wroclaw, Gdansk, Lublin, Bialystok)\n- Procent: 6/10 * 100 = **60%**\n\n**Wyjasnienie**: COUNTA i COUNTBLANK pozwalaja szybko ocenic kompletnosc danych. W tym przypadku 40% oddzialow nie przeslalo raportu. SUM i AVERAGE dzialaja na wszystkich przychodach niezaleznie od statusu raportu.",
+  "odpowiedz": "**Formuly:**\n```\nLaczny przychod:      =SUMA(B2:B11)\nSredni przychod:      =ŚREDNIA(B2:B11)\nPrzeslaly raport:     =ILE.NIEPUSTYCH(C2:C11)\nNie przeslaly:        =COUNTBLANK(C2:C11)\nProcent raportow:     =ILE.NIEPUSTYCH(C2:C11)/ILE.NIEPUSTYCH(A2:A11)*100\n```\n\n**Weryfikacja:**\n- Przychody: 450, 320, 280, 195, 310, 175, 260, 140, 210, 125\n- Suma: 450+320+280+195+310+175+260+140+210+125 = **2465** tys. zl\n- Srednia: 2465/10 = **246.50** tys. zl\n\nKolumna C: Tak, Tak, (puste), Tak, (puste), Tak, Tak, (puste), Tak, (puste)\n- ILE.NIEPUSTYCH(C2:C11): **6** (Warszawa, Krakow, Poznan, Lodz, Katowice, Szczecin)\n- COUNTBLANK(C2:C11): **4** (Wroclaw, Gdansk, Lublin, Bialystok)\n- Procent: 6/10 * 100 = **60%**\n\n**Wyjasnienie**: COUNTA i COUNTBLANK pozwalaja szybko ocenic kompletnosc danych. W tym przypadku 40% oddzialow nie przeslalo raportu. SUM i AVERAGE dzialaja na wszystkich przychodach niezaleznie od statusu raportu.",
   "typowe_bledy": [
     {
-      "opis": "**COUNT zamiast COUNTA dla kolumny C**: COUNT zlicza liczby — 'Tak' to tekst, wiec COUNT(C2:C11) zwroci 0",
+      "opis": "**ILE.LICZB zamiast ILE.NIEPUSTYCH dla kolumny C**: ILE.LICZB zlicza liczby — 'Tak' to tekst, wiec ILE.LICZB(C2:C11) zwroci 0",
       "kara": "-2 pkt"
     },
     {
-      "opis": "**Dzielenie przez 10 zamiast COUNTA(A)**: Wynik ten sam (10), ale COUNTA(A) jest bardziej elastyczne — automatycznie dostosuje sie do zmian",
+      "opis": "**Dzielenie przez 10 zamiast ILE.NIEPUSTYCH(A)**: Wynik ten sam (10), ale ILE.NIEPUSTYCH(A) jest bardziej elastyczne — automatycznie dostosuje sie do zmian",
       "kara": "-0 pkt"
     }
   ]

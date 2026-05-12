@@ -4,23 +4,23 @@
   "punkty": 2,
   "zrodlo": "Inspirowane matura 2017 (Zdrowie)",
   "tagi": [
-    "COUNTIF",
+    "LICZ.JEŻELI",
     "warunek-tekstowy"
   ],
   "tresc": "W arkuszu kalkulacyjnym mamy dane o ocenach uczniow z roznych przedmiotow:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Uczen** | **Przedmiot** | **Ocena** |\n| 2 | Anna | Matematyka | 5 |\n| 3 | Bartek | Polski | 4 |\n| 4 | Anna | Polski | 3 |\n| 5 | Celina | Matematyka | 4 |\n| 6 | Bartek | Matematyka | 5 |\n| 7 | Celina | Polski | 5 |\n| 8 | Dawid | Matematyka | 3 |\n| 9 | Dawid | Polski | 4 |\n| 10 | Anna | Angielski | 4 |\n| 11 | Bartek | Angielski | 3 |\n\n**Polecenie**: Napisz formule, ktora obliczy ile ocen wystawiono z przedmiotu \"Matematyka\".",
   "wskazowki": [
     "**Kierunek**: Potrzebujesz funkcji zliczajacej wystapienia okreslonego tekstu w kolumnie.",
-    "**Podejscie**: COUNTIF przeszukuje kolumne B i zlicza komorki rowne \"Matematyka\".",
-    "**Kluczowy krok**: =COUNTIF(B2:B11;\"Matematyka\") — zakres to kolumna przedmiotow, kryterium to dokladny tekst."
+    "**Podejscie**: LICZ.JEŻELI przeszukuje kolumne B i zlicza komorki rowne \"Matematyka\".",
+    "**Kluczowy krok**: =LICZ.JEŻELI(B2:B11;\"Matematyka\") — zakres to kolumna przedmiotow, kryterium to dokladny tekst."
   ],
-  "odpowiedz": "**Formula:**\n```\n=COUNTIF(B2:B11;\"Matematyka\")\n```\n\n**Weryfikacja**: Wpisy z przedmiotem \"Matematyka\":\n- Anna — Matematyka (wiersz 2) ✓\n- Celina — Matematyka (wiersz 5) ✓\n- Bartek — Matematyka (wiersz 6) ✓\n- Dawid — Matematyka (wiersz 8) ✓\n\nWynik: **4**\n\n**Wyjasnienie**: COUNTIF zlicza komorki w kolumnie B, ktore dokladnie odpowiadaja tekstowi \"Matematyka\". Funkcja nie rozroznia wielkosci liter (\"matematyka\" tez by pasowalo).",
+  "odpowiedz": "**Formula:**\n```\n=LICZ.JEŻELI(B2:B11;\"Matematyka\")\n```\n\n**Weryfikacja**: Wpisy z przedmiotem \"Matematyka\":\n- Anna — Matematyka (wiersz 2) ✓\n- Celina — Matematyka (wiersz 5) ✓\n- Bartek — Matematyka (wiersz 6) ✓\n- Dawid — Matematyka (wiersz 8) ✓\n\nWynik: **4**\n\n**Wyjasnienie**: COUNTIF zlicza komorki w kolumnie B, ktore dokladnie odpowiadaja tekstowi \"Matematyka\". Funkcja nie rozroznia wielkosci liter (\"matematyka\" tez by pasowalo).",
   "typowe_bledy": [
     {
-      "opis": "**Przeszukiwanie zlej kolumny**: =COUNTIF(A2:A11;\"Matematyka\") — szuka w kolumnie uczniow zamiast przedmiotow",
+      "opis": "**Przeszukiwanie zlej kolumny**: =LICZ.JEŻELI(A2:A11;\"Matematyka\") — szuka w kolumnie uczniow zamiast przedmiotow",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**Literowka w kryterium**: =COUNTIF(B2:B11;\"Matemaytka\") — bledna pisownia nie zostanie dopasowana",
+      "opis": "**Literowka w kryterium**: =LICZ.JEŻELI(B2:B11;\"Matemaytka\") — bledna pisownia nie zostanie dopasowana",
       "kara": "-1 pkt"
     }
   ]

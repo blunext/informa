@@ -10,18 +10,18 @@
   ],
   "tresc": "Mierzymy temperature co godzine. Chcemy policzyc srednia kroczaca z ostatnich 3 pomiarow:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Godzina** | **Temp (°C)** | **Srednia z 3 ostatnich** |\n| 2 | 8:00 | 12 | — |\n| 3 | 9:00 | 15 | — |\n| 4 | 10:00 | 18 | ? |\n| 5 | 11:00 | 16 | ? |\n| 6 | 12:00 | 20 | ? |\n| 7 | 13:00 | 22 | ? |\n| 8 | 14:00 | 19 | ? |\n\n**Polecenie**: Napisz formule w C4, ktora oblicza srednia arytmetyczna z trzech ostatnich pomiarow (biezacy i dwa poprzednie). Formula powinna dzialac po skopiowaniu w dol.",
   "wskazowki": [
-    "**Kierunek**: Srednia z 3 ostatnich = AVERAGE z zakresu 3 komorek kończacego sie na biezacym wierszu.",
-    "**Podejscie**: C4 = AVERAGE(B2:B4) — srednia z B2, B3, B4 (trzy ostatnie wzgledem wiersza 4).",
-    "**Kluczowy krok**: =AVERAGE(B2:B4). Po skopiowaniu do C5 stanie sie =AVERAGE(B3:B5)."
+    "**Kierunek**: Srednia z 3 ostatnich = ŚREDNIA z zakresu 3 komorek kończacego sie na biezacym wierszu.",
+    "**Podejscie**: C4 = ŚREDNIA(B2:B4) — srednia z B2, B3, B4 (trzy ostatnie wzgledem wiersza 4).",
+    "**Kluczowy krok**: =ŚREDNIA(B2:B4). Po skopiowaniu do C5 stanie sie =ŚREDNIA(B3:B5)."
   ],
-  "odpowiedz": "**Formula (C4, kopiowana w dol):**\n```\nC4: =AVERAGE(B2:B4)\n```\n\n**Wypelniona tabela:**\n\n| Godzina | Temp (°C) | Srednia z 3 ostatnich |\n|---------|-----------|----------------------|\n| 8:00 | 12 | — |\n| 9:00 | 15 | — |\n| 10:00 | 18 | 15 |\n| 11:00 | 16 | 16.33 |\n| 12:00 | 20 | 18 |\n| 13:00 | 22 | 19.33 |\n| 14:00 | 19 | 20.33 |\n\n**Weryfikacja krok po kroku:**\n- C4: (12+15+18)/3 = 45/3 = 15\n- C5: (15+18+16)/3 = 49/3 = 16.33\n- C6: (18+16+20)/3 = 54/3 = 18\n- C7: (16+20+22)/3 = 58/3 = 19.33\n- C8: (20+22+19)/3 = 61/3 = 20.33\n\n**Wyjasnienie**: Srednia kroczaca wygladzá dane — eliminuje chwilowe wahania. Zakres jest wzgledny i przesuwa sie z kazdym wierszem, zawsze obejmujac 3 kolejne komorki.",
+  "odpowiedz": "**Formula (C4, kopiowana w dol):**\n```\nC4: =ŚREDNIA(B2:B4)\n```\n\n**Wypelniona tabela:**\n\n| Godzina | Temp (°C) | Srednia z 3 ostatnich |\n|---------|-----------|----------------------|\n| 8:00 | 12 | — |\n| 9:00 | 15 | — |\n| 10:00 | 18 | 15 |\n| 11:00 | 16 | 16.33 |\n| 12:00 | 20 | 18 |\n| 13:00 | 22 | 19.33 |\n| 14:00 | 19 | 20.33 |\n\n**Weryfikacja krok po kroku:**\n- C4: (12+15+18)/3 = 45/3 = 15\n- C5: (15+18+16)/3 = 49/3 = 16.33\n- C6: (18+16+20)/3 = 54/3 = 18\n- C7: (16+20+22)/3 = 58/3 = 19.33\n- C8: (20+22+19)/3 = 61/3 = 20.33\n\n**Wyjasnienie**: Srednia kroczaca wygladzá dane — eliminuje chwilowe wahania. Zakres jest wzgledny i przesuwa sie z kazdym wierszem, zawsze obejmujac 3 kolejne komorki.",
   "typowe_bledy": [
     {
-      "opis": "**Uzycie zakresu bezwzglednego**: =AVERAGE($B$2:$B$4) — po skopiowaniu zakres nie przesuwa sie, wiec kazdy wiersz daje ta sama wartosc",
+      "opis": "**Uzycie zakresu bezwzglednego**: =ŚREDNIA($B$2:$B$4) — po skopiowaniu zakres nie przesuwa sie, wiec kazdy wiersz daje ta sama wartosc",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**Zakres 2 zamiast 3 komorek**: =AVERAGE(B3:B4) — srednia z 2 pomiarow zamiast 3",
+      "opis": "**Zakres 2 zamiast 3 komorek**: =ŚREDNIA(B3:B4) — srednia z 2 pomiarow zamiast 3",
       "kara": "-1 pkt"
     }
   ]

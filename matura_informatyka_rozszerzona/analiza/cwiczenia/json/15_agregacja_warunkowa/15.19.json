@@ -4,25 +4,25 @@
   "punkty": 4,
   "zrodlo": "Inspirowane matura 2023 (Konfitury)",
   "tagi": [
-    "COUNTIFS",
+    "LICZ.WARUNKI",
     "warunek-tekstowy",
     "warunek-liczbowy",
     "wiele-warunkow"
   ],
   "tresc": "W arkuszu mamy dane o pracownikach firmy:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Imie** | **Dzial** | **Wiek** | **Pensja** |\n| 2 | Anna | IT | 28 | 7500 |\n| 3 | Bartek | HR | 35 | 5500 |\n| 4 | Celina | IT | 42 | 9000 |\n| 5 | Dawid | Sprzedaz | 25 | 4800 |\n| 6 | Ewa | IT | 31 | 8200 |\n| 7 | Filip | HR | 29 | 5200 |\n| 8 | Gosia | Sprzedaz | 38 | 6100 |\n| 9 | Hubert | IT | 45 | 10500 |\n| 10 | Iga | HR | 33 | 5800 |\n| 11 | Jan | Sprzedaz | 27 | 4500 |\n\n**Polecenie**:\n1. Ile osob z dzialu \"IT\" ma wiecej niz 30 lat?\n2. Ile osob z dzialu \"Sprzedaz\" zarabia mniej niz 5000 zl?",
   "wskazowki": [
-    "**Kierunek**: Potrzebujesz zliczania z dwoma warunkami — uzyj COUNTIFS.",
-    "**Podejscie**: COUNTIFS(zakres_kryt1; kryt1; zakres_kryt2; kryt2) — kazda para dodaje warunek AND.",
-    "**Kluczowy krok**: Punkt 1: =COUNTIFS(B2:B11;\"IT\";C2:C11;\">30\"). Punkt 2: zmien na \"Sprzedaz\" i \"<5000\"."
+    "**Kierunek**: Potrzebujesz zliczania z dwoma warunkami — uzyj LICZ.WARUNKI.",
+    "**Podejscie**: LICZ.WARUNKI(zakres_kryt1; kryt1; zakres_kryt2; kryt2) — kazda para dodaje warunek AND.",
+    "**Kluczowy krok**: Punkt 1: =LICZ.WARUNKI(B2:B11;\"IT\";C2:C11;\">30\"). Punkt 2: zmien na \"Sprzedaz\" i \"<5000\"."
   ],
-  "odpowiedz": "**Formuly:**\n```\n1. =COUNTIFS(B2:B11;\"IT\";C2:C11;\">30\")\n2. =COUNTIFS(B2:B11;\"Sprzedaz\";D2:D11;\"<5000\")\n```\n\n**Weryfikacja:**\n\nPunkt 1 — IT + wiek > 30:\n- Anna: IT, 28 — NIE (28 <= 30)\n- Celina: IT, 42 — TAK ✓\n- Ewa: IT, 31 — TAK ✓\n- Hubert: IT, 45 — TAK ✓\n- Wynik: **3**\n\nPunkt 2 — Sprzedaz + pensja < 5000:\n- Dawid: Sprzedaz, 4800 — TAK ✓\n- Gosia: Sprzedaz, 6100 — NIE (6100 >= 5000)\n- Jan: Sprzedaz, 4500 — TAK ✓\n- Wynik: **2**\n\n**Wyjasnienie**: COUNTIFS zlicza komorki spelniajace WSZYSTKIE podane warunki jednoczesnie. Mozna mieszac warunki tekstowe (\"IT\") z liczbowymi (\">30\").",
+  "odpowiedz": "**Formuly:**\n```\n1. =LICZ.WARUNKI(B2:B11;\"IT\";C2:C11;\">30\")\n2. =LICZ.WARUNKI(B2:B11;\"Sprzedaz\";D2:D11;\"<5000\")\n```\n\n**Weryfikacja:**\n\nPunkt 1 — IT + wiek > 30:\n- Anna: IT, 28 — NIE (28 <= 30)\n- Celina: IT, 42 — TAK ✓\n- Ewa: IT, 31 — TAK ✓\n- Hubert: IT, 45 — TAK ✓\n- Wynik: **3**\n\nPunkt 2 — Sprzedaz + pensja < 5000:\n- Dawid: Sprzedaz, 4800 — TAK ✓\n- Gosia: Sprzedaz, 6100 — NIE (6100 >= 5000)\n- Jan: Sprzedaz, 4500 — TAK ✓\n- Wynik: **2**\n\n**Wyjasnienie**: COUNTIFS zlicza komorki spelniajace WSZYSTKIE podane warunki jednoczesnie. Mozna mieszac warunki tekstowe (\"IT\") z liczbowymi (\">30\").",
   "typowe_bledy": [
     {
-      "opis": "**Uzycie COUNTIF zamiast COUNTIFS**: COUNTIF obsluguje tylko jeden warunek — dwa warunki wymagaja COUNTIFS",
+      "opis": "**Uzycie LICZ.JEŻELI zamiast LICZ.WARUNKI**: LICZ.JEŻELI obsluguje tylko jeden warunek — dwa warunki wymagaja LICZ.WARUNKI",
       "kara": "-2 pkt"
     },
     {
-      "opis": "**Bledna kolumna w kryterium liczbowym**: =COUNTIFS(B2:B11;\"Sprzedaz\";C2:C11;\"<5000\") — kolumna C to wiek, nie pensja (kolumna D)",
+      "opis": "**Bledna kolumna w kryterium liczbowym**: =LICZ.WARUNKI(B2:B11;\"Sprzedaz\";C2:C11;\"<5000\") — kolumna C to wiek, nie pensja (kolumna D)",
       "kara": "-2 pkt"
     }
   ]

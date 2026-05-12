@@ -3,21 +3,27 @@
   "trudnosc": "srednie-trudne",
   "punkty": 5,
   "zrodlo": "ogolna (jakosc produkcji)",
-  "tagi": ["AVERAGE", "MEDIAN", "COUNT", "ROUND", "zaokraglanie"],
+  "tagi": [
+    "AVERAGE",
+    "MEDIAN",
+    "COUNT",
+    "ROUND",
+    "zaokraglanie"
+  ],
   "tresc": "Kontrola jakosci zmierzyla srednice 10 srubow (w mm). Norma to 8.00 mm:\n\n| | A | B |\n|---|---|---|\n| 1 | **Sruba** | **Srednica (mm)** |\n| 2 | S1 | 7.98 |\n| 3 | S2 | 8.02 |\n| 4 | S3 | 7.95 |\n| 5 | S4 | 8.05 |\n| 6 | S5 | 8.00 |\n| 7 | S6 | 7.97 |\n| 8 | S7 | 8.03 |\n| 9 | S8 | 7.99 |\n| 10 | S9 | 8.01 |\n| 11 | S10 | 8.04 |\n\n**Polecenie**:\n1. Oblicz srednia srednice, zaokraglona do 3 miejsc po przecinku.\n2. Oblicz mediane srednic.\n3. Ile srubow ma srednice wieksza niz norma (>8.00)?\n4. Ile srubow zostalo zmierzonych (COUNT)?",
   "wskazowki": [
-    "**Kierunek**: ZAOKR(AVERAGE(...);3) dla sredniej. MEDIAN dla mediany. COUNTIF dla zliczenia warunkowego.",
+    "**Kierunek**: ZAOKR(ŚREDNIA(...);3) dla sredniej. MEDIAN dla mediany. LICZ.JEŻELI dla zliczenia warunkowego.",
     "**Podejscie**: Mediana z 10 wartosci = srednia z 5. i 6. wartosci po posortowaniu.",
     "**Kluczowy krok**: Posortuj mentalnie: 7.95, 7.97, 7.98, 7.99, 8.00, 8.01, 8.02, 8.03, 8.04, 8.05. Mediana = (8.00+8.01)/2."
   ],
-  "odpowiedz": "**Formuly:**\n```\nSrednia:     =ZAOKR(AVERAGE(B2:B11);3)\nMediana:     =MEDIAN(B2:B11)\nWieksze niz norma: =COUNTIF(B2:B11;\">8\")\nLiczba pomiarow:   =COUNT(B2:B11)\n```\n\n**Weryfikacja:**\n- Wartosci: 7.98, 8.02, 7.95, 8.05, 8.00, 7.97, 8.03, 7.99, 8.01, 8.04\n- Suma: 7.98+8.02+7.95+8.05+8.00+7.97+8.03+7.99+8.01+8.04 = 80.04\n- Srednia: 80.04/10 = 8.004\n- ZAOKR(8.004; 3) = **8.004**\n\n- Posortowane: 7.95, 7.97, 7.98, 7.99, 8.00, 8.01, 8.02, 8.03, 8.04, 8.05\n- Mediana (srednia 5. i 6.): (8.00+8.01)/2 = **8.005**\n\n- Wieksze niz 8.00: 8.02, 8.05, 8.03, 8.01, 8.04 = **5** srubow\n- COUNT: **10** pomiarow\n\n**Wyjasnienie**: MEDIAN dla parzystej liczby wartosci to srednia dwoch srodkowych. Srednia (8.004) i mediana (8.005) sa bliskie normy (8.000), co swiadczy o dobrym procesie produkcji. COUNTIF z kryterium \">8\" zlicza sruby o srednicy powyzej normy.",
+  "odpowiedz": "**Formuly:**\n```\nSrednia:     =ZAOKR(ŚREDNIA(B2:B11);3)\nMediana:     =MEDIAN(B2:B11)\nWieksze niz norma: =LICZ.JEŻELI(B2:B11;\">8\")\nLiczba pomiarow:   =ILE.LICZB(B2:B11)\n```\n\n**Weryfikacja:**\n- Wartosci: 7.98, 8.02, 7.95, 8.05, 8.00, 7.97, 8.03, 7.99, 8.01, 8.04\n- Suma: 7.98+8.02+7.95+8.05+8.00+7.97+8.03+7.99+8.01+8.04 = 80.04\n- Srednia: 80.04/10 = 8.004\n- ZAOKR(8.004; 3) = **8.004**\n\n- Posortowane: 7.95, 7.97, 7.98, 7.99, 8.00, 8.01, 8.02, 8.03, 8.04, 8.05\n- Mediana (srednia 5. i 6.): (8.00+8.01)/2 = **8.005**\n\n- Wieksze niz 8.00: 8.02, 8.05, 8.03, 8.01, 8.04 = **5** srubow\n- COUNT: **10** pomiarow\n\n**Wyjasnienie**: MEDIAN dla parzystej liczby wartosci to srednia dwoch srodkowych. Srednia (8.004) i mediana (8.005) sa bliskie normy (8.000), co swiadczy o dobrym procesie produkcji. COUNTIF z kryterium \">8\" zlicza sruby o srednicy powyzej normy.",
   "typowe_bledy": [
     {
       "opis": "**Mediana z nieparzystej liczby**: Dla 10 wartosci mediana to srednia 5. i 6. elementu, nie sam 5. element",
       "kara": "-2 pkt"
     },
     {
-      "opis": "**COUNTIF z >=8 zamiast >8**: Kryterium \">=8\" wlacza sruby rowne 8.00 — pytanie mowi o wiekszych niz norma",
+      "opis": "**LICZ.JEŻELI z >=8 zamiast >8**: Kryterium \">=8\" wlacza sruby rowne 8.00 — pytanie mowi o wiekszych niz norma",
       "kara": "-1 pkt"
     }
   ]

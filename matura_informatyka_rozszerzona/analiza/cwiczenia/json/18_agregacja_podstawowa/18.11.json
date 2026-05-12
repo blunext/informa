@@ -3,21 +3,24 @@
   "trudnosc": "latwe",
   "punkty": 2,
   "zrodlo": "ogolna (sport)",
-  "tagi": ["SUM", "AVERAGE"],
+  "tagi": [
+    "SUM",
+    "AVERAGE"
+  ],
   "tresc": "Druzyna koszykarska rozegrala 6 meczow. Dane o zdobytych punktach:\n\n| | A | B |\n|---|---|---|\n| 1 | **Mecz** | **Punkty** |\n| 2 | Mecz 1 | 78 |\n| 3 | Mecz 2 | 92 |\n| 4 | Mecz 3 | 65 |\n| 5 | Mecz 4 | 88 |\n| 6 | Mecz 5 | 71 |\n| 7 | Mecz 6 | 84 |\n\n**Polecenie**: Napisz formuly obliczajace:\n1. Laczna liczbe punktow zdobytych we wszystkich meczach.\n2. Srednia liczbe punktow na mecz.",
   "wskazowki": [
-    "**Kierunek**: Potrzebujesz dwoch podstawowych funkcji: SUM i AVERAGE.",
+    "**Kierunek**: Potrzebujesz dwoch podstawowych funkcji: SUM i ŚREDNIA.",
     "**Podejscie**: Obie funkcje operuja na zakresie B2:B7.",
-    "**Kluczowy krok**: SUM sumuje wartosci, AVERAGE dzieli sume przez liczbe elementow automatycznie."
+    "**Kluczowy krok**: SUM sumuje wartosci, ŚREDNIA dzieli sume przez liczbe elementow automatycznie."
   ],
-  "odpowiedz": "**Formuly:**\n```\nLaczne punkty:  =SUM(B2:B7)\nSrednia:        =AVERAGE(B2:B7)\n```\n\n**Weryfikacja:**\n- Wartosci: 78, 92, 65, 88, 71, 84\n- Suma: 78+92+65+88+71+84 = **478**\n- Srednia: 478/6 = **79.67** (zaokraglajac do 2 miejsc)\n\n**Wyjasnienie**: SUM sumuje wszystkie wartosci w podanym zakresie. AVERAGE oblicza srednia arytmetyczna — czyli sume podzielona przez liczbe elementow. Obie funkcje automatycznie uwzgledniaja caly zakres.",
+  "odpowiedz": "**Formuly:**\n```\nLaczne punkty:  =SUMA(B2:B7)\nSrednia:        =ŚREDNIA(B2:B7)\n```\n\n**Weryfikacja:**\n- Wartosci: 78, 92, 65, 88, 71, 84\n- Suma: 78+92+65+88+71+84 = **478**\n- Srednia: 478/6 = **79.67** (zaokraglajac do 2 miejsc)\n\n**Wyjasnienie**: SUM sumuje wszystkie wartosci w podanym zakresie. AVERAGE oblicza srednia arytmetyczna — czyli sume podzielona przez liczbe elementow. Obie funkcje automatycznie uwzgledniaja caly zakres.",
   "typowe_bledy": [
     {
-      "opis": "**Zly zakres**: =SUM(B1:B7) wlacza naglowek — spowoduje blad lub niepoprawny wynik",
+      "opis": "**Zly zakres**: =SUMA(B1:B7) wlacza naglowek — spowoduje blad lub niepoprawny wynik",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**Reczne dzielenie zamiast AVERAGE**: =SUM(B2:B7)/6 daje poprawny wynik, ale jest mniej elastyczne niz AVERAGE",
+      "opis": "**Reczne dzielenie zamiast ŚREDNIA**: =SUMA(B2:B7)/6 daje poprawny wynik, ale jest mniej elastyczne niz ŚREDNIA",
       "kara": "-0 pkt"
     }
   ]

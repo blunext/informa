@@ -14,7 +14,7 @@
     "**Podejscie**: C3 = C2 - B3. Oba odwolania wzgledne.",
     "**Kluczowy krok**: =C2-B3. Po skopiowaniu w dol formuly automatycznie dostosuja sie do kolejnych wierszy."
   ],
-  "odpowiedz": "**Formula (C3, kopiowana w dol):**\n```\nC3: =C2-B3\n```\n\n**Wypelniona tabela:**\n\n| Dzien | Wydano | Stan magazynu |\n|-------|--------|---------------|\n| Start | — | 500 |\n| 1 | 45 | 455 |\n| 2 | 80 | 375 |\n| 3 | 30 | 345 |\n| 4 | 65 | 280 |\n| 5 | 120 | 160 |\n| 6 | 55 | 105 |\n\n**Weryfikacja krok po kroku:**\n- C3: 500 - 45 = 455\n- C4: 455 - 80 = 375\n- C5: 375 - 30 = 345\n- C6: 345 - 65 = 280\n- C7: 280 - 120 = 160\n- C8: 160 - 55 = 105\n\nKontrola: 500 - SUM(B3:B8) = 500 - 395 = 105 = C8 ✓\n\n**Wyjasnienie**: Akumulator z odejmowaniem — kazdy wiersz zmniejsza stan o wydana ilosc. Kontrola: poczatkowy stan minus suma wszystkich wydan powinna dac koncowy stan.",
+  "odpowiedz": "**Formula (C3, kopiowana w dol):**\n```\nC3: =C2-B3\n```\n\n**Wypelniona tabela:**\n\n| Dzien | Wydano | Stan magazynu |\n|-------|--------|---------------|\n| Start | — | 500 |\n| 1 | 45 | 455 |\n| 2 | 80 | 375 |\n| 3 | 30 | 345 |\n| 4 | 65 | 280 |\n| 5 | 120 | 160 |\n| 6 | 55 | 105 |\n\n**Weryfikacja krok po kroku:**\n- C3: 500 - 45 = 455\n- C4: 455 - 80 = 375\n- C5: 375 - 30 = 345\n- C6: 345 - 65 = 280\n- C7: 280 - 120 = 160\n- C8: 160 - 55 = 105\n\nKontrola: 500 - SUMA(B3:B8) = 500 - 395 = 105 = C8 ✓\n\n**Wyjasnienie**: Akumulator z odejmowaniem — kazdy wiersz zmniejsza stan o wydana ilosc. Kontrola: poczatkowy stan minus suma wszystkich wydan powinna dac koncowy stan.",
   "typowe_bledy": [
     {
       "opis": "**Odwolanie do C2 zamiast poprzedniego wiersza**: Wpisanie =500-B3 w kazdym wierszu — odejmuje od stanu poczatkowego, nie biezacego",

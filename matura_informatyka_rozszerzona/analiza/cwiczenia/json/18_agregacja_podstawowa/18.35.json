@@ -3,17 +3,24 @@
   "trudnosc": "trudne",
   "punkty": 6,
   "zrodlo": "ogolna (szkola)",
-  "tagi": ["AVERAGEIF", "AVERAGE", "ABS", "odchylenie-od-sredniej", "zakres-bezwzgledny", "RANK"],
+  "tagi": [
+    "ŚREDNIA.JEŻELI",
+    "AVERAGE",
+    "ABS",
+    "odchylenie-od-sredniej",
+    "zakres-bezwzgledny",
+    "RANK"
+  ],
   "tresc": "12 uczniow z dwoch klas (A i B) pisalo wspolny test (max 100 pkt):\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Uczen** | **Klasa** | **Punkty** |\n| 2 | U1 | A | 72 |\n| 3 | U2 | B | 85 |\n| 4 | U3 | A | 64 |\n| 5 | U4 | B | 91 |\n| 6 | U5 | A | 78 |\n| 7 | U6 | B | 68 |\n| 8 | U7 | A | 55 |\n| 9 | U8 | B | 82 |\n| 10 | U9 | A | 88 |\n| 11 | U10 | B | 74 |\n| 12 | U11 | A | 70 |\n| 13 | U12 | B | 79 |\n\n**Polecenie**:\n1. Oblicz srednia ogolna wszystkich uczniow.\n2. Oblicz srednia klasy A i srednia klasy B (AVERAGEIF).\n3. W kolumnie D oblicz odchylenie kazdego ucznia od sredniej ogolnej.\n4. W kolumnie E oblicz wartosc bezwzgledna odchylenia.\n5. W kolumnie F wpisz ranking uczniow (najwyzszy wynik = pozycja 1).",
   "wskazowki": [
-    "**Kierunek**: Srednia ogolna w G1. AVERAGEIF na kolumnie C z warunkiem z B. D = C - srednia, E = ABS(D).",
-    "**Podejscie**: RANK(C2;$C$2:$C$13) — ranking malejacy (najwyzszy = 1). Zakres bezwzgledny.",
+    "**Kierunek**: Srednia ogolna w G1. ŚREDNIA.JEŻELI na kolumnie C z warunkiem z B. D = C - srednia, E = MODUŁ.LICZBY(D).",
+    "**Podejscie**: POZYCJA(C2;$C$2:$C$13) — ranking malejacy (najwyzszy = 1). Zakres bezwzgledny.",
     "**Kluczowy krok**: Porownaj srednie klas — ktora klasa wypadla lepiej? Sprawdz tez, czy najlepszy uczen jest z lepszej klasy."
   ],
-  "odpowiedz": "**Formuly:**\n```\nSrednia ogolna (G1): =AVERAGE(C2:C13)\nSrednia klasy A:     =AVERAGEIF(B2:B13;\"A\";C2:C13)\nSrednia klasy B:     =AVERAGEIF(B2:B13;\"B\";C2:C13)\n\nD2: =C2-$G$1                        (kopiowana w dol do D13)\nE2: =ABS(D2)                        (kopiowana w dol do E13)\nF2: =RANK(C2;$C$2:$C$13)           (kopiowana w dol do F13)\n```\n\n**Weryfikacja:**\n- Wartosci: 72, 85, 64, 91, 78, 68, 55, 82, 88, 74, 70, 79\n- Suma: 72+85+64+91+78+68+55+82+88+74+70+79 = 906\n- Srednia ogolna: 906/12 = **75.50**\n\n- Klasa A: 72, 64, 78, 55, 88, 70 → suma = 427, srednia = 427/6 = **71.17**\n- Klasa B: 85, 91, 68, 82, 74, 79 → suma = 479, srednia = 479/6 = **79.83**\n\nSortowanie malejace: 91, 88, 85, 82, 79, 78, 74, 72, 70, 68, 64, 55\n\n| Uczen | Klasa | Pkt | D: Odch. | E: |Odch.| | F: Rank |\n|-------|-------|-----|----------|-----------|---------|\n| U1 | A | 72 | -3.50 | 3.50 | 8 |\n| U2 | B | 85 | +9.50 | 9.50 | 3 |\n| U3 | A | 64 | -11.50 | 11.50 | 11 |\n| U4 | B | 91 | +15.50 | 15.50 | 1 |\n| U5 | A | 78 | +2.50 | 2.50 | 6 |\n| U6 | B | 68 | -7.50 | 7.50 | 10 |\n| U7 | A | 55 | -20.50 | 20.50 | 12 |\n| U8 | B | 82 | +6.50 | 6.50 | 4 |\n| U9 | A | 88 | +12.50 | 12.50 | 2 |\n| U10 | B | 74 | -1.50 | 1.50 | 7 |\n| U11 | A | 70 | -5.50 | 5.50 | 9 |\n| U12 | B | 79 | +3.50 | 3.50 | 5 |\n\n- Kontrola: suma odchylen = -3.5+9.5-11.5+15.5+2.5-7.5-20.5+6.5+12.5-1.5-5.5+3.5 = **0** ✓\n\n**Wyjasnienie**: Klasa B (79.83) wypadla lepiej od klasy A (71.17) o ponad 8 punktow. Najlepszy uczen (U4, 91 pkt) jest z klasy B, ale drugi najlepszy (U9, 88 pkt) z klasy A — wiec najslabsi w A mocno ciagna srednia w dol.",
+  "odpowiedz": "**Formuly:**\n```\nSrednia ogolna (G1): =ŚREDNIA(C2:C13)\nSrednia klasy A:     =ŚREDNIA.JEŻELI(B2:B13;\"A\";C2:C13)\nSrednia klasy B:     =ŚREDNIA.JEŻELI(B2:B13;\"B\";C2:C13)\n\nD2: =C2-$G$1                        (kopiowana w dol do D13)\nE2: =MODUŁ.LICZBY(D2)                        (kopiowana w dol do E13)\nF2: =POZYCJA(C2;$C$2:$C$13)           (kopiowana w dol do F13)\n```\n\n**Weryfikacja:**\n- Wartosci: 72, 85, 64, 91, 78, 68, 55, 82, 88, 74, 70, 79\n- Suma: 72+85+64+91+78+68+55+82+88+74+70+79 = 906\n- Srednia ogolna: 906/12 = **75.50**\n\n- Klasa A: 72, 64, 78, 55, 88, 70 → suma = 427, srednia = 427/6 = **71.17**\n- Klasa B: 85, 91, 68, 82, 74, 79 → suma = 479, srednia = 479/6 = **79.83**\n\nSortowanie malejace: 91, 88, 85, 82, 79, 78, 74, 72, 70, 68, 64, 55\n\n| Uczen | Klasa | Pkt | D: Odch. | E: |Odch.| | F: Rank |\n|-------|-------|-----|----------|-----------|---------|\n| U1 | A | 72 | -3.50 | 3.50 | 8 |\n| U2 | B | 85 | +9.50 | 9.50 | 3 |\n| U3 | A | 64 | -11.50 | 11.50 | 11 |\n| U4 | B | 91 | +15.50 | 15.50 | 1 |\n| U5 | A | 78 | +2.50 | 2.50 | 6 |\n| U6 | B | 68 | -7.50 | 7.50 | 10 |\n| U7 | A | 55 | -20.50 | 20.50 | 12 |\n| U8 | B | 82 | +6.50 | 6.50 | 4 |\n| U9 | A | 88 | +12.50 | 12.50 | 2 |\n| U10 | B | 74 | -1.50 | 1.50 | 7 |\n| U11 | A | 70 | -5.50 | 5.50 | 9 |\n| U12 | B | 79 | +3.50 | 3.50 | 5 |\n\n- Kontrola: suma odchylen = -3.5+9.5-11.5+15.5+2.5-7.5-20.5+6.5+12.5-1.5-5.5+3.5 = **0** ✓\n\n**Wyjasnienie**: Klasa B (79.83) wypadla lepiej od klasy A (71.17) o ponad 8 punktow. Najlepszy uczen (U4, 91 pkt) jest z klasy B, ale drugi najlepszy (U9, 88 pkt) z klasy A — wiec najslabsi w A mocno ciagna srednia w dol.",
   "typowe_bledy": [
     {
-      "opis": "**AVERAGEIF z zakresem warunku roznym od zakresu wartosci**: AVERAGEIF(B2:B13;\"A\";C2:C13) — zakres warunku (B) i wartosci (C) musza miec ten sam rozmiar",
+      "opis": "**ŚREDNIA.JEŻELI z zakresem warunku roznym od zakresu wartosci**: ŚREDNIA.JEŻELI(B2:B13;\"A\";C2:C13) — zakres warunku (B) i wartosci (C) musza miec ten sam rozmiar",
       "kara": "-2 pkt"
     },
     {

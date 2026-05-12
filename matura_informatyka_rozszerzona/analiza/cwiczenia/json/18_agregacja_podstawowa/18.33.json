@@ -3,14 +3,21 @@
   "trudnosc": "trudne",
   "punkty": 5,
   "zrodlo": "ogolna (wynagrodzenia)",
-  "tagi": ["AVERAGE", "ABS", "odchylenie-od-sredniej", "zakres-bezwzgledny", "ROUND", "zaokraglanie"],
+  "tagi": [
+    "AVERAGE",
+    "ABS",
+    "odchylenie-od-sredniej",
+    "zakres-bezwzgledny",
+    "ROUND",
+    "zaokraglanie"
+  ],
   "tresc": "Firma ma 8 pracownikow. Dane o ich pensjach brutto (w zl):\n\n| | A | B |\n|---|---|---|\n| 1 | **Pracownik** | **Pensja** |\n| 2 | P1 | 5200 |\n| 3 | P2 | 7800 |\n| 4 | P3 | 4500 |\n| 5 | P4 | 6100 |\n| 6 | P5 | 9500 |\n| 7 | P6 | 5800 |\n| 8 | P7 | 4200 |\n| 9 | P8 | 6900 |\n\n**Polecenie**:\n1. Oblicz srednia pensje w firmie.\n2. W kolumnie C oblicz odchylenie kazdego pracownika od sredniej (pensja - srednia).\n3. W kolumnie D oblicz wartosc bezwzgledna odchylenia (ABS).\n4. Oblicz srednie odchylenie bezwzgledne (srednia kolumny D), zaokraglone do calkowitej liczby.",
   "wskazowki": [
     "**Kierunek**: Srednia w komorce pomocniczej (np. F1). Odchylenie = B - srednia. ABS usuwa znak minus.",
-    "**Podejscie**: =B2-$F$1 w kolumnie C, =ABS(C2) w kolumnie D. ZAOKR(AVERAGE(D);0) na koncu.",
+    "**Podejscie**: =B2-$F$1 w kolumnie C, =MODUŁ.LICZBY(C2) w kolumnie D. ZAOKR(ŚREDNIA(D);0) na koncu.",
     "**Kluczowy krok**: Bezwzgledne odwolanie $F$1 do sredniej — ta sama wartosc dla wszystkich wierszy."
   ],
-  "odpowiedz": "**Formuly:**\n```\nSrednia (F1):    =AVERAGE(B2:B9)\n\nC2: =B2-$F$1                        (kopiowana w dol do C9)\nD2: =ABS(C2)                        (kopiowana w dol do D9)\n\nSrednie |odchylenie|: =ZAOKR(AVERAGE(D2:D9);0)\n```\n\n**Weryfikacja:**\n- Wartosci: 5200, 7800, 4500, 6100, 9500, 5800, 4200, 6900\n- Suma: 5200+7800+4500+6100+9500+5800+4200+6900 = 50000\n- Srednia: 50000/8 = **6250.00**\n\n| Pracownik | Pensja | C: Odchylenie | D: |Odchylenie| |\n|-----------|--------|---------------|-----------------|\n| P1 | 5200 | -1050 | 1050 |\n| P2 | 7800 | +1550 | 1550 |\n| P3 | 4500 | -1750 | 1750 |\n| P4 | 6100 | -150 | 150 |\n| P5 | 9500 | +3250 | 3250 |\n| P6 | 5800 | -450 | 450 |\n| P7 | 4200 | -2050 | 2050 |\n| P8 | 6900 | +650 | 650 |\n\n- Kontrola: suma odchylen = -1050+1550-1750-150+3250-450-2050+650 = **0** (poprawnie)\n- Srednie |odchylenie|: (1050+1550+1750+150+3250+450+2050+650)/8 = 10900/8 = 1362.5\n- ZAOKR(1362.5; 0) = **1363** (zaokraglone w gore, bo .5 zaokragla sie w gore)\n\nUwaga: W niektorych arkuszach ZAOKR(1362.5;0) moze dac 1362 (bankierskie zaokraglenie) — oba sa akceptowane.\n\n**Wyjasnienie**: Odchylenie od sredniej mierzy rozproszenie danych. Suma odchylen zawsze wynosi 0, dlatego bierzemy wartosc bezwzgledna (ABS). Srednie odchylenie bezwzgledne (1363 zl) mowi, ze przecietny pracownik zarabia o ~1363 zl wiecej lub mniej od sredniej.",
+  "odpowiedz": "**Formuly:**\n```\nSrednia (F1):    =ŚREDNIA(B2:B9)\n\nC2: =B2-$F$1                        (kopiowana w dol do C9)\nD2: =MODUŁ.LICZBY(C2)                        (kopiowana w dol do D9)\n\nSrednie |odchylenie|: =ZAOKR(ŚREDNIA(D2:D9);0)\n```\n\n**Weryfikacja:**\n- Wartosci: 5200, 7800, 4500, 6100, 9500, 5800, 4200, 6900\n- Suma: 5200+7800+4500+6100+9500+5800+4200+6900 = 50000\n- Srednia: 50000/8 = **6250.00**\n\n| Pracownik | Pensja | C: Odchylenie | D: |Odchylenie| |\n|-----------|--------|---------------|-----------------|\n| P1 | 5200 | -1050 | 1050 |\n| P2 | 7800 | +1550 | 1550 |\n| P3 | 4500 | -1750 | 1750 |\n| P4 | 6100 | -150 | 150 |\n| P5 | 9500 | +3250 | 3250 |\n| P6 | 5800 | -450 | 450 |\n| P7 | 4200 | -2050 | 2050 |\n| P8 | 6900 | +650 | 650 |\n\n- Kontrola: suma odchylen = -1050+1550-1750-150+3250-450-2050+650 = **0** (poprawnie)\n- Srednie |odchylenie|: (1050+1550+1750+150+3250+450+2050+650)/8 = 10900/8 = 1362.5\n- ZAOKR(1362.5; 0) = **1363** (zaokraglone w gore, bo .5 zaokragla sie w gore)\n\nUwaga: W niektorych arkuszach ZAOKR(1362.5;0) moze dac 1362 (bankierskie zaokraglenie) — oba sa akceptowane.\n\n**Wyjasnienie**: Odchylenie od sredniej mierzy rozproszenie danych. Suma odchylen zawsze wynosi 0, dlatego bierzemy wartosc bezwzgledna (ABS). Srednie odchylenie bezwzgledne (1363 zl) mowi, ze przecietny pracownik zarabia o ~1363 zl wiecej lub mniej od sredniej.",
   "typowe_bledy": [
     {
       "opis": "**Brak $ w odwolaniu do sredniej**: =B2-F1 po skopiowaniu do wiersza 3 stanie sie =B3-F2 — blad",

@@ -4,23 +4,23 @@
   "punkty": 2,
   "zrodlo": "Inspirowane matura 2023 (Konfitury)",
   "tagi": [
-    "SUMIF",
+    "SUMA.JEŻELI",
     "warunek-liczbowy"
   ],
   "tresc": "W arkuszu mamy dane o zamowieniach w restauracji:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Zamowienie** | **Liczba sztuk** | **Cena za szt.** |\n| 2 | 1 | 3 | 25 |\n| 3 | 2 | 1 | 120 |\n| 4 | 3 | 5 | 15 |\n| 5 | 4 | 2 | 80 |\n| 6 | 5 | 4 | 30 |\n| 7 | 6 | 1 | 200 |\n| 8 | 7 | 3 | 45 |\n| 9 | 8 | 2 | 60 |\n\n**Polecenie**: Napisz formule, ktora zsumuje ceny za sztuke tylko tych zamowien, w ktorych zamowiono wiecej niz 2 sztuki.",
   "wskazowki": [
-    "**Kierunek**: Potrzebujesz sumy warunkowej — SUMIF z warunkiem liczbowym.",
-    "**Podejscie**: SUMIF(zakres_kryterium; kryterium; zakres_sumy) — filtruj po kolumnie B, sumuj kolumne C.",
-    "**Kluczowy krok**: =SUMIF(B2:B9;\">2\";C2:C9) — kryterium \">2\" oznacza wiecej niz 2 sztuki."
+    "**Kierunek**: Potrzebujesz sumy warunkowej — SUMA.JEŻELI z warunkiem liczbowym.",
+    "**Podejscie**: SUMA.JEŻELI(zakres_kryterium; kryterium; zakres_sumy) — filtruj po kolumnie B, sumuj kolumne C.",
+    "**Kluczowy krok**: =SUMA.JEŻELI(B2:B9;\">2\";C2:C9) — kryterium \">2\" oznacza wiecej niz 2 sztuki."
   ],
-  "odpowiedz": "**Formula:**\n```\n=SUMIF(B2:B9;\">2\";C2:C9)\n```\n\n**Weryfikacja**: Zamowienia z > 2 sztuk:\n- Zam. 1: 3 szt., cena 25 ✓\n- Zam. 3: 5 szt., cena 15 ✓\n- Zam. 5: 4 szt., cena 30 ✓\n- Zam. 7: 3 szt., cena 45 ✓\n\nSuma cen: 25 + 15 + 30 + 45 = **115**\n\n**Wyjasnienie**: SUMIF sumuje wartosci z kolumny C tylko dla wierszy, gdzie wartosc w kolumnie B jest wieksza niz 2. Pamietaj o kolejnosci argumentow SUMIF: zakres_kryterium, kryterium, zakres_sumy.",
+  "odpowiedz": "**Formula:**\n```\n=SUMA.JEŻELI(B2:B9;\">2\";C2:C9)\n```\n\n**Weryfikacja**: Zamowienia z > 2 sztuk:\n- Zam. 1: 3 szt., cena 25 ✓\n- Zam. 3: 5 szt., cena 15 ✓\n- Zam. 5: 4 szt., cena 30 ✓\n- Zam. 7: 3 szt., cena 45 ✓\n\nSuma cen: 25 + 15 + 30 + 45 = **115**\n\n**Wyjasnienie**: SUMIF sumuje wartosci z kolumny C tylko dla wierszy, gdzie wartosc w kolumnie B jest wieksza niz 2. Pamietaj o kolejnosci argumentow SUMIF: zakres_kryterium, kryterium, zakres_sumy.",
   "typowe_bledy": [
     {
-      "opis": "**Zamiana zakresow kryterium i sumy**: =SUMIF(C2:C9;\">2\";B2:B9) — filtruje po cenach zamiast po liczbie sztuk",
+      "opis": "**Zamiana zakresow kryterium i sumy**: =SUMA.JEŻELI(C2:C9;\">2\";B2:B9) — filtruje po cenach zamiast po liczbie sztuk",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**Uzycie >= zamiast >**: =SUMIF(B2:B9;\">=2\";C2:C9) wlacza zamowienia z 2 sztukami — wynik 295 zamiast 115",
+      "opis": "**Uzycie >= zamiast >**: =SUMA.JEŻELI(B2:B9;\">=2\";C2:C9) wlacza zamowienia z 2 sztukami — wynik 295 zamiast 115",
       "kara": "-1 pkt"
     }
   ]

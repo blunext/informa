@@ -3,14 +3,20 @@
   "trudnosc": "srednie-trudne",
   "punkty": 4,
   "zrodlo": "ogolna (handel)",
-  "tagi": ["SUM", "AVERAGE", "ROUND", "procent", "zaokraglanie"],
+  "tagi": [
+    "SUM",
+    "AVERAGE",
+    "ROUND",
+    "procent",
+    "zaokraglanie"
+  ],
   "tresc": "Siec sklepow podsumowuje sprzedaz w 5 oddzialach. Kazdy oddzial ma plan sprzedazy:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Oddzial** | **Plan (tys. zl)** | **Realizacja (tys. zl)** |\n| 2 | Centrum | 200 | 218 |\n| 3 | Polnoc | 150 | 137 |\n| 4 | Poludnie | 180 | 192 |\n| 5 | Wschod | 120 | 108 |\n| 6 | Zachod | 160 | 171 |\n\n**Polecenie**:\n1. W kolumnie D oblicz procent realizacji planu (realizacja/plan * 100), zaokraglony do 1 miejsca po przecinku.\n2. Oblicz laczny plan i laczna realizacje.\n3. Oblicz sredni procent realizacji planu (srednia kolumny D), zaokraglony do 1 miejsca.",
   "wskazowki": [
-    "**Kierunek**: D = ZAOKR(C/B*100; 1). SUM na kolumnach B i C. ZAOKR(AVERAGE(D); 1).",
-    "**Podejscie**: Najpierw D2:D6, potem SUM na B i C, na koncu AVERAGE na D.",
+    "**Kierunek**: D = ZAOKR(C/B*100; 1). SUM na kolumnach B i C. ZAOKR(ŚREDNIA(D); 1).",
+    "**Podejscie**: Najpierw D2:D6, potem SUM na B i C, na koncu ŚREDNIA na D.",
     "**Kluczowy krok**: ZAOKR(wartosc; 1) zaokragla do 1 miejsca po przecinku."
   ],
-  "odpowiedz": "**Formuly:**\n```\nD2: =ZAOKR(C2/B2*100;1)             (kopiowana w dol do D6)\nLaczny plan:       =SUM(B2:B6)\nLaczna realizacja: =SUM(C2:C6)\nSredni % realizacji: =ZAOKR(AVERAGE(D2:D6);1)\n```\n\n**Weryfikacja:**\n\n| Oddzial | Plan | Realiz. | D: % realizacji |\n|---------|------|---------|-----------------|\n| Centrum | 200 | 218 | ZAOKR(218/200*100;1) = ZAOKR(109.0;1) = 109.0 |\n| Polnoc | 150 | 137 | ZAOKR(137/150*100;1) = ZAOKR(91.333;1) = 91.3 |\n| Poludnie | 180 | 192 | ZAOKR(192/180*100;1) = ZAOKR(106.667;1) = 106.7 |\n| Wschod | 120 | 108 | ZAOKR(108/120*100;1) = ZAOKR(90.0;1) = 90.0 |\n| Zachod | 160 | 171 | ZAOKR(171/160*100;1) = ZAOKR(106.875;1) = 106.9 |\n\n- Laczny plan: 200+150+180+120+160 = **810** tys. zl\n- Laczna realizacja: 218+137+192+108+171 = **826** tys. zl\n- Sredni % realizacji: ZAOKR((109.0+91.3+106.7+90.0+106.9)/5; 1) = ZAOKR(503.9/5; 1) = ZAOKR(100.78; 1) = **100.8%**\n\n**Wyjasnienie**: Procent realizacji planu pokazuje, ktore oddzialy przekroczyly plan (>100%) a ktore nie (< 100%). ZAOKR zaokragla wynik do zadanej precyzji. Uwaga: srednia procentow realizacji (100.8%) rozni sie od ogolnego % realizacji (826/810*100 = 101.98%), bo oddzialy maja rozne plany.",
+  "odpowiedz": "**Formuly:**\n```\nD2: =ZAOKR(C2/B2*100;1)             (kopiowana w dol do D6)\nLaczny plan:       =SUMA(B2:B6)\nLaczna realizacja: =SUMA(C2:C6)\nSredni % realizacji: =ZAOKR(ŚREDNIA(D2:D6);1)\n```\n\n**Weryfikacja:**\n\n| Oddzial | Plan | Realiz. | D: % realizacji |\n|---------|------|---------|-----------------|\n| Centrum | 200 | 218 | ZAOKR(218/200*100;1) = ZAOKR(109.0;1) = 109.0 |\n| Polnoc | 150 | 137 | ZAOKR(137/150*100;1) = ZAOKR(91.333;1) = 91.3 |\n| Poludnie | 180 | 192 | ZAOKR(192/180*100;1) = ZAOKR(106.667;1) = 106.7 |\n| Wschod | 120 | 108 | ZAOKR(108/120*100;1) = ZAOKR(90.0;1) = 90.0 |\n| Zachod | 160 | 171 | ZAOKR(171/160*100;1) = ZAOKR(106.875;1) = 106.9 |\n\n- Laczny plan: 200+150+180+120+160 = **810** tys. zl\n- Laczna realizacja: 218+137+192+108+171 = **826** tys. zl\n- Sredni % realizacji: ZAOKR((109.0+91.3+106.7+90.0+106.9)/5; 1) = ZAOKR(503.9/5; 1) = ZAOKR(100.78; 1) = **100.8%**\n\n**Wyjasnienie**: Procent realizacji planu pokazuje, ktore oddzialy przekroczyly plan (>100%) a ktore nie (< 100%). ZAOKR zaokragla wynik do zadanej precyzji. Uwaga: srednia procentow realizacji (100.8%) rozni sie od ogolnego % realizacji (826/810*100 = 101.98%), bo oddzialy maja rozne plany.",
   "typowe_bledy": [
     {
       "opis": "**Dzielenie planu przez realizacje zamiast odwrotnie**: =B2/C2*100 daje odwrotny procent (np. 91.7% zamiast 109.0% dla Centrum)",

@@ -3,7 +3,11 @@
   "trudnosc": "latwe",
   "punkty": 2,
   "zrodlo": "ogolna (zywnosc)",
-  "tagi": ["MAX", "MIN", "rozstep"],
+  "tagi": [
+    "MAX",
+    "MIN",
+    "rozstep"
+  ],
   "tresc": "Dietetyk zapisal kalorie posilkow pacjenta w ciagu tygodnia:\n\n| | A | B |\n|---|---|---|\n| 1 | **Dzien** | **Kalorie** |\n| 2 | Poniedzialek | 1850 |\n| 3 | Wtorek | 2100 |\n| 4 | Sroda | 1600 |\n| 5 | Czwartek | 2350 |\n| 6 | Piatek | 1900 |\n| 7 | Sobota | 2500 |\n| 8 | Niedziela | 2200 |\n\n**Polecenie**: Napisz formuly obliczajace:\n1. Najwyzsze dzienne spozycie kalorii.\n2. Najnizsze dzienne spozycie kalorii.\n3. Rozstep (roznica miedzy najwyzszym a najnizszym spozyciem).",
   "wskazowki": [
     "**Kierunek**: MAX zwraca najwyzsza wartosc z zakresu, MIN — najnizsza.",

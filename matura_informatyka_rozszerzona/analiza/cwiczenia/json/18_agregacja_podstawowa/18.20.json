@@ -3,21 +3,26 @@
   "trudnosc": "srednie",
   "punkty": 3,
   "zrodlo": "ogolna (produkcja)",
-  "tagi": ["SUM", "AVERAGE", "mnozenie-komorek", "procent"],
+  "tagi": [
+    "SUM",
+    "AVERAGE",
+    "mnozenie-komorek",
+    "procent"
+  ],
   "tresc": "Fabryka produkuje 6 rodzajow srubow. Dane o produkcji dziennej i cenie jednostkowej:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Typ** | **Sztuk/dzien** | **Cena (zl)** |\n| 2 | M4 | 500 | 0.15 |\n| 3 | M5 | 400 | 0.20 |\n| 4 | M6 | 350 | 0.25 |\n| 5 | M8 | 200 | 0.40 |\n| 6 | M10 | 150 | 0.55 |\n| 7 | M12 | 100 | 0.70 |\n\n**Polecenie**:\n1. W kolumnie D oblicz wartosc dziennej produkcji kazdego typu (sztuki * cena).\n2. Oblicz laczna dzienna wartosc produkcji.\n3. Oblicz srednia wartosc produkcji na typ.\n4. Jaki procent lacznej wartosci stanowi typ M4?",
   "wskazowki": [
-    "**Kierunek**: D = B * C, potem SUM i AVERAGE na kolumnie D.",
+    "**Kierunek**: D = B * C, potem SUM i ŚREDNIA na kolumnie D.",
     "**Podejscie**: Najpierw oblicz D2:D7, potem agreguj te wyniki.",
-    "**Kluczowy krok**: Procent typu M4 = D2 / SUM(D2:D7) * 100."
+    "**Kluczowy krok**: Procent typu M4 = D2 / SUMA(D2:D7) * 100."
   ],
-  "odpowiedz": "**Formuly:**\n```\nD2: =B2*C2                          (kopiowana w dol do D7)\nLaczna wartosc:   =SUM(D2:D7)\nSrednia wartosc:  =AVERAGE(D2:D7)\nProcent M4:       =D2/SUM(D2:D7)*100\n```\n\n**Weryfikacja:**\n\n| Typ | Sztuk | Cena | D: Wartosc |\n|-----|-------|------|------------|\n| M4 | 500 | 0.15 | 75.00 |\n| M5 | 400 | 0.20 | 80.00 |\n| M6 | 350 | 0.25 | 87.50 |\n| M8 | 200 | 0.40 | 80.00 |\n| M10 | 150 | 0.55 | 82.50 |\n| M12 | 100 | 0.70 | 70.00 |\n\n- Laczna wartosc: 75+80+87.5+80+82.5+70 = **475.00** zl\n- Srednia: 475/6 = **79.17** zl\n- Procent M4: 75/475 * 100 = **15.79%**\n\n**Wyjasnienie**: Mnozenie komorek B*C daje wartosc produkcji kazdego typu. Nastepnie SUM i AVERAGE agreguja te wartosci. Procent M4 jest relatywnie niski (15.79%) mimo najwiekszej liczby sztuk (500), bo cena jednostkowa jest najnizsza.",
+  "odpowiedz": "**Formuly:**\n```\nD2: =B2*C2                          (kopiowana w dol do D7)\nLaczna wartosc:   =SUMA(D2:D7)\nSrednia wartosc:  =ŚREDNIA(D2:D7)\nProcent M4:       =D2/SUMA(D2:D7)*100\n```\n\n**Weryfikacja:**\n\n| Typ | Sztuk | Cena | D: Wartosc |\n|-----|-------|------|------------|\n| M4 | 500 | 0.15 | 75.00 |\n| M5 | 400 | 0.20 | 80.00 |\n| M6 | 350 | 0.25 | 87.50 |\n| M8 | 200 | 0.40 | 80.00 |\n| M10 | 150 | 0.55 | 82.50 |\n| M12 | 100 | 0.70 | 70.00 |\n\n- Laczna wartosc: 75+80+87.5+80+82.5+70 = **475.00** zl\n- Srednia: 475/6 = **79.17** zl\n- Procent M4: 75/475 * 100 = **15.79%**\n\n**Wyjasnienie**: Mnozenie komorek B*C daje wartosc produkcji kazdego typu. Nastepnie SUM i AVERAGE agreguja te wartosci. Procent M4 jest relatywnie niski (15.79%) mimo najwiekszej liczby sztuk (500), bo cena jednostkowa jest najnizsza.",
   "typowe_bledy": [
     {
       "opis": "**Obliczanie procentu ze sztuk zamiast z wartosci**: 500/1700*100 = 29.4% — to udzial w produkcji sztukowej, nie w wartosci",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**SUM na kolumnie B zamiast D**: =SUM(B2:B7) daje laczna ilosc sztuk (1700), a nie wartosc produkcji",
+      "opis": "**SUM na kolumnie B zamiast D**: =SUMA(B2:B7) daje laczna ilosc sztuk (1700), a nie wartosc produkcji",
       "kara": "-2 pkt"
     }
   ]

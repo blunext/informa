@@ -4,23 +4,23 @@
   "punkty": 2,
   "zrodlo": "ogolna",
   "tagi": [
-    "SUMIF",
+    "SUMA.JEŻELI",
     "grupowanie-danych"
   ],
   "tresc": "Firma transportowa notuje koszty przesylek z podanym regionem docelowym:\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Nr przesylki** | **Region** | **Koszt** |\n| 2 | 1 | Polnoc | 45 |\n| 3 | 2 | Poludnie | 62 |\n| 4 | 3 | Wschod | 38 |\n| 5 | 4 | Zachod | 55 |\n| 6 | 5 | Polnoc | 50 |\n| 7 | 6 | Poludnie | 70 |\n| 8 | 7 | Wschod | 42 |\n| 9 | 8 | Polnoc | 48 |\n| 10 | 9 | Zachod | 60 |\n| 11 | 10 | Poludnie | 58 |\n\nTabela podsumowania kosztow wg regionu:\n\n| | E | F |\n|---|---|---|\n| 1 | **Region** | **Suma kosztow** |\n| 2 | Polnoc | ? |\n| 3 | Poludnie | ? |\n| 4 | Wschod | ? |\n| 5 | Zachod | ? |\n\n**Polecenie**: Napisz formule w F2, ktora oblicza calkowity koszt przesylek do danego regionu. Formula powinna dzialac po skopiowaniu w dol.",
   "wskazowki": [
-    "**Kierunek**: Sumowanie warunkowe po jednym kryterium — uzyj SUMIF.",
-    "**Podejscie**: SUMIF(B2:B11;E2;C2:C11) — filtruj region w kolumnie B, sumuj koszty z kolumny C.",
-    "**Kluczowy krok**: Sprawdz kontrolnie, ze suma regionow = SUM(C2:C11)."
+    "**Kierunek**: Sumowanie warunkowe po jednym kryterium — uzyj SUMA.JEŻELI.",
+    "**Podejscie**: SUMA.JEŻELI(B2:B11;E2;C2:C11) — filtruj region w kolumnie B, sumuj koszty z kolumny C.",
+    "**Kluczowy krok**: Sprawdz kontrolnie, ze suma regionow = SUMA(C2:C11)."
   ],
-  "odpowiedz": "**Formula (F2, kopiowana w dol):**\n```\nF2: =SUMIF(B2:B11;E2;C2:C11)\n```\n\n**Weryfikacja:**\n- Polnoc: 45 + 50 + 48 = **143**\n- Poludnie: 62 + 70 + 58 = **190**\n- Wschod: 38 + 42 = **80**\n- Zachod: 55 + 60 = **115**\n\nKontrola: 143 + 190 + 80 + 115 = 528 = SUM(C2:C11) = 45+62+38+55+50+70+42+48+60+58 = 528 ✓\n\n**Wyjasnienie**: SUMIF przeszukuje kolumne B i sumuje wartosci z kolumny C dla wierszy, gdzie region odpowiada wartosci z E2. Cztery regiony wyczerpuja wszystkie dane, wiec suma regionow musi byc rowna sumie calkowitej. To prosty test poprawnosci.",
+  "odpowiedz": "**Formula (F2, kopiowana w dol):**\n```\nF2: =SUMA.JEŻELI(B2:B11;E2;C2:C11)\n```\n\n**Weryfikacja:**\n- Polnoc: 45 + 50 + 48 = **143**\n- Poludnie: 62 + 70 + 58 = **190**\n- Wschod: 38 + 42 = **80**\n- Zachod: 55 + 60 = **115**\n\nKontrola: 143 + 190 + 80 + 115 = 528 = SUMA(C2:C11) = 45+62+38+55+50+70+42+48+60+58 = 528 ✓\n\n**Wyjasnienie**: SUMIF przeszukuje kolumne B i sumuje wartosci z kolumny C dla wierszy, gdzie region odpowiada wartosci z E2. Cztery regiony wyczerpuja wszystkie dane, wiec suma regionow musi byc rowna sumie calkowitej. To prosty test poprawnosci.",
   "typowe_bledy": [
     {
       "opis": "**Nieuwzglednienie wszystkich wierszy**: Zakres musi obejmowac B2:B11 (10 wierszy) — pominiecie ostatniego wiersza zmieni wynik",
       "kara": "-1 pkt"
     },
     {
-      "opis": "**Uzycie COUNTIF zamiast SUMIF**: COUNTIF zlicza ilosc, a nie sumuje wartosci — daloby 3 dla Polnocy zamiast 143",
+      "opis": "**Uzycie LICZ.JEŻELI zamiast SUMA.JEŻELI**: LICZ.JEŻELI zlicza ilosc, a nie sumuje wartosci — daloby 3 dla Polnocy zamiast 143",
       "kara": "-1 pkt"
     }
   ]

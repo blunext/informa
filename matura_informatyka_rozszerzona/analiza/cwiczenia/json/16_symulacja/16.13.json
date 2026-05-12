@@ -12,12 +12,12 @@
   "wskazowki": [
     "**Kierunek**: Suma narastajaca = poprzednia suma + biezaca wyplata.",
     "**Podejscie**: C3 = C2 + B3 — dodajemy biezaca wyplate do dotychczasowej sumy.",
-    "**Kluczowy krok**: =C2+B3. Alternatywa: =SUM($B$2:B3) — rozszerzajacy zakres."
+    "**Kluczowy krok**: =C2+B3. Alternatywa: =SUMA($B$2:B3) — rozszerzajacy zakres."
   ],
-  "odpowiedz": "**Formula (C3, kopiowana w dol):**\n```\nC3: =C2+B3\n```\n\n**Wypelniona tabela:**\n\n| Miesiac | Wyplata | Suma narastajaca |\n|---------|---------|------------------|\n| Styczen | 5000 | 5000 |\n| Luty | 5000 | 10000 |\n| Marzec | 5500 | 15500 |\n| Kwiecien | 5000 | 20500 |\n| Maj | 5200 | 25700 |\n| Czerwiec | 5000 | 30700 |\n\n**Weryfikacja krok po kroku:**\n- C3: 5000 + 5000 = 10000\n- C4: 10000 + 5500 = 15500\n- C5: 15500 + 5000 = 20500\n- C6: 20500 + 5200 = 25700\n- C7: 25700 + 5000 = 30700\n\nKontrola: SUM(B2:B7) = 5000+5000+5500+5000+5200+5000 = 30700 = C7 ✓\n\n**Wyjasnienie**: Suma narastajaca (kumulacyjna) dodaje kazda nowa wartosc do poprzedniej sumy. Kazdy wiersz zawiera sume WSZYSTKICH wyplat od poczatku.",
+  "odpowiedz": "**Formula (C3, kopiowana w dol):**\n```\nC3: =C2+B3\n```\n\n**Wypelniona tabela:**\n\n| Miesiac | Wyplata | Suma narastajaca |\n|---------|---------|------------------|\n| Styczen | 5000 | 5000 |\n| Luty | 5000 | 10000 |\n| Marzec | 5500 | 15500 |\n| Kwiecien | 5000 | 20500 |\n| Maj | 5200 | 25700 |\n| Czerwiec | 5000 | 30700 |\n\n**Weryfikacja krok po kroku:**\n- C3: 5000 + 5000 = 10000\n- C4: 10000 + 5500 = 15500\n- C5: 15500 + 5000 = 20500\n- C6: 20500 + 5200 = 25700\n- C7: 25700 + 5000 = 30700\n\nKontrola: SUMA(B2:B7) = 5000+5000+5500+5000+5200+5000 = 30700 = C7 ✓\n\n**Wyjasnienie**: Suma narastajaca (kumulacyjna) dodaje kazda nowa wartosc do poprzedniej sumy. Kazdy wiersz zawiera sume WSZYSTKICH wyplat od poczatku.",
   "typowe_bledy": [
     {
-      "opis": "**Uzycie SUM na calym zakresie**: =SUM(B2:B7) w kazdym wierszu daje ta sama wartosc (30700) — nie jest to suma narastajaca",
+      "opis": "**Uzycie SUM na calym zakresie**: =SUMA(B2:B7) w kazdym wierszu daje ta sama wartosc (30700) — nie jest to suma narastajaca",
       "kara": "-1 pkt"
     },
     {

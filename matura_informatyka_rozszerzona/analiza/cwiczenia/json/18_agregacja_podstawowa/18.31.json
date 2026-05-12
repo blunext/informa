@@ -3,14 +3,21 @@
   "trudnosc": "srednie-trudne",
   "punkty": 5,
   "zrodlo": "ogolna (finanse)",
-  "tagi": ["AVERAGE", "MEDIAN", "MAX", "MIN", "ROUND", "zaokraglanie"],
+  "tagi": [
+    "AVERAGE",
+    "MEDIAN",
+    "MAX",
+    "MIN",
+    "ROUND",
+    "zaokraglanie"
+  ],
   "tresc": "Firma rejestruje dzienne przychody (w zl) przez 11 dni:\n\n| | A | B |\n|---|---|---|\n| 1 | **Dzien** | **Przychod (zl)** |\n| 2 | 1 | 4200 |\n| 3 | 2 | 3800 |\n| 4 | 3 | 5100 |\n| 5 | 4 | 2900 |\n| 6 | 5 | 4500 |\n| 7 | 6 | 6200 |\n| 8 | 7 | 3500 |\n| 9 | 8 | 4800 |\n| 10 | 9 | 3100 |\n| 11 | 10 | 7500 |\n| 12 | 11 | 4000 |\n\n**Polecenie**: Napisz formuly obliczajace:\n1. Sredni dzienny przychod, zaokraglony do calkowitej liczby (ZAOKR do 0 miejsc).\n2. Mediane przychodow.\n3. Najwyzszy i najnizszy przychod.\n4. Jaka jest roznica miedzy srednia a mediana?",
   "wskazowki": [
-    "**Kierunek**: ZAOKR(AVERAGE(...);0) zaokragla srednia do liczby calkowitej. MEDIAN da wartosc srodkowa.",
+    "**Kierunek**: ZAOKR(ŚREDNIA(...);0) zaokragla srednia do liczby calkowitej. MEDIAN da wartosc srodkowa.",
     "**Podejscie**: Dla 11 wartosci mediana to 6. wartosc po posortowaniu (nieparzysta liczba).",
     "**Kluczowy krok**: Posortuj: 2900, 3100, 3500, 3800, 4000, 4200, 4500, 4800, 5100, 6200, 7500. Srodkowa (6.) = 4200."
   ],
-  "odpowiedz": "**Formuly:**\n```\nSrednia:     =ZAOKR(AVERAGE(B2:B12);0)\nMediana:     =MEDIAN(B2:B12)\nNajwyzszy:   =MAX(B2:B12)\nNajnizszy:   =MIN(B2:B12)\nRoznica:     =ZAOKR(AVERAGE(B2:B12);0)-MEDIAN(B2:B12)\n```\n\n**Weryfikacja:**\n- Wartosci: 4200, 3800, 5100, 2900, 4500, 6200, 3500, 4800, 3100, 7500, 4000\n- Suma: 4200+3800+5100+2900+4500+6200+3500+4800+3100+7500+4000 = 49600\n- Srednia: 49600/11 = 4509.09...\n- ZAOKR(4509.09;0) = **4509**\n\n- Posortowane: 2900, 3100, 3500, 3800, 4000, 4200, 4500, 4800, 5100, 6200, 7500\n- Mediana (6. z 11): **4200**\n\n- Max: **7500** (Dzien 10)\n- Min: **2900** (Dzien 4)\n- Roznica srednia - mediana: 4509 - 4200 = **309**\n\n**Wyjasnienie**: Srednia (4509) jest wyzsza od mediany (4200) o 309 zl. To oznacza prawostronnie skosny rozklad — kilka bardzo dobrych dni (6200, 7500) podnosi srednia bardziej niz slabe dni ja obnizaja. W takim przypadku mediana lepiej odzwierciedla \"typowy\" dzien.",
+  "odpowiedz": "**Formuly:**\n```\nSrednia:     =ZAOKR(ŚREDNIA(B2:B12);0)\nMediana:     =MEDIAN(B2:B12)\nNajwyzszy:   =MAX(B2:B12)\nNajnizszy:   =MIN(B2:B12)\nRoznica:     =ZAOKR(ŚREDNIA(B2:B12);0)-MEDIAN(B2:B12)\n```\n\n**Weryfikacja:**\n- Wartosci: 4200, 3800, 5100, 2900, 4500, 6200, 3500, 4800, 3100, 7500, 4000\n- Suma: 4200+3800+5100+2900+4500+6200+3500+4800+3100+7500+4000 = 49600\n- Srednia: 49600/11 = 4509.09...\n- ZAOKR(4509.09;0) = **4509**\n\n- Posortowane: 2900, 3100, 3500, 3800, 4000, 4200, 4500, 4800, 5100, 6200, 7500\n- Mediana (6. z 11): **4200**\n\n- Max: **7500** (Dzien 10)\n- Min: **2900** (Dzien 4)\n- Roznica srednia - mediana: 4509 - 4200 = **309**\n\n**Wyjasnienie**: Srednia (4509) jest wyzsza od mediany (4200) o 309 zl. To oznacza prawostronnie skosny rozklad — kilka bardzo dobrych dni (6200, 7500) podnosi srednia bardziej niz slabe dni ja obnizaja. W takim przypadku mediana lepiej odzwierciedla \"typowy\" dzien.",
   "typowe_bledy": [
     {
       "opis": "**Mediana z 11 wartosci**: Srodkowa to 6. element (nie 5. ani 6.5) — nieparzysta liczba elementow, wiec mediana to dokladnie srodkowy",

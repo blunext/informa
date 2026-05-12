@@ -10,11 +10,11 @@
   ],
   "tresc": "Wyniki sprzedazy w 5 oddzialach firmy:\n\n| | A | B |\n|---|---|---|\n| 1 | **Oddzial** | **Sprzedaz (tys. zl)** |\n| 2 | Warszawa | 450 |\n| 3 | Kraków | 320 |\n| 4 | Wrocław | 280 |\n| 5 | Gdańsk | 190 |\n| 6 | Poznań | 260 |\n\n**Polecenie**:\n1. Oblicz laczna sprzedaz wszystkich oddzialow.\n2. Oblicz srednia sprzedaz na oddzial.\n3. W kolumnie C oblicz udzial procentowy kazdego oddzialu w calkowitej sprzedazy.",
   "wskazowki": [
-    "**Kierunek**: SUM i AVERAGE na kolumnie B. Udzial = sprzedaz oddzialu / suma × 100%.",
+    "**Kierunek**: SUM i ŚREDNIA na kolumnie B. Udzial = sprzedaz oddzialu / suma × 100%.",
     "**Podejscie**: W kolumnie C formula odwoluje sie do komorki z suma (bezwzglednie z $).",
     "**Kluczowy krok**: Sprawdz, czy suma udzialow = 100%."
   ],
-  "odpowiedz": "**Formuly:**\n```\nSuma (np. B8):    =SUM(B2:B6)\nSrednia (np. B9): =AVERAGE(B2:B6)\nC2:              =B2/$B$8*100      (kopiowana w dol do C6)\n```\n\n**Obliczenia:**\n- Suma: 450+320+280+190+260 = **1500 tys. zl**\n- Srednia: 1500/5 = **300 tys. zl**\n\n| Oddzial | Sprzedaz | Udzial (%) |\n|---------|----------|------------|\n| Warszawa | 450 | 30.0% |\n| Kraków | 320 | 21.3% |\n| Wrocław | 280 | 18.7% |\n| Gdańsk | 190 | 12.7% |\n| Poznań | 260 | 17.3% |\n\nWeryfikacja: 30.0+21.3+18.7+12.7+17.3 = 100.0% ✓\n\n**Wyjasnienie**: Udzial procentowy = czesc/calosc × 100. Odwolanie $B$8 jest bezwzgledne, aby po skopiowaniu formuly zawsze odwolywac sie do komorki z suma calkowita.",
+  "odpowiedz": "**Formuly:**\n```\nSuma (np. B8):    =SUMA(B2:B6)\nSrednia (np. B9): =ŚREDNIA(B2:B6)\nC2:              =B2/$B$8*100      (kopiowana w dol do C6)\n```\n\n**Obliczenia:**\n- Suma: 450+320+280+190+260 = **1500 tys. zl**\n- Srednia: 1500/5 = **300 tys. zl**\n\n| Oddzial | Sprzedaz | Udzial (%) |\n|---------|----------|------------|\n| Warszawa | 450 | 30.0% |\n| Kraków | 320 | 21.3% |\n| Wrocław | 280 | 18.7% |\n| Gdańsk | 190 | 12.7% |\n| Poznań | 260 | 17.3% |\n\nWeryfikacja: 30.0+21.3+18.7+12.7+17.3 = 100.0% ✓\n\n**Wyjasnienie**: Udzial procentowy = czesc/calosc × 100. Odwolanie $B$8 jest bezwzgledne, aby po skopiowaniu formuly zawsze odwolywac sie do komorki z suma calkowita.",
   "typowe_bledy": [
     {
       "opis": "**Brak $ w odwolaniu do sumy**: =B2/B8*100 po skopiowaniu do C3 stanie sie =B3/B9*100 (B9 jest pusta!)",

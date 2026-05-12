@@ -4,25 +4,25 @@
   "punkty": 5,
   "zrodlo": "Inspirowane matura 2022 (Muzeum — kategorie wiekowe)",
   "tagi": [
-    "COUNTIFS",
+    "LICZ.WARUNKI",
     "IF-AND-OR",
     "kolumna-pomocnicza",
     "warunek-tekstowy"
   ],
   "tresc": "W arkuszu mamy dane o uczestnikach kursu:\n\n| | A | B | C | D |\n|---|---|---|---|---|\n| 1 | **Imie** | **Wiek** | **Plec** | **Miasto** |\n| 2 | Anna | 22 | K | Warszawa |\n| 3 | Bartek | 17 | M | Krakow |\n| 4 | Celina | 35 | K | Warszawa |\n| 5 | Dawid | 19 | M | Gdansk |\n| 6 | Ewa | 28 | K | Krakow |\n| 7 | Filip | 16 | M | Warszawa |\n| 8 | Gosia | 42 | K | Gdansk |\n| 9 | Hubert | 31 | M | Krakow |\n| 10 | Iga | 20 | K | Warszawa |\n| 11 | Jan | 25 | M | Gdansk |\n\n**Polecenie**:\n1. W kolumnie E wpisz \"Dorosly\" jesli wiek >= 18, \"Nieletni\" w przeciwnym razie.\n2. Ile doroslych kobiet jest z Warszawy?\n3. Ilu nieletnich mezczyzn jest z Krakowa?",
   "wskazowki": [
-    "**Kierunek**: Punkt 1 to IF na wiek. Punkty 2-3 wymagaja COUNTIFS z TRZEMA warunkami — trzy pary kryteriow.",
-    "**Podejscie**: COUNTIFS obsluguje dowolna liczbe par kryteriow. Punkt 2: E=\"Dorosly\" + C=\"K\" + D=\"Warszawa\".",
-    "**Kluczowy krok**: =COUNTIFS(E2:E11;\"Dorosly\";C2:C11;\"K\";D2:D11;\"Warszawa\") — trzy warunki AND."
+    "**Kierunek**: Punkt 1 to IF na wiek. Punkty 2-3 wymagaja LICZ.WARUNKI z TRZEMA warunkami — trzy pary kryteriow.",
+    "**Podejscie**: LICZ.WARUNKI obsluguje dowolna liczbe par kryteriow. Punkt 2: E=\"Dorosly\" + C=\"K\" + D=\"Warszawa\".",
+    "**Kluczowy krok**: =LICZ.WARUNKI(E2:E11;\"Dorosly\";C2:C11;\"K\";D2:D11;\"Warszawa\") — trzy warunki AND."
   ],
-  "odpowiedz": "**Formuly:**\n```\nE2: =IF(B2>=18;\"Dorosly\";\"Nieletni\")\n\nPunkt 2: =COUNTIFS(E2:E11;\"Dorosly\";C2:C11;\"K\";D2:D11;\"Warszawa\")\nPunkt 3: =COUNTIFS(E2:E11;\"Nieletni\";C2:C11;\"M\";D2:D11;\"Krakow\")\n```\n\n**Weryfikacja:**\n\nKolumna E:\n| Imie | Wiek | Kategoria |\n|------|------|-----------|\n| Anna | 22 | Dorosly |\n| Bartek | 17 | Nieletni |\n| Celina | 35 | Dorosly |\n| Dawid | 19 | Dorosly |\n| Ewa | 28 | Dorosly |\n| Filip | 16 | Nieletni |\n| Gosia | 42 | Dorosly |\n| Hubert | 31 | Dorosly |\n| Iga | 20 | Dorosly |\n| Jan | 25 | Dorosly |\n\nPunkt 2 — Dorosly + K + Warszawa:\n- Anna: Dorosly, K, Warszawa ✓\n- Celina: Dorosly, K, Warszawa ✓\n- Iga: Dorosly, K, Warszawa ✓\n- Wynik: **3**\n\nPunkt 3 — Nieletni + M + Krakow:\n- Bartek: Nieletni, M, Krakow ✓\n- Filip: Nieletni, M, Warszawa — NIE (inne miasto)\n- Wynik: **1**\n\n**Wyjasnienie**: COUNTIFS moze miec dowolna liczbe par kryteriow — kazda para dodaje kolejny warunek AND. Kolumna pomocnicza E upraszcza formuly, bo klasyfikacja wiekowa jest gotowa.",
+  "odpowiedz": "**Formuly:**\n```\nE2: =JEŻELI(B2>=18;\"Dorosly\";\"Nieletni\")\n\nPunkt 2: =LICZ.WARUNKI(E2:E11;\"Dorosly\";C2:C11;\"K\";D2:D11;\"Warszawa\")\nPunkt 3: =LICZ.WARUNKI(E2:E11;\"Nieletni\";C2:C11;\"M\";D2:D11;\"Krakow\")\n```\n\n**Weryfikacja:**\n\nKolumna E:\n| Imie | Wiek | Kategoria |\n|------|------|-----------|\n| Anna | 22 | Dorosly |\n| Bartek | 17 | Nieletni |\n| Celina | 35 | Dorosly |\n| Dawid | 19 | Dorosly |\n| Ewa | 28 | Dorosly |\n| Filip | 16 | Nieletni |\n| Gosia | 42 | Dorosly |\n| Hubert | 31 | Dorosly |\n| Iga | 20 | Dorosly |\n| Jan | 25 | Dorosly |\n\nPunkt 2 — Dorosly + K + Warszawa:\n- Anna: Dorosly, K, Warszawa ✓\n- Celina: Dorosly, K, Warszawa ✓\n- Iga: Dorosly, K, Warszawa ✓\n- Wynik: **3**\n\nPunkt 3 — Nieletni + M + Krakow:\n- Bartek: Nieletni, M, Krakow ✓\n- Filip: Nieletni, M, Warszawa — NIE (inne miasto)\n- Wynik: **1**\n\n**Wyjasnienie**: COUNTIFS moze miec dowolna liczbe par kryteriow — kazda para dodaje kolejny warunek AND. Kolumna pomocnicza E upraszcza formuly, bo klasyfikacja wiekowa jest gotowa.",
   "typowe_bledy": [
     {
-      "opis": "**Pominięcie jednego z warunkow**: =COUNTIFS(E2:E11;\"Dorosly\";C2:C11;\"K\") — brak warunku na miasto, wynik 4 zamiast 3",
+      "opis": "**Pominięcie jednego z warunkow**: =LICZ.WARUNKI(E2:E11;\"Dorosly\";C2:C11;\"K\") — brak warunku na miasto, wynik 4 zamiast 3",
       "kara": "-2 pkt"
     },
     {
-      "opis": "**Uzycie OR zamiast AND**: COUNTIFS laczy warunki operatorem AND. Jezeli chcesz OR, musisz dodac dwa COUNTIFS i odjac wspolna czesc",
+      "opis": "**Uzycie OR zamiast AND**: LICZ.WARUNKI laczy warunki operatorem AND. Jezeli chcesz OR, musisz dodac dwa LICZ.WARUNKI i odjac wspolna czesc",
       "kara": "-1 pkt"
     }
   ]

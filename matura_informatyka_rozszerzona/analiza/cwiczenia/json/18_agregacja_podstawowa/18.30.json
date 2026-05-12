@@ -3,21 +3,27 @@
   "trudnosc": "srednie-trudne",
   "punkty": 4,
   "zrodlo": "ogolna (populacja)",
-  "tagi": ["SUM", "RANK", "AVERAGE", "zakres-bezwzgledny", "procent"],
+  "tagi": [
+    "SUM",
+    "RANK",
+    "AVERAGE",
+    "zakres-bezwzgledny",
+    "procent"
+  ],
   "tresc": "Tabela przedstawia populacje 6 miast wojewodzkich (w tys. mieszkancow):\n\n| | A | B |\n|---|---|---|\n| 1 | **Miasto** | **Populacja (tys.)** |\n| 2 | Warszawa | 1860 |\n| 3 | Krakow | 800 |\n| 4 | Wroclaw | 670 |\n| 5 | Poznan | 535 |\n| 6 | Gdansk | 470 |\n| 7 | Lodz | 660 |\n\n**Polecenie**:\n1. Oblicz laczna populacje tych 6 miast.\n2. W kolumnie C wpisz ranking populacji (najwyzszy = pozycja 1).\n3. W kolumnie D oblicz udzial procentowy kazdego miasta w lacznej populacji.",
   "wskazowki": [
     "**Kierunek**: SUM dla lacznej populacji, RANK malejaco (0), D = B/SUM * 100.",
-    "**Podejscie**: RANK(B2;$B$2:$B$7;0) — pozycja 1 = najwieksza populacja.",
+    "**Podejscie**: POZYCJA(B2;$B$2:$B$7;0) — pozycja 1 = najwieksza populacja.",
     "**Kluczowy krok**: W kolumnie D uzyj bezwzglednego odwolania do sumy ($E$1) lub SUM z dolarem."
   ],
-  "odpowiedz": "**Formuly:**\n```\nLaczna populacja (E1): =SUM(B2:B7)\n\nC2: =RANK(B2;$B$2:$B$7)            (kopiowana w dol do C7)\nD2: =ZAOKR(B2/$E$1*100;1)          (kopiowana w dol do D7)\n```\n\n**Weryfikacja:**\n- Suma: 1860+800+670+535+470+660 = **4995** tys.\n\nSortowanie malejace: 1860, 800, 670, 660, 535, 470\n\n| Miasto | Populacja | C: Ranking | D: % |\n|--------|-----------|------------|------|\n| Warszawa | 1860 | 1 | 37.2 |\n| Krakow | 800 | 2 | 16.0 |\n| Wroclaw | 670 | 3 | 13.4 |\n| Poznan | 535 | 5 | 10.7 |\n| Gdansk | 470 | 6 | 9.4 |\n| Lodz | 660 | 4 | 13.2 |\n\n**Kontrola procentow**: 37.2+16.0+13.4+10.7+9.4+13.2 = 99.9 ~= 100%\n\n**Wyjasnienie**: Warszawa dominuje z 37.2% lacznej populacji — wiecej niz kolejne dwa miasta razem. RANK bez trzeciego argumentu (lub z 0) sortuje malejaco. Udzial procentowy wymaga bezwzglednego odwolania do sumy.",
+  "odpowiedz": "**Formuly:**\n```\nLaczna populacja (E1): =SUMA(B2:B7)\n\nC2: =POZYCJA(B2;$B$2:$B$7)            (kopiowana w dol do C7)\nD2: =ZAOKR(B2/$E$1*100;1)          (kopiowana w dol do D7)\n```\n\n**Weryfikacja:**\n- Suma: 1860+800+670+535+470+660 = **4995** tys.\n\nSortowanie malejace: 1860, 800, 670, 660, 535, 470\n\n| Miasto | Populacja | C: Ranking | D: % |\n|--------|-----------|------------|------|\n| Warszawa | 1860 | 1 | 37.2 |\n| Krakow | 800 | 2 | 16.0 |\n| Wroclaw | 670 | 3 | 13.4 |\n| Poznan | 535 | 5 | 10.7 |\n| Gdansk | 470 | 6 | 9.4 |\n| Lodz | 660 | 4 | 13.2 |\n\n**Kontrola procentow**: 37.2+16.0+13.4+10.7+9.4+13.2 = 99.9 ~= 100%\n\n**Wyjasnienie**: Warszawa dominuje z 37.2% lacznej populacji — wiecej niz kolejne dwa miasta razem. RANK bez trzeciego argumentu (lub z 0) sortuje malejaco. Udzial procentowy wymaga bezwzglednego odwolania do sumy.",
   "typowe_bledy": [
     {
       "opis": "**Brak $ w odwolaniu do sumy**: =B2/E1*100 po skopiowaniu zmieni E1 na E2, E3 itd.",
       "kara": "-2 pkt"
     },
     {
-      "opis": "**Brak $ w zakresie RANK**: =RANK(B2;B2:B7) — zakres sie przesunie po skopiowaniu",
+      "opis": "**Brak $ w zakresie RANK**: =POZYCJA(B2;B2:B7) — zakres sie przesunie po skopiowaniu",
       "kara": "-2 pkt"
     }
   ]

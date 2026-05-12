@@ -4,26 +4,26 @@
   "punkty": 6,
   "zrodlo": "Inspirowane matura 2022 (Muzeum — analiza wielokryterialna)",
   "tagi": [
-    "SUMIFS",
-    "COUNTIFS",
+    "SUMA.WARUNKÓW",
+    "LICZ.WARUNKI",
     "IF-AND-OR",
     "kolumna-pomocnicza",
     "zagniezdzone-funkcje"
   ],
   "tresc": "W arkuszu mamy dane o sprzedazy produktow w sieci sklepow:\n\n| | A | B | C | D | E |\n|---|---|---|---|---|---|\n| 1 | **Produkt** | **Sklep** | **Miesiac** | **Ilosc** | **Cena** |\n| 2 | Laptop | Online | Styczen | 15 | 3500 |\n| 3 | Telefon | Stacjonarny | Styczen | 40 | 1200 |\n| 4 | Laptop | Stacjonarny | Styczen | 8 | 3500 |\n| 5 | Telefon | Online | Luty | 55 | 1200 |\n| 6 | Laptop | Online | Luty | 20 | 3500 |\n| 7 | Tablet | Stacjonarny | Styczen | 25 | 2000 |\n| 8 | Tablet | Online | Luty | 30 | 2000 |\n| 9 | Telefon | Stacjonarny | Luty | 35 | 1200 |\n| 10 | Laptop | Stacjonarny | Luty | 12 | 3500 |\n| 11 | Tablet | Stacjonarny | Luty | 18 | 2000 |\n\n**Polecenie**:\n1. W kolumnie F oblicz wartosc sprzedazy (ilosc × cena).\n2. Oblicz laczna wartosc sprzedazy \"Laptop\" w sklepie \"Online\".\n3. Ile razy sprzedaz stacjonarna przekroczyla wartosc 40000 zl?\n4. Oblicz, jaki procent calkowitej wartosci sprzedazy stanowi sprzedaz \"Telefon\".",
   "wskazowki": [
-    "**Kierunek**: Kolumna F to ilosc × cena. Punkt 2 — SUMIFS na F z dwoma warunkami. Punkt 3 — COUNTIFS na F z warunkiem liczbowym. Punkt 4 — SUMIFS/SUM jako procent.",
-    "**Podejscie**: Punkt 3: =COUNTIFS(B2:B11;\"Stacjonarny\";F2:F11;\">40000\"). Punkt 4: =SUMIF(A2:A11;\"Telefon\";F2:F11)/SUM(F2:F11)*100.",
-    "**Kluczowy krok**: Kolumna pomocnicza F jest niezbedna — SUMIFS/COUNTIFS nie potrafi mnozyc kolumn w locie."
+    "**Kierunek**: Kolumna F to ilosc × cena. Punkt 2 — SUMA.WARUNKÓW na F z dwoma warunkami. Punkt 3 — LICZ.WARUNKI na F z warunkiem liczbowym. Punkt 4 — SUMA.WARUNKÓW/SUM jako procent.",
+    "**Podejscie**: Punkt 3: =LICZ.WARUNKI(B2:B11;\"Stacjonarny\";F2:F11;\">40000\"). Punkt 4: =SUMA.JEŻELI(A2:A11;\"Telefon\";F2:F11)/SUMA(F2:F11)*100.",
+    "**Kluczowy krok**: Kolumna pomocnicza F jest niezbedna — SUMA.WARUNKÓW/LICZ.WARUNKI nie potrafi mnozyc kolumn w locie."
   ],
-  "odpowiedz": "**Formuly:**\n```\nF2: =D2*E2\n\nPunkt 2: =SUMIFS(F2:F11;A2:A11;\"Laptop\";B2:B11;\"Online\")\nPunkt 3: =COUNTIFS(B2:B11;\"Stacjonarny\";F2:F11;\">40000\")\nPunkt 4: =SUMIF(A2:A11;\"Telefon\";F2:F11)/SUM(F2:F11)*100\n```\n\n**Weryfikacja:**\n\nKolumna F (wartosc):\n| Produkt | Sklep | Ilosc | Cena | Wartosc |\n|---------|-------|-------|------|---------|\n| Laptop | Online | 15 | 3500 | 52500 |\n| Telefon | Stacjonarny | 40 | 1200 | 48000 |\n| Laptop | Stacjonarny | 8 | 3500 | 28000 |\n| Telefon | Online | 55 | 1200 | 66000 |\n| Laptop | Online | 20 | 3500 | 70000 |\n| Tablet | Stacjonarny | 25 | 2000 | 50000 |\n| Tablet | Online | 30 | 2000 | 60000 |\n| Telefon | Stacjonarny | 35 | 1200 | 42000 |\n| Laptop | Stacjonarny | 12 | 3500 | 42000 |\n| Tablet | Stacjonarny | 18 | 2000 | 36000 |\n\nPunkt 2 — Laptop + Online:\n- 52500 + 70000 = **122500 zl**\n\nPunkt 3 — Stacjonarny + wartosc > 40000:\n- Telefon Stycz: 48000 > 40000 ✓\n- Tablet Stycz: 50000 > 40000 ✓\n- Telefon Luty: 42000 > 40000 ✓\n- Laptop Luty: 42000 > 40000 ✓\n- (Laptop Stycz: 28000 — NIE; Tablet Luty: 36000 — NIE)\n- Wynik: **4**\n\nPunkt 4 — procent Telefon:\n- Telefon: 48000 + 66000 + 42000 = 156000\n- Calkowita: 52500+48000+28000+66000+70000+50000+60000+42000+42000+36000 = 494500\n- Procent: 156000/494500 × 100 = **31,55%** (w przyblizeniu)\n\n**Wyjasnienie**: Kolumna pomocnicza (wartosc = ilosc × cena) jest kluczowa — pozwala uzyc SUMIFS/COUNTIFS na obliczonych wartosciach. Procent = czesc/calosc × 100.",
+  "odpowiedz": "**Formuly:**\n```\nF2: =D2*E2\n\nPunkt 2: =SUMA.WARUNKÓW(F2:F11;A2:A11;\"Laptop\";B2:B11;\"Online\")\nPunkt 3: =LICZ.WARUNKI(B2:B11;\"Stacjonarny\";F2:F11;\">40000\")\nPunkt 4: =SUMA.JEŻELI(A2:A11;\"Telefon\";F2:F11)/SUMA(F2:F11)*100\n```\n\n**Weryfikacja:**\n\nKolumna F (wartosc):\n| Produkt | Sklep | Ilosc | Cena | Wartosc |\n|---------|-------|-------|------|---------|\n| Laptop | Online | 15 | 3500 | 52500 |\n| Telefon | Stacjonarny | 40 | 1200 | 48000 |\n| Laptop | Stacjonarny | 8 | 3500 | 28000 |\n| Telefon | Online | 55 | 1200 | 66000 |\n| Laptop | Online | 20 | 3500 | 70000 |\n| Tablet | Stacjonarny | 25 | 2000 | 50000 |\n| Tablet | Online | 30 | 2000 | 60000 |\n| Telefon | Stacjonarny | 35 | 1200 | 42000 |\n| Laptop | Stacjonarny | 12 | 3500 | 42000 |\n| Tablet | Stacjonarny | 18 | 2000 | 36000 |\n\nPunkt 2 — Laptop + Online:\n- 52500 + 70000 = **122500 zl**\n\nPunkt 3 — Stacjonarny + wartosc > 40000:\n- Telefon Stycz: 48000 > 40000 ✓\n- Tablet Stycz: 50000 > 40000 ✓\n- Telefon Luty: 42000 > 40000 ✓\n- Laptop Luty: 42000 > 40000 ✓\n- (Laptop Stycz: 28000 — NIE; Tablet Luty: 36000 — NIE)\n- Wynik: **4**\n\nPunkt 4 — procent Telefon:\n- Telefon: 48000 + 66000 + 42000 = 156000\n- Calkowita: 52500+48000+28000+66000+70000+50000+60000+42000+42000+36000 = 494500\n- Procent: 156000/494500 × 100 = **31,55%** (w przyblizeniu)\n\n**Wyjasnienie**: Kolumna pomocnicza (wartosc = ilosc × cena) jest kluczowa — pozwala uzyc SUMIFS/COUNTIFS na obliczonych wartosciach. Procent = czesc/calosc × 100.",
   "typowe_bledy": [
     {
-      "opis": "**Brak kolumny pomocniczej F**: Proba =SUMIFS(D2:D11*E2:E11;...) — SUMIFS nie obsluguje wyrazen jako zakresu sumy",
+      "opis": "**Brak kolumny pomocniczej F**: Proba =SUMA.WARUNKÓW(D2:D11*E2:E11;...) — SUMA.WARUNKÓW nie obsluguje wyrazen jako zakresu sumy",
       "kara": "-2 pkt"
     },
     {
-      "opis": "**Dzielenie przez zly zakres w procentach**: =SUMIF(A2:A11;\"Telefon\";F2:F11)/SUM(D2:D11) — dzieli wartosc przez ilosc zamiast przez calkowita wartosc",
+      "opis": "**Dzielenie przez zly zakres w procentach**: =SUMA.JEŻELI(A2:A11;\"Telefon\";F2:F11)/SUMA(D2:D11) — dzieli wartosc przez ilosc zamiast przez calkowita wartosc",
       "kara": "-2 pkt"
     }
   ]

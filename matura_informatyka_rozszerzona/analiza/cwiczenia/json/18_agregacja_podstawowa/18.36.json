@@ -3,17 +3,25 @@
   "trudnosc": "trudne",
   "punkty": 5,
   "zrodlo": "ogolna (pogoda)",
-  "tagi": ["AVERAGEIF", "AVERAGE", "MAX", "MIN", "MEDIAN", "ROUND", "zaokraglanie"],
+  "tagi": [
+    "ŚREDNIA.JEŻELI",
+    "AVERAGE",
+    "MAX",
+    "MIN",
+    "MEDIAN",
+    "ROUND",
+    "zaokraglanie"
+  ],
   "tresc": "Stacja meteo rejestruje temperature (°C) przez 12 dni, oznaczajac dni jako 'sloneczny' lub 'pochmurny':\n\n| | A | B | C |\n|---|---|---|---|\n| 1 | **Dzien** | **Pogoda** | **Temp (°C)** |\n| 2 | 1 | sloneczny | 24 |\n| 3 | 2 | pochmurny | 18 |\n| 4 | 3 | sloneczny | 27 |\n| 5 | 4 | sloneczny | 22 |\n| 6 | 5 | pochmurny | 16 |\n| 7 | 6 | pochmurny | 19 |\n| 8 | 7 | sloneczny | 26 |\n| 9 | 8 | pochmurny | 15 |\n| 10 | 9 | sloneczny | 28 |\n| 11 | 10 | pochmurny | 17 |\n| 12 | 11 | sloneczny | 25 |\n| 13 | 12 | pochmurny | 20 |\n\n**Polecenie**:\n1. Oblicz srednia temperature ogolna, zaokraglona do 1 miejsca.\n2. Oblicz mediane temperatur.\n3. Oblicz srednia temperature w dniach slonecznych (AVERAGEIF).\n4. Oblicz srednia temperature w dniach pochmurnych (AVERAGEIF).\n5. O ile stopni srednia temperatura slonecznych dni jest wyzsza od pochmurnych?",
   "wskazowki": [
-    "**Kierunek**: AVERAGE i MEDIAN na kolumnie C. AVERAGEIF z warunkiem z B.",
-    "**Podejscie**: AVERAGEIF(B2:B13;\"sloneczny\";C2:C13) — srednia temperatur gdy pogoda = sloneczny.",
-    "**Kluczowy krok**: Roznica = AVERAGEIF(sloneczny) - AVERAGEIF(pochmurny). Posortuj 12 wartosci mentalnie dla mediany."
+    "**Kierunek**: ŚREDNIA i MEDIAN na kolumnie C. ŚREDNIA.JEŻELI z warunkiem z B.",
+    "**Podejscie**: ŚREDNIA.JEŻELI(B2:B13;\"sloneczny\";C2:C13) — srednia temperatur gdy pogoda = sloneczny.",
+    "**Kluczowy krok**: Roznica = ŚREDNIA.JEŻELI(sloneczny) - ŚREDNIA.JEŻELI(pochmurny). Posortuj 12 wartosci mentalnie dla mediany."
   ],
-  "odpowiedz": "**Formuly:**\n```\nSrednia ogolna:        =ZAOKR(AVERAGE(C2:C13);1)\nMediana:               =MEDIAN(C2:C13)\nSrednia sloneczne:     =ZAOKR(AVERAGEIF(B2:B13;\"sloneczny\";C2:C13);1)\nSrednia pochmurne:     =ZAOKR(AVERAGEIF(B2:B13;\"pochmurny\";C2:C13);1)\nRoznica:               =ZAOKR(AVERAGEIF(B2:B13;\"sloneczny\";C2:C13)-AVERAGEIF(B2:B13;\"pochmurny\";C2:C13);1)\n```\n\n**Weryfikacja:**\n- Wartosci: 24, 18, 27, 22, 16, 19, 26, 15, 28, 17, 25, 20\n- Suma: 24+18+27+22+16+19+26+15+28+17+25+20 = 257\n- Srednia: 257/12 = 21.4167\n- ZAOKR(21.4167; 1) = **21.4**\n\n- Posortowane: 15, 16, 17, 18, 19, 20, 22, 24, 25, 26, 27, 28\n- Mediana (srednia 6. i 7.): (20+22)/2 = **21.0**\n\n- Sloneczne: 24, 27, 22, 26, 28, 25 → suma = 152, srednia = 152/6 = 25.3333\n- ZAOKR(25.3333; 1) = **25.3**\n\n- Pochmurne: 18, 16, 19, 15, 17, 20 → suma = 105, srednia = 105/6 = 17.5\n- ZAOKR(17.5; 1) = **17.5**\n\n- Roznica: 25.3333 - 17.5 = 7.8333\n- ZAOKR(7.8333; 1) = **7.8°C**\n\n**Wyjasnienie**: Dni sloneczne sa srednio o 7.8°C cieplejsze od pochmurnych. AVERAGEIF pozwala obliczyc srednia oddzielnie dla kazdej kategorii bez filtrowania danych. Mediana (21.0) jest nizsza niz srednia (21.4), co wynika z lekko prawoskosnego rozkladu.",
+  "odpowiedz": "**Formuly:**\n```\nSrednia ogolna:        =ZAOKR(ŚREDNIA(C2:C13);1)\nMediana:               =MEDIAN(C2:C13)\nSrednia sloneczne:     =ZAOKR(ŚREDNIA.JEŻELI(B2:B13;\"sloneczny\";C2:C13);1)\nSrednia pochmurne:     =ZAOKR(ŚREDNIA.JEŻELI(B2:B13;\"pochmurny\";C2:C13);1)\nRoznica:               =ZAOKR(ŚREDNIA.JEŻELI(B2:B13;\"sloneczny\";C2:C13)-ŚREDNIA.JEŻELI(B2:B13;\"pochmurny\";C2:C13);1)\n```\n\n**Weryfikacja:**\n- Wartosci: 24, 18, 27, 22, 16, 19, 26, 15, 28, 17, 25, 20\n- Suma: 24+18+27+22+16+19+26+15+28+17+25+20 = 257\n- Srednia: 257/12 = 21.4167\n- ZAOKR(21.4167; 1) = **21.4**\n\n- Posortowane: 15, 16, 17, 18, 19, 20, 22, 24, 25, 26, 27, 28\n- Mediana (srednia 6. i 7.): (20+22)/2 = **21.0**\n\n- Sloneczne: 24, 27, 22, 26, 28, 25 → suma = 152, srednia = 152/6 = 25.3333\n- ZAOKR(25.3333; 1) = **25.3**\n\n- Pochmurne: 18, 16, 19, 15, 17, 20 → suma = 105, srednia = 105/6 = 17.5\n- ZAOKR(17.5; 1) = **17.5**\n\n- Roznica: 25.3333 - 17.5 = 7.8333\n- ZAOKR(7.8333; 1) = **7.8°C**\n\n**Wyjasnienie**: Dni sloneczne sa srednio o 7.8°C cieplejsze od pochmurnych. AVERAGEIF pozwala obliczyc srednia oddzielnie dla kazdej kategorii bez filtrowania danych. Mediana (21.0) jest nizsza niz srednia (21.4), co wynika z lekko prawoskosnego rozkladu.",
   "typowe_bledy": [
     {
-      "opis": "**Literowka w kryterium AVERAGEIF**: \"sloneczny\" musi dokladnie odpowiadac wartosciom w kolumnie B — wielkosc liter ma znaczenie w niektorych arkuszach",
+      "opis": "**Literowka w kryterium ŚREDNIA.JEŻELI**: \"sloneczny\" musi dokladnie odpowiadac wartosciom w kolumnie B — wielkosc liter ma znaczenie w niektorych arkuszach",
       "kara": "-1 pkt"
     },
     {
