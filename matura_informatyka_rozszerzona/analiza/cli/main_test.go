@@ -3823,3 +3823,69 @@ func TestCheckMultiPartAnswerNewlineSeparated(t *testing.T) {
 		t.Error("newline-separated all correct should be poprawne")
 	}
 }
+
+func TestMigrationV9RenameTagi(t *testing.T) {
+	tmpDir := t.TempDir()
+	dbPath := filepath.Join(tmpDir, "matura_progress.db")
+
+	// 1. Stworz DB w v8 ze starymi tagami
+	db, err := sql.Open("sqlite", dbPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	schema := `CREATE TABLE schema_version (version INTEGER PRIMARY KEY);
+		INSERT INTO schema_version VALUES (8);
+		CREATE TABLE progress_tagi (
+		  tag TEXT PRIMARY KEY, poziom INTEGER DEFAULT 0,
+		  nastepna_powtorka TEXT, stability REAL DEFAULT 0,
+		  difficulty REAL DEFAULT 5.0, lapses INTEGER DEFAULT 0,
+		  reps INTEGER DEFAULT 0, state INTEGER DEFAULT 0, last_review TEXT
+		);
+		INSERT INTO progress_tagi(tag, stability, reps) VALUES
+		  ('VLOOKUP', 5.0, 10),
+		  ('SUMIF', 3.0, 5),
+		  ('JOIN', 2.0, 3);`
+	if _, err := db.Exec(schema); err != nil {
+		t.Fatal(err)
+	}
+	db.Close()
+
+	// 2. Otworz przez OpenDB — powinno trigger migrate v8 -> v9
+	db, _, err = OpenDB(tmpDir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	// 3. Verify: VLOOKUP -> WYSZUKAJ.PIONOWO, SUMIF -> SUMA.JEŻELI, JOIN nietkniete
+	var stability float64
+	var reps int
+	err = db.QueryRow("SELECT stability, reps FROM progress_tagi WHERE tag = ?", "WYSZUKAJ.PIONOWO").Scan(&stability, &reps)
+	if err != nil {
+		t.Fatalf("WYSZUKAJ.PIONOWO not found: %v", err)
+	}
+	if stability != 5.0 || reps != 10 {
+		t.Errorf("FSRS state lost: got stability=%v reps=%v want 5.0/10", stability, reps)
+	}
+
+	err = db.QueryRow("SELECT stability, reps FROM progress_tagi WHERE tag = ?", "SUMA.JEŻELI").Scan(&stability, &reps)
+	if err != nil {
+		t.Fatalf("SUMA.JEŻELI not found: %v", err)
+	}
+	if stability != 3.0 || reps != 5 {
+		t.Errorf("FSRS state lost: got stability=%v reps=%v want 3.0/5", stability, reps)
+	}
+
+	// Stary VLOOKUP nie istnieje
+	var count int
+	db.QueryRow("SELECT COUNT(*) FROM progress_tagi WHERE tag IN ('VLOOKUP','SUMIF')").Scan(&count)
+	if count != 0 {
+		t.Errorf("Stare tagi nadal w bazie: %d", count)
+	}
+
+	// JOIN nietkniete
+	db.QueryRow("SELECT COUNT(*) FROM progress_tagi WHERE tag = 'JOIN'").Scan(&count)
+	if count != 1 {
+		t.Errorf("Tag JOIN powinien zostac: %d", count)
+	}
+}
