@@ -27,7 +27,7 @@
       "trudnosc": "latwe",
       "punkty": 2,
       "tagi": [
-        "COUNTIF",
+        "LICZ.JEŻELI",
         "warunek-tekstowy"
       ]
     },
@@ -36,7 +36,7 @@
       "trudnosc": "latwe",
       "punkty": 2,
       "tagi": [
-        "AVERAGEIF",
+        "ŚREDNIA.JEŻELI",
         "warunek-tekstowy"
       ]
     },
@@ -45,7 +45,7 @@
       "trudnosc": "srednie",
       "punkty": 4,
       "tagi": [
-        "SUMIFS",
+        "SUMA.WARUNKÓW",
         "warunek-tekstowy",
         "wiele-warunkow"
       ]
@@ -55,8 +55,8 @@
       "trudnosc": "srednie",
       "punkty": 4,
       "tagi": [
-        "AVERAGEIF",
-        "COUNTIFS",
+        "ŚREDNIA.JEŻELI",
+        "LICZ.WARUNKI",
         "operator-konkatenacji",
         "warunek-liczbowy"
       ]
@@ -66,10 +66,10 @@
       "trudnosc": "trudne",
       "punkty": 5,
       "tagi": [
-        "SUMIFS",
+        "SUMA.WARUNKÓW",
         "kolumna-pomocnicza",
         "IF-AND-OR",
-        "AVERAGEIF",
+        "ŚREDNIA.JEŻELI",
         "zagniezdzone-funkcje"
       ]
     },
@@ -78,7 +78,7 @@
       "trudnosc": "latwe",
       "punkty": 2,
       "tagi": [
-        "SUMIF",
+        "SUMA.JEŻELI",
         "warunek-tekstowy"
       ]
     },
@@ -87,7 +87,7 @@
       "trudnosc": "srednie",
       "punkty": 4,
       "tagi": [
-        "COUNTIFS",
+        "LICZ.WARUNKI",
         "warunek-liczbowy",
         "operator-konkatenacji",
         "wiele-warunkow"
@@ -98,8 +98,8 @@
       "trudnosc": "srednie",
       "punkty": 4,
       "tagi": [
-        "SUMIFS",
-        "AVERAGEIFS",
+        "SUMA.WARUNKÓW",
+        "ŚREDNIA.WARUNKÓW",
         "warunek-liczbowy",
         "wiele-warunkow"
       ]
@@ -109,8 +109,8 @@
       "trudnosc": "srednie-trudne",
       "punkty": 5,
       "tagi": [
-        "COUNTIFS",
-        "SUMIFS",
+        "LICZ.WARUNKI",
+        "SUMA.WARUNKÓW",
         "kolumna-pomocnicza",
         "IF-AND-OR",
         "zakres-bezwzgledny"
@@ -121,8 +121,8 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "SUMIFS",
-        "COUNTIFS",
+        "SUMA.WARUNKÓW",
+        "LICZ.WARUNKI",
         "MAXIFS-MINIFS",
         "kolumna-pomocnicza",
         "zagniezdzone-funkcje",
@@ -134,7 +134,7 @@
       "trudnosc": "latwe",
       "punkty": 2,
       "tagi": [
-        "COUNTIF",
+        "LICZ.JEŻELI",
         "warunek-liczbowy"
       ]
     },
@@ -143,7 +143,7 @@
       "trudnosc": "latwe",
       "punkty": 2,
       "tagi": [
-        "SUMIF",
+        "SUMA.JEŻELI",
         "warunek-liczbowy"
       ]
     },
@@ -152,7 +152,7 @@
       "trudnosc": "latwe",
       "punkty": 2,
       "tagi": [
-        "AVERAGEIF",
+        "ŚREDNIA.JEŻELI",
         "warunek-liczbowy"
       ]
     },
@@ -161,7 +161,7 @@
       "trudnosc": "latwe",
       "punkty": 2,
       "tagi": [
-        "COUNTIF",
+        "LICZ.JEŻELI",
         "warunek-tekstowy"
       ]
     },
@@ -170,7 +170,7 @@
       "trudnosc": "latwe",
       "punkty": 2,
       "tagi": [
-        "SUMIF",
+        "SUMA.JEŻELI",
         "warunek-tekstowy"
       ]
     },
@@ -179,7 +179,7 @@
       "trudnosc": "latwe",
       "punkty": 2,
       "tagi": [
-        "AVERAGEIF",
+        "ŚREDNIA.JEŻELI",
         "warunek-tekstowy"
       ]
     },
@@ -188,7 +188,7 @@
       "trudnosc": "latwe",
       "punkty": 2,
       "tagi": [
-        "COUNTIF",
+        "LICZ.JEŻELI",
         "warunek-liczbowy"
       ]
     },
@@ -197,7 +197,7 @@
       "trudnosc": "srednie",
       "punkty": 4,
       "tagi": [
-        "SUMIFS",
+        "SUMA.WARUNKÓW",
         "warunek-tekstowy",
         "wiele-warunkow"
       ]
@@ -207,7 +207,7 @@
       "trudnosc": "srednie",
       "punkty": 4,
       "tagi": [
-        "COUNTIFS",
+        "LICZ.WARUNKI",
         "warunek-tekstowy",
         "warunek-liczbowy",
         "wiele-warunkow"
@@ -218,8 +218,8 @@
       "trudnosc": "srednie",
       "punkty": 4,
       "tagi": [
-        "AVERAGEIF",
-        "COUNTIF",
+        "ŚREDNIA.JEŻELI",
+        "LICZ.JEŻELI",
         "warunek-tekstowy"
       ]
     },
@@ -228,7 +228,7 @@
       "trudnosc": "srednie",
       "punkty": 4,
       "tagi": [
-        "SUMIFS",
+        "SUMA.WARUNKÓW",
         "warunek-liczbowy",
         "wiele-warunkow"
       ]
@@ -238,7 +238,7 @@
       "trudnosc": "srednie",
       "punkty": 4,
       "tagi": [
-        "COUNTIFS",
+        "LICZ.WARUNKI",
         "operator-konkatenacji",
         "warunek-liczbowy",
         "wiele-warunkow"
@@ -249,7 +249,7 @@
       "trudnosc": "srednie",
       "punkty": 4,
       "tagi": [
-        "AVERAGEIFS",
+        "ŚREDNIA.WARUNKÓW",
         "warunek-tekstowy",
         "wiele-warunkow"
       ]
@@ -259,8 +259,8 @@
       "trudnosc": "srednie-trudne",
       "punkty": 5,
       "tagi": [
-        "SUMIFS",
-        "COUNTIFS",
+        "SUMA.WARUNKÓW",
+        "LICZ.WARUNKI",
         "warunek-liczbowy",
         "wiele-warunkow"
       ]
@@ -270,8 +270,8 @@
       "trudnosc": "srednie-trudne",
       "punkty": 5,
       "tagi": [
-        "SUMIFS",
-        "COUNTIFS",
+        "SUMA.WARUNKÓW",
+        "LICZ.WARUNKI",
         "IF-AND-OR",
         "kolumna-pomocnicza"
       ]
@@ -281,8 +281,8 @@
       "trudnosc": "srednie-trudne",
       "punkty": 5,
       "tagi": [
-        "COUNTIFS",
-        "SUMIFS",
+        "LICZ.WARUNKI",
+        "SUMA.WARUNKÓW",
         "operator-konkatenacji",
         "zakres-bezwzgledny"
       ]
@@ -292,7 +292,7 @@
       "trudnosc": "srednie-trudne",
       "punkty": 5,
       "tagi": [
-        "COUNTIFS",
+        "LICZ.WARUNKI",
         "IF-AND-OR",
         "kolumna-pomocnicza",
         "warunek-tekstowy"
@@ -303,8 +303,8 @@
       "trudnosc": "srednie-trudne",
       "punkty": 5,
       "tagi": [
-        "SUMIFS",
-        "AVERAGEIFS",
+        "SUMA.WARUNKÓW",
+        "ŚREDNIA.WARUNKÓW",
         "warunek-liczbowy",
         "zakres-bezwzgledny"
       ]
@@ -314,8 +314,8 @@
       "trudnosc": "srednie-trudne",
       "punkty": 5,
       "tagi": [
-        "COUNTIFS",
-        "COUNTIF",
+        "LICZ.WARUNKI",
+        "LICZ.JEŻELI",
         "warunek-tekstowy",
         "warunek-liczbowy"
       ]
@@ -325,8 +325,8 @@
       "trudnosc": "srednie-trudne",
       "punkty": 5,
       "tagi": [
-        "SUMIFS",
-        "COUNTIFS",
+        "SUMA.WARUNKÓW",
+        "LICZ.WARUNKI",
         "IF-AND-OR",
         "wiele-warunkow"
       ]
@@ -337,7 +337,7 @@
       "punkty": 5,
       "tagi": [
         "MAXIFS-MINIFS",
-        "AVERAGEIFS",
+        "ŚREDNIA.WARUNKÓW",
         "warunek-tekstowy",
         "zakres-bezwzgledny"
       ]
@@ -347,8 +347,8 @@
       "trudnosc": "srednie-trudne",
       "punkty": 5,
       "tagi": [
-        "COUNTIFS",
-        "SUMIFS",
+        "LICZ.WARUNKI",
+        "SUMA.WARUNKÓW",
         "IF-AND-OR",
         "kolumna-pomocnicza"
       ]
@@ -358,8 +358,8 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "SUMIFS",
-        "COUNTIFS",
+        "SUMA.WARUNKÓW",
+        "LICZ.WARUNKI",
         "IF-AND-OR",
         "kolumna-pomocnicza",
         "zagniezdzone-funkcje"
@@ -370,7 +370,7 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "SUMIFS",
+        "SUMA.WARUNKÓW",
         "MAXIFS-MINIFS",
         "kolumna-pomocnicza",
         "zakres-bezwzgledny",
@@ -382,8 +382,8 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "COUNTIFS",
-        "SUMIFS",
+        "LICZ.WARUNKI",
+        "SUMA.WARUNKÓW",
         "operator-konkatenacji",
         "kolumna-pomocnicza",
         "zakres-bezwzgledny"
@@ -394,8 +394,8 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "SUMIFS",
-        "AVERAGEIFS",
+        "SUMA.WARUNKÓW",
+        "ŚREDNIA.WARUNKÓW",
         "MAXIFS-MINIFS",
         "wiele-warunkow",
         "zakres-bezwzgledny"
@@ -406,8 +406,8 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "SUMIFS",
-        "COUNTIFS",
+        "SUMA.WARUNKÓW",
+        "LICZ.WARUNKI",
         "IF-AND-OR",
         "kolumna-pomocnicza",
         "zagniezdzone-funkcje"
@@ -418,7 +418,7 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "COUNTIFS",
+        "LICZ.WARUNKI",
         "IF-AND-OR",
         "kolumna-pomocnicza",
         "zagniezdzone-funkcje",
@@ -430,8 +430,8 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "SUMIFS",
-        "COUNTIFS",
+        "SUMA.WARUNKÓW",
+        "LICZ.WARUNKI",
         "MAXIFS-MINIFS",
         "operator-konkatenacji",
         "wiele-warunkow"
@@ -442,9 +442,9 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "SUMIFS",
-        "COUNTIFS",
-        "AVERAGEIFS",
+        "SUMA.WARUNKÓW",
+        "LICZ.WARUNKI",
+        "ŚREDNIA.WARUNKÓW",
         "IF-AND-OR",
         "kolumna-pomocnicza",
         "zakres-bezwzgledny"

@@ -78,7 +78,7 @@
         "akumulator",
         "IF-warunkowy",
         "lancuch-zaleznosci",
-        "COUNTIF",
+        "LICZ.JEŻELI",
         "symulacja-krokowa"
       ]
     },
@@ -440,7 +440,7 @@
       "tagi": [
         "akumulator",
         "IF-warunkowy",
-        "COUNTIF",
+        "LICZ.JEŻELI",
         "lancuch-zaleznosci",
         "symulacja-krokowa",
         "prog-warunkowy"

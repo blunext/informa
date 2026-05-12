@@ -240,17 +240,32 @@ def polonizuj_json_cwiczenie(path: Path, mapa: dict) -> int:
 
 
 def polonizuj_json_meta(path: Path, mapa: dict) -> int:
-    """Polonizuje pole `tagi_globalne` w _meta.json. Zachowuje sortowanie polskie."""
+    """Polonizuje `tagi_globalne` ORAZ `cwiczenia[i].tagi` w _meta.json.
+
+    Validator (validate_json.py) porownuje `_meta.cwiczenia[i].tagi` z `X.json.tagi`,
+    wiec obie listy musza byc spójne (Polish po polonizacji).
+    """
     data = json.loads(path.read_text())
-    if "tagi_globalne" not in data:
-        return 0
     tagi_map = mapa["tagi_rejestr_rename"]
-    new = _sort_pl(set(_rename_tag(t, tagi_map) for t in data["tagi_globalne"]))
-    if new != data["tagi_globalne"]:
-        data["tagi_globalne"] = new
+    total = 0
+
+    if "tagi_globalne" in data and isinstance(data["tagi_globalne"], list):
+        new = _sort_pl(set(_rename_tag(t, tagi_map) for t in data["tagi_globalne"]))
+        if new != data["tagi_globalne"]:
+            data["tagi_globalne"] = new
+            total += 1
+
+    if "cwiczenia" in data and isinstance(data["cwiczenia"], list):
+        for c in data["cwiczenia"]:
+            if isinstance(c, dict) and "tagi" in c and isinstance(c["tagi"], list):
+                new_tagi = [_rename_tag(t, tagi_map) for t in c["tagi"]]
+                if new_tagi != c["tagi"]:
+                    total += sum(1 for a, b in zip(c["tagi"], new_tagi) if a != b)
+                    c["tagi"] = new_tagi
+
+    if total > 0:
         path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n")
-        return 1
-    return 0
+    return total
 
 
 def polonizuj_tagi_rejestr(path: Path, mapa: dict) -> int:

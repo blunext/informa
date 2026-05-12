@@ -74,7 +74,7 @@
         "AVERAGE",
         "ABS",
         "odchylenie-od-sredniej",
-        "AVERAGEIF",
+        "ŚREDNIA.JEŻELI",
         "zakres-bezwzgledny"
       ]
     },
@@ -406,7 +406,7 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "AVERAGEIF",
+        "ŚREDNIA.JEŻELI",
         "SUM",
         "AVERAGE",
         "ROUND",
@@ -419,7 +419,7 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "AVERAGEIF",
+        "ŚREDNIA.JEŻELI",
         "AVERAGE",
         "ABS",
         "odchylenie-od-sredniej",
@@ -432,7 +432,7 @@
       "trudnosc": "trudne",
       "punkty": 5,
       "tagi": [
-        "AVERAGEIF",
+        "ŚREDNIA.JEŻELI",
         "AVERAGE",
         "MAX",
         "MIN",
@@ -449,7 +449,7 @@
         "AVERAGE",
         "ABS",
         "odchylenie-od-sredniej",
-        "AVERAGEIF",
+        "ŚREDNIA.JEŻELI",
         "zakres-bezwzgledny",
         "ROUND",
         "zaokraglanie"
@@ -475,7 +475,7 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "AVERAGEIF",
+        "ŚREDNIA.JEŻELI",
         "AVERAGE",
         "ABS",
         "odchylenie-od-sredniej",
@@ -489,7 +489,7 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "AVERAGEIF",
+        "ŚREDNIA.JEŻELI",
         "SUM",
         "AVERAGE",
         "ABS",

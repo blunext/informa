@@ -123,6 +123,25 @@ def test_warstwa3_polonizuje_meta_json(tmp_path):
     assert data["tagi_globalne"] == ["SUMA.JEŻELI", "SUMA.WARUNKÓW", "ŚREDNIA.WARUNKÓW", "warunek-liczbowy"]
 
 
+def test_warstwa3_polonizuje_cwiczenia_tagi_w_meta(tmp_path):
+    """_meta.json zawiera tez cwiczenia[i].tagi — validator sprawdza spojnosc z X.json."""
+    f = tmp_path / "_meta.json"
+    f.write_text(json.dumps({
+        "tagi_globalne": ["SUMIF", "warunek-tekstowy"],
+        "cwiczenia": [
+            {"id": "15.1", "trudnosc": "latwe", "tagi": ["COUNTIF", "warunek-tekstowy"]},
+            {"id": "15.2", "trudnosc": "srednie", "tagi": ["SUMIFS", "AVERAGEIFS"]}
+        ]
+    }))
+    mapa = pf.load_mapa()
+    changes = pf.polonizuj_json_meta(f, mapa)
+    data = json.loads(f.read_text())
+    assert data["cwiczenia"][0]["tagi"] == ["LICZ.JEŻELI", "warunek-tekstowy"]
+    assert data["cwiczenia"][1]["tagi"] == ["SUMA.WARUNKÓW", "ŚREDNIA.WARUNKÓW"]
+    assert "SUMA.JEŻELI" in data["tagi_globalne"]
+    assert changes >= 4  # 1 tagi_globalne + 3 tag-renames in cwiczenia
+
+
 def test_warstwa4_rename_w_tagi_rejestr(tmp_path):
     """tagi_rejestr.json: rename 7 specyficznych wpisow."""
     f = tmp_path / "tagi_rejestr.json"

@@ -26,7 +26,7 @@
       "trudnosc": "latwe",
       "punkty": 2,
       "tagi": [
-        "SUMIF",
+        "SUMA.JEŻELI",
         "grupowanie-danych"
       ]
     },
@@ -35,7 +35,7 @@
       "trudnosc": "latwe",
       "punkty": 2,
       "tagi": [
-        "SUMIFS",
+        "SUMA.WARUNKÓW",
         "tabela-krzyzowa",
         "odwolania-mieszane"
       ]
@@ -47,7 +47,7 @@
       "tagi": [
         "INT-dzielenie",
         "kolumna-pomocnicza",
-        "SUMIF",
+        "SUMA.JEŻELI",
         "grupowanie-danych"
       ]
     },
@@ -56,7 +56,7 @@
       "trudnosc": "srednie",
       "punkty": 3,
       "tagi": [
-        "COUNTIFS",
+        "LICZ.WARUNKI",
         "tabela-krzyzowa",
         "odwolania-mieszane"
       ]
@@ -66,7 +66,7 @@
       "trudnosc": "trudne",
       "punkty": 5,
       "tagi": [
-        "SUMIFS",
+        "SUMA.WARUNKÓW",
         "tabela-krzyzowa",
         "odwolania-mieszane",
         "pivot-reczny"
@@ -87,7 +87,7 @@
       "trudnosc": "srednie",
       "punkty": 3,
       "tagi": [
-        "VLOOKUP",
+        "WYSZUKAJ.PIONOWO",
         "kolumna-pomocnicza",
         "grupowanie-danych"
       ]
@@ -100,7 +100,7 @@
         "LEFT-RIGHT-MID",
         "INT-dzielenie",
         "kolumna-pomocnicza",
-        "SUMIF",
+        "SUMA.JEŻELI",
         "grupowanie-danych"
       ]
     },
@@ -110,7 +110,7 @@
       "punkty": 4,
       "tagi": [
         "INDEX-MATCH",
-        "VLOOKUP",
+        "WYSZUKAJ.PIONOWO",
         "tabela-krzyzowa",
         "odwolania-mieszane"
       ]
@@ -120,8 +120,8 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "SUMIFS",
-        "COUNTIFS",
+        "SUMA.WARUNKÓW",
+        "LICZ.WARUNKI",
         "tabela-krzyzowa",
         "pivot-reczny",
         "odwolania-mieszane",
@@ -133,7 +133,7 @@
       "trudnosc": "latwe",
       "punkty": 2,
       "tagi": [
-        "SUMIF",
+        "SUMA.JEŻELI",
         "grupowanie-danych"
       ]
     },
@@ -142,7 +142,7 @@
       "trudnosc": "latwe",
       "punkty": 2,
       "tagi": [
-        "VLOOKUP",
+        "WYSZUKAJ.PIONOWO",
         "grupowanie-danych"
       ]
     },
@@ -151,7 +151,7 @@
       "trudnosc": "latwe",
       "punkty": 2,
       "tagi": [
-        "SUMIF",
+        "SUMA.JEŻELI",
         "grupowanie-danych"
       ]
     },
@@ -160,7 +160,7 @@
       "trudnosc": "latwe",
       "punkty": 2,
       "tagi": [
-        "VLOOKUP",
+        "WYSZUKAJ.PIONOWO",
         "grupowanie-danych"
       ]
     },
@@ -178,7 +178,7 @@
       "trudnosc": "latwe",
       "punkty": 2,
       "tagi": [
-        "SUMIF",
+        "SUMA.JEŻELI",
         "grupowanie-danych"
       ]
     },
@@ -196,7 +196,7 @@
       "trudnosc": "srednie",
       "punkty": 3,
       "tagi": [
-        "SUMIFS",
+        "SUMA.WARUNKÓW",
         "tabela-krzyzowa",
         "odwolania-mieszane"
       ]
@@ -208,7 +208,7 @@
       "tagi": [
         "INT-dzielenie",
         "kolumna-pomocnicza",
-        "SUMIF",
+        "SUMA.JEŻELI",
         "grupowanie-danych"
       ]
     },
@@ -217,8 +217,8 @@
       "trudnosc": "srednie",
       "punkty": 3,
       "tagi": [
-        "VLOOKUP",
-        "SUMIF",
+        "WYSZUKAJ.PIONOWO",
+        "SUMA.JEŻELI",
         "kolumna-pomocnicza"
       ]
     },
@@ -227,7 +227,7 @@
       "trudnosc": "srednie",
       "punkty": 4,
       "tagi": [
-        "COUNTIFS",
+        "LICZ.WARUNKI",
         "tabela-krzyzowa",
         "odwolania-mieszane"
       ]
@@ -237,9 +237,9 @@
       "trudnosc": "srednie",
       "punkty": 3,
       "tagi": [
-        "VLOOKUP",
+        "WYSZUKAJ.PIONOWO",
         "kolumna-pomocnicza",
-        "SUMIF"
+        "SUMA.JEŻELI"
       ]
     },
     {
@@ -248,7 +248,7 @@
       "punkty": 4,
       "tagi": [
         "LEFT-RIGHT-MID",
-        "SUMIF",
+        "SUMA.JEŻELI",
         "kolumna-pomocnicza",
         "grupowanie-danych"
       ]
@@ -268,7 +268,7 @@
       "trudnosc": "srednie-trudne",
       "punkty": 5,
       "tagi": [
-        "SUMIFS",
+        "SUMA.WARUNKÓW",
         "tabela-krzyzowa",
         "odwolania-mieszane",
         "pivot-reczny"
@@ -280,7 +280,7 @@
       "punkty": 4,
       "tagi": [
         "INDEX-MATCH",
-        "VLOOKUP",
+        "WYSZUKAJ.PIONOWO",
         "odwolania-mieszane"
       ]
     },
@@ -289,7 +289,7 @@
       "trudnosc": "srednie-trudne",
       "punkty": 5,
       "tagi": [
-        "COUNTIFS",
+        "LICZ.WARUNKI",
         "tabela-krzyzowa",
         "odwolania-mieszane",
         "pivot-reczny"
@@ -301,7 +301,7 @@
       "punkty": 4,
       "tagi": [
         "LEFT-RIGHT-MID",
-        "VLOOKUP",
+        "WYSZUKAJ.PIONOWO",
         "kolumna-pomocnicza"
       ]
     },
@@ -310,7 +310,7 @@
       "trudnosc": "srednie-trudne",
       "punkty": 5,
       "tagi": [
-        "SUMIFS",
+        "SUMA.WARUNKÓW",
         "INT-dzielenie",
         "kolumna-pomocnicza",
         "tabela-krzyzowa"
@@ -322,7 +322,7 @@
       "punkty": 4,
       "tagi": [
         "INDEX-MATCH",
-        "VLOOKUP",
+        "WYSZUKAJ.PIONOWO",
         "kolumna-pomocnicza"
       ]
     },
@@ -331,8 +331,8 @@
       "trudnosc": "srednie-trudne",
       "punkty": 5,
       "tagi": [
-        "SUMIFS",
-        "VLOOKUP",
+        "SUMA.WARUNKÓW",
+        "WYSZUKAJ.PIONOWO",
         "kolumna-pomocnicza",
         "tabela-krzyzowa"
       ]
@@ -343,7 +343,7 @@
       "punkty": 5,
       "tagi": [
         "LEFT-RIGHT-MID",
-        "SUMIFS",
+        "SUMA.WARUNKÓW",
         "kolumna-pomocnicza",
         "tabela-krzyzowa"
       ]
@@ -353,7 +353,7 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "SUMIFS",
+        "SUMA.WARUNKÓW",
         "tabela-krzyzowa",
         "odwolania-mieszane",
         "pivot-reczny"
@@ -375,7 +375,7 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "SUMIFS",
+        "SUMA.WARUNKÓW",
         "LEFT-RIGHT-MID",
         "kolumna-pomocnicza",
         "tabela-krzyzowa",
@@ -388,7 +388,7 @@
       "punkty": 5,
       "tagi": [
         "INDEX-MATCH",
-        "VLOOKUP",
+        "WYSZUKAJ.PIONOWO",
         "TEXT",
         "konkatenacja"
       ]
@@ -398,8 +398,8 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "SUMIFS",
-        "COUNTIFS",
+        "SUMA.WARUNKÓW",
+        "LICZ.WARUNKI",
         "tabela-krzyzowa",
         "odwolania-mieszane",
         "pivot-reczny"
@@ -410,7 +410,7 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "SUMIFS",
+        "SUMA.WARUNKÓW",
         "INT-dzielenie",
         "kolumna-pomocnicza",
         "tabela-krzyzowa",
@@ -425,7 +425,7 @@
       "tagi": [
         "INDEX-MATCH",
         "LEFT-RIGHT-MID",
-        "VLOOKUP",
+        "WYSZUKAJ.PIONOWO",
         "konkatenacja",
         "kolumna-pomocnicza"
       ]
@@ -435,8 +435,8 @@
       "trudnosc": "trudne",
       "punkty": 6,
       "tagi": [
-        "SUMIFS",
-        "VLOOKUP",
+        "SUMA.WARUNKÓW",
+        "WYSZUKAJ.PIONOWO",
         "LEFT-RIGHT-MID",
         "kolumna-pomocnicza",
         "tabela-krzyzowa",
