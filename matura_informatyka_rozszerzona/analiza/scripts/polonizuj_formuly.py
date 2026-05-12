@@ -64,6 +64,34 @@ def is_whitelisted(path: str, warstwa: str) -> bool:
     return False
 
 
+def polonizuj_md_warstwa1(path: Path, mapa: dict) -> int:
+    """Globalna podmiana 46 funkcji EN->PL w pliku MD warstwy 1.
+
+    Reguly:
+    - Dluzsze nazwy najpierw (SUMIFS przed SUMIF)
+    - Tylko z otwierajacym '(' (\\b NAZWA\\s*\\()
+    - Case-sensitive (wielkie litery)
+
+    Zwraca: liczba zamian w pliku.
+    """
+    content = path.read_text()
+    original = content
+    # Sortuj klucze od najdluzszych — uniknij SUMIFS -> SUMA + IFS
+    keys = sorted(mapa["mapowanie"].keys(), key=len, reverse=True)
+    total_changes = 0
+    for en in keys:
+        pl = mapa["mapowanie"][en]
+        # \b NAZWA \s* \( — pozwala na biale znaki przed (
+        pattern = r"\b" + re.escape(en) + r"(\s*\()"
+        new_content, count = re.subn(pattern, pl + r"\1", content)
+        if count > 0:
+            total_changes += count
+            content = new_content
+    if content != original:
+        path.write_text(content)
+    return total_changes
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     g = parser.add_mutually_exclusive_group(required=True)
