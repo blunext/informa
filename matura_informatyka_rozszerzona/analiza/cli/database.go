@@ -9,7 +9,7 @@ import (
 	_ "modernc.org/sqlite"
 )
 
-const currentSchemaVersion = 8
+const currentSchemaVersion = 9
 
 // OpenDB opens progress DB as main, attaches matura.db as "data" read-only.
 // Returns the DB, whether matura.db was attached, and any error.
@@ -388,6 +388,39 @@ var migrations = []Migration{
 	{Version: 8, Apply: func(tx *sql.Tx) error {
 		_, err := tx.Exec(`ALTER TABLE active_exercises ADD COLUMN hints_given INTEGER NOT NULL DEFAULT 0`)
 		return err
+	}},
+	{Version: 9, Apply: func(tx *sql.Tx) error {
+		// Polonizacja formul arkusza — rename 7 tagow z zachowaniem FSRS state
+		renames := []struct{ old, new string }{
+			{"VLOOKUP", "WYSZUKAJ.PIONOWO"},
+			{"SUMIF", "SUMA.JEŻELI"},
+			{"SUMIFS", "SUMA.WARUNKÓW"},
+			{"COUNTIF", "LICZ.JEŻELI"},
+			{"COUNTIFS", "LICZ.WARUNKI"},
+			{"AVERAGEIF", "ŚREDNIA.JEŻELI"},
+			{"AVERAGEIFS", "ŚREDNIA.WARUNKÓW"},
+		}
+		for _, r := range renames {
+			// Jesli NOWY juz istnieje (np. uzytkownik przeszedl na nowy CLI ale stary tag wciaz w bazie)
+			// merge zachowujac max(stability, reps)
+			_, err := tx.Exec(`
+				INSERT INTO progress_tagi(tag, poziom, nastepna_powtorka, stability, difficulty, lapses, reps, state, last_review)
+				SELECT ?, poziom, nastepna_powtorka, stability, difficulty, lapses, reps, state, last_review
+				FROM progress_tagi WHERE tag = ?
+				ON CONFLICT(tag) DO UPDATE SET
+					stability = max(progress_tagi.stability, excluded.stability),
+					reps = max(progress_tagi.reps, excluded.reps),
+					last_review = CASE WHEN excluded.last_review > progress_tagi.last_review
+					                   THEN excluded.last_review ELSE progress_tagi.last_review END
+			`, r.new, r.old)
+			if err != nil {
+				return fmt.Errorf("v9 rename %s -> %s (insert): %w", r.old, r.new, err)
+			}
+			if _, err := tx.Exec("DELETE FROM progress_tagi WHERE tag = ?", r.old); err != nil {
+				return fmt.Errorf("v9 rename %s -> %s (delete): %w", r.old, r.new, err)
+			}
+		}
+		return nil
 	}},
 }
 

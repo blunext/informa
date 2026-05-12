@@ -3436,11 +3436,11 @@ func TestMigrationV7(t *testing.T) {
 		t.Errorf("expected sesja='maj', got %q", sesja)
 	}
 
-	// Verify schema version is 8 (v7 re-IDs + sesja, v8 adds hints_given)
+	// Verify schema version is 9 (v7 re-IDs + sesja, v8 adds hints_given, v9 polonizacja tagow)
 	var version int
 	db.QueryRow("SELECT version FROM schema_version").Scan(&version)
-	if version != 8 {
-		t.Errorf("expected version 8, got %d", version)
+	if version != 9 {
+		t.Errorf("expected version 9, got %d", version)
 	}
 
 	// Verify v8 migration: hints_given column exists in active_exercises
