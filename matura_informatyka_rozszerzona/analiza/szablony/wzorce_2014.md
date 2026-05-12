@@ -53,7 +53,9 @@ double bisekcja(double a, double b, double d, function<double(double)> f) {
 **Wzór na liczbę kroków:** aby przedział <0, L> zmniejszyć do długości < d:
 - Po k krokach: długość = L / 2^k
 - Potrzebne k: L / 2^k < d  →  k > log₂(L/d)
-- Dla L=2, d=0.1: k > log₂(20) ≈ 4.32 → **k = 5** (ale odpowiedź to 6, bo liczymy od kroku 1!)
+- Dla L=2, d=0.1: k > log₂(20) ≈ 4.32 → **k = 5** podziałów wystarczy, by długość spadła poniżej d (2/2⁵ = 0.0625 < 0.1)
+
+> ⚠️ **Konwencja CKE 2014**: w zadaniu CKE odpowiedzia jest krok **6** — bo CKE numeruje iteracje petli `dopoki b-a >= d`, ktora wykonuje sie raz **wiecej** niz teoretyczna liczba podzialow (sprawdza warunek **przed** podzialem, wiec krok 6 to ten, w ktorym warunek jest po raz pierwszy falszywy). Wedlug `zasady_oceniania` CKE: 5 lub 7 = 1 pkt czesciowo; 6 = pelny punkt.
 
 ---
 
@@ -215,14 +217,16 @@ GROUP BY p.id, p.nazwa
 ORDER BY liczba_chetnych DESC
 LIMIT 1;
 
--- 6d: 3 przedszkola o najmniejszej średniej chętnych na miejsce
+-- 6d: 3 przedszkola o najmniejszej średniej chętnych (z 1. preferencji) na miejsce
+-- Uwaga: filtr preferencja=1 w klauzuli ON, zeby LEFT JOIN nadal pokazywal
+-- przedszkola bez zadnych chetnych (a nie zamienial sie ukryte w INNER JOIN)
 SELECT
     p.nazwa,
     p.miejsca,
     COUNT(pr.id_dziecka) as liczba_chetnych,
     ROUND(COUNT(pr.id_dziecka) * 1.0 / p.miejsca, 2) as srednia
 FROM przedszkola p
-LEFT JOIN preferencje pr ON p.id = pr.id_przedszkola
+LEFT JOIN preferencje pr ON p.id = pr.id_przedszkola AND pr.preferencja = 1
 GROUP BY p.id, p.nazwa, p.miejsca
 ORDER BY srednia ASC
 LIMIT 3;
@@ -269,7 +273,7 @@ LIMIT 3;
 - **2a** (1 pkt) - uzupełnienie tabeli bisekcji
 - **6a** (2 pkt) - proste SQL SELECT WHERE
 
-### Średnie (28 pkt, ~90 min):
+### Średnie (25 pkt, ~90 min):
 - **1a, 1b** (5 pkt) - śledzenie rekurencji + wzór
 - **2b** (2 pkt) - obliczenie liczby kroków
 - **3a, 3b** (3 pkt) - śledzenie algorytmu silni
@@ -277,7 +281,7 @@ LIMIT 3;
 - **5a** (4 pkt) - zliczanie napisów
 - **6b, 6c** (5 pkt) - SQL średniej trudności
 
-### Trudne (16 pkt, ~110 min):
+### Trudne (19 pkt, ~110 min):
 - **1c** (3 pkt) - projekt algorytmu iteracyjnego
 - **2c** (3 pkt) - implementacja bisekcji
 - **4c** (3 pkt) - suma skumulowana w Excel

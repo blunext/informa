@@ -117,9 +117,11 @@ int zlicz_z_warunku(string filename) {
     return count;
 }
 
-// 4.2: Podzielność
+// 4.2: Podzielność przez 8 (uwaga: zadanie 2015 dotyczy liczb BINARNYCH)
 bool podzielna_przez_8(int n) {
-    // Liczba jest podzielna przez 8 gdy ostatnie 3 cyfry są podzielne przez 8
+    // W systemie dwojkowym: liczba dzieli sie przez 8 <=> trzy ostatnie BITY = "000".
+    // Jesli liczbe trzymamy juz jako int, wystarczy: n % 8 == 0.
+    // Jesli wczytujesz bity jako string s: return s.size() >= 3 && s.substr(s.size()-3) == "000";
     return n % 8 == 0;
 }
 
@@ -221,11 +223,15 @@ HAVING SUM(wg.Punkty) = (
 )
 ORDER BY w.Sezon;
 
--- 6.4: Liczba zawodników z poszczególnych krajów
+-- 6.4: Liczba zawodników z poszczególnych krajów, którzy zdobyli punkty
+-- Uwaga: zadanie wymaga tylko tych zawodnikow, ktorzy ZDOBYLI PUNKTY
+-- w jakimkolwiek wyscigu — dlatego potrzebny JOIN z Wyniki_GrandPrix.
 SELECT
     z.Kraj,
     COUNT(DISTINCT z.ID) as Liczba_Zawodnikow
 FROM Zawodnicy z
+JOIN Wyniki_GrandPrix wg ON z.ID = wg.ID_Zawodnika
+WHERE wg.Punkty > 0
 GROUP BY z.Kraj
 ORDER BY z.Kraj;
 ```

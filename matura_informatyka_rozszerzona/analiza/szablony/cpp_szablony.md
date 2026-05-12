@@ -952,15 +952,18 @@ int main() {
 #include <string>
 using namespace std;
 
+// Obsluga dowolnej bazy 2-16 (cyfry 0-9 oraz A-F dla wartosci 10-15)
 string addBase(string a, string b, int k) {
+    auto val = [](char c) { return (c >= 'A') ? (c - 'A' + 10) : (c - '0'); };
+    auto chr = [](int v) { return char(v < 10 ? '0' + v : 'A' + v - 10); };
     string result = "";
     int carry = 0;
     int i = a.size() - 1, j = b.size() - 1;
     while (i >= 0 || j >= 0 || carry) {
         int sum = carry;
-        if (i >= 0) sum += a[i--] - '0';
-        if (j >= 0) sum += b[j--] - '0';
-        result = char('0' + sum % k) + result;
+        if (i >= 0) sum += val(a[i--]);
+        if (j >= 0) sum += val(b[j--]);
+        result = chr(sum % k) + result;
         carry = sum / k;
     }
     return result;
@@ -968,6 +971,8 @@ string addBase(string a, string b, int k) {
 
 int main() {
     cout << addBase("1101", "1011", 2) << endl; // 11000
+    cout << addBase("A", "1", 16) << endl;       // B
+    cout << addBase("F", "1", 16) << endl;       // 10
     return 0;
 }
 ```

@@ -46,12 +46,14 @@ Poczatek zakotwiczony (`$B$2`), koniec wzgledny (`B2`) — zakres rosnie z kazdy
 
 Formula w F2 kopiowana w prawo i w dol:
 ```
-=SUMIFS(C$2:C$21; A$2:A$21;$E2; B$2:B$21;F$1)
+=SUMIFS($C$2:$C$21; $A$2:$A$21;$E2; $B$2:$B$21;F$1)
 ```
 
 - `$E2` — kolumna zakotwiczona (etykieta wiersza), wiersz wzgledny
 - `F$1` — wiersz zakotwiczony (naglowek kolumny), kolumna wzgledna
-- `C$2:C$21` — zakresy danych z $ na wierszach (nieruchome)
+- `$C$2:$C$21` — zakresy danych z $ na obu wymiarach (calkowicie nieruchome — dane sa zawsze w tych samych kolumnach)
+
+⚠️ **Wazne**: dla zakresow danych uzywaj $ rowniez **przed litera kolumny**. Inaczej po skopiowaniu w prawo (F2→G2→H2…) kolumny `C`, `A`, `B` przesuna sie odpowiednio na `D`, `B`, `C` — formula wskaze na puste lub niewlasciwe kolumny.
 
 ---
 
@@ -315,7 +317,7 @@ COUNT liczy tylko liczby. COUNTA liczy wszystko niepuste. Na maturze czesto trze
 Dane plaska (wiersz na kazda transakcje) → tabela: kategorie (wiersze) x kwartaly (kolumny).
 
 ```
-F2: =SUMIFS(C$2:C$21; A$2:A$21;$E2; B$2:B$21;F$1)
+F2: =SUMIFS($C$2:$C$21; $A$2:$A$21;$E2; $B$2:$B$21;F$1)
 ```
 
 Kopiowana w prawo (Q1→Q2→Q3→Q4) i w dol (Elektronika→Odziez→Zywnosc).
@@ -323,7 +325,7 @@ Kopiowana w prawo (Q1→Q2→Q3→Q4) i w dol (Elektronika→Odziez→Zywnosc).
 ### Tabela krzyzowa z COUNTIFS (zliczanie)
 
 ```
-E2: =COUNTIFS(A$2:A$16;$D2; B$2:B$16;E$1)
+E2: =COUNTIFS($A$2:$A$16;$D2; $B$2:$B$16;E$1)
 ```
 
 Zlicza ile razy pytanie P1 otrzymalo odpowiedz A. Te same zasady $ co wyzej.
