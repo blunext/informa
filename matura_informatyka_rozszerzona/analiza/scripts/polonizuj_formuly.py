@@ -204,14 +204,23 @@ def polonizuj_json_cwiczenie(path: Path, mapa: dict) -> int:
             total += c
 
     # Wskazowki/typowe_bledy: dopuszczamy bare-name (proza wspomina nazwe funkcji)
+    # Schemat jest niejednorodny:
+    #   - wskazowki: list[str]
+    #   - typowe_bledy: list[dict{opis, kara}]
+    # Obslugujemy oba przypadki.
     for field in ("wskazowki", "typowe_bledy"):
         if field in data and isinstance(data[field], list):
-            for item in data[field]:
-                for k in ("tekst", "opis"):
-                    if k in item and isinstance(item[k], str):
-                        new, c = _polonizuj_string(item[k], mapa, require_paren=False)
-                        item[k] = new
-                        total += c
+            for idx, item in enumerate(data[field]):
+                if isinstance(item, str):
+                    new, c = _polonizuj_string(item, mapa, require_paren=False)
+                    data[field][idx] = new
+                    total += c
+                elif isinstance(item, dict):
+                    for k in ("tekst", "opis"):
+                        if k in item and isinstance(item[k], str):
+                            new, c = _polonizuj_string(item[k], mapa, require_paren=False)
+                            item[k] = new
+                            total += c
 
     if "weryfikacja_szczegolowa" in data and isinstance(data["weryfikacja_szczegolowa"], str):
         new, c = _polonizuj_string(data["weryfikacja_szczegolowa"], mapa, require_paren=True)

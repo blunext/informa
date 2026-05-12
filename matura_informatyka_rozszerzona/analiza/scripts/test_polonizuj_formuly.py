@@ -175,3 +175,29 @@ def test_whitelist_guard_odmawia_edycji_pliku_sql(tmp_path):
     dst = tmp_path / "fixture_sql.md"
     shutil.copy(src, dst)
     assert not pf.is_whitelisted(str(dst), "all")
+
+
+def test_polonizuj_cwiczenie_obsluguje_wskazowki_jako_stringi(tmp_path):
+    """Realny schemat: wskazowki to list[str] (nie list[dict]). Regression test po T11."""
+    f = tmp_path / "test.json"
+    f.write_text(json.dumps({
+        "id": "TEST.X",
+        "tagi": ["SUMIF"],
+        "tresc": "=SUMIF(A:A;\"X\";B:B)",
+        "odpowiedz": "=SUMIF(A:A;\"X\";B:B)",
+        "wskazowki": [
+            "SUMIF ma 3 argumenty: zakres_kryt, kryt, zakres_sum",
+            "Pamietaj o cudzyslowach: SUMIF(A:A; \"tekst\"; B:B)"
+        ],
+        "typowe_bledy": [
+            {"opis": "Pomylenie SUMIF z COUNTIF", "kara": -1}
+        ]
+    }, ensure_ascii=False))
+    mapa = pf.load_mapa()
+    pf.polonizuj_json_cwiczenie(f, mapa)
+    data = json.loads(f.read_text())
+    assert data["wskazowki"][0].startswith("SUMA.JEŻELI ma 3 argumenty")
+    assert "SUMA.JEŻELI(A:A" in data["wskazowki"][1]
+    assert "Pomylenie SUMA.JEŻELI z LICZ.JEŻELI" in data["typowe_bledy"][0]["opis"]
+    assert data["typowe_bledy"][0]["kara"] == -1
+    assert "SUMA.JEŻELI" in data["tagi"]
