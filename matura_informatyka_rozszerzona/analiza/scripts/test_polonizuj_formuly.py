@@ -91,3 +91,33 @@ def test_warstwa2_przerwa_z_bledem_gdy_stary_brak(tmp_path):
     with pytest.raises(SystemExit) as exc:
         pf.polonizuj_md_warstwa2(zamiany)
     assert exc.value.code == 2
+
+
+def test_warstwa3_polonizuje_json_cwiczenia(tmp_path):
+    """Warstwa 3: zamienia formuly w tresc/odpowiedz/wskazowki/typowe_bledy + tagi."""
+    src = FIXTURES / "fixture_cwiczenie.json"
+    dst = tmp_path / "test.json"
+    shutil.copy(src, dst)
+    mapa = pf.load_mapa()
+    changes = pf.polonizuj_json_cwiczenie(dst, mapa)
+
+    data = json.loads(dst.read_text())
+    assert "SUMA.JEŻELI(B2:B11" in data["tresc"]
+    assert "SUMA.JEŻELI(B:B" in data["odpowiedz"]
+    assert "SUMA.JEŻELI ma 3 argumenty" in data["wskazowki"][0]["tekst"]
+    assert "Pomylenie SUMA.JEŻELI z LICZ.JEŻELI" in data["typowe_bledy"][0]["opis"]
+    assert "SUMA.JEŻELI" in data["tagi"]
+    assert "SUMIF" not in data["tagi"]
+    assert changes > 0
+
+
+def test_warstwa3_polonizuje_meta_json(tmp_path):
+    """_meta.json: tagi_globalne tez rename'owane."""
+    f = tmp_path / "_meta.json"
+    f.write_text(json.dumps({
+        "tagi_globalne": ["SUMIF", "SUMIFS", "AVERAGEIFS", "warunek-liczbowy"]
+    }))
+    mapa = pf.load_mapa()
+    pf.polonizuj_json_meta(f, mapa)
+    data = json.loads(f.read_text())
+    assert data["tagi_globalne"] == ["SUMA.JEŻELI", "SUMA.WARUNKÓW", "ŚREDNIA.WARUNKÓW", "warunek-liczbowy"]

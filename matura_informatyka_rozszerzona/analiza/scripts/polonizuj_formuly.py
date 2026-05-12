@@ -134,6 +134,109 @@ def polonizuj_md_warstwa2(zamiany: list) -> int:
     return total
 
 
+def _polonizuj_string(text: str, mapa: dict, require_paren: bool = True) -> tuple[str, int]:
+    """Wewnetrzna helper: podmiana w stringu, sortuje keys po dlugosci desc.
+
+    require_paren=True: tylko z otwierajacym '(' (jak w warstwie 1, dla tresc/odpowiedz).
+    require_paren=False: tez bez nawiasu (dla wskazowek/bledow, gdzie nazwa funkcji
+    moze byc cytowana w prozie). Stosuje sie tylko do dluzszych nazw (>=5 znakow),
+    aby uniknac kolizji z angielskimi krotszymi slowami (IF, SUM, OR, AND, NOT).
+    """
+    keys = sorted(mapa["mapowanie"].keys(), key=len, reverse=True)
+    total = 0
+    for en in keys:
+        pl = mapa["mapowanie"][en]
+        if require_paren:
+            pattern = r"\b" + re.escape(en) + r"(\s*\()"
+            text, count = re.subn(pattern, pl + r"\1", text)
+        else:
+            # Najpierw forma z nawiasem (zawsze bezpieczna)
+            pattern1 = r"\b" + re.escape(en) + r"(\s*\()"
+            text, c1 = re.subn(pattern1, pl + r"\1", text)
+            count = c1
+            # Forma bez nawiasu — tylko dla dluzszych unikalnych nazw (>=5 znakow)
+            if len(en) >= 5:
+                pattern2 = r"\b" + re.escape(en) + r"\b"
+                text, c2 = re.subn(pattern2, pl, text)
+                count += c2
+        total += count
+    return text, total
+
+
+def _rename_tag(tag: str, tagi_map: dict) -> str:
+    return tagi_map.get(tag, tag)
+
+
+def _sort_pl(items):
+    """Sortuje po polsku: litery z diakrytykami tuz po bazowych literach.
+
+    Klucz: dla kazdego znaku zwraca pare (baza_lower, oryginalny_ord),
+    co daje porzadek typu: S, SUMA, ŚREDNIA, T, ... oraz wielkie litery
+    przed malymi tej samej bazy."""
+    import unicodedata
+    def key(s):
+        out = []
+        for ch in s:
+            decomp = unicodedata.normalize("NFKD", ch)
+            base = decomp[0]
+            out.append((base.lower(), ord(ch)))
+        return out
+    return sorted(items, key=key)
+
+
+def polonizuj_json_cwiczenie(path: Path, mapa: dict) -> int:
+    """Polonizuje pola tekstowe oraz `tagi` w pliku cwiczenia JSON."""
+    data = json.loads(path.read_text())
+    total = 0
+
+    # Pola tekstowe — tresc/odpowiedz: wymagaja '(' (formuly w kodzie)
+    for field in ("tresc", "odpowiedz"):
+        if field in data and isinstance(data[field], str):
+            new, c = _polonizuj_string(data[field], mapa, require_paren=True)
+            data[field] = new
+            total += c
+
+    # Wskazowki/typowe_bledy: dopuszczamy bare-name (proza wspomina nazwe funkcji)
+    for field in ("wskazowki", "typowe_bledy"):
+        if field in data and isinstance(data[field], list):
+            for item in data[field]:
+                for k in ("tekst", "opis"):
+                    if k in item and isinstance(item[k], str):
+                        new, c = _polonizuj_string(item[k], mapa, require_paren=False)
+                        item[k] = new
+                        total += c
+
+    if "weryfikacja_szczegolowa" in data and isinstance(data["weryfikacja_szczegolowa"], str):
+        new, c = _polonizuj_string(data["weryfikacja_szczegolowa"], mapa, require_paren=True)
+        data["weryfikacja_szczegolowa"] = new
+        total += c
+
+    # Tagi
+    if "tagi" in data and isinstance(data["tagi"], list):
+        tagi_map = mapa["tagi_rejestr_rename"]
+        new_tagi = [_rename_tag(t, tagi_map) for t in data["tagi"]]
+        if new_tagi != data["tagi"]:
+            total += sum(1 for a, b in zip(data["tagi"], new_tagi) if a != b)
+            data["tagi"] = new_tagi
+
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n")
+    return total
+
+
+def polonizuj_json_meta(path: Path, mapa: dict) -> int:
+    """Polonizuje pole `tagi_globalne` w _meta.json. Zachowuje sortowanie polskie."""
+    data = json.loads(path.read_text())
+    if "tagi_globalne" not in data:
+        return 0
+    tagi_map = mapa["tagi_rejestr_rename"]
+    new = _sort_pl(set(_rename_tag(t, tagi_map) for t in data["tagi_globalne"]))
+    if new != data["tagi_globalne"]:
+        data["tagi_globalne"] = new
+        path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n")
+        return 1
+    return 0
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     g = parser.add_mutually_exclusive_group(required=True)
