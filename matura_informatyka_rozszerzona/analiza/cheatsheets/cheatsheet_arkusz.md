@@ -124,3 +124,17 @@ Checklist: **tytul** + **opis osi X** + **opis osi Y** + **legenda** (przy >=2 s
 6. **Zly typ wykresu** — czesci calosci = kolowy, nie kolumnowy
 7. **Brak elementow wykresu** — tytul, osie, legenda = 1 pkt
 8. **Dzielenie przez 0** — `=JEŻELI(B2=0;0;A2/B2)` lub `=JEŻELI.BŁĄD(A2/B2;0)`
+
+---
+
+## Pułapki polskich nazw funkcji — uważaj!
+
+| Funkcja | Polska nazwa | Pułapka |
+|---|---|---|
+| `ROUNDUP` | `ZAOKR.GÓRA` | NIE `ZAOKR.W.GÓRĘ` (to **CEILING** — zaokrąglanie do wielokrotności) |
+| `ROUNDDOWN` | `ZAOKR.DÓŁ` | NIE `ZAOKR.W.DÓŁ` (to **FLOOR**) |
+| `CONCATENATE` | `ZŁĄCZ.TEKSTY` (z "Y") | `ZŁĄCZ.TEKST` (bez Y) to nowsza `CONCAT` |
+| `SUBSTITUTE` vs `REPLACE` | `PODSTAW` vs `ZASTĄP` | `PODSTAW` = po tekście, `ZASTĄP` = po pozycji znaków |
+| `MAX` / `MIN` / `MOD` | bez zmian | Excel PL używa tych samych nazw — NIE tłumaczyć |
+| Separator argumentów | `;` (średnik) | Polski locale używa średnika, NIE przecinka |
+| Separator dziesiętny | `,` (przecinek) | Polski locale używa przecinka (np. `3,14` zamiast `3.14`) |
