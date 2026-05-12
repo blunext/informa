@@ -92,6 +92,48 @@ def polonizuj_md_warstwa1(path: Path, mapa: dict) -> int:
     return total_changes
 
 
+def polonizuj_md_warstwa2(zamiany: list) -> int:
+    """Stosuje deterministyczna liste zamian dla plikow MD mieszanych.
+
+    Dla kazdej zamiany:
+    - Pre-check: STARY istnieje w pliku (count >= 1)
+    - Apply: str.replace(STARY, NOWY, 1)
+    - Bledy: zbierane do listy i raportowane na koncu
+
+    Zwraca: liczba pomyslnych zamian.
+    """
+    total = 0
+    errors = []
+    # Grupuj po pliku
+    by_file = {}
+    for z in zamiany:
+        by_file.setdefault(z["plik"], []).append(z)
+
+    for plik, zlist in by_file.items():
+        path = Path(plik)
+        if not path.exists():
+            errors.append(f"BRAK PLIKU: {plik}")
+            continue
+        content = path.read_text()
+        for z in zlist:
+            if z["stary"] not in content:
+                errors.append(f"NIE ZNALEZIONO STARY w {plik}:{z['linia']}: {z['stary'][:60]}...")
+                continue
+            if content.count(z["stary"]) > 1:
+                errors.append(f"WIELOKROTNE STARY w {plik}:{z['linia']}: {z['stary'][:60]}...")
+                continue
+            content = content.replace(z["stary"], z["nowy"], 1)
+            total += 1
+        path.write_text(content)
+
+    if errors:
+        print("BLEDY warstwy 2:", file=sys.stderr)
+        for e in errors:
+            print(f"  {e}", file=sys.stderr)
+        raise SystemExit(2)
+    return total
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     g = parser.add_mutually_exclusive_group(required=True)

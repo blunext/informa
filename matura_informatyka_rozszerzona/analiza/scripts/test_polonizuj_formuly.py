@@ -49,3 +49,45 @@ def test_warstwa1_nie_rusza_nazw_bez_nawiasow(tmp_path):
     content = f.read_text()
     assert "funkcji SUM jest" in content
     assert "=SUMA(A:A)" in content
+
+
+def test_warstwa2_stosuje_tylko_liste_deterministyczna(tmp_path):
+    """Warstwa 2: zamienia tylko fragmenty z polonizacja_warstwa2.json."""
+    src = FIXTURES / "fixture_warstwa2.md"
+    dst = tmp_path / "fixture.md"
+    shutil.copy(src, dst)
+
+    zamiany = [
+        {
+            "plik": str(dst),
+            "linia": 16,
+            "stary": "- [ ] `=SUMIF(A:A; \"x\"; B:B)` — to ma byc zmienione",
+            "nowy": "- [ ] `=SUMA.JEŻELI(A:A; \"x\"; B:B)` — to ma byc zmienione"
+        },
+        {
+            "plik": str(dst),
+            "linia": 17,
+            "stary": "- [ ] `=COUNTIF(C:C; \">0\")` — to ma byc zmienione",
+            "nowy": "- [ ] `=LICZ.JEŻELI(C:C; \">0\")` — to ma byc zmienione"
+        }
+    ]
+    changes = pf.polonizuj_md_warstwa2(zamiany)
+
+    content = dst.read_text()
+    assert "SELECT COUNT(*), SUM(price), MAX(date)" in content
+    assert "if (x > 0) sum += abs(x);" in content
+    assert "=SUMA.JEŻELI(A:A;" in content
+    assert "=LICZ.JEŻELI(C:C;" in content
+    assert "=SUMIF(" not in content
+    assert "=COUNTIF(" not in content
+    assert changes == 2
+
+
+def test_warstwa2_przerwa_z_bledem_gdy_stary_brak(tmp_path):
+    """Jesli STARY fragment nie istnieje w pliku — exit code 2."""
+    f = tmp_path / "test.md"
+    f.write_text("Inna tresc bez tego fragmentu")
+    zamiany = [{"plik": str(f), "linia": 1, "stary": "NIEISTNIEJACE", "nowy": "X"}]
+    with pytest.raises(SystemExit) as exc:
+        pf.polonizuj_md_warstwa2(zamiany)
+    assert exc.value.code == 2
