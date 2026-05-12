@@ -324,7 +324,7 @@
     },
     "arkusz-agregacja-warunkowa": {
       "kategoria": "wzorce",
-      "definicja": "Arkusz: SUMIFS, COUNTIFS, AVERAGEIFS, MAXIFS itp. - agregacja z warunkami.",
+      "definicja": "Arkusz: SUMA.WARUNKÓW, LICZ.WARUNKI, ŚREDNIA.WARUNKÓW, MAKS.WARUNKÓW itp. - agregacja z warunkami.",
       "podstawa": null,
       "formula_2024": false
     },
