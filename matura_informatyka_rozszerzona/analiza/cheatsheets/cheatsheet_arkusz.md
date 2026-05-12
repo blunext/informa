@@ -16,7 +16,7 @@
 ## Tabela krzyzowa (pivot) — szablon
 
 ```
-=SUMIFS(C$2:C$21; A$2:A$21;$E2; B$2:B$21;F$1)
+=SUMA.WARUNKÓW(C$2:C$21; A$2:A$21;$E2; B$2:B$21;F$1)
 ```
 
 `$E2` = etykieta wiersza | `F$1` = naglowek kolumny | zakresy z `$` na wierszach
@@ -26,7 +26,7 @@
 ## Suma narastajaca (kumulacyjna)
 
 ```
-C2: =SUM($B$2:B2)    -> C3: =SUM($B$2:B3)    -> C4: =SUM($B$2:B4)
+C2: =SUMA($B$2:B2)    -> C3: =SUMA($B$2:B3)    -> C4: =SUMA($B$2:B4)
 ```
 
 Poczatek zakotwiczony `$B$2`, koniec wzgledny — zakres rosnie.
@@ -37,11 +37,11 @@ Poczatek zakotwiczony `$B$2`, koniec wzgledny — zakres rosnie.
 
 | Funkcja | Skladnia | Kolejnosc |
 |---------|----------|-----------|
-| `COUNTIF` | `COUNTIF(zakres; kryterium)` | — |
-| `COUNTIFS` | `COUNTIFS(zakr1; kryt1; zakr2; kryt2)` | — |
-| **`SUMIF`** | `SUMIF(zakr_kryt; kryt; zakr_sumy)` | **suma na KONCU** |
-| **`SUMIFS`** | `SUMIFS(zakr_sumy; zakr_kryt1; kryt1; ...)` | **suma na POCZATKU** |
-| `AVERAGEIF` | `AVERAGEIF(zakr_kryt; kryt; zakr_sredniej)` | jak SUMIF |
+| `COUNTIF` | `LICZ.JEŻELI(zakres; kryterium)` | — |
+| `COUNTIFS` | `LICZ.WARUNKI(zakr1; kryt1; zakr2; kryt2)` | — |
+| **`SUMIF`** | `SUMA.JEŻELI(zakr_kryt; kryt; zakr_sumy)` | **suma na KONCU** |
+| **`SUMIFS`** | `SUMA.WARUNKÓW(zakr_sumy; zakr_kryt1; kryt1; ...)` | **suma na POCZATKU** |
+| `AVERAGEIF` | `ŚREDNIA.JEŻELI(zakr_kryt; kryt; zakr_sredniej)` | jak SUMIF |
 
 > UWAGA: SUMIF i SUMIFS maja ODWROTNA kolejnosc argumentow!
 
@@ -52,8 +52,8 @@ Kryterium z komorka: `">"&F4` (operator `&` skleja `">"` z wartoscia F4)
 ## Wyszukiwanie
 
 ```
-=VLOOKUP(szukana; $tabela; nr_kolumny; 0)       0 = dokladne!
-=INDEX(zakres_wynikow; MATCH(szukana; zakres_szukania; 0))
+=WYSZUKAJ.PIONOWO(szukana; $tabela; nr_kolumny; 0)       0 = dokladne!
+=INDEKS(zakres_wynikow; PODAJ.POZYCJĘ(szukana; zakres_szukania; 0))
 ```
 
 VLOOKUP: szukana musi byc w 1. kolumnie tabeli.
@@ -64,8 +64,8 @@ INDEX-MATCH: kolumna wynikowa moze byc GDZIEKOLWIEK.
 ## IF / zagniezdzony IF
 
 ```
-=IF(warunek; jesli_tak; jesli_nie)
-=IF(C2>=2000;15%;IF(C2>=1000;10%;IF(C2>=500;5%;0%)))
+=JEŻELI(warunek; jesli_tak; jesli_nie)
+=JEŻELI(C2>=2000;15%;JEŻELI(C2>=1000;10%;JEŻELI(C2>=500;5%;0%)))
 ```
 
 Progi od NAJWIEKSZEGO — pierwszy spelniony konczy ewaluacje.
@@ -77,8 +77,8 @@ Progi od NAJWIEKSZEGO — pierwszy spelniony konczy ewaluacje.
 ```
 Akumulator:         C3 = C2 + B3                (saldo = poprz + zmiana)
 Wzrost procentowy:  B3 = B2 * $D$1              (stala bezwzgledna)
-Magazyn z progiem:  D2 = IF(C2>=100;"TAK";"NIE")
-                    E2 = IF(D2="TAK";C2-100;C2)
+Magazyn z progiem:  D2 = JEŻELI(C2>=100;"TAK";"NIE")
+                    E2 = JEŻELI(D2="TAK";C2-100;C2)
 ```
 
 ---
@@ -90,13 +90,13 @@ Magazyn z progiem:  D2 = IF(C2>=100;"TAK";"NIE")
 | `MAX` / `MIN` | Wartosc ekstr. |
 | `AVERAGE` | Srednia (puste pomija, zera liczy!) |
 | `COUNT` / `COUNTA` | Liczby / niepuste |
-| `RANK(F2;$F$2:$F$7;0)` | Pozycja (0=malej.) |
+| `POZYCJA(F2;$F$2:$F$7;0)` | Pozycja (0=malej.) |
 | `MOD(A2;B2)` | Reszta |
-| `INT(A2)` | Czesc calkowita |
+| `ZAOKR.DO.CAŁK(A2)` | Czesc calkowita |
 | `LEFT`/`RIGHT`/`MID`/`LEN` | Tekstowe |
-| `MONTH(data)`/`YEAR(data)` | Z dat |
-| `ROUND(wart;2)` | Zaokraglenie |
-| `AND()`/`OR()` | Logiczne (w IF) |
+| `MIESIĄC(data)`/`ROK(data)` | Z dat |
+| `ZAOKR(wart;2)` | Zaokraglenie |
+| `ORAZ()`/`LUB()` | Logiczne (w IF) |
 
 ---
 
@@ -120,7 +120,7 @@ Checklist: **tytul** + **opis osi X** + **opis osi Y** + **legenda** (przy >=2 s
 2. **SUMIF vs SUMIFS** — rozna kolejnosc argumentow (suma na koncu vs poczatku)
 3. **AVERAGE z zerami** — zera sa LICZONE, puste POMINIETE
 4. **Kryterium z komorka** — `">"&F4` nie `">F4"` (szuka tekstu!)
-5. **Rozszerzajacy zakres** — `=SUM($B$2:B2)` nie `=SUM(B2:B2)`
+5. **Rozszerzajacy zakres** — `=SUMA($B$2:B2)` nie `=SUMA(B2:B2)`
 6. **Zly typ wykresu** — czesci calosci = kolowy, nie kolumnowy
 7. **Brak elementow wykresu** — tytul, osie, legenda = 1 pkt
-8. **Dzielenie przez 0** — `=IF(B2=0;0;A2/B2)` lub `=IFERROR(A2/B2;0)`
+8. **Dzielenie przez 0** — `=JEŻELI(B2=0;0;A2/B2)` lub `=JEŻELI.BŁĄD(A2/B2;0)`

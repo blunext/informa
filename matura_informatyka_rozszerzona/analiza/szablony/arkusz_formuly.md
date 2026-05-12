@@ -30,15 +30,15 @@ Formula w B2: `=A2*$E$1`
 ### Rozszerzajacy zakres (suma narastajaca)
 
 ```
-C2: =SUM($B$2:B2)
+C2: =SUMA($B$2:B2)
 ```
 
 | Komorka | Formula po skopiowaniu | Efekt |
 |---------|----------------------|-------|
-| C2 | `=SUM($B$2:B2)` | Suma B2 |
-| C3 | `=SUM($B$2:B3)` | Suma B2:B3 |
-| C4 | `=SUM($B$2:B4)` | Suma B2:B4 |
-| C5 | `=SUM($B$2:B5)` | Suma B2:B5 |
+| C2 | `=SUMA($B$2:B2)` | Suma B2 |
+| C3 | `=SUMA($B$2:B3)` | Suma B2:B3 |
+| C4 | `=SUMA($B$2:B4)` | Suma B2:B4 |
+| C5 | `=SUMA($B$2:B5)` | Suma B2:B5 |
 
 Poczatek zakotwiczony (`$B$2`), koniec wzgledny (`B2`) — zakres rosnie z kazdym wierszem. Uzywane do **sum kumulacyjnych** (np. matura 2024 — rabaty narastajace).
 
@@ -46,7 +46,7 @@ Poczatek zakotwiczony (`$B$2`), koniec wzgledny (`B2`) — zakres rosnie z kazdy
 
 Formula w F2 kopiowana w prawo i w dol:
 ```
-=SUMIFS($C$2:$C$21; $A$2:$A$21;$E2; $B$2:$B$21;F$1)
+=SUMA.WARUNKÓW($C$2:$C$21; $A$2:$A$21;$E2; $B$2:$B$21;F$1)
 ```
 
 - `$E2` — kolumna zakotwiczona (etykieta wiersza), wiersz wzgledny
@@ -62,39 +62,39 @@ Formula w F2 kopiowana w prawo i w dol:
 ### COUNTIF — zliczanie z warunkiem
 
 ```
-=COUNTIF(B2:B11;"Nabial")
+=LICZ.JEŻELI(B2:B11;"Nabial")
 ```
 Zlicza komorki w B2:B11 zawierajace tekst "Nabial".
 
 ### SUMIF — suma z warunkiem
 
 ```
-=SUMIF(B2:B10;"Styczen";C2:C10)
+=SUMA.JEŻELI(B2:B10;"Styczen";C2:C10)
 ```
-**Kolejnosc**: SUMIF(**zakres_kryterium**; kryterium; **zakres_sumy**)
+**Kolejnosc**: SUMA.JEŻELI(**zakres_kryterium**; kryterium; **zakres_sumy**)
 
 Sumuje wartosci z C, gdzie B = "Styczen".
 
 ### AVERAGEIF — srednia z warunkiem
 
 ```
-=AVERAGEIF(B2:B11;"M";C2:C11)
+=ŚREDNIA.JEŻELI(B2:B11;"M";C2:C11)
 ```
-**Kolejnosc**: AVERAGEIF(**zakres_kryterium**; kryterium; **zakres_sredniej**)
+**Kolejnosc**: ŚREDNIA.JEŻELI(**zakres_kryterium**; kryterium; **zakres_sredniej**)
 
 Srednia z C, gdzie B = "M".
 
 ### SUMIFS — suma z wieloma warunkami
 
 ```
-=SUMIFS(D2:D13;B2:B13;"Polnoc";C2:C13;"Q3")
+=SUMA.WARUNKÓW(D2:D13;B2:B13;"Polnoc";C2:C13;"Q3")
 ```
-**Kolejnosc**: SUMIFS(**zakres_sumy**; zakres_kryt1; kryt1; zakres_kryt2; kryt2)
+**Kolejnosc**: SUMA.WARUNKÓW(**zakres_sumy**; zakres_kryt1; kryt1; zakres_kryt2; kryt2)
 
 ### COUNTIFS — zliczanie z wieloma warunkami
 
 ```
-=COUNTIFS(B2:B11;"Marzec";C2:C11;">"&F4)
+=LICZ.WARUNKI(B2:B11;"Marzec";C2:C11;">"&F4)
 ```
 
 ### PULAPKA: SUMIF vs SUMIFS — ROZNA KOLEJNOSC!
@@ -105,14 +105,14 @@ Srednia z C, gdzie B = "M".
 | **SUMIFS** | **zakres_sumy** | zakres_kryt1 → kryt1 → ... (suma na POCZATKU) |
 
 ```
-SUMIF(zakres_kryt; kryterium; zakres_sumy)      ← suma na koncu
-SUMIFS(zakres_sumy; zakres_kryt1; kryt1; ...)    ← suma na poczatku
+SUMA.JEŻELI(zakres_kryt; kryterium; zakres_sumy)      ← suma na koncu
+SUMA.WARUNKÓW(zakres_sumy; zakres_kryt1; kryt1; ...)    ← suma na poczatku
 ```
 
 ### PULAPKA: Operator w kryterium
 
-Zly: `=COUNTIFS(C2:C11;">5")` (porownuje z liczba 5, nie z komorka)
-Dobry: `=COUNTIFS(C2:C11;">"&F4)` (laczy operator `">"` z wartoscia komorki F4)
+Zly: `=LICZ.WARUNKI(C2:C11;">5")` (porownuje z liczba 5, nie z komorka)
+Dobry: `=LICZ.WARUNKI(C2:C11;">"&F4)` (laczy operator `">"` z wartoscia komorki F4)
 
 Kryterium z komorka: `">"&F4` — operator `&` skleja tekst `">"` z wartoscia.
 
@@ -122,7 +122,7 @@ Dane: transakcje w kolumnach — NIP klienta (A), odmiana (B), typ Z/L (C), kg (
 Cel: suma kg jablek zimowych (C="Z") dla kazdego klienta.
 
 ```
-=SUMIFS($D$2:$D$2501; $A$2:$A$2501;G2; $C$2:$C$2501;"Z")
+=SUMA.WARUNKÓW($D$2:$D$2501; $A$2:$A$2501;G2; $C$2:$C$2501;"Z")
 ```
 G2 = NIP klienta. Zakresy danych bezwzgledne ($), kryterium NIP wzgledne.
 
@@ -130,7 +130,7 @@ G2 = NIP klienta. Zakresy danych bezwzgledne ($), kryterium NIP wzgledne.
 
 Suma masy ladunkow, ktore spelniaja prog zawartosci:
 ```
-=SUMIFS(C2:C1001;D2:D1001;">="&1)
+=SUMA.WARUNKÓW(C2:C1001;D2:D1001;">="&1)
 ```
 Prog `">="&1` oznacza "zawartosc >= 1%".
 
@@ -169,13 +169,13 @@ B3: =B2*$D$1
 `$D$1` — stala bezwzgledna (nie zmienia sie przy kopiowaniu).
 Matura 2015: prognoza ludnosci `=B2*(1.01)^12`.
 
-### Wzorzec 3: Stan z IF (alarm, kontrola)
+### Wzorzec 3: Stan z JEŻELI (alarm, kontrola)
 
 Zapas = poprzedni + przyjecie - wydanie. Alarm gdy zapas < 50.
 
 ```
 D3: =D2+B3-C3
-E3: =IF(D3<50;"NISKI STAN";"")
+E3: =JEŻELI(D3<50;"NISKI STAN";"")
 ```
 
 | Dzien | Przyjecie | Wydanie | Zapas | Alarm |
@@ -189,8 +189,8 @@ E3: =IF(D3<50;"NISKI STAN";"")
 Zakupy kumulacyjne — rabat zalezy od lacznej kwoty:
 
 ```
-C2: =SUM($B$2:B2)
-D2: =IF(C2>=2000;15%;IF(C2>=1000;10%;IF(C2>=500;5%;0%)))
+C2: =SUMA($B$2:B2)
+D2: =JEŻELI(C2>=2000;15%;JEŻELI(C2>=1000;10%;JEŻELI(C2>=500;5%;0%)))
 E2: =B2*(1-D2)
 ```
 
@@ -210,8 +210,8 @@ Magazyn gromadzi rude. Gdy >= 100 ton, wysyla transport 100 ton.
 ```
 C2: =B2                           (dzien 1, startowy zapas = 0)
 C3: =E2+B3                        (od dnia 2)
-D2: =IF(C2>=100;"TAK";"NIE")
-E2: =IF(D2="TAK";C2-100;C2)
+D2: =JEŻELI(C2>=100;"TAK";"NIE")
+E2: =JEŻELI(D2="TAK";C2-100;C2)
 ```
 
 | Dzien | Wydobycie | Zapas przed | Transport? | Zapas po |
@@ -223,7 +223,7 @@ E2: =IF(D2="TAK";C2-100;C2)
 
 Matura 2025: Martianeum — wyslij 100 kg na orbite gdy magazyn >= 100 kg.
 
-Zliczanie transportow: `=COUNTIF(D2:D11;"TAK")`
+Zliczanie transportow: `=LICZ.JEŻELI(D2:D11;"TAK")`
 
 ### Matura 2023 (Konfitury): Symulacja z wyborem pary
 
@@ -279,20 +279,20 @@ Codziennie produkuj konfitury z dwoch owocow o najwiekszej ilosci (proporcja 1:1
 
 | Funkcja | Dzialanie | Przyklad |
 |---------|-----------|---------|
-| `SUM(B2:B9)` | Suma | 110 |
-| `AVERAGE(B2:B9)` | Srednia arytmetyczna | 13.75 |
+| `SUMA(B2:B9)` | Suma | 110 |
+| `ŚREDNIA(B2:B9)` | Srednia arytmetyczna | 13.75 |
 | `MAX(B2:B9)` | Wartosc maksymalna | 19 |
 | `MIN(B2:B9)` | Wartosc minimalna | 8 |
-| `COUNT(B2:B9)` | Zlicza komorki z **liczbami** | 8 |
-| `COUNTA(B2:B9)` | Zlicza komorki **niepuste** (tekst + liczby) | 8 |
+| `ILE.LICZB(B2:B9)` | Zlicza komorki z **liczbami** | 8 |
+| `ILE.NIEPUSTYCH(B2:B9)` | Zlicza komorki **niepuste** (tekst + liczby) | 8 |
 | `COUNTBLANK(B2:B9)` | Zlicza komorki **puste** | 2 |
-| `RANK(F2;$F$2:$F$7;0)` | Pozycja w rankingu (0=malejaco) | 3 |
-| `ABS(D2)` | Wartosc bezwzgledna | 5.3 |
+| `POZYCJA(F2;$F$2:$F$7;0)` | Pozycja w rankingu (0=malejaco) | 3 |
+| `MODUŁ.LICZBY(D2)` | Wartosc bezwzgledna | 5.3 |
 
 ### RANK — szczegoly
 
 ```
-G2: =RANK(F2;$F$2:$F$7;0)
+G2: =POZYCJA(F2;$F$2:$F$7;0)
 ```
 - Trzeci argument: `0` = malejaco (najwyzszy = 1), `1` = rosnaco
 - Zakres `$F$2:$F$7` musi byc **bezwzgledny** (z $)
@@ -317,15 +317,15 @@ COUNT liczy tylko liczby. COUNTA liczy wszystko niepuste. Na maturze czesto trze
 Dane plaska (wiersz na kazda transakcje) → tabela: kategorie (wiersze) x kwartaly (kolumny).
 
 ```
-F2: =SUMIFS($C$2:$C$21; $A$2:$A$21;$E2; $B$2:$B$21;F$1)
+F2: =SUMA.WARUNKÓW($C$2:$C$21; $A$2:$A$21;$E2; $B$2:$B$21;F$1)
 ```
 
 Kopiowana w prawo (Q1→Q2→Q3→Q4) i w dol (Elektronika→Odziez→Zywnosc).
 
-### Tabela krzyzowa z COUNTIFS (zliczanie)
+### Tabela krzyzowa z LICZ.WARUNKI (zliczanie)
 
 ```
-E2: =COUNTIFS($A$2:$A$16;$D2; $B$2:$B$16;E$1)
+E2: =LICZ.WARUNKI($A$2:$A$16;$D2; $B$2:$B$16;E$1)
 ```
 
 Zlicza ile razy pytanie P1 otrzymalo odpowiedz A. Te same zasady $ co wyzej.
@@ -335,29 +335,29 @@ Zlicza ile razy pytanie P1 otrzymalo odpowiedz A. Te same zasady $ co wyzej.
 7-dniowe okresy (matura 2025 — Martianeum):
 
 ```
-C2: =INT((A2-1)/7)+1
+C2: =ZAOKR.DO.CAŁK((A2-1)/7)+1
 ```
 
-| Dzien | INT((dzien-1)/7)+1 | Okres |
+| Dzien | ZAOKR.DO.CAŁK((dzien-1)/7)+1 | Okres |
 |-------|--------------------|-------|
-| 1-7 | INT(0..6 / 7)+1 | 1 |
-| 8-14 | INT(7..13 / 7)+1 | 2 |
-| 15-21 | INT(14..20 / 7)+1 | 3 |
+| 1-7 | ZAOKR.DO.CAŁK(0..6 / 7)+1 | 1 |
+| 8-14 | ZAOKR.DO.CAŁK(7..13 / 7)+1 | 2 |
+| 15-21 | ZAOKR.DO.CAŁK(14..20 / 7)+1 | 3 |
 
 Potem SUMIF po kolumnie pomocniczej:
 ```
-=SUMIF(C2:C22;E2;B2:B22)
+=SUMA.JEŻELI(C2:C22;E2;B2:B22)
 ```
 
 ### Grupowanie po miesiacach (z dat)
 
 Jezeli dane maja daty, wyodrebnij miesiac:
 ```
-=MONTH(A2)
+=MIESIĄC(A2)
 ```
 lub rok:
 ```
-=YEAR(A2)
+=ROK(A2)
 ```
 
 ---
@@ -367,7 +367,7 @@ lub rok:
 ### VLOOKUP — wyszukiwanie w tabeli (cennik, taryfikator)
 
 ```
-=VLOOKUP(B2;$G$2:$H$10;2;0)
+=WYSZUKAJ.PIONOWO(B2;$G$2:$H$10;2;0)
 ```
 
 | Argument | Znaczenie |
@@ -379,28 +379,28 @@ lub rok:
 
 Matura 2024: VLOOKUP do cennika jablek — cena za kg na podstawie odmiany.
 
-### INDEX-MATCH — alternatywa VLOOKUP (bardziej elastyczna)
+### INDEX-MATCH — alternatywa WYSZUKAJ.PIONOWO (bardziej elastyczna)
 
 ```
-=INDEX(C2:C10;MATCH(B2;A2:A10;0))
+=INDEKS(C2:C10;PODAJ.POZYCJĘ(B2;A2:A10;0))
 ```
 
 | Czesc | Dzialanie |
 |-------|-----------|
-| `MATCH(B2;A2:A10;0)` | Znajdz pozycje B2 w zakresie A2:A10 |
-| `INDEX(C2:C10; ...)` | Zwroc wartosc z tej pozycji w zakresie C |
+| `PODAJ.POZYCJĘ(B2;A2:A10;0)` | Znajdz pozycje B2 w zakresie A2:A10 |
+| `INDEKS(C2:C10; ...)` | Zwroc wartosc z tej pozycji w zakresie C |
 
 Przewaga nad VLOOKUP: kolumna wynikowa moze byc na lewo od szukanej.
 
-Matura 2015: najludniejsze wojewodztwo `=INDEX(A:A;MATCH(MAX(D:D);D:D;0))`
+Matura 2015: najludniejsze wojewodztwo `=INDEKS(A:A;PODAJ.POZYCJĘ(MAX(D:D);D:D;0))`
 
 ### Daty
 
 | Funkcja | Dzialanie | Przyklad |
 |---------|-----------|---------|
-| `MONTH(A2)` | Numer miesiaca (1-12) | 5 |
-| `YEAR(A2)` | Rok | 2024 |
-| `DAY(A2)` | Dzien miesiaca | 15 |
+| `MIESIĄC(A2)` | Numer miesiaca (1-12) | 5 |
+| `ROK(A2)` | Rok | 2024 |
+| `DZIEŃ(A2)` | Dzien miesiaca | 15 |
 | `MIN(A2:A100)` | Najwczesniejsza data | 2033-03-03 |
 | `MAX(A2:A100)` | Najpozniejsza data | 2038-09-01 |
 
@@ -412,28 +412,28 @@ Matura 2025: `MIN(data_pomiaru)` i `MAX(data_pomiaru)` dla kazdego lazika.
 
 | Funkcja | Dzialanie | Przyklad |
 |---------|-----------|---------|
-| `LEFT(A2;3)` | Pierwsze 3 znaki | "ABC" z "ABCDEF" |
-| `RIGHT(A2;2)` | Ostatnie 2 znaki | "EF" z "ABCDEF" |
-| `MID(A2;2;3)` | 3 znaki od pozycji 2 | "BCD" z "ABCDEF" |
-| `LEN(A2)` | Dlugosc tekstu | 6 |
+| `LEWY(A2;3)` | Pierwsze 3 znaki | "ABC" z "ABCDEF" |
+| `PRAWY(A2;2)` | Ostatnie 2 znaki | "EF" z "ABCDEF" |
+| `FRAGMENT.TEKSTU(A2;2;3)` | 3 znaki od pozycji 2 | "BCD" z "ABCDEF" |
+| `DŁ(A2)` | Dlugosc tekstu | 6 |
 
 ### Procenty i zaokraglanie
 
 ```
-=B2/SUM($B$2:$B$6)*100          udzial procentowy
-=ROUND(B2;2)                     zaokraglenie do 2 miejsc
-=ROUND(B2*C2;2)                  cena × ilosc, zaokraglona
+=B2/SUMA($B$2:$B$6)*100          udzial procentowy
+=ZAOKR(B2;2)                     zaokraglenie do 2 miejsc
+=ZAOKR(B2*C2;2)                  cena × ilosc, zaokraglona
 ```
 
-`ROUND(wartosc; liczba_miejsc)` — zaokragla (nie obcina!). Na maturze czesto wymagane "z dokladnoscia do 2 miejsc po przecinku".
+`ZAOKR(wartosc; liczba_miejsc)` — zaokragla (nie obcina!). Na maturze czesto wymagane "z dokladnoscia do 2 miejsc po przecinku".
 
 ### IF i zagniezdzony IF
 
 ```
-=IF(warunek; wartosc_jesli_tak; wartosc_jesli_nie)
+=JEŻELI(warunek; wartosc_jesli_tak; wartosc_jesli_nie)
 
 Zagniezdzony (progi rabatowe):
-=IF(C2>=2000;15%;IF(C2>=1000;10%;IF(C2>=500;5%;0%)))
+=JEŻELI(C2>=2000;15%;JEŻELI(C2>=1000;10%;JEŻELI(C2>=500;5%;0%)))
 ```
 
 Sprawdzaj progi **od najwiekszego** — pierwszy speliony warunek konczy ewaluacje.
@@ -441,8 +441,8 @@ Sprawdzaj progi **od najwiekszego** — pierwszy speliony warunek konczy ewaluac
 ### AND / OR w warunkach
 
 ```
-=IF(AND(G2;H2);"OK";"ODRZUT")        oba warunki musza byc TRUE
-=IF(OR(G2;H2);"PRZESZEDL";"NIE")     wystarczy jeden TRUE
+=JEŻELI(ORAZ(G2;H2);"OK";"ODRZUT")        oba warunki musza byc TRUE
+=JEŻELI(LUB(G2;H2);"PRZESZEDL";"NIE")     wystarczy jeden TRUE
 ```
 
 ---
@@ -454,29 +454,29 @@ Sprawdzaj progi **od najwiekszego** — pierwszy speliony warunek konczy ewaluac
 | Blednie | Poprawnie | Problem |
 |---------|-----------|---------|
 | `=B2*D1` | `=B2*$D$1` | Po skopiowaniu D1 staje sie D2, D3... |
-| `=SUMIF(B:B;E2;C:C)` | `=SUMIF($B:$B;E2;$C:$C)` | Zakresy danych powinny byc nieruchome |
+| `=SUMA.JEŻELI(B:B;E2;C:C)` | `=SUMA.JEŻELI($B:$B;E2;$C:$C)` | Zakresy danych powinny byc nieruchome |
 
 ### 2. SUMIF vs SUMIFS — kolejnosc argumentow
 
 ```
-ZLE:  =SUMIFS(A:A;"kryt";C:C)       ← kolejnosc SUMIF w SUMIFS
-OK:   =SUMIFS(C:C;A:A;"kryt")       ← SUMIFS: suma PIERWSZA
+ZLE:  =SUMA.WARUNKÓW(A:A;"kryt";C:C)       ← kolejnosc SUMIF w SUMIFS
+OK:   =SUMA.WARUNKÓW(C:C;A:A;"kryt")       ← SUMIFS: suma PIERWSZA
 ```
 
 ### 3. Srednia z zerami / pustymi komorkami
 
 ```
-AVERAGE(1;0;3;0;5) = 9/5 = 1.8      ← zera LICZONE
-AVERAGE(1;;3;;5) = 9/3 = 3.0         ← puste POMINIETE
+ŚREDNIA(1;0;3;0;5) = 9/5 = 1.8      ← zera LICZONE
+ŚREDNIA(1;;3;;5) = 9/3 = 3.0         ← puste POMINIETE
 ```
 
-Jezeli zera maja byc pominiete: `=AVERAGEIF(B2:B11;"<>0")`
+Jezeli zera maja byc pominiete: `=ŚREDNIA.JEŻELI(B2:B11;"<>0")`
 
 ### 4. Operator w kryterium — brak & z komorka
 
 ```
-ZLE:  =COUNTIF(C:C;">F4")           ← szuka tekstu ">F4"
-OK:   =COUNTIF(C:C;">"&F4)          ← laczy ">" z wartoscia F4
+ZLE:  =LICZ.JEŻELI(C:C;">F4")           ← szuka tekstu ">F4"
+OK:   =LICZ.JEŻELI(C:C;">"&F4)          ← laczy ">" z wartoscia F4
 ```
 
 ### 5. Zly typ wykresu
@@ -494,15 +494,15 @@ Zawsze dodaj: **tytul**, **opis osi X**, **opis osi Y**, **legenda** (przy >= 2 
 ### 7. Dzielenie przez 0
 
 ```
-=IF(B2=0;0;A2/B2)                   zabezpieczenie przed #DIV/0!
-=IFERROR(A2/B2;0)                   alternatywa — zwraca 0 przy bledzie
+=JEŻELI(B2=0;0;A2/B2)                   zabezpieczenie przed #DIV/0!
+=JEŻELI.BŁĄD(A2/B2;0)                   alternatywa — zwraca 0 przy bledzie
 ```
 
 ### 8. Rozszerzajacy zakres — brak $ na poczatku
 
 ```
-ZLE:  =SUM(B2:B2)    → po skopiowaniu do wiersza 5: =SUM(B5:B5)
-OK:   =SUM($B$2:B2)  → po skopiowaniu do wiersza 5: =SUM($B$2:B5)
+ZLE:  =SUMA(B2:B2)    → po skopiowaniu do wiersza 5: =SUMA(B5:B5)
+OK:   =SUMA($B$2:B2)  → po skopiowaniu do wiersza 5: =SUMA($B$2:B5)
 ```
 
 ---
@@ -534,10 +534,10 @@ OK:   =SUM($B$2:B2)  → po skopiowaniu do wiersza 5: =SUM($B$2:B5)
 | Zsumuj z warunkiem | `SUMIF` / `SUMIFS` |
 | Srednia z warunkiem | `AVERAGEIF` |
 | Wyszukaj wartosc z tabeli | `VLOOKUP` / `INDEX-MATCH` |
-| Warunek logiczny | `IF` / `IF(AND(...))` |
-| Suma narastajaca | `SUM($B$2:B2)` |
-| Grupuj po okresach | `INT((A2-1)/N)+1` + `SUMIF` |
-| Wyodrebnij miesiac | `MONTH(data)` |
+| Warunek logiczny | `IF` / `JEŻELI(ORAZ(...))` |
+| Suma narastajaca | `SUMA($B$2:B2)` |
+| Grupuj po okresach | `ZAOKR.DO.CAŁK((A2-1)/N)+1` + `SUMIF` |
+| Wyodrebnij miesiac | `MIESIĄC(data)` |
 
 ### Krok 4: Sprawdz $
 
@@ -573,16 +573,16 @@ Przed skopiowaniem formuly w dol/prawo, zadaj sobie pytania:
 | Podzadanie | Typ | Formula |
 |-----------|-----|---------|
 | 7.1 | Agregacja war. | SUMIFS: kg jablek zimowych per klient |
-| 7.2 | Agregacja war. | VLOOKUP(cena) * kg, SUMIF po odmianie |
+| 7.2 | Agregacja war. | WYSZUKAJ.PIONOWO(cena) * kg, SUMIF po odmianie |
 | 7.3 | Wykres | SUMIFS per miesiac + MAX odmiana + wykres kolumnowy |
-| 7.4 | Symulacja | SUM($B$2:B2) kumulacyjny + IF progi rabatowe |
+| 7.4 | Symulacja | SUMA($B$2:B2) kumulacyjny + IF progi rabatowe |
 
 ### Matura 2025 — Martianeum (11 pkt)
 
 | Podzadanie | Typ | Formula |
 |-----------|-----|---------|
-| 6.1 | Agregacja war. | SUMIF (masa), SUMIFS z progiem >= 1% |
+| 6.1 | Agregacja war. | SUMA.JEŻELI (masa), SUMIFS z progiem >= 1% |
 | 6.2 | Agregacja war. | AVERAGEIF per obszar + MIN |
-| 6.3 | Transformacja | INT((data-start)/7)+1 + SUMIF po okresie |
+| 6.3 | Transformacja | ZAOKR.DO.CAŁK((data-start)/7)+1 + SUMIF po okresie |
 | 6.4 | Wykres | COUNTIFS per obszar per rok + wykres **skumulowany** |
-| 6.5 | Symulacja | Akumulator + IF(zapas>=100; wyslij 100) |
+| 6.5 | Symulacja | Akumulator + JEŻELI(zapas>=100; wyslij 100) |

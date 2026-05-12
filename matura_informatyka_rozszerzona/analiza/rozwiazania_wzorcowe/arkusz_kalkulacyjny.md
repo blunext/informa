@@ -42,14 +42,14 @@ A: data | B: maliny | C: truskawki | D: porzeczki
 ```
        F          G              H          I
 1  Miesiac    Maliny      Truskawki   Porzeczki
-2  maj        =SUMPRODUCT((MONTH($A$2:$A$154)=5)*$B$2:$B$154)
-3  czerwiec   =SUMPRODUCT((MONTH($A$2:$A$154)=6)*$B$2:$B$154)
+2  maj        =SUMA.ILOCZYNÓW((MIESIĄC($A$2:$A$154)=5)*$B$2:$B$154)
+3  czerwiec   =SUMA.ILOCZYNÓW((MIESIĄC($A$2:$A$154)=6)*$B$2:$B$154)
 ...
 ```
 
 Alternatywnie z SUMIFS:
 ```
-G2: =SUMIFS($B$2:$B$154,$A$2:$A$154,">="&DATE(2020,5,1),$A$2:$A$154,"<"&DATE(2020,6,1))
+G2: =SUMA.WARUNKÓW($B$2:$B$154,$A$2:$A$154,">="&DATA(2020,5,1),$A$2:$A$154,"<"&DATA(2020,6,1))
 ```
 
 **Wyniki**:
@@ -73,17 +73,17 @@ G2: =SUMIFS($B$2:$B$154,$A$2:$A$154,">="&DATE(2020,5,1),$A$2:$A$154,"<"&DATE(202
 #### 6.2 — Dni z porzeczkami na 1. miejscu (1 pkt)
 
 ```
-=COUNTIF(E2:E154,"porzeczki")
+=LICZ.JEŻELI(E2:E154;"porzeczki")
 ```
 
 gdzie E2 to kolumna pomocnicza:
 ```
-E2: =IF(AND(D2>=B2, D2>=C2), "porzeczki", "inne")
+E2: =JEŻELI(ORAZ(D2>=B2, D2>=C2), "porzeczki", "inne")
 ```
 
 Lub jednolinijkowo:
 ```
-=SUMPRODUCT((D2:D154>=B2:B154)*(D2:D154>=C2:C154)*1)
+=SUMA.ILOCZYNÓW((D2:D154>=B2:B154)*(D2:D154>=C2:C154)*1)
 ```
 
 **Wynik**: **19**
@@ -136,8 +136,8 @@ L_i = MEDIAN(F_i, G_i, H_i)
   -- MEDIAN z 3 wartosci = druga co do wielkosci = MIN z 2 najwiekszych
 
 // Rodzaj
-K_i = IF(MIN(F_i,G_i,H_i)=H_i, "mal-trus",
-      IF(MIN(F_i,G_i,H_i)=G_i, "mal-porz", "trus-porz"))
+K_i = JEŻELI(MIN(F_i,G_i,H_i)=H_i, "mal-trus",
+      JEŻELI(MIN(F_i,G_i,H_i)=G_i, "mal-porz", "trus-porz"))
 
 // Aktualizacja zapasow na kolejny dzien
 F_(i+1) = F_i - [zuzyto_maliny] + B_(i+1)
@@ -161,14 +161,14 @@ Alternatywna sprytna formula: **MEDIAN(m, t, p)** = MIN(2 najwiekszych) = produk
 1 kg konfitur = 1 kg owocu A + 1 kg owocu B. Wiec ilosc konfitur = MIN(owoc_A, owoc_B) = MEDIAN(m,t,p).
 
 ```
-Suma konfitur danego rodzaju = SUM(produkcja_kg) dla dni gdy produkowano ten rodzaj
+Suma konfitur danego rodzaju = SUMA(produkcja_kg) dla dni gdy produkowano ten rodzaj
 ```
 
 Formuly:
 ```
-=SUMPRODUCT((K2:K154="mal-porz")*L2:L154)    // malinowo-porzeczkowe
-=SUMPRODUCT((K2:K154="mal-trus")*L2:L154)    // malinowo-truskawkowe
-=SUMPRODUCT((K2:K154="trus-porz")*L2:L154)   // truskawkowo-porzeczkowe
+=SUMA.ILOCZYNÓW((K2:K154="mal-porz")*L2:L154)    // malinowo-porzeczkowe
+=SUMA.ILOCZYNÓW((K2:K154="mal-trus")*L2:L154)    // malinowo-truskawkowe
+=SUMA.ILOCZYNÓW((K2:K154="trus-porz")*L2:L154)   // truskawkowo-porzeczkowe
 ```
 
 **Wyniki**:
@@ -222,7 +222,7 @@ Stacja wydobywa martianeum z ladunkow o zawartosci **>= 1%**. Gdy stan magazynu 
 
 1. **6.1**: SUM na masie + SUMPRODUCT z warunkiem >= 1%.
 2. **6.2**: AVERAGEIF po obszarze, szukaj MIN.
-3. **6.3**: Podzial na okresy = `INT((data - data_poczatkowa) / 7)`. SUMIFS po numerze okresu.
+3. **6.3**: Podzial na okresy = `ZAOKR.DO.CAŁK((data - data_poczatkowa) / 7)`. SUMIFS po numerze okresu.
 4. **6.4**: Tabela przestawna (COUNTIFS po obszarze i roku). Wykres skumulowany (stacked bar).
 5. **6.5**: Symulacja krokowa: stan += wydobyte, jesli stan >= 100: stan -= 100, transport++.
 
@@ -234,10 +234,10 @@ Zalozmy dane w A:D od wiersza 2, A=data, B=obszar, C=masa, D=zawartosc%.
 
 ```
 Laczna masa ladunkow:
-=SUM(C2:C9999)
+=SUMA(C2:C9999)
 
 Laczna masa martianeum (tylko ladunki z zawartoscia >= 1%):
-=SUMPRODUCT((D2:D9999>=1)*(C2:C9999)*(D2:D9999/100))
+=SUMA.ILOCZYNÓW((D2:D9999>=1)*(C2:C9999)*(D2:D9999/100))
 ```
 
 Wyjasnienie: dla kazdego ladunku z zawartoscia >= 1%, masa martianeum = masa * zawartosc/100.
@@ -251,32 +251,32 @@ Wyjasnienie: dla kazdego ladunku z zawartoscia >= 1%, masa martianeum = masa * z
 Przygotuj liste unikalnych obszarow (30 nazw). Dla kazdego:
 
 ```
-=AVERAGEIF($B$2:$B$9999, F2, $C$2:$C$9999)
+=ŚREDNIA.JEŻELI($B$2:$B$9999; F2; $C$2:$C$9999)
 ```
 
 gdzie F2 = nazwa obszaru. Potem szukaj MIN i odpowiadajacej nazwy:
 
 ```
-=INDEX(F2:F31, MATCH(MIN(G2:G31), G2:G31, 0))
+=INDEKS(F2:F31, PODAJ.POZYCJĘ(MIN(G2:G31), G2:G31, 0))
 ```
 
 **Wynik**: **Thaumasia**
 
 #### 6.3 — Okresy 7-dniowe (2 pkt)
 
-**Kluczowa formula**: numer okresu = `INT((data - DATE(2033,3,3)) / 7)`
+**Kluczowa formula**: numer okresu = `ZAOKR.DO.CAŁK((data - DATA(2033,3,3)) / 7)`
 
 Kolumna pomocnicza (np. E):
 ```
-E2: =INT((A2-DATE(2033,3,3))/7)
+E2: =ZAOKR.DO.CAŁK((A2-DATA(2033,3,3))/7)
 ```
 
 Potem SUMIFS po numerze okresu:
 ```
-=SUMIFS($C$2:$C$9999, $E$2:$E$9999, numer_okresu)
+=SUMA.WARUNKÓW($C$2:$C$9999; $E$2:$E$9999; numer_okresu)
 ```
 
-Generujemy numery okresow 0, 1, 2, ... i szukamy tego z MAX suma. Data poczatku = DATE(2033,3,3) + numer_okresu * 7.
+Generujemy numery okresow 0, 1, 2, ... i szukamy tego z MAX suma. Data poczatku = DATA(2033,3,3) + numer_okresu * 7.
 
 **Wynik**: **174,5 kg**, poczatek okresu: **13.12.2035**
 
@@ -287,12 +287,12 @@ Generujemy numery okresow 0, 1, 2, ... i szukamy tego z MAX suma. Data poczatku 
 **Tabela**: 30 wierszy (obszary) x 6 kolumn (lata 2033-2038).
 
 ```
-=SUMPRODUCT(($B$2:$B$9999=$F2)*(YEAR($A$2:$A$9999)=G$1))
+=SUMA.ILOCZYNÓW(($B$2:$B$9999=$F2)*(ROK($A$2:$A$9999)=G$1))
 ```
 
 gdzie F2 = nazwa obszaru, G1 = rok (2033).
 
-⚠️ **Uwaga**: w COUNTIFS argument `criteria_range` musi byc zakresem komorek — `YEAR(zakres)` jako tablicowa funkcja NIE jest akceptowane (zwroci `#VALUE!`). Dlatego uzywamy SUMPRODUCT, ktore poprawnie obsluguje arytmetyke tablicowa. Alternatywa: kolumna pomocnicza `=YEAR(A2)` + COUNTIFS po niej.
+⚠️ **Uwaga**: w COUNTIFS argument `criteria_range` musi byc zakresem komorek — `ROK(zakres)` jako tablicowa funkcja NIE jest akceptowane (zwroci `#VALUE!`). Dlatego uzywamy SUMPRODUCT, ktore poprawnie obsluguje arytmetyke tablicowa. Alternatywa: kolumna pomocnicza `=ROK(A2)` + COUNTIFS po niej.
 
 **Wykres**: Kolumnowy **skumulowany** (stacked bar chart).
 - Os X: nazwy obszarow (30)
@@ -308,16 +308,16 @@ Dane posortowane chronologicznie. Symulacja dzien po dniu:
 
 **Kolumna pomocnicza** — wydobyte martianeum z ladunku:
 ```
-F2: =IF(D2>=1, C2*D2/100, 0)
+F2: =JEŻELI(D2>=1; C2*D2/100; 0)
 ```
 
 **Symulacja** (kolumny G = stan magazynu, H = transport):
 ```
 G2: =F2                          // poczatkowy stan = pierwszy ladunek
-H2: =IF(G2>=100, 1, 0)          // czy transport?
+H2: =JEŻELI(G2>=100; 1; 0)          // czy transport?
 
 G3: =G2 - H2*100 + F3           // stan = poprzedni - wyslane + nowe
-H3: =IF(G3>=100, 1, 0)
+H3: =JEŻELI(G3>=100; 1; 0)
 ...
 ```
 
@@ -344,7 +344,7 @@ Hmm, ale to zalezy od interpretacji. Jesli dane sa posortowane i kazdy wiersz to
 
 - **6.1**: Zawartosc >= 1% (nie > 1%) — warunek progowy wlaczajacy.
 - **6.1**: Wydobycie = masa * zawartosc/100 — **cala** zawartosc mineralu, nie tylko nadwyzka powyzej 1%.
-- **6.3**: Okresy 7-dniowe od **03.03.2033**, nie od poczatku miesiaca. Formula: `INT((data - start) / 7)`.
+- **6.3**: Okresy 7-dniowe od **03.03.2033**, nie od poczatku miesiaca. Formula: `ZAOKR.DO.CAŁK((data - start) / 7)`.
 - **6.4**: Wykres **skumulowany** (stacked), nie grupowany (clustered) — czesty blad.
 - **6.5**: Transporter zabiera **dokladnie 100 kg** — nadmiar zostaje w magazynie.
 - **6.5**: Nie kumuluj transportow — sprawdzaj warunek po kazdym ladunku osobno.
