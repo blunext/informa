@@ -182,7 +182,7 @@ recznie z katalogu `analiza/cwiczenia/wg_typu/` w tej kolejnosci:
 5. `07_cyfry_liczby.md` — implementacja: cyfry/liczby (36 pkt)
 6. `10_zliczanie.md` — implementacja: zliczanie (17 pkt)
 7. `11_minmax.md` — implementacja: min/max (17 pkt)
-8. `15_agregacja_warunkowa.md` — arkusz: SUMIFS/COUNTIFS (38 pkt)
+8. `15_agregacja_warunkowa.md` — arkusz: SUMA.WARUNKÓW/LICZ.WARUNKI (38 pkt)
 9. `16_symulacja.md` — arkusz: symulacja (37 pkt)
 10. `17_wykres.md` — arkusz: wykresy (25 pkt)
 11. `20_sql_group_by.md` — SQL GROUP BY (36 pkt)

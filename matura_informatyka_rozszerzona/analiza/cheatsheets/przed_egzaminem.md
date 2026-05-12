@@ -52,8 +52,8 @@ ORDER BY ... LIMIT ...
 - [ ] DISTINCT = "ile roznych"
 
 ### Arkusz — kluczowe formuly
-- [ ] `=SUMIF(zakres_war; warunek; zakres_sum)` / SUMIFS
-- [ ] `=COUNTIF(zakres; warunek)`
+- [ ] `=SUMA.JEŻELI(zakres_war; warunek; zakres_sum)` / SUMA.WARUNKÓW
+- [ ] `=LICZ.JEŻELI(zakres; warunek)`
 - [ ] Odniesienia: `$A$1` (bezwzgledne), `$A1` (kolumna stala), `A$1` (wiersz staly)
 - [ ] Wykres: tytul + opis osi + legenda
 

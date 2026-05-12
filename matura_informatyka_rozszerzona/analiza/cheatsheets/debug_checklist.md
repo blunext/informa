@@ -89,9 +89,9 @@
 - [ ] Sprawdz pierwsza i ostatnia komorke po skopiowaniu formuly
 
 ### Formuly warunkowe
-- [ ] SUMIF: `=SUMIF(zakres_warunku; warunek; zakres_sumy)` — 3 argumenty!
-- [ ] SUMIFS: `=SUMIFS(zakres_sumy; zakres_war1; war1; zakres_war2; war2)` — suma PIERWSZA!
-- [ ] COUNTIF: `=COUNTIF(zakres; warunek)` — 2 argumenty
+- [ ] SUMA.JEŻELI: `=SUMA.JEŻELI(zakres_warunku; warunek; zakres_sumy)` — 3 argumenty!
+- [ ] SUMA.WARUNKÓW: `=SUMA.WARUNKÓW(zakres_sumy; zakres_war1; war1; zakres_war2; war2)` — suma PIERWSZA!
+- [ ] LICZ.JEŻELI: `=LICZ.JEŻELI(zakres; warunek)` — 2 argumenty
 - [ ] Warunek tekstowy w cudzyslowach: `">=100"`, `"Tak"`, `"<>"&A1`
 - [ ] Separator: `;` (PL) czy `,` (EN)? Sprawdz ustawienia!
 

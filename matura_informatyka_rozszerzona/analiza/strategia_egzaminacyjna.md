@@ -610,11 +610,11 @@ Analiza 12 lat matur (2014-2025) wykazala 23 rozne typy zadan w 4 kategoriach.
 **Czestotliwosc**: 11/12 lat, 38 pkt lacznie
 **Jak podejsc**:
 1. Zidentyfikuj ZAKRES danych, KRYTERIUM, i ZAKRES_SUMOWANIA
-2. SUMIF(zakres_kryt, kryterium, zakres_sum)
-3. Dla wielu warunkow: SUMIFS (warunki w parach zakres+kryterium)
+2. SUMA.JEŻELI(zakres_kryt; kryterium; zakres_sum)
+3. Dla wielu warunkow: SUMA.WARUNKÓW (warunki w parach zakres+kryterium)
 4. Kopiowanie: uzyj $ do zablokowania odniesien
 **Typowe pulapki**:
-- Pomylenie SUMIF z SUMIFS (kolejnosc argumentow!)
+- Pomylenie SUMA.JEŻELI z SUMA.WARUNKÓW (kolejnosc argumentow!)
 - Brak $ w odniesieniach bezwzglednych
 - Kryterium tekstowe bez cudzyslowow
 **Przyklad**: 2014/4a (max przychod wieczorem), 2019/5 (pogoda), 2021/5 (wodociagi)

@@ -143,9 +143,9 @@ START: Czytasz tresc zadania
 
 | Widzisz w zadaniu | Narzedzie | Formula |
 |---|---|---|
-| "suma/liczba wg warunku" | SUMIF / COUNTIF | `=SUMIFS(D:D; B:B; "X"; C:C; ">100")` |
-| "srednia wg warunku" | AVERAGEIF(S) | `=AVERAGEIFS(D:D; B:B; "X")` |
-| "zlicz unikalne" | COUNTIF + pomocnicza | `=1/COUNTIF(zakres; wartosc)` -> SUMA |
+| "suma/liczba wg warunku" | SUMA.JEŻELI / LICZ.JEŻELI | `=SUMA.WARUNKÓW(D:D; B:B; "X"; C:C; ">100")` |
+| "srednia wg warunku" | ŚREDNIA.JEŻELI(.WARUNKÓW) | `=ŚREDNIA.WARUNKÓW(D:D; B:B; "X")` |
+| "zlicz unikalne" | LICZ.JEŻELI + pomocnicza | `=1/LICZ.JEŻELI(zakres; wartosc)` -> SUMA |
 | "symulacja dzien po dniu" | Formula z odwolaniem wyzej | Wiersz n odwoluje sie do wiersza n-1 |
 | "wykres" | Zaznacz + wstaw | Kolumnowy / kolowy / liniowy + tytul + os + legenda |
 | "grupowanie po okresach" | Tabela przestawna / SUMIFS | Podzial dat na okresy -> agregacja |

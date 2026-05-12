@@ -156,19 +156,19 @@ pair<int, int> znajdz_min_max_wiersze(string filename) {
 **5.1: Sumowanie po regionach**
 ```excel
 // Komórka dla regionu A (zakładając dane w kolumnach A=region, B=ludność)
-=SUMIF(A:A,"A",B:B)
+=SUMA.JEŻELI(A:A;"A";B:B)
 
 // Dla regionu B
-=SUMIF(A:A,"B",B:B)
+=SUMA.JEŻELI(A:A;"B";B:B)
 ```
 
 **5.2: Zliczanie województw**
 ```excel
 // Liczba województw w całym kraju
-=COUNTA(A2:A20)
+=ILE.NIEPUSTYCH(A2:A20)
 
 // Liczba województw w regionie A
-=COUNTIF(A:A,"A")
+=LICZ.JEŻELI(A:A;"A")
 ```
 
 **5.3: Prognoza na 2025**
@@ -180,7 +180,7 @@ pair<int, int> znajdz_min_max_wiersze(string filename) {
 =INDEX(A:A, MATCH(MAX(D:D), D:D, 0))
 
 // Przeludnienie (ludność > powierzchnia)
-=COUNTIF(E:E, ">0")
+=LICZ.JEŻELI(E:E;">0")
 // gdzie E to kolumna z formułą =ludność - powierzchnia
 ```
 
@@ -268,9 +268,9 @@ ORDER BY z.Kraj;
 **Błąd:** Przetestowanie tylko na 250 przykładowych wierszach
 **Poprawnie:** Pełny plik ma 1000 wierszy - użyj właściwego pliku!
 
-### Pułapka 8: SUMIF w Excel
-**Błąd:** Użycie SUM zamiast SUMIF dla warunkowego sumowania
-**Poprawnie:** =SUMIF(zakres_kryterium, kryterium, zakres_do_zsumowania)
+### Pułapka 8: SUMA.JEŻELI w Excel
+**Błąd:** Użycie SUMA zamiast SUMA.JEŻELI dla warunkowego sumowania
+**Poprawnie:** =SUMA.JEŻELI(zakres_kryterium; kryterium; zakres_do_zsumowania)
 
 ### Pułapka 9: SQL LEFT JOIN
 **Błąd:** Użycie INNER JOIN gdy szukamy rekordów bez dopasowania
