@@ -1,0 +1,128 @@
+{
+  "_metadata": {
+    "data": "2026-05-12",
+    "opis": "Deterministyczna lista zamian dla 6 plikow MD mieszanych. Skrypt sprawdza ze STARY istnieje w LINII +-5 zanim zamieni."
+  },
+  "zamiany": [
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/cheatsheets/debug_checklist.md",
+      "linia": 92,
+      "stary": "- [ ] SUMIF: `=SUMIF(zakres_warunku; warunek; zakres_sumy)` — 3 argumenty!",
+      "nowy": "- [ ] SUMA.JEŻELI: `=SUMA.JEŻELI(zakres_warunku; warunek; zakres_sumy)` — 3 argumenty!"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/cheatsheets/debug_checklist.md",
+      "linia": 93,
+      "stary": "- [ ] SUMIFS: `=SUMIFS(zakres_sumy; zakres_war1; war1; zakres_war2; war2)` — suma PIERWSZA!",
+      "nowy": "- [ ] SUMA.WARUNKÓW: `=SUMA.WARUNKÓW(zakres_sumy; zakres_war1; war1; zakres_war2; war2)` — suma PIERWSZA!"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/cheatsheets/debug_checklist.md",
+      "linia": 94,
+      "stary": "- [ ] COUNTIF: `=COUNTIF(zakres; warunek)` — 2 argumenty",
+      "nowy": "- [ ] LICZ.JEŻELI: `=LICZ.JEŻELI(zakres; warunek)` — 2 argumenty"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/cheatsheets/przed_egzaminem.md",
+      "linia": 55,
+      "stary": "- [ ] `=SUMIF(zakres_war; warunek; zakres_sum)` / SUMIFS",
+      "nowy": "- [ ] `=SUMA.JEŻELI(zakres_war; warunek; zakres_sum)` / SUMA.WARUNKÓW"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/cheatsheets/przed_egzaminem.md",
+      "linia": 56,
+      "stary": "- [ ] `=COUNTIF(zakres; warunek)`",
+      "nowy": "- [ ] `=LICZ.JEŻELI(zakres; warunek)`"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/szablony/wzorce_2015.md",
+      "linia": 159,
+      "stary": "=SUMIF(A:A,\"A\",B:B)",
+      "nowy": "=SUMA.JEŻELI(A:A;\"A\";B:B)"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/szablony/wzorce_2015.md",
+      "linia": 162,
+      "stary": "=SUMIF(A:A,\"B\",B:B)",
+      "nowy": "=SUMA.JEŻELI(A:A;\"B\";B:B)"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/szablony/wzorce_2015.md",
+      "linia": 168,
+      "stary": "=COUNTA(A2:A20)",
+      "nowy": "=ILE.NIEPUSTYCH(A2:A20)"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/szablony/wzorce_2015.md",
+      "linia": 171,
+      "stary": "=COUNTIF(A:A,\"A\")",
+      "nowy": "=LICZ.JEŻELI(A:A;\"A\")"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/szablony/wzorce_2015.md",
+      "linia": 183,
+      "stary": "=COUNTIF(E:E, \">0\")",
+      "nowy": "=LICZ.JEŻELI(E:E;\">0\")"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/szablony/wzorce_2015.md",
+      "linia": 269,
+      "stary": "### Pułapka 8: SUMIF w Excel",
+      "nowy": "### Pułapka 8: SUMA.JEŻELI w Excel"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/szablony/wzorce_2015.md",
+      "linia": 272,
+      "stary": "**Błąd:** Użycie SUM zamiast SUMIF dla warunkowego sumowania",
+      "nowy": "**Błąd:** Użycie SUMA zamiast SUMA.JEŻELI dla warunkowego sumowania"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/szablony/wzorce_2015.md",
+      "linia": 273,
+      "stary": "**Poprawnie:** =SUMIF(zakres_kryterium, kryterium, zakres_do_zsumowania)",
+      "nowy": "**Poprawnie:** =SUMA.JEŻELI(zakres_kryterium; kryterium; zakres_do_zsumowania)"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/PRZEWODNIK_UCZNIA.md",
+      "linia": 185,
+      "stary": "8. `15_agregacja_warunkowa.md` — arkusz: SUMIFS/COUNTIFS (38 pkt)",
+      "nowy": "8. `15_agregacja_warunkowa.md` — arkusz: SUMA.WARUNKÓW/LICZ.WARUNKI (38 pkt)"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/strategia_egzaminacyjna.md",
+      "linia": 613,
+      "stary": "2. SUMIF(zakres_kryt, kryterium, zakres_sum)",
+      "nowy": "2. SUMA.JEŻELI(zakres_kryt; kryterium; zakres_sum)"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/strategia_egzaminacyjna.md",
+      "linia": 614,
+      "stary": "3. Dla wielu warunkow: SUMIFS (warunki w parach zakres+kryterium)",
+      "nowy": "3. Dla wielu warunkow: SUMA.WARUNKÓW (warunki w parach zakres+kryterium)"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/strategia_egzaminacyjna.md",
+      "linia": 617,
+      "stary": "- Pomylenie SUMIF z SUMIFS (kolejnosc argumentow!)",
+      "nowy": "- Pomylenie SUMA.JEŻELI z SUMA.WARUNKÓW (kolejnosc argumentow!)"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/drzewo_decyzyjne.md",
+      "linia": 146,
+      "stary": "| \"suma/liczba wg warunku\" | SUMIF / COUNTIF | `=SUMIFS(D:D; B:B; \"X\"; C:C; \">100\")` |",
+      "nowy": "| \"suma/liczba wg warunku\" | SUMA.JEŻELI / LICZ.JEŻELI | `=SUMA.WARUNKÓW(D:D; B:B; \"X\"; C:C; \">100\")` |"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/drzewo_decyzyjne.md",
+      "linia": 147,
+      "stary": "| \"srednia wg warunku\" | AVERAGEIF(S) | `=AVERAGEIFS(D:D; B:B; \"X\")` |",
+      "nowy": "| \"srednia wg warunku\" | ŚREDNIA.JEŻELI(.WARUNKÓW) | `=ŚREDNIA.WARUNKÓW(D:D; B:B; \"X\")` |"
+    },
+    {
+      "plik": "matura_informatyka_rozszerzona/analiza/drzewo_decyzyjne.md",
+      "linia": 148,
+      "stary": "| \"zlicz unikalne\" | COUNTIF + pomocnicza | `=1/COUNTIF(zakres; wartosc)` -> SUMA |",
+      "nowy": "| \"zlicz unikalne\" | LICZ.JEŻELI + pomocnicza | `=1/LICZ.JEŻELI(zakres; wartosc)` -> SUMA |"
+    }
+  ]
+}
