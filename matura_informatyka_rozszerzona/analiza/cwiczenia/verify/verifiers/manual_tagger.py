@@ -73,9 +73,13 @@ def _count_pf_questions(text: str) -> int:
 
 
 def _has_arkusz_formula(text: str) -> bool:
-    """Check if text contains a spreadsheet formula (=FUNCTION or =cell_ref)."""
-    # Named functions: =SUMIFS(...), =IF(...)
-    if re.search(r'=\s*[A-Z]{2,}\s*\(', text):
+    """Check if text contains a spreadsheet formula (=FUNCTION or =cell_ref).
+
+    Obsluguje polskie nazwy funkcji MS Excel PL (np. SUMA.JEŻELI, WYSZUKAJ.PIONOWO,
+    USUŃ.ZBĘDNE.ODSTĘPY) — klasa znakow zawiera polskie wielkie litery i kropke.
+    """
+    # Named functions: =SUMA.WARUNKÓW(...), =JEŻELI(...), =VLOOKUP(...)
+    if re.search(r'=\s*[A-ZŁŻŚĆŃÓĄĘŹ.]{2,}\s*\(', text):
         return True
     # Cell reference formulas: =C2+B3, =A1*B1
     if re.search(r'=\s*[A-Z]+\d+\s*[\+\-\*/]', text):
