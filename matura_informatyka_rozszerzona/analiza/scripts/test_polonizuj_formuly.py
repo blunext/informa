@@ -153,3 +153,17 @@ def test_separator_normalizuje_przecinek_w_formule(tmp_path):
     content = f.read_text()
     assert "=SUMA(A:A; \"X\"; B:B)" in content
     assert "=ZAOKR(3,14; 2)" in content
+
+
+def test_separator_obsluguje_warunki_porownan(tmp_path):
+    """Comma after comparison digit (e.g. x>0, "tak") should be separator, not decimal."""
+    f = tmp_path / "test.md"
+    f.write_text('=IF(x>0, "tak", "nie")\n=ZAOKR(3,14, 2)\n=SUMA(A1, B1, 1.5)')
+    pf.normalizuj_separator(f)
+    content = f.read_text()
+    # IF: comparison >0 followed by separator
+    assert '=IF(x>0; "tak"; "nie")' in content
+    # ZAOKR: 3,14 is decimal (stays), but 14, 2 should be separator
+    assert '=ZAOKR(3,14; 2)' in content
+    # SUMA: 1.5 has period (English decimal), so comma is separator
+    assert '=SUMA(A1; B1; 1.5)' in content

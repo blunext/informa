@@ -274,7 +274,12 @@ def normalizuj_separator(path: Path) -> int:
 
     def replace_in_formula(match):
         body = match.group(2)
-        new_body = re.sub(r"(?<!\d),(?!\d)", ";", body)
+        def _comma_to_separator(m, body=body):
+            i = m.start()
+            prev_digit = i > 0 and body[i - 1].isdigit()
+            next_digit = i + 1 < len(body) and body[i + 1].isdigit()
+            return "," if (prev_digit and next_digit) else ";"
+        new_body = re.sub(r",", _comma_to_separator, body)
         return "=" + match.group(1) + "(" + new_body + ")"
 
     # Wzorzec: =NAZWA(zawartosc)  bez zagniezdzonych nawiasow
