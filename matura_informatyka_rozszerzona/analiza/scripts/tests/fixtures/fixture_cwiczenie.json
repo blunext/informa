@@ -1,0 +1,15 @@
+{
+  "id": "TEST.1",
+  "typ_nazwa": "agregacja_warunkowa",
+  "punkty": 2,
+  "trudnosc": "latwe",
+  "tagi": ["SUMIF", "warunek-tekstowy"],
+  "tresc": "Uzyj formuly =SUMIF(B2:B11;\"X\";C2:C11)",
+  "odpowiedz": "Wynik: =SUMIF(B:B,\"X\",C:C)",
+  "wskazowki": [
+    {"poziom": 1, "tekst": "SUMIF ma 3 argumenty"}
+  ],
+  "typowe_bledy": [
+    {"kod": "TST.001", "opis": "Pomylenie SUMIF z COUNTIF"}
+  ]
+}
