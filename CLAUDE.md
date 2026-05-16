@@ -147,6 +147,43 @@ Wszystkie 641 podzadań w `matura_*.json` ma pole `algorytmy: [...]` z tagami z 
 - **Regeneracja raportu**: `python3 analiza/scripts/generate_ranking.py` po dodaniu nowych roczników.
 - **Faza 2 (NIE zaimplementowana, na później)**: import pola `algorytmy` do `matura.db`, CLI commands typu `cke get --algorytm`, integracja ze `SKILL.md` (filtrowanie zadań po algorytmie), tagowanie 937 ćwiczeń treningowych.
 
+### Polonizacja formuł arkusza (ukończona 2026-05-12)
+
+Wszystkie materiały dydaktyczne dotyczące arkusza kalkulacyjnego używają **polskich nazw funkcji MS Excel** (zgodnie z konwencją CKE). Uczeń widzący w naszych materiałach VLOOKUP/IF/SUMIFS musiałby tłumaczyć w głowie — niespójność dezorientowała.
+
+- **Mapa 46 funkcji EN→PL**: `analiza/scripts/polonizacja_mapa.json` (źródło prawdy dla nowych zamian)
+- **Zakres zmian**:
+  - 3 pliki MD dedykowane arkuszowi (cheatsheet_arkusz, arkusz_formuly, 15-19 wg_typu) — globalna podmiana
+  - 6 plików MD mieszanych — deterministyczna lista 20 zamian
+  - 160 plików JSON ćwiczeń arkuszowych (katalogi `15_agregacja_warunkowa`, `16_symulacja`, `18_agregacja_podstawowa`, `19_transformacja`) — 1650+ zmian w `tresc` + `tagi` + meta
+  - 2 rejestry: `tagi_rejestr.json` (rename 7 tagów), `algorytmy_rejestr.json` (1 linia)
+  - CLI: **schema v9 migration** w `database.go` (rename tagów w `progress_tagi` z zachowaniem stanu FSRS)
+  - `cheatsheet_arkusz.md`: nowa sekcja "Pułapki polskich nazw funkcji"
+  - `_has_arkusz_formula` w `verifier` rozszerzony o polskie diakrytyki (regex `[A-ZĄĆĘŁŃÓŚŹŻ]{2,}`)
+- **NIE TYKANO** (celowo):
+  - `matura_*.json` (30 plików, 641 podzadań) — to cytaty CKE, nie wolno modyfikować
+  - Pliki SQL i C++ (szablony, rozwiązania, ćwiczenia 01-14 + 20-23)
+  - `17_wykres` (0 wystąpień formuł)
+
+**Reguła dla nowych ćwiczeń arkuszowych** (`/generate-exercises`, ręczne dodawanie): **MUSISZ używać polskich nazw**. Najczęstsze pułapki nazw:
+
+| EN | PL (poprawnie) | Mylące |
+|----|----------------|--------|
+| `SUMIFS` | `SUMA.WARUNKÓW` | NIE `SUMY.WARUNKÓW` |
+| `COUNTIFS` | `LICZ.WARUNKI` | — |
+| `AVERAGEIFS` | `ŚREDNIA.WARUNKÓW` | NIE `ŚREDNIE.WARUNKÓW` |
+| `VLOOKUP` | `WYSZUKAJ.PIONOWO` | — |
+| `IF` | `JEŻELI` | — |
+| `MID` | `FRAGMENT.TEKSTU` | — |
+| `LEFT` | `LEWY` | — |
+| `ROUNDUP` | `ZAOKR.GÓRA` | NIE `ZAOKR.W.GÓRĘ` (to CEILING) |
+| `ROUNDDOWN` | `ZAOKR.DÓŁ` | NIE `ZAOKR.W.DÓŁ` (to FLOOR) |
+| `MAX`, `MIN`, `MOD` | (bez zmian) | Excel PL używa tych samych |
+
+**Weryfikacja stanu**: `python3 analiza/scripts/polonizuj_formuly.py --dry-run --warstwa all` — warstwy 1/3/4 powinny zwracać 0 zmian (oznacza: nic do polonizacji). Warstwa 2 zawsze zwraca 20 (limitacja skryptu — nie sprawdza, czy stary wzorzec został już podmieniony).
+
+**Spec + plan**: `docs/superpowers/specs/2026-05-12-polonizacja-formul-arkusza-design.md`, `docs/superpowers/plans/2026-05-12-polonizacja-formul-arkusza.md`.
+
 ### Key Analysis Data
 
 - **Complete exam database**: `matura_YYYYS.json` — 30 files (12 maj + 8 czerwiec + 3 probna + 2 przykladowy + 5 other), 641 subtasks, 1500 points total. Each subtask has full text (`tresc`), answer (`odpowiedz`), scoring (`zasady_oceniania`), type (`typ_zadania`), traps (`pulapki`), and **`algorytmy: [...]`** (faza 1, 2026-04 — tagi algorytmów z `algorytmy_rejestr.json`). Self-contained: no PDF needed to solve any task. ID format: `YYYYS.Z.S` (e.g. `2025M.1.1`, `2024C.3.2`, `2024P.1.1`), where S=session letter (M=maj, C=czerwiec, P=probna, X=przykladowy).
@@ -231,6 +268,7 @@ Key points:
 - Exercises live in `json/NN_nazwa/` directories (23 dirs, 937 exercises total)
 - **C++ exercises (07-14)**: input data in `tresc` must use `**Dane** (\`plik.txt\`):` format or verifier won't find it
 - **SQL exercises (20-23)**: tables in `tresc` via `Tabela **Name**:`, last non-verification markdown table in `odpowiedz` = expected result
+- **ARKUSZ exercises (15-19)**: **MUSISZ używać polskich nazw funkcji MS Excel** (`SUMA.WARUNKÓW`, `JEŻELI`, `WYSZUKAJ.PIONOWO` itd.) — patrz sekcja "Polonizacja formuł arkusza" powyżej. Pełna mapa: `analiza/scripts/polonizacja_mapa.json`. Polonizacja ukończona 2026-05-12.
 
 ### Quality gates (MUST run after any exercise edit)
 
