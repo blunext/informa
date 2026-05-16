@@ -1,6 +1,6 @@
 # Arkusze Maturalne - Informatyka Poziom Rozszerzony
 
-Ten folder zawiera arkusze egzaminacyjne z matury rozszerzonej z informatyki z lat 2014-2019, 2021-2025 (10 lat), pobrane z oficjalnej strony CKE (Centralna Komisja Egzaminacyjna) za pośrednictwem serwisu arkusze.pl.
+Ten folder zawiera arkusze egzaminacyjne z matury rozszerzonej z informatyki z lat 2014-2025 (12 lat, bez przerwy), pobrane z oficjalnej strony CKE (Centralna Komisja Egzaminacyjna) za pośrednictwem serwisu arkusze.pl.
 
 ## Struktura
 
@@ -19,7 +19,7 @@ Każdy folder zawiera:
 | 2017 | ✓      | ✓          | ✓ (Dane_PR) |
 | 2018 | ✓      | ✓          | ✓ (Dane_PR) |
 | 2019 | ✓      | ✓          | ✓ (Dane_PR) |
-| 2020 | -      | -          | - (egzamin nie odbył się) |
+| 2020 | ✓      | ✓          | ✓ (DANE) — egzamin w czerwcu zamiast maja (COVID) |
 | 2021 | ✓      | ✓          | ✓ (DANE_2105) |
 | 2022 | ✓      | ✓          | ✓ (Dane_2205) |
 | 2023 | ✓      | ✓          | ✓ (Dane_2305) |
@@ -28,7 +28,7 @@ Każdy folder zawiera:
 
 ## Uwagi
 
-- **Rok 2020**: Matura z informatyki na poziomie rozszerzonym nie odbyła się w maju 2020 roku (prawdopodobnie z powodu pandemii COVID-19)
+- **Rok 2020**: Z powodu pandemii COVID-19 matura odbyła się w czerwcu zamiast w maju. Repo zawiera trzy sesje 2020: próbną z kwietnia (`2020_probna_kwiecien/`), główną z czerwca (`2020_czerwiec/`) oraz poprawkową z lipca (katalog `2020_maj/` — nazwa myląca, faktycznie jest to sesja poprawkowa).
 - **Formuła 2015 vs 2023**: Od 2023 roku obowiązuje nowa formuła egzaminu maturalnego
 - Wszystkie materiały pochodzą z oficjalnego źródła: [arkusze.pl](https://arkusze.pl/informatyka-matura-poziom-rozszerzony/)
 
