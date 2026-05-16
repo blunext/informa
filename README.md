@@ -38,6 +38,55 @@ Potem w Claude Code wpisz `/matura`. Korepetytor sam przeprowadzi Cię przez res
 
 ---
 
+## Wspierane systemy
+
+Korepetytor `/matura` pod spodem wywołuje binarkę `matura` (Go) — to ona trzyma bazę ćwiczeń, postępu i obsługuje powtórki FSRS-5. Repo zawiera gotowe binarki dla dwóch platform; reszta wymaga jednorazowej kompilacji (~30 sekund).
+
+| System | Status | Co robić |
+|--------|--------|----------|
+| **macOS Apple Silicon** (M1/M2/M3/M4) | ✓ działa od ręki | nic, binarka `matura` (Mach-O arm64) jest w repo |
+| **Windows x86-64** | ✓ działa od ręki | nic, binarka `matura.exe` (PE32+) jest w repo |
+| **macOS Intel (x86-64)** | wymaga kompilacji | patrz "Kompilacja z źródła" poniżej |
+| **Linux** (dowolna architektura) | wymaga kompilacji | patrz "Kompilacja z źródła" poniżej |
+
+### Kompilacja z źródła
+
+Wymagany [Go 1.26+](https://go.dev/doc/install). 
+
+**Linux / macOS Intel:**
+
+```bash
+# 1. Zainstaluj Go (jeśli nie masz):
+#    Linux:    https://go.dev/doc/install  lub  apt install golang  /  pacman -S go  /  brew install go (Linuxbrew)
+#    macOS:    brew install go
+go version   # sprawdź, że masz >= 1.26
+
+# 2. Sklonuj repo i zbuduj:
+git clone git@github.com:blunext/informa.git
+cd informa/matura_informatyka_rozszerzona/analiza/cli
+./build.sh   # buduje matura (dla Twojego systemu) + matura.exe + reimportuje baze
+```
+
+`build.sh` jednocześnie cross-compiluje wersję Windows i robi reimport bazy z plików JSON do `matura.db`. Jeśli nie chcesz cross-compilacji, ręcznie:
+
+```bash
+cd matura_informatyka_rozszerzona/analiza/cli
+CGO_ENABLED=0 go build -o matura .
+```
+
+Binarka wyląduje obok już istniejącej `matura` z repo — **nadpisz ją** swoją wersją dla Twojego systemu. Po tym `/matura` w Claude Code zacznie działać.
+
+**Weryfikacja:**
+
+```bash
+./matura data stats
+# Powinno wypisać: 937 cwiczen, 641 zadan CKE, 4 cheatsheety
+```
+
+Jeśli widzisz statystyki — gotowe, wracaj do [Szybkiego startu](#szybki-start).
+
+---
+
 ## Szybki start
 
 1. **Zainstaluj Claude Code** zgodnie z [oficjalną instrukcją](https://docs.claude.com/en/docs/claude-code/quickstart).
